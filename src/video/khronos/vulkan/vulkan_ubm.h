@@ -1,5 +1,5 @@
-#ifndef VULKAN_UBM_H_
-#define VULKAN_UBM_H_ 1
+#اگر_تعریف_نشده VULKAN_UBM_H_
+#تعریف_کن VULKAN_UBM_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
 
 
 // VK_SEC_ubm_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_SEC_ubm_surface 1
+#تعریف_کن VK_SEC_ubm_surface 1
 
-#define VK_SEC_UBM_SURFACE_SPEC_VERSION   1
-#define VK_SEC_UBM_SURFACE_EXTENSION_NAME "VK_SEC_ubm_surface"
+#تعریف_کن VK_SEC_UBM_SURFACE_SPEC_نسخه   1
+#تعریف_کن VK_SEC_UBM_SURFACE_EXTENSION_NAME "VK_SEC_ubm_surface"
 
-typedef VkFlags VkUbmSurfaceCreateFlagsSEC;
+تعريفنوع VkFlags VkUbmSurfaceCreateFlagsSEC;
 
-typedef struct VkUbmSurfaceCreateInfoSEC {
+تعريفنوع بنية VkUbmSurfaceCreateInfoSEC {
     VkStructureType               sType;
-    const void*                   pNext;
+    ثابت فراغ*                   p_بعدی;
     VkUbmSurfaceCreateFlagsSEC    flags;
-    struct ubm_device*            device;
-    struct ubm_surface*           surface;
+    بنية ubm_device*            device;
+    بنية ubm_surface*           surface;
 } VkUbmSurfaceCreateInfoSEC;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device);
+تعريفنوع Vk_نتیجه (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, ثابت VkUbmSurfaceCreateInfoSEC* pCreateInfo, ثابت Vk_تخصیص_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t صف_Family_شاخص, بنية ubm_device* device);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_تعریف_نشده VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateUbmSurfaceSEC(
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجه VKAPI_CALL vkCreateUbmSurfaceSEC(
     VkInstance                                  instance,
-    const VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
+    ثابت Vk_تخصیص_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#پایان_اگر
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceUbmPresentationSupportSEC(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct ubm_device*                          device);
-#endif
-#endif
+    uint32_t                                    صف_Family_شاخص,
+    بنية ubm_device*                          device);
+#پایان_اگر
+#پایان_اگر
 
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
+#پایان_اگر
 
-#endif
+#پایان_اگر

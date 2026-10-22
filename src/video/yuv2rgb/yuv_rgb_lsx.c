@@ -1,43 +1,43 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_HAVE_YUV
-#include "yuv_rgb_lsx.h"
-#include "yuv_rgb_internal.h"
+#اگر_تعریف_شده SDL_HAVE_YUV
+#ضمن "yuv_rgb_lsx.h"
+#ضمن "yuv_rgb_internal.h"
 
-#ifdef SDL_LSX_INTRINSICS
+#اگر_تعریف_شده SDL_LSX_INTRINSICS
 
-#define LSX_FUNCTION_NAME	yuv420_rgb24_lsx
-#define STD_FUNCTION_NAME	yuv420_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_lsx_func.h"
+#تعریف_کن LSX_FUNCTION_NAME	yuv420_rgb24_lsx
+#تعریف_کن STD_FUNCTION_NAME	yuv420_rgb24_std
+#تعریف_کن YUV_FORMAT			YUV_FORMAT_420
+#تعریف_کن RGB_FORMAT			RGB_FORMAT_RGB24
+#ضمن "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_rgba_lsx
-#define STD_FUNCTION_NAME	yuv420_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_lsx_func.h"
+#تعریف_کن LSX_FUNCTION_NAME	yuv420_rgba_lsx
+#تعریف_کن STD_FUNCTION_NAME	yuv420_rgba_std
+#تعریف_کن YUV_FORMAT			YUV_FORMAT_420
+#تعریف_کن RGB_FORMAT			RGB_FORMAT_RGBA
+#ضمن "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_bgra_lsx
-#define STD_FUNCTION_NAME	yuv420_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_lsx_func.h"
+#تعریف_کن LSX_FUNCTION_NAME	yuv420_bgra_lsx
+#تعریف_کن STD_FUNCTION_NAME	yuv420_bgra_std
+#تعریف_کن YUV_FORMAT			YUV_FORMAT_420
+#تعریف_کن RGB_FORMAT			RGB_FORMAT_BGRA
+#ضمن "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_argb_lsx
-#define STD_FUNCTION_NAME	yuv420_argb_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_lsx_func.h"
+#تعریف_کن LSX_FUNCTION_NAME	yuv420_argb_lsx
+#تعریف_کن STD_FUNCTION_NAME	yuv420_argb_std
+#تعریف_کن YUV_FORMAT			YUV_FORMAT_420
+#تعریف_کن RGB_FORMAT			RGB_FORMAT_ARGB
+#ضمن "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_abgr_lsx
-#define STD_FUNCTION_NAME	yuv420_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_lsx_func.h"
+#تعریف_کن LSX_FUNCTION_NAME	yuv420_abgr_lsx
+#تعریف_کن STD_FUNCTION_NAME	yuv420_abgr_std
+#تعریف_کن YUV_FORMAT			YUV_FORMAT_420
+#تعریف_کن RGB_FORMAT			RGB_FORMAT_ABGR
+#ضمن "yuv_rgb_lsx_func.h"
 
-#endif  // SDL_LSX_INTRINSICS
+#پایان_اگر  // SDL_LSX_INTRINSICS
 
-#endif // SDL_HAVE_YUV
+#پایان_اگر // SDL_HAVE_YUV

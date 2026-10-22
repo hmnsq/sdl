@@ -19,131 +19,131 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_waylanddatamanager_h_
-#define SDL_waylanddatamanager_h_
+#اگر_تعریف_نشده SDL_waylanddatamanager_h_
+#تعریف_کن SDL_waylanddatamanager_h_
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#ضمن "SDL_waylandvideo.h"
+#ضمن "SDL_waylandwindow.h"
 
-#define TEXT_MIME            "text/plain;charset=utf-8"
-#define FILE_MIME            "text/uri-list"
-#define FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
-#define SDL_DATA_ORIGIN_MIME "application/x-sdl3-source-id"
+#تعریف_کن متن_MIME            "text/plain;charset=utf-8"
+#تعریف_کن FILE_MIME            "text/uri-list"
+#تعریف_کن FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
+#تعریف_کن SDL_داده_ORIGIN_MIME "application/x-sdl3-source-id"
 
-typedef struct SDL_WaylandDataDevice SDL_WaylandDataDevice;
-typedef struct SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
+تعريفنوع بنية SDL_Wayland_داده_Device SDL_Wayland_داده_Device;
+تعريفنوع بنية SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
 
-typedef struct SDL_WaylandUserdata
+تعريفنوع بنية SDL_WaylandUserdata
 {
-    void *data;
+    فراغ *داده;
     Uint32 sequence;
 } SDL_WaylandUserdata;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct wl_data_source *source;
-    SDL_WaylandDataDevice *data_device;
-    SDL_ClipboardDataCallback data_callback;
+    بنية wl_داده_منبع *منبع;
+    SDL_Wayland_داده_Device *داده_device;
+    SDL_Clipboard_داده_Callback داده_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandDataSource;
+} SDL_Wayland_داده_منبع;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct zwp_primary_selection_source_v1 *source;
+    بنية zwp_primary_selection_منبع_v1 *منبع;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
-    SDL_ClipboardDataCallback data_callback;
+    SDL_Clipboard_داده_Callback داده_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandPrimarySelectionSource;
+} SDL_Wayland_Primary_Selection_منبع;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct wl_data_offer *offer;
-    struct wl_array mimes;
-    SDL_WaylandDataDevice *data_device;
+    بنية wl_داده_offer *offer;
+    بنية wl_array mimes;
+    SDL_Wayland_داده_Device *داده_device;
 
     // Callback data for queued receive.
-    struct wl_callback *callback;
-    int read_fd;
-} SDL_WaylandDataOffer;
+    بنية wl_callback *callback;
+    صحيح read_fd;
+} SDL_Wayland_داده_Offer;
 
-typedef struct Wayland_DropData
+تعريفنوع بنية Wayland_Drop_داده
 {
-    SDL_WaylandDataOffer *offer;
-    SDL_Window *dnd_window;
-    const char *text_mime_type;
-    struct wl_callback *cleanup_callback;
-    Wayland_JobID id;
+    SDL_Wayland_داده_Offer *offer;
+    SDL_پنجره *dnd_پنجره;
+    ثابت حرف *متن_mime_type;
+    بنية wl_callback *cleanup_callback;
+    Wayland_کار_ID id;
 
-    struct wl_list link;
-} Wayland_DropData;
+    بنية wl_list link;
+} Wayland_Drop_داده;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct zwp_primary_selection_offer_v1 *offer;
-    struct wl_array mimes;
+    بنية zwp_primary_selection_offer_v1 *offer;
+    بنية wl_array mimes;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
 } SDL_WaylandPrimarySelectionOffer;
 
-struct SDL_WaylandDataDevice
+بنية SDL_Wayland_داده_Device
 {
-    struct wl_data_device *data_device;
-    struct SDL_WaylandSeat *seat;
-    char *id_str;
+    بنية wl_داده_device *داده_device;
+    بنية SDL_WaylandSeat *seat;
+    حرف *id_str;
 
     // Drag and Drop
     uint32_t drag_serial;
-    SDL_WaylandDataOffer *drag_offer;
-    SDL_WaylandDataOffer *selection_offer;
-    const char *text_mime_type;
+    SDL_Wayland_داده_Offer *drag_offer;
+    SDL_Wayland_داده_Offer *selection_offer;
+    ثابت حرف *متن_mime_type;
     bool has_mime_file;
-    SDL_Window *dnd_window;
-    struct wl_surface *dnd_surface;
-    struct wl_list pending_drops;
+    SDL_پنجره *dnd_پنجره;
+    بنية wl_surface *dnd_surface;
+    بنية wl_list pending_drops;
 
     // Clipboard and Primary Selection
-    SDL_WaylandDataSource *selection_source;
+    SDL_Wayland_داده_منبع *selection_منبع;
 };
 
-struct SDL_WaylandPrimarySelectionDevice
+بنية SDL_WaylandPrimarySelectionDevice
 {
-    struct zwp_primary_selection_device_v1 *primary_selection_device;
-    struct SDL_WaylandSeat *seat;
+    بنية zwp_primary_selection_device_v1 *primary_selection_device;
+    بنية SDL_WaylandSeat *seat;
 
-    SDL_WaylandPrimarySelectionSource *selection_source;
+    SDL_Wayland_Primary_Selection_منبع *selection_منبع;
     SDL_WaylandPrimarySelectionOffer *selection_offer;
 };
 
 // Wayland Data Source / Primary Selection Source - (Sending)
-extern SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data);
-extern SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data);
-extern ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd);
-extern ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd);
-extern void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence);
-extern void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata);
-extern void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length);
-extern void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source);
-extern void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source);
+خارجي SDL_Wayland_داده_منبع *Wayland_داده_منبع_Create(SDL_Video_داده *video_داده);
+خارجي SDL_Wayland_Primary_Selection_منبع *Wayland_Primary_Selection_منبع_Create(SDL_Video_داده *video_داده);
+خارجي ssize_t Wayland_داده_منبع_Send(SDL_Wayland_داده_منبع *منبع, ثابت حرف *mime_type, صحيح fd);
+خارجي ssize_t Wayland_Primary_Selection_منبع_Send(SDL_Wayland_Primary_Selection_منبع *منبع, ثابت حرف *mime_type, صحيح fd);
+خارجي فراغ Wayland_داده_منبع_مجموعه_Callback(SDL_Wayland_داده_منبع *منبع, SDL_Clipboard_داده_Callback داده_callback, SDL_ClipboardCleanupCallback cleanup_callback, فراغ *userdata, Uint32 sequence);
+خارجي فراغ Wayland_Primary_Selection_منبع_مجموعه_Callback(SDL_Wayland_Primary_Selection_منبع *منبع, SDL_Clipboard_داده_Callback داده_callback, SDL_ClipboardCleanupCallback cleanup_callback, فراغ *userdata);
+خارجي فراغ *Wayland_داده_منبع_Get_داده(SDL_Wayland_داده_منبع *منبع, ثابت حرف *mime_type, size_t *درازی);
+خارجي فراغ *Wayland_Primary_Selection_منبع_Get_داده(SDL_Wayland_Primary_Selection_منبع *منبع, ثابت حرف *mime_type, size_t *درازی);
+خارجي فراغ Wayland_داده_منبع_Destroy(SDL_Wayland_داده_منبع *منبع);
+خارجي فراغ Wayland_Primary_Selection_منبع_Destroy(SDL_Wayland_Primary_Selection_منبع *منبع);
 
 // Wayland Data / Primary Selection Offer - (Receiving)
-extern bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata);
-extern void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length);
-extern void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length);
-extern bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer);
-extern bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer);
-extern void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
+خارجي bool Wayland_داده_Offer_Request_داده_From_Self(SDL_Wayland_داده_Offer *offer, ثابت حرف *mime_type, ثابت بنية wl_callback_listener *completion_listener, فراغ *userdata);
+خارجي فراغ *Wayland_داده_Offer_Get_داده_From_Self(SDL_Wayland_داده_Offer *offer, size_t *درازی);
+خارجي فراغ *Wayland_داده_Offer_Receive(SDL_Wayland_داده_Offer *offer, ثابت حرف *mime_type, size_t *درازی);
+خارجي فراغ *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, ثابت حرف *mime_type, size_t *درازی);
+خارجي bool Wayland_داده_Offer_Has_MIME(SDL_Wayland_داده_Offer *offer, ثابت حرف *mime_type);
+خارجي فراغ Wayland_داده_Device_مجموعه_Selection_Offer(SDL_Wayland_داده_Device *داده_device, SDL_Wayland_داده_Offer *offer);
+خارجي bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, ثابت حرف *mime_type);
+خارجي bool Wayland_داده_Offer_جمع_کن_MIME(SDL_Wayland_داده_Offer *offer, ثابت حرف *mime_type);
+خارجي bool Wayland_Primary_Selection_Offer_جمع_کن_MIME(SDL_WaylandPrimarySelectionOffer *offer, ثابت حرف *mime_type);
+خارجي فراغ Wayland_داده_Offer_Destroy(SDL_Wayland_داده_Offer *offer);
+خارجي فراغ Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
 
 // Clipboard / Primary Selection
-extern bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count);
-extern bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *device, SDL_WaylandPrimarySelectionSource *source, const char *const *mime_types, size_t mime_count);
+خارجي bool Wayland_داده_Device_مجموعه_Selection_منبع(SDL_Wayland_داده_Device *device, SDL_Wayland_داده_منبع *منبع, ثابت حرف **mime_types, size_t mime_شمار);
+خارجي bool Wayland_Primary_Selection_Device_مجموعه_Selection(SDL_WaylandPrimarySelectionDevice *device, SDL_Wayland_Primary_Selection_منبع *منبع, ثابت حرف *ثابت *mime_types, size_t mime_شمار);
 
-#endif // SDL_waylanddatamanager_h_
+#پایان_اگر // SDL_waylanddatamanager_h_

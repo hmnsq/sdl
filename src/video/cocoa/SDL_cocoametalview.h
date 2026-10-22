@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_cocoametalview_h_
-#define SDL_cocoametalview_h_
+#اگر_تعریف_نشده SDL_cocoametalview_h_
+#تعریف_کن SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#إذا defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -41,26 +41,26 @@
 
 @interface SDL3_cocoametalview : NSView
 
-- (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
-                     windowID:(Uint32)windowID
+- (instancetype)init_With_قاب:(NSRect)قاب
+                      بالا_DPI:(BOOL)بالا_DPI
+                     پنجره_ID:(Uint32)پنجره_ID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
-- (NSView *)hitTest:(NSPoint)point;
+- (فراغ)update_Drawable_اندازه;
+- (NSView *)اصابت_Test:(NSPoint)نقطه;
 
 // Override superclass tag so this class can set it.
-@property(assign, readonly) NSInteger tag;
+@property(تخصیص_بده, readonly) NSInteger برچسب;
 
-@property(nonatomic) BOOL highDPI;
-@property(nonatomic) Uint32 sdlWindowID;
+@property(nonatomic) BOOL بالا_DPI;
+@property(nonatomic) Uint32 sdl_پنجره_ID;
 
-@end
+@انتها
 
-SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+فراغ Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+فراغ *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#پایان_اگر // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_cocoametalview_h_
+#پایان_اگر // SDL_cocoametalview_h_

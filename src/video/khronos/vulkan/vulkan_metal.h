@@ -1,5 +1,5 @@
-#ifndef VULKAN_METAL_H_
-#define VULKAN_METAL_H_ 1
+#اگر_تعریف_نشده VULKAN_METAL_H_
+#تعریف_کن VULKAN_METAL_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,251 +13,251 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
 
 
 // VK_EXT_metal_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_metal_surface 1
+#تعریف_کن VK_EXT_metal_surface 1
 
-#ifdef __OBJC__
+#اگر_تعریف_شده __OBJC__
 @class CAMetalLayer;
-#else
-typedef void CAMetalLayer;
-#endif
+#وإلا
+تعريفنوع فراغ CAMetalLayer;
+#پایان_اگر
 
-#define SDL_UNSAFE_UNRETAINED
-#if defined(__OBJC__) && defined(__has_feature)
-#if __has_feature(objc_arc)
-#undef SDL_UNSAFE_UNRETAINED
-#define SDL_UNSAFE_UNRETAINED __unsafe_unretained
-#endif
-#endif
+#تعریف_کن SDL_UNSAFE_UNRETAINED
+#إذا defined(__OBJC__) && defined(__has_feature)
+#إذا __has_feature(objc_arc)
+#لغو_تعریف SDL_UNSAFE_UNRETAINED
+#تعریف_کن SDL_UNSAFE_UNRETAINED __unsafe_unretained
+#پایان_اگر
+#پایان_اگر
 
-#define VK_EXT_METAL_SURFACE_SPEC_VERSION 1
-#define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
+#تعریف_کن VK_EXT_METAL_SURFACE_SPEC_نسخه 1
+#تعریف_کن VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
 
-typedef VkFlags VkMetalSurfaceCreateFlagsEXT;
+تعريفنوع VkFlags VkMetalSurfaceCreateFlagsEXT;
 
-typedef struct VkMetalSurfaceCreateInfoEXT {
+تعريفنوع بنية VkMetalSurfaceCreateInfoEXT {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ثابت فراغ*                     p_بعدی;
     VkMetalSurfaceCreateFlagsEXT    flags;
-    const CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
+    ثابت CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
 } VkMetalSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتیجه (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, ثابت VkMetalSurfaceCreateInfoEXT* pCreateInfo, ثابت Vk_تخصیص_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_تعریف_نشده VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجه VKAPI_CALL vkCreateMetalSurfaceEXT(
     VkInstance                                  instance,
-    const VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
+    ثابت Vk_تخصیص_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#پایان_اگر
+#پایان_اگر
 
 
 // VK_EXT_metal_objects is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_metal_objects 1
+#تعریف_کن VK_EXT_metal_objects 1
 
-#ifdef __OBJC__
+#اگر_تعریف_شده __OBJC__
 @protocol MTLDevice;
-typedef __unsafe_unretained id<MTLDevice> MTLDevice_id;
-#else
-typedef void* MTLDevice_id;
-#endif
-#ifdef __OBJC__
-@protocol MTLCommandQueue;
-typedef __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
-#else
-typedef void* MTLCommandQueue_id;
-#endif
-#ifdef __OBJC__
+تعريفنوع __unsafe_unretained id<MTLDevice> MTLDevice_id;
+#وإلا
+تعريفنوع فراغ* MTLDevice_id;
+#پایان_اگر
+#اگر_تعریف_شده __OBJC__
+@protocol MTLCommand_صف;
+تعريفنوع __unsafe_unretained id<MTLCommand_صف> MTLCommand_صف_id;
+#وإلا
+تعريفنوع فراغ* MTLCommand_صف_id;
+#پایان_اگر
+#اگر_تعریف_شده __OBJC__
 @protocol MTLBuffer;
-typedef __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
-#else
-typedef void* MTLBuffer_id;
-#endif
-#ifdef __OBJC__
+تعريفنوع __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
+#وإلا
+تعريفنوع فراغ* MTLBuffer_id;
+#پایان_اگر
+#اگر_تعریف_شده __OBJC__
 @protocol MTLTexture;
-typedef __unsafe_unretained id<MTLTexture> MTLTexture_id;
-#else
-typedef void* MTLTexture_id;
-#endif
-typedef struct __IOSurface* IOSurfaceRef;
-#ifdef __OBJC__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability"
+تعريفنوع __unsafe_unretained id<MTLTexture> MTLTexture_id;
+#وإلا
+تعريفنوع فراغ* MTLTexture_id;
+#پایان_اگر
+تعريفنوع بنية __IOSurface* IOSurfaceRef;
+#اگر_تعریف_شده __OBJC__
+#رهنمود clang diagnostic افزودن
+#رهنمود clang diagnostic ignored "-Wunguarded-availability"
 @protocol MTLSharedEvent;
-typedef __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
-#pragma clang diagnostic pop
-#else
-typedef void* MTLSharedEvent_id;
-#endif
+تعريفنوع __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
+#رهنمود clang diagnostic برداشت
+#وإلا
+تعريفنوع فراغ* MTLSharedEvent_id;
+#پایان_اگر
 
-#define VK_EXT_METAL_OBJECTS_SPEC_VERSION 2
-#define VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
+#تعریف_کن VK_EXT_METAL_OBJECTS_SPEC_نسخه 2
+#تعریف_کن VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
 
-typedef enum VkExportMetalObjectTypeFlagBitsEXT {
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_BIT_EXT = 0x00000001,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_QUEUE_BIT_EXT = 0x00000002,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_BUFFER_BIT_EXT = 0x00000004,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_TEXTURE_BIT_EXT = 0x00000008,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_IOSURFACE_BIT_EXT = 0x00000010,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_SHARED_EVENT_BIT_EXT = 0x00000020,
-    VK_EXPORT_METAL_OBJECT_TYPE_FLAG_BITS_MAX_ENUM_EXT = 0x7FFFFFFF
-} VkExportMetalObjectTypeFlagBitsEXT;
-typedef VkFlags VkExportMetalObjectTypeFlagsEXT;
+تعريفنوع تعداد Vk_Export_Metal_Object_Type_Flag_بیتها_EXT {
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_بیت_EXT = 0x00000001,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_صف_بیت_EXT = 0x00000002,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_میانگیر_بیت_EXT = 0x00000004,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_TEXTURE_بیت_EXT = 0x00000008,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_IOSURFACE_بیت_EXT = 0x00000010,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_SHARED_EVENT_بیت_EXT = 0x00000020,
+    VK_EXPORT_METAL_OBJECT_TYPE_FLAG_بیتها_MAX_ENUM_EXT = 0x7FFFFFFF
+} Vk_Export_Metal_Object_Type_Flag_بیتها_EXT;
+تعريفنوع VkFlags VkExportMetalObjectTypeFlagsEXT;
 
-typedef struct VkExportMetalObjectCreateInfoEXT {
+تعريفنوع بنية VkExportMetalObjectCreateInfoEXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExportMetalObjectTypeFlagBitsEXT    exportObjectType;
+    ثابت فراغ*                           p_بعدی;
+    Vk_Export_Metal_Object_Type_Flag_بیتها_EXT    exportObjectType;
 } VkExportMetalObjectCreateInfoEXT;
 
-typedef struct VkExportMetalObjectsInfoEXT {
+تعريفنوع بنية VkExportMetalObjectsInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_بعدی;
 } VkExportMetalObjectsInfoEXT;
 
-typedef struct VkExportMetalDeviceInfoEXT {
+تعريفنوع بنية VkExportMetalDeviceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_بعدی;
     MTLDevice_id       mtlDevice;
 } VkExportMetalDeviceInfoEXT;
 
-typedef struct VkExportMetalCommandQueueInfoEXT {
+تعريفنوع بنية Vk_Export_Metal_Command_صف_Info_EXT {
     VkStructureType       sType;
-    const void*           pNext;
-    VkQueue               queue;
-    MTLCommandQueue_id    mtlCommandQueue;
-} VkExportMetalCommandQueueInfoEXT;
+    ثابت فراغ*           p_بعدی;
+    Vk_صف               صف;
+    MTLCommand_صف_id    mtl_Command_صف;
+} Vk_Export_Metal_Command_صف_Info_EXT;
 
-typedef struct VkExportMetalBufferInfoEXT {
+تعريفنوع بنية Vk_Export_Metal_میانگیر_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
-    VkDeviceMemory     memory;
-    MTLBuffer_id       mtlBuffer;
-} VkExportMetalBufferInfoEXT;
+    ثابت فراغ*        p_بعدی;
+    Vk_Device_حافظه     حافظه;
+    MTLBuffer_id       mtl_میانگیر;
+} Vk_Export_Metal_میانگیر_Info_EXT;
 
-typedef struct VkImportMetalBufferInfoEXT {
+تعريفنوع بنية Vk_Import_Metal_میانگیر_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
-    MTLBuffer_id       mtlBuffer;
-} VkImportMetalBufferInfoEXT;
+    ثابت فراغ*        p_بعدی;
+    MTLBuffer_id       mtl_میانگیر;
+} Vk_Import_Metal_میانگیر_Info_EXT;
 
-typedef struct VkExportMetalTextureInfoEXT {
+تعريفنوع بنية VkExportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
+    ثابت فراغ*              p_بعدی;
     VkImage                  image;
     VkImageView              imageView;
-    VkBufferView             bufferView;
-    VkImageAspectFlagBits    plane;
+    Vk_میانگیر_View             میانگیر_View;
+    Vk_Image_Aspect_Flag_بیتها    plane;
     MTLTexture_id            mtlTexture;
 } VkExportMetalTextureInfoEXT;
 
-typedef struct VkImportMetalTextureInfoEXT {
+تعريفنوع بنية VkImportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
-    VkImageAspectFlagBits    plane;
+    ثابت فراغ*              p_بعدی;
+    Vk_Image_Aspect_Flag_بیتها    plane;
     MTLTexture_id            mtlTexture;
 } VkImportMetalTextureInfoEXT;
 
-typedef struct VkExportMetalIOSurfaceInfoEXT {
+تعريفنوع بنية VkExportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_بعدی;
     VkImage            image;
     IOSurfaceRef       ioSurface;
 } VkExportMetalIOSurfaceInfoEXT;
 
-typedef struct VkImportMetalIOSurfaceInfoEXT {
+تعريفنوع بنية VkImportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_بعدی;
     IOSurfaceRef       ioSurface;
 } VkImportMetalIOSurfaceInfoEXT;
 
-typedef struct VkExportMetalSharedEventInfoEXT {
+تعريفنوع بنية VkExportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    ثابت فراغ*          p_بعدی;
     VkSemaphore          semaphore;
     VkEvent              event;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkExportMetalSharedEventInfoEXT;
 
-typedef struct VkImportMetalSharedEventInfoEXT {
+تعريفنوع بنية VkImportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    ثابت فراغ*          p_بعدی;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkImportMetalSharedEventInfoEXT;
 
 
-typedef void (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_تعریف_نشده VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkExportMetalObjectsEXT(
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vkExportMetalObjectsEXT(
     VkDevice                                    device,
     VkExportMetalObjectsInfoEXT*                pMetalObjectsInfo);
-#endif
-#endif
+#پایان_اگر
+#پایان_اگر
 
 
 // VK_EXT_external_memory_metal is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_external_memory_metal 1
+#تعریف_کن VK_EXT_external_حافظه_metal 1
 
-#define VK_EXT_EXTERNAL_MEMORY_METAL_SPEC_VERSION 1
-#define VK_EXT_EXTERNAL_MEMORY_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
+#تعریف_کن VK_EXT_EXTERNAL_حافظه_METAL_SPEC_نسخه 1
+#تعریف_کن VK_EXT_EXTERNAL_حافظه_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
 
-typedef struct VkImportMemoryMetalHandleInfoEXT {
+تعريفنوع بنية Vk_Import_حافظه_Metal_Handle_Info_EXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-    void*                                 handle;
-} VkImportMemoryMetalHandleInfoEXT;
+    ثابت فراغ*                           p_بعدی;
+    Vk_External_حافظه_Handle_Type_Flag_بیتها    handleType;
+    فراغ*                                 handle;
+} Vk_Import_حافظه_Metal_Handle_Info_EXT;
 
-typedef struct VkMemoryMetalHandlePropertiesEXT {
+تعريفنوع بنية Vk_حافظه_Metal_Handle_Properties_EXT {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryMetalHandlePropertiesEXT;
+    فراغ*              p_بعدی;
+    uint32_t           حافظه_Type_بیتها;
+} Vk_حافظه_Metal_Handle_Properties_EXT;
 
-typedef struct VkMemoryGetMetalHandleInfoEXT {
+تعريفنوع بنية Vk_حافظه_Get_Metal_Handle_Info_EXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetMetalHandleInfoEXT;
+    ثابت فراغ*                           p_بعدی;
+    Vk_Device_حافظه                        حافظه;
+    Vk_External_حافظه_Handle_Type_Flag_بیتها    handleType;
+} Vk_حافظه_Get_Metal_Handle_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandleEXT)(VkDevice device, const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandlePropertiesEXT)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle, VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
+تعريفنوع Vk_نتیجه (VKAPI_PTR *PFN_vk_Get_حافظه_Metal_Handle_EXT)(VkDevice device, ثابت Vk_حافظه_Get_Metal_Handle_Info_EXT* pGetMetalHandleInfo, فراغ** pHandle);
+تعريفنوع Vk_نتیجه (VKAPI_PTR *PFN_vk_Get_حافظه_Metal_Handle_Properties_EXT)(VkDevice device, Vk_External_حافظه_Handle_Type_Flag_بیتها handleType, ثابت فراغ* pHandle, Vk_حافظه_Metal_Handle_Properties_EXT* p_حافظه_Metal_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_تعریف_نشده VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandleEXT(
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجه VKAPI_CALL vk_Get_حافظه_Metal_Handle_EXT(
     VkDevice                                    device,
-    const VkMemoryGetMetalHandleInfoEXT*        pGetMetalHandleInfo,
-    void**                                      pHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandlePropertiesEXT(
+    ثابت Vk_حافظه_Get_Metal_Handle_Info_EXT*        pGetMetalHandleInfo,
+    فراغ**                                      pHandle);
+#پایان_اگر
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجه VKAPI_CALL vk_Get_حافظه_Metal_Handle_Properties_EXT(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
-    const void*                                 pHandle,
-    VkMemoryMetalHandlePropertiesEXT*           pMemoryMetalHandleProperties);
-#endif
-#endif
+    Vk_External_حافظه_Handle_Type_Flag_بیتها          handleType,
+    ثابت فراغ*                                 pHandle,
+    Vk_حافظه_Metal_Handle_Properties_EXT*           p_حافظه_Metal_Handle_Properties);
+#پایان_اگر
+#پایان_اگر
 
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
+#پایان_اگر
 
-#endif
+#پایان_اگر

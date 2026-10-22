@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#اگر_تعریف_نشده _SDL_OPENVRVIDEO_H
+#تعریف_کن _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_WINDOWS
+#اگر_تعریف_شده EXTERN_C
+#لغو_تعریف EXTERN_C
+#پایان_اگر
+#پایان_اگر
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#اگر_تعریف_شده __GNUC__
+#رهنمود GCC diagnostic افزودن
+#رهنمود GCC diagnostic ignored "-Wunused-variable"
+#پایان_اگر
 
-#define USE_SDL
-#include "openvr_capi.h"
+#تعریف_کن USE_SDL
+#ضمن "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#اگر_تعریف_شده __GNUC__
+#رهنمود GCC diagnostic برداشت
+#پایان_اگر
 
-#include <stdint.h>
+#ضمن <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_تعریف_نشده SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ضمن <GLES3/gl3.h>
+#ضمن <GLES3/gl32.h>
+#ضمن <EGL/egl.h>
+#ضمن <GLES2/gl2.h>
+#ضمن <GLES2/gl2ext.h>
+#ضمن <GLES2/gl2ext.h>
 
-#endif
+#پایان_اگر
 
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_WINDOWS
+    SDL_پنجره *پنجره;
     HWND hwnd;
-    HWND parent;
+    HWND والد;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#وإلا
+    صحيح dummy;
+#پایان_اگر
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+بنية SDL_Video_داده {
+    فراغ * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_داخلی)( EVRInitError *peError, EVRApplicationType eType );
+    ثابت حرف *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ثابت حرف *pch_Interface_نسخه, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    صحيح is_میانگیر_rendering;
 
-    unsigned int overlaytexture;
+    بیعلامت صحيح overlaytexture;
 
-    unsigned int fbo, rbo;
+    بیعلامت صحيح fbo, rbo;
 
-    int saved_texture_state;
+    صحيح saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    بنية VR_IVRSystem_Fn_جدول *oSystem;
+    بنية VR_IVROverlay_Fn_جدول *oOverlay;
+	بنية VR_IVRInput_Fn_جدول * o_درون_داد;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	حرف * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_مجموعه_Handle_t درون_داد_action_مجموعه;
+	VRActionHandle_t * درون_داد_action_handles_buttons;
+	صحيح درون_داد_action_handles_buttons_شمار;
+	VRActionHandle_t * درون_داد_action_handles_axes;
+	صحيح درون_داد_action_handles_axes_شمار;
+	VRActionHandle_t درون_داد_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    صحيح targw, targh;
+    صحيح آخرین_targw, آخرین_targh;
+    صحيح جابجا_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_قاب_انتها;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_پنجره * پنجره;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#وإلا
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#پایان_اگر
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_داده
 {
-    int dummy;
+    صحيح dummy;
 };
 
-#endif
+#پایان_اگر

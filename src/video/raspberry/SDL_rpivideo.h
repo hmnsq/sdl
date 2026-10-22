@@ -19,71 +19,71 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rpivideo_h
-#define SDL_rpivideo_h
+#اگر_تعریف_نشده SDL_rpivideo_h
+#تعریف_کن SDL_rpivideo_h
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
+#ضمن "SDL_internal.h"
+#ضمن "../SDL_sysvideo.h"
 
-#include <bcm_host.h>
-#include <SDL3/SDL_egl.h>
+#ضمن <bcm_host.h>
+#ضمن <SDL3/SDL_egl.h>
 
-struct SDL_VideoData
+بنية SDL_Video_داده
 {
     uint32_t egl_refcount; // OpenGL ES reference count
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_داده
 {
     DISPMANX_DISPLAY_HANDLE_T dispman_display;
 };
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-    EGL_DISPMANX_WINDOW_T dispman_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    EGL_DISPMANX_پنجره_T dispman_پنجره;
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#پایان_اگر
 
     // Vsync callback cond and mutex
     SDL_Condition *vsync_cond;
     SDL_Mutex *vsync_cond_mutex;
-    bool double_buffer;
+    bool double_میانگیر;
 };
 
-#define SDL_RPI_VIDEOLAYER 10000 // High enough so to occlude everything
-#define SDL_RPI_MOUSELAYER SDL_RPI_VIDEOLAYER + 1
+#تعریف_کن SDL_RPI_VIDEOLAYER 10000 // High enough so to occlude everything
+#تعریف_کن SDL_RPI_MOUSELAYER SDL_RPI_VIDEOLAYER + 1
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool RPI_VideoInit(SDL_VideoDevice *_this);
-extern void RPI_VideoQuit(SDL_VideoDevice *_this);
-extern bool RPI_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool RPI_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool RPI_VideoInit(SDL_VideoDevice *_this);
+خارجي فراغ RPI_VideoQuit(SDL_VideoDevice *_this);
+خارجي bool RPI_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجي bool RPI_مجموعه_Display_نما(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_نما *نما);
+خارجي bool RPI_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ RPI_مجموعه_پنجره_Title(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool RPI_مجموعه_پنجره_Position(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_مجموعه_پنجره_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Show_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Hide_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Raise_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Maximize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Minimize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Restore_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ RPI_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
 // OpenGL/OpenGL ES functions
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool RPI_GLES_GetSwapInterval(SDL_VideoDevice *_this);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool RPI_GLES_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي SDL_Function_اشاره_گر RPI_GLES_Get_Proc_آدرس(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي فراغ RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_GLContext context);
+خارجي bool RPI_GLES_مجموعه_جابجا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool RPI_GLES_Get_جابجا_Interval(SDL_VideoDevice *_this);
+خارجي bool RPI_GLES_جابجا_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-#endif // SDL_rpivideo_h
+#پایان_اگر // SDL_rpivideo_h

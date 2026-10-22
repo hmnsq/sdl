@@ -1,5 +1,5 @@
-#ifndef __gl3platform_h_
-#define __gl3platform_h_
+#اگر_تعریف_نشده __gl3platform_h_
+#تعریف_کن __gl3platform_h_
 
 /*
 ** Copyright 2017-2020 The Khronos Group Inc.
@@ -14,14 +14,14 @@
  *      https://github.com/KhronosGroup/OpenGL-Registry
  */
 
-#include <KHR/khrplatform.h>
+#ضمن <KHR/khrplatform.h>
 
-#ifndef GL_APICALL
-#define GL_APICALL  KHRONOS_APICALL
-#endif
+#اگر_تعریف_نشده GL_APICALL
+#تعریف_کن GL_APICALL  KHRONOS_APICALL
+#پایان_اگر
 
-#ifndef GL_APIENTRY
-#define GL_APIENTRY KHRONOS_APIENTRY
-#endif
+#اگر_تعریف_نشده GL_APIENTRY
+#تعریف_کن GL_APIENTRY KHRONOS_APIENTRY
+#پایان_اگر
 
-#endif /* __gl3platform_h_ */
+#پایان_اگر /* __gl3platform_h_ */

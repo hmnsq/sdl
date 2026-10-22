@@ -18,73 +18,73 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_windowevents_c.h"
+#ضمن "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#ضمن "SDL_offscreenwindow.h"
 
-bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool OFFSCREEN_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_پنجره_داده *offscreen_پنجره = (SDL_پنجره_داده *)SDL_calloc(1, حجم(SDL_پنجره_داده));
 
-    if (!offscreen_window) {
-        return false;
+    إذا (!offscreen_پنجره) {
+        أرجع false;
     }
 
-    window->internal = offscreen_window;
+    پنجره->داخلی = offscreen_پنجره;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    إذا (پنجره->x == SDL_WINDOWPOS_UNDEFINED) {
+        پنجره->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    إذا (پنجره->y == SDL_WINDOWPOS_UNDEFINED) {
+        پنجره->y = 0;
     }
 
-    offscreen_window->sdl_window = window;
+    offscreen_پنجره->sdl_پنجره = پنجره;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
+    إذا (پنجره->flags & SDL_پنجره_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        إذا (!_this->egl_داده) {
+            أرجع SDL_مجموعه_Error("Cannot create an OPENGL window invalid egl_data");
         }
 
-        offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
+        offscreen_پنجره->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, پنجره->w, پنجره->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
-                                _this->egl_data->egl_display);
+        إذا (offscreen_پنجره->egl_surface == EGL_NO_SURFACE) {
+            أرجع SDL_مجموعه_Error("Failed to created an offscreen surface (EGL display: %p)",
+                                _this->egl_داده->egl_display);
         }
-    } else {
-        offscreen_window->egl_surface = EGL_NO_SURFACE;
+    } وإلا {
+        offscreen_پنجره->egl_surface = EGL_NO_SURFACE;
     }
-#endif // SDL_VIDEO_OPENGL_EGL
+#پایان_اگر // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    أرجع true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OFFSCREEN_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_پنجره_داده *offscreen_پنجره = پنجره->داخلی;
 
-    if (offscreen_window) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
-#endif
-        SDL_free(offscreen_window);
+    إذا (offscreen_پنجره) {
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
+        SDL_EGL_DestroySurface(_this, offscreen_پنجره->egl_surface);
+#پایان_اگر
+        SDL_free(offscreen_پنجره);
     }
 
-    window->internal = NULL;
+    پنجره->داخلی = عدم;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OFFSCREEN_مجموعه_پنجره_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    SDL_Send_پنجره_Event(پنجره, SDL_EVENT_پنجره_RESIZED, پنجره->pending.w, پنجره->pending.h);
 }
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#پایان_اگر // SDL_VIDEO_DRIVER_OFFSCREEN

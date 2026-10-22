@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_nullevents_c_h_
-#define SDL_nullevents_c_h_
+#اگر_تعریف_نشده SDL_nullevents_c_h_
+#تعریف_کن SDL_nullevents_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_nullvideo.h"
+#ضمن "SDL_nullvideo.h"
 
-extern void DUMMY_PumpEvents(SDL_VideoDevice *_this);
+خارجي فراغ DUMMY_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_nullevents_c_h_
+#پایان_اگر // SDL_nullevents_c_h_

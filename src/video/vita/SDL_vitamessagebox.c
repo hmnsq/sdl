@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamessagebox.h"
-#include <psp2/message_dialog.h>
+#ضمن "SDL_vitavideo.h"
+#ضمن "SDL_vitamessagebox.h"
+#ضمن <psp2/message_dialog.h>
 
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-#include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+#اگر_تعریف_شده SDL_VIDEO_RENDER_VITA_GXM
+#ضمن "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
+#پایان_اگر // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_Show_پیام_Box(ثابت SDL_پیام_Box_داده *messageboxdata, صحيح *buttonID)
 {
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
-    SceDisplayFrameBuf dispparam;
-    char message[512];
+#اگر_تعریف_شده SDL_VIDEO_RENDER_VITA_GXM
+    Sce_پیام_Dialog_Param param;
+    Sce_پیام_Dialog_User_پیام_Param پیام_Param;
+    Sce_پیام_Dialog_Buttons_Param buttonParam;
+    Sce_Display_قاب_Buf dispparam;
+    حرف پیام[512];
 
-    SceMsgDialogResult dialog_result;
-    SceCommonDialogErrorCode init_result;
-    bool setup_minimal_gxm = false;
+    Sce_پیام_Dialog_نتیجه dialog_نتیجه;
+    Sce_Common_Dialog_Error_کد init_نتیجه;
+    bool راهاندازی_کمینه_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    إذا (messageboxdata->numbuttons > 3) {
+        أرجع false;
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_پیام_Dialog_Param_Init(&param);
+    param.نما = SCE_پیام_DIALOG_نما_USER_پیام;
 
-    SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_zero(پیام_Param);
+    SDL_snprintf(پیام, حجم(پیام), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->پیام);
 
-    msgParam.msg = (const SceChar8 *)message;
+    پیام_Param.پیام_2 = (ثابت SceChar8 *)پیام;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
-        buttonParam.msg1 = messageboxdata->buttons[0].text;
-        buttonParam.msg2 = messageboxdata->buttons[1].text;
-        buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+    إذا (messageboxdata->numbuttons == 3) {
+        پیام_Param.buttonType = SCE_پیام_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        پیام_Param.buttonParam = &buttonParam;
+        buttonParam.msg1 = messageboxdata->buttons[0].متن;
+        buttonParam.msg2 = messageboxdata->buttons[1].متن;
+        buttonParam.msg3 = messageboxdata->buttons[2].متن;
+    } وإلا إذا (messageboxdata->numbuttons == 2) {
+        پیام_Param.buttonType = SCE_پیام_DIALOG_BUTTON_TYPE_YESNO;
+    } وإلا إذا (messageboxdata->numbuttons == 1) {
+        پیام_Param.buttonType = SCE_پیام_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_پیام_Param = &پیام_Param;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.اندازه = حجم(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_نتیجه = sce_پیام_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
-        gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
-        setup_minimal_gxm = true;
+    إذا (init_نتیجه == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+        gxm_کمینه_init_for_common_dialog();
+        init_نتیجه = sce_پیام_Dialog_Init(&param);
+        راهاندازی_کمینه_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
-            gxm_swap_for_common_dialog();
+    إذا (init_نتیجه >= 0) {
+        طالما (sce_پیام_Dialog_Get_وضعیت() == SCE_COMMON_DIALOG_وضعیت_RUNNING) {
+            gxm_جابجا_for_common_dialog();
         }
-        SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        SDL_zero(dialog_نتیجه);
+        sce_پیام_Dialog_Get_نتیجه(&dialog_نتیجه);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } وإلا إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } وإلا إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } وإلا إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } وإلا إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } وإلا إذا (dialog_نتیجه.buttonId == SCE_پیام_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
-    } else {
-        return false;
+        sce_پیام_Dialog_جمله();
+    } وإلا {
+        أرجع false;
     }
 
-    gxm_term_for_common_dialog();
+    gxm_جمله_for_common_dialog();
 
-    if (setup_minimal_gxm) {
-        gxm_minimal_term_for_common_dialog();
+    إذا (راهاندازی_کمینه_gxm) {
+        gxm_کمینه_جمله_for_common_dialog();
     }
 
-    return true;
-#else
-    (void)messageboxdata;
-    (void)buttonID;
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+    أرجع true;
+#وإلا
+    (فراغ)messageboxdata;
+    (فراغ)buttonID;
+    أرجع SDL_Unsupported();
+#پایان_اگر // SDL_VIDEO_RENDER_VITA_GXM
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#پایان_اگر // SDL_VIDEO_DRIVER_VITA

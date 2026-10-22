@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_gdktextinput_h_
-#define SDL_gdktextinput_h_
+#اگر_تعریف_نشده SDL_gdktextinput_h_
+#تعریف_کن SDL_gdktextinput_h_
 
-#ifdef SDL_GDK_TEXTINPUT
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شده SDL_GDK_TEXTINPUT
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-void GDK_EnsureHints(void);
+فراغ GDK_EnsureHints(فراغ);
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+bool GDK_شروع_متن_درون_داد(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID props);
+bool GDK_Stop_متن_درون_داد(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+bool GDK_Update_متن_درون_داد_Area(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
 bool GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-void GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID props);
+فراغ GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
-#endif
+#پایان_اگر
+#پایان_اگر
 
-#endif
+#پایان_اگر

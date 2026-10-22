@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_openharmonywindow_h_
-#define SDL_openharmonywindow_h_
+#اگر_تعریف_نشده SDL_openharmonywindow_h_
+#تعریف_کن SDL_openharmonywindow_h_
 
-#include "../../core/openharmony/SDL_openharmony.h"
-#include "../SDL_egl_c.h"
+#ضمن "../../core/openharmony/SDL_openharmony.h"
+#ضمن "../SDL_egl_c.h"
 
-extern bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+خارجي bool OPENHARMONY_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ OPENHARMONY_مجموعه_پنجره_Title(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_Fullscreen_نتیجه OPENHARMONY_مجموعه_پنجره_Fullscreen(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ OPENHARMONY_Minimize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ OPENHARMONY_مجموعه_پنجره_Resizable(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool resizable);
 
-extern void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *OPENHARMONY_Window;
+خارجي فراغ OPENHARMONY_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_پنجره *OPENHARMONY_پنجره;
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    void *native_xcomponent;
-    void *native_window;
+    صحيح has_جابجا_interval;  // Save/Restore the swap interval / vsync
+    صحيح جابجا_interval;
+#پایان_اگر
+    bool backup_انجامشده;
+    فراغ *native_xcomponent;
+    فراغ *native_پنجره;
 };
 
-#endif // SDL_openharmonywindow_h_
+#پایان_اگر // SDL_openharmonywindow_h_

@@ -24,29 +24,29 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidvulkan_h_
-#define SDL_androidvulkan_h_
+#اگر_تعریف_نشده SDL_androidvulkan_h_
+#تعریف_کن SDL_androidvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_vulkan_internal.h"
+#ضمن "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#إذا defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
-extern bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                         SDL_Window *window,
+خارجي bool Android_Vulkan_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي فراغ Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي حرف ثابت * ثابت *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *شمار);
+خارجي bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                         SDL_پنجره *پنجره,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         ثابت بنية Vk_تخصیص_Callbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجي فراغ Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          ثابت بنية Vk_تخصیص_Callbacks *allocator);
 
-#endif
+#پایان_اگر
 
-#endif // SDL_androidvulkan_h_
+#پایان_اگر // SDL_androidvulkan_h_

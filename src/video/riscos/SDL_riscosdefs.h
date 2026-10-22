@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_riscosdefs_h_
-#define SDL_riscosdefs_h_
+#اگر_تعریف_نشده SDL_riscosdefs_h_
+#تعریف_کن SDL_riscosdefs_h_
 
-typedef struct sprite_area
+تعريفنوع بنية sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    صحيح اندازه;  // +0
+    صحيح شمار; // +4
+    صحيح شروع; // +8
+    صحيح انتها;   // +12
 } sprite_area;
 
-SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
+SDL_COMPILE_زمان_ASSERT(sprite_area, حجم(sprite_area) == 16);
 
-typedef struct sprite_header
+تعريفنوع بنية sprite_سرآیند
 {
-    int next;         // +0
-    char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
-} sprite_header;
+    صحيح بعدی;         // +0
+    حرف name[12];    // +4
+    صحيح عرض;        // +16
+    صحيح ارتفاع;       // +20
+    صحيح اولی_بیت;    // +24
+    صحيح آخرین_بیت;     // +28
+    صحيح image_جابه_جایی_2; // +32
+    صحيح ماسک_جابه_جایی;  // +36
+    صحيح نما;         // +40
+} sprite_سرآیند;
 
-SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);
+SDL_COMPILE_زمان_ASSERT(sprite_سرآیند, حجم(sprite_سرآیند) == 44);
 
-#endif // SDL_riscosdefs_h_
+#پایان_اگر // SDL_riscosdefs_h_

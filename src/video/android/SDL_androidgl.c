@@ -18,53 +18,53 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // Android SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_androidwindow.h"
+#ضمن "../SDL_egl_c.h"
+#ضمن "SDL_androidwindow.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidgl.h"
-#include "../../core/android/SDL_android.h"
+#ضمن "SDL_androidvideo.h"
+#ضمن "SDL_androidevents.h"
+#ضمن "SDL_androidgl.h"
+#ضمن "../../core/android/SDL_android.h"
 
-#include <android/log.h>
+#ضمن <android/log.h>
 
-#include <dlfcn.h>
+#ضمن <dlfcn.h>
 
-bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    إذا (پنجره && context) {
+        أرجع SDL_EGL_MakeCurrent(_this, پنجره->داخلی->egl_surface, context);
+    } وإلا {
+        أرجع SDL_EGL_MakeCurrent(_this, عدم, عدم);
     }
 }
 
-SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    SDL_GLContext result;
+    SDL_GLContext نتیجه;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return NULL;
+    إذا (!Android_Wait_فعال_And_قفل_Activity()) {
+        أرجع عدم;
     }
 
-    result = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    نتیجه = SDL_EGL_CreateContext(_this, پنجره->داخلی->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    أرجع نتیجه;
 }
 
-bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool Android_GLES_جابجا_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    bool result;
+    bool نتیجه;
 
-    Android_LockActivityMutex();
+    Android_قفل_Activity_Mutex();
 
     /* The following two calls existed in the original Java code
      * If you happen to have a device that's affected by their removal,
@@ -73,16 +73,16 @@ bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     /*_this->egl_data->eglWaitNative(EGL_CORE_NATIVE_ENGINE);
     _this->egl_data->eglWaitGL();*/
-    result = SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    نتیجه = SDL_EGL_جابجا_Buffers(_this, پنجره->داخلی->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    أرجع نتیجه;
 }
 
-bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Android_GLES_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    أرجع SDL_EGL_بارگیری_Library(_this, مسیر, EGL_DEFAULT_DISPLAY);
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#پایان_اگر // SDL_VIDEO_DRIVER_ANDROID

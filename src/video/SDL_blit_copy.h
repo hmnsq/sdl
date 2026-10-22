@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_blit_copy_h_
-#define SDL_blit_copy_h_
+#اگر_تعریف_نشده SDL_blit_copy_h_
+#تعریف_کن SDL_blit_copy_h_
 
-void SDL_BlitCopy(SDL_BlitInfo *info);
+فراغ SDL_BlitCopy(SDL_BlitInfo *info);
 
-#endif // SDL_blit_copy_h_
+#پایان_اگر // SDL_blit_copy_h_

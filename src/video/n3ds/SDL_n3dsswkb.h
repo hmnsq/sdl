@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_n3dskeyboard_h_
-#define SDL_n3dskeyboard_h_
+#اگر_تعریف_نشده SDL_n3dskeyboard_h_
+#تعریف_کن SDL_n3dskeyboard_h_
 
-#include "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-void N3DS_SwkbInit();
-void N3DS_SwkbPoll();
-void N3DS_SwkbQuit();
+فراغ N3DS_SwkbInit();
+فراغ N3DS_SwkbPoll();
+فراغ N3DS_SwkbQuit();
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
+bool N3_DS_شروع_متن_درون_داد(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID props);
+bool N3_DS_Stop_متن_درون_داد(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
-#endif // SDL_n3dskeyboard_h_
+#پایان_اگر // SDL_n3dskeyboard_h_

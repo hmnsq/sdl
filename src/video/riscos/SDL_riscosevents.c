@@ -18,89 +18,89 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_RISCOS
 
-#include "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "scancodes_riscos.h"
+#ضمن "SDL_riscosvideo.h"
+#ضمن "SDL_riscosevents_c.h"
+#ضمن "scancodes_riscos.h"
 
-#include <kernel.h>
-#include <swis.h>
+#ضمن <kernel.h>
+#ضمن <swis.h>
 
-static SDL_Scancode SDL_RISCOS_translate_keycode(int keycode)
+ساكن SDL_Scancode SDL_RISCOS_translate_keycode(صحيح keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(riscos_scancode_table)) {
-        scancode = riscos_scancode_table[keycode];
+    إذا (keycode < SDL_arraysize(riscos_scancode_جدول)) {
+        scancode = riscos_scancode_جدول[keycode];
 
-#ifdef DEBUG_SCANCODES
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
+#اگر_تعریف_شده DEBUG_SCANCODES
+        إذا (scancode == SDL_SCANCODE_UNKNOWN) {
             SDL_Log("The key you just pressed is not recognized by SDL: %d", keycode);
         }
-#endif
+#پایان_اگر
     }
 
-    return scancode;
+    أرجع scancode;
 }
 
-void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
+فراغ RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = _this->internal;
-    Uint8 key = 2;
-    int i;
+    SDL_Video_داده *داخلی = _this->داخلی;
+    Uint8 کلید = 2;
+    صحيح i;
 
     // Check for key releases
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        if (internal->key_pressed[i] != 255) {
-            if ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
-                SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, internal->key_pressed[i], SDL_RISCOS_translate_keycode(internal->key_pressed[i]), false);
-                internal->key_pressed[i] = 255;
+    لكل (i = 0; i < RISCOS_MAX_کلیدها_PRESSED; i++) {
+        إذا (داخلی->کلید_pressed[i] != 255) {
+            إذا ((_kernel_osbyte(129, داخلی->کلید_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
+                SDL_Send_Keyboard_کلید(0, SDL_DEFAULT_KEYBOARD_ID, داخلی->کلید_pressed[i], SDL_RISCOS_translate_keycode(داخلی->کلید_pressed[i]), false);
+                داخلی->کلید_pressed[i] = 255;
             }
         }
     }
 
     // Check for key presses
-    while (key < 0xff) {
-        key = _kernel_osbyte(121, key + 1, 0) & 0xff;
-        switch (key) {
-        case 255:
+    طالما (کلید < 0xff) {
+        کلید = _kernel_osbyte(121, کلید + 1, 0) & 0xff;
+        بدل (کلید) {
+        حالة 255:
         // Ignore mouse keys
-        case 9:
-        case 10:
-        case 11:
+        حالة 9:
+        حالة 10:
+        حالة 11:
         // Ignore keys with multiple INKEY codes
-        case 24:
-        case 40:
-        case 71:
-        case 87:
-            break;
+        حالة 24:
+        حالة 40:
+        حالة 71:
+        حالة 87:
+            اكسر;
 
-        default:
-            SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, key, SDL_RISCOS_translate_keycode(key), true);
+        افتراضي:
+            SDL_Send_Keyboard_کلید(0, SDL_DEFAULT_KEYBOARD_ID, کلید, SDL_RISCOS_translate_keycode(کلید), true);
 
             // Record the press so we can detect release later.
-            for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-                if (internal->key_pressed[i] == key) {
-                    break;
+            لكل (i = 0; i < RISCOS_MAX_کلیدها_PRESSED; i++) {
+                إذا (داخلی->کلید_pressed[i] == کلید) {
+                    اكسر;
                 }
-                if (internal->key_pressed[i] == 255) {
-                    internal->key_pressed[i] = key;
-                    break;
+                إذا (داخلی->کلید_pressed[i] == 255) {
+                    داخلی->کلید_pressed[i] = کلید;
+                    اكسر;
                 }
             }
         }
     }
 }
 
-static const Uint8 mouse_button_map[] = {
-    SDL_BUTTON_RIGHT,
-    SDL_BUTTON_MIDDLE,
-    SDL_BUTTON_LEFT,
+ساكن ثابت Uint8 mouse_button_map[] = {
+    SDL_BUTTON_راست,
+    SDL_BUTTON_میانه,
+    SDL_BUTTON_چپ,
     SDL_BUTTON_X1,
     SDL_BUTTON_X2,
     SDL_BUTTON_X2 + 1,
@@ -108,16 +108,16 @@ static const Uint8 mouse_button_map[] = {
     SDL_BUTTON_X2 + 3
 };
 
-void RISCOS_PollMouse(SDL_VideoDevice *_this)
+فراغ RISCOS_PollMouse(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = _this->internal;
+    SDL_Video_داده *داخلی = _this->داخلی;
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_Rect rect;
     _kernel_swi_regs regs;
-    int i, x, y, buttons;
+    صحيح i, x, y, buttons;
 
-    if (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
-        return;
+    إذا (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
+        أرجع;
     }
 
     _kernel_swi(OS_Mouse, &regs, &regs);
@@ -125,53 +125,53 @@ void RISCOS_PollMouse(SDL_VideoDevice *_this)
     y = rect.h - (regs.r[1] >> 1);
     buttons = regs.r[2];
 
-    if (mouse->x != x || mouse->y != y) {
-        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (float)x, (float)y);
+    إذا (mouse->x != x || mouse->y != y) {
+        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (عائم)x, (عائم)y);
     }
 
-    if (internal->last_mouse_buttons != buttons) {
-        for (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
-            bool down = ((buttons & (1 << i)) != 0);
-            SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, mouse_button_map[i], down);
+    إذا (داخلی->آخرین_mouse_buttons != buttons) {
+        لكل (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
+            bool پایین = ((buttons & (1 << i)) != 0);
+            SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, mouse_button_map[i], پایین);
         }
-        internal->last_mouse_buttons = buttons;
+        داخلی->آخرین_mouse_buttons = buttons;
     }
 }
 
 bool RISCOS_InitEvents(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = _this->internal;
+    SDL_Video_داده *داخلی = _this->داخلی;
     _kernel_swi_regs regs;
-    int i, status;
+    صحيح i, وضعیت;
 
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        internal->key_pressed[i] = 255;
+    لكل (i = 0; i < RISCOS_MAX_کلیدها_PRESSED; i++) {
+        داخلی->کلید_pressed[i] = 255;
     }
 
-    status = (_kernel_osbyte(202, 0, 255) & 0xFF);
-    SDL_ToggleModState(SDL_KMOD_NUM, (status & (1 << 2)) ? false : true);
-    SDL_ToggleModState(SDL_KMOD_CAPS, (status & (1 << 4)) ? false : true);
-    SDL_ToggleModState(SDL_KMOD_SCROLL, (status & (1 << 1)) ? true : false);
+    وضعیت = (_kernel_osbyte(202, 0, 255) & 0xFF);
+    SDL_ToggleModState(SDL_KMOD_رقم, (وضعیت & (1 << 2)) ? false : true);
+    SDL_ToggleModState(SDL_KMOD_CAPS, (وضعیت & (1 << 4)) ? false : true);
+    SDL_ToggleModState(SDL_KMOD_SCROLL, (وضعیت & (1 << 1)) ? true : false);
 
     _kernel_swi(OS_Mouse, &regs, &regs);
-    internal->last_mouse_buttons = regs.r[2];
+    داخلی->آخرین_mouse_buttons = regs.r[2];
 
     // Disable escape.
     _kernel_osbyte(229, 1, 0);
 
-    return true;
+    أرجع true;
 }
 
-void RISCOS_PumpEvents(SDL_VideoDevice *_this)
+فراغ RISCOS_PumpEvents(SDL_VideoDevice *_this)
 {
     RISCOS_PollMouse(_this);
     RISCOS_PollKeyboard(_this);
 }
 
-void RISCOS_QuitEvents(SDL_VideoDevice *_this)
+فراغ RISCOS_QuitEvents(SDL_VideoDevice *_this)
 {
     // Re-enable escape.
     _kernel_osbyte(229, 0, 0);
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#پایان_اگر // SDL_VIDEO_DRIVER_RISCOS

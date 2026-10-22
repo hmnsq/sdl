@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_offscreenwindow_h
-#define SDL_offscreenwindow_h
+#اگر_تعریف_نشده SDL_offscreenwindow_h
+#تعریف_کن SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#ضمن "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-    SDL_Window *sdl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    SDL_پنجره *sdl_پنجره;
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#پایان_اگر
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool OFFSCREEN_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ OFFSCREEN_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ OFFSCREEN_مجموعه_پنجره_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
-#endif // SDL_offscreenwindow_h
+#پایان_اگر // SDL_offscreenwindow_h

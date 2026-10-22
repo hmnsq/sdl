@@ -1,5 +1,5 @@
-#ifndef OPENXR_REFLECTION_PARENT_STRUCTS_H_
-#define OPENXR_REFLECTION_PARENT_STRUCTS_H_ 1
+#اگر_تعریف_نشده OPENXR_REFLECTION_والد_STRUCTS_H
+#تعریف_کن OPENXR_REFLECTION_والد_STRUCTS_H 1
 
 /*
 ** Copyright (c) 2017-2026 The Khronos Group Inc.
@@ -12,7 +12,7 @@
 **
 */
 
-#include "openxr.h"
+#ضمن "openxr.h"
 
 /*
 This file contains expansion macros (X Macros) for OpenXR structures that have a parent type.
@@ -20,12 +20,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCompositionLayerBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Composition_Layer_پایه_سرآیند(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Composition_Layer_پایه_سرآیند_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Composition_Layer_پایه_سرآیند_CORE(_avail, _unavail) \
     _avail(XrCompositionLayerProjection, XR_TYPE_COMPOSITION_LAYER_PROJECTION) \
     _avail(XrCompositionLayerQuad, XR_TYPE_COMPOSITION_LAYER_QUAD) \
     _avail(XrCompositionLayerCubeKHR, XR_TYPE_COMPOSITION_LAYER_CUBE_KHR) \
@@ -41,82 +41,82 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrEventDataBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Event_داده_پایه_سرآیند(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Event_داده_پایه_سرآیند_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
-    _avail(XrEventDataEventsLost, XR_TYPE_EVENT_DATA_EVENTS_LOST) \
-    _avail(XrEventDataInstanceLossPending, XR_TYPE_EVENT_DATA_INSTANCE_LOSS_PENDING) \
-    _avail(XrEventDataSessionStateChanged, XR_TYPE_EVENT_DATA_SESSION_STATE_CHANGED) \
-    _avail(XrEventDataReferenceSpaceChangePending, XR_TYPE_EVENT_DATA_REFERENCE_SPACE_CHANGE_PENDING) \
-    _avail(XrEventDataInteractionProfileChanged, XR_TYPE_EVENT_DATA_INTERACTION_PROFILE_CHANGED) \
-    _avail(XrEventDataVisibilityMaskChangedKHR, XR_TYPE_EVENT_DATA_VISIBILITY_MASK_CHANGED_KHR) \
-    _avail(XrEventDataPerfSettingsEXT, XR_TYPE_EVENT_DATA_PERF_SETTINGS_EXT) \
-    _avail(XrEventDataMainSessionVisibilityChangedEXTX, XR_TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX) \
-    _avail(XrEventDataDisplayRefreshRateChangedFB, XR_TYPE_EVENT_DATA_DISPLAY_REFRESH_RATE_CHANGED_FB) \
-    _avail(XrEventDataViveTrackerConnectedHTCX, XR_TYPE_EVENT_DATA_VIVE_TRACKER_CONNECTED_HTCX) \
-    _avail(XrEventDataSpatialAnchorCreateCompleteFB, XR_TYPE_EVENT_DATA_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSetStatusCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SET_STATUS_COMPLETE_FB) \
-    _avail(XrEventDataPassthroughStateChangedFB, XR_TYPE_EVENT_DATA_PASSTHROUGH_STATE_CHANGED_FB) \
-    _avail(XrEventDataMarkerTrackingUpdateVARJO, XR_TYPE_EVENT_DATA_MARKER_TRACKING_UPDATE_VARJO) \
-    _avail(XrEventDataLocalizationChangedML, XR_TYPE_EVENT_DATA_LOCALIZATION_CHANGED_ML) \
-    _avail(XrEventDataSpaceQueryResultsAvailableFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_RESULTS_AVAILABLE_FB) \
-    _avail(XrEventDataSpaceQueryCompleteFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceEraseCompleteFB, XR_TYPE_EVENT_DATA_SPACE_ERASE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceShareCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SHARE_COMPLETE_FB) \
-    _avail(XrEventDataSceneCaptureCompleteFB, XR_TYPE_EVENT_DATA_SCENE_CAPTURE_COMPLETE_FB) \
-    _avail(XrEventDataVirtualKeyboardCommitTextMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META) \
-    _avail(XrEventDataVirtualKeyboardBackspaceMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META) \
-    _avail(XrEventDataVirtualKeyboardEnterMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_ENTER_META) \
-    _avail(XrEventDataVirtualKeyboardShownMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_SHOWN_META) \
-    _avail(XrEventDataVirtualKeyboardHiddenMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_HIDDEN_META) \
-    _avail(XrEventDataSpaceListSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_LIST_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceDiscoveryResultsAvailableMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_RESULTS_AVAILABLE_META) \
-    _avail(XrEventDataSpaceDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataSpacesSaveResultMETA, XR_TYPE_EVENT_DATA_SPACES_SAVE_RESULT_META) \
-    _avail(XrEventDataSpacesEraseResultMETA, XR_TYPE_EVENT_DATA_SPACES_ERASE_RESULT_META) \
-    _avail(XrEventDataPassthroughLayerResumedMETA, XR_TYPE_EVENT_DATA_PASSTHROUGH_LAYER_RESUMED_META) \
-    _avail(XrEventDataShareSpacesCompleteMETA, XR_TYPE_EVENT_DATA_SHARE_SPACES_COMPLETE_META) \
-    _avail(XrEventDataInteractionRenderModelsChangedEXT, XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT) \
-    _avail(XrEventDataSenseDataProviderStateChangedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_PROVIDER_STATE_CHANGED_BD) \
-    _avail(XrEventDataSenseDataUpdatedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_UPDATED_BD) \
-    _avail(XrEventDataRecommendedResolutionChangedANDROID, XR_TYPE_EVENT_DATA_RECOMMENDED_RESOLUTION_CHANGED_ANDROID) \
-    _avail(XrEventDataUserPresenceChangedEXT, XR_TYPE_EVENT_DATA_USER_PRESENCE_CHANGED_EXT) \
-    _avail(XrEventDataHeadsetFitChangedML, XR_TYPE_EVENT_DATA_HEADSET_FIT_CHANGED_ML) \
-    _avail(XrEventDataEyeCalibrationChangedML, XR_TYPE_EVENT_DATA_EYE_CALIBRATION_CHANGED_ML) \
-    _avail(XrEventDataBoundaryVisibilityChangedMETA, XR_TYPE_EVENT_DATA_BOUNDARY_VISIBILITY_CHANGED_META) \
-    _avail(XrEventDataStartColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStopColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStartColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataColocationDiscoveryResultMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_RESULT_META) \
-    _avail(XrEventDataColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataStopColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataImageTrackingLostANDROID, XR_TYPE_EVENT_DATA_IMAGE_TRACKING_LOST_ANDROID) \
-    _avail(XrEventDataSpatialDiscoveryRecommendedEXT, XR_TYPE_EVENT_DATA_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
-    _avail(XrEventDataGeospatialTrackerStateChangedANDROID, XR_TYPE_EVENT_DATA_GEOSPATIAL_TRACKER_STATE_CHANGED_ANDROID) \
-    _avail(XrEventDataSpatialContainerClosedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_CLOSED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataSpatialContainerInteractableChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_INTERACTABLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsModeRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_MODE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataViewConfigurationViewsChangedEXT, XR_TYPE_EVENT_DATA_VIEW_CONFIGURATION_VIEWS_CHANGED_EXT) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Event_داده_پایه_سرآیند_CORE(_avail, _unavail) \
+    _avail(Xr_Event_داده_Events_گمشده, XR_TYPE_EVENT_داده_EVENTS_گمشده) \
+    _avail(Xr_Event_داده_Instance_Loss_Pending, XR_TYPE_EVENT_داده_INSTANCE_LOSS_PENDING) \
+    _avail(Xr_Event_داده_Session_State_تغییریافته, XR_TYPE_EVENT_داده_SESSION_STATE_تغییریافته) \
+    _avail(Xr_Event_داده_Reference_Space_Change_Pending, XR_TYPE_EVENT_داده_REFERENCE_SPACE_CHANGE_PENDING) \
+    _avail(Xr_Event_داده_Interaction_Profile_تغییریافته, XR_TYPE_EVENT_داده_INTERACTION_PROFILE_تغییریافته) \
+    _avail(Xr_Event_داده_Visibility_ماسک_تغییریافته_KHR, XR_TYPE_EVENT_داده_VISIBILITY_ماسک_تغییریافته_KHR) \
+    _avail(Xr_Event_داده_Perf_Settings_EXT, XR_TYPE_EVENT_داده_PERF_SETTINGS_EXT) \
+    _avail(Xr_Event_داده_Main_Session_Visibility_تغییریافته_EXTX, XR_TYPE_EVENT_داده_MAIN_SESSION_VISIBILITY_تغییریافته_EXTX) \
+    _avail(Xr_Event_داده_Display_Refresh_نرخ_تغییریافته_FB, XR_TYPE_EVENT_داده_DISPLAY_REFRESH_نرخ_تغییریافته_FB) \
+    _avail(Xr_Event_داده_Vive_Tracker_Connected_HTCX, XR_TYPE_EVENT_داده_VIVE_TRACKER_CONNECTED_HTCX) \
+    _avail(Xr_Event_داده_Spatial_Anchor_Create_Complete_FB, XR_TYPE_EVENT_داده_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Space_مجموعه_وضعیت_Complete_FB, XR_TYPE_EVENT_داده_SPACE_مجموعه_وضعیت_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Passthrough_State_تغییریافته_FB, XR_TYPE_EVENT_داده_PASSTHROUGH_STATE_تغییریافته_FB) \
+    _avail(Xr_Event_داده_Marker_Tracking_Update_VARJO, XR_TYPE_EVENT_داده_MARKER_TRACKING_UPDATE_VARJO) \
+    _avail(Xr_Event_داده_Localization_تغییریافته_ML, XR_TYPE_EVENT_داده_LOCALIZATION_تغییریافته_ML) \
+    _avail(Xr_Event_داده_Space_Query_Results_موجود_FB, XR_TYPE_EVENT_داده_SPACE_QUERY_RESULTS_موجود_FB) \
+    _avail(Xr_Event_داده_Space_Query_Complete_FB, XR_TYPE_EVENT_داده_SPACE_QUERY_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Space_Save_Complete_FB, XR_TYPE_EVENT_داده_SPACE_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Space_Erase_Complete_FB, XR_TYPE_EVENT_داده_SPACE_ERASE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Space_Share_Complete_FB, XR_TYPE_EVENT_داده_SPACE_SHARE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Scene_Capture_Complete_FB, XR_TYPE_EVENT_داده_SCENE_CAPTURE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Virtual_Keyboard_Commit_متن_META, XR_TYPE_EVENT_داده_VIRTUAL_KEYBOARD_COMMIT_متن_META) \
+    _avail(Xr_Event_داده_Virtual_Keyboard_Backspace_META, XR_TYPE_EVENT_داده_VIRTUAL_KEYBOARD_BACKSPACE_META) \
+    _avail(Xr_Event_داده_Virtual_Keyboard_Enter_META, XR_TYPE_EVENT_داده_VIRTUAL_KEYBOARD_ENTER_META) \
+    _avail(Xr_Event_داده_Virtual_Keyboard_Shown_META, XR_TYPE_EVENT_داده_VIRTUAL_KEYBOARD_SHOWN_META) \
+    _avail(Xr_Event_داده_Virtual_Keyboard_Hidden_META, XR_TYPE_EVENT_داده_VIRTUAL_KEYBOARD_HIDDEN_META) \
+    _avail(Xr_Event_داده_Space_List_Save_Complete_FB, XR_TYPE_EVENT_داده_SPACE_LIST_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_داده_Space_Discovery_Results_موجود_META, XR_TYPE_EVENT_داده_SPACE_DISCOVERY_RESULTS_موجود_META) \
+    _avail(Xr_Event_داده_Space_Discovery_Complete_META, XR_TYPE_EVENT_داده_SPACE_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_داده_Spaces_Save_نتیجه_META, XR_TYPE_EVENT_داده_SPACES_SAVE_نتیجه_META) \
+    _avail(Xr_Event_داده_Spaces_Erase_نتیجه_META, XR_TYPE_EVENT_داده_SPACES_ERASE_نتیجه_META) \
+    _avail(Xr_Event_داده_Passthrough_Layer_Resumed_META, XR_TYPE_EVENT_داده_PASSTHROUGH_LAYER_RESUMED_META) \
+    _avail(Xr_Event_داده_Share_Spaces_Complete_META, XR_TYPE_EVENT_داده_SHARE_SPACES_COMPLETE_META) \
+    _avail(Xr_Event_داده_Interaction_Render_Models_تغییریافته_EXT, XR_TYPE_EVENT_داده_INTERACTION_RENDER_MODELS_تغییریافته_EXT) \
+    _avail(Xr_Event_داده_Sense_داده_Provider_State_تغییریافته_BD, XR_TYPE_EVENT_داده_SENSE_داده_PROVIDER_STATE_تغییریافته_BD) \
+    _avail(Xr_Event_داده_Sense_داده_Updated_BD, XR_TYPE_EVENT_داده_SENSE_داده_UPDATED_BD) \
+    _avail(Xr_Event_داده_Recommended_Resolution_تغییریافته_ANDROID, XR_TYPE_EVENT_داده_RECOMMENDED_RESOLUTION_تغییریافته_ANDROID) \
+    _avail(Xr_Event_داده_User_Presence_تغییریافته_EXT, XR_TYPE_EVENT_داده_USER_PRESENCE_تغییریافته_EXT) \
+    _avail(Xr_Event_داده_Headset_Fit_تغییریافته_ML, XR_TYPE_EVENT_داده_HEADSET_FIT_تغییریافته_ML) \
+    _avail(Xr_Event_داده_Eye_Calibration_تغییریافته_ML, XR_TYPE_EVENT_داده_EYE_CALIBRATION_تغییریافته_ML) \
+    _avail(Xr_Event_داده_Boundary_Visibility_تغییریافته_META, XR_TYPE_EVENT_داده_BOUNDARY_VISIBILITY_تغییریافته_META) \
+    _avail(Xr_Event_داده_شروع_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_داده_شروع_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_داده_Stop_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_داده_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_داده_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_داده_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_داده_شروع_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_داده_شروع_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_داده_Colocation_Discovery_نتیجه_META, XR_TYPE_EVENT_داده_COLOCATION_DISCOVERY_نتیجه_META) \
+    _avail(Xr_Event_داده_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_داده_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_داده_Stop_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_داده_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_داده_Image_Tracking_گمشده_ANDROID, XR_TYPE_EVENT_داده_IMAGE_TRACKING_گمشده_ANDROID) \
+    _avail(Xr_Event_داده_Spatial_Discovery_Recommended_EXT, XR_TYPE_EVENT_داده_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
+    _avail(Xr_Event_داده_Geospatial_Tracker_State_تغییریافته_ANDROID, XR_TYPE_EVENT_داده_GEOSPATIAL_TRACKER_STATE_تغییریافته_ANDROID) \
+    _avail(Xr_Event_داده_Spatial_Container_Closed_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_CLOSED_EXT) \
+    _avail(Xr_Event_داده_Spatial_Container_Bounds_تغییریافته_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_BOUNDS_تغییریافته_EXT) \
+    _avail(Xr_Event_داده_Spatial_Container_Visible_تغییریافته_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_VISIBLE_تغییریافته_EXT) \
+    _avail(Xr_Event_داده_Spatial_Container_Visible_Request_Denied_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_داده_Spatial_Container_Interactable_تغییریافته_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_INTERACTABLE_تغییریافته_EXT) \
+    _avail(Xr_Event_داده_Spatial_Container_Bounds_نما_Request_Denied_EXT, XR_TYPE_EVENT_داده_SPATIAL_CONTAINER_BOUNDS_نما_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_داده_View_Configuration_Views_تغییریافته_EXT, XR_TYPE_EVENT_داده_VIEW_CONFIGURATION_VIEWS_تغییریافته_EXT) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrHapticBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Haptic_پایه_سرآیند(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Haptic_پایه_سرآیند_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Haptic_پایه_سرآیند_CORE(_avail, _unavail) \
     _avail(XrHapticVibration, XR_TYPE_HAPTIC_VIBRATION) \
     _avail(XrHapticAmplitudeEnvelopeVibrationFB, XR_TYPE_HAPTIC_AMPLITUDE_ENVELOPE_VIBRATION_FB) \
     _avail(XrHapticPcmVibrationFB, XR_TYPE_HAPTIC_PCM_VIBRATION_FB) \
@@ -127,174 +127,174 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSwapchainImageBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_CORE(_avail, _unavail) \
 
 
-#if defined(XR_USE_GRAPHICS_API_D3D11)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_D3D11)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
     _avail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_D3D12)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_D3D12)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
     _avail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_METAL)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_METAL)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _avail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _unavail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_OPENGL)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_VULKAN)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_Image_پایه_سرآیند_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
-#endif
+#پایان_اگر
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrLoaderInitInfoBaseHeaderKHR
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR_CORE(_avail, _unavail) \
     _avail(XrLoaderInitInfoPropertiesEXT, XR_TYPE_LOADER_INIT_INFO_PROPERTIES_EXT) \
 
 
-#if defined(XR_USE_PLATFORM_ANDROID)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#إذا defined(XR_USE_PLATFORM_ANDROID)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Loader_Init_Info_پایه_سرآیند_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
-#endif
+#پایان_اگر
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrBindingModificationBaseHeaderKHR
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Binding_Modification_پایه_سرآیند_KHR(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Binding_Modification_پایه_سرآیند_KHR_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Binding_Modification_پایه_سرآیند_KHR_CORE(_avail, _unavail) \
     _avail(XrInteractionProfileDpadBindingEXT, XR_TYPE_INTERACTION_PROFILE_DPAD_BINDING_EXT) \
-    _avail(XrInteractionProfileAnalogThresholdVALVE, XR_TYPE_INTERACTION_PROFILE_ANALOG_THRESHOLD_VALVE) \
+    _avail(Xr_Interaction_Profile_Analog_آستانه_VALVE, XR_TYPE_INTERACTION_PROFILE_ANALOG_آستانه_VALVE) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSwapchainStateBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_CORE(_avail, _unavail) \
     _avail(XrSwapchainStateFoveationFB, XR_TYPE_SWAPCHAIN_STATE_FOVEATION_FB) \
 
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#إذا defined(XR_USE_GRAPHICS_API_VULKAN)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
-#endif
+#پایان_اگر
 
-#if defined(XR_USE_PLATFORM_ANDROID)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#إذا defined(XR_USE_PLATFORM_ANDROID)
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#وإلا
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Swapchain_State_پایه_سرآیند_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
-#endif
+#پایان_اگر
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialAnchorsCreateInfoBaseHeaderML
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_پایه_سرآیند_ML(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_پایه_سرآیند_ML_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_پایه_سرآیند_ML_CORE(_avail, _unavail) \
     _avail(XrSpatialAnchorsCreateInfoFromPoseML, XR_TYPE_SPATIAL_ANCHORS_CREATE_INFO_FROM_POSE_ML) \
     _avail(XrSpatialAnchorsCreateInfoFromUuidsML, XR_TYPE_SPATIAL_ANCHORS_CREATE_INFO_FROM_UUIDS_ML) \
 
@@ -303,18 +303,18 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrFutureCompletionBaseHeaderEXT
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Future_Completion_پایه_سرآیند_EXT(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Future_Completion_پایه_سرآیند_EXT_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Future_Completion_پایه_سرآیند_EXT_CORE(_avail, _unavail) \
     _avail(XrCreateSpatialAnchorsCompletionML, XR_TYPE_CREATE_SPATIAL_ANCHORS_COMPLETION_ML) \
     _avail(XrSpatialAnchorsQueryCompletionML, XR_TYPE_SPATIAL_ANCHORS_QUERY_COMPLETION_ML) \
     _avail(XrSpatialAnchorsPublishCompletionML, XR_TYPE_SPATIAL_ANCHORS_PUBLISH_COMPLETION_ML) \
     _avail(XrSpatialAnchorsDeleteCompletionML, XR_TYPE_SPATIAL_ANCHORS_DELETE_COMPLETION_ML) \
     _avail(XrSpatialAnchorsUpdateExpirationCompletionML, XR_TYPE_SPATIAL_ANCHORS_UPDATE_EXPIRATION_COMPLETION_ML) \
-    _avail(XrSenseDataQueryCompletionBD, XR_TYPE_SENSE_DATA_QUERY_COMPLETION_BD) \
+    _avail(Xr_Sense_داده_Query_Completion_BD, XR_TYPE_SENSE_داده_QUERY_COMPLETION_BD) \
     _avail(XrFutureCompletionEXT, XR_TYPE_FUTURE_COMPLETION_EXT) \
     _avail(XrSpatialAnchorCreateCompletionBD, XR_TYPE_SPATIAL_ANCHOR_CREATE_COMPLETION_BD) \
     _avail(XrWorldMeshStateRequestCompletionML, XR_TYPE_WORLD_MESH_STATE_REQUEST_COMPLETION_ML) \
@@ -337,12 +337,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialAnchorsQueryInfoBaseHeaderML
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_پایه_سرآیند_ML(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_پایه_سرآیند_ML_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_پایه_سرآیند_ML_CORE(_avail, _unavail) \
     _avail(XrSpatialAnchorsQueryInfoRadiusML, XR_TYPE_SPATIAL_ANCHORS_QUERY_INFO_RADIUS_ML) \
 
 
@@ -350,12 +350,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceQueryInfoBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Query_Info_پایه_سرآیند_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Query_Info_پایه_سرآیند_FB_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Query_Info_پایه_سرآیند_FB_CORE(_avail, _unavail) \
     _avail(XrSpaceQueryInfoFB, XR_TYPE_SPACE_QUERY_INFO_FB) \
 
 
@@ -363,12 +363,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceFilterInfoBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_Info_پایه_سرآیند_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_Info_پایه_سرآیند_FB_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_Info_پایه_سرآیند_FB_CORE(_avail, _unavail) \
     _avail(XrSpaceUuidFilterInfoFB, XR_TYPE_SPACE_UUID_FILTER_INFO_FB) \
     _avail(XrSpaceComponentFilterInfoFB, XR_TYPE_SPACE_COMPONENT_FILTER_INFO_FB) \
 
@@ -377,12 +377,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceFilterBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_پایه_سرآیند_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_پایه_سرآیند_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Space_Filter_پایه_سرآیند_META_CORE(_avail, _unavail) \
     _avail(XrSpaceFilterUuidMETA, XR_TYPE_SPACE_FILTER_UUID_META) \
     _avail(XrSpaceFilterComponentMETA, XR_TYPE_SPACE_FILTER_COMPONENT_META) \
 
@@ -391,12 +391,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrShareSpacesRecipientBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_پایه_سرآیند_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_پایه_سرآیند_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_پایه_سرآیند_META_CORE(_avail, _unavail) \
     _avail(XrShareSpacesRecipientGroupsMETA, XR_TYPE_SHARE_SPACES_RECIPIENT_GROUPS_META) \
 
 
@@ -404,48 +404,48 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrEnvironmentRaycastFilterBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_پایه_سرآیند_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_پایه_سرآیند_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA_CORE(_avail, _unavail) \
-    _avail(XrEnvironmentRaycastFilterDistanceMETA, XR_TYPE_ENVIRONMENT_RAYCAST_FILTER_DISTANCE_META) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_پایه_سرآیند_META_CORE(_avail, _unavail) \
+    _avail(Xr_Environment_Raycast_Filter_فاصله_META, XR_TYPE_ENVIRONMENT_RAYCAST_FILTER_فاصله_META) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialCapabilityConfigurationBaseHeaderEXT
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_پایه_سرآیند_EXT(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_پایه_سرآیند_EXT_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_پایه_سرآیند_EXT_CORE(_avail, _unavail) \
     _avail(XrSpatialCapabilityConfigurationPlaneTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_PLANE_TRACKING_EXT) \
-    _avail(XrSpatialCapabilityConfigurationQrCodeEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_QR_CODE_EXT) \
-    _avail(XrSpatialCapabilityConfigurationMicroQrCodeEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MICRO_QR_CODE_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_Qr_کد_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_QR_کد_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_Micro_Qr_کد_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MICRO_QR_کد_EXT) \
     _avail(XrSpatialCapabilityConfigurationArucoMarkerEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_ARUCO_MARKER_EXT) \
-    _avail(XrSpatialCapabilityConfigurationAprilTagEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_APRIL_TAG_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_April_برچسب_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_APRIL_برچسب_EXT) \
     _avail(XrSpatialCapabilityConfigurationObjectTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_OBJECT_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationAnchorEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_ANCHOR_EXT) \
     _avail(XrSpatialCapabilityConfigurationImageTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_IMAGE_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationMeshTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MESH_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationObjectTrackingANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_OBJECT_TRACKING_ANDROID) \
-    _avail(XrSpatialCapabilityConfigurationDepthRaycastANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_DEPTH_RAYCAST_ANDROID) \
+    _avail(Xr_Spatial_Capability_Configuration_عمق_Raycast_ANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_عمق_RAYCAST_ANDROID) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraPropertyBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Property_پایه_سرآیند_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Property_پایه_سرآیند_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD_CORE(_avail, _unavail) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Property_پایه_سرآیند_BD_CORE(_avail, _unavail) \
     _avail(XrCameraPropertyFacingBD, XR_TYPE_CAMERA_PROPERTY_FACING_BD) \
     _avail(XrCameraPropertyPositionBD, XR_TYPE_CAMERA_PROPERTY_POSITION_BD) \
     _avail(XrCameraPropertyCameraTypeBD, XR_TYPE_CAMERA_PROPERTY_CAMERA_TYPE_BD) \
@@ -455,14 +455,14 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraSupportedCapabilityBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_پایه_سرآیند_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_پایه_سرآیند_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraSupportedCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraSupportedCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_پایه_سرآیند_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Supported_Capability_Image_Resolution_And_قاب_نرخ_BD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_RESOLUTION_AND_قاب_نرخ_BD) \
+    _avail(Xr_Camera_Supported_Capability_داده_Transfer_Type_BD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_داده_TRANSFER_TYPE_BD) \
     _avail(XrCameraSupportedCapabilityImageFormatBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraSupportedCapabilityCameraModelBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -471,14 +471,14 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraCapabilityBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Capability_پایه_سرآیند_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Capability_پایه_سرآیند_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Capability_پایه_سرآیند_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Capability_Image_Resolution_And_قاب_نرخ_BD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_RESOLUTION_AND_قاب_نرخ_BD) \
+    _avail(Xr_Camera_Capability_داده_Transfer_Type_BD, XR_TYPE_CAMERA_CAPABILITY_داده_TRANSFER_TYPE_BD) \
     _avail(XrCameraCapabilityImageFormatBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraCapabilityCameraModelBD, XR_TYPE_CAMERA_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -487,26 +487,26 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraImageDataBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Image_داده_پایه_سرآیند_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Image_داده_پایه_سرآیند_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraImageDataRawBufferBD, XR_TYPE_CAMERA_IMAGE_DATA_RAW_BUFFER_BD) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Camera_Image_داده_پایه_سرآیند_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Image_داده_Raw_میانگیر_BD, XR_TYPE_CAMERA_IMAGE_داده_RAW_میانگیر_BD) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrGoogleCloudAuthInfoBaseHeaderANDROID
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID_CORE(_avail, _unavail) \
+#تعریف_کن XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_پایه_سرآیند_ANDROID(_avail, _unavail) \
+    impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_پایه_سرآیند_ANDROID_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID_CORE(_avail, _unavail) \
-    _avail(XrGoogleCloudAuthInfoApiKeyANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID) \
+#تعریف_کن impl_XR_LIST_ALL_فرزند_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_پایه_سرآیند_ANDROID_CORE(_avail, _unavail) \
+    _avail(Xr_Google_Cloud_Auth_Info_Api_کلید_ANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_کلید_ANDROID) \
     _avail(XrGoogleCloudAuthInfoTokenANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID) \
     _avail(XrGoogleCloudAuthInfoKeylessANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID) \
 
@@ -514,5 +514,5 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 
-#endif
+#پایان_اگر
 

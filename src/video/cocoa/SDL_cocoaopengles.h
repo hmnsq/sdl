@@ -18,31 +18,31 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_cocoaopengles_h_
-#define SDL_cocoaopengles_h_
+#اگر_تعریف_نشده SDL_cocoaopengles_h_
+#تعریف_کن SDL_cocoaopengles_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define Cocoa_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define Cocoa_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define Cocoa_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define Cocoa_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define Cocoa_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
+#تعریف_کن Cocoa_GLES_GetAttribute    SDL_EGL_GetAttribute
+#تعریف_کن Cocoa_GLES_Get_Proc_آدرس  SDL_EGL_Get_Proc_آدرس_داخلی
+#تعریف_کن Cocoa_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#تعریف_کن Cocoa_GLES_Get_جابجا_Interval SDL_EGL_Get_جابجا_Interval
+#تعریف_کن Cocoa_GLES_مجموعه_جابجا_Interval SDL_EGL_مجموعه_جابجا_Interval
 
-extern bool Cocoa_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext Cocoa_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Cocoa_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_EGLSurface Cocoa_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool Cocoa_GLES_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي SDL_GLContext Cocoa_GLES_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool Cocoa_GLES_جابجا_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool Cocoa_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_GLContext context);
+خارجي bool Cocoa_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool Cocoa_GLES_راهاندازی_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_EGLSurface Cocoa_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#پایان_اگر // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_cocoaopengles_h_
+#پایان_اگر // SDL_cocoaopengles_h_

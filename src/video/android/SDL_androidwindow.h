@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidwindow_h_
-#define SDL_androidwindow_h_
+#اگر_تعریف_نشده SDL_androidwindow_h_
+#تعریف_کن SDL_androidwindow_h_
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_egl_c.h"
+#ضمن "../../core/android/SDL_android.h"
+#ضمن "../SDL_egl_c.h"
 
-extern bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+خارجي bool Android_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ Android_مجموعه_پنجره_Title(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_Fullscreen_نتیجه Android_مجموعه_پنجره_Fullscreen(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ Android_Minimize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ Android_مجموعه_پنجره_Resizable(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool resizable);
 
-extern void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *Android_Window;
+خارجي فراغ Android_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_پنجره *Android_پنجره;
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    ANativeWindow *native_window;
+    صحيح has_جابجا_interval;  // Save/Restore the swap interval / vsync
+    صحيح جابجا_interval;
+#پایان_اگر
+    bool backup_انجامشده;
+    ANative_پنجره *native_پنجره;
 
 };
 
-#endif // SDL_androidwindow_h_
+#پایان_اگر // SDL_androidwindow_h_

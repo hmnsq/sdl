@@ -18,52 +18,52 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowswindow_h_
-#define SDL_windowswindow_h_
+#اگر_تعریف_نشده SDL_windowswindow_h_
+#تعریف_کن SDL_windowswindow_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#else
-#include "../SDL_sysvideo.h"
-#endif
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
+#ضمن "../SDL_egl_c.h"
+#وإلا
+#ضمن "../SDL_sysvideo.h"
+#پایان_اگر
 
 // Set up for C function definitions, even when using C++
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
-typedef enum SDL_WindowRect
+تعريفنوع تعداد SDL_پنجره_Rect
 {
     SDL_WINDOWRECT_CURRENT,
     SDL_WINDOWRECT_WINDOWED,
     SDL_WINDOWRECT_FLOATING,
     SDL_WINDOWRECT_PENDING
-} SDL_WindowRect;
+} SDL_پنجره_Rect;
 
-typedef enum SDL_WindowEraseBackgroundMode
+تعريفنوع تعداد SDL_پنجره_Erase_Background_نما
 {
     SDL_ERASEBACKGROUNDMODE_NEVER,
     SDL_ERASEBACKGROUNDMODE_INITIAL,
     SDL_ERASEBACKGROUNDMODE_ALWAYS,
-} SDL_WindowEraseBackgroundMode;
+} SDL_پنجره_Erase_Background_نما;
 
-typedef struct
+تعريفنوع بنية
 {
-    void **lpVtbl;
-    int refcount;
-    SDL_Window *window;
+    فراغ **lpVtbl;
+    صحيح refcount;
+    SDL_پنجره *پنجره;
     HWND hwnd;
-    UINT format_text;
+    UINT format_متن;
     UINT format_file;
-} SDLDropTarget;
+} SDLDrop_هدف;
 
-struct SDL_WindowData
+بنية SDL_پنجره_داده
 {
-    SDL_Window *window;
+    SDL_پنجره *پنجره;
     HWND hwnd;
-    HWND parent;
+    HWND والد;
     HDC hdc;
     HDC mdc;
     HINSTANCE hinstance;
@@ -72,83 +72,83 @@ struct SDL_WindowData
     WNDPROC wndproc;
     HHOOK keyboard_hook;
     WPARAM mouse_button_flags;
-    LPARAM last_pointer_update;
-    WCHAR high_surrogate;
+    LPARAM آخرین_اشاره_گر_update;
+    WCHAR بالا_surrogate;
     bool initializing;
     bool expected_resize;
-    bool in_border_change;
-    bool in_title_click;
+    bool درون_border_change;
+    bool درون_title_click;
     Uint8 focus_click_pending;
     bool postpone_clipcursor;
     bool clipcursor_queued;
-    bool windowed_mode_was_maximized;
-    bool in_window_deactivation;
+    bool windowed_نما_was_maximized;
+    bool درون_پنجره_deactivation;
     bool force_ws_maximizebox;
-    bool disable_move_size_events;
-    bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
-    RECT initial_size_rect;
+    bool disable_move_اندازه_events;
+    bool showing_پنجره;
+    صحيح درون_modal_loop;
+    صحيح آخرین_modal_عرض;
+    صحيح آخرین_modal_ارتفاع;
+    RECT initial_اندازه_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
     bool mouse_tracked;
-    bool destroy_parent_with_window;
+    bool destroy_والد_with_پنجره;
     WCHAR *ICMFileName;
-    SDL_WindowEraseBackgroundMode hint_erase_background_mode;
+    SDL_پنجره_Erase_Background_نما hint_erase_background_نما;
     bool taskbar_button_created;
-    struct SDL_VideoData *videodata;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    بنية SDL_Video_داده *videodata;
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#پایان_اگر
 
     // Whether we retain the content of the window when changing state
     UINT copybits_flag;
-    SDLDropTarget *drop_target;
+    SDLDrop_هدف *drop_هدف;
 };
 
-extern bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
-extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event);
-extern void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_UpdateClipCursor(SDL_Window *window);
-extern void WIN_UnclipCursorForWindow(SDL_Window *window);
-extern bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
-extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
-extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+خارجي bool WIN_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ WIN_مجموعه_پنجره_Title(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_مجموعه_پنجره_Icon(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_Surface *icon);
+خارجي bool WIN_مجموعه_پنجره_Position(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_مجموعه_پنجره_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_Get_پنجره_Borders_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره, صحيح *بالاترین, صحيح *چپ, صحيح *bottom, صحيح *راست);
+خارجي فراغ WIN_Get_پنجره_اندازه_درون_Pixels(SDL_VideoDevice *_this, SDL_پنجره *پنجره, صحيح *عرض, صحيح *ارتفاع);
+خارجي bool WIN_مجموعه_پنجره_Opacity(SDL_VideoDevice *_this, SDL_پنجره *پنجره, عائم opacity);
+خارجي فراغ WIN_Show_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_Hide_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_Raise_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_Maximize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_Minimize_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_Restore_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_مجموعه_پنجره_Bordered(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool bordered);
+خارجي فراغ WIN_مجموعه_پنجره_Resizable(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool resizable);
+خارجي فراغ WIN_مجموعه_پنجره_Always_On_بالاترین(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool on_بالاترین);
+خارجي SDL_Fullscreen_نتیجه WIN_مجموعه_پنجره_Fullscreen(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ WIN_Update_پنجره_ICCProfile(SDL_پنجره *پنجره, bool send_event);
+خارجي فراغ *WIN_Get_پنجره_ICCProfile(SDL_VideoDevice *_this, SDL_پنجره *پنجره, size_t *اندازه);
+خارجي bool WIN_مجموعه_پنجره_Mouse_Rect(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_مجموعه_پنجره_Mouse_Grab(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool grabbed);
+خارجي bool WIN_مجموعه_پنجره_Keyboard_Grab(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool grabbed);
+خارجي فراغ WIN_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_On_پنجره_Enter(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ WIN_UpdateClipCursor(SDL_پنجره *پنجره);
+خارجي فراغ WIN_Unclip_Cursor_For_پنجره(SDL_پنجره *پنجره);
+خارجي bool WIN_مجموعه_پنجره_اصابت_Test(SDL_پنجره *پنجره, bool enabled);
+خارجي فراغ WIN_AcceptDragAndDrop(SDL_پنجره *پنجره, bool accept);
+خارجي bool WIN_Flash_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_FlashOperation operation);
+خارجي bool WIN_Apply_پنجره_پیشرفت(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_مجموعه_پنجره_Position_داخلی(SDL_پنجره *پنجره, UINT flags, SDL_پنجره_Rect rect_type);
+خارجي فراغ WIN_Show_پنجره_System_Menu(SDL_پنجره *پنجره, صحيح x, صحيح y);
+خارجي bool WIN_مجموعه_پنجره_Focusable(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool focusable);
+خارجي bool WIN_Adjust_پنجره_Rect(SDL_پنجره *پنجره, صحيح *x, صحيح *y, صحيح *عرض, صحيح *ارتفاع, SDL_پنجره_Rect rect_type);
+خارجي bool WIN_Adjust_پنجره_Rect_For_HWND(HWND hwnd, LPRECT lpRect, UINT قاب_dpi);
+خارجي bool WIN_مجموعه_پنجره_والد(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_پنجره *والد);
+خارجي bool WIN_مجموعه_پنجره_Modal(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool modal);
 
 // Ends C function definitions when using C++
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
+#پایان_اگر
 
-#endif // SDL_windowswindow_h_
+#پایان_اگر // SDL_windowswindow_h_

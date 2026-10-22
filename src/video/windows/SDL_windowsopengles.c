@@ -18,125 +18,125 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && defined(SDL_VIDEO_OPENGL_EGL) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا defined(SDL_VIDEO_DRIVER_WINDOWS) && defined(SDL_VIDEO_OPENGL_EGL) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsopengles.h"
-#include "SDL_windowsopengl.h"
-#include "SDL_windowswindow.h"
+#ضمن "SDL_windowsvideo.h"
+#ضمن "SDL_windowsopengles.h"
+#ضمن "SDL_windowsopengl.h"
+#ضمن "SDL_windowswindow.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_GLES_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر)
 {
 
     // If the profile requested is not GL ES, switch over to WIN_GL functions
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+    إذا (_this->gl_config.profile_ماسک != SDL_GL_CONTEXT_PROFILE_ES &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#ifdef SDL_VIDEO_OPENGL_WGL
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_WGL
         WIN_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
-        _this->GL_GetProcAddress = WIN_GL_GetProcAddress;
+        _this->GL_بارگیری_Library = WIN_GL_بارگیری_Library;
+        _this->GL_Get_Proc_آدرس = WIN_GL_Get_Proc_آدرس;
         _this->GL_UnloadLibrary = WIN_GL_UnloadLibrary;
         _this->GL_CreateContext = WIN_GL_CreateContext;
         _this->GL_MakeCurrent = WIN_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = WIN_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
-        _this->GL_SwapWindow = WIN_GL_SwapWindow;
+        _this->GL_مجموعه_جابجا_Interval = WIN_GL_مجموعه_جابجا_Interval;
+        _this->GL_Get_جابجا_Interval = WIN_GL_Get_جابجا_Interval;
+        _this->GL_جابجا_پنجره = WIN_GL_جابجا_پنجره;
         _this->GL_DestroyContext = WIN_GL_DestroyContext;
-        _this->GL_GetEGLSurface = NULL;
-        return WIN_GL_LoadLibrary(_this, path);
-#else
-        return SDL_SetError("SDL not configured with OpenGL/WGL support");
-#endif
+        _this->GL_GetEGLSurface = عدم;
+        أرجع WIN_GL_بارگیری_Library(_this, مسیر);
+#وإلا
+        أرجع SDL_مجموعه_Error("SDL not configured with OpenGL/WGL support");
+#پایان_اگر
     }
 
-    if (!_this->egl_data) {
-        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY);
+    إذا (!_this->egl_داده) {
+        أرجع SDL_EGL_بارگیری_Library(_this, عدم, EGL_DEFAULT_DISPLAY);
     }
 
-    return true;
+    أرجع true;
 }
 
-SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
     SDL_GLContext context;
-    SDL_WindowData *data = window->internal;
+    SDL_پنجره_داده *داده = پنجره->داخلی;
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_WGL
+    إذا (_this->gl_config.profile_ماسک != SDL_GL_CONTEXT_PROFILE_ES &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
         // Switch to WGL based functions
         WIN_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
-        _this->GL_GetProcAddress = WIN_GL_GetProcAddress;
+        _this->GL_بارگیری_Library = WIN_GL_بارگیری_Library;
+        _this->GL_Get_Proc_آدرس = WIN_GL_Get_Proc_آدرس;
         _this->GL_UnloadLibrary = WIN_GL_UnloadLibrary;
         _this->GL_CreateContext = WIN_GL_CreateContext;
         _this->GL_MakeCurrent = WIN_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = WIN_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
-        _this->GL_SwapWindow = WIN_GL_SwapWindow;
+        _this->GL_مجموعه_جابجا_Interval = WIN_GL_مجموعه_جابجا_Interval;
+        _this->GL_Get_جابجا_Interval = WIN_GL_Get_جابجا_Interval;
+        _this->GL_جابجا_پنجره = WIN_GL_جابجا_پنجره;
         _this->GL_DestroyContext = WIN_GL_DestroyContext;
-        _this->GL_GetEGLSurface = NULL;
+        _this->GL_GetEGLSurface = عدم;
 
-        if (!WIN_GL_LoadLibrary(_this, NULL)) {
-            return NULL;
+        إذا (!WIN_GL_بارگیری_Library(_this, عدم)) {
+            أرجع عدم;
         }
 
-        return WIN_GL_CreateContext(_this, window);
+        أرجع WIN_GL_CreateContext(_this, پنجره);
     }
-#endif
+#پایان_اگر
 
-    context = SDL_EGL_CreateContext(_this, data->egl_surface);
-    return context;
+    context = SDL_EGL_CreateContext(_this, داده->egl_surface);
+    أرجع context;
 }
 
 bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    أرجع SDL_EGL_DestroyContext(_this, context);
 }
 
 /* *INDENT-OFF* */ // clang-format off
-SDL_EGL_SwapWindow_impl(WIN)
+SDL_EGL_جابجا_پنجره_impl(WIN)
 SDL_EGL_MakeCurrent_impl(WIN)
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GLES_راهاندازی_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
     // The current context is lost in here; save it and reset it.
-    SDL_WindowData *windowdata = window->internal;
-    SDL_Window *current_win = SDL_GL_GetCurrentWindow();
+    SDL_پنجره_داده *windowdata = پنجره->داخلی;
+    SDL_پنجره *current_win = SDL_GL_Get_Current_پنجره();
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
 
-    if (!_this->egl_data) {
+    إذا (!_this->egl_داده) {
 // !!! FIXME: commenting out this assertion is (I think) incorrect; figure out why driver_loaded is wrong for ANGLE instead. --ryan.
-#if 0 // When hint SDL_HINT_OPENGL_ES_DRIVER is set to "1" (e.g. for ANGLE support), _this->gl_config.driver_loaded can be 1, while the below lines function.
+#إذا 0 // When hint SDL_HINT_OPENGL_ES_DRIVER is set to "1" (e.g. for ANGLE support), _this->gl_config.driver_loaded can be 1, while the below lines function.
         SDL_assert(!_this->gl_config.driver_loaded);
-#endif
-        if (!SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY)) {
+#پایان_اگر
+        إذا (!SDL_EGL_بارگیری_Library(_this, عدم, EGL_DEFAULT_DISPLAY)) {
             SDL_EGL_UnloadLibrary(_this);
-            return false;
+            أرجع false;
         }
         _this->gl_config.driver_loaded = 1;
     }
 
     // Create the GLES window surface
-    windowdata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)windowdata->hwnd);
+    windowdata->egl_surface = SDL_EGL_CreateSurface(_this, پنجره, (Native_پنجره_Type)windowdata->hwnd);
 
-    if (windowdata->egl_surface == EGL_NO_SURFACE) {
-        return SDL_SetError("Could not create GLES window surface");
+    إذا (windowdata->egl_surface == EGL_NO_SURFACE) {
+        أرجع SDL_مجموعه_Error("Could not create GLES window surface");
     }
 
-    return WIN_GLES_MakeCurrent(_this, current_win, current_ctx);
+    أرجع WIN_GLES_MakeCurrent(_this, current_win, current_ctx);
 }
 
-EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window)
+EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    SDL_WindowData *windowdata = window->internal;
+    SDL_پنجره_داده *windowdata = پنجره->داخلی;
 
-    return windowdata->egl_surface;
+    أرجع windowdata->egl_surface;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS && SDL_VIDEO_OPENGL_EGL
+#پایان_اگر // SDL_VIDEO_DRIVER_WINDOWS && SDL_VIDEO_OPENGL_EGL

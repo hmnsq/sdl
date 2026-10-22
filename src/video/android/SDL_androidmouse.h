@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_androidmouse_h_
-#define SDL_androidmouse_h_
+#اگر_تعریف_نشده SDL_androidmouse_h_
+#تعریف_کن SDL_androidmouse_h_
 
-#include "SDL_androidvideo.h"
+#ضمن "SDL_androidvideo.h"
 
-extern void Android_InitMouse(void);
-extern void Android_OnMouse(SDL_Window *window, int button, int action, float x, float y, bool relative);
-extern void Android_QuitMouse(void);
+خارجي فراغ Android_InitMouse(فراغ);
+خارجي فراغ Android_OnMouse(SDL_پنجره *پنجره, صحيح button, صحيح action, عائم x, عائم y, bool relative);
+خارجي فراغ Android_QuitMouse(فراغ);
 
-#endif // SDL_androidmouse_h_
+#پایان_اگر // SDL_androidmouse_h_

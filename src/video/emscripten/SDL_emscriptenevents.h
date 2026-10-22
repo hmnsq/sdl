@@ -19,15 +19,15 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_emscriptenevents_h_
-#define SDL_emscriptenevents_h_
+#اگر_تعریف_نشده SDL_emscriptenevents_h_
+#تعریف_کن SDL_emscriptenevents_h_
 
-#include "SDL_emscriptenvideo.h"
+#ضمن "SDL_emscriptenvideo.h"
 
-extern void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_RegisterEventHandlers(SDL_WindowData *data);
-extern void Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
-extern EM_BOOL Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData);
+خارجي فراغ Emscripten_ثبات_Global_Event_Handlers(SDL_VideoDevice *device);
+خارجي فراغ Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
+خارجي فراغ Emscripten_ثبات_Event_Handlers(SDL_پنجره_داده *داده);
+خارجي فراغ Emscripten_UnregisterEventHandlers(SDL_پنجره_داده *داده);
+خارجي EM_BOOL Emscripten_HandleCanvasResize(صحيح eventType, ثابت فراغ *reserved, فراغ *user_داده);
 
-#endif // SDL_emscriptenevents_h_
+#پایان_اگر // SDL_emscriptenevents_h_

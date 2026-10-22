@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowsmouse_h_
-#define SDL_windowsmouse_h_
+#اگر_تعریف_نشده SDL_windowsmouse_h_
+#تعریف_کن SDL_windowsmouse_h_
 
-extern DWORD SDL_last_warp_time;
-extern HCURSOR SDL_cursor;
+خارجي DWORD SDL_آخرین_warp_زمان;
+خارجي HCURSOR SDL_cursor;
 
-extern void WIN_InitMouse(SDL_VideoDevice *_this);
-extern void WIN_QuitMouse(SDL_VideoDevice *_this);
-extern void WIN_SetCursorPos(int x, int y);
-extern void WIN_UpdateMouseSystemScale(void);
+خارجي فراغ WIN_InitMouse(SDL_VideoDevice *_this);
+خارجي فراغ WIN_QuitMouse(SDL_VideoDevice *_this);
+خارجي فراغ WIN_مجموعه_Cursor_Pos(صحيح x, صحيح y);
+خارجي فراغ WIN_UpdateMouseSystemScale(فراغ);
 
-#endif // SDL_windowsmouse_h_
+#پایان_اگر // SDL_windowsmouse_h_

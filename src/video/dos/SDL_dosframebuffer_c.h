@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosframebuffer_c_h_
-#define SDL_dosframebuffer_c_h_
+#اگر_تعریف_نشده SDL_dosframebuffer_c_h_
+#تعریف_کن SDL_dosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
-extern bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int vsync);
-extern bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int *vsync);
-extern void DOSVESA_InvalidateCachedFramebuffer(void);
+خارجي bool DOSVESA_Create_پنجره_Framebuffer(SDL_VideoDevice *device, SDL_پنجره *پنجره, SDL_PixelFormat *format, فراغ **pixels, صحيح *pitch);
+خارجي bool DOSVESA_Update_پنجره_Framebuffer(SDL_VideoDevice *device, SDL_پنجره *پنجره, ثابت SDL_Rect *rects, صحيح numrects);
+خارجي فراغ DOSVESA_Destroy_پنجره_Framebuffer(SDL_VideoDevice *device, SDL_پنجره *پنجره);
+خارجي bool DOSVESA_مجموعه_پنجره_Framebuffer_VSync(SDL_VideoDevice *device, SDL_پنجره *پنجره, صحيح vsync);
+خارجي bool DOSVESA_Get_پنجره_Framebuffer_VSync(SDL_VideoDevice *device, SDL_پنجره *پنجره, صحيح *vsync);
+خارجي فراغ DOSVESA_InvalidateCachedFramebuffer(فراغ);
 
-#endif // SDL_dosframebuffer_c_h_
+#پایان_اگر // SDL_dosframebuffer_c_h_

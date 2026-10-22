@@ -18,58 +18,58 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11video_h_
-#define SDL_x11video_h_
+#اگر_تعریف_نشده SDL_x11video_h_
+#تعریف_کن SDL_x11video_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keymap_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_keymap_c.h"
 
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
+#ضمن "../../core/linux/SDL_dbus.h"
+#ضمن "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#ضمن "SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#ضمن "SDL_x11clipboard.h"
+#ضمن "SDL_x11events.h"
+#ضمن "SDL_x11keyboard.h"
+#ضمن "SDL_x11modes.h"
+#ضمن "SDL_x11mouse.h"
+#ضمن "SDL_x11opengl.h"
+#ضمن "SDL_x11settings.h"
+#ضمن "SDL_x11window.h"
+#ضمن "SDL_x11vulkan.h"
 
 // Private display data
 
-struct SDL_VideoData
+بنية SDL_Video_داده
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
-    SDL_WindowData **windowlist;
-    int windowlistlength;
-    XID window_group;
-    Window clipboard_window;
-    SDLX11_ClipboardData clipboard;
-    SDLX11_ClipboardData primary_selection;
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    SDL_Window *active_cursor_confined_window;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    Window xsettings_window;
-    SDLX11_SettingsData xsettings_data;
+    صحيح numwindows;
+    SDL_پنجره_داده **windowlist;
+    صحيح windowlistlength;
+    XID پنجره_گروه;
+    پنجره_2 clipboard_پنجره;
+    SDLX11_Clipboard_داده clipboard;
+    SDLX11_Clipboard_داده primary_selection;
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_X11_XFIXES
+    SDL_پنجره *فعال_cursor_confined_پنجره;
+#پایان_اگر // SDL_VIDEO_DRIVER_X11_XFIXES
+    پنجره_2 xsettings_پنجره;
+    SDLX11_Settings_داده xsettings_داده;
 
     // This is true for ICCCM2.0-compliant window managers
     bool net_wm;
 
     // Useful atoms
-    struct {
+    بنية {
         Atom WM_PROTOCOLS;
-        Atom WM_DELETE_WINDOW;
+        Atom WM_DELETE_پنجره;
         Atom WM_NAME;
         Atom WM_TRANSIENT_FOR;
         Atom WM_STATE;
@@ -92,10 +92,10 @@ struct SDL_VideoData
         Atom _NET_WM_PING;
         Atom _NET_WM_SYNC_REQUEST;
         Atom _NET_WM_SYNC_REQUEST_COUNTER;
-        Atom _NET_WM_WINDOW_OPACITY;
-        Atom _NET_WM_USER_TIME;
-        Atom _NET_ACTIVE_WINDOW;
-        Atom _NET_FRAME_EXTENTS;
+        Atom NET_WM_پنجره_OPACITY;
+        Atom NET_WM_USER_زمان;
+        Atom NET_فعال_پنجره;
+        Atom NET_قاب_EXTENTS;
         Atom _SDL_WAKEUP;
         Atom UTF8_STRING;
         Atom PRIMARY;
@@ -109,16 +109,16 @@ struct SDL_VideoData
         Atom XdndEnter;
         Atom XdndLeave;
         Atom XdndPosition;
-        Atom XdndStatus;
+        Atom Xdnd_وضعیت;
         Atom XdndTypeList;
         Atom XdndActionCopy;
         Atom XdndDrop;
-        Atom XdndFinished;
+        Atom Xdnd_پایانیافته;
         Atom XdndSelection;
         Atom XKLAVIER_STATE;
 
         // Pen atoms (these have names that don't map well to C symbols)
-        Atom pen_atom_device_product_id;
+        Atom pen_atom_device_حاصلضرب_id;
         Atom pen_atom_abs_pressure;
         Atom pen_atom_abs_tilt_x;
         Atom pen_atom_abs_tilt_y;
@@ -126,47 +126,47 @@ struct SDL_VideoData
         Atom pen_atom_wacom_tool_type;
     } atoms;
 
-    bool selection_waiting;
-    bool selection_incr_waiting;
+    bool selection_انتظار;
+    bool selection_incr_انتظار;
 
-    bool broken_pointer_grab; // true if XGrabPointer seems unreliable.
+    bool broken_اشاره_گر_grab; // true if XGrabPointer seems unreliable.
 
-    Uint64 last_mode_change_deadline;
+    Uint64 آخرین_نما_change_deadline;
 
-    bool global_mouse_changed;
-    SDL_Point global_mouse_position;
+    bool global_mouse_تغییریافته;
+    SDL_نقطه global_mouse_position;
     Uint32 global_mouse_buttons;
 
-    unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
-    bool xinput_hierarchy_changed;
+    بیعلامت دراز xinput_آخرین_button_serial;
+    بیعلامت دراز xinput_آخرین_کلید_serial;
+    صحيح xinput_آخرین_keyboard_device;
+    صحيح xinput_master_اشاره_گر_device;
+    bool xinput_hierarchy_تغییریافته;
 
-    int xrandr_event_base;
-    struct
+    صحيح xrandr_event_پایه;
+    بنية
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode کلید_layout[256];
 
-        union
+        اتحاد
         {
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+            بنية
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
-                unsigned long last_map_serial;
-                int event;
-                Uint32 current_group;
+                SDL_Keymap *keymaps[Xkb_رقم_Kbd_Groups];
+                بیعلامت دراز آخرین_map_serial;
+                صحيح event;
+                Uint32 current_گروه;
             } xkb; // Modern XKB keyboard handling
-#endif
-            struct
+#پایان_اگر
+            بنية
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                کلید_Sym *keysym_map;
+                صحيح keysyms_در_هر_کلید;
+                صحيح min_keycode;
+                صحيح max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
@@ -176,19 +176,19 @@ struct SDL_VideoData
         SDL_Keymod sdl_locked_modifiers;
 
         // Virtual modifiers looked up by name.
-        Uint32 alt_mask;
-        Uint32 gui_mask;
-        Uint32 level3_mask;
-        Uint32 level5_mask;
-        Uint32 numlock_mask;
-        Uint32 scrolllock_mask;
+        Uint32 alt_ماسک;
+        Uint32 gui_ماسک;
+        Uint32 level3_ماسک;
+        Uint32 level5_ماسک;
+        Uint32 numlock_ماسک;
+        Uint32 scrolllock_ماسک;
     } keyboard;
 
-#ifdef SDL_VIDEO_VULKAN
+#اگر_تعریف_شده SDL_VIDEO_VULKAN
     // Vulkan variables only valid if _this->vulkan_config.loader_handle is not NULL
     SDL_SharedObject *vulkan_xlib_xcb_library;
     PFN_XGetXCBConnection vulkan_XGetXCBConnection;
-#endif
+#پایان_اگر
 
     // Used to interact with the on-screen keyboard
     bool use_steam_screen_keyboard;
@@ -196,6 +196,6 @@ struct SDL_VideoData
     bool is_xwayland;
 };
 
-extern bool X11_UseDirectColorVisuals(void);
+خارجي bool X11_Use_مستقیم_Color_Visuals(فراغ);
 
-#endif // SDL_x11video_h_
+#پایان_اگر // SDL_x11video_h_

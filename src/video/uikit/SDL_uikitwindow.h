@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitwindow_h_
-#define SDL_uikitwindow_h_
+#اگر_تعریف_نشده SDL_uikitwindow_h_
+#تعریف_کن SDL_uikitwindow_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 #import "SDL_uikitvideo.h"
 #import "SDL_uikitview.h"
 #import "SDL_uikitviewcontroller.h"
 
-extern bool UIKit_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void UIKit_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+خارجي bool UIKit_Create_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID create_props);
+خارجي فراغ UIKit_مجموعه_پنجره_Title(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_مجموعه_پنجره_اندازه(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_Show_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_Hide_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_Raise_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_مجموعه_پنجره_Bordered(SDL_VideoDevice *_this, SDL_پنجره *پنجره, bool bordered);
+خارجي SDL_Fullscreen_نتیجه UIKit_مجموعه_پنجره_Fullscreen(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ UIKit_Update_اشاره_گر_قفل(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_Destroy_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي فراغ UIKit_Get_پنجره_اندازه_درون_Pixels(SDL_VideoDevice *_this, SDL_پنجره *پنجره, صحيح *w, صحيح *h);
 
-extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
+خارجي NSUInteger UIKit_GetSupportedOrientations(SDL_پنجره *پنجره);
 
-#define SDL_METALVIEW_TAG 255
+#تعریف_کن SDL_METALVIEW_برچسب 255
 
 @class UIWindow;
 
-@interface SDL_UIKitWindowData : NSObject
+@interface SDL_UIKit_پنجره_داده : NSObject
 
 @property(nonatomic, strong) UIWindow *uiwindow;
 @property(nonatomic, strong) SDL_uikitviewcontroller *viewcontroller;
@@ -52,12 +52,12 @@ extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
 // Array of SDL_uikitviews owned by this window.
 @property(nonatomic, copy) NSMutableArray *views;
 
-#ifdef SDL_PLATFORM_VISIONOS
+#اگر_تعریف_شده SDL_PLATFORM_VISIONOS
 // Hosting controller for curved content mode (UIHostingController-based)
 @property(nonatomic, strong) id curvedContentHosting;
 @property(nonatomic, strong) NSString *settings;
-#endif
+#پایان_اگر
 
-@end
+@انتها
 
-#endif // SDL_uikitwindow_h_
+#پایان_اگر // SDL_uikitwindow_h_

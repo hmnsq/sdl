@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_rpiopengles_h_
-#define SDL_rpiopengles_h_
+#اگر_تعریف_نشده SDL_rpiopengles_h_
+#تعریف_کن SDL_rpiopengles_h_
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define RPI_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define RPI_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
+#تعریف_کن RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
+#تعریف_کن RPI_GLES_Get_Proc_آدرس  SDL_EGL_Get_Proc_آدرس_داخلی
+#تعریف_کن RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#تعریف_کن RPI_GLES_مجموعه_جابجا_Interval SDL_EGL_مجموعه_جابجا_Interval
+#تعریف_کن RPI_GLES_Get_جابجا_Interval SDL_EGL_Get_جابجا_Interval
+#تعریف_کن RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+خارجي bool RPI_GLES_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool RPI_GLES_جابجا_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_GLContext context);
+خارجي فراغ RPI_GLES_مجموعه_Default_Profile_Config(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
+#پایان_اگر // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_rpiopengles_h_
+#پایان_اگر // SDL_rpiopengles_h_

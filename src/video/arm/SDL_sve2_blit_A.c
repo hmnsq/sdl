@@ -19,71 +19,71 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_A.h"
-#include <assert.h>
+#ضمن "SDL_sve2_blit_A.h"
+#ضمن <assert.h>
 
-#ifdef SDL_SVE2_INTRINSICS
+#اگر_تعریف_شده SDL_SVE2_INTRINSICS
 
-#undef sdl_sve_rgb32_blend_op_fill_alpha
-#define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+#لغو_تعریف sdl_sve_rgb32_blend_op_fill_alpha
+#تعریف_کن sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)              \
+    إذا (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
         /* fill alpha */                                                 \
-        sve_target_u16 = svdup_u16(0xFF);                                \
-    } else {                                                             \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
+        sve_هدف_u16 = svdup_u16(0xFF);                                \
+    } وإلا {                                                             \
+        svuint16_t v_ماسک = svget4(sve_منبع_u16x4, (ma_alpha_chn_idx)); \
+        sve_هدف_u16 = sdl_sve_chn_blend_with_ماسک(sve_منبع_u16,     \
+                                                     sve_هدف_u16,     \
+                                                     v_ماسک);             \
     }
 
-#undef sdl_sve_rgb32_blend_op_copy_alpha
-#define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(svdup_u16(0xFF),    \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
-    } else {                                                             \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
+#لغو_تعریف sdl_sve_rgb32_blend_op_copy_alpha
+#تعریف_کن sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)              \
+    إذا (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+        svuint16_t v_ماسک = svget4(sve_منبع_u16x4, (ma_alpha_chn_idx)); \
+        sve_هدف_u16 = sdl_sve_chn_blend_with_ماسک(svdup_u16(0xFF),    \
+                                                     sve_هدف_u16,     \
+                                                     v_ماسک);             \
+    } وإلا {                                                             \
+        svuint16_t v_ماسک = svget4(sve_منبع_u16x4, (ma_alpha_chn_idx)); \
+        sve_هدف_u16 = sdl_sve_chn_blend_with_ماسک(sve_منبع_u16,     \
+                                                     sve_هدف_u16,     \
+                                                     v_ماسک);             \
     }
 
-#undef sdl_sve_rgb32_blend_to_rgb565_op
-#define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx)                \
-    do {                                                                  \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx));  \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask_fast(sve_source_u16, \
-                                                          sve_target_u16, \
-                                                          vMask);         \
-    } while (0)
+#لغو_تعریف sdl_sve_rgb32_blend_مقصد_rgb565_op
+#تعریف_کن sdl_sve_rgb32_blend_مقصد_rgb565_op(ma_alpha_chn_idx)                \
+    افعل {                                                                  \
+        svuint16_t v_ماسک = svget4(sve_منبع_u16x4, (ma_alpha_chn_idx));  \
+        sve_هدف_u16 = sdl_sve_chn_blend_with_ماسک_fast(sve_منبع_u16, \
+                                                          sve_هدف_u16, \
+                                                          v_ماسک);         \
+    } طالما (0)
 
-#include "SDL_sve2_swizzle.h"
+#ضمن "SDL_sve2_swizzle.h"
 
 /*-----------------------------------------------------------------------------*
  * Swizzle Blend with Alpha                                                    *
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+فراغ Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    assert(0 != srcfmt->Amask);
-    (void)srcfmt;
+    ثابت SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    أكد(0 != srcfmt->Amask);
+    (فراغ)srcfmt;
 
-    sdl_sve_8888_to_8888_swizzle_dispatcher(info);
+    sdl_sve_8888_مقصد_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+فراغ Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
-    sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
+    sdl_sve_rgb32_مقصد_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-size_t SDL_GetSVEVectorSize(void)
+size_t SDL_Get_SVEVector_اندازه(فراغ)
 {
-    return svlen(svundef_u8()) * 8;
+    أرجع svlen(svundef_u8()) * 8;
 }
 
 /*-----------------------------------------------------------------------------*
@@ -91,96 +91,96 @@ size_t SDL_GetSVEVectorSize(void)
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phwSource,
-                                                            uint16_t *SDL_RESTRICT phwTarget,
+ساكن مضمن فراغ sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phw_منبع,
+                                                            uint16_t *SDL_RESTRICT phw_هدف,
                                                             size_t uStride,
                                                             uint16_t hwOpacity)
 {
-    sdl_sve_stride_loop_u16(uStride, vTailPred)
+    sdl_sve_stride_loop_u16(uStride, v_دم_Pred)
     {
 
         svuint16x3_t vSource16x3 =
-            sdl_sve_rgb565_unpack(svld1_u16(vTailPred, phwSource));
+            sdl_sve_rgb565_unpack(svld1_u16(v_دم_Pred, phw_منبع));
 
         svuint16x3_t vTarget16x3 =
-            sdl_sve_rgb565_unpack(svld1_u16(vTailPred, phwTarget));
+            sdl_sve_rgb565_unpack(svld1_u16(v_دم_Pred, phw_هدف));
 
         sdl_sve_pixel_ccc_foreach_chn(
             vSource16x3,
             vTarget16x3,
             {
-                sve_target_u16 = sdl_sve_chn_blend_with_opacity_fast(
-                    sve_source_u16,
-                    sve_target_u16,
+                sve_هدف_u16 = sdl_sve_chn_blend_with_opacity_fast(
+                    sve_منبع_u16,
+                    sve_هدف_u16,
                     hwOpacity);
             });
 
-        svst1_u16(vTailPred, phwTarget, sdl_sve_rgb565_pack(vTarget16x3));
+        svst1_u16(v_دم_Pred, phw_هدف, sdl_sve_rgb565_pack(vTarget16x3));
 
-        phwSource += sve_iteration_advance;
-        phwTarget += sve_iteration_advance;
+        phw_منبع += sve_iteration_advance;
+        phw_هدف += sve_iteration_advance;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pchSource,
-                                                     size_t uSourceStride,
-                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                     size_t uTargetStride,
-                                                     int nWidth,
-                                                     int nHeight,
+ساكن مضمن فراغ sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pch_منبع,
+                                                     size_t u_منبع_Stride,
+                                                     uint8_t *SDL_RESTRICT pch_هدف,
+                                                     size_t u_هدف_Stride,
+                                                     صحيح n_عرض,
+                                                     صحيح n_ارتفاع,
                                                      uint16_t hwOpacity)
 {
     hwOpacity += hwOpacity == 255;
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    أكد(0 == ((uintptr_t)pch_منبع & 0x01));
+    أكد(0 == ((uintptr_t)pch_هدف & 0x01));
 
-    while (nHeight--) {
+    طالما (n_ارتفاع--) {
 
-        sdl_sve_rgb565_stride_blend_with_opacity((uint16_t *)pchSource,
-                                                 (uint16_t *)pchTarget,
-                                                 nWidth,
+        sdl_sve_rgb565_stride_blend_with_opacity((uint16_t *)pch_منبع,
+                                                 (uint16_t *)pch_هدف,
+                                                 n_عرض,
                                                  hwOpacity);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_منبع += u_منبع_Stride;
+        pch_هدف += u_هدف_Stride;
     }
 }
 
 // fast RGB565->RGB565 blending with surface alpha
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
+فراغ Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
 {
     uint16_t alpha = info->a;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح عرض = info->dst_w;
+    صحيح ارتفاع = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    صحيح dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ثابت SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ثابت SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    صحيح srcbpp = srcfmt->بایتها_در_هر_pixel;
+    صحيح dstbpp = dstfmt->بایتها_در_هر_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    أكد(srcbpp == 2);
+    أكد(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    صحيح srcstride = srcskip + srcbpp * عرض;
+    صحيح dststride = dstskip + dstbpp * عرض;
 
     sdl_sve_rgb565_blend_with_opacity(src,
                                       srcstride,
                                       dst,
                                       dststride,
-                                      width,
-                                      height,
+                                      عرض,
+                                      ارتفاع,
                                       alpha);
 }
 
-#endif /* SDL_SVE2_INTRINSICS */
+#پایان_اگر /* SDL_SVE2_INTRINSICS */

@@ -18,74 +18,74 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowsvideo_h_
-#define SDL_windowsvideo_h_
+#اگر_تعریف_نشده SDL_windowsvideo_h_
+#تعریف_کن SDL_windowsvideo_h_
 
-#include "../../core/windows/SDL_windows.h"
+#ضمن "../../core/windows/SDL_windows.h"
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#ifdef HAVE_DXGI_H
-#ifndef __cplusplus
-#define CINTERFACE
-#define COBJMACROS
-#endif
-#include <dxgi.h>
-#endif
+#اگر_تعریف_شده HAVE_DXGI_H
+#اگر_تعریف_نشده __cplusplus
+#تعریف_کن CINTERFACE
+#تعریف_کن COBJMACROS
+#پایان_اگر
+#ضمن <dxgi.h>
+#پایان_اگر
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#include <msctf.h>
-#else
-#include "SDL_msctf.h"
-#endif
+#إذا defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ضمن <msctf.h>
+#وإلا
+#ضمن "SDL_msctf.h"
+#پایان_اگر
 
-#include <imm.h>
+#ضمن <imm.h>
 
-#define MAX_CANDLIST   10
-#define MAX_CANDLENGTH 256
-#define MAX_CANDSIZE   (sizeof(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
+#تعریف_کن MAX_CANDLIST   10
+#تعریف_کن MAX_CANDLENGTH 256
+#تعریف_کن MAX_CANDSIZE   (حجم(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
 
-#include "SDL_windowsclipboard.h"
-#include "SDL_windowsevents.h"
-#include "SDL_windowsgameinput.h"
-#include "SDL_windowsopengl.h"
+#ضمن "SDL_windowsclipboard.h"
+#ضمن "SDL_windowsevents.h"
+#ضمن "SDL_windowsgameinput.h"
+#ضمن "SDL_windowsopengl.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#include "SDL_windowsshape.h"
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowsmodes.h"
-#include "SDL_windowsmouse.h"
-#include "SDL_windowsopengles.h"
-#endif
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ضمن "SDL_windowsshape.h"
+#ضمن "SDL_windowskeyboard.h"
+#ضمن "SDL_windowsmodes.h"
+#ضمن "SDL_windowsmouse.h"
+#ضمن "SDL_windowsopengles.h"
+#پایان_اگر
 
-#include "SDL_windowswindow.h"
+#ضمن "SDL_windowswindow.h"
 
-#ifndef USER_DEFAULT_SCREEN_DPI
-#define USER_DEFAULT_SCREEN_DPI 96
-#endif
+#اگر_تعریف_نشده USER_DEFAULT_SCREEN_DPI
+#تعریف_کن USER_DEFAULT_SCREEN_DPI 96
+#پایان_اگر
 
-#if WINVER < _WIN32_WINNT_WIN7
+#إذا WINVER < _WIN32_WINNT_WIN7
 // Touch input definitions
-#define TWF_FINETOUCH 1
-#define TWF_WANTPALM  2
+#تعریف_کن TWF_FINETOUCH 1
+#تعریف_کن TWF_WANTPALM  2
 
-#define TOUCHEVENTF_MOVE 0x0001
-#define TOUCHEVENTF_DOWN 0x0002
-#define TOUCHEVENTF_UP   0x0004
+#تعریف_کن TOUCHEVENTF_MOVE 0x0001
+#تعریف_کن TOUCHEVENTF_پایین 0x0002
+#تعریف_کن TOUCHEVENTF_به_بالا   0x0004
 
 DECLARE_HANDLE(HTOUCHINPUT);
 
-typedef struct _TOUCHINPUT
+تعريفنوع بنية _TOUCHINPUT
 {
     LONG x;
     LONG y;
-    HANDLE hSource;
+    HANDLE h_منبع;
     DWORD dwID;
     DWORD dwFlags;
-    DWORD dwMask;
-    DWORD dwTime;
+    DWORD dw_ماسک;
+    DWORD dw_زمان;
     ULONG_PTR dwExtraInfo;
     DWORD cxContact;
     DWORD cyContact;
@@ -93,83 +93,83 @@ typedef struct _TOUCHINPUT
 
 // More-robust display information in Vista...
 // This is a huge amount of data to be stuffing into three API calls. :(
-typedef struct DISPLAYCONFIG_PATH_SOURCE_INFO
+تعريفنوع بنية DISPLAYCONFIG_مسیر_منبع_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    اتحاد
     {
-        UINT32 modeInfoIdx;
-        struct
+        UINT32 نما_Info_Idx;
+        بنية
         {
-            UINT32 cloneGroupId : 16;
-            UINT32 sourceModeInfoIdx : 16;
+            UINT32 clone_گروه_Id : 16;
+            UINT32 منبع_نما_Info_Idx : 16;
         } DUMMYSTRUCTNAME;
     } DUMMYUNIONNAME;
 
-    UINT32 statusFlags;
-} DISPLAYCONFIG_PATH_SOURCE_INFO;
+    UINT32 وضعیت_Flags;
+} DISPLAYCONFIG_مسیر_منبع_INFO;
 
-typedef struct DISPLAYCONFIG_RATIONAL
+تعريفنوع بنية DISPLAYCONFIG_RATIONAL
 {
     UINT32 Numerator;
     UINT32 Denominator;
 } DISPLAYCONFIG_RATIONAL;
 
-typedef struct DISPLAYCONFIG_PATH_TARGET_INFO
+تعريفنوع بنية DISPLAYCONFIG_مسیر_هدف_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    اتحاد
     {
-        UINT32 modeInfoIdx;
-        struct
+        UINT32 نما_Info_Idx;
+        بنية
         {
-            UINT32 desktopModeInfoIdx : 16;
-            UINT32 targetModeInfoIdx : 16;
+            UINT32 desktop_نما_Info_Idx : 16;
+            UINT32 هدف_نما_Info_Idx : 16;
         } DUMMYSTRUCTNAME;
     } DUMMYUNIONNAME;
     UINT32 /*DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY*/ outputTechnology;
     UINT32 /*DISPLAYCONFIG_ROTATION*/ rotation;
     UINT32 /*DISPLAYCONFIG_SCALING*/ scaling;
-    DISPLAYCONFIG_RATIONAL refreshRate;
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
-    BOOL targetAvailable;
-    UINT32 statusFlags;
-} DISPLAYCONFIG_PATH_TARGET_INFO;
+    DISPLAYCONFIG_RATIONAL refresh_نرخ_2;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ پیمایش_سطر_Ordering;
+    BOOL هدف_موجود;
+    UINT32 وضعیت_Flags;
+} DISPLAYCONFIG_مسیر_هدف_INFO;
 
-typedef struct DISPLAYCONFIG_PATH_INFO
+تعريفنوع بنية DISPLAYCONFIG_مسیر_INFO
 {
-    DISPLAYCONFIG_PATH_SOURCE_INFO sourceInfo;
-    DISPLAYCONFIG_PATH_TARGET_INFO targetInfo;
+    DISPLAYCONFIG_مسیر_منبع_INFO منبع_Info;
+    DISPLAYCONFIG_مسیر_هدف_INFO هدف_Info;
     UINT32 flags;
-} DISPLAYCONFIG_PATH_INFO;
+} DISPLAYCONFIG_مسیر_INFO;
 
-typedef enum
+تعريفنوع تعداد
 {
-    DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE = 1,
-    DISPLAYCONFIG_MODE_INFO_TYPE_TARGET = 2,
-    DISPLAYCONFIG_MODE_INFO_TYPE_DESKTOP_IMAGE = 3,
-    DISPLAYCONFIG_MODE_INFO_TYPE_FORCE_UINT32 = 0xFFFFFFFF
-} DISPLAYCONFIG_MODE_INFO_TYPE;
+    DISPLAYCONFIG_نما_INFO_TYPE_منبع = 1,
+    DISPLAYCONFIG_نما_INFO_TYPE_هدف = 2,
+    DISPLAYCONFIG_نما_INFO_TYPE_DESKTOP_IMAGE = 3,
+    DISPLAYCONFIG_نما_INFO_TYPE_FORCE_UINT32 = 0xFFFFFFFF
+} DISPLAYCONFIG_نما_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_2DREGION
+تعريفنوع بنية DISPLAYCONFIG_2DREGION
 {
     UINT32 cx;
     UINT32 cy;
 } DISPLAYCONFIG_2DREGION;
 
-typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
+تعريفنوع بنية DISPLAYCONFIG_VIDEO_SIGNAL_INFO
 {
-    UINT64 pixelRate;
+    UINT64 pixel_نرخ;
     DISPLAYCONFIG_RATIONAL hSyncFreq;
     DISPLAYCONFIG_RATIONAL vSyncFreq;
-    DISPLAYCONFIG_2DREGION activeSize;
-    DISPLAYCONFIG_2DREGION totalSize;
+    DISPLAYCONFIG_2DREGION فعال_اندازه;
+    DISPLAYCONFIG_2DREGION مجموع_اندازه;
 
-    union
+    اتحاد
     {
-        struct
+        بنية
         {
             UINT32 videoStandard : 16;
 
@@ -183,208 +183,208 @@ typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     } DUMMYUNIONNAME;
 
     // Scan line ordering (e.g. progressive, interlaced).
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ پیمایش_سطر_Ordering;
 } DISPLAYCONFIG_VIDEO_SIGNAL_INFO;
 
-typedef struct DISPLAYCONFIG_SOURCE_MODE
+تعريفنوع بنية DISPLAYCONFIG_منبع_نما
 {
-    UINT32 width;
-    UINT32 height;
+    UINT32 عرض;
+    UINT32 ارتفاع;
     UINT32 /*DISPLAYCONFIG_PIXELFORMAT*/ pixelFormat;
     POINTL position;
-} DISPLAYCONFIG_SOURCE_MODE;
+} DISPLAYCONFIG_منبع_نما;
 
-typedef struct DISPLAYCONFIG_TARGET_MODE
+تعريفنوع بنية DISPLAYCONFIG_هدف_نما
 {
-    DISPLAYCONFIG_VIDEO_SIGNAL_INFO targetVideoSignalInfo;
-} DISPLAYCONFIG_TARGET_MODE;
+    DISPLAYCONFIG_VIDEO_SIGNAL_INFO هدف_Video_Signal_Info;
+} DISPLAYCONFIG_هدف_نما;
 
-typedef struct DISPLAYCONFIG_DESKTOP_IMAGE_INFO
+تعريفنوع بنية DISPLAYCONFIG_DESKTOP_IMAGE_INFO
 {
-    POINTL PathSourceSize;
+    POINTL مسیر_منبع_اندازه;
     RECTL DesktopImageRegion;
     RECTL DesktopImageClip;
 } DISPLAYCONFIG_DESKTOP_IMAGE_INFO;
 
-typedef struct DISPLAYCONFIG_MODE_INFO
+تعريفنوع بنية DISPLAYCONFIG_نما_INFO
 {
-    DISPLAYCONFIG_MODE_INFO_TYPE infoType;
+    DISPLAYCONFIG_نما_INFO_TYPE infoType;
     UINT32 id;
     LUID adapterId;
-    union
+    اتحاد
     {
-        DISPLAYCONFIG_TARGET_MODE targetMode;
-        DISPLAYCONFIG_SOURCE_MODE sourceMode;
+        DISPLAYCONFIG_هدف_نما هدف_نما;
+        DISPLAYCONFIG_منبع_نما منبع_نما;
         DISPLAYCONFIG_DESKTOP_IMAGE_INFO desktopImageInfo;
     } DUMMYUNIONNAME;
-} DISPLAYCONFIG_MODE_INFO;
+} DISPLAYCONFIG_نما_INFO;
 
-typedef enum DISPLAYCONFIG_TOPOLOGY_ID
+تعريفنوع تعداد DISPLAYCONFIG_TOPOLOGY_ID
 {
-    DISPLAYCONFIG_TOPOLOGY_INTERNAL = 0x00000001,
+    DISPLAYCONFIG_TOPOLOGY_داخلی = 0x00000001,
     DISPLAYCONFIG_TOPOLOGY_CLONE = 0x00000002,
     DISPLAYCONFIG_TOPOLOGY_EXTEND = 0x00000004,
     DISPLAYCONFIG_TOPOLOGY_EXTERNAL = 0x00000008,
     DISPLAYCONFIG_TOPOLOGY_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_TOPOLOGY_ID;
 
-typedef enum
+تعريفنوع تعداد
 {
-    DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME = 1,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME = 2,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_PREFERRED_MODE = 3,
+    DISPLAYCONFIG_DEVICE_INFO_GET_منبع_NAME = 1,
+    DISPLAYCONFIG_DEVICE_INFO_GET_هدف_NAME = 2,
+    DISPLAYCONFIG_DEVICE_INFO_GET_هدف_PREFERRED_نما = 3,
     DISPLAYCONFIG_DEVICE_INFO_GET_ADAPTER_NAME = 4,
-    DISPLAYCONFIG_DEVICE_INFO_SET_TARGET_PERSISTENCE = 5,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_BASE_TYPE = 6,
+    DISPLAYCONFIG_DEVICE_INFO_مجموعه_هدف_PERSISTENCE = 5,
+    DISPLAYCONFIG_DEVICE_INFO_GET_هدف_پایه_TYPE = 6,
     DISPLAYCONFIG_DEVICE_INFO_GET_SUPPORT_VIRTUAL_RESOLUTION = 7,
-    DISPLAYCONFIG_DEVICE_INFO_SET_SUPPORT_VIRTUAL_RESOLUTION = 8,
+    DISPLAYCONFIG_DEVICE_INFO_مجموعه_SUPPORT_VIRTUAL_RESOLUTION = 8,
     DISPLAYCONFIG_DEVICE_INFO_GET_ADVANCED_COLOR_INFO = 9,
-    DISPLAYCONFIG_DEVICE_INFO_SET_ADVANCED_COLOR_STATE = 10,
+    DISPLAYCONFIG_DEVICE_INFO_مجموعه_ADVANCED_COLOR_STATE = 10,
     DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL = 11,
     DISPLAYCONFIG_DEVICE_INFO_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_DEVICE_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_DEVICE_INFO_HEADER
+تعريفنوع بنية DISPLAYCONFIG_DEVICE_INFO_سرآیند
 {
     DISPLAYCONFIG_DEVICE_INFO_TYPE type;
-    UINT32 size;
+    UINT32 اندازه;
     LUID adapterId;
     UINT32 id;
-} DISPLAYCONFIG_DEVICE_INFO_HEADER;
+} DISPLAYCONFIG_DEVICE_INFO_سرآیند;
 
-typedef struct DISPLAYCONFIG_SOURCE_DEVICE_NAME
+تعريفنوع بنية DISPLAYCONFIG_منبع_DEVICE_NAME
 {
-    DISPLAYCONFIG_DEVICE_INFO_HEADER header;
+    DISPLAYCONFIG_DEVICE_INFO_سرآیند سرآیند;
     WCHAR viewGdiDeviceName[CCHDEVICENAME];
-} DISPLAYCONFIG_SOURCE_DEVICE_NAME;
+} DISPLAYCONFIG_منبع_DEVICE_NAME;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
+تعريفنوع بنية DISPLAYCONFIG_هدف_DEVICE_NAME_FLAGS
 {
-    union
+    اتحاد
     {
-        struct
+        بنية
         {
             UINT32 friendlyNameFromEdid : 1;
             UINT32 friendlyNameForced : 1;
             UINT32 edidIdsValid : 1;
             UINT32 reserved : 29;
         } DUMMYSTRUCTNAME;
-        UINT32 value;
+        UINT32 مقدار;
     } DUMMYUNIONNAME;
-} DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS;
+} DISPLAYCONFIG_هدف_DEVICE_NAME_FLAGS;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
+تعريفنوع بنية DISPLAYCONFIG_هدف_DEVICE_NAME
 {
-    DISPLAYCONFIG_DEVICE_INFO_HEADER header;
-    DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS flags;
+    DISPLAYCONFIG_DEVICE_INFO_سرآیند سرآیند;
+    DISPLAYCONFIG_هدف_DEVICE_NAME_FLAGS flags;
     UINT32 /*DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY*/ outputTechnology;
     UINT16 edidManufactureId;
-    UINT16 edidProductCodeId;
+    UINT16 edid_حاصلضرب_کد_Id;
     UINT32 connectorInstance;
     WCHAR monitorFriendlyDeviceName[64];
-    WCHAR monitorDevicePath[128];
-} DISPLAYCONFIG_TARGET_DEVICE_NAME;
+    WCHAR monitor_Device_مسیر[128];
+} DISPLAYCONFIG_هدف_DEVICE_NAME;
 
-#define QDC_ONLY_ACTIVE_PATHS 0x00000002
+#تعریف_کن QDC_ONLY_فعال_PATHS 0x00000002
 
-#endif // WINVER < _WIN32_WINNT_WIN7
+#پایان_اگر // WINVER < _WIN32_WINNT_WIN7
 
-#if WINVER < _WIN32_WINNT_WIN8
+#إذا WINVER < _WIN32_WINNT_WIN8
 // Pen input definitions
-#define POINTER_MESSAGE_FLAG_NEW 0x00000001
-#define POINTER_MESSAGE_FLAG_INRANGE 0x00000002
-#define POINTER_MESSAGE_FLAG_INCONTACT 0x00000004
-#define POINTER_MESSAGE_FLAG_FIRSTBUTTON 0x00000010
-#define POINTER_MESSAGE_FLAG_SECONDBUTTON 0x00000020
-#define POINTER_MESSAGE_FLAG_THIRDBUTTON 0x00000040
-#define POINTER_MESSAGE_FLAG_FOURTHBUTTON 0x00000080
-#define POINTER_MESSAGE_FLAG_FIFTHBUTTON 0x00000100
-#define POINTER_MESSAGE_FLAG_PRIMARY 0x00002000
-#define POINTER_MESSAGE_FLAG_CONFIDENCE 0x00004000
-#define POINTER_MESSAGE_FLAG_CANCELED 0x00008000
+#تعریف_کن اشاره_گر_پیام_FLAG_NEW 0x00000001
+#تعریف_کن اشاره_گر_پیام_FLAG_INRANGE 0x00000002
+#تعریف_کن اشاره_گر_پیام_FLAG_INCONTACT 0x00000004
+#تعریف_کن اشاره_گر_پیام_FLAG_FIRSTBUTTON 0x00000010
+#تعریف_کن اشاره_گر_پیام_FLAG_SECONDBUTTON 0x00000020
+#تعریف_کن اشاره_گر_پیام_FLAG_THIRDBUTTON 0x00000040
+#تعریف_کن اشاره_گر_پیام_FLAG_FOURTHBUTTON 0x00000080
+#تعریف_کن اشاره_گر_پیام_FLAG_FIFTHBUTTON 0x00000100
+#تعریف_کن اشاره_گر_پیام_FLAG_PRIMARY 0x00002000
+#تعریف_کن اشاره_گر_پیام_FLAG_CONFIDENCE 0x00004000
+#تعریف_کن اشاره_گر_پیام_FLAG_CANCELED 0x00008000
 
-#define GET_POINTERID_WPARAM(wParam) (LOWORD(wParam))
-#define IS_POINTER_FLAG_SET_WPARAM(wParam, flag) (((DWORD)HIWORD(wParam) & (flag)) == (flag))
-#define IS_POINTER_INCONTACT_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_INCONTACT)
-#define IS_POINTER_FIRSTBUTTON_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_FIRSTBUTTON)
+#تعریف_کن GET_POINTERID_WPARAM(wParam) (LOWORD(wParam))
+#تعریف_کن IS_اشاره_گر_FLAG_مجموعه_WPARAM(wParam, flag) (((DWORD)HIWORD(wParam) & (flag)) == (flag))
+#تعریف_کن IS_اشاره_گر_INCONTACT_WPARAM(wParam) IS_اشاره_گر_FLAG_مجموعه_WPARAM(wParam, اشاره_گر_پیام_FLAG_INCONTACT)
+#تعریف_کن IS_اشاره_گر_FIRSTBUTTON_WPARAM(wParam) IS_اشاره_گر_FLAG_مجموعه_WPARAM(wParam, اشاره_گر_پیام_FLAG_FIRSTBUTTON)
 
-typedef DWORD POINTER_INPUT_TYPE;
+تعريفنوع DWORD اشاره_گر_درون_داد_TYPE;
 
-enum tagPOINTER_INPUT_TYPE
+تعداد برچسب_اشاره_گر_درون_داد_TYPE
 {
-    PT_POINTER = 1,
+    PT_اشاره_گر = 1,
     PT_TOUCH,
     PT_PEN,
     PT_MOUSE,
     PT_TOUCHPAD
 };
 
-typedef UINT32 POINTER_FLAGS;
+تعريفنوع UINT32 اشاره_گر_FLAGS;
 
-typedef UINT32 PEN_FLAGS;
-#define PEN_FLAG_NONE 0x00000000
-#define PEN_FLAG_BARREL 0x00000001
-#define PEN_FLAG_INVERTED 0x00000002
-#define PEN_FLAG_ERASER 0x00000004
+تعريفنوع UINT32 PEN_FLAGS;
+#تعریف_کن PEN_FLAG_NONE 0x00000000
+#تعریف_کن PEN_FLAG_BARREL 0x00000001
+#تعریف_کن PEN_FLAG_INVERTED 0x00000002
+#تعریف_کن PEN_FLAG_ERASER 0x00000004
 
-typedef UINT32 PEN_MASK;
-#define PEN_MASK_NONE 0x00000000
-#define PEN_MASK_PRESSURE 0x00000001
-#define PEN_MASK_ROTATION 0x00000002
-#define PEN_MASK_TILT_X 0x00000004
-#define PEN_MASK_TILT_Y 0x00000008
+تعريفنوع UINT32 PEN_ماسک;
+#تعریف_کن PEN_ماسک_NONE 0x00000000
+#تعریف_کن PEN_ماسک_PRESSURE 0x00000001
+#تعریف_کن PEN_ماسک_ROTATION 0x00000002
+#تعریف_کن PEN_ماسک_TILT_X 0x00000004
+#تعریف_کن PEN_ماسک_TILT_Y 0x00000008
 
-typedef enum tagPOINTER_BUTTON_CHANGE_TYPE
+تعريفنوع تعداد برچسب_اشاره_گر_BUTTON_CHANGE_TYPE
 {
-    POINTER_CHANGE_NONE,
-    POINTER_CHANGE_FIRSTBUTTON_DOWN,
-    POINTER_CHANGE_FIRSTBUTTON_UP,
-    POINTER_CHANGE_SECONDBUTTON_DOWN,
-    POINTER_CHANGE_SECONDBUTTON_UP,
-    POINTER_CHANGE_THIRDBUTTON_DOWN,
-    POINTER_CHANGE_THIRDBUTTON_UP,
-    POINTER_CHANGE_FOURTHBUTTON_DOWN,
-    POINTER_CHANGE_FOURTHBUTTON_UP,
-    POINTER_CHANGE_FIFTHBUTTON_DOWN,
-    POINTER_CHANGE_FIFTHBUTTON_UP
-} POINTER_BUTTON_CHANGE_TYPE;
+    اشاره_گر_CHANGE_NONE,
+    اشاره_گر_CHANGE_FIRSTBUTTON_پایین,
+    اشاره_گر_CHANGE_FIRSTBUTTON_به_بالا,
+    اشاره_گر_CHANGE_SECONDBUTTON_پایین,
+    اشاره_گر_CHANGE_SECONDBUTTON_به_بالا,
+    اشاره_گر_CHANGE_THIRDBUTTON_پایین,
+    اشاره_گر_CHANGE_THIRDBUTTON_به_بالا,
+    اشاره_گر_CHANGE_FOURTHBUTTON_پایین,
+    اشاره_گر_CHANGE_FOURTHBUTTON_به_بالا,
+    اشاره_گر_CHANGE_FIFTHBUTTON_پایین,
+    اشاره_گر_CHANGE_FIFTHBUTTON_به_بالا
+} اشاره_گر_BUTTON_CHANGE_TYPE;
 
-typedef struct tagPOINTER_INFO
+تعريفنوع بنية برچسب_اشاره_گر_INFO
 {
-    POINTER_INPUT_TYPE pointerType;
-    UINT32 pointerId;
-    UINT32 frameId;
-    POINTER_FLAGS pointerFlags;
-    HANDLE sourceDevice;
-    HWND hwndTarget;
-    POINT ptPixelLocation;
-    POINT ptHimetricLocation;
-    POINT ptPixelLocationRaw;
-    POINT ptHimetricLocationRaw;
-    DWORD dwTime;
-    UINT32 historyCount;
-    INT32 InputData;
-    DWORD dwKeyStates;
-    UINT64 PerformanceCount;
-    POINTER_BUTTON_CHANGE_TYPE ButtonChangeType;
-} POINTER_INFO;
+    اشاره_گر_درون_داد_TYPE اشاره_گر_Type;
+    UINT32 اشاره_گر_Id;
+    UINT32 قاب_Id;
+    اشاره_گر_FLAGS اشاره_گر_Flags;
+    HANDLE منبع_Device;
+    HWND hwnd_هدف;
+    نقطه_2 ptPixelLocation;
+    نقطه_2 ptHimetricLocation;
+    نقطه_2 ptPixelLocationRaw;
+    نقطه_2 ptHimetricLocationRaw;
+    DWORD dw_زمان;
+    UINT32 history_شمار;
+    INT32 درون_داد_داده;
+    DWORD dw_کلید_حالتها;
+    UINT64 Performance_شمار;
+    اشاره_گر_BUTTON_CHANGE_TYPE ButtonChangeType;
+} اشاره_گر_INFO;
 
-typedef struct tagPOINTER_PEN_INFO
+تعريفنوع بنية برچسب_اشاره_گر_PEN_INFO
 {
-    POINTER_INFO pointerInfo;
+    اشاره_گر_INFO اشاره_گر_Info;
     PEN_FLAGS penFlags;
-    PEN_MASK penMask;
+    PEN_ماسک pen_ماسک;
     UINT32 pressure;
     UINT32 rotation;
     INT32 tiltX;
     INT32 tiltY;
-} POINTER_PEN_INFO;
+} اشاره_گر_PEN_INFO;
 
-#endif // WINVER < _WIN32_WINNT_WIN8
+#پایان_اگر // WINVER < _WIN32_WINNT_WIN8
 
-#ifndef HAVE_SHELLSCALINGAPI_H
+#اگر_تعریف_نشده HAVE_SHELLSCALINGAPI_H
 
-typedef enum MONITOR_DPI_TYPE
+تعريفنوع تعداد MONITOR_DPI_TYPE
 {
     MDT_EFFECTIVE_DPI = 0,
     MDT_ANGULAR_DPI = 1,
@@ -392,68 +392,68 @@ typedef enum MONITOR_DPI_TYPE
     MDT_DEFAULT = MDT_EFFECTIVE_DPI
 } MONITOR_DPI_TYPE;
 
-typedef enum PROCESS_DPI_AWARENESS
+تعريفنوع تعداد PROCESS_DPI_AWARENESS
 {
     PROCESS_DPI_UNAWARE = 0,
     PROCESS_SYSTEM_DPI_AWARE = 1,
-    PROCESS_PER_MONITOR_DPI_AWARE = 2
+    PROCESS_در_هر_MONITOR_DPI_AWARE = 2
 } PROCESS_DPI_AWARENESS;
 
-#else
-#include <shellscalingapi.h>
-#endif
+#وإلا
+#ضمن <shellscalingapi.h>
+#پایان_اگر
 
-typedef struct ITaskbarList3 ITaskbarList3;
+تعريفنوع بنية ITaskbarList3 ITaskbarList3;
 
-#ifndef _DPI_AWARENESS_CONTEXTS_
+#اگر_تعریف_نشده _DPI_AWARENESS_CONTEXTS_
 
-typedef enum DPI_AWARENESS
+تعريفنوع تعداد DPI_AWARENESS
 {
     DPI_AWARENESS_INVALID = -1,
     DPI_AWARENESS_UNAWARE = 0,
     DPI_AWARENESS_SYSTEM_AWARE = 1,
-    DPI_AWARENESS_PER_MONITOR_AWARE = 2
+    DPI_AWARENESS_در_هر_MONITOR_AWARE = 2
 } DPI_AWARENESS;
 
 DECLARE_HANDLE(DPI_AWARENESS_CONTEXT);
 
-#define DPI_AWARENESS_CONTEXT_UNAWARE           ((DPI_AWARENESS_CONTEXT)-1)
-#define DPI_AWARENESS_CONTEXT_SYSTEM_AWARE      ((DPI_AWARENESS_CONTEXT)-2)
-#define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE ((DPI_AWARENESS_CONTEXT)-3)
+#تعریف_کن DPI_AWARENESS_CONTEXT_UNAWARE           ((DPI_AWARENESS_CONTEXT)-1)
+#تعریف_کن DPI_AWARENESS_CONTEXT_SYSTEM_AWARE      ((DPI_AWARENESS_CONTEXT)-2)
+#تعریف_کن DPI_AWARENESS_CONTEXT_در_هر_MONITOR_AWARE ((DPI_AWARENESS_CONTEXT)-3)
 
-#endif // _DPI_AWARENESS_CONTEXTS_
+#پایان_اگر // _DPI_AWARENESS_CONTEXTS_
 
 // Windows 10 Creators Update
-#if NTDDI_VERSION < 0x0A000003
-#define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
-#endif // NTDDI_VERSION < 0x0A000003
+#إذا NTDDI_نسخه < 0x0A000003
+#تعریف_کن DPI_AWARENESS_CONTEXT_در_هر_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
+#پایان_اگر // NTDDI_VERSION < 0x0A000003
 
 // Windows 10 version 1809
-#if NTDDI_VERSION < 0x0A000006
-#define DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
-#endif // NTDDI_VERSION < 0x0A000006
+#إذا NTDDI_نسخه < 0x0A000006
+#تعریف_کن DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
+#پایان_اگر // NTDDI_VERSION < 0x0A000006
 
-typedef BOOL (*PFNSHFullScreen)(HWND, DWORD);
-typedef void (*PFCoordTransform)(SDL_Window *, POINT *);
+تعريفنوع BOOL (*PFNSHFullScreen)(HWND, DWORD);
+تعريفنوع فراغ (*PFCoordTransform)(SDL_پنجره *, نقطه_2 *);
 
-typedef struct
+تعريفنوع بنية
 {
-    void **lpVtbl;
-    int refcount;
-    void *data;
+    فراغ **lpVtbl;
+    صحيح refcount;
+    فراغ *داده;
 } TSFSink;
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#اگر_تعریف_نشده SDL_DISABLE_WINDOWS_IME
 // Definition from Win98DDK version of IMM.H
-typedef struct tagINPUTCONTEXT2
+تعريفنوع بنية برچسب_INPUTCONTEXT2
 {
     HWND hWnd;
     BOOL fOpen;
-    POINT ptStatusWndPos;
-    POINT ptSoftKbdPos;
+    نقطه_2 pt_وضعیت_Wnd_Pos;
+    نقطه_2 ptSoftKbdPos;
     DWORD fdwConversion;
     DWORD fdwSentence;
-    union
+    اتحاد
     {
         LOGFONTA A;
         LOGFONTW W;
@@ -462,47 +462,47 @@ typedef struct tagINPUTCONTEXT2
     CANDIDATEFORM cfCandForm[4];
     HIMCC hCompStr;
     HIMCC hCandInfo;
-    HIMCC hGuideLine;
-    HIMCC hPrivate;
-    DWORD dwNumMsgBuf;
-    HIMCC hMsgBuf;
+    HIMCC h_Guide_سطر;
+    HIMCC h_خصوصی;
+    DWORD dw_رقم_پیام_Buf;
+    HIMCC h_پیام_Buf;
     DWORD fdwInit;
     DWORD dwReserve[3];
 } INPUTCONTEXT2, *PINPUTCONTEXT2, NEAR *NPINPUTCONTEXT2, FAR *LPINPUTCONTEXT2;
-#endif
+#پایان_اگر
 
 // Corner rounding support  (Win 11+)
-#ifndef DWMWA_WINDOW_CORNER_PREFERENCE
-#define DWMWA_WINDOW_CORNER_PREFERENCE 33
-#endif
-typedef enum {
+#اگر_تعریف_نشده DWMWA_پنجره_گوشه_PREFERENCE
+#تعریف_کن DWMWA_پنجره_گوشه_PREFERENCE 33
+#پایان_اگر
+تعريفنوع تعداد {
     DWMWCP_DEFAULT = 0,
     DWMWCP_DONOTROUND = 1,
-    DWMWCP_ROUND = 2,
+    DWMWCP_دور = 2,
     DWMWCP_ROUNDSMALL = 3
-} DWM_WINDOW_CORNER_PREFERENCE;
+} DWM_پنجره_گوشه_PREFERENCE;
 
 // Border Color support (Win 11+)
-#ifndef DWMWA_BORDER_COLOR
-#define DWMWA_BORDER_COLOR 34
-#endif
+#اگر_تعریف_نشده DWMWA_BORDER_COLOR
+#تعریف_کن DWMWA_BORDER_COLOR 34
+#پایان_اگر
 
-#ifndef DWMWA_COLOR_DEFAULT
-#define DWMWA_COLOR_DEFAULT 0xFFFFFFFF
-#endif
+#اگر_تعریف_نشده DWMWA_COLOR_DEFAULT
+#تعریف_کن DWMWA_COLOR_DEFAULT 0xFFFFFFFF
+#پایان_اگر
 
-#ifndef DWMWA_COLOR_NONE
-#define DWMWA_COLOR_NONE 0xFFFFFFFE
-#endif
+#اگر_تعریف_نشده DWMWA_COLOR_NONE
+#تعریف_کن DWMWA_COLOR_NONE 0xFFFFFFFE
+#پایان_اگر
 
 // Transparent window support
-#ifndef DWM_BB_ENABLE
-#define DWM_BB_ENABLE 0x00000001
-#endif
-#ifndef DWM_BB_BLURREGION
-#define DWM_BB_BLURREGION 0x00000002
-#endif
-typedef struct
+#اگر_تعریف_نشده DWM_BB_ENABLE
+#تعریف_کن DWM_BB_ENABLE 0x00000001
+#پایان_اگر
+#اگر_تعریف_نشده DWM_BB_BLURREGION
+#تعریف_کن DWM_BB_BLURREGION 0x00000002
+#پایان_اگر
+تعريفنوع بنية
 {
     DWORD flags;
     BOOL enable;
@@ -512,74 +512,74 @@ typedef struct
 
 // Private display data
 
-struct SDL_VideoData
+بنية SDL_Video_داده
 {
-    int render;
+    صحيح render;
 
     bool coinitialized;
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#إذا !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
     bool oleinitialized;
-#endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#پایان_اگر // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-    DWORD clipboard_count;
+    DWORD clipboard_شمار;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
     SDL_SharedObject *userDLL;
 
     // DisplayConfig functions
     /* *INDENT-OFF* */ // clang-format off
-    LONG (WINAPI *GetDisplayConfigBufferSizes)( UINT32, UINT32 *, UINT32 *);
-    LONG (WINAPI *QueryDisplayConfig)( UINT32, UINT32 *, DISPLAYCONFIG_PATH_INFO*, UINT32 *, DISPLAYCONFIG_MODE_INFO*, DISPLAYCONFIG_TOPOLOGY_ID*);
-    LONG (WINAPI *DisplayConfigGetDeviceInfo)( DISPLAYCONFIG_DEVICE_INFO_HEADER*);
+    LONG (WINAPI *Get_Display_Config_میانگیر_Sizes)( UINT32, UINT32 *, UINT32 *);
+    LONG (WINAPI *QueryDisplayConfig)( UINT32, UINT32 *, DISPLAYCONFIG_مسیر_INFO*, UINT32 *, DISPLAYCONFIG_نما_INFO*, DISPLAYCONFIG_TOPOLOGY_ID*);
+    LONG (WINAPI *DisplayConfigGetDeviceInfo)( DISPLAYCONFIG_DEVICE_INFO_سرآیند*);
     /* *INDENT-ON* */ // clang-format on
 
     // Touch input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *CloseTouchInputHandle)( HTOUCHINPUT );
-    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
-    BOOL (WINAPI *RegisterTouchWindow)( HWND, ULONG );
+    BOOL (WINAPI *Close_Touch_درون_داد_Handle)( HTOUCHINPUT );
+    BOOL (WINAPI *Get_Touch_درون_داد_Info)( HTOUCHINPUT, UINT, PTOUCHINPUT, صحيح );
+    BOOL (WINAPI *ثبات_Touch_پنجره)( HWND, ULONG );
     /* *INDENT-ON* */ // clang-format on
 
     // DWM functions
     SDL_SharedObject *dwmapiDLL;
     /* *INDENT-OFF* */ // clang-format off
-    HRESULT (WINAPI *DwmFlush)(void);
-    HRESULT (WINAPI *DwmEnableBlurBehindWindow)(HWND hwnd, const DWM_BLURBEHIND *pBlurBehind);
-    HRESULT (WINAPI *DwmSetWindowAttribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+    HRESULT (WINAPI *DwmFlush)(فراغ);
+    HRESULT (WINAPI *Dwm_Enable_Blur_Behind_پنجره)(HWND hwnd, ثابت DWM_BLURBEHIND *pBlurBehind);
+    HRESULT (WINAPI *Dwm_مجموعه_پنجره_Attribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
     /* *INDENT-ON* */ // clang-format on
 
     // Pen input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *GetPointerType)(UINT32 pointerId, POINTER_INPUT_TYPE *pointerType);
-    BOOL (WINAPI *GetPointerPenInfo)(UINT32 pointerId, POINTER_PEN_INFO *penInfo);
-    BOOL (WINAPI *GetPointerDeviceRects)(HANDLE device, RECT *pointerDeviceRect, RECT *displayRect);
+    BOOL (WINAPI *Get_اشاره_گر_Type)(UINT32 اشاره_گر_Id, اشاره_گر_درون_داد_TYPE *اشاره_گر_Type);
+    BOOL (WINAPI *Get_اشاره_گر_Pen_Info)(UINT32 اشاره_گر_Id, اشاره_گر_PEN_INFO *penInfo);
+    BOOL (WINAPI *Get_اشاره_گر_Device_Rects)(HANDLE device, RECT *اشاره_گر_Device_Rect, RECT *displayRect);
     /* *INDENT-ON* */ // clang-format on
 
     // DPI functions
     SDL_SharedObject *shcoreDLL;
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *SetProcessDPIAware)( void );
-    BOOL (WINAPI *SetProcessDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
-    DPI_AWARENESS_CONTEXT (WINAPI *SetThreadDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
-    DPI_AWARENESS_CONTEXT (WINAPI *GetThreadDpiAwarenessContext)( void );
+    BOOL (WINAPI *مجموعه_Process_DPIAware)( فراغ );
+    BOOL (WINAPI *مجموعه_Process_Dpi_Awareness_Context)( DPI_AWARENESS_CONTEXT );
+    DPI_AWARENESS_CONTEXT (WINAPI *مجموعه_Thread_Dpi_Awareness_Context)( DPI_AWARENESS_CONTEXT );
+    DPI_AWARENESS_CONTEXT (WINAPI *GetThreadDpiAwarenessContext)( فراغ );
     DPI_AWARENESS (WINAPI *GetAwarenessFromDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
     BOOL (WINAPI *EnableNonClientDpiScaling)( HWND );
-    BOOL (WINAPI *AdjustWindowRectExForDpi)( LPRECT, DWORD, BOOL, DWORD, UINT );
-    UINT (WINAPI *GetDpiForWindow)( HWND );
+    BOOL (WINAPI *Adjust_پنجره_Rect_Ex_For_Dpi)( LPRECT, DWORD, BOOL, DWORD, UINT );
+    UINT (WINAPI *Get_Dpi_For_پنجره)( HWND );
     BOOL (WINAPI *AreDpiAwarenessContextsEqual)(DPI_AWARENESS_CONTEXT, DPI_AWARENESS_CONTEXT);
     BOOL (WINAPI *IsValidDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
     HRESULT (WINAPI *GetDpiForMonitor)( HMONITOR         hmonitor,
                                         MONITOR_DPI_TYPE dpiType,
                                         UINT             *dpiX,
                                         UINT             *dpiY );
-    HRESULT (WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
+    HRESULT (WINAPI *مجموعه_Process_Dpi_Awareness)(PROCESS_DPI_AWARENESS dpiAwareness);
     /* *INDENT-ON* */ // clang-format on
-#endif                // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#پایان_اگر                // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_DXGI_H
+#اگر_تعریف_شده HAVE_DXGI_H
     SDL_SharedObject *dxgiDLL;
     IDXGIFactory *pDXGIFactory;
-#endif
+#پایان_اگر
 
     bool cleared;
     bool dpi_unaware_context_declared;
@@ -587,85 +587,85 @@ struct SDL_VideoData
     bool detect_device_hotplug;
 
     BYTE *rawinput;
-    UINT rawinput_offset;
-    UINT rawinput_size;
-    UINT rawinput_count;
-    Uint64 last_rawinput_poll;
-    SDL_Point last_raw_mouse_position;
+    UINT rawinput_جابه_جایی;
+    UINT rawinput_اندازه;
+    UINT rawinput_شمار;
+    Uint64 آخرین_rawinput_poll;
+    SDL_نقطه آخرین_raw_mouse_position;
     bool raw_mouse_enabled;
     bool raw_mouse_flag_nolegacy;
     bool raw_keyboard_enabled;
     bool raw_keyboard_flag_nohotkeys;
     bool raw_keyboard_flag_inputsink;
-    bool pending_E1_key_sequence;
-    SDL_PenID raw_input_fake_pen_id;
+    bool pending_E1_کلید_sequence;
+    SDL_PenID raw_درون_داد_fake_pen_id;
 
-    WIN_GameInputData *gameinput_context;
+    WIN_Game_درون_داد_داده *gameinput_context;
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#اگر_تعریف_نشده SDL_DISABLE_WINDOWS_IME
     bool ime_initialized;
     bool ime_enabled;
-    bool ime_available;
-    bool ime_internal_composition;
-    bool ime_internal_candidates;
+    bool ime_موجود;
+    bool ime_داخلی_composition;
+    bool ime_داخلی_candidates;
     HWND ime_hwnd_main;
     HWND ime_hwnd_current;
     bool ime_needs_clear_composition;
     HIMC ime_himc;
 
     WCHAR *ime_composition;
-    int ime_composition_length;
+    صحيح ime_composition_درازی;
     WCHAR ime_readingstring[16];
-    int ime_cursor;
-    int ime_selected_start;
-    int ime_selected_length;
+    صحيح ime_cursor;
+    صحيح ime_selected_شروع;
+    صحيح ime_selected_درازی;
 
     bool ime_candidates_open;
     bool ime_update_candidates;
-    char *ime_candidates[MAX_CANDLIST];
-    int ime_candcount;
+    حرف *ime_candidates[MAX_CANDLIST];
+    صحيح ime_candcount;
     DWORD ime_candref;
     DWORD ime_candsel;
-    int ime_candlistindexbase;
+    صحيح ime_candlistindexbase;
     bool ime_horizontal_candidates;
-#endif
+#پایان_اگر
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     COMPOSITIONFORM ime_composition_area;
     CANDIDATEFORM ime_candidate_area;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#پایان_اگر // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#اگر_تعریف_نشده SDL_DISABLE_WINDOWS_IME
     HKL ime_hkl;
     SDL_SharedObject *ime_himm32;
     /* *INDENT-OFF* */ // clang-format off
-    UINT (WINAPI *GetReadingString)(HIMC himc, UINT uReadingBufLen, LPWSTR lpwReadingBuf, PINT pnErrorIndex, BOOL *pfIsVertical, PUINT puMaxReadingLen);
-    BOOL (WINAPI *ShowReadingWindow)(HIMC himc, BOOL bShow);
-    LPINPUTCONTEXT2 (WINAPI *ImmLockIMC)(HIMC himc);
+    UINT (WINAPI *GetReadingString)(HIMC himc, UINT uReadingBufLen, LPWSTR lpwReadingBuf, PINT pn_Error_شاخص, BOOL *pfIsVertical, PUINT puMaxReadingLen);
+    BOOL (WINAPI *Show_Reading_پنجره)(HIMC himc, BOOL bShow);
+    LPINPUTCONTEXT2 (WINAPI *Imm_قفل_IMC)(HIMC himc);
     BOOL (WINAPI *ImmUnlockIMC)(HIMC himc);
-    LPVOID (WINAPI *ImmLockIMCC)(HIMCC himcc);
+    LPVOID (WINAPI *Imm_قفل_IMCC)(HIMCC himcc);
     BOOL (WINAPI *ImmUnlockIMCC)(HIMCC himcc);
     /* *INDENT-ON* */ // clang-format on
 
-#endif // !SDL_DISABLE_WINDOWS_IME
+#پایان_اگر // !SDL_DISABLE_WINDOWS_IME
 
-    BYTE pre_hook_key_state[256];
+    BYTE pre_hook_کلید_state[256];
     UINT _SDL_WAKEUP;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     UINT WM_TASKBAR_BUTTON_CREATED;
     ITaskbarList3 *taskbar_list;
-#endif
+#پایان_اگر
 };
 
-extern bool g_WindowsEnableMessageLoop;
-extern bool g_WindowsEnableMenuMnemonics;
-extern bool g_WindowFrameUsableWhileCursorHidden;
+خارجي bool g_Windows_Enable_پیام_Loop;
+خارجي bool g_WindowsEnableMenuMnemonics;
+خارجي bool g_پنجره_قاب_Usable_While_Cursor_Hidden;
 
-typedef struct IDirect3D9 IDirect3D9;
-extern bool D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface);
+تعريفنوع بنية IDirect3D9 IDirect3D9;
+خارجي bool D3_D_بارگیری_DLL(فراغ **pD3DDLL, IDirect3D9 **pDirect3D9Interface);
 
-extern SDL_SystemTheme WIN_GetSystemTheme(void);
-extern bool WIN_IsPerMonitorV2DPIAware(SDL_VideoDevice *_this);
+خارجي SDL_SystemTheme WIN_GetSystemTheme(فراغ);
+خارجي bool WIN_Is_در_هر_Monitor_V2_DPIAware(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsvideo_h_
+#پایان_اگر // SDL_windowsvideo_h_

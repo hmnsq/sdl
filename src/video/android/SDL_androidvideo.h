@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#اگر_تعریف_نشده SDL_androidvideo_h_
+#تعریف_کن SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+خارجي فراغ Android_مجموعه_Screen_Resolution(صحيح surface_عرض, صحيح surface_ارتفاع, صحيح device_عرض, صحيح device_ارتفاع, عائم density, عائم نرخ);
+خارجي فراغ Android_مجموعه_Screen_HDRHeadroom(عائم headroom);
+خارجي فراغ Android_مجموعه_Format(صحيح format_wanted, صحيح format_got);
+خارجي فراغ Android_مجموعه_Orientation(SDL_DisplayOrientation orientation);
+خارجي فراغ Android_SendResize(SDL_پنجره *پنجره);
+خارجي فراغ Android_مجموعه_پنجره_امن_Area_Insets(صحيح چپ, صحيح راست, صحيح بالاترین, صحيح bottom);
+خارجي فراغ Android_مجموعه_Dark_نما(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+بنية SDL_Video_داده
 {
-    int isPaused;
-    int isPausing;
+    صحيح isPaused;
+    صحيح isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+خارجي صحيح Android_Surface_عرض;
+خارجي صحيح Android_Surface_ارتفاع;
+خارجي عائم Android_ScreenDensity;
+خارجي صحيح Android_امن_Inset_چپ;
+خارجي صحيح Android_امن_Inset_راست;
+خارجي صحيح Android_امن_Inset_بالاترین;
+خارجي صحيح Android_امن_Inset_Bottom;
 
-#endif // SDL_androidvideo_h_
+#پایان_اگر // SDL_androidvideo_h_

@@ -18,49 +18,49 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowsopengl_h_
-#define SDL_windowsopengl_h_
+#اگر_تعریف_نشده SDL_windowsopengl_h_
+#تعریف_کن SDL_windowsopengl_h_
 
-#ifdef SDL_VIDEO_OPENGL_WGL
+#اگر_تعریف_شده SDL_VIDEO_OPENGL_WGL
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-typedef struct tagPIXELFORMATDESCRIPTOR
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+تعريفنوع بنية برچسب_PIXELFORMATDESCRIPTOR
 {
-    WORD nSize;
-    WORD nVersion;
+    کلمه n_اندازه;
+    کلمه n_نسخه;
     DWORD dwFlags;
     BYTE iPixelType;
-    BYTE cColorBits;
-    BYTE cRedBits;
-    BYTE cRedShift;
-    BYTE cGreenBits;
-    BYTE cGreenShift;
-    BYTE cBlueBits;
-    BYTE cBlueShift;
-    BYTE cAlphaBits;
-    BYTE cAlphaShift;
-    BYTE cAccumBits;
-    BYTE cAccumRedBits;
-    BYTE cAccumGreenBits;
-    BYTE cAccumBlueBits;
-    BYTE cAccumAlphaBits;
-    BYTE cDepthBits;
-    BYTE cStencilBits;
+    BYTE c_Color_بیتها;
+    BYTE c_Red_بیتها;
+    BYTE c_Red_لغزش;
+    BYTE c_Green_بیتها;
+    BYTE c_Green_لغزش;
+    BYTE c_Blue_بیتها;
+    BYTE c_Blue_لغزش;
+    BYTE c_Alpha_بیتها;
+    BYTE c_Alpha_لغزش;
+    BYTE c_Accum_بیتها;
+    BYTE c_Accum_Red_بیتها;
+    BYTE c_Accum_Green_بیتها;
+    BYTE c_Accum_Blue_بیتها;
+    BYTE c_Accum_Alpha_بیتها;
+    BYTE c_عمق_بیتها;
+    BYTE c_Stencil_بیتها;
     BYTE cAuxBuffers;
     BYTE iLayerType;
     BYTE bReserved;
-    DWORD dwLayerMask;
-    DWORD dwVisibleMask;
-    DWORD dwDamageMask;
+    DWORD dw_Layer_ماسک;
+    DWORD dw_Visible_ماسک;
+    DWORD dw_Damage_ماسک;
 } PIXELFORMATDESCRIPTOR, *PPIXELFORMATDESCRIPTOR, *LPPIXELFORMATDESCRIPTOR;
-#endif
+#پایان_اگر
 
-struct SDL_GLDriverData
+بنية SDL_GLDriver_داده
 {
     bool HAS_WGL_ARB_pixel_format;
-    bool HAS_WGL_EXT_swap_control_tear;
+    bool HAS_WGL_EXT_جابجا_control_tear;
     bool HAS_WGL_ARB_context_flush_control;
     bool HAS_WGL_ARB_create_context_robustness;
     bool HAS_WGL_ARB_create_context_no_error;
@@ -72,110 +72,110 @@ struct SDL_GLDriverData
        implementation supports WGL_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    بنية
     {
-        int major;
-        int minor;
-    } es_profile_max_supported_version;
+        صحيح major;
+        صحيح minor;
+    } es_profile_max_supported_نسخه;
 
     /* *INDENT-OFF* */ // clang-format off
-    PROC (WINAPI *wglGetProcAddress)(const char *proc);
+    PROC (WINAPI *wgl_Get_Proc_آدرس)(ثابت حرف *proc);
     HGLRC (WINAPI *wglCreateContext)(HDC hdc);
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-    BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
-    int (WINAPI *wglGetSwapIntervalEXT)(void);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    BOOL (WINAPI *wglSwapBuffers)(HDC hdc);
-    int (WINAPI *wglDescribePixelFormat)(HDC hdc,
-                                         int iPixelFormat,
-                                         UINT nBytes,
+    BOOL (WINAPI *wgl_انتخاب_Pixel_Format_ARB)(HDC hdc, ثابت صحيح *piAttribIList, ثابت FLOAT * pfAttribFList, UINT nMaxFormats, صحيح *piFormats, UINT * n_رقم_Formats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, صحيح iPixelFormat, صحيح iLayerPlane, UINT n_صفات, ثابت صحيح *pi_صفات, صحيح *pi_مقادیر);
+    BOOL (WINAPI *wgl_جابجا_Interval_EXT)(صحيح interval);
+    صحيح (WINAPI *wgl_Get_جابجا_Interval_EXT)(فراغ);
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    BOOL (WINAPI *wgl_جابجا_Buffers)(HDC hdc);
+    صحيح (WINAPI *wglDescribePixelFormat)(HDC hdc,
+                                         صحيح iPixelFormat,
+                                         UINT n_بایتها,
                                          LPPIXELFORMATDESCRIPTOR ppfd);
-    int (WINAPI *wglChoosePixelFormat)(HDC hdc,
-                                       const PIXELFORMATDESCRIPTOR *ppfd);
-    BOOL (WINAPI *wglSetPixelFormat)(HDC hdc,
-                                     int format,
-                                     const PIXELFORMATDESCRIPTOR *ppfd);
-    int (WINAPI *wglGetPixelFormat)(HDC hdc);
-#endif
+    صحيح (WINAPI *wgl_انتخاب_Pixel_Format)(HDC hdc,
+                                       ثابت PIXELFORMATDESCRIPTOR *ppfd);
+    BOOL (WINAPI *wgl_مجموعه_Pixel_Format)(HDC hdc,
+                                     صحيح format,
+                                     ثابت PIXELFORMATDESCRIPTOR *ppfd);
+    صحيح (WINAPI *wglGetPixelFormat)(HDC hdc);
+#پایان_اگر
     /* *INDENT-ON* */ // clang-format on
 };
 
 // OpenGL functions
-extern bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
-extern bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+خارجي bool WIN_GL_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي SDL_Function_اشاره_گر WIN_GL_Get_Proc_آدرس(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي فراغ WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
+خارجي bool WIN_GL_راهاندازی_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_پنجره *پنجره,
                               SDL_GLContext context);
-extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
+خارجي bool WIN_GL_مجموعه_جابجا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool WIN_GL_Get_جابجا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي bool WIN_GL_جابجا_پنجره(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي فراغ WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 
-#ifndef WGL_ARB_pixel_format
-#define WGL_NUMBER_PIXEL_FORMATS_ARB    0x2000
-#define WGL_DRAW_TO_WINDOW_ARB          0x2001
-#define WGL_DRAW_TO_BITMAP_ARB          0x2002
-#define WGL_ACCELERATION_ARB            0x2003
-#define WGL_NEED_PALETTE_ARB            0x2004
-#define WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
-#define WGL_SWAP_LAYER_BUFFERS_ARB      0x2006
-#define WGL_SWAP_METHOD_ARB             0x2007
-#define WGL_NUMBER_OVERLAYS_ARB         0x2008
-#define WGL_NUMBER_UNDERLAYS_ARB        0x2009
-#define WGL_TRANSPARENT_ARB             0x200A
-#define WGL_TRANSPARENT_RED_VALUE_ARB   0x2037
-#define WGL_TRANSPARENT_GREEN_VALUE_ARB 0x2038
-#define WGL_TRANSPARENT_BLUE_VALUE_ARB  0x2039
-#define WGL_TRANSPARENT_ALPHA_VALUE_ARB 0x203A
-#define WGL_TRANSPARENT_INDEX_VALUE_ARB 0x203B
-#define WGL_SHARE_DEPTH_ARB             0x200C
-#define WGL_SHARE_STENCIL_ARB           0x200D
-#define WGL_SHARE_ACCUM_ARB             0x200E
-#define WGL_SUPPORT_GDI_ARB             0x200F
-#define WGL_SUPPORT_OPENGL_ARB          0x2010
-#define WGL_DOUBLE_BUFFER_ARB           0x2011
-#define WGL_STEREO_ARB                  0x2012
-#define WGL_PIXEL_TYPE_ARB              0x2013
-#define WGL_COLOR_BITS_ARB              0x2014
-#define WGL_RED_BITS_ARB                0x2015
-#define WGL_RED_SHIFT_ARB               0x2016
-#define WGL_GREEN_BITS_ARB              0x2017
-#define WGL_GREEN_SHIFT_ARB             0x2018
-#define WGL_BLUE_BITS_ARB               0x2019
-#define WGL_BLUE_SHIFT_ARB              0x201A
-#define WGL_ALPHA_BITS_ARB              0x201B
-#define WGL_ALPHA_SHIFT_ARB             0x201C
-#define WGL_ACCUM_BITS_ARB              0x201D
-#define WGL_ACCUM_RED_BITS_ARB          0x201E
-#define WGL_ACCUM_GREEN_BITS_ARB        0x201F
-#define WGL_ACCUM_BLUE_BITS_ARB         0x2020
-#define WGL_ACCUM_ALPHA_BITS_ARB        0x2021
-#define WGL_DEPTH_BITS_ARB              0x2022
-#define WGL_STENCIL_BITS_ARB            0x2023
-#define WGL_AUX_BUFFERS_ARB             0x2024
-#define WGL_NO_ACCELERATION_ARB         0x2025
-#define WGL_GENERIC_ACCELERATION_ARB    0x2026
-#define WGL_FULL_ACCELERATION_ARB       0x2027
-#define WGL_SWAP_EXCHANGE_ARB           0x2028
-#define WGL_SWAP_COPY_ARB               0x2029
-#define WGL_SWAP_UNDEFINED_ARB          0x202A
-#define WGL_TYPE_RGBA_ARB               0x202B
-#define WGL_TYPE_COLORINDEX_ARB         0x202C
-#endif
+#اگر_تعریف_نشده WGL_ARB_pixel_format
+#تعریف_کن WGL_عدد_PIXEL_FORMATS_ARB    0x2000
+#تعریف_کن WGL_DRAW_مقصد_پنجره_ARB          0x2001
+#تعریف_کن WGL_DRAW_مقصد_BITMAP_ARB          0x2002
+#تعریف_کن WGL_ACCELERATION_ARB            0x2003
+#تعریف_کن WGL_NEED_PALETTE_ARB            0x2004
+#تعریف_کن WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
+#تعریف_کن WGL_جابجا_LAYER_BUFFERS_ARB      0x2006
+#تعریف_کن WGL_جابجا_روش_ARB             0x2007
+#تعریف_کن WGL_عدد_OVERLAYS_ARB         0x2008
+#تعریف_کن WGL_عدد_UNDERLAYS_ARB        0x2009
+#تعریف_کن WGL_TRANSPARENT_ARB             0x200A
+#تعریف_کن WGL_TRANSPARENT_RED_مقدار_ARB   0x2037
+#تعریف_کن WGL_TRANSPARENT_GREEN_مقدار_ARB 0x2038
+#تعریف_کن WGL_TRANSPARENT_BLUE_مقدار_ARB  0x2039
+#تعریف_کن WGL_TRANSPARENT_ALPHA_مقدار_ARB 0x203A
+#تعریف_کن WGL_TRANSPARENT_شاخص_مقدار_ARB 0x203B
+#تعریف_کن WGL_SHARE_عمق_ARB             0x200C
+#تعریف_کن WGL_SHARE_STENCIL_ARB           0x200D
+#تعریف_کن WGL_SHARE_ACCUM_ARB             0x200E
+#تعریف_کن WGL_SUPPORT_GDI_ARB             0x200F
+#تعریف_کن WGL_SUPPORT_OPENGL_ARB          0x2010
+#تعریف_کن WGL_DOUBLE_میانگیر_ARB           0x2011
+#تعریف_کن WGL_STEREO_ARB                  0x2012
+#تعریف_کن WGL_PIXEL_TYPE_ARB              0x2013
+#تعریف_کن WGL_COLOR_بیتها_ARB              0x2014
+#تعریف_کن WGL_RED_بیتها_ARB                0x2015
+#تعریف_کن WGL_RED_لغزش_ARB               0x2016
+#تعریف_کن WGL_GREEN_بیتها_ARB              0x2017
+#تعریف_کن WGL_GREEN_لغزش_ARB             0x2018
+#تعریف_کن WGL_BLUE_بیتها_ARB               0x2019
+#تعریف_کن WGL_BLUE_لغزش_ARB              0x201A
+#تعریف_کن WGL_ALPHA_بیتها_ARB              0x201B
+#تعریف_کن WGL_ALPHA_لغزش_ARB             0x201C
+#تعریف_کن WGL_ACCUM_بیتها_ARB              0x201D
+#تعریف_کن WGL_ACCUM_RED_بیتها_ARB          0x201E
+#تعریف_کن WGL_ACCUM_GREEN_بیتها_ARB        0x201F
+#تعریف_کن WGL_ACCUM_BLUE_بیتها_ARB         0x2020
+#تعریف_کن WGL_ACCUM_ALPHA_بیتها_ARB        0x2021
+#تعریف_کن WGL_عمق_بیتها_ARB              0x2022
+#تعریف_کن WGL_STENCIL_بیتها_ARB            0x2023
+#تعریف_کن WGL_AUX_BUFFERS_ARB             0x2024
+#تعریف_کن WGL_NO_ACCELERATION_ARB         0x2025
+#تعریف_کن WGL_GENERIC_ACCELERATION_ARB    0x2026
+#تعریف_کن WGL_پر_ACCELERATION_ARB       0x2027
+#تعریف_کن WGL_جابجا_EXCHANGE_ARB           0x2028
+#تعریف_کن WGL_جابجا_COPY_ARB               0x2029
+#تعریف_کن WGL_جابجا_UNDEFINED_ARB          0x202A
+#تعریف_کن WGL_TYPE_RGBA_ARB               0x202B
+#تعریف_کن WGL_TYPE_COLORINDEX_ARB         0x202C
+#پایان_اگر
 
-#ifndef WGL_ARB_multisample
-#define WGL_SAMPLE_BUFFERS_ARB 0x2041
-#define WGL_SAMPLES_ARB        0x2042
-#endif
+#اگر_تعریف_نشده WGL_ARB_multisample
+#تعریف_کن WGL_SAMPLE_BUFFERS_ARB 0x2041
+#تعریف_کن WGL_SAMPLES_ARB        0x2042
+#پایان_اگر
 
-#endif // SDL_VIDEO_OPENGL_WGL
+#پایان_اگر // SDL_VIDEO_OPENGL_WGL
 
-#endif // SDL_windowsopengl_h_
+#پایان_اگر // SDL_windowsopengl_h_

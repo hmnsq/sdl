@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_offscreenvulkan_h
-#define SDL_offscreenvulkan_h
+#اگر_تعریف_نشده SDL_offscreenvulkan_h
+#تعریف_کن SDL_offscreenvulkan_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
+#إذا defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-extern bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-extern void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+خارجي bool OFFSCREEN_Vulkan_بارگیری_Library(SDL_VideoDevice *_this, ثابت حرف *مسیر);
+خارجي فراغ OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي حرف ثابت *ثابت *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *شمار);
+خارجي bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_پنجره *پنجره, VkInstance instance, ثابت بنية Vk_تخصیص_Callbacks *allocator, VkSurfaceKHR *surface);
+خارجي فراغ OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, ثابت بنية Vk_تخصیص_Callbacks *allocator);
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
+#پایان_اگر // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
 
-#endif // SDL_offscreenvulkan_h
+#پایان_اگر // SDL_offscreenvulkan_h

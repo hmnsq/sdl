@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BFRAMEBUFFER_H
-#define SDL_BFRAMEBUFFER_H
-#include <SupportDefs.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_نشده SDL_BFRAMEBUFFER_H
+#تعریف_کن SDL_BFRAMEBUFFER_H
+#ضمن <SupportDefs.h>
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
-#define DRAWTHREAD
+#تعریف_کن DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+خارجي bool HAIKU_Create_پنجره_Framebuffer(SDL_VideoDevice *_this, SDL_پنجره *پنجره,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
-extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
-extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
-extern int32 HAIKU_DrawThread(void *data);
+                                          فراغ **pixels, صحيح *pitch);
+خارجي bool HAIKU_Update_پنجره_Framebuffer(SDL_VideoDevice *_this, SDL_پنجره *پنجره,
+                                          ثابت SDL_Rect *rects, صحيح numrects);
+خارجي فراغ HAIKU_Destroy_پنجره_Framebuffer(SDL_VideoDevice *_this, SDL_پنجره *پنجره);
+خارجي int32 HAIKU_DrawThread(فراغ *داده);
 
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
+#پایان_اگر
 
-#endif
+#پایان_اگر

@@ -1,5 +1,5 @@
-#ifndef VULKAN_GGP_H_
-#define VULKAN_GGP_H_ 1
+#اگر_تعریف_نشده VULKAN_GGP_H_
+#تعریف_کن VULKAN_GGP_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,57 +13,57 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+خارجي "C" {
+#پایان_اگر
 
 
 
 // VK_GGP_stream_descriptor_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_GGP_stream_descriptor_surface 1
+#تعریف_کن VK_GGP_جریان_descriptor_surface 1
 
-#define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
-#define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
+#تعریف_کن VK_GGP_جریان_DESCRIPTOR_SURFACE_SPEC_نسخه 1
+#تعریف_کن VK_GGP_جریان_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
 
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+تعريفنوع VkFlags Vk_جریان_Descriptor_Surface_Create_Flags_GGP;
 
-typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
+تعريفنوع بنية Vk_جریان_Descriptor_Surface_Create_Info_GGP {
     VkStructureType                            sType;
-    const void*                                pNext;
-    VkStreamDescriptorSurfaceCreateFlagsGGP    flags;
-    GgpStreamDescriptor                        streamDescriptor;
-} VkStreamDescriptorSurfaceCreateInfoGGP;
+    ثابت فراغ*                                p_بعدی;
+    Vk_جریان_Descriptor_Surface_Create_Flags_GGP    flags;
+    Ggp_جریان_Descriptor                        جریان_Descriptor;
+} Vk_جریان_Descriptor_Surface_Create_Info_GGP;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتیجه (VKAPI_PTR *PFN_vk_Create_جریان_Descriptor_Surface_GGP)(VkInstance instance, ثابت Vk_جریان_Descriptor_Surface_Create_Info_GGP* pCreateInfo, ثابت Vk_تخصیص_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_تعریف_نشده VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
+#اگر_تعریف_نشده VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجه VKAPI_CALL vk_Create_جریان_Descriptor_Surface_GGP(
     VkInstance                                  instance,
-    const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت Vk_جریان_Descriptor_Surface_Create_Info_GGP* pCreateInfo,
+    ثابت Vk_تخصیص_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#پایان_اگر
+#پایان_اگر
 
 
 // VK_GGP_frame_token is a preprocessor guard. Do not pass it to API calls.
-#define VK_GGP_frame_token 1
+#تعریف_کن VK_GGP_قاب_token 1
 
-#define VK_GGP_FRAME_TOKEN_SPEC_VERSION   1
-#define VK_GGP_FRAME_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
+#تعریف_کن VK_GGP_قاب_TOKEN_SPEC_نسخه   1
+#تعریف_کن VK_GGP_قاب_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
 
-typedef struct VkPresentFrameTokenGGP {
+تعريفنوع بنية Vk_Present_قاب_Token_GGP {
     VkStructureType    sType;
-    const void*        pNext;
-    GgpFrameToken      frameToken;
-} VkPresentFrameTokenGGP;
+    ثابت فراغ*        p_بعدی;
+    Ggp_قاب_Token      قاب_Token;
+} Vk_Present_قاب_Token_GGP;
 
 
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
 }
-#endif
+#پایان_اگر
 
-#endif
+#پایان_اگر

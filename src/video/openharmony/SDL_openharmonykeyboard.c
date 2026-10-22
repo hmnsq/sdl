@@ -18,76 +18,76 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#اگر_تعریف_شده SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-#include "SDL_openharmonykeyboard.h"
+#ضمن "SDL_openharmonykeyboard.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#ضمن "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    أرجع true;
 }
 
-void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+فراغ OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_پنجره *پنجره, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
-            INPUTTYPE(TEXT, 0);
-            INPUTTYPE(TEXT_NAME, 0);
-            INPUTTYPE(TEXT_EMAIL, 5);
-            INPUTTYPE(TEXT_USERNAME, 10);
-            INPUTTYPE(TEXT_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(TEXT_PASSWORD_VISIBLE, 7);
-            INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
-            #undef INPUTTYPE
-            default: break;
+    صحيح درون_داد_type = 0;
+    صحيح cap_type = 0;
+    إذا (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_عدد)) {
+        درون_داد_type = (صحيح)SDL_Get_عدد_Property(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_عدد, 0);
+    } وإلا {
+        بدل (SDL_Get_متن_درون_داد_Type(props)) {
+            #تعریف_کن INPUTTYPE(sdl,oh) حالة SDL_TEXTINPUT_TYPE_##sdl: درون_داد_type = oh; اكسر
+            INPUTTYPE(متن_2, 0);
+            INPUTTYPE(متن_NAME, 0);
+            INPUTTYPE(متن_EMAIL, 5);
+            INPUTTYPE(متن_USERNAME, 10);
+            INPUTTYPE(متن_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(متن_PASSWORD_VISIBLE, 7);
+            INPUTTYPE(عدد_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(عدد_PASSWORD_VISIBLE, 8);
+            #لغو_تعریف INPUTTYPE
+            افتراضي: اكسر;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-            #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
+        بدل (SDL_Get_متن_درون_داد_Capitalization(props)) {
+            #تعریف_کن CAPTYPE(sdl,oh) حالة SDL_CAPITALIZE_##sdl: cap_type = oh; اكسر
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
-            CAPTYPE(WORDS, 2);
+            CAPTYPE(واژگان, 2);
             CAPTYPE(SENTENCES, 1);
-            #undef CAPTYPE
-            default: break;
+            #لغو_تعریف CAPTYPE
+            افتراضي: اكسر;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        #إذا 0  // !!! FIXME
+        إذا (SDL_Get_متن_درون_داد_Autocorrect(props)) {
+            درون_داد_type |= (TYPE_متن_FLAG_AUTO_CORRECT | TYPE_متن_FLAG_AUTO_COMPLETE);
         }
-        #endif
+        #پایان_اگر
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type = 1;  // sorry, this only works with basic TEXT type.
+        إذا (SDL_Get_متن_درون_داد_Multiline(props)) {
+            درون_داد_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
-    SDL_OpenHarmonyShowScreenKeyboard(input_type, cap_type, &window->text_input_rect);
+    SDL_OpenHarmonyShowScreenKeyboard(درون_داد_type, cap_type, &پنجره->متن_درون_داد_rect);
 }
 
-void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
     SDL_OpenHarmonyHideScreenKeyboard();
 }
 
-void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_پنجره *پنجره)
 {
-    if (_this->screen_keyboard_shown) {
-        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
+    إذا (_this->screen_keyboard_shown) {
+        OPENHARMONY_ShowScreenKeyboard(_this, پنجره, پنجره->متن_درون_داد_props);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#پایان_اگر // SDL_VIDEO_DRIVER_OPENHARMONY
 
