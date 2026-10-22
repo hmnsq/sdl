@@ -22,19 +22,19 @@
 #ifndef SDL_RPI_mouse_h_
 #define SDL_RPI_mouse_h_
 
-#include "../SDL_sysvideo.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+கட்டமைப்பு SDL_CursorData
 {
     DISPMANX_RESOURCE_HANDLE_T resource;
     DISPMANX_ELEMENT_HANDLE_T element;
-    int hot_x, hot_y;
-    int w, h;
+    முழு hot_x, hot_y;
+    முழு w, h;
 };
 
-#define SDL_RPI_CURSORDATA(curs) RPI_CursorData *curdata = (RPI_CursorData *)((curs) ? (curs)->internal : NULL)
+#define SDL_RPI_CURSORDATA(curs) RPI_CursorData *curdata = (RPI_CursorData *)((curs) ? (curs)->internal : வெற்று)
 
-extern void RPI_InitMouse(SDL_VideoDevice *_this);
-extern void RPI_QuitMouse(SDL_VideoDevice *_this);
+வெளி வெறுமை RPI_InitMouse(SDL_VideoDevice *_this);
+வெளி வெறுமை RPI_QuitMouse(SDL_VideoDevice *_this);
 
 #endif // SDL_RPI_mouse_h_

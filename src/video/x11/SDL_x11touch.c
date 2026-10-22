@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11xinput2.h"
-#include "../../events/SDL_touch_c.h"
+#அந்தர்பாவ "SDL_x11video.h"
+#அந்தர்பாவ "SDL_x11touch.h"
+#அந்தர்பாவ "SDL_x11xinput2.h"
+#அந்தர்பாவ "../../events/SDL_touch_c.h"
 
-void X11_InitTouch(SDL_VideoDevice *_this)
+வெறுமை X11_InitTouch(SDL_VideoDevice *_this)
 {
     X11_InitXinput2Multitouch(_this);
 }
 
-void X11_QuitTouch(SDL_VideoDevice *_this)
+வெறுமை X11_QuitTouch(SDL_VideoDevice *_this)
 {
     SDL_QuitTouch();
 }
 
-void X11_ResetTouch(SDL_VideoDevice *_this)
+வெறுமை X11_ResetTouch(SDL_VideoDevice *_this)
 {
     X11_QuitTouch(_this);
     X11_InitTouch(_this);

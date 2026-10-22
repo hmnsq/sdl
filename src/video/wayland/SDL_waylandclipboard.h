@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_waylandclipboard_h_
 #define SDL_waylandclipboard_h_
 
-extern const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
+வெளி மாறிலி எழுத்து *மாறிலி *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *இலக்கம்_mime_types);
+வெளி bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
+வெளி வெறுமை *Wayland_GetClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type, size_t *length);
+வெளி bool Wayland_HasClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type);
+வெளி bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, மாறிலி எழுத்து *text);
+வெளி எழுத்து *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
+வெளி bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
 
 #endif // SDL_waylandclipboard_h_

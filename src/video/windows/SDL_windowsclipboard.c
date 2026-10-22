@@ -18,232 +18,232 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#எனில் defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_clipboardevents_c.h"
+#அந்தர்பாவ "SDL_windowsvideo.h"
+#அந்தர்பாவ "SDL_windowswindow.h"
+#அந்தர்பாவ "../SDL_clipboard_c.h"
+#அந்தர்பாவ "../../events/SDL_events_c.h"
+#அந்தர்பாவ "../../events/SDL_clipboardevents_c.h"
 
 #define BFT_BITMAP 0x4d42 // 'BM'
 
 // Assume we can directly read and write BMP fields without byte swapping
 SDL_COMPILE_TIME_ASSERT(verify_byte_order, SDL_BYTEORDER == SDL_LIL_ENDIAN);
 
-static UINT GetClipboardFormatPNG(void)
+நிலையான UINT GetClipboardFormatPNG(வெறுமை)
 {
-    static UINT format;
+    நிலையான UINT format;
 
-    if (!format) {
+    எனில் (!format) {
         format = RegisterClipboardFormat(TEXT("PNG"));
     }
-    return format;
+    திரும்பு format;
 }
 
-static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
+நிலையான BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
-    HWND hwnd = NULL;
+    மாறிலி முழு MAX_ATTEMPTS = 3;
+    முழு attempt;
+    HWND hwnd = வெற்று;
 
-    if (_this->windows) {
+    எனில் (_this->windows) {
         hwnd = _this->windows->internal->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    க்கு (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        எனில் (OpenClipboard(hwnd)) {
+            திரும்பு TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    திரும்பு FALSE;
 }
 
-static void WIN_CloseClipboard(void)
+நிலையான வெறுமை WIN_CloseClipboard(வெறுமை)
 {
     CloseClipboard();
 }
 
-static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format)
+நிலையான HANDLE WIN_ConvertBMPtoDIB(மாறிலி வெறுமை *bmp, size_t bmp_size, UINT *format)
 {
-    HANDLE hMem = NULL;
+    HANDLE hMem = வெற்று;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    எனில் (bmp && bmp_size > அளவு(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
-        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
-        size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
+        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + அளவு(BITMAPFILEHEADER));
+        size_t bih_size = pbih->biSize + pbih->biClrUsed * அளவு(RGBQUAD);
         size_t pixels_size = pbih->biSizeImage;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        எனில் (pbih->biSize >= அளவு(BITMAPV5HEADER)) {
             *format = CF_DIBV5;
-        } else {
+        } இல்லையெனில் {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
+        எனில் (pbfh->bfOffBits >= (அளவு(BITMAPFILEHEADER) + bih_size) &&
             (pbfh->bfOffBits + pixels_size) <= bmp_size) {
-            const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
+            மாறிலி Uint8 *pixels = (மாறிலி Uint8 *)bmp + pbfh->bfOffBits;
             size_t dib_size = bih_size + pixels_size;
             hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
+            எனில் (hMem) {
                 LPVOID dst = GlobalLock(hMem);
-                if (dst) {
+                எனில் (dst) {
                     SDL_memcpy(dst, pbih, bih_size);
                     SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
                     GlobalUnlock(hMem);
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("GlobalLock()");
                     GlobalFree(hMem);
-                    hMem = NULL;
+                    hMem = வெற்று;
                 }
-            } else {
+            } இல்லையெனில் {
                 SDL_OutOfMemory();
             }
-        } else {
+        } இல்லையெனில் {
             SDL_SetError("Invalid BMP data");
         }
-    } else {
+    } இல்லையெனில் {
         SDL_SetError("Invalid BMP data");
     }
-    return hMem;
+    திரும்பு hMem;
 }
 
-static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
+நிலையான வெறுமை *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
 {
-    void *bmp = NULL;
+    வெறுமை *bmp = வெற்று;
     size_t mem_size = GlobalSize(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
+    எனில் (mem_size > அளவு(BITMAPINFOHEADER)) {
         LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+        எனில் (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
             size_t color_table_size;
-            switch (pbih->biCompression) {
-            case BI_RGB:
-                if (pbih->biBitCount <= 8) {
-                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
+            தேர்வு (pbih->biCompression) {
+            நிலை BI_RGB:
+                எனில் (pbih->bi_Bit_மொத்தம் <= 8) {
+                    color_table_size = அளவு(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->bi_Bit_மொத்தம் : pbih->biClrUsed);
+                } இல்லையெனில் {
                     color_table_size = 0;
                 }
-                break;
-            case BI_BITFIELDS:
-                color_table_size = 3 * sizeof(DWORD);
-                break;
-            case 6 /* BI_ALPHABITFIELDS */:
+                நிறுத்து;
+            நிலை BI_BITFIELDS:
+                color_table_size = 3 * அளவு(DWORD);
+                நிறுத்து;
+            நிலை 6 /* BI_ALPHABITFIELDS */:
                 // https://learn.microsoft.com/en-us/previous-versions/windows/embedded/aa452885(v=msdn.10)
-                color_table_size = 4 * sizeof(DWORD);
-                break;
-            default: // FOURCC
-                color_table_size = sizeof(RGBQUAD) * pbih->biClrUsed;
+                color_table_size = 4 * அளவு(DWORD);
+                நிறுத்து;
+            இயல்பு: // FOURCC
+                color_table_size = அளவு(RGBQUAD) * pbih->biClrUsed;
             }
 
             size_t bih_size = pbih->biSize + color_table_size;
             size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
-                size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
+            எனில் (dib_size <= mem_size) {
+                size_t bmp_size = அளவு(BITMAPFILEHEADER) + mem_size;
                 bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+                எனில் (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
                     pbfh->bfSize = (DWORD)bmp_size;
                     pbfh->bfReserved1 = 0;
                     pbfh->bfReserved2 = 0;
-                    pbfh->bfOffBits = (DWORD)(sizeof(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
-                    SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
+                    pbfh->bfOffBits = (DWORD)(அளவு(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
+                    SDL_memcpy((Uint8 *)bmp + அளவு(BITMAPFILEHEADER), dib, mem_size);
                     *size = bmp_size;
                 }
-            } else {
+            } இல்லையெனில் {
                 SDL_SetError("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
+        } இல்லையெனில் {
             WIN_SetError("GlobalLock()");
         }
-    } else {
+    } இல்லையெனில் {
         SDL_SetError("Invalid BMP data");
     }
-    return bmp;
+    திரும்பு bmp;
 }
 
-static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
+நிலையான bool WIN_SetClipboardImage(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type)
 {
     UINT format = 0;
-    HANDLE hMem = NULL;
+    HANDLE hMem = வெற்று;
     size_t clipboard_data_size;
-    const void *clipboard_data;
+    மாறிலி வெறுமை *clipboard_data;
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
+    எனில் (SDL_strcmp(mime_type, "image/bmp") == 0) {
         hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    } இல்லையெனில் எனில் (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
         hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
+        எனில் (hMem) {
             LPVOID dst = GlobalLock(hMem);
-            if (dst) {
+            எனில் (dst) {
                 SDL_memcpy(dst, clipboard_data, clipboard_data_size);
                 GlobalUnlock(hMem);
-            } else {
+            } இல்லையெனில் {
                 result = WIN_SetError("GlobalLock()");
                 GlobalFree(hMem);
-                hMem = NULL;
+                hMem = வெற்று;
             }
-        } else {
+        } இல்லையெனில் {
             result = SDL_OutOfMemory();
         }
-    } else {
+    } இல்லையெனில் {
         result = SDL_SetError("Unknown image format");
     }
-    if (hMem) {
+    எனில் (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
+        எனில் (!SetClipboardData(format, hMem)) {
             result = WIN_SetError("Couldn't set clipboard data");
         }
-    } else {
+    } இல்லையெனில் {
         // WIN_ConvertBMPtoDIB() set the error
         result = false;
     }
-    return result;
+    திரும்பு result;
 }
 
-static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
+நிலையான bool WIN_SetClipboardText(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type)
 {
     HANDLE hMem;
     size_t clipboard_data_size;
-    const void *clipboard_data;
+    மாறிலி வெறுமை *clipboard_data;
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
+    எனில் (clipboard_data && clipboard_data_size > 0) {
         SIZE_T i, size;
-        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (மாறிலி எழுத்து *)clipboard_data, clipboard_data_size);
+        எனில் (!tstr) {
+            திரும்பு SDL_SetError("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        க்கு (size = 0, i = 0; tstr[i]; ++i, ++size) {
+            எனில் (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
                 ++size;
             }
         }
-        size = (size + 1) * sizeof(*tstr);
+        size = (size + 1) * அளவு(*tstr);
 
         // Save the data to the clipboard
         hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
+        எனில் (hMem) {
             LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+            எனில் (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                க்கு (i = 0; tstr[i]; ++i) {
+                    எனில் (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,15 +252,15 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
+            எனில் (!SetClipboardData(CF_UNICODETEXT, hMem)) {
                 result = WIN_SetError("Couldn't set clipboard data");
             }
-        } else {
+        } இல்லையெனில் {
             result = SDL_OutOfMemory();
         }
         SDL_free(tstr);
     }
-    return result;
+    திரும்பு result;
 }
 
 bool WIN_SetClipboardData(SDL_VideoDevice *_this)
@@ -274,282 +274,282 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
+    எனில் (WIN_OpenClipboard(_this)) {
         EmptyClipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        க்கு (i = 0; i < _this->இலக்கம்_clipboard_mime_types; ++i) {
+            மாறிலி எழுத்து *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
+            எனில் (SDL_IsTextMimeType(mime_type)) {
+                எனில் (!WIN_SetClipboardText(_this, mime_type)) {
                     result = false;
                 }
                 // Only set the first clipboard text
-                break;
+                நிறுத்து;
             }
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        க்கு (i = 0; i < _this->இலக்கம்_clipboard_mime_types; ++i) {
+            மாறிலி எழுத்து *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            எனில் (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
+                எனில் (!WIN_SetClipboardImage(_this, mime_type)) {
                     result = false;
                 }
-                break;
+                நிறுத்து;
             }
         }
 
-        data->clipboard_count = GetClipboardSequenceNumber();
+        data->clipboard_மொத்தம் = Get_Clipboard_Sequence_எண்();
         WIN_CloseClipboard();
-    } else {
+    } இல்லையெனில் {
         result = WIN_SetError("Couldn't open clipboard");
     }
-    return result;
+    திரும்பு result;
 }
 
-void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+வெறுமை *WIN_GetClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type, size_t *size)
 {
-    void *data = NULL;
+    வெறுமை *data = வெற்று;
 
-    if (SDL_IsTextMimeType(mime_type)) {
-        char *text = NULL;
+    எனில் (SDL_IsTextMimeType(mime_type)) {
+        எழுத்து *text = வெற்று;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        எனில் (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
+            எனில் (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
                 hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
+                எனில் (hMem) {
                     str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
+                    எனில் (str) {
                         text = WIN_StringToUTF8W(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } இல்லையெனில் {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } இல்லையெனில் எனில் (IsClipboardFormatAvailable(CF_TEXT)) {
+            எனில் (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
                 hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
+                எனில் (hMem) {
                     str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
+                    எனில் (str) {
                         text = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } இல்லையெனில் {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
+        எனில் (!text) {
             text = SDL_strdup("");
         }
         data = text;
         *size = SDL_strlen(text);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
+    } இல்லையெனில் எனில் (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        எனில் (IsClipboardFormatAvailable(CF_DIBV5)) {
+            எனில் (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
+                எனில் (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
+        } இல்லையெனில் எனில் (IsClipboardFormatAvailable(CF_DIB)) {
+            எனில் (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
+                எனில் (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
+    } இல்லையெனில் எனில் (SDL_strcmp(mime_type, "image/png") == 0) {
+        எனில் (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            எனில் (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
+                எனில் (hMem) {
                     size_t mem_size = GlobalSize(hMem);
-                    void *mem = GlobalLock(hMem);
-                    if (mem) {
+                    வெறுமை *mem = GlobalLock(hMem);
+                    எனில் (mem) {
                         data = SDL_malloc(mem_size);
-                        if (data) {
+                        எனில் (data) {
                             SDL_memcpy(data, mem, mem_size);
                             *size = mem_size;
                         }
                         GlobalUnlock(hMem);
-                    } else {
+                    } இல்லையெனில் {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } இல்லையெனில் {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
+    } இல்லையெனில் {
         data = SDL_GetInternalClipboardData(_this, mime_type, size);
     }
-    return data;
+    திரும்பு data;
 }
 
-bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool WIN_HasClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    எனில் (SDL_IsTextMimeType(mime_type)) {
+        எனில் (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
+            திரும்பு true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } இல்லையெனில் எனில் (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        எனில் (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
+            திரும்பு true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } இல்லையெனில் எனில் (SDL_strcmp(mime_type, "image/png") == 0) {
+        எனில் (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            திரும்பு true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    திரும்பு SDL_HasInternalClipboardData(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+நிலையான முழு GetClipboardFormatMimeType(UINT format, எழுத்து *name)
 {
-    const char *mime_type = NULL;
+    மாறிலி எழுத்து *mime_type = வெற்று;
 
-    switch (format) {
-    case CF_TEXT:
+    தேர்வு (format) {
+    நிலை CF_TEXT:
         mime_type = "text/plain";
-        break;
-    case CF_UNICODETEXT:
+        நிறுத்து;
+    நிலை CF_UNICODETEXT:
         mime_type = "text/plain;charset=utf-8";
-        break;
-    case CF_DIB:
-    case CF_DIBV5:
+        நிறுத்து;
+    நிலை CF_DIB:
+    நிலை CF_DIBV5:
         mime_type = "image/bmp";
-        break;
-    default:
-        if (format == GetClipboardFormatPNG()) {
+        நிறுத்து;
+    இயல்பு:
+        எனில் (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
-        break;
+        நிறுத்து;
     }
-    if (mime_type) {
+    எனில் (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        எனில் (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        திரும்பு (முழு)len;
     }
-    return 0;
+    திரும்பு 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+நிலையான எழுத்து **GetMimeTypes(முழு *pnformats)
 {
-    char **new_mime_types = NULL;
+    எழுத்து **new_mime_types = வெற்று;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    எனில் (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        முழு nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        முழு formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        க்கு ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
-                break;
+            எனில் (!format) {
+                நிறுத்து;
             }
 
 #ifdef DEBUG_CLIPBOARD
-            char name[128] = { 0 };
-            GetClipboardFormatNameA(format, name, sizeof(name));
+            எழுத்து name[128] = { 0 };
+            GetClipboardFormatNameA(format, name, அளவு(name));
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
 #endif
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            எனில் (format == CF_DIB || format == CF_DIBV5) {
+                எனில் (have_image_bmp) {
                     // We have already registered this format
-                    continue;
+                    தொடர்;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            முழு len = GetClipboardFormatMimeType(format, வெற்று);
+            எனில் (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
         }
 
         have_image_bmp = false;
-        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * அளவு(எழுத்து *) + formatsSz);
+        எனில் (new_mime_types) {
             format = 0;
-            char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            எழுத்து *strPtr = (எழுத்து *)(new_mime_types + nformats + 1);
+            முழு i = 0;
+            க்கு ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
-                    break;
+                எனில் (!format) {
+                    நிறுத்து;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                எனில் (format == CF_DIB || format == CF_DIBV5) {
+                    எனில் (have_image_bmp) {
                         // We have already registered this format
-                        continue;
+                        தொடர்;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                முழு len = GetClipboardFormatMimeType(format, strPtr);
+                எனில் (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
             }
 
-            new_mime_types[nformats] = NULL;
+            new_mime_types[nformats] = வெற்று;
             *pnformats = nformats;
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    திரும்பு new_mime_types;
 }
 
-void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
+வெறுமை WIN_CheckClipboardUpdate(கட்டமைப்பு SDL_VideoData *data)
 {
-    DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
-            char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+    DWORD மொத்தம் = Get_Clipboard_Sequence_எண்();
+    எனில் (மொத்தம் != data->clipboard_மொத்தம்) {
+        எனில் (மொத்தம்) {
+            முழு nformats = 0;
+            எழுத்து **new_mime_types = GetMimeTypes(&nformats);
+            எனில் (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }
-        data->clipboard_count = count;
+        data->clipboard_மொத்தம் = மொத்தம்;
     }
 }
 

@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#அந்தர்பாவ "SDL_riscosvideo.h"
+#அந்தர்பாவ "SDL_riscoswindow.h"
 
 bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
     SDL_WindowData *data;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, அளவு(*data));
+    எனில் (!data) {
+        திரும்பு false;
     }
     data->window = window;
 
@@ -42,14 +42,14 @@ bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
 
     // All done!
     window->internal = data;
-    return true;
+    திரும்பு true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+வெறுமை RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (window->internal) {
+    எனில் (window->internal) {
         SDL_free(window->internal);
-        window->internal = NULL;
+        window->internal = வெற்று;
     }
 }
 

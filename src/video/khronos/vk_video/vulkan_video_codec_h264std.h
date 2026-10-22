@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+வெளி "C" {
 #endif
 
 
@@ -22,18 +22,18 @@ extern "C" {
 // vulkan_video_codec_h264std is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_h264std 1
 
-#include "vulkan_video_codecs_common.h"
+#அந்தர்பாவ "vulkan_video_codecs_common.h"
 
 #define STD_VIDEO_H264_CPB_CNT_LIST_SIZE  32U
-#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS 6U
-#define STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS 16U
-#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS 6U
-#define STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS 64U
-#define STD_VIDEO_H264_MAX_NUM_LIST_REF   32U
+#define STD_VIDEO_H264_SCALING_LIST_4_X4_இலக்கம்_LISTS 6U
+#define STD_VIDEO_H264_SCALING_LIST_4_X4_இலக்கம்_ELEMENTS 16U
+#define STD_VIDEO_H264_SCALING_LIST_8_X8_இலக்கம்_LISTS 6U
+#define STD_VIDEO_H264_SCALING_LIST_8_X8_இலக்கம்_ELEMENTS 64U
+#define STD_VIDEO_H264_MAX_இலக்கம்_LIST_REF   32U
 #define STD_VIDEO_H264_MAX_CHROMA_PLANES  2U
 #define STD_VIDEO_H264_NO_REFERENCE_PICTURE 0xFFU
 
-typedef enum StdVideoH264ChromaFormatIdc {
+வகைவரை எண்ணிக்கை StdVideoH264ChromaFormatIdc {
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_MONOCHROME = 0,
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_420 = 1,
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_422 = 2,
@@ -42,18 +42,18 @@ typedef enum StdVideoH264ChromaFormatIdc {
     STD_VIDEO_H264_CHROMA_FORMAT_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ChromaFormatIdc;
 
-typedef enum StdVideoH264ProfileIdc {
+வகைவரை எண்ணிக்கை StdVideoH264ProfileIdc {
     STD_VIDEO_H264_PROFILE_IDC_BASELINE = 66,
     STD_VIDEO_H264_PROFILE_IDC_MAIN = 77,
-    STD_VIDEO_H264_PROFILE_IDC_HIGH = 100,
-    STD_VIDEO_H264_PROFILE_IDC_HIGH_10 = 110,
-    STD_VIDEO_H264_PROFILE_IDC_HIGH_422 = 122,
-    STD_VIDEO_H264_PROFILE_IDC_HIGH_444_PREDICTIVE = 244,
+    STD_VIDEO_H264_PROFILE_IDC_உயர்வு = 100,
+    STD_VIDEO_H264_PROFILE_IDC_உயர்வு_10 = 110,
+    STD_VIDEO_H264_PROFILE_IDC_உயர்வு_422 = 122,
+    STD_VIDEO_H264_PROFILE_IDC_உயர்வு_444_PREDICTIVE = 244,
     STD_VIDEO_H264_PROFILE_IDC_INVALID = 0x7FFFFFFF,
     STD_VIDEO_H264_PROFILE_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ProfileIdc;
 
-typedef enum StdVideoH264LevelIdc {
+வகைவரை எண்ணிக்கை StdVideoH264LevelIdc {
     STD_VIDEO_H264_LEVEL_IDC_1_0 = 0,
     STD_VIDEO_H264_LEVEL_IDC_1_1 = 1,
     STD_VIDEO_H264_LEVEL_IDC_1_2 = 2,
@@ -77,7 +77,7 @@ typedef enum StdVideoH264LevelIdc {
     STD_VIDEO_H264_LEVEL_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264LevelIdc;
 
-typedef enum StdVideoH264PocType {
+வகைவரை எண்ணிக்கை StdVideoH264PocType {
     STD_VIDEO_H264_POC_TYPE_0 = 0,
     STD_VIDEO_H264_POC_TYPE_1 = 1,
     STD_VIDEO_H264_POC_TYPE_2 = 2,
@@ -85,7 +85,7 @@ typedef enum StdVideoH264PocType {
     STD_VIDEO_H264_POC_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264PocType;
 
-typedef enum StdVideoH264AspectRatioIdc {
+வகைவரை எண்ணிக்கை StdVideoH264AspectRatioIdc {
     STD_VIDEO_H264_ASPECT_RATIO_IDC_UNSPECIFIED = 0,
     STD_VIDEO_H264_ASPECT_RATIO_IDC_SQUARE = 1,
     STD_VIDEO_H264_ASPECT_RATIO_IDC_12_11 = 2,
@@ -108,7 +108,7 @@ typedef enum StdVideoH264AspectRatioIdc {
     STD_VIDEO_H264_ASPECT_RATIO_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264AspectRatioIdc;
 
-typedef enum StdVideoH264WeightedBipredIdc {
+வகைவரை எண்ணிக்கை StdVideoH264WeightedBipredIdc {
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_DEFAULT = 0,
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_EXPLICIT = 1,
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_IMPLICIT = 2,
@@ -116,7 +116,7 @@ typedef enum StdVideoH264WeightedBipredIdc {
     STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264WeightedBipredIdc;
 
-typedef enum StdVideoH264ModificationOfPicNumsIdc {
+வகைவரை எண்ணிக்கை StdVideoH264ModificationOfPicNumsIdc {
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_SUBTRACT = 0,
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_ADD = 1,
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_LONG_TERM = 2,
@@ -125,7 +125,7 @@ typedef enum StdVideoH264ModificationOfPicNumsIdc {
     STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264ModificationOfPicNumsIdc;
 
-typedef enum StdVideoH264MemMgmtControlOp {
+வகைவரை எண்ணிக்கை StdVideoH264MemMgmtControlOp {
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_END = 0,
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_SHORT_TERM = 1,
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_LONG_TERM = 2,
@@ -137,7 +137,7 @@ typedef enum StdVideoH264MemMgmtControlOp {
     STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264MemMgmtControlOp;
 
-typedef enum StdVideoH264CabacInitIdc {
+வகைவரை எண்ணிக்கை StdVideoH264CabacInitIdc {
     STD_VIDEO_H264_CABAC_INIT_IDC_0 = 0,
     STD_VIDEO_H264_CABAC_INIT_IDC_1 = 1,
     STD_VIDEO_H264_CABAC_INIT_IDC_2 = 2,
@@ -145,7 +145,7 @@ typedef enum StdVideoH264CabacInitIdc {
     STD_VIDEO_H264_CABAC_INIT_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264CabacInitIdc;
 
-typedef enum StdVideoH264DisableDeblockingFilterIdc {
+வகைவரை எண்ணிக்கை StdVideoH264DisableDeblockingFilterIdc {
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_DISABLED = 0,
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_ENABLED = 1,
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_PARTIAL = 2,
@@ -153,7 +153,7 @@ typedef enum StdVideoH264DisableDeblockingFilterIdc {
     STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264DisableDeblockingFilterIdc;
 
-typedef enum StdVideoH264SliceType {
+வகைவரை எண்ணிக்கை StdVideoH264SliceType {
     STD_VIDEO_H264_SLICE_TYPE_P = 0,
     STD_VIDEO_H264_SLICE_TYPE_B = 1,
     STD_VIDEO_H264_SLICE_TYPE_I = 2,
@@ -161,7 +161,7 @@ typedef enum StdVideoH264SliceType {
     STD_VIDEO_H264_SLICE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264SliceType;
 
-typedef enum StdVideoH264PictureType {
+வகைவரை எண்ணிக்கை StdVideoH264PictureType {
     STD_VIDEO_H264_PICTURE_TYPE_P = 0,
     STD_VIDEO_H264_PICTURE_TYPE_B = 1,
     STD_VIDEO_H264_PICTURE_TYPE_I = 2,
@@ -170,7 +170,7 @@ typedef enum StdVideoH264PictureType {
     STD_VIDEO_H264_PICTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264PictureType;
 
-typedef enum StdVideoH264NonVclNaluType {
+வகைவரை எண்ணிக்கை StdVideoH264NonVclNaluType {
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_SPS = 0,
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_PPS = 1,
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_AUD = 2,
@@ -182,7 +182,7 @@ typedef enum StdVideoH264NonVclNaluType {
     STD_VIDEO_H264_NON_VCL_NALU_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH264NonVclNaluType;
 
-typedef struct StdVideoH264SpsVuiFlags {
+வகைவரை கட்டமைப்பு StdVideoH264SpsVuiFlags {
     uint32_t    aspect_ratio_info_present_flag : 1;
     uint32_t    overscan_info_present_flag : 1;
     uint32_t    overscan_appropriate_flag : 1;
@@ -197,13 +197,13 @@ typedef struct StdVideoH264SpsVuiFlags {
     uint32_t    vcl_hrd_parameters_present_flag : 1;
 } StdVideoH264SpsVuiFlags;
 
-typedef struct StdVideoH264HrdParameters {
+வகைவரை கட்டமைப்பு StdVideoH264HrdParameters {
     uint8_t     cpb_cnt_minus1;
     uint8_t     bit_rate_scale;
     uint8_t     cpb_size_scale;
     uint8_t     reserved1;
-    uint32_t    bit_rate_value_minus1[STD_VIDEO_H264_CPB_CNT_LIST_SIZE];
-    uint32_t    cpb_size_value_minus1[STD_VIDEO_H264_CPB_CNT_LIST_SIZE];
+    uint32_t    bit_rate_மதிப்பு_minus1[STD_VIDEO_H264_CPB_CNT_LIST_SIZE];
+    uint32_t    cpb_size_மதிப்பு_minus1[STD_VIDEO_H264_CPB_CNT_LIST_SIZE];
     uint8_t     cbr_flag[STD_VIDEO_H264_CPB_CNT_LIST_SIZE];
     uint32_t    initial_cpb_removal_delay_length_minus1;
     uint32_t    cpb_removal_delay_length_minus1;
@@ -211,7 +211,7 @@ typedef struct StdVideoH264HrdParameters {
     uint32_t    time_offset_length;
 } StdVideoH264HrdParameters;
 
-typedef struct StdVideoH264SequenceParameterSetVui {
+வகைவரை கட்டமைப்பு StdVideoH264SequenceParameterSetVui {
     StdVideoH264SpsVuiFlags             flags;
     StdVideoH264AspectRatioIdc          aspect_ratio_idc;
     uint16_t                            sar_width;
@@ -220,17 +220,17 @@ typedef struct StdVideoH264SequenceParameterSetVui {
     uint8_t                             colour_primaries;
     uint8_t                             transfer_characteristics;
     uint8_t                             matrix_coefficients;
-    uint32_t                            num_units_in_tick;
+    uint32_t                            இலக்கம்_units_in_tick;
     uint32_t                            time_scale;
-    uint8_t                             max_num_reorder_frames;
+    uint8_t                             max_இலக்கம்_reorder_frames;
     uint8_t                             max_dec_frame_buffering;
-    uint8_t                             chroma_sample_loc_type_top_field;
+    uint8_t                             chroma_sample_loc_type_உச்சி_field;
     uint8_t                             chroma_sample_loc_type_bottom_field;
     uint32_t                            reserved1;
-    const StdVideoH264HrdParameters*    pHrdParameters;
+    மாறிலி StdVideoH264HrdParameters*    pHrdParameters;
 } StdVideoH264SequenceParameterSetVui;
 
-typedef struct StdVideoH264SpsFlags {
+வகைவரை கட்டமைப்பு StdVideoH264SpsFlags {
     uint32_t    constraint_set0_flag : 1;
     uint32_t    constraint_set1_flag : 1;
     uint32_t    constraint_set2_flag : 1;
@@ -242,21 +242,21 @@ typedef struct StdVideoH264SpsFlags {
     uint32_t    frame_mbs_only_flag : 1;
     uint32_t    delta_pic_order_always_zero_flag : 1;
     uint32_t    separate_colour_plane_flag : 1;
-    uint32_t    gaps_in_frame_num_value_allowed_flag : 1;
+    uint32_t    gaps_in_frame_இலக்கம்_மதிப்பு_allowed_flag : 1;
     uint32_t    qpprime_y_zero_transform_bypass_flag : 1;
     uint32_t    frame_cropping_flag : 1;
     uint32_t    seq_scaling_matrix_present_flag : 1;
     uint32_t    vui_parameters_present_flag : 1;
 } StdVideoH264SpsFlags;
 
-typedef struct StdVideoH264ScalingLists {
+வகைவரை கட்டமைப்பு StdVideoH264ScalingLists {
     uint16_t    scaling_list_present_mask;
     uint16_t    use_default_scaling_matrix_mask;
-    uint8_t     ScalingList4x4[STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS][STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS];
-    uint8_t     ScalingList8x8[STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS][STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS];
+    uint8_t     ScalingList4x4[STD_VIDEO_H264_SCALING_LIST_4_X4_இலக்கம்_LISTS][STD_VIDEO_H264_SCALING_LIST_4_X4_இலக்கம்_ELEMENTS];
+    uint8_t     ScalingList8x8[STD_VIDEO_H264_SCALING_LIST_8_X8_இலக்கம்_LISTS][STD_VIDEO_H264_SCALING_LIST_8_X8_இலக்கம்_ELEMENTS];
 } StdVideoH264ScalingLists;
 
-typedef struct StdVideoH264SequenceParameterSet {
+வகைவரை கட்டமைப்பு StdVideoH264SequenceParameterSet {
     StdVideoH264SpsFlags                          flags;
     StdVideoH264ProfileIdc                        profile_idc;
     StdVideoH264LevelIdc                          level_idc;
@@ -264,27 +264,27 @@ typedef struct StdVideoH264SequenceParameterSet {
     uint8_t                                       seq_parameter_set_id;
     uint8_t                                       bit_depth_luma_minus8;
     uint8_t                                       bit_depth_chroma_minus8;
-    uint8_t                                       log2_max_frame_num_minus4;
+    uint8_t                                       log2_max_frame_இலக்கம்_minus4;
     StdVideoH264PocType                           pic_order_cnt_type;
     int32_t                                       offset_for_non_ref_pic;
-    int32_t                                       offset_for_top_to_bottom_field;
+    int32_t                                       offset_for_உச்சி_to_bottom_field;
     uint8_t                                       log2_max_pic_order_cnt_lsb_minus4;
-    uint8_t                                       num_ref_frames_in_pic_order_cnt_cycle;
-    uint8_t                                       max_num_ref_frames;
+    uint8_t                                       இலக்கம்_ref_frames_in_pic_order_cnt_cycle;
+    uint8_t                                       max_இலக்கம்_ref_frames;
     uint8_t                                       reserved1;
     uint32_t                                      pic_width_in_mbs_minus1;
     uint32_t                                      pic_height_in_map_units_minus1;
-    uint32_t                                      frame_crop_left_offset;
-    uint32_t                                      frame_crop_right_offset;
-    uint32_t                                      frame_crop_top_offset;
+    uint32_t                                      frame_crop_இடது_offset;
+    uint32_t                                      frame_crop_வலது_offset;
+    uint32_t                                      frame_crop_உச்சி_offset;
     uint32_t                                      frame_crop_bottom_offset;
     uint32_t                                      reserved2;
-    const int32_t*                                pOffsetForRefFrame;
-    const StdVideoH264ScalingLists*               pScalingLists;
-    const StdVideoH264SequenceParameterSetVui*    pSequenceParameterSetVui;
+    மாறிலி int32_t*                                pOffsetForRefFrame;
+    மாறிலி StdVideoH264ScalingLists*               pScalingLists;
+    மாறிலி StdVideoH264SequenceParameterSetVui*    pSequenceParameterSetVui;
 } StdVideoH264SequenceParameterSet;
 
-typedef struct StdVideoH264PpsFlags {
+வகைவரை கட்டமைப்பு StdVideoH264PpsFlags {
     uint32_t    transform_8x8_mode_flag : 1;
     uint32_t    redundant_pic_cnt_present_flag : 1;
     uint32_t    constrained_intra_pred_flag : 1;
@@ -295,18 +295,18 @@ typedef struct StdVideoH264PpsFlags {
     uint32_t    pic_scaling_matrix_present_flag : 1;
 } StdVideoH264PpsFlags;
 
-typedef struct StdVideoH264PictureParameterSet {
+வகைவரை கட்டமைப்பு StdVideoH264PictureParameterSet {
     StdVideoH264PpsFlags               flags;
     uint8_t                            seq_parameter_set_id;
     uint8_t                            pic_parameter_set_id;
-    uint8_t                            num_ref_idx_l0_default_active_minus1;
-    uint8_t                            num_ref_idx_l1_default_active_minus1;
+    uint8_t                            இலக்கம்_ref_idx_l0_default_active_minus1;
+    uint8_t                            இலக்கம்_ref_idx_l1_default_active_minus1;
     StdVideoH264WeightedBipredIdc      weighted_bipred_idc;
     int8_t                             pic_init_qp_minus26;
     int8_t                             pic_init_qs_minus26;
     int8_t                             chroma_qp_index_offset;
     int8_t                             second_chroma_qp_index_offset;
-    const StdVideoH264ScalingLists*    pScalingLists;
+    மாறிலி StdVideoH264ScalingLists*    pScalingLists;
 } StdVideoH264PictureParameterSet;
 
 

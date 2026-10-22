@@ -12,10 +12,10 @@
 **
 */
 
-#include "openxr.h"
+#அந்தர்பாவ "openxr.h"
 
 #ifdef __cplusplus
-extern "C" {
+வெளி "C" {
 #endif
 
 
@@ -47,7 +47,7 @@ extern "C" {
 #define XR_API_LAYER_MAX_SETTINGS_PATH_SIZE 512
 
 
-typedef enum XrLoaderInterfaceStructs {
+வகைவரை எண்ணிக்கை XrLoaderInterfaceStructs {
     XR_LOADER_INTERFACE_STRUCT_UNINTIALIZED = 0,
     XR_LOADER_INTERFACE_STRUCT_LOADER_INFO = 1,
     XR_LOADER_INTERFACE_STRUCT_API_LAYER_REQUEST = 2,
@@ -56,34 +56,34 @@ typedef enum XrLoaderInterfaceStructs {
     XR_LOADER_INTERFACE_STRUCT_API_LAYER_NEXT_INFO = 5,
     XR_LOADER_INTERFACE_STRUCTS_MAX_ENUM = 0x7FFFFFFF
 } XrLoaderInterfaceStructs;
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, const char* name, PFN_xrVoidFunction* function);
+வகைவரை XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, மாறிலி எழுத்து* name, PFN_xrVoidFunction* function);
 
-typedef struct XrApiLayerCreateInfo XrApiLayerCreateInfo;
-typedef XrResult (XRAPI_PTR *PFN_xrCreateApiLayerInstance)(
-            const XrInstanceCreateInfo* info,
-            const XrApiLayerCreateInfo* apiLayerInfo,
+வகைவரை கட்டமைப்பு XrApiLayerCreateInfo XrApiLayerCreateInfo;
+வகைவரை XrResult (XRAPI_PTR *PFN_xrCreateApiLayerInstance)(
+            மாறிலி XrInstanceCreateInfo* info,
+            மாறிலி XrApiLayerCreateInfo* apiLayerInfo,
             XrInstance* instance);
 
-typedef struct XrApiLayerNextInfo {
+வகைவரை கட்டமைப்பு XrApiLayerNextInfo {
     XrLoaderInterfaceStructs        structType;
     uint32_t                        structVersion;
     size_t                          structSize;
-    char                            layerName[XR_MAX_API_LAYER_NAME_SIZE];
+    எழுத்து                            layerName[XR_MAX_API_LAYER_NAME_SIZE];
     PFN_xrGetInstanceProcAddr       nextGetInstanceProcAddr;
     PFN_xrCreateApiLayerInstance    nextCreateApiLayerInstance;
-    struct XrApiLayerNextInfo*      next;
+    கட்டமைப்பு XrApiLayerNextInfo*      next;
 } XrApiLayerNextInfo;
 
-typedef struct XrApiLayerCreateInfo {
+வகைவரை கட்டமைப்பு XrApiLayerCreateInfo {
     XrLoaderInterfaceStructs    structType;
     uint32_t                    structVersion;
     size_t                      structSize;
-    void* XR_MAY_ALIAS          loaderInstance;
-    char                        settings_file_location[XR_API_LAYER_MAX_SETTINGS_PATH_SIZE];
+    வெறுமை* XR_MAY_ALIAS          loaderInstance;
+    எழுத்து                        settings_file_location[XR_API_LAYER_MAX_SETTINGS_PATH_SIZE];
     XrApiLayerNextInfo*         nextInfo;
 } XrApiLayerCreateInfo;
 
-typedef struct XrNegotiateApiLayerRequest {
+வகைவரை கட்டமைப்பு XrNegotiateApiLayerRequest {
     XrLoaderInterfaceStructs        structType;
     uint32_t                        structVersion;
     size_t                          structSize;
@@ -93,7 +93,7 @@ typedef struct XrNegotiateApiLayerRequest {
     PFN_xrCreateApiLayerInstance    createApiLayerInstance;
 } XrNegotiateApiLayerRequest;
 
-typedef struct XrNegotiateLoaderInfo {
+வகைவரை கட்டமைப்பு XrNegotiateLoaderInfo {
     XrLoaderInterfaceStructs    structType;
     uint32_t                    structVersion;
     size_t                      structSize;
@@ -103,7 +103,7 @@ typedef struct XrNegotiateLoaderInfo {
     XrVersion                   maxApiVersion;
 } XrNegotiateLoaderInfo;
 
-typedef struct XrNegotiateRuntimeRequest {
+வகைவரை கட்டமைப்பு XrNegotiateRuntimeRequest {
     XrLoaderInterfaceStructs     structType;
     uint32_t                     structVersion;
     size_t                       structSize;
@@ -112,24 +112,24 @@ typedef struct XrNegotiateRuntimeRequest {
     PFN_xrGetInstanceProcAddr    getInstanceProcAddr;
 } XrNegotiateRuntimeRequest;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateApiLayerInstance)(const XrInstanceCreateInfo* info, const XrApiLayerCreateInfo* layerInfo, XrInstance* instance);
-typedef XrResult (XRAPI_PTR *PFN_xrNegotiateLoaderRuntimeInterface)(const XrNegotiateLoaderInfo* loaderInfo, XrNegotiateRuntimeRequest* runtimeRequest);
-typedef XrResult (XRAPI_PTR *PFN_xrNegotiateLoaderApiLayerInterface)(const XrNegotiateLoaderInfo* loaderInfo, const char* layerName, XrNegotiateApiLayerRequest* apiLayerRequest);
+வகைவரை XrResult (XRAPI_PTR *PFN_xrCreateApiLayerInstance)(மாறிலி XrInstanceCreateInfo* info, மாறிலி XrApiLayerCreateInfo* layerInfo, XrInstance* instance);
+வகைவரை XrResult (XRAPI_PTR *PFN_xrNegotiateLoaderRuntimeInterface)(மாறிலி XrNegotiateLoaderInfo* loaderInfo, XrNegotiateRuntimeRequest* runtimeRequest);
+வகைவரை XrResult (XRAPI_PTR *PFN_xrNegotiateLoaderApiLayerInterface)(மாறிலி XrNegotiateLoaderInfo* loaderInfo, மாறிலி எழுத்து* layerName, XrNegotiateApiLayerRequest* apiLayerRequest);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateApiLayerInstance(
-    const XrInstanceCreateInfo*                 info,
-    const XrApiLayerCreateInfo*                 layerInfo,
+    மாறிலி XrInstanceCreateInfo*                 info,
+    மாறிலி XrApiLayerCreateInfo*                 layerInfo,
     XrInstance*                                 instance);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrNegotiateLoaderRuntimeInterface(
-    const XrNegotiateLoaderInfo*                loaderInfo,
+    மாறிலி XrNegotiateLoaderInfo*                loaderInfo,
     XrNegotiateRuntimeRequest*                  runtimeRequest);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrNegotiateLoaderApiLayerInterface(
-    const XrNegotiateLoaderInfo*                loaderInfo,
-    const char*                                 layerName,
+    மாறிலி XrNegotiateLoaderInfo*                loaderInfo,
+    மாறிலி எழுத்து*                                 layerName,
     XrNegotiateApiLayerRequest*                 apiLayerRequest);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */

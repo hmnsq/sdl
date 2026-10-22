@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
+#எனில் defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // OpenHarmony/HarmonyOS SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_openharmonywindow.h"
+#அந்தர்பாவ "../SDL_egl_c.h"
+#அந்தர்பாவ "SDL_openharmonywindow.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonyopengl.h"
-#include "../../core/openharmony/SDL_openharmony.h"
+#அந்தர்பாவ "SDL_openharmonyvideo.h"
+#அந்தர்பாவ "SDL_openharmonyevents.h"
+#அந்தர்பாவ "SDL_openharmonyopengl.h"
+#அந்தர்பாவ "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    எனில் (window && context) {
+        திரும்பு SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
+    } இல்லையெனில் {
+        திரும்பு SDL_EGL_MakeCurrent(_this, வெற்று, வெற்று);
     }
 }
 
@@ -54,7 +54,7 @@ SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window 
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    திரும்பு result;
 }
 
 bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -68,12 +68,12 @@ bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    திரும்பு result;
 }
 
-bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, மாறிலி எழுத்து *path)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    திரும்பு SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 #endif // SDL_VIDEO_DRIVER_OPENHARMONY

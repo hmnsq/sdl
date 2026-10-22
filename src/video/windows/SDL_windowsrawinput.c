@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+#எனில் defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#include "SDL_windowsvideo.h"
+#அந்தர்பாவ "SDL_windowsvideo.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#எனில் !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsevents.h"
+#அந்தர்பாவ "SDL_windowsevents.h"
 
-#include "../../joystick/usb_ids.h"
-#include "../../events/SDL_events_c.h"
-#include "../../thread/SDL_systhread.h"
+#அந்தர்பாவ "../../joystick/usb_ids.h"
+#அந்தர்பாவ "../../events/SDL_events_c.h"
+#அந்தர்பாவ "../../thread/SDL_systhread.h"
 
-#define ENABLE_RAW_MOUSE_INPUT      0x01
+#define ENABLE_RAW_MOUSE_உள்ளீடு      0x01
 #define RAW_MOUSE_FLAG_NOLEGACY     0x02
-#define ENABLE_RAW_KEYBOARD_INPUT   0x10
+#define ENABLE_RAW_KEYBOARD_உள்ளீடு   0x10
 #define RAW_KEYBOARD_FLAG_NOHOTKEYS 0x20
 #define RAW_KEYBOARD_FLAG_INPUTSINK 0x40
 
-typedef struct
+வகைவரை கட்டமைப்பு
 {
     bool done;
     SDL_AtomicU32 flags; // Thread sets this to the actually-set flags if updating state failed
     HANDLE ready_event;
     HANDLE signal_event;
     HANDLE thread;
-} RawInputThreadData;
+} Raw_உள்ளீடு_Thread_Data;
 
-static RawInputThreadData thread_data = { 0 };
+நிலையான Raw_உள்ளீடு_Thread_Data thread_data = { 0 };
 
-typedef enum
+வகைவரை எண்ணிக்கை
 {
     RINP_QUIT,
     RINP_UPDATE,
     RINP_CONTINUE
-} RawInputIterateResult;
+} Raw_உள்ளீடு_Iterate_Result;
 
-static RawInputIterateResult IterateRawInputThread(void)
+நிலையான Raw_உள்ளீடு_Iterate_Result Iterate_Raw_உள்ளீடு_Thread(வெறுமை)
 {
     // The high-order word of GetQueueStatus() will let us know if there's immediate raw input to be processed.
     // A (necessary!) side effect is that it also marks the message queue bits as stale,
@@ -64,88 +64,88 @@ static RawInputIterateResult IterateRawInputThread(void)
 
     // Any pending flag update won't be processed until the queue drains, but this is
     // at most one poll cycle since GetQueueStatus clears the wake bits.
-    if (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
-        return thread_data.done ? RINP_QUIT : RINP_CONTINUE;
+    எனில் (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
+        திரும்பு thread_data.done ? RINP_QUIT : RINP_CONTINUE;
     }
 
-    static const DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
-    static const DWORD WAIT_INPUT = WAIT_OBJECT_0 + 1;
+    நிலையான மாறிலி DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
+    நிலையான மாறிலி DWORD WAIT_உள்ளீடு = WAIT_OBJECT_0 + 1;
 
     // There wasn't anything, so we'll wait until new data (or signal_event) wakes us up.
-    DWORD wait_status = MsgWaitForMultipleObjects(1, &thread_data.signal_event, FALSE, INFINITE, QS_RAWINPUT);
-    if (wait_status == WAIT_SIGNAL) {
+    DWORD wait_status = செய்தி_Wait_For_Multiple_Objects(1, &thread_data.signal_event, FALSE, INFINITE, QS_RAWINPUT);
+    எனில் (wait_status == WAIT_SIGNAL) {
         // signal_event can only be set if we need to update or quit.
-        return thread_data.done ? RINP_QUIT : RINP_UPDATE;
-    } else if (wait_status == WAIT_INPUT) {
-        return RINP_CONTINUE;
-    } else {
-        SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_status);
-        return RINP_QUIT;
+        திரும்பு thread_data.done ? RINP_QUIT : RINP_UPDATE;
+    } இல்லையெனில் எனில் (wait_status == WAIT_உள்ளீடு) {
+        திரும்பு RINP_CONTINUE;
+    } இல்லையெனில் {
+        SDL_LogWarn(SDL_LOG_CATEGORY_உள்ளீடு, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_status);
+        திரும்பு RINP_QUIT;
     }
 }
 
-static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new_flags)
+நிலையான bool Update_Raw_உள்ளீடு_Device_Flags(HWND window, Uint32 last_flags, Uint32 new_flags)
 {
     // We had nothing enabled, and we're trying to stop everything. Nothing to do.
-    if (last_flags == new_flags) {
-        return true;
+    எனில் (last_flags == new_flags) {
+        திரும்பு true;
     }
 
     RAWINPUTDEVICE devices[2] = { 0 };
-    UINT count = 0;
+    UINT மொத்தம் = 0;
 
-    const Uint32 old_mouse_flags = last_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
-    const Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
+    மாறிலி Uint32 old_mouse_flags = last_flags & (ENABLE_RAW_MOUSE_உள்ளீடு | RAW_MOUSE_FLAG_NOLEGACY);
+    மாறிலி Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_உள்ளீடு | RAW_MOUSE_FLAG_NOLEGACY);
 
-    if (old_mouse_flags != new_mouse_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_MOUSE;
+    எனில் (old_mouse_flags != new_mouse_flags) {
+        devices[மொத்தம்].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[மொத்தம்].usUsage = USB_USAGE_GENERIC_MOUSE;
 
-        if (new_flags & ENABLE_RAW_MOUSE_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
-                devices[count].dwFlags |= RIDEV_NOLEGACY;
+        எனில் (new_flags & ENABLE_RAW_MOUSE_உள்ளீடு) {
+            devices[மொத்தம்].dwFlags = 0;
+            devices[மொத்தம்].hwndTarget = window;
+            எனில் (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
+                devices[மொத்தம்].dwFlags |= RIDEV_NOLEGACY;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } இல்லையெனில் {
+            devices[மொத்தம்].dwFlags = RIDEV_REMOVE;
+            devices[மொத்தம்].hwndTarget = வெற்று;
         }
 
-        ++count;
+        ++மொத்தம்;
     }
 
-    const Uint32 old_kb_flags = last_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
-    const Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    மாறிலி Uint32 old_kb_flags = last_flags & (ENABLE_RAW_KEYBOARD_உள்ளீடு | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    மாறிலி Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_உள்ளீடு | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
 
-    if (old_kb_flags != new_kb_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_KEYBOARD;
+    எனில் (old_kb_flags != new_kb_flags) {
+        devices[மொத்தம்].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[மொத்தம்].usUsage = USB_USAGE_GENERIC_KEYBOARD;
 
-        if (new_kb_flags & ENABLE_RAW_KEYBOARD_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
-                devices[count].dwFlags |= RIDEV_NOHOTKEYS;
+        எனில் (new_kb_flags & ENABLE_RAW_KEYBOARD_உள்ளீடு) {
+            devices[மொத்தம்].dwFlags = 0;
+            devices[மொத்தம்].hwndTarget = window;
+            எனில் (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
+                devices[மொத்தம்].dwFlags |= RIDEV_NOHOTKEYS;
             }
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
-                devices[count].dwFlags |= RIDEV_INPUTSINK;
+            எனில் (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
+                devices[மொத்தம்].dwFlags |= RIDEV_INPUTSINK;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } இல்லையெனில் {
+            devices[மொத்தம்].dwFlags = RIDEV_REMOVE;
+            devices[மொத்தம்].hwndTarget = வெற்று;
         }
 
-        ++count;
+        ++மொத்தம்;
     }
 
-    if (RegisterRawInputDevices(devices, count, sizeof(devices[0]))) {
-        return true;
+    எனில் (Register_Raw_உள்ளீடு_Devices(devices, மொத்தம், அளவு(devices[0]))) {
+        திரும்பு true;
     }
-    return false;
+    திரும்பு false;
 }
 
-static DWORD WINAPI WIN_RawInputThread(LPVOID param)
+நிலையான DWORD WINAPI WIN_Raw_உள்ளீடு_Thread(LPVOID param)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     Uint32 last_flags = 0;
@@ -153,16 +153,16 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
 
     SDL_SYS_SetupThread("SDLRawInput");
 
-    window = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
-    if (!window) {
-        return 0;
+    window = CreateWindowEx(0, TEXT("Message"), வெற்று, 0, 0, 0, 0, 0, HWND_MESSAGE, வெற்று, வெற்று, வெற்று);
+    எனில் (!window) {
+        திரும்பு 0;
     }
 
     // This doesn't *really* need to be atomic, because the parent is waiting for us
     last_flags = SDL_GetAtomicU32(&thread_data.flags);
-    if (!UpdateRawInputDeviceFlags(window, 0, last_flags)) {
+    எனில் (!Update_Raw_உள்ளீடு_Device_Flags(window, 0, last_flags)) {
         DestroyWindow(window);
-        return 0;
+        திரும்பு 0;
     }
 
     // Make sure we get events as soon as possible
@@ -171,115 +171,115 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
     // Tell the parent we're ready to go!
     SetEvent(thread_data.ready_event);
 
-    RawInputIterateResult iter_result;
+    Raw_உள்ளீடு_Iterate_Result iter_result;
 
     Uint64 idle_begin = SDL_GetTicksNS();
-    while ((iter_result = IterateRawInputThread()) != RINP_QUIT) {
-        switch (iter_result) {
-        case RINP_QUIT: // Unreachable
-            break;
-        case RINP_UPDATE:
+    போது ((iter_result = Iterate_Raw_உள்ளீடு_Thread()) != RINP_QUIT) {
+        தேர்வு (iter_result) {
+        நிலை RINP_QUIT: // Unreachable
+            நிறுத்து;
+        நிலை RINP_UPDATE:
         {
-            const Uint32 new_flags = SDL_GetAtomicU32(&thread_data.flags);
-            if (!UpdateRawInputDeviceFlags(window, last_flags, new_flags)) {
+            மாறிலி Uint32 new_flags = SDL_GetAtomicU32(&thread_data.flags);
+            எனில் (!Update_Raw_உள்ளீடு_Device_Flags(window, last_flags, new_flags)) {
                 // Revert the shared flags so the main thread can detect the failure
                 SDL_SetAtomicU32(&thread_data.flags, last_flags);
-            } else {
+            } இல்லையெனில் {
                 last_flags = new_flags;
             }
-        } break;
-        case RINP_CONTINUE:
+        } நிறுத்து;
+        நிலை RINP_CONTINUE:
         {
             Uint64 idle_end = SDL_GetTicksNS();
             Uint64 idle_time = idle_end - idle_begin;
             Uint64 usb_8khz_interval = SDL_US_TO_NS(125);
             Uint64 poll_start = idle_time < usb_8khz_interval ? _this->internal->last_rawinput_poll : idle_end;
 
-            WIN_PollRawInput(_this, poll_start);
+            WIN_Poll_Raw_உள்ளீடு(_this, poll_start);
 
             // Reset idle_begin for the next go-around
             idle_begin = SDL_GetTicksNS();
-        } break;
+        } நிறுத்து;
         }
     }
 
-    if (_this->internal->raw_input_fake_pen_id) {
-        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->internal->raw_input_fake_pen_id);
-        _this->internal->raw_input_fake_pen_id = 0;
+    எனில் (_this->internal->raw_உள்ளீடு_fake_pen_id) {
+        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->internal->raw_உள்ளீடு_fake_pen_id);
+        _this->internal->raw_உள்ளீடு_fake_pen_id = 0;
     }
 
     // Reset this here, since if we're exiting due to failure, WIN_UpdateRawInputEnabled would see a stale value.
     SDL_SetAtomicU32(&thread_data.flags, 0);
 
-    UpdateRawInputDeviceFlags(NULL, last_flags, 0);
+    Update_Raw_உள்ளீடு_Device_Flags(வெற்று, last_flags, 0);
 
     DestroyWindow(window);
 
-    return 0;
+    திரும்பு 0;
 }
 
-static void CleanupRawInputThreadData(void)
+நிலையான வெறுமை Cleanup_Raw_உள்ளீடு_Thread_Data(வெறுமை)
 {
-    if (thread_data.thread) {
+    எனில் (thread_data.thread) {
         thread_data.done = true;
         SetEvent(thread_data.signal_event);
         WaitForSingleObject(thread_data.thread, 3000);
         CloseHandle(thread_data.thread);
     }
 
-    if (thread_data.ready_event) {
+    எனில் (thread_data.ready_event) {
         CloseHandle(thread_data.ready_event);
     }
 
-    if (thread_data.signal_event) {
+    எனில் (thread_data.signal_event) {
         CloseHandle(thread_data.signal_event);
     }
 
-    thread_data = (RawInputThreadData){ 0 };
+    thread_data = (Raw_உள்ளீடு_Thread_Data){ 0 };
 }
 
 // Computes the desired raw input flags from SDL_VideoData and ensures the
 // raw input thread's device registrations match.
 // Creates the thread on first use, only WIN_QuitRawInput actually shuts it down.
-static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
+நிலையான bool WIN_Update_Raw_உள்ளீடு_Enabled(SDL_VideoDevice *_this)
 {
     bool result = false;
     SDL_VideoData *data = _this->internal;
     Uint32 desired_flags = 0;
 
-    if (!data->gameinput_context) {
-        if (data->raw_mouse_enabled) {
-            desired_flags |= ENABLE_RAW_MOUSE_INPUT;
-            if (data->raw_mouse_flag_nolegacy) {
+    எனில் (!data->gameinput_context) {
+        எனில் (data->raw_mouse_enabled) {
+            desired_flags |= ENABLE_RAW_MOUSE_உள்ளீடு;
+            எனில் (data->raw_mouse_flag_nolegacy) {
                 desired_flags |= RAW_MOUSE_FLAG_NOLEGACY;
             }
         }
-        if (data->raw_keyboard_enabled) {
-            desired_flags |= ENABLE_RAW_KEYBOARD_INPUT;
-            if (data->raw_keyboard_flag_nohotkeys) {
+        எனில் (data->raw_keyboard_enabled) {
+            desired_flags |= ENABLE_RAW_KEYBOARD_உள்ளீடு;
+            எனில் (data->raw_keyboard_flag_nohotkeys) {
                 desired_flags |= RAW_KEYBOARD_FLAG_NOHOTKEYS;
             }
-            if (data->raw_keyboard_flag_inputsink) {
+            எனில் (data->raw_keyboard_flag_inputsink) {
                 desired_flags |= RAW_KEYBOARD_FLAG_INPUTSINK;
             }
         }
     }
 
-    if (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
+    எனில் (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
         result = true;
-        goto done;
+        செல் done;
     }
 
     // If the thread exited unexpectedly (e.g. MsgWaitForMultipleObjects failed),
     // the handle is stale. Clean it up so the creation path below can recover.
-    if (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
-        CleanupRawInputThreadData();
+    எனில் (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
+        Cleanup_Raw_உள்ளீடு_Thread_Data();
     }
 
     // The thread will read from this to update its flags
     SDL_SetAtomicU32(&thread_data.flags, desired_flags);
 
-    if (thread_data.thread) {
+    எனில் (thread_data.thread) {
         // Thread is already running. Fire (the event) and forget, it'll read the atomic flags on wakeup.
 
         // If RegisterRawInputDevices fails, the thread reverts the atomic and the next call
@@ -287,64 +287,64 @@ static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
         SDL_assert(thread_data.signal_event);
         SetEvent(thread_data.signal_event);
         result = true;
-    } else if (desired_flags) {
+    } இல்லையெனில் எனில் (desired_flags) {
         HANDLE wait_handles[2];
 
         // Thread isn't running, spin it up
-        thread_data.ready_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.ready_event) {
+        thread_data.ready_event = CreateEvent(வெற்று, FALSE, FALSE, வெற்று);
+        எனில் (!thread_data.ready_event) {
             WIN_SetError("CreateEvent");
-            goto done;
+            செல் done;
         }
 
         thread_data.done = false;
-        thread_data.signal_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.signal_event) {
+        thread_data.signal_event = CreateEvent(வெற்று, FALSE, FALSE, வெற்று);
+        எனில் (!thread_data.signal_event) {
             WIN_SetError("CreateEvent");
-            goto done;
+            செல் done;
         }
 
-        thread_data.thread = CreateThread(NULL, 0, WIN_RawInputThread, NULL, 0, NULL);
-        if (!thread_data.thread) {
+        thread_data.thread = CreateThread(வெற்று, 0, WIN_Raw_உள்ளீடு_Thread, வெற்று, 0, வெற்று);
+        எனில் (!thread_data.thread) {
             WIN_SetError("CreateThread");
-            goto done;
+            செல் done;
         }
 
         // Wait for the thread to complete initial setup or exit
         wait_handles[0] = thread_data.ready_event;
         wait_handles[1] = thread_data.thread;
-        if (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
+        எனில் (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
             SDL_SetError("Couldn't set up raw input handling");
-            goto done;
+            செல் done;
         }
         result = true;
-    } else {
+    } இல்லையெனில் {
         // Thread isn't running and we tried to disable raw input, nothing to do
         result = true;
     }
 done:
-    if (!result) {
-        CleanupRawInputThreadData();
+    எனில் (!result) {
+        Cleanup_Raw_உள்ளீடு_Thread_Data();
     }
-    return result;
+    திரும்பு result;
 }
 
 bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
 {
     SDL_VideoData *data = _this->internal;
     data->raw_mouse_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
+    எனில் (data->gameinput_context) {
+        எனில் (!WIN_Update_Game_உள்ளீடு_Enabled(_this)) {
             data->raw_mouse_enabled = !enabled;
-            return false;
+            திரும்பு false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
+    } இல்லையெனில் {
+        எனில் (!WIN_Update_Raw_உள்ளீடு_Enabled(_this)) {
             data->raw_mouse_enabled = !enabled;
-            return false;
+            திரும்பு false;
         }
     }
-    return true;
+    திரும்பு true;
 }
 
 bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
@@ -353,25 +353,25 @@ bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_mouse_flag_nolegacy = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    திரும்பு WIN_Update_Raw_உள்ளீடு_Enabled(_this);
 }
 
 bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
 {
     SDL_VideoData *data = _this->internal;
     data->raw_keyboard_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
+    எனில் (data->gameinput_context) {
+        எனில் (!WIN_Update_Game_உள்ளீடு_Enabled(_this)) {
             data->raw_keyboard_enabled = !enabled;
-            return false;
+            திரும்பு false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
+    } இல்லையெனில் {
+        எனில் (!WIN_Update_Raw_உள்ளீடு_Enabled(_this)) {
             data->raw_keyboard_enabled = !enabled;
-            return false;
+            திரும்பு false;
         }
     }
-    return true;
+    திரும்பு true;
 }
 
 bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
@@ -380,7 +380,7 @@ bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_keyboard_flag_nohotkeys = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    திரும்பு WIN_Update_Raw_உள்ளீடு_Enabled(_this);
 }
 
 bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
@@ -389,42 +389,42 @@ bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_keyboard_flag_inputsink = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    திரும்பு WIN_Update_Raw_உள்ளீடு_Enabled(_this);
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+வெறுமை WIN_Quit_Raw_உள்ளீடு(SDL_VideoDevice *_this)
 {
-    CleanupRawInputThreadData();
+    Cleanup_Raw_உள்ளீடு_Thread_Data();
 }
 
-#else
+#இல்லையெனில்
 
 bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    திரும்பு SDL_Unsupported();
 }
 
 bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    திரும்பு SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    திரும்பு SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    திரும்பு SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    திரும்பு SDL_Unsupported();
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+வெறுமை WIN_Quit_Raw_உள்ளீடு(SDL_VideoDevice *_this)
 {
 }
 

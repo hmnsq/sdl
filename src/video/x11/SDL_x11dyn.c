@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
 #define DEBUG_DYNAMIC_X11 0
 
-#include "SDL_x11dyn.h"
+#அந்தர்பாவ "SDL_x11dyn.h"
 
-#if DEBUG_DYNAMIC_X11
-#include <stdio.h>
+#எனில் DEBUG_DYNAMIC_X11
+#அந்தர்பாவ <stdio.h>
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
 
-typedef struct
+வகைவரை கட்டமைப்பு
 {
     SDL_SharedObject *lib;
-    const char *libname;
+    மாறிலி எழுத்து *libname;
 } x11dynlib;
 
 SDL_ELF_NOTE_DLOPEN(
@@ -52,8 +52,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
@@ -63,8 +63,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
@@ -74,8 +74,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
@@ -85,8 +85,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
@@ -96,8 +96,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
@@ -107,8 +107,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS வெற்று
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
@@ -118,87 +118,87 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST NULL
+#இல்லையெனில்
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST வெற்று
 #endif
 
-static x11dynlib x11libs[] = {
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
+நிலையான x11dynlib x11libs[] = {
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
+    { வெற்று, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
 };
 
-static void *X11_GetSym(const char *fnname, int *pHasModule)
+நிலையான வெறுமை *X11_GetSym(மாறிலி எழுத்து *fnname, முழு *pHasModule)
 {
-    int i;
-    void *fn = NULL;
-    for (i = 0; i < SDL_arraysize(x11libs); i++) {
-        if (x11libs[i].lib) {
+    முழு i;
+    வெறுமை *fn = வெற்று;
+    க்கு (i = 0; i < SDL_arraysize(x11libs); i++) {
+        எனில் (x11libs[i].lib) {
             fn = SDL_LoadFunction(x11libs[i].lib, fnname);
-            if (fn) {
-                break;
+            எனில் (fn) {
+                நிறுத்து;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_X11
-    if (fn) {
+#எனில் DEBUG_DYNAMIC_X11
+    எனில் (fn) {
         SDL_Log("X11: Found '%s' in %s (%p)", fnname, x11libs[i].libname, fn);
-    } else {
+    } இல்லையெனில் {
         SDL_Log("X11: Symbol '%s' NOT FOUND!", fnname);
     }
 #endif
 
-    if (!fn) {
+    எனில் (!fn) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    திரும்பு fn;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#define SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = வெற்று;
+#அந்தர்பாவ "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) int SDL_X11_HAVE_##modname = 0;
-#include "SDL_x11sym.h"
+#define SDL_X11_MODULE(modname) முழு SDL_X11_HAVE_##modname = 0;
+#அந்தர்பாவ "SDL_x11sym.h"
 
-static int x11_load_refcount = 0;
+நிலையான முழு x11_load_refcount = 0;
 
-void SDL_X11_UnloadSymbols(void)
+வெறுமை SDL_X11_UnloadSymbols(வெறுமை)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (x11_load_refcount > 0) {
-        if (--x11_load_refcount == 0) {
+    எனில் (x11_load_refcount > 0) {
+        எனில் (--x11_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            int i;
+            முழு i;
 #endif
 
             // set all the function pointers to NULL.
 #define SDL_X11_MODULE(modname)                SDL_X11_HAVE_##modname = 0;
-#define SDL_X11_SYM(rc, fn, params) X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#define SDL_X11_SYM(rc, fn, params) X11_##fn = வெற்று;
+#அந்தர்பாவ "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
-            X11_XCreateIC = NULL;
-            X11_XGetICValues = NULL;
-            X11_XSetICValues = NULL;
-            X11_XVaCreateNestedList = NULL;
+            X11_XCreateIC = வெற்று;
+            X11_XGetICValues = வெற்று;
+            X11_XSetICValues = வெற்று;
+            X11_XVaCreateNestedList = வெற்று;
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            for (i = 0; i < SDL_arraysize(x11libs); i++) {
-                if (x11libs[i].lib) {
+            க்கு (i = 0; i < SDL_arraysize(x11libs); i++) {
+                எனில் (x11libs[i].lib) {
                     SDL_UnloadObject(x11libs[i].lib);
-                    x11libs[i].lib = NULL;
+                    x11libs[i].lib = வெற்று;
                 }
             }
 #endif
@@ -207,27 +207,27 @@ void SDL_X11_UnloadSymbols(void)
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_X11_LoadSymbols(void)
+bool SDL_X11_LoadSymbols(வெறுமை)
 {
     bool result = true; // always succeed if not using Dynamic X11 stuff.
 
     // deal with multiple modules (dga, x11, etc) needing these symbols...
-    if (x11_load_refcount++ == 0) {
+    எனில் (x11_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(x11libs); i++) {
-            if (x11libs[i].libname) {
+        முழு i;
+        முழு *thismod = வெற்று;
+        க்கு (i = 0; i < SDL_arraysize(x11libs); i++) {
+            எனில் (x11libs[i].libname) {
                 x11libs[i].lib = SDL_LoadObject(x11libs[i].libname);
             }
         }
 
 #define SDL_X11_MODULE(modname) SDL_X11_HAVE_##modname = 1; // default yes
-#include "SDL_x11sym.h"
+#அந்தர்பாவ "SDL_x11sym.h"
 
 #define SDL_X11_MODULE(modname)     thismod = &SDL_X11_HAVE_##modname;
 #define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)X11_GetSym(#fn, thismod);
-#include "SDL_x11sym.h"
+#அந்தர்பாவ "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
         X11_XCreateIC = (SDL_DYNX11FN_XCreateIC)
@@ -240,20 +240,20 @@ bool SDL_X11_LoadSymbols(void)
             X11_GetSym("XVaCreateNestedList", &SDL_X11_HAVE_UTF8);
 #endif
 
-        if (SDL_X11_HAVE_BASEXLIB) {
+        எனில் (SDL_X11_HAVE_BASEXLIB) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } இல்லையெனில் {
             // in case something got loaded...
             SDL_X11_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic X11
+#இல்லையெனில் // no dynamic X11
 
 #define SDL_X11_MODULE(modname)     SDL_X11_HAVE_##modname = 1; // default yes
 #define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)fn;
-#include "SDL_x11sym.h"
+#அந்தர்பாவ "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
         X11_XCreateIC = XCreateIC;
@@ -264,7 +264,7 @@ bool SDL_X11_LoadSymbols(void)
 #endif
     }
 
-    return result;
+    திரும்பு result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

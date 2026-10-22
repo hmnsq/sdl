@@ -23,15 +23,15 @@
 #define BVIDEO_H
 
 #ifdef __cplusplus
-extern "C" {
+வெளி "C" {
 #endif
 
-#include "../../core/haiku/SDL_BeApp.h"
-#include "../SDL_sysvideo.h"
+#அந்தர்பாவ "../../core/haiku/SDL_BeApp.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
 
-extern void HAIKU_VideoQuit(SDL_VideoDevice *_this);
-extern bool HAIKU_VideoInit(SDL_VideoDevice *_this);
-extern void HAIKU_DeleteDevice(SDL_VideoDevice *_this);
+வெளி வெறுமை HAIKU_VideoQuit(SDL_VideoDevice *_this);
+வெளி bool HAIKU_VideoInit(SDL_VideoDevice *_this);
+வெளி வெறுமை HAIKU_DeleteDevice(SDL_VideoDevice *_this);
 
 #ifdef __cplusplus
 }

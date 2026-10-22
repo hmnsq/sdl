@@ -18,35 +18,35 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_N3DS
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_n3dsframebuffer_c.h"
-#include "SDL_n3dsvideo.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "../../SDL_properties_c.h"
+#அந்தர்பாவ "SDL_n3dsframebuffer_c.h"
+#அந்தர்பாவ "SDL_n3dsvideo.h"
 
 #define N3DS_SURFACE "SDL.internal.window.surface"
 
-typedef struct
+வகைவரை கட்டமைப்பு
 {
-    int width, height;
+    முழு width, height;
 } Dimensions;
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_24(u8  *dest, const Dimensions dest_dim, const u8  *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim);
-static int GetDestOffset(int x, int y, int dest_width);
-static int GetSourceOffset(int x, int y, int source_width);
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen);
+நிலையான வெறுமை CopyFramebuffertoN3DS_16(u16 *dest, மாறிலி Dimensions dest_dim, மாறிலி u16 *source, மாறிலி Dimensions source_dim);
+நிலையான வெறுமை CopyFramebuffertoN3DS_24(u8  *dest, மாறிலி Dimensions dest_dim, மாறிலி u8  *source, மாறிலி Dimensions source_dim);
+நிலையான வெறுமை CopyFramebuffertoN3DS_32(u32 *dest, மாறிலி Dimensions dest_dim, மாறிலி u32 *source, மாறிலி Dimensions source_dim);
+நிலையான முழு GetDestOffset(முழு x, முழு y, முழு dest_width);
+நிலையான முழு GetSourceOffset(முழு x, முழு y, முழு source_width);
+நிலையான வெறுமை FlushN3DSBuffer(மாறிலி வெறுமை *buffer, u32 bufsize, gfxScreen_t screen);
 
 
-bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, வெறுமை **pixels, முழு *pitch)
 {
     SDL_Surface *framebuffer;
-    const SDL_DisplayMode *mode;
-    int w, h;
+    மாறிலி SDL_DisplayMode *mode;
+    முழு w, h;
 
     SDL_N3DS_DestroyWindowFramebuffer(_this, window);
 
@@ -54,68 +54,68 @@ bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window
     SDL_GetWindowSizeInPixels(window, &w, &h);
     framebuffer = SDL_CreateSurfaceZeroed(w, h, mode->format);
 
-    if (!framebuffer) {
-        return false;
+    எனில் (!framebuffer) {
+        திரும்பு false;
     }
 
     SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, framebuffer);
     *format = mode->format;
     *pixels = framebuffer->pixels;
     *pitch = framebuffer->pitch;
-    return true;
+    திரும்பு true;
 }
 
-bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, மாறிலி SDL_Rect *rects, முழு numrects)
 {
     SDL_WindowData *drv_data = window->internal;
     SDL_Surface *surface;
     u16 width, height;
-    void *framebuffer;
+    வெறுமை *framebuffer;
     u32 bufsize;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("%s: Unable to get the window surface.", SDL_FUNCTION);
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, வெற்று);
+    எனில் (!surface) {
+        திரும்பு SDL_SetError("%s: Unable to get the window surface.", SDL_FUNCTION);
     }
 
     // Get the N3DS internal framebuffer and its size
-    framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_LEFT, &width, &height);
+    framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_இடது, &width, &height);
     bufsize = width * height * 4;
 
-    if (SDL_BYTESPERPIXEL(surface->format) == 2)
+    எனில் (SDL_BYTESPERPIXEL(surface->format) == 2)
         CopyFramebuffertoN3DS_16(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else if (SDL_BYTESPERPIXEL(surface->format) == 3)
+    இல்லையெனில் எனில் (SDL_BYTESPERPIXEL(surface->format) == 3)
         CopyFramebuffertoN3DS_24(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else
+    இல்லையெனில்
         CopyFramebuffertoN3DS_32(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
     FlushN3DSBuffer(framebuffer, bufsize, drv_data->screen);
 
-    return true;
+    திரும்பு true;
 }
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim)
+நிலையான வெறுமை CopyFramebuffertoN3DS_16(u16 *dest, மாறிலி Dimensions dest_dim, மாறிலி u16 *source, மாறிலி Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u16 *s = source + GetSourceOffset(x, y, source_dim.width);
+    முழு rows = SDL_min(dest_dim.width, source_dim.height);
+    முழு cols = SDL_min(dest_dim.height, source_dim.width);
+    க்கு (முழு y = 0; y < rows; ++y) {
+        க்கு (முழு x = 0; x < cols; ++x) {
+            மாறிலி u16 *s = source + GetSourceOffset(x, y, source_dim.width);
             u16 *d = dest + GetDestOffset(x, y, dest_dim.width);
             *d = *s;
         }
     }
 }
 
-static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const u8 *source, const Dimensions source_dim)
+நிலையான வெறுமை CopyFramebuffertoN3DS_24(u8 *dest, மாறிலி Dimensions dest_dim, மாறிலி u8 *source, மாறிலி Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u8 *s = source + GetSourceOffset(x, y, source_dim.width) * 3;
+    முழு rows = SDL_min(dest_dim.width, source_dim.height);
+    முழு cols = SDL_min(dest_dim.height, source_dim.width);
+    க்கு (முழு y = 0; y < rows; ++y) {
+        க்கு (முழு x = 0; x < cols; ++x) {
+            மாறிலி u8 *s = source + GetSourceOffset(x, y, source_dim.width) * 3;
             u8 *d = dest + GetDestOffset(x, y, dest_dim.width) * 3;
             d[0] = s[0];
             d[1] = s[1];
@@ -124,36 +124,36 @@ static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const 
     }
 }
 
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim)
+நிலையான வெறுமை CopyFramebuffertoN3DS_32(u32 *dest, மாறிலி Dimensions dest_dim, மாறிலி u32 *source, மாறிலி Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u32 *s = source + GetSourceOffset(x, y, source_dim.width);
+    முழு rows = SDL_min(dest_dim.width, source_dim.height);
+    முழு cols = SDL_min(dest_dim.height, source_dim.width);
+    க்கு (முழு y = 0; y < rows; ++y) {
+        க்கு (முழு x = 0; x < cols; ++x) {
+            மாறிலி u32 *s = source + GetSourceOffset(x, y, source_dim.width);
             u32 *d = dest + GetDestOffset(x, y, dest_dim.width);
             *d = *s;
         }
     }
 }
 
-static int GetDestOffset(int x, int y, int dest_width)
+நிலையான முழு GetDestOffset(முழு x, முழு y, முழு dest_width)
 {
-    return dest_width - y - 1 + dest_width * x;
+    திரும்பு dest_width - y - 1 + dest_width * x;
 }
 
-static int GetSourceOffset(int x, int y, int source_width)
+நிலையான முழு GetSourceOffset(முழு x, முழு y, முழு source_width)
 {
-    return x + y * source_width;
+    திரும்பு x + y * source_width;
 }
 
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen)
+நிலையான வெறுமை FlushN3DSBuffer(மாறிலி வெறுமை *buffer, u32 bufsize, gfxScreen_t screen)
 {
     GSPGPU_FlushDataCache(buffer, bufsize);
     gfxScreenSwapBuffers(screen, false);
 }
 
-void SDL_N3DS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+வெறுமை SDL_N3DS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), N3DS_SURFACE);
 }

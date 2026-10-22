@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_waylandmouse_h_
 #define SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
+வெளி வெறுமை Wayland_InitMouse(SDL_VideoData *data);
+வெளி வெறுமை Wayland_FiniMouse(SDL_VideoData *data);
+வெளி வெறுமை Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
+வெளி வெறுமை Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
+வெளி வெறுமை Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+வெளி வெறுமை Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
+வெளி வெறுமை Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+வெளி வெறுமை Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, தசம x, தசம y);
+வெளி வெறுமை Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, வெறுமை *userdata);
+வெளி வெறுமை Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
+வெளி வெறுமை Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#எனில் 0  // TODO RECONNECT: See waylandvideo.c for more information!
+வெளி வெறுமை Wayland_RecreateCursors(வெறுமை);
 #endif // 0
 
 #endif

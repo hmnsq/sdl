@@ -18,15 +18,15 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_rpiopengles_h_
 #define SDL_rpiopengles_h_
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#எனில் defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "../SDL_egl_c.h"
 
 // OpenGLES functions
 #define RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
@@ -36,11 +36,11 @@
 #define RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+வெளி bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, மாறிலி எழுத்து *path);
+வெளி SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+வெளி bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+வெளி bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+வெளி வெறுமை RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
 
 #endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
 

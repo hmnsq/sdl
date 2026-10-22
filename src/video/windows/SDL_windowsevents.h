@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_windowsevents_h_
 #define SDL_windowsevents_h_
 
-extern LPTSTR SDL_Appname;
-extern Uint32 SDL_Appstyle;
-extern HINSTANCE SDL_Instance;
+வெளி LPTSTR SDL_Appname;
+வெளி Uint32 SDL_Appstyle;
+வெளி HINSTANCE SDL_Instance;
 
-extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
-extern void WIN_PumpEvents(SDL_VideoDevice *_this);
-extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
-extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+வெளி LRESULT CALLBACK WIN_KeyboardHookProc(முழு nCode, WPARAM wParam, LPARAM lParam);
+வெளி LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT செய்தி, WPARAM wParam, LPARAM lParam);
+வெளி வெறுமை WIN_Poll_Raw_உள்ளீடு(SDL_VideoDevice *_this, Uint64 poll_start);
+வெளி வெறுமை WIN_PumpEvents(SDL_VideoDevice *_this);
+வெளி வெறுமை WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
+வெளி வெறுமை WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+வெளி முழு WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 #endif // SDL_windowsevents_h_

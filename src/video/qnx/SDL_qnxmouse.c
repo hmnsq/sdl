@@ -19,94 +19,94 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_qnx.h"
-#include "../../events/SDL_mouse_c.h"
+#அந்தர்பாவ "SDL_internal.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "SDL_qnx.h"
+#அந்தர்பாவ "../../events/SDL_mouse_c.h"
 
-#include <errno.h>
+#அந்தர்பாவ <errno.h>
 
 
-static int SDLToScreenCursorShape(SDL_SystemCursor id)
+நிலையான முழு SDLToScreenCursorShape(SDL_SystemCursor id)
 {
     // This is reserved by screen, but still not used for anything.
-    int shape = -1;
+    முழு shape = -1;
 
-    switch(id)
+    தேர்வு(id)
     {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-    case SDL_SYSTEM_CURSOR_NO_DROP:
+    நிலை SDL_SYSTEM_CURSOR_DEFAULT:
+    நிலை SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+    நிலை SDL_SYSTEM_CURSOR_NO_DROP:
         shape = SCREEN_CURSOR_SHAPE_ARROW;
-        break;
-    case SDL_SYSTEM_CURSOR_TEXT:
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_TEXT:
+    நிலை SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
         shape = SCREEN_CURSOR_SHAPE_IBEAM;
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:
-    case SDL_SYSTEM_CURSOR_PROGRESS:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_WAIT:
+    நிலை SDL_SYSTEM_CURSOR_PROGRESS:
         shape = SCREEN_CURSOR_SHAPE_WAIT;
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-    case SDL_SYSTEM_CURSOR_CELL:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_CROSSHAIR:
+    நிலை SDL_SYSTEM_CURSOR_CELL:
         shape = SCREEN_CURSOR_SHAPE_CROSS;
-        break;
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-    case SDL_SYSTEM_CURSOR_MOVE:
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_NESW_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_EW_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_NS_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_MOVE:
+    நிலை SDL_SYSTEM_CURSOR_NW_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_N_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_NE_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_E_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_SE_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_S_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_SW_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_W_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_COL_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_ROW_RESIZE:
+    நிலை SDL_SYSTEM_CURSOR_ALL_SCROLL:
         shape = SCREEN_CURSOR_SHAPE_MOVE;
-        break;
-    case SDL_SYSTEM_CURSOR_POINTER:
-    case SDL_SYSTEM_CURSOR_HELP:
-    case SDL_SYSTEM_CURSOR_ALIAS:
-    case SDL_SYSTEM_CURSOR_COPY:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_POINTER:
+    நிலை SDL_SYSTEM_CURSOR_HELP:
+    நிலை SDL_SYSTEM_CURSOR_ALIAS:
+    நிலை SDL_SYSTEM_CURSOR_COPY:
         shape = SCREEN_CURSOR_SHAPE_HAND;
-        break;
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_CONTEXT_MENU:
         shape = SCREEN_CURSOR_SHAPE_MENU;
-        break;
-    case SDL_SYSTEM_CURSOR_GRAB:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_GRAB:
         shape = SCREEN_CURSOR_SHAPE_GRAB;
-        break;
-    case SDL_SYSTEM_CURSOR_GRABBING:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_GRABBING:
         shape = SCREEN_CURSOR_SHAPE_GRABBING;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_ZOOM_IN:
         shape = SCREEN_CURSOR_SHAPE_ZOOM_IN;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
+        நிறுத்து;
+    நிலை SDL_SYSTEM_CURSOR_ZOOM_OUT:
         shape = SCREEN_CURSOR_SHAPE_ZOOM_OUT;
-        break;
-    default:
-        break;
+        நிறுத்து;
+    இயல்பு:
+        நிறுத்து;
     }
-    return shape;
+    திரும்பு shape;
 }
 
-static SDL_Cursor *genericCreateCursor(int shape)
+நிலையான SDL_Cursor *genericCreateCursor(முழு shape)
 {
     SDL_Cursor          *cursor;
     SDL_CursorData      *impl;
     screen_session_t    session;
     screen_context_t    *context = getContext();
 
-    cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
-        impl = SDL_calloc(1, sizeof(SDL_CursorData));;
-        if (impl == NULL) {
+    cursor = SDL_calloc(1, அளவு(SDL_Cursor));
+    எனில் (cursor) {
+        impl = SDL_calloc(1, அளவு(SDL_CursorData));;
+        எனில் (impl == வெற்று) {
             SDL_free(cursor);
             SDL_OutOfMemory();
         }
@@ -117,96 +117,96 @@ static SDL_Cursor *genericCreateCursor(int shape)
 
         impl->session = session;
         impl->is_visible = true;
-        cursor->internal = (void*)impl;
-    } else {
+        cursor->internal = (வெறுமை*)impl;
+    } இல்லையெனில் {
         SDL_OutOfMemory();
     }
 
-    return cursor;
+    திரும்பு cursor;
 }
 
-static SDL_Cursor *createCursor(SDL_Surface * surface, int hot_x, int hot_y)
+நிலையான SDL_Cursor *createCursor(SDL_Surface * surface, முழு hot_x, முழு hot_y)
 {
-    return genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
+    திரும்பு genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
 }
 
-static SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
+நிலையான SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
 {
-    int shape = SDLToScreenCursorShape(id);
-    if (shape < 0) {
+    முழு shape = SDLToScreenCursorShape(id);
+    எனில் (shape < 0) {
         SDL_assert(0);
-        return NULL;
+        திரும்பு வெற்று;
     }
 
-    return genericCreateCursor(shape);
+    திரும்பு genericCreateCursor(shape);
 }
 
-static bool showCursor(SDL_Cursor * cursor)
+நிலையான bool showCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData      *impl;
     screen_session_t    session;
-    int shape;
+    முழு shape;
 
     // SDL does not provide information about previous visibility to its
     // drivers. We need to track that ourselves.
-    if (cursor) {
+    எனில் (cursor) {
         impl = (SDL_CursorData*)cursor->internal;
-        SDL_assert(impl != NULL);
-        if (impl->is_visible) {
-            return true;
+        SDL_assert(impl != வெற்று);
+        எனில் (impl->is_visible) {
+            திரும்பு true;
         }
         session = impl->session;
         shape = impl->realized_shape;
         impl->is_visible = true;
-    } else {
+    } இல்லையெனில் {
         cursor = SDL_GetCursor();
-        if (cursor == NULL) {
-            return false;
+        எனில் (cursor == வெற்று) {
+            திரும்பு false;
         }
         impl = (SDL_CursorData*)cursor->internal;
-        SDL_assert(impl != NULL);
-        if (!impl->is_visible) {
-            return 0;
+        SDL_assert(impl != வெற்று);
+        எனில் (!impl->is_visible) {
+            திரும்பு 0;
         }
         session = impl->session;
         shape = SCREEN_CURSOR_SHAPE_NONE;
         impl->is_visible = false;
     }
 
-    if (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
-        return false;
+    எனில் (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
+        திரும்பு false;
     }
 
-    return true;
+    திரும்பு true;
 }
 
-static void freeCursor(SDL_Cursor * cursor)
+நிலையான வெறுமை freeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *impl = (SDL_CursorData*)cursor->internal;
-    if (impl != NULL) {
+    எனில் (impl != வெற்று) {
         screen_destroy_session(impl->session);
         SDL_free(impl);
     }
     SDL_free(cursor);
 }
 
-static bool setRelativeMouseMode(bool enabled)
+நிலையான bool setRelativeMouseMode(bool enabled)
 {
     // We're tracking rel-position explicitly, but this is still needed so
     // SDL_SetRelativeMouseMode() & friends aren't a no-op.
     //
     // TODO: It may be possible to achieve this using SCREEN_PROPERTY_DISPLACEMENT instead.
-    return true;
+    திரும்பு true;
 }
 
-void initMouse(SDL_VideoDevice *_this)
+வெறுமை initMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse       *mouse = SDL_GetMouse();
     SDL_MouseData   *mouse_data;
 
-    mouse_data = (SDL_MouseData *)SDL_calloc(1, sizeof(SDL_MouseData));
-    if (mouse_data == NULL) {
-        return;
+    mouse_data = (SDL_MouseData *)SDL_calloc(1, அளவு(SDL_MouseData));
+    எனில் (mouse_data == வெற்று) {
+        திரும்பு;
     }
     SDL_zerop(mouse_data);
     mouse->internal = mouse_data;
@@ -218,5 +218,5 @@ void initMouse(SDL_VideoDevice *_this)
 
     mouse->SetRelativeMouseMode = setRelativeMouseMode;
 
-    SDL_SetDefaultCursor(createCursor(NULL, 0, 0));
+    SDL_SetDefaultCursor(createCursor(வெற்று, 0, 0));
 }

@@ -18,10 +18,10 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_COCOA
 
-extern bool Cocoa_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+வெளி bool Cocoa_ShowMessageBox(மாறிலி SDL_MessageBoxData *messageboxdata, முழு *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_COCOA

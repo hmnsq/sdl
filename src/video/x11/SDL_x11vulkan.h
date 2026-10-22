@@ -18,31 +18,31 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_x11vulkan_h_
 #define SDL_x11vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#அந்தர்பாவ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#எனில் defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
-typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
+வகைவரை கட்டமைப்பு xcb_connection_t xcb_connection_t;
+வகைவரை xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+வெளி bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, மாறிலி எழுத்து *path);
+வெளி வெறுமை X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+வெளி எழுத்து மாறிலி * மாறிலி *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *மொத்தம்);
+வெளி bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                              SDL_Window *window,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             மாறிலி கட்டமைப்பு VkAllocationCallbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+வெளி வெறுமை X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
-extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                               மாறிலி கட்டமைப்பு VkAllocationCallbacks *allocator);
+வெளி bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
                                            Uint32 queueFamilyIndex);

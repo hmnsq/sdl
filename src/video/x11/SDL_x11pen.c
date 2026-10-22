@@ -18,78 +18,78 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#அந்தர்பாவ "../../SDL_internal.h"
 
-#include "../../events/SDL_pen_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xinput2.h"
+#அந்தர்பாவ "../../events/SDL_pen_c.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "SDL_x11pen.h"
+#அந்தர்பாவ "SDL_x11video.h"
+#அந்தர்பாவ "SDL_x11xinput2.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Does this device have a valuator for pressure sensitivity?
-static bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+நிலையான bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, மாறிலி XIDeviceInfo *dev)
 {
-    const SDL_VideoData *data = _this->internal;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            if (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
-                return true;
+    மாறிலி SDL_VideoData *data = _this->internal;
+    க்கு (முழு i = 0; i < dev->இலக்கம்_classes; i++) {
+        மாறிலி XIAnyClassInfo *classinfo = dev->classes[i];
+        எனில் (classinfo->type == XIValuatorClass) {
+            மாறிலி XIValuatorClassInfo *val_classinfo = (மாறிலி XIValuatorClassInfo *)classinfo;
+            எனில் (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
+                திரும்பு true;
             }
         }
     }
 
-    return false;
+    திரும்பு false;
 }
 
 // Heuristically determines if device is an eraser
-static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *devicename)
+நிலையான bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, முழு deviceid, எழுத்து *devicename)
 {
     #define PEN_ERASER_NAME_TAG  "eraser" // String constant to identify erasers
     SDL_VideoData *data = _this->internal;
 
-    if (data->atoms.pen_atom_wacom_tool_type != None) {
+    எனில் (data->atoms.pen_atom_wacom_tool_type != None) {
         Atom type_return;
-        int format_return;
-        unsigned long num_items_return;
+        முழு format_return;
+        unsigned long இலக்கம்_பொருட்கள்_return;
         unsigned long bytes_after_return;
-        unsigned char *tooltype_name_info = NULL;
+        unsigned எழுத்து *tooltype_name_info = வெற்று;
 
         // Try Wacom-specific method
-        if (Success == X11_XIGetProperty(data->display, deviceid,
+        எனில் (Success == X11_XIGetProperty(data->display, deviceid,
                                          data->atoms.pen_atom_wacom_tool_type,
                                          0, 32, False,
                                          AnyPropertyType, &type_return, &format_return,
-                                         &num_items_return, &bytes_after_return,
+                                         &இலக்கம்_பொருட்கள்_return, &bytes_after_return,
                                          &tooltype_name_info) &&
-            tooltype_name_info != NULL && num_items_return > 0) {
+            tooltype_name_info != வெற்று && இலக்கம்_பொருட்கள்_return > 0) {
 
             bool result = false;
-            char *tooltype_name = NULL;
+            எழுத்து *tooltype_name = வெற்று;
 
-            if (type_return == XA_ATOM) {
+            எனில் (type_return == XA_ATOM) {
                 // Atom instead of string?  Un-intern
                 Atom atom = *((Atom *)tooltype_name_info);
-                if (atom != None) {
+                எனில் (atom != None) {
                     tooltype_name = X11_XGetAtomName(data->display, atom);
                 }
-            } else if (type_return == XA_STRING && format_return == 8) {
-                tooltype_name = (char *)tooltype_name_info;
+            } இல்லையெனில் எனில் (type_return == XA_STRING && format_return == 8) {
+                tooltype_name = (எழுத்து *)tooltype_name_info;
             }
 
-            if (tooltype_name) {
-                if (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
+            எனில் (tooltype_name) {
+                எனில் (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
                     result = true;
                 }
-                if (tooltype_name != (char *)tooltype_name_info) {
+                எனில் (tooltype_name != (எழுத்து *)tooltype_name_info) {
                     X11_XFree(tooltype_name_info);
                 }
                 X11_XFree(tooltype_name);
 
-                return result;
+                திரும்பு result;
             }
         }
     }
@@ -98,161 +98,161 @@ static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *d
 
     /* We assume that a device is an eraser if its name contains the string "eraser".
      * Unfortunately there doesn't seem to be a clean way to distinguish these cases (as of 2022-03). */
-    return (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
+    திரும்பு (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
 }
 
 // Read out an integer property and store into a preallocated Sint32 array, extending 8 and 16 bit values suitably.
 // Returns number of Sint32s written (<= max_words), or 0 on error.
-static size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, int deviceid, Atom property, Sint32 *dest, size_t max_words)
+நிலையான size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, முழு deviceid, Atom property, Sint32 *dest, size_t max_சொற்கள்)
 {
-    const SDL_VideoData *data = _this->internal;
+    மாறிலி SDL_VideoData *data = _this->internal;
     Atom type_return;
-    int format_return;
-    unsigned long num_items_return;
+    முழு format_return;
+    unsigned long இலக்கம்_பொருட்கள்_return;
     unsigned long bytes_after_return;
-    unsigned char *output;
+    unsigned எழுத்து *output;
 
-    if (property == None) {
-        return 0;
+    எனில் (property == None) {
+        திரும்பு 0;
     }
 
-    if (Success != X11_XIGetProperty(data->display, deviceid,
+    எனில் (Success != X11_XIGetProperty(data->display, deviceid,
                                      property,
-                                     0, max_words, False,
+                                     0, max_சொற்கள், False,
                                      XA_INTEGER, &type_return, &format_return,
-                                     &num_items_return, &bytes_after_return,
+                                     &இலக்கம்_பொருட்கள்_return, &bytes_after_return,
                                      &output) ||
-        num_items_return == 0 || output == NULL) {
-        return 0;
+        இலக்கம்_பொருட்கள்_return == 0 || output == வெற்று) {
+        திரும்பு 0;
     }
 
-    if (type_return == XA_INTEGER) {
-        int k;
-        const int to_copy = SDL_min(max_words, num_items_return);
+    எனில் (type_return == XA_INTEGER) {
+        முழு k;
+        மாறிலி முழு to_copy = SDL_min(max_சொற்கள், இலக்கம்_பொருட்கள்_return);
 
-        if (format_return == 8) {
+        எனில் (format_return == 8) {
             Sint8 *numdata = (Sint8 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            க்கு (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else if (format_return == 16) {
+        } இல்லையெனில் எனில் (format_return == 16) {
             Sint16 *numdata = (Sint16 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            க்கு (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else {
-            SDL_memcpy(dest, output, sizeof(Sint32) * to_copy);
+        } இல்லையெனில் {
+            SDL_memcpy(dest, output, அளவு(Sint32) * to_copy);
         }
         X11_XFree(output);
-        return to_copy;
+        திரும்பு to_copy;
     }
 
-    return 0; // type mismatch
+    திரும்பு 0; // type mismatch
 }
 
 // Identify Wacom devices (if true is returned) and extract their device type and serial IDs
-static bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, int deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
+நிலையான bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, முழு deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[3];
-    int result;
+    முழு result;
 
-    if ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
+    எனில் ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
         *wacom_devicetype_id = serial_id_buf[2];
         *wacom_serial = serial_id_buf[1];
-        return true;
+        திரும்பு true;
     }
 
     *wacom_devicetype_id = *wacom_serial = 0;
-    return false;
+    திரும்பு false;
 }
 
 // Check if a Wacom device is in proximity of the tablet
-static bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, int deviceid, bool *in_proximity)
+நிலையான bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, முழு deviceid, bool *in_proximity)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[5];
-    if (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
+    எனில் (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
         *in_proximity = serial_id_buf[4] != 0 || serial_id_buf[3] != 0;
-        return true;
+        திரும்பு true;
     }
-    return false;
+    திரும்பு false;
 }
 
 
-typedef struct FindPenByDeviceIDData
+வகைவரை கட்டமைப்பு FindPenByDeviceIDData
 {
-    int x11_deviceid;
-    void *handle;
+    முழு x11_deviceid;
+    வெறுமை *handle;
 } FindPenByDeviceIDData;
 
-static bool FindPenByDeviceID(void *handle, void *userdata)
+நிலையான bool FindPenByDeviceID(வெறுமை *handle, வெறுமை *userdata)
 {
-    const X11_PenHandle *x11_handle = (const X11_PenHandle *) handle;
+    மாறிலி X11_PenHandle *x11_handle = (மாறிலி X11_PenHandle *) handle;
     FindPenByDeviceIDData *data = (FindPenByDeviceIDData *) userdata;
-    if (x11_handle->x11_deviceid != data->x11_deviceid) {
-        return false;
+    எனில் (x11_handle->x11_deviceid != data->x11_deviceid) {
+        திரும்பு false;
     }
     data->handle = handle;
-    return true;
+    திரும்பு true;
 }
 
-X11_PenHandle *X11_FindPenByDeviceID(int deviceid)
+X11_PenHandle *X11_FindPenByDeviceID(முழு deviceid)
 {
     FindPenByDeviceIDData data;
     data.x11_deviceid = deviceid;
-    data.handle = NULL;
+    data.handle = வெற்று;
     SDL_FindPenByCallback(FindPenByDeviceID, &data);
-    return (X11_PenHandle *) data.handle;
+    திரும்பு (X11_PenHandle *) data.handle;
 }
 
-static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+நிலையான X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, மாறிலி XIDeviceInfo *dev)
 {
     SDL_VideoData *data = _this->internal;
     SDL_PenCapabilityFlags capabilities = 0;
-    X11_PenHandle *handle = NULL;
+    X11_PenHandle *handle = வெற்று;
 
-    if ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
-        return NULL;  // Only track physical devices that are enabled and look like pens
-    } else if ((handle = X11_FindPenByDeviceID(dev->deviceid)) != NULL) {
-        return handle;  // already have this pen, skip it.
-    } else if ((handle = SDL_calloc(1, sizeof(*handle))) == NULL) {
-        return NULL;  // oh well.
+    எனில் ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
+        திரும்பு வெற்று;  // Only track physical devices that are enabled and look like pens
+    } இல்லையெனில் எனில் ((handle = X11_FindPenByDeviceID(dev->deviceid)) != வெற்று) {
+        திரும்பு handle;  // already have this pen, skip it.
+    } இல்லையெனில் எனில் ((handle = SDL_calloc(1, அளவு(*handle))) == வெற்று) {
+        திரும்பு வெற்று;  // oh well.
     }
 
-    for (int i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
+    க்கு (முழு i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
         handle->valuator_for_axis[i] = SDL_X11_PEN_AXIS_VALUATOR_MISSING;  // until proven otherwise
     }
 
-    int total_buttons = 0;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIButtonClass) {
-            const XIButtonClassInfo *button_classinfo = (const XIButtonClassInfo *)classinfo;
-            total_buttons += button_classinfo->num_buttons;
-        } else if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            const Sint8 valuator_nr = val_classinfo->number;
-            const Atom vname = val_classinfo->label;
-            const float min = (float)val_classinfo->min;
-            const float max = (float)val_classinfo->max;
+    முழு total_buttons = 0;
+    க்கு (முழு i = 0; i < dev->இலக்கம்_classes; i++) {
+        மாறிலி XIAnyClassInfo *classinfo = dev->classes[i];
+        எனில் (classinfo->type == XIButtonClass) {
+            மாறிலி XIButtonClassInfo *button_classinfo = (மாறிலி XIButtonClassInfo *)classinfo;
+            total_buttons += button_classinfo->இலக்கம்_buttons;
+        } இல்லையெனில் எனில் (classinfo->type == XIValuatorClass) {
+            மாறிலி XIValuatorClassInfo *val_classinfo = (மாறிலி XIValuatorClassInfo *)classinfo;
+            மாறிலி Sint8 valuator_nr = val_classinfo->எண்_2;
+            மாறிலி Atom vname = val_classinfo->label;
+            மாறிலி தசம min = (தசம)val_classinfo->min;
+            மாறிலி தசம max = (தசம)val_classinfo->max;
             bool use_this_axis = true;
-            SDL_PenAxis axis = SDL_PEN_AXIS_COUNT;
+            SDL_PenAxis axis = SDL_PEN_AXIS_மொத்தம்;
 
             // afaict, SDL_PEN_AXIS_DISTANCE is never reported by XInput2 (Wayland can offer it, though)
-            if (vname == data->atoms.pen_atom_abs_pressure) {
+            எனில் (vname == data->atoms.pen_atom_abs_pressure) {
                 axis = SDL_PEN_AXIS_PRESSURE;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_x) {
+            } இல்லையெனில் எனில் (vname == data->atoms.pen_atom_abs_tilt_x) {
                 axis = SDL_PEN_AXIS_XTILT;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_y) {
+            } இல்லையெனில் எனில் (vname == data->atoms.pen_atom_abs_tilt_y) {
                 axis = SDL_PEN_AXIS_YTILT;
-            } else {
+            } இல்லையெனில் {
                 use_this_axis = false;
             }
 
             // !!! FIXME: there are wacom-specific hacks for getting SDL_PEN_AXIS_(ROTATION|SLIDER) on some devices, but for simplicity, we're skipping all that for now.
 
-            if (use_this_axis) {
+            எனில் (use_this_axis) {
                 capabilities |= SDL_GetPenCapabilityFromAxis(axis);
                 handle->valuator_for_axis[axis] = valuator_nr;
                 handle->axis_min[axis] = min;
@@ -265,7 +265,7 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     // We checked this in X11_XInput2DeviceIsPen, so just assert it here.
     SDL_assert(capabilities & SDL_PEN_CAPABILITY_PRESSURE);
 
-    const bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
+    மாறிலி bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
     Uint32 wacom_devicetype_id = 0;
     Uint32 wacom_serial = 0;
     X11_XInput2PenWacomDeviceID(_this, dev->deviceid, &wacom_devicetype_id, &wacom_serial);
@@ -275,9 +275,9 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     peninfo.capabilities = capabilities;
     peninfo.max_tilt = -1;
     peninfo.wacom_id = wacom_devicetype_id;
-    peninfo.num_buttons = total_buttons;
+    peninfo.இலக்கம்_buttons = total_buttons;
     peninfo.subtype = is_eraser ? SDL_PEN_TYPE_ERASER : SDL_PEN_TYPE_PEN;
-    if (is_eraser) {
+    எனில் (is_eraser) {
         peninfo.capabilities |= SDL_PEN_CAPABILITY_ERASER;
     }
 
@@ -285,57 +285,57 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     handle->x11_deviceid = dev->deviceid;
 
     bool in_proximity = false;
-    if (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
+    எனில் (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
         in_proximity = true;  // just say it's in proximity if we can't detect this state.
     }
 
-    handle->pen = SDL_AddPenDevice(0, dev->name, NULL, &peninfo, handle, in_proximity);
-    if (!handle->pen) {
+    handle->pen = SDL_AddPenDevice(0, dev->name, வெற்று, &peninfo, handle, in_proximity);
+    எனில் (!handle->pen) {
         SDL_free(handle);
-        return NULL;
+        திரும்பு வெற்று;
     }
 
-    return handle;
+    திரும்பு handle;
 }
 
-X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid)
+X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, முழு deviceid)
 {
-    if (X11_Xinput2IsInitialized()) {
+    எனில் (X11_Xinput2IsInitialized()) {
         SDL_VideoData *data = _this->internal;
-        int num_device_info = 0;
-        XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &num_device_info);
-        if (device_info) {
-            SDL_assert(num_device_info == 1);
+        முழு இலக்கம்_device_info = 0;
+        XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &இலக்கம்_device_info);
+        எனில் (device_info) {
+            SDL_assert(இலக்கம்_device_info == 1);
             X11_PenHandle *handle = X11_MaybeAddPen(_this, device_info);
             X11_XIFreeDeviceInfo(device_info);
-            return handle;
+            திரும்பு handle;
         }
     }
-    return NULL;
+    திரும்பு வெற்று;
 }
 
-void X11_RemovePenByDeviceID(int deviceid)
+வெறுமை X11_RemovePenByDeviceID(முழு deviceid)
 {
     X11_PenHandle *handle = X11_FindPenByDeviceID(deviceid);
-    if (handle) {
-        SDL_RemovePenDevice(0, NULL, handle->pen);
+    எனில் (handle) {
+        SDL_RemovePenDevice(0, வெற்று, handle->pen);
         SDL_free(handle);
     }
 }
 
-void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid)
+வெறுமை X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, முழு deviceid)
 {
     bool in_proximity;
     X11_PenHandle *pen = X11_FindPenByDeviceID(deviceid);
-    if (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
+    எனில் (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
         SDL_SendPenProximity(0, pen->pen, window, in_proximity, in_proximity);
     }
 }
 
-void X11_InitPen(SDL_VideoDevice *_this)
+வெறுமை X11_InitPen(SDL_VideoDevice *_this)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return;  // we need XIQueryDevice() for this.
+    எனில் (!X11_Xinput2IsInitialized()) {
+        திரும்பு;  // we need XIQueryDevice() for this.
     }
 
     SDL_VideoData *data = _this->internal;
@@ -350,119 +350,119 @@ void X11_InitPen(SDL_VideoDevice *_this)
     #undef LOOKUP_PEN_ATOM
 
     // Do an initial check on devices. After this, we'll add/remove individual pens when XI_HierarchyChanged events alert us.
-    int num_device_info = 0;
-    XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &num_device_info);
-    if (device_info) {
-        for (int i = 0; i < num_device_info; i++) {
+    முழு இலக்கம்_device_info = 0;
+    XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &இலக்கம்_device_info);
+    எனில் (device_info) {
+        க்கு (முழு i = 0; i < இலக்கம்_device_info; i++) {
             X11_MaybeAddPen(_this, &device_info[i]);
         }
         X11_XIFreeDeviceInfo(device_info);
     }
 }
 
-static void X11_FreePenHandle(SDL_PenID instance_id, void *handle, void *userdata)
+நிலையான வெறுமை X11_FreePenHandle(SDL_PenID instance_id, வெறுமை *handle, வெறுமை *userdata)
 {
     SDL_free(handle);
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+வெறுமை X11_QuitPen(SDL_VideoDevice *_this)
 {
-    SDL_RemoveAllPenDevices(X11_FreePenHandle, NULL);
+    SDL_RemoveAllPenDevices(X11_FreePenHandle, வெற்று);
 }
 
-static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
+நிலையான வெறுமை X11_XInput2NormalizePenAxes(மாறிலி X11_PenHandle *pen, தசம *coords)
 {
     // Normalise axes
-    for (int axis = 0; axis < SDL_PEN_AXIS_COUNT; ++axis) {
-        const int valuator = pen->valuator_for_axis[axis];
-        if (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
-            continue;
+    க்கு (முழு axis = 0; axis < SDL_PEN_AXIS_மொத்தம்; ++axis) {
+        மாறிலி முழு valuator = pen->valuator_for_axis[axis];
+        எனில் (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
+            தொடர்;
         }
 
-        float value = coords[axis];
-        const float min = pen->axis_min[axis];
-        const float max = pen->axis_max[axis];
+        தசம மதிப்பு = coords[axis];
+        மாறிலி தசம min = pen->axis_min[axis];
+        மாறிலி தசம max = pen->axis_max[axis];
 
-        if (axis == SDL_PEN_AXIS_SLIDER) {
-            value += pen->slider_bias;
+        எனில் (axis == SDL_PEN_AXIS_SLIDER) {
+            மதிப்பு += pen->slider_bias;
         }
 
         // min ... 0 ... max
-        if (min < 0.0) {
+        எனில் (min < 0.0) {
             // Normalise so that 0 remains 0.0
-            if (value < 0) {
-                value = value / (-min);
-            } else {
-                if (max == 0.0f) {
-                    value = 0.0f;
-                } else {
-                    value = value / max;
+            எனில் (மதிப்பு < 0) {
+                மதிப்பு = மதிப்பு / (-min);
+            } இல்லையெனில் {
+                எனில் (max == 0.0f) {
+                    மதிப்பு = 0.0f;
+                } இல்லையெனில் {
+                    மதிப்பு = மதிப்பு / max;
                 }
             }
-        } else {
+        } இல்லையெனில் {
             // 0 ... min ... max
             // including 0.0 = min
-            if (max == 0.0f) {
-                value = 0.0f;
-            } else {
-                value = (value - min) / max;
+            எனில் (max == 0.0f) {
+                மதிப்பு = 0.0f;
+            } இல்லையெனில் {
+                மதிப்பு = (மதிப்பு - min) / max;
             }
         }
 
-        switch (axis) {
-            case SDL_PEN_AXIS_XTILT:
-            case SDL_PEN_AXIS_YTILT:
+        தேர்வு (axis) {
+            நிலை SDL_PEN_AXIS_XTILT:
+            நிலை SDL_PEN_AXIS_YTILT:
                 //if (peninfo->info.max_tilt > 0.0f) {
                 //    value *= peninfo->info.max_tilt; // normalize to physical max
                 //}
-                break;
+                நிறுத்து;
 
-            case SDL_PEN_AXIS_ROTATION:
+            நிலை SDL_PEN_AXIS_ROTATION:
                 // normalised to -1..1, so let's convert to degrees
-                value *= 180.0f;
-                value += pen->rotation_bias;
+                மதிப்பு *= 180.0f;
+                மதிப்பு += pen->rotation_bias;
 
                 // handle simple over/underflow
-                if (value >= 180.0f) {
-                    value -= 360.0f;
-                } else if (value < -180.0f) {
-                    value += 360.0f;
+                எனில் (மதிப்பு >= 180.0f) {
+                    மதிப்பு -= 360.0f;
+                } இல்லையெனில் எனில் (மதிப்பு < -180.0f) {
+                    மதிப்பு += 360.0f;
                 }
-                break;
+                நிறுத்து;
 
-            default:
-                break;
+            இயல்பு:
+                நிறுத்து;
         }
 
-        coords[axis] = value;
+        coords[axis] = மதிப்பு;
     }
 }
 
-void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                              const double *input_values, const unsigned char *mask, int mask_len,
-                              float axis_values[SDL_PEN_AXIS_COUNT])
+வெறுமை X11_PenAxesFromValuators(மாறிலி X11_PenHandle *pen,
+                              மாறிலி இரட்டை *உள்ளீடு_மதிப்புகள், மாறிலி unsigned எழுத்து *mask, முழு mask_len,
+                              தசம axis_மதிப்புகள்[SDL_PEN_AXIS_மொத்தம்])
 {
-    for (int i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
-        const int valuator = pen->valuator_for_axis[i];
-        if ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
-            axis_values[i] = 0.0f;
-        } else {
-            axis_values[i] = (float)input_values[valuator];
+    க்கு (முழு i = 0; i < SDL_PEN_AXIS_மொத்தம்; i++) {
+        மாறிலி முழு valuator = pen->valuator_for_axis[i];
+        எனில் ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
+            axis_மதிப்புகள்[i] = 0.0f;
+        } இல்லையெனில் {
+            axis_மதிப்புகள்[i] = (தசம)உள்ளீடு_மதிப்புகள்[valuator];
         }
     }
-    X11_XInput2NormalizePenAxes(pen, axis_values);
+    X11_XInput2NormalizePenAxes(pen, axis_மதிப்புகள்);
 }
 
-#else
+#இல்லையெனில்
 
-void X11_InitPen(SDL_VideoDevice *_this)
+வெறுமை X11_InitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (வெறுமை) _this;
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+வெறுமை X11_QuitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (வெறுமை) _this;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2

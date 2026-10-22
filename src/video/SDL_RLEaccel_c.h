@@ -22,11 +22,11 @@
 #ifndef SDL_RLEaccel_c_h_
 #define SDL_RLEaccel_c_h_
 
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 // Useful functions and variables from SDL_RLEaccel.c
 
-extern bool SDL_RLESurface(SDL_Surface *surface);
-extern void SDL_UnRLESurface(SDL_Surface *surface);
+வெளி bool SDL_RLESurface(SDL_Surface *surface);
+வெளி வெறுமை SDL_UnRLESurface(SDL_Surface *surface);
 
 #endif // SDL_RLEaccel_c_h_

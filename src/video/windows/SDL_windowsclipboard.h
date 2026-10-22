@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_windowsclipboard_h_
 #define SDL_windowsclipboard_h_
 
 // Forward declaration
-struct SDL_VideoData;
+கட்டமைப்பு SDL_VideoData;
 
-extern bool WIN_SetClipboardData(SDL_VideoDevice *_this);
-extern void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern void WIN_CheckClipboardUpdate(struct SDL_VideoData *data);
+வெளி bool WIN_SetClipboardData(SDL_VideoDevice *_this);
+வெளி வெறுமை *WIN_GetClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type, size_t *size);
+வெளி bool WIN_HasClipboardData(SDL_VideoDevice *_this, மாறிலி எழுத்து *mime_type);
+வெளி வெறுமை WIN_CheckClipboardUpdate(கட்டமைப்பு SDL_VideoData *data);
 
 #endif // SDL_windowsclipboard_h_

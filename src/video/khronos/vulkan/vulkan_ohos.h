@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+வெளி "C" {
 #endif
 
 
@@ -22,27 +22,27 @@ extern "C" {
 // VK_OHOS_external_memory is a preprocessor guard. Do not pass it to API calls.
 #define VK_OHOS_external_memory 1
 
-struct OH_NativeBuffer;
+கட்டமைப்பு OH_NativeBuffer;
 
 #define VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
 #define VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
 
-typedef struct VkNativeBufferUsageOHOS {
+வகைவரை கட்டமைப்பு VkNativeBufferUsageOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     uint64_t           OHOSNativeBufferUsage;
 } VkNativeBufferUsageOHOS;
 
-typedef struct VkNativeBufferPropertiesOHOS {
+வகைவரை கட்டமைப்பு VkNativeBufferPropertiesOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     VkDeviceSize       allocationSize;
     uint32_t           memoryTypeBits;
 } VkNativeBufferPropertiesOHOS;
 
-typedef struct VkNativeBufferFormatPropertiesOHOS {
+வகைவரை கட்டமைப்பு VkNativeBufferFormatPropertiesOHOS {
     VkStructureType                  sType;
-    void*                            pNext;
+    வெறுமை*                            pNext;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
@@ -53,41 +53,41 @@ typedef struct VkNativeBufferFormatPropertiesOHOS {
     VkChromaLocation                 suggestedYChromaOffset;
 } VkNativeBufferFormatPropertiesOHOS;
 
-typedef struct VkImportNativeBufferInfoOHOS {
+வகைவரை கட்டமைப்பு VkImportNativeBufferInfoOHOS {
     VkStructureType            sType;
-    const void*                pNext;
-    struct OH_NativeBuffer*    buffer;
+    மாறிலி வெறுமை*                pNext;
+    கட்டமைப்பு OH_NativeBuffer*    buffer;
 } VkImportNativeBufferInfoOHOS;
 
-typedef struct VkMemoryGetNativeBufferInfoOHOS {
+வகைவரை கட்டமைப்பு VkMemoryGetNativeBufferInfoOHOS {
     VkStructureType    sType;
-    const void*        pNext;
+    மாறிலி வெறுமை*        pNext;
     VkDeviceMemory     memory;
 } VkMemoryGetNativeBufferInfoOHOS;
 
-typedef struct VkExternalFormatOHOS {
+வகைவரை கட்டமைப்பு VkExternalFormatOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     uint64_t           externalFormat;
 } VkExternalFormatOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+வகைவரை VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, மாறிலி கட்டமைப்பு OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
+வகைவரை VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, மாறிலி VkMemoryGetNativeBufferInfoOHOS* pInfo, கட்டமைப்பு OH_NativeBuffer** pBuffer);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetNativeBufferPropertiesOHOS(
     VkDevice                                    device,
-    const struct OH_NativeBuffer*               buffer,
+    மாறிலி கட்டமைப்பு OH_NativeBuffer*               buffer,
     VkNativeBufferPropertiesOHOS*               pProperties);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
     VkDevice                                    device,
-    const VkMemoryGetNativeBufferInfoOHOS*      pInfo,
-    struct OH_NativeBuffer**                    pBuffer);
+    மாறிலி VkMemoryGetNativeBufferInfoOHOS*      pInfo,
+    கட்டமைப்பு OH_NativeBuffer**                    pBuffer);
 #endif
 #endif
 
@@ -95,30 +95,30 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
 // VK_OHOS_surface is a preprocessor guard. Do not pass it to API calls.
 #define VK_OHOS_surface 1
 
-typedef struct NativeWindow OHNativeWindow;
+வகைவரை கட்டமைப்பு NativeWindow OHNativeWindow;
 
 #define VK_OHOS_SURFACE_SPEC_VERSION      1
 #define VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
 
-typedef VkFlags VkSurfaceCreateFlagsOHOS;
+வகைவரை VkFlags VkSurfaceCreateFlagsOHOS;
 
-typedef struct VkSurfaceCreateInfoOHOS {
+வகைவரை கட்டமைப்பு VkSurfaceCreateInfoOHOS {
     VkStructureType             sType;
-    const void*                 pNext;
+    மாறிலி வெறுமை*                 pNext;
     VkSurfaceCreateFlagsOHOS    flags;
     OHNativeWindow*             window;
 } VkSurfaceCreateInfoOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+வகைவரை VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, மாறிலி VkSurfaceCreateInfoOHOS* pCreateInfo, மாறிலி VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateSurfaceOHOS(
     VkInstance                                  instance,
-    const VkSurfaceCreateInfoOHOS*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    மாறிலி VkSurfaceCreateInfoOHOS*              pCreateInfo,
+    மாறிலி VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

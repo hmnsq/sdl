@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
-#include "../SDL_sysvideo.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
 
 // src/core/openharmony/SDL_openharmony.c calls these when it gets events from the system.
-extern void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchMouseEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchKeyEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchUIInputEvent(void *component, void *event, int32_t type);
+வெளி வெறுமை SDL_OpenHarmonyDispatchTouchEvent(வெறுமை *component, வெறுமை *window);
+வெளி வெறுமை SDL_OpenHarmonyDispatchMouseEvent(வெறுமை *component, வெறுமை *window);
+வெளி வெறுமை SDL_Open_Harmony_Dispatch_சாவி_Event(வெறுமை *component, வெறுமை *window);
+வெளி வெறுமை SDL_OpenHarmonyDispatchUIInputEvent(வெறுமை *component, வெறுமை *event, int32_t type);
 
-extern void OPENHARMONY_InitEvents(void);
-extern void OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitEvents(void);
+வெளி வெறுமை OPENHARMONY_InitEvents(வெறுமை);
+வெளி வெறுமை OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
+வெளி வெறுமை OPENHARMONY_QuitEvents(வெறுமை);

@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DUMMY
 
@@ -37,68 +37,68 @@
  *  SDL video driver.  Renamed to "DUMMY" by Sam Lantinga.
  */
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
+#அந்தர்பாவ "../SDL_pixels_c.h"
+#அந்தர்பாவ "../../events/SDL_events_c.h"
+#ifdef SDL_உள்ளீடு_LINUXEV
+#அந்தர்பாவ "../../core/linux/SDL_evdev.h"
 #endif
 
-#include "SDL_nullvideo.h"
-#include "SDL_nullevents_c.h"
-#include "SDL_nullframebuffer_c.h"
+#அந்தர்பாவ "SDL_nullvideo.h"
+#அந்தர்பாவ "SDL_nullevents_c.h"
+#அந்தர்பாவ "SDL_nullframebuffer_c.h"
 
 #define DUMMYVID_DRIVER_NAME       "dummy"
 #define DUMMYVID_DRIVER_EVDEV_NAME "evdev"
 
 // Initialization/Query functions
-static bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this);
-static bool DUMMY_VideoInit(SDL_VideoDevice *_this);
-static void DUMMY_VideoQuit(SDL_VideoDevice *_this);
-#ifdef SDL_INPUT_LINUXEV
-static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this);
-static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
+நிலையான bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this);
+நிலையான bool DUMMY_VideoInit(SDL_VideoDevice *_this);
+நிலையான வெறுமை DUMMY_VideoQuit(SDL_VideoDevice *_this);
+#ifdef SDL_உள்ளீடு_LINUXEV
+நிலையான bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this);
+நிலையான வெறுமை DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
 #endif
 
-static bool DUMMY_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+நிலையான bool DUMMY_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->pending.x, window->pending.y);
-    return true;
+    திரும்பு true;
 }
 
-static void DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+நிலையான வெறுமை DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
 }
 
 // DUMMY driver bootstrap functions
 
-static bool DUMMY_Available(const char *drivername)
+நிலையான bool DUMMY_Available(மாறிலி எழுத்து *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    மாறிலி எழுத்து *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    எனில் (hint && SDL_strstr(hint, drivername) != வெற்று) {
+        திரும்பு true;
     }
-    return false;
+    திரும்பு false;
 }
 
-static void DUMMY_DeleteDevice(SDL_VideoDevice *device)
+நிலையான வெறுமை DUMMY_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
+நிலையான SDL_VideoDevice *DUMMY_InternalCreateDevice(மாறிலி எழுத்து *enable_hint)
 {
     SDL_VideoDevice *device;
 
-    if (!DUMMY_Available(enable_hint)) {
-        return NULL;
+    எனில் (!DUMMY_Available(enable_hint)) {
+        திரும்பு வெற்று;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, அளவு(SDL_VideoDevice));
+    எனில் (!device) {
+        திரும்பு வெற்று;
     }
 
     // Set the function pointers
@@ -110,69 +110,69 @@ static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
     device->CreateWindowFramebuffer = SDL_DUMMY_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = SDL_DUMMY_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_DUMMY_DestroyWindowFramebuffer;
-    device->free = DUMMY_DeleteDevice;
+    device->விடுவி = DUMMY_DeleteDevice;
 
-    return device;
+    திரும்பு device;
 }
 
-static SDL_VideoDevice *DUMMY_CreateDevice(void)
+நிலையான SDL_VideoDevice *DUMMY_CreateDevice(வெறுமை)
 {
-    return DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
+    திரும்பு DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
 }
 
 VideoBootStrap DUMMY_bootstrap = {
     DUMMYVID_DRIVER_NAME, "SDL dummy video driver",
     DUMMY_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    வெற்று, // no ShowMessageBox implementation
     false
 };
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_உள்ளீடு_LINUXEV
 
-static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
+நிலையான bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    எனில் (!DUMMY_VideoInitCommon(_this)) {
+        திரும்பு false;
     }
 
     SDL_EVDEV_Init();
-    return true;
+    திரும்பு true;
 }
 
-static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this)
+நிலையான வெறுமை DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_EVDEV_Quit();
 }
 
-static void DUMMY_EVDEV_Poll(SDL_VideoDevice *_this)
+நிலையான வெறுமை DUMMY_EVDEV_Poll(SDL_VideoDevice *_this)
 {
-    (void)_this;
+    (வெறுமை)_this;
     SDL_EVDEV_Poll();
 }
 
-static SDL_VideoDevice *DUMMY_EVDEV_CreateDevice(void)
+நிலையான SDL_VideoDevice *DUMMY_EVDEV_CreateDevice(வெறுமை)
 {
     SDL_VideoDevice *device = DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_EVDEV_NAME);
-    if (device) {
+    எனில் (device) {
         device->VideoInit = DUMMY_EVDEV_VideoInit;
         device->VideoQuit = DUMMY_EVDEV_VideoQuit;
         device->PumpEvents = DUMMY_EVDEV_Poll;
     }
-    return device;
+    திரும்பு device;
 }
 
 VideoBootStrap DUMMY_evdev_bootstrap = {
     DUMMYVID_DRIVER_EVDEV_NAME, "SDL dummy video driver with evdev",
     DUMMY_EVDEV_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    வெற்று, // no ShowMessageBox implementation
     false
 };
 
 #endif // SDL_INPUT_LINUXEV
 
-static bool DUMMY_SetRelativeMouseMode(bool enabled)
+நிலையான bool DUMMY_SetRelativeMouseMode(bool enabled)
 {
-    return true;
+    திரும்பு true;
 }
 
 bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
@@ -184,24 +184,24 @@ bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    எனில் (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        திரும்பு false;
     }
 
-    return true;
+    திரும்பு true;
 }
 
 bool DUMMY_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    எனில் (!DUMMY_VideoInitCommon(_this)) {
+        திரும்பு false;
     }
 
     SDL_GetMouse()->SetRelativeMouseMode = DUMMY_SetRelativeMouseMode;
-    return true;
+    திரும்பு true;
 }
 
-void DUMMY_VideoQuit(SDL_VideoDevice *_this)
+வெறுமை DUMMY_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 

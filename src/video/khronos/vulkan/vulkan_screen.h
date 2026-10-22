@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+வெளி "C" {
 #endif
 
 
@@ -25,34 +25,34 @@ extern "C" {
 #define VK_QNX_SCREEN_SURFACE_SPEC_VERSION 1
 #define VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
 
-typedef VkFlags VkScreenSurfaceCreateFlagsQNX;
+வகைவரை VkFlags VkScreenSurfaceCreateFlagsQNX;
 
-typedef struct VkScreenSurfaceCreateInfoQNX {
+வகைவரை கட்டமைப்பு VkScreenSurfaceCreateInfoQNX {
     VkStructureType                  sType;
-    const void*                      pNext;
+    மாறிலி வெறுமை*                      pNext;
     VkScreenSurfaceCreateFlagsQNX    flags;
-    struct _screen_context*          context;
-    struct _screen_window*           window;
+    கட்டமைப்பு _screen_context*          context;
+    கட்டமைப்பு _screen_window*           window;
 } VkScreenSurfaceCreateInfoQNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, const VkScreenSurfaceCreateInfoQNX* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct _screen_window* window);
+வகைவரை VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, மாறிலி VkScreenSurfaceCreateInfoQNX* pCreateInfo, மாறிலி VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+வகைவரை VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, கட்டமைப்பு _screen_window* window);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateScreenSurfaceQNX(
     VkInstance                                  instance,
-    const VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    மாறிலி VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
+    மாறிலி VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
-    struct _screen_window*                      window);
+    கட்டமைப்பு _screen_window*                      window);
 #endif
 #endif
 
@@ -63,16 +63,16 @@ VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
 #define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_SPEC_VERSION 1
 #define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
 
-typedef struct VkScreenBufferPropertiesQNX {
+வகைவரை கட்டமைப்பு VkScreenBufferPropertiesQNX {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     VkDeviceSize       allocationSize;
     uint32_t           memoryTypeBits;
 } VkScreenBufferPropertiesQNX;
 
-typedef struct VkScreenBufferFormatPropertiesQNX {
+வகைவரை கட்டமைப்பு VkScreenBufferFormatPropertiesQNX {
     VkStructureType                  sType;
-    void*                            pNext;
+    வெறுமை*                            pNext;
     VkFormat                         format;
     uint64_t                         externalFormat;
     uint64_t                         screenUsage;
@@ -84,33 +84,33 @@ typedef struct VkScreenBufferFormatPropertiesQNX {
     VkChromaLocation                 suggestedYChromaOffset;
 } VkScreenBufferFormatPropertiesQNX;
 
-typedef struct VkImportScreenBufferInfoQNX {
+வகைவரை கட்டமைப்பு VkImportScreenBufferInfoQNX {
     VkStructureType           sType;
-    const void*               pNext;
-    struct _screen_buffer*    buffer;
+    மாறிலி வெறுமை*               pNext;
+    கட்டமைப்பு _screen_buffer*    buffer;
 } VkImportScreenBufferInfoQNX;
 
-typedef struct VkExternalFormatQNX {
+வகைவரை கட்டமைப்பு VkExternalFormatQNX {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     uint64_t           externalFormat;
 } VkExternalFormatQNX;
 
-typedef struct VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
+வகைவரை கட்டமைப்பு VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
     VkStructureType    sType;
-    void*              pNext;
+    வெறுமை*              pNext;
     VkBool32           screenBufferImport;
 } VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
+வகைவரை VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, மாறிலி கட்டமைப்பு _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(
     VkDevice                                    device,
-    const struct _screen_buffer*                buffer,
+    மாறிலி கட்டமைப்பு _screen_buffer*                buffer,
     VkScreenBufferPropertiesQNX*                pProperties);
 #endif
 #endif

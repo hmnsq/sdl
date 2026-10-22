@@ -22,8 +22,8 @@
 #ifndef SDL_n3dsevents_c_h_
 #define SDL_n3dsevents_c_h_
 
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
-extern void N3DS_PumpEvents(SDL_VideoDevice *_this);
+வெளி வெறுமை N3DS_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_n3dsevents_c_h_

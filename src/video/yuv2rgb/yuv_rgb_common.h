@@ -3,7 +3,7 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
 
-typedef enum
+வகைவரை எண்ணிக்கை
 {
     YCBCR_601_FULL,
     YCBCR_601_LIMITED,

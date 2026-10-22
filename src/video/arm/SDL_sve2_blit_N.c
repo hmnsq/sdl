@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_N.h"
-#include <assert.h>
+#அந்தர்பாவ "SDL_sve2_blit_N.h"
+#அந்தர்பாவ <assert.h>
 
 #ifdef SDL_SVE2_INTRINSICS
 
 #undef sdl_sve_rgb32_blend_op_fill_alpha
 #define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
-        if (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
+    செய் {                                                    \
+        எனில் (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
             /* fill alpha */                                \
             sve_target_u16 = svdup_u16(0xFF);               \
-        } else {                                            \
+        } இல்லையெனில் {                                            \
             sve_target_u16 = sve_source_u16;                \
         }                                                   \
-    } while (0)
+    } போது (0)
 
 #undef sdl_sve_rgb32_blend_op_copy_alpha
 #define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
+    செய் {                                                    \
         sve_target_u16 = sve_source_u16;                    \
-    } while (0)
+    } போது (0)
 
 #undef sdl_sve_rgb32_blend_to_rgb565_op
 #define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx) \
-    do {                                                   \
+    செய் {                                                   \
         sve_target_u16 = sve_source_u16;                   \
-    } while (0)
+    } போது (0)
 
-#include "SDL_sve2_swizzle.h"
+#அந்தர்பாவ "SDL_sve2_swizzle.h"
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
+வெறுமை Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
     sdl_sve_8888_to_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
+வெறுமை Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
     sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
+நிலையான உள்வரி வெறுமை sdl_sve_rgb16_stride_சாவி(uint16_t *SDL_RESTRICT phwSource,
                                             uint16_t *SDL_RESTRICT phwTarget,
                                             size_t uStride,
-                                            uint16_t hwKey,
-                                            uint16_t hwKeyMask)
+                                            uint16_t hw_சாவி,
+                                            uint16_t hw_சாவி_Mask)
 {
     sdl_sve_stride_loop_u16(uStride, vTailPred)
     {
@@ -76,8 +76,8 @@ static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
 
         svuint16_t vSourceMasked = svand_n_u16_m(vTailPred,
                                                  vSource,
-                                                 hwKeyMask);
-        vTarget = svsel_u16(svcmpeq_n_u16(vTailPred, vSourceMasked, hwKey),
+                                                 hw_சாவி_Mask);
+        vTarget = svsel_u16(svcmpeq_n_u16(vTailPred, vSourceMasked, hw_சாவி),
                             vTarget,
                             vSource);
 
@@ -90,24 +90,24 @@ static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
+நிலையான உள்வரி வெறுமை sdl_sve_rgb16_சாவி(uint8_t *SDL_RESTRICT pchSource,
                                      size_t uSourceStride,
                                      uint8_t *SDL_RESTRICT pchTarget,
                                      size_t uTargetStride,
-                                     int nWidth,
-                                     int nHeight,
-                                     uint16_t hwKey,
-                                     uint16_t hwKeyMask)
+                                     முழு nWidth,
+                                     முழு nHeight,
+                                     uint16_t hw_சாவி,
+                                     uint16_t hw_சாவி_Mask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchSource & 0x01));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchTarget & 0x01));
 
-    while (nHeight--) {
-        sdl_sve_rgb16_stride_key((uint16_t *)pchSource,
+    போது (nHeight--) {
+        sdl_sve_rgb16_stride_சாவி((uint16_t *)pchSource,
                                  (uint16_t *)pchTarget,
                                  nWidth,
-                                 hwKey,
-                                 hwKeyMask);
+                                 hw_சாவி,
+                                 hw_சாவி_Mask);
 
         pchSource += uSourceStride;
         pchTarget += uTargetStride;
@@ -115,33 +115,33 @@ static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit2to2KeySVE2(SDL_BlitInfo *info)
+வெறுமை Blit2to2_சாவி_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    முழு width = info->dst_w;
+    முழு height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    முழு srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    முழு dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    மாறிலி SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    மாறிலி SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    முழு srcbpp = srcfmt->bytes_per_pixel;
+    முழு dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    ப்ரதிஜ்ஞா(srcbpp == 2);
+    ப்ரதிஜ்ஞா(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    முழு srcstride = srcskip + srcbpp * width;
+    முழு dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    sdl_sve_rgb16_key(src,
+    sdl_sve_rgb16_சாவி(src,
                       srcstride,
                       dst,
                       dststride,
@@ -153,12 +153,12 @@ void Blit2to2KeySVE2(SDL_BlitInfo *info)
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_copy_alpha(
+நிலையான உள்வரி வெறுமை sdl_sve_rgb32_stride_சாவி_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
+    uint32_t w_சாவி,
+    uint32_t w_சாவி_Mask,
     uint32_t wOpacifyMask)
 {
     sdl_sve_stride_loop_u32(uStride, vTailPred)
@@ -175,8 +175,8 @@ static inline void sdl_sve_rgb32_stride_key_copy_alpha(
         */
         svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
                                                  vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
+                                                 w_சாவி_Mask);
+        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, w_சாவி),
                             vTarget,
                             svorr_n_u32_m(vTailPred, vSource, wOpacifyMask));
 
@@ -189,12 +189,12 @@ static inline void sdl_sve_rgb32_stride_key_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_no_alpha(
+நிலையான உள்வரி வெறுமை sdl_sve_rgb32_stride_சாவி_no_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
+    uint32_t w_சாவி,
+    uint32_t w_சாவி_Mask,
     uint32_t wActualRGBMask)
 {
     sdl_sve_stride_loop_u32(uStride, vTailPred)
@@ -211,8 +211,8 @@ static inline void sdl_sve_rgb32_stride_key_no_alpha(
         */
         svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
                                                  vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
+                                                 w_சாவி_Mask);
+        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, w_சாவி),
                             vTarget,
                             svand_n_u32_m(vTailPred, vSource, wActualRGBMask));
 
@@ -225,25 +225,25 @@ static inline void sdl_sve_rgb32_stride_key_no_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+நிலையான உள்வரி வெறுமை sdl_sve_rgb32_சாவி_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
                                                 size_t uSourceStride,
                                                 uint8_t *SDL_RESTRICT pchTarget,
                                                 size_t uTargetStride,
-                                                int nWidth,
-                                                int nHeight,
-                                                uint32_t wKey,
-                                                uint32_t wKeyMask,
+                                                முழு nWidth,
+                                                முழு nHeight,
+                                                uint32_t w_சாவி,
+                                                uint32_t w_சாவி_Mask,
                                                 uint32_t wOpacifyMask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchSource & 0x03));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_copy_alpha((uint32_t *)pchSource,
+    போது (nHeight--) {
+        sdl_sve_rgb32_stride_சாவி_copy_alpha((uint32_t *)pchSource,
                                             (uint32_t *)pchTarget,
                                             nWidth,
-                                            wKey,
-                                            wKeyMask,
+                                            w_சாவி,
+                                            w_சாவி_Mask,
                                             wOpacifyMask);
 
         pchSource += uSourceStride;
@@ -253,25 +253,25 @@ static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
+நிலையான உள்வரி வெறுமை sdl_sve_rgb32_சாவி_no_alpha(uint8_t *SDL_RESTRICT pchSource,
                                               size_t uSourceStride,
                                               uint8_t *SDL_RESTRICT pchTarget,
                                               size_t uTargetStride,
-                                              int nWidth,
-                                              int nHeight,
-                                              uint32_t wKey,
-                                              uint32_t wKeyMask,
+                                              முழு nWidth,
+                                              முழு nHeight,
+                                              uint32_t w_சாவி,
+                                              uint32_t w_சாவி_Mask,
                                               uint32_t wActualRGBMask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchSource & 0x03));
+    ப்ரதிஜ்ஞா(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_no_alpha((uint32_t *)pchSource,
+    போது (nHeight--) {
+        sdl_sve_rgb32_stride_சாவி_no_alpha((uint32_t *)pchSource,
                                           (uint32_t *)pchTarget,
                                           nWidth,
-                                          wKey,
-                                          wKeyMask,
+                                          w_சாவி,
+                                          w_சாவி_Mask,
                                           wActualRGBMask);
 
         pchSource += uSourceStride;
@@ -280,36 +280,36 @@ static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit4to4KeySVE2(SDL_BlitInfo *info)
+வெறுமை Blit4to4_சாவி_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    முழு width = info->dst_w;
+    முழு height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    முழு srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    முழு dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    மாறிலி SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    மாறிலி SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    முழு srcbpp = srcfmt->bytes_per_pixel;
+    முழு dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 4);
-    assert(dstbpp == 4);
+    ப்ரதிஜ்ஞா(srcbpp == 4);
+    ப்ரதிஜ்ஞா(dstbpp == 4);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    முழு srcstride = srcskip + srcbpp * width;
+    முழு dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    if (dstfmt->Amask) {
+    எனில் (dstfmt->Amask) {
         uint32_t opamask = ((uint32_t)info->a) << dstfmt->Ashift;
         /* RGBA: set alpha from info->a */
-        sdl_sve_rgb32_key_copy_alpha(src,
+        sdl_sve_rgb32_சாவி_copy_alpha(src,
                                      srcstride,
                                      dst,
                                      dststride,
@@ -318,10 +318,10 @@ void Blit4to4KeySVE2(SDL_BlitInfo *info)
                                      ckey,
                                      rgbmask,
                                      opamask);
-    } else {
+    } இல்லையெனில் {
         /* RGBA->RGB: only copy rgb and set alpha to zero */
         uint32_t rgbmaskactual = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
-        sdl_sve_rgb32_key_no_alpha(src,
+        sdl_sve_rgb32_சாவி_no_alpha(src,
                                    srcstride,
                                    dst,
                                    dststride,

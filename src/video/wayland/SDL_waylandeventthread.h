@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_waylandeventthread_h_
 #define SDL_waylandeventthread_h_
 
-#include "../SDL_sysvideo.h"
+#அந்தர்பாவ "../SDL_sysvideo.h"
 
-typedef struct Wayland_EventThreadContext Wayland_EventThreadContext;
-typedef struct Wayland_JobThreadContext Wayland_JobThreadContext;
-typedef void (*Wayland_JobThreadCallback)(void *userdata);
-typedef Uint32 Wayland_JobID;
+வகைவரை கட்டமைப்பு Wayland_EventThreadContext Wayland_EventThreadContext;
+வகைவரை கட்டமைப்பு Wayland_JobThreadContext Wayland_JobThreadContext;
+வகைவரை வெறுமை (*Wayland_JobThreadCallback)(வெறுமை *userdata);
+வகைவரை Uint32 Wayland_JobID;
 
-extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name);
-extern void Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
-extern void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj);
-extern void Wayland_LockEventThread(Wayland_EventThreadContext *context);
-extern void Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
+வெளி Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, மாறிலி எழுத்து *queue_name);
+வெளி வெறுமை Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
+வெளி வெறுமை *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, வெறுமை *obj);
+வெளி வெறுமை Wayland_LockEventThread(Wayland_EventThreadContext *context);
+வெளி வெறுமை Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
 
-extern Wayland_JobThreadContext *Wayland_CreateJobThread();
-extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
-extern bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, void *userdata, Wayland_JobID *id);
-extern void Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
+வெளி Wayland_JobThreadContext *Wayland_CreateJobThread();
+வெளி வெறுமை Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
+வெளி bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, வெறுமை *userdata, Wayland_JobID *id);
+வெளி வெறுமை Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
 
 #endif // SDL_waylandeventthread_h_

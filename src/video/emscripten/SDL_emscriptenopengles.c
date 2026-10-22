@@ -18,71 +18,71 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5_webgl.h>
-#include <GLES2/gl2.h>
+#அந்தர்பாவ <emscripten/emscripten.h>
+#அந்தர்பாவ <emscripten/html5_webgl.h>
+#அந்தர்பாவ <GLES2/gl2.h>
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "../../main/SDL_main_callbacks.h"
+#அந்தர்பாவ "SDL_emscriptenvideo.h"
+#அந்தர்பாவ "SDL_emscriptenopengles.h"
+#அந்தர்பாவ "../../main/SDL_main_callbacks.h"
 
-bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, மாறிலி எழுத்து *path)
 {
-    return true;
+    திரும்பு true;
 }
 
-void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+வெறுமை Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
 }
 
-SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, மாறிலி எழுத்து *proc)
 {
-    return emscripten_webgl_get_proc_address(proc);
+    திரும்பு emscripten_webgl_get_proc_address(proc);
 }
 
-bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, முழு interval)
 {
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
+    எனில் (interval < 0) {
+        திரும்பு SDL_SetError("Late swap tearing currently unsupported");
     }
 
-    if (Emscripten_ShouldSetSwapInterval(interval)) {
+    எனில் (Emscripten_ShouldSetSwapInterval(interval)) {
         // don't change the mainloop timing if the app is also driving a main callback with this hint,
         //  as we assume that was the more deliberate action.
-        if (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
-            if (interval == 0) {
+        எனில் (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
+            எனில் (interval == 0) {
                 emscripten_set_main_loop_timing(EM_TIMING_SETTIMEOUT, 0);
-            } else {
+            } இல்லையெனில் {
                 emscripten_set_main_loop_timing(EM_TIMING_RAF, interval);
             }
         }
     }
 
-    return true;
+    திரும்பு true;
 }
 
-bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, முழு *interval)
 {
-    const int pending = Emscripten_GetPendingSwapInterval();
-    if (pending >= 0) {
+    மாறிலி முழு pending = Emscripten_GetPendingSwapInterval();
+    எனில் (pending >= 0) {
         *interval = pending;
-        return true;  // we're planning to set it to this once the system settles down.
+        திரும்பு true;  // we're planning to set it to this once the system settles down.
     }
 
-    int mode, value;
+    முழு mode, மதிப்பு;
 
-    emscripten_get_main_loop_timing(&mode, &value);
+    emscripten_get_main_loop_timing(&mode, &மதிப்பு);
 
-    if (mode == EM_TIMING_RAF) {
-        *interval = value;
-        return true;
-    } else {
+    எனில் (mode == EM_TIMING_RAF) {
+        *interval = மதிப்பு;
+        திரும்பு true;
+    } இல்லையெனில் {
         *interval = 0;
-        return true;
+        திரும்பு true;
     }
 }
 
@@ -100,31 +100,31 @@ SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *
     attribs.stencil = _this->gl_config.stencil_size > 0;
     attribs.antialias = _this->gl_config.multisamplebuffers == 1;
 
-    if (_this->gl_config.major_version == 3)
+    எனில் (_this->gl_config.major_version == 3)
         attribs.majorVersion = 2; // WebGL 2.0 ~= GLES 3.0
 
     window_data = window->internal;
 
-    if (window_data->gl_context) {
+    எனில் (window_data->gl_context) {
         SDL_SetError("Cannot create multiple webgl contexts per window");
-        return NULL;
+        திரும்பு வெற்று;
     }
 
     context = emscripten_webgl_create_context(window_data->canvas_id, &attribs);
 
-    if (!context) {
+    எனில் (!context) {
         SDL_SetError("Could not create webgl context");
-        return NULL;
+        திரும்பு வெற்று;
     }
 
-    if (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
+    எனில் (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
         emscripten_webgl_destroy_context(context);
-        return NULL;
+        திரும்பு வெற்று;
     }
 
     window_data->gl_context = (SDL_GLContext)context;
 
-    return (SDL_GLContext)context;
+    திரும்பு (SDL_GLContext)context;
 }
 
 bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -132,42 +132,42 @@ bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext contex
     SDL_Window *window;
 
     // remove the context from its window
-    for (window = _this->windows; window; window = window->next) {
+    க்கு (window = _this->windows; window; window = window->next) {
         SDL_WindowData *window_data = window->internal;
 
-        if (window_data->gl_context == context) {
-            window_data->gl_context = NULL;
+        எனில் (window_data->gl_context == context) {
+            window_data->gl_context = வெற்று;
         }
     }
 
     emscripten_webgl_destroy_context((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context);
-    return true;
+    திரும்பு true;
 }
 
 bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    எனில் (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
-    return true;
+    திரும்பு true;
 }
 
 bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
     // it isn't possible to reuse contexts across canvases
-    if (window && context) {
+    எனில் (window && context) {
         SDL_WindowData *window_data = window->internal;
 
-        if (context != window_data->gl_context) {
-            return SDL_SetError("Cannot make context current to another window");
+        எனில் (context != window_data->gl_context) {
+            திரும்பு SDL_SetError("Cannot make context current to another window");
         }
     }
 
-    if (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
-        return SDL_SetError("Unable to make context current");
+    எனில் (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
+        திரும்பு SDL_SetError("Unable to make context current");
     }
-    return true;
+    திரும்பு true;
 }
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN

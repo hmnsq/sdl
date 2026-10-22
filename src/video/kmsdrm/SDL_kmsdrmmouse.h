@@ -19,20 +19,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#அந்தர்பாவ "SDL_internal.h"
 
 #ifndef SDL_KMSDRM_mouse_h_
 #define SDL_KMSDRM_mouse_h_
 
-#include <gbm.h>
+#அந்தர்பாவ <gbm.h>
 
 #define MAX_CURSOR_W 512
 #define MAX_CURSOR_H 512
 
-struct SDL_CursorData
+கட்டமைப்பு SDL_CursorData
 {
-    int hot_x, hot_y;
-    int w, h;
+    முழு hot_x, hot_y;
+    முழு w, h;
 
     /* The buffer where we store the mouse bitmap ready to be used.
        We get it ready and filled in CreateCursor(), and copy it
@@ -43,11 +43,11 @@ struct SDL_CursorData
 
 };
 
-extern void KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern void KMSDRM_QuitMouse(SDL_VideoDevice *_this);
+வெளி வெறுமை KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+வெளி வெறுமை KMSDRM_QuitMouse(SDL_VideoDevice *_this);
 
-extern bool KMSDRM_CreateCursorBO(SDL_VideoDisplay *display);
-extern void KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern void KMSDRM_InitCursor(void);
+வெளி bool KMSDRM_CreateCursorBO(SDL_VideoDisplay *display);
+வெளி வெறுமை KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+வெளி வெறுமை KMSDRM_InitCursor(வெறுமை);
 
 #endif // SDL_KMSDRM_mouse_h_
