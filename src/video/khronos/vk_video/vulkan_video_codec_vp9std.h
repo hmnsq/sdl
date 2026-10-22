@@ -33,7 +33,7 @@ extern "C" {
 #define STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS 7U
 #define STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB 3U
 
-typedef enum StdVideoVP9Profile {
+typedef ga_nanaa StdVideoVP9Profile {
     STD_VIDEO_VP9_PROFILE_0 = 0,
     STD_VIDEO_VP9_PROFILE_1 = 1,
     STD_VIDEO_VP9_PROFILE_2 = 2,
@@ -42,7 +42,7 @@ typedef enum StdVideoVP9Profile {
     STD_VIDEO_VP9_PROFILE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9Profile;
 
-typedef enum StdVideoVP9Level {
+typedef ga_nanaa StdVideoVP9Level {
     STD_VIDEO_VP9_LEVEL_1_0 = 0,
     STD_VIDEO_VP9_LEVEL_1_1 = 1,
     STD_VIDEO_VP9_LEVEL_2_0 = 2,
@@ -61,14 +61,14 @@ typedef enum StdVideoVP9Level {
     STD_VIDEO_VP9_LEVEL_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9Level;
 
-typedef enum StdVideoVP9FrameType {
+typedef ga_nanaa StdVideoVP9FrameType {
     STD_VIDEO_VP9_FRAME_TYPE_KEY = 0,
     STD_VIDEO_VP9_FRAME_TYPE_NON_KEY = 1,
     STD_VIDEO_VP9_FRAME_TYPE_INVALID = 0x7FFFFFFF,
     STD_VIDEO_VP9_FRAME_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9FrameType;
 
-typedef enum StdVideoVP9ReferenceName {
+typedef ga_nanaa StdVideoVP9ReferenceName {
     STD_VIDEO_VP9_REFERENCE_NAME_INTRA_FRAME = 0,
     STD_VIDEO_VP9_REFERENCE_NAME_LAST_FRAME = 1,
     STD_VIDEO_VP9_REFERENCE_NAME_GOLDEN_FRAME = 2,
@@ -77,7 +77,7 @@ typedef enum StdVideoVP9ReferenceName {
     STD_VIDEO_VP9_REFERENCE_NAME_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9ReferenceName;
 
-typedef enum StdVideoVP9InterpolationFilter {
+typedef ga_nanaa StdVideoVP9InterpolationFilter {
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP = 0,
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH = 1,
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SHARP = 2,
@@ -87,7 +87,7 @@ typedef enum StdVideoVP9InterpolationFilter {
     STD_VIDEO_VP9_INTERPOLATION_FILTER_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9InterpolationFilter;
 
-typedef enum StdVideoVP9ColorSpace {
+typedef ga_nanaa StdVideoVP9ColorSpace {
     STD_VIDEO_VP9_COLOR_SPACE_UNKNOWN = 0,
     STD_VIDEO_VP9_COLOR_SPACE_BT_601 = 1,
     STD_VIDEO_VP9_COLOR_SPACE_BT_709 = 2,
@@ -100,12 +100,12 @@ typedef enum StdVideoVP9ColorSpace {
     STD_VIDEO_VP9_COLOR_SPACE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9ColorSpace;
 
-typedef struct StdVideoVP9ColorConfigFlags {
+typedef sa_nracanaa StdVideoVP9ColorConfigFlags {
     uint32_t    color_range : 1;
     uint32_t    reserved : 31;
 } StdVideoVP9ColorConfigFlags;
 
-typedef struct StdVideoVP9ColorConfig {
+typedef sa_nracanaa StdVideoVP9ColorConfig {
     StdVideoVP9ColorConfigFlags    flags;
     uint8_t                        BitDepth;
     uint8_t                        subsampling_x;
@@ -114,13 +114,13 @@ typedef struct StdVideoVP9ColorConfig {
     StdVideoVP9ColorSpace          color_space;
 } StdVideoVP9ColorConfig;
 
-typedef struct StdVideoVP9LoopFilterFlags {
+typedef sa_nracanaa StdVideoVP9LoopFilterFlags {
     uint32_t    loop_filter_delta_enabled : 1;
     uint32_t    loop_filter_delta_update : 1;
     uint32_t    reserved : 30;
 } StdVideoVP9LoopFilterFlags;
 
-typedef struct StdVideoVP9LoopFilter {
+typedef sa_nracanaa StdVideoVP9LoopFilter {
     StdVideoVP9LoopFilterFlags    flags;
     uint8_t                       loop_filter_level;
     uint8_t                       loop_filter_sharpness;
@@ -130,7 +130,7 @@ typedef struct StdVideoVP9LoopFilter {
     int8_t                        loop_filter_mode_deltas[STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS];
 } StdVideoVP9LoopFilter;
 
-typedef struct StdVideoVP9SegmentationFlags {
+typedef sa_nracanaa StdVideoVP9SegmentationFlags {
     uint32_t    segmentation_update_map : 1;
     uint32_t    segmentation_temporal_update : 1;
     uint32_t    segmentation_update_data : 1;
@@ -138,7 +138,7 @@ typedef struct StdVideoVP9SegmentationFlags {
     uint32_t    reserved : 28;
 } StdVideoVP9SegmentationFlags;
 
-typedef struct StdVideoVP9Segmentation {
+typedef sa_nracanaa StdVideoVP9Segmentation {
     StdVideoVP9SegmentationFlags    flags;
     uint8_t                         segmentation_tree_probs[STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS];
     uint8_t                         segmentation_pred_prob[STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB];

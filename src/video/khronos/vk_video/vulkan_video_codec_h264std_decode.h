@@ -30,14 +30,14 @@ extern "C" {
 #define VK_STD_VULKAN_VIDEO_CODEC_H264_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h264_decode"
 #define STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE 2U
 
-typedef enum StdVideoDecodeH264FieldOrderCount {
+typedef ga_nanaa StdVideoDecodeH264FieldOrderCount {
     STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_TOP = 0,
     STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_BOTTOM = 1,
     STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_INVALID = 0x7FFFFFFF,
     STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_MAX_ENUM = 0x7FFFFFFF
 } StdVideoDecodeH264FieldOrderCount;
 
-typedef struct StdVideoDecodeH264PictureInfoFlags {
+typedef sa_nracanaa StdVideoDecodeH264PictureInfoFlags {
     uint32_t    field_pic_flag : 1;
     uint32_t    is_intra : 1;
     uint32_t    IdrPicFlag : 1;
@@ -46,7 +46,7 @@ typedef struct StdVideoDecodeH264PictureInfoFlags {
     uint32_t    complementary_field_pair : 1;
 } StdVideoDecodeH264PictureInfoFlags;
 
-typedef struct StdVideoDecodeH264PictureInfo {
+typedef sa_nracanaa StdVideoDecodeH264PictureInfo {
     StdVideoDecodeH264PictureInfoFlags    flags;
     uint8_t                               seq_parameter_set_id;
     uint8_t                               pic_parameter_set_id;
@@ -57,14 +57,14 @@ typedef struct StdVideoDecodeH264PictureInfo {
     int32_t                               PicOrderCnt[STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE];
 } StdVideoDecodeH264PictureInfo;
 
-typedef struct StdVideoDecodeH264ReferenceInfoFlags {
+typedef sa_nracanaa StdVideoDecodeH264ReferenceInfoFlags {
     uint32_t    top_field_flag : 1;
     uint32_t    bottom_field_flag : 1;
     uint32_t    used_for_long_term_reference : 1;
     uint32_t    is_non_existing : 1;
 } StdVideoDecodeH264ReferenceInfoFlags;
 
-typedef struct StdVideoDecodeH264ReferenceInfo {
+typedef sa_nracanaa StdVideoDecodeH264ReferenceInfo {
     StdVideoDecodeH264ReferenceInfoFlags    flags;
     uint16_t                                FrameNum;
     uint16_t                                reserved;

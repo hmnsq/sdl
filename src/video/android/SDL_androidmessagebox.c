@@ -25,9 +25,9 @@
 #include "SDL_androidmessagebox.h"
 #include "../../core/android/SDL_android.h"
 
-bool Android_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool Android_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, ཧྲིལ *buttonID)
 {
-    return Android_JNI_ShowMessageBox(messageboxdata, buttonID);
+    ཕྱིར Android_JNI_ShowMessageBox(messageboxdata, buttonID);
 }
 
 #endif // SDL_VIDEO_DRIVER_ANDROID

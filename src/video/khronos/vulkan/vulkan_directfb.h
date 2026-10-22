@@ -27,7 +27,7 @@ extern "C" {
 
 typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+typedef sa_nracanaa VkDirectFBSurfaceCreateInfoEXT {
     VkStructureType                    sType;
     const void*                        pNext;
     VkDirectFBSurfaceCreateFlagsEXT    flags;

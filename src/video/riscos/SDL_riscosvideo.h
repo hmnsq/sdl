@@ -27,9 +27,9 @@
 
 #define RISCOS_MAX_KEYS_PRESSED 6
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
-    int last_mouse_buttons;
+    ཧྲིལ last_mouse_buttons;
     Uint8 key_pressed[RISCOS_MAX_KEYS_PRESSED];
 };
 

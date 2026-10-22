@@ -22,12 +22,12 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+typedef unsigned var_na uchar;
+typedef sa_nracanaa MonitorInfo MonitorInfo;
+typedef sa_nracanaa Timing Timing;
+typedef sa_nracanaa DetailedTiming DetailedTiming;
 
-typedef enum
+typedef ga_nanaa
 {
     UNDEFINED,
     DVI,
@@ -37,7 +37,7 @@ typedef enum
     DISPLAY_PORT
 } Interface;
 
-typedef enum
+typedef ga_nanaa
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,7 +45,7 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+typedef ga_nanaa
 {
     NO_STEREO,
     FIELD_RIGHT,
@@ -56,125 +56,125 @@ typedef enum
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+sa_nracanaa Timing
 {
-    int width;
-    int height;
-    int frequency;
+    ཧྲིལ width;
+    ཧྲིལ height;
+    ཧྲིལ frequency;
 };
 
-struct DetailedTiming
+sa_nracanaa DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    ཧྲིལ pixel_clock;
+    ཧྲིལ h_addr;
+    ཧྲིལ h_blank;
+    ཧྲིལ h_sync;
+    ཧྲིལ h_front_porch;
+    ཧྲིལ v_addr;
+    ཧྲིལ v_blank;
+    ཧྲིལ v_sync;
+    ཧྲིལ v_front_porch;
+    ཧྲིལ width_mm;
+    ཧྲིལ height_mm;
+    ཧྲིལ right_border;
+    ཧྲིལ top_border;
+    ཧྲིལ interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    ཧྲིལ digital_sync;
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            ཧྲིལ bipolar;
+            ཧྲིལ serrations;
+            ཧྲིལ sync_on_green;
         } analog;
 
-        struct
+        sa_nracanaa
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            ཧྲིལ composite;
+            ཧྲིལ serrations;
+            ཧྲིལ negative_vsync;
+            ཧྲིལ negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+sa_nracanaa MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    ཧྲིལ checksum;
+    var_na manufacturer_code[4];
+    ཧྲིལ product_code;
+    unsigned ཧྲིལ serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    ཧྲིལ production_week; // -1 if not specified
+    ཧྲིལ production_year; // -1 if not specified
+    ཧྲིལ model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    ཧྲིལ major_version;
+    ཧྲིལ minor_version;
 
-    int is_digital;
+    ཧྲིལ is_digital;
 
-    union
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
-            int bits_per_primary;
+            ཧྲིལ bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            ཧྲིལ rgb444;
+            ཧྲིལ ycrcb444;
+            ཧྲིལ ycrcb422;
         } digital;
 
-        struct
+        sa_nracanaa
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            dviguu_na video_signal_level;
+            dviguu_na sync_signal_level;
+            dviguu_na total_signal_level;
 
-            int blank_to_black;
+            ཧྲིལ blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            ཧྲིལ separate_hv_sync;
+            ཧྲིལ composite_sync_on_h;
+            ཧྲིལ composite_sync_on_green;
+            ཧྲིལ serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    ཧྲིལ width_mm;        // -1 if not specified
+    ཧྲིལ height_mm;       // -1 if not specified
+    dviguu_na aspect_ratio; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    dviguu_na gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    ཧྲིལ standby;
+    ཧྲིལ suspend;
+    ཧྲིལ active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    ཧྲིལ srgb_is_standard;
+    ཧྲིལ preferred_timing_includes_native;
+    ཧྲིལ continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    dviguu_na red_x;
+    dviguu_na red_y;
+    dviguu_na green_x;
+    dviguu_na green_y;
+    dviguu_na blue_x;
+    dviguu_na blue_y;
+    dviguu_na white_x;
+    dviguu_na white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    dviguu_na min_luminance;
+    dviguu_na max_luminance;
+    dviguu_na max_frame_average_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    ཧྲིལ n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    var_na dsc_serial_number[14];
+    var_na dsc_product_name[14];
+    var_na dsc_string[14]; // Unspecified ASCII data
 };
 
 MonitorInfo *decode_edid(const uchar *data, size_t size);
 void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
+var_na *make_display_name(const var_na *output_name,
                         const MonitorInfo *info);

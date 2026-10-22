@@ -28,17 +28,17 @@
 #include <bcm_host.h>
 #include <SDL3/SDL_egl.h>
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     uint32_t egl_refcount; // OpenGL ES reference count
 };
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     DISPMANX_DISPLAY_HANDLE_T dispman_display;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     EGL_DISPMANX_WINDOW_T dispman_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -76,12 +76,12 @@ extern void RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 // OpenGL/OpenGL ES functions
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
+extern SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 extern void RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
+extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, ཧྲིལ interval);
 extern bool RPI_GLES_GetSwapInterval(SDL_VideoDevice *_this);
 extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
