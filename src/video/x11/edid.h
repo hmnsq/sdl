@@ -22,12 +22,12 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+typedef unsigned var_na uchar;
+typedef sa_nracanaa MonitorInfo MonitorInfo;
+typedef sa_nracanaa Timing Timing;
+typedef sa_nracanaa DetailedTiming DetailedTiming;
 
-typedef enum
+typedef ga_nanaa
 {
     UNDEFINED,
     DVI,
@@ -37,7 +37,7 @@ typedef enum
     DISPLAY_PORT
 } Interface;
 
-typedef enum
+typedef ga_nanaa
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,7 +45,7 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+typedef ga_nanaa
 {
     NO_STEREO,
     FIELD_RIGHT,
@@ -56,125 +56,125 @@ typedef enum
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+sa_nracanaa Timing
 {
-    int width;
-    int height;
-    int frequency;
+    จำนวนเต็ม width;
+    จำนวนเต็ม height;
+    จำนวนเต็ม frequency;
 };
 
-struct DetailedTiming
+sa_nracanaa DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    จำนวนเต็ม pixel_clock;
+    จำนวนเต็ม h_addr;
+    จำนวนเต็ม h_blank;
+    จำนวนเต็ม h_sync;
+    จำนวนเต็ม h_front_porch;
+    จำนวนเต็ม v_addr;
+    จำนวนเต็ม v_blank;
+    จำนวนเต็ม v_sync;
+    จำนวนเต็ม v_front_porch;
+    จำนวนเต็ม width_mm;
+    จำนวนเต็ม height_mm;
+    จำนวนเต็ม right_border;
+    จำนวนเต็ม top_border;
+    จำนวนเต็ม interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    จำนวนเต็ม digital_sync;
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            จำนวนเต็ม bipolar;
+            จำนวนเต็ม serrations;
+            จำนวนเต็ม sync_on_green;
         } analog;
 
-        struct
+        sa_nracanaa
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            จำนวนเต็ม composite;
+            จำนวนเต็ม serrations;
+            จำนวนเต็ม negative_vsync;
+            จำนวนเต็ม negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+sa_nracanaa MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    จำนวนเต็ม checksum;
+    var_na manufacturer_code[4];
+    จำนวนเต็ม product_code;
+    unsigned จำนวนเต็ม serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    จำนวนเต็ม production_week; // -1 if not specified
+    จำนวนเต็ม production_year; // -1 if not specified
+    จำนวนเต็ม model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    จำนวนเต็ม major_version;
+    จำนวนเต็ม minor_version;
 
-    int is_digital;
+    จำนวนเต็ม is_digital;
 
-    union
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
-            int bits_per_primary;
+            จำนวนเต็ม bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            จำนวนเต็ม rgb444;
+            จำนวนเต็ม ycrcb444;
+            จำนวนเต็ม ycrcb422;
         } digital;
 
-        struct
+        sa_nracanaa
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            dviguu_na video_signal_level;
+            dviguu_na sync_signal_level;
+            dviguu_na total_signal_level;
 
-            int blank_to_black;
+            จำนวนเต็ม blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            จำนวนเต็ม separate_hv_sync;
+            จำนวนเต็ม composite_sync_on_h;
+            จำนวนเต็ม composite_sync_on_green;
+            จำนวนเต็ม serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    จำนวนเต็ม width_mm;        // -1 if not specified
+    จำนวนเต็ม height_mm;       // -1 if not specified
+    dviguu_na aspect_ratio; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    dviguu_na gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    จำนวนเต็ม standby;
+    จำนวนเต็ม suspend;
+    จำนวนเต็ม active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    จำนวนเต็ม srgb_is_standard;
+    จำนวนเต็ม preferred_timing_includes_native;
+    จำนวนเต็ม continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    dviguu_na red_x;
+    dviguu_na red_y;
+    dviguu_na green_x;
+    dviguu_na green_y;
+    dviguu_na blue_x;
+    dviguu_na blue_y;
+    dviguu_na white_x;
+    dviguu_na white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    dviguu_na min_luminance;
+    dviguu_na max_luminance;
+    dviguu_na max_frame_average_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    จำนวนเต็ม n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    var_na dsc_serial_number[14];
+    var_na dsc_product_name[14];
+    var_na dsc_string[14]; // Unspecified ASCII data
 };
 
 MonitorInfo *decode_edid(const uchar *data, size_t size);
 void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
+var_na *make_display_name(const var_na *output_name,
                         const MonitorInfo *info);

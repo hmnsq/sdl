@@ -34,17 +34,17 @@
 #define ACTION_HOVER_ENTER  9
 #define ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+void Android_OnPen(SDL_Window *window, จำนวนเต็ม pen_id_in, SDL_PenDeviceType device_type, จำนวนเต็ม button, จำนวนเต็ม action, float x, float y, float p)
 {
-    if (!window) {
-        return;
+    ถ้า (!window) {
+        คืน;
     }
 
     // pointer index starts from zero.
     pen_id_in++;
 
     SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    ถ้า (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
@@ -53,9 +53,9 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
         pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
+        ถ้า (!pen) {
             SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+            คืน;
         }
     }
 
@@ -64,11 +64,11 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     // TODO: add more axis
 
     SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
+    จำนวนเต็ม diff = current ^ button;
+    ถ้า (diff != 0) {
+        สำหรับ (Uint8 i = 1; i <= 5; ++i) {
             Uint8 mask = (1 << i);
-            if (diff & mask) {
+            ถ้า (diff & mask) {
                 SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
             }
         }
@@ -77,27 +77,27 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     // button contains DOWN/ERASER_TIP on DOWN/UP regardless of pressed state, use action to distinguish
     // we don't compare tip flags above because MotionEvent.getButtonState doesn't return stylus tip/eraser state.
     switch (action) {
-    case ACTION_HOVER_ENTER:
+    pak_sa ACTION_HOVER_ENTER:
         SDL_SendPenProximity(0, pen, window, true, true);
-        break;
+        bha_nga;
 
-    case ACTION_CANCEL:
-    case ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
+    pak_sa ACTION_CANCEL:
+    pak_sa ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
         SDL_SendPenProximity(0, pen, window, false, false);
-        break;
+        bha_nga;
 
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
+    pak_sa ACTION_DOWN:
+    pak_sa ACTION_POINTER_DOWN:
         SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
-        break;
+        bha_nga;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
+    pak_sa ACTION_UP:
+    pak_sa ACTION_POINTER_UP:
         SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
-        break;
+        bha_nga;
 
     default:
-        break;
+        bha_nga;
     }
 }
 

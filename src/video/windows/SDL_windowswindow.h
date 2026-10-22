@@ -25,7 +25,7 @@
 
 #ifdef SDL_VIDEO_OPENGL_EGL
 #include "../SDL_egl_c.h"
-#else
+#มิฉะนั้น
 #include "../SDL_sysvideo.h"
 #endif
 
@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-typedef enum SDL_WindowRect
+typedef ga_nanaa SDL_WindowRect
 {
     SDL_WINDOWRECT_CURRENT,
     SDL_WINDOWRECT_WINDOWED,
@@ -42,24 +42,24 @@ typedef enum SDL_WindowRect
     SDL_WINDOWRECT_PENDING
 } SDL_WindowRect;
 
-typedef enum SDL_WindowEraseBackgroundMode
+typedef ga_nanaa SDL_WindowEraseBackgroundMode
 {
     SDL_ERASEBACKGROUNDMODE_NEVER,
     SDL_ERASEBACKGROUNDMODE_INITIAL,
     SDL_ERASEBACKGROUNDMODE_ALWAYS,
 } SDL_WindowEraseBackgroundMode;
 
-typedef struct
+typedef sa_nracanaa
 {
     void **lpVtbl;
-    int refcount;
+    จำนวนเต็ม refcount;
     SDL_Window *window;
     HWND hwnd;
     UINT format_text;
     UINT format_file;
 } SDLDropTarget;
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *window;
     HWND hwnd;
@@ -86,9 +86,9 @@ struct SDL_WindowData
     bool force_ws_maximizebox;
     bool disable_move_size_events;
     bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
+    จำนวนเต็ม in_modal_loop;
+    จำนวนเต็ม last_modal_width;
+    จำนวนเต็ม last_modal_height;
     RECT initial_size_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
@@ -97,7 +97,7 @@ struct SDL_WindowData
     WCHAR *ICMFileName;
     SDL_WindowEraseBackgroundMode hint_erase_background_mode;
     bool taskbar_button_created;
-    struct SDL_VideoData *videodata;
+    sa_nracanaa SDL_VideoData *videodata;
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
 #endif
@@ -112,8 +112,8 @@ extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
 extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
 extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
+extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, จำนวนเต็ม *top, จำนวนเต็ม *left, จำนวนเต็ม *bottom, จำนวนเต็ม *right);
+extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, จำนวนเต็ม *width, จำนวนเต็ม *height);
 extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
@@ -139,9 +139,9 @@ extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
 extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
 extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void WIN_ShowWindowSystemMenu(SDL_Window *window, จำนวนเต็ม x, จำนวนเต็ม y);
 extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
+extern bool WIN_AdjustWindowRect(SDL_Window *window, จำนวนเต็ม *x, จำนวนเต็ม *y, จำนวนเต็ม *width, จำนวนเต็ม *height, SDL_WindowRect rect_type);
 extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
 extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);

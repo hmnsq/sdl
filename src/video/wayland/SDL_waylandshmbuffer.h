@@ -24,12 +24,12 @@
 #ifndef SDL_waylandshmbuffer_h_
 #define SDL_waylandshmbuffer_h_
 
-typedef struct Wayland_SHMPool Wayland_SHMPool;
+typedef sa_nracanaa Wayland_SHMPool Wayland_SHMPool;
 
-extern Wayland_SHMPool *Wayland_AllocSHMPool(int size);
-extern struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data);
+extern Wayland_SHMPool *Wayland_AllocSHMPool(จำนวนเต็ม size);
+extern sa_nracanaa wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, จำนวนเต็ม width, จำนวนเต็ม height, void **data);
 extern void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool);
 
-extern struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a);
+extern sa_nracanaa wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a);
 
 #endif

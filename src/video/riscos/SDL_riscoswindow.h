@@ -25,7 +25,7 @@
 
 #include "SDL_riscosdefs.h"
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *window;
     sprite_area *fb_area;

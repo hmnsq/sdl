@@ -26,6 +26,6 @@
 extern SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 extern bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 
 #endif // SDL_openharmonyopengl_h_

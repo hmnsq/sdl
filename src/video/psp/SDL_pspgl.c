@@ -37,15 +37,15 @@
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
+        ถ้า (err != EGL_SUCCESS) {              \
             SDL_SetError("EGL error %d", err); \
-            return NULL;                          \
+            คืน NULL;                          \
         }                                      \
-    } while (0)
+    } ขณะ (0)
 
-bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
-    return true;
+    คืน true;
 }
 
 /* pspgl doesn't provide this call, so stub it out since SDL requires it.
@@ -54,9 +54,9 @@ bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 GLSTUB(glOrtho,(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top,
                     GLdouble zNear, GLdouble zFar))
 */
-SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc)
 {
-    return eglGetProcAddress(proc);
+    คืน eglGetProcAddress(proc);
 }
 
 void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this)
@@ -78,7 +78,7 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     EGLSurface surface;
     EGLConfig config;
     EGLint num_configs;
-    int i;
+    จำนวนเต็ม i;
 
     // EGL init taken from glutCreateWindow() in PSPGL's glut.c.
     EGLCHK(display = eglGetDisplay(0));
@@ -97,11 +97,11 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     attribs[i++] = EGL_DEPTH_SIZE;
     attribs[i++] = _this->gl_config.depth_size;
 
-    if (_this->gl_config.alpha_size) {
+    ถ้า (_this->gl_config.alpha_size) {
         attribs[i++] = EGL_ALPHA_SIZE;
         attribs[i++] = _this->gl_config.alpha_size;
     }
-    if (_this->gl_config.stencil_size) {
+    ถ้า (_this->gl_config.stencil_size) {
         attribs[i++] = EGL_STENCIL_SIZE;
         attribs[i++] = _this->gl_config.stencil_size;
     }
@@ -110,9 +110,9 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 
     EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
 
-    if (num_configs == 0) {
+    ถ้า (num_configs == 0) {
         SDL_SetError("No valid EGL configs for requested mode");
-        return NULL;
+        คืน NULL;
     }
 
     EGLCHK(eglGetConfigAttrib(display, config, EGL_WIDTH, &width));
@@ -126,43 +126,43 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     _this->gl_data->context = context;
     _this->gl_data->surface = surface;
 
-    return context;
+    คืน context;
 }
 
 bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
+    ถ้า (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
                         _this->gl_data->surface, _this->gl_data->context)) {
-        return SDL_SetError("Unable to make EGL context current");
+        คืน SDL_SetError("Unable to make EGL context current");
     }
-    return true;
+    คืน true;
 }
 
-bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, จำนวนเต็ม interval)
 {
     EGLBoolean status;
     status = eglSwapInterval(_this->gl_data->display, interval);
-    if (status == EGL_TRUE) {
+    ถ้า (status == EGL_TRUE) {
         // Return success to upper level
         _this->gl_data->swapinterval = interval;
-        return true;
+        คืน true;
     }
     // Failed to set swap interval
-    return SDL_SetError("Unable to set the EGL swap interval");
+    คืน SDL_SetError("Unable to set the EGL swap interval");
 }
 
-bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, จำนวนเต็ม *interval)
 {
     *interval = _this->gl_data->swapinterval;
-    return true;
+    คืน true;
 }
 
 bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
-        return SDL_SetError("eglSwapBuffers() failed");
+    ถ้า (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
+        คืน SDL_SetError("eglSwapBuffers() failed");
     }
-    return true;
+    คืน true;
 }
 
 bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -170,21 +170,21 @@ bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
     SDL_VideoData *phdata = _this->internal;
     EGLBoolean status;
 
-    if (phdata->egl_initialized != true) {
-        return SDL_SetError("PSP: GLES initialization failed, no OpenGL ES support");
+    ถ้า (phdata->egl_initialized != true) {
+        คืน SDL_SetError("PSP: GLES initialization failed, no OpenGL ES support");
     }
 
     // Check if OpenGL ES connection has been initialized
-    if (_this->gl_data->display != EGL_NO_DISPLAY) {
-        if (context != EGL_NO_CONTEXT) {
+    ถ้า (_this->gl_data->display != EGL_NO_DISPLAY) {
+        ถ้า (context != EGL_NO_CONTEXT) {
             status = eglDestroyContext(_this->gl_data->display, context);
-            if (status != EGL_TRUE) {
+            ถ้า (status != EGL_TRUE) {
                 // Error during OpenGL ES context destroying
-                return SDL_SetError("PSP: OpenGL ES context destroy error");
+                คืน SDL_SetError("PSP: OpenGL ES context destroy error");
             }
         }
     }
-    return true;
+    คืน true;
 }
 
 #endif // SDL_VIDEO_DRIVER_PSP

@@ -22,8 +22,8 @@
 
 #include "SDL_androidvideo.h"
 
-extern void Android_OnKeyDown(int keycode);
-extern void Android_OnKeyUp(int keycode);
+extern void Android_OnKeyDown(จำนวนเต็ม keycode);
+extern void Android_OnKeyUp(จำนวนเต็ม keycode);
 
 extern bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 extern void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);

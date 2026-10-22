@@ -28,18 +28,18 @@
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *window;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    จำนวนเต็ม non_fill_document_width;
+    จำนวนเต็ม non_fill_document_height;
 
-    char *canvas_id;
-    char *keyboard_element;
+    var_na *canvas_id;
+    var_na *keyboard_element;
 
     float pixel_ratio;
 
@@ -56,7 +56,7 @@ struct SDL_WindowData
 
 extern SDL_Window *Emscripten_fill_document_window;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_ShouldSetSwapInterval(จำนวนเต็ม interval);
+จำนวนเต็ม Emscripten_GetPendingSwapInterval(void);
 
 #endif // SDL_emscriptenvideo_h_

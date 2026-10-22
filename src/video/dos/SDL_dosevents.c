@@ -249,17 +249,17 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
 };
 
 static Uint8 keyevents_ringbuffer[256];
-static int keyevents_head = 0;
-static int keyevents_tail = 0;
+static จำนวนเต็ม keyevents_head = 0;
+static จำนวนเต็ม keyevents_tail = 0;
 
 static void DOSVESA_DrainBIOSKeyboardBuffer(void)
 {
     __dpmi_regs regs;
-    for (;;) {
+    สำหรับ (;;) {
         regs.h.ah = 0x01; // BIOS: check for keystroke
         __dpmi_int(0x16, &regs);
-        if (regs.x.flags & 0x40) { // ZF set = buffer empty
-            break;
+        ถ้า (regs.x.flags & 0x40) { // ZF set = buffer empty
+            bha_nga;
         }
         regs.h.ah = 0x00; // BIOS: read keystroke (removes it)
         __dpmi_int(0x16, &regs);
@@ -275,59 +275,59 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
     DOS_Yield();
 
     static bool is_extended = false;
-    static int pause_sequence_remaining = 0;
+    static จำนวนเต็ม pause_sequence_remaining = 0;
 
-    while (keyevents_head != keyevents_tail) {
+    ขณะ (keyevents_head != keyevents_tail) {
         const Uint8 event = keyevents_ringbuffer[keyevents_tail];
         keyevents_tail = (keyevents_tail + 1) & (SDL_arraysize(keyevents_ringbuffer) - 1);
 
         // Handle remaining bytes of E1 Pause key sequence (E1 1D 45 E1 9D C5).
-        if (pause_sequence_remaining > 0) {
+        ถ้า (pause_sequence_remaining > 0) {
             pause_sequence_remaining--;
             continue;
         }
 
         // Pause key sends a multi-byte sequence: E1 1D 45 E1 9D C5. Emit PAUSE press+release and consume the rest.
-        if (event == SCANCODE_PREFIX_PAUSE) {
+        ถ้า (event == SCANCODE_PREFIX_PAUSE) {
             pause_sequence_remaining = 5; // skip the next 5 bytes
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
             continue;
         }
 
-        if (event == SCANCODE_PREFIX_EXTENDED) {
+        ถ้า (event == SCANCODE_PREFIX_EXTENDED) {
             is_extended = true;
             continue;
         }
 
-        const int scancode = (int)(event & SCANCODE_MASK);
+        const จำนวนเต็ม scancode = (จำนวนเต็ม)(event & SCANCODE_MASK);
         const bool pressed = ((event & SCANCODE_RELEASE) == 0);
 
         SDL_Scancode sc = SDL_SCANCODE_UNKNOWN;
 
-        if (is_extended) {
+        ถ้า (is_extended) {
             is_extended = false;
-            if (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
+            ถ้า (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
                 sc = DOSVESA_ExtendedScancodeMapping[scancode];
             }
-        } else {
-            if (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
+        } มิฉะนั้น {
+            ถ้า (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
                 sc = DOSVESA_ScancodeMapping[scancode];
             }
         }
 
-        if (sc != SDL_SCANCODE_UNKNOWN) {
+        ถ้า (sc != SDL_SCANCODE_UNKNOWN) {
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
 
             // Generate text input events for key-down on printable characters.
             // SDL keycodes below SDLK_SCANCODE_MASK are Unicode codepoints.
-            if (pressed) {
+            ถ้า (pressed) {
                 SDL_Keymod mod = SDL_GetModState();
-                if (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+                ถ้า (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
                     SDL_Keycode keycode = SDL_GetKeyFromScancode(sc, mod, false);
-                    if (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((int)keycode)) {
-                        char text[5];
-                        char *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
+                    ถ้า (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((จำนวนเต็ม)keycode)) {
+                        var_na text[5];
+                        var_na *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
                         *end = '\0';
                         SDL_SendKeyboardText(text);
                     }
@@ -341,30 +341,30 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
     DOSVESA_DrainBIOSKeyboardBuffer();
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
+    ถ้า (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
         __dpmi_regs regs;
 
         regs.x.ax = 0x3; // read mouse buttons and position.
         __dpmi_int(0x33, &regs);
-        const Uint16 buttons = (int)(Sint16)regs.x.bx;
+        const Uint16 buttons = (จำนวนเต็ม)(Sint16)regs.x.bx;
 
         SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_LEFT, (buttons & (1 << 0)) != 0);
         SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_RIGHT, (buttons & (1 << 1)) != 0);
         SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_MIDDLE, (buttons & (1 << 2)) != 0);
 
-        if (!mouse->relative_mode) {
-            const int x = (int)(Sint16)regs.x.cx; // part of function 0x3's return value.
-            const int y = (int)(Sint16)regs.x.dx;
+        ถ้า (!mouse->relative_mode) {
+            const จำนวนเต็ม x = (จำนวนเต็ม)(Sint16)regs.x.cx; // part of function 0x3's return value.
+            const จำนวนเต็ม y = (จำนวนเต็ม)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, x, y);
-        } else {
+        } มิฉะนั้น {
             regs.x.ax = 0xB; // read motion counters
             __dpmi_int(0x33, &regs);
             // values returned here are -32768 to 32767
             const SDL_VideoData *viddata = device->internal;
             const float MICKEYS_PER_HPIXEL = viddata->mickeys_per_hpixel;
             const float MICKEYS_PER_VPIXEL = viddata->mickeys_per_vpixel;
-            const int mickeys_x = (int)(Sint16)regs.x.cx;
-            const int mickeys_y = (int)(Sint16)regs.x.dx;
+            const จำนวนเต็ม mickeys_x = (จำนวนเต็ม)(Sint16)regs.x.cx;
+            const จำนวนเต็ม mickeys_y = (จำนวนเต็ม)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, true, mickeys_x / MICKEYS_PER_HPIXEL, mickeys_y / MICKEYS_PER_VPIXEL);
         }
     }

@@ -27,7 +27,7 @@ extern "C" {
 
 typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+typedef sa_nracanaa VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
     const void*                     pNext;
     VkMacOSSurfaceCreateFlagsMVK    flags;

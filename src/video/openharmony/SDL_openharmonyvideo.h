@@ -33,15 +33,15 @@ extern void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window);
 // Get the app's current native window.
 extern void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window);
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     void *oh_pasteboard;
     void *oh_pasteboard_observer;
     bool clipboard_set;
 
 // !!! FIXME: Android stuff.
-    int isPaused;
-    int isPausing;
+    จำนวนเต็ม isPaused;
+    จำนวนเต็ม isPausing;
 };
 
 #endif // SDL_openharmonyvideo_h_

@@ -34,27 +34,27 @@
 
 // Check to make sure we can safely check multiplication of surface w and pitch and it won't overflow size_t
 SDL_COMPILE_TIME_ASSERT(surface_size_assumptions,
-                        sizeof(int) == sizeof(Sint32) && sizeof(size_t) >= sizeof(Sint32));
+                        parimaa_na(จำนวนเต็ม) == parimaa_na(Sint32) && parimaa_na(size_t) >= parimaa_na(Sint32));
 
 SDL_COMPILE_TIME_ASSERT(can_indicate_overflow, SDL_SIZE_MAX > SDL_MAX_SINT32);
 
 // Magic!
-static char SDL_surface_magic;
+static var_na SDL_surface_magic;
 
 // Public routines
 
 bool SDL_SurfaceValid(SDL_Surface *surface)
 {
-    return (surface && surface->reserved == &SDL_surface_magic);
+    คืน (surface && surface->reserved == &SDL_surface_magic);
 }
 
 void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface)
 {
     // We need to mark the surface as needing unlock while locked
-    if ((surface->flags & SDL_SURFACE_LOCKED) ||
+    ถ้า ((surface->flags & SDL_SURFACE_LOCKED) ||
         (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL)) {
         surface->flags |= SDL_SURFACE_LOCK_NEEDED;
-    } else {
+    } มิฉะนั้น {
         surface->flags &= ~SDL_SURFACE_LOCK_NEEDED;
     }
 }
@@ -66,75 +66,75 @@ void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface)
  */
 static bool SDL_CalculateRGBSize(Uint32 format, size_t width, size_t height, size_t *size, size_t *pitch, bool minimal)
 {
-    if (SDL_BITSPERPIXEL(format) >= 8) {
-        if (!SDL_size_mul_check_overflow(width, SDL_BYTESPERPIXEL(format), pitch)) {
-            return SDL_SetError("width * bpp would overflow");
+    ถ้า (SDL_BITSPERPIXEL(format) >= 8) {
+        ถ้า (!SDL_size_mul_check_overflow(width, SDL_BYTESPERPIXEL(format), pitch)) {
+            คืน SDL_SetError("width * bpp would overflow");
         }
-    } else {
-        if (!SDL_size_mul_check_overflow(width, SDL_BITSPERPIXEL(format), pitch)) {
-            return SDL_SetError("width * bpp would overflow");
+    } มิฉะนั้น {
+        ถ้า (!SDL_size_mul_check_overflow(width, SDL_BITSPERPIXEL(format), pitch)) {
+            คืน SDL_SetError("width * bpp would overflow");
         }
-        if (!SDL_size_add_check_overflow(*pitch, 7, pitch)) {
-            return SDL_SetError("aligning pitch would overflow");
+        ถ้า (!SDL_size_add_check_overflow(*pitch, 7, pitch)) {
+            คืน SDL_SetError("aligning pitch would overflow");
         }
         *pitch /= 8;
     }
-    if (!minimal) {
+    ถ้า (!minimal) {
         // 4-byte aligning for speed
-        if (!SDL_size_add_check_overflow(*pitch, 3, pitch)) {
-            return SDL_SetError("aligning pitch would overflow");
+        ถ้า (!SDL_size_add_check_overflow(*pitch, 3, pitch)) {
+            คืน SDL_SetError("aligning pitch would overflow");
         }
         *pitch &= ~3;
     }
 
-    if (!SDL_size_mul_check_overflow(height, *pitch, size)) {
-        return SDL_SetError("height * pitch would overflow");
+    ถ้า (!SDL_size_mul_check_overflow(height, *pitch, size)) {
+        คืน SDL_SetError("height * pitch would overflow");
     }
 
-    return true;
+    คืน true;
 }
 
-bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, int width, int height, size_t *size, size_t *pitch, bool minimalPitch)
+bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, จำนวนเต็ม width, จำนวนเต็ม height, size_t *size, size_t *pitch, bool minimalPitch)
 {
     size_t p = 0, sz = 0;
 
-    if (size) {
+    ถ้า (size) {
         *size = 0;
     }
 
-    if (pitch) {
+    ถ้า (pitch) {
         *pitch = 0;
     }
 
-    if (SDL_ISPIXELFORMAT_FOURCC(format)) {
-        if (format == SDL_PIXELFORMAT_MJPG) {
+    ถ้า (SDL_ISPIXELFORMAT_FOURCC(format)) {
+        ถ้า (format == SDL_PIXELFORMAT_MJPG) {
             // We don't know in advance what it will be, we'll figure it out later.
-            return true;
+            คืน true;
         }
 
-        if (!SDL_CalculateYUVSize(format, width, height, &sz, &p)) {
+        ถ้า (!SDL_CalculateYUVSize(format, width, height, &sz, &p)) {
             // Overflow...
-            return false;
+            คืน false;
         }
-    } else {
-        if (!SDL_CalculateRGBSize(format, width, height, &sz, &p, minimalPitch)) {
+    } มิฉะนั้น {
+        ถ้า (!SDL_CalculateRGBSize(format, width, height, &sz, &p, minimalPitch)) {
             // Overflow...
-            return false;
+            คืน false;
         }
     }
 
-    if (size) {
+    ถ้า (size) {
         *size = sz;
     }
 
-    if (pitch) {
+    ถ้า (pitch) {
         *pitch = p;
     }
 
-    return true;
+    คืน true;
 }
 
-static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, SDL_PropertiesID props, void *pixels, int pitch, bool onstack)
+static bool SDL_InitializeSurface(SDL_Surface *surface, จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format, SDL_Colorspace colorspace, SDL_PropertiesID props, void *pixels, จำนวนเต็ม pitch, bool onstack)
 {
     SDL_zerop(surface);
 
@@ -146,14 +146,14 @@ static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, S
     surface->pitch = pitch;
     surface->reserved = &SDL_surface_magic;
 
-    if (onstack) {
+    ถ้า (onstack) {
         surface->internal_flags |= SDL_INTERNAL_SURFACE_STACK;
     }
 
     surface->fmt = SDL_GetPixelFormatDetails(format);
-    if (!surface->fmt) {
+    ถ้า (!surface->fmt) {
         SDL_DestroySurface(surface);
-        return false;
+        คืน false;
     }
 
     // Initialize the clip rect
@@ -166,104 +166,104 @@ static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, S
     surface->map.info.b = 0xFF;
     surface->map.info.a = 0xFF;
 
-    if (colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ถ้า (colorspace == SDL_COLORSPACE_UNKNOWN) {
         surface->colorspace = SDL_GetDefaultColorspaceForFormat(format);
-    } else {
+    } มิฉะนั้น {
         surface->colorspace = colorspace;
     }
 
-    if (props) {
-        if (!SDL_CopyProperties(props, SDL_GetSurfaceProperties(surface))) {
+    ถ้า (props) {
+        ถ้า (!SDL_CopyProperties(props, SDL_GetSurfaceProperties(surface))) {
             SDL_DestroySurface(surface);
-            return false;
+            คืน false;
         }
     }
 
     // By default surfaces with an alpha mask are set up for blending
-    if (SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
+    ถ้า (SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
         SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
     }
 
     // The surface is ready to go
     surface->refcount = 1;
-    return true;
+    คืน true;
 }
 
 /*
  * Create an empty surface of the appropriate depth using the given format
  */
-static SDL_Surface *SDL_CreateSurfaceInternal(int width, int height, SDL_PixelFormat format, bool clear_surface)
+static SDL_Surface *SDL_CreateSurfaceInternal(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format, bool clear_surface)
 {
     size_t pitch, size;
     SDL_Surface *surface;
 
     CHECK_PARAM(width < 0) {
         SDL_InvalidParamError("width");
-        return NULL;
+        คืน NULL;
     }
 
     CHECK_PARAM(height < 0) {
         SDL_InvalidParamError("height");
-        return NULL;
+        คืน NULL;
     }
 
     CHECK_PARAM(format == SDL_PIXELFORMAT_UNKNOWN) {
         SDL_InvalidParamError("format");
-        return NULL;
+        คืน NULL;
     }
 
-    if (!SDL_CalculateSurfaceSize(format, width, height, &size, &pitch, false /* not minimal pitch */)) {
+    ถ้า (!SDL_CalculateSurfaceSize(format, width, height, &size, &pitch, false /* not minimal pitch */)) {
         // Overflow...
-        return NULL;
+        คืน NULL;
     }
 
     // Allocate and initialize the surface
-    surface = (SDL_Surface *)SDL_malloc(sizeof(*surface));
-    if (!surface) {
-        return NULL;
+    surface = (SDL_Surface *)SDL_malloc(parimaa_na(*surface));
+    ถ้า (!surface) {
+        คืน NULL;
     }
 
-    if (!SDL_InitializeSurface(surface, width, height, format, SDL_COLORSPACE_UNKNOWN, 0, NULL, (int)pitch, false)) {
-        return NULL;
+    ถ้า (!SDL_InitializeSurface(surface, width, height, format, SDL_COLORSPACE_UNKNOWN, 0, NULL, (จำนวนเต็ม)pitch, false)) {
+        คืน NULL;
     }
 
-    if (surface->w && surface->h && format != SDL_PIXELFORMAT_MJPG) {
+    ถ้า (surface->w && surface->h && format != SDL_PIXELFORMAT_MJPG) {
         surface->flags &= ~SDL_SURFACE_PREALLOCATED;
-        if (SDL_GetHintBoolean("SDL_SURFACE_MALLOC", false)) {
-            if (clear_surface) {
+        ถ้า (SDL_GetHintBoolean("SDL_SURFACE_MALLOC", false)) {
+            ถ้า (clear_surface) {
                 surface->pixels = SDL_calloc(1, size);
-            } else {
+            } มิฉะนั้น {
                 surface->pixels = SDL_malloc(size);
             }
-        } else {
+        } มิฉะนั้น {
             surface->flags |= SDL_SURFACE_SIMD_ALIGNED;
-            if (clear_surface) {
+            ถ้า (clear_surface) {
                 surface->pixels = SDL_aligned_alloc_zero(SDL_GetSIMDAlignment(), size);
-            } else {
+            } มิฉะนั้น {
                 surface->pixels = SDL_aligned_alloc(SDL_GetSIMDAlignment(), size);
             }
         }
-        if (!surface->pixels) {
+        ถ้า (!surface->pixels) {
             SDL_DestroySurface(surface);
-            return NULL;
+            คืน NULL;
         }
     }
-    return surface;
+    คืน surface;
 }
 
-SDL_Surface *SDL_CreateSurfaceZeroed(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurfaceZeroed(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceInternal(width, height, format, true);
+    คืน SDL_CreateSurfaceInternal(width, height, format, true);
 }
 
-SDL_Surface *SDL_CreateSurfaceUninitialized(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurfaceUninitialized(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceInternal(width, height, format, false);
+    คืน SDL_CreateSurfaceInternal(width, height, format, false);
 }
 
-SDL_Surface *SDL_CreateSurface(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurface(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceZeroed(width, height, format);
+    คืน SDL_CreateSurfaceZeroed(width, height, format);
 }
 
 
@@ -271,100 +271,100 @@ SDL_Surface *SDL_CreateSurface(int width, int height, SDL_PixelFormat format)
  * Create an RGB surface from an existing memory buffer using the given
  * enum SDL_PIXELFORMAT_* format
  */
-SDL_Surface *SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void *pixels, int pitch)
+SDL_Surface *SDL_CreateSurfaceFrom(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format, void *pixels, จำนวนเต็ม pitch)
 {
     CHECK_PARAM(width < 0) {
         SDL_InvalidParamError("width");
-        return NULL;
+        คืน NULL;
     }
 
     CHECK_PARAM(height < 0) {
         SDL_InvalidParamError("height");
-        return NULL;
+        คืน NULL;
     }
 
     CHECK_PARAM(format == SDL_PIXELFORMAT_UNKNOWN) {
         SDL_InvalidParamError("format");
-        return NULL;
+        คืน NULL;
     }
 
-    if (pitch == 0 && !pixels) {
+    ถ้า (pitch == 0 && !pixels) {
         // The application will fill these in later with valid values
-    } else {
+    } มิฉะนั้น {
         size_t minimalPitch;
 
-        if (!SDL_CalculateSurfaceSize(format, width, height, NULL, &minimalPitch, true /* minimal pitch */)) {
+        ถ้า (!SDL_CalculateSurfaceSize(format, width, height, NULL, &minimalPitch, true /* minimal pitch */)) {
             // Overflow...
-            return NULL;
+            คืน NULL;
         }
 
         CHECK_PARAM(pitch < 0 || (size_t)pitch < minimalPitch) {
             SDL_InvalidParamError("pitch");
-            return NULL;
+            คืน NULL;
         }
     }
 
     // Allocate and initialize the surface
-    SDL_Surface *surface = (SDL_Surface *)SDL_malloc(sizeof(*surface));
-    if (!surface ||
+    SDL_Surface *surface = (SDL_Surface *)SDL_malloc(parimaa_na(*surface));
+    ถ้า (!surface ||
         !SDL_InitializeSurface(surface, width, height, format, SDL_COLORSPACE_UNKNOWN, 0, pixels, pitch, false)) {
-        return NULL;
+        คืน NULL;
     }
-    return surface;
+    คืน surface;
 }
 
 SDL_PropertiesID SDL_GetSurfaceProperties(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return 0;
+        คืน 0;
     }
 
-    if (!surface->props) {
+    ถ้า (!surface->props) {
         surface->props = SDL_CreateProperties();
     }
-    return surface->props;
+    คืน surface->props;
 }
 
 bool SDL_SetSurfaceColorspace(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     surface->colorspace = colorspace;
-    return true;
+    คืน true;
 }
 
 SDL_Colorspace SDL_GetSurfaceColorspace(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return SDL_COLORSPACE_UNKNOWN;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน SDL_COLORSPACE_UNKNOWN;
     }
 
-    return surface->colorspace;
+    คืน surface->colorspace;
 }
 
 float SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace)
 {
-    return SDL_GetSurfaceSDRWhitePoint(NULL, colorspace);
+    คืน SDL_GetSurfaceSDRWhitePoint(NULL, colorspace);
 }
 
 float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     SDL_TransferCharacteristics transfer = SDL_COLORSPACETRANSFER(colorspace);
 
-    if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
+    ถ้า (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
         float default_value = 1.0f;
 
-        if (SDL_SurfaceValid(surface)) {
+        ถ้า (SDL_SurfaceValid(surface)) {
             props = surface->props;
-        } else {
+        } มิฉะนั้น {
             props = 0;
         }
-        if (transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
+        ถ้า (transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
             /* The older standards use an SDR white point of 100 nits.
              * ITU-R BT.2408-6 recommends using an SDR white point of 203 nits.
              * This is the default Chrome uses, and what a lot of game content
@@ -373,33 +373,33 @@ float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspac
             const float DEFAULT_PQ_SDR_WHITE_POINT = 203.0f;
             default_value = DEFAULT_PQ_SDR_WHITE_POINT;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT, default_value);
+        คืน SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT, default_value);
     }
-    return 1.0f;
+    คืน 1.0f;
 }
 
 float SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace)
 {
-    return SDL_GetSurfaceHDRHeadroom(NULL, colorspace);
+    คืน SDL_GetSurfaceHDRHeadroom(NULL, colorspace);
 }
 
 float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     SDL_TransferCharacteristics transfer = SDL_COLORSPACETRANSFER(colorspace);
 
-    if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
+    ถ้า (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
         float default_value = 0.0f;
 
-        if (SDL_SurfaceValid(surface)) {
+        ถ้า (SDL_SurfaceValid(surface)) {
             props = surface->props;
-        } else {
+        } มิฉะนั้น {
             props = 0;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_value);
+        คืน SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_value);
     }
-    return 1.0f;
+    คืน 1.0f;
 }
 
 SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
@@ -408,20 +408,20 @@ SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
     CHECK_PARAM(!SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
         SDL_SetError("The surface is not indexed format");
-        return NULL;
+        คืน NULL;
     }
 
     palette = SDL_CreatePalette((1 << SDL_BITSPERPIXEL(surface->format)));
-    if (!palette) {
-        return NULL;
+    ถ้า (!palette) {
+        คืน NULL;
     }
 
-    if (palette->ncolors == 2) {
+    ถ้า (palette->ncolors == 2) {
         // Create a black and white bitmap palette
         palette->colors[0].r = 0xFF;
         palette->colors[0].g = 0xFF;
@@ -431,150 +431,150 @@ SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
         palette->colors[1].b = 0x00;
     }
 
-    if (!SDL_SetSurfacePalette(surface, palette)) {
+    ถ้า (!SDL_SetSurfacePalette(surface, palette)) {
         SDL_DestroyPalette(palette);
-        return NULL;
+        คืน NULL;
     }
 
     // The surface has retained the palette, we can remove the reference here
     SDL_assert(palette->refcount == 2);
     SDL_DestroyPalette(palette);
-    return palette;
+    คืน palette;
 }
 
 bool SDL_SetSurfacePalette(SDL_Surface *surface, SDL_Palette *palette)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(palette && !SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        return SDL_SetError("Surface doesn't use a palette");
+        คืน SDL_SetError("Surface doesn't use a palette");
     }
 
     CHECK_PARAM(palette && palette->ncolors > (1 << SDL_BITSPERPIXEL(surface->format))) {
-        return SDL_SetError("Palette doesn't match surface format");
+        คืน SDL_SetError("Palette doesn't match surface format");
     }
 
-    if (palette != surface->palette) {
-        if (surface->palette) {
+    ถ้า (palette != surface->palette) {
+        ถ้า (surface->palette) {
             SDL_DestroyPalette(surface->palette);
         }
 
         surface->palette = palette;
 
-        if (surface->palette) {
+        ถ้า (surface->palette) {
             ++surface->palette->refcount;
         }
     }
 
     SDL_InvalidateMap(&surface->map);
 
-    return true;
+    คืน true;
 }
 
 SDL_Palette *SDL_GetSurfacePalette(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return NULL;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน NULL;
     }
 
-    return surface->palette;
+    คืน surface->palette;
 }
 
 bool SDL_AddSurfaceAlternateImage(SDL_Surface *surface, SDL_Surface *image)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(image)) {
-        return SDL_InvalidParamError("image");
+        คืน SDL_InvalidParamError("image");
     }
 
-    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->num_images + 1) * sizeof(*images));
-    if (!images) {
-        return false;
+    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->num_images + 1) * parimaa_na(*images));
+    ถ้า (!images) {
+        คืน false;
     }
     images[surface->num_images] = image;
     surface->images = images;
     ++surface->num_images;
     ++image->refcount;
-    return true;
+    คืน true;
 }
 
 bool SDL_SurfaceHasAlternateImages(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน false;
     }
 
-    return (surface->num_images > 0);
+    คืน (surface->num_images > 0);
 }
 
-SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, int *count)
+SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, จำนวนเต็ม *count)
 {
-    if (count) {
+    ถ้า (count) {
         *count = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
-    int num_images = 1 + surface->num_images;
-    SDL_Surface **images = (SDL_Surface **)SDL_malloc((num_images + 1) * sizeof(*images));
-    if (!images) {
-        return NULL;
+    จำนวนเต็ม num_images = 1 + surface->num_images;
+    SDL_Surface **images = (SDL_Surface **)SDL_malloc((num_images + 1) * parimaa_na(*images));
+    ถ้า (!images) {
+        คืน NULL;
     }
     images[0] = surface;
-    if (surface->num_images > 0) {
-        SDL_memcpy(&images[1], surface->images, (surface->num_images * sizeof(images[1])));
+    ถ้า (surface->num_images > 0) {
+        SDL_memcpy(&images[1], surface->images, (surface->num_images * parimaa_na(images[1])));
     }
     images[num_images] = NULL;
 
-    if (count) {
+    ถ้า (count) {
         *count = num_images;
     }
-    return images;
+    คืน images;
 }
 
 SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
-    if (!SDL_SurfaceHasAlternateImages(surface)) {
+    ถ้า (!SDL_SurfaceHasAlternateImages(surface)) {
         ++surface->refcount;
-        return surface;
+        คืน surface;
     }
 
     // This surface has high DPI images, pick the best one available, or scale one to the correct size
     SDL_Surface **images = SDL_GetSurfaceImages(surface, NULL);
-    if (!images) {
+    ถ้า (!images) {
         // Failure, fall back to the existing surface
         ++surface->refcount;
-        return surface;
+        คืน surface;
     }
 
     // Find closest image. Images that are larger than the
     // desired size are preferred over images that are smaller.
     SDL_Surface *closest = NULL;
-    int desired_w = (int)SDL_round(surface->w * display_scale);
-    int desired_h = (int)SDL_round(surface->h * display_scale);
-    int desired_size = desired_w * desired_h;
-    int closest_distance = -1;
-    int closest_size = -1;
-    for (int i = 0; images[i]; ++i) {
+    จำนวนเต็ม desired_w = (จำนวนเต็ม)SDL_round(surface->w * display_scale);
+    จำนวนเต็ม desired_h = (จำนวนเต็ม)SDL_round(surface->h * display_scale);
+    จำนวนเต็ม desired_size = desired_w * desired_h;
+    จำนวนเต็ม closest_distance = -1;
+    จำนวนเต็ม closest_size = -1;
+    สำหรับ (จำนวนเต็ม i = 0; images[i]; ++i) {
         SDL_Surface *candidate = images[i];
-        int size = candidate->w * candidate->h;
-        int delta_w = (candidate->w - desired_w);
-        int delta_h = (candidate->h - desired_h);
-        int distance = (delta_w * delta_w) + (delta_h * delta_h);
-        if (closest_distance < 0 || distance < closest_distance ||
+        จำนวนเต็ม size = candidate->w * candidate->h;
+        จำนวนเต็ม delta_w = (candidate->w - desired_w);
+        จำนวนเต็ม delta_h = (candidate->h - desired_h);
+        จำนวนเต็ม distance = (delta_w * delta_w) + (delta_h * delta_h);
+        ถ้า (closest_distance < 0 || distance < closest_distance ||
             (size > desired_size && closest_size < desired_size)) {
             closest = candidate;
             closest_distance = distance;
@@ -584,40 +584,40 @@ SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale)
     SDL_free(images);
     SDL_assert(closest != NULL);    // We should always have at least one surface
 
-    if (closest->w == desired_w && closest->h == desired_h) {
+    ถ้า (closest->w == desired_w && closest->h == desired_h) {
         ++closest->refcount;
-        return closest;
+        คืน closest;
     }
 
     // We need to scale the image to the correct size. To maintain good image quality, downscaling
     // is done in steps, never reducing the width and height by more than half each time.
     SDL_Surface *scaled = closest;
     do {
-        int next_scaled_w = SDL_max(desired_w, (scaled->w + 1) / 2);
-        int next_scaled_h = SDL_max(desired_h, (scaled->h + 1) / 2);
+        จำนวนเต็ม next_scaled_w = SDL_max(desired_w, (scaled->w + 1) / 2);
+        จำนวนเต็ม next_scaled_h = SDL_max(desired_h, (scaled->h + 1) / 2);
         SDL_Surface *next_scaled = SDL_ScaleSurface(scaled, next_scaled_w, next_scaled_h, SDL_SCALEMODE_LINEAR);
-        if (scaled != closest) {
+        ถ้า (scaled != closest) {
             SDL_DestroySurface(scaled);
         }
         scaled = next_scaled;
-        if (!scaled) {
+        ถ้า (!scaled) {
             // Failure, fall back to the closest surface
             ++closest->refcount;
-            return closest;
+            คืน closest;
         }
-    } while (scaled->w != desired_w || scaled->h != desired_h);
+    } ขณะ (scaled->w != desired_w || scaled->h != desired_h);
 
-    return scaled;
+    คืน scaled;
 }
 
 void SDL_RemoveSurfaceAlternateImages(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน;
     }
 
-    if (surface->num_images > 0) {
-        for (int i = 0; i < surface->num_images; ++i) {
+    ถ้า (surface->num_images > 0) {
+        สำหรับ (จำนวนเต็ม i = 0; i < surface->num_images; ++i) {
             SDL_DestroySurface(surface->images[i]);
         }
         SDL_free(surface->images);
@@ -628,140 +628,140 @@ void SDL_RemoveSurfaceAlternateImages(SDL_Surface *surface)
 
 bool SDL_SetSurfaceRLE(SDL_Surface *surface, bool enabled)
 {
-    int flags;
+    จำนวนเต็ม flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     flags = surface->map.info.flags;
-    if (enabled) {
+    ถ้า (enabled) {
         surface->map.info.flags |= SDL_COPY_RLE_DESIRED;
-    } else {
+    } มิฉะนั้น {
         surface->map.info.flags &= ~SDL_COPY_RLE_DESIRED;
     }
-    if (surface->map.info.flags != flags) {
+    ถ้า (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_SurfaceHasRLE(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน false;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_RLE_DESIRED)) {
-        return false;
+    ถ้า (!(surface->map.info.flags & SDL_COPY_RLE_DESIRED)) {
+        คืน false;
     }
 
-    return true;
+    คืน true;
 }
 
 bool SDL_SetSurfaceColorKey(SDL_Surface *surface, bool enabled, Uint32 key)
 {
-    int flags;
+    จำนวนเต็ม flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(surface->palette && key >= ((Uint32)surface->palette->ncolors)) {
-        return SDL_InvalidParamError("key");
+        คืน SDL_InvalidParamError("key");
     }
 
     flags = surface->map.info.flags;
-    if (enabled) {
+    ถ้า (enabled) {
         surface->map.info.flags |= SDL_COPY_COLORKEY;
         surface->map.info.colorkey = key;
-    } else {
+    } มิฉะนั้น {
         surface->map.info.flags &= ~SDL_COPY_COLORKEY;
     }
-    if (surface->map.info.flags != flags) {
+    ถ้า (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
 
-    return true;
+    คืน true;
 }
 
 bool SDL_SurfaceHasColorKey(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน false;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
-        return false;
+    ถ้า (!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
+        คืน false;
     }
 
-    return true;
+    คืน true;
 }
 
 bool SDL_GetSurfaceColorKey(SDL_Surface *surface, Uint32 *key)
 {
-    if (key) {
+    ถ้า (key) {
         *key = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
-        return SDL_SetError("Surface doesn't have a colorkey");
+        คืน SDL_SetError("Surface doesn't have a colorkey");
     }
 
-    if (key) {
+    ถ้า (key) {
         *key = surface->map.info.colorkey;
     }
-    return true;
+    คืน true;
 }
 
 /* This is a fairly slow function to switch from colorkey to alpha
    NB: it doesn't handle bpp 1 or 3, because they have no alpha channel */
 static void SDL_ConvertColorkeyToAlpha(SDL_Surface *surface, bool ignore_alpha)
 {
-    int x, y, bpp;
+    จำนวนเต็ม x, y, bpp;
 
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_COLORKEY) ||
+    ถ้า (!(surface->map.info.flags & SDL_COPY_COLORKEY) ||
         !SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
-        return;
+        คืน;
     }
 
     bpp = SDL_BYTESPERPIXEL(surface->format);
 
     SDL_LockSurface(surface);
 
-    if (bpp == 2) {
+    ถ้า (bpp == 2) {
         Uint16 *row, *spot;
         Uint16 ckey = (Uint16)surface->map.info.colorkey;
         Uint16 mask = (Uint16)(~surface->fmt->Amask);
 
         // Ignore, or not, alpha in colorkey comparison
-        if (ignore_alpha) {
+        ถ้า (ignore_alpha) {
             ckey &= mask;
             row = (Uint16 *)surface->pixels;
-            for (y = surface->h; y--;) {
+            สำหรับ (y = surface->h; y--;) {
                 spot = row;
-                for (x = surface->w; x--;) {
-                    if ((*spot & mask) == ckey) {
+                สำหรับ (x = surface->w; x--;) {
+                    ถ้า ((*spot & mask) == ckey) {
                         *spot &= mask;
                     }
                     ++spot;
                 }
                 row += surface->pitch / 2;
             }
-        } else {
+        } มิฉะนั้น {
             row = (Uint16 *)surface->pixels;
-            for (y = surface->h; y--;) {
+            สำหรับ (y = surface->h; y--;) {
                 spot = row;
-                for (x = surface->w; x--;) {
-                    if (*spot == ckey) {
+                สำหรับ (x = surface->w; x--;) {
+                    ถ้า (*spot == ckey) {
                         *spot &= mask;
                     }
                     ++spot;
@@ -769,31 +769,31 @@ static void SDL_ConvertColorkeyToAlpha(SDL_Surface *surface, bool ignore_alpha)
                 row += surface->pitch / 2;
             }
         }
-    } else if (bpp == 4) {
+    } มิฉะนั้น ถ้า (bpp == 4) {
         Uint32 *row, *spot;
         Uint32 ckey = surface->map.info.colorkey;
         Uint32 mask = ~surface->fmt->Amask;
 
         // Ignore, or not, alpha in colorkey comparison
-        if (ignore_alpha) {
+        ถ้า (ignore_alpha) {
             ckey &= mask;
             row = (Uint32 *)surface->pixels;
-            for (y = surface->h; y--;) {
+            สำหรับ (y = surface->h; y--;) {
                 spot = row;
-                for (x = surface->w; x--;) {
-                    if ((*spot & mask) == ckey) {
+                สำหรับ (x = surface->w; x--;) {
+                    ถ้า ((*spot & mask) == ckey) {
                         *spot &= mask;
                     }
                     ++spot;
                 }
                 row += surface->pitch / 4;
             }
-        } else {
+        } มิฉะนั้น {
             row = (Uint32 *)surface->pixels;
-            for (y = surface->h; y--;) {
+            สำหรับ (y = surface->h; y--;) {
                 spot = row;
-                for (x = surface->w; x--;) {
-                    if (*spot == ckey) {
+                สำหรับ (x = surface->w; x--;) {
+                    ถ้า (*spot == ckey) {
                         *spot &= mask;
                     }
                     ++spot;
@@ -811,10 +811,10 @@ static void SDL_ConvertColorkeyToAlpha(SDL_Surface *surface, bool ignore_alpha)
 
 bool SDL_SetSurfaceColorMod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
 {
-    int flags;
+    จำนวนเต็ม flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     surface->map.info.r = r;
@@ -822,167 +822,167 @@ bool SDL_SetSurfaceColorMod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
     surface->map.info.b = b;
 
     flags = surface->map.info.flags;
-    if (r != 0xFF || g != 0xFF || b != 0xFF) {
+    ถ้า (r != 0xFF || g != 0xFF || b != 0xFF) {
         surface->map.info.flags |= SDL_COPY_MODULATE_COLOR;
-    } else {
+    } มิฉะนั้น {
         surface->map.info.flags &= ~SDL_COPY_MODULATE_COLOR;
     }
-    if (surface->map.info.flags != flags) {
+    ถ้า (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_GetSurfaceColorMod(SDL_Surface *surface, Uint8 *r, Uint8 *g, Uint8 *b)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (r) {
+        ถ้า (r) {
             *r = 255;
         }
-        if (g) {
+        ถ้า (g) {
             *g = 255;
         }
-        if (b) {
+        ถ้า (b) {
             *b = 255;
         }
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
-    if (r) {
+    ถ้า (r) {
         *r = surface->map.info.r;
     }
-    if (g) {
+    ถ้า (g) {
         *g = surface->map.info.g;
     }
-    if (b) {
+    ถ้า (b) {
         *b = surface->map.info.b;
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_SetSurfaceAlphaMod(SDL_Surface *surface, Uint8 alpha)
 {
-    int flags;
+    จำนวนเต็ม flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     surface->map.info.a = alpha;
 
     flags = surface->map.info.flags;
-    if (alpha != 0xFF) {
+    ถ้า (alpha != 0xFF) {
         surface->map.info.flags |= SDL_COPY_MODULATE_ALPHA;
-    } else {
+    } มิฉะนั้น {
         surface->map.info.flags &= ~SDL_COPY_MODULATE_ALPHA;
     }
-    if (surface->map.info.flags != flags) {
+    ถ้า (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_GetSurfaceAlphaMod(SDL_Surface *surface, Uint8 *alpha)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (alpha) {
+        ถ้า (alpha) {
             *alpha = 255;
         }
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
-    if (alpha) {
+    ถ้า (alpha) {
         *alpha = surface->map.info.a;
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_SetSurfaceBlendMode(SDL_Surface *surface, SDL_BlendMode blendMode)
 {
-    int flags;
+    จำนวนเต็ม flags;
     bool result = true;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(blendMode == SDL_BLENDMODE_INVALID) {
-        return SDL_InvalidParamError("blendMode");
+        คืน SDL_InvalidParamError("blendMode");
     }
 
     flags = surface->map.info.flags;
     surface->map.info.flags &= ~SDL_COPY_BLEND_MASK;
     switch (blendMode) {
-    case SDL_BLENDMODE_NONE:
-        break;
-    case SDL_BLENDMODE_BLEND:
+    pak_sa SDL_BLENDMODE_NONE:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_BLEND:
         surface->map.info.flags |= SDL_COPY_BLEND;
-        break;
-    case SDL_BLENDMODE_BLEND_PREMULTIPLIED:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_BLEND_PREMULTIPLIED:
         surface->map.info.flags |= SDL_COPY_BLEND_PREMULTIPLIED;
-        break;
-    case SDL_BLENDMODE_ADD:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_ADD:
         surface->map.info.flags |= SDL_COPY_ADD;
-        break;
-    case SDL_BLENDMODE_ADD_PREMULTIPLIED:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_ADD_PREMULTIPLIED:
         surface->map.info.flags |= SDL_COPY_ADD_PREMULTIPLIED;
-        break;
-    case SDL_BLENDMODE_MOD:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_MOD:
         surface->map.info.flags |= SDL_COPY_MOD;
-        break;
-    case SDL_BLENDMODE_MUL:
+        bha_nga;
+    pak_sa SDL_BLENDMODE_MUL:
         surface->map.info.flags |= SDL_COPY_MUL;
-        break;
+        bha_nga;
     default:
         result = SDL_Unsupported();
-        break;
+        bha_nga;
     }
 
-    if (surface->map.info.flags != flags) {
+    ถ้า (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
 
-    return result;
+    คืน result;
 }
 
 bool SDL_GetSurfaceBlendMode(SDL_Surface *surface, SDL_BlendMode *blendMode)
 {
-    if (blendMode) {
+    ถ้า (blendMode) {
         *blendMode = SDL_BLENDMODE_INVALID;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
-    if (!blendMode) {
-        return true;
+    ถ้า (!blendMode) {
+        คืน true;
     }
 
     switch (surface->map.info.flags & SDL_COPY_BLEND_MASK) {
-    case SDL_COPY_BLEND:
+    pak_sa SDL_COPY_BLEND:
         *blendMode = SDL_BLENDMODE_BLEND;
-        break;
-    case SDL_COPY_BLEND_PREMULTIPLIED:
+        bha_nga;
+    pak_sa SDL_COPY_BLEND_PREMULTIPLIED:
         *blendMode = SDL_BLENDMODE_BLEND_PREMULTIPLIED;
-        break;
-    case SDL_COPY_ADD:
+        bha_nga;
+    pak_sa SDL_COPY_ADD:
         *blendMode = SDL_BLENDMODE_ADD;
-        break;
-    case SDL_COPY_ADD_PREMULTIPLIED:
+        bha_nga;
+    pak_sa SDL_COPY_ADD_PREMULTIPLIED:
         *blendMode = SDL_BLENDMODE_ADD_PREMULTIPLIED;
-        break;
-    case SDL_COPY_MOD:
+        bha_nga;
+    pak_sa SDL_COPY_MOD:
         *blendMode = SDL_BLENDMODE_MOD;
-        break;
-    case SDL_COPY_MUL:
+        bha_nga;
+    pak_sa SDL_COPY_MUL:
         *blendMode = SDL_BLENDMODE_MUL;
-        break;
+        bha_nga;
     default:
         *blendMode = SDL_BLENDMODE_NONE;
-        break;
+        bha_nga;
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_SetSurfaceClipRect(SDL_Surface *surface, const SDL_Rect *rect)
@@ -990,8 +990,8 @@ bool SDL_SetSurfaceClipRect(SDL_Surface *surface, const SDL_Rect *rect)
     SDL_Rect full_rect;
 
     // Don't do anything if there's no surface to act on
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน false;
     }
 
     // Set up the full surface rectangle
@@ -1001,26 +1001,26 @@ bool SDL_SetSurfaceClipRect(SDL_Surface *surface, const SDL_Rect *rect)
     full_rect.h = surface->h;
 
     // Set the clipping rectangle
-    if (!rect) {
+    ถ้า (!rect) {
         surface->clip_rect = full_rect;
-        return true;
+        คืน true;
     }
-    return SDL_GetRectIntersection(rect, &full_rect, &surface->clip_rect);
+    คืน SDL_GetRectIntersection(rect, &full_rect, &surface->clip_rect);
 }
 
 bool SDL_GetSurfaceClipRect(SDL_Surface *surface, SDL_Rect *rect)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (rect) {
+        ถ้า (rect) {
             SDL_zerop(rect);
         }
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        คืน SDL_InvalidParamError("rect");
     }
     *rect = surface->clip_rect;
-    return true;
+    คืน true;
 }
 
 /*
@@ -1038,10 +1038,10 @@ bool SDL_BlitSurfaceUnchecked(SDL_Surface *src, const SDL_Rect *srcrect,
                              SDL_Surface *dst, const SDL_Rect *dstrect)
 {
     // Check to make sure the blit mapping is valid
-    if (!SDL_ValidateMap(src, dst)) {
-        return false;
+    ถ้า (!SDL_ValidateMap(src, dst)) {
+        คืน false;
     }
-    return src->map.blit(src, srcrect, dst, dstrect);
+    คืน src->map.blit(src, srcrect, dst, dstrect);
 }
 
 bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect)
@@ -1050,13 +1050,13 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src) || (!src->pixels && !SDL_MUSTLOCK(src))) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst) || (!dst->pixels && !SDL_MUSTLOCK(dst))) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        คืน SDL_SetError("Surfaces must not be locked during blit");
     }
 
     // Full src surface
@@ -1065,19 +1065,19 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ถ้า (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
-    } else {
+    } มิฉะนั้น {
         r_dst.x = 0;
         r_dst.y = 0;
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
+    ถ้า (srcrect) {
         SDL_Rect tmp;
-        if (SDL_GetRectIntersection(srcrect, &r_src, &tmp) == false) {
-            return true;
+        ถ้า (SDL_GetRectIntersection(srcrect, &r_src, &tmp) == false) {
+            คืน true;
         }
 
         // Shift dstrect, if srcrect origin has changed
@@ -1095,8 +1095,8 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
     // clip the destination rectangle against the clip rectangle
     {
         SDL_Rect tmp;
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
-            return true;
+        ถ้า (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
+            คืน true;
         }
 
         // Shift srcrect, if dstrect has changed
@@ -1109,41 +1109,41 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
         r_dst = tmp;
     }
 
-    if (r_dst.w <= 0 || r_dst.h <= 0) {
+    ถ้า (r_dst.w <= 0 || r_dst.h <= 0) {
         // No-op.
-        return true;
+        คืน true;
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
+    ถ้า (src->map.info.flags & SDL_COPY_NEAREST) {
         src->map.info.flags &= ~SDL_COPY_NEAREST;
         SDL_InvalidateMap(&src->map);
     }
 
-    return SDL_BlitSurfaceUnchecked(src, &r_src, dst, &r_dst);
+    คืน SDL_BlitSurfaceUnchecked(src, &r_src, dst, &r_dst);
 }
 
 static bool SDL_BlitSurfaceClippedScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
 {
     // We need to scale first, then blit into dst because we're clipping in the destination surface pixel coordinates
     bool result;
-    int saved_w = src->w;
-    int saved_h = src->h;
+    จำนวนเต็ม saved_w = src->w;
+    จำนวนเต็ม saved_h = src->h;
     void *saved_pixels = src->pixels;
     src->w = srcrect->w;
     src->h = srcrect->h;
     src->pixels = (Uint8 *)src->pixels + srcrect->y * src->pitch + srcrect->x * SDL_BYTESPERPIXEL(src->format);
     SDL_Surface *scaled = SDL_ScaleSurface(src, dstrect->w, dstrect->h, scaleMode);
-    if (scaled) {
+    ถ้า (scaled) {
         result = SDL_BlitSurface(scaled, NULL, dst, dstrect);
         SDL_DestroySurface(scaled);
-    } else {
+    } มิฉะนั้น {
         result = false;
     }
     src->w = saved_w;
     src->h = saved_h;
     src->pixels = saved_pixels;
-    return result;
+    คืน result;
 }
 
 bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
@@ -1153,39 +1153,39 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src) || (!src->pixels && !SDL_MUSTLOCK(src))) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst) || (!dst->pixels && !SDL_MUSTLOCK(dst))) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        คืน SDL_SetError("Surfaces must not be locked during blit");
     }
 
     switch (scaleMode) {
-    case SDL_SCALEMODE_NEAREST:
-        break;
-    case SDL_SCALEMODE_LINEAR:
-        break;
-    case SDL_SCALEMODE_PIXELART:
+    pak_sa SDL_SCALEMODE_NEAREST:
+        bha_nga;
+    pak_sa SDL_SCALEMODE_LINEAR:
+        bha_nga;
+    pak_sa SDL_SCALEMODE_PIXELART:
         scaleMode = SDL_SCALEMODE_NEAREST;
-        break;
+        bha_nga;
     default:
-        return SDL_InvalidParamError("scaleMode");
+        คืน SDL_InvalidParamError("scaleMode");
     }
 
-    int src_w = srcrect ? srcrect->w : src->w;
-    int src_h = srcrect ? srcrect->h : src->h;
-    int dst_w = dstrect ? dstrect->w : dst->w;
-    int dst_h = dstrect ? dstrect->h : dst->h;
-    if (src_w == dst_w && src_h == dst_h) {
+    จำนวนเต็ม src_w = srcrect ? srcrect->w : src->w;
+    จำนวนเต็ม src_h = srcrect ? srcrect->h : src->h;
+    จำนวนเต็ม dst_w = dstrect ? dstrect->w : dst->w;
+    จำนวนเต็ม dst_h = dstrect ? dstrect->h : dst->h;
+    ถ้า (src_w == dst_w && src_h == dst_h) {
         // No scaling, defer to regular blit
-        return SDL_BlitSurface(src, srcrect, dst, dstrect);
+        คืน SDL_BlitSurface(src, srcrect, dst, dstrect);
     }
 
-    if (src->w == 0 || src->h == 0) {
+    ถ้า (src->w == 0 || src->h == 0) {
         // Nothing to do
-        return true;
+        คืน true;
     }
 
     // Full src surface
@@ -1194,12 +1194,12 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ถ้า (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } มิฉะนั้น {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1207,14 +1207,14 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
+    ถ้า (srcrect) {
         SDL_Rect desired, tmp;
         desired.x = srcrect->x;
         desired.y = srcrect->y;
         desired.w = SDL_max(srcrect->w, 1);
         desired.h = SDL_max(srcrect->h, 1);
-        if (SDL_GetRectIntersection(&desired, &r_src, &tmp) == false) {
-            return true;
+        ถ้า (SDL_GetRectIntersection(&desired, &r_src, &tmp) == false) {
+            คืน true;
         }
 
         // Shift dstrect, if srcrect origin has changed
@@ -1228,38 +1228,38 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     }
 
     SDL_Rect tmp;
-    if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
-        return true;
+    ถ้า (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
+        คืน true;
     }
 
-    if (tmp.x != r_dst.x || tmp.y != r_dst.y || tmp.w != r_dst.w || tmp.h != r_dst.h) {
+    ถ้า (tmp.x != r_dst.x || tmp.y != r_dst.y || tmp.w != r_dst.w || tmp.h != r_dst.h) {
         // Need to do a clipped and scaled blit
-        return SDL_BlitSurfaceClippedScaled(src, &r_src, dst, &r_dst, scaleMode);
+        คืน SDL_BlitSurfaceClippedScaled(src, &r_src, dst, &r_dst, scaleMode);
     }
 
-    if (SDL_MUSTLOCK(src)) {
-        if (!SDL_LockSurface(src)) {
-            return false;
+    ถ้า (SDL_MUSTLOCK(src)) {
+        ถ้า (!SDL_LockSurface(src)) {
+            คืน false;
         }
     }
-    if (SDL_MUSTLOCK(dst)) {
-        if (!SDL_LockSurface(dst)) {
-            if (SDL_MUSTLOCK(src)) {
+    ถ้า (SDL_MUSTLOCK(dst)) {
+        ถ้า (!SDL_LockSurface(dst)) {
+            ถ้า (SDL_MUSTLOCK(src)) {
                 SDL_UnlockSurface(src);
             }
-            return false;
+            คืน false;
         }
     }
 
     result = SDL_BlitSurfaceUncheckedScaled(src, &r_src, dst, &r_dst, scaleMode);
 
-    if (SDL_MUSTLOCK(src)) {
+    ถ้า (SDL_MUSTLOCK(src)) {
         SDL_UnlockSurface(src);
     }
-    if (SDL_MUSTLOCK(dst)) {
+    ถ้า (SDL_MUSTLOCK(dst)) {
         SDL_UnlockSurface(dst);
     }
-    return result;
+    คืน result;
 }
 
 /**
@@ -1270,58 +1270,58 @@ bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, S
 {
     static const Uint32 complex_copy_flags = (SDL_COPY_MODULATE_MASK | SDL_COPY_BLEND_MASK | SDL_COPY_COLORKEY);
 
-    if (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
+    ถ้า (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
         dstrect->w > SDL_MAX_UINT16 || dstrect->h > SDL_MAX_UINT16) {
-        return SDL_SetError("Size too large for scaling");
+        คืน SDL_SetError("Size too large for scaling");
     }
 
-    if (!(src->map.info.flags & SDL_COPY_NEAREST)) {
+    ถ้า (!(src->map.info.flags & SDL_COPY_NEAREST)) {
         src->map.info.flags |= SDL_COPY_NEAREST;
         SDL_InvalidateMap(&src->map);
     }
 
-    if (scaleMode == SDL_SCALEMODE_NEAREST || scaleMode == SDL_SCALEMODE_PIXELART) {
-        if (!(src->map.info.flags & complex_copy_flags) &&
+    ถ้า (scaleMode == SDL_SCALEMODE_NEAREST || scaleMode == SDL_SCALEMODE_PIXELART) {
+        ถ้า (!(src->map.info.flags & complex_copy_flags) &&
             src->format == dst->format &&
             (!SDL_ISPIXELFORMAT_INDEXED(src->format) ||
              (SDL_BITSPERPIXEL(src->format) == 8 && SDL_IsSamePalette(src->palette, dst->palette))) &&
             SDL_BYTESPERPIXEL(src->format) <= 4) {
-            return SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_NEAREST);
-        } else if (SDL_BITSPERPIXEL(src->format) < 8) {
+            คืน SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_NEAREST);
+        } มิฉะนั้น ถ้า (SDL_BITSPERPIXEL(src->format) < 8) {
             // Scaling bitmap not yet supported, convert to RGBA for blit
             bool result = false;
             SDL_Surface *tmp = SDL_ConvertSurface(src, SDL_PIXELFORMAT_ARGB8888);
-            if (tmp) {
+            ถ้า (tmp) {
                 result = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, SDL_SCALEMODE_NEAREST);
                 SDL_DestroySurface(tmp);
             }
-            return result;
-        } else {
-            return SDL_BlitSurfaceUnchecked(src, srcrect, dst, dstrect);
+            คืน result;
+        } มิฉะนั้น {
+            คืน SDL_BlitSurfaceUnchecked(src, srcrect, dst, dstrect);
         }
-    } else {
-        if (!(src->map.info.flags & complex_copy_flags) &&
+    } มิฉะนั้น {
+        ถ้า (!(src->map.info.flags & complex_copy_flags) &&
             src->format == dst->format &&
             !SDL_ISPIXELFORMAT_INDEXED(src->format) &&
             SDL_BYTESPERPIXEL(src->format) == 4 &&
             src->format != SDL_PIXELFORMAT_ARGB2101010) {
             // fast path
-            return SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_LINEAR);
-        } else if (SDL_BITSPERPIXEL(src->format) < 8) {
+            คืน SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_LINEAR);
+        } มิฉะนั้น ถ้า (SDL_BITSPERPIXEL(src->format) < 8) {
             // Scaling bitmap not yet supported, convert to RGBA for blit
             bool result = false;
             SDL_Surface *tmp = SDL_ConvertSurface(src, SDL_PIXELFORMAT_ARGB8888);
-            if (tmp) {
+            ถ้า (tmp) {
                 result = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, scaleMode);
                 SDL_DestroySurface(tmp);
             }
-            return result;
-        } else {
+            คืน result;
+        } มิฉะนั้น {
             // Use intermediate surface(s)
             SDL_Surface *tmp1 = NULL;
             bool result;
             SDL_Rect srcrect2;
-            int is_complex_copy_flags = (src->map.info.flags & complex_copy_flags);
+            จำนวนเต็ม is_complex_copy_flags = (src->map.info.flags & complex_copy_flags);
 
             Uint8 r, g, b;
             Uint8 alpha;
@@ -1337,17 +1337,17 @@ bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, S
             srcrect2.h = srcrect->h;
 
             // Change source format if not appropriate for scaling
-            if (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
+            ถ้า (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
                 SDL_PixelFormat fmt;
-                if (SDL_BYTESPERPIXEL(dst->format) == 4 && dst->format != SDL_PIXELFORMAT_ARGB2101010 &&
+                ถ้า (SDL_BYTESPERPIXEL(dst->format) == 4 && dst->format != SDL_PIXELFORMAT_ARGB2101010 &&
                     (SDL_ISPIXELFORMAT_ALPHA(dst->format) || !is_complex_copy_flags)) {
                     fmt = dst->format;
-                } else {
+                } มิฉะนั้น {
                     fmt = SDL_PIXELFORMAT_ARGB8888;
                 }
                 tmp1 = SDL_ConvertSurfaceRect(src, srcrect, fmt);
-                if (!tmp1) {
-                    return false;
+                ถ้า (!tmp1) {
+                    คืน false;
                 }
                 src = tmp1;
                 srcrect2.x = 0;
@@ -1355,7 +1355,7 @@ bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, S
             }
 
             // Intermediate scaling
-            if (is_complex_copy_flags || src->format != dst->format) {
+            ถ้า (is_complex_copy_flags || src->format != dst->format) {
                 SDL_Rect tmprect;
                 SDL_Surface *tmp2 = SDL_CreateSurfaceUninitialized(dstrect->w, dstrect->h, src->format);
                 SDL_StretchSurface(src, &srcrect2, tmp2, NULL, SDL_SCALEMODE_LINEAR);
@@ -1370,12 +1370,12 @@ bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, S
                 tmprect.h = dstrect->h;
                 result = SDL_BlitSurfaceUnchecked(tmp2, &tmprect, dst, dstrect);
                 SDL_DestroySurface(tmp2);
-            } else {
+            } มิฉะนั้น {
                 result = SDL_StretchSurface(src, &srcrect2, dst, dstrect, SDL_SCALEMODE_LINEAR);
             }
 
             SDL_DestroySurface(tmp1);
-            return result;
+            คืน result;
         }
     }
 }
@@ -1386,13 +1386,13 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        คืน SDL_SetError("Surfaces must not be locked during blit");
     }
 
     // Full src surface
@@ -1401,12 +1401,12 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ถ้า (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } มิฉะนั้น {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1414,9 +1414,9 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
-        if (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
-            return true;
+    ถ้า (srcrect) {
+        ถ้า (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
+            คืน true;
         }
 
         // For tiling we don't adjust the destination rectangle
@@ -1424,67 +1424,67 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
 
     // clip the destination rectangle against the clip rectangle
     {
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
-            return true;
+        ถ้า (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
+            คืน true;
         }
 
         // For tiling we don't adjust the source rectangle
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
+    ถ้า (src->map.info.flags & SDL_COPY_NEAREST) {
         src->map.info.flags &= ~SDL_COPY_NEAREST;
         SDL_InvalidateMap(&src->map);
     }
 
-    int rows = r_dst.h / r_src.h;
-    int cols = r_dst.w / r_src.w;
-    int remaining_w = r_dst.w % r_src.w;
-    int remaining_h = r_dst.h % r_src.h;
+    จำนวนเต็ม rows = r_dst.h / r_src.h;
+    จำนวนเต็ม cols = r_dst.w / r_src.w;
+    จำนวนเต็ม remaining_w = r_dst.w % r_src.w;
+    จำนวนเต็ม remaining_h = r_dst.h % r_src.h;
     SDL_Rect curr_src, curr_dst;
 
     SDL_copyp(&curr_src, &r_src);
     curr_dst.y = r_dst.y;
     curr_dst.w = r_src.w;
     curr_dst.h = r_src.h;
-    for (int y = 0; y < rows; ++y) {
+    สำหรับ (จำนวนเต็ม y = 0; y < rows; ++y) {
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        สำหรับ (จำนวนเต็ม x = 0; x < cols; ++x) {
+            ถ้า (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                คืน false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_w) {
+        ถ้า (remaining_w) {
             curr_src.w = remaining_w;
             curr_dst.w = remaining_w;
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+            ถ้า (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                คืน false;
             }
             curr_src.w = r_src.w;
             curr_dst.w = r_src.w;
         }
         curr_dst.y += curr_dst.h;
     }
-    if (remaining_h) {
+    ถ้า (remaining_h) {
         curr_src.h = remaining_h;
         curr_dst.h = remaining_h;
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        สำหรับ (จำนวนเต็ม x = 0; x < cols; ++x) {
+            ถ้า (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                คืน false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_w) {
+        ถ้า (remaining_w) {
             curr_src.w = remaining_w;
             curr_dst.w = remaining_w;
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+            ถ้า (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                คืน false;
             }
         }
     }
-    return true;
+    คืน true;
 }
 
 bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
@@ -1493,16 +1493,16 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        คืน SDL_SetError("Surfaces must not be locked during blit");
     }
     CHECK_PARAM(scale < 0.0f) {
-        return SDL_InvalidParamError("scale");
+        คืน SDL_InvalidParamError("scale");
     }
 
     // Full src surface
@@ -1511,12 +1511,12 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ถ้า (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } มิฉะนั้น {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1524,9 +1524,9 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
-        if (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
-            return true;
+    ถ้า (srcrect) {
+        ถ้า (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
+            คืน true;
         }
 
         // For tiling we don't adjust the destination rectangle
@@ -1534,95 +1534,95 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
 
     // clip the destination rectangle against the clip rectangle
     {
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
-            return true;
+        ถ้า (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
+            คืน true;
         }
 
         // For tiling we don't adjust the source rectangle
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
+    ถ้า (src->map.info.flags & SDL_COPY_NEAREST) {
         src->map.info.flags &= ~SDL_COPY_NEAREST;
         SDL_InvalidateMap(&src->map);
     }
 
-    int tile_width = (int)SDL_roundf(r_src.w * scale);
-    int tile_height = (int)SDL_roundf(r_src.h * scale);
-    if (tile_width <= 0 || tile_height <= 0) {
+    จำนวนเต็ม tile_width = (จำนวนเต็ม)SDL_roundf(r_src.w * scale);
+    จำนวนเต็ม tile_height = (จำนวนเต็ม)SDL_roundf(r_src.h * scale);
+    ถ้า (tile_width <= 0 || tile_height <= 0) {
         // Nothing to do
-        return true;
+        คืน true;
     }
-    int rows = r_dst.h / tile_height;
-    int cols = r_dst.w / tile_width;
-    int remaining_dst_w = (r_dst.w - cols * tile_width);
-    int remaining_dst_h = (r_dst.h - rows * tile_height);
-    int remaining_src_w = (int)(remaining_dst_w / scale);
-    int remaining_src_h = (int)(remaining_dst_h / scale);
+    จำนวนเต็ม rows = r_dst.h / tile_height;
+    จำนวนเต็ม cols = r_dst.w / tile_width;
+    จำนวนเต็ม remaining_dst_w = (r_dst.w - cols * tile_width);
+    จำนวนเต็ม remaining_dst_h = (r_dst.h - rows * tile_height);
+    จำนวนเต็ม remaining_src_w = (จำนวนเต็ม)(remaining_dst_w / scale);
+    จำนวนเต็ม remaining_src_h = (จำนวนเต็ม)(remaining_dst_h / scale);
     SDL_Rect curr_src, curr_dst;
 
     SDL_copyp(&curr_src, &r_src);
     curr_dst.y = r_dst.y;
     curr_dst.w = tile_width;
     curr_dst.h = tile_height;
-    for (int y = 0; y < rows; ++y) {
+    สำหรับ (จำนวนเต็ม y = 0; y < rows; ++y) {
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        สำหรับ (จำนวนเต็ม x = 0; x < cols; ++x) {
+            ถ้า (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+                คืน false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_dst_w > 0) {
+        ถ้า (remaining_dst_w > 0) {
             curr_src.w = remaining_src_w;
             curr_dst.w = remaining_dst_w;
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+            ถ้า (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+                คืน false;
             }
             curr_src.w = r_src.w;
             curr_dst.w = tile_width;
         }
         curr_dst.y += curr_dst.h;
     }
-    if (remaining_dst_h > 0) {
+    ถ้า (remaining_dst_h > 0) {
         curr_src.h = remaining_src_h;
         curr_dst.h = remaining_dst_h;
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        สำหรับ (จำนวนเต็ม x = 0; x < cols; ++x) {
+            ถ้า (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+                คืน false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_dst_w > 0) {
+        ถ้า (remaining_dst_w > 0) {
             curr_src.w = remaining_src_w;
             curr_dst.w = remaining_dst_w;
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+            ถ้า (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+                คืน false;
             }
         }
     }
-    return true;
+    คืน true;
 }
 
-bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_width, int right_width, int top_height, int bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, จำนวนเต็ม left_width, จำนวนเต็ม right_width, จำนวนเต็ม top_height, จำนวนเต็ม bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
 {
     SDL_Rect full_src, full_dst;
     SDL_Rect curr_src, curr_dst;
-    int dst_left_width;
-    int dst_right_width;
-    int dst_top_height;
-    int dst_bottom_height;
+    จำนวนเต็ม dst_left_width;
+    จำนวนเต็ม dst_right_width;
+    จำนวนเต็ม dst_top_height;
+    จำนวนเต็ม dst_bottom_height;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
 
-    if (!srcrect) {
+    ถ้า (!srcrect) {
         full_src.x = 0;
         full_src.y = 0;
         full_src.w = src->w;
@@ -1630,7 +1630,7 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
         srcrect = &full_src;
     }
 
-    if (!dstrect) {
+    ถ้า (!dstrect) {
         full_dst.x = 0;
         full_dst.y = 0;
         full_dst.w = dst->w;
@@ -1638,16 +1638,16 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
         dstrect = &full_dst;
     }
 
-    if (scale <= 0.0f || scale == 1.0f) {
+    ถ้า (scale <= 0.0f || scale == 1.0f) {
         dst_left_width = left_width;
         dst_right_width = right_width;
         dst_top_height = top_height;
         dst_bottom_height = bottom_height;
-    } else {
-        dst_left_width = (int)SDL_roundf(left_width * scale);
-        dst_right_width = (int)SDL_roundf(right_width * scale);
-        dst_top_height = (int)SDL_roundf(top_height * scale);
-        dst_bottom_height = (int)SDL_roundf(bottom_height * scale);
+    } มิฉะนั้น {
+        dst_left_width = (จำนวนเต็ม)SDL_roundf(left_width * scale);
+        dst_right_width = (จำนวนเต็ม)SDL_roundf(right_width * scale);
+        dst_top_height = (จำนวนเต็ม)SDL_roundf(top_height * scale);
+        dst_bottom_height = (จำนวนเต็ม)SDL_roundf(bottom_height * scale);
     }
 
     // Upper-left corner
@@ -1659,8 +1659,8 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_dst.y = dstrect->y;
     curr_dst.w = dst_left_width;
     curr_dst.h = dst_top_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Upper-right corner
@@ -1668,16 +1668,16 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_src.w = right_width;
     curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
     curr_dst.w = dst_right_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Lower-right corner
     curr_src.y = srcrect->y + srcrect->h - bottom_height;
     curr_dst.y = dstrect->y + dstrect->h - dst_bottom_height;
     curr_dst.h = dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Lower-left corner
@@ -1685,8 +1685,8 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_src.w = left_width;
     curr_dst.x = dstrect->x;
     curr_dst.w = dst_left_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Left
@@ -1694,8 +1694,8 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_src.h = srcrect->h - top_height - bottom_height;
     curr_dst.y = dstrect->y + dst_top_height;
     curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Right
@@ -1703,8 +1703,8 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_src.w = right_width;
     curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
     curr_dst.w = dst_right_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Top
@@ -1716,16 +1716,16 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_dst.y = dstrect->y;
     curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
     curr_dst.h = dst_top_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Bottom
     curr_src.y = srcrect->y + srcrect->h - bottom_height;
     curr_dst.y = dstrect->y + dstrect->h - dst_bottom_height;
     curr_dst.h = dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
     // Center
@@ -1737,11 +1737,11 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     curr_dst.y = dstrect->y + dst_top_height;
     curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
     curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    ถ้า (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
+        คืน false;
     }
 
-    return true;
+    คืน true;
 }
 
 /*
@@ -1750,13 +1750,13 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
 bool SDL_LockSurface(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
-    if (!surface->locked) {
+    ถ้า (!surface->locked) {
 #ifdef SDL_HAVE_RLE
         // Perform the lock
-        if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+        ถ้า (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
             SDL_UnRLESurface(surface);
         }
 #endif
@@ -1768,7 +1768,7 @@ bool SDL_LockSurface(SDL_Surface *surface)
     SDL_UpdateSurfaceLockFlag(surface);
 
     // Ready to go..
-    return true;
+    คืน true;
 }
 
 /*
@@ -1776,13 +1776,13 @@ bool SDL_LockSurface(SDL_Surface *surface)
  */
 void SDL_UnlockSurface(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน;
     }
 
     // Only perform an unlock if we are locked
-    if (!surface->locked || (--surface->locked > 0)) {
-        return;
+    ถ้า (!surface->locked || (--surface->locked > 0)) {
+        คืน;
     }
 
     surface->flags &= ~SDL_SURFACE_LOCKED;
@@ -1793,31 +1793,31 @@ static bool SDL_FlipSurfaceHorizontal(SDL_Surface *surface)
 {
     bool isstack;
     Uint8 *row, *a, *b, *tmp;
-    int i, j, bpp;
+    จำนวนเต็ม i, j, bpp;
 
-    if (SDL_BITSPERPIXEL(surface->format) < 8) {
+    ถ้า (SDL_BITSPERPIXEL(surface->format) < 8) {
         // We could implement this if needed, but we'd have to flip sets of bits within a byte
-        return SDL_Unsupported();
+        คืน SDL_Unsupported();
     }
 
-    if (surface->h <= 0) {
-        return true;
+    ถ้า (surface->h <= 0) {
+        คืน true;
     }
 
-    if (surface->w <= 1) {
-        return true;
+    ถ้า (surface->w <= 1) {
+        คืน true;
     }
 
     bpp = SDL_BYTESPERPIXEL(surface->format);
     row = (Uint8 *)surface->pixels;
     tmp = SDL_small_alloc(Uint8, surface->pitch, &isstack);
-    if (!tmp) {
-        return false;
+    ถ้า (!tmp) {
+        คืน false;
     }
-    for (i = surface->h; i--; ) {
+    สำหรับ (i = surface->h; i--; ) {
         a = row;
         b = a + (surface->w - 1) * bpp;
-        for (j = surface->w / 2; j--; ) {
+        สำหรับ (j = surface->w / 2; j--; ) {
             SDL_memcpy(tmp, a, bpp);
             SDL_memcpy(a, b, bpp);
             SDL_memcpy(b, tmp, bpp);
@@ -1827,26 +1827,26 @@ static bool SDL_FlipSurfaceHorizontal(SDL_Surface *surface)
         row += surface->pitch;
     }
     SDL_small_free(tmp, isstack);
-    return true;
+    คืน true;
 }
 
 static bool SDL_FlipSurfaceVertical(SDL_Surface *surface)
 {
     bool isstack;
     Uint8 *a, *b, *tmp;
-    int i;
+    จำนวนเต็ม i;
 
-    if (surface->h <= 1) {
-        return true;
+    ถ้า (surface->h <= 1) {
+        คืน true;
     }
 
     a = (Uint8 *)surface->pixels;
     b = a + (surface->h - 1) * surface->pitch;
     tmp = SDL_small_alloc(Uint8, surface->pitch, &isstack);
-    if (!tmp) {
-        return false;
+    ถ้า (!tmp) {
+        คืน false;
     }
-    for (i = surface->h / 2; i--; ) {
+    สำหรับ (i = surface->h / 2; i--; ) {
         SDL_memcpy(tmp, a, surface->pitch);
         SDL_memcpy(a, b, surface->pitch);
         SDL_memcpy(b, tmp, surface->pitch);
@@ -1854,35 +1854,35 @@ static bool SDL_FlipSurfaceVertical(SDL_Surface *surface)
         b -= surface->pitch;
     }
     SDL_small_free(tmp, isstack);
-    return true;
+    คืน true;
 }
 
 bool SDL_FlipSurface(SDL_Surface *surface, SDL_FlipMode flip)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
-    if (!surface->pixels) {
-        return true;
+    ถ้า (!surface->pixels) {
+        คืน true;
     }
 
     bool result = true;
     switch (flip) {
-    case SDL_FLIP_HORIZONTAL:
+    pak_sa SDL_FLIP_HORIZONTAL:
         result = SDL_FlipSurfaceHorizontal(surface);
-        break;
-    case SDL_FLIP_VERTICAL:
+        bha_nga;
+    pak_sa SDL_FLIP_VERTICAL:
         result = SDL_FlipSurfaceVertical(surface);
-        break;
-    case SDL_FLIP_HORIZONTAL_AND_VERTICAL:
+        bha_nga;
+    pak_sa SDL_FLIP_HORIZONTAL_AND_VERTICAL:
         result &= SDL_FlipSurfaceHorizontal(surface);
         result &= SDL_FlipSurfaceVertical(surface);
-        break;
+        bha_nga;
     default:
         result = SDL_InvalidParamError("flip");
-        break;
+        bha_nga;
     }
-    return result;
+    คืน result;
 }
 
 static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format, SDL_Palette *palette, SDL_Colorspace colorspace, SDL_PropertiesID props)
@@ -1898,7 +1898,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     bool palette_ck_transform = false;
     Uint8 palette_ck_value = 0;
     Uint8 *palette_saved_alpha = NULL;
-    int palette_saved_alpha_ncolors = 0;
+    จำนวนเต็ม palette_saved_alpha_ncolors = 0;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
@@ -1915,29 +1915,29 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     bounds.y = 0;
     bounds.w = surface->w;
     bounds.h = surface->h;
-    if (rect) {
+    ถ้า (rect) {
         bounds.w = rect->w;
         bounds.h = rect->h;
-    } else {
+    } มิฉะนั้น {
         rect = &bounds;
     }
 
     // Check for empty destination palette! (results in empty image)
-    if (palette) {
-        int i;
-        for (i = 0; i < palette->ncolors; ++i) {
-            if ((palette->colors[i].r != 0xFF) || (palette->colors[i].g != 0xFF) || (palette->colors[i].b != 0xFF)) {
-                break;
+    ถ้า (palette) {
+        จำนวนเต็ม i;
+        สำหรับ (i = 0; i < palette->ncolors; ++i) {
+            ถ้า ((palette->colors[i].r != 0xFF) || (palette->colors[i].g != 0xFF) || (palette->colors[i].b != 0xFF)) {
+                bha_nga;
             }
         }
-        if (i == palette->ncolors) {
+        ถ้า (i == palette->ncolors) {
             SDL_SetError("Empty destination palette");
             goto error;
         }
-    } else if (SDL_ISPIXELFORMAT_INDEXED(format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_INDEXED(format)) {
         // Create a dither palette for conversion
         temp_palette = SDL_CreatePalette(1 << SDL_BITSPERPIXEL(format));
-        if (temp_palette) {
+        ถ้า (temp_palette) {
             SDL_DitherPalette(temp_palette);
             palette = temp_palette;
         }
@@ -1947,36 +1947,36 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     src_properties = surface->props;
 
     // Create a new surface with the desired format
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ถ้า (surface->pixels || SDL_MUSTLOCK(surface)) {
         convert = SDL_CreateSurfaceUninitialized(rect->w, rect->h, format);
-    } else {
+    } มิฉะนั้น {
         convert = SDL_CreateSurfaceFrom(rect->w, rect->h, format, NULL, 0);
     }
-    if (!convert) {
+    ถ้า (!convert) {
         goto error;
     }
-    if (SDL_ISPIXELFORMAT_INDEXED(format)) {
+    ถ้า (SDL_ISPIXELFORMAT_INDEXED(format)) {
         SDL_SetSurfacePalette(convert, palette);
     }
 
-    if (colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ถ้า (colorspace == SDL_COLORSPACE_UNKNOWN) {
         colorspace = src_colorspace;
     }
     SDL_SetSurfaceColorspace(convert, colorspace);
 
-    if (SDL_ISPIXELFORMAT_FOURCC(format) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        if (surface->format == SDL_PIXELFORMAT_MJPG && format == SDL_PIXELFORMAT_MJPG) {
+    ถ้า (SDL_ISPIXELFORMAT_FOURCC(format) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ถ้า (surface->format == SDL_PIXELFORMAT_MJPG && format == SDL_PIXELFORMAT_MJPG) {
             // Just do a straight pixel copy of the JPEG image
             size_t size = (size_t)surface->pitch;
             convert->pixels = SDL_malloc(size);
-            if (!convert->pixels) {
+            ถ้า (!convert->pixels) {
                 goto error;
             }
             convert->flags &= ~SDL_SURFACE_PREALLOCATED;
             convert->pitch = surface->pitch;
             SDL_memcpy(convert->pixels, surface->pixels, size);
 
-        } else if (!SDL_ConvertPixelsAndColorspace(surface->w, surface->h, surface->format, src_colorspace, src_properties, surface->pixels, surface->pitch, convert->format, colorspace, props, convert->pixels, convert->pitch)) {
+        } มิฉะนั้น ถ้า (!SDL_ConvertPixelsAndColorspace(surface->w, surface->h, surface->format, src_colorspace, src_properties, surface->pixels, surface->pitch, convert->format, colorspace, props, convert->pixels, convert->pitch)) {
             goto error;
         }
 
@@ -2002,25 +2002,25 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     /* Source surface has a palette with no real alpha (0 or OPAQUE).
      * Destination format has alpha.
      * -> set alpha channel to be opaque */
-    if (surface->palette && SDL_ISPIXELFORMAT_ALPHA(format)) {
+    ถ้า (surface->palette && SDL_ISPIXELFORMAT_ALPHA(format)) {
         bool set_opaque = false;
 
         bool is_opaque, has_alpha_channel;
         SDL_DetectPalette(surface->palette, &is_opaque, &has_alpha_channel);
 
-        if (is_opaque) {
-            if (!has_alpha_channel) {
+        ถ้า (is_opaque) {
+            ถ้า (!has_alpha_channel) {
                 set_opaque = true;
             }
         }
 
         // Set opaque and backup palette alpha values
-        if (set_opaque) {
-            int i;
+        ถ้า (set_opaque) {
+            จำนวนเต็ม i;
             palette_saved_alpha_ncolors = surface->palette->ncolors;
-            if (palette_saved_alpha_ncolors > 0) {
+            ถ้า (palette_saved_alpha_ncolors > 0) {
                 palette_saved_alpha = SDL_stack_alloc(Uint8, palette_saved_alpha_ncolors);
-                for (i = 0; i < palette_saved_alpha_ncolors; i++) {
+                สำหรับ (i = 0; i < palette_saved_alpha_ncolors; i++) {
                     palette_saved_alpha[i] = surface->palette->colors[i].a;
                     surface->palette->colors[i].a = SDL_ALPHA_OPAQUE;
                 }
@@ -2029,29 +2029,29 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     }
 
     // Transform colorkey to alpha. for cases where source palette has duplicate values, and colorkey is one of them
-    if (copy_flags & SDL_COPY_COLORKEY) {
-        if (surface->palette && !palette) {
+    ถ้า (copy_flags & SDL_COPY_COLORKEY) {
+        ถ้า (surface->palette && !palette) {
             palette_ck_transform = true;
             palette_ck_value = surface->palette->colors[surface->map.info.colorkey].a;
             surface->palette->colors[surface->map.info.colorkey].a = SDL_ALPHA_TRANSPARENT;
         }
     }
 
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ถ้า (surface->pixels || SDL_MUSTLOCK(surface)) {
         result = SDL_BlitSurfaceUnchecked(surface, rect, convert, &bounds);
-    } else {
+    } มิฉะนั้น {
         result = true;
     }
 
     // Restore colorkey alpha value
-    if (palette_ck_transform) {
+    ถ้า (palette_ck_transform) {
         surface->palette->colors[surface->map.info.colorkey].a = palette_ck_value;
     }
 
     // Restore palette alpha values
-    if (palette_saved_alpha) {
-        int i;
-        for (i = 0; i < palette_saved_alpha_ncolors; i++) {
+    ถ้า (palette_saved_alpha) {
+        จำนวนเต็ม i;
+        สำหรับ (i = 0; i < palette_saved_alpha_ncolors; i++) {
             surface->palette->colors[i].a = palette_saved_alpha[i];
         }
         SDL_stack_free(palette_saved_alpha);
@@ -2074,49 +2074,49 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     SDL_InvalidateMap(&surface->map);
 
     // SDL_BlitSurfaceUnchecked failed, and so the conversion
-    if (!result) {
+    ถ้า (!result) {
         goto error;
     }
 
-    if (copy_flags & SDL_COPY_COLORKEY) {
+    ถ้า (copy_flags & SDL_COPY_COLORKEY) {
         bool set_colorkey_by_color = false;
         bool convert_colorkey = true;
 
-        if (surface->palette) {
-            if (palette &&
+        ถ้า (surface->palette) {
+            ถ้า (palette &&
                 surface->palette->ncolors <= palette->ncolors &&
                 (SDL_memcmp(surface->palette->colors, palette->colors,
-                            surface->palette->ncolors * sizeof(SDL_Color)) == 0)) {
+                            surface->palette->ncolors * parimaa_na(SDL_Color)) == 0)) {
                 // The palette is identical, just set the same colorkey
                 SDL_SetSurfaceColorKey(convert, true, surface->map.info.colorkey);
-            } else if (!palette) {
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) {
+            } มิฉะนั้น ถ้า (!palette) {
+                ถ้า (SDL_ISPIXELFORMAT_ALPHA(format)) {
                     // No need to add the colorkey, transparency is in the alpha channel
-                } else {
+                } มิฉะนั้น {
                     // Only set the colorkey information
                     set_colorkey_by_color = true;
                     convert_colorkey = false;
                 }
-            } else {
+            } มิฉะนั้น {
                 set_colorkey_by_color = true;
             }
-        } else {
+        } มิฉะนั้น {
             set_colorkey_by_color = true;
         }
 
-        if (set_colorkey_by_color) {
+        ถ้า (set_colorkey_by_color) {
             SDL_Surface *tmp;
             SDL_Surface *tmp2;
-            int converted_colorkey = 0;
+            จำนวนเต็ม converted_colorkey = 0;
 
             // Create a dummy surface to get the colorkey converted
             tmp = SDL_CreateSurfaceUninitialized(1, 1, surface->format);
-            if (!tmp) {
+            ถ้า (!tmp) {
                 goto error;
             }
 
             // Share the palette, if any
-            if (surface->palette) {
+            ถ้า (surface->palette) {
                 SDL_SetSurfacePalette(tmp, surface->palette);
             }
 
@@ -2126,7 +2126,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
 
             // Conversion of the colorkey
             tmp2 = SDL_ConvertSurfaceAndColorspace(tmp, format, palette, colorspace, props);
-            if (!tmp2) {
+            ถ้า (!tmp2) {
                 SDL_DestroySurface(tmp);
                 goto error;
             }
@@ -2141,14 +2141,14 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
             SDL_SetSurfaceColorKey(convert, true, converted_colorkey);
 
             // This is needed when converting for 3D texture upload
-            if (convert_colorkey) {
+            ถ้า (convert_colorkey) {
                 SDL_ConvertColorkeyToAlpha(convert, true);
             }
         }
     }
 
 end:
-    if (temp_palette) {
+    ถ้า (temp_palette) {
         SDL_DestroyPalette(temp_palette);
     }
 
@@ -2156,24 +2156,24 @@ end:
 
     /* Enable alpha blending by default if the new surface has an
      * alpha channel or alpha modulation */
-    if (SDL_ISPIXELFORMAT_ALPHA(format) ||
+    ถ้า (SDL_ISPIXELFORMAT_ALPHA(format) ||
         (copy_flags & SDL_COPY_MODULATE_ALPHA)) {
         SDL_SetSurfaceBlendMode(convert, SDL_BLENDMODE_BLEND);
     }
-    if (copy_flags & SDL_COPY_RLE_DESIRED) {
+    ถ้า (copy_flags & SDL_COPY_RLE_DESIRED) {
         SDL_SetSurfaceRLE(convert, true);
     }
 
     // Copy alternate images
-    for (int i = 0; i < surface->num_images; ++i) {
-        if (!SDL_AddSurfaceAlternateImage(convert, surface->images[i])) {
+    สำหรับ (จำนวนเต็ม i = 0; i < surface->num_images; ++i) {
+        ถ้า (!SDL_AddSurfaceAlternateImage(convert, surface->images[i])) {
             goto error;
         }
     }
 
     // Copy properties
-    if (surface->props) {
-        if (!SDL_CopyProperties(surface->props, SDL_GetSurfaceProperties(convert))) {
+    ถ้า (surface->props) {
+        ถ้า (!SDL_CopyProperties(surface->props, SDL_GetSurfaceProperties(convert))) {
             goto error;
         }
 
@@ -2182,21 +2182,21 @@ end:
     }
 
     // We're ready to go!
-    return convert;
+    คืน convert;
 
 error:
-    if (temp_palette) {
+    ถ้า (temp_palette) {
         SDL_DestroyPalette(temp_palette);
     }
-    if (convert) {
+    ถ้า (convert) {
         SDL_DestroySurface(convert);
     }
-    return NULL;
+    คืน NULL;
 }
 
 SDL_Surface *SDL_ConvertSurfaceAndColorspace(SDL_Surface *surface, SDL_PixelFormat format, SDL_Palette *palette, SDL_Colorspace colorspace, SDL_PropertiesID props)
 {
-    return SDL_ConvertSurfaceRectAndColorspace(surface, NULL, format, palette, colorspace, props);
+    คืน SDL_ConvertSurfaceRectAndColorspace(surface, NULL, format, palette, colorspace, props);
 }
 
 SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
@@ -2205,23 +2205,23 @@ SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
     SDL_Rect rect_dest;
-    double cangle, sangle;
+    dviguu_na cangle, sangle;
     SDL_FPoint center = { surface->w * 0.5f, surface->h * 0.5f };
     SDLgfx_rotozoomSurfaceSizeTrig(surface->w, surface->h, angle, &center, &rect_dest, &cangle, &sangle);
 
     // This function requires a 32-bit surface or 8-bit surface with a colorkey
-    if ((SDL_BITSPERPIXEL(surface->format) == 32 && SDL_PIXELLAYOUT(surface->format) == SDL_PACKEDLAYOUT_8888) ||
+    ถ้า ((SDL_BITSPERPIXEL(surface->format) == 32 && SDL_PIXELLAYOUT(surface->format) == SDL_PACKEDLAYOUT_8888) ||
         (surface->format == SDL_PIXELFORMAT_INDEX8 && SDL_SurfaceHasColorKey(surface))) {
         rotated = SDLgfx_rotateSurface(surface, angle, 1, 0, 0, &rect_dest, cangle, sangle, &center);
-    } else {
+    } มิฉะนั้น {
         SDL_Surface *convert = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-        if (convert) {
+        ถ้า (convert) {
             SDL_Surface *tmp = SDLgfx_rotateSurface(convert, angle, 1, 0, 0, &rect_dest, cangle, sangle, &center);
-            if (tmp) {
+            ถ้า (tmp) {
                 rotated = SDL_ConvertSurfaceAndColorspace(tmp, surface->format, surface->palette, surface->colorspace, surface->props);
                 SDL_DestroySurface(tmp);
             }
@@ -2229,27 +2229,27 @@ SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
         }
     }
 
-    if (rotated) {
-        if (SDL_HasProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT)) {
+    ถ้า (rotated) {
+        ถ้า (SDL_HasProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT)) {
             const float rotation = (SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT, 0) - angle);
             SDL_SetFloatProperty(SDL_GetSurfaceProperties(rotated), SDL_PROP_SURFACE_ROTATION_FLOAT, rotation);
         }
     }
 
-    return rotated;
+    คืน rotated;
 }
 
 SDL_Surface *SDL_DuplicateSurface(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
-    return SDL_ConvertSurfaceAndColorspace(surface, surface->format, surface->palette, surface->colorspace, surface->props);
+    คืน SDL_ConvertSurfaceAndColorspace(surface, surface->format, surface->palette, surface->colorspace, surface->props);
 }
 
-SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_ScaleMode scaleMode)
+SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, จำนวนเต็ม width, จำนวนเต็ม height, SDL_ScaleMode scaleMode)
 {
     SDL_Surface *convert = NULL;
     Uint32 copy_flags;
@@ -2261,43 +2261,43 @@ SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_S
         goto error;
     }
 
-    if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // We can't directly scale a YUV surface (yet!)
         SDL_Surface *tmp = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (!tmp) {
-            return NULL;
+        ถ้า (!tmp) {
+            คืน NULL;
         }
 
         SDL_Surface *scaled = SDL_ScaleSurface(tmp, width, height, scaleMode);
         SDL_DestroySurface(tmp);
-        if (!scaled) {
-            return NULL;
+        ถ้า (!scaled) {
+            คืน NULL;
         }
 
         SDL_Surface *result = SDL_ConvertSurfaceAndColorspace(scaled, surface->format, NULL, surface->colorspace, surface->props);
         SDL_DestroySurface(scaled);
-        return result;
+        คืน result;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+    ถ้า (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
         // Linear scaling requires conversion to RGBA and then slow pixel color lookup
         scaleMode = SDL_SCALEMODE_NEAREST;
     }
 
     // Create a new surface with the desired size
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ถ้า (surface->pixels || SDL_MUSTLOCK(surface)) {
         convert = SDL_CreateSurfaceUninitialized(width, height, surface->format);
-    } else {
+    } มิฉะนั้น {
         convert = SDL_CreateSurfaceFrom(width, height, surface->format, NULL, 0);
     }
-    if (!convert) {
+    ถ้า (!convert) {
         goto error;
     }
     SDL_SetSurfacePalette(convert, surface->palette);
     SDL_SetSurfaceColorspace(convert, surface->colorspace);
     SDL_SetSurfaceRLE(convert, SDL_SurfaceHasRLE(surface));
 
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ถ้า (surface->pixels || SDL_MUSTLOCK(surface)) {
         // Save the original copy flags
         copy_flags = surface->map.info.flags;
         copy_color.r = surface->map.info.r;
@@ -2325,70 +2325,70 @@ SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_S
         surface->map.info.a = copy_color.a;
         surface->map.info.flags = copy_flags;
         SDL_InvalidateMap(&surface->map);
-    } else {
+    } มิฉะนั้น {
         rc = true;
     }
 
     // SDL_BlitSurfaceScaled failed, and so the conversion
-    if (!rc) {
+    ถ้า (!rc) {
         goto error;
     }
 
     // We're ready to go!
-    return convert;
+    คืน convert;
 
 error:
-    if (convert) {
+    ถ้า (convert) {
         SDL_DestroySurface(convert);
     }
-    return NULL;
+    คืน NULL;
 }
 
 SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        คืน NULL;
     }
 
-    return SDL_ConvertSurfaceRectAndColorspace(surface, rect, format, NULL, SDL_GetDefaultColorspaceForFormat(format), surface->props);
+    คืน SDL_ConvertSurfaceRectAndColorspace(surface, rect, format, NULL, SDL_GetDefaultColorspaceForFormat(format), surface->props);
 }
 
 SDL_Surface *SDL_ConvertSurface(SDL_Surface *surface, SDL_PixelFormat format)
 {
-    return SDL_ConvertSurfaceRect(surface, NULL, format);
+    คืน SDL_ConvertSurfaceRect(surface, NULL, format);
 }
 
-SDL_Surface *SDL_DuplicatePixels(int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, int pitch)
+SDL_Surface *SDL_DuplicatePixels(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, จำนวนเต็ม pitch)
 {
     SDL_Surface *surface;
-    if (pixels) {
+    ถ้า (pixels) {
         surface = SDL_CreateSurfaceUninitialized(width, height, format);
-    } else {
+    } มิฉะนั้น {
         surface = SDL_CreateSurfaceFrom(width, height, format, NULL, 0);
     }
-    if (!surface) {
-        return NULL;
+    ถ้า (!surface) {
+        คืน NULL;
     }
     SDL_SetSurfaceColorspace(surface, colorspace);
 
-    if (surface->pixels) {
-        int length = width * SDL_BYTESPERPIXEL(format);
+    ถ้า (surface->pixels) {
+        จำนวนเต็ม length = width * SDL_BYTESPERPIXEL(format);
         Uint8 *src = (Uint8 *)pixels;
         Uint8 *dst = (Uint8 *)surface->pixels;
-        int rows = height;
-        while (rows--) {
+        จำนวนเต็ม rows = height;
+        ขณะ (rows--) {
             SDL_memcpy(dst, src, length);
             dst += surface->pitch;
             src += pitch;
         }
     }
-    return surface;
+    คืน surface;
 }
 
-bool SDL_ConvertPixelsAndColorspace(int width, int height,
-                      SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                      SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixelsAndColorspace(จำนวนเต็ม width, จำนวนเต็ม height,
+                      SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, จำนวนเต็ม src_pitch,
+                      SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, จำนวนเต็ม dst_pitch)
 {
     SDL_Surface src_surface;
     SDL_Surface dst_surface;
@@ -2397,67 +2397,67 @@ bool SDL_ConvertPixelsAndColorspace(int width, int height,
     bool result;
 
     CHECK_PARAM(!src) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!src_pitch) {
-        return SDL_InvalidParamError("src_pitch");
+        คืน SDL_InvalidParamError("src_pitch");
     }
     CHECK_PARAM(!dst) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM(!dst_pitch) {
-        return SDL_InvalidParamError("dst_pitch");
+        คืน SDL_InvalidParamError("dst_pitch");
     }
 
-    if (src_colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ถ้า (src_colorspace == SDL_COLORSPACE_UNKNOWN) {
         src_colorspace = SDL_GetDefaultColorspaceForFormat(src_format);
     }
-    if (dst_colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ถ้า (dst_colorspace == SDL_COLORSPACE_UNKNOWN) {
         dst_colorspace = SDL_GetDefaultColorspaceForFormat(dst_format);
     }
 
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        return SDL_ConvertPixels_STB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    ถ้า (src_format == SDL_PIXELFORMAT_MJPG) {
+        คืน SDL_ConvertPixels_STB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
     }
 
 #ifdef SDL_HAVE_YUV
-    if (SDL_ISPIXELFORMAT_FOURCC(src_format) && SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_ConvertPixels_YUV_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(src_format)) {
-        return SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_ConvertPixels_RGB_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    ถ้า (SDL_ISPIXELFORMAT_FOURCC(src_format) && SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        คืน SDL_ConvertPixels_YUV_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(src_format)) {
+        คืน SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        คืน SDL_ConvertPixels_RGB_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
     }
-#else
-    if (SDL_ISPIXELFORMAT_FOURCC(src_format) || SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_SetError("SDL not built with YUV support");
+#มิฉะนั้น
+    ถ้า (SDL_ISPIXELFORMAT_FOURCC(src_format) || SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        คืน SDL_SetError("SDL not built with YUV support");
     }
 #endif
 
     // Fast path for same format copy
-    if (src_format == dst_format && src_colorspace == dst_colorspace) {
-        if (src_pitch == dst_pitch) {
+    ถ้า (src_format == dst_format && src_colorspace == dst_colorspace) {
+        ถ้า (src_pitch == dst_pitch) {
             SDL_memcpy(dst, src, height * src_pitch);
-        } else {
-            int i;
-            const int bpp = SDL_BYTESPERPIXEL(src_format);
+        } มิฉะนั้น {
+            จำนวนเต็ม i;
+            const จำนวนเต็ม bpp = SDL_BYTESPERPIXEL(src_format);
             width *= bpp;
-            for (i = height; i--;) {
+            สำหรับ (i = height; i--;) {
                 SDL_memcpy(dst, src, width);
                 src = (const Uint8 *)src + src_pitch;
                 dst = (Uint8 *)dst + dst_pitch;
             }
         }
-        return true;
+        คืน true;
     }
 
-    if (!SDL_InitializeSurface(&src_surface, width, height, src_format, src_colorspace, src_properties, nonconst_src, src_pitch, true)) {
-        return false;
+    ถ้า (!SDL_InitializeSurface(&src_surface, width, height, src_format, src_colorspace, src_properties, nonconst_src, src_pitch, true)) {
+        คืน false;
     }
     SDL_SetSurfaceBlendMode(&src_surface, SDL_BLENDMODE_NONE);
 
-    if (!SDL_InitializeSurface(&dst_surface, width, height, dst_format, dst_colorspace, dst_properties, dst, dst_pitch, true)) {
-        return false;
+    ถ้า (!SDL_InitializeSurface(&dst_surface, width, height, dst_format, dst_colorspace, dst_properties, dst, dst_pitch, true)) {
+        คืน false;
     }
 
     // Set up the rect and go!
@@ -2470,12 +2470,12 @@ bool SDL_ConvertPixelsAndColorspace(int width, int height,
     SDL_DestroySurface(&src_surface);
     SDL_DestroySurface(&dst_surface);
 
-    return result;
+    คืน result;
 }
 
-bool SDL_ConvertPixels(int width, int height, SDL_PixelFormat src_format, const void *src, int src_pitch, SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+bool SDL_ConvertPixels(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat src_format, const void *src, จำนวนเต็ม src_pitch, SDL_PixelFormat dst_format, void *dst, จำนวนเต็ม dst_pitch)
 {
-    return SDL_ConvertPixelsAndColorspace(width, height,
+    คืน SDL_ConvertPixelsAndColorspace(width, height,
                       src_format, SDL_COLORSPACE_UNKNOWN, 0, src, src_pitch,
                       dst_format, SDL_COLORSPACE_UNKNOWN, 0, dst, dst_pitch);
 }
@@ -2488,18 +2488,18 @@ bool SDL_ConvertPixels(int width, int height, SDL_PixelFormat src_format, const 
  * https://developer.arm.com/documentation/101964/0201/Pre-multiplied-alpha-channel-data
  */
 
-static void SDL_PremultiplyAlpha_AXYZ8888(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+static void SDL_PremultiplyAlpha_AXYZ8888(จำนวนเต็ม width, จำนวนเต็ม height, const void *src, จำนวนเต็ม src_pitch, void *dst, จำนวนเต็ม dst_pitch)
 {
-    int c;
+    จำนวนเต็ม c;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (height--) {
+    ขณะ (height--) {
         const Uint32 *src_px = (const Uint32 *)src;
         Uint32 *dst_px = (Uint32 *)dst;
-        for (c = width; c; --c) {
+        สำหรับ (c = width; c; --c) {
             // Component bytes extraction.
             srcpixel = *src_px++;
             RGBA_FROM_ARGB8888(srcpixel, srcR, srcG, srcB, srcA);
@@ -2519,18 +2519,18 @@ static void SDL_PremultiplyAlpha_AXYZ8888(int width, int height, const void *src
     }
 }
 
-static void SDL_PremultiplyAlpha_XYZA8888(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+static void SDL_PremultiplyAlpha_XYZA8888(จำนวนเต็ม width, จำนวนเต็ม height, const void *src, จำนวนเต็ม src_pitch, void *dst, จำนวนเต็ม dst_pitch)
 {
-    int c;
+    จำนวนเต็ม c;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (height--) {
+    ขณะ (height--) {
         const Uint32 *src_px = (const Uint32 *)src;
         Uint32 *dst_px = (Uint32 *)dst;
-        for (c = width; c; --c) {
+        สำหรับ (c = width; c; --c) {
             // Component bytes extraction.
             srcpixel = *src_px++;
             RGBA_FROM_RGBA8888(srcpixel, srcR, srcG, srcB, srcA);
@@ -2550,15 +2550,15 @@ static void SDL_PremultiplyAlpha_XYZA8888(int width, int height, const void *src
     }
 }
 
-static void SDL_PremultiplyAlpha_AXYZ128(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+static void SDL_PremultiplyAlpha_AXYZ128(จำนวนเต็ม width, จำนวนเต็ม height, const void *src, จำนวนเต็ม src_pitch, void *dst, จำนวนเต็ม dst_pitch)
 {
-    int c;
+    จำนวนเต็ม c;
     float flR, flG, flB, flA;
 
-    while (height--) {
+    ขณะ (height--) {
         const float *src_px = (const float *)src;
         float *dst_px = (float *)dst;
-        for (c = width; c; --c) {
+        สำหรับ (c = width; c; --c) {
             flA = *src_px++;
             flR = *src_px++;
             flG = *src_px++;
@@ -2579,60 +2579,60 @@ static void SDL_PremultiplyAlpha_AXYZ128(int width, int height, const void *src,
     }
 }
 
-static bool SDL_PremultiplyAlphaPixelsAndColorspace(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch, bool linear)
+static bool SDL_PremultiplyAlphaPixelsAndColorspace(จำนวนเต็ม width, จำนวนเต็ม height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, จำนวนเต็ม src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, จำนวนเต็ม dst_pitch, bool linear)
 {
     SDL_Surface *convert = NULL;
     void *final_dst = dst;
-    int final_dst_pitch = dst_pitch;
+    จำนวนเต็ม final_dst_pitch = dst_pitch;
     SDL_PixelFormat format;
     SDL_Colorspace colorspace;
     bool result = false;
 
     CHECK_PARAM(!src) {
-        return SDL_InvalidParamError("src");
+        คืน SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!src_pitch) {
-        return SDL_InvalidParamError("src_pitch");
+        คืน SDL_InvalidParamError("src_pitch");
     }
     CHECK_PARAM(!dst) {
-        return SDL_InvalidParamError("dst");
+        คืน SDL_InvalidParamError("dst");
     }
     CHECK_PARAM(!dst_pitch) {
-        return SDL_InvalidParamError("dst_pitch");
+        คืน SDL_InvalidParamError("dst_pitch");
     }
 
     // Use a high precision format if we're converting to linear colorspace or using high precision pixel formats
-    if (linear ||
+    ถ้า (linear ||
         SDL_ISPIXELFORMAT_10BIT(src_format) || SDL_BITSPERPIXEL(src_format) > 32 ||
         SDL_ISPIXELFORMAT_10BIT(dst_format) || SDL_BITSPERPIXEL(dst_format) > 32) {
-        if (src_format == SDL_PIXELFORMAT_ARGB128_FLOAT ||
+        ถ้า (src_format == SDL_PIXELFORMAT_ARGB128_FLOAT ||
             src_format == SDL_PIXELFORMAT_ABGR128_FLOAT) {
             format = src_format;
-        } else {
+        } มิฉะนั้น {
             format = SDL_PIXELFORMAT_ARGB128_FLOAT;
         }
-    } else {
-        if (src_format == SDL_PIXELFORMAT_ARGB8888 ||
+    } มิฉะนั้น {
+        ถ้า (src_format == SDL_PIXELFORMAT_ARGB8888 ||
             src_format == SDL_PIXELFORMAT_ABGR8888 ||
             src_format == SDL_PIXELFORMAT_RGBA8888 ||
             src_format == SDL_PIXELFORMAT_BGRA8888) {
             format = src_format;
-        } else {
+        } มิฉะนั้น {
             format = SDL_PIXELFORMAT_ARGB8888;
         }
     }
-    if (linear) {
+    ถ้า (linear) {
         colorspace = SDL_COLORSPACE_SRGB_LINEAR;
-    } else {
+    } มิฉะนั้น {
         colorspace = SDL_COLORSPACE_SRGB;
     }
 
-    if (src_format != format || src_colorspace != colorspace) {
+    ถ้า (src_format != format || src_colorspace != colorspace) {
         convert = SDL_CreateSurfaceUninitialized(width, height, format);
-        if (!convert) {
+        ถ้า (!convert) {
             goto done;
         }
-        if (!SDL_ConvertPixelsAndColorspace(width, height, src_format, src_colorspace, src_properties, src, src_pitch, format, colorspace, 0, convert->pixels, convert->pitch)) {
+        ถ้า (!SDL_ConvertPixelsAndColorspace(width, height, src_format, src_colorspace, src_properties, src, src_pitch, format, colorspace, 0, convert->pixels, convert->pitch)) {
             goto done;
         }
 
@@ -2641,9 +2641,9 @@ static bool SDL_PremultiplyAlphaPixelsAndColorspace(int width, int height, SDL_P
         dst = convert->pixels;
         dst_pitch = convert->pitch;
 
-    } else if (dst_format != format || dst_colorspace != colorspace) {
+    } มิฉะนั้น ถ้า (dst_format != format || dst_colorspace != colorspace) {
         convert = SDL_CreateSurfaceUninitialized(width, height, format);
-        if (!convert) {
+        ถ้า (!convert) {
             goto done;
         }
         dst = convert->pixels;
@@ -2651,45 +2651,45 @@ static bool SDL_PremultiplyAlphaPixelsAndColorspace(int width, int height, SDL_P
     }
 
     switch (format) {
-    case SDL_PIXELFORMAT_ARGB8888:
-    case SDL_PIXELFORMAT_ABGR8888:
+    pak_sa SDL_PIXELFORMAT_ARGB8888:
+    pak_sa SDL_PIXELFORMAT_ABGR8888:
         SDL_PremultiplyAlpha_AXYZ8888(width, height, src, src_pitch, dst, dst_pitch);
-        break;
-    case SDL_PIXELFORMAT_RGBA8888:
-    case SDL_PIXELFORMAT_BGRA8888:
+        bha_nga;
+    pak_sa SDL_PIXELFORMAT_RGBA8888:
+    pak_sa SDL_PIXELFORMAT_BGRA8888:
         SDL_PremultiplyAlpha_XYZA8888(width, height, src, src_pitch, dst, dst_pitch);
-        break;
-    case SDL_PIXELFORMAT_ARGB128_FLOAT:
-    case SDL_PIXELFORMAT_ABGR128_FLOAT:
+        bha_nga;
+    pak_sa SDL_PIXELFORMAT_ARGB128_FLOAT:
+    pak_sa SDL_PIXELFORMAT_ABGR128_FLOAT:
         SDL_PremultiplyAlpha_AXYZ128(width, height, src, src_pitch, dst, dst_pitch);
-        break;
+        bha_nga;
     default:
         SDL_SetError("Unexpected internal pixel format");
         goto done;
     }
 
-    if (dst != final_dst) {
-        if (!SDL_ConvertPixelsAndColorspace(width, height, format, colorspace, 0, convert->pixels, convert->pitch, dst_format, dst_colorspace, dst_properties, final_dst, final_dst_pitch)) {
+    ถ้า (dst != final_dst) {
+        ถ้า (!SDL_ConvertPixelsAndColorspace(width, height, format, colorspace, 0, convert->pixels, convert->pitch, dst_format, dst_colorspace, dst_properties, final_dst, final_dst_pitch)) {
             goto done;
         }
     }
     result = true;
 
 done:
-    if (convert) {
+    ถ้า (convert) {
         SDL_DestroySurface(convert);
     }
-    return result;
+    คืน result;
 }
 
-bool SDL_PremultiplyAlpha(int width, int height,
-                         SDL_PixelFormat src_format, const void *src, int src_pitch,
-                         SDL_PixelFormat dst_format, void *dst, int dst_pitch, bool linear)
+bool SDL_PremultiplyAlpha(จำนวนเต็ม width, จำนวนเต็ม height,
+                         SDL_PixelFormat src_format, const void *src, จำนวนเต็ม src_pitch,
+                         SDL_PixelFormat dst_format, void *dst, จำนวนเต็ม dst_pitch, bool linear)
 {
     SDL_Colorspace src_colorspace = SDL_GetDefaultColorspaceForFormat(src_format);
     SDL_Colorspace dst_colorspace = SDL_GetDefaultColorspaceForFormat(dst_format);
 
-    return SDL_PremultiplyAlphaPixelsAndColorspace(width, height, src_format, src_colorspace, 0, src, src_pitch, dst_format, dst_colorspace, 0, dst, dst_pitch, linear);
+    คืน SDL_PremultiplyAlphaPixelsAndColorspace(width, height, src_format, src_colorspace, 0, src, src_pitch, dst_format, dst_colorspace, 0, dst, dst_pitch, linear);
 }
 
 bool SDL_PremultiplySurfaceAlpha(SDL_Surface *surface, bool linear)
@@ -2697,12 +2697,12 @@ bool SDL_PremultiplySurfaceAlpha(SDL_Surface *surface, bool linear)
     SDL_Colorspace colorspace;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     colorspace = surface->colorspace;
 
-    return SDL_PremultiplyAlphaPixelsAndColorspace(surface->w, surface->h, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, linear);
+    คืน SDL_PremultiplyAlphaPixelsAndColorspace(surface->w, surface->h, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, linear);
 }
 
 bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
@@ -2711,14 +2711,14 @@ bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
     bool result = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     SDL_GetSurfaceClipRect(surface, &clip_rect);
     SDL_SetSurfaceClipRect(surface, NULL);
 
-    if (!SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
-        SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32)) {
+    ถ้า (!SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
+        SDL_BYTESPERPIXEL(surface->format) <= parimaa_na(Uint32)) {
         Uint32 color;
 
         color = SDL_MapSurfaceRGBA(surface,
@@ -2727,21 +2727,21 @@ bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
                     (Uint8)SDL_roundf(SDL_clamp(b, 0.0f, 1.0f) * 255.0f),
                     (Uint8)SDL_roundf(SDL_clamp(a, 0.0f, 1.0f) * 255.0f));
         result = SDL_FillSurfaceRect(surface, NULL, color);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // We can't directly set an RGB value on a YUV surface
         SDL_Surface *tmp = SDL_CreateSurfaceUninitialized(surface->w, surface->h, SDL_PIXELFORMAT_ARGB8888);
-        if (!tmp) {
+        ถ้า (!tmp) {
             goto done;
         }
 
-        if (SDL_ClearSurface(tmp, r, g, b, a)) {
+        ถ้า (SDL_ClearSurface(tmp, r, g, b, a)) {
             result = SDL_ConvertPixelsAndColorspace(surface->w, surface->h, tmp->format, tmp->colorspace, tmp->props, tmp->pixels, tmp->pitch, surface->format, surface->colorspace, surface->props, surface->pixels, surface->pitch);
         }
         SDL_DestroySurface(tmp);
-    } else {
+    } มิฉะนั้น {
         // Take advantage of blit color conversion
         SDL_Surface *tmp = SDL_CreateSurfaceUninitialized(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT);
-        if (!tmp) {
+        ถ้า (!tmp) {
             goto done;
         }
         SDL_SetSurfaceColorspace(tmp, surface->colorspace);
@@ -2760,25 +2760,25 @@ bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
 done:
     SDL_SetSurfaceClipRect(surface, &clip_rect);
 
-    return result;
+    คืน result;
 }
 
 Uint32 SDL_MapSurfaceRGB(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
 {
-    return SDL_MapSurfaceRGBA(surface, r, g, b, SDL_ALPHA_OPAQUE);
+    คืน SDL_MapSurfaceRGBA(surface, r, g, b, SDL_ALPHA_OPAQUE);
 }
 
 Uint32 SDL_MapSurfaceRGBA(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return true;
+        คืน true;
     }
-    return SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
+    คืน SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
 }
 
 // This function Copyright 2023 Collabora Ltd., contributed to SDL under the ZLib license
-bool SDL_ReadSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
+bool SDL_ReadSurfacePixel(SDL_Surface *surface, จำนวนเต็ม x, จำนวนเต็ม y, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
 {
     Uint32 pixel = 0;
     size_t bytes_per_pixel;
@@ -2786,76 +2786,76 @@ bool SDL_ReadSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 *r, Uint8 *g
     Uint8 *p;
     bool result = false;
 
-    if (r) {
+    ถ้า (r) {
         *r = 0;
-    } else {
+    } มิฉะนั้น {
         r = &unused;
     }
 
-    if (g) {
+    ถ้า (g) {
         *g = 0;
-    } else {
+    } มิฉะนั้น {
         g = &unused;
     }
 
-    if (b) {
+    ถ้า (b) {
         *b = 0;
-    } else {
+    } มิฉะนั้น {
         b = &unused;
     }
 
-    if (a) {
+    ถ้า (a) {
         *a = 0;
-    } else {
+    } มิฉะนั้น {
         a = &unused;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        คืน SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        คืน SDL_InvalidParamError("y");
     }
 
     bytes_per_pixel = SDL_BYTESPERPIXEL(surface->format);
 
-    if (SDL_MUSTLOCK(surface)) {
-        if (!SDL_LockSurface(surface)) {
-            return false;
+    ถ้า (SDL_MUSTLOCK(surface)) {
+        ถ้า (!SDL_LockSurface(surface)) {
+            คืน false;
         }
     }
 
     p = (Uint8 *)surface->pixels + y * surface->pitch + x * bytes_per_pixel;
 
-    if (bytes_per_pixel <= sizeof(pixel) &&
+    ถ้า (bytes_per_pixel <= parimaa_na(pixel) &&
         !SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
         SDL_COLORSPACEPRIMARIES(surface->colorspace) == SDL_COLOR_PRIMARIES_BT709) {
         /* Fill the appropriate number of least-significant bytes of pixel,
          * leaving the most-significant bytes set to zero */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        SDL_memcpy(((Uint8 *)&pixel) + (sizeof(pixel) - bytes_per_pixel), p, bytes_per_pixel);
-#else
+#ถ้า SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_memcpy(((Uint8 *)&pixel) + (parimaa_na(pixel) - bytes_per_pixel), p, bytes_per_pixel);
+#มิฉะนั้น
         SDL_memcpy(&pixel, p, bytes_per_pixel);
 #endif
         SDL_GetRGBA(pixel, surface->fmt, surface->palette, r, g, b, a);
         result = true;
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // FIXME: We need code to extract a single macroblock from a YUV surface
         SDL_Surface *converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (converted) {
+        ถ้า (converted) {
             result = SDL_ReadSurfacePixel(converted, x, y, r, g, b, a);
             SDL_DestroySurface(converted);
         }
-    } else {
+    } มิฉะนั้น {
         // This is really slow, but it gets the job done
         Uint8 rgba[4];
 
-        if (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, surface->colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, sizeof(rgba))) {
+        ถ้า (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, surface->colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, parimaa_na(rgba))) {
             *r = rgba[0];
             *g = rgba[1];
             *b = rgba[2];
@@ -2864,112 +2864,112 @@ bool SDL_ReadSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 *r, Uint8 *g
         }
     }
 
-    if (SDL_MUSTLOCK(surface)) {
+    ถ้า (SDL_MUSTLOCK(surface)) {
         SDL_UnlockSurface(surface);
     }
-    return result;
+    คืน result;
 }
 
-bool SDL_ReadSurfacePixelFloat(SDL_Surface *surface, int x, int y, float *r, float *g, float *b, float *a)
+bool SDL_ReadSurfacePixelFloat(SDL_Surface *surface, จำนวนเต็ม x, จำนวนเต็ม y, float *r, float *g, float *b, float *a)
 {
     float unused;
     bool result = false;
 
-    if (r) {
+    ถ้า (r) {
         *r = 0.0f;
-    } else {
+    } มิฉะนั้น {
         r = &unused;
     }
 
-    if (g) {
+    ถ้า (g) {
         *g = 0.0f;
-    } else {
+    } มิฉะนั้น {
         g = &unused;
     }
 
-    if (b) {
+    ถ้า (b) {
         *b = 0.0f;
-    } else {
+    } มิฉะนั้น {
         b = &unused;
     }
 
-    if (a) {
+    ถ้า (a) {
         *a = 0.0f;
-    } else {
+    } มิฉะนั้น {
         a = &unused;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        คืน SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        คืน SDL_InvalidParamError("y");
     }
 
-    if (SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32) &&
+    ถ้า (SDL_BYTESPERPIXEL(surface->format) <= parimaa_na(Uint32) &&
         !SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
         SDL_COLORSPACEPRIMARIES(surface->colorspace) == SDL_COLOR_PRIMARIES_BT709) {
         Uint8 r8, g8, b8, a8;
 
-        if (SDL_ReadSurfacePixel(surface, x, y, &r8, &g8, &b8, &a8)) {
+        ถ้า (SDL_ReadSurfacePixel(surface, x, y, &r8, &g8, &b8, &a8)) {
             *r = (float)r8 / 255.0f;
             *g = (float)g8 / 255.0f;
             *b = (float)b8 / 255.0f;
             *a = (float)a8 / 255.0f;
             result = true;
         }
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // FIXME: We need code to extract a single macroblock from a YUV surface
         SDL_Surface *converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (converted) {
+        ถ้า (converted) {
             result = SDL_ReadSurfacePixelFloat(converted, x, y, r, g, b, a);
             SDL_DestroySurface(converted);
         }
-    } else {
+    } มิฉะนั้น {
         // This is really slow, but it gets the job done
         float rgba[4];
         Uint8 *p;
 
-        if (SDL_MUSTLOCK(surface)) {
-            if (!SDL_LockSurface(surface)) {
-                return false;
+        ถ้า (SDL_MUSTLOCK(surface)) {
+            ถ้า (!SDL_LockSurface(surface)) {
+                คืน false;
             }
         }
 
         p = (Uint8 *)surface->pixels + y * surface->pitch + x * SDL_BYTESPERPIXEL(surface->format);
 
-        if (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
-            SDL_memcpy(rgba, p, sizeof(rgba));
+        ถ้า (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
+            SDL_memcpy(rgba, p, parimaa_na(rgba));
             result = true;
-        } else {
+        } มิฉะนั้น {
             SDL_Colorspace src_colorspace = surface->colorspace;
             SDL_Colorspace dst_colorspace = (src_colorspace == SDL_COLORSPACE_SRGB_LINEAR ? SDL_COLORSPACE_SRGB_LINEAR : SDL_COLORSPACE_SRGB);
 
-            if (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, src_colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA128_FLOAT, dst_colorspace, 0, rgba, sizeof(rgba))) {
+            ถ้า (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, src_colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA128_FLOAT, dst_colorspace, 0, rgba, parimaa_na(rgba))) {
                 result = true;
             }
         }
 
-        if (result) {
+        ถ้า (result) {
             *r = rgba[0];
             *g = rgba[1];
             *b = rgba[2];
             *a = rgba[3];
         }
 
-        if (SDL_MUSTLOCK(surface)) {
+        ถ้า (SDL_MUSTLOCK(surface)) {
             SDL_UnlockSurface(surface);
         }
     }
-    return result;
+    คืน result;
 }
 
-bool SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+bool SDL_WriteSurfacePixel(SDL_Surface *surface, จำนวนเต็ม x, จำนวนเต็ม y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     Uint32 pixel = 0;
     size_t bytes_per_pixel;
@@ -2977,38 +2977,38 @@ bool SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g,
     bool result = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        คืน SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        คืน SDL_InvalidParamError("y");
     }
 
     bytes_per_pixel = SDL_BYTESPERPIXEL(surface->format);
 
-    if (SDL_MUSTLOCK(surface)) {
-        if (!SDL_LockSurface(surface)) {
-            return false;
+    ถ้า (SDL_MUSTLOCK(surface)) {
+        ถ้า (!SDL_LockSurface(surface)) {
+            คืน false;
         }
     }
 
     p = (Uint8 *)surface->pixels + y * surface->pitch + x * bytes_per_pixel;
 
-    if (bytes_per_pixel <= sizeof(pixel) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ถ้า (bytes_per_pixel <= parimaa_na(pixel) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         pixel = SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        SDL_memcpy(p, ((Uint8 *)&pixel) + (sizeof(pixel) - bytes_per_pixel), bytes_per_pixel);
-#else
+#ถ้า SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_memcpy(p, ((Uint8 *)&pixel) + (parimaa_na(pixel) - bytes_per_pixel), bytes_per_pixel);
+#มิฉะนั้น
         SDL_memcpy(p, &pixel, bytes_per_pixel);
 #endif
         result = true;
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         result = SDL_Unsupported();
-    } else {
+    } มิฉะนั้น {
         // This is really slow, but it gets the job done
         Uint8 rgba[4];
 
@@ -3016,51 +3016,51 @@ bool SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g,
         rgba[1] = g;
         rgba[2] = b;
         rgba[3] = a;
-        result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, sizeof(rgba), surface->format, surface->colorspace, surface->props, p, surface->pitch);
+        result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, parimaa_na(rgba), surface->format, surface->colorspace, surface->props, p, surface->pitch);
     }
 
-    if (SDL_MUSTLOCK(surface)) {
+    ถ้า (SDL_MUSTLOCK(surface)) {
         SDL_UnlockSurface(surface);
     }
-    return result;
+    คืน result;
 }
 
-bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, int x, int y, float r, float g, float b, float a)
+bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, จำนวนเต็ม x, จำนวนเต็ม y, float r, float g, float b, float a)
 {
     bool result = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        คืน SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        คืน SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        คืน SDL_InvalidParamError("y");
     }
 
-    if (SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ถ้า (SDL_BYTESPERPIXEL(surface->format) <= parimaa_na(Uint32) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         Uint8 r8, g8, b8, a8;
 
         r8 = (Uint8)SDL_round(SDL_clamp(r, 0.0f, 1.0f) * 255.0f);
         g8 = (Uint8)SDL_round(SDL_clamp(g, 0.0f, 1.0f) * 255.0f);
         b8 = (Uint8)SDL_round(SDL_clamp(b, 0.0f, 1.0f) * 255.0f);
         a8 = (Uint8)SDL_round(SDL_clamp(a, 0.0f, 1.0f) * 255.0f);
-        if (SDL_WriteSurfacePixel(surface, x, y, r8, g8, b8, a8)) {
+        ถ้า (SDL_WriteSurfacePixel(surface, x, y, r8, g8, b8, a8)) {
             result = true;
         }
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } มิฉะนั้น ถ้า (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         result = SDL_Unsupported();
-    } else {
+    } มิฉะนั้น {
         // This is really slow, but it gets the job done
         float rgba[4];
         Uint8 *p;
 
-        if (SDL_MUSTLOCK(surface)) {
-            if (!SDL_LockSurface(surface)) {
-                return false;
+        ถ้า (SDL_MUSTLOCK(surface)) {
+            ถ้า (!SDL_LockSurface(surface)) {
+                คืน false;
             }
         }
 
@@ -3071,21 +3071,21 @@ bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, int x, int y, float r, flo
         rgba[2] = b;
         rgba[3] = a;
 
-        if (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
-            SDL_memcpy(p, rgba, sizeof(rgba));
+        ถ้า (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
+            SDL_memcpy(p, rgba, parimaa_na(rgba));
             result = true;
-        } else {
+        } มิฉะนั้น {
             SDL_Colorspace dst_colorspace = surface->colorspace;
             SDL_Colorspace src_colorspace = (dst_colorspace == SDL_COLORSPACE_SRGB_LINEAR ? SDL_COLORSPACE_SRGB_LINEAR : SDL_COLORSPACE_SRGB);
 
-            result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT, src_colorspace, 0, rgba, sizeof(rgba), surface->format, dst_colorspace, surface->props, p, surface->pitch);
+            result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT, src_colorspace, 0, rgba, parimaa_na(rgba), surface->format, dst_colorspace, surface->props, p, surface->pitch);
         }
 
-        if (SDL_MUSTLOCK(surface)) {
+        ถ้า (SDL_MUSTLOCK(surface)) {
             SDL_UnlockSurface(surface);
         }
     }
-    return result;
+    คืน result;
 }
 
 /*
@@ -3093,14 +3093,14 @@ bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, int x, int y, float r, flo
  */
 void SDL_DestroySurface(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ถ้า (!SDL_SurfaceValid(surface)) {
+        คืน;
     }
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_DONTFREE) {
-        return;
+    ถ้า (surface->internal_flags & SDL_INTERNAL_SURFACE_DONTFREE) {
+        คืน;
     }
-    if (--surface->refcount > 0) {
-        return;
+    ถ้า (--surface->refcount > 0) {
+        คืน;
     }
 
     SDL_RemoveSurfaceAlternateImages(surface);
@@ -3109,29 +3109,29 @@ void SDL_DestroySurface(SDL_Surface *surface)
 
     SDL_InvalidateMap(&surface->map);
 
-    while (surface->locked > 0) {
+    ขณะ (surface->locked > 0) {
         SDL_UnlockSurface(surface);
     }
 #ifdef SDL_HAVE_RLE
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    ถ้า (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         SDL_UnRLESurface(surface);
     }
 #endif
     SDL_SetSurfacePalette(surface, NULL);
 
-    if (surface->flags & SDL_SURFACE_PREALLOCATED) {
+    ถ้า (surface->flags & SDL_SURFACE_PREALLOCATED) {
         // Don't free
-    } else if (surface->flags & SDL_SURFACE_SIMD_ALIGNED) {
+    } มิฉะนั้น ถ้า (surface->flags & SDL_SURFACE_SIMD_ALIGNED) {
         // Free aligned
         SDL_aligned_free(surface->pixels);
-    } else {
+    } มิฉะนั้น {
         // Normal
         SDL_free(surface->pixels);
     }
 
     surface->reserved = NULL;
 
-    if (!(surface->internal_flags & SDL_INTERNAL_SURFACE_STACK)) {
+    ถ้า (!(surface->internal_flags & SDL_INTERNAL_SURFACE_STACK)) {
         SDL_free(surface);
     }
 }
@@ -3140,30 +3140,30 @@ SDL_Surface *SDL_LoadSurface_IO(SDL_IOStream *src, bool closeio)
 {
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        return NULL;
+        คืน NULL;
     }
 
-    if (SDL_IsBMP(src)) {
-        return SDL_LoadBMP_IO(src, closeio);
-    } else if (SDL_IsPNG(src)) {
-        return SDL_LoadPNG_IO(src, closeio);
-    } else if (SDL_IsJPG(src)) {
-        return SDL_LoadJPG_IO(src, closeio);
-    } else {
-        if (closeio) {
+    ถ้า (SDL_IsBMP(src)) {
+        คืน SDL_LoadBMP_IO(src, closeio);
+    } มิฉะนั้น ถ้า (SDL_IsPNG(src)) {
+        คืน SDL_LoadPNG_IO(src, closeio);
+    } มิฉะนั้น ถ้า (SDL_IsJPG(src)) {
+        คืน SDL_LoadJPG_IO(src, closeio);
+    } มิฉะนั้น {
+        ถ้า (closeio) {
             SDL_CloseIO(src);
         }
         SDL_SetError("Unsupported image format");
-        return NULL;
+        คืน NULL;
     }
 }
 
-SDL_Surface *SDL_LoadSurface(const char *file)
+SDL_Surface *SDL_LoadSurface(const var_na *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ถ้า (!stream) {
+        คืน NULL;
     }
 
-    return SDL_LoadSurface_IO(stream, true);
+    คืน SDL_LoadSurface_IO(stream, true);
 }

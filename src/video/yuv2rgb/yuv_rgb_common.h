@@ -3,7 +3,7 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
 
-typedef enum
+typedef ga_nanaa
 {
     YCBCR_601_FULL,
     YCBCR_601_LIMITED,

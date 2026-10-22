@@ -29,7 +29,7 @@
 
 typedef void (*__GLXextFuncPtr)(void);
 
-typedef enum SDL_GLSwapIntervalTearBehavior
+typedef ga_nanaa SDL_GLSwapIntervalTearBehavior
 {
     SDL_SWAPINTERVALTEAR_UNTESTED,
     SDL_SWAPINTERVALTEAR_UNKNOWN,
@@ -37,9 +37,9 @@ typedef enum SDL_GLSwapIntervalTearBehavior
     SDL_SWAPINTERVALTEAR_NVIDIA
 } SDL_GLSwapIntervalTearBehavior;
 
-struct SDL_GLDriverData
+sa_nracanaa SDL_GLDriverData
 {
-    int errorBase, eventBase;
+    จำนวนเต็ม errorBase, eventBase;
 
     bool HAS_GLX_EXT_visual_rating;
     bool HAS_GLX_EXT_visual_info;
@@ -53,42 +53,42 @@ struct SDL_GLDriverData
        implementation supports GLX_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    sa_nracanaa
     {
-        int major;
-        int minor;
+        จำนวนเต็ม major;
+        จำนวนเต็ม minor;
     } es_profile_max_supported_version;
 
     SDL_GLSwapIntervalTearBehavior swap_interval_tear_behavior;
 
-    Bool (*glXQueryExtension)(Display *, int *, int *);
+    Bool (*glXQueryExtension)(Display *, จำนวนเต็ม *, จำนวนเต็ม *);
     __GLXextFuncPtr (*glXGetProcAddress)(const GLubyte *);
-    XVisualInfo *(*glXChooseVisual)(Display *, int, int *);
+    XVisualInfo *(*glXChooseVisual)(Display *, จำนวนเต็ม, จำนวนเต็ม *);
     GLXContext (*glXCreateContext)(Display *, XVisualInfo *, GLXContext, Bool);
-    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
-    GLXFBConfig *(*glXChooseFBConfig)(Display *, int, const int *, int *);
+    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const จำนวนเต็ม *);
+    GLXFBConfig *(*glXChooseFBConfig)(Display *, จำนวนเต็ม, const จำนวนเต็ม *, จำนวนเต็ม *);
     XVisualInfo *(*glXGetVisualFromFBConfig)(Display *, GLXFBConfig);
     void (*glXDestroyContext)(Display *, GLXContext);
     Bool (*glXMakeCurrent)(Display *, GLXDrawable, GLXContext);
     void (*glXSwapBuffers)(Display *, GLXDrawable);
-    void (*glXQueryDrawable)(Display *, GLXDrawable, int, unsigned int *);
-    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, int);
-    int (*glXSwapIntervalSGI)(int);
-    int (*glXSwapIntervalMESA)(int);
-    int (*glXGetSwapIntervalMESA)(void);
+    void (*glXQueryDrawable)(Display *, GLXDrawable, จำนวนเต็ม, unsigned จำนวนเต็ม *);
+    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, จำนวนเต็ม);
+    จำนวนเต็ม (*glXSwapIntervalSGI)(จำนวนเต็ม);
+    จำนวนเต็ม (*glXSwapIntervalMESA)(จำนวนเต็ม);
+    จำนวนเต็ม (*glXGetSwapIntervalMESA)(void);
 };
 
 // OpenGL functions
-extern bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
+extern SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 extern void X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern bool X11_GL_UseEGL(SDL_VideoDevice *_this);
-extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
+extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, จำนวนเต็ม screen, bool transparent);
 extern SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, จำนวนเต็ม interval);
+extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, จำนวนเต็ม *interval);
 extern bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 

@@ -43,16 +43,16 @@
 
 // Private display data
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
+    จำนวนเต็ม numwindows;
     SDL_WindowData **windowlist;
-    int windowlistlength;
+    จำนวนเต็ม windowlistlength;
     XID window_group;
     Window clipboard_window;
     SDLX11_ClipboardData clipboard;
@@ -67,7 +67,7 @@ struct SDL_VideoData
     bool net_wm;
 
     // Useful atoms
-    struct {
+    sa_nracanaa {
         Atom WM_PROTOCOLS;
         Atom WM_DELETE_WINDOW;
         Atom WM_NAME;
@@ -139,34 +139,34 @@ struct SDL_VideoData
 
     unsigned long xinput_last_button_serial;
     unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
+    จำนวนเต็ม xinput_last_keyboard_device;
+    จำนวนเต็ม xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
 
-    int xrandr_event_base;
-    struct
+    จำนวนเต็ม xrandr_event_base;
+    sa_nracanaa
     {
         bool xkb_enabled;
         SDL_Scancode key_layout[256];
 
-        union
+        sa_ngha
         {
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+            sa_nracanaa
             {
                 XkbDescPtr desc_ptr;
                 SDL_Keymap *keymaps[XkbNumKbdGroups];
                 unsigned long last_map_serial;
-                int event;
+                จำนวนเต็ม event;
                 Uint32 current_group;
             } xkb; // Modern XKB keyboard handling
 #endif
-            struct
+            sa_nracanaa
             {
                 KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                จำนวนเต็ม keysyms_per_key;
+                จำนวนเต็ม min_keycode;
+                จำนวนเต็ม max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
