@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_x11opengles_h_
 #define SDL_x11opengles_h_
 
 #ifdef SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+प्रकारनिर्देश संरचना SDL_PrivateGLESData
 {
     // 1401 If the struct-declaration-list contains no named members, the behavior is undefined.
     // warning: empty struct has size 0 in C, size 1 in C++ [-Wc++-compat]
-    int dummy;
+    पूर्णाङ्क dummy;
 } SDL_PrivateGLESData;
 
 // OpenGLES functions
@@ -43,13 +43,13 @@ typedef struct SDL_PrivateGLESData
 #define X11_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define X11_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
-extern SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+बाह्य bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, ध्रुव वर्ण *path);
+बाह्य XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, पूर्णाङ्क screen, bool transparent);
+बाह्य SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
 
 #endif // SDL_VIDEO_OPENGL_EGL
 
