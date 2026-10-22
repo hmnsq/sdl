@@ -24,7 +24,7 @@
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-extern bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+বাহ্য bool VITA_ShowMessageBox(ধ্রুব SDL_MessageBoxData *messageboxdata, পূর্ণাঙ্ক *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_VITA
 

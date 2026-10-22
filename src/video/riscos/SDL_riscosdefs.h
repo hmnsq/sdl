@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_riscosdefs_h_
 #define SDL_riscosdefs_h_
 
-typedef struct sprite_area
+প্রকারনির্দেশ সংরচনা sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    পূর্ণাঙ্ক size;  // +0
+    পূর্ণাঙ্ক গুনতি; // +4
+    পূর্ণাঙ্ক start; // +8
+    পূর্ণাঙ্ক end;   // +12
 } sprite_area;
 
-SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
+SDL_COMPILE_TIME_ASSERT(sprite_area, পরিমাণ(sprite_area) == 16);
 
-typedef struct sprite_header
+প্রকারনির্দেশ সংরচনা sprite_header
 {
-    int next;         // +0
-    char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
+    পূর্ণাঙ্ক next;         // +0
+    বর্ণ name[12];    // +4
+    পূর্ণাঙ্ক width;        // +16
+    পূর্ণাঙ্ক height;       // +20
+    পূর্ণাঙ্ক first_bit;    // +24
+    পূর্ণাঙ্ক last_bit;     // +28
+    পূর্ণাঙ্ক image_offset; // +32
+    পূর্ণাঙ্ক mask_offset;  // +36
+    পূর্ণাঙ্ক mode;         // +40
 } sprite_header;
 
-SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);
+SDL_COMPILE_TIME_ASSERT(sprite_header, পরিমাণ(sprite_header) == 44);
 
 #endif // SDL_riscosdefs_h_

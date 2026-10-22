@@ -21,38 +21,38 @@
 #ifndef SDL_waylanddyn_h_
 #define SDL_waylanddyn_h_
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 /* We can't include wayland-client.h here
  * but we need some structs from it
  */
-struct wl_interface;
-struct wl_proxy;
-struct wl_event_queue;
-struct wl_display;
-struct wl_surface;
-struct wl_shm;
+সংরচনা wl_interface;
+সংরচনা wl_proxy;
+সংরচনা wl_event_queue;
+সংরচনা wl_display;
+সংরচনা wl_surface;
+সংরচনা wl_shm;
 
 // We also need some for libdecor
-struct wl_seat;
-struct wl_output;
-struct libdecor;
-struct libdecor_frame;
-struct libdecor_state;
-struct libdecor_configuration;
-struct libdecor_interface;
-struct libdecor_frame_interface;
-enum libdecor_resize_edge;
-enum libdecor_capabilities;
-enum libdecor_window_state;
+সংরচনা wl_seat;
+সংরচনা wl_output;
+সংরচনা libdecor;
+সংরচনা libdecor_frame;
+সংরচনা libdecor_state;
+সংরচনা libdecor_configuration;
+সংরচনা libdecor_interface;
+সংরচনা libdecor_frame_interface;
+গণনা libdecor_resize_edge;
+গণনা libdecor_capabilities;
+গণনা libdecor_window_state;
 
-#include "wayland-cursor.h"
-#include "wayland-util.h"
-#include "xkbcommon/xkbcommon.h"
-#include "xkbcommon/xkbcommon-compose.h"
+#অন্তর্ভাব "wayland-cursor.h"
+#অন্তর্ভাব "wayland-util.h"
+#অন্তর্ভাব "xkbcommon/xkbcommon.h"
+#অন্তর্ভাব "xkbcommon/xkbcommon-compose.h"
 
 // Must be included before our #defines, see Bugzilla #4957
-#include "wayland-client-core.h"
+#অন্তর্ভাব "wayland-client-core.h"
 
 #define SDL_WAYLAND_CHECK_VERSION(x, y, z)                        \
     (WAYLAND_VERSION_MAJOR > x ||                                 \
@@ -72,21 +72,21 @@ enum libdecor_window_state;
 #endif
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
-extern bool SDL_WAYLAND_LoadSymbols(void);
-extern void SDL_WAYLAND_UnloadSymbols(void);
+বাহ্য bool SDL_WAYLAND_LoadSymbols(শূন্য);
+বাহ্য শূন্য SDL_WAYLAND_UnloadSymbols(শূন্য);
 
-#define SDL_WAYLAND_MODULE(modname) extern int SDL_WAYLAND_HAVE_##modname;
+#define SDL_WAYLAND_MODULE(modname) বাহ্য পূর্ণাঙ্ক SDL_WAYLAND_HAVE_##modname;
 #define SDL_WAYLAND_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+    প্রকারনির্দেশ rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    বাহ্য SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_INTERFACE(iface) extern const struct wl_interface *WAYLAND_##iface;
-#include "SDL_waylandsym.h"
+    প্রকারনির্দেশ rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    বাহ্য SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+#define SDL_WAYLAND_INTERFACE(iface) বাহ্য ধ্রুব সংরচনা wl_interface *WAYLAND_##iface;
+#অন্তর্ভাব "SDL_waylandsym.h"
 
 #ifdef __cplusplus
 }
@@ -94,7 +94,7 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#if defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
+#যদি defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
 #error Do not include wayland-client ahead of SDL_waylanddyn.h in dynamic loading mode
 #endif
 
@@ -121,12 +121,12 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#অন্তর্ভাব "wayland-client-protocol.h"
+#অন্তর্ভাব "wayland-egl.h"
 
 #ifdef HAVE_LIBDECOR_H
 // Must be included before our defines
-#include <libdecor.h>
+#অন্তর্ভাব <libdecor.h>
 
 #define libdecor_unref                          (*WAYLAND_libdecor_unref)
 #define libdecor_new                            (*WAYLAND_libdecor_new)
@@ -166,17 +166,17 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 #define libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
 #endif
 
-#else // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#অন্যথা // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#অন্তর্ভাব "wayland-client-protocol.h"
+#অন্তর্ভাব "wayland-egl.h"
 
 #ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
+#অন্তর্ভাব <libdecor.h>
 #endif
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC

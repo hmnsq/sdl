@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
 
@@ -22,30 +22,30 @@ extern "C" {
 // VK_KHR_android_surface is a preprocessor guard. Do not pass it to API calls.
 #define VK_KHR_android_surface 1
 
-struct ANativeWindow;
+সংরচনা ANativeWindow;
 
 #define VK_KHR_ANDROID_SURFACE_SPEC_VERSION 6
 #define VK_KHR_ANDROID_SURFACE_EXTENSION_NAME "VK_KHR_android_surface"
 
-typedef VkFlags VkAndroidSurfaceCreateFlagsKHR;
+প্রকারনির্দেশ VkFlags VkAndroidSurfaceCreateFlagsKHR;
 
-typedef struct VkAndroidSurfaceCreateInfoKHR {
+প্রকারনির্দেশ সংরচনা VkAndroidSurfaceCreateInfoKHR {
     VkStructureType                   sType;
-    const void*                       pNext;
+    ধ্রুব শূন্য*                       pNext;
     VkAndroidSurfaceCreateFlagsKHR    flags;
-    struct ANativeWindow*             window;
+    সংরচনা ANativeWindow*             window;
 } VkAndroidSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateAndroidSurfaceKHR)(VkInstance instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারনির্দেশ VkResult (VKAPI_PTR *PFN_vkCreateAndroidSurfaceKHR)(VkInstance instance, ধ্রুব VkAndroidSurfaceCreateInfoKHR* pCreateInfo, ধ্রুব VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateAndroidSurfaceKHR(
     VkInstance                                  instance,
-    const VkAndroidSurfaceCreateInfoKHR*        pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুব VkAndroidSurfaceCreateInfoKHR*        pCreateInfo,
+    ধ্রুব VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -54,27 +54,27 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateAndroidSurfaceKHR(
 // VK_ANDROID_external_memory_android_hardware_buffer is a preprocessor guard. Do not pass it to API calls.
 #define VK_ANDROID_external_memory_android_hardware_buffer 1
 
-struct AHardwareBuffer;
+সংরচনা AHardwareBuffer;
 
 #define VK_ANDROID_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER_SPEC_VERSION 5
 #define VK_ANDROID_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER_EXTENSION_NAME "VK_ANDROID_external_memory_android_hardware_buffer"
 
-typedef struct VkAndroidHardwareBufferUsageANDROID {
+প্রকারনির্দেশ সংরচনা VkAndroidHardwareBufferUsageANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              pNext;
     uint64_t           androidHardwareBufferUsage;
 } VkAndroidHardwareBufferUsageANDROID;
 
-typedef struct VkAndroidHardwareBufferPropertiesANDROID {
+প্রকারনির্দেশ সংরচনা VkAndroidHardwareBufferPropertiesANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              pNext;
     VkDeviceSize       allocationSize;
     uint32_t           memoryTypeBits;
 } VkAndroidHardwareBufferPropertiesANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatPropertiesANDROID {
+প্রকারনির্দেশ সংরচনা VkAndroidHardwareBufferFormatPropertiesANDROID {
     VkStructureType                  sType;
-    void*                            pNext;
+    শূন্য*                            pNext;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
@@ -85,27 +85,27 @@ typedef struct VkAndroidHardwareBufferFormatPropertiesANDROID {
     VkChromaLocation                 suggestedYChromaOffset;
 } VkAndroidHardwareBufferFormatPropertiesANDROID;
 
-typedef struct VkImportAndroidHardwareBufferInfoANDROID {
+প্রকারনির্দেশ সংরচনা VkImportAndroidHardwareBufferInfoANDROID {
     VkStructureType            sType;
-    const void*                pNext;
-    struct AHardwareBuffer*    buffer;
+    ধ্রুব শূন্য*                pNext;
+    সংরচনা AHardwareBuffer*    buffer;
 } VkImportAndroidHardwareBufferInfoANDROID;
 
-typedef struct VkMemoryGetAndroidHardwareBufferInfoANDROID {
+প্রকারনির্দেশ সংরচনা VkMemoryGetAndroidHardwareBufferInfoANDROID {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুব শূন্য*        pNext;
     VkDeviceMemory     memory;
 } VkMemoryGetAndroidHardwareBufferInfoANDROID;
 
-typedef struct VkExternalFormatANDROID {
+প্রকারনির্দেশ সংরচনা VkExternalFormatANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              pNext;
     uint64_t           externalFormat;
 } VkExternalFormatANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatProperties2ANDROID {
+প্রকারনির্দেশ সংরচনা VkAndroidHardwareBufferFormatProperties2ANDROID {
     VkStructureType                  sType;
-    void*                            pNext;
+    শূন্য*                            pNext;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags2            formatFeatures;
@@ -117,22 +117,22 @@ typedef struct VkAndroidHardwareBufferFormatProperties2ANDROID {
 } VkAndroidHardwareBufferFormatProperties2ANDROID;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetAndroidHardwareBufferPropertiesANDROID)(VkDevice device, const struct AHardwareBuffer* buffer, VkAndroidHardwareBufferPropertiesANDROID* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryAndroidHardwareBufferANDROID)(VkDevice device, const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo, struct AHardwareBuffer** pBuffer);
+প্রকারনির্দেশ VkResult (VKAPI_PTR *PFN_vkGetAndroidHardwareBufferPropertiesANDROID)(VkDevice device, ধ্রুব সংরচনা AHardwareBuffer* buffer, VkAndroidHardwareBufferPropertiesANDROID* pProperties);
+প্রকারনির্দেশ VkResult (VKAPI_PTR *PFN_vkGetMemoryAndroidHardwareBufferANDROID)(VkDevice device, ধ্রুব VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo, সংরচনা AHardwareBuffer** pBuffer);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetAndroidHardwareBufferPropertiesANDROID(
     VkDevice                                    device,
-    const struct AHardwareBuffer*               buffer,
+    ধ্রুব সংরচনা AHardwareBuffer*               buffer,
     VkAndroidHardwareBufferPropertiesANDROID*   pProperties);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryAndroidHardwareBufferANDROID(
     VkDevice                                    device,
-    const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
-    struct AHardwareBuffer**                    pBuffer);
+    ধ্রুব VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
+    সংরচনা AHardwareBuffer**                    pBuffer);
 #endif
 #endif
 
@@ -143,23 +143,23 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryAndroidHardwareBufferANDROID(
 #define VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_SPEC_VERSION 1
 #define VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_EXTENSION_NAME "VK_ANDROID_external_format_resolve"
 
-typedef struct VkPhysicalDeviceExternalFormatResolveFeaturesANDROID {
+প্রকারনির্দেশ সংরচনা VkPhysicalDeviceExternalFormatResolveFeaturesANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              pNext;
     VkBool32           externalFormatResolve;
 } VkPhysicalDeviceExternalFormatResolveFeaturesANDROID;
 
-typedef struct VkPhysicalDeviceExternalFormatResolvePropertiesANDROID {
+প্রকারনির্দেশ সংরচনা VkPhysicalDeviceExternalFormatResolvePropertiesANDROID {
     VkStructureType     sType;
-    void*               pNext;
+    শূন্য*               pNext;
     VkBool32            nullColorAttachmentWithExternalFormatResolve;
     VkChromaLocation    externalFormatResolveChromaOffsetX;
     VkChromaLocation    externalFormatResolveChromaOffsetY;
 } VkPhysicalDeviceExternalFormatResolvePropertiesANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatResolvePropertiesANDROID {
+প্রকারনির্দেশ সংরচনা VkAndroidHardwareBufferFormatResolvePropertiesANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              pNext;
     VkFormat           colorAttachmentFormat;
 } VkAndroidHardwareBufferFormatResolvePropertiesANDROID;
 

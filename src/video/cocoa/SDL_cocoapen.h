@@ -18,15 +18,15 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_cocoapen_h_
 #define SDL_cocoapenm_h_
 
-#include "SDL_cocoavideo.h"
+#অন্তর্ভাব "SDL_cocoavideo.h"
 
-extern bool Cocoa_InitPen(SDL_VideoDevice *_this);
-extern bool Cocoa_HandlePenEvent(SDL_CocoaWindowData *_data, NSEvent *event);  // return false if we didn't handle this event.
-extern void Cocoa_QuitPen(SDL_VideoDevice *_this);
+বাহ্য bool Cocoa_InitPen(SDL_VideoDevice *_this);
+বাহ্য bool Cocoa_HandlePenEvent(SDL_CocoaWindowData *_data, NSEvent *event);  // return false if we didn't handle this event.
+বাহ্য শূন্য Cocoa_QuitPen(SDL_VideoDevice *_this);
 
 #endif // SDL_cocoapen_h_

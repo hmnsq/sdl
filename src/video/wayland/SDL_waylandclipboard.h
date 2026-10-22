@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_waylandclipboard_h_
 #define SDL_waylandclipboard_h_
 
-extern const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
+বাহ্য ধ্রুব বর্ণ *ধ্রুব *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *অঙ্ক_mime_types);
+বাহ্য bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
+বাহ্য শূন্য *Wayland_GetClipboardData(SDL_VideoDevice *_this, ধ্রুব বর্ণ *mime_type, size_t *length);
+বাহ্য bool Wayland_HasClipboardData(SDL_VideoDevice *_this, ধ্রুব বর্ণ *mime_type);
+বাহ্য bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, ধ্রুব বর্ণ *text);
+বাহ্য বর্ণ *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
+বাহ্য bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
 
 #endif // SDL_waylandclipboard_h_

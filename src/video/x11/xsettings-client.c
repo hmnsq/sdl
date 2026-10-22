@@ -22,26 +22,26 @@
  * Author:  Owen Taylor, Red Hat, Inc.
  */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#অন্তর্ভাব "SDL_x11video.h"
 
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#অন্তর্ভাব <limits.h>
+#অন্তর্ভাব <stdio.h>
+#অন্তর্ভাব <stdlib.h>
+#অন্তর্ভাব <string.h>
 
-#include "xsettings-client.h"
+#অন্তর্ভাব "xsettings-client.h"
 
-struct _XSettingsClient
+সংরচনা _XSettingsClient
 {
   Display *display;
-  int screen;
+  পূর্ণাঙ্ক screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
-  void *cb_data;
+  শূন্য *cb_data;
 
   XSettingsGrabFunc grab;
   XSettingsGrabFunc ungrab;
@@ -54,44 +54,44 @@ struct _XSettingsClient
   XSettingsList *settings;
 };
 
-static void
+স্থির শূন্য
 notify_changes (XSettingsClient *client,
                 XSettingsList   *old_list)
 {
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  যদি (!client->notify)
+    প্রত্যাগম;
 
-  while (old_iter || new_iter)
+  যাবত্ (old_iter || new_iter)
     {
-      int cmp;
+      পূর্ণাঙ্ক cmp;
 
-      if (old_iter && new_iter)
+      যদি (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      অন্যথা যদি (old_iter)
         cmp = -1;
-      else
+      অন্যথা
         cmp = 1;
 
-      if (cmp < 0)
+      যদি (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
-                          NULL,
+                          রিক্ত,
                           client->cb_data);
         }
-      else if (cmp == 0)
+      অন্যথা যদি (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          যদি (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
                             XSETTINGS_ACTION_CHANGED,
                             new_iter->setting,
                             client->cb_data);
         }
-      else
+      অন্যথা
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
@@ -99,44 +99,44 @@ notify_changes (XSettingsClient *client,
                           client->cb_data);
         }
 
-      if (old_iter)
+      যদি (old_iter)
         old_iter = old_iter->next;
-      if (new_iter)
+      যদি (new_iter)
         new_iter = new_iter->next;
     }
 }
 
-static int
+স্থির পূর্ণাঙ্ক
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  প্রত্যাগম True;
 }
 
-static char local_byte_order = '\0';
+স্থির বর্ণ local_byte_order = '\0';
 
-#define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
+#define BYTES_বাম(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
 
-static XSettingsResult
+স্থির XSettingsResult
 fetch_card16 (XSettingsBuffer *buffer,
               CARD16          *result)
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  যদি (BYTES_বাম (buffer) < 2)
+    প্রত্যাগম XSETTINGS_ACCESS;
 
   x = *(CARD16 *)buffer->pos;
   buffer->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
+  যদি (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  অন্যথা
     *result = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  প্রত্যাগম XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+স্থির XSettingsResult
 fetch_ushort (XSettingsBuffer *buffer,
               unsigned short  *result)
 {
@@ -144,59 +144,59 @@ fetch_ushort (XSettingsBuffer *buffer,
   XSettingsResult r;
 
   r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
+  যদি (r == XSETTINGS_SUCCESS)
     *result = x;
 
-  return r;
+  প্রত্যাগম r;
 }
 
-static XSettingsResult
+স্থির XSettingsResult
 fetch_card32 (XSettingsBuffer *buffer,
               CARD32          *result)
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  যদি (BYTES_বাম (buffer) < 4)
+    প্রত্যাগম XSETTINGS_ACCESS;
 
   x = *(CARD32 *)buffer->pos;
   buffer->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
+  যদি (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  অন্যথা
     *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  প্রত্যাগম XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+স্থির XSettingsResult
 fetch_card8 (XSettingsBuffer *buffer,
              CARD8           *result)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  যদি (BYTES_বাম (buffer) < 1)
+    প্রত্যাগম XSETTINGS_ACCESS;
 
   *result = *(CARD8 *)buffer->pos;
   buffer->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  প্রত্যাগম XSETTINGS_SUCCESS;
 }
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-static XSettingsList *
-parse_settings (unsigned char *data,
+স্থির XSettingsList *
+parse_settings (unsigned বর্ণ *data,
                 size_t         len)
 {
   XSettingsBuffer buffer;
   XSettingsResult result = XSETTINGS_SUCCESS;
-  XSettingsList *settings = NULL;
+  XSettingsList *settings = রিক্ত;
   CARD32 serial;
   CARD32 n_entries;
   CARD32 i;
-  XSettingsSetting *setting = NULL;
-  char buffer_byte_order = '\0';
+  XSettingsSetting *setting = রিক্ত;
+  বর্ণ buffer_byte_order = '\0';
 
   local_byte_order = xsettings_byte_order ();
 
@@ -204,27 +204,27 @@ parse_settings (unsigned char *data,
   buffer.len = len;
   buffer.byte_order = '\0';
 
-  result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
+  result = fetch_card8 (&buffer, (unsigned বর্ণ *) &buffer_byte_order);
+  যদি (buffer_byte_order != MSBFirst &&
       buffer_byte_order != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
       result = XSETTINGS_FAILED;
-      goto out;
+      গচ্ছ out;
     }
 
   buffer.byte_order = buffer_byte_order;
   buffer.pos += 3;
 
   result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  যদি (result != XSETTINGS_SUCCESS)
+    গচ্ছ out;
 
   result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  যদি (result != XSETTINGS_SUCCESS)
+    গচ্ছ out;
 
-  for (i = 0; i < n_entries; i++)
+  প্রতি (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
@@ -232,35 +232,35 @@ parse_settings (unsigned char *data,
       size_t pad_len;
 
       result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      যদি (result != XSETTINGS_SUCCESS)
+        গচ্ছ out;
 
       buffer.pos += 1;
 
       result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      যদি (result != XSETTINGS_SUCCESS)
+        গচ্ছ out;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      যদি (BYTES_বাম (&buffer) < pad_len)
         {
           result = XSETTINGS_ACCESS;
-          goto out;
+          গচ্ছ out;
         }
 
-      setting = malloc (sizeof *setting);
-      if (!setting)
+      setting = malloc (পরিমাণ *setting);
+      যদি (!setting)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          গচ্ছ out;
         }
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
       setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      যদি (!setting->name)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          গচ্ছ out;
         }
 
       memcpy (setting->name, buffer.pos, name_len);
@@ -268,144 +268,144 @@ parse_settings (unsigned char *data,
       buffer.pos += pad_len;
 
       result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      যদি (result != XSETTINGS_SUCCESS)
+        গচ্ছ out;
       setting->last_change_serial = v_int;
 
-      switch (type)
+      বিকল্প (type)
         {
-        case XSETTINGS_TYPE_INT:
+        পক্ষ XSETTINGS_TYPE_INT:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
 
           setting->data.v_int = (INT32)v_int;
-          break;
-        case XSETTINGS_TYPE_STRING:
+          ভঙ্গ;
+        পক্ষ XSETTINGS_TYPE_STRING:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
-              BYTES_LEFT (&buffer) < pad_len)
+          যদি (v_int + 1 == 0 || /* Guard against wrap-around */
+              BYTES_বাম (&buffer) < pad_len)
             {
               result = XSETTINGS_ACCESS;
-              goto out;
+              গচ্ছ out;
             }
 
           setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          যদি (!setting->data.v_string)
             {
               result = XSETTINGS_NO_MEM;
-              goto out;
+              গচ্ছ out;
             }
 
           memcpy (setting->data.v_string, buffer.pos, v_int);
           setting->data.v_string[v_int] = '\0';
           buffer.pos += pad_len;
 
-          break;
-        case XSETTINGS_TYPE_COLOR:
+          ভঙ্গ;
+        পক্ষ XSETTINGS_TYPE_COLOR:
           result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          যদি (result != XSETTINGS_SUCCESS)
+            গচ্ছ out;
 
-          break;
-        default:
+          ভঙ্গ;
+        স্বভাব:
           /* Quietly ignore unknown types */
-          break;
+          ভঙ্গ;
         }
 
       setting->type = type;
 
-      result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      result = xsettings_list_ঢোকাও (&settings, setting);
+      যদি (result != XSETTINGS_SUCCESS)
+        গচ্ছ out;
 
-      setting = NULL;
+      setting = রিক্ত;
     }
 
  out:
 
-  if (result != XSETTINGS_SUCCESS)
+  যদি (result != XSETTINGS_SUCCESS)
     {
-      switch (result)
+      বিকল্প (result)
         {
-        case XSETTINGS_NO_MEM:
+        পক্ষ XSETTINGS_NO_MEM:
           fprintf(stderr, "Out of memory reading XSETTINGS property\n");
-          break;
-        case XSETTINGS_ACCESS:
+          ভঙ্গ;
+        পক্ষ XSETTINGS_ACCESS:
           fprintf(stderr, "Invalid XSETTINGS property (read off end)\n");
-          break;
-        case XSETTINGS_DUPLICATE_ENTRY:
+          ভঙ্গ;
+        পক্ষ XSETTINGS_DUPLICATE_ENTRY:
           fprintf (stderr, "Duplicate XSETTINGS entry for '%s'\n", setting->name);
           SDL_FALLTHROUGH;
-        case XSETTINGS_FAILED:
+        পক্ষ XSETTINGS_FAILED:
           SDL_FALLTHROUGH;
-        case XSETTINGS_SUCCESS:
+        পক্ষ XSETTINGS_SUCCESS:
           SDL_FALLTHROUGH;
-        case XSETTINGS_NO_ENTRY:
-          break;
+        পক্ষ XSETTINGS_NO_ENTRY:
+          ভঙ্গ;
         }
 
-      if (setting)
+      যদি (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
-      settings = NULL;
+      settings = রিক্ত;
 
     }
 
-  return settings;
+  প্রত্যাগম settings;
 }
 
-static void
+স্থির শূন্য
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
-  unsigned long n_items;
+  পূর্ণাঙ্ক format;
+  unsigned long n_বস্তুসমূহ;
   unsigned long bytes_after;
-  unsigned char *data;
-  int result;
+  unsigned বর্ণ *data;
+  পূর্ণাঙ্ক result;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  পূর্ণাঙ্ক (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
-  client->settings = NULL;
+  client->settings = রিক্ত;
 
-  if (client->manager_window)
+  যদি (client->manager_window)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
       result = X11_XGetWindowProperty (client->display, client->manager_window,
                                        client->xsettings_atom, 0, LONG_MAX,
                                        False, client->xsettings_atom,
-                                       &type, &format, &n_items, &bytes_after, &data);
+                                       &type, &format, &n_বস্তুসমূহ, &bytes_after, &data);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      যদি (result == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          যদি (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          অন্যথা যদি (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
-            client->settings = parse_settings (data, n_items);
+          অন্যথা
+            client->settings = parse_settings (data, n_বস্তুসমূহ);
 
           X11_XFree (data);
         }
@@ -415,7 +415,7 @@ read_settings (XSettingsClient *client)
   xsettings_list_free (old_list);
 }
 
-static void
+স্থির শূন্য
 add_events (Display *display,
             Window   window,
             long     mask)
@@ -423,36 +423,36 @@ add_events (Display *display,
   XWindowAttributes attr;
 
   X11_XGetWindowAttributes (display, window, &attr);
-  X11_XSelectInput (display, window, attr.your_event_mask | mask);
+  X11_XSelect_প্রবেশ (display, window, attr.your_event_mask | mask);
 }
 
-static void
+স্থির শূন্য
 check_manager_window (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
+  যদি (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
-  if (client->grab)
+  যদি (client->grab)
     client->grab (client->display);
-  else
+  অন্যথা
     X11_XGrabServer (client->display);
 
   client->manager_window = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
-    X11_XSelectInput (client->display, client->manager_window,
+  যদি (client->manager_window)
+    X11_XSelect_প্রবেশ (client->display, client->manager_window,
                       PropertyChangeMask | StructureNotifyMask);
 
-  if (client->ungrab)
+  যদি (client->ungrab)
     client->ungrab (client->display);
-  else
+  অন্যথা
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  যদি (client->manager_window && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
+      যদি (!client->watch (client->manager_window, True,
                           PropertyChangeMask | StructureNotifyMask,
                           client->cb_data))
         {
@@ -460,7 +460,7 @@ check_manager_window (XSettingsClient *client)
            * after we ungrabbed
            */
           client->manager_window = None;
-          return;
+          প্রত্যাগম;
         }
     }
 
@@ -470,32 +470,32 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      পূর্ণাঙ্ক                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
-                      void                *cb_data)
+                      শূন্য                *cb_data)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
-                                               NULL, NULL);
+  প্রত্যাগম xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
+                                               রিক্ত, রিক্ত);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      পূর্ণাঙ্ক                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
-                                      void                *cb_data,
+                                      শূন্য                *cb_data,
                                       XSettingsGrabFunc    grab,
                                       XSettingsGrabFunc    ungrab)
 {
   XSettingsClient *client;
-  char buffer[256];
-  char *atom_names[3];
+  বর্ণ buffer[256];
+  বর্ণ *atom_names[3];
   Atom atoms[3];
 
-  client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  client = malloc (পরিমাণ *client);
+  যদি (!client)
+    প্রত্যাগম রিক্ত;
 
   client->display = display;
   client->screen = screen;
@@ -506,16 +506,16 @@ xsettings_client_new_with_grab_funcs (Display             *display,
   client->ungrab = ungrab;
 
   client->manager_window = None;
-  client->settings = NULL;
+  client->settings = রিক্ত;
 
-  SDL_snprintf(buffer, sizeof(buffer), "_XSETTINGS_S%d", screen);
+  SDL_snprintf(buffer, পরিমাণ(buffer), "_XSETTINGS_S%d", screen);
   atom_names[0] = buffer;
   atom_names[1] = "_XSETTINGS_SETTINGS";
   atom_names[2] = "MANAGER";
 
 #ifdef HAVE_XINTERNATOMS
   XInternAtoms (display, atom_names, 3, False, atoms);
-#else
+#অন্যথা
   atoms[0] = X11_XInternAtom (display, atom_names[0], False);
   atoms[1] = X11_XInternAtom (display, atom_names[1], False);
   atoms[2] = X11_XInternAtom (display, atom_names[2], False);
@@ -527,94 +527,94 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
   /* Select on StructureNotify so we get MANAGER events
    */
-  add_events (display, RootWindow (display, screen), StructureNotifyMask);
+  add_events (display, মূল_Window (display, screen), StructureNotifyMask);
 
-  if (client->watch)
-    client->watch (RootWindow (display, screen), True, StructureNotifyMask,
+  যদি (client->watch)
+    client->watch (মূল_Window (display, screen), True, StructureNotifyMask,
                    client->cb_data);
 
   check_manager_window (client);
 
-  return client;
+  প্রত্যাগম client;
 }
 
 
-void
+শূন্য
 xsettings_client_set_grab_func   (XSettingsClient      *client,
                                   XSettingsGrabFunc     grab)
 {
   client->grab = grab;
 }
 
-void
+শূন্য
 xsettings_client_set_ungrab_func (XSettingsClient      *client,
                                   XSettingsGrabFunc     ungrab)
 {
   client->ungrab = ungrab;
 }
 
-void
+শূন্য
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
-    client->watch (RootWindow (client->display, client->screen),
+  যদি (client->watch)
+    client->watch (মূল_Window (client->display, client->screen),
                    False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
+  যদি (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
   xsettings_list_free (client->settings);
-  free (client);
+  মুক্ত (client);
 }
 
 XSettingsResult
 xsettings_client_get_setting (XSettingsClient   *client,
-                              const char        *name,
+                              ধ্রুব বর্ণ        *name,
                               XSettingsSetting **setting)
 {
-  XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  XSettingsSetting *অনুসন্ধান = xsettings_list_lookup (client->settings, name);
+  যদি (অনুসন্ধান)
     {
-      *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      *setting = xsettings_setting_copy (অনুসন্ধান);
+      প্রত্যাগম *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  অন্যথা
+    প্রত্যাগম XSETTINGS_NO_ENTRY;
 }
 
 Bool
 xsettings_client_process_event (XSettingsClient *client,
-                                const XEvent    *xev)
+                                ধ্রুব XEvent    *xev)
 {
   /* The checks here will not unlikely cause us to reread
    * the properties from the manager window a number of
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  যদি (xev->xany.window == মূল_Window (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
+      যদি (xev->xany.type == ClientMessage &&
           xev->xclient.message_type == client->manager_atom &&
           xev->xclient.data.l[1] == client->selection_atom)
         {
           check_manager_window (client);
-          return True;
+          প্রত্যাগম True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  অন্যথা যদি (xev->xany.window == client->manager_window)
     {
-      if (xev->xany.type == DestroyNotify)
+      যদি (xev->xany.type == DestroyNotify)
         {
           check_manager_window (client);
-          return False;
+          প্রত্যাগম False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      অন্যথা যদি (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          প্রত্যাগম True;
         }
     }
 
-  return False;
+  প্রত্যাগম False;
 }
 
 XSettingsSetting *
@@ -623,234 +623,234 @@ xsettings_setting_copy (XSettingsSetting *setting)
   XSettingsSetting *result;
   size_t str_len;
 
-  result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  result = malloc (পরিমাণ *result);
+  যদি (!result)
+    প্রত্যাগম রিক্ত;
 
   str_len = strlen (setting->name);
   result->name = malloc (str_len + 1);
-  if (!result->name)
-    goto err;
+  যদি (!result->name)
+    গচ্ছ err;
 
   memcpy (result->name, setting->name, str_len + 1);
 
   result->type = setting->type;
 
-  switch (setting->type)
+  বিকল্প (setting->type)
     {
-    case XSETTINGS_TYPE_INT:
+    পক্ষ XSETTINGS_TYPE_INT:
       result->data.v_int = setting->data.v_int;
-      break;
-    case XSETTINGS_TYPE_COLOR:
+      ভঙ্গ;
+    পক্ষ XSETTINGS_TYPE_COLOR:
       result->data.v_color = setting->data.v_color;
-      break;
-    case XSETTINGS_TYPE_STRING:
+      ভঙ্গ;
+    পক্ষ XSETTINGS_TYPE_STRING:
       str_len = strlen (setting->data.v_string);
       result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
-        goto err;
+      যদি (!result->data.v_string)
+        গচ্ছ err;
 
       memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
-      break;
+      ভঙ্গ;
     }
 
   result->last_change_serial = setting->last_change_serial;
 
-  return result;
+  প্রত্যাগম result;
 
  err:
-  free(result->name); // This should NOT be SDL_free()
-  free(result); // This should NOT be SDL_free()
+  মুক্ত(result->name); // This should NOT be SDL_free()
+  মুক্ত(result); // This should NOT be SDL_free()
 
-  return NULL;
+  প্রত্যাগম রিক্ত;
 }
 
 XSettingsList *
 xsettings_list_copy (XSettingsList *list)
 {
-  XSettingsList *new = NULL;
+  XSettingsList *new = রিক্ত;
   XSettingsList *old_iter = list;
-  XSettingsList *new_iter = NULL;
+  XSettingsList *new_iter = রিক্ত;
 
-  while (old_iter)
+  যাবত্ (old_iter)
     {
-      XSettingsList *new_node;
+      XSettingsList *new_গ্রন্থি;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
-        goto error;
+      new_গ্রন্থি = malloc (পরিমাণ *new_গ্রন্থি);
+      যদি (!new_গ্রন্থি)
+        গচ্ছ error;
 
-      new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      new_গ্রন্থি->setting = xsettings_setting_copy (old_iter->setting);
+      যদি (!new_গ্রন্থি->setting)
         {
-          free (new_node);
-          goto error;
+          মুক্ত (new_গ্রন্থি);
+          গচ্ছ error;
         }
 
-      if (new_iter)
-        new_iter->next = new_node;
-      else
+      যদি (new_iter)
+        new_iter->next = new_গ্রন্থি;
+      অন্যথা
         {
-          new = new_node;
-          new->next = NULL;
+          new = new_গ্রন্থি;
+          new->next = রিক্ত;
         }
 
 
-      new_iter = new_node;
+      new_iter = new_গ্রন্থি;
 
       old_iter = old_iter->next;
     }
 
-  return new;
+  প্রত্যাগম new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  প্রত্যাগম রিক্ত;
 }
 
-int
+পূর্ণাঙ্ক
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  যদি (setting_a->type != setting_b->type)
+    প্রত্যাগম 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  যদি (strcmp (setting_a->name, setting_b->name) != 0)
+    প্রত্যাগম 0;
 
-  switch (setting_a->type)
+  বিকল্প (setting_a->type)
     {
-    case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
-    case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
+    পক্ষ XSETTINGS_TYPE_INT:
+      প্রত্যাগম setting_a->data.v_int == setting_b->data.v_int;
+    পক্ষ XSETTINGS_TYPE_COLOR:
+      প্রত্যাগম (setting_a->data.v_color.red == setting_b->data.v_color.red &&
               setting_a->data.v_color.green == setting_b->data.v_color.green &&
               setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
               setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
-    case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+    পক্ষ XSETTINGS_TYPE_STRING:
+      প্রত্যাগম strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
     }
 
-  return 0;
+  প্রত্যাগম 0;
 }
 
-void
+শূন্য
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
-    free (setting->data.v_string);
+  যদি (setting->type == XSETTINGS_TYPE_STRING)
+    মুক্ত (setting->data.v_string);
 
-  free(setting->name); // This should NOT be SDL_free()
-  free(setting); // This should NOT be SDL_free()
+  মুক্ত(setting->name); // This should NOT be SDL_free()
+  মুক্ত(setting); // This should NOT be SDL_free()
 }
 
-void
+শূন্য
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  যাবত্ (list)
     {
       XSettingsList *next = list->next;
 
       xsettings_setting_free (list->setting);
-      free (list);
+      মুক্ত (list);
 
       list = next;
     }
 }
 
 XSettingsResult
-xsettings_list_insert (XSettingsList    **list,
+xsettings_list_ঢোকাও (XSettingsList    **list,
                        XSettingsSetting  *setting)
 {
-  XSettingsList *node;
+  XSettingsList *গ্রন্থি;
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = রিক্ত;
 
-  node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
-  node->setting = setting;
+  গ্রন্থি = malloc (পরিমাণ *গ্রন্থি);
+  যদি (!গ্রন্থি)
+    প্রত্যাগম XSETTINGS_NO_MEM;
+  গ্রন্থি->setting = setting;
 
   iter = *list;
-  while (iter)
+  যাবত্ (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      পূর্ণাঙ্ক cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
-        break;
-      else if (cmp == 0)
+      যদি (cmp < 0)
+        ভঙ্গ;
+      অন্যথা যদি (cmp == 0)
         {
-          free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          মুক্ত (গ্রন্থি);
+          প্রত্যাগম XSETTINGS_DUPLICATE_ENTRY;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  if (last)
-    last->next = node;
-  else
-    *list = node;
+  যদি (last)
+    last->next = গ্রন্থি;
+  অন্যথা
+    *list = গ্রন্থি;
 
-  node->next = iter;
+  গ্রন্থি->next = iter;
 
-  return XSETTINGS_SUCCESS;
+  প্রত্যাগম XSETTINGS_SUCCESS;
 }
 
 XSettingsResult
 xsettings_list_delete (XSettingsList **list,
-                       const char     *name)
+                       ধ্রুব বর্ণ     *name)
 {
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = রিক্ত;
 
   iter = *list;
-  while (iter)
+  যাবত্ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      যদি (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
+          যদি (last)
             last->next = iter->next;
-          else
+          অন্যথা
             *list = iter->next;
 
           xsettings_setting_free (iter->setting);
-          free (iter);
+          মুক্ত (iter);
 
-          return XSETTINGS_SUCCESS;
+          প্রত্যাগম XSETTINGS_SUCCESS;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  return XSETTINGS_FAILED;
+  প্রত্যাগম XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
 xsettings_list_lookup (XSettingsList *list,
-                       const char    *name)
+                       ধ্রুব বর্ণ    *name)
 {
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  যাবত্ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      যদি (strcmp (name, iter->setting->name) == 0)
+        প্রত্যাগম iter->setting;
 
       iter = iter->next;
     }
 
-  return NULL;
+  প্রত্যাগম রিক্ত;
 }
 
-char
-xsettings_byte_order (void)
+বর্ণ
+xsettings_byte_order (শূন্য)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  প্রত্যাগম (*(বর্ণ *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
 #endif /* SDL_VIDEO_DRIVER_X11 */

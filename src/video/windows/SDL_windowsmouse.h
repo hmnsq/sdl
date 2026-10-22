@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_windowsmouse_h_
 #define SDL_windowsmouse_h_
 
-extern DWORD SDL_last_warp_time;
-extern HCURSOR SDL_cursor;
+বাহ্য DWORD SDL_last_warp_time;
+বাহ্য HCURSOR SDL_cursor;
 
-extern void WIN_InitMouse(SDL_VideoDevice *_this);
-extern void WIN_QuitMouse(SDL_VideoDevice *_this);
-extern void WIN_SetCursorPos(int x, int y);
-extern void WIN_UpdateMouseSystemScale(void);
+বাহ্য শূন্য WIN_InitMouse(SDL_VideoDevice *_this);
+বাহ্য শূন্য WIN_QuitMouse(SDL_VideoDevice *_this);
+বাহ্য শূন্য WIN_SetCursorPos(পূর্ণাঙ্ক x, পূর্ণাঙ্ক y);
+বাহ্য শূন্য WIN_UpdateMouseSystemScale(শূন্য);
 
 #endif // SDL_windowsmouse_h_

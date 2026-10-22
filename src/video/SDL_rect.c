@@ -18,80 +18,80 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
-#include "SDL_rect_c.h"
+#অন্তর্ভাব "SDL_rect_c.h"
 
 /* There's no float version of this at the moment, because it's not a public API
    and internally we only need the int version. */
-bool SDL_GetSpanEnclosingRect(int width, int height,
-                         int numrects, const SDL_Rect *rects, SDL_Rect *span)
+bool SDL_GetSpanEnclosingRect(পূর্ণাঙ্ক width, পূর্ণাঙ্ক height,
+                         পূর্ণাঙ্ক numrects, ধ্রুব SDL_Rect *rects, SDL_Rect *span)
 {
-    int i;
-    int span_y1, span_y2;
-    int rect_y1, rect_y2;
+    পূর্ণাঙ্ক i;
+    পূর্ণাঙ্ক span_y1, span_y2;
+    পূর্ণাঙ্ক rect_y1, rect_y2;
 
     CHECK_PARAM(width < 1) {
         SDL_InvalidParamError("width");
-        return false;
+        প্রত্যাগম false;
     }
     CHECK_PARAM(height < 1) {
         SDL_InvalidParamError("height");
-        return false;
+        প্রত্যাগম false;
     }
     CHECK_PARAM(!rects) {
         SDL_InvalidParamError("rects");
-        return false;
+        প্রত্যাগম false;
     }
     CHECK_PARAM(!span) {
         SDL_InvalidParamError("span");
-        return false;
+        প্রত্যাগম false;
     }
     CHECK_PARAM(numrects < 1) {
         SDL_InvalidParamError("numrects");
-        return false;
+        প্রত্যাগম false;
     }
 
     // Initialize to empty rect
     span_y1 = height;
     span_y2 = 0;
 
-    for (i = 0; i < numrects; ++i) {
+    প্রতি (i = 0; i < numrects; ++i) {
         rect_y1 = rects[i].y;
         rect_y2 = rect_y1 + rects[i].h;
 
         // Clip out of bounds rectangles, and expand span rect
-        if (rect_y1 < 0) {
+        যদি (rect_y1 < 0) {
             span_y1 = 0;
-        } else if (rect_y1 < span_y1) {
+        } অন্যথা যদি (rect_y1 < span_y1) {
             span_y1 = rect_y1;
         }
-        if (rect_y2 > height) {
+        যদি (rect_y2 > height) {
             span_y2 = height;
-        } else if (rect_y2 > span_y2) {
+        } অন্যথা যদি (rect_y2 > span_y2) {
             span_y2 = rect_y2;
         }
     }
-    if (span_y2 > span_y1) {
+    যদি (span_y2 > span_y1) {
         span->x = 0;
         span->y = span_y1;
         span->w = width;
         span->h = (span_y2 - span_y1);
-        return true;
+        প্রত্যাগম true;
     }
-    return false;
+    প্রত্যাগম false;
 }
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
 #define CODE_BOTTOM 1
-#define CODE_TOP    2
-#define CODE_LEFT   4
-#define CODE_RIGHT  8
+#define CODE_শীর্ষ    2
+#define CODE_বাম   4
+#define CODE_ডান  8
 
 // Same code twice, for float and int versions...
 #define RECTTYPE                 SDL_Rect
 #define POINTTYPE                SDL_Point
-#define SCALARTYPE               int
+#define SCALARTYPE               পূর্ণাঙ্ক
 #define BIGSCALARTYPE            Sint64
 #define COMPUTEOUTCODE           ComputeOutCode
 #define ENCLOSEPOINTS_EPSILON    1
@@ -101,13 +101,13 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 #define SDL_RECTEMPTY            SDL_RectEmpty
 #define SDL_UNIONRECT            SDL_GetRectUnion
 #define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersection
-#include "SDL_rect_impl.h"
+#define SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_সারি_Intersection
+#অন্তর্ভাব "SDL_rect_impl.h"
 
 #define RECTTYPE                 SDL_FRect
 #define POINTTYPE                SDL_FPoint
-#define SCALARTYPE               float
-#define BIGSCALARTYPE            double
+#define SCALARTYPE               ভিন্ন
+#define BIGSCALARTYPE            দ্বিগুণ
 #define COMPUTEOUTCODE           ComputeOutCodeFloat
 #define ENCLOSEPOINTS_EPSILON    0.0f
 #define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflowFloat
@@ -116,5 +116,5 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 #define SDL_RECTEMPTY            SDL_RectEmptyFloat
 #define SDL_UNIONRECT            SDL_GetRectUnionFloat
 #define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersectionFloat
-#include "SDL_rect_impl.h"
+#define SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_সারি_Intersection_Float
+#অন্তর্ভাব "SDL_rect_impl.h"

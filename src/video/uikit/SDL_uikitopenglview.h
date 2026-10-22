@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#যদি defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#অন্তর্ভাব "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 
 - (instancetype)initWithFrame:(CGRect)frame
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        rBits:(পূর্ণাঙ্ক)rBits
+                        gBits:(পূর্ণাঙ্ক)gBits
+                        bBits:(পূর্ণাঙ্ক)bBits
+                        aBits:(পূর্ণাঙ্ক)aBits
+                    depthBits:(পূর্ণাঙ্ক)depthBits
+                  stencilBits:(পূর্ণাঙ্ক)stencilBits
+                         sRGB:(পূর্ণাঙ্ক)sRGB
+                 multisamples:(পূর্ণাঙ্ক)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) পূর্ণাঙ্ক backingWidth;
+@property(nonatomic, readonly) পূর্ণাঙ্ক backingHeight;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;
 @property(nonatomic, readonly) GLuint msaaResolveFramebuffer;
 
-- (void)swapBuffers;
+- (শূন্য)swapBuffers;
 
-- (void)updateFrame;
+- (শূন্য)updateFrame;
 
 @end
 

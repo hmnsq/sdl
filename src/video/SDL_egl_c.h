@@ -18,59 +18,59 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_egl_h_
 #define SDL_egl_h_
 
 #ifdef SDL_VIDEO_OPENGL_EGL
 
-#include <SDL3/SDL_egl.h>
+#অন্তর্ভাব <SDL3/SDL_egl.h>
 
-#include "SDL_sysvideo.h"
+#অন্তর্ভাব "SDL_sysvideo.h"
 
 #define SDL_EGL_MAX_DEVICES 8
 
 // For systems that don't define these
-typedef intptr_t EGLAttrib;
-typedef void *EGLDeviceEXT;
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
-typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const char *procname);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-typedef EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
-typedef const char *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
-typedef EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYDEVICESEXTPROC) (EGLint max_devices, EGLDeviceEXT *devices, EGLint *num_devices);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYEXTPROC) (EGLenum platform, void *native_display, const EGLint *attrib_list);
-typedef EGLSyncKHR (EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC) (EGLDisplay dpy, EGLenum type, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync);
-typedef EGLint (EGLAPIENTRYP PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (EGLDisplay dpy, EGLSyncKHR sync);
-typedef EGLint (EGLAPIENTRYP PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
-typedef EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
+প্রকারনির্দেশ intptr_t EGLAttrib;
+প্রকারনির্দেশ শূন্য *EGLDeviceEXT;
+প্রকারনির্দেশ EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
+প্রকারনির্দেশ __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (ধ্রুব বর্ণ *procname);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, ধ্রুব EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *অঙ্ক_config);
+প্রকারনির্দেশ EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, ধ্রুব EGLint *attrib_list);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
+প্রকারনির্দেশ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, ধ্রুব EGLint *attrib_list);
+প্রকারনির্দেশ EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, ধ্রুব EGLint *attrib_list);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface পঠ, EGLContext ctx);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
+প্রকারনির্দেশ ধ্রুব বর্ণ *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *মান);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (শূন্য);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
+প্রকারনির্দেশ EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (শূন্য);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLQUERYDEVICESEXTPROC) (EGLint max_devices, EGLDeviceEXT *devices, EGLint *অঙ্ক_devices);
+প্রকারনির্দেশ EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, শূন্য *native_display, ধ্রুব EGLAttrib *attrib_list);
+প্রকারনির্দেশ EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYEXTPROC) (EGLenum platform, শূন্য *native_display, ধ্রুব EGLint *attrib_list);
+প্রকারনির্দেশ EGLSyncKHR (EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC) (EGLDisplay dpy, EGLenum type, ধ্রুব EGLint *attrib_list);
+প্রকারনির্দেশ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync);
+প্রকারনির্দেশ EGLint (EGLAPIENTRYP PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (EGLDisplay dpy, EGLSyncKHR sync);
+প্রকারনির্দেশ EGLint (EGLAPIENTRYP PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
+প্রকারনির্দেশ EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
 
-typedef struct SDL_EGL_VideoData
+প্রকারনির্দেশ সংরচনা SDL_EGL_VideoData
 {
     SDL_SharedObject *opengl_dll_handle;
     SDL_SharedObject *egl_dll_handle;
     EGLDisplay egl_display;
     EGLConfig egl_config;
-    int egl_swapinterval;
-    int egl_surfacetype;
-    int egl_version_major, egl_version_minor;
+    পূর্ণাঙ্ক egl_swapinterval;
+    পূর্ণাঙ্ক egl_surfacetype;
+    পূর্ণাঙ্ক egl_version_major, egl_version_minor;
     EGLint egl_required_visual_id;
     bool is_offscreen; // whether EGL display was offscreen
     EGLenum apitype;       // EGL_OPENGL_ES_API, EGL_OPENGL_API, etc
@@ -109,38 +109,38 @@ typedef struct SDL_EGL_VideoData
 } SDL_EGL_VideoData;
 
 // OpenGLES functions
-typedef enum SDL_EGL_ExtensionType
+প্রকারনির্দেশ গণনা SDL_EGL_ExtensionType
 {
     SDL_EGL_DISPLAY_EXTENSION,
     SDL_EGL_CLIENT_EXTENSION
 } SDL_EGL_ExtensionType;
 
-extern bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, const char *ext);
+বাহ্য bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, ধ্রুব বর্ণ *ext);
 
-extern bool SDL_EGL_GetAttribute(SDL_VideoDevice *_this, SDL_GLAttr attrib, int *value);
-extern bool SDL_EGL_LoadLibraryOnly(SDL_VideoDevice *_this, const char *path);
-extern bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *path, NativeDisplayType native_display);
-extern SDL_FunctionPointer SDL_EGL_GetProcAddressInternal(SDL_VideoDevice *_this, const char *proc);
-extern void SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this);
-extern void SDL_EGL_SetRequiredVisualId(SDL_VideoDevice *_this, int visual_id);
-extern bool SDL_EGL_ChooseConfig(SDL_VideoDevice *_this);
-extern bool SDL_EGL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool SDL_EGL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, NativeWindowType nw);
-extern void SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface);
+বাহ্য bool SDL_EGL_GetAttribute(SDL_VideoDevice *_this, SDL_GLAttr attrib, পূর্ণাঙ্ক *মান);
+বাহ্য bool SDL_EGL_LoadLibraryOnly(SDL_VideoDevice *_this, ধ্রুব বর্ণ *path);
+বাহ্য bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, ধ্রুব বর্ণ *path, NativeDisplayType native_display);
+বাহ্য SDL_FunctionPointer SDL_EGL_GetProcAddressInternal(SDL_VideoDevice *_this, ধ্রুব বর্ণ *proc);
+বাহ্য শূন্য SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্য শূন্য SDL_EGL_SetRequiredVisualId(SDL_VideoDevice *_this, পূর্ণাঙ্ক visual_id);
+বাহ্য bool SDL_EGL_ChooseConfig(SDL_VideoDevice *_this);
+বাহ্য bool SDL_EGL_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণাঙ্ক interval);
+বাহ্য bool SDL_EGL_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণাঙ্ক *interval);
+বাহ্য bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+বাহ্য EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, NativeWindowType nw);
+বাহ্য শূন্য SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface);
 
-extern EGLSurface SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, int width, int height);
+বাহ্য EGLSurface SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, পূর্ণাঙ্ক width, পূর্ণাঙ্ক height);
 // Assumes that LoadLibraryOnly() has succeeded
-extern bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device);
+বাহ্য bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, পূর্ণাঙ্ক device);
 
 // These need to be wrapped to get the surface for the window by the platform GLES implementation
-extern SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surface);
-extern bool SDL_EGL_MakeCurrent(SDL_VideoDevice *_this, EGLSurface egl_surface, SDL_GLContext context);
-extern bool SDL_EGL_SwapBuffers(SDL_VideoDevice *_this, EGLSurface egl_surface);
+বাহ্য SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surface);
+বাহ্য bool SDL_EGL_MakeCurrent(SDL_VideoDevice *_this, EGLSurface egl_surface, SDL_GLContext context);
+বাহ্য bool SDL_EGL_SwapBuffers(SDL_VideoDevice *_this, EGLSurface egl_surface);
 
 // SDL Error-reporting
-extern bool SDL_EGL_SetErrorEx(const char *message, const char *eglFunctionName, EGLint eglErrorCode);
+বাহ্য bool SDL_EGL_SetErrorEx(ধ্রুব বর্ণ *message, ধ্রুব বর্ণ *eglFunctionName, EGLint eglErrorCode);
 #define SDL_EGL_SetError(message, eglFunctionName) SDL_EGL_SetErrorEx(message, eglFunctionName, _this->egl_data->eglGetError())
 
 // A few of useful macros
@@ -148,19 +148,19 @@ extern bool SDL_EGL_SetErrorEx(const char *message, const char *eglFunctionName,
 #define SDL_EGL_SwapWindow_impl(BACKEND)                                                        \
     bool BACKEND##_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)                  \
     {                                                                                           \
-        return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);                       \
+        প্রত্যাগম SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);                       \
     }
 
 #define SDL_EGL_MakeCurrent_impl(BACKEND)                                                                    \
     bool BACKEND##_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)       \
     {                                                                                                        \
-        return SDL_EGL_MakeCurrent(_this, window ? window->internal->egl_surface : EGL_NO_SURFACE, context); \
+        প্রত্যাগম SDL_EGL_MakeCurrent(_this, window ? window->internal->egl_surface : EGL_NO_SURFACE, context); \
     }
 
 #define SDL_EGL_CreateContext_impl(BACKEND)                                                     \
     SDL_GLContext BACKEND##_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)      \
     {                                                                                           \
-        return SDL_EGL_CreateContext(_this, window->internal->egl_surface);                     \
+        প্রত্যাগম SDL_EGL_CreateContext(_this, window->internal->egl_surface);                     \
     }
 
 #endif // SDL_VIDEO_OPENGL_EGL

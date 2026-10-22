@@ -18,91 +18,91 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include <AppKit.h>
-#include <InterfaceKit.h>
-#include "SDL_bmodes.h"
-#include "SDL_BWin.h"
+#অন্তর্ভাব <AppKit.h>
+#অন্তর্ভাব <InterfaceKit.h>
+#অন্তর্ভাব "SDL_bmodes.h"
+#অন্তর্ভাব "SDL_BWin.h"
 
 #ifdef SDL_VIDEO_OPENGL
-#include "SDL_bopengl.h"
+#অন্তর্ভাব "SDL_bopengl.h"
 #endif
 
-#include "../../core/haiku/SDL_BApp.h"
+#অন্তর্ভাব "../../core/haiku/SDL_BApp.h"
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
 
 #define WRAP_BMODE 1 // FIXME: Some debate as to whether this is necessary
 
-#if WRAP_BMODE
+#যদি WRAP_BMODE
 /* This wrapper is here so that the internal can be freed without freeing
    the display_mode structure */
-struct SDL_DisplayModeData {
+সংরচনা SDL_DisplayModeData {
     display_mode *bmode;
 };
 #endif
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+স্থির SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
 {
-    return (SDL_BWin *)(window->internal);
+    প্রত্যাগম (SDL_BWin *)(window->internal);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+স্থির SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    প্রত্যাগম SDL_Looper;
 }
 
-static SDL_INLINE display_mode * _ExtractBMode(SDL_DisplayMode *mode)
+স্থির SDL_INLINE display_mode * _ExtractBMode(SDL_DisplayMode *mode)
 {
-#if WRAP_BMODE
-    return mode->internal->bmode;
-#else
-    return (display_mode *)mode->internal;
+#যদি WRAP_BMODE
+    প্রত্যাগম mode->internal->bmode;
+#অন্যথা
+    প্রত্যাগম (display_mode *)mode->internal;
 #endif
 }
 
 // Copied from haiku/trunk/src/preferences/screen/ScreenMode.cpp
-static void get_refresh_rate(display_mode &mode, int *numerator, int *denominator)
+স্থির শূন্য get_refresh_rate(display_mode &mode, পূর্ণাঙ্ক *numerator, পূর্ণাঙ্ক *denominator)
 {
     *numerator = (mode.timing.pixel_clock * 1000);
     *denominator = (mode.timing.h_total * mode.timing.v_total);
 }
 
 
-#if 0
+#যদি 0
 /* TODO:
  * This is a useful debugging tool.  Uncomment and insert into code as needed.
  */
-void _SpoutModeData(display_mode *bmode)
+শূন্য _SpoutModeData(display_mode *bmode)
 {
     SDL_Log("BMode:");
     SDL_Log("\tw,h = (%i,%i)", bmode->virtual_width, bmode->virtual_height);
     SDL_Log("\th,v = (%i,%i)", bmode->h_display_start,
             bmode->v_display_start);
-    if (bmode->flags) {
+    যদি (bmode->flags) {
         SDL_Log("\tFlags:");
-        if (bmode->flags & B_SCROLL) {
+        যদি (bmode->flags & B_SCROLL) {
             SDL_Log("\t\tB_SCROLL");
         }
-        if (bmode->flags & B_8_BIT_DAC) {
+        যদি (bmode->flags & B_8_BIT_DAC) {
             SDL_Log("\t\tB_8_BIT_DAC");
         }
-        if (bmode->flags & B_HARDWARE_CURSOR) {
+        যদি (bmode->flags & B_HARDWARE_CURSOR) {
             SDL_Log("\t\tB_HARDWARE_CURSOR");
         }
-        if (bmode->flags & B_PARALLEL_ACCESS) {
+        যদি (bmode->flags & B_PARALLEL_ACCESS) {
             SDL_Log("\t\tB_PARALLEL_ACCESS");
         }
-        if (bmode->flags & B_DPMS) {
+        যদি (bmode->flags & B_DPMS) {
             SDL_Log("\t\tB_DPMS");
         }
-        if (bmode->flags & B_IO_FB_NA) {
+        যদি (bmode->flags & B_IO_FB_NA) {
             SDL_Log("\t\tB_IO_FB_NA");
         }
     }
@@ -114,21 +114,21 @@ void _SpoutModeData(display_mode *bmode)
     SDL_Log("\t\tv - display: %i sync start: %i sync end: %i total: %i",
         bmode->timing.v_display, bmode->timing.v_sync_start,
         bmode->timing.v_sync_end, bmode->timing.v_total);
-    if (bmode->timing.flags) {
+    যদি (bmode->timing.flags) {
         SDL_Log("\t\tFlags:");
-        if (bmode->timing.flags & B_BLANK_PEDESTAL) {
+        যদি (bmode->timing.flags & B_BLANK_PEDESTAL) {
             SDL_Log("\t\t\tB_BLANK_PEDESTAL");
         }
-        if (bmode->timing.flags & B_TIMING_INTERLACED) {
+        যদি (bmode->timing.flags & B_TIMING_INTERLACED) {
             SDL_Log("\t\t\tB_TIMING_INTERLACED");
         }
-        if (bmode->timing.flags & B_POSITIVE_HSYNC) {
+        যদি (bmode->timing.flags & B_POSITIVE_HSYNC) {
             SDL_Log("\t\t\tB_POSITIVE_HSYNC");
         }
-        if (bmode->timing.flags & B_POSITIVE_VSYNC) {
+        যদি (bmode->timing.flags & B_POSITIVE_VSYNC) {
             SDL_Log("\t\t\tB_POSITIVE_VSYNC");
         }
-        if (bmode->timing.flags & B_SYNC_ON_GREEN) {
+        যদি (bmode->timing.flags & B_SYNC_ON_GREEN) {
             SDL_Log("\t\t\tB_SYNC_ON_GREEN");
         }
     }
@@ -139,50 +139,50 @@ void _SpoutModeData(display_mode *bmode)
 
 SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace)
 {
-    switch (colorspace) {
-    case B_CMAP8:
-        return SDL_PIXELFORMAT_INDEX8;
-        break;
-    case B_RGB15:
-    case B_RGBA15:
-    case B_RGB15_BIG:
-    case B_RGBA15_BIG:
-        return SDL_PIXELFORMAT_XRGB1555;
-        break;
-    case B_RGB16:
-    case B_RGB16_BIG:
-        return SDL_PIXELFORMAT_RGB565;
-        break;
-    case B_RGB24:
-    case B_RGB24_BIG:
-        return SDL_PIXELFORMAT_BGR24;
-        break;
-    case B_RGB32:
-    case B_RGBA32:
-    case B_RGB32_BIG:
-    case B_RGBA32_BIG:
-        return SDL_PIXELFORMAT_XRGB8888;
-        break;
+    বিকল্প (colorspace) {
+    পক্ষ B_CMAP8:
+        প্রত্যাগম SDL_PIXELFORMAT_INDEX8;
+        ভঙ্গ;
+    পক্ষ B_RGB15:
+    পক্ষ B_RGBA15:
+    পক্ষ B_RGB15_BIG:
+    পক্ষ B_RGBA15_BIG:
+        প্রত্যাগম SDL_PIXELFORMAT_XRGB1555;
+        ভঙ্গ;
+    পক্ষ B_RGB16:
+    পক্ষ B_RGB16_BIG:
+        প্রত্যাগম SDL_PIXELFORMAT_RGB565;
+        ভঙ্গ;
+    পক্ষ B_RGB24:
+    পক্ষ B_RGB24_BIG:
+        প্রত্যাগম SDL_PIXELFORMAT_BGR24;
+        ভঙ্গ;
+    পক্ষ B_RGB32:
+    পক্ষ B_RGBA32:
+    পক্ষ B_RGB32_BIG:
+    পক্ষ B_RGBA32_BIG:
+        প্রত্যাগম SDL_PIXELFORMAT_XRGB8888;
+        ভঙ্গ;
     }
 
     // May never get here, but safer and needed to shut up compiler
     SDL_SetError("Invalid color space");
-    return SDL_PIXELFORMAT_UNKNOWN;
+    প্রত্যাগম SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static void _BDisplayModeToSdlDisplayMode(display_mode *bmode, SDL_DisplayMode *mode)
+স্থির শূন্য _BDisplayModeToSdlDisplayMode(display_mode *bmode, SDL_DisplayMode *mode)
 {
     SDL_zerop(mode);
     mode->w = bmode->virtual_width;
     mode->h = bmode->virtual_height;
     get_refresh_rate(*bmode, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
 
-#if WRAP_BMODE
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
+#যদি WRAP_BMODE
+    SDL_DisplayModeData *data = (SDL_DisplayModeData *)SDL_calloc(1, পরিমাণ(SDL_DisplayModeData));
     data->bmode = bmode;
 
     mode->internal = data;
-#else
+#অন্যথা
     mode->internal = bmode;
 #endif
 
@@ -191,7 +191,7 @@ static void _BDisplayModeToSdlDisplayMode(display_mode *bmode, SDL_DisplayMode *
 }
 
 // Later, there may be more than one monitor available
-static void _AddDisplay(BScreen *screen)
+স্থির শূন্য _AddDisplay(BScreen *screen)
 {
     SDL_DisplayMode mode;
     display_mode bmode;
@@ -206,34 +206,34 @@ static void _AddDisplay(BScreen *screen)
  * Functions called by SDL
  */
 
-bool HAIKU_InitModes(SDL_VideoDevice *_this)
+তার্কিক HAIKU_InitModes(SDL_VideoDevice *_this)
 {
     BScreen screen;
 
     /* TODO: When Haiku supports multiple display screens, call
        _AddDisplayScreen() for each of them. */
     _AddDisplay(&screen);
-    return true;
+    প্রত্যাগম সত্য;
 }
 
-void HAIKU_QuitModes(SDL_VideoDevice *_this)
+শূন্য HAIKU_QuitModes(SDL_VideoDevice *_this)
 {
-    return;
+    প্রত্যাগম;
 }
 
 
-bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+তার্কিক HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
     BScreen bscreen;
     BRect rc = bscreen.Frame();
-    rect->x = (int)rc.left;
-    rect->y = (int)rc.top;
-    rect->w = (int)rc.Width() + 1;
-    rect->h = (int)rc.Height() + 1;
-    return true;
+    rect->x = (পূর্ণাঙ্ক)rc.বাম;
+    rect->y = (পূর্ণাঙ্ক)rc.শীর্ষ;
+    rect->w = (পূর্ণাঙ্ক)rc.Width() + 1;
+    rect->h = (পূর্ণাঙ্ক)rc.Height() + 1;
+    প্রত্যাগম সত্য;
 }
 
-bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+তার্কিক HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
     // Get the current screen
     BScreen bscreen;
@@ -242,34 +242,34 @@ bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     SDL_DisplayMode mode;
     display_mode this_bmode;
     display_mode *bmodes;
-    uint32 count, i;
-    bool retval = false;
+    uint32 গুনতি, i;
+    তার্কিক retval = অসত্য;
 
     // Get graphics-hardware supported modes
-    if (bscreen.GetModeList(&bmodes, &count) == B_OK) {
-        if (bscreen.GetMode(&this_bmode) == B_OK) {
-            for (i = 0; i < count; ++i) {
+    যদি (bscreen.GetModeList(&bmodes, &গুনতি) == B_OK) {
+        যদি (bscreen.GetMode(&this_bmode) == B_OK) {
+            প্রতি (i = 0; i < গুনতি; ++i) {
                 // FIXME: Apparently there are errors with colorspace changes
-                if (bmodes[i].space == this_bmode.space) {
+                যদি (bmodes[i].space == this_bmode.space) {
                     _BDisplayModeToSdlDisplayMode(&bmodes[i], &mode);
                     SDL_AddFullscreenDisplayMode(display, &mode);
                 }
             }
-            retval = true;
+            retval = সত্য;
         }
-        free(bmodes); // This should NOT be SDL_free()
+        মুক্ত(bmodes); // This should NOT be SDL_free()
     }
 
-    return retval;
+    প্রত্যাগম retval;
 }
 
 
-bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+তার্কিক HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
     // Get the current screen
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return SDL_SetError("Invalid screen");
+    যদি (!bscreen.IsValid()) {
+        প্রত্যাগম SDL_SetError("Invalid screen");
     }
 
     // Set the mode using the driver data
@@ -280,20 +280,20 @@ bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL
     uint32 c = 0, i;
     display_mode *bmode_list;
     bscreen.GetModeList(&bmode_list, &c);
-    for (i = 0; i < c; ++i) {
-        if (    bmode_list[i].space == bmode->space &&
+    প্রতি (i = 0; i < c; ++i) {
+        যদি (    bmode_list[i].space == bmode->space &&
             bmode_list[i].virtual_width == bmode->virtual_width &&
             bmode_list[i].virtual_height == bmode->virtual_height ) {
                 bmode = &bmode_list[i];
-                break;
+                ভঙ্গ;
         }
     }
 
-    if (bscreen.SetMode(bmode) != B_OK) {
-        return SDL_SetError("Bad video mode");
+    যদি (bscreen.SetMode(bmode) != B_OK) {
+        প্রত্যাগম SDL_SetError("Bad video mode");
     }
 
-    free(bmode_list); // This should NOT be SDL_free()
+    মুক্ত(bmode_list); // This should NOT be SDL_free()
 
 #ifdef SDL_VIDEO_OPENGL
     /* FIXME: Is there some way to reboot the OpenGL context?  This doesn't
@@ -301,7 +301,7 @@ bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL
 //    HAIKU_GL_RebootContexts(_this);
 #endif
 
-    return true;
+    প্রত্যাগম সত্য;
 }
 
 #ifdef __cplusplus

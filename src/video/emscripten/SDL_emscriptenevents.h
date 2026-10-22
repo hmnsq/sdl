@@ -22,12 +22,12 @@
 #ifndef SDL_emscriptenevents_h_
 #define SDL_emscriptenevents_h_
 
-#include "SDL_emscriptenvideo.h"
+#অন্তর্ভাব "SDL_emscriptenvideo.h"
 
-extern void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_RegisterEventHandlers(SDL_WindowData *data);
-extern void Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
-extern EM_BOOL Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData);
+বাহ্য শূন্য Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
+বাহ্য শূন্য Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
+বাহ্য শূন্য Emscripten_RegisterEventHandlers(SDL_WindowData *data);
+বাহ্য শূন্য Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
+বাহ্য EM_BOOL Emscripten_HandleCanvasResize(পূর্ণাঙ্ক eventType, ধ্রুব শূন্য *reserved, শূন্য *userData);
 
 #endif // SDL_emscriptenevents_h_

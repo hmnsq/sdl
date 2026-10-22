@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../SDL_pixels_c.h"
+#অন্তর্ভাব "../../events/SDL_events_c.h"
+#অন্তর্ভাব "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাব "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosmouse.h"
-#include "SDL_riscosmodes.h"
-#include "SDL_riscoswindow.h"
-#include "SDL_riscosmessagebox.h"
+#অন্তর্ভাব "SDL_riscosvideo.h"
+#অন্তর্ভাব "SDL_riscosevents_c.h"
+#অন্তর্ভাব "SDL_riscosframebuffer_c.h"
+#অন্তর্ভাব "SDL_riscosmouse.h"
+#অন্তর্ভাব "SDL_riscosmodes.h"
+#অন্তর্ভাব "SDL_riscoswindow.h"
+#অন্তর্ভাব "SDL_riscosmessagebox.h"
 
 #define RISCOSVID_DRIVER_NAME "riscos"
 
 // Initialization/Query functions
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this);
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this);
+স্থির bool RISCOS_VideoInit(SDL_VideoDevice *_this);
+স্থির শূন্য RISCOS_VideoQuit(SDL_VideoDevice *_this);
 
 // RISC OS driver bootstrap functions
 
-static void RISCOS_DeleteDevice(SDL_VideoDevice *device)
+স্থির শূন্য RISCOS_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *RISCOS_CreateDevice(void)
+স্থির SDL_VideoDevice *RISCOS_CreateDevice(শূন্য)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, পরিমাণ(SDL_VideoDevice));
+    যদি (!device) {
+        প্রত্যাগম রিক্ত;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, পরিমাণ(SDL_VideoData));
+    যদি (!data) {
         SDL_free(device);
-        return NULL;
+        প্রত্যাগম রিক্ত;
     }
 
     device->internal = data;
@@ -85,12 +85,12 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     device->UpdateWindowFramebuffer = RISCOS_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = RISCOS_DestroyWindowFramebuffer;
 
-    device->free = RISCOS_DeleteDevice;
+    device->মুক্ত = RISCOS_DeleteDevice;
 
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    প্রত্যাগম device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
@@ -100,29 +100,29 @@ VideoBootStrap RISCOS_bootstrap = {
     false
 };
 
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
+স্থির bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    যদি (!RISCOS_InitEvents(_this)) {
+        প্রত্যাগম false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    যদি (!RISCOS_InitMouse(_this)) {
+        প্রত্যাগম false;
     }
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, রিক্ত);
+    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, রিক্ত);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    যদি (!RISCOS_InitModes(_this)) {
+        প্রত্যাগম false;
     }
 
     // We're done!
-    return true;
+    প্রত্যাগম true;
 }
 
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this)
+স্থির শূন্য RISCOS_VideoQuit(SDL_VideoDevice *_this)
 {
     RISCOS_QuitEvents(_this);
 }

@@ -11,7 +11,7 @@
 #define VK_PLATFORM_H_
 
 #ifdef __cplusplus
-extern "C"
+বাহ্য "C"
 {
 #endif // __cplusplus
 
@@ -35,14 +35,14 @@ extern "C"
  * Function declaration:  VKAPI_ATTR void VKAPI_CALL vkCommand(void);
  * Function pointer type: typedef void (VKAPI_PTR *PFN_vkCommand)(void);
  */
-#if defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#যদি defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
     // On Windows, Vulkan commands use the stdcall convention
     #define VKAPI_ATTR
     #define VKAPI_CALL __stdcall
     #define VKAPI_PTR  VKAPI_CALL
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
+#নোচেদ্যদি defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
     #error "Vulkan is not supported for the 'armeabi' NDK ABI"
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
+#নোচেদ্যদি defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
     // On Android 32-bit ARM targets, Vulkan functions use the "hardfloat"
     // calling convention, i.e. float parameters are passed in registers. This
     // is true even if the rest of the application passes floats on the stack,
@@ -50,29 +50,29 @@ extern "C"
     #define VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
     #define VKAPI_CALL
     #define VKAPI_PTR  VKAPI_ATTR
-#else
+#অন্যথা
     // On other platforms, use the default calling convention
     #define VKAPI_ATTR
     #define VKAPI_CALL
     #define VKAPI_PTR
 #endif
 
-#if !defined(VK_NO_STDDEF_H)
-    #include <stddef.h>
+#যদি !defined(VK_NO_STDDEF_H)
+    #অন্তর্ভাব <stddef.h>
 #endif // !defined(VK_NO_STDDEF_H)
 
-#if !defined(VK_NO_STDINT_H)
-    #if defined(_MSC_VER) && (_MSC_VER < 1600)
-        typedef signed   __int8  int8_t;
-        typedef unsigned __int8  uint8_t;
-        typedef signed   __int16 int16_t;
-        typedef unsigned __int16 uint16_t;
-        typedef signed   __int32 int32_t;
-        typedef unsigned __int32 uint32_t;
-        typedef signed   __int64 int64_t;
-        typedef unsigned __int64 uint64_t;
-    #else
-        #include <stdint.h>
+#যদি !defined(VK_NO_STDINT_H)
+    #যদি defined(_MSC_VER) && (_MSC_VER < 1600)
+        প্রকারনির্দেশ signed   __int8  int8_t;
+        প্রকারনির্দেশ unsigned __int8  uint8_t;
+        প্রকারনির্দেশ signed   __int16 int16_t;
+        প্রকারনির্দেশ unsigned __int16 uint16_t;
+        প্রকারনির্দেশ signed   __int32 int32_t;
+        প্রকারনির্দেশ unsigned __int32 uint32_t;
+        প্রকারনির্দেশ signed   __int64 int64_t;
+        প্রকারনির্দেশ unsigned __int64 uint64_t;
+    #অন্যথা
+        #অন্তর্ভাব <stdint.h>
     #endif
 #endif // !defined(VK_NO_STDINT_H)
 

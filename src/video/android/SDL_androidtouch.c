@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include <android/log.h>
+#অন্তর্ভাব <android/log.h>
 
-#include "SDL_androidtouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../core/android/SDL_android.h"
+#অন্তর্ভাব "SDL_androidtouch.h"
+#অন্তর্ভাব "../../events/SDL_mouse_c.h"
+#অন্তর্ভাব "../../events/SDL_touch_c.h"
+#অন্তর্ভাব "../../core/android/SDL_android.h"
 
 #define ACTION_DOWN 0
 #define ACTION_UP   1
@@ -37,42 +37,42 @@
 #define ACTION_POINTER_DOWN 5
 #define ACTION_POINTER_UP   6
 
-void Android_InitTouch(void)
+শূন্য Android_InitTouch(শূন্য)
 {
     // Add all touch devices
     Android_JNI_InitTouch();
 }
 
-void Android_QuitTouch(void)
+শূন্য Android_QuitTouch(শূন্য)
 {
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(পূর্ণাঙ্ক touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    যদি (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } অন্যথা {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    প্রত্যাগম retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+শূন্য Android_OnTouch(SDL_Window *window, পূর্ণাঙ্ক touch_device_id_in, পূর্ণাঙ্ক pointer_finger_id_in, পূর্ণাঙ্ক action, ভিন্ন x, ভিন্ন y, ভিন্ন p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    যদি (!window) {
+        প্রত্যাগম;
     }
 
     touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
@@ -80,31 +80,31 @@ void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_fin
     // Finger ID should be greater than 0
     fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    যদি (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        প্রত্যাগম;
     }
 
-    switch (action) {
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
+    বিকল্প (action) {
+    পক্ষ ACTION_DOWN:
+    পক্ষ ACTION_POINTER_DOWN:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_DOWN, x, y, p);
-        break;
+        ভঙ্গ;
 
-    case ACTION_MOVE:
+    পক্ষ ACTION_MOVE:
         SDL_SendTouchMotion(0, touchDeviceId, fingerId, window, x, y, p);
-        break;
+        ভঙ্গ;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
+    পক্ষ ACTION_UP:
+    পক্ষ ACTION_POINTER_UP:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_UP, x, y, p);
-        break;
+        ভঙ্গ;
 
-    case ACTION_CANCEL:
+    পক্ষ ACTION_CANCEL:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_CANCELED, x, y, p);
-        break;
+        ভঙ্গ;
 
-    default:
-        break;
+    স্বভাব:
+        ভঙ্গ;
     }
 }
 

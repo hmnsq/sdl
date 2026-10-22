@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_MVK_IOS_SURFACE_SPEC_VERSION   3
 #define VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
 
-typedef VkFlags VkIOSSurfaceCreateFlagsMVK;
+প্রকারনির্দেশ VkFlags VkIOSSurfaceCreateFlagsMVK;
 
-typedef struct VkIOSSurfaceCreateInfoMVK {
+প্রকারনির্দেশ সংরচনা VkIOSSurfaceCreateInfoMVK {
     VkStructureType               sType;
-    const void*                   pNext;
+    ধ্রুব শূন্য*                   pNext;
     VkIOSSurfaceCreateFlagsMVK    flags;
-    const void*                   pView;
+    ধ্রুব শূন্য*                   pView;
 } VkIOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারনির্দেশ VkResult (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, ধ্রুব VkIOSSurfaceCreateInfoMVK* pCreateInfo, ধ্রুব VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateIOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুব VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
+    ধ্রুব VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
