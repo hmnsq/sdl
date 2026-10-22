@@ -31,7 +31,7 @@
 extern "C" {
 #endif
 
-extern bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+extern bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, puur_naa_nka *buttonID);
 
 #ifdef __cplusplus
 }

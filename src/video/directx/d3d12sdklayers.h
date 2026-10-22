@@ -38,14 +38,14 @@
 #ifndef __d3d12sdklayers_h__
 #define __d3d12sdklayers_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#ᯀᯮᯝ defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
+#ᯀᯮᯝ defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
+#ᯀᯮᯝᯂᯪ
 #define DECLSPEC_XFGVIRT(base, func)
 #endif
 #endif
@@ -209,7 +209,7 @@ extern "C"{
 #ifdef _MSC_VER
 #pragma region App Family
 #endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#ᯀᯮᯝ WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
@@ -224,7 +224,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Debug;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("344488b7-6846-474b-b989-f027448245e0")
     ID3D12Debug : public IUnknown
@@ -235,9 +235,9 @@ EXTERN_C const IID IID_ID3D12Debug;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugVtbl
+    typedef sa_nracanaa ID3D12DebugVtbl
     {
         BEGIN_INTERFACE
         
@@ -264,7 +264,7 @@ EXTERN_C const IID IID_ID3D12Debug;
 
     interface ID3D12Debug
     {
-        CONST_VTBL struct ID3D12DebugVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugVtbl *lpVtbl;
     };
 
     
@@ -300,7 +300,7 @@ EXTERN_C const IID IID_ID3D12Debug;
 /* [local] */ 
 
 typedef 
-enum D3D12_GPU_BASED_VALIDATION_FLAGS
+ga_nanaa D3D12_GPU_BASED_VALIDATION_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_FLAGS_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_FLAGS_DISABLE_STATE_TRACKING	= 0x1
@@ -321,7 +321,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Debug1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("affaa4ca-63fe-4d8e-b8ad-159000af4304")
     ID3D12Debug1 : public IUnknown
@@ -338,9 +338,9 @@ EXTERN_C const IID IID_ID3D12Debug1;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug1Vtbl
+    typedef sa_nracanaa ID3D12Debug1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -377,7 +377,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
 
     interface ID3D12Debug1
     {
-        CONST_VTBL struct ID3D12Debug1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug1Vtbl *lpVtbl;
     };
 
     
@@ -424,7 +424,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
 
 EXTERN_C const IID IID_ID3D12Debug2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("93a665c4-a3b2-4e5d-b692-a26ae14e3374")
     ID3D12Debug2 : public IUnknown
@@ -436,9 +436,9 @@ EXTERN_C const IID IID_ID3D12Debug2;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug2Vtbl
+    typedef sa_nracanaa ID3D12Debug2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -466,7 +466,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
 
     interface ID3D12Debug2
     {
-        CONST_VTBL struct ID3D12Debug2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug2Vtbl *lpVtbl;
     };
 
     
@@ -507,7 +507,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
 
 EXTERN_C const IID IID_ID3D12Debug3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5cf4e58f-f671-4ff1-a542-3686e3d153d1")
     ID3D12Debug3 : public ID3D12Debug
@@ -525,9 +525,9 @@ EXTERN_C const IID IID_ID3D12Debug3;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug3Vtbl
+    typedef sa_nracanaa ID3D12Debug3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -569,7 +569,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
 
     interface ID3D12Debug3
     {
-        CONST_VTBL struct ID3D12Debug3Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug3Vtbl *lpVtbl;
     };
 
     
@@ -620,7 +620,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
 
 EXTERN_C const IID IID_ID3D12Debug4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("014b816e-9ec5-4a2f-a845-ffbe441ce13a")
     ID3D12Debug4 : public ID3D12Debug3
@@ -631,9 +631,9 @@ EXTERN_C const IID IID_ID3D12Debug4;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug4Vtbl
+    typedef sa_nracanaa ID3D12Debug4Vtbl
     {
         BEGIN_INTERFACE
         
@@ -679,7 +679,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
 
     interface ID3D12Debug4
     {
-        CONST_VTBL struct ID3D12Debug4Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug4Vtbl *lpVtbl;
     };
 
     
@@ -734,7 +734,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
 
 EXTERN_C const IID IID_ID3D12Debug5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("548d6b12-09fa-40e0-9069-5dcd589a52c9")
     ID3D12Debug5 : public ID3D12Debug4
@@ -746,9 +746,9 @@ EXTERN_C const IID IID_ID3D12Debug5;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug5Vtbl
+    typedef sa_nracanaa ID3D12Debug5Vtbl
     {
         BEGIN_INTERFACE
         
@@ -799,7 +799,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
 
     interface ID3D12Debug5
     {
-        CONST_VTBL struct ID3D12Debug5Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug5Vtbl *lpVtbl;
     };
 
     
@@ -858,7 +858,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
 
 EXTERN_C const IID IID_ID3D12Debug6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82a816d6-5d01-4157-97d0-4975463fd1ed")
     ID3D12Debug6 : public ID3D12Debug5
@@ -870,9 +870,9 @@ EXTERN_C const IID IID_ID3D12Debug6;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12Debug6Vtbl
+    typedef sa_nracanaa ID3D12Debug6Vtbl
     {
         BEGIN_INTERFACE
         
@@ -928,7 +928,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
 
     interface ID3D12Debug6
     {
-        CONST_VTBL struct ID3D12Debug6Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Debug6Vtbl *lpVtbl;
     };
 
     
@@ -987,7 +987,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
 
 DEFINE_GUID(WKPDID_D3DAutoDebugObjectNameW, 0xd4902e36, 0x757a, 0x4942, 0x95, 0x94, 0xb6, 0x76, 0x9a, 0xfa, 0x43, 0xcd);
 typedef 
-enum D3D12_RLDO_FLAGS
+ga_nanaa D3D12_RLDO_FLAGS
     {
         D3D12_RLDO_NONE	= 0,
         D3D12_RLDO_SUMMARY	= 0x1,
@@ -997,7 +997,7 @@ enum D3D12_RLDO_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_RLDO_FLAGS)
 typedef 
-enum D3D12_DEBUG_DEVICE_PARAMETER_TYPE
+ga_nanaa D3D12_DEBUG_DEVICE_PARAMETER_TYPE
     {
         D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS	= 0,
         D3D12_DEBUG_DEVICE_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= ( D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS + 1 ) ,
@@ -1005,7 +1005,7 @@ enum D3D12_DEBUG_DEVICE_PARAMETER_TYPE
     } 	D3D12_DEBUG_DEVICE_PARAMETER_TYPE;
 
 typedef 
-enum D3D12_DEBUG_FEATURE
+ga_nanaa D3D12_DEBUG_FEATURE
     {
         D3D12_DEBUG_FEATURE_NONE	= 0,
         D3D12_DEBUG_FEATURE_ALLOW_BEHAVIOR_CHANGING_DEBUG_AIDS	= 0x1,
@@ -1016,7 +1016,7 @@ enum D3D12_DEBUG_FEATURE
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_DEBUG_FEATURE)
 typedef 
-enum D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
+ga_nanaa D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
     {
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_STATE_TRACKING_ONLY	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE + 1 ) ,
@@ -1026,7 +1026,7 @@ enum D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
     } 	D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE;
 
 typedef 
-enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
+ga_nanaa D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_FRONT_LOAD_CREATE_TRACKING_ONLY_SHADERS	= 0x1,
@@ -1036,14 +1036,14 @@ enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     } 	D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS)
-typedef struct D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
+typedef sa_nracanaa D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
     {
     UINT MaxMessagesPerCommandList;
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE DefaultShaderPatchMode;
     D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS PipelineStateCreateFlags;
     } 	D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS;
 
-typedef struct D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
+typedef sa_nracanaa D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
     {
     FLOAT SlowdownFactor;
     } 	D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR;
@@ -1062,7 +1062,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugDevice1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("a9b71770-d099-4a65-a698-3dee10020f88")
     ID3D12DebugDevice1 : public IUnknown
@@ -1084,9 +1084,9 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice1Vtbl
+    typedef sa_nracanaa ID3D12DebugDevice1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1128,7 +1128,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 
     interface ID3D12DebugDevice1
     {
-        CONST_VTBL struct ID3D12DebugDevice1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugDevice1Vtbl *lpVtbl;
     };
 
     
@@ -1175,7 +1175,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 
 EXTERN_C const IID IID_ID3D12DebugDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3febd6dd-4973-4787-8194-e45f9e28923e")
     ID3D12DebugDevice : public IUnknown
@@ -1192,9 +1192,9 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugDeviceVtbl
+    typedef sa_nracanaa ID3D12DebugDeviceVtbl
     {
         BEGIN_INTERFACE
         
@@ -1231,7 +1231,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 
     interface ID3D12DebugDevice
     {
-        CONST_VTBL struct ID3D12DebugDeviceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugDeviceVtbl *lpVtbl;
     };
 
     
@@ -1278,7 +1278,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 
 EXTERN_C const IID IID_ID3D12DebugDevice2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("60eccbc1-378d-4df1-894c-f8ac5ce4d7dd")
     ID3D12DebugDevice2 : public ID3D12DebugDevice
@@ -1297,9 +1297,9 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice2Vtbl
+    typedef sa_nracanaa ID3D12DebugDevice2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1350,7 +1350,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
 
     interface ID3D12DebugDevice2
     {
-        CONST_VTBL struct ID3D12DebugDevice2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugDevice2Vtbl *lpVtbl;
     };
 
     
@@ -1413,7 +1413,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053a")
     ID3D12DebugCommandQueue : public IUnknown
@@ -1427,9 +1427,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueueVtbl
+    typedef sa_nracanaa ID3D12DebugCommandQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -1459,7 +1459,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
     interface ID3D12DebugCommandQueue
     {
-        CONST_VTBL struct ID3D12DebugCommandQueueVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandQueueVtbl *lpVtbl;
     };
 
     
@@ -1500,7 +1500,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
 EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("16be35a2-bfd6-49f2-bcae-eaae4aff862d")
     ID3D12DebugCommandQueue1 : public ID3D12DebugCommandQueue
@@ -1519,9 +1519,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueue1Vtbl
+    typedef sa_nracanaa ID3D12DebugCommandQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1565,7 +1565,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 
     interface ID3D12DebugCommandQueue1
     {
-        CONST_VTBL struct ID3D12DebugCommandQueue1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandQueue1Vtbl *lpVtbl;
     };
 
     
@@ -1608,12 +1608,12 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 /* [local] */ 
 
 typedef 
-enum D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
+ga_nanaa D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
     {
         D3D12_DEBUG_COMMAND_LIST_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= 0
     } 	D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE;
 
-typedef struct D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
+typedef sa_nracanaa D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
     {
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE ShaderPatchMode;
     } 	D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS;
@@ -1632,7 +1632,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("102ca951-311b-4b01-b11f-ecb83e061b37")
     ID3D12DebugCommandList1 : public IUnknown
@@ -1656,9 +1656,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList1Vtbl
+    typedef sa_nracanaa ID3D12DebugCommandList1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1702,7 +1702,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
     interface ID3D12DebugCommandList1
     {
-        CONST_VTBL struct ID3D12DebugCommandList1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandList1Vtbl *lpVtbl;
     };
 
     
@@ -1749,7 +1749,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053f")
     ID3D12DebugCommandList : public IUnknown
@@ -1768,9 +1768,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandListVtbl
+    typedef sa_nracanaa ID3D12DebugCommandListVtbl
     {
         BEGIN_INTERFACE
         
@@ -1809,7 +1809,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 
     interface ID3D12DebugCommandList
     {
-        CONST_VTBL struct ID3D12DebugCommandListVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandListVtbl *lpVtbl;
     };
 
     
@@ -1856,7 +1856,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("aeb575cf-4e06-48be-ba3b-c450fc96652e")
     ID3D12DebugCommandList2 : public ID3D12DebugCommandList
@@ -1875,9 +1875,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList2Vtbl
+    typedef sa_nracanaa ID3D12DebugCommandList2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1930,7 +1930,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
     interface ID3D12DebugCommandList2
     {
-        CONST_VTBL struct ID3D12DebugCommandList2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandList2Vtbl *lpVtbl;
     };
 
     
@@ -1984,7 +1984,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("197d5e15-4d37-4d34-af78-724cd70fdb1f")
     ID3D12DebugCommandList3 : public ID3D12DebugCommandList2
@@ -2003,9 +2003,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList3Vtbl
+    typedef sa_nracanaa ID3D12DebugCommandList3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -2072,7 +2072,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
     interface ID3D12DebugCommandList3
     {
-        CONST_VTBL struct ID3D12DebugCommandList3Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DebugCommandList3Vtbl *lpVtbl;
     };
 
     
@@ -2133,7 +2133,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
 EXTERN_C const IID IID_ID3D12SharingContract;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0adf7d52-929c-4e61-addb-ffed30de66ef")
     ID3D12SharingContract : public IUnknown
@@ -2157,9 +2157,9 @@ EXTERN_C const IID IID_ID3D12SharingContract;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12SharingContractVtbl
+    typedef sa_nracanaa ID3D12SharingContractVtbl
     {
         BEGIN_INTERFACE
         
@@ -2205,7 +2205,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 
     interface ID3D12SharingContract
     {
-        CONST_VTBL struct ID3D12SharingContractVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12SharingContractVtbl *lpVtbl;
     };
 
     
@@ -2255,7 +2255,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 
 EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("86ca3b85-49ad-4b6e-aed5-eddb18540f41")
     ID3D12ManualWriteTrackingResource : public IUnknown
@@ -2268,9 +2268,9 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12ManualWriteTrackingResourceVtbl
+    typedef sa_nracanaa ID3D12ManualWriteTrackingResourceVtbl
     {
         BEGIN_INTERFACE
         
@@ -2299,7 +2299,7 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
 
     interface ID3D12ManualWriteTrackingResource
     {
-        CONST_VTBL struct ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
     };
 
     
@@ -2335,7 +2335,7 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
 /* [local] */ 
 
 typedef 
-enum D3D12_MESSAGE_CATEGORY
+ga_nanaa D3D12_MESSAGE_CATEGORY
     {
         D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED	= 0,
         D3D12_MESSAGE_CATEGORY_MISCELLANEOUS	= ( D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED + 1 ) ,
@@ -2351,7 +2351,7 @@ enum D3D12_MESSAGE_CATEGORY
     } 	D3D12_MESSAGE_CATEGORY;
 
 typedef 
-enum D3D12_MESSAGE_SEVERITY
+ga_nanaa D3D12_MESSAGE_SEVERITY
     {
         D3D12_MESSAGE_SEVERITY_CORRUPTION	= 0,
         D3D12_MESSAGE_SEVERITY_ERROR	= ( D3D12_MESSAGE_SEVERITY_CORRUPTION + 1 ) ,
@@ -2361,7 +2361,7 @@ enum D3D12_MESSAGE_SEVERITY
     } 	D3D12_MESSAGE_SEVERITY;
 
 typedef 
-enum D3D12_MESSAGE_ID
+ga_nanaa D3D12_MESSAGE_ID
     {
         D3D12_MESSAGE_ID_UNKNOWN	= 0,
         D3D12_MESSAGE_ID_STRING_FROM_APPLICATION	= 1,
@@ -3351,16 +3351,16 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_D3D12_MESSAGES_END	= ( D3D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_ROOT_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG + 1 ) 
     } 	D3D12_MESSAGE_ID;
 
-typedef struct D3D12_MESSAGE
+typedef sa_nracanaa D3D12_MESSAGE
     {
     D3D12_MESSAGE_CATEGORY Category;
     D3D12_MESSAGE_SEVERITY Severity;
     D3D12_MESSAGE_ID ID;
-    _Field_size_(DescriptionByteLength)  const char *pDescription;
+    _Field_size_(DescriptionByteLength)  const var_na *pDescription;
     SIZE_T DescriptionByteLength;
     } 	D3D12_MESSAGE;
 
-typedef struct D3D12_INFO_QUEUE_FILTER_DESC
+typedef sa_nracanaa D3D12_INFO_QUEUE_FILTER_DESC
     {
     UINT NumCategories;
     _Field_size_(NumCategories)  D3D12_MESSAGE_CATEGORY *pCategoryList;
@@ -3370,7 +3370,7 @@ typedef struct D3D12_INFO_QUEUE_FILTER_DESC
     _Field_size_(NumIDs)  D3D12_MESSAGE_ID *pIDList;
     } 	D3D12_INFO_QUEUE_FILTER_DESC;
 
-typedef struct D3D12_INFO_QUEUE_FILTER
+typedef sa_nracanaa D3D12_INFO_QUEUE_FILTER
     {
     D3D12_INFO_QUEUE_FILTER_DESC AllowList;
     D3D12_INFO_QUEUE_FILTER_DESC DenyList;
@@ -3391,7 +3391,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12InfoQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0742a90b-c387-483f-b946-30a7e4e61458")
     ID3D12InfoQueue : public IUnknown
@@ -3498,9 +3498,9 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12InfoQueueVtbl
+    typedef sa_nracanaa ID3D12InfoQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -3691,7 +3691,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
 
     interface ID3D12InfoQueue
     {
-        CONST_VTBL struct ID3D12InfoQueueVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12InfoQueueVtbl *lpVtbl;
     };
 
     
@@ -3829,7 +3829,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
 /* [local] */ 
 
 typedef 
-enum D3D12_MESSAGE_CALLBACK_FLAGS
+ga_nanaa D3D12_MESSAGE_CALLBACK_FLAGS
     {
         D3D12_MESSAGE_CALLBACK_FLAG_NONE	= 0,
         D3D12_MESSAGE_CALLBACK_IGNORE_FILTERS	= 0x1
@@ -3857,7 +3857,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12InfoQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᯀᯮᯝ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("2852dd88-b484-4c0c-b6b1-67168500e600")
     ID3D12InfoQueue1 : public ID3D12InfoQueue
@@ -3875,9 +3875,9 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
     };
     
     
-#else 	/* C style interface */
+#ᯀᯮᯝᯂᯪ 	/* C style interface */
 
-    typedef struct ID3D12InfoQueue1Vtbl
+    typedef sa_nracanaa ID3D12InfoQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -4081,7 +4081,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
 
     interface ID3D12InfoQueue1
     {
-        CONST_VTBL struct ID3D12InfoQueue1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12InfoQueue1Vtbl *lpVtbl;
     };
 
     

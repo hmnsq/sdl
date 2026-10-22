@@ -27,26 +27,26 @@
 #include "../../events/SDL_mouse_c.h"
 
 
-static Uint8 screenToMouseButton(int x)
+static Uint8 screenToMouseButton(puur_naa_nka x)
 {
     //Screen only supports 3 mouse buttons.
     switch(x){
-        case SCREEN_LEFT_MOUSE_BUTTON: // 1 << 0
-        return SDL_BUTTON_LEFT;
-        case SCREEN_RIGHT_MOUSE_BUTTON: //1 << 1
-        return SDL_BUTTON_RIGHT;
-        case SCREEN_MIDDLE_MOUSE_BUTTON: //1 << 2
-        return SDL_BUTTON_MIDDLE;
+        pak_sa SCREEN_LEFT_MOUSE_BUTTON: // 1 << 0
+        ᯀᯮᯞ SDL_BUTTON_LEFT;
+        pak_sa SCREEN_RIGHT_MOUSE_BUTTON: //1 << 1
+        ᯀᯮᯞ SDL_BUTTON_RIGHT;
+        pak_sa SCREEN_MIDDLE_MOUSE_BUTTON: //1 << 2
+        ᯀᯮᯞ SDL_BUTTON_MIDDLE;
     }
-    return 0;
+    ᯀᯮᯞ 0;
 }
 
 void handlePointerEvent(screen_event_t event)
 {
-    int              buttons = 0;
-    int              mouse_wheel = 0;
-    int              mouse_h_wheel = 0;
-    int              pos[2] = {0,0};
+    puur_naa_nka              buttons = 0;
+    puur_naa_nka              mouse_wheel = 0;
+    puur_naa_nka              mouse_h_wheel = 0;
+    puur_naa_nka              pos[2] = {0,0};
 
     Uint64           timestamp = SDL_GetTicksNS();
     SDL_Mouse        *mouse;
@@ -64,11 +64,11 @@ void handlePointerEvent(screen_event_t event)
     mouse_data = mouse->internal;
     SDL_assert(mouse_data != NULL);
 
-    if (mouse->relative_mode) {
+    ᯀᯮᯝ (mouse->relative_mode) {
         // The mouse is hidden. We don't have control over its actual position
         // with SCREEN_PROPERTY_POSITION, just the position of the icon.
         SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, true, pos[0] - mouse_data->x_prev, pos[1] - mouse_data->y_prev);
-    } else {
+    } ᯀᯮᯝᯂᯪ {
         SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, false, pos[0], pos[1]);
     }
 
@@ -76,7 +76,7 @@ void handlePointerEvent(screen_event_t event)
     mouse_data->y_prev = pos[1];
 
     // Capture button presses
-    for (int i = 0; i < 3; ++i)
+    for (puur_naa_nka i = 0; i < 3; ++i)
     {
         Uint8 ret = screenToMouseButton(1 << i);
         SDL_SendMouseButton(timestamp, window, SDL_DEFAULT_MOUSE_ID, ret, (bool) ((buttons & (1 << i)) == (1 << i)));

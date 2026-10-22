@@ -3,7 +3,7 @@
 
 #include <lsxintrin.h>
 
-#if YUV_FORMAT == YUV_FORMAT_420
+#ᯀᯮᯝ YUV_FORMAT == YUV_FORMAT_420
 
 #define READ_Y(y_ptr)                                     \
     y = __lsx_vld(y_ptr, 0);                              \
@@ -12,7 +12,7 @@
     u_temp = __lsx_vld(u_ptr, 0);                         \
     v_temp = __lsx_vld(v_ptr, 0);                         \
 
-#else
+#ᯀᯮᯝᯂᯪ
 #error READ_UV unimplemented
 #endif
 
@@ -50,7 +50,7 @@
     PACK_RGB24_32_STEP(R1, G1, B1, RGB1, RGB2, RGB3);                              \
     PACK_RGB24_32_STEP(R2, G2, B2, RGB4, RGB5, RGB6);                              \
 
-#if RGB_FORMAT == RGB_FORMAT_RGB24
+#ᯀᯮᯝ RGB_FORMAT == RGB_FORMAT_RGB24
 
 #define PACK_PIXEL                                                             \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6;                          \
@@ -104,7 +104,7 @@
     PACK_RGBA_32(a, a, b_8_21, b_8_22, g_8_21, g_8_22, r_8_21, r_8_22,          \
                  rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#else
+#ᯀᯮᯝᯂᯪ
 #error PACK_PIXEL unimplemented
 #endif
 
@@ -114,7 +114,7 @@
     __lsx_vst(in1, pdst + stride, 0);                           \
 }
 
-#if RGB_FORMAT == RGB_FORMAT_RGB24                              \
+#ᯀᯮᯝ RGB_FORMAT == RGB_FORMAT_RGB24                              \
 
 #define SAVE_LINE1                                              \
     LSX_ST_UB2(rgb_1, rgb_2, rgb_ptr1, 16);                     \
@@ -141,7 +141,7 @@
     LSX_ST_UB2(rgb_13, rgb_14, rgb_ptr2 + 64, 16);              \
     LSX_ST_UB2(rgb_15, rgb_16, rgb_ptr2 + 96, 16);              \
 
-#else
+#ᯀᯮᯝᯂᯪ
 #error SAVE_LINE unimplemented
 #endif
 
@@ -271,17 +271,17 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
                        YCbCrType yuv_type)
 {
     const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-    const int y_pixel_stride = 1;
-    const int uv_pixel_stride = 1;
-    const int uv_x_sample_interval = 2;
-    const int uv_y_sample_interval = 2;
+#ᯀᯮᯝ YUV_FORMAT == YUV_FORMAT_420
+    const puur_naa_nka y_pixel_stride = 1;
+    const puur_naa_nka uv_pixel_stride = 1;
+    const puur_naa_nka uv_x_sample_interval = 2;
+    const puur_naa_nka uv_y_sample_interval = 2;
 #endif
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
-    const int rgb_pixel_stride = 2;
+#ᯀᯮᯝ RGB_FORMAT == RGB_FORMAT_RGB565
+    const puur_naa_nka rgb_pixel_stride = 2;
 #elif RGB_FORMAT == RGB_FORMAT_RGB24
-    const int rgb_pixel_stride = 3;
+    const puur_naa_nka rgb_pixel_stride = 3;
     __m128i mask1 = {0x0504110302100100, 0x0A14090813070612};
     __m128i mask2 = {0x1808170716061505, 0x00000000000A1909};
     __m128i mask3 = {0x0504170302160100, 0x0A1A090819070618};
@@ -289,8 +289,8 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
     __m128i mask5 = {0x05041C03021B0100, 0x0A1F09081E07061D};
 #elif RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT_BGRA || \
     RGB_FORMAT == RGB_FORMAT_ARGB || RGB_FORMAT_ABGR
-    const int rgb_pixel_stride = 4;
-#else
+    const puur_naa_nka rgb_pixel_stride = 4;
+#ᯀᯮᯝᯂᯪ
 #error Unknown RGB pixel size
 #endif
 
@@ -304,7 +304,7 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
     __m128i yf    = __lsx_vreplgr2vr_h(param->y_factor);
     __m128i zero  = __lsx_vldi(0);
 
-    if (width >= 32) {
+    ᯀᯮᯝ (width >= 32) {
         for (ypos = 0; ypos < (height - (uv_y_sample_interval - 1)); ypos += uv_y_sample_interval) {
             const uint8_t *y_ptr1 = Y + ypos * Y_stride,
                           *y_ptr2 = Y + (ypos + 1) * Y_stride,
@@ -318,7 +318,7 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
                 {
                     PACK_PIXEL
                     SAVE_LINE1
-                    if (uv_y_sample_interval > 1)
+                    ᯀᯮᯝ (uv_y_sample_interval > 1)
                     {
                         SAVE_LINE2
                     }
@@ -331,7 +331,7 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
                 rgb_ptr2 += 32 * rgb_pixel_stride;
             }
         }
-        if (uv_y_sample_interval == 2 && ypos == (height - 1)) {
+        ᯀᯮᯝ (uv_y_sample_interval == 2 && ypos == (height - 1)) {
             const uint8_t *y_ptr = Y + ypos * Y_stride,
                           *u_ptr = U + (ypos/uv_y_sample_interval) * UV_stride,
                           *v_ptr = V + (ypos/uv_y_sample_interval) * UV_stride;
@@ -340,8 +340,8 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
         }
     }
     {
-        int converted = (width & ~31);
-        if (converted != width)
+        puur_naa_nka converted = (width & ~31);
+        ᯀᯮᯝ (converted != width)
         {
             const uint8_t *y_ptr = Y + converted * y_pixel_stride,
                           *u_ptr = U + converted * uv_pixel_stride / uv_x_sample_interval,

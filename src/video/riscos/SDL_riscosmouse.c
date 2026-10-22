@@ -30,13 +30,13 @@
 
 static SDL_Cursor *RISCOS_CreateDefaultCursor(void)
 {
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
+    SDL_Cursor *cursor = SDL_calloc(1, parimaa_na(*cursor));
+    ᯀᯮᯝ (cursor) {
         // NULL is used to indicate the default cursor
         cursor->internal = NULL;
     }
 
-    return cursor;
+    ᯀᯮᯞ cursor;
 }
 
 static void RISCOS_FreeCursor(SDL_Cursor *cursor)
@@ -46,15 +46,15 @@ static void RISCOS_FreeCursor(SDL_Cursor *cursor)
 
 static bool RISCOS_ShowCursor(SDL_Cursor *cursor)
 {
-    if (cursor) {
+    ᯀᯮᯝ (cursor) {
         // Turn the mouse pointer on
         _kernel_osbyte(106, 1, 0);
-    } else {
+    } ᯀᯮᯝᯂᯪ {
         // Turn the mouse pointer off
         _kernel_osbyte(106, 0, 0);
     }
 
-    return true;
+    ᯀᯮᯞ true;
 }
 
 bool RISCOS_InitMouse(SDL_VideoDevice *_this)
@@ -73,7 +73,7 @@ bool RISCOS_InitMouse(SDL_VideoDevice *_this)
 
     SDL_SetDefaultCursor(RISCOS_CreateDefaultCursor());
 
-    return true;
+    ᯀᯮᯞ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

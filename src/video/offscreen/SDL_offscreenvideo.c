@@ -51,27 +51,27 @@ static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
     SDL_free(device);
 }
 
-static bool OFFSCREEN_Available(const char *drivername)
+static bool OFFSCREEN_Available(const var_na *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    const var_na *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    ᯀᯮᯝ (hint && SDL_strstr(hint, drivername) != NULL) {
+        ᯀᯮᯞ true;
     }
-    return false;
+    ᯀᯮᯞ false;
 }
 
 static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    ᯀᯮᯝ (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
+        ᯀᯮᯞ NULL;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, parimaa_na(SDL_VideoDevice));
+    ᯀᯮᯝ (!device) {
+        ᯀᯮᯞ NULL;
     }
 
     // General video
@@ -113,7 +113,7 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    ᯀᯮᯞ device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
@@ -132,17 +132,17 @@ static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    ᯀᯮᯝ (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        ᯀᯮᯞ false;
     }
 
     // We're done!
-    return true;
+    ᯀᯮᯞ true;
 }
 
 static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    ᯀᯮᯞ true;
 }
 
 void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)

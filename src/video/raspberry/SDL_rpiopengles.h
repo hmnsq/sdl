@@ -23,7 +23,7 @@
 #ifndef SDL_rpiopengles_h_
 #define SDL_rpiopengles_h_
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#ᯀᯮᯝ defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
 #include "../SDL_sysvideo.h"
 #include "../SDL_egl_c.h"
@@ -36,7 +36,7 @@
 #define RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);

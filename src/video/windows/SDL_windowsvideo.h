@@ -35,9 +35,9 @@
 #include <dxgi.h>
 #endif
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ᯀᯮᯝ defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #include <msctf.h>
-#else
+#ᯀᯮᯝᯂᯪ
 #include "SDL_msctf.h"
 #endif
 
@@ -45,14 +45,14 @@
 
 #define MAX_CANDLIST   10
 #define MAX_CANDLENGTH 256
-#define MAX_CANDSIZE   (sizeof(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
+#define MAX_CANDSIZE   (parimaa_na(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
 
 #include "SDL_windowsclipboard.h"
 #include "SDL_windowsevents.h"
 #include "SDL_windowsgameinput.h"
 #include "SDL_windowsopengl.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ᯀᯮᯝ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #include "SDL_windowsshape.h"
 #include "SDL_windowskeyboard.h"
 #include "SDL_windowsmodes.h"
@@ -66,7 +66,7 @@
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
-#if WINVER < _WIN32_WINNT_WIN7
+#ᯀᯮᯝ WINVER < _WIN32_WINNT_WIN7
 // Touch input definitions
 #define TWF_FINETOUCH 1
 #define TWF_WANTPALM  2
@@ -77,7 +77,7 @@
 
 DECLARE_HANDLE(HTOUCHINPUT);
 
-typedef struct _TOUCHINPUT
+typedef sa_nracanaa _TOUCHINPUT
 {
     LONG x;
     LONG y;
@@ -93,14 +93,14 @@ typedef struct _TOUCHINPUT
 
 // More-robust display information in Vista...
 // This is a huge amount of data to be stuffing into three API calls. :(
-typedef struct DISPLAYCONFIG_PATH_SOURCE_INFO
+typedef sa_nracanaa DISPLAYCONFIG_PATH_SOURCE_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    sa_ngha
     {
         UINT32 modeInfoIdx;
-        struct
+        sa_nracanaa
         {
             UINT32 cloneGroupId : 16;
             UINT32 sourceModeInfoIdx : 16;
@@ -110,20 +110,20 @@ typedef struct DISPLAYCONFIG_PATH_SOURCE_INFO
     UINT32 statusFlags;
 } DISPLAYCONFIG_PATH_SOURCE_INFO;
 
-typedef struct DISPLAYCONFIG_RATIONAL
+typedef sa_nracanaa DISPLAYCONFIG_RATIONAL
 {
     UINT32 Numerator;
     UINT32 Denominator;
 } DISPLAYCONFIG_RATIONAL;
 
-typedef struct DISPLAYCONFIG_PATH_TARGET_INFO
+typedef sa_nracanaa DISPLAYCONFIG_PATH_TARGET_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    sa_ngha
     {
         UINT32 modeInfoIdx;
-        struct
+        sa_nracanaa
         {
             UINT32 desktopModeInfoIdx : 16;
             UINT32 targetModeInfoIdx : 16;
@@ -138,14 +138,14 @@ typedef struct DISPLAYCONFIG_PATH_TARGET_INFO
     UINT32 statusFlags;
 } DISPLAYCONFIG_PATH_TARGET_INFO;
 
-typedef struct DISPLAYCONFIG_PATH_INFO
+typedef sa_nracanaa DISPLAYCONFIG_PATH_INFO
 {
     DISPLAYCONFIG_PATH_SOURCE_INFO sourceInfo;
     DISPLAYCONFIG_PATH_TARGET_INFO targetInfo;
     UINT32 flags;
 } DISPLAYCONFIG_PATH_INFO;
 
-typedef enum
+typedef ga_nanaa
 {
     DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE = 1,
     DISPLAYCONFIG_MODE_INFO_TYPE_TARGET = 2,
@@ -153,13 +153,13 @@ typedef enum
     DISPLAYCONFIG_MODE_INFO_TYPE_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_MODE_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_2DREGION
+typedef sa_nracanaa DISPLAYCONFIG_2DREGION
 {
     UINT32 cx;
     UINT32 cy;
 } DISPLAYCONFIG_2DREGION;
 
-typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
+typedef sa_nracanaa DISPLAYCONFIG_VIDEO_SIGNAL_INFO
 {
     UINT64 pixelRate;
     DISPLAYCONFIG_RATIONAL hSyncFreq;
@@ -167,9 +167,9 @@ typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     DISPLAYCONFIG_2DREGION activeSize;
     DISPLAYCONFIG_2DREGION totalSize;
 
-    union
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
             UINT32 videoStandard : 16;
 
@@ -186,7 +186,7 @@ typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
 } DISPLAYCONFIG_VIDEO_SIGNAL_INFO;
 
-typedef struct DISPLAYCONFIG_SOURCE_MODE
+typedef sa_nracanaa DISPLAYCONFIG_SOURCE_MODE
 {
     UINT32 width;
     UINT32 height;
@@ -194,24 +194,24 @@ typedef struct DISPLAYCONFIG_SOURCE_MODE
     POINTL position;
 } DISPLAYCONFIG_SOURCE_MODE;
 
-typedef struct DISPLAYCONFIG_TARGET_MODE
+typedef sa_nracanaa DISPLAYCONFIG_TARGET_MODE
 {
     DISPLAYCONFIG_VIDEO_SIGNAL_INFO targetVideoSignalInfo;
 } DISPLAYCONFIG_TARGET_MODE;
 
-typedef struct DISPLAYCONFIG_DESKTOP_IMAGE_INFO
+typedef sa_nracanaa DISPLAYCONFIG_DESKTOP_IMAGE_INFO
 {
     POINTL PathSourceSize;
     RECTL DesktopImageRegion;
     RECTL DesktopImageClip;
 } DISPLAYCONFIG_DESKTOP_IMAGE_INFO;
 
-typedef struct DISPLAYCONFIG_MODE_INFO
+typedef sa_nracanaa DISPLAYCONFIG_MODE_INFO
 {
     DISPLAYCONFIG_MODE_INFO_TYPE infoType;
     UINT32 id;
     LUID adapterId;
-    union
+    sa_ngha
     {
         DISPLAYCONFIG_TARGET_MODE targetMode;
         DISPLAYCONFIG_SOURCE_MODE sourceMode;
@@ -219,7 +219,7 @@ typedef struct DISPLAYCONFIG_MODE_INFO
     } DUMMYUNIONNAME;
 } DISPLAYCONFIG_MODE_INFO;
 
-typedef enum DISPLAYCONFIG_TOPOLOGY_ID
+typedef ga_nanaa DISPLAYCONFIG_TOPOLOGY_ID
 {
     DISPLAYCONFIG_TOPOLOGY_INTERNAL = 0x00000001,
     DISPLAYCONFIG_TOPOLOGY_CLONE = 0x00000002,
@@ -228,7 +228,7 @@ typedef enum DISPLAYCONFIG_TOPOLOGY_ID
     DISPLAYCONFIG_TOPOLOGY_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_TOPOLOGY_ID;
 
-typedef enum
+typedef ga_nanaa
 {
     DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME = 1,
     DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME = 2,
@@ -244,7 +244,7 @@ typedef enum
     DISPLAYCONFIG_DEVICE_INFO_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_DEVICE_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_DEVICE_INFO_HEADER
+typedef sa_nracanaa DISPLAYCONFIG_DEVICE_INFO_HEADER
 {
     DISPLAYCONFIG_DEVICE_INFO_TYPE type;
     UINT32 size;
@@ -252,17 +252,17 @@ typedef struct DISPLAYCONFIG_DEVICE_INFO_HEADER
     UINT32 id;
 } DISPLAYCONFIG_DEVICE_INFO_HEADER;
 
-typedef struct DISPLAYCONFIG_SOURCE_DEVICE_NAME
+typedef sa_nracanaa DISPLAYCONFIG_SOURCE_DEVICE_NAME
 {
     DISPLAYCONFIG_DEVICE_INFO_HEADER header;
     WCHAR viewGdiDeviceName[CCHDEVICENAME];
 } DISPLAYCONFIG_SOURCE_DEVICE_NAME;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
+typedef sa_nracanaa DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
 {
-    union
+    sa_ngha
     {
-        struct
+        sa_nracanaa
         {
             UINT32 friendlyNameFromEdid : 1;
             UINT32 friendlyNameForced : 1;
@@ -273,7 +273,7 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
     } DUMMYUNIONNAME;
 } DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
+typedef sa_nracanaa DISPLAYCONFIG_TARGET_DEVICE_NAME
 {
     DISPLAYCONFIG_DEVICE_INFO_HEADER header;
     DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS flags;
@@ -289,7 +289,7 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
 
 #endif // WINVER < _WIN32_WINNT_WIN7
 
-#if WINVER < _WIN32_WINNT_WIN8
+#ᯀᯮᯝ WINVER < _WIN32_WINNT_WIN8
 // Pen input definitions
 #define POINTER_MESSAGE_FLAG_NEW 0x00000001
 #define POINTER_MESSAGE_FLAG_INRANGE 0x00000002
@@ -310,7 +310,7 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
 
 typedef DWORD POINTER_INPUT_TYPE;
 
-enum tagPOINTER_INPUT_TYPE
+ga_nanaa tagPOINTER_INPUT_TYPE
 {
     PT_POINTER = 1,
     PT_TOUCH,
@@ -334,7 +334,7 @@ typedef UINT32 PEN_MASK;
 #define PEN_MASK_TILT_X 0x00000004
 #define PEN_MASK_TILT_Y 0x00000008
 
-typedef enum tagPOINTER_BUTTON_CHANGE_TYPE
+typedef ga_nanaa tagPOINTER_BUTTON_CHANGE_TYPE
 {
     POINTER_CHANGE_NONE,
     POINTER_CHANGE_FIRSTBUTTON_DOWN,
@@ -349,7 +349,7 @@ typedef enum tagPOINTER_BUTTON_CHANGE_TYPE
     POINTER_CHANGE_FIFTHBUTTON_UP
 } POINTER_BUTTON_CHANGE_TYPE;
 
-typedef struct tagPOINTER_INFO
+typedef sa_nracanaa tagPOINTER_INFO
 {
     POINTER_INPUT_TYPE pointerType;
     UINT32 pointerId;
@@ -369,7 +369,7 @@ typedef struct tagPOINTER_INFO
     POINTER_BUTTON_CHANGE_TYPE ButtonChangeType;
 } POINTER_INFO;
 
-typedef struct tagPOINTER_PEN_INFO
+typedef sa_nracanaa tagPOINTER_PEN_INFO
 {
     POINTER_INFO pointerInfo;
     PEN_FLAGS penFlags;
@@ -384,7 +384,7 @@ typedef struct tagPOINTER_PEN_INFO
 
 #ifndef HAVE_SHELLSCALINGAPI_H
 
-typedef enum MONITOR_DPI_TYPE
+typedef ga_nanaa MONITOR_DPI_TYPE
 {
     MDT_EFFECTIVE_DPI = 0,
     MDT_ANGULAR_DPI = 1,
@@ -392,22 +392,22 @@ typedef enum MONITOR_DPI_TYPE
     MDT_DEFAULT = MDT_EFFECTIVE_DPI
 } MONITOR_DPI_TYPE;
 
-typedef enum PROCESS_DPI_AWARENESS
+typedef ga_nanaa PROCESS_DPI_AWARENESS
 {
     PROCESS_DPI_UNAWARE = 0,
     PROCESS_SYSTEM_DPI_AWARE = 1,
     PROCESS_PER_MONITOR_DPI_AWARE = 2
 } PROCESS_DPI_AWARENESS;
 
-#else
+#ᯀᯮᯝᯂᯪ
 #include <shellscalingapi.h>
 #endif
 
-typedef struct ITaskbarList3 ITaskbarList3;
+typedef sa_nracanaa ITaskbarList3 ITaskbarList3;
 
 #ifndef _DPI_AWARENESS_CONTEXTS_
 
-typedef enum DPI_AWARENESS
+typedef ga_nanaa DPI_AWARENESS
 {
     DPI_AWARENESS_INVALID = -1,
     DPI_AWARENESS_UNAWARE = 0,
@@ -424,28 +424,28 @@ DECLARE_HANDLE(DPI_AWARENESS_CONTEXT);
 #endif // _DPI_AWARENESS_CONTEXTS_
 
 // Windows 10 Creators Update
-#if NTDDI_VERSION < 0x0A000003
+#ᯀᯮᯝ NTDDI_VERSION < 0x0A000003
 #define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
 #endif // NTDDI_VERSION < 0x0A000003
 
 // Windows 10 version 1809
-#if NTDDI_VERSION < 0x0A000006
+#ᯀᯮᯝ NTDDI_VERSION < 0x0A000006
 #define DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
 #endif // NTDDI_VERSION < 0x0A000006
 
 typedef BOOL (*PFNSHFullScreen)(HWND, DWORD);
 typedef void (*PFCoordTransform)(SDL_Window *, POINT *);
 
-typedef struct
+typedef sa_nracanaa
 {
     void **lpVtbl;
-    int refcount;
+    puur_naa_nka refcount;
     void *data;
 } TSFSink;
 
 #ifndef SDL_DISABLE_WINDOWS_IME
 // Definition from Win98DDK version of IMM.H
-typedef struct tagINPUTCONTEXT2
+typedef sa_nracanaa tagINPUTCONTEXT2
 {
     HWND hWnd;
     BOOL fOpen;
@@ -453,7 +453,7 @@ typedef struct tagINPUTCONTEXT2
     POINT ptSoftKbdPos;
     DWORD fdwConversion;
     DWORD fdwSentence;
-    union
+    sa_ngha
     {
         LOGFONTA A;
         LOGFONTW W;
@@ -475,7 +475,7 @@ typedef struct tagINPUTCONTEXT2
 #ifndef DWMWA_WINDOW_CORNER_PREFERENCE
 #define DWMWA_WINDOW_CORNER_PREFERENCE 33
 #endif
-typedef enum {
+typedef ga_nanaa {
     DWMWCP_DEFAULT = 0,
     DWMWCP_DONOTROUND = 1,
     DWMWCP_ROUND = 2,
@@ -502,7 +502,7 @@ typedef enum {
 #ifndef DWM_BB_BLURREGION
 #define DWM_BB_BLURREGION 0x00000002
 #endif
-typedef struct
+typedef sa_nracanaa
 {
     DWORD flags;
     BOOL enable;
@@ -512,18 +512,18 @@ typedef struct
 
 // Private display data
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
-    int render;
+    puur_naa_nka render;
 
     bool coinitialized;
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#ᯀᯮᯝ !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
     bool oleinitialized;
 #endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
     DWORD clipboard_count;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
+#ᯀᯮᯝ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
     SDL_SharedObject *userDLL;
 
     // DisplayConfig functions
@@ -536,7 +536,7 @@ struct SDL_VideoData
     // Touch input functions
     /* *INDENT-OFF* */ // clang-format off
     BOOL (WINAPI *CloseTouchInputHandle)( HTOUCHINPUT );
-    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
+    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, puur_naa_nka );
     BOOL (WINAPI *RegisterTouchWindow)( HWND, ULONG );
     /* *INDENT-ON* */ // clang-format on
 
@@ -614,23 +614,23 @@ struct SDL_VideoData
     HIMC ime_himc;
 
     WCHAR *ime_composition;
-    int ime_composition_length;
+    puur_naa_nka ime_composition_length;
     WCHAR ime_readingstring[16];
-    int ime_cursor;
-    int ime_selected_start;
-    int ime_selected_length;
+    puur_naa_nka ime_cursor;
+    puur_naa_nka ime_selected_start;
+    puur_naa_nka ime_selected_length;
 
     bool ime_candidates_open;
     bool ime_update_candidates;
-    char *ime_candidates[MAX_CANDLIST];
-    int ime_candcount;
+    var_na *ime_candidates[MAX_CANDLIST];
+    puur_naa_nka ime_candcount;
     DWORD ime_candref;
     DWORD ime_candsel;
-    int ime_candlistindexbase;
+    puur_naa_nka ime_candlistindexbase;
     bool ime_horizontal_candidates;
 #endif
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ᯀᯮᯝ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     COMPOSITIONFORM ime_composition_area;
     CANDIDATEFORM ime_candidate_area;
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -652,7 +652,7 @@ struct SDL_VideoData
     BYTE pre_hook_key_state[256];
     UINT _SDL_WAKEUP;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ᯀᯮᯝ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     UINT WM_TASKBAR_BUTTON_CREATED;
     ITaskbarList3 *taskbar_list;
 #endif
@@ -662,7 +662,7 @@ extern bool g_WindowsEnableMessageLoop;
 extern bool g_WindowsEnableMenuMnemonics;
 extern bool g_WindowFrameUsableWhileCursorHidden;
 
-typedef struct IDirect3D9 IDirect3D9;
+typedef sa_nracanaa IDirect3D9 IDirect3D9;
 extern bool D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface);
 
 extern SDL_SystemTheme WIN_GetSystemTheme(void);

@@ -24,14 +24,14 @@
 
 #ifndef SDL_VIDEO_DRIVER_WINDOWS
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#ᯀᯮᯝ defined(SDL_PLATFORM_WINDOWS)
 
-bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
+bool SDL_RegisterApp(const var_na *name, Uint32 style, void *hInst)
 {
     (void)name;
     (void)style;
     (void)hInst;
-    return true;
+    ᯀᯮᯞ true;
 }
 
 void SDL_UnregisterApp(void)
@@ -44,28 +44,28 @@ void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
 
 #endif // defined(SDL_PLATFORM_WINDOWS)
 
-bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex)
+bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, puur_naa_nka *adapterIndex, puur_naa_nka *outputIndex)
 {
     (void)displayID;
     (void)adapterIndex;
     (void)outputIndex;
-    return SDL_Unsupported();
+    ᯀᯮᯞ SDL_Unsupported();
 }
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+puur_naa_nka SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
 {
     (void)displayID;
     SDL_Unsupported();
-    return -1;
+    ᯀᯮᯞ -1;
 }
 
 #elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+puur_naa_nka SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
 {
     (void)displayID;
     SDL_Unsupported();
-    return -1;
+    ᯀᯮᯞ -1;
 }
 
 #endif // !SDL_VIDEO_DRIVER_WINDOWS
@@ -75,12 +75,12 @@ int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
 bool SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue)
 {
     (void)outTaskQueue;
-    return SDL_Unsupported();
+    ᯀᯮᯞ SDL_Unsupported();
 }
 
 #endif
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#ᯀᯮᯝ !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
 void SDL_OnApplicationDidChangeStatusBarOrientation(void)
 {
@@ -91,13 +91,13 @@ void SDL_OnApplicationDidChangeStatusBarOrientation(void)
 
 #ifndef SDL_VIDEO_DRIVER_UIKIT
 
-bool SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam)
+bool SDL_SetiOSAnimationCallback(SDL_Window *window, puur_naa_nka interval, SDL_iOSAnimationCallback callback, void *callbackParam)
 {
     (void)window;
     (void)interval;
     (void)callback;
     (void)callbackParam;
-    return SDL_Unsupported();
+    ᯀᯮᯞ SDL_Unsupported();
 }
 
 void SDL_SetiOSEventPump(bool enabled)

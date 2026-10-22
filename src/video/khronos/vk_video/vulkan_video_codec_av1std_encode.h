@@ -29,7 +29,7 @@ extern "C" {
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_encode"
 
-typedef struct StdVideoEncodeAV1DecoderModelInfo {
+typedef sa_nracanaa StdVideoEncodeAV1DecoderModelInfo {
     uint8_t     buffer_delay_length_minus_1;
     uint8_t     buffer_removal_time_length_minus_1;
     uint8_t     frame_presentation_time_length_minus_1;
@@ -37,19 +37,19 @@ typedef struct StdVideoEncodeAV1DecoderModelInfo {
     uint32_t    num_units_in_decoding_tick;
 } StdVideoEncodeAV1DecoderModelInfo;
 
-typedef struct StdVideoEncodeAV1ExtensionHeader {
+typedef sa_nracanaa StdVideoEncodeAV1ExtensionHeader {
     uint8_t    temporal_id;
     uint8_t    spatial_id;
 } StdVideoEncodeAV1ExtensionHeader;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfoFlags {
+typedef sa_nracanaa StdVideoEncodeAV1OperatingPointInfoFlags {
     uint32_t    decoder_model_present_for_this_op : 1;
     uint32_t    low_delay_mode_flag : 1;
     uint32_t    initial_display_delay_present_for_this_op : 1;
     uint32_t    reserved : 29;
 } StdVideoEncodeAV1OperatingPointInfoFlags;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfo {
+typedef sa_nracanaa StdVideoEncodeAV1OperatingPointInfo {
     StdVideoEncodeAV1OperatingPointInfoFlags    flags;
     uint16_t                                    operating_point_idc;
     uint8_t                                     seq_level_idx;
@@ -59,7 +59,7 @@ typedef struct StdVideoEncodeAV1OperatingPointInfo {
     uint8_t                                     initial_display_delay_minus_1;
 } StdVideoEncodeAV1OperatingPointInfo;
 
-typedef struct StdVideoEncodeAV1PictureInfoFlags {
+typedef sa_nracanaa StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
@@ -92,7 +92,7 @@ typedef struct StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    reserved : 3;
 } StdVideoEncodeAV1PictureInfoFlags;
 
-typedef struct StdVideoEncodeAV1PictureInfo {
+typedef sa_nracanaa StdVideoEncodeAV1PictureInfo {
     StdVideoEncodeAV1PictureInfoFlags          flags;
     StdVideoAV1FrameType                       frame_type;
     uint32_t                                   frame_presentation_time;
@@ -122,13 +122,13 @@ typedef struct StdVideoEncodeAV1PictureInfo {
     const uint32_t*                            pBufferRemovalTimes;
 } StdVideoEncodeAV1PictureInfo;
 
-typedef struct StdVideoEncodeAV1ReferenceInfoFlags {
+typedef sa_nracanaa StdVideoEncodeAV1ReferenceInfoFlags {
     uint32_t    disable_frame_end_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeAV1ReferenceInfo {
+typedef sa_nracanaa StdVideoEncodeAV1ReferenceInfo {
     StdVideoEncodeAV1ReferenceInfoFlags        flags;
     uint32_t                                   RefFrameId;
     StdVideoAV1FrameType                       frame_type;

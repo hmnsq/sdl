@@ -154,10 +154,10 @@ void HAIKU_InitOSKeymap(void)
 }
 
 SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey) {
-    if (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
-        return keymap[bkey];
-    } else {
-        return SDL_SCANCODE_UNKNOWN;
+    ᯀᯮᯝ (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
+        ᯀᯮᯞ keymap[bkey];
+    } ᯀᯮᯝᯂᯪ {
+        ᯀᯮᯞ SDL_SCANCODE_UNKNOWN;
     }
 }
 
