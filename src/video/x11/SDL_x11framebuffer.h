@@ -22,13 +22,13 @@
 #ifndef SDL_x11framebuffer_h_
 #define SDL_x11framebuffer_h_
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-extern bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+बाह्य bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                         SDL_PixelFormat *format,
-                                        void **pixels, int *pitch);
-extern bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                        const SDL_Rect *rects, int numrects);
-extern void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+                                        शून्य **pixels, पूर्णांक *pitch);
+बाह्य bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+                                        स्थिरांक SDL_Rect *rects, पूर्णांक numrects);
+बाह्य शून्य X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11framebuffer_h_

@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_HAVE_RLE
 
@@ -87,13 +87,13 @@
  *   beginning of an opaque line.
  */
 
-#include "SDL_sysvideo.h"
-#include "SDL_surface_c.h"
-#include "SDL_pixels_c.h"
-#include "SDL_RLEaccel_c.h"
+#अन्तर्भाव "SDL_sysvideo.h"
+#अन्तर्भाव "SDL_surface_c.h"
+#अन्तर्भाव "SDL_pixels_c.h"
+#अन्तर्भाव "SDL_RLEaccel_c.h"
 
 #define PIXEL_COPY(to, from, len, bpp) \
-    SDL_memcpy(to, from, (size_t)(len) * (bpp))
+    SDL_memcpy(to, from, (माप_प्रकार)(len) * (bpp))
 
 /*
  * Various colorkey blit methods, for opaque and per-surface alpha
@@ -110,11 +110,11 @@
  * This can be used for any RGB permutation of course.
  */
 #define ALPHA_BLIT32_888(to, from, length, bpp, alpha)       \
-    do {                                                     \
-        int i;                                               \
+    करा {                                                     \
+        पूर्णांक i;                                               \
         Uint32 *src = (Uint32 *)(from);                      \
         Uint32 *dst = (Uint32 *)(to);                        \
-        for (i = 0; i < (int)(length); i++) {                \
+        साठी (i = 0; i < (पूर्णांक)(length); i++) {                \
             Uint32 s = *src++;                               \
             Uint32 d = *dst;                                 \
             Uint32 s1 = s & 0xff00ff;                        \
@@ -125,7 +125,7 @@
             d = (d + ((s - d) * alpha >> 8)) & 0xff00;       \
             *dst++ = d1 | d;                                 \
         }                                                    \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * For 16bpp pixels we can go a step further: put the middle component
@@ -134,12 +134,12 @@
  * 5 bits, we have to scale alpha down to 5 bits as well.
  */
 #define ALPHA_BLIT16_565(to, from, length, bpp, alpha) \
-    do {                                               \
-        int i;                                         \
+    करा {                                               \
+        पूर्णांक i;                                         \
         Uint16 *src = (Uint16 *)(from);                \
         Uint16 *dst = (Uint16 *)(to);                  \
         Uint32 ALPHA = alpha >> 3;                     \
-        for (i = 0; i < (int)(length); i++) {          \
+        साठी (i = 0; i < (पूर्णांक)(length); i++) {          \
             Uint32 s = *src++;                         \
             Uint32 d = *dst;                           \
             s = (s | s << 16) & 0x07e0f81f;            \
@@ -148,15 +148,15 @@
             d &= 0x07e0f81f;                           \
             *dst++ = (Uint16)(d | d >> 16);            \
         }                                              \
-    } while (0)
+    } पर्यंत (0)
 
 #define ALPHA_BLIT16_555(to, from, length, bpp, alpha) \
-    do {                                               \
-        int i;                                         \
+    करा {                                               \
+        पूर्णांक i;                                         \
         Uint16 *src = (Uint16 *)(from);                \
         Uint16 *dst = (Uint16 *)(to);                  \
         Uint32 ALPHA = alpha >> 3;                     \
-        for (i = 0; i < (int)(length); i++) {          \
+        साठी (i = 0; i < (पूर्णांक)(length); i++) {          \
             Uint32 s = *src++;                         \
             Uint32 d = *dst;                           \
             s = (s | s << 16) & 0x03e07c1f;            \
@@ -165,43 +165,43 @@
             d &= 0x03e07c1f;                           \
             *dst++ = (Uint16)(d | d >> 16);            \
         }                                              \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * The general slow catch-all function, for remaining depths and formats
  */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#जर SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define SET_RGB24(dst, d)      \
     dst[0] = (Uint8)(d >> 16); \
     dst[1] = (Uint8)(d >> 8);  \
     dst[2] = (Uint8)(d);
-#else
+#अन्यथा
 #define SET_RGB24(dst, d)      \
     dst[0] = (Uint8)(d);       \
     dst[1] = (Uint8)(d >> 8);  \
     dst[2] = (Uint8)(d >> 16);
 #endif
 #define ALPHA_BLIT_ANY(to, from, length, bpp, alpha)             \
-    do {                                                         \
-        int i;                                                   \
+    करा {                                                         \
+        पूर्णांक i;                                                   \
         Uint8 *src = from;                                       \
         Uint8 *dst = to;                                         \
-        for (i = 0; i < (int)(length); i++) {                    \
+        साठी (i = 0; i < (पूर्णांक)(length); i++) {                    \
             Uint32 s = 0, d = 0;                                 \
-            unsigned rs, gs, bs, rd, gd, bd;                     \
-            switch (bpp) {                                       \
-            case 2:                                              \
+            अचिन्हित rs, gs, bs, rd, gd, bd;                     \
+            निवड (bpp) {                                       \
+            स्थिती 2:                                              \
                 s = *(Uint16 *)src;                              \
                 d = *(Uint16 *)dst;                              \
-                break;                                           \
-            case 3:                                              \
+                थांबा;                                           \
+            स्थिती 3:                                              \
                 s = GET_RGB24(src);                              \
                 d = GET_RGB24(dst);                              \
-                break;                                           \
-            case 4:                                              \
+                थांबा;                                           \
+            स्थिती 4:                                              \
                 s = *(Uint32 *)src;                              \
                 d = *(Uint32 *)dst;                              \
-                break;                                           \
+                थांबा;                                           \
             }                                                    \
             RGB_FROM_PIXEL(s, fmt, rs, gs, bs);                  \
             RGB_FROM_PIXEL(d, fmt, rd, gd, bd);                  \
@@ -209,21 +209,21 @@
             gd += (gs - gd) * alpha >> 8;                        \
             bd += (bs - bd) * alpha >> 8;                        \
             PIXEL_FROM_RGB(d, fmt, rd, gd, bd);                  \
-            switch (bpp) {                                       \
-            case 2:                                              \
+            निवड (bpp) {                                       \
+            स्थिती 2:                                              \
                 *(Uint16 *)dst = (Uint16)d;                      \
-                break;                                           \
-            case 3:                                              \
+                थांबा;                                           \
+            स्थिती 3:                                              \
                 SET_RGB24(dst, d);                               \
-                break;                                           \
-            case 4:                                              \
+                थांबा;                                           \
+            स्थिती 4:                                              \
                 *(Uint32 *)dst = d;                              \
-                break;                                           \
+                थांबा;                                           \
             }                                                    \
             src += bpp;                                          \
             dst += bpp;                                          \
         }                                                        \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * Special case: 50% alpha (alpha=128)
@@ -234,16 +234,16 @@
  * add them. Then shift right and add the sum of the lowest bits.
  */
 #define ALPHA_BLIT32_888_50(to, from, length, bpp, alpha)                                 \
-    do {                                                                                  \
-        int i;                                                                            \
+    करा {                                                                                  \
+        पूर्णांक i;                                                                            \
         Uint32 *src = (Uint32 *)(from);                                                   \
         Uint32 *dst = (Uint32 *)(to);                                                     \
-        for (i = 0; i < (int)(length); i++) {                                             \
+        साठी (i = 0; i < (पूर्णांक)(length); i++) {                                             \
             Uint32 s = *src++;                                                            \
             Uint32 d = *dst;                                                              \
             *dst++ = (((s & 0x00fefefe) + (d & 0x00fefefe)) >> 1) + (s & d & 0x00010101); \
         }                                                                                 \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * For 16bpp, we can actually blend two pixels in parallel, if we take
@@ -252,40 +252,40 @@
 
 // helper: blend a single 16 bit pixel at 50%
 #define BLEND16_50(dst, src, mask)                           \
-    do {                                                     \
+    करा {                                                     \
         Uint32 s = *src++;                                   \
         Uint32 d = *dst;                                     \
         *dst++ = (Uint16)((((s & mask) + (d & mask)) >> 1) + \
                           (s & d & (~mask & 0xffff)));       \
-    } while (0)
+    } पर्यंत (0)
 
 // basic 16bpp blender. mask is the pixels to keep when adding.
 #define ALPHA_BLIT16_50(to, from, length, bpp, alpha, mask)                                                                              \
-    do {                                                                                                                                 \
-        unsigned n = (length);                                                                                                           \
+    करा {                                                                                                                                 \
+        अचिन्हित n = (length);                                                                                                           \
         Uint16 *src = (Uint16 *)(from);                                                                                                  \
         Uint16 *dst = (Uint16 *)(to);                                                                                                    \
-        if (((uintptr_t)src ^ (uintptr_t)dst) & 3) {                                                                                     \
+        जर (((uintptr_t)src ^ (uintptr_t)dst) & 3) {                                                                                     \
             /* source and destination not in phase, blit one by one */                                                                   \
-            while (n--)                                                                                                                  \
+            पर्यंत (n--)                                                                                                                  \
                 BLEND16_50(dst, src, mask);                                                                                              \
-        } else {                                                                                                                         \
-            if ((uintptr_t)src & 3) {                                                                                                    \
+        } अन्यथा {                                                                                                                         \
+            जर ((uintptr_t)src & 3) {                                                                                                    \
                 /* first odd pixel */                                                                                                    \
                 BLEND16_50(dst, src, mask);                                                                                              \
                 n--;                                                                                                                     \
             }                                                                                                                            \
-            for (; n > 1; n -= 2) {                                                                                                      \
+            साठी (; n > 1; n -= 2) {                                                                                                      \
                 Uint32 s = *(Uint32 *)src;                                                                                               \
                 Uint32 d = *(Uint32 *)dst;                                                                                               \
                 *(Uint32 *)dst = ((s & (mask | mask << 16)) >> 1) + ((d & (mask | mask << 16)) >> 1) + (s & d & (~(mask | mask << 16))); \
                 src += 2;                                                                                                                \
                 dst += 2;                                                                                                                \
             }                                                                                                                            \
-            if (n)                                                                                                                       \
+            जर (n)                                                                                                                       \
                 BLEND16_50(dst, src, mask); /* last odd pixel */                                                                         \
         }                                                                                                                                \
-    } while (0)
+    } पर्यंत (0)
 
 #define ALPHA_BLIT16_565_50(to, from, length, bpp, alpha) \
     ALPHA_BLIT16_50(to, from, length, bpp, alpha, 0xf7deU)
@@ -294,79 +294,79 @@
     ALPHA_BLIT16_50(to, from, length, bpp, alpha, 0xfbdeU)
 
 #define CHOOSE_BLIT(blitter, alpha, fmt)                                                                                                              \
-    do {                                                                                                                                              \
-        if (alpha == 255) {                                                                                                                           \
-            switch (fmt->bytes_per_pixel) {                                                                                                             \
-            case 1:                                                                                                                                   \
+    करा {                                                                                                                                              \
+        जर (alpha == 255) {                                                                                                                           \
+            निवड (fmt->bytes_per_pixel) {                                                                                                             \
+            स्थिती 1:                                                                                                                                   \
                 blitter(1, Uint8, OPAQUE_BLIT);                                                                                                       \
-                break;                                                                                                                                \
-            case 2:                                                                                                                                   \
+                थांबा;                                                                                                                                \
+            स्थिती 2:                                                                                                                                   \
                 blitter(2, Uint8, OPAQUE_BLIT);                                                                                                       \
-                break;                                                                                                                                \
-            case 3:                                                                                                                                   \
+                थांबा;                                                                                                                                \
+            स्थिती 3:                                                                                                                                   \
                 blitter(3, Uint8, OPAQUE_BLIT);                                                                                                       \
-                break;                                                                                                                                \
-            case 4:                                                                                                                                   \
+                थांबा;                                                                                                                                \
+            स्थिती 4:                                                                                                                                   \
                 blitter(4, Uint16, OPAQUE_BLIT);                                                                                                      \
-                break;                                                                                                                                \
+                थांबा;                                                                                                                                \
             }                                                                                                                                         \
-        } else {                                                                                                                                      \
-            switch (fmt->bytes_per_pixel) {                                                                                                             \
-            case 1:                                                                                                                                   \
+        } अन्यथा {                                                                                                                                      \
+            निवड (fmt->bytes_per_pixel) {                                                                                                             \
+            स्थिती 1:                                                                                                                                   \
                 /* No 8bpp alpha blitting */                                                                                                          \
-                break;                                                                                                                                \
+                थांबा;                                                                                                                                \
                                                                                                                                                       \
-            case 2:                                                                                                                                   \
-                switch (fmt->Rmask | fmt->Gmask | fmt->Bmask) {                                                                                       \
-                case 0xffff:                                                                                                                          \
-                    if (fmt->Gmask == 0x07e0 || fmt->Rmask == 0x07e0 || fmt->Bmask == 0x07e0) {                                                       \
-                        if (alpha == 128) {                                                                                                           \
+            स्थिती 2:                                                                                                                                   \
+                निवड (fmt->Rmask | fmt->Gmask | fmt->Bmask) {                                                                                       \
+                स्थिती 0xffff:                                                                                                                          \
+                    जर (fmt->Gmask == 0x07e0 || fmt->Rmask == 0x07e0 || fmt->Bmask == 0x07e0) {                                                       \
+                        जर (alpha == 128) {                                                                                                           \
                             blitter(2, Uint8, ALPHA_BLIT16_565_50);                                                                                   \
-                        } else {                                                                                                                      \
+                        } अन्यथा {                                                                                                                      \
                             blitter(2, Uint8, ALPHA_BLIT16_565);                                                                                      \
                         }                                                                                                                             \
-                    } else {                                                                                                                          \
-                        goto general16;                                                                                                               \
+                    } अन्यथा {                                                                                                                          \
+                        जा general16;                                                                                                               \
                     }                                                                                                                                 \
-                    break;                                                                                                                            \
+                    थांबा;                                                                                                                            \
                                                                                                                                                       \
-                case 0x7fff:                                                                                                                          \
-                    if (fmt->Gmask == 0x03e0 || fmt->Rmask == 0x03e0 || fmt->Bmask == 0x03e0) {                                                       \
-                        if (alpha == 128) {                                                                                                           \
+                स्थिती 0x7fff:                                                                                                                          \
+                    जर (fmt->Gmask == 0x03e0 || fmt->Rmask == 0x03e0 || fmt->Bmask == 0x03e0) {                                                       \
+                        जर (alpha == 128) {                                                                                                           \
                             blitter(2, Uint8, ALPHA_BLIT16_555_50);                                                                                   \
-                        } else {                                                                                                                      \
+                        } अन्यथा {                                                                                                                      \
                             blitter(2, Uint8, ALPHA_BLIT16_555);                                                                                      \
                         }                                                                                                                             \
-                        break;                                                                                                                        \
-                    } else {                                                                                                                          \
-                        goto general16;                                                                                                               \
+                        थांबा;                                                                                                                        \
+                    } अन्यथा {                                                                                                                          \
+                        जा general16;                                                                                                               \
                     }                                                                                                                                 \
-                    break;                                                                                                                            \
+                    थांबा;                                                                                                                            \
                                                                                                                                                       \
-                default:                                                                                                                              \
+                पूर्वनिर्धारित:                                                                                                                              \
                 general16:                                                                                                                            \
                     blitter(2, Uint8, ALPHA_BLIT_ANY);                                                                                                \
                 }                                                                                                                                     \
-                break;                                                                                                                                \
+                थांबा;                                                                                                                                \
                                                                                                                                                       \
-            case 3:                                                                                                                                   \
+            स्थिती 3:                                                                                                                                   \
                 blitter(3, Uint8, ALPHA_BLIT_ANY);                                                                                                    \
-                break;                                                                                                                                \
+                थांबा;                                                                                                                                \
                                                                                                                                                       \
-            case 4:                                                                                                                                   \
-                if ((fmt->Rmask | fmt->Gmask | fmt->Bmask) == 0x00ffffff && (fmt->Gmask == 0xff00 || fmt->Rmask == 0xff00 || fmt->Bmask == 0xff00)) { \
-                    if (alpha == 128) {                                                                                                               \
+            स्थिती 4:                                                                                                                                   \
+                जर ((fmt->Rmask | fmt->Gmask | fmt->Bmask) == 0x00ffffff && (fmt->Gmask == 0xff00 || fmt->Rmask == 0xff00 || fmt->Bmask == 0xff00)) { \
+                    जर (alpha == 128) {                                                                                                               \
                         blitter(4, Uint16, ALPHA_BLIT32_888_50);                                                                                      \
-                    } else {                                                                                                                          \
+                    } अन्यथा {                                                                                                                          \
                         blitter(4, Uint16, ALPHA_BLIT32_888);                                                                                         \
                     }                                                                                                                                 \
-                } else {                                                                                                                              \
+                } अन्यथा {                                                                                                                              \
                     blitter(4, Uint16, ALPHA_BLIT_ANY);                                                                                               \
                 }                                                                                                                                     \
-                break;                                                                                                                                \
+                थांबा;                                                                                                                                \
             }                                                                                                                                         \
         }                                                                                                                                             \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * Set a pixel value using the given format, except that the alpha value is
@@ -385,55 +385,55 @@
  * right. Top clipping has already been taken care of.
  */
 #define RLECLIPBLIT(bpp, Type, do_blit)                                    \
-    do {                                                                   \
-        int linecount = srcrect->h;                                        \
-        int ofs = 0;                                                       \
-        int left = srcrect->x;                                             \
-        int right = left + srcrect->w;                                     \
-        dstbuf -= left * bpp;                                              \
-        for (;;) {                                                         \
-            int run;                                                       \
+    करा {                                                                   \
+        पूर्णांक linecount = srcrect->h;                                        \
+        पूर्णांक ofs = 0;                                                       \
+        पूर्णांक डावा = srcrect->x;                                             \
+        पूर्णांक उजवा = डावा + srcrect->w;                                     \
+        dstbuf -= डावा * bpp;                                              \
+        साठी (;;) {                                                         \
+            पूर्णांक run;                                                       \
             ofs += *(Type *)srcbuf;                                        \
             run = ((Type *)srcbuf)[1];                                     \
-            srcbuf += 2 * sizeof(Type);                                    \
-            if (run) {                                                     \
+            srcbuf += 2 * आकार(Type);                                    \
+            जर (run) {                                                     \
                 /* clip to left and right borders */                       \
-                if (ofs < right) {                                         \
-                    int start = 0;                                         \
-                    int len = run;                                         \
-                    int startcol;                                          \
-                    if (left - ofs > 0) {                                  \
-                        start = left - ofs;                                \
+                जर (ofs < उजवा) {                                         \
+                    पूर्णांक start = 0;                                         \
+                    पूर्णांक len = run;                                         \
+                    पूर्णांक startcol;                                          \
+                    जर (डावा - ofs > 0) {                                  \
+                        start = डावा - ofs;                                \
                         len -= start;                                      \
-                        if (len <= 0)                                      \
-                            goto nocopy##bpp##do_blit;                     \
+                        जर (len <= 0)                                      \
+                            जा nocopy##bpp##do_blit;                     \
                     }                                                      \
                     startcol = ofs + start;                                \
-                    if (len > right - startcol)                            \
-                        len = right - startcol;                            \
+                    जर (len > उजवा - startcol)                            \
+                        len = उजवा - startcol;                            \
                     do_blit(dstbuf + startcol * bpp, srcbuf + start * bpp, \
                             len, bpp, alpha);                              \
                 }                                                          \
                 nocopy##bpp##do_blit : srcbuf += run * bpp;                \
                 ofs += run;                                                \
-            } else if (!ofs) {                                             \
-                break;                                                     \
+            } अन्यथा जर (!ofs) {                                             \
+                थांबा;                                                     \
             }                                                              \
                                                                            \
-            if (ofs == w) {                                                \
+            जर (ofs == w) {                                                \
                 ofs = 0;                                                   \
                 dstbuf += surf_dst->pitch;                                 \
-                if (!--linecount) {                                        \
-                    break;                                                 \
+                जर (!--linecount) {                                        \
+                    थांबा;                                                 \
                 }                                                          \
             }                                                              \
         }                                                                  \
-    } while (0)
+    } पर्यंत (0)
 
-static void RLEClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
-                        Uint8 *dstbuf, const SDL_Rect *srcrect, unsigned alpha)
+स्थिर शून्य RLEClipBlit(पूर्णांक w, Uint8 *srcbuf, SDL_Surface *surf_dst,
+                        Uint8 *dstbuf, स्थिरांक SDL_Rect *srcrect, अचिन्हित alpha)
 {
-    const SDL_PixelFormatDetails *fmt = surf_dst->fmt;
+    स्थिरांक SDL_PixelFormatDetails *fmt = surf_dst->fmt;
 
     CHOOSE_BLIT(RLECLIPBLIT, alpha, fmt);
 }
@@ -441,19 +441,19 @@ static void RLEClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
 #undef RLECLIPBLIT
 
 // blit a colorkeyed RLE surface
-static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
-                                SDL_Surface *surf_dst, const SDL_Rect *dstrect)
+स्थिर bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, स्थिरांक SDL_Rect *srcrect,
+                                SDL_Surface *surf_dst, स्थिरांक SDL_Rect *dstrect)
 {
     Uint8 *dstbuf;
     Uint8 *srcbuf;
-    int x, y;
-    int w = surf_src->w;
-    unsigned alpha;
+    पूर्णांक x, y;
+    पूर्णांक w = surf_src->w;
+    अचिन्हित alpha;
 
     // Lock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
-        if (!SDL_LockSurface(surf_dst)) {
-            return false;
+    जर (SDL_MUSTLOCK(surf_dst)) {
+        जर (!SDL_LockSurface(surf_dst)) {
+            परत false;
         }
     }
 
@@ -461,45 +461,45 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
     x = dstrect->x;
     y = dstrect->y;
     dstbuf = (Uint8 *)surf_dst->pixels + y * surf_dst->pitch + x * surf_src->fmt->bytes_per_pixel;
-    srcbuf = (Uint8 *)surf_src->map.data + sizeof(SDL_PixelFormat);
+    srcbuf = (Uint8 *)surf_src->map.data + आकार(SDL_PixelFormat);
 
     {
         // skip lines at the top if necessary
-        int vskip = srcrect->y;
-        int ofs = 0;
-        if (vskip) {
+        पूर्णांक vskip = srcrect->y;
+        पूर्णांक ofs = 0;
+        जर (vskip) {
 
 #define RLESKIP(bpp, Type)          \
-    for (;;) {                      \
-        int run;                    \
+    साठी (;;) {                      \
+        पूर्णांक run;                    \
         ofs += *(Type *)srcbuf;     \
         run = ((Type *)srcbuf)[1];  \
-        srcbuf += sizeof(Type) * 2; \
-        if (run) {                  \
+        srcbuf += आकार(Type) * 2; \
+        जर (run) {                  \
             srcbuf += run * bpp;    \
             ofs += run;             \
-        } else if (!ofs)            \
-            goto done;              \
-        if (ofs == w) {             \
+        } अन्यथा जर (!ofs)            \
+            जा done;              \
+        जर (ofs == w) {             \
             ofs = 0;                \
-            if (!--vskip)           \
-                break;              \
+            जर (!--vskip)           \
+                थांबा;              \
         }                           \
     }
 
-            switch (surf_src->fmt->bytes_per_pixel) {
-            case 1:
+            निवड (surf_src->fmt->bytes_per_pixel) {
+            स्थिती 1:
                 RLESKIP(1, Uint8);
-                break;
-            case 2:
+                थांबा;
+            स्थिती 2:
                 RLESKIP(2, Uint8);
-                break;
-            case 3:
+                थांबा;
+            स्थिती 3:
                 RLESKIP(3, Uint8);
-                break;
-            case 4:
+                थांबा;
+            स्थिती 4:
                 RLESKIP(4, Uint16);
-                break;
+                थांबा;
             }
 
 #undef RLESKIP
@@ -508,34 +508,34 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 
     alpha = surf_src->map.info.a;
     // if left or right edge clipping needed, call clip blit
-    if (srcrect->x || srcrect->w != surf_src->w) {
+    जर (srcrect->x || srcrect->w != surf_src->w) {
         RLEClipBlit(w, srcbuf, surf_dst, dstbuf, srcrect, alpha);
-    } else {
-        const SDL_PixelFormatDetails *fmt = surf_src->fmt;
+    } अन्यथा {
+        स्थिरांक SDL_PixelFormatDetails *fmt = surf_src->fmt;
 
 #define RLEBLIT(bpp, Type, do_blit)                                   \
-    do {                                                              \
-        int linecount = srcrect->h;                                   \
-        int ofs = 0;                                                  \
-        for (;;) {                                                    \
-            unsigned run;                                             \
+    करा {                                                              \
+        पूर्णांक linecount = srcrect->h;                                   \
+        पूर्णांक ofs = 0;                                                  \
+        साठी (;;) {                                                    \
+            अचिन्हित run;                                             \
             ofs += *(Type *)srcbuf;                                   \
             run = ((Type *)srcbuf)[1];                                \
-            srcbuf += 2 * sizeof(Type);                               \
-            if (run) {                                                \
+            srcbuf += 2 * आकार(Type);                               \
+            जर (run) {                                                \
                 do_blit(dstbuf + ofs * bpp, srcbuf, run, bpp, alpha); \
                 srcbuf += run * bpp;                                  \
                 ofs += run;                                           \
-            } else if (!ofs)                                          \
-                break;                                                \
-            if (ofs == w) {                                           \
+            } अन्यथा जर (!ofs)                                          \
+                थांबा;                                                \
+            जर (ofs == w) {                                           \
                 ofs = 0;                                              \
                 dstbuf += surf_dst->pitch;                            \
-                if (!--linecount)                                     \
-                    break;                                            \
+                जर (!--linecount)                                     \
+                    थांबा;                                            \
             }                                                         \
         }                                                             \
-    } while (0)
+    } पर्यंत (0)
 
         CHOOSE_BLIT(RLEBLIT, alpha, fmt);
 
@@ -544,10 +544,10 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 
 done:
     // Unlock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
+    जर (SDL_MUSTLOCK(surf_dst)) {
         SDL_UnlockSurface(surf_dst);
     }
-    return true;
+    परत true;
 }
 
 #undef OPAQUE_BLIT
@@ -562,10 +562,10 @@ done:
  * 8 bits, so proceed as usual
  */
 #define BLIT_TRANSL_888(src, dst)                        \
-    do {                                                 \
+    करा {                                                 \
         Uint32 s = src;                                  \
         Uint32 d = dst;                                  \
-        unsigned alpha = s >> 24;                        \
+        अचिन्हित alpha = s >> 24;                        \
         Uint32 s1 = s & 0xff00ff;                        \
         Uint32 d1 = d & 0xff00ff;                        \
         d1 = (d1 + ((s1 - d1) * alpha >> 8)) & 0xff00ff; \
@@ -573,212 +573,212 @@ done:
         d &= 0xff00;                                     \
         d = (d + ((s - d) * alpha >> 8)) & 0xff00;       \
         dst = d1 | d | 0xff000000;                       \
-    } while (0)
+    } पर्यंत (0)
 
 /*
  * For 16bpp pixels, we have stored the 5 most significant alpha bits in
  * bits 5-10. As before, we can process all 3 RGB components at the same time.
  */
 #define BLIT_TRANSL_565(src, dst)          \
-    do {                                   \
+    करा {                                   \
         Uint32 s = src;                    \
         Uint32 d = dst;                    \
-        unsigned alpha = (s & 0x3e0) >> 5; \
+        अचिन्हित alpha = (s & 0x3e0) >> 5; \
         s &= 0x07e0f81f;                   \
         d = (d | d << 16) & 0x07e0f81f;    \
         d += (s - d) * alpha >> 5;         \
         d &= 0x07e0f81f;                   \
         dst = (Uint16)(d | d >> 16);       \
-    } while (0)
+    } पर्यंत (0)
 
 #define BLIT_TRANSL_555(src, dst)          \
-    do {                                   \
+    करा {                                   \
         Uint32 s = src;                    \
         Uint32 d = dst;                    \
-        unsigned alpha = (s & 0x3e0) >> 5; \
+        अचिन्हित alpha = (s & 0x3e0) >> 5; \
         s &= 0x03e07c1f;                   \
         d = (d | d << 16) & 0x03e07c1f;    \
         d += (s - d) * alpha >> 5;         \
         d &= 0x03e07c1f;                   \
         dst = (Uint16)(d | d >> 16);       \
-    } while (0)
+    } पर्यंत (0)
 
 // blit a pixel-alpha RLE surface clipped at the right and/or left edges
-static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
-                             Uint8 *dstbuf, const SDL_Rect *srcrect)
+स्थिर शून्य RLEAlphaClipBlit(पूर्णांक w, Uint8 *srcbuf, SDL_Surface *surf_dst,
+                             Uint8 *dstbuf, स्थिरांक SDL_Rect *srcrect)
 {
-    const SDL_PixelFormatDetails *df = surf_dst->fmt;
+    स्थिरांक SDL_PixelFormatDetails *df = surf_dst->fmt;
     /*
      * clipped blitter: Ptype is the destination pixel type,
      * Ctype the translucent count type, and do_blend the macro
      * to blend one pixel.
      */
 #define RLEALPHACLIPBLIT(Ptype, Ctype, do_blend)                          \
-    do {                                                                  \
-        int linecount = srcrect->h;                                       \
-        int left = srcrect->x;                                            \
-        int right = left + srcrect->w;                                    \
-        dstbuf -= left * sizeof(Ptype);                                   \
-        do {                                                              \
-            int ofs = 0;                                                  \
+    करा {                                                                  \
+        पूर्णांक linecount = srcrect->h;                                       \
+        पूर्णांक डावा = srcrect->x;                                            \
+        पूर्णांक उजवा = डावा + srcrect->w;                                    \
+        dstbuf -= डावा * आकार(Ptype);                                   \
+        करा {                                                              \
+            पूर्णांक ofs = 0;                                                  \
             /* blit opaque pixels on one line */                          \
-            do {                                                          \
-                unsigned run;                                             \
+            करा {                                                          \
+                अचिन्हित run;                                             \
                 ofs += ((Ctype *)srcbuf)[0];                              \
                 run = ((Ctype *)srcbuf)[1];                               \
-                srcbuf += 2 * sizeof(Ctype);                              \
-                if (run) {                                                \
+                srcbuf += 2 * आकार(Ctype);                              \
+                जर (run) {                                                \
                     /* clip to left and right borders */                  \
-                    int cofs = ofs;                                       \
-                    int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
-                        crun -= left - cofs;                              \
-                        cofs = left;                                      \
+                    पूर्णांक cofs = ofs;                                       \
+                    पूर्णांक crun = run;                                       \
+                    जर (डावा - cofs > 0) {                                \
+                        crun -= डावा - cofs;                              \
+                        cofs = डावा;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
-                        crun = right - cofs;                              \
-                    if (crun > 0)                                         \
-                        PIXEL_COPY(dstbuf + cofs * sizeof(Ptype),         \
-                                   srcbuf + (cofs - ofs) * sizeof(Ptype), \
-                                   (unsigned)crun, sizeof(Ptype));        \
-                    srcbuf += run * sizeof(Ptype);                        \
+                    जर (crun > उजवा - cofs)                              \
+                        crun = उजवा - cofs;                              \
+                    जर (crun > 0)                                         \
+                        PIXEL_COPY(dstbuf + cofs * आकार(Ptype),         \
+                                   srcbuf + (cofs - ofs) * आकार(Ptype), \
+                                   (अचिन्हित)crun, आकार(Ptype));        \
+                    srcbuf += run * आकार(Ptype);                        \
                     ofs += run;                                           \
-                } else if (!ofs)                                          \
-                    return;                                               \
-            } while (ofs < w);                                            \
+                } अन्यथा जर (!ofs)                                          \
+                    परत;                                               \
+            } पर्यंत (ofs < w);                                            \
             /* skip padding if necessary */                               \
-            const size_t psize = sizeof(Ptype);                           \
-            if (psize == 2)                                               \
+            स्थिरांक माप_प्रकार psize = आकार(Ptype);                           \
+            जर (psize == 2)                                               \
                 srcbuf += (uintptr_t)srcbuf & 2;                          \
             /* blit translucent pixels on the same line */                \
             ofs = 0;                                                      \
-            do {                                                          \
-                unsigned run;                                             \
+            करा {                                                          \
+                अचिन्हित run;                                             \
                 ofs += ((Uint16 *)srcbuf)[0];                             \
                 run = ((Uint16 *)srcbuf)[1];                              \
                 srcbuf += 4;                                              \
-                if (run) {                                                \
+                जर (run) {                                                \
                     /* clip to left and right borders */                  \
-                    int cofs = ofs;                                       \
-                    int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
-                        crun -= left - cofs;                              \
-                        cofs = left;                                      \
+                    पूर्णांक cofs = ofs;                                       \
+                    पूर्णांक crun = run;                                       \
+                    जर (डावा - cofs > 0) {                                \
+                        crun -= डावा - cofs;                              \
+                        cofs = डावा;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
-                        crun = right - cofs;                              \
-                    if (crun > 0) {                                       \
+                    जर (crun > उजवा - cofs)                              \
+                        crun = उजवा - cofs;                              \
+                    जर (crun > 0) {                                       \
                         Ptype *dst = (Ptype *)dstbuf + cofs;              \
                         Uint32 *src = (Uint32 *)srcbuf + (cofs - ofs);    \
-                        int i;                                            \
-                        for (i = 0; i < crun; i++)                        \
+                        पूर्णांक i;                                            \
+                        साठी (i = 0; i < crun; i++)                        \
                             do_blend(src[i], dst[i]);                     \
                     }                                                     \
                     srcbuf += run * 4;                                    \
                     ofs += run;                                           \
                 }                                                         \
-            } while (ofs < w);                                            \
+            } पर्यंत (ofs < w);                                            \
             dstbuf += surf_dst->pitch;                                    \
-        } while (--linecount);                                            \
-    } while (0)
+        } पर्यंत (--linecount);                                            \
+    } पर्यंत (0)
 
-    switch (df->bytes_per_pixel) {
-    case 2:
-        if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+    निवड (df->bytes_per_pixel) {
+    स्थिती 2:
+        जर (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
             RLEALPHACLIPBLIT(Uint16, Uint8, BLIT_TRANSL_565);
-        } else {
+        } अन्यथा {
             RLEALPHACLIPBLIT(Uint16, Uint8, BLIT_TRANSL_555);
         }
-        break;
-    case 4:
+        थांबा;
+    स्थिती 4:
         RLEALPHACLIPBLIT(Uint32, Uint16, BLIT_TRANSL_888);
-        break;
+        थांबा;
     }
 }
 
 // blit a pixel-alpha RLE surface
-static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
-                                     SDL_Surface *surf_dst, const SDL_Rect *dstrect)
+स्थिर bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, स्थिरांक SDL_Rect *srcrect,
+                                     SDL_Surface *surf_dst, स्थिरांक SDL_Rect *dstrect)
 {
-    int x, y;
-    int w = surf_src->w;
+    पूर्णांक x, y;
+    पूर्णांक w = surf_src->w;
     Uint8 *srcbuf, *dstbuf;
-    const SDL_PixelFormatDetails *df = surf_dst->fmt;
+    स्थिरांक SDL_PixelFormatDetails *df = surf_dst->fmt;
 
     // Lock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
-        if (!SDL_LockSurface(surf_dst)) {
-            return false;
+    जर (SDL_MUSTLOCK(surf_dst)) {
+        जर (!SDL_LockSurface(surf_dst)) {
+            परत false;
         }
     }
 
     x = dstrect->x;
     y = dstrect->y;
     dstbuf = (Uint8 *)surf_dst->pixels + y * surf_dst->pitch + x * df->bytes_per_pixel;
-    srcbuf = (Uint8 *)surf_src->map.data + sizeof(SDL_PixelFormat);
+    srcbuf = (Uint8 *)surf_src->map.data + आकार(SDL_PixelFormat);
 
     {
         // skip lines at the top if necessary
-        int vskip = srcrect->y;
-        if (vskip) {
-            int ofs;
-            if (df->bytes_per_pixel == 2) {
+        पूर्णांक vskip = srcrect->y;
+        जर (vskip) {
+            पूर्णांक ofs;
+            जर (df->bytes_per_pixel == 2) {
                 // the 16/32 interleaved format
-                do {
+                करा {
                     // skip opaque line
                     ofs = 0;
-                    do {
-                        int run;
+                    करा {
+                        पूर्णांक run;
                         ofs += srcbuf[0];
                         run = srcbuf[1];
                         srcbuf += 2;
-                        if (run) {
+                        जर (run) {
                             srcbuf += 2 * run;
                             ofs += run;
-                        } else if (ofs == 0) {
-                            goto done;
+                        } अन्यथा जर (ofs == 0) {
+                            जा done;
                         }
-                    } while (ofs < w);
+                    } पर्यंत (ofs < w);
 
                     // skip padding
                     srcbuf += (uintptr_t)srcbuf & 2;
 
                     // skip translucent line
                     ofs = 0;
-                    do {
-                        int run;
+                    करा {
+                        पूर्णांक run;
                         ofs += ((Uint16 *)srcbuf)[0];
                         run = ((Uint16 *)srcbuf)[1];
                         srcbuf += 4 * (run + 1);
                         ofs += run;
-                    } while (ofs < w);
-                } while (--vskip);
-            } else {
+                    } पर्यंत (ofs < w);
+                } पर्यंत (--vskip);
+            } अन्यथा {
                 // the 32/32 interleaved format
                 vskip <<= 1; // opaque and translucent have same format
-                do {
+                करा {
                     ofs = 0;
-                    do {
-                        int run;
+                    करा {
+                        पूर्णांक run;
                         ofs += ((Uint16 *)srcbuf)[0];
                         run = ((Uint16 *)srcbuf)[1];
                         srcbuf += 4;
-                        if (run) {
+                        जर (run) {
                             srcbuf += 4 * run;
                             ofs += run;
-                        } else if (ofs == 0) {
-                            goto done;
+                        } अन्यथा जर (ofs == 0) {
+                            जा done;
                         }
-                    } while (ofs < w);
-                } while (--vskip);
+                    } पर्यंत (ofs < w);
+                } पर्यंत (--vskip);
             }
         }
     }
 
     // if left or right edge clipping needed, call clip blit
-    if (srcrect->x || srcrect->w != surf_src->w) {
+    जर (srcrect->x || srcrect->w != surf_src->w) {
         RLEAlphaClipBlit(w, srcbuf, surf_dst, dstbuf, srcrect);
-    } else {
+    } अन्यथा {
 
         /*
          * non-clipped blitter. Ptype is the destination pixel type,
@@ -786,39 +786,39 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
          * macro to blend one pixel.
          */
 #define RLEALPHABLIT(Ptype, Ctype, do_blend)                         \
-    do {                                                             \
-        int linecount = srcrect->h;                                  \
-        do {                                                         \
-            int ofs = 0;                                             \
+    करा {                                                             \
+        पूर्णांक linecount = srcrect->h;                                  \
+        करा {                                                         \
+            पूर्णांक ofs = 0;                                             \
             /* blit opaque pixels on one line */                     \
-            do {                                                     \
-                unsigned run;                                        \
+            करा {                                                     \
+                अचिन्हित run;                                        \
                 ofs += ((Ctype *)srcbuf)[0];                         \
                 run = ((Ctype *)srcbuf)[1];                          \
-                srcbuf += 2 * sizeof(Ctype);                         \
-                if (run) {                                           \
-                    PIXEL_COPY(dstbuf + ofs * sizeof(Ptype), srcbuf, \
-                               run, sizeof(Ptype));                  \
-                    srcbuf += run * sizeof(Ptype);                   \
+                srcbuf += 2 * आकार(Ctype);                         \
+                जर (run) {                                           \
+                    PIXEL_COPY(dstbuf + ofs * आकार(Ptype), srcbuf, \
+                               run, आकार(Ptype));                  \
+                    srcbuf += run * आकार(Ptype);                   \
                     ofs += run;                                      \
-                } else if (!ofs)                                     \
-                    goto done;                                       \
-            } while (ofs < w);                                       \
+                } अन्यथा जर (!ofs)                                     \
+                    जा done;                                       \
+            } पर्यंत (ofs < w);                                       \
             /* skip padding if necessary */                          \
-            const size_t psize = sizeof(Ptype);                      \
-            if (psize == 2)                                          \
+            स्थिरांक माप_प्रकार psize = आकार(Ptype);                      \
+            जर (psize == 2)                                          \
                 srcbuf += (uintptr_t)srcbuf & 2;                     \
             /* blit translucent pixels on the same line */           \
             ofs = 0;                                                 \
-            do {                                                     \
-                unsigned run;                                        \
+            करा {                                                     \
+                अचिन्हित run;                                        \
                 ofs += ((Uint16 *)srcbuf)[0];                        \
                 run = ((Uint16 *)srcbuf)[1];                         \
                 srcbuf += 4;                                         \
-                if (run) {                                           \
+                जर (run) {                                           \
                     Ptype *dst = (Ptype *)dstbuf + ofs;              \
-                    unsigned i;                                      \
-                    for (i = 0; i < run; i++) {                      \
+                    अचिन्हित i;                                      \
+                    साठी (i = 0; i < run; i++) {                      \
                         Uint32 src = *(Uint32 *)srcbuf;              \
                         do_blend(src, *dst);                         \
                         srcbuf += 4;                                 \
@@ -826,31 +826,31 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
                     }                                                \
                     ofs += run;                                      \
                 }                                                    \
-            } while (ofs < w);                                       \
+            } पर्यंत (ofs < w);                                       \
             dstbuf += surf_dst->pitch;                               \
-        } while (--linecount);                                       \
-    } while (0)
+        } पर्यंत (--linecount);                                       \
+    } पर्यंत (0)
 
-        switch (df->bytes_per_pixel) {
-        case 2:
-            if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+        निवड (df->bytes_per_pixel) {
+        स्थिती 2:
+            जर (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
                 RLEALPHABLIT(Uint16, Uint8, BLIT_TRANSL_565);
-            } else {
+            } अन्यथा {
                 RLEALPHABLIT(Uint16, Uint8, BLIT_TRANSL_555);
             }
-            break;
-        case 4:
+            थांबा;
+        स्थिती 4:
             RLEALPHABLIT(Uint32, Uint16, BLIT_TRANSL_888);
-            break;
+            थांबा;
         }
     }
 
 done:
     // Unlock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
+    जर (SDL_MUSTLOCK(surf_dst)) {
         SDL_UnlockSurface(surf_dst);
     }
-    return true;
+    परत true;
 }
 
 /*
@@ -864,29 +864,29 @@ done:
  */
 
 // encode 32bpp rgb + a into 16bpp rgb, losing alpha
-static int copy_opaque_16(void *dst, const Uint32 *src, int n,
-                          const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
+स्थिर पूर्णांक copy_opaque_16(शून्य *dst, स्थिरांक Uint32 *src, पूर्णांक n,
+                          स्थिरांक SDL_PixelFormatDetails *sfmt, स्थिरांक SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    पूर्णांक i;
     Uint16 *d = (Uint16 *)dst;
-    for (i = 0; i < n; i++) {
-        unsigned r, g, b;
+    साठी (i = 0; i < n; i++) {
+        अचिन्हित r, g, b;
         RGB_FROM_PIXEL(*src, sfmt, r, g, b);
         PIXEL_FROM_RGB(*d, dfmt, r, g, b);
         src++;
         d++;
     }
-    return n * 2;
+    परत n * 2;
 }
 
 // encode 32bpp rgb + a into 32bpp G0RAB format for blitting into 565
-static int copy_transl_565(void *dst, const Uint32 *src, int n,
-                           const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
+स्थिर पूर्णांक copy_transl_565(शून्य *dst, स्थिरांक Uint32 *src, पूर्णांक n,
+                           स्थिरांक SDL_PixelFormatDetails *sfmt, स्थिरांक SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    पूर्णांक i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
-        unsigned r, g, b, a;
+    साठी (i = 0; i < n; i++) {
+        अचिन्हित r, g, b, a;
         Uint16 pix;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
         PIXEL_FROM_RGB(pix, dfmt, r, g, b);
@@ -894,17 +894,17 @@ static int copy_transl_565(void *dst, const Uint32 *src, int n,
         src++;
         d++;
     }
-    return n * 4;
+    परत n * 4;
 }
 
 // encode 32bpp rgb + a into 32bpp G0RAB format for blitting into 555
-static int copy_transl_555(void *dst, const Uint32 *src, int n,
-                           const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
+स्थिर पूर्णांक copy_transl_555(शून्य *dst, स्थिरांक Uint32 *src, पूर्णांक n,
+                           स्थिरांक SDL_PixelFormatDetails *sfmt, स्थिरांक SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    पूर्णांक i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
-        unsigned r, g, b, a;
+    साठी (i = 0; i < n; i++) {
+        अचिन्हित r, g, b, a;
         Uint16 pix;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
         PIXEL_FROM_RGB(pix, dfmt, r, g, b);
@@ -912,89 +912,89 @@ static int copy_transl_555(void *dst, const Uint32 *src, int n,
         src++;
         d++;
     }
-    return n * 4;
+    परत n * 4;
 }
 
 // encode 32bpp rgba into 32bpp rgba, keeping alpha (dual purpose)
-static int copy_32(void *dst, const Uint32 *src, int n,
-                   const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
+स्थिर पूर्णांक copy_32(शून्य *dst, स्थिरांक Uint32 *src, पूर्णांक n,
+                   स्थिरांक SDL_PixelFormatDetails *sfmt, स्थिरांक SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    पूर्णांक i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
-        unsigned r, g, b, a;
+    साठी (i = 0; i < n; i++) {
+        अचिन्हित r, g, b, a;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
         RLEPIXEL_FROM_RGBA(*d, dfmt, r, g, b, a);
         d++;
         src++;
     }
-    return n * 4;
+    परत n * 4;
 }
 
 #define ISOPAQUE(pixel, fmt) ((((pixel)&fmt->Amask) >> fmt->Ashift) == 255)
 
 #define ISTRANSL(pixel, fmt) \
-    ((unsigned)((((pixel)&fmt->Amask) >> fmt->Ashift) - 1U) < 254U)
+    ((अचिन्हित)((((pixel)&fmt->Amask) >> fmt->Ashift) - 1U) < 254U)
 
 // convert surface to be quickly alpha-blittable onto dest, if possible
-static bool RLEAlphaSurface(SDL_Surface *surface)
+स्थिर bool RLEAlphaSurface(SDL_Surface *surface)
 {
     SDL_Surface *dest;
-    const SDL_PixelFormatDetails *df;
-    int maxsize = 0;
-    int max_opaque_run;
-    int max_transl_run = 65535;
-    unsigned masksum;
+    स्थिरांक SDL_PixelFormatDetails *df;
+    पूर्णांक maxsize = 0;
+    पूर्णांक max_opaque_run;
+    पूर्णांक max_transl_run = 65535;
+    अचिन्हित masksum;
     Uint8 *rlebuf, *dst;
-    int (*copy_opaque)(void *, const Uint32 *, int,
-                       const SDL_PixelFormatDetails *, const SDL_PixelFormatDetails *);
-    int (*copy_transl)(void *, const Uint32 *, int,
-                       const SDL_PixelFormatDetails *, const SDL_PixelFormatDetails *);
+    पूर्णांक (*copy_opaque)(शून्य *, स्थिरांक Uint32 *, पूर्णांक,
+                       स्थिरांक SDL_PixelFormatDetails *, स्थिरांक SDL_PixelFormatDetails *);
+    पूर्णांक (*copy_transl)(शून्य *, स्थिरांक Uint32 *, पूर्णांक,
+                       स्थिरांक SDL_PixelFormatDetails *, स्थिरांक SDL_PixelFormatDetails *);
 
     dest = surface->map.info.dst_surface;
-    if (!dest) {
-        return false;
+    जर (!dest) {
+        परत false;
     }
     df = dest->fmt;
-    if (surface->fmt->bits_per_pixel != 32) {
-        return false; // only 32bpp source supported
+    जर (surface->fmt->bits_per_pixel != 32) {
+        परत false; // only 32bpp source supported
     }
 
     /* find out whether the destination is one we support,
        and determine the max size of the encoded result */
     masksum = df->Rmask | df->Gmask | df->Bmask;
-    switch (df->bytes_per_pixel) {
-    case 2:
+    निवड (df->bytes_per_pixel) {
+    स्थिती 2:
         // 16bpp: only support 565 and 555 formats
-        switch (masksum) {
-        case 0xffff:
-            if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+        निवड (masksum) {
+        स्थिती 0xffff:
+            जर (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
                 copy_opaque = copy_opaque_16;
                 copy_transl = copy_transl_565;
-            } else {
-                return false;
+            } अन्यथा {
+                परत false;
             }
-            break;
-        case 0x7fff:
-            if (df->Gmask == 0x03e0 || df->Rmask == 0x03e0 || df->Bmask == 0x03e0) {
+            थांबा;
+        स्थिती 0x7fff:
+            जर (df->Gmask == 0x03e0 || df->Rmask == 0x03e0 || df->Bmask == 0x03e0) {
                 copy_opaque = copy_opaque_16;
                 copy_transl = copy_transl_555;
-            } else {
-                return false;
+            } अन्यथा {
+                परत false;
             }
-            break;
-        default:
-            return false;
+            थांबा;
+        पूर्वनिर्धारित:
+            परत false;
         }
         max_opaque_run = 255; // runs stored as bytes
 
         /* worst case is alternating opaque and translucent pixels,
            with room for alignment padding between lines */
         maxsize = surface->h * (2 + (4 + 2) * (surface->w + 1)) + 2;
-        break;
-    case 4:
-        if (masksum != 0x00ffffff) {
-            return false; // requires unused high byte
+        थांबा;
+    स्थिती 4:
+        जर (masksum != 0x00ffffff) {
+            परत false; // requires unused high byte
         }
         copy_opaque = copy_32;
         copy_transl = copy_32;
@@ -1002,35 +1002,35 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
 
         // worst case is alternating opaque and translucent pixels
         maxsize = surface->h * 2 * 4 * (surface->w + 1) + 4;
-        break;
-    default:
-        return false; // anything else unsupported right now
+        थांबा;
+    पूर्वनिर्धारित:
+        परत false; // anything else unsupported right now
     }
 
-    maxsize += sizeof(SDL_PixelFormat);
+    maxsize += आकार(SDL_PixelFormat);
     rlebuf = (Uint8 *)SDL_malloc(maxsize);
-    if (!rlebuf) {
-        return false;
+    जर (!rlebuf) {
+        परत false;
     }
     // save the destination format so we can undo the encoding later
     *(SDL_PixelFormat *)rlebuf = dest->format;
-    dst = rlebuf + sizeof(SDL_PixelFormat);
+    dst = rlebuf + आकार(SDL_PixelFormat);
 
     // Do the actual encoding
     {
-        int x, y;
-        int h = surface->h, w = surface->w;
-        const SDL_PixelFormatDetails *sf = surface->fmt;
+        पूर्णांक x, y;
+        पूर्णांक h = surface->h, w = surface->w;
+        स्थिरांक SDL_PixelFormatDetails *sf = surface->fmt;
         Uint32 *src = (Uint32 *)surface->pixels;
         Uint8 *lastline = dst; // end of last non-blank line
 
         // opaque counts are 8 or 16 bits, depending on target depth
 #define ADD_OPAQUE_COUNTS(n, m)           \
-    if (df->bytes_per_pixel == 4) {         \
+    जर (df->bytes_per_pixel == 4) {         \
         ((Uint16 *)dst)[0] = (Uint16)n;   \
         ((Uint16 *)dst)[1] = (Uint16)m;   \
         dst += 4;                         \
-    } else {                              \
+    } अन्यथा {                              \
         dst[0] = (Uint8)n;                \
         dst[1] = (Uint8)m;                \
         dst += 2;                         \
@@ -1040,27 +1040,27 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
 #define ADD_TRANSL_COUNTS(n, m) \
     (((Uint16 *)dst)[0] = (Uint16)n, ((Uint16 *)dst)[1] = (Uint16)m, dst += 4)
 
-        for (y = 0; y < h; y++) {
-            int runstart, skipstart;
-            int blankline = 0;
+        साठी (y = 0; y < h; y++) {
+            पूर्णांक runstart, skipstart;
+            पूर्णांक blankline = 0;
             // First encode all opaque pixels of a scan line
             x = 0;
-            do {
-                int run, skip, len;
+            करा {
+                पूर्णांक run, skip, len;
                 skipstart = x;
-                while (x < w && !ISOPAQUE(src[x], sf)) {
+                पर्यंत (x < w && !ISOPAQUE(src[x], sf)) {
                     x++;
                 }
                 runstart = x;
-                while (x < w && ISOPAQUE(src[x], sf)) {
+                पर्यंत (x < w && ISOPAQUE(src[x], sf)) {
                     x++;
                 }
                 skip = runstart - skipstart;
-                if (skip == w) {
+                जर (skip == w) {
                     blankline = 1;
                 }
                 run = x - runstart;
-                while (skip > max_opaque_run) {
+                पर्यंत (skip > max_opaque_run) {
                     ADD_OPAQUE_COUNTS(max_opaque_run, 0);
                     skip -= max_opaque_run;
                 }
@@ -1069,34 +1069,34 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
                 dst += copy_opaque(dst, src + runstart, len, sf, df);
                 runstart += len;
                 run -= len;
-                while (run) {
+                पर्यंत (run) {
                     len = SDL_min(run, max_opaque_run);
                     ADD_OPAQUE_COUNTS(0, len);
                     dst += copy_opaque(dst, src + runstart, len, sf, df);
                     runstart += len;
                     run -= len;
                 }
-            } while (x < w);
+            } पर्यंत (x < w);
 
             // Make sure the next output address is 32-bit aligned
             dst += (uintptr_t)dst & 2;
 
             // Next, encode all translucent pixels of the same scan line
             x = 0;
-            do {
-                int run, skip, len;
+            करा {
+                पूर्णांक run, skip, len;
                 skipstart = x;
-                while (x < w && !ISTRANSL(src[x], sf)) {
+                पर्यंत (x < w && !ISTRANSL(src[x], sf)) {
                     x++;
                 }
                 runstart = x;
-                while (x < w && ISTRANSL(src[x], sf)) {
+                पर्यंत (x < w && ISTRANSL(src[x], sf)) {
                     x++;
                 }
                 skip = runstart - skipstart;
                 blankline &= (skip == w);
                 run = x - runstart;
-                while (skip > max_transl_run) {
+                पर्यंत (skip > max_transl_run) {
                     ADD_TRANSL_COUNTS(max_transl_run, 0);
                     skip -= max_transl_run;
                 }
@@ -1105,17 +1105,17 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
                 dst += copy_transl(dst, src + runstart, len, sf, df);
                 runstart += len;
                 run -= len;
-                while (run) {
+                पर्यंत (run) {
                     len = SDL_min(run, max_transl_run);
                     ADD_TRANSL_COUNTS(0, len);
                     dst += copy_transl(dst, src + runstart, len, sf, df);
                     runstart += len;
                     run -= len;
                 }
-                if (!blankline) {
+                जर (!blankline) {
                     lastline = dst;
                 }
-            } while (x < w);
+            } पर्यंत (x < w);
 
             src += surface->pitch >> 2;
         }
@@ -1129,88 +1129,88 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
     // reallocate the buffer to release unused memory
     {
         Uint8 *p = (Uint8 *)SDL_realloc(rlebuf, dst - rlebuf);
-        if (!p) {
+        जर (!p) {
             p = rlebuf;
         }
         surface->map.data = p;
     }
 
-    return true;
+    परत true;
 }
 
-static Uint32 getpix_8(const Uint8 *srcbuf)
+स्थिर Uint32 getpix_8(स्थिरांक Uint8 *srcbuf)
 {
-    return *srcbuf;
+    परत *srcbuf;
 }
 
-static Uint32 getpix_16(const Uint8 *srcbuf)
+स्थिर Uint32 getpix_16(स्थिरांक Uint8 *srcbuf)
 {
-    return *(const Uint16 *)srcbuf;
+    परत *(स्थिरांक Uint16 *)srcbuf;
 }
 
-static Uint32 getpix_24(const Uint8 *srcbuf)
+स्थिर Uint32 getpix_24(स्थिरांक Uint8 *srcbuf)
 {
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-    return srcbuf[0] + (srcbuf[1] << 8) + (srcbuf[2] << 16);
-#else
-    return (srcbuf[0] << 16) + (srcbuf[1] << 8) + srcbuf[2];
+#जर SDL_BYTEORDER == SDL_LIL_ENDIAN
+    परत srcbuf[0] + (srcbuf[1] << 8) + (srcbuf[2] << 16);
+#अन्यथा
+    परत (srcbuf[0] << 16) + (srcbuf[1] << 8) + srcbuf[2];
 #endif
 }
 
-static Uint32 getpix_32(const Uint8 *srcbuf)
+स्थिर Uint32 getpix_32(स्थिरांक Uint8 *srcbuf)
 {
-    return *(const Uint32 *)srcbuf;
+    परत *(स्थिरांक Uint32 *)srcbuf;
 }
 
-typedef Uint32 (*getpix_func)(const Uint8 *);
+प्रकारव्याख्या Uint32 (*getpix_func)(स्थिरांक Uint8 *);
 
-static const getpix_func getpixes[4] = {
+स्थिर स्थिरांक getpix_func getpixes[4] = {
     getpix_8, getpix_16, getpix_24, getpix_32
 };
 
-static bool RLEColorkeySurface(SDL_Surface *surface)
+स्थिर bool RLEColorkeySurface(SDL_Surface *surface)
 {
     SDL_Surface *dest;
     Uint8 *rlebuf, *dst;
-    int maxn;
-    int y;
+    पूर्णांक maxn;
+    पूर्णांक y;
     Uint8 *srcbuf, *lastline;
-    int maxsize = 0;
-    const int bpp = surface->fmt->bytes_per_pixel;
+    पूर्णांक maxsize = 0;
+    स्थिरांक पूर्णांक bpp = surface->fmt->bytes_per_pixel;
     getpix_func getpix;
     Uint32 ckey, rgbmask;
-    int w, h;
+    पूर्णांक w, h;
 
     dest = surface->map.info.dst_surface;
-    if (!dest) {
-        return false;
+    जर (!dest) {
+        परत false;
     }
 
     // calculate the worst case size for the compressed surface
-    switch (bpp) {
-    case 1:
+    निवड (bpp) {
+    स्थिती 1:
         /* worst case is alternating opaque and transparent pixels,
            starting with an opaque pixel */
         maxsize = surface->h * 3 * (surface->w / 2 + 1) + 2;
-        break;
-    case 2:
-    case 3:
+        थांबा;
+    स्थिती 2:
+    स्थिती 3:
         // worst case is solid runs, at most 255 pixels wide
         maxsize = surface->h * (2 * (surface->w / 255 + 1) + surface->w * bpp) + 2;
-        break;
-    case 4:
+        थांबा;
+    स्थिती 4:
         // worst case is solid runs, at most 65535 pixels wide
         maxsize = surface->h * (4 * (surface->w / 65535 + 1) + surface->w * 4) + 4;
-        break;
+        थांबा;
 
-    default:
-        return false;
+    पूर्वनिर्धारित:
+        परत false;
     }
 
-    maxsize += sizeof(SDL_PixelFormat);
+    maxsize += आकार(SDL_PixelFormat);
     rlebuf = (Uint8 *)SDL_malloc(maxsize);
-    if (!rlebuf) {
-        return false;
+    जर (!rlebuf) {
+        परत false;
     }
     // save the destination format so we can undo the encoding later
     *(SDL_PixelFormat *)rlebuf = dest->format;
@@ -1218,7 +1218,7 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
     // Set up the conversion
     srcbuf = (Uint8 *)surface->pixels;
     maxn = bpp == 4 ? 65535 : 255;
-    dst = rlebuf + sizeof(SDL_PixelFormat);
+    dst = rlebuf + आकार(SDL_PixelFormat);
     rgbmask = ~surface->fmt->Amask;
     ckey = surface->map.info.colorkey & rgbmask;
     lastline = dst;
@@ -1227,62 +1227,62 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
     h = surface->h;
 
 #define ADD_COUNTS(n, m)                \
-    if (bpp == 4) {                     \
+    जर (bpp == 4) {                     \
         ((Uint16 *)dst)[0] = (Uint16)n; \
         ((Uint16 *)dst)[1] = (Uint16)m; \
         dst += 4;                       \
-    } else {                            \
+    } अन्यथा {                            \
         dst[0] = (Uint8)n;              \
         dst[1] = (Uint8)m;              \
         dst += 2;                       \
     }
 
-    for (y = 0; y < h; y++) {
-        int x = 0;
-        int blankline = 0;
-        do {
-            int run, skip;
-            int len;
-            int runstart;
-            int skipstart = x;
+    साठी (y = 0; y < h; y++) {
+        पूर्णांक x = 0;
+        पूर्णांक blankline = 0;
+        करा {
+            पूर्णांक run, skip;
+            पूर्णांक len;
+            पूर्णांक runstart;
+            पूर्णांक skipstart = x;
 
             // find run of transparent, then opaque pixels
-            while (x < w && (getpix(srcbuf + x * bpp) & rgbmask) == ckey) {
+            पर्यंत (x < w && (getpix(srcbuf + x * bpp) & rgbmask) == ckey) {
                 x++;
             }
             runstart = x;
-            while (x < w && (getpix(srcbuf + x * bpp) & rgbmask) != ckey) {
+            पर्यंत (x < w && (getpix(srcbuf + x * bpp) & rgbmask) != ckey) {
                 x++;
             }
             skip = runstart - skipstart;
-            if (skip == w) {
+            जर (skip == w) {
                 blankline = 1;
             }
             run = x - runstart;
 
             // encode segment
-            while (skip > maxn) {
+            पर्यंत (skip > maxn) {
                 ADD_COUNTS(maxn, 0);
                 skip -= maxn;
             }
             len = SDL_min(run, maxn);
             ADD_COUNTS(skip, len);
-            SDL_memcpy(dst, srcbuf + runstart * bpp, (size_t)len * bpp);
+            SDL_memcpy(dst, srcbuf + runstart * bpp, (माप_प्रकार)len * bpp);
             dst += len * bpp;
             run -= len;
             runstart += len;
-            while (run) {
+            पर्यंत (run) {
                 len = SDL_min(run, maxn);
                 ADD_COUNTS(0, len);
-                SDL_memcpy(dst, srcbuf + runstart * bpp, (size_t)len * bpp);
+                SDL_memcpy(dst, srcbuf + runstart * bpp, (माप_प्रकार)len * bpp);
                 dst += len * bpp;
                 runstart += len;
                 run -= len;
             }
-            if (!blankline) {
+            जर (!blankline) {
                 lastline = dst;
             }
-        } while (x < w);
+        } पर्यंत (x < w);
 
         srcbuf += surface->pitch;
     }
@@ -1295,96 +1295,96 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
     {
         // If SDL_realloc returns NULL, the original block is left intact
         Uint8 *p = (Uint8 *)SDL_realloc(rlebuf, dst - rlebuf);
-        if (!p) {
+        जर (!p) {
             p = rlebuf;
         }
         surface->map.data = p;
     }
 
-    return true;
+    परत true;
 }
 
 bool SDL_RLESurface(SDL_Surface *surface)
 {
-    int flags;
+    पूर्णांक flags;
 
     // Clear any previous RLE conversion
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    जर (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         SDL_UnRLESurface(surface);
     }
 
     // We don't support RLE encoding of bitmaps
-    if (SDL_BITSPERPIXEL(surface->format) < 8) {
-        return false;
+    जर (SDL_BITSPERPIXEL(surface->format) < 8) {
+        परत false;
     }
 
     // Make sure the pixels are available
-    if (!surface->pixels) {
-        return false;
+    जर (!surface->pixels) {
+        परत false;
     }
 
     flags = surface->map.info.flags;
-    if (flags & SDL_COPY_COLORKEY) {
+    जर (flags & SDL_COPY_COLORKEY) {
         // ok
-    } else if ((flags & SDL_COPY_BLEND) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
+    } अन्यथा जर ((flags & SDL_COPY_BLEND) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
         // ok
-    } else {
+    } अन्यथा {
         // If we don't have colorkey or blending, nothing to do...
-        return false;
+        परत false;
     }
 
     // Pass on combinations not supported
-    if ((flags & SDL_COPY_MODULATE_COLOR) ||
+    जर ((flags & SDL_COPY_MODULATE_COLOR) ||
         ((flags & SDL_COPY_MODULATE_ALPHA) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) ||
         (flags & (SDL_COPY_BLEND_PREMULTIPLIED | SDL_COPY_ADD | SDL_COPY_ADD_PREMULTIPLIED | SDL_COPY_MOD | SDL_COPY_MUL)) ||
         (flags & SDL_COPY_NEAREST)) {
-        return false;
+        परत false;
     }
 
     // Encode and set up the blit
-    if (!SDL_ISPIXELFORMAT_ALPHA(surface->format) || !(flags & SDL_COPY_BLEND)) {
-        if (!surface->map.identity) {
-            return false;
+    जर (!SDL_ISPIXELFORMAT_ALPHA(surface->format) || !(flags & SDL_COPY_BLEND)) {
+        जर (!surface->map.identity) {
+            परत false;
         }
-        if (!RLEColorkeySurface(surface)) {
-            return false;
+        जर (!RLEColorkeySurface(surface)) {
+            परत false;
         }
         surface->map.blit = SDL_RLEBlit;
         surface->map.info.flags |= SDL_COPY_RLE_COLORKEY;
-    } else {
-        if (!RLEAlphaSurface(surface)) {
-            return false;
+    } अन्यथा {
+        जर (!RLEAlphaSurface(surface)) {
+            परत false;
         }
         surface->map.blit = SDL_RLEAlphaBlit;
         surface->map.info.flags |= SDL_COPY_RLE_ALPHAKEY;
     }
 
-    if (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
+    जर (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
         surface->saved_pixels = surface->pixels;
-        surface->pixels = NULL;
+        surface->pixels = रिक्त;
     }
 
     // The surface is now accelerated
     surface->internal_flags |= SDL_INTERNAL_SURFACE_RLEACCEL;
     SDL_UpdateSurfaceLockFlag(surface);
 
-    return true;
+    परत true;
 }
 
-void SDL_UnRLESurface(SDL_Surface *surface)
+शून्य SDL_UnRLESurface(SDL_Surface *surface)
 {
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    जर (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         surface->internal_flags &= ~SDL_INTERNAL_SURFACE_RLEACCEL;
 
         surface->map.info.flags &= ~(SDL_COPY_RLE_COLORKEY | SDL_COPY_RLE_ALPHAKEY);
 
-        if (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
+        जर (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
             surface->pixels = surface->saved_pixels;
-            surface->saved_pixels = NULL;
+            surface->saved_pixels = रिक्त;
         }
 
         SDL_free(surface->map.data);
-        surface->map.data = NULL;
+        surface->map.data = रिक्त;
 
         SDL_InvalidateMap(&surface->map);
 

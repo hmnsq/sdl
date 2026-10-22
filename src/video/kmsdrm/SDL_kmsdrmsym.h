@@ -39,65 +39,65 @@
 
 
 SDL_KMSDRM_MODULE(LIBDRM)
-SDL_KMSDRM_SYM(void,drmModeFreeResources,(drmModeResPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeFB,(drmModeFBPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeCrtc,(drmModeCrtcPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeConnector,(drmModeConnectorPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeEncoder,(drmModeEncoderPtr ptr))
-SDL_KMSDRM_SYM(int,drmGetCap,(int fd, uint64_t capability, uint64_t *value))
-SDL_KMSDRM_SYM(int,drmSetMaster,(int fd))
-SDL_KMSDRM_SYM(int,drmDropMaster,(int fd))
-SDL_KMSDRM_SYM(int,drmAuthMagic,(int fd, drm_magic_t magic))
-SDL_KMSDRM_SYM(drmModeResPtr,drmModeGetResources,(int fd))
-SDL_KMSDRM_SYM(int,drmModeAddFB,(int fd, uint32_t width, uint32_t height, uint8_t depth,
+SDL_KMSDRM_SYM(शून्य,drmModeFreeResources,(drmModeResPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreeFB,(drmModeFBPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreeCrtc,(drmModeCrtcPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreeConnector,(drmModeConnectorPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreeEncoder,(drmModeEncoderPtr ptr))
+SDL_KMSDRM_SYM(पूर्णांक,drmGetCap,(पूर्णांक fd, uint64_t capability, uint64_t *मूल्य))
+SDL_KMSDRM_SYM(पूर्णांक,drmSetMaster,(पूर्णांक fd))
+SDL_KMSDRM_SYM(पूर्णांक,drmDropMaster,(पूर्णांक fd))
+SDL_KMSDRM_SYM(पूर्णांक,drmAuthMagic,(पूर्णांक fd, drm_magic_t magic))
+SDL_KMSDRM_SYM(drmModeResPtr,drmModeGetResources,(पूर्णांक fd))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeAddFB,(पूर्णांक fd, uint32_t width, uint32_t height, uint8_t depth,
                          uint8_t bpp, uint32_t pitch, uint32_t bo_handle,
                          uint32_t *buf_id))
 
-SDL_KMSDRM_SYM_OPT(int,drmModeAddFB2,(int fd, uint32_t width, uint32_t height,
-                         uint32_t pixel_format, const uint32_t bo_handles[4],
-                         const uint32_t pitches[4], const uint32_t offsets[4],
+SDL_KMSDRM_SYM_OPT(पूर्णांक,drmModeAddFB2,(पूर्णांक fd, uint32_t width, uint32_t height,
+                         uint32_t pixel_format, स्थिरांक uint32_t bo_handles[4],
+                         स्थिरांक uint32_t pitches[4], स्थिरांक uint32_t offsets[4],
                          uint32_t *buf_id, uint32_t flags))
 
-SDL_KMSDRM_SYM_OPT(int,drmModeAddFB2WithModifiers,(int fd, uint32_t width,
-                         uint32_t height, uint32_t pixel_format, const uint32_t bo_handles[4],
-                         const uint32_t pitches[4], const uint32_t offsets[4],
-                         const uint64_t modifier[4], uint32_t *buf_id, uint32_t flags))
+SDL_KMSDRM_SYM_OPT(पूर्णांक,drmModeAddFB2WithModifiers,(पूर्णांक fd, uint32_t width,
+                         uint32_t height, uint32_t pixel_format, स्थिरांक uint32_t bo_handles[4],
+                         स्थिरांक uint32_t pitches[4], स्थिरांक uint32_t offsets[4],
+                         स्थिरांक uint64_t modifier[4], uint32_t *buf_id, uint32_t flags))
 
-SDL_KMSDRM_SYM_OPT(const char *,drmModeGetConnectorTypeName,(uint32_t connector_type))
+SDL_KMSDRM_SYM_OPT(स्थिरांक अक्षर *,drmModeGetConnectorTypeName,(uint32_t connector_type))
 
-SDL_KMSDRM_SYM(int,drmModeRmFB,(int fd, uint32_t bufferId))
-SDL_KMSDRM_SYM(drmModeFBPtr,drmModeGetFB,(int fd, uint32_t buf))
-SDL_KMSDRM_SYM(drmModeCrtcPtr,drmModeGetCrtc,(int fd, uint32_t crtcId))
-SDL_KMSDRM_SYM(int,drmModeSetCrtc,(int fd, uint32_t crtcId, uint32_t bufferId,
-                                   uint32_t x, uint32_t y, uint32_t *connectors, int count,
+SDL_KMSDRM_SYM(पूर्णांक,drmModeRmFB,(पूर्णांक fd, uint32_t bufferId))
+SDL_KMSDRM_SYM(drmModeFBPtr,drmModeGetFB,(पूर्णांक fd, uint32_t buf))
+SDL_KMSDRM_SYM(drmModeCrtcPtr,drmModeGetCrtc,(पूर्णांक fd, uint32_t crtcId))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeSetCrtc,(पूर्णांक fd, uint32_t crtcId, uint32_t bufferId,
+                                   uint32_t x, uint32_t y, uint32_t *connectors, पूर्णांक मोजणी,
                                    drmModeModeInfoPtr mode))
-SDL_KMSDRM_SYM(int,drmModeSetCursor,(int fd, uint32_t crtcId, uint32_t bo_handle,
+SDL_KMSDRM_SYM(पूर्णांक,drmModeSetCursor,(पूर्णांक fd, uint32_t crtcId, uint32_t bo_handle,
                                      uint32_t width, uint32_t height))
-SDL_KMSDRM_SYM(int,drmModeSetCursor2,(int fd, uint32_t crtcId, uint32_t bo_handle,
+SDL_KMSDRM_SYM(पूर्णांक,drmModeSetCursor2,(पूर्णांक fd, uint32_t crtcId, uint32_t bo_handle,
                                       uint32_t width, uint32_t height,
                                       int32_t hot_x, int32_t hot_y))
-SDL_KMSDRM_SYM(int,drmModeMoveCursor,(int fd, uint32_t crtcId, int x, int y))
-SDL_KMSDRM_SYM(drmModeEncoderPtr,drmModeGetEncoder,(int fd, uint32_t encoder_id))
-SDL_KMSDRM_SYM(drmModeConnectorPtr,drmModeGetConnector,(int fd, uint32_t connector_id))
-SDL_KMSDRM_SYM(int,drmHandleEvent,(int fd,drmEventContextPtr evctx))
-SDL_KMSDRM_SYM(int,drmModePageFlip,(int fd, uint32_t crtc_id, uint32_t fb_id,
-                                    uint32_t flags, void *user_data))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeMoveCursor,(पूर्णांक fd, uint32_t crtcId, पूर्णांक x, पूर्णांक y))
+SDL_KMSDRM_SYM(drmModeEncoderPtr,drmModeGetEncoder,(पूर्णांक fd, uint32_t encoder_id))
+SDL_KMSDRM_SYM(drmModeConnectorPtr,drmModeGetConnector,(पूर्णांक fd, uint32_t connector_id))
+SDL_KMSDRM_SYM(पूर्णांक,drmHandleEvent,(पूर्णांक fd,drmEventContextPtr evctx))
+SDL_KMSDRM_SYM(पूर्णांक,drmModePageFlip,(पूर्णांक fd, uint32_t crtc_id, uint32_t fb_id,
+                                    uint32_t flags, शून्य *user_data))
 
 // Planes stuff.
-SDL_KMSDRM_SYM(int,drmSetClientCap,(int fd, uint64_t capability, uint64_t value))
-SDL_KMSDRM_SYM(drmModePlaneResPtr,drmModeGetPlaneResources,(int fd))
-SDL_KMSDRM_SYM(drmModePlanePtr,drmModeGetPlane,(int fd, uint32_t plane_id))
-SDL_KMSDRM_SYM(drmModeObjectPropertiesPtr,drmModeObjectGetProperties,(int fd,uint32_t object_id,uint32_t object_type))
-SDL_KMSDRM_SYM(int,drmModeObjectSetProperty,(int fd, uint32_t object_id,
+SDL_KMSDRM_SYM(पूर्णांक,drmSetClientCap,(पूर्णांक fd, uint64_t capability, uint64_t मूल्य))
+SDL_KMSDRM_SYM(drmModePlaneResPtr,drmModeGetPlaneResources,(पूर्णांक fd))
+SDL_KMSDRM_SYM(drmModePlanePtr,drmModeGetPlane,(पूर्णांक fd, uint32_t plane_id))
+SDL_KMSDRM_SYM(drmModeObjectPropertiesPtr,drmModeObjectGetProperties,(पूर्णांक fd,uint32_t object_id,uint32_t object_type))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeObjectSetProperty,(पूर्णांक fd, uint32_t object_id,
                                              uint32_t object_type, uint32_t property_id,
-                                             uint64_t value))
-SDL_KMSDRM_SYM(drmModePropertyPtr,drmModeGetProperty,(int fd, uint32_t propertyId))
+                                             uint64_t मूल्य))
+SDL_KMSDRM_SYM(drmModePropertyPtr,drmModeGetProperty,(पूर्णांक fd, uint32_t propertyId))
 
-SDL_KMSDRM_SYM(void,drmModeFreeProperty,(drmModePropertyPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeObjectProperties,(drmModeObjectPropertiesPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreePlane,(drmModePlanePtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreePlaneResources,(drmModePlaneResPtr ptr))
-SDL_KMSDRM_SYM(int,drmModeSetPlane,(int fd, uint32_t plane_id, uint32_t crtc_id,
+SDL_KMSDRM_SYM(शून्य,drmModeFreeProperty,(drmModePropertyPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreeObjectProperties,(drmModeObjectPropertiesPtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreePlane,(drmModePlanePtr ptr))
+SDL_KMSDRM_SYM(शून्य,drmModeFreePlaneResources,(drmModePlaneResPtr ptr))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeSetPlane,(पूर्णांक fd, uint32_t plane_id, uint32_t crtc_id,
                                     uint32_t fb_id, uint32_t flags,
                                     int32_t crtc_x, int32_t crtc_y,
                                     uint32_t crtc_w, uint32_t crtc_h,
@@ -106,45 +106,45 @@ SDL_KMSDRM_SYM(int,drmModeSetPlane,(int fd, uint32_t plane_id, uint32_t crtc_id,
 // Planes stuff ends.
 
 SDL_KMSDRM_MODULE(GBM)
-SDL_KMSDRM_SYM(int,gbm_device_is_format_supported,(struct gbm_device *gbm,
+SDL_KMSDRM_SYM(पूर्णांक,gbm_device_is_format_supported,(संरचना gbm_device *gbm,
                                                    uint32_t format, uint32_t usage))
-SDL_KMSDRM_SYM(void,gbm_device_destroy,(struct gbm_device *gbm))
-SDL_KMSDRM_SYM(struct gbm_device *,gbm_create_device,(int fd))
-SDL_KMSDRM_SYM(unsigned int,gbm_bo_get_width,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(unsigned int,gbm_bo_get_height,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_stride,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_format,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(union gbm_bo_handle,gbm_bo_get_handle,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(int,gbm_bo_write,(struct gbm_bo *bo, const void *buf, size_t count))
-SDL_KMSDRM_SYM(struct gbm_device *,gbm_bo_get_device,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(void,gbm_bo_set_user_data,(struct gbm_bo *bo, void *data,
-                                          void (*destroy_user_data)(struct gbm_bo *, void *)))
-SDL_KMSDRM_SYM(void *,gbm_bo_get_user_data,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(void,gbm_bo_destroy,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(struct gbm_bo *,gbm_bo_create,(struct gbm_device *gbm,
+SDL_KMSDRM_SYM(शून्य,gbm_device_destroy,(संरचना gbm_device *gbm))
+SDL_KMSDRM_SYM(संरचना gbm_device *,gbm_create_device,(पूर्णांक fd))
+SDL_KMSDRM_SYM(अचिन्हित पूर्णांक,gbm_bo_get_width,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(अचिन्हित पूर्णांक,gbm_bo_get_height,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_stride,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_format,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(संघ gbm_bo_handle,gbm_bo_get_handle,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(पूर्णांक,gbm_bo_write,(संरचना gbm_bo *bo, स्थिरांक शून्य *buf, माप_प्रकार मोजणी))
+SDL_KMSDRM_SYM(संरचना gbm_device *,gbm_bo_get_device,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(शून्य,gbm_bo_set_user_data,(संरचना gbm_bo *bo, शून्य *data,
+                                          शून्य (*destroy_user_data)(संरचना gbm_bo *, शून्य *)))
+SDL_KMSDRM_SYM(शून्य *,gbm_bo_get_user_data,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(शून्य,gbm_bo_destroy,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM(संरचना gbm_bo *,gbm_bo_create,(संरचना gbm_device *gbm,
                                               uint32_t width, uint32_t height,
                                               uint32_t format, uint32_t usage))
-SDL_KMSDRM_SYM(struct gbm_surface *,gbm_surface_create,(struct gbm_device *gbm,
+SDL_KMSDRM_SYM(संरचना gbm_surface *,gbm_surface_create,(संरचना gbm_device *gbm,
                                                         uint32_t width, uint32_t height,
                                                         uint32_t format, uint32_t flags))
-SDL_KMSDRM_SYM(void,gbm_surface_destroy,(struct gbm_surface *surf))
-SDL_KMSDRM_SYM(struct gbm_bo *,gbm_surface_lock_front_buffer,(struct gbm_surface *surf))
-SDL_KMSDRM_SYM(void,gbm_surface_release_buffer,(struct gbm_surface *surf, struct gbm_bo *bo))
+SDL_KMSDRM_SYM(शून्य,gbm_surface_destroy,(संरचना gbm_surface *surf))
+SDL_KMSDRM_SYM(संरचना gbm_bo *,gbm_surface_lock_front_buffer,(संरचना gbm_surface *surf))
+SDL_KMSDRM_SYM(शून्य,gbm_surface_release_buffer,(संरचना gbm_surface *surf, संरचना gbm_bo *bo))
 
-SDL_KMSDRM_SYM_OPT(uint64_t,gbm_bo_get_modifier,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM_OPT(int,gbm_bo_get_plane_count,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_offset,(struct gbm_bo *bo, int plane))
-SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_stride_for_plane,(struct gbm_bo *bo, int plane))
-SDL_KMSDRM_SYM_OPT(union gbm_bo_handle,gbm_bo_get_handle_for_plane,(struct gbm_bo *bo, int plane))
+SDL_KMSDRM_SYM_OPT(uint64_t,gbm_bo_get_modifier,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM_OPT(पूर्णांक,gbm_bo_get_plane_मोजणी,(संरचना gbm_bo *bo))
+SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_offset,(संरचना gbm_bo *bo, पूर्णांक plane))
+SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_stride_for_plane,(संरचना gbm_bo *bo, पूर्णांक plane))
+SDL_KMSDRM_SYM_OPT(संघ gbm_bo_handle,gbm_bo_get_handle_for_plane,(संरचना gbm_bo *bo, पूर्णांक plane))
 
 
 SDL_KMSDRM_MODULE(ATOMIC)
-SDL_KMSDRM_SYM(int,drmIoctl,(int fd, unsigned long request, void *arg))
-SDL_KMSDRM_SYM(drmModeAtomicReqPtr,drmModeAtomicAlloc,(void))
-SDL_KMSDRM_SYM(void,drmModeAtomicFree,(drmModeAtomicReqPtr req))
-SDL_KMSDRM_SYM(int,drmModeAtomicCommit,(int fd,drmModeAtomicReqPtr req,uint32_t flags,void *user_data))
-SDL_KMSDRM_SYM(int,drmModeAtomicAddProperty,(drmModeAtomicReqPtr req,uint32_t object_id,uint32_t property_id,uint64_t value))
-SDL_KMSDRM_SYM(int,drmModeCreatePropertyBlob,(int fd,const void *data,size_t size,uint32_t *id))
+SDL_KMSDRM_SYM(पूर्णांक,drmIoctl,(पूर्णांक fd, अचिन्हित दीर्घ request, शून्य *arg))
+SDL_KMSDRM_SYM(drmModeAtomicReqPtr,drmModeAtomicAlloc,(शून्य))
+SDL_KMSDRM_SYM(शून्य,drmModeAtomicFree,(drmModeAtomicReqPtr req))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeAtomicCommit,(पूर्णांक fd,drmModeAtomicReqPtr req,uint32_t flags,शून्य *user_data))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeAtomicAddProperty,(drmModeAtomicReqPtr req,uint32_t object_id,uint32_t property_id,uint64_t मूल्य))
+SDL_KMSDRM_SYM(पूर्णांक,drmModeCreatePropertyBlob,(पूर्णांक fd,स्थिरांक शून्य *data,माप_प्रकार size,uint32_t *id))
 
 
 #undef SDL_KMSDRM_MODULE

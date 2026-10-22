@@ -22,12 +22,12 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+प्रकारव्याख्या अचिन्हित अक्षर uchar;
+प्रकारव्याख्या संरचना MonitorInfo MonitorInfo;
+प्रकारव्याख्या संरचना Timing Timing;
+प्रकारव्याख्या संरचना DetailedTiming DetailedTiming;
 
-typedef enum
+प्रकारव्याख्या गणना
 {
     UNDEFINED,
     DVI,
@@ -37,7 +37,7 @@ typedef enum
     DISPLAY_PORT
 } Interface;
 
-typedef enum
+प्रकारव्याख्या गणना
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,136 +45,136 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+प्रकारव्याख्या गणना
 {
     NO_STEREO,
-    FIELD_RIGHT,
-    FIELD_LEFT,
-    TWO_WAY_RIGHT_ON_EVEN,
-    TWO_WAY_LEFT_ON_EVEN,
+    FIELD_उजवा,
+    FIELD_डावा,
+    TWO_WAY_उजवा_ON_EVEN,
+    TWO_WAY_डावा_ON_EVEN,
     FOUR_WAY_INTERLEAVED,
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+संरचना Timing
 {
-    int width;
-    int height;
-    int frequency;
+    पूर्णांक width;
+    पूर्णांक height;
+    पूर्णांक frequency;
 };
 
-struct DetailedTiming
+संरचना DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    पूर्णांक pixel_clock;
+    पूर्णांक h_addr;
+    पूर्णांक h_blank;
+    पूर्णांक h_sync;
+    पूर्णांक h_front_porch;
+    पूर्णांक v_addr;
+    पूर्णांक v_blank;
+    पूर्णांक v_sync;
+    पूर्णांक v_front_porch;
+    पूर्णांक width_mm;
+    पूर्णांक height_mm;
+    पूर्णांक उजवा_border;
+    पूर्णांक शीर्ष_border;
+    पूर्णांक interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    पूर्णांक digital_sync;
+    संघ
     {
-        struct
+        संरचना
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            पूर्णांक bipolar;
+            पूर्णांक serrations;
+            पूर्णांक sync_on_green;
         } analog;
 
-        struct
+        संरचना
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            पूर्णांक composite;
+            पूर्णांक serrations;
+            पूर्णांक negative_vsync;
+            पूर्णांक negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+संरचना MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    पूर्णांक checksum;
+    अक्षर manufacturer_code[4];
+    पूर्णांक product_code;
+    अचिन्हित पूर्णांक serial_संख्या;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    पूर्णांक production_week; // -1 if not specified
+    पूर्णांक production_year; // -1 if not specified
+    पूर्णांक model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    पूर्णांक major_version;
+    पूर्णांक minor_version;
 
-    int is_digital;
+    पूर्णांक is_digital;
 
-    union
+    संघ
     {
-        struct
+        संरचना
         {
-            int bits_per_primary;
+            पूर्णांक bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            पूर्णांक rgb444;
+            पूर्णांक ycrcb444;
+            पूर्णांक ycrcb422;
         } digital;
 
-        struct
+        संरचना
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            द्विगुण video_signal_level;
+            द्विगुण sync_signal_level;
+            द्विगुण total_signal_level;
 
-            int blank_to_black;
+            पूर्णांक blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            पूर्णांक separate_hv_sync;
+            पूर्णांक composite_sync_on_h;
+            पूर्णांक composite_sync_on_green;
+            पूर्णांक serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    पूर्णांक width_mm;        // -1 if not specified
+    पूर्णांक height_mm;       // -1 if not specified
+    द्विगुण aspect_ratio; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    द्विगुण gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    पूर्णांक standby;
+    पूर्णांक suspend;
+    पूर्णांक active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    पूर्णांक srgb_is_standard;
+    पूर्णांक preferred_timing_includes_native;
+    पूर्णांक continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    द्विगुण red_x;
+    द्विगुण red_y;
+    द्विगुण green_x;
+    द्विगुण green_y;
+    द्विगुण blue_x;
+    द्विगुण blue_y;
+    द्विगुण white_x;
+    द्विगुण white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    द्विगुण min_luminance;
+    द्विगुण max_luminance;
+    द्विगुण max_frame_average_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    पूर्णांक n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    अक्षर dsc_serial_संख्या[14];
+    अक्षर dsc_product_name[14];
+    अक्षर dsc_string[14]; // Unspecified ASCII data
 };
 
-MonitorInfo *decode_edid(const uchar *data, size_t size);
-void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
-                        const MonitorInfo *info);
+MonitorInfo *decode_edid(स्थिरांक uchar *data, माप_प्रकार size);
+शून्य dump_monitor_info(MonitorInfo *info);
+अक्षर *make_display_name(स्थिरांक अक्षर *output_name,
+                        स्थिरांक MonitorInfo *info);

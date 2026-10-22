@@ -18,78 +18,78 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#अन्तर्भाव "../../SDL_internal.h"
 
-#include "../../events/SDL_pen_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xinput2.h"
+#अन्तर्भाव "../../events/SDL_pen_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "SDL_x11pen.h"
+#अन्तर्भाव "SDL_x11video.h"
+#अन्तर्भाव "SDL_x11xinput2.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Does this device have a valuator for pressure sensitivity?
-static bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+स्थिर bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, स्थिरांक XIDeviceInfo *dev)
 {
-    const SDL_VideoData *data = _this->internal;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            if (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
-                return true;
+    स्थिरांक SDL_VideoData *data = _this->internal;
+    साठी (पूर्णांक i = 0; i < dev->अंक_classes; i++) {
+        स्थिरांक XIAnyClassInfo *classinfo = dev->classes[i];
+        जर (classinfo->type == XIValuatorClass) {
+            स्थिरांक XIValuatorClassInfo *val_classinfo = (स्थिरांक XIValuatorClassInfo *)classinfo;
+            जर (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
+                परत true;
             }
         }
     }
 
-    return false;
+    परत false;
 }
 
 // Heuristically determines if device is an eraser
-static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *devicename)
+स्थिर bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, पूर्णांक deviceid, अक्षर *devicename)
 {
     #define PEN_ERASER_NAME_TAG  "eraser" // String constant to identify erasers
     SDL_VideoData *data = _this->internal;
 
-    if (data->atoms.pen_atom_wacom_tool_type != None) {
+    जर (data->atoms.pen_atom_wacom_tool_type != None) {
         Atom type_return;
-        int format_return;
-        unsigned long num_items_return;
-        unsigned long bytes_after_return;
-        unsigned char *tooltype_name_info = NULL;
+        पूर्णांक format_return;
+        अचिन्हित दीर्घ अंक_वस्तुसंच_return;
+        अचिन्हित दीर्घ bytes_after_return;
+        अचिन्हित अक्षर *tooltype_name_info = रिक्त;
 
         // Try Wacom-specific method
-        if (Success == X11_XIGetProperty(data->display, deviceid,
+        जर (Success == X11_XIGetProperty(data->display, deviceid,
                                          data->atoms.pen_atom_wacom_tool_type,
                                          0, 32, False,
                                          AnyPropertyType, &type_return, &format_return,
-                                         &num_items_return, &bytes_after_return,
+                                         &अंक_वस्तुसंच_return, &bytes_after_return,
                                          &tooltype_name_info) &&
-            tooltype_name_info != NULL && num_items_return > 0) {
+            tooltype_name_info != रिक्त && अंक_वस्तुसंच_return > 0) {
 
             bool result = false;
-            char *tooltype_name = NULL;
+            अक्षर *tooltype_name = रिक्त;
 
-            if (type_return == XA_ATOM) {
+            जर (type_return == XA_ATOM) {
                 // Atom instead of string?  Un-intern
                 Atom atom = *((Atom *)tooltype_name_info);
-                if (atom != None) {
+                जर (atom != None) {
                     tooltype_name = X11_XGetAtomName(data->display, atom);
                 }
-            } else if (type_return == XA_STRING && format_return == 8) {
-                tooltype_name = (char *)tooltype_name_info;
+            } अन्यथा जर (type_return == XA_STRING && format_return == 8) {
+                tooltype_name = (अक्षर *)tooltype_name_info;
             }
 
-            if (tooltype_name) {
-                if (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
+            जर (tooltype_name) {
+                जर (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
                     result = true;
                 }
-                if (tooltype_name != (char *)tooltype_name_info) {
+                जर (tooltype_name != (अक्षर *)tooltype_name_info) {
                     X11_XFree(tooltype_name_info);
                 }
                 X11_XFree(tooltype_name);
 
-                return result;
+                परत result;
             }
         }
     }
@@ -98,161 +98,161 @@ static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *d
 
     /* We assume that a device is an eraser if its name contains the string "eraser".
      * Unfortunately there doesn't seem to be a clean way to distinguish these cases (as of 2022-03). */
-    return (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
+    परत (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
 }
 
 // Read out an integer property and store into a preallocated Sint32 array, extending 8 and 16 bit values suitably.
 // Returns number of Sint32s written (<= max_words), or 0 on error.
-static size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, int deviceid, Atom property, Sint32 *dest, size_t max_words)
+स्थिर माप_प्रकार X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, पूर्णांक deviceid, Atom property, Sint32 *dest, माप_प्रकार max_शब्द)
 {
-    const SDL_VideoData *data = _this->internal;
+    स्थिरांक SDL_VideoData *data = _this->internal;
     Atom type_return;
-    int format_return;
-    unsigned long num_items_return;
-    unsigned long bytes_after_return;
-    unsigned char *output;
+    पूर्णांक format_return;
+    अचिन्हित दीर्घ अंक_वस्तुसंच_return;
+    अचिन्हित दीर्घ bytes_after_return;
+    अचिन्हित अक्षर *output;
 
-    if (property == None) {
-        return 0;
+    जर (property == None) {
+        परत 0;
     }
 
-    if (Success != X11_XIGetProperty(data->display, deviceid,
+    जर (Success != X11_XIGetProperty(data->display, deviceid,
                                      property,
-                                     0, max_words, False,
+                                     0, max_शब्द, False,
                                      XA_INTEGER, &type_return, &format_return,
-                                     &num_items_return, &bytes_after_return,
+                                     &अंक_वस्तुसंच_return, &bytes_after_return,
                                      &output) ||
-        num_items_return == 0 || output == NULL) {
-        return 0;
+        अंक_वस्तुसंच_return == 0 || output == रिक्त) {
+        परत 0;
     }
 
-    if (type_return == XA_INTEGER) {
-        int k;
-        const int to_copy = SDL_min(max_words, num_items_return);
+    जर (type_return == XA_INTEGER) {
+        पूर्णांक k;
+        स्थिरांक पूर्णांक to_copy = SDL_min(max_शब्द, अंक_वस्तुसंच_return);
 
-        if (format_return == 8) {
+        जर (format_return == 8) {
             Sint8 *numdata = (Sint8 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            साठी (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else if (format_return == 16) {
+        } अन्यथा जर (format_return == 16) {
             Sint16 *numdata = (Sint16 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            साठी (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else {
-            SDL_memcpy(dest, output, sizeof(Sint32) * to_copy);
+        } अन्यथा {
+            SDL_memcpy(dest, output, आकार(Sint32) * to_copy);
         }
         X11_XFree(output);
-        return to_copy;
+        परत to_copy;
     }
 
-    return 0; // type mismatch
+    परत 0; // type mismatch
 }
 
 // Identify Wacom devices (if true is returned) and extract their device type and serial IDs
-static bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, int deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
+स्थिर bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, पूर्णांक deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[3];
-    int result;
+    पूर्णांक result;
 
-    if ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
+    जर ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
         *wacom_devicetype_id = serial_id_buf[2];
         *wacom_serial = serial_id_buf[1];
-        return true;
+        परत true;
     }
 
     *wacom_devicetype_id = *wacom_serial = 0;
-    return false;
+    परत false;
 }
 
 // Check if a Wacom device is in proximity of the tablet
-static bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, int deviceid, bool *in_proximity)
+स्थिर bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, पूर्णांक deviceid, bool *in_proximity)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[5];
-    if (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
+    जर (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
         *in_proximity = serial_id_buf[4] != 0 || serial_id_buf[3] != 0;
-        return true;
+        परत true;
     }
-    return false;
+    परत false;
 }
 
 
-typedef struct FindPenByDeviceIDData
+प्रकारव्याख्या संरचना FindPenByDeviceIDData
 {
-    int x11_deviceid;
-    void *handle;
+    पूर्णांक x11_deviceid;
+    शून्य *handle;
 } FindPenByDeviceIDData;
 
-static bool FindPenByDeviceID(void *handle, void *userdata)
+स्थिर bool FindPenByDeviceID(शून्य *handle, शून्य *userdata)
 {
-    const X11_PenHandle *x11_handle = (const X11_PenHandle *) handle;
+    स्थिरांक X11_PenHandle *x11_handle = (स्थिरांक X11_PenHandle *) handle;
     FindPenByDeviceIDData *data = (FindPenByDeviceIDData *) userdata;
-    if (x11_handle->x11_deviceid != data->x11_deviceid) {
-        return false;
+    जर (x11_handle->x11_deviceid != data->x11_deviceid) {
+        परत false;
     }
     data->handle = handle;
-    return true;
+    परत true;
 }
 
-X11_PenHandle *X11_FindPenByDeviceID(int deviceid)
+X11_PenHandle *X11_FindPenByDeviceID(पूर्णांक deviceid)
 {
     FindPenByDeviceIDData data;
     data.x11_deviceid = deviceid;
-    data.handle = NULL;
+    data.handle = रिक्त;
     SDL_FindPenByCallback(FindPenByDeviceID, &data);
-    return (X11_PenHandle *) data.handle;
+    परत (X11_PenHandle *) data.handle;
 }
 
-static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+स्थिर X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, स्थिरांक XIDeviceInfo *dev)
 {
     SDL_VideoData *data = _this->internal;
     SDL_PenCapabilityFlags capabilities = 0;
-    X11_PenHandle *handle = NULL;
+    X11_PenHandle *handle = रिक्त;
 
-    if ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
-        return NULL;  // Only track physical devices that are enabled and look like pens
-    } else if ((handle = X11_FindPenByDeviceID(dev->deviceid)) != NULL) {
-        return handle;  // already have this pen, skip it.
-    } else if ((handle = SDL_calloc(1, sizeof(*handle))) == NULL) {
-        return NULL;  // oh well.
+    जर ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
+        परत रिक्त;  // Only track physical devices that are enabled and look like pens
+    } अन्यथा जर ((handle = X11_FindPenByDeviceID(dev->deviceid)) != रिक्त) {
+        परत handle;  // already have this pen, skip it.
+    } अन्यथा जर ((handle = SDL_calloc(1, आकार(*handle))) == रिक्त) {
+        परत रिक्त;  // oh well.
     }
 
-    for (int i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
+    साठी (पूर्णांक i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
         handle->valuator_for_axis[i] = SDL_X11_PEN_AXIS_VALUATOR_MISSING;  // until proven otherwise
     }
 
-    int total_buttons = 0;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIButtonClass) {
-            const XIButtonClassInfo *button_classinfo = (const XIButtonClassInfo *)classinfo;
-            total_buttons += button_classinfo->num_buttons;
-        } else if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            const Sint8 valuator_nr = val_classinfo->number;
-            const Atom vname = val_classinfo->label;
-            const float min = (float)val_classinfo->min;
-            const float max = (float)val_classinfo->max;
+    पूर्णांक total_buttons = 0;
+    साठी (पूर्णांक i = 0; i < dev->अंक_classes; i++) {
+        स्थिरांक XIAnyClassInfo *classinfo = dev->classes[i];
+        जर (classinfo->type == XIButtonClass) {
+            स्थिरांक XIButtonClassInfo *button_classinfo = (स्थिरांक XIButtonClassInfo *)classinfo;
+            total_buttons += button_classinfo->अंक_buttons;
+        } अन्यथा जर (classinfo->type == XIValuatorClass) {
+            स्थिरांक XIValuatorClassInfo *val_classinfo = (स्थिरांक XIValuatorClassInfo *)classinfo;
+            स्थिरांक Sint8 valuator_nr = val_classinfo->संख्या_2;
+            स्थिरांक Atom vname = val_classinfo->label;
+            स्थिरांक दशांश min = (दशांश)val_classinfo->min;
+            स्थिरांक दशांश max = (दशांश)val_classinfo->max;
             bool use_this_axis = true;
-            SDL_PenAxis axis = SDL_PEN_AXIS_COUNT;
+            SDL_PenAxis axis = SDL_PEN_AXIS_मोजणी;
 
             // afaict, SDL_PEN_AXIS_DISTANCE is never reported by XInput2 (Wayland can offer it, though)
-            if (vname == data->atoms.pen_atom_abs_pressure) {
+            जर (vname == data->atoms.pen_atom_abs_pressure) {
                 axis = SDL_PEN_AXIS_PRESSURE;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_x) {
+            } अन्यथा जर (vname == data->atoms.pen_atom_abs_tilt_x) {
                 axis = SDL_PEN_AXIS_XTILT;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_y) {
+            } अन्यथा जर (vname == data->atoms.pen_atom_abs_tilt_y) {
                 axis = SDL_PEN_AXIS_YTILT;
-            } else {
+            } अन्यथा {
                 use_this_axis = false;
             }
 
             // !!! FIXME: there are wacom-specific hacks for getting SDL_PEN_AXIS_(ROTATION|SLIDER) on some devices, but for simplicity, we're skipping all that for now.
 
-            if (use_this_axis) {
+            जर (use_this_axis) {
                 capabilities |= SDL_GetPenCapabilityFromAxis(axis);
                 handle->valuator_for_axis[axis] = valuator_nr;
                 handle->axis_min[axis] = min;
@@ -265,7 +265,7 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     // We checked this in X11_XInput2DeviceIsPen, so just assert it here.
     SDL_assert(capabilities & SDL_PEN_CAPABILITY_PRESSURE);
 
-    const bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
+    स्थिरांक bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
     Uint32 wacom_devicetype_id = 0;
     Uint32 wacom_serial = 0;
     X11_XInput2PenWacomDeviceID(_this, dev->deviceid, &wacom_devicetype_id, &wacom_serial);
@@ -275,9 +275,9 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     peninfo.capabilities = capabilities;
     peninfo.max_tilt = -1;
     peninfo.wacom_id = wacom_devicetype_id;
-    peninfo.num_buttons = total_buttons;
+    peninfo.अंक_buttons = total_buttons;
     peninfo.subtype = is_eraser ? SDL_PEN_TYPE_ERASER : SDL_PEN_TYPE_PEN;
-    if (is_eraser) {
+    जर (is_eraser) {
         peninfo.capabilities |= SDL_PEN_CAPABILITY_ERASER;
     }
 
@@ -285,57 +285,57 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     handle->x11_deviceid = dev->deviceid;
 
     bool in_proximity = false;
-    if (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
+    जर (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
         in_proximity = true;  // just say it's in proximity if we can't detect this state.
     }
 
-    handle->pen = SDL_AddPenDevice(0, dev->name, NULL, &peninfo, handle, in_proximity);
-    if (!handle->pen) {
+    handle->pen = SDL_AddPenDevice(0, dev->name, रिक्त, &peninfo, handle, in_proximity);
+    जर (!handle->pen) {
         SDL_free(handle);
-        return NULL;
+        परत रिक्त;
     }
 
-    return handle;
+    परत handle;
 }
 
-X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid)
+X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, पूर्णांक deviceid)
 {
-    if (X11_Xinput2IsInitialized()) {
+    जर (X11_Xinput2IsInitialized()) {
         SDL_VideoData *data = _this->internal;
-        int num_device_info = 0;
-        XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &num_device_info);
-        if (device_info) {
-            SDL_assert(num_device_info == 1);
+        पूर्णांक अंक_device_info = 0;
+        XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &अंक_device_info);
+        जर (device_info) {
+            SDL_assert(अंक_device_info == 1);
             X11_PenHandle *handle = X11_MaybeAddPen(_this, device_info);
             X11_XIFreeDeviceInfo(device_info);
-            return handle;
+            परत handle;
         }
     }
-    return NULL;
+    परत रिक्त;
 }
 
-void X11_RemovePenByDeviceID(int deviceid)
+शून्य X11_RemovePenByDeviceID(पूर्णांक deviceid)
 {
     X11_PenHandle *handle = X11_FindPenByDeviceID(deviceid);
-    if (handle) {
-        SDL_RemovePenDevice(0, NULL, handle->pen);
+    जर (handle) {
+        SDL_RemovePenDevice(0, रिक्त, handle->pen);
         SDL_free(handle);
     }
 }
 
-void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid)
+शून्य X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक deviceid)
 {
     bool in_proximity;
     X11_PenHandle *pen = X11_FindPenByDeviceID(deviceid);
-    if (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
+    जर (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
         SDL_SendPenProximity(0, pen->pen, window, in_proximity, in_proximity);
     }
 }
 
-void X11_InitPen(SDL_VideoDevice *_this)
+शून्य X11_InitPen(SDL_VideoDevice *_this)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return;  // we need XIQueryDevice() for this.
+    जर (!X11_Xinput2IsInitialized()) {
+        परत;  // we need XIQueryDevice() for this.
     }
 
     SDL_VideoData *data = _this->internal;
@@ -350,119 +350,119 @@ void X11_InitPen(SDL_VideoDevice *_this)
     #undef LOOKUP_PEN_ATOM
 
     // Do an initial check on devices. After this, we'll add/remove individual pens when XI_HierarchyChanged events alert us.
-    int num_device_info = 0;
-    XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &num_device_info);
-    if (device_info) {
-        for (int i = 0; i < num_device_info; i++) {
+    पूर्णांक अंक_device_info = 0;
+    XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &अंक_device_info);
+    जर (device_info) {
+        साठी (पूर्णांक i = 0; i < अंक_device_info; i++) {
             X11_MaybeAddPen(_this, &device_info[i]);
         }
         X11_XIFreeDeviceInfo(device_info);
     }
 }
 
-static void X11_FreePenHandle(SDL_PenID instance_id, void *handle, void *userdata)
+स्थिर शून्य X11_FreePenHandle(SDL_PenID instance_id, शून्य *handle, शून्य *userdata)
 {
     SDL_free(handle);
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+शून्य X11_QuitPen(SDL_VideoDevice *_this)
 {
-    SDL_RemoveAllPenDevices(X11_FreePenHandle, NULL);
+    SDL_RemoveAllPenDevices(X11_FreePenHandle, रिक्त);
 }
 
-static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
+स्थिर शून्य X11_XInput2NormalizePenAxes(स्थिरांक X11_PenHandle *pen, दशांश *coords)
 {
     // Normalise axes
-    for (int axis = 0; axis < SDL_PEN_AXIS_COUNT; ++axis) {
-        const int valuator = pen->valuator_for_axis[axis];
-        if (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
-            continue;
+    साठी (पूर्णांक axis = 0; axis < SDL_PEN_AXIS_मोजणी; ++axis) {
+        स्थिरांक पूर्णांक valuator = pen->valuator_for_axis[axis];
+        जर (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
+            सुरूठेवा;
         }
 
-        float value = coords[axis];
-        const float min = pen->axis_min[axis];
-        const float max = pen->axis_max[axis];
+        दशांश मूल्य = coords[axis];
+        स्थिरांक दशांश min = pen->axis_min[axis];
+        स्थिरांक दशांश max = pen->axis_max[axis];
 
-        if (axis == SDL_PEN_AXIS_SLIDER) {
-            value += pen->slider_bias;
+        जर (axis == SDL_PEN_AXIS_SLIDER) {
+            मूल्य += pen->slider_bias;
         }
 
         // min ... 0 ... max
-        if (min < 0.0) {
+        जर (min < 0.0) {
             // Normalise so that 0 remains 0.0
-            if (value < 0) {
-                value = value / (-min);
-            } else {
-                if (max == 0.0f) {
-                    value = 0.0f;
-                } else {
-                    value = value / max;
+            जर (मूल्य < 0) {
+                मूल्य = मूल्य / (-min);
+            } अन्यथा {
+                जर (max == 0.0f) {
+                    मूल्य = 0.0f;
+                } अन्यथा {
+                    मूल्य = मूल्य / max;
                 }
             }
-        } else {
+        } अन्यथा {
             // 0 ... min ... max
             // including 0.0 = min
-            if (max == 0.0f) {
-                value = 0.0f;
-            } else {
-                value = (value - min) / max;
+            जर (max == 0.0f) {
+                मूल्य = 0.0f;
+            } अन्यथा {
+                मूल्य = (मूल्य - min) / max;
             }
         }
 
-        switch (axis) {
-            case SDL_PEN_AXIS_XTILT:
-            case SDL_PEN_AXIS_YTILT:
+        निवड (axis) {
+            स्थिती SDL_PEN_AXIS_XTILT:
+            स्थिती SDL_PEN_AXIS_YTILT:
                 //if (peninfo->info.max_tilt > 0.0f) {
                 //    value *= peninfo->info.max_tilt; // normalize to physical max
                 //}
-                break;
+                थांबा;
 
-            case SDL_PEN_AXIS_ROTATION:
+            स्थिती SDL_PEN_AXIS_ROTATION:
                 // normalised to -1..1, so let's convert to degrees
-                value *= 180.0f;
-                value += pen->rotation_bias;
+                मूल्य *= 180.0f;
+                मूल्य += pen->rotation_bias;
 
                 // handle simple over/underflow
-                if (value >= 180.0f) {
-                    value -= 360.0f;
-                } else if (value < -180.0f) {
-                    value += 360.0f;
+                जर (मूल्य >= 180.0f) {
+                    मूल्य -= 360.0f;
+                } अन्यथा जर (मूल्य < -180.0f) {
+                    मूल्य += 360.0f;
                 }
-                break;
+                थांबा;
 
-            default:
-                break;
+            पूर्वनिर्धारित:
+                थांबा;
         }
 
-        coords[axis] = value;
+        coords[axis] = मूल्य;
     }
 }
 
-void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                              const double *input_values, const unsigned char *mask, int mask_len,
-                              float axis_values[SDL_PEN_AXIS_COUNT])
+शून्य X11_PenAxesFromValuators(स्थिरांक X11_PenHandle *pen,
+                              स्थिरांक द्विगुण *आदान_मूल्ये, स्थिरांक अचिन्हित अक्षर *mask, पूर्णांक mask_len,
+                              दशांश axis_मूल्ये[SDL_PEN_AXIS_मोजणी])
 {
-    for (int i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
-        const int valuator = pen->valuator_for_axis[i];
-        if ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
-            axis_values[i] = 0.0f;
-        } else {
-            axis_values[i] = (float)input_values[valuator];
+    साठी (पूर्णांक i = 0; i < SDL_PEN_AXIS_मोजणी; i++) {
+        स्थिरांक पूर्णांक valuator = pen->valuator_for_axis[i];
+        जर ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
+            axis_मूल्ये[i] = 0.0f;
+        } अन्यथा {
+            axis_मूल्ये[i] = (दशांश)आदान_मूल्ये[valuator];
         }
     }
-    X11_XInput2NormalizePenAxes(pen, axis_values);
+    X11_XInput2NormalizePenAxes(pen, axis_मूल्ये);
 }
 
-#else
+#अन्यथा
 
-void X11_InitPen(SDL_VideoDevice *_this)
+शून्य X11_InitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (शून्य) _this;
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+शून्य X11_QuitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (शून्य) _this;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2

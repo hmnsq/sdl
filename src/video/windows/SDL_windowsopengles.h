@@ -18,15 +18,15 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_winopengles_h_
 #define SDL_winopengles_h_
 
 #ifdef SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
 // OpenGLES functions
 #define WIN_GLES_GetAttribute    SDL_EGL_GetAttribute
@@ -35,13 +35,13 @@
 #define WIN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define WIN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 
-extern bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, स्थिरांक अक्षर *path);
+बाह्य SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+बाह्य bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_VIDEO_OPENGL_EGL
 

@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/html5.h>
-#include <emscripten/dom_pk_codes.h>
+#अन्तर्भाव <emscripten/html5.h>
+#अन्तर्भाव <emscripten/dom_pk_codes.h>
 
-#include "../../events/SDL_dropevents_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_touch_c.h"
+#अन्तर्भाव "../../events/SDL_dropevents_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_touch_c.h"
 
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenvideo.h"
+#अन्तर्भाव "SDL_emscriptenevents.h"
+#अन्तर्भाव "SDL_emscriptenvideo.h"
 
 /*
 Emscripten PK code to scancode
 https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
 https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
 */
-static const SDL_Scancode emscripten_scancode_table[] = {
+स्थिर स्थिरांक SDL_Scancode emscripten_scancode_table[] = {
     /* 0x00 "Unidentified"   */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 "Escape"         */ SDL_SCANCODE_ESCAPE,
     /* 0x02 "Digit0"         */ SDL_SCANCODE_0,
@@ -169,184 +169,184 @@ static const SDL_Scancode emscripten_scancode_table[] = {
     /* 0x7E "NumpadComma"    */ SDL_SCANCODE_KP_COMMA
 };
 
-static SDL_Scancode Emscripten_MapScanCode(const char *code)
+स्थिर SDL_Scancode Emscripten_MapScanCode(स्थिरांक अक्षर *code)
 {
-    const DOM_PK_CODE_TYPE pk_code = emscripten_compute_dom_pk_code(code);
-    if (pk_code < SDL_arraysize(emscripten_scancode_table)) {
-        return emscripten_scancode_table[pk_code];
+    स्थिरांक DOM_PK_CODE_TYPE pk_code = emscripten_compute_dom_pk_code(code);
+    जर (pk_code < SDL_arraysize(emscripten_scancode_table)) {
+        परत emscripten_scancode_table[pk_code];
     }
 
-    switch (pk_code) {
-    case DOM_PK_PASTE:
-        return SDL_SCANCODE_PASTE;
-    case DOM_PK_MEDIA_TRACK_PREVIOUS:
-        return SDL_SCANCODE_MEDIA_PREVIOUS_TRACK;
-    case DOM_PK_CUT:
-        return SDL_SCANCODE_CUT;
-    case DOM_PK_COPY:
-        return SDL_SCANCODE_COPY;
-    case DOM_PK_MEDIA_TRACK_NEXT:
-        return SDL_SCANCODE_MEDIA_NEXT_TRACK;
-    case DOM_PK_NUMPAD_ENTER:
-        return SDL_SCANCODE_KP_ENTER;
-    case DOM_PK_CONTROL_RIGHT:
-        return SDL_SCANCODE_RCTRL;
-    case DOM_PK_AUDIO_VOLUME_MUTE:
-        return SDL_SCANCODE_MUTE;
-    case DOM_PK_MEDIA_PLAY_PAUSE:
-        return SDL_SCANCODE_MEDIA_PLAY_PAUSE;
-    case DOM_PK_MEDIA_STOP:
-        return SDL_SCANCODE_MEDIA_STOP;
-    case DOM_PK_EJECT:
-        return SDL_SCANCODE_MEDIA_EJECT;
-    case DOM_PK_AUDIO_VOLUME_DOWN:
-        return SDL_SCANCODE_VOLUMEDOWN;
-    case DOM_PK_AUDIO_VOLUME_UP:
-        return SDL_SCANCODE_VOLUMEUP;
-    case DOM_PK_BROWSER_HOME:
-        return SDL_SCANCODE_AC_HOME;
-    case DOM_PK_NUMPAD_DIVIDE:
-        return SDL_SCANCODE_KP_DIVIDE;
-    case DOM_PK_ALT_RIGHT:
-        return SDL_SCANCODE_RALT;
-    case DOM_PK_HELP:
-        return SDL_SCANCODE_HELP;
-    case DOM_PK_NUM_LOCK:
-        return SDL_SCANCODE_NUMLOCKCLEAR;
-    case DOM_PK_HOME:
-        return SDL_SCANCODE_HOME;
-    case DOM_PK_ARROW_UP:
-        return SDL_SCANCODE_UP;
-    case DOM_PK_PAGE_UP:
-        return SDL_SCANCODE_PAGEUP;
-    case DOM_PK_ARROW_LEFT:
-        return SDL_SCANCODE_LEFT;
-    case DOM_PK_ARROW_RIGHT:
-        return SDL_SCANCODE_RIGHT;
-    case DOM_PK_END:
-        return SDL_SCANCODE_END;
-    case DOM_PK_ARROW_DOWN:
-        return SDL_SCANCODE_DOWN;
-    case DOM_PK_PAGE_DOWN:
-        return SDL_SCANCODE_PAGEDOWN;
-    case DOM_PK_INSERT:
-        return SDL_SCANCODE_INSERT;
-    case DOM_PK_DELETE:
-        return SDL_SCANCODE_DELETE;
-    case DOM_PK_META_LEFT:
-        return SDL_SCANCODE_LGUI;
-    case DOM_PK_META_RIGHT:
-        return SDL_SCANCODE_RGUI;
-    case DOM_PK_CONTEXT_MENU:
-        return SDL_SCANCODE_APPLICATION;
-    case DOM_PK_POWER:
-        return SDL_SCANCODE_POWER;
-    case DOM_PK_BROWSER_SEARCH:
-        return SDL_SCANCODE_AC_SEARCH;
-    case DOM_PK_BROWSER_FAVORITES:
-        return SDL_SCANCODE_AC_BOOKMARKS;
-    case DOM_PK_BROWSER_REFRESH:
-        return SDL_SCANCODE_AC_REFRESH;
-    case DOM_PK_BROWSER_STOP:
-        return SDL_SCANCODE_AC_STOP;
-    case DOM_PK_BROWSER_FORWARD:
-        return SDL_SCANCODE_AC_FORWARD;
-    case DOM_PK_BROWSER_BACK:
-        return SDL_SCANCODE_AC_BACK;
-    case DOM_PK_MEDIA_SELECT:
-        return SDL_SCANCODE_MEDIA_SELECT;
+    निवड (pk_code) {
+    स्थिती DOM_PK_PASTE:
+        परत SDL_SCANCODE_PASTE;
+    स्थिती DOM_PK_MEDIA_TRACK_PREVIOUS:
+        परत SDL_SCANCODE_MEDIA_PREVIOUS_TRACK;
+    स्थिती DOM_PK_CUT:
+        परत SDL_SCANCODE_CUT;
+    स्थिती DOM_PK_COPY:
+        परत SDL_SCANCODE_COPY;
+    स्थिती DOM_PK_MEDIA_TRACK_NEXT:
+        परत SDL_SCANCODE_MEDIA_NEXT_TRACK;
+    स्थिती DOM_PK_NUMPAD_ENTER:
+        परत SDL_SCANCODE_KP_ENTER;
+    स्थिती DOM_PK_CONTROL_उजवा:
+        परत SDL_SCANCODE_RCTRL;
+    स्थिती DOM_PK_AUDIO_VOLUME_MUTE:
+        परत SDL_SCANCODE_MUTE;
+    स्थिती DOM_PK_MEDIA_PLAY_PAUSE:
+        परत SDL_SCANCODE_MEDIA_PLAY_PAUSE;
+    स्थिती DOM_PK_MEDIA_STOP:
+        परत SDL_SCANCODE_MEDIA_STOP;
+    स्थिती DOM_PK_EJECT:
+        परत SDL_SCANCODE_MEDIA_EJECT;
+    स्थिती DOM_PK_AUDIO_VOLUME_DOWN:
+        परत SDL_SCANCODE_VOLUMEDOWN;
+    स्थिती DOM_PK_AUDIO_VOLUME_UP:
+        परत SDL_SCANCODE_VOLUMEUP;
+    स्थिती DOM_PK_BROWSER_HOME:
+        परत SDL_SCANCODE_AC_HOME;
+    स्थिती DOM_PK_NUMPAD_DIVIDE:
+        परत SDL_SCANCODE_KP_DIVIDE;
+    स्थिती DOM_PK_ALT_उजवा:
+        परत SDL_SCANCODE_RALT;
+    स्थिती DOM_PK_HELP:
+        परत SDL_SCANCODE_HELP;
+    स्थिती DOM_PK_अंक_LOCK:
+        परत SDL_SCANCODE_NUMLOCKCLEAR;
+    स्थिती DOM_PK_HOME:
+        परत SDL_SCANCODE_HOME;
+    स्थिती DOM_PK_ARROW_UP:
+        परत SDL_SCANCODE_UP;
+    स्थिती DOM_PK_PAGE_UP:
+        परत SDL_SCANCODE_PAGEUP;
+    स्थिती DOM_PK_ARROW_डावा:
+        परत SDL_SCANCODE_डावा;
+    स्थिती DOM_PK_ARROW_उजवा:
+        परत SDL_SCANCODE_उजवा;
+    स्थिती DOM_PK_END:
+        परत SDL_SCANCODE_END;
+    स्थिती DOM_PK_ARROW_DOWN:
+        परत SDL_SCANCODE_DOWN;
+    स्थिती DOM_PK_PAGE_DOWN:
+        परत SDL_SCANCODE_PAGEDOWN;
+    स्थिती DOM_PK_घाला:
+        परत SDL_SCANCODE_घाला;
+    स्थिती DOM_PK_DELETE:
+        परत SDL_SCANCODE_DELETE;
+    स्थिती DOM_PK_META_डावा:
+        परत SDL_SCANCODE_LGUI;
+    स्थिती DOM_PK_META_उजवा:
+        परत SDL_SCANCODE_RGUI;
+    स्थिती DOM_PK_CONTEXT_MENU:
+        परत SDL_SCANCODE_APPLICATION;
+    स्थिती DOM_PK_POWER:
+        परत SDL_SCANCODE_POWER;
+    स्थिती DOM_PK_BROWSER_शोध:
+        परत SDL_SCANCODE_AC_शोध;
+    स्थिती DOM_PK_BROWSER_FAVORITES:
+        परत SDL_SCANCODE_AC_BOOKMARKS;
+    स्थिती DOM_PK_BROWSER_REFRESH:
+        परत SDL_SCANCODE_AC_REFRESH;
+    स्थिती DOM_PK_BROWSER_STOP:
+        परत SDL_SCANCODE_AC_STOP;
+    स्थिती DOM_PK_BROWSER_FORWARD:
+        परत SDL_SCANCODE_AC_FORWARD;
+    स्थिती DOM_PK_BROWSER_BACK:
+        परत SDL_SCANCODE_AC_BACK;
+    स्थिती DOM_PK_MEDIA_SELECT:
+        परत SDL_SCANCODE_MEDIA_SELECT;
     }
 
-    return SDL_SCANCODE_UNKNOWN;
+    परत SDL_SCANCODE_UNKNOWN;
 }
 
-static SDL_Window *Emscripten_GetFocusedWindow(SDL_VideoDevice *device)
+स्थिर SDL_Window *Emscripten_GetFocusedWindow(SDL_VideoDevice *device)
 {
     SDL_Window *window;
-    for (window = device->windows; window; window = window->next) {
+    साठी (window = device->windows; window; window = window->next) {
         SDL_WindowData *wdata = window->internal;
 
-        const int focused = MAIN_THREAD_EM_ASM_INT({
+        स्थिरांक पूर्णांक focused = MAIN_THREAD_EM_ASM_INT({
             var id = UTF8ToString($0);
             try
             {
                 var canvas = document.querySelector(id);
-                if (canvas) {
-                    return canvas === document.activeElement;
+                जर (canvas) {
+                    परत canvas === document.activeElement;
                 }
             }
             catch (e)
             {
                 // querySelector throws if not a valid selector
             }
-            return false;
+            परत false;
         }, wdata->canvas_id);
 
-        if (focused) {
-            break;
+        जर (focused) {
+            थांबा;
         }
     }
     // If the DOM is focused, then at least one canvas in the DOM should be considered focused.
     // So in this case, just assume that the first canvas is focused.
-    if (!window) {
-        const int focused = MAIN_THREAD_EM_ASM_INT({
-            return document.hasFocus();
+    जर (!window) {
+        स्थिरांक पूर्णांक focused = MAIN_THREAD_EM_ASM_INT({
+            परत document.hasFocus();
         });
-        if (focused) {
+        जर (focused) {
             window = device->windows;
         }
     }
-    return window;
+    परत window;
 }
 
-static EM_BOOL Emscripten_HandlePointerLockChange(int eventType, const EmscriptenPointerlockChangeEvent *changeEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandlePointerLockChange(पूर्णांक eventType, स्थिरांक EmscriptenPointerlockChangeEvent *changeEvent, शून्य *userData)
 {
     SDL_WindowData *window_data = (SDL_WindowData *)userData;
     // keep track of lock losses, so we can regrab if/when appropriate.
     window_data->has_pointer_lock = changeEvent->isActive;
-    return 0;
+    परत 0;
 }
 
-static EM_BOOL Emscripten_HandlePointerLockChangeGlobal(int eventType, const EmscriptenPointerlockChangeEvent *changeEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandlePointerLockChangeGlobal(पूर्णांक eventType, स्थिरांक EmscriptenPointerlockChangeEvent *changeEvent, शून्य *userData)
 {
     SDL_VideoDevice *device = userData;
     bool prevent_default = false;
     SDL_Window *window;
 
-    for (window = device->windows; window; window = window->next) {
+    साठी (window = device->windows; window; window = window->next) {
         prevent_default |= Emscripten_HandlePointerLockChange(eventType, changeEvent, window->internal);
     }
 
-    return prevent_default;
+    परत prevent_default;
 }
 
-static EM_BOOL Emscripten_HandleWheel(int eventType, const EmscriptenWheelEvent *wheelEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleWheel(पूर्णांक eventType, स्थिरांक EmscriptenWheelEvent *wheelEvent, शून्य *userData)
 {
     SDL_WindowData *window_data = userData;
 
-    float deltaY = wheelEvent->deltaY;
-    float deltaX = wheelEvent->deltaX;
+    दशांश deltaY = wheelEvent->deltaY;
+    दशांश deltaX = wheelEvent->deltaX;
 
-    switch (wheelEvent->deltaMode) {
-    case DOM_DELTA_PIXEL:
+    निवड (wheelEvent->deltaMode) {
+    स्थिती DOM_DELTA_PIXEL:
         deltaX /= 100; // 100 pixels make up a step
         deltaY /= 100; // 100 pixels make up a step
-        break;
-    case DOM_DELTA_LINE:
+        थांबा;
+    स्थिती DOM_DELTA_ओळ:
         deltaX /= 3; // 3 lines make up a step
         deltaY /= 3; // 3 lines make up a step
-        break;
-    case DOM_DELTA_PAGE:
+        थांबा;
+    स्थिती DOM_DELTA_PAGE:
         deltaX *= 80; // A page makes up 80 steps
         deltaY *= 80; // A page makes up 80 steps
-        break;
+        थांबा;
     }
 
     SDL_SendMouseWheel(0, window_data->window, SDL_DEFAULT_MOUSE_ID, deltaX, -deltaY, SDL_MOUSEWHEEL_NORMAL);
-    return SDL_EventEnabled(SDL_EVENT_MOUSE_WHEEL);
+    परत SDL_EventEnabled(SDL_EVENT_MOUSE_WHEEL);
 }
 
-static EM_BOOL Emscripten_HandleFocus(int eventType, const EmscriptenFocusEvent *focusEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleFocus(पूर्णांक eventType, स्थिरांक EmscriptenFocusEvent *focusEvent, शून्य *userData)
 {
     SDL_VideoDevice *device = userData;
     SDL_Window *window = Emscripten_GetFocusedWindow(device);
@@ -355,193 +355,193 @@ static EM_BOOL Emscripten_HandleFocus(int eventType, const EmscriptenFocusEvent 
 
     /* If the user switches away while keys are pressed (such as
      * via Alt+Tab), key release events won't be received. */
-    if (eventType == EMSCRIPTEN_EVENT_BLUR) {
+    जर (eventType == EMSCRIPTEN_EVENT_BLUR) {
         SDL_ResetKeyboard();
     }
 
     sdl_event_type = (eventType == EMSCRIPTEN_EVENT_FOCUS) ? SDL_EVENT_WINDOW_FOCUS_GAINED : SDL_EVENT_WINDOW_FOCUS_LOST;
-    SDL_SetKeyboardFocus(sdl_event_type == SDL_EVENT_WINDOW_FOCUS_GAINED ? window : NULL);
-    return SDL_EventEnabled(sdl_event_type);
+    SDL_SetKeyboardFocus(sdl_event_type == SDL_EVENT_WINDOW_FOCUS_GAINED ? window : रिक्त);
+    परत SDL_EventEnabled(sdl_event_type);
 }
 
-static bool IsFunctionKey(SDL_Scancode scancode)
+स्थिर bool Is_Function_किल्ली(SDL_Scancode scancode)
 {
-    if (scancode >= SDL_SCANCODE_F1 && scancode <= SDL_SCANCODE_F12) {
-        return true;
+    जर (scancode >= SDL_SCANCODE_F1 && scancode <= SDL_SCANCODE_F12) {
+        परत true;
     }
-    if (scancode >= SDL_SCANCODE_F13 && scancode <= SDL_SCANCODE_F24) {
-        return true;
+    जर (scancode >= SDL_SCANCODE_F13 && scancode <= SDL_SCANCODE_F24) {
+        परत true;
     }
-    return false;
+    परत false;
 }
 
 /* This is a great tool to see web keyboard events live:
  * https://w3c.github.io/uievents/tools/key-event-viewer.html
  */
-static EM_BOOL Emscripten_HandleKey(int eventType, const EmscriptenKeyboardEvent *keyEvent, void *userData)
+स्थिर EM_BOOL Emscripten_Handle_किल्ली(पूर्णांक eventType, स्थिरांक EmscriptenKeyboardEvent *किल्ली_Event, शून्य *userData)
 {
     SDL_WindowData *window_data = (SDL_WindowData *)userData;
-    SDL_Scancode scancode = Emscripten_MapScanCode(keyEvent->code);
+    SDL_Scancode scancode = Emscripten_MapScanCode(किल्ली_Event->code);
     SDL_Keycode keycode = SDLK_UNKNOWN;
     bool prevent_default = false;
-    bool is_nav_key = false;
+    bool is_nav_किल्ली = false;
 
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (SDL_strcmp(keyEvent->key, "Sleep") == 0) {
+    जर (scancode == SDL_SCANCODE_UNKNOWN) {
+        जर (SDL_strcmp(किल्ली_Event->किल्ली, "Sleep") == 0) {
             scancode = SDL_SCANCODE_SLEEP;
-        } else if (SDL_strcmp(keyEvent->key, "ChannelUp") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "ChannelUp") == 0) {
             scancode = SDL_SCANCODE_CHANNEL_INCREMENT;
-        } else if (SDL_strcmp(keyEvent->key, "ChannelDown") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "ChannelDown") == 0) {
             scancode = SDL_SCANCODE_CHANNEL_DECREMENT;
-        } else if (SDL_strcmp(keyEvent->key, "MediaPlay") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "MediaPlay") == 0) {
             scancode = SDL_SCANCODE_MEDIA_PLAY;
-        } else if (SDL_strcmp(keyEvent->key, "MediaPause") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "MediaPause") == 0) {
             scancode = SDL_SCANCODE_MEDIA_PAUSE;
-        } else if (SDL_strcmp(keyEvent->key, "MediaRecord") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "MediaRecord") == 0) {
             scancode = SDL_SCANCODE_MEDIA_RECORD;
-        } else if (SDL_strcmp(keyEvent->key, "MediaFastForward") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "MediaFastForward") == 0) {
             scancode = SDL_SCANCODE_MEDIA_FAST_FORWARD;
-        } else if (SDL_strcmp(keyEvent->key, "MediaRewind") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "MediaRewind") == 0) {
             scancode = SDL_SCANCODE_MEDIA_REWIND;
-        } else if (SDL_strcmp(keyEvent->key, "Close") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "Close") == 0) {
             scancode = SDL_SCANCODE_AC_CLOSE;
-        } else if (SDL_strcmp(keyEvent->key, "New") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "New") == 0) {
             scancode = SDL_SCANCODE_AC_NEW;
-        } else if (SDL_strcmp(keyEvent->key, "Open") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "Open") == 0) {
             scancode = SDL_SCANCODE_AC_OPEN;
-        } else if (SDL_strcmp(keyEvent->key, "Print") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "Print") == 0) {
             scancode = SDL_SCANCODE_AC_PRINT;
-        } else if (SDL_strcmp(keyEvent->key, "Save") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "Save") == 0) {
             scancode = SDL_SCANCODE_AC_SAVE;
-        } else if (SDL_strcmp(keyEvent->key, "Props") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "Props") == 0) {
             scancode = SDL_SCANCODE_AC_PROPERTIES;
         }
     }
 
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
+    जर (scancode == SDL_SCANCODE_UNKNOWN) {
         // KaiOS Left Soft Key and Right Soft Key, they act as OK/Next/Menu and Cancel/Back/Clear
-        if (SDL_strcmp(keyEvent->key, "SoftLeft") == 0) {
+        जर (SDL_strcmp(किल्ली_Event->किल्ली, "SoftLeft") == 0) {
             scancode = SDL_SCANCODE_AC_FORWARD;
-        } else if (SDL_strcmp(keyEvent->key, "SoftRight") == 0) {
+        } अन्यथा जर (SDL_strcmp(किल्ली_Event->किल्ली, "SoftRight") == 0) {
             scancode = SDL_SCANCODE_AC_BACK;
         }
     }
 
-    if (keyEvent->location == 0 && SDL_utf8strlen(keyEvent->key) == 1) {
-        const char *key = keyEvent->key;
-        keycode = SDL_StepUTF8(&key, NULL);
-        if (keycode == SDL_INVALID_UNICODE_CODEPOINT) {
+    जर (किल्ली_Event->location == 0 && SDL_utf8strlen(किल्ली_Event->किल्ली) == 1) {
+        स्थिरांक अक्षर *किल्ली = किल्ली_Event->किल्ली;
+        keycode = SDL_StepUTF8(&किल्ली, रिक्त);
+        जर (keycode == SDL_INVALID_UNICODE_CODEPOINT) {
             keycode = SDLK_UNKNOWN;
         }
     }
 
-    if (keycode != SDLK_UNKNOWN) {
-        prevent_default = SDL_SendKeyboardKeyAndKeycode(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, keycode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
-    } else {
-        prevent_default = SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
+    जर (keycode != SDLK_UNKNOWN) {
+        prevent_default = SDL_Send_Keyboard_किल्ली_And_Keycode(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, keycode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
+    } अन्यथा {
+        prevent_default = SDL_Send_Keyboard_किल्ली(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
     }
 
     /* if TEXTINPUT events are enabled we can't prevent keydown or we won't get keypress
      * we need to ALWAYS prevent backspace and tab otherwise chrome takes action and does bad navigation UX
      */
-    if ((scancode == SDL_SCANCODE_BACKSPACE) ||
+    जर ((scancode == SDL_SCANCODE_BACKSPACE) ||
         (scancode == SDL_SCANCODE_TAB) ||
-        (scancode == SDL_SCANCODE_LEFT) ||
+        (scancode == SDL_SCANCODE_डावा) ||
         (scancode == SDL_SCANCODE_UP) ||
-        (scancode == SDL_SCANCODE_RIGHT) ||
+        (scancode == SDL_SCANCODE_उजवा) ||
         (scancode == SDL_SCANCODE_DOWN) ||
-        IsFunctionKey(scancode) ||
-        keyEvent->ctrlKey) {
-        is_nav_key = true;
+        Is_Function_किल्ली(scancode) ||
+        किल्ली_Event->ctrl_किल्ली) {
+        is_nav_किल्ली = true;
     }
 
-    if ((eventType == EMSCRIPTEN_EVENT_KEYDOWN) && SDL_TextInputActive(window_data->window) && !is_nav_key) {
+    जर ((eventType == EMSCRIPTEN_EVENT_KEYDOWN) && SDL_Text_आदान_Active(window_data->window) && !is_nav_किल्ली) {
         prevent_default = false;
     }
 
-    return prevent_default;
+    परत prevent_default;
 }
 
-static EM_BOOL Emscripten_HandleKeyPress(int eventType, const EmscriptenKeyboardEvent *keyEvent, void *userData)
+स्थिर EM_BOOL Emscripten_Handle_किल्ली_Press(पूर्णांक eventType, स्थिरांक EmscriptenKeyboardEvent *किल्ली_Event, शून्य *userData)
 {
     SDL_WindowData *window_data = (SDL_WindowData *)userData;
 
-    if (SDL_TextInputActive(window_data->window)) {
-        if (SDL_utf8strlen(keyEvent->key) == 1) {
-            SDL_SendKeyboardText(keyEvent->key);
-            return EM_TRUE;
+    जर (SDL_Text_आदान_Active(window_data->window)) {
+        जर (SDL_utf8strlen(किल्ली_Event->किल्ली) == 1) {
+            SDL_SendKeyboardText(किल्ली_Event->किल्ली);
+            परत EM_TRUE;
         }
     }
-    return EM_FALSE;
+    परत EM_FALSE;
 }
 
-static EM_BOOL Emscripten_HandleFullscreenChange(int eventType, const EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleFullscreenChange(पूर्णांक eventType, स्थिरांक EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, शून्य *userData)
 {
     SDL_WindowData *window_data = userData;
 
     window_data->fullscreen_change_in_progress = false;
 
-    if (fullscreenChangeEvent->isFullscreen) {
+    जर (fullscreenChangeEvent->isFullscreen) {
         SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
         window_data->fullscreen_mode_flags = 0;
-    } else {
+    } अन्यथा {
         SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
     }
 
     SDL_UpdateFullscreenMode(window_data->window, fullscreenChangeEvent->isFullscreen, false);
 
-    return 0;
+    परत 0;
 }
 
-static EM_BOOL Emscripten_HandleFullscreenChangeGlobal(int eventType, const EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleFullscreenChangeGlobal(पूर्णांक eventType, स्थिरांक EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, शून्य *userData)
 {
     SDL_VideoDevice *device = userData;
-    SDL_Window *window = NULL;
-    for (window = device->windows; window != NULL; window = window->next) {
-        const char *canvas_id = window->internal->canvas_id;
-        if (*canvas_id == '#') {
+    SDL_Window *window = रिक्त;
+    साठी (window = device->windows; window != रिक्त; window = window->next) {
+        स्थिरांक अक्षर *canvas_id = window->internal->canvas_id;
+        जर (*canvas_id == '#') {
             canvas_id++;
         }
-        if (SDL_strcmp(fullscreenChangeEvent->id, canvas_id) == 0) {
-            break;  // this is the window.
+        जर (SDL_strcmp(fullscreenChangeEvent->id, canvas_id) == 0) {
+            थांबा;  // this is the window.
         }
     }
 
-    if (window) {
-        return Emscripten_HandleFullscreenChange(eventType, fullscreenChangeEvent, window->internal);
+    जर (window) {
+        परत Emscripten_HandleFullscreenChange(eventType, fullscreenChangeEvent, window->internal);
     }
 
-    return EM_FALSE;
+    परत EM_FALSE;
 }
 
-static EM_BOOL Emscripten_HandleResize(int eventType, const EmscriptenUiEvent *uiEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleResize(पूर्णांक eventType, स्थिरांक EmscriptenUiEvent *uiEvent, शून्य *userData)
 {
     SDL_WindowData *window_data = userData;
 
     bool force = false;
 
     // update pixel ratio
-    if (window_data->window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-        if (window_data->pixel_ratio != emscripten_get_device_pixel_ratio()) {
+    जर (window_data->window->flags & SDL_WINDOW_वरचा_PIXEL_DENSITY) {
+        जर (window_data->pixel_ratio != emscripten_get_device_pixel_ratio()) {
             window_data->pixel_ratio = emscripten_get_device_pixel_ratio();
             force = true;
         }
     }
 
-    const bool fill_document = (Emscripten_fill_document_window == window_data->window);
-    const bool fullscreen = (window_data->window->flags & SDL_WINDOW_FULLSCREEN) != 0;  // fullscreen windows can resize on Emscripten, and the canvas should fill it.
-    const bool resizable = (window_data->window->flags & SDL_WINDOW_RESIZABLE) != 0;
-    if (fill_document || fullscreen || resizable) {
-        double w, h;
-        if (fill_document || fullscreen) {
-            w = (double) uiEvent->windowInnerWidth;
-            h = (double) uiEvent->windowInnerHeight;
-        } else {
+    स्थिरांक bool fill_document = (Emscripten_fill_document_window == window_data->window);
+    स्थिरांक bool fullscreen = (window_data->window->flags & SDL_WINDOW_FULLSCREEN) != 0;  // fullscreen windows can resize on Emscripten, and the canvas should fill it.
+    स्थिरांक bool resizable = (window_data->window->flags & SDL_WINDOW_RESIZABLE) != 0;
+    जर (fill_document || fullscreen || resizable) {
+        द्विगुण w, h;
+        जर (fill_document || fullscreen) {
+            w = (द्विगुण) uiEvent->windowInnerWidth;
+            h = (द्विगुण) uiEvent->windowInnerHeight;
+        } अन्यथा {
             SDL_assert(window_data->window->flags & SDL_WINDOW_RESIZABLE);
             w = window_data->window->w;
             h = window_data->window->h;
             // this will only work if the canvas size is set through css
-            if (window_data->external_size) {
+            जर (window_data->external_size) {
                 emscripten_get_element_css_size(window_data->canvas_id, &w, &h);
             }
         }
@@ -549,11 +549,11 @@ static EM_BOOL Emscripten_HandleResize(int eventType, const EmscriptenUiEvent *u
         emscripten_set_canvas_element_size(window_data->canvas_id, SDL_lroundf(w * window_data->pixel_ratio), SDL_lroundf(h * window_data->pixel_ratio));
 
         // set_canvas_size unsets this
-        if (!window_data->external_size && window_data->pixel_ratio != 1.0f) {
+        जर (!window_data->external_size && window_data->pixel_ratio != 1.0f) {
             emscripten_set_element_css_size(window_data->canvas_id, w, h);
         }
 
-        if (force) {
+        जर (force) {
             // force the event to trigger, so pixel ratio changes can be handled
             window_data->window->w = 0;
             window_data->window->h = 0;
@@ -562,64 +562,64 @@ static EM_BOOL Emscripten_HandleResize(int eventType, const EmscriptenUiEvent *u
         SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
     }
 
-    return 0;
+    परत 0;
 }
 
-static EM_BOOL Emscripten_HandleResizeGlobal(int eventType, const EmscriptenUiEvent *uiEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleResizeGlobal(पूर्णांक eventType, स्थिरांक EmscriptenUiEvent *uiEvent, शून्य *userData)
 {
     SDL_VideoDevice *device = userData;
     bool prevent_default = false;
     SDL_Window *window;
 
-    for (window = device->windows; window; window = window->next) {
+    साठी (window = device->windows; window; window = window->next) {
         prevent_default |= Emscripten_HandleResize(eventType, uiEvent, window->internal);
     }
 
-    return prevent_default;
+    परत prevent_default;
 }
 
 EM_BOOL
-Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData)
+Emscripten_HandleCanvasResize(पूर्णांक eventType, स्थिरांक शून्य *reserved, शून्य *userData)
 {
     // this is used during fullscreen changes
     SDL_WindowData *window_data = userData;
 
-    if (window_data->fullscreen_resize) {
-        double css_w, css_h;
+    जर (window_data->fullscreen_resize) {
+        द्विगुण css_w, css_h;
         emscripten_get_element_css_size(window_data->canvas_id, &css_w, &css_h);
         SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(css_w), SDL_lroundf(css_h));
     }
 
-    return 0;
+    परत 0;
 }
 
-static EM_BOOL Emscripten_HandleVisibilityChange(int eventType, const EmscriptenVisibilityChangeEvent *visEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleVisibilityChange(पूर्णांक eventType, स्थिरांक EmscriptenVisibilityChangeEvent *visEvent, शून्य *userData)
 {
     SDL_WindowData *window_data = userData;
     SDL_SendWindowEvent(window_data->window, visEvent->hidden ? SDL_EVENT_WINDOW_HIDDEN : SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    return 0;
+    परत 0;
 }
 
-static const char *Emscripten_HandleBeforeUnload(int eventType, const void *reserved, void *userData)
+स्थिर स्थिरांक अक्षर *Emscripten_HandleBeforeUnload(पूर्णांक eventType, स्थिरांक शून्य *reserved, शून्य *userData)
 {
     /* This event will need to be handled synchronously, e.g. using
        SDL_AddEventWatch, as the page is being closed *now*. */
     SDL_SendQuit();  // the app might see this if they installed an event watcher.
     SDL_OnApplicationWillTerminate();  // calls SDL_AppQuit if appropriate, etc.
-    return ""; // don't trigger confirmation dialog
+    परत ""; // don't trigger confirmation dialog
 }
 
-static EM_BOOL Emscripten_HandleOrientationChange(int eventType, const EmscriptenOrientationChangeEvent *orientationChangeEvent, void *userData)
+स्थिर EM_BOOL Emscripten_HandleOrientationChange(पूर्णांक eventType, स्थिरांक EmscriptenOrientationChangeEvent *orientationChangeEvent, शून्य *userData)
 {
     SDL_DisplayOrientation orientation;
-    switch (orientationChangeEvent->orientationIndex) {
-        #define CHECK_ORIENTATION(emsdk, sdl) case EMSCRIPTEN_ORIENTATION_##emsdk: orientation = SDL_ORIENTATION_##sdl; break
+    निवड (orientationChangeEvent->orientationIndex) {
+        #define CHECK_ORIENTATION(emsdk, sdl) स्थिती EMSCRIPTEN_ORIENTATION_##emsdk: orientation = SDL_ORIENTATION_##sdl; थांबा
         CHECK_ORIENTATION(LANDSCAPE_PRIMARY, LANDSCAPE);
         CHECK_ORIENTATION(LANDSCAPE_SECONDARY, LANDSCAPE_FLIPPED);
         CHECK_ORIENTATION(PORTRAIT_PRIMARY, PORTRAIT);
         CHECK_ORIENTATION(PORTRAIT_SECONDARY, PORTRAIT_FLIPPED);
         #undef CHECK_ORIENTATION
-        default: orientation = SDL_ORIENTATION_UNKNOWN; break;
+        पूर्वनिर्धारित: orientation = SDL_ORIENTATION_UNKNOWN; थांबा;
     }
 
     SDL_WindowData *window_data = (SDL_WindowData *) userData;
@@ -628,62 +628,62 @@ static EM_BOOL Emscripten_HandleOrientationChange(int eventType, const Emscripte
     // fake a UI event so we can tell the app the canvas might have resized.
     EmscriptenUiEvent uiEvent;
     SDL_zero(uiEvent);
-    uiEvent.documentBodyClientWidth = MAIN_THREAD_EM_ASM_INT( { return document.body.clientWidth; } );
-    uiEvent.documentBodyClientHeight = MAIN_THREAD_EM_ASM_INT( { return document.body.clientHeight; } );
-    uiEvent.windowInnerWidth = MAIN_THREAD_EM_ASM_INT( { return window.innerWidth; } );
-    uiEvent.windowInnerHeight = MAIN_THREAD_EM_ASM_INT( { return window.innerHeight; } );
-    uiEvent.windowOuterWidth = MAIN_THREAD_EM_ASM_INT( { return window.outerWidth; } );
-    uiEvent.windowOuterHeight = MAIN_THREAD_EM_ASM_INT( { return window.outerHeight; } );
-    uiEvent.scrollTop = MAIN_THREAD_EM_ASM_INT( { return window.pageXOffset; } );
-    uiEvent.scrollLeft = MAIN_THREAD_EM_ASM_INT( { return window.pageYOffset; } );
+    uiEvent.documentBodyClientWidth = MAIN_THREAD_EM_ASM_INT( { परत document.body.clientWidth; } );
+    uiEvent.documentBodyClientHeight = MAIN_THREAD_EM_ASM_INT( { परत document.body.clientHeight; } );
+    uiEvent.windowInnerWidth = MAIN_THREAD_EM_ASM_INT( { परत window.innerWidth; } );
+    uiEvent.windowInnerHeight = MAIN_THREAD_EM_ASM_INT( { परत window.innerHeight; } );
+    uiEvent.windowOuterWidth = MAIN_THREAD_EM_ASM_INT( { परत window.outerWidth; } );
+    uiEvent.windowOuterHeight = MAIN_THREAD_EM_ASM_INT( { परत window.outerHeight; } );
+    uiEvent.scroll_शीर्ष = MAIN_THREAD_EM_ASM_INT( { परत window.pageXOffset; } );
+    uiEvent.scroll_डावा = MAIN_THREAD_EM_ASM_INT( { परत window.pageYOffset; } );
     Emscripten_HandleResize(EMSCRIPTEN_EVENT_RESIZE, &uiEvent, userData);
 
-    return 0;
+    परत 0;
 }
 
 // IF YOU CHANGE THIS STRUCTURE, YOU NEED TO UPDATE THE JAVASCRIPT THAT FILLS IT IN: SDL3.makePointerEventCStruct, below.
 #define PTRTYPE_MOUSE 1
 #define PTRTYPE_TOUCH 2
 #define PTRTYPE_PEN 3
-typedef struct Emscripten_PointerEvent
+प्रकारव्याख्या संरचना Emscripten_PointerEvent
 {
-    int pointer_type;
-    int pointerid;
-    int button;
-    int buttons;
-    int down;
-    float movementX;
-    float movementY;
-    float targetX;
-    float targetY;
-    float pressure;
-    float tangential_pressure;
-    float tiltx;
-    float tilty;
-    float rotation;
+    पूर्णांक pointer_type;
+    पूर्णांक pointerid;
+    पूर्णांक button;
+    पूर्णांक buttons;
+    पूर्णांक down;
+    दशांश movementX;
+    दशांश movementY;
+    दशांश targetX;
+    दशांश targetY;
+    दशांश pressure;
+    दशांश tangential_pressure;
+    दशांश tiltx;
+    दशांश tilty;
+    दशांश rotation;
 } Emscripten_PointerEvent;
 
-static void Emscripten_HandleMouseButton(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_HandleMouseButton(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     Uint8 sdl_button;
     bool down = false;
-    switch (event->button) {
-        #define CHECK_MOUSE_BUTTON(jsbutton, downflag, sdlbutton) case jsbutton: sdl_button = SDL_BUTTON_##sdlbutton; down = (event->down != 0) || ((event->buttons & downflag) != 0); break
-        CHECK_MOUSE_BUTTON(0, 1, LEFT);
-        CHECK_MOUSE_BUTTON(1, 4, MIDDLE);
-        CHECK_MOUSE_BUTTON(2, 2, RIGHT);
+    निवड (event->button) {
+        #define CHECK_MOUSE_BUTTON(jsbutton, downflag, sdlbutton) स्थिती jsbutton: sdl_button = SDL_BUTTON_##sdlbutton; down = (event->down != 0) || ((event->buttons & downflag) != 0); थांबा
+        CHECK_MOUSE_BUTTON(0, 1, डावा_2);
+        CHECK_MOUSE_BUTTON(1, 4, मधला_2);
+        CHECK_MOUSE_BUTTON(2, 2, उजवा_2);
         CHECK_MOUSE_BUTTON(3, 8, X1);
         CHECK_MOUSE_BUTTON(4, 16, X2);
         #undef CHECK_MOUSE_BUTTON
-        default: sdl_button = 0; break;
+        पूर्वनिर्धारित: sdl_button = 0; थांबा;
     }
 
-    if (sdl_button) {
-        const SDL_Mouse *mouse = SDL_GetMouse();
-        SDL_assert(mouse != NULL);
+    जर (sdl_button) {
+        स्थिरांक SDL_Mouse *mouse = SDL_GetMouse();
+        SDL_assert(mouse != रिक्त);
 
-        if (down) {
-            if (mouse->relative_mode && !window_data->has_pointer_lock) {
+        जर (down) {
+            जर (mouse->relative_mode && !window_data->has_pointer_lock) {
                 emscripten_request_pointerlock(window_data->canvas_id, 0); // try to regrab lost pointer lock.
             }
         }
@@ -691,24 +691,24 @@ static void Emscripten_HandleMouseButton(SDL_WindowData *window_data, const Emsc
         SDL_SendMouseButton(0, window_data->window, SDL_DEFAULT_MOUSE_ID, sdl_button, down);
 
         // We have an imaginary mouse capture, because we need SDL to not drop our imaginary mouse focus when we leave the canvas.
-        if (mouse->auto_capture) {
-            if (SDL_GetMouseState(NULL, NULL) != 0) {
+        जर (mouse->auto_capture) {
+            जर (SDL_GetMouseState(रिक्त, रिक्त) != 0) {
                 window_data->window->flags |= SDL_WINDOW_MOUSE_CAPTURE;
-            } else {
+            } अन्यथा {
                 window_data->window->flags &= ~SDL_WINDOW_MOUSE_CAPTURE;
             }
         }
 
-        if (!down && window_data->mouse_focus_loss_pending) {
+        जर (!down && window_data->mouse_focus_loss_pending) {
             window_data->mouse_focus_loss_pending = (window_data->window->flags & SDL_WINDOW_MOUSE_CAPTURE) != 0;
-            if (!window_data->mouse_focus_loss_pending) {
-                SDL_SetMouseFocus(NULL);
+            जर (!window_data->mouse_focus_loss_pending) {
+                SDL_SetMouseFocus(रिक्त);
             }
         }
     }
 }
 
-static void Emscripten_UpdateMouseFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_UpdateMouseFromEvent(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     SDL_assert(event->pointer_type == PTRTYPE_MOUSE);
 
@@ -717,24 +717,24 @@ static void Emscripten_UpdateMouseFromEvent(SDL_WindowData *window_data, const E
     // visible window's, fighting over `mouse->focus` and producing events tagged with the
     // hidden window's ID -- causing downstream consumers that key by window ID to silently
     // drop them. Hidden windows shouldn't take part in user-input dispatch.
-    if (window_data->window->flags & SDL_WINDOW_HIDDEN) {
-        return;
+    जर (window_data->window->flags & SDL_WINDOW_HIDDEN) {
+        परत;
     }
 
     // rescale (in case canvas is being scaled)
-    double client_w, client_h;
+    द्विगुण client_w, client_h;
     emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
-    const double xscale = window_data->window->w / client_w;
-    const double yscale = window_data->window->h / client_h;
+    स्थिरांक द्विगुण xscale = window_data->window->w / client_w;
+    स्थिरांक द्विगुण yscale = window_data->window->h / client_h;
 
-    const bool isPointerLocked = window_data->has_pointer_lock;
-    float mx, my;
-    if (isPointerLocked) {
-        mx = (float)(event->movementX * xscale);
-        my = (float)(event->movementY * yscale);
-    } else {
-        mx = (float)(event->targetX * xscale);
-        my = (float)(event->targetY * yscale);
+    स्थिरांक bool isPointerLocked = window_data->has_pointer_lock;
+    दशांश mx, my;
+    जर (isPointerLocked) {
+        mx = (दशांश)(event->movementX * xscale);
+        my = (दशांश)(event->movementY * yscale);
+    } अन्यथा {
+        mx = (दशांश)(event->targetX * xscale);
+        my = (दशांश)(event->targetY * yscale);
     }
 
     SDL_SendMouseMotion(0, window_data->window, SDL_DEFAULT_MOUSE_ID, isPointerLocked, mx, my);
@@ -742,80 +742,80 @@ static void Emscripten_UpdateMouseFromEvent(SDL_WindowData *window_data, const E
     Emscripten_HandleMouseButton(window_data, event);
 }
 
-static void Emscripten_UpdateTouchFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_UpdateTouchFromEvent(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     SDL_assert(event->pointer_type == PTRTYPE_TOUCH);
 
-    const SDL_TouchID deviceId = 1;
-    if (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    स्थिरांक SDL_TouchID deviceId = 1;
+    जर (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        परत;
     }
 
-    double client_w, client_h;
+    द्विगुण client_w, client_h;
     emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
 
-    const SDL_FingerID id = event->pointerid + 1;
-    float x, y;
-    if (client_w <= 1) {
+    स्थिरांक SDL_FingerID id = event->pointerid + 1;
+    दशांश x, y;
+    जर (client_w <= 1) {
         x = 0.5f;
-    } else {
+    } अन्यथा {
         x = event->targetX / (client_w - 1);
     }
-    if (client_h <= 1) {
+    जर (client_h <= 1) {
         y = 0.5f;
-    } else {
+    } अन्यथा {
         y = event->targetY / (client_h - 1);
     }
 
-    const bool down = (event->buttons & 1) != 0;
-    if (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
-        if (down) {
+    स्थिरांक bool down = (event->buttons & 1) != 0;
+    जर (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
+        जर (down) {
             SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
         }
     }
 
     SDL_SendTouchMotion(0, deviceId, id, window_data->window, x, y, 1.0f);
 
-    if (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
-        if (!down) {
+    जर (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
+        जर (!down) {
             SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
         }
     }
 }
 
-static void Emscripten_UpdatePenFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_UpdatePenFromEvent(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     SDL_assert(event->pointer_type == PTRTYPE_PEN);
-    const SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);   // something > 0 for the single pen handle.
-    if (pen) {
+    स्थिरांक SDL_PenID pen = SDL_FindPenByHandle((शून्य *) (माप_प्रकार) 1);   // something > 0 for the single pen handle.
+    जर (pen) {
         // rescale (in case canvas is being scaled)
-        double client_w, client_h;
+        द्विगुण client_w, client_h;
         emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
-        const double xscale = window_data->window->w / client_w;
-        const double yscale = window_data->window->h / client_h;
+        स्थिरांक द्विगुण xscale = window_data->window->w / client_w;
+        स्थिरांक द्विगुण yscale = window_data->window->h / client_h;
 
-        const bool isPointerLocked = window_data->has_pointer_lock;
-        float mx, my;
-        if (isPointerLocked) {
-            mx = (float)(event->movementX * xscale);
-            my = (float)(event->movementY * yscale);
-        } else {
-            mx = (float)(event->targetX * xscale);
-            my = (float)(event->targetY * yscale);
+        स्थिरांक bool isPointerLocked = window_data->has_pointer_lock;
+        दशांश mx, my;
+        जर (isPointerLocked) {
+            mx = (दशांश)(event->movementX * xscale);
+            my = (दशांश)(event->movementY * yscale);
+        } अन्यथा {
+            mx = (दशांश)(event->targetX * xscale);
+            my = (दशांश)(event->targetY * yscale);
         }
 
         SDL_SendPenMotion(0, pen, window_data->window, mx, my);
 
-        if (event->button == 0) {  // pen touch
+        जर (event->button == 0) {  // pen touch
             bool down = ((event->buttons & 1) != 0);
             SDL_SendPenTouch(0, pen, window_data->window, false, down);
-        } else if (event->button == 5) {  // eraser touch...? Not sure if this is right...
+        } अन्यथा जर (event->button == 5) {  // eraser touch...? Not sure if this is right...
             bool down = ((event->buttons & 32) != 0);
             SDL_SendPenTouch(0, pen, window_data->window, true, down);
-        } else if (event->button == 1) {
+        } अन्यथा जर (event->button == 1) {
             bool down = ((event->buttons & 4) != 0);
             SDL_SendPenButton(0, pen, window_data->window, 2, down);
-        } else if (event->button == 2) {
+        } अन्यथा जर (event->button == 2) {
             bool down = ((event->buttons & 2) != 0);
             SDL_SendPenButton(0, pen, window_data->window, 1, down);
         }
@@ -828,166 +828,166 @@ static void Emscripten_UpdatePenFromEvent(SDL_WindowData *window_data, const Ems
     }
 }
 
-static void Emscripten_UpdatePointerFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_UpdatePointerFromEvent(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
+    SDL_assert(event != रिक्त);
+    जर (event->pointer_type == PTRTYPE_MOUSE) {
         Emscripten_UpdateMouseFromEvent(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_TOUCH) {
         Emscripten_UpdateTouchFromEvent(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_PEN) {
         Emscripten_UpdatePenFromEvent(window_data, event);
-    } else {
+    } अन्यथा {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-static void Emscripten_HandleMouseFocus(SDL_WindowData *window_data, const Emscripten_PointerEvent *event, bool isenter)
+स्थिर शून्य Emscripten_HandleMouseFocus(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event, bool isenter)
 {
     SDL_assert(event->pointer_type == PTRTYPE_MOUSE);
 
     // Hidden windows shouldn't ever become the mouse-focus target.
-    if (window_data->window->flags & SDL_WINDOW_HIDDEN) {
-        return;
+    जर (window_data->window->flags & SDL_WINDOW_HIDDEN) {
+        परत;
     }
 
-    const bool isPointerLocked = window_data->has_pointer_lock;
+    स्थिरांक bool isPointerLocked = window_data->has_pointer_lock;
 
-    if (!isPointerLocked) {
+    जर (!isPointerLocked) {
         // rescale (in case canvas is being scaled)
-        float mx, my;
-        double client_w, client_h;
+        दशांश mx, my;
+        द्विगुण client_w, client_h;
         emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
 
-        mx = (float)(event->targetX * (window_data->window->w / client_w));
-        my = (float)(event->targetY * (window_data->window->h / client_h));
+        mx = (दशांश)(event->targetX * (window_data->window->w / client_w));
+        my = (दशांश)(event->targetY * (window_data->window->h / client_h));
         SDL_SendMouseMotion(0, window_data->window, SDL_GLOBAL_MOUSE_ID, isPointerLocked, mx, my);
     }
 
-    if (isenter && window_data->mouse_focus_loss_pending) {
+    जर (isenter && window_data->mouse_focus_loss_pending) {
         window_data->mouse_focus_loss_pending = false;  // just drop the state, but don't send the enter event.
-    } else if (!isenter && (window_data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+    } अन्यथा जर (!isenter && (window_data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
         window_data->mouse_focus_loss_pending = true;  // waiting on a mouse button to let go before we send the mouse focus update.
-    } else {
-        SDL_SetMouseFocus(isenter ? window_data->window : NULL);
+    } अन्यथा {
+        SDL_SetMouseFocus(isenter ? window_data->window : रिक्त);
     }
 }
 
-static void Emscripten_HandlePenEnter(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_HandlePenEnter(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     SDL_assert(event->pointer_type == PTRTYPE_PEN);
 
     // event->pointerid is one continuous interaction; it doesn't necessarily track a specific tool over time, like the same finger's ID changed on each new touch event.
     // as such, we only expose a single pen, and when the touch ends, we say it lost proximity instead of the calling SDL_RemovePenDevice().
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);  // something > 0 for the single pen handle.
-    if (pen) {
+    SDL_PenID pen = SDL_FindPenByHandle((शून्य *) (माप_प्रकार) 1);  // something > 0 for the single pen handle.
+    जर (pen) {
         SDL_SendPenProximity(0, pen, window_data->window, true, true);
-    } else {
+    } अन्यथा {
         // Web browsers offer almost none of this information as specifics, but can without warning offer any of these specific things.
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_TANGENTIAL_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
         peninfo.max_tilt = 90.0f;
-        peninfo.num_buttons = 2;
+        peninfo.अंक_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
-        SDL_AddPenDevice(0, NULL, window_data->window, &peninfo, (void *) (size_t) 1, true);
+        SDL_AddPenDevice(0, रिक्त, window_data->window, &peninfo, (शून्य *) (माप_प्रकार) 1, true);
     }
 
     Emscripten_UpdatePenFromEvent(window_data, event);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerEnter(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_HandlePointerEnter(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
+    SDL_assert(event != रिक्त);
+    जर (event->pointer_type == PTRTYPE_MOUSE) {
         Emscripten_HandleMouseFocus(window_data, event, true);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_PEN) {
         Emscripten_HandlePenEnter(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_TOUCH) {
         // do nothing.
-    } else {
+    } अन्यथा {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-static void Emscripten_HandlePenLeave(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_HandlePenLeave(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
-    const SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);   // something > 0 for the single pen handle.
-    if (pen) {
+    स्थिरांक SDL_PenID pen = SDL_FindPenByHandle((शून्य *) (माप_प्रकार) 1);   // something > 0 for the single pen handle.
+    जर (pen) {
         Emscripten_UpdatePointerFromEvent(window_data, event);  // last data updates?
         SDL_SendPenProximity(0, pen, window_data->window, false, false);
     }
 }
 
-static void Emscripten_HandleTouchCancel(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+स्थिर शून्य Emscripten_HandleTouchCancel(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
     SDL_assert(event->pointer_type == PTRTYPE_TOUCH);
 
-    const SDL_TouchID deviceId = 1;
-    if (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    स्थिरांक SDL_TouchID deviceId = 1;
+    जर (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        परत;
     }
 
-    double client_w, client_h;
+    द्विगुण client_w, client_h;
     emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
 
-    const SDL_FingerID id = event->pointerid + 1;
-    float x, y;
-    if (client_w <= 1) {
+    स्थिरांक SDL_FingerID id = event->pointerid + 1;
+    दशांश x, y;
+    जर (client_w <= 1) {
         x = 0.5f;
-    } else {
+    } अन्यथा {
         x = event->targetX / (client_w - 1);
     }
-    if (client_h <= 1) {
+    जर (client_h <= 1) {
         y = 0.5f;
-    } else {
+    } अन्यथा {
         y = event->targetY / (client_h - 1);
     }
 
     SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_CANCELED, x, y, 1.0f);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerLeave(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_HandlePointerLeave(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
+    SDL_assert(event != रिक्त);
+    जर (event->pointer_type == PTRTYPE_MOUSE) {
         Emscripten_HandleMouseFocus(window_data, event, false);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_PEN) {
         Emscripten_HandlePenLeave(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
+    } अन्यथा जर (event->pointer_type == PTRTYPE_TOUCH) {
         Emscripten_HandleTouchCancel(window_data, event);
-    } else {
+    } अन्यथा {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerGeneric(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_HandlePointerGeneric(SDL_WindowData *window_data, स्थिरांक Emscripten_PointerEvent *event)
 {
-    SDL_assert(event != NULL);
+    SDL_assert(event != रिक्त);
     Emscripten_UpdatePointerFromEvent(window_data, event);
 }
 
-static void Emscripten_prep_pointer_event_callbacks(void)
+स्थिर शून्य Emscripten_prep_pointer_event_callbacks(शून्य)
 {
     MAIN_THREAD_EM_ASM({
         var SDL3 = Module['SDL3'];
 
-        if (SDL3.makePointerEventCStruct === undefined) {
-            SDL3.makePointerEventCStruct = function(left, top, event) {
+        जर (SDL3.makePointerEventCStruct === undefined) {
+            SDL3.makePointerEventCStruct = function(डावा, शीर्ष, event) {
                 var ptrtype = 0;
-                if (event.pointerType == "mouse") {
+                जर (event.pointerType == "mouse") {
                     ptrtype = 1;
-                } else if (event.pointerType == "touch") {
+                } अन्यथा जर (event.pointerType == "touch") {
                     ptrtype = 2;
-                } else if (event.pointerType == "pen") {
+                } अन्यथा जर (event.pointerType == "pen") {
                     ptrtype = 3;
-                } else {
-                    return 0;
+                } अन्यथा {
+                    परत 0;
                 }
 
                 var ptr = _SDL_malloc($0);
-                if (ptr != 0) {
+                जर (ptr != 0) {
                     var idx = SDL3.CPtrToHeap32Index(ptr);
                     HEAP32[idx++] = ptrtype;
                     HEAP32[idx++] = event.pointerId;
@@ -996,9 +996,9 @@ static void Emscripten_prep_pointer_event_callbacks(void)
                     HEAP32[idx++] = (event.type == "pointerdown") ? 1 : 0;
                     HEAPF32[idx++] = event.movementX;
                     HEAPF32[idx++] = event.movementY;
-                    HEAPF32[idx++] = event.clientX - left;
-                    HEAPF32[idx++] = event.clientY - top;
-                    if (ptrtype == 3) {
+                    HEAPF32[idx++] = event.clientX - डावा;
+                    HEAPF32[idx++] = event.clientY - शीर्ष;
+                    जर (ptrtype == 3) {
                         HEAPF32[idx++] = event.pressure;
                         HEAPF32[idx++] = event.tangentialPressure;
                         HEAPF32[idx++] = event.tiltX;
@@ -1006,25 +1006,25 @@ static void Emscripten_prep_pointer_event_callbacks(void)
                         HEAPF32[idx++] = event.twist;
                     }
                 }
-                return ptr;
+                परत ptr;
             };
         }
-    }, sizeof (Emscripten_PointerEvent));
+    }, आकार (Emscripten_PointerEvent));
 }
 
-static void Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
+स्थिर शून्य Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
 {
     Emscripten_prep_pointer_event_callbacks();
 
     MAIN_THREAD_EM_ASM({
         var target = document.querySelector(UTF8ToString($1));
-        if (target) {
+        जर (target) {
             var SDL3 = Module['SDL3'];
             var data = $0;
             target.sdlEventHandlerPointerEnter = function(event) {
                 var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+                var d = SDL3.makePointerEventCStruct(rect.डावा, rect.शीर्ष, event);
+                जर (d != 0)
                 {
                     _Emscripten_HandlePointerEnter(SDL3.JSVarToCPtr(data), d);
                     _SDL_free(d);
@@ -1032,8 +1032,8 @@ static void Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
             };
             target.sdlEventHandlerPointerLeave = function(event) {
                 var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+                var d = SDL3.makePointerEventCStruct(rect.डावा, rect.शीर्ष, event);
+                जर (d != 0)
                 {
                     _Emscripten_HandlePointerLeave(SDL3.JSVarToCPtr(data), d);
                     _SDL_free(d);
@@ -1041,8 +1041,8 @@ static void Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
             };
             target.sdlEventHandlerPointerGeneric = function(event) {
                 var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+                var d = SDL3.makePointerEventCStruct(rect.डावा, rect.शीर्ष, event);
+                जर (d != 0)
                 {
                     _Emscripten_HandlePointerGeneric(SDL3.JSVarToCPtr(data), d);
                     _SDL_free(d);
@@ -1060,11 +1060,11 @@ static void Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
     }, data, data->canvas_id);
 }
 
-static void Emscripten_unset_pointer_event_callbacks(SDL_WindowData *data)
+स्थिर शून्य Emscripten_unset_pointer_event_callbacks(SDL_WindowData *data)
 {
     MAIN_THREAD_EM_ASM({
         var target = document.querySelector(UTF8ToString($0));
-        if (target) {
+        जर (target) {
             target.removeEventListener("pointerenter", target.sdlEventHandlerPointerEnter);
             target.removeEventListener("pointerleave", target.sdlEventHandlerPointerLeave);
             target.removeEventListener("pointercancel", target.sdlEventHandlerPointerLeave);
@@ -1079,28 +1079,28 @@ static void Emscripten_unset_pointer_event_callbacks(SDL_WindowData *data)
     }, data->canvas_id);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandleMouseButtonUpGlobal(SDL_VideoDevice *device, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_HandleMouseButtonUpGlobal(SDL_VideoDevice *device, स्थिरांक Emscripten_PointerEvent *event)
 {
-    SDL_assert(device != NULL);
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
-        for (SDL_Window *window = device->windows; window; window = window->next) {
+    SDL_assert(device != रिक्त);
+    SDL_assert(event != रिक्त);
+    जर (event->pointer_type == PTRTYPE_MOUSE) {
+        साठी (SDL_Window *window = device->windows; window; window = window->next) {
             Emscripten_HandleMouseButton(window->internal, event);
         }
     }
 }
 
-static void Emscripten_set_global_mouseup_callback(SDL_VideoDevice *device)
+स्थिर शून्य Emscripten_set_global_mouseup_callback(SDL_VideoDevice *device)
 {
     Emscripten_prep_pointer_event_callbacks();
 
     MAIN_THREAD_EM_ASM({
         var target = document;
-        if (target) {
+        जर (target) {
             target.sdlEventHandlerMouseButtonUpGlobal = function(event) {
                 var SDL3 = Module['SDL3'];
                 var d = SDL3.makePointerEventCStruct(0, 0, event);
-                if (d != 0)
+                जर (d != 0)
                 {
                     _Emscripten_HandleMouseButtonUpGlobal(SDL3.JSVarToCPtr($0), d);
                     _SDL_free(d);
@@ -1111,11 +1111,11 @@ static void Emscripten_set_global_mouseup_callback(SDL_VideoDevice *device)
     }, device);
 }
 
-static void Emscripten_unset_global_mouseup_callback(SDL_VideoDevice *device)
+स्थिर शून्य Emscripten_unset_global_mouseup_callback(SDL_VideoDevice *device)
 {
     MAIN_THREAD_EM_ASM({
         var target = document;
-        if (target) {
+        जर (target) {
             target.removeEventListener("pointerup", target.sdlEventHandlerMouseButtonUpGlobal);
             target.sdlEventHandlerMouseButtonUpGlobal = undefined;
         }
@@ -1123,92 +1123,92 @@ static void Emscripten_unset_global_mouseup_callback(SDL_VideoDevice *device)
 }
 
 // IF YOU CHANGE THIS STRUCTURE, YOU NEED TO UPDATE THE JAVASCRIPT THAT FILLS IT IN: makeDropEventCStruct, below.
-typedef struct Emscripten_DropEvent
+प्रकारव्याख्या संरचना Emscripten_DropEvent
 {
-    int x;
-    int y;
+    पूर्णांक x;
+    पूर्णांक y;
 } Emscripten_DropEvent;
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragEvent(SDL_WindowData *window_data, const Emscripten_DropEvent *event)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_SendDragEvent(SDL_WindowData *window_data, स्थिरांक Emscripten_DropEvent *event)
 {
     SDL_SendDropPosition(window_data->window, event->x, event->y);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragCompleteEvent(SDL_WindowData *window_data)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_SendDragCompleteEvent(SDL_WindowData *window_data)
 {
     SDL_SendDropComplete(window_data->window);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragTextEvent(SDL_WindowData *window_data, char *text)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_SendDragTextEvent(SDL_WindowData *window_data, अक्षर *text)
 {
     SDL_SendDropText(window_data->window, text);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragFileEvent(SDL_WindowData *window_data, char *filename)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_SendDragFileEvent(SDL_WindowData *window_data, अक्षर *filename)
 {
-    SDL_SendDropFile(window_data->window, NULL, filename);
+    SDL_SendDropFile(window_data->window, रिक्त, filename);
 }
 
 EM_JS_DEPS(dragndrop, "$writeArrayToMemory");
 
-static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
+स्थिर शून्य Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
 {
     MAIN_THREAD_EM_ASM({
         var target = document.querySelector(UTF8ToString($1));
-        if (target) {
+        जर (target) {
             var data = $0;
             var SDL3 = Module['SDL3'];
 
             var makeDropEventCStruct = function(event) {
                 var ptr = 0;
                 ptr = _SDL_malloc($2);
-                if (ptr != 0) {
+                जर (ptr != 0) {
                     var idx = ptr >> 2;
                     var rect = target.getBoundingClientRect();
-                    HEAP32[idx++] = event.clientX - rect.left;
-                    HEAP32[idx++] = event.clientY - rect.top;
+                    HEAP32[idx++] = event.clientX - rect.डावा;
+                    HEAP32[idx++] = event.clientY - rect.शीर्ष;
                 }
-                return ptr;
+                परत ptr;
             };
 
             SDL3.eventHandlerDropDragover = function(event) {
                 event.preventDefault();
-                var d = makeDropEventCStruct(event); if (d != 0) { _Emscripten_SendDragEvent(data, d); _SDL_free(d); }
+                var d = makeDropEventCStruct(event); जर (d != 0) { _Emscripten_SendDragEvent(data, d); _SDL_free(d); }
             };
             target.addEventListener("dragover", SDL3.eventHandlerDropDragover);
 
-            SDL3.drop_count = 0;
+            SDL3.drop_मोजणी = 0;
 
             // FS.* functions throw exceptions when there are errors (such as the temp dir already existing),
             //  but we ignore all of these in a catch handler; you just won't get the drop event if there's a problem.
-            try { FS.mkdir("/tmp/filedrop"); } catch (e) {}
+            try { FS.सूची_गढ़ो("/tmp/filedrop"); } catch (e) {}
 
             SDL3.eventHandlerDropDrop = function(event) {
                 event.preventDefault();
-                if (event.dataTransfer.types.includes("text/plain")) {
+                जर (event.dataTransfer.types.includes("text/plain")) {
                     let plain_text = stringToNewUTF8(event.dataTransfer.getData("text/plain"));
                     _Emscripten_SendDragTextEvent(data, plain_text);
                     _Emscripten_force_free(plain_text);
-                } else if (event.dataTransfer.types.includes("Files")) {
+                } अन्यथा जर (event.dataTransfer.types.includes("Files")) {
                     let files_read = 0;
-                    const files_to_read = event.dataTransfer.files.length;
-                    for (let i = 0; i < files_to_read; i++) {
-                        const file = event.dataTransfer.files.item(i);
-                        const file_reader = new FileReader();
+                    स्थिरांक files_to_read = event.dataTransfer.files.length;
+                    साठी (let i = 0; i < files_to_read; i++) {
+                        स्थिरांक file = event.dataTransfer.files.item(i);
+                        स्थिरांक file_reader = new FileReader();
                         file_reader.readAsArrayBuffer(file);
                         file_reader.onload = function(event) {
-                            const fs_dropdir = `/tmp/filedrop/${SDL3.drop_count}`;
-                            SDL3.drop_count += 1;
+                            स्थिरांक fs_dropdir = `/tmp/filedrop/${SDL3.drop_मोजणी}`;
+                            SDL3.drop_मोजणी += 1;
 
-                            const fs_filepath = `${fs_dropdir}/${file.name}`;
-                            const c_fs_filepath = stringToNewUTF8(fs_filepath);
-                            const contents_array8 = new Uint8Array(event.target.result);
+                            स्थिरांक fs_filepath = `${fs_dropdir}/${file.name}`;
+                            स्थिरांक c_fs_filepath = stringToNewUTF8(fs_filepath);
+                            स्थिरांक contents_array8 = new Uint8Array(event.target.result);
 
                             try {
-                                FS.mkdir(fs_dropdir);
-                                var stream = FS.open(fs_filepath, "w");
-                                FS.write(stream, contents_array8, 0, contents_array8.length, 0);
-                                FS.close(stream);
+                                FS.सूची_गढ़ो(fs_dropdir);
+                                var stream = FS.खोलो(fs_filepath, "w");
+                                FS.लिख(stream, contents_array8, 0, contents_array8.length, 0);
+                                FS.बंद(stream);
                                 _Emscripten_SendDragFileEvent(data, c_fs_filepath);
                             } catch (e) {
                                 // if this threw an exception at any point, we skip this drop event. Sorry!
@@ -1223,7 +1223,7 @@ static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
                     }
                     function onFileRead() {
                         ++files_read;
-                        if (files_read === files_to_read) {
+                        जर (files_read === files_to_read) {
                             _Emscripten_SendDragCompleteEvent(data);
                         }
                     }
@@ -1239,34 +1239,34 @@ static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
             target.addEventListener("dragend", SDL3.eventHandlerDropDragend);
             target.addEventListener("dragleave", SDL3.eventHandlerDropDragend);
         }
-    }, data, data->canvas_id, sizeof (Emscripten_DropEvent));
+    }, data, data->canvas_id, आकार (Emscripten_DropEvent));
 }
 
-static void Emscripten_unset_drag_event_callbacks(SDL_WindowData *data)
+स्थिर शून्य Emscripten_unset_drag_event_callbacks(SDL_WindowData *data)
 {
     MAIN_THREAD_EM_ASM({
         var target = document.querySelector(UTF8ToString($0));
-        if (target) {
+        जर (target) {
             var SDL3 = Module['SDL3'];
             target.removeEventListener("dragleave", SDL3.eventHandlerDropDragend);
             target.removeEventListener("dragend", SDL3.eventHandlerDropDragend);
             target.removeEventListener("drop", SDL3.eventHandlerDropDrop);
-            SDL3.drop_count = undefined;
+            SDL3.drop_मोजणी = undefined;
 
             function recursive_remove(dirpath) {
-                FS.readdir(dirpath).forEach((filename) => {
-                    const p = `${dirpath}/${filename}`;
-                    const p_s = FS.stat(p);
-                    if (FS.isFile(p_s.mode)) {
+                FS.सूची_पढ़ो(dirpath).forEach((filename) => {
+                    स्थिरांक p = `${dirpath}/${filename}`;
+                    स्थिरांक p_s = FS.stat(p);
+                    जर (FS.isFile(p_s.mode)) {
                         FS.unlink(p);
-                    } else if (FS.isDir(p)) {
+                    } अन्यथा जर (FS.isDir(p)) {
                         recursive_remove(p);
                     }
                 });
-                FS.rmdir(dirpath);
+                FS.सूची_हटाओ(dirpath);
             }("/tmp/filedrop");
 
-            FS.rmdir("/tmp/filedrop");
+            FS.सूची_हटाओ("/tmp/filedrop");
             target.removeEventListener("dragover", SDL3.eventHandlerDropDragover);
             SDL3.eventHandlerDropDragover = undefined;
             SDL3.eventHandlerDropDrop = undefined;
@@ -1275,22 +1275,22 @@ static void Emscripten_unset_drag_event_callbacks(SDL_WindowData *data)
     }, data->canvas_id);
 }
 
-static const char *Emscripten_GetKeyboardTargetElement(const char *target)
+स्थिर स्थिरांक अक्षर *Emscripten_GetKeyboardTargetElement(स्थिरांक अक्षर *target)
 {
-    if (SDL_strcmp(target, "#none") == 0) {
-        return NULL;
-    } else if (SDL_strcmp(target, "#window") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_WINDOW;
-    } else if (SDL_strcmp(target, "#document") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_DOCUMENT;
-    } else if (SDL_strcmp(target, "#screen") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_SCREEN;
+    जर (SDL_strcmp(target, "#none") == 0) {
+        परत रिक्त;
+    } अन्यथा जर (SDL_strcmp(target, "#window") == 0) {
+        परत EMSCRIPTEN_EVENT_TARGET_WINDOW;
+    } अन्यथा जर (SDL_strcmp(target, "#document") == 0) {
+        परत EMSCRIPTEN_EVENT_TARGET_DOCUMENT;
+    } अन्यथा जर (SDL_strcmp(target, "#screen") == 0) {
+        परत EMSCRIPTEN_EVENT_TARGET_SCREEN;
     }
 
-    return target;
+    परत target;
 }
 
-void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device)
+शून्य Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device)
 {
     Emscripten_set_global_mouseup_callback(device);
 
@@ -1304,42 +1304,42 @@ void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device)
     emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, device, 0, Emscripten_HandleResizeGlobal);
 }
 
-void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device)
+शून्य Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device)
 {
     Emscripten_unset_global_mouseup_callback(device);
 
-    emscripten_set_focus_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
-    emscripten_set_blur_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
+    emscripten_set_focus_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, रिक्त, 0, रिक्त);
+    emscripten_set_blur_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, रिक्त, 0, रिक्त);
 
-    emscripten_set_pointerlockchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, NULL, 0, NULL);
+    emscripten_set_pointerlockchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, रिक्त, 0, रिक्त);
 
-    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, NULL, 0, NULL);
+    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, रिक्त, 0, रिक्त);
 
-    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
+    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, रिक्त, 0, रिक्त);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandleLockKeysCheck(SDL_WindowData *window_data, EM_BOOL capslock, EM_BOOL numlock, EM_BOOL scrolllock)
+EMSCRIPTEN_KEEPALIVE शून्य Emscripten_Handle_Lock_किल्ल्या_Check(SDL_WindowData *window_data, EM_BOOL capslock, EM_BOOL numlock, EM_BOOL scrolllock)
 {
-    const SDL_Keymod new_mods = (capslock ? SDL_KMOD_CAPS : 0) | (numlock ? SDL_KMOD_NUM : 0) | (scrolllock ? SDL_KMOD_SCROLL : 0);
+    स्थिरांक SDL_Keymod new_mods = (capslock ? SDL_KMOD_CAPS : 0) | (numlock ? SDL_KMOD_अंक : 0) | (scrolllock ? SDL_KMOD_SCROLL : 0);
     SDL_Keymod modstate = SDL_GetModState();
-    if ((modstate & (SDL_KMOD_CAPS|SDL_KMOD_NUM|SDL_KMOD_SCROLL)) != new_mods) {
-        modstate &= ~(SDL_KMOD_CAPS|SDL_KMOD_NUM|SDL_KMOD_SCROLL);
+    जर ((modstate & (SDL_KMOD_CAPS|SDL_KMOD_अंक|SDL_KMOD_SCROLL)) != new_mods) {
+        modstate &= ~(SDL_KMOD_CAPS|SDL_KMOD_अंक|SDL_KMOD_SCROLL);
         modstate |= new_mods;
         SDL_SetModState(modstate);
     }
 }
 
-void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
+शून्य Emscripten_RegisterEventHandlers(SDL_WindowData *data)
 {
-    const char *keyElement;
+    स्थिरांक अक्षर *किल्ली_Element;
 
     // There is only one window and that window is the canvas
     emscripten_set_wheel_callback(data->canvas_id, data, 0, Emscripten_HandleWheel);
 
     emscripten_set_orientationchange_callback(data, 0, Emscripten_HandleOrientationChange);
 
-    keyElement = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
-    if (keyElement) {
+    किल्ली_Element = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
+    जर (किल्ली_Element) {
         // Emscripten's HTML5 helpers do not deduplicate `addEventListener` calls:
         // see `registerOrRemoveHandler` in `emscripten/src/lib/libhtml5.js`.
         //
@@ -1352,9 +1352,9 @@ void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
         // detection in `SDL_SendKeyboardKeyInternal`).
         //
         // We must clear any prior handler on this target before installing ours:
-        emscripten_set_keydown_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keyup_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keypress_callback(keyElement, NULL, 0, NULL);
+        emscripten_set_keydown_callback(किल्ली_Element, रिक्त, 0, रिक्त);
+        emscripten_set_keyup_callback(किल्ली_Element, रिक्त, 0, रिक्त);
+        emscripten_set_keypress_callback(किल्ली_Element, रिक्त, 0, रिक्त);
 
         MAIN_THREAD_EM_ASM_INT({
             var data = $0;
@@ -1363,22 +1363,22 @@ void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
             //  Note that this thing _only_ adjusts the lock keys if necessary; the real SDL keypress handling happens elsewhere.
 
             // Remove any prior listener first -- `addEventListener` does not deduplicate either.
-            if (document.sdlEventHandlerLockKeysCheck) {
-                document.removeEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
+            जर (document.sdl_Event_Handler_Lock_किल्ल्या_Check) {
+                document.removeEventListener("keydown", document.sdl_Event_Handler_Lock_किल्ल्या_Check);
             }
 
-            document.sdlEventHandlerLockKeysCheck = function(event) {
+            document.sdl_Event_Handler_Lock_किल्ल्या_Check = function(event) {
                 // don't try to adjust the state on the actual lock key presses; the normal key handler will catch that and adjust.
-                if ((event.key != "CapsLock") && (event.key != "NumLock") && (event.key != "ScrollLock"))
+                जर ((event.किल्ली != "CapsLock") && (event.किल्ली != "NumLock") && (event.किल्ली != "ScrollLock"))
                 {
-                    _Emscripten_HandleLockKeysCheck(Module['SDL3'].JSVarToCPtr(data), event.getModifierState("CapsLock"), event.getModifierState("NumLock"), event.getModifierState("ScrollLock"));
+                    Emscripten_Handle_Lock_किल्ल्या_Check_2(Module['SDL3'].JSVarToCPtr(data), event.getModifierState("CapsLock"), event.getModifierState("NumLock"), event.getModifierState("ScrollLock"));
                 }
             };
-            document.addEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
+            document.addEventListener("keydown", document.sdl_Event_Handler_Lock_किल्ल्या_Check);
         }, data);
-        emscripten_set_keydown_callback(keyElement, data, 0, Emscripten_HandleKey);
-        emscripten_set_keyup_callback(keyElement, data, 0, Emscripten_HandleKey);
-        emscripten_set_keypress_callback(keyElement, data, 0, Emscripten_HandleKeyPress);
+        emscripten_set_keydown_callback(किल्ली_Element, data, 0, Emscripten_Handle_किल्ली);
+        emscripten_set_keyup_callback(किल्ली_Element, data, 0, Emscripten_Handle_किल्ली);
+        emscripten_set_keypress_callback(किल्ली_Element, data, 0, Emscripten_Handle_किल्ली_Press);
     }
 
     emscripten_set_visibilitychange_callback(data, 0, Emscripten_HandleVisibilityChange);
@@ -1393,9 +1393,9 @@ void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
     Emscripten_set_drag_event_callbacks(data);
 }
 
-void Emscripten_UnregisterEventHandlers(SDL_WindowData *data)
+शून्य Emscripten_UnregisterEventHandlers(SDL_WindowData *data)
 {
-    const char *keyElement;
+    स्थिरांक अक्षर *किल्ली_Element;
 
     // !!! FIXME: currently Emscripten doesn't have a Drop Events functions like emscripten_set_*_callback, but we should use those when they do:
     Emscripten_unset_drag_event_callbacks(data);
@@ -1405,23 +1405,23 @@ void Emscripten_UnregisterEventHandlers(SDL_WindowData *data)
     Emscripten_unset_pointer_event_callbacks(data);
 
     // only works due to having one window
-    emscripten_set_wheel_callback(data->canvas_id, NULL, 0, NULL);
+    emscripten_set_wheel_callback(data->canvas_id, रिक्त, 0, रिक्त);
 
-    emscripten_set_orientationchange_callback(NULL, 0, NULL);
+    emscripten_set_orientationchange_callback(रिक्त, 0, रिक्त);
 
-    keyElement = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
-    if (keyElement) {
-        emscripten_set_keydown_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keyup_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keypress_callback(keyElement, NULL, 0, NULL);
+    किल्ली_Element = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
+    जर (किल्ली_Element) {
+        emscripten_set_keydown_callback(किल्ली_Element, रिक्त, 0, रिक्त);
+        emscripten_set_keyup_callback(किल्ली_Element, रिक्त, 0, रिक्त);
+        emscripten_set_keypress_callback(किल्ली_Element, रिक्त, 0, रिक्त);
         MAIN_THREAD_EM_ASM_INT({
-            document.removeEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
+            document.removeEventListener("keydown", document.sdl_Event_Handler_Lock_किल्ल्या_Check);
         });
     }
 
-    emscripten_set_visibilitychange_callback(NULL, 0, NULL);
+    emscripten_set_visibilitychange_callback(रिक्त, 0, रिक्त);
 
-    emscripten_set_beforeunload_callback(NULL, NULL);
+    emscripten_set_beforeunload_callback(रिक्त, रिक्त);
 }
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN

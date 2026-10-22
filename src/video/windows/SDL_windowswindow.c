@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
 
-#include "../../core/windows/SDL_windows.h"
+#अन्तर्भाव "../../core/windows/SDL_windows.h"
 
-#include "../../SDL_hints_c.h"
-#include "../../events/SDL_dropevents_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../../SDL_hints_c.h"
+#अन्तर्भाव "../../events/SDL_dropevents_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "../SDL_pixels_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowswindow.h"
+#अन्तर्भाव "SDL_windowsvideo.h"
+#अन्तर्भाव "SDL_windowskeyboard.h"
+#अन्तर्भाव "SDL_windowswindow.h"
 
 // Dropfile support
-#include <shellapi.h>
+#अन्तर्भाव <shellapi.h>
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
+#जर !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#अन्तर्भाव <shobjidl.h>
 #endif
 
 // Windows CE compatibility
@@ -76,43 +76,43 @@
 #define STYLE_RESIZABLE           (WS_THICKFRAME | WS_MAXIMIZEBOX)
 #define STYLE_MASK                (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_NORMAL | STYLE_RESIZABLE)
 
-static DWORD GetWindowStyle(SDL_Window *window)
+स्थिर DWORD GetWindowStyle(SDL_Window *window)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    जर (SDL_WINDOW_IS_POPUP(window)) {
         style |= WS_POPUP;
-    } else if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    } अन्यथा जर (window->flags & SDL_WINDOW_FULLSCREEN) {
         style |= STYLE_FULLSCREEN;
-    } else {
-        if (window->flags & SDL_WINDOW_BORDERLESS) {
+    } अन्यथा {
+        जर (window->flags & SDL_WINDOW_BORDERLESS) {
             /* This behavior more closely matches other platform where the window is borderless
                but still interacts with the window manager (e.g. task bar shows above it, it can
                be resized to fit within usable desktop area, etc.)
              */
-            if (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
+            जर (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
                 style |= STYLE_BORDERLESS_WINDOWED;
-            } else {
+            } अन्यथा {
                 style |= STYLE_BORDERLESS;
             }
-        } else {
+        } अन्यथा {
             style |= STYLE_NORMAL;
         }
 
         /* The WS_MAXIMIZEBOX style flag needs to be retained for as long as the window is maximized,
          * or restoration from minimized can fail, and leaving maximized can result in an odd size.
          */
-        if (window->flags & SDL_WINDOW_RESIZABLE) {
+        जर (window->flags & SDL_WINDOW_RESIZABLE) {
             /* You can have a borderless resizable window, but Windows doesn't always draw it correctly,
                see https://bugzilla.libsdl.org/show_bug.cgi?id=4466
              */
-            if (!(window->flags & SDL_WINDOW_BORDERLESS) ||
+            जर (!(window->flags & SDL_WINDOW_BORDERLESS) ||
                 SDL_GetHintBoolean("SDL_BORDERLESS_RESIZABLE_STYLE", true)) {
                 style |= STYLE_RESIZABLE;
             }
         }
 
-        if (window->internal && window->internal->force_ws_maximizebox) {
+        जर (window->internal && window->internal->force_ws_maximizebox) {
             /* Even if the resizable flag is cleared, WS_MAXIMIZEBOX is still needed as long
              * as the window is maximized, or de-maximizing or minimizing and restoring the
              * maximized window can result in the window disappearing or being the wrong size.
@@ -121,47 +121,47 @@ static DWORD GetWindowStyle(SDL_Window *window)
         }
 
         // Need to set initialize minimize style, or when we call ShowWindow with WS_MINIMIZE it will activate a random window
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        जर (window->flags & SDL_WINDOW_MINIMIZED) {
             style |= WS_MINIMIZE;
         }
     }
-    return style;
+    परत style;
 }
 
-static DWORD GetWindowStyleEx(SDL_Window *window)
+स्थिर DWORD GetWindowStyleEx(SDL_Window *window)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_UTILITY)) {
+    जर (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_UTILITY)) {
         style |= WS_EX_TOOLWINDOW;
     }
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
+    जर (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
         style |= WS_EX_NOACTIVATE;
     }
-    return style;
+    परत style;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static ITaskbarList3 *GetTaskbarList(SDL_Window *window)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+स्थिर ITaskbarList3 *GetTaskbarList(SDL_Window *window)
 {
-    const SDL_WindowData *data = window->internal;
+    स्थिरांक SDL_WindowData *data = window->internal;
     SDL_assert(data->taskbar_button_created);
-    if (!data->videodata->taskbar_list) {
-        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, NULL, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&data->videodata->taskbar_list);
-        if (FAILED(ret)) {
+    जर (!data->videodata->taskbar_list) {
+        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, रिक्त, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&data->videodata->taskbar_list);
+        जर (FAILED(ret)) {
             WIN_SetErrorFromHRESULT("Unable to create taskbar list", ret);
-            return NULL;
+            परत रिक्त;
         }
         ITaskbarList3 *taskbarlist = data->videodata->taskbar_list;
         ret = taskbarlist->lpVtbl->HrInit(taskbarlist);
-        if (FAILED(ret)) {
+        जर (FAILED(ret)) {
             taskbarlist->lpVtbl->Release(taskbarlist);
-            data->videodata->taskbar_list = NULL;
+            data->videodata->taskbar_list = रिक्त;
             WIN_SetErrorFromHRESULT("Unable to initialize taskbar list", ret);
-            return NULL;
+            परत रिक्त;
         }
     }
-    return data->videodata->taskbar_list;
+    परत data->videodata->taskbar_list;
 }
 #endif
 
@@ -169,79 +169,79 @@ static ITaskbarList3 *GetTaskbarList(SDL_Window *window)
  * Returns arguments to pass to SetWindowPos - the window rect, including frame, in Windows coordinates.
  * Can be called before we have a HWND.
  */
-static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD styleEx, BOOL menu, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+स्थिर bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD styleEx, BOOL menu, पूर्णांक *x, पूर्णांक *y, पूर्णांक *width, पूर्णांक *height, SDL_WindowRect rect_type)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->internal : NULL;
+    SDL_VideoData *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->internal : रिक्त;
     RECT rect;
 
     // Client rect, in points
-    switch (rect_type) {
-    case SDL_WINDOWRECT_CURRENT:
+    निवड (rect_type) {
+    स्थिती SDL_WINDOWRECT_CURRENT:
         SDL_RelativeToGlobalForWindow(window, window->x, window->y, x, y);
         *width = window->w;
         *height = window->h;
-        break;
-    case SDL_WINDOWRECT_WINDOWED:
+        थांबा;
+    स्थिती SDL_WINDOWRECT_WINDOWED:
         SDL_RelativeToGlobalForWindow(window, window->windowed.x, window->windowed.y, x, y);
         *width = window->windowed.w;
         *height = window->windowed.h;
-        break;
-    case SDL_WINDOWRECT_FLOATING:
+        थांबा;
+    स्थिती SDL_WINDOWRECT_FLOATING:
         SDL_RelativeToGlobalForWindow(window, window->floating.x, window->floating.y, x, y);
         *width = window->floating.w;
         *height = window->floating.h;
-        break;
-    case SDL_WINDOWRECT_PENDING:
+        थांबा;
+    स्थिती SDL_WINDOWRECT_PENDING:
         SDL_RelativeToGlobalForWindow(window, window->pending.x, window->pending.y, x, y);
         *width = window->pending.w;
         *height = window->pending.h;
-        break;
-    default:
+        थांबा;
+    पूर्वनिर्धारित:
         // Should never be here
         SDL_assert_release(false);
         *width = 0;
         *height = 0;
-        break;
+        थांबा;
     }
 
     /* Copy the client size in pixels into this rect structure,
        which we'll then adjust with AdjustWindowRectEx */
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = *width;
+    rect.डावा = 0;
+    rect.शीर्ष = 0;
+    rect.उजवा = *width;
     rect.bottom = *height;
 
     /* borderless windows will have WM_NCCALCSIZE return 0 for the non-client area. When this happens, it looks like windows will send a resize message
        expanding the window client area to the previous window + chrome size, so shouldn't need to adjust the window size for the set styles.
      */
-    if (!(window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(window)) {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    जर (!(window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(window)) {
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
         AdjustWindowRectEx(&rect, style, menu, 0);
-#else
-        if (WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice())) {
+#अन्यथा
+        जर (WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice())) {
             /* With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of
                AdjustWindowRectEx. */
-            if (videodata) {
+            जर (videodata) {
                 UINT frame_dpi;
                 SDL_WindowData *data = window->internal;
                 frame_dpi = (data && videodata->GetDpiForWindow) ? videodata->GetDpiForWindow(data->hwnd) : USER_DEFAULT_SCREEN_DPI;
-                if (videodata->AdjustWindowRectExForDpi(&rect, style, menu, styleEx, frame_dpi) == 0) {
-                    return WIN_SetError("AdjustWindowRectExForDpi()");
+                जर (videodata->AdjustWindowRectExForDpi(&rect, style, menu, styleEx, frame_dpi) == 0) {
+                    परत WIN_SetError("AdjustWindowRectExForDpi()");
                 }
             }
-        } else {
-            if (AdjustWindowRectEx(&rect, style, menu, styleEx) == 0) {
-                return WIN_SetError("AdjustWindowRectEx()");
+        } अन्यथा {
+            जर (AdjustWindowRectEx(&rect, style, menu, styleEx) == 0) {
+                परत WIN_SetError("AdjustWindowRectEx()");
             }
         }
 #endif
     }
 
     // Final rect in Windows screen space, including the frame
-    *x += rect.left;
-    *y += rect.top;
-    *width = (rect.right - rect.left);
-    *height = (rect.bottom - rect.top);
+    *x += rect.डावा;
+    *y += rect.शीर्ष;
+    *width = (rect.उजवा - rect.डावा);
+    *height = (rect.bottom - rect.शीर्ष);
 
 #ifdef HIGHDPI_DEBUG
     SDL_Log("WIN_AdjustWindowRectWithStyle: in: %d, %d, %dx%d, returning: %d, %d, %dx%d, used dpi %d for frame calculation",
@@ -251,10 +251,10 @@ static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD
             (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.h : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.h : window->h),
             *x, *y, *width, *height, frame_dpi);
 #endif
-    return true;
+    परत true;
 }
 
-bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+bool WIN_AdjustWindowRect(SDL_Window *window, पूर्णांक *x, पूर्णांक *y, पूर्णांक *width, पूर्णांक *height, SDL_WindowRect rect_type)
 {
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
@@ -263,47 +263,47 @@ bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *h
 
     style = GetWindowLong(hwnd, GWL_STYLE);
     styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
+#अन्यथा
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
 #endif
-    return WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu, x, y, width, height, rect_type);
+    परत WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu, x, y, width, height, rect_type);
 }
 
 bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi)
 {
     SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
-    SDL_VideoData *videodata = videodevice ? videodevice->internal : NULL;
+    SDL_VideoData *videodata = videodevice ? videodevice->internal : रिक्त;
     DWORD style, styleEx;
     BOOL menu;
 
     style = GetWindowLong(hwnd, GWL_STYLE);
     styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
+#अन्यथा
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
 #endif
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     AdjustWindowRectEx(lpRect, style, menu, styleEx);
-#else
-    if (WIN_IsPerMonitorV2DPIAware(videodevice)) {
+#अन्यथा
+    जर (WIN_IsPerMonitorV2DPIAware(videodevice)) {
         // With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of AdjustWindowRectEx.
-        if (!frame_dpi) {
+        जर (!frame_dpi) {
             frame_dpi = videodata->GetDpiForWindow ? videodata->GetDpiForWindow(hwnd) : USER_DEFAULT_SCREEN_DPI;
         }
-        if (!videodata->AdjustWindowRectExForDpi(lpRect, style, menu, styleEx, frame_dpi)) {
-            return WIN_SetError("AdjustWindowRectExForDpi()");
+        जर (!videodata->AdjustWindowRectExForDpi(lpRect, style, menu, styleEx, frame_dpi)) {
+            परत WIN_SetError("AdjustWindowRectExForDpi()");
         }
-    } else {
-        if (!AdjustWindowRectEx(lpRect, style, menu, styleEx)) {
-            return WIN_SetError("AdjustWindowRectEx()");
+    } अन्यथा {
+        जर (!AdjustWindowRectEx(lpRect, style, menu, styleEx)) {
+            परत WIN_SetError("AdjustWindowRectEx()");
         }
     }
 #endif
-    return true;
+    परत true;
 }
 
 bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type)
@@ -311,79 +311,79 @@ bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRec
     SDL_Window *child_window;
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
-    HWND top;
-    int x, y;
-    int w, h;
+    HWND शीर्ष;
+    पूर्णांक x, y;
+    पूर्णांक w, h;
     bool result = true;
 
     // Figure out what the window area will be
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    जर (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_शीर्ष)) {
+        शीर्ष = HWND_TOPMOST;
+    } अन्यथा {
+        शीर्ष = HWND_NOTOPMOST;
     }
 
     WIN_AdjustWindowRect(window, &x, &y, &w, &h, rect_type);
 
     data->expected_resize = !(flags & SWP_NOSIZE);
-    if (SetWindowPos(hwnd, top, x, y, w, h, flags) == 0) {
+    जर (SetWindowPos(hwnd, शीर्ष, x, y, w, h, flags) == 0) {
         result = WIN_SetError("SetWindowPos()");
     }
     data->expected_resize = false;
 
     // Update any child windows
-    for (child_window = window->first_child; child_window; child_window = child_window->next_sibling) {
-        if (!child_window->internal) {
+    साठी (child_window = window->first_child; child_window; child_window = child_window->next_sibling) {
+        जर (!child_window->internal) {
             // This child window is not yet fully initialized.
-            continue;
+            सुरूठेवा;
         }
-        if (!WIN_SetWindowPositionInternal(child_window, flags, SDL_WINDOWRECT_CURRENT)) {
+        जर (!WIN_SetWindowPositionInternal(child_window, flags, SDL_WINDOWRECT_CURRENT)) {
             result = false;
         }
     }
-    return result;
+    परत result;
 }
 
-static SDL_WindowEraseBackgroundMode GetEraseBackgroundModeHint(void)
+स्थिर SDL_WindowEraseBackgroundMode GetEraseBackgroundModeHint(शून्य)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE);
-    if (!hint)
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    स्थिरांक अक्षर *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE);
+    जर (!hint)
+        परत SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "never"))
-        return SDL_ERASEBACKGROUNDMODE_NEVER;
+    जर (SDL_strstr(hint, "never"))
+        परत SDL_ERASEBACKGROUNDMODE_NEVER;
 
-    if (SDL_strstr(hint, "initial"))
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    जर (SDL_strstr(hint, "initial"))
+        परत SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "always"))
-        return SDL_ERASEBACKGROUNDMODE_ALWAYS;
+    जर (SDL_strstr(hint, "always"))
+        परत SDL_ERASEBACKGROUNDMODE_ALWAYS;
 
-    int mode = SDL_GetStringInteger(hint, 1);
-    if (mode < 0 || mode > 2) {
+    पूर्णांक mode = SDL_GetStringInteger(hint, 1);
+    जर (mode < 0 || mode > 2) {
         SDL_Log("GetEraseBackgroundModeHint: invalid value for SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE. Fallback to default");
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+        परत SDL_ERASEBACKGROUNDMODE_INITIAL;
     }
 
-    return (SDL_WindowEraseBackgroundMode)mode;
+    परत (SDL_WindowEraseBackgroundMode)mode;
 }
 
-static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwnd, HWND parent)
+स्थिर bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwnd, HWND parent)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_WindowData *data;
 
     // Allocate the window data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, आकार(*data));
+    जर (!data) {
+        परत false;
     }
     data->window = window;
     data->hwnd = hwnd;
     data->parent = parent;
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     data->hdc = (HDC)data->hwnd;
-#else
+#अन्यथा
     data->hdc = GetDC(hwnd);
 #endif
     data->hinstance = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
@@ -395,17 +395,17 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
 
 
     // WIN_WarpCursor() jitters by +1, and remote desktop warp wobble is +/- 1
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     LONG remote_desktop_adjustment = GetSystemMetrics(SM_REMOTESESSION) ? 2 : 0;
-    data->cursor_ctrlock_rect.left   = 0 - remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.top    = 0;
-    data->cursor_ctrlock_rect.right  = 1 + remote_desktop_adjustment;
+    data->cursor_ctrlock_rect.डावा   = 0 - remote_desktop_adjustment;
+    data->cursor_ctrlock_rect.शीर्ष    = 0;
+    data->cursor_ctrlock_rect.उजवा  = 1 + remote_desktop_adjustment;
     data->cursor_ctrlock_rect.bottom = 1;
 #endif
 
-    if (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
+    जर (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
         data->copybits_flag = 0;
-    } else {
+    } अन्यथा {
         data->copybits_flag = SWP_NOCOPYBITS;
     }
 
@@ -413,31 +413,31 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     SDL_Log("SetupWindowData: initialized data->scaling_dpi to %d", data->scaling_dpi);
 #endif
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Associate the data with the window
-    if (!SetProp(hwnd, TEXT("SDL_WindowData"), data)) {
+    जर (!SetProp(hwnd, TEXT("SDL_WindowData"), data)) {
         ReleaseDC(hwnd, data->hdc);
         SDL_free(data);
-        return WIN_SetError("SetProp() failed");
+        परत WIN_SetError("SetProp() failed");
     }
 #endif
 
     window->internal = data;
 
     // Set up the window proc function
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    जर (window->flags & SDL_WINDOW_EXTERNAL) {
 #ifdef GWLP_WNDPROC
         data->wndproc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
+        जर (data->wndproc != WIN_WindowProc) {
             SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WIN_WindowProc);
         }
-#else
+#अन्यथा
         data->wndproc = (WNDPROC)GetWindowLong(hwnd, GWL_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
+        जर (data->wndproc != WIN_WindowProc) {
             SetWindowLong(hwnd, GWL_WNDPROC, (LONG_PTR)WIN_WindowProc);
         }
 #endif
-    } else {
+    } अन्यथा {
         // We set up our window proc function at window creation.
         // If someone has set hooks to modify it, leave it alone.
     }
@@ -445,68 +445,68 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     // Fill in the SDL window with the window state
     {
         DWORD style = GetWindowLong(hwnd, GWL_STYLE);
-        if (style & WS_VISIBLE) {
+        जर (style & WS_VISIBLE) {
             window->flags &= ~SDL_WINDOW_HIDDEN;
-        } else {
+        } अन्यथा {
             window->flags |= SDL_WINDOW_HIDDEN;
         }
-        if (style & WS_POPUP) {
+        जर (style & WS_POPUP) {
             window->flags |= SDL_WINDOW_BORDERLESS;
-        } else {
+        } अन्यथा {
             window->flags &= ~SDL_WINDOW_BORDERLESS;
         }
-        if (style & WS_THICKFRAME) {
+        जर (style & WS_THICKFRAME) {
             window->flags |= SDL_WINDOW_RESIZABLE;
-        } else if (!(style & WS_POPUP)) {
+        } अन्यथा जर (!(style & WS_POPUP)) {
             window->flags &= ~SDL_WINDOW_RESIZABLE;
         }
 #ifdef WS_MAXIMIZE
-        if (style & WS_MAXIMIZE) {
+        जर (style & WS_MAXIMIZE) {
             window->flags |= SDL_WINDOW_MAXIMIZED;
-        } else
+        } अन्यथा
 #endif
         {
             window->flags &= ~SDL_WINDOW_MAXIMIZED;
         }
 #ifdef WS_MINIMIZE
-        if (style & WS_MINIMIZE) {
+        जर (style & WS_MINIMIZE) {
             window->flags |= SDL_WINDOW_MINIMIZED;
-        } else
+        } अन्यथा
 #endif
         {
             window->flags &= ~SDL_WINDOW_MINIMIZED;
         }
     }
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
+    जर (!(window->flags & SDL_WINDOW_MINIMIZED)) {
         RECT rect;
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            int w = rect.right;
-            int h = rect.bottom;
+        जर (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
+            पूर्णांक w = rect.उजवा;
+            पूर्णांक h = rect.bottom;
 
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
+            जर (window->flags & SDL_WINDOW_EXTERNAL) {
                 window->floating.w = window->windowed.w = window->w = w;
                 window->floating.h = window->windowed.h = window->h = h;
-            } else if ((window->windowed.w && window->windowed.w != w) || (window->windowed.h && window->windowed.h != h)) {
+            } अन्यथा जर ((window->windowed.w && window->windowed.w != w) || (window->windowed.h && window->windowed.h != h)) {
                 // We tried to create a window larger than the desktop and Windows didn't allow it.  Override!
-                int x, y;
+                पूर्णांक x, y;
                 // Figure out what the window area will be
                 WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
                 data->expected_resize = true;
-                SetWindowPos(hwnd, NULL, x, y, w, h, data->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+                SetWindowPos(hwnd, रिक्त, x, y, w, h, data->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
                 data->expected_resize = false;
-            } else {
+            } अन्यथा {
                 window->w = w;
                 window->h = h;
             }
         }
     }
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    जर (!(window->flags & SDL_WINDOW_MINIMIZED)) {
         POINT point;
         point.x = 0;
         point.y = 0;
-        if (ClientToScreen(hwnd, &point)) {
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
+        जर (ClientToScreen(hwnd, &point)) {
+            जर (window->flags & SDL_WINDOW_EXTERNAL) {
                 window->floating.x = window->windowed.x = point.x;
                 window->floating.y = window->windowed.y = point.y;
             }
@@ -518,54 +518,54 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     WIN_UpdateWindowICCProfile(window, false);
 #endif
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    window->flags |= SDL_WINDOW_INPUT_FOCUS;
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    window->flags |= SDL_WINDOW_आदान_FOCUS;
     SDL_SetKeyboardFocus(window);
-#else
-    if (GetFocus() == hwnd) {
-        window->flags |= SDL_WINDOW_INPUT_FOCUS;
+#अन्यथा
+    जर (GetFocus() == hwnd) {
+        window->flags |= SDL_WINDOW_आदान_FOCUS;
         SDL_SetKeyboardFocus(window);
         WIN_UpdateClipCursor(window);
     }
 #endif
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowAlwaysOnTop(_this, window, true);
-    } else {
-        WIN_SetWindowAlwaysOnTop(_this, window, false);
+    जर (window->flags & SDL_WINDOW_ALWAYS_ON_शीर्ष) {
+        WIN_Set_Window_Always_On_शीर्ष(_this, window, true);
+    } अन्यथा {
+        WIN_Set_Window_Always_On_शीर्ष(_this, window, false);
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Enable multi-touch
-    if (videodata->RegisterTouchWindow) {
+    जर (videodata->RegisterTouchWindow) {
         videodata->RegisterTouchWindow(hwnd, (TWF_FINETOUCH | TWF_WANTPALM));
     }
 #endif
 
-    if (data->parent && !window->parent) {
+    जर (data->parent && !window->parent) {
         data->destroy_parent_with_window = true;
     }
 
     data->initializing = false;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    जर (window->flags & SDL_WINDOW_EXTERNAL) {
         // Query the title from the existing window
         LPTSTR title;
-        int titleLen;
+        पूर्णांक titleLen;
         bool isstack;
 
         titleLen = GetWindowTextLength(hwnd);
         title = SDL_small_alloc(TCHAR, titleLen + 1, &isstack);
-        if (title) {
+        जर (title) {
             titleLen = GetWindowText(hwnd, title, titleLen + 1);
-        } else {
+        } अन्यथा {
             titleLen = 0;
         }
-        if (titleLen > 0) {
+        जर (titleLen > 0) {
             window->title = WIN_StringToUTF8(title);
         }
-        if (title) {
+        जर (title) {
             SDL_small_free(title, isstack);
         }
     }
@@ -577,40 +577,40 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, data->hinstance);
 
     // All done!
-    return true;
+    परत true;
 }
 
-static void CleanupWindowData(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य CleanupWindowData(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (data) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (data->drop_target) {
+    जर (data) {
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        जर (data->drop_target) {
             WIN_AcceptDragAndDrop(window, false);
         }
         SDL_free(data->ICMFileName);
-        if (data->keyboard_hook) {
+        जर (data->keyboard_hook) {
             UnhookWindowsHookEx(data->keyboard_hook);
         }
-        if (data->hicon) {
+        जर (data->hicon) {
             DestroyIcon(data->hicon);
         }
         ReleaseDC(data->hwnd, data->hdc);
         RemoveProp(data->hwnd, TEXT("SDL_WindowData"));
 #endif
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+        जर (!(window->flags & SDL_WINDOW_EXTERNAL)) {
             DestroyWindow(data->hwnd);
-            if (data->destroy_parent_with_window && data->parent) {
+            जर (data->destroy_parent_with_window && data->parent) {
                 DestroyWindow(data->parent);
             }
-        } else {
+        } अन्यथा {
             // Restore any original event handler...
-            if (data->wndproc) {
+            जर (data->wndproc) {
 #ifdef GWLP_WNDPROC
                 SetWindowLongPtr(data->hwnd, GWLP_WNDPROC,
                                  (LONG_PTR)data->wndproc);
-#else
+#अन्यथा
                 SetWindowLong(data->hwnd, GWL_WNDPROC,
                               (LONG_PTR)data->wndproc);
 #endif
@@ -618,25 +618,25 @@ static void CleanupWindowData(SDL_VideoDevice *_this, SDL_Window *window)
         }
         SDL_free(data);
     }
-    window->internal = NULL;
+    window->internal = रिक्त;
 }
 
-static void WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
+स्थिर शून्य WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
 {
     // Possibly clamp popup windows to the output borders
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    जर (SDL_WINDOW_IS_POPUP(window)) {
         SDL_Window *w;
         SDL_DisplayID displayID;
         SDL_Rect rect;
-        int abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
-        int abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
-        const int width = window->last_size_pending ? window->pending.w : window->floating.w;
-        const int height = window->last_size_pending ? window->pending.h : window->floating.h;
-        int offset_x = 0, offset_y = 0;
+        पूर्णांक abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
+        पूर्णांक abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
+        स्थिरांक पूर्णांक width = window->last_size_pending ? window->pending.w : window->floating.w;
+        स्थिरांक पूर्णांक height = window->last_size_pending ? window->pending.h : window->floating.h;
+        पूर्णांक offset_x = 0, offset_y = 0;
 
-        if (window->constrain_popup) {
+        जर (window->constrain_popup) {
             // Calculate the total offset from the parents
-            for (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
+            साठी (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
                 offset_x += w->x;
                 offset_y += w->y;
             }
@@ -649,22 +649,22 @@ static void WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
             // Constrain the popup window to the display of the toplevel parent
             displayID = SDL_GetDisplayForWindow(w);
             SDL_GetDisplayBounds(displayID, &rect);
-            if (abs_x + width > rect.x + rect.w) {
+            जर (abs_x + width > rect.x + rect.w) {
                 abs_x -= (abs_x + width) - (rect.x + rect.w);
             }
-            if (abs_y + height > rect.y + rect.h) {
+            जर (abs_y + height > rect.y + rect.h) {
                 abs_y -= (abs_y + height) - (rect.y + rect.h);
             }
             abs_x = SDL_max(abs_x, rect.x);
             abs_y = SDL_max(abs_y, rect.y);
         }
 
-        if (output_to_pending) {
+        जर (output_to_pending) {
             window->pending.x = abs_x - offset_x;
             window->pending.y = abs_y - offset_y;
             window->pending.w = width;
             window->pending.h = height;
-        } else {
+        } अन्यथा {
             window->floating.x = abs_x - offset_x;
             window->floating.y = abs_y - offset_y;
             window->floating.w = width;
@@ -673,18 +673,18 @@ static void WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
     }
 }
 
-static void WIN_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
+स्थिर शून्य WIN_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
 {
     SDL_Window *toplevel = window;
 
     // Find the topmost parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
+    पर्यंत (SDL_WINDOW_IS_POPUP(toplevel)) {
         toplevel = toplevel->parent;
     }
 
     toplevel->keyboard_focus = window;
 
-    if (set_active_focus && !window->is_hiding && !window->is_destroying) {
+    जर (set_active_focus && !window->is_hiding && !window->is_destroying) {
         SDL_SetKeyboardFocus(window);
     }
 }
@@ -692,60 +692,60 @@ static void WIN_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
 bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
     SDL_VideoData *videodata = _this->internal;
-    HWND hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER, SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    HWND parent = NULL;
-    if (hwnd) {
+    HWND hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER, SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", रिक्त));
+    HWND parent = रिक्त;
+    जर (hwnd) {
         window->flags |= SDL_WINDOW_EXTERNAL;
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
-            return false;
+        जर (!SetupWindowData(_this, window, hwnd, parent)) {
+            परत false;
         }
-    } else {
+    } अन्यथा {
         DWORD style = STYLE_BASIC;
         DWORD styleEx = 0;
-        int x, y;
-        int w, h;
+        पूर्णांक x, y;
+        पूर्णांक w, h;
 
-        if (window->flags & SDL_WINDOW_UTILITY) {
-            parent = CreateWindow(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, NULL, NULL, SDL_Instance, NULL);
-        } else if (window->parent) {
+        जर (window->flags & SDL_WINDOW_UTILITY) {
+            parent = CreateWindow(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, रिक्त, रिक्त, SDL_Instance, रिक्त);
+        } अन्यथा जर (window->parent) {
             parent = window->parent->internal->hwnd;
         }
 
         style |= GetWindowStyle(window);
-        styleEx |= (DWORD)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER, GetWindowStyleEx(window));
+        styleEx |= (DWORD)SDL_Get_संख्या_Property(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_संख्या, GetWindowStyleEx(window));
 
         // Figure out what the window area will be
         WIN_ConstrainPopup(window, false);
         WIN_AdjustWindowRectWithStyle(window, style, styleEx, FALSE, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
 
         hwnd = CreateWindowEx(styleEx, SDL_Appname, TEXT(""), style,
-                              x, y, w, h, parent, NULL, SDL_Instance, NULL);
-        if (!hwnd) {
-            return WIN_SetError("Couldn't create window");
+                              x, y, w, h, parent, रिक्त, SDL_Instance, रिक्त);
+        जर (!hwnd) {
+            परत WIN_SetError("Couldn't create window");
         }
 
         WIN_UpdateDarkModeForHWND(hwnd);
 
         WIN_PumpEventsForHWND(_this, hwnd);
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
+        जर (!SetupWindowData(_this, window, hwnd, parent)) {
             DestroyWindow(hwnd);
-            if (parent) {
+            जर (parent) {
                 DestroyWindow(parent);
             }
-            return false;
+            परत false;
         }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         // Ensure that the IME isn't active on the new window until explicitly requested.
-        WIN_StopTextInput(_this, window);
+        WIN_Stop_Text_आदान(_this, window);
 #endif
 
         // Inform Windows of the frame change so we can respond to WM_NCCALCSIZE
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+        SetWindowPos(hwnd, रिक्त, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
 
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        जर (window->flags & SDL_WINDOW_MINIMIZED) {
             /* TODO: We have to clear SDL_WINDOW_HIDDEN here to ensure the window flags match the window state. The
                window is already shown after this and windows with WS_MINIMIZE do not generate a WM_SHOWWINDOW. This
                means you can't currently create a window that is initially hidden and is minimized when shown.
@@ -755,10 +755,10 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // FIXME: does not work on all hardware configurations with different renders (i.e. hybrid GPUs)
-    if (window->flags & SDL_WINDOW_TRANSPARENT) {
-        if (videodata->DwmEnableBlurBehindWindow) {
+    जर (window->flags & SDL_WINDOW_TRANSPARENT) {
+        जर (videodata->DwmEnableBlurBehindWindow) {
             /* The region indicates which part of the window will be blurred and rest will be transparent. This
                is because the alpha value of the window will be used for non-blurred areas
                We can use (-1, -1, 0, 0) boundary to make sure no pixels are being blurred
@@ -774,64 +774,64 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         }
     }
 
-    HWND share_hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER, NULL);
-    if (share_hwnd) {
+    HWND share_hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER, रिक्त);
+    जर (share_hwnd) {
         HDC hdc = GetDC(share_hwnd);
-        int pixel_format = GetPixelFormat(hdc);
+        पूर्णांक pixel_format = GetPixelFormat(hdc);
         PIXELFORMATDESCRIPTOR pfd;
 
         SDL_zero(pfd);
-        DescribePixelFormat(hdc, pixel_format, sizeof(pfd), &pfd);
+        DescribePixelFormat(hdc, pixel_format, आकार(pfd), &pfd);
         ReleaseDC(share_hwnd, hdc);
 
-        if (!SetPixelFormat(window->internal->hdc, pixel_format, &pfd)) {
+        जर (!SetPixelFormat(window->internal->hdc, pixel_format, &pfd)) {
             WIN_DestroyWindow(_this, window);
-            return WIN_SetError("SetPixelFormat()");
+            परत WIN_SetError("SetPixelFormat()");
         }
-    } else {
+    } अन्यथा {
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return true;
+        जर (!(window->flags & SDL_WINDOW_OPENGL)) {
+            परत true;
         }
 
         // The rest of this macro mess is for OpenGL or OpenGL ES windows
 #ifdef SDL_VIDEO_OPENGL_ES2
-        if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES ||
+        जर ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES ||
              SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
 #ifdef SDL_VIDEO_OPENGL_WGL
              && (!_this->gl_data || WIN_GL_UseEGL(_this))
 #endif // SDL_VIDEO_OPENGL_WGL
         ) {
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (!WIN_GLES_SetupWindow(_this, window)) {
+            जर (!WIN_GLES_SetupWindow(_this, window)) {
                 WIN_DestroyWindow(_this, window);
-                return false;
+                परत false;
             }
-            return true;
-#else
-            return SDL_SetError("Could not create GLES window surface (EGL support not configured)");
+            परत true;
+#अन्यथा
+            परत SDL_SetError("Could not create GLES window surface (EGL support not configured)");
 #endif // SDL_VIDEO_OPENGL_EGL
         }
 #endif // SDL_VIDEO_OPENGL_ES2
 
 #ifdef SDL_VIDEO_OPENGL_WGL
-        if (!WIN_GL_SetupWindow(_this, window)) {
+        जर (!WIN_GL_SetupWindow(_this, window)) {
             WIN_DestroyWindow(_this, window);
-            return false;
+            परत false;
         }
-#else
-        return SDL_SetError("Could not create GL window (WGL support not configured)");
+#अन्यथा
+        परत SDL_SetError("Could not create GL window (WGL support not configured)");
 #endif
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    परत true;
 }
 
-void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     HWND hwnd = window->internal->hwnd;
     LPTSTR title = WIN_UTF8ToString(window->title);
     SetWindowText(hwnd, title);
@@ -841,35 +841,35 @@ void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 
 bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
-    HICON hicon = NULL;
+    HICON hicon = रिक्त;
     BYTE *icon_bmp;
-    int icon_len, mask_len, row_len, y;
+    पूर्णांक icon_len, mask_len, row_len, y;
     BITMAPINFOHEADER *bmi;
     Uint8 *dst;
     bool isstack;
     bool result = true;
 
     // Create temporary buffer for ICONIMAGE structure
-    SDL_COMPILE_TIME_ASSERT(WIN_SetWindowIcon_uses_BITMAPINFOHEADER_to_prepare_an_ICONIMAGE, sizeof(BITMAPINFOHEADER) == 40);
+    SDL_COMPILE_TIME_ASSERT(WIN_SetWindowIcon_uses_BITMAPINFOHEADER_to_prepare_an_ICONIMAGE, आकार(BITMAPINFOHEADER) == 40);
     mask_len = (icon->h * (icon->w + 7) / 8);
-    icon_len = sizeof(BITMAPINFOHEADER) + icon->h * icon->w * sizeof(Uint32) + mask_len;
+    icon_len = आकार(BITMAPINFOHEADER) + icon->h * icon->w * आकार(Uint32) + mask_len;
     icon_bmp = SDL_small_alloc(BYTE, icon_len, &isstack);
-    if (!icon_bmp) {
-        return false;
+    जर (!icon_bmp) {
+        परत false;
     }
 
     // Write the BITMAPINFO header
     bmi = (BITMAPINFOHEADER *)icon_bmp;
-    bmi->biSize = SDL_Swap32LE(sizeof(BITMAPINFOHEADER));
+    bmi->biSize = SDL_Swap32LE(आकार(BITMAPINFOHEADER));
     bmi->biWidth = SDL_Swap32LE(icon->w);
     bmi->biHeight = SDL_Swap32LE(icon->h * 2);
     bmi->biPlanes = SDL_Swap16LE(1);
-    bmi->biBitCount = SDL_Swap16LE(32);
+    bmi->bi_Bit_मोजणी = SDL_Swap16LE(32);
     bmi->biCompression = SDL_Swap32LE(BI_RGB);
-    bmi->biSizeImage = SDL_Swap32LE(icon->h * icon->w * sizeof(Uint32));
+    bmi->biSizeImage = SDL_Swap32LE(icon->h * icon->w * आकार(Uint32));
     bmi->biXPelsPerMeter = SDL_Swap32LE(0);
     bmi->biYPelsPerMeter = SDL_Swap32LE(0);
     bmi->biClrUsed = SDL_Swap32LE(0);
@@ -877,10 +877,10 @@ bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *
 
     // Write the pixels upside down into the bitmap buffer
     SDL_assert(icon->format == SDL_PIXELFORMAT_ARGB8888);
-    dst = &icon_bmp[sizeof(BITMAPINFOHEADER)];
-    row_len = icon->w * sizeof(Uint32);
+    dst = &icon_bmp[आकार(BITMAPINFOHEADER)];
+    row_len = icon->w * आकार(Uint32);
     y = icon->h;
-    while (y--) {
+    पर्यंत (y--) {
         Uint8 *src = (Uint8 *)icon->pixels + y * icon->pitch;
         SDL_memcpy(dst, src, row_len);
         dst += row_len;
@@ -893,11 +893,11 @@ bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *
 
     SDL_small_free(icon_bmp, isstack);
 
-    if (!hicon) {
-        return SDL_SetError("SetWindowIcon() failed, error %08X", (unsigned int)GetLastError());
+    जर (!hicon) {
+        परत SDL_SetError("SetWindowIcon() failed, error %08X", (अचिन्हित पूर्णांक)GetLastError());
     }
 
-    if (data->hicon) {
+    जर (data->hicon) {
         DestroyIcon(data->hicon);
     }
     data->hicon = hicon;
@@ -907,9 +907,9 @@ bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *
 
     // Set the icon in the task manager (should we do this?)
     SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hicon);
-    return result;
-#else
-    return SDL_Unsupported();
+    परत result;
+#अन्यथा
+    परत SDL_Unsupported();
 #endif
 }
 
@@ -918,33 +918,33 @@ bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
     /* HighDPI support: removed SWP_NOSIZE. If the move results in a DPI change, we need to allow
      * the window to resize (e.g. AdjustWindowRectExForDpi frame sizes are different).
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
+    जर (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
+        जर (!(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
             WIN_ConstrainPopup(window, true);
-            return WIN_SetWindowPositionInternal(window,
+            परत WIN_SetWindowPositionInternal(window,
                                                  window->internal->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE |
                                                  SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
         }
-    } else {
-        return SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, true);
+    } अन्यथा {
+        परत SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, true);
     }
 
-    return true;
+    परत true;
 }
 
-void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
+    जर (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
         WIN_SetWindowPositionInternal(window, window->internal->copybits_flag | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
-    } else {
+    } अन्यथा {
         // Can't resize the window
         window->last_size_pending = false;
     }
 }
 
-bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक *शीर्ष, पूर्णांक *डावा, पूर्णांक *bottom, पूर्णांक *उजवा)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     HWND hwnd = window->internal->hwnd;
     RECT rcClient;
 
@@ -952,83 +952,83 @@ bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *t
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
     GetClientRect(hwnd, &rcClient);
 
-    *top = rcClient.top;
-    *left = rcClient.left;
+    *शीर्ष = rcClient.शीर्ष;
+    *डावा = rcClient.डावा;
     *bottom = rcClient.bottom;
-    *right = rcClient.right;
+    *उजवा = rcClient.उजवा;
 
-    return true;
-#else  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    परत true;
+#अन्यथा  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     HWND hwnd = window->internal->hwnd;
     RECT rcClient, rcWindow;
     POINT ptDiff;
 
     /* rcClient stores the size of the inner window, while rcWindow stores the outer size relative to the top-left
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
-    if (!GetClientRect(hwnd, &rcClient)) {
-        return SDL_SetError("GetClientRect() failed, error %08X", (unsigned int)GetLastError());
+    जर (!GetClientRect(hwnd, &rcClient)) {
+        परत SDL_SetError("GetClientRect() failed, error %08X", (अचिन्हित पूर्णांक)GetLastError());
     }
 
-    if (!GetWindowRect(hwnd, &rcWindow)) {
-        return SDL_SetError("GetWindowRect() failed, error %08X", (unsigned int)GetLastError());
+    जर (!GetWindowRect(hwnd, &rcWindow)) {
+        परत SDL_SetError("GetWindowRect() failed, error %08X", (अचिन्हित पूर्णांक)GetLastError());
     }
 
     /* convert the top/left values to make them relative to
      * the window; they will end up being slightly negative */
-    ptDiff.y = rcWindow.top;
-    ptDiff.x = rcWindow.left;
+    ptDiff.y = rcWindow.शीर्ष;
+    ptDiff.x = rcWindow.डावा;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    जर (!ScreenToClient(hwnd, &ptDiff)) {
+        परत SDL_SetError("ScreenToClient() failed, error %08X", (अचिन्हित पूर्णांक)GetLastError());
     }
 
-    rcWindow.top = ptDiff.y;
-    rcWindow.left = ptDiff.x;
+    rcWindow.शीर्ष = ptDiff.y;
+    rcWindow.डावा = ptDiff.x;
 
     /* convert the bottom/right values to make them relative to the window,
      * these will be slightly bigger than the inner width/height */
     ptDiff.y = rcWindow.bottom;
-    ptDiff.x = rcWindow.right;
+    ptDiff.x = rcWindow.उजवा;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    जर (!ScreenToClient(hwnd, &ptDiff)) {
+        परत SDL_SetError("ScreenToClient() failed, error %08X", (अचिन्हित पूर्णांक)GetLastError());
     }
 
     rcWindow.bottom = ptDiff.y;
-    rcWindow.right = ptDiff.x;
+    rcWindow.उजवा = ptDiff.x;
 
     /* Now that both the inner and outer rects use the same coordinate system we can subtract them to get the border size.
      * Keep in mind that the top/left coordinates of rcWindow are negative because the border lies slightly before {0,0},
      * so switch them around because SDL3 wants them in positive. */
-    *top = rcClient.top - rcWindow.top;
-    *left = rcClient.left - rcWindow.left;
+    *शीर्ष = rcClient.शीर्ष - rcWindow.शीर्ष;
+    *डावा = rcClient.डावा - rcWindow.डावा;
     *bottom = rcWindow.bottom - rcClient.bottom;
-    *right = rcWindow.right - rcClient.right;
+    *उजवा = rcWindow.उजवा - rcClient.उजवा;
 
-    return true;
+    परत true;
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+शून्य WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक *w, पूर्णांक *h)
 {
-    const SDL_WindowData *data = window->internal;
+    स्थिरांक SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
     RECT rect;
 
-    if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-        *w = rect.right;
+    जर (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
+        *w = rect.उजवा;
         *h = rect.bottom;
-    } else if (window->last_pixel_w && window->last_pixel_h) {
+    } अन्यथा जर (window->last_pixel_w && window->last_pixel_h) {
         *w = window->last_pixel_w;
         *h = window->last_pixel_h;
-    } else {
+    } अन्यथा {
         // Probably created minimized, use the restored size
         *w = window->floating.w;
         *h = window->floating.h;
     }
 }
 
-void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
@@ -1036,14 +1036,14 @@ void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true);
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    जर (SDL_WINDOW_IS_POPUP(window)) {
         // Update our position in case our parent moved while we were hidden
         WIN_SetWindowPosition(_this, window);
     }
 
     // If the window isn't borderless and will be fullscreen, use the borderless style to hide the initial borders.
-    if (window->pending_flags & SDL_WINDOW_FULLSCREEN) {
-        if (!(window->flags & SDL_WINDOW_BORDERLESS)) {
+    जर (window->pending_flags & SDL_WINDOW_FULLSCREEN) {
+        जर (!(window->flags & SDL_WINDOW_BORDERLESS)) {
             window->flags |= SDL_WINDOW_BORDERLESS;
             style = GetWindowLong(hwnd, GWL_STYLE);
             style &= ~STYLE_MASK;
@@ -1053,48 +1053,48 @@ void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
     style = GetWindowLong(hwnd, GWL_EXSTYLE);
-    if (style & WS_EX_NOACTIVATE) {
+    जर (style & WS_EX_NOACTIVATE) {
         bActivate = false;
     }
 
     data->showing_window = true;
-    if (bActivate) {
+    जर (bActivate) {
         ShowWindow(hwnd, SW_SHOW);
-    } else {
+    } अन्यथा {
         // Use SetWindowPos instead of ShowWindow to avoid activating the parent window if this is a child window
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, window->internal->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        SetWindowPos(hwnd, रिक्त, 0, 0, 0, 0, window->internal->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
     }
     data->showing_window = false;
 
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) && bActivate) {
+    जर ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) && bActivate) {
         WIN_SetKeyboardFocus(window, true);
     }
-    if (window->flags & SDL_WINDOW_MODAL) {
+    जर (window->flags & SDL_WINDOW_MODAL) {
         WIN_SetWindowModal(_this, window, true);
     }
 }
 
-void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     HWND hwnd = window->internal->hwnd;
 
-    if (window->flags & SDL_WINDOW_MODAL) {
+    जर (window->flags & SDL_WINDOW_MODAL) {
         WIN_SetWindowModal(_this, window, false);
     }
 
     ShowWindow(hwnd, SW_HIDE);
 
     // Transfer keyboard focus back to the parent from a grabbing popup.
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
+    जर ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
         SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
+        स्थिरांक bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
         WIN_SetKeyboardFocus(new_focus, set_focus);
     }
 }
 
-void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* If desired, raise the window more forcefully.
      * Technique taken from http://stackoverflow.com/questions/916259/ .
      * Specifically, http://stackoverflow.com/a/34414846 .
@@ -1106,44 +1106,44 @@ void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
     bool bForce = SDL_GetHintBoolean(SDL_HINT_FORCE_RAISEWINDOW, false);
     bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED, true);
 
-    HWND hCurWnd = NULL;
+    HWND hCurWnd = रिक्त;
     DWORD dwMyID = 0u;
     DWORD dwCurID = 0u;
 
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
-    if (bForce) {
+    जर (bForce) {
         hCurWnd = GetForegroundWindow();
         dwMyID = GetCurrentThreadId();
-        dwCurID = GetWindowThreadProcessId(hCurWnd, NULL);
+        dwCurID = GetWindowThreadProcessId(hCurWnd, रिक्त);
         ShowWindow(hwnd, SW_RESTORE);
-        AttachThreadInput(dwCurID, dwMyID, TRUE);
+        Attach_Thread_आदान(dwCurID, dwMyID, TRUE);
         SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        if (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
+        जर (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_शीर्ष)) {
             SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
         }
     }
-    if (bActivate) {
+    जर (bActivate) {
         SetForegroundWindow(hwnd);
-        if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
+        जर ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
             WIN_SetKeyboardFocus(window, window->parent == SDL_GetKeyboardFocus());
         }
-    } else {
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+    } अन्यथा {
+        SetWindowPos(hwnd, HWND_शीर्ष, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
     }
-    if (bForce) {
-        AttachThreadInput(dwCurID, dwMyID, FALSE);
+    जर (bForce) {
+        Attach_Thread_आदान(dwCurID, dwMyID, FALSE);
         SetFocus(hwnd);
         SetActiveWindow(hwnd);
     }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
+    जर (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
         HWND hwnd = data->hwnd;
         data->expected_resize = true;
         ShowWindow(hwnd, SW_MAXIMIZE);
@@ -1152,29 +1152,29 @@ void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
         /* Clamp the maximized window size to the max window size.
          * This is automatic if maximizing from the window controls.
          */
-        if (window->max_w || window->max_h) {
-            int fx, fy, fw, fh;
+        जर (window->max_w || window->max_h) {
+            पूर्णांक fx, fy, fw, fh;
 
             window->windowed.w = window->max_w ? SDL_min(window->w, window->max_w) : window->windowed.w;
             window->windowed.h = window->max_h ? SDL_min(window->h, window->max_h) : window->windowed.h;
             WIN_AdjustWindowRect(window, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
 
             data->expected_resize = true;
-            SetWindowPos(hwnd, HWND_TOP, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+            SetWindowPos(hwnd, HWND_शीर्ष, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
             data->expected_resize = false;
         }
-    } else {
+    } अन्यथा {
         data->windowed_mode_was_maximized = true;
     }
 }
 
-void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     HWND hwnd = window->internal->hwnd;
     ShowWindow(hwnd, SW_MINIMIZE);
 }
 
-void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+शून्य WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
 {
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
@@ -1190,7 +1190,7 @@ void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bord
     data->in_border_change = false;
 }
 
-void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+शून्य WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
 {
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
@@ -1203,42 +1203,42 @@ void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool res
     SetWindowLong(hwnd, GWL_STYLE, style);
 }
 
-void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+शून्य WIN_Set_Window_Always_On_शीर्ष(SDL_VideoDevice *_this, SDL_Window *window, bool on_शीर्ष)
 {
     WIN_SetWindowPositionInternal(window, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
 }
 
-void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!data->showing_window || window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
+    जर (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
+        जर (!data->showing_window || window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
             HWND hwnd = data->hwnd;
             data->expected_resize = true;
             ShowWindow(hwnd, SW_RESTORE);
             data->expected_resize = false;
         }
-    } else {
+    } अन्यथा {
         data->windowed_mode_was_maximized = false;
     }
 }
 
-static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref)
+स्थिर शून्य WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &cornerPref, sizeof(cornerPref));
+    जर (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
+        videodata->DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &cornerPref, आकार(cornerPref));
     }
 #endif
 }
 
-static void WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
+स्थिर शून्य WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, sizeof(colorRef));
+    जर (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
+        videodata->DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, आकार(colorRef));
     }
 #endif
 }
@@ -1248,41 +1248,41 @@ static void WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLO
  */
 SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_DisplayData *displaydata = display->internal;
     SDL_WindowData *data = window->internal;
-    HWND hwnd = data ? data->hwnd : NULL;
+    HWND hwnd = data ? data->hwnd : रिक्त;
     MONITORINFO minfo;
     DWORD style, styleEx;
-    HWND top;
-    int x, y;
-    int w, h;
+    HWND शीर्ष;
+    पूर्णांक x, y;
+    पूर्णांक w, h;
     bool enterMaximized = false;
 
 #ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d", (int)fullscreen);
+    SDL_Log("WIN_SetWindowFullscreen: %d", (पूर्णांक)fullscreen);
 #endif
 
     /* Early out if already not in fullscreen, or the styling on
      * external windows may end up being overridden.
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    जर (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
+        परत SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    जर (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_शीर्ष)) {
+        शीर्ष = HWND_TOPMOST;
+    } अन्यथा {
+        शीर्ष = HWND_NOTOPMOST;
     }
 
     /* Use GetMonitorInfo instead of WIN_GetDisplayBounds because we want the
        monitor bounds in Windows coordinates (pixels) rather than SDL coordinates (points). */
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    if (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
+    minfo.cbSize = आकार(MONITORINFO);
+    जर (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
         SDL_SetError("GetMonitorInfo failed");
-        return SDL_FULLSCREEN_FAILED;
+        परत SDL_FULLSCREEN_FAILED;
     }
 
     SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
@@ -1291,16 +1291,16 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
     style |= GetWindowStyle(window);
     styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
 
-    if (fullscreen) {
-        x = minfo.rcMonitor.left;
-        y = minfo.rcMonitor.top;
-        w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-        h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    जर (fullscreen) {
+        x = minfo.rcMonitor.डावा;
+        y = minfo.rcMonitor.शीर्ष;
+        w = minfo.rcMonitor.उजवा - minfo.rcMonitor.डावा;
+        h = minfo.rcMonitor.bottom - minfo.rcMonitor.शीर्ष;
 
         /* Unset the maximized flag.  This fixes
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215
         */
-        if (style & WS_MAXIMIZE) {
+        जर (style & WS_MAXIMIZE) {
             data->windowed_mode_was_maximized = true;
             style &= ~WS_MAXIMIZE;
         }
@@ -1308,7 +1308,7 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
         // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DONOTROUND);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_NONE);
-    } else {
+    } अन्यथा {
         BOOL menu;
 
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DEFAULT);
@@ -1320,12 +1320,12 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
            in_window_deactivation), otherwise
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215 can reproduce!
         */
-        if (data->windowed_mode_was_maximized && !data->in_window_deactivation) {
+        जर (data->windowed_mode_was_maximized && !data->in_window_deactivation) {
             enterMaximized = true;
             data->disable_move_size_events = true;
         }
 
-        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
+        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
         WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu,
                                       &x, &y,
                                       &w, &h,
@@ -1337,25 +1337,25 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
          * position are on different displays, try to center the window on the maximized display for restoration, which
          * mimics native Windows behavior.
          */
-        if (enterMaximized) {
-            const SDL_Point windowed_point = { window->windowed.x, window->windowed.y };
-            const SDL_Point floating_point = { window->floating.x, window->floating.y };
-            const SDL_DisplayID floating_display = SDL_GetDisplayForPoint(&floating_point);
-            const SDL_DisplayID windowed_display = SDL_GetDisplayForPoint(&windowed_point);
+        जर (enterMaximized) {
+            स्थिरांक SDL_Point windowed_point = { window->windowed.x, window->windowed.y };
+            स्थिरांक SDL_Point floating_point = { window->floating.x, window->floating.y };
+            स्थिरांक SDL_DisplayID floating_display = SDL_GetDisplayForPoint(&floating_point);
+            स्थिरांक SDL_DisplayID windowed_display = SDL_GetDisplayForPoint(&windowed_point);
 
-            if (floating_display != windowed_display) {
+            जर (floating_display != windowed_display) {
                 SDL_Rect bounds;
 
                 SDL_zero(bounds);
                 SDL_GetDisplayUsableBounds(windowed_display, &bounds);
-                if (w < bounds.w) {
+                जर (w < bounds.w) {
                     x = bounds.x + (bounds.w - w) / 2;
-                } else {
+                } अन्यथा {
                     x = bounds.x;
                 }
-                if (h < bounds.h) {
+                जर (h < bounds.h) {
                     y = bounds.y + (bounds.h - h) / 2;
-                } else {
+                } अन्यथा {
                     y = bounds.y;
                 }
             }
@@ -1367,46 +1367,46 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
      */
     SetWindowLong(hwnd, GWL_STYLE, style);
     data->expected_resize = true;
-    SetWindowPos(hwnd, top, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
+    SetWindowPos(hwnd, शीर्ष, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
     data->expected_resize = false;
     data->disable_move_size_events = false;
 
-    if (enterMaximized) {
+    जर (enterMaximized) {
         WIN_MaximizeWindow(_this, window);
     }
 
-    if (!fullscreen && data && data->hicon) {
+    जर (!fullscreen && data && data->hicon) {
         // Reset the icon for the window when returning from fullscreen mode
         SendMessage(hwnd, WM_SETICON, ICON_SMALL, 0);
         SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)data->hicon);
     }
 
 #ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (int)fullscreen, x, y, w, h);
+    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (पूर्णांक)fullscreen, x, y, w, h);
 #endif
 
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    return SDL_FULLSCREEN_SUCCEEDED;
+    परत SDL_FULLSCREEN_SUCCEEDED;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+शून्य WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
 {
     SDL_WindowData *data = window->internal;
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
 
-    if (displaydata) {
-        HDC hdc = CreateDCW(displaydata->DeviceName, NULL, NULL, NULL);
-        if (hdc) {
+    जर (displaydata) {
+        HDC hdc = CreateDCW(displaydata->DeviceName, रिक्त, रिक्त, रिक्त);
+        जर (hdc) {
             WCHAR fileName[MAX_PATH];
             DWORD fileNameSize = SDL_arraysize(fileName);
-            if (GetICMProfileW(hdc, &fileNameSize, fileName)) {
+            जर (GetICMProfileW(hdc, &fileNameSize, fileName)) {
                 // fileNameSize includes '\0' on return
-                if (!data->ICMFileName ||
+                जर (!data->ICMFileName ||
                     SDL_wcscmp(data->ICMFileName, fileName) != 0) {
                     SDL_free(data->ICMFileName);
                     data->ICMFileName = SDL_wcsdup(fileName);
-                    if (send_event) {
+                    जर (send_event) {
                         SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
                     }
                 }
@@ -1416,30 +1416,30 @@ void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
     }
 }
 
-void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+शून्य *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, माप_प्रकार *size)
 {
     SDL_WindowData *data = window->internal;
-    char *filename_utf8;
-    void *iccProfileData = NULL;
+    अक्षर *filename_utf8;
+    शून्य *iccProfileData = रिक्त;
 
     filename_utf8 = WIN_StringToUTF8W(data->ICMFileName);
-    if (filename_utf8) {
+    जर (filename_utf8) {
         iccProfileData = SDL_LoadFile(filename_utf8, size);
-        if (!iccProfileData) {
+        जर (!iccProfileData) {
             SDL_SetError("Could not open ICC profile");
         }
         SDL_free(filename_utf8);
     }
-    return iccProfileData;
+    परत iccProfileData;
 }
 
-static void WIN_GrabKeyboard(SDL_Window *window)
+स्थिर शून्य WIN_GrabKeyboard(SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
     HMODULE module;
 
-    if (data->keyboard_hook) {
-        return;
+    जर (data->keyboard_hook) {
+        परत;
     }
 
     /* SetWindowsHookEx() needs to know which module contains the hook we
@@ -1448,15 +1448,15 @@ static void WIN_GrabKeyboard(SDL_Window *window)
        this nice API that will go through the loaded modules and find the
        one containing our code.
     */
-    if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+    जर (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
                            (LPTSTR)WIN_KeyboardHookProc,
                            &module)) {
-        return;
+        परत;
     }
 
     // Capture a snapshot of the current keyboard state before the hook
-    if (!GetKeyboardState(data->videodata->pre_hook_key_state)) {
-        return;
+    जर (!GetKeyboardState(data->videodata->pre_hook_किल्ली_state)) {
+        परत;
     }
 
     /* To grab the keyboard, we have to install a low-level keyboard hook to
@@ -1467,87 +1467,87 @@ static void WIN_GrabKeyboard(SDL_Window *window)
     data->keyboard_hook = SetWindowsHookEx(WH_KEYBOARD_LL, WIN_KeyboardHookProc, module, 0);
 }
 
-void WIN_UngrabKeyboard(SDL_Window *window)
+शून्य WIN_UngrabKeyboard(SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (data->keyboard_hook) {
+    जर (data->keyboard_hook) {
         UnhookWindowsHookEx(data->keyboard_hook);
-        data->keyboard_hook = NULL;
+        data->keyboard_hook = रिक्त;
     }
 }
 
 bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
 {
     WIN_UpdateClipCursor(window);
-    return true;
+    परत true;
 }
 
 bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
 {
     WIN_UpdateClipCursor(window);
-    return true;
+    परत true;
 }
 
 bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
 {
-    if (grabbed) {
+    जर (grabbed) {
         WIN_GrabKeyboard(window);
-    } else {
+    } अन्यथा {
         WIN_UngrabKeyboard(window);
     }
 
-    return true;
+    परत true;
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     CleanupWindowData(_this, window);
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+शून्य WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!data || !data->hwnd) {
+    जर (!data || !data->hwnd) {
         // The window wasn't fully initialized
-        return;
+        परत;
     }
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
+    जर (window->flags & SDL_WINDOW_ALWAYS_ON_शीर्ष) {
         WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
     }
 }
 
-static BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
+स्थिर BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
 {
-    return GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
+    परत GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
            ClientToScreen(hwnd, (LPPOINT)rect) &&   // POINT( left , top )
            ClientToScreen(hwnd, (LPPOINT)rect + 1); // POINT( right , bottom )
 }
 
-void WIN_UnclipCursorForWindow(SDL_Window *window) {
+शून्य WIN_UnclipCursorForWindow(SDL_Window *window) {
     SDL_WindowData *data = window->internal;
     RECT rect;
-    if (GetClipCursor(&rect) && SDL_memcmp(&rect, &data->cursor_clipped_rect, sizeof(rect)) == 0) {
-        ClipCursor(NULL);
+    जर (GetClipCursor(&rect) && SDL_memcmp(&rect, &data->cursor_clipped_rect, आकार(rect)) == 0) {
+        ClipCursor(रिक्त);
         SDL_zero(data->cursor_clipped_rect);
     }
 }
 
-void WIN_UpdateClipCursor(SDL_Window *window)
+शून्य WIN_UpdateClipCursor(SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
     SDL_VideoData *videodata = data->videodata;
-    if (data->in_title_click || data->focus_click_pending || data->postpone_clipcursor) {
-        return;
+    जर (data->in_title_click || data->focus_click_pending || data->postpone_clipcursor) {
+        परत;
     }
 
     SDL_Rect mouse_rect = window->mouse_rect;
     bool win_mouse_rect = (mouse_rect.w > 0 && mouse_rect.h > 0);
-    bool win_have_focus = (window->flags & SDL_WINDOW_INPUT_FOCUS);
+    bool win_have_focus = (window->flags & SDL_WINDOW_आदान_FOCUS);
     bool win_is_grabbed = (window->flags & SDL_WINDOW_MOUSE_GRABBED);
     bool win_in_relmode = (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE);
     bool cursor_confine = win_in_relmode || win_is_grabbed || win_mouse_rect;
@@ -1557,29 +1557,29 @@ void WIN_UpdateClipCursor(SDL_Window *window)
     // A clean-room implementation according to MSDN
     // documentation of GetClipCursor is provided in
     // a commented-out block below.
-    if (!win_have_focus || !cursor_confine) {
+    जर (!win_have_focus || !cursor_confine) {
         SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
         RECT current;
-        if (!GetClipCursor(&current)) {
-            return;
+        जर (!GetClipCursor(&current)) {
+            परत;
         }
-        if (videodevice && (
-            current.left != videodevice->desktop_bounds.x ||
-            current.top  != videodevice->desktop_bounds.y
+        जर (videodevice && (
+            current.डावा != videodevice->desktop_bounds.x ||
+            current.शीर्ष  != videodevice->desktop_bounds.y
         )) {
             POINT first, second;
-            first.x  = current.left;
-            first.y  = current.top;
-            second.x = current.right  - 1;
+            first.x  = current.डावा;
+            first.y  = current.शीर्ष;
+            second.x = current.उजवा  - 1;
             second.y = current.bottom - 1;
-            if (!PtInRect(&data->cursor_clipped_rect, first) ||
+            जर (!PtInRect(&data->cursor_clipped_rect, first) ||
                 !PtInRect(&data->cursor_clipped_rect, second)) {
-                return;
+                परत;
             }
         }
-        ClipCursor(NULL);
+        ClipCursor(रिक्त);
         SDL_zero(data->cursor_clipped_rect);
-        return;
+        परत;
     }
 
     // if (!win_have_focus || !cursor_confine) {
@@ -1600,32 +1600,32 @@ void WIN_UpdateClipCursor(SDL_Window *window)
     bool lock_to_ctr = (mouse->relative_mode && mouse->relative_mode_center);
 
     RECT client;
-    if (!GetClientScreenRect(data->hwnd, &client)) {
-        return;
+    जर (!GetClientScreenRect(data->hwnd, &client)) {
+        परत;
     }
 
     RECT target = client;
-    if (lock_to_ctr) {
-        LONG cx = (client.left + client.right ) / 2;
-        LONG cy = (client.top  + client.bottom) / 2;
+    जर (lock_to_ctr) {
+        LONG cx = (client.डावा + client.उजवा ) / 2;
+        LONG cy = (client.शीर्ष  + client.bottom) / 2;
         target = data->cursor_ctrlock_rect;
-        target.left   += cx;
-        target.right  += cx;
-        target.top    += cy;
+        target.डावा   += cx;
+        target.उजवा  += cx;
+        target.शीर्ष    += cy;
         target.bottom += cy;
-    } else if (win_mouse_rect) {
+    } अन्यथा जर (win_mouse_rect) {
         RECT custom, overlap;
-        custom.left   = client.left + mouse_rect.x;
-        custom.top    = client.top  + mouse_rect.y;
-        custom.right  = client.left + mouse_rect.x + mouse_rect.w;
-        custom.bottom = client.top  + mouse_rect.y + mouse_rect.h;
-        if (IntersectRect(&overlap, &client, &custom)) {
+        custom.डावा   = client.डावा + mouse_rect.x;
+        custom.शीर्ष    = client.शीर्ष  + mouse_rect.y;
+        custom.उजवा  = client.डावा + mouse_rect.x + mouse_rect.w;
+        custom.bottom = client.शीर्ष  + mouse_rect.y + mouse_rect.h;
+        जर (IntersectRect(&overlap, &client, &custom)) {
             target = overlap;
-        } else if (!win_is_grabbed) {
+        } अन्यथा जर (!win_is_grabbed) {
             WIN_UnclipCursorForWindow(window);
-            return;
+            परत;
         }
-    } else if (videodata->dpi_unaware_context_declared) {
+    } अन्यथा जर (videodata->dpi_unaware_context_declared) {
         /* Windows has a rounding bug when a DPI unaware context and fractional scale value
          * are used that will cause the cursor coordinates to jitter across a confining edge
          * while dragging along it, which can cause spurious pointer enter/leave events when the
@@ -1636,23 +1636,23 @@ void WIN_UpdateClipCursor(SDL_Window *window)
          */
 
         // Temporarily set the thread to per-monitor awareness v2 to get the display DPI.
-        if (videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+        जर (videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
             HMONITOR hmon = MonitorFromWindow(data->hwnd, MONITOR_DEFAULTTONEAREST);
-            if (hmon) {
+            जर (hmon) {
                 UINT hdpi_uint, vdpi_uint;
-                if (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-                    const float scale = (float)hdpi_uint / (float)USER_DEFAULT_SCREEN_DPI;
-                    if (scale != SDL_floorf(scale)) {
-                        if (target.left < target.right) {
-                            target.left += 1;
+                जर (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+                    स्थिरांक दशांश scale = (दशांश)hdpi_uint / (दशांश)USER_DEFAULT_SCREEN_DPI;
+                    जर (scale != SDL_floorf(scale)) {
+                        जर (target.डावा < target.उजवा) {
+                            target.डावा += 1;
                         }
-                        if (target.right > target.left) {
-                            target.right -= 1;
+                        जर (target.उजवा > target.डावा) {
+                            target.उजवा -= 1;
                         }
-                        if (target.top < target.bottom) {
-                            target.top += 1;
+                        जर (target.शीर्ष < target.bottom) {
+                            target.शीर्ष += 1;
                         }
-                        if (target.bottom > target.top) {
+                        जर (target.bottom > target.शीर्ष) {
                             target.bottom -= 1;
                         }
                     }
@@ -1662,8 +1662,8 @@ void WIN_UpdateClipCursor(SDL_Window *window)
         }
     }
 
-    if (GetClipCursor(&client) &&
-        0 != SDL_memcmp(&target, &client, sizeof(client)) &&
+    जर (GetClipCursor(&client) &&
+        0 != SDL_memcmp(&target, &client, आकार(client)) &&
         ClipCursor(&target)) {
         data->cursor_clipped_rect = target; // ClipCursor may fail if rect beyond screen
     }
@@ -1671,193 +1671,193 @@ void WIN_UpdateClipCursor(SDL_Window *window)
 
 bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    परत true; // just succeed, the real work is done elsewhere.
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, दशांश opacity)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    return false;
-#else
-    const SDL_WindowData *data = window->internal;
+#जर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    परत false;
+#अन्यथा
+    स्थिरांक SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
-    const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+    स्थिरांक LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
 
-    if (opacity == 1.0f) {
+    जर (opacity == 1.0f) {
         // want it fully opaque, just mark it unlayered if necessary.
-        if (style & WS_EX_LAYERED) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        जर (style & WS_EX_LAYERED) {
+            जर (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
+                परत WIN_SetError("SetWindowLong()");
             }
         }
-    } else {
-        const BYTE alpha = (BYTE)((int)(opacity * 255.0f));
+    } अन्यथा {
+        स्थिरांक BYTE alpha = (BYTE)((पूर्णांक)(opacity * 255.0f));
         // want it transparent, mark it layered if necessary.
-        if (!(style & WS_EX_LAYERED)) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        जर (!(style & WS_EX_LAYERED)) {
+            जर (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
+                परत WIN_SetError("SetWindowLong()");
             }
         }
 
-        if (SetLayeredWindowAttributes(hwnd, 0, alpha, LWA_ALPHA) == 0) {
-            return WIN_SetError("SetLayeredWindowAttributes()");
+        जर (SetLayeredWindowAttributes(hwnd, 0, alpha, LWA_ALPHA) == 0) {
+            परत WIN_SetError("SetLayeredWindowAttributes()");
         }
     }
 
-    return true;
+    परत true;
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static const char *SDLGetClipboardFormatName(UINT cf, char *text, int len)
+स्थिर स्थिरांक अक्षर *SDLGetClipboardFormatName(UINT cf, अक्षर *text, पूर्णांक len)
 {
-    switch (cf) {
-    case CF_TEXT:
-        return "CF_TEXT";
-    case CF_BITMAP:
-        return "CF_BITMAP";
-    case CF_METAFILEPICT:
-        return "CF_METAFILEPICT";
-    case CF_SYLK:
-        return "CF_SYLK";
-    case CF_DIF:
-        return "CF_DIF";
-    case CF_TIFF:
-        return "CF_TIFF";
-    case CF_OEMTEXT:
-        return "CF_OEMTEXT";
-    case CF_DIB:
-        return "CF_DIB";
-    case CF_PALETTE:
-        return "CF_PALETTE";
-    case CF_PENDATA:
-        return "CF_PENDATA";
-    case CF_RIFF:
-        return "CF_RIFF";
-    case CF_WAVE:
-        return "CF_WAVE";
-    case CF_UNICODETEXT:
-        return "CF_UNICODETEXT";
-    case CF_ENHMETAFILE:
-        return "CF_ENHMETAFILE";
-    case CF_HDROP:
-        return "CF_HDROP";
-    case CF_LOCALE:
-        return "CF_LOCALE";
-    case CF_DIBV5:
-        return "CF_DIBV5";
-    case CF_OWNERDISPLAY:
-        return "CF_OWNERDISPLAY";
-    case CF_DSPTEXT:
-        return "CF_DSPTEXT";
-    case CF_DSPBITMAP:
-        return "CF_DSPBITMAP";
-    case CF_DSPMETAFILEPICT:
-        return "CF_DSPMETAFILEPICT";
-    case CF_DSPENHMETAFILE:
-        return "CF_DSPENHMETAFILE";
-    default:
-        if (GetClipboardFormatNameA(cf, text, len)) {
-            return text;
-        } else {
-            return NULL;
+    निवड (cf) {
+    स्थिती CF_TEXT:
+        परत "CF_TEXT";
+    स्थिती CF_BITMAP:
+        परत "CF_BITMAP";
+    स्थिती CF_METAFILEPICT:
+        परत "CF_METAFILEPICT";
+    स्थिती CF_SYLK:
+        परत "CF_SYLK";
+    स्थिती CF_DIF:
+        परत "CF_DIF";
+    स्थिती CF_TIFF:
+        परत "CF_TIFF";
+    स्थिती CF_OEMTEXT:
+        परत "CF_OEMTEXT";
+    स्थिती CF_DIB:
+        परत "CF_DIB";
+    स्थिती CF_PALETTE:
+        परत "CF_PALETTE";
+    स्थिती CF_PENDATA:
+        परत "CF_PENDATA";
+    स्थिती CF_RIFF:
+        परत "CF_RIFF";
+    स्थिती CF_WAVE:
+        परत "CF_WAVE";
+    स्थिती CF_UNICODETEXT:
+        परत "CF_UNICODETEXT";
+    स्थिती CF_ENHMETAFILE:
+        परत "CF_ENHMETAFILE";
+    स्थिती CF_HDROP:
+        परत "CF_HDROP";
+    स्थिती CF_LOCALE:
+        परत "CF_LOCALE";
+    स्थिती CF_DIBV5:
+        परत "CF_DIBV5";
+    स्थिती CF_OWNERDISPLAY:
+        परत "CF_OWNERDISPLAY";
+    स्थिती CF_DSPTEXT:
+        परत "CF_DSPTEXT";
+    स्थिती CF_DSPBITMAP:
+        परत "CF_DSPBITMAP";
+    स्थिती CF_DSPMETAFILEPICT:
+        परत "CF_DSPMETAFILEPICT";
+    स्थिती CF_DSPENHMETAFILE:
+        परत "CF_DSPENHMETAFILE";
+    पूर्वनिर्धारित:
+        जर (GetClipboardFormatNameA(cf, text, len)) {
+            परत text;
+        } अन्यथा {
+            परत रिक्त;
         }
     }
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_AddRef(SDLDropTarget *target)
+स्थिर STDMETHODIMP_(ULONG) SDLDropTarget_AddRef(SDLDropTarget *target)
 {
-    return ++target->refcount;
+    परत ++target->refcount;
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_Release(SDLDropTarget *target)
+स्थिर STDMETHODIMP_(ULONG) SDLDropTarget_Release(SDLDropTarget *target)
 {
     --target->refcount;
-    if (target->refcount == 0) {
+    जर (target->refcount == 0) {
         SDL_free(target);
-        return 0;
+        परत 0;
     }
-    return target->refcount;
+    परत target->refcount;
 }
 
-static STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID riid, PVOID *ppv)
+स्थिर STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID riid, PVOID *ppv)
 {
-    if (ppv == NULL) {
-        return E_INVALIDARG;
+    जर (ppv == रिक्त) {
+        परत E_INVALIDARG;
     }
 
-    *ppv = NULL;
-    if (WIN_IsEqualIID(riid, &IID_IUnknown) ||
+    *ppv = रिक्त;
+    जर (WIN_IsEqualIID(riid, &IID_IUnknown) ||
         WIN_IsEqualIID(riid, &IID_IDropTarget)) {
-        *ppv = (void *)target;
+        *ppv = (शून्य *)target;
     }
-    if (*ppv) {
+    जर (*ppv) {
         SDLDropTarget_AddRef(target);
-        return S_OK;
+        परत S_OK;
     }
-    return E_NOINTERFACE;
+    परत E_NOINTERFACE;
 }
 
-static STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
-                                            IDataObject *pDataObject, DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
+                                            IDataObject *pDataObject, DWORD grf_किल्ली_State,
                                             POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                  ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    जर (ScreenToClient(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    परत S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
-                                           DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
+                                           DWORD grf_किल्ली_State,
                                            POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                  ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    जर (ScreenToClient(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    परत S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
+स्थिर STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                  ". In DragLeave");
     SDL_SendDropComplete(target->window);
-    return S_OK;
+    परत S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
-                                       IDataObject *pDataObject, DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
+                                       IDataObject *pDataObject, DWORD grf_किल्ली_State,
                                        POINTL pt, DWORD *pdwEffect)
 {
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    जर (ScreenToClient(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
 
@@ -1865,18 +1865,18 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         IEnumFORMATETC *pEnumFormatEtc;
         HRESULT hres;
         hres = pDataObject->lpVtbl->EnumFormatEtc(pDataObject, DATADIR_GET, &pEnumFormatEtc);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In Drop for EnumFormatEtc, HRESULT is %08" SDL_PRIxSLONG, hres);
-        if (hres == S_OK) {
+        जर (hres == S_OK) {
             FORMATETC fetc;
-            while (pEnumFormatEtc->lpVtbl->Next(pEnumFormatEtc, 1, &fetc, NULL) == S_OK) {
-                char name[257] = { 0 };
-                const char *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
-                if (cfnm) {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            पर्यंत (pEnumFormatEtc->lpVtbl->Next(pEnumFormatEtc, 1, &fetc, रिक्त) == S_OK) {
+                अक्षर name[257] = { 0 };
+                स्थिरांक अक्षर *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
+                जर (cfnm) {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                  ". In Drop, Supported format is %08x, '%s'", fetc.cfFormat, cfnm);
-                } else {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                } अन्यथा {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                  ". In Drop, Supported format is %08x, Predefined", fetc.cfFormat);
                 }
             }
@@ -1886,47 +1886,47 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = target->format_file;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/uri-list";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        स्थिरांक अक्षर *format_mime = "text/uri-list";
+        जर (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            जर (SUCCEEDED(hres)) {
+                स्थिरांक माप_प्रकार bsize = GlobalSize(med.hGlobal);
+                स्थिरांक शून्य *buffer = (शून्य *)GlobalLock(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
+                             fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)bsize, buffer);
+                जर (buffer) {
+                    अक्षर *text = (अक्षर *)SDL_malloc(bsize + आकार(Uint32));
                     SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        if (SDL_URIToLocal(token, token) >= 0) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                    SDL_memset((Uint8 *)text + bsize, 0, आकार(Uint32));
+                    अक्षर *saveptr = रिक्त;
+                    अक्षर *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    पर्यंत (token != रिक्त) {
+                        जर (SDL_URIToLocal(token, token) >= 0) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                            SDL_SendDropFile(target->window, NULL, token);
+                                         (अचिन्हित दीर्घ)SDL_strlen(token), (अचिन्हित दीर्घ)bsize, token);
+                            SDL_SendDropFile(target->window, रिक्त, token);
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
                 SDL_SendDropComplete(target->window);
-                return S_OK;
+                परत S_OK;
             }
         }
     }
@@ -1934,45 +1934,45 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = target->format_text;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/plain;charset=utf-8";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        स्थिरांक अक्षर *format_mime = "text/plain;charset=utf-8";
+        जर (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            जर (SUCCEEDED(hres)) {
+                स्थिरांक माप_प्रकार bsize = GlobalSize(med.hGlobal);
+                स्थिरांक शून्य *buffer = (शून्य *)GlobalLock(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
+                             fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)bsize, buffer);
+                जर (buffer) {
+                    अक्षर *text = (अक्षर *)SDL_malloc(bsize + आकार(Uint32));
                     SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                    SDL_memset((Uint8 *)text + bsize, 0, आकार(Uint32));
+                    अक्षर *saveptr = रिक्त;
+                    अक्षर *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    पर्यंत (token != रिक्त) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (अचिन्हित दीर्घ)SDL_strlen(token), (अचिन्हित दीर्घ)bsize, token);
+                        SDL_SendDropText(target->window, (अक्षर *)token);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
                 SDL_SendDropComplete(target->window);
-                return S_OK;
+                परत S_OK;
             }
         }
     }
@@ -1980,53 +1980,53 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_UNICODETEXT;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_UNICODETEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        स्थिरांक अक्षर *format_mime = "CF_UNICODETEXT";
+        जर (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            जर (SUCCEEDED(hres)) {
+                स्थिरांक माप_प्रकार bsize = GlobalSize(med.hGlobal);
+                स्थिरांक शून्य *buffer = (शून्य *)GlobalLock(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    buffer = WIN_StringToUTF8W((const wchar_t *)buffer);
-                    if (buffer) {
-                        const size_t lbuffer = SDL_strlen((const char *)buffer);
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)bsize, buffer);
+                जर (buffer) {
+                    buffer = WIN_StringToUTF8W((स्थिरांक ब_अक्षर_प्रकार *)buffer);
+                    जर (buffer) {
+                        स्थिरांक माप_प्रकार lbuffer = SDL_strlen((स्थिरांक अक्षर *)buffer);
+                        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                      ". In Drop Text for StringToUTF8, format %08x '%s', memory (%lu) %p",
-                                     fetc.cfFormat, format_mime, (unsigned long)lbuffer, buffer);
-                        char *text = (char *)SDL_malloc(lbuffer + sizeof(Uint32));
+                                     fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)lbuffer, buffer);
+                        अक्षर *text = (अक्षर *)SDL_malloc(lbuffer + आकार(Uint32));
                         SDL_memcpy((Uint8 *)text, buffer, lbuffer);
-                        SDL_memset((Uint8 *)text + lbuffer, 0, sizeof(Uint32));
-                        char *saveptr = NULL;
-                        char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                        while (token != NULL) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                        SDL_memset((Uint8 *)text + lbuffer, 0, आकार(Uint32));
+                        अक्षर *saveptr = रिक्त;
+                        अक्षर *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                        पर्यंत (token != रिक्त) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                          ". In Drop Text, text (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)lbuffer, token);
-                            SDL_SendDropText(target->window, (char *)token);
-                            token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                         (अचिन्हित दीर्घ)SDL_strlen(token), (अचिन्हित दीर्घ)lbuffer, token);
+                            SDL_SendDropText(target->window, (अक्षर *)token);
+                            token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                         }
                         SDL_free(text);
-                        SDL_free((void *)buffer);
+                        SDL_free((शून्य *)buffer);
                     }
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
                 SDL_SendDropComplete(target->window);
-                return S_OK;
+                परत S_OK;
             }
         }
     }
@@ -2034,45 +2034,45 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_TEXT;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_TEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        स्थिरांक अक्षर *format_mime = "CF_TEXT";
+        जर (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            जर (SUCCEEDED(hres)) {
+                स्थिरांक माप_प्रकार bsize = GlobalSize(med.hGlobal);
+                स्थिरांक शून्य *buffer = (शून्य *)GlobalLock(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
+                             fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)bsize, buffer);
+                जर (buffer) {
+                    अक्षर *text = (अक्षर *)SDL_malloc(bsize + आकार(Uint32));
                     SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                    SDL_memset((Uint8 *)text + bsize, 0, आकार(Uint32));
+                    अक्षर *saveptr = रिक्त;
+                    अक्षर *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    पर्यंत (token != रिक्त) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (अचिन्हित दीर्घ)SDL_strlen(token), (अचिन्हित दीर्घ)bsize, token);
+                        SDL_SendDropText(target->window, (अक्षर *)token);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
                 SDL_SendDropComplete(target->window);
-                return S_OK;
+                परत S_OK;
             }
         }
     }
@@ -2080,37 +2080,37 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_HDROP;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_HDROP";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        स्थिरांक अक्षर *format_mime = "CF_HDROP";
+        जर (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
+            जर (SUCCEEDED(hres)) {
+                स्थिरांक माप_प्रकार bsize = GlobalSize(med.hGlobal);
                 HDROP drop = (HDROP)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, drop);
-                UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-                for (UINT i = 0; i < count; ++i) {
-                    UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
-                    LPTSTR buffer = (LPTSTR)SDL_malloc(size * sizeof(TCHAR));
-                    if (buffer) {
-                        if (DragQueryFile(drop, i, buffer, size)) {
-                            char *file = WIN_StringToUTF8(buffer);
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिन्हित दीर्घ)bsize, drop);
+                UINT मोजणी = DragQueryFile(drop, 0xFFFFFFFF, रिक्त, 0);
+                साठी (UINT i = 0; i < मोजणी; ++i) {
+                    UINT size = DragQueryFile(drop, i, रिक्त, 0) + 1;
+                    LPTSTR buffer = (LPTSTR)SDL_malloc(size * आकार(TCHAR));
+                    जर (buffer) {
+                        जर (DragQueryFile(drop, i, buffer, size)) {
+                            अक्षर *file = WIN_StringToUTF8(buffer);
+                            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(file), (unsigned long)bsize, file);
-                            SDL_SendDropFile(target->window, NULL, file);
+                                         (अचिन्हित दीर्घ)SDL_strlen(file), (अचिन्हित दीर्घ)bsize, file);
+                            SDL_SendDropFile(target->window, रिक्त, file);
                             SDL_free(file);
                         }
                         SDL_free(buffer);
@@ -2119,32 +2119,32 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
                 SDL_SendDropComplete(target->window);
-                return S_OK;
+                परत S_OK;
             }
         }
     }
 
     SDL_SendDropComplete(target->window);
-    return S_OK;
+    परत S_OK;
 }
 
-static void *vtDropTarget[] = {
-    (void *)(SDLDropTarget_QueryInterface),
-    (void *)(SDLDropTarget_AddRef),
-    (void *)(SDLDropTarget_Release),
-    (void *)(SDLDropTarget_DragEnter),
-    (void *)(SDLDropTarget_DragOver),
-    (void *)(SDLDropTarget_DragLeave),
-    (void *)(SDLDropTarget_Drop)
+स्थिर शून्य *vtDropTarget[] = {
+    (शून्य *)(SDLDropTarget_QueryInterface),
+    (शून्य *)(SDLDropTarget_AddRef),
+    (शून्य *)(SDLDropTarget_Release),
+    (शून्य *)(SDLDropTarget_DragEnter),
+    (शून्य *)(SDLDropTarget_DragOver),
+    (शून्य *)(SDLDropTarget_DragLeave),
+    (शून्य *)(SDLDropTarget_Drop)
 };
 
-void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
+शून्य WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
 {
     SDL_WindowData *data = window->internal;
-    if (data->videodata->oleinitialized) {
-        if (accept && !data->drop_target) {
-            SDLDropTarget *drop_target = (SDLDropTarget *)SDL_calloc(1, sizeof(SDLDropTarget));
-            if (drop_target != NULL) {
+    जर (data->videodata->oleinitialized) {
+        जर (accept && !data->drop_target) {
+            SDLDropTarget *drop_target = (SDLDropTarget *)SDL_calloc(1, आकार(SDLDropTarget));
+            जर (drop_target != रिक्त) {
                 drop_target->lpVtbl = vtDropTarget;
                 drop_target->window = window;
                 drop_target->hwnd = data->hwnd;
@@ -2153,21 +2153,21 @@ void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
                 data->drop_target = drop_target;
                 SDLDropTarget_AddRef(drop_target);
                 RegisterDragDrop(data->hwnd, (LPDROPTARGET)drop_target);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                              ". In Accept Drag and Drop, window %u, enabled Full OLE IDropTarget",
                              window->id);
             }
-        } else if (!accept && data->drop_target) {
+        } अन्यथा जर (!accept && data->drop_target) {
             RevokeDragDrop(data->hwnd);
             SDLDropTarget_Release(data->drop_target);
-            data->drop_target = NULL;
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            data->drop_target = रिक्त;
+            SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                          ". In Accept Drag and Drop, window %u, disabled Full OLE IDropTarget",
                          window->id);
         }
-    } else {
+    } अन्यथा {
         DragAcceptFiles(data->hwnd, accept ? TRUE : FALSE);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_आदान,
                      ". In Accept Drag and Drop, window %u, %s Fallback WM_DROPFILES",
                      window->id, (accept ? "enabled" : "disabled"));
     }
@@ -2178,84 +2178,84 @@ bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperat
     FLASHWINFO desc;
 
     SDL_zero(desc);
-    desc.cbSize = sizeof(desc);
+    desc.cbSize = आकार(desc);
     desc.hwnd = window->internal->hwnd;
-    switch (operation) {
-    case SDL_FLASH_CANCEL:
+    निवड (operation) {
+    स्थिती SDL_FLASH_CANCEL:
         desc.dwFlags = FLASHW_STOP;
-        break;
-    case SDL_FLASH_BRIEFLY:
+        थांबा;
+    स्थिती SDL_FLASH_BRIEFLY:
         desc.dwFlags = FLASHW_TRAY;
-        desc.uCount = 1;
-        break;
-    case SDL_FLASH_UNTIL_FOCUSED:
+        desc.u_मोजणी = 1;
+        थांबा;
+    स्थिती SDL_FLASH_UNTIL_FOCUSED:
         desc.dwFlags = (FLASHW_TRAY | FLASHW_TIMERNOFG);
-        break;
-    default:
-        return SDL_Unsupported();
+        थांबा;
+    पूर्वनिर्धारित:
+        परत SDL_Unsupported();
     }
 
     FlashWindowEx(&desc);
 
-    return true;
+    परत true;
 }
 
 bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_WindowData *data = window->internal;
-    if (!data->taskbar_button_created) {
-        return true;
+    जर (!data->taskbar_button_created) {
+        परत true;
     }
 
-    if (window->progress_state == SDL_PROGRESS_STATE_NONE && !data->videodata->taskbar_list) {
-        return true;
+    जर (window->progress_state == SDL_PROGRESS_STATE_NONE && !data->videodata->taskbar_list) {
+        परत true;
     }
 
     ITaskbarList3 *taskbar_list = GetTaskbarList(window);
-    if (!taskbar_list) {
-        return false;
+    जर (!taskbar_list) {
+        परत false;
     }
 
     TBPFLAG tbpFlags;
-    switch (window->progress_state) {
-    case SDL_PROGRESS_STATE_NONE:
+    निवड (window->progress_state) {
+    स्थिती SDL_PROGRESS_STATE_NONE:
         tbpFlags = TBPF_NOPROGRESS;
-        break;
-    case SDL_PROGRESS_STATE_INDETERMINATE:
+        थांबा;
+    स्थिती SDL_PROGRESS_STATE_INDETERMINATE:
         tbpFlags = TBPF_INDETERMINATE;
-        break;
-    case SDL_PROGRESS_STATE_NORMAL:
+        थांबा;
+    स्थिती SDL_PROGRESS_STATE_NORMAL:
         tbpFlags = TBPF_NORMAL;
-        break;
-    case SDL_PROGRESS_STATE_PAUSED:
+        थांबा;
+    स्थिती SDL_PROGRESS_STATE_PAUSED:
         tbpFlags = TBPF_PAUSED;
-        break;
-    case SDL_PROGRESS_STATE_ERROR:
+        थांबा;
+    स्थिती SDL_PROGRESS_STATE_ERROR:
         tbpFlags = TBPF_ERROR;
-        break;
-    default:
-        return SDL_SetError("Parameter 'state' is not supported");
+        थांबा;
+    पूर्वनिर्धारित:
+        परत SDL_SetError("Parameter 'state' is not supported");
     }
 
     HRESULT ret = taskbar_list->lpVtbl->SetProgressState(taskbar_list, data->hwnd, tbpFlags);
-    if (FAILED(ret)) {
-        return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressState()", ret);
+    जर (FAILED(ret)) {
+        परत WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressState()", ret);
     }
 
-    if (window->progress_state >= SDL_PROGRESS_STATE_NORMAL) {
-        ret = taskbar_list->lpVtbl->SetProgressValue(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_value * 10000.f), 10000);
-        if (FAILED(ret)) {
-            return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressValue()", ret);
+    जर (window->progress_state >= SDL_PROGRESS_STATE_NORMAL) {
+        ret = taskbar_list->lpVtbl->Set_Progress_मूल्य(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_मूल्य * 10000.f), 10000);
+        जर (FAILED(ret)) {
+            परत WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressValue()", ret);
         }
     }
 #endif
-    return true;
+    परत true;
 }
 
-void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+शून्य WIN_ShowWindowSystemMenu(SDL_Window *window, पूर्णांक x, पूर्णांक y)
 {
-    const SDL_WindowData *data = window->internal;
+    स्थिरांक SDL_WindowData *data = window->internal;
     POINT pt;
 
     pt.x = x;
@@ -2266,83 +2266,83 @@ void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
 
 bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
+    जर (!SDL_WINDOW_IS_POPUP(window)) {
         SDL_WindowData *data = window->internal;
         HWND hwnd = data->hwnd;
-        const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+        स्थिरांक LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
 
         SDL_assert(style != 0);
 
-        if (focusable) {
-            if (style & WS_EX_NOACTIVATE) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        जर (focusable) {
+            जर (style & WS_EX_NOACTIVATE) {
+                जर (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
+                    परत WIN_SetError("SetWindowLong()");
                 }
             }
-        } else {
-            if (!(style & WS_EX_NOACTIVATE)) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        } अन्यथा {
+            जर (!(style & WS_EX_NOACTIVATE)) {
+                जर (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
+                    परत WIN_SetError("SetWindowLong()");
                 }
             }
         }
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+    } अन्यथा जर (window->flags & SDL_WINDOW_POPUP_MENU) {
+        जर (!(window->flags & SDL_WINDOW_HIDDEN)) {
+            जर (!focusable && (window->flags & SDL_WINDOW_आदान_FOCUS)) {
                 SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
+                स्थिरांक bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
                 WIN_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
+            } अन्यथा जर (focusable) {
+                जर (SDL_ShouldFocusPopup(window)) {
                     WIN_SetKeyboardFocus(window, true);
                 }
             }
         }
 
-        return true;
+        परत true;
     }
 
-    return true;
+    परत true;
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_WindowData *child_data = window->internal;
-    const LONG_PTR parent_hwnd = (LONG_PTR)(parent ? parent->internal->hwnd : NULL);
-    const DWORD style = GetWindowLong(child_data->hwnd, GWL_STYLE);
+    स्थिरांक LONG_PTR parent_hwnd = (LONG_PTR)(parent ? parent->internal->hwnd : रिक्त);
+    स्थिरांक DWORD style = GetWindowLong(child_data->hwnd, GWL_STYLE);
 
-    if (!(style & WS_CHILD)) {
+    जर (!(style & WS_CHILD)) {
         /* Despite the name, this changes the *owner* of a toplevel window, not
          * the parent of a child window.
          *
          * https://devblogs.microsoft.com/oldnewthing/20100315-00/?p=14613
          */
         SetWindowLongPtr(child_data->hwnd, GWLP_HWNDPARENT, parent_hwnd);
-    } else {
+    } अन्यथा {
         SetParent(child_data->hwnd, (HWND)parent_hwnd);
     }
 #endif /*!defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)*/
 
-    return true;
+    परत true;
 }
 
 bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    const HWND parent_hwnd = window->parent->internal->hwnd;
+#जर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    स्थिरांक HWND parent_hwnd = window->parent->internal->hwnd;
 
-    if (modal) {
+    जर (modal) {
         // Disable the parent window.
         EnableWindow(parent_hwnd, FALSE);
-    } else if (!(window->flags & SDL_WINDOW_HIDDEN)) {
+    } अन्यथा जर (!(window->flags & SDL_WINDOW_HIDDEN)) {
         // Re-enable the parent window
         EnableWindow(parent_hwnd, TRUE);
     }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    परत true;
 }
 
 #endif // SDL_VIDEO_DRIVER_WINDOWS

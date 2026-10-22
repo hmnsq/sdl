@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
@@ -30,48 +30,48 @@
  * for automated testing.
  */
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
-#include "SDL_offscreenframebuffer_c.h"
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvulkan.h"
-#include "SDL_offscreenwindow.h"
+#अन्तर्भाव "SDL_offscreenvideo.h"
+#अन्तर्भाव "SDL_offscreenevents_c.h"
+#अन्तर्भाव "SDL_offscreenframebuffer_c.h"
+#अन्तर्भाव "SDL_offscreenopengles.h"
+#अन्तर्भाव "SDL_offscreenvulkan.h"
+#अन्तर्भाव "SDL_offscreenwindow.h"
 
 #define OFFSCREENVID_DRIVER_NAME "offscreen"
 
 // Initialization/Query functions
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
+स्थिर bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
+स्थिर bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+स्थिर शून्य OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
 
 // OFFSCREEN driver bootstrap functions
 
-static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
+स्थिर शून्य OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static bool OFFSCREEN_Available(const char *drivername)
+स्थिर bool OFFSCREEN_Available(स्थिरांक अक्षर *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    स्थिरांक अक्षर *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    जर (hint && SDL_strstr(hint, drivername) != रिक्त) {
+        परत true;
     }
-    return false;
+    परत false;
 }
 
-static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
+स्थिर SDL_VideoDevice *OFFSCREEN_CreateDevice(शून्य)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    जर (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
+        परत रिक्त;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, आकार(SDL_VideoDevice));
+    जर (!device) {
+        परत रिक्त;
     }
 
     // General video
@@ -82,7 +82,7 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     device->CreateWindowFramebuffer = SDL_OFFSCREEN_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = SDL_OFFSCREEN_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_OFFSCREEN_DestroyWindowFramebuffer;
-    device->free = OFFSCREEN_DeleteDevice;
+    device->मुक्त = OFFSCREEN_DeleteDevice;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
     // GL context
@@ -113,17 +113,17 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    परत device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
     OFFSCREENVID_DRIVER_NAME, "SDL offscreen video driver",
     OFFSCREEN_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    रिक्त, // no ShowMessageBox implementation
     false
 };
 
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
+स्थिर bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
 
@@ -132,20 +132,20 @@ static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    जर (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        परत false;
     }
 
     // We're done!
-    return true;
+    परत true;
 }
 
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+स्थिर bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    परत true;
 }
 
-void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
+शून्य OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 

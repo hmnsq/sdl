@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_x11events_h_
 #define SDL_x11events_h_
 
-extern void X11_PumpEvents(SDL_VideoDevice *_this);
-extern int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
-extern void X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern void X11_ReconcileKeyboardState(SDL_VideoDevice *_this);
-extern void X11_GetBorderValues(SDL_WindowData *data);
-extern Uint64 X11_GetEventTimestamp(unsigned long time);
-extern void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent);
-extern void X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, float x, float y, unsigned long time, unsigned long serial);
-extern void X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, unsigned long time);
-extern SDL_WindowData *X11_FindWindow(SDL_VideoData *videodata, Window window);
-extern bool X11_ProcessHitTest(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y, bool force_new_result);
-extern bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y);
-extern bool X11_IsWheelEvent(int button, int *xticks, int *yticks);
+बाह्य शून्य X11_PumpEvents(SDL_VideoDevice *_this);
+बाह्य पूर्णांक X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+बाह्य शून्य X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool X11_SuspendScreenSaver(SDL_VideoDevice *_this);
+बाह्य शून्य X11_ReconcileKeyboardState(SDL_VideoDevice *_this);
+बाह्य शून्य X11_Get_Border_मूल्ये(SDL_WindowData *data);
+बाह्य Uint64 X11_GetEventTimestamp(अचिन्हित दीर्घ समय);
+बाह्य शून्य X11_Handle_किल्ली_Event(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent);
+बाह्य शून्य X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, पूर्णांक button, दशांश x, दशांश y, अचिन्हित दीर्घ समय, अचिन्हित दीर्घ serial);
+बाह्य शून्य X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, पूर्णांक button, अचिन्हित दीर्घ समय);
+बाह्य SDL_WindowData *X11_FindWindow(SDL_VideoData *videodata, Window window);
+बाह्य bool X11_ProcessHitTest(SDL_VideoDevice *_this, SDL_WindowData *data, स्थिरांक दशांश x, स्थिरांक दशांश y, bool force_new_result);
+बाह्य bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, स्थिरांक दशांश x, स्थिरांक दशांश y);
+बाह्य bool X11_IsWheelEvent(पूर्णांक button, पूर्णांक *xticks, पूर्णांक *yticks);
 
 #endif // SDL_x11events_h_

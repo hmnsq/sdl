@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_A.h"
-#include <assert.h>
+#अन्तर्भाव "SDL_sve2_blit_A.h"
+#अन्तर्भाव <assert.h>
 
 #ifdef SDL_SVE2_INTRINSICS
 
 #undef sdl_sve_rgb32_blend_op_fill_alpha
 #define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+    जर (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
         /* fill alpha */                                                 \
         sve_target_u16 = svdup_u16(0xFF);                                \
-    } else {                                                             \
+    } अन्यथा {                                                             \
         svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
         sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
                                                      sve_target_u16,     \
@@ -38,12 +38,12 @@
 
 #undef sdl_sve_rgb32_blend_op_copy_alpha
 #define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+    जर (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
         svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
         sve_target_u16 = sdl_sve_chn_blend_with_mask(svdup_u16(0xFF),    \
                                                      sve_target_u16,     \
                                                      vMask);             \
-    } else {                                                             \
+    } अन्यथा {                                                             \
         svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
         sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
                                                      sve_target_u16,     \
@@ -52,38 +52,38 @@
 
 #undef sdl_sve_rgb32_blend_to_rgb565_op
 #define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx)                \
-    do {                                                                  \
+    करा {                                                                  \
         svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx));  \
         sve_target_u16 = sdl_sve_chn_blend_with_mask_fast(sve_source_u16, \
                                                           sve_target_u16, \
                                                           vMask);         \
-    } while (0)
+    } पर्यंत (0)
 
-#include "SDL_sve2_swizzle.h"
+#अन्तर्भाव "SDL_sve2_swizzle.h"
 
 /*-----------------------------------------------------------------------------*
  * Swizzle Blend with Alpha                                                    *
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+शून्य Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    assert(0 != srcfmt->Amask);
-    (void)srcfmt;
+    स्थिरांक SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    प्रतिज्ञा(0 != srcfmt->Amask);
+    (शून्य)srcfmt;
 
     sdl_sve_8888_to_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+शून्य Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
     sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-size_t SDL_GetSVEVectorSize(void)
+माप_प्रकार SDL_GetSVEVectorSize(शून्य)
 {
-    return svlen(svundef_u8()) * 8;
+    परत svlen(svundef_u8()) * 8;
 }
 
 /*-----------------------------------------------------------------------------*
@@ -91,9 +91,9 @@ size_t SDL_GetSVEVectorSize(void)
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phwSource,
+स्थिर ओळीत शून्य sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phwSource,
                                                             uint16_t *SDL_RESTRICT phwTarget,
-                                                            size_t uStride,
+                                                            माप_प्रकार uStride,
                                                             uint16_t hwOpacity)
 {
     sdl_sve_stride_loop_u16(uStride, vTailPred)
@@ -124,19 +124,19 @@ static inline void sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRI
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pchSource,
-                                                     size_t uSourceStride,
+स्थिर ओळीत शून्य sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pchSource,
+                                                     माप_प्रकार uSourceStride,
                                                      uint8_t *SDL_RESTRICT pchTarget,
-                                                     size_t uTargetStride,
-                                                     int nWidth,
-                                                     int nHeight,
+                                                     माप_प्रकार uTargetStride,
+                                                     पूर्णांक nWidth,
+                                                     पूर्णांक nHeight,
                                                      uint16_t hwOpacity)
 {
     hwOpacity += hwOpacity == 255;
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    प्रतिज्ञा(0 == ((uintptr_t)pchSource & 0x01));
+    प्रतिज्ञा(0 == ((uintptr_t)pchTarget & 0x01));
 
-    while (nHeight--) {
+    पर्यंत (nHeight--) {
 
         sdl_sve_rgb565_stride_blend_with_opacity((uint16_t *)pchSource,
                                                  (uint16_t *)pchTarget,
@@ -150,29 +150,29 @@ static inline void sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pchSo
 
 // fast RGB565->RGB565 blending with surface alpha
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
+शून्य Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
 {
     uint16_t alpha = info->a;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    पूर्णांक srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    पूर्णांक dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    स्थिरांक SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    स्थिरांक SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    पूर्णांक srcbpp = srcfmt->bytes_per_pixel;
+    पूर्णांक dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    प्रतिज्ञा(srcbpp == 2);
+    प्रतिज्ञा(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    पूर्णांक srcstride = srcskip + srcbpp * width;
+    पूर्णांक dststride = dstskip + dstbpp * width;
 
     sdl_sve_rgb565_blend_with_opacity(src,
                                       srcstride,

@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_androidvideo_h_
 #define SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+बाह्य शून्य Android_SetScreenResolution(पूर्णांक surfaceWidth, पूर्णांक surfaceHeight, पूर्णांक deviceWidth, पूर्णांक deviceHeight, दशांश density, दशांश rate);
+बाह्य शून्य Android_SetScreenHDRHeadroom(दशांश headroom);
+बाह्य शून्य Android_SetFormat(पूर्णांक format_wanted, पूर्णांक format_got);
+बाह्य शून्य Android_SetOrientation(SDL_DisplayOrientation orientation);
+बाह्य शून्य Android_SendResize(SDL_Window *window);
+बाह्य शून्य Android_SetWindowSafeAreaInsets(पूर्णांक डावा, पूर्णांक उजवा, पूर्णांक शीर्ष, पूर्णांक bottom);
+बाह्य शून्य Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+संरचना SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    पूर्णांक isPaused;
+    पूर्णांक isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+बाह्य पूर्णांक Android_SurfaceWidth;
+बाह्य पूर्णांक Android_SurfaceHeight;
+बाह्य दशांश Android_ScreenDensity;
+बाह्य पूर्णांक Android_Safe_Inset_डावा;
+बाह्य पूर्णांक Android_Safe_Inset_उजवा;
+बाह्य पूर्णांक Android_Safe_Inset_शीर्ष;
+बाह्य पूर्णांक Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_
