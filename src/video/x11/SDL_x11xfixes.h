@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_x11xfixes_h_
 #define SDL_x11xfixes_h_
@@ -28,12 +28,12 @@
 
 #define X11_BARRIER_HANDLED_BY_EVENT 1
 
-extern void X11_InitXfixes(SDL_VideoDevice *_this);
-extern bool X11_XfixesIsInitialized(void);
-extern bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags);
-extern void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
-extern int X11_GetXFixesSelectionNotifyEvent(void);
+خارجي فراغ X11_InitXfixes(SDL_VideoDevice *_this);
+خارجي bool X11_XfixesIsInitialized(فراغ);
+خارجي bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, ثابت SDL_Rect *rect, صحيح flags);
+خارجي فراغ X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي صحيح X11_GetXFixesSelectionNotifyEvent(فراغ);
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
 
 #endif // SDL_x11xfixes_h_

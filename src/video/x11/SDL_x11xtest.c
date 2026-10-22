@@ -19,65 +19,65 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#إذا defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+ساكن bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+فراغ X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#إذا 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    صحيح event, error;
+    صحيح opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    إذا (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        أرجع;
     }
 
     xtest_initialized = true;
 #endif
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(فراغ)
 {
-    return xtest_initialized;
+    أرجع xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, عائم x, عائم y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    إذا (!X11_XTestIsInitialized()) {
+        أرجع false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    إذا (!displaydata) {
+        أرجع false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    صحيح motion_x = (صحيح)SDL_roundf(x);
+    صحيح motion_y = (صحيح)SDL_roundf(y);
+    إذا (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    إذا (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        أرجع false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    أرجع true;
+#وإلا
+    أرجع false;
 #endif
 }
 
