@@ -18,41 +18,41 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_x11video_h_
 #define SDL_x11video_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keymap_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_keymap_c.h"
 
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
+#अन्तर्भाव "../../core/linux/SDL_dbus.h"
+#अन्तर्भाव "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#अन्तर्भाव "SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#अन्तर्भाव "SDL_x11clipboard.h"
+#अन्तर्भाव "SDL_x11events.h"
+#अन्तर्भाव "SDL_x11keyboard.h"
+#अन्तर्भाव "SDL_x11modes.h"
+#अन्तर्भाव "SDL_x11mouse.h"
+#अन्तर्भाव "SDL_x11opengl.h"
+#अन्तर्भाव "SDL_x11settings.h"
+#अन्तर्भाव "SDL_x11window.h"
+#अन्तर्भाव "SDL_x11vulkan.h"
 
 // Private display data
 
-struct SDL_VideoData
+संरचना SDL_VideoData
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
+    पूर्णाङ्क numwindows;
     SDL_WindowData **windowlist;
-    int windowlistlength;
+    पूर्णाङ्क windowlistlength;
     XID window_group;
     Window clipboard_window;
     SDLX11_ClipboardData clipboard;
@@ -67,7 +67,7 @@ struct SDL_VideoData
     bool net_wm;
 
     // Useful atoms
-    struct {
+    संरचना {
         Atom WM_PROTOCOLS;
         Atom WM_DELETE_WINDOW;
         Atom WM_NAME;
@@ -138,35 +138,35 @@ struct SDL_VideoData
     Uint32 global_mouse_buttons;
 
     unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
+    unsigned long xinput_last_कुञ्चिका_serial;
+    पूर्णाङ्क xinput_last_keyboard_device;
+    पूर्णाङ्क xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
 
-    int xrandr_event_base;
-    struct
+    पूर्णाङ्क xrandr_event_base;
+    संरचना
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode कुञ्चिका_layout[256];
 
-        union
+        सङ्घ
         {
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+            संरचना
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
+                SDL_Keymap *keymaps[Xkb_अङ्कः_Kbd_Groups];
                 unsigned long last_map_serial;
-                int event;
+                पूर्णाङ्क event;
                 Uint32 current_group;
             } xkb; // Modern XKB keyboard handling
 #endif
-            struct
+            संरचना
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                कुञ्चिका_Sym *keysym_map;
+                पूर्णाङ्क keysyms_per_कुञ्चिका;
+                पूर्णाङ्क min_keycode;
+                पूर्णाङ्क max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
@@ -196,6 +196,6 @@ struct SDL_VideoData
     bool is_xwayland;
 };
 
-extern bool X11_UseDirectColorVisuals(void);
+बाह्य bool X11_UseDirectColorVisuals(शून्य);
 
 #endif // SDL_x11video_h_

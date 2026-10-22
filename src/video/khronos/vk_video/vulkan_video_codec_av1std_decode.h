@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 
@@ -22,14 +22,14 @@ extern "C" {
 // vulkan_video_codec_av1std_decode is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_av1std_decode 1
 
-#include "vulkan_video_codec_av1std.h"
+#अन्तर्भाव "vulkan_video_codec_av1std.h"
 
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_decode"
 
-typedef struct StdVideoDecodeAV1PictureInfoFlags {
+प्रकारनिर्देश संरचना StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
@@ -41,7 +41,7 @@ typedef struct StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    buffer_removal_time_present_flag : 1;
     uint32_t    allow_intrabc : 1;
     uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_उच्चः_precision_mv : 1;
     uint32_t    is_motion_mode_switchable : 1;
     uint32_t    use_ref_frame_mvs : 1;
     uint32_t    disable_frame_end_update_cdf : 1;
@@ -62,7 +62,7 @@ typedef struct StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    reserved : 3;
 } StdVideoDecodeAV1PictureInfoFlags;
 
-typedef struct StdVideoDecodeAV1PictureInfo {
+प्रकारनिर्देश संरचना StdVideoDecodeAV1PictureInfo {
     StdVideoDecodeAV1PictureInfoFlags    flags;
     StdVideoAV1FrameType                 frame_type;
     uint32_t                             current_frame_id;
@@ -77,30 +77,30 @@ typedef struct StdVideoDecodeAV1PictureInfo {
     uint8_t                              SkipModeFrame[STD_VIDEO_AV1_SKIP_MODE_FRAMES];
     uint8_t                              coded_denom;
     uint8_t                              reserved2[3];
-    uint8_t                              OrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    uint32_t                             expectedFrameId[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    const StdVideoAV1TileInfo*           pTileInfo;
-    const StdVideoAV1Quantization*       pQuantization;
-    const StdVideoAV1Segmentation*       pSegmentation;
-    const StdVideoAV1LoopFilter*         pLoopFilter;
-    const StdVideoAV1CDEF*               pCDEF;
-    const StdVideoAV1LoopRestoration*    pLoopRestoration;
-    const StdVideoAV1GlobalMotion*       pGlobalMotion;
-    const StdVideoAV1FilmGrain*          pFilmGrain;
+    uint8_t                              OrderHints[STD_VIDEO_AV1_अङ्कः_REF_FRAMES];
+    uint32_t                             expectedFrameId[STD_VIDEO_AV1_अङ्कः_REF_FRAMES];
+    ध्रुव StdVideoAV1TileInfo*           pTileInfo;
+    ध्रुव StdVideoAV1Quantization*       pQuantization;
+    ध्रुव StdVideoAV1Segmentation*       pSegmentation;
+    ध्रुव StdVideoAV1LoopFilter*         pLoopFilter;
+    ध्रुव StdVideoAV1CDEF*               pCDEF;
+    ध्रुव StdVideoAV1LoopRestoration*    pLoopRestoration;
+    ध्रुव StdVideoAV1GlobalMotion*       pGlobalMotion;
+    ध्रुव StdVideoAV1FilmGrain*          pFilmGrain;
 } StdVideoDecodeAV1PictureInfo;
 
-typedef struct StdVideoDecodeAV1ReferenceInfoFlags {
+प्रकारनिर्देश संरचना StdVideoDecodeAV1ReferenceInfoFlags {
     uint32_t    disable_frame_end_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoDecodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoDecodeAV1ReferenceInfo {
+प्रकारनिर्देश संरचना StdVideoDecodeAV1ReferenceInfo {
     StdVideoDecodeAV1ReferenceInfoFlags    flags;
     uint8_t                                frame_type;
     uint8_t                                RefFrameSignBias;
     uint8_t                                OrderHint;
-    uint8_t                                SavedOrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                                SavedOrderHints[STD_VIDEO_AV1_अङ्कः_REF_FRAMES];
 } StdVideoDecodeAV1ReferenceInfo;
 
 

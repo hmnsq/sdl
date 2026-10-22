@@ -19,36 +19,36 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "../../dialog/unix/SDL_zenitymessagebox.h"
-#include "SDL_x11messagebox.h"
-#include "SDL_x11toolkit.h"
+#अन्तर्भाव "../../dialog/unix/SDL_zenitymessagebox.h"
+#अन्तर्भाव "SDL_x11messagebox.h"
+#अन्तर्भाव "SDL_x11toolkit.h"
 
 #ifndef SDL_FORK_MESSAGEBOX
 #define SDL_FORK_MESSAGEBOX 0
 #endif
 
-#if SDL_FORK_MESSAGEBOX
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <errno.h>
+#सचे SDL_FORK_MESSAGEBOX
+#अन्तर्भाव <sys/types.h>
+#अन्तर्भाव <sys/wait.h>
+#अन्तर्भाव <unistd.h>
+#अन्तर्भाव <errno.h>
 #endif
 
-typedef struct SDL_MessageBoxX11
+प्रकारनिर्देश संरचना SDL_MessageBoxX11
 {
     SDL_ToolkitWindowX11 *window;
     SDL_ToolkitControlX11 *icon;
     SDL_ToolkitControlX11 *message;
     SDL_ToolkitControlX11 **buttons;
-    const SDL_MessageBoxData *messageboxdata;
-    int *buttonID;
+    ध्रुव SDL_MessageBoxData *messageboxdata;
+    पूर्णाङ्क *buttonID;
 } SDL_MessageBoxX11;
 
-static void X11_MessageBoxButtonCallback(SDL_ToolkitControlX11 *control, void *data)
+स्थिर शून्य X11_MessageBoxButtonCallback(SDL_ToolkitControlX11 *control, शून्य *data)
 {
     SDL_MessageBoxX11 *cbdata;
 
@@ -57,16 +57,16 @@ static void X11_MessageBoxButtonCallback(SDL_ToolkitControlX11 *control, void *d
     X11Toolkit_SignalWindowClose(cbdata->window);
 }
 
-static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp) {
-    int first_line_width;
-    int first_line_height;
-    int second_line_width;
-    int second_line_height;
-    int max_button_width;
-    int max_button_height;
-    int window_width;
-    int window_height;
-    int i;
+स्थिर शून्य X11_PositionMessageBox(SDL_MessageBoxX11 *controls, पूर्णाङ्क *wp, पूर्णाङ्क *hp) {
+    पूर्णाङ्क first_पङ्क्तिः_width;
+    पूर्णाङ्क first_पङ्क्तिः_height;
+    पूर्णाङ्क second_पङ्क्तिः_width;
+    पूर्णाङ्क second_पङ्क्तिः_height;
+    पूर्णाङ्क max_button_width;
+    पूर्णाङ्क max_button_height;
+    पूर्णाङ्क window_width;
+    पूर्णाङ्क window_height;
+    पूर्णाङ्क i;
     bool rtl;
     
     /* window size */
@@ -74,44 +74,44 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     window_height = 1;
     
     /* rtl */
-    if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT) {
+    सचे (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_दक्षिणः_TO_वामः) {
         rtl = true;
-    } else if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    } अञ्ञथा सचे (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_वामः_TO_दक्षिणः) {
         rtl = false;
-    } else {
+    } अञ्ञथा {
         rtl = controls->window->flip_interface;
     }
     
     /* first line */
-    first_line_width = first_line_height = 0;
-    if (controls->icon && controls->message) {
+    first_पङ्क्तिः_width = first_पङ्क्तिः_height = 0;
+    सचे (controls->icon && controls->message) {
         controls->icon->rect.y = 0;
         
-        first_line_width = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale + controls->message->rect.w;  
+        first_पङ्क्तिः_width = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale + controls->message->rect.w;  
         
-        if (!controls->window->flip_interface) {
+        सचे (!controls->window->flip_interface) {
             controls->message->rect.x = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->window->iscale;
             controls->icon->rect.x = 0;
-        } else {
+        } अञ्ञथा {
             controls->message->rect.x = 0;    
             controls->icon->rect.x = controls->message->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->window->iscale;
         }
         
-        if (controls->message->rect.h > controls->icon->rect.h) {
-            controls->message->rect.y = (controls->icon->rect.h - X11Toolkit_GetLabelControlFirstLineHeight(controls->message))/2;
-            first_line_height = controls->message->rect.y + controls->message->rect.h;
-        } else {
+        सचे (controls->message->rect.h > controls->icon->rect.h) {
+            controls->message->rect.y = (controls->icon->rect.h - X11_Toolkit_Get_Label_Control_First_पङ्क्तिः_Height(controls->message))/2;
+            first_पङ्क्तिः_height = controls->message->rect.y + controls->message->rect.h;
+        } अञ्ञथा {
             controls->message->rect.y = (controls->icon->rect.h - controls->message->rect.h)/2;
-            first_line_height = controls->icon->rect.h;
+            first_पङ्क्तिः_height = controls->icon->rect.h;
         }        
-    } else if (!controls->icon && controls->message) {
-        first_line_width = controls->message->rect.w;  
-        first_line_height = controls->message->rect.h;
+    } अञ्ञथा सचे (!controls->icon && controls->message) {
+        first_पङ्क्तिः_width = controls->message->rect.w;  
+        first_पङ्क्तिः_height = controls->message->rect.h;
         controls->message->rect.x = 0;
         controls->message->rect.y = 0;
-    } else if (controls->icon && !controls->message) {
-        first_line_width = controls->icon->rect.w;  
-        first_line_height = controls->icon->rect.h;
+    } अञ्ञथा सचे (controls->icon && !controls->message) {
+        first_पङ्क्तिः_width = controls->icon->rect.w;  
+        first_पङ्क्तिः_height = controls->icon->rect.h;
         controls->icon->rect.x = 0;
         controls->icon->rect.y = 0;        
     }
@@ -119,149 +119,149 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     /* second line */
     max_button_width = 50;
     max_button_height = 0;
-    second_line_width = second_line_height = 0;
+    second_पङ्क्तिः_width = second_पङ्क्तिः_height = 0;
     
-    for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+    अत्थाय (i = 0; i < controls->messageboxdata->numbuttons; i++) {
         max_button_width = SDL_max(max_button_width, controls->buttons[i]->rect.w);
         max_button_height = SDL_max(max_button_height, controls->buttons[i]->rect.h);
         controls->buttons[i]->rect.x = 0;
         controls->buttons[i]->rect.y = 0;
     }
 
-    if (rtl) {
-        for (i = (controls->messageboxdata->numbuttons - 1); i != -1; i--) {
+    सचे (rtl) {
+        अत्थाय (i = (controls->messageboxdata->numbuttons - 1); i != -1; i--) {
             controls->buttons[i]->rect.w = max_button_width;
             controls->buttons[i]->rect.h = max_button_height;
             X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-            } else {
-                second_line_height = max_button_height;
+            सचे (first_पङ्क्तिः_height) {
+                controls->buttons[i]->rect.y = first_पङ्क्तिः_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+                second_पङ्क्तिः_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+            } अञ्ञथा {
+                second_पङ्क्तिः_height = max_button_height;
             }
             
-            if ((i + 1) < controls->messageboxdata->numbuttons) {
+            सचे ((i + 1) < controls->messageboxdata->numbuttons) {
                 controls->buttons[i]->rect.x = controls->buttons[i + 1]->rect.x + controls->buttons[i + 1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->window->iscale);
             }
         }    
-    } else {
-        for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+    } अञ्ञथा {
+        अत्थाय (i = 0; i < controls->messageboxdata->numbuttons; i++) {
             controls->buttons[i]->rect.w = max_button_width;
             controls->buttons[i]->rect.h = max_button_height;
             X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-            } else {
-                second_line_height = max_button_height;
+            सचे (first_पङ्क्तिः_height) {
+                controls->buttons[i]->rect.y = first_पङ्क्तिः_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+                second_पङ्क्तिः_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+            } अञ्ञथा {
+                second_पङ्क्तिः_height = max_button_height;
             }
             
-            if (i) {
+            सचे (i) {
                 controls->buttons[i]->rect.x = controls->buttons[i-1]->rect.x + controls->buttons[i-1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->window->iscale);
             }
         }
     }
     
-    if (controls->messageboxdata->numbuttons) {
-        if (rtl) {
-            second_line_width = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
-        } else {
-            second_line_width = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
+    सचे (controls->messageboxdata->numbuttons) {
+        सचे (rtl) {
+            second_पङ्क्तिः_width = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
+        } अञ्ञथा {
+            second_पङ्क्तिः_width = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
         }
     }
 
     /* center lines */
-    if (second_line_width > first_line_width) {
-        int pad;
+    सचे (second_पङ्क्तिः_width > first_पङ्क्तिः_width) {
+        पूर्णाङ्क pad;
         
-        pad = (second_line_width - first_line_width)/2;
-        if (controls->message) {
+        pad = (second_पङ्क्तिः_width - first_पङ्क्तिः_width)/2;
+        सचे (controls->message) {
             controls->message->rect.x += pad;
         }
-        if (controls->icon) {
+        सचे (controls->icon) {
             controls->icon->rect.x += pad;
         }
-    } else {
-        int pad;
+    } अञ्ञथा {
+        पूर्णाङ्क pad;
         
-        pad = (first_line_width - second_line_width)/2;
-        for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+        pad = (first_पङ्क्तिः_width - second_पङ्क्तिः_width)/2;
+        अत्थाय (i = 0; i < controls->messageboxdata->numbuttons; i++) {
             controls->buttons[i]->rect.x += pad;
         }
     }
      
     /* window size and final padding */
-    window_width = SDL_max(first_line_width, second_line_width) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
-    window_height = first_line_height + second_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
+    window_width = SDL_max(first_पङ्क्तिः_width, second_पङ्क्तिः_width) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
+    window_height = first_पङ्क्तिः_height + second_पङ्क्तिः_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
     *wp = window_width;
     *hp = window_height;
-    if (controls->message) {
+    सचे (controls->message) {
         controls->message->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
         controls->message->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
     }
-    if (controls->icon) {
+    सचे (controls->icon) {
         controls->icon->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
         controls->icon->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
     }
-    for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+    अत्थाय (i = 0; i < controls->messageboxdata->numbuttons; i++) {
         controls->buttons[i]->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
         controls->buttons[i]->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
     }
 }
 
-static void X11_OnMessageBoxScaleChange(SDL_ToolkitWindowX11 *window, void *data) {
+स्थिर शून्य X11_OnMessageBoxScaleChange(SDL_ToolkitWindowX11 *window, शून्य *data) {
     SDL_MessageBoxX11 *controls;
-    int w;
-    int h;
+    पूर्णाङ्क w;
+    पूर्णाङ्क h;
 
     controls = data;
     X11_PositionMessageBox(controls, &w, &h);
     X11Toolkit_ResizeWindow(window, w, h);
 }
 
-static bool X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+स्थिर bool X11_ShowMessageBoxImpl(ध्रुव SDL_MessageBoxData *messageboxdata, पूर्णाङ्क *buttonID)
 {
     SDL_VideoDevice *video = SDL_GetVideoDevice();
-    SDL_Window *parent_window = NULL;
+    SDL_Window *parent_window = रिक्त;
     SDL_MessageBoxX11 controls;
-    const SDL_MessageBoxColor *colorhints;
-    int i;
-    int w;
-    int h;
+    ध्रुव SDL_MessageBoxColor *colorhints;
+    पूर्णाङ्क i;
+    पूर्णाङ्क w;
+    पूर्णाङ्क h;
 
     controls.messageboxdata = messageboxdata;
 
     /* Color scheme */
-    if (messageboxdata->colorScheme) {
+    सचे (messageboxdata->colorScheme) {
         colorhints = messageboxdata->colorScheme->colors;
-    } else {
-        colorhints = NULL;
+    } अञ्ञथा {
+        colorhints = रिक्त;
     }
 
     /* Create window */
-    if (messageboxdata->window && video && SDL_strcmp(video->name, "x11") == 0) {
+    सचे (messageboxdata->window && video && SDL_strcmp(video->name, "x11") == 0) {
         // Only use the window as a parent if it is from the X11 driver.
         parent_window = messageboxdata->window;
     }
-#if SDL_FORK_MESSAGEBOX
-    controls.window = X11Toolkit_CreateWindowStruct(parent_window, NULL, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, true);
-#else 
-    controls.window = X11Toolkit_CreateWindowStruct(parent_window, NULL, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, false);
+#सचे SDL_FORK_MESSAGEBOX
+    controls.window = X11Toolkit_CreateWindowStruct(parent_window, रिक्त, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, true);
+#अञ्ञथा 
+    controls.window = X11Toolkit_CreateWindowStruct(parent_window, रिक्त, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, false);
 #endif
-    if (!controls.window) {
-        return false;
+    सचे (!controls.window) {
+        पटिनिवत्त false;
     }
     controls.window->cb_data = &controls;
     controls.window->cb_on_scale_change = X11_OnMessageBoxScaleChange;
 
     /* Create controls */
     controls.buttonID = buttonID;
-    controls.buttons = SDL_calloc(messageboxdata->numbuttons, sizeof(SDL_ToolkitControlX11 *));
+    controls.buttons = SDL_calloc(messageboxdata->numbuttons, परिमाण(SDL_ToolkitControlX11 *));
     controls.icon = X11Toolkit_CreateIconControl(controls.window, messageboxdata->flags);
-    controls.message = X11Toolkit_CreateLabelControl(controls.window, (char *)messageboxdata->message);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    controls.message = X11Toolkit_CreateLabelControl(controls.window, (वर्ण *)messageboxdata->message);
+    अत्थाय (i = 0; i < messageboxdata->numbuttons; i++) {
         controls.buttons[i] = X11Toolkit_CreateButtonControl(controls.window, &messageboxdata->buttons[i]);
         X11Toolkit_RegisterCallbackForButtonControl(controls.buttons[i], &controls, X11_MessageBoxButtonCallback);
     }
@@ -270,69 +270,69 @@ static bool X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int
     X11_PositionMessageBox(&controls, &w, &h);
 
     /* Actually create window, do event loop, cleanup */
-    X11Toolkit_CreateWindowRes(controls.window, w, h, 0, 0, (char *)messageboxdata->title);
+    X11Toolkit_CreateWindowRes(controls.window, w, h, 0, 0, (वर्ण *)messageboxdata->title);
     X11Toolkit_DoWindowEventLoop(controls.window);
     X11Toolkit_DestroyWindow(controls.window);
     SDL_free(controls.buttons);
-    return true;
+    पटिनिवत्त true;
 }
 
 // Display an x11 message box.
-bool X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool X11_ShowMessageBox(ध्रुव SDL_MessageBoxData *messageboxdata, पूर्णाङ्क *buttonID)
 {
-    if (SDL_Zenity_ShowMessageBox(messageboxdata, buttonID)) {
-        return true;
+    सचे (SDL_Zenity_ShowMessageBox(messageboxdata, buttonID)) {
+        पटिनिवत्त true;
     }
 
-#if SDL_FORK_MESSAGEBOX
+#सचे SDL_FORK_MESSAGEBOX
     // Use a child process to protect against setlocale(). Annoying.
     pid_t pid;
-    int fds[2];
-    int status = 0;
+    पूर्णाङ्क fds[2];
+    पूर्णाङ्क status = 0;
     bool result = true;
 
-    if (pipe(fds) == -1) {
-        return X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
+    सचे (pipe(fds) == -1) {
+        पटिनिवत्त X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
     }
 
     pid = fork();
-    if (pid == -1) { // failed
+    सचे (pid == -1) { // failed
         close(fds[0]);
         close(fds[1]);
-        return X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
-    } else if (pid == 0) {                                       // we're the child
-        int exitcode = 0;
+        पटिनिवत्त X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
+    } अञ्ञथा सचे (pid == 0) {                                       // we're the child
+        पूर्णाङ्क exitcode = 0;
         close(fds[0]);
         result = X11_ShowMessageBoxImpl(messageboxdata, buttonID);
-        if (write(fds[1], &result, sizeof(result)) != sizeof(result)) {
+        सचे (लिख(fds[1], &result, परिमाण(result)) != परिमाण(result)) {
             exitcode = 1;
-        } else if (write(fds[1], buttonID, sizeof(*buttonID)) != sizeof(*buttonID)) {
+        } अञ्ञथा सचे (लिख(fds[1], buttonID, परिमाण(*buttonID)) != परिमाण(*buttonID)) {
             exitcode = 1;
         }
         close(fds[1]);
         _exit(exitcode); // don't run atexit() stuff, static destructors, etc.
-    } else {             // we're the parent
+    } अञ्ञथा {             // we're the parent
         pid_t rc;
         close(fds[1]);
-        do {
+        करोहि {
             rc = waitpid(pid, &status, 0);
-        } while ((rc == -1) && (errno == EINTR));
+        } याव ((rc == -1) && (errno == EINTR));
 
         SDL_assert(rc == pid); // not sure what to do if this fails.
 
-        if ((rc == -1) || (!WIFEXITED(status)) || (WEXITSTATUS(status) != 0)) {
+        सचे ((rc == -1) || (!WIFEXITED(status)) || (WEXITSTATUS(status) != 0)) {
             result = SDL_SetError("msgbox child process failed");
-        } else if ((read(fds[0], &result, sizeof(result)) != sizeof(result)) ||
-                   (read(fds[0], buttonID, sizeof(*buttonID)) != sizeof(*buttonID))) {
+        } अञ्ञथा सचे ((पठ(fds[0], &result, परिमाण(result)) != परिमाण(result)) ||
+                   (पठ(fds[0], buttonID, परिमाण(*buttonID)) != परिमाण(*buttonID))) {
             result = SDL_SetError("read from msgbox child process failed");
             *buttonID = 0;
         }
         close(fds[0]);
 
-        return result;
+        पटिनिवत्त result;
     }
-#else
-    return X11_ShowMessageBoxImpl(messageboxdata, buttonID);
+#अञ्ञथा
+    पटिनिवत्त X11_ShowMessageBoxImpl(messageboxdata, buttonID);
 #endif
 }
 #endif // SDL_VIDEO_DRIVER_X11

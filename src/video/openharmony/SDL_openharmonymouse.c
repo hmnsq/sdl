@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "SDL_openharmonymouse.h"
+#अन्तर्भाव "SDL_openharmonymouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#अन्तर्भाव "../../core/openharmony/SDL_openharmony.h"
 
-static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
+स्थिर bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+पटिनिवत्त false;
+#सचे 0
+    सचे (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    सचे (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        सचे (data->custom_cursor) {
+            सचे (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                पटिनिवत्त SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } अञ्ञथा {
+            सचे (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                पटिनिवत्त SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        पटिनिवत्त true;
+    } अञ्ञथा {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        पटिनिवत्त false;
     }
 #endif
 }
 
-void OPENHARMONY_InitMouse(void)
+शून्य OPENHARMONY_InitMouse(शून्य)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 //!!! FIXME:    mouse->CreateCursor = OPENHARMONY_CreateCursor;
@@ -67,7 +67,7 @@ void OPENHARMONY_InitMouse(void)
 //!!! FIXME:    SDL_SetDefaultCursor(OPENHARMONY_CreateDefaultCursor());
 }
 
-void OPENHARMONY_QuitMouse(void)
+शून्य OPENHARMONY_QuitMouse(शून्य)
 {
 //!!! FIXME:    OPENHARMONY_DestroyEmptyCursor();
 }

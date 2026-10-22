@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DOSVESA
 
 // SDL internals
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_dosframebuffer_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "SDL_dosframebuffer_c.h"
 
 // DOS declarations
-#include "SDL_dosmodes.h"
-#include "SDL_dosvideo.h"
-#include <sys/movedata.h> // for dosmemput (banked framebuffer access)
+#अन्तर्भाव "SDL_dosmodes.h"
+#अन्तर्भाव "SDL_dosvideo.h"
+#अन्तर्भाव <sys/movedata.h> // for dosmemput (banked framebuffer access)
 
 // Some VESA usage information:
 //   https://delorie.com/djgpp/doc/ug/graphics/vesa.html.en
@@ -65,9 +65,9 @@
 #define VGA_MODE_13H_SENTINEL 0xFFEE
 #define VGA_MODE_13H_SEGMENT  0xA000
 
-#pragma pack(push, 1)
+#pragma pack(प्रक्षिप, 1)
 // this is the struct from the hardware; we save only a few parts from this, later, in SDL_VESAInfo.
-typedef struct SDL_VESAHardwareInfo
+प्रकारनिर्देश संरचना SDL_VESAHardwareInfo
 {
     Uint8 VESASignature[4];
     Uint16 VESAVersion;
@@ -83,7 +83,7 @@ typedef struct SDL_VESAHardwareInfo
     Uint8 OemData[256];
 } SDL_VESAHardwareInfo;
 
-typedef struct SDL_VESAModeHardwareInfo
+प्रकारनिर्देश संरचना SDL_VESAModeHardwareInfo
 {
     Uint16 ModeAttributes;
     Uint8 WinAAttributes;
@@ -93,17 +93,17 @@ typedef struct SDL_VESAModeHardwareInfo
     Uint16 WinASegment;
     Uint16 WinBSegment;
     Uint32 WinFuncPtr;
-    Uint16 BytesPerScanLine;
+    Uint16 Bytes_Per_Scan_पङ्क्तिः;
     Uint16 XResolution;
     Uint16 YResolution;
     Uint8 XCharSize;
     Uint8 YCharSize;
-    Uint8 NumberOfPlanes;
+    Uint8 सङ्ख्या_Of_Planes;
     Uint8 BitsPerPixel;
-    Uint8 NumberOfBanks;
+    Uint8 सङ्ख्या_Of_Banks;
     Uint8 MemoryModel;
     Uint8 BankSize;
-    Uint8 NumberOfImagePages;
+    Uint8 सङ्ख्या_Of_Image_Pages;
     Uint8 Reserved_page;
     Uint8 RedMaskSize;
     Uint8 RedMaskPos;
@@ -119,47 +119,47 @@ typedef struct SDL_VESAModeHardwareInfo
     Uint16 OffScreenMemSize;
     Uint8 Reserved[206];
 } SDL_VESAModeHardwareInfo;
-#pragma pack(pop)
+#pragma pack(निष्कासय)
 
-typedef struct SDL_VESAInfo
+प्रकारनिर्देश संरचना SDL_VESAInfo
 {
     Uint16 version;              // 0x200 == 2.0, etc.
     Uint32 total_memory;         // in bytes (SDL_VESAHardwareInfo::TotalMemory does it in 64k pages).
     Uint32 video_addr_segoffset; // real mode segment:offset (only valid while VBE info block is allocated!)
     Uint16 *mode_list;           // copied out of conventional memory before freeing
-    int num_modes;
+    पूर्णाङ्क अङ्कः_modes;
     Uint16 oem_software_revision;
-    char *oem_string;
-    char *oem_vendor;
-    char *oem_product;
-    char *oem_revision;
+    वर्ण *oem_string;
+    वर्ण *oem_vendor;
+    वर्ण *oem_product;
+    वर्ण *oem_revision;
 } SDL_VESAInfo;
 
-static SDL_VESAInfo *vesa_info = NULL;
+स्थिर SDL_VESAInfo *vesa_info = रिक्त;
 
-void DOSVESA_FreeVESAInfo(void)
+शून्य DOSVESA_FreeVESAInfo(शून्य)
 {
-    if (vesa_info) {
+    सचे (vesa_info) {
         SDL_free(vesa_info->mode_list);
         SDL_free(vesa_info->oem_string);
         SDL_free(vesa_info->oem_vendor);
         SDL_free(vesa_info->oem_product);
         SDL_free(vesa_info->oem_revision);
         SDL_free(vesa_info);
-        vesa_info = NULL;
+        vesa_info = रिक्त;
     }
 }
 
-static const SDL_VESAInfo *GetVESAInfo(void)
+स्थिर ध्रुव SDL_VESAInfo *GetVESAInfo(शून्य)
 {
-    if (vesa_info) {
-        return vesa_info;
+    सचे (vesa_info) {
+        पटिनिवत्त vesa_info;
     }
 
     _go32_dpmi_seginfo hwinfo_seginfo;
-    SDL_VESAHardwareInfo *hwinfo = (SDL_VESAHardwareInfo *)DOS_AllocateConventionalMemory(sizeof(*hwinfo), &hwinfo_seginfo);
-    if (!hwinfo) {
-        return NULL;
+    SDL_VESAHardwareInfo *hwinfo = (SDL_VESAHardwareInfo *)DOS_AllocateConventionalMemory(परिमाण(*hwinfo), &hwinfo_seginfo);
+    सचे (!hwinfo) {
+        पटिनिवत्त रिक्त;
     }
 
     SDL_zerop(hwinfo);
@@ -173,11 +173,11 @@ static const SDL_VESAInfo *GetVESAInfo(void)
 
     // al is 0x4F if VESA is supported, ah is 0x00 if this specific call succeeded.
     // If the interrupt call didn't replace VESASignature with "VESA" then something went wrong, too.
-    if ((regs.x.ax != 0x004F) || (SDL_memcmp(hwinfo->VESASignature, "VESA", 4) != 0)) {
+    सचे ((regs.x.ax != 0x004F) || (SDL_memcmp(hwinfo->VESASignature, "VESA", 4) != 0)) {
         SDL_SetError("VESA video not supported on this system");
-    } else {
-        vesa_info = (SDL_VESAInfo *)SDL_calloc(1, sizeof(*vesa_info));
-        if (vesa_info) {
+    } अञ्ञथा {
+        vesa_info = (SDL_VESAInfo *)SDL_calloc(1, परिमाण(*vesa_info));
+        सचे (vesa_info) {
             vesa_info->version = hwinfo->VESAVersion;
             vesa_info->total_memory = ((Uint32)hwinfo->TotalMemory) * (64 * 1024); // TotalMemory is 64k chunks, convert to bytes.
             vesa_info->video_addr_segoffset = hwinfo->VideoModePtr;
@@ -195,20 +195,20 @@ static const SDL_VESAInfo *GetVESAInfo(void)
             // garbage, silently losing modes.
             {
                 Uint32 segoffset = vesa_info->video_addr_segoffset;
-                int count = 0;
-                while (DOS_PeekUint16(segoffset + count * sizeof(Uint16)) != VBE_MODELIST_END) {
-                    count++;
-                    if (count > 64)
-                        break; // sanity limit
+                पूर्णाङ्क गणनम् = 0;
+                याव (DOS_PeekUint16(segoffset + गणनम् * परिमाण(Uint16)) != VBE_MODELIST_END) {
+                    गणनम्++;
+                    सचे (गणनम् > 64)
+                        भङ्ग; // sanity limit
                 }
-                vesa_info->num_modes = count;
-                vesa_info->mode_list = (Uint16 *)SDL_malloc(count * sizeof(Uint16));
-                if (vesa_info->mode_list) {
-                    for (int i = 0; i < count; i++) {
-                        vesa_info->mode_list[i] = DOS_PeekUint16(segoffset + i * sizeof(Uint16));
+                vesa_info->अङ्कः_modes = गणनम्;
+                vesa_info->mode_list = (Uint16 *)SDL_malloc(गणनम् * परिमाण(Uint16));
+                सचे (vesa_info->mode_list) {
+                    अत्थाय (पूर्णाङ्क i = 0; i < गणनम्; i++) {
+                        vesa_info->mode_list[i] = DOS_PeekUint16(segoffset + i * परिमाण(Uint16));
                     }
-                } else {
-                    vesa_info->num_modes = 0;
+                } अञ्ञथा {
+                    vesa_info->अङ्कः_modes = 0;
                 }
             }
         }
@@ -216,66 +216,66 @@ static const SDL_VESAInfo *GetVESAInfo(void)
 
     DOS_FreeConventionalMemory(&hwinfo_seginfo);
 
-    return vesa_info;
+    पटिनिवत्त vesa_info;
 }
 
 // Check for VGA using BIOS function GET DISPLAY COMBINATION CODE.
 // Call INT 0x10 with AX=0x1A00; function is supported if AL=0x1A.
 // Returns true for VGA-compatible hardware. 
-static bool DetectVGA(void)
+स्थिर bool DetectVGA(शून्य)
 {
     __dpmi_regs regs = {};
     regs.x.ax = 0x1A00;
     __dpmi_int(0x10, &regs);
-    return ((regs.x.ax & 0x00FF) == 0x001A);
+    पटिनिवत्त ((regs.x.ax & 0x00FF) == 0x001A);
 }
 
-bool DOSVESA_SupportsVESA(void)
+bool DOSVESA_SupportsVESA(शून्य)
 {
     // We need at least VGA hardware (for mode 13h). EGA and CGA cards
     // do not support 256 colors or programmable palettes.
-    if (!DetectVGA()) {
-        return SDL_SetError("No VGA card detected");
+    सचे (!DetectVGA()) {
+        पटिनिवत्त SDL_SetError("No VGA card detected");
     }
 
     // Cache VESA info if available (NULL mean we only have VGA).
-    (void)GetVESAInfo();
+    (शून्य)GetVESAInfo();
 
-    return true;
+    पटिनिवत्त true;
 }
 
-const char *DOSVESA_GetGPUName(void)
+ध्रुव वर्ण *DOSVESA_GetGPUName(शून्य)
 {
-    const SDL_VESAInfo *vinfo = GetVESAInfo();
-    if (!vinfo) {
-        return "VGA";
+    ध्रुव SDL_VESAInfo *vinfo = GetVESAInfo();
+    सचे (!vinfo) {
+        पटिनिवत्त "VGA";
     }
 
-    if (vinfo->oem_product && *vinfo->oem_product) {
-        return vinfo->oem_product;
+    सचे (vinfo->oem_product && *vinfo->oem_product) {
+        पटिनिवत्त vinfo->oem_product;
     }
-    if (vinfo->oem_vendor && *vinfo->oem_vendor) {
-        return vinfo->oem_vendor;
+    सचे (vinfo->oem_vendor && *vinfo->oem_vendor) {
+        पटिनिवत्त vinfo->oem_vendor;
     }
-    if (vinfo->oem_string && *vinfo->oem_string) {
-        return vinfo->oem_string;
+    सचे (vinfo->oem_string && *vinfo->oem_string) {
+        पटिनिवत्त vinfo->oem_string;
     }
 
-    return "VESA";
+    पटिनिवत्त "VESA";
 }
 
-Uint32 DOSVESA_GetVESATotalMemory(void)
+Uint32 DOSVESA_GetVESATotalMemory(शून्य)
 {
-    const SDL_VESAInfo *info = GetVESAInfo();
-    return info ? info->total_memory : 0;
+    ध्रुव SDL_VESAInfo *info = GetVESAInfo();
+    पटिनिवत्त info ? info->total_memory : 0;
 }
 
-static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
+स्थिर bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
 {
     _go32_dpmi_seginfo hwinfo_seginfo;
-    SDL_VESAModeHardwareInfo *hwinfo = (SDL_VESAModeHardwareInfo *)DOS_AllocateConventionalMemory(sizeof(*hwinfo), &hwinfo_seginfo);
-    if (!hwinfo) {
-        return false;
+    SDL_VESAModeHardwareInfo *hwinfo = (SDL_VESAModeHardwareInfo *)DOS_AllocateConventionalMemory(परिमाण(*hwinfo), &hwinfo_seginfo);
+    सचे (!hwinfo) {
+        पटिनिवत्त false;
     }
 
     SDL_zerop(hwinfo);
@@ -287,18 +287,18 @@ static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
     regs.x.cx = mode_id;
     __dpmi_int(0x10, &regs);
 
-    const bool retval = (regs.x.ax == 0x004F);
-    if (retval) {
+    ध्रुव bool retval = (regs.x.ax == 0x004F);
+    सचे (retval) {
         SDL_zerop(info);
         info->mode_id = mode_id;
         info->attributes = hwinfo->ModeAttributes;
-        info->pitch = hwinfo->BytesPerScanLine;
+        info->pitch = hwinfo->Bytes_Per_Scan_पङ्क्तिः;
         info->w = hwinfo->XResolution;
         info->h = hwinfo->YResolution;
-        info->num_planes = hwinfo->NumberOfPlanes;
+        info->अङ्कः_planes = hwinfo->सङ्ख्या_Of_Planes;
         info->bpp = hwinfo->BitsPerPixel;
         info->memory_model = hwinfo->MemoryModel;
-        info->num_image_pages = hwinfo->NumberOfImagePages;
+        info->अङ्कः_image_pages = hwinfo->सङ्ख्या_Of_Image_Pages;
         info->red_mask_size = hwinfo->RedMaskSize;
         info->red_mask_pos = hwinfo->RedMaskPos;
         info->green_mask_size = hwinfo->GreenMaskSize;
@@ -318,89 +318,89 @@ static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
 
     DOS_FreeConventionalMemory(&hwinfo_seginfo);
 
-    return retval;
+    पटिनिवत्त retval;
 }
 
 bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display)
 {
-    const SDL_VESAInfo *vinfo = GetVESAInfo();
+    ध्रुव SDL_VESAInfo *vinfo = GetVESAInfo();
 
     // Enumerate VESA modes if we have a VBE 1.2+ BIOS.  Older VBE versions
     // (1.0, 1.1) or no VESA at all just skip this loop and fall through to
     // the VGA mode 13h fallback below.
-    int num_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->num_modes : 0;
+    पूर्णाङ्क अङ्कः_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->अङ्कः_modes : 0;
 
-    for (int mi = 0; mi < num_vesa_modes; mi++) {
-        const Uint16 modeid = vinfo->mode_list[mi];
+    अत्थाय (पूर्णाङ्क mi = 0; mi < अङ्कः_vesa_modes; mi++) {
+        ध्रुव Uint16 modeid = vinfo->mode_list[mi];
 
         SDL_DisplayModeData info;
-        if (!GetVESAModeInfo(modeid, &info)) {
-            continue;
+        सचे (!GetVESAModeInfo(modeid, &info)) {
+            अनुवर्त;
         }
 
         // Skip 320x200x8 from VESA. We always want VGA mode 13h for this
         // resolution (no page flip, no LFB overhead, universal compatibility).
-        if (info.bpp == 8 && info.w == 320 && info.h == 200) {
-            continue;
+        सचे (info.bpp == 8 && info.w == 320 && info.h == 200) {
+            अनुवर्त;
         }
 
-        if ((info.attributes & VBE_MODEATTR_REQUIRED) != VBE_MODEATTR_REQUIRED) {
-            continue;
+        सचे ((info.attributes & VBE_MODEATTR_REQUIRED) != VBE_MODEATTR_REQUIRED) {
+            अनुवर्त;
         }
 
-        if (!(info.attributes & VBE_MODEATTR_LFB) && (info.win_a_attributes & VBE_WINATTR_USABLE) != VBE_WINATTR_USABLE) {
-            continue;
+        सचे (!(info.attributes & VBE_MODEATTR_LFB) && (info.win_a_attributes & VBE_WINATTR_USABLE) != VBE_WINATTR_USABLE) {
+            अनुवर्त;
         }
 
-        if (info.num_planes != 1) {
-            continue; // skip planar pixel layouts.
-        } else if (info.bpp < 8) {
-            continue; // skip anything below 8-bit.
-        } else if (!info.w || !info.h) {
-            continue; // zero-area display mode?!
-        } else if (!info.has_lfb && !info.win_granularity) {
-            continue; // banked mode with zero granularity would cause division by zero.
-        } else if ((info.memory_model != VBE_MEMMODEL_PACKED_PIXEL) && (info.memory_model != VBE_MEMMODEL_DIRECT_COLOR)) {
-            continue; // must be either packed pixel or Direct Color.
+        सचे (info.अङ्कः_planes != 1) {
+            अनुवर्त; // skip planar pixel layouts.
+        } अञ्ञथा सचे (info.bpp < 8) {
+            अनुवर्त; // skip anything below 8-bit.
+        } अञ्ञथा सचे (!info.w || !info.h) {
+            अनुवर्त; // zero-area display mode?!
+        } अञ्ञथा सचे (!info.has_lfb && !info.win_granularity) {
+            अनुवर्त; // banked mode with zero granularity would cause division by zero.
+        } अञ्ञथा सचे ((info.memory_model != VBE_MEMMODEL_PACKED_PIXEL) && (info.memory_model != VBE_MEMMODEL_DIRECT_COLOR)) {
+            अनुवर्त; // must be either packed pixel or Direct Color.
             // Note: 8-bit indexed modes are packed pixel.
         }
 
         SDL_PixelFormat format = SDL_PIXELFORMAT_UNKNOWN;
-        if (info.memory_model == VBE_MEMMODEL_PACKED_PIXEL) {
-            switch (info.bpp) {
-            case 8:
+        सचे (info.memory_model == VBE_MEMMODEL_PACKED_PIXEL) {
+            विकल्प (info.bpp) {
+            पक्ष 8:
                 format = SDL_PIXELFORMAT_INDEX8;
-                break;
-            case 15:
+                भङ्ग;
+            पक्ष 15:
                 format = SDL_PIXELFORMAT_XRGB1555;
-                break;
-            case 16:
+                भङ्ग;
+            पक्ष 16:
                 format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 24:
+                भङ्ग;
+            पक्ष 24:
                 format = SDL_PIXELFORMAT_RGB24;
-                break;
-            case 32:
+                भङ्ग;
+            पक्ष 32:
                 format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            default:
-                break;
+                भङ्ग;
+            स्वभाव:
+                भङ्ग;
             }
-        } else {
+        } अञ्ञथा {
             SDL_assert(info.memory_model == VBE_MEMMODEL_DIRECT_COLOR);
-            const Uint32 rmask = ((((Uint32)1) << info.red_mask_size) - 1) << info.red_mask_pos;
-            const Uint32 gmask = ((((Uint32)1) << info.green_mask_size) - 1) << info.green_mask_pos;
-            const Uint32 bmask = ((((Uint32)1) << info.blue_mask_size) - 1) << info.blue_mask_pos;
+            ध्रुव Uint32 rmask = ((((Uint32)1) << info.red_mask_size) - 1) << info.red_mask_pos;
+            ध्रुव Uint32 gmask = ((((Uint32)1) << info.green_mask_size) - 1) << info.green_mask_pos;
+            ध्रुव Uint32 bmask = ((((Uint32)1) << info.blue_mask_size) - 1) << info.blue_mask_pos;
             format = SDL_GetPixelFormatForMasks(info.bpp, rmask, gmask, bmask, 0x00000000);
         }
 
-        if (format == SDL_PIXELFORMAT_UNKNOWN) {
-            continue; // don't know what to do with this one.
+        सचे (format == SDL_PIXELFORMAT_UNKNOWN) {
+            अनुवर्त; // don't know what to do with this one.
         }
 
-        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*internal));
-        if (!internal) {
-            continue; // oof.
+        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(परिमाण(*internal));
+        सचे (!internal) {
+            अनुवर्त; // oof.
         }
 
         SDL_copyp(internal, &info);
@@ -408,8 +408,8 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
         SDL_DisplayMode mode;
         SDL_zero(mode);
         mode.format = format;
-        mode.w = (int)info.w;
-        mode.h = (int)info.h;
+        mode.w = (पूर्णाङ्क)info.w;
+        mode.h = (पूर्णाङ्क)info.h;
         mode.pixel_density = 1.0f; // no HighDPI scaling here.
 
         // !!! FIXME: we need to parse EDID data (VESA function 0x4F15, subfunction 0x01) to get refresh rates. Leaving as 0 for now.
@@ -419,7 +419,7 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
 
         mode.internal = internal;
 
-        if (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
+        सचे (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
             SDL_free(internal); // oh well, carry on without it.
         }
     }
@@ -427,18 +427,18 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
     // Always add VGA mode 13h for 320x200x8. We skipped any VESA 320x200x8
     // modes above so this is the only entry at that resolution.
     {
-        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*internal));
-        if (internal) {
+        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(परिमाण(*internal));
+        सचे (internal) {
             SDL_zerop(internal);
             internal->mode_id = VGA_MODE_13H_SENTINEL;
             internal->attributes = VBE_MODEATTR_REQUIRED;
             internal->pitch = 320;
             internal->w = 320;
             internal->h = 200;
-            internal->num_planes = 1;
+            internal->अङ्कः_planes = 1;
             internal->bpp = 8;
             internal->memory_model = VBE_MEMMODEL_PACKED_PIXEL;
-            internal->num_image_pages = 0; // no page flipping in mode 13h
+            internal->अङ्कः_image_pages = 0; // no page flipping in mode 13h
             internal->physical_base_addr = 0;
             internal->has_lfb = false;
             internal->win_granularity = 64;
@@ -455,30 +455,30 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
             mode.pixel_density = 1.0f;
             mode.internal = internal;
 
-            if (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
+            सचे (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
                 SDL_free(internal);
             }
         }
     }
 
     // Sort modes descending: largest to smallest (by width first, then height, then bpp).
-    for (int i = 0; i < sdl_display->num_fullscreen_modes - 1; i++) {
-        for (int j = i + 1; j < sdl_display->num_fullscreen_modes; j++) {
-            const SDL_DisplayMode *a = &sdl_display->fullscreen_modes[i];
-            const SDL_DisplayMode *b = &sdl_display->fullscreen_modes[j];
+    अत्थाय (पूर्णाङ्क i = 0; i < sdl_display->अङ्कः_fullscreen_modes - 1; i++) {
+        अत्थाय (पूर्णाङ्क j = i + 1; j < sdl_display->अङ्कः_fullscreen_modes; j++) {
+            ध्रुव SDL_DisplayMode *a = &sdl_display->fullscreen_modes[i];
+            ध्रुव SDL_DisplayMode *b = &sdl_display->fullscreen_modes[j];
             bool swap = false;
-            if (b->w > a->w) {
+            सचे (b->w > a->w) {
                 swap = true;
-            } else if (b->w == a->w) {
-                if (b->h > a->h) {
+            } अञ्ञथा सचे (b->w == a->w) {
+                सचे (b->h > a->h) {
                     swap = true;
-                } else if (b->h == a->h) {
-                    if (SDL_BITSPERPIXEL(b->format) > SDL_BITSPERPIXEL(a->format)) {
+                } अञ्ञथा सचे (b->h == a->h) {
+                    सचे (SDL_BITSPERPIXEL(b->format) > SDL_BITSPERPIXEL(a->format)) {
                         swap = true;
                     }
                 }
             }
-            if (swap) {
+            सचे (swap) {
                 SDL_DisplayMode tmp = sdl_display->fullscreen_modes[i];
                 sdl_display->fullscreen_modes[i] = sdl_display->fullscreen_modes[j];
                 sdl_display->fullscreen_modes[j] = tmp;
@@ -486,28 +486,28 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
         }
     }
 
-    return true;
+    पटिनिवत्त true;
 }
 
 bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode)
 {
     SDL_VideoData *data = device->internal;
-    const SDL_DisplayModeData *modedata = mode->internal;
+    ध्रुव SDL_DisplayModeData *modedata = mode->internal;
 
-    if (data->current_mode.internal && (data->current_mode.internal->mode_id == modedata->mode_id)) {
-        return true;
+    सचे (data->current_mode.internal && (data->current_mode.internal->mode_id == modedata->mode_id)) {
+        पटिनिवत्त true;
     }
 
     DOSVESA_InvalidateCachedFramebuffer();
 
-    if (data->mapping.size) {
+    सचे (data->mapping.size) {
         __dpmi_free_physical_address_mapping(&data->mapping); // dump existing video mapping.
         SDL_zero(data->mapping);
     }
 
     __dpmi_regs regs;
 
-    if (modedata->mode_id == VGA_MODE_13H_SENTINEL) {
+    सचे (modedata->mode_id == VGA_MODE_13H_SENTINEL) {
         // Set VGA mode 13h (320x200x256) via legacy BIOS call.
         SDL_zero(regs);
         regs.x.ax = 0x0013;
@@ -528,12 +528,12 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             Uint8 zero_buf[320];
             SDL_zeroa(zero_buf);
             Uint32 vga_base = (Uint32)VGA_MODE_13H_SEGMENT << 4;
-            for (int row = 0; row < 200; row++) {
+            अत्थाय (पूर्णाङ्क row = 0; row < 200; row++) {
                 dosmemput(zero_buf, 320, vga_base + row * 320);
             }
         }
 
-        if (SDL_GetMouse()->internal != NULL) {
+        सचे (SDL_GetMouse()->internal != रिक्त) {
             regs.x.ax = 0x7;
             regs.x.cx = 0;
             regs.x.dx = (Uint16)(mode->w - 1);
@@ -545,41 +545,41 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             __dpmi_int(0x33, &regs);
         }
 
-        return true;
+        पटिनिवत्त true;
     }
 
     // When the direct-FB hint is active, prefer banked mode. This needs
     // to be set explicitly for some cards (Intel 740).
-    const bool is_banked_usable = modedata->win_a_segment &&
+    ध्रुव bool is_banked_usable = modedata->win_a_segment &&
                                   modedata->win_size > 0 &&
                                   (modedata->win_a_attributes & VBE_WINATTR_USABLE) == VBE_WINATTR_USABLE;
-    const bool use_lfb = modedata->has_lfb &&
+    ध्रुव bool use_lfb = modedata->has_lfb &&
                          (!is_banked_usable || !SDL_GetHintBoolean(SDL_HINT_DOS_ALLOW_DIRECT_FRAMEBUFFER, false));
 
     regs.x.ax = 0x4F02;
     regs.x.bx = modedata->mode_id | (use_lfb ? VBE_SETMODE_LFB : 0);
     __dpmi_int(0x10, &regs);
 
-    if (regs.x.ax != 0x004F) {
-        return SDL_SetError("Failed to set VESA video mode");
+    सचे (regs.x.ax != 0x004F) {
+        पटिनिवत्त SDL_SetError("Failed to set VESA video mode");
     }
 
     data->banked_mode = !use_lfb;
 
-    if (use_lfb) {
+    सचे (use_lfb) {
         data->mapping.address = modedata->physical_base_addr;
         data->mapping.size = DOSVESA_GetVESATotalMemory();
-        if (__dpmi_physical_address_mapping(&data->mapping) != 0) {
+        सचे (__dpmi_physical_address_mapping(&data->mapping) != 0) {
             SDL_zero(data->mapping);
             regs.x.ax = 0x03; // try to dump us back into text mode. Not sure if this is a good idea, though.
             __dpmi_int(0x10, &regs);
             SDL_zero(data->current_mode);
-            return SDL_SetError("Failed to map VESA video memory");
+            पटिनिवत्त SDL_SetError("Failed to map VESA video memory");
         }
 
         // make sure framebuffer is blanked out.
         SDL_memset(DOS_PhysicalToLinear(data->mapping.address), '\0', (Uint32)modedata->h * (Uint32)modedata->pitch);
-    } else {
+    } अञ्ञथा {
         // Banked mode: no physical address mapping needed.
         // Blank the visible framebuffer through the banked window.
         Uint32 total_bytes = (Uint32)modedata->h * (Uint32)modedata->pitch;
@@ -590,26 +590,26 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
         SDL_zeroa(zero_buf);
 
         Uint32 offset = 0;
-        int current_bank = -1;
-        while (offset < total_bytes) {
-            int bank = (int)(offset / win_gran_bytes);
+        पूर्णाङ्क current_bank = -1;
+        याव (offset < total_bytes) {
+            पूर्णाङ्क bank = (पूर्णाङ्क)(offset / win_gran_bytes);
             Uint32 off_in_win = offset % win_gran_bytes;
             Uint32 n = win_size_bytes - off_in_win;
-            if (n > total_bytes - offset) {
+            सचे (n > total_bytes - offset) {
                 n = total_bytes - offset;
             }
 
-            if (bank != current_bank) {
+            सचे (bank != current_bank) {
                 __dpmi_regs bregs;
                 SDL_zero(bregs);
                 bregs.x.bx = 0; // Window A
                 bregs.x.dx = (Uint16)bank;
-                if (modedata->win_func_ptr) {
+                सचे (modedata->win_func_ptr) {
                     // Call WinFuncPtr directly — faster than INT 10h.
                     bregs.x.cs = (Uint16)(modedata->win_func_ptr >> 16);
                     bregs.x.ip = (Uint16)(modedata->win_func_ptr & 0xFFFF);
                     __dpmi_simulate_real_mode_procedure_retf(&bregs);
-                } else {
+                } अञ्ञथा {
                     bregs.x.ax = 0x4F05;
                     __dpmi_int(0x10, &bregs);
                 }
@@ -618,10 +618,10 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
 
             // Zero in 1KB chunks via dosmemput
             Uint32 written = 0;
-            while (written < n) {
+            याव (written < n) {
                 Uint32 chunk = n - written;
-                if (chunk > sizeof(zero_buf)) {
-                    chunk = sizeof(zero_buf);
+                सचे (chunk > परिमाण(zero_buf)) {
+                    chunk = परिमाण(zero_buf);
                 }
                 dosmemput(zero_buf, chunk, win_base + off_in_win + written);
                 written += chunk;
@@ -637,7 +637,7 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
     // we would still need to bank-switch through the same 64KB window to write
     // to the back page, so the performance benefit is minimal (just tear-free).
     // For simplicity, disable page-flipping in banked mode for now.
-    if (!data->banked_mode && modedata->num_image_pages >= 1) {
+    सचे (!data->banked_mode && modedata->अङ्कः_image_pages >= 1) {
         data->page_flip_available = true;
         data->current_page = 0;
         data->page_offset[0] = 0;
@@ -645,10 +645,10 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
 
         // Check that both pages fit within the mapped region.
         Uint32 page1_end = data->page_offset[1] + (Uint32)modedata->pitch * (Uint32)modedata->h;
-        if (page1_end > data->mapping.size) {
+        सचे (page1_end > data->mapping.size) {
             data->page_flip_available = false;
             data->page_offset[1] = 0;
-        } else {
+        } अञ्ञथा {
             // Also blank the second page
             SDL_memset((Uint8 *)DOS_PhysicalToLinear(data->mapping.address) + data->page_offset[1],
                        '\0', (Uint32)modedata->pitch * (Uint32)modedata->h);
@@ -660,14 +660,14 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             regs.x.dx = 0;      // first scan line
             __dpmi_int(0x10, &regs);
         }
-    } else {
+    } अञ्ञथा {
         data->page_flip_available = false;
         data->current_page = 0;
         data->page_offset[0] = 0;
         data->page_offset[1] = 0;
     }
 
-    if (SDL_GetMouse()->internal != NULL) { // internal != NULL) == int 33h services available.
+    सचे (SDL_GetMouse()->internal != रिक्त) { // internal != NULL) == int 33h services available.
         regs.x.ax = 0x7;                    // set mouse min/max horizontal position.
         regs.x.cx = 0;
         regs.x.dx = (Uint16)(mode->w - 1);
@@ -679,7 +679,7 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
         __dpmi_int(0x33, &regs);
     }
 
-    return true;
+    पटिनिवत्त true;
 }
 
 #endif // SDL_VIDEO_DRIVER_DOSVESA
