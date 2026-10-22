@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_x11xsync_h_
-#define SDL_x11xsync_h_
+#अगर_अघोषित SDL_x11xsync_h_
+#घोषणा SDL_x11xsync_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+बाह्य व्योम X11_InitXsync(SDL_VideoDevice *_this);
+बाह्य bool X11_XsyncIsInitialized(व्योम);
+बाह्य bool X11_InitResizeSync(SDL_Window *window);
+बाह्य व्योम X11_TermResizeSync(SDL_Window *window);
+बाह्य व्योम X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
+बाह्य व्योम X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
+बाह्य व्योम X11_HandlePresent(SDL_Window *window);
 
-#endif // SDL_VIDEO_DRIVER_X11_XSYNC
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_X11_XSYNC
 
-#endif // SDL_x11xsync_h_
+#पूर्ण_अगर // SDL_x11xsync_h_

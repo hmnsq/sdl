@@ -24,29 +24,29 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_androidvulkan_h_
-#define SDL_androidvulkan_h_
+#अगर_अघोषित SDL_androidvulkan_h_
+#घोषणा SDL_androidvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_vulkan_internal.h"
+#समावेश "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#अगर defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
-extern bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+बाह्य bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य व्योम Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य अक्षर स्थिर * स्थिर *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गिनती);
+बाह्य bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                          SDL_Window *window,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         स्थिर काष्ठा VkAllocationCallbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य व्योम Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          स्थिर काष्ठा VkAllocationCallbacks *allocator);
 
-#endif
+#पूर्ण_अगर
 
-#endif // SDL_androidvulkan_h_
+#पूर्ण_अगर // SDL_androidvulkan_h_

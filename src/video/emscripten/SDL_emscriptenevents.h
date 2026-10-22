@@ -19,15 +19,15 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_emscriptenevents_h_
-#define SDL_emscriptenevents_h_
+#अगर_अघोषित SDL_emscriptenevents_h_
+#घोषणा SDL_emscriptenevents_h_
 
-#include "SDL_emscriptenvideo.h"
+#समावेश "SDL_emscriptenvideo.h"
 
-extern void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_RegisterEventHandlers(SDL_WindowData *data);
-extern void Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
-extern EM_BOOL Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData);
+बाह्य व्योम Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
+बाह्य व्योम Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
+बाह्य व्योम Emscripten_RegisterEventHandlers(SDL_Window_तथ्य *तथ्य);
+बाह्य व्योम Emscripten_UnregisterEventHandlers(SDL_Window_तथ्य *तथ्य);
+बाह्य EM_BOOL Emscripten_HandleCanvasResize(पूर्णांक eventType, स्थिर व्योम *reserved, व्योम *user_तथ्य);
 
-#endif // SDL_emscriptenevents_h_
+#पूर्ण_अगर // SDL_emscriptenevents_h_

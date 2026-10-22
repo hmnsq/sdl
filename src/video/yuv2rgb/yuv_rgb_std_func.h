@@ -7,26 +7,26 @@
 	RGB_FORMAT
 */
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#अगर RGB_FORMAT == RGB_FORMAT_RGB565
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = \
 		((((Uint16)clampU8(y_tmp+r_tmp)) << 8 ) & 0xF800) | \
 		((((Uint16)clampU8(y_tmp+g_tmp)) << 3) & 0x07E0) | \
 		(((Uint16)clampU8(y_tmp+b_tmp)) >> 3); \
 	rgb_ptr += 2
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB24
+#या_अगर RGB_FORMAT == RGB_FORMAT_RGB24
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	rgb_ptr[0] = clampU8(y_tmp+r_tmp); \
 	rgb_ptr[1] = clampU8(y_tmp+g_tmp); \
 	rgb_ptr[2] = clampU8(y_tmp+b_tmp); \
 	rgb_ptr += 3
 
-#elif RGB_FORMAT == RGB_FORMAT_RGBA
+#या_अगर RGB_FORMAT == RGB_FORMAT_RGBA
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -34,9 +34,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_BGRA
+#या_अगर RGB_FORMAT == RGB_FORMAT_BGRA
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -44,9 +44,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ARGB
+#या_अगर RGB_FORMAT == RGB_FORMAT_ARGB
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 16) | \
@@ -54,9 +54,9 @@
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ABGR
+#या_अगर RGB_FORMAT == RGB_FORMAT_ABGR
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 16) | \
@@ -64,9 +64,9 @@
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_XBGR2101010
+#या_अगर RGB_FORMAT == RGB_FORMAT_XBGR2101010
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xC0000000 | \
 		(((Uint32)clamp10(y_tmp+b_tmp)) << 20) | \
@@ -74,92 +74,92 @@
 		(((Uint32)clamp10(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB48
+#या_अगर RGB_FORMAT == RGB_FORMAT_RGB48
 
-#define PACK_PIXEL(rgb_ptr) \
+#घोषणा PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + r_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += माप(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + g_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += माप(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + b_tmp); \
-	rgb_ptr += sizeof(Uint16)
+	rgb_ptr += माप(Uint16)
 
-#else
-#error PACK_PIXEL unimplemented
-#endif
+#अन्यथा
+#त्रुटि PACK_PIXEL unimplemented
+#पूर्ण_अगर
 
 
-#ifdef _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
-#pragma warning(push)
-#pragma warning(disable : 6239)
-#endif
+#अगर_घोषित _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
+#आशय warning(धकेलो)
+#आशय warning(disable : 6239)
+#पूर्ण_अगर
 
-#undef YUV_TYPE
-#if YUV_BITS > 8
-#define YUV_TYPE	uint16_t
-#else
-#define YUV_TYPE	uint8_t
-#endif
-#undef UV_OFFSET
-#define UV_OFFSET	(1 << ((YUV_BITS)-1))
+#अघोषित YUV_TYPE
+#अगर YUV_BITS > 8
+#घोषणा YUV_TYPE	uint16_t
+#अन्यथा
+#घोषणा YUV_TYPE	uint8_t
+#पूर्ण_अगर
+#अघोषित UV_OFFSET
+#घोषणा UV_OFFSET	(1 << ((YUV_BITS)-1))
 
-#undef GET
-#if YUV_BITS == 10
-#define GET(X)	((X) >> 6)
-#else
-#define GET(X)	(X)
-#endif
+#अघोषित GET
+#अगर YUV_BITS == 10
+#घोषणा GET(X)	((X) >> 6)
+#अन्यथा
+#घोषणा GET(X)	(X)
+#पूर्ण_अगर
 
-void STD_FUNCTION_NAME(
+व्योम STD_FUNCTION_NAME(
 	uint32_t width, uint32_t height,
-	const YUV_TYPE *Y, const YUV_TYPE *U, const YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
+	स्थिर YUV_TYPE *Y, स्थिर YUV_TYPE *U, स्थिर YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
 	uint8_t *RGB, uint32_t RGB_stride,
 	YCbCrType yuv_type)
 {
-	const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#elif YUV_FORMAT == YUV_FORMAT_422
-	#define y_pixel_stride 2
-	#define uv_pixel_stride 4
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_444
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 1
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_NV12
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 2
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#endif
+	स्थिर YUV2RGBParam *स्थिर param = &(YUV2RGB[yuv_type]);
+#अगर YUV_FORMAT == YUV_FORMAT_420
+	#घोषणा y_pixel_stride 1
+	#घोषणा uv_pixel_stride 1
+	#घोषणा uv_x_sample_interval 2
+	#घोषणा uv_y_sample_interval 2
+#या_अगर YUV_FORMAT == YUV_FORMAT_422
+	#घोषणा y_pixel_stride 2
+	#घोषणा uv_pixel_stride 4
+	#घोषणा uv_x_sample_interval 2
+	#घोषणा uv_y_sample_interval 1
+#या_अगर YUV_FORMAT == YUV_FORMAT_444
+	#घोषणा y_pixel_stride 1
+	#घोषणा uv_pixel_stride 1
+	#घोषणा uv_x_sample_interval 1
+	#घोषणा uv_y_sample_interval 1
+#या_अगर YUV_FORMAT == YUV_FORMAT_NV12
+	#घोषणा y_pixel_stride 1
+	#घोषणा uv_pixel_stride 2
+	#घोषणा uv_x_sample_interval 2
+	#घोषणा uv_y_sample_interval 2
+#पूर्ण_अगर
 
-	Y_stride /= sizeof(YUV_TYPE);
-	UV_stride /= sizeof(YUV_TYPE);
+	Y_stride /= माप(YUV_TYPE);
+	UV_stride /= माप(YUV_TYPE);
 
 	uint32_t x, y;
-	for(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
+	क्रम(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		स्थिर YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
-		#if uv_y_sample_interval > 1
-		const YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
-		#endif
+		#अगर uv_y_sample_interval > 1
+		स्थिर YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
+		#पूर्ण_अगर
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		#if uv_y_sample_interval > 1
+		#अगर uv_y_sample_interval > 1
 		uint8_t *rgb_ptr2=RGB+(y+1)*RGB_stride;
-		#endif
+		#पूर्ण_अगर
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		क्रम(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -175,39 +175,39 @@ void STD_FUNCTION_NAME(
 			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_x_sample_interval > 1
+			#अगर uv_x_sample_interval > 1
 			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
-			#endif
+			#पूर्ण_अगर
 
-			#if uv_y_sample_interval > 1
+			#अगर uv_y_sample_interval > 1
 			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr2);
 
 			y_tmp = (GET(y_ptr2[y_pixel_stride]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#पूर्ण_अगर
 
-			#if uv_x_sample_interval > 1
+			#अगर uv_x_sample_interval > 1
 			y_ptr1+=2*y_pixel_stride;
-			#else
+			#अन्यथा
 			y_ptr1+=y_pixel_stride;
-			#endif
-			#if uv_y_sample_interval > 1
+			#पूर्ण_अगर
+			#अगर uv_y_sample_interval > 1
 			y_ptr2+=2*y_pixel_stride;
-			#endif
-			#if uv_x_sample_interval > 1
+			#पूर्ण_अगर
+			#अगर uv_x_sample_interval > 1
 			u_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
-			#else
+			#अन्यथा
 			u_ptr+=uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=uv_pixel_stride/uv_x_sample_interval;
-			#endif
+			#पूर्ण_अगर
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#अगर uv_x_sample_interval == 2
+		अगर (x == (width-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -223,25 +223,25 @@ void STD_FUNCTION_NAME(
 			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_y_sample_interval > 1
+			#अगर uv_y_sample_interval > 1
 			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#पूर्ण_अगर
 		}
-#endif
+#पूर्ण_अगर
 	}
 
 	/* Catch the last line, if needed */
-#if uv_y_sample_interval == 2
-	if (y == (height-1))
+#अगर uv_y_sample_interval == 2
+	अगर (y == (height-1))
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		स्थिर YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		क्रम(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -266,8 +266,8 @@ void STD_FUNCTION_NAME(
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#अगर uv_x_sample_interval == 2
+		अगर (x == (width-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -283,21 +283,21 @@ void STD_FUNCTION_NAME(
 			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 		}
-#endif
+#पूर्ण_अगर
 	}
-#endif
+#पूर्ण_अगर
 
-	#undef y_pixel_stride
-	#undef uv_pixel_stride
-	#undef uv_x_sample_interval
-	#undef uv_y_sample_interval
+	#अघोषित y_pixel_stride
+	#अघोषित uv_pixel_stride
+	#अघोषित uv_x_sample_interval
+	#अघोषित uv_y_sample_interval
 }
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#अगर_घोषित _MSC_VER
+#आशय warning(निकालो)
+#पूर्ण_अगर
 
-#undef STD_FUNCTION_NAME
-#undef YUV_FORMAT
-#undef RGB_FORMAT
-#undef PACK_PIXEL
+#अघोषित STD_FUNCTION_NAME
+#अघोषित YUV_FORMAT
+#अघोषित RGB_FORMAT
+#अघोषित PACK_PIXEL

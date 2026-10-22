@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_cocoawindow_h_
-#define SDL_cocoawindow_h_
+#अगर_अघोषित SDL_cocoawindow_h_
+#घोषणा SDL_cocoawindow_h_
 
 #import <Cocoa/Cocoa.h>
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#endif
+#अगर_घोषित SDL_VIDEO_OPENGL_EGL
+#समावेश "../SDL_egl_c.h"
+#पूर्ण_अगर
 
-#define SDL_METALVIEW_TAG 255
+#घोषणा SDL_METALVIEW_TAG 255
 
-@class SDL_CocoaWindowData;
+@class SDL_Cocoa_Window_तथ्य;
 
-typedef enum
+प्रकार क्रमागत
 {
     PENDING_OPERATION_NONE = 0x00,
     PENDING_OPERATION_ENTER_FULLSCREEN = 0x01,
@@ -47,9 +47,9 @@ typedef enum
     /* SDL_CocoaWindowData owns this Listener and has a strong reference to it.
      * To avoid reference cycles, we could have either a weak or an
      * unretained ref to the WindowData. */
-    __weak SDL_CocoaWindowData *_data;
+    __weak SDL_Cocoa_Window_तथ्य *तथ्य_2;
     BOOL observingVisible;
-    BOOL wasCtrlLeft;
+    BOOL was_Ctrl_बायाँ;
     BOOL wasVisible;
     BOOL isFullscreenSpace;
     BOOL inFullscreenTransition;
@@ -57,87 +57,87 @@ typedef enum
     BOOL isMoving;
     BOOL isMiniaturizing;
     NSInteger focusClickPending;
-    float pendingWindowWarpX, pendingWindowWarpY;
+    भग्न pendingWindowWarpX, pendingWindowWarpY;
     BOOL isDragAreaRunning;
     NSTimer *liveResizeTimer;
 }
 
 - (BOOL)isTouchFromTrackpad:(NSEvent *)theEvent;
-- (void)listen:(SDL_CocoaWindowData *)data;
-- (void)pauseVisibleObservation;
-- (void)resumeVisibleObservation;
+- (व्योम)listen:(SDL_Cocoa_Window_तथ्य *)तथ्य;
+- (व्योम)pauseVisibleObservation;
+- (व्योम)resumeVisibleObservation;
 - (BOOL)setFullscreenSpace:(BOOL)state;
 - (BOOL)isInFullscreenSpace;
 - (BOOL)isInFullscreenSpaceTransition;
-- (void)addPendingWindowOperation:(PendingWindowOperation)operation;
-- (void)close;
+- (व्योम)addPendingWindowOperation:(PendingWindowOperation)operation;
+- (व्योम)बंद;
 
 - (BOOL)isMoving;
 - (BOOL)isMovingOrFocusClickPending;
-- (void)setFocusClickPending:(NSInteger)button;
-- (void)clearFocusClickPending:(NSInteger)button;
-- (void)updateIgnoreMouseState:(NSEvent *)theEvent;
-- (void)setPendingMoveX:(float)x Y:(float)y;
-- (void)windowDidFinishMoving;
-- (void)onMovingOrFocusClickPendingStateCleared;
+- (व्योम)setFocusClickPending:(NSInteger)button;
+- (व्योम)clearFocusClickPending:(NSInteger)button;
+- (व्योम)updateIgnoreMouseState:(NSEvent *)theEvent;
+- (व्योम)setPendingMoveX:(भग्न)x Y:(भग्न)y;
+- (व्योम)windowDidFinishMoving;
+- (व्योम)onMovingOrFocusClickPendingStateCleared;
 
 // Window delegate functionality
 - (BOOL)windowShouldClose:(id)sender;
-- (void)windowDidExpose:(NSNotification *)aNotification;
-- (void)windowDidChangeOcclusionState:(NSNotification *)aNotification;
-- (void)windowWillStartLiveResize:(NSNotification *)aNotification;
-- (void)windowDidEndLiveResize:(NSNotification *)aNotification;
-- (void)windowDidMove:(NSNotification *)aNotification;
-- (void)windowDidResize:(NSNotification *)aNotification;
-- (void)windowDidMiniaturize:(NSNotification *)aNotification;
-- (void)windowDidDeminiaturize:(NSNotification *)aNotification;
-- (void)windowDidBecomeKey:(NSNotification *)aNotification;
-- (void)windowDidResignKey:(NSNotification *)aNotification;
-- (void)windowDidChangeBackingProperties:(NSNotification *)aNotification;
-- (void)windowDidChangeScreenProfile:(NSNotification *)aNotification;
-- (void)windowDidChangeScreen:(NSNotification *)aNotification;
-- (void)windowWillEnterFullScreen:(NSNotification *)aNotification;
-- (void)windowDidEnterFullScreen:(NSNotification *)aNotification;
-- (void)windowWillExitFullScreen:(NSNotification *)aNotification;
-- (void)windowDidExitFullScreen:(NSNotification *)aNotification;
+- (व्योम)windowDidExpose:(NSNotification *)aNotification;
+- (व्योम)windowDidChangeOcclusionState:(NSNotification *)aNotification;
+- (व्योम)windowWillStartLiveResize:(NSNotification *)aNotification;
+- (व्योम)windowDidEndLiveResize:(NSNotification *)aNotification;
+- (व्योम)windowDidMove:(NSNotification *)aNotification;
+- (व्योम)windowDidResize:(NSNotification *)aNotification;
+- (व्योम)windowDidMiniaturize:(NSNotification *)aNotification;
+- (व्योम)windowDidDeminiaturize:(NSNotification *)aNotification;
+- (व्योम)window_Did_Become_कुंजी:(NSNotification *)aNotification;
+- (व्योम)window_Did_Resign_कुंजी:(NSNotification *)aNotification;
+- (व्योम)windowDidChangeBackingProperties:(NSNotification *)aNotification;
+- (व्योम)windowDidChangeScreenProfile:(NSNotification *)aNotification;
+- (व्योम)windowDidChangeScreen:(NSNotification *)aNotification;
+- (व्योम)windowWillEnterFullScreen:(NSNotification *)aNotification;
+- (व्योम)windowDidEnterFullScreen:(NSNotification *)aNotification;
+- (व्योम)windowWillExitFullScreen:(NSNotification *)aNotification;
+- (व्योम)windowDidExitFullScreen:(NSNotification *)aNotification;
 - (NSApplicationPresentationOptions)window:(NSWindow *)window willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)proposedOptions;
 
 // See if event is in a drag area, toggle on window dragging.
-- (void)updateHitTest;
+- (व्योम)updateHitTest;
 - (BOOL)processHitTest:(NSEvent *)theEvent;
 
 // Window event handling
-- (void)mouseDown:(NSEvent *)theEvent;
-- (void)rightMouseDown:(NSEvent *)theEvent;
-- (void)otherMouseDown:(NSEvent *)theEvent;
-- (void)mouseUp:(NSEvent *)theEvent;
-- (void)rightMouseUp:(NSEvent *)theEvent;
-- (void)otherMouseUp:(NSEvent *)theEvent;
-- (void)mouseMoved:(NSEvent *)theEvent;
-- (void)mouseDragged:(NSEvent *)theEvent;
-- (void)rightMouseDragged:(NSEvent *)theEvent;
-- (void)otherMouseDragged:(NSEvent *)theEvent;
-- (void)scrollWheel:(NSEvent *)theEvent;
-- (void)touchesBeganWithEvent:(NSEvent *)theEvent;
-- (void)touchesMovedWithEvent:(NSEvent *)theEvent;
-- (void)touchesEndedWithEvent:(NSEvent *)theEvent;
-- (void)touchesCancelledWithEvent:(NSEvent *)theEvent;
-- (void)magnifyWithEvent:(NSEvent *) theEvent;
+- (व्योम)mouseDown:(NSEvent *)theEvent;
+- (व्योम)दायाँ_Mouse_Down:(NSEvent *)theEvent;
+- (व्योम)otherMouseDown:(NSEvent *)theEvent;
+- (व्योम)mouseUp:(NSEvent *)theEvent;
+- (व्योम)दायाँ_Mouse_Up:(NSEvent *)theEvent;
+- (व्योम)otherMouseUp:(NSEvent *)theEvent;
+- (व्योम)mouseMoved:(NSEvent *)theEvent;
+- (व्योम)mouseDragged:(NSEvent *)theEvent;
+- (व्योम)दायाँ_Mouse_Dragged:(NSEvent *)theEvent;
+- (व्योम)otherMouseDragged:(NSEvent *)theEvent;
+- (व्योम)scrollWheel:(NSEvent *)theEvent;
+- (व्योम)touchesBeganWithEvent:(NSEvent *)theEvent;
+- (व्योम)touchesMovedWithEvent:(NSEvent *)theEvent;
+- (व्योम)touchesEndedWithEvent:(NSEvent *)theEvent;
+- (व्योम)touchesCancelledWithEvent:(NSEvent *)theEvent;
+- (व्योम)magnifyWithEvent:(NSEvent *) theEvent;
 
 // Touch event handling
-- (void)handleTouches:(NSTouchPhase)phase withEvent:(NSEvent *)theEvent;
+- (व्योम)handleTouches:(NSTouchPhase)phase withEvent:(NSEvent *)theEvent;
 
 // Tablet event handling (but these also come through on mouse events sometimes!)
-- (void)tabletProximity:(NSEvent *)theEvent;
-- (void)tabletPoint:(NSEvent *)theEvent;
+- (व्योम)tabletProximity:(NSEvent *)theEvent;
+- (व्योम)tabletPoint:(NSEvent *)theEvent;
 
 @end
 /* *INDENT-ON* */
 
 @class SDL3OpenGLContext;
-@class SDL_CocoaVideoData;
+@class SDL_Cocoa_Video_तथ्य;
 
-@interface SDL_CocoaWindowData : NSObject
+@interface SDL_Cocoa_Window_तथ्य : NSObject
 @property(nonatomic) SDL_Window *window;
 @property(nonatomic) NSWindow *nswindow;
 @property(nonatomic) NSView *sdlContentView;
@@ -146,56 +146,56 @@ typedef enum
 @property(nonatomic) BOOL in_blocking_transition;
 @property(nonatomic) BOOL fullscreen_space_requested;
 @property(nonatomic) BOOL was_zoomed;
-@property(nonatomic) NSInteger window_number;
+@property(nonatomic) NSInteger window_संख्या;
 @property(nonatomic) NSInteger flash_request;
 @property(nonatomic) SDL3Cocoa_WindowListener *listener;
 @property(nonatomic) NSModalSession modal_session;
-@property(nonatomic) SDL_CocoaVideoData *videodata;
-@property(nonatomic) bool pending_size;
+@property(nonatomic) SDL_Cocoa_Video_तथ्य *videodata;
+@property(nonatomic) bool pending_आकार;
 @property(nonatomic) bool pending_position;
 @property(nonatomic) bool border_toggled;
 @property(nonatomic) bool has_modal_dialog;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#अगर_घोषित SDL_VIDEO_OPENGL_EGL
 @property(nonatomic) EGLSurface egl_surface;
-#endif
+#पूर्ण_अगर
 @end
 
-extern bool b_inModeTransition;
+बाह्य bool b_inModeTransition;
 
-extern bool Cocoa_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Cocoa_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Cocoa_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern bool Cocoa_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Cocoa_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Cocoa_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void Cocoa_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult Cocoa_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void *Cocoa_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern SDL_DisplayID Cocoa_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Cocoa_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void Cocoa_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool Cocoa_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Cocoa_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool Cocoa_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Cocoa_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool Cocoa_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+बाह्य व्योम Cocoa_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
+बाह्य bool Cocoa_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_Set_Window_आकार(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_Set_Window_Minimum_आकार(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_Set_Window_Maximum_आकार(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_Get_Window_आकार_In_Pixels(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक *w, पूर्णांक *h);
+बाह्य bool Cocoa_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, भग्न opacity);
+बाह्य व्योम Cocoa_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम Cocoa_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+बाह्य व्योम Cocoa_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+बाह्य व्योम Cocoa_Set_Window_Always_On_शीर्ष(SDL_VideoDevice *_this, SDL_Window *window, bool on_शीर्ष);
+बाह्य SDL_Fullscreen_परिणाम Cocoa_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+बाह्य व्योम *Cocoa_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, माप_प्रकार *आकार);
+बाह्य SDL_DisplayID Cocoa_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+बाह्य व्योम Cocoa_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_SetWindowHitTest(SDL_Window *window, bool enabled);
+बाह्य व्योम Cocoa_AcceptDragAndDrop(SDL_Window *window, bool accept);
+बाह्य bool Cocoa_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
+बाह्य bool Cocoa_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+बाह्य bool Cocoa_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+बाह्य bool Cocoa_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
+बाह्य bool Cocoa_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern void Cocoa_MenuVisibilityCallback(void *userdata, const char *name, const char *oldValue, const char *newValue);
+बाह्य व्योम Cocoa_MenuVisibilityCallback(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य);
 
-#endif // SDL_cocoawindow_h_
+#पूर्ण_अगर // SDL_cocoawindow_h_

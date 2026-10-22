@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_kmsdrmopengles_h_
-#define SDL_kmsdrmopengles_h_
+#अगर_अघोषित SDL_kmsdrmopengles_h_
+#घोषणा SDL_kmsdrmopengles_h_
 
-#include "../SDL_egl_c.h"
+#समावेश "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define KMSDRM_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
-#define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#घोषणा KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
+#घोषणा KMSDRM_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
+#घोषणा KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
+#घोषणा KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 
-extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य व्योम KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+बाह्य bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, पूर्णांक interval);
+बाह्य bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य व्योम KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 
-#endif // SDL_kmsdrmopengles_h_
+#पूर्ण_अगर // SDL_kmsdrmopengles_h_

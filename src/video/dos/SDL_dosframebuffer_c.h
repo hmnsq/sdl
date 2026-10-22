@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosframebuffer_c_h_
-#define SDL_dosframebuffer_c_h_
+#अगर_अघोषित SDL_dosframebuffer_c_h_
+#घोषणा SDL_dosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-extern bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
-extern bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int vsync);
-extern bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int *vsync);
-extern void DOSVESA_InvalidateCachedFramebuffer(void);
+बाह्य bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, व्योम **pixels, पूर्णांक *pitch);
+बाह्य bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, स्थिर SDL_Rect *rects, पूर्णांक numrects);
+बाह्य व्योम DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
+बाह्य bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, पूर्णांक vsync);
+बाह्य bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, पूर्णांक *vsync);
+बाह्य व्योम DOSVESA_InvalidateCachedFramebuffer(व्योम);
 
-#endif // SDL_dosframebuffer_c_h_
+#पूर्ण_अगर // SDL_dosframebuffer_c_h_

@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BFRAMEBUFFER_H
-#define SDL_BFRAMEBUFFER_H
-#include <SupportDefs.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_अघोषित SDL_BFRAMEBUFFER_H
+#घोषणा SDL_BFRAMEBUFFER_H
+#समावेश <SupportDefs.h>
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
-#define DRAWTHREAD
+#घोषणा DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+बाह्य bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
-extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
-extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
-extern int32 HAIKU_DrawThread(void *data);
+                                          व्योम **pixels, पूर्णांक *pitch);
+बाह्य bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+                                          स्थिर SDL_Rect *rects, पूर्णांक numrects);
+बाह्य व्योम HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य int32 HAIKU_DrawThread(व्योम *तथ्य);
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

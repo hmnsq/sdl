@@ -1,5 +1,5 @@
-#ifndef VULKAN_IOS_H_
-#define VULKAN_IOS_H_ 1
+#अगर_अघोषित VULKAN_IOS_H_
+#घोषणा VULKAN_IOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
 
 
 // VK_MVK_ios_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_ios_surface 1
+#घोषणा VK_MVK_ios_surface 1
 
-#define VK_MVK_IOS_SURFACE_SPEC_VERSION   3
-#define VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
+#घोषणा VK_MVK_IOS_SURFACE_SPEC_VERSION   3
+#घोषणा VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
 
-typedef VkFlags VkIOSSurfaceCreateFlagsMVK;
+प्रकार VkFlags VkIOSSurfaceCreateFlagsMVK;
 
-typedef struct VkIOSSurfaceCreateInfoMVK {
+प्रकार काष्ठा VkIOSSurfaceCreateInfoMVK {
     VkStructureType               sType;
-    const void*                   pNext;
+    स्थिर व्योम*                   p_अग्र;
     VkIOSSurfaceCreateFlagsMVK    flags;
-    const void*                   pView;
+    स्थिर व्योम*                   pView;
 } VkIOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकार Vk_परिणाम (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, स्थिर VkIOSSurfaceCreateInfoMVK* pCreateInfo, स्थिर VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#अगर_अघोषित VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateIOSSurfaceMVK(
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vkCreateIOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    स्थिर VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
+    स्थिर VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

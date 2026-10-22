@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitopengles_
-#define SDL_uikitopengles_
+#अगर_अघोषित SDL_uikitopengles_
+#घोषणा SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#अगर defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+बाह्य bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                                 SDL_GLContext context);
-extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+बाह्य bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+बाह्य SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, स्थिर अक्षर *proc);
+बाह्य bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
 
-extern void UIKit_GL_RestoreCurrentContext(void);
+बाह्य व्योम UIKit_GL_RestoreCurrentContext(व्योम);
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#पूर्ण_अगर // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-#endif // SDL_uikitopengles_
+#पूर्ण_अगर // SDL_uikitopengles_

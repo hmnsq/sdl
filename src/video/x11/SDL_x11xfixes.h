@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_x11xfixes_h_
-#define SDL_x11xfixes_h_
+#अगर_अघोषित SDL_x11xfixes_h_
+#घोषणा SDL_x11xfixes_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XFIXES
 
-#define X11_BARRIER_HANDLED_BY_EVENT 1
+#घोषणा X11_BARRIER_HANDLED_BY_EVENT 1
 
-extern void X11_InitXfixes(SDL_VideoDevice *_this);
-extern bool X11_XfixesIsInitialized(void);
-extern bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags);
-extern void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
-extern int X11_GetXFixesSelectionNotifyEvent(void);
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+बाह्य व्योम X11_InitXfixes(SDL_VideoDevice *_this);
+बाह्य bool X11_XfixesIsInitialized(व्योम);
+बाह्य bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, स्थिर SDL_Rect *rect, पूर्णांक flags);
+बाह्य व्योम X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य पूर्णांक X11_GetXFixesSelectionNotifyEvent(व्योम);
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_X11_XFIXES
 
-#endif // SDL_x11xfixes_h_
+#पूर्ण_अगर // SDL_x11xfixes_h_

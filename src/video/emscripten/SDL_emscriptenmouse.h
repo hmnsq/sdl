@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_emscriptenmouse_h_
-#define SDL_emscriptenmouse_h_
+#अगर_अघोषित SDL_emscriptenmouse_h_
+#घोषणा SDL_emscriptenmouse_h_
 
-struct SDL_CursorData
+काष्ठा SDL_Cursor_तथ्य
 {
-    const char *system_cursor;
+    स्थिर अक्षर *system_cursor;
     bool is_custom;
 };
 
-extern void Emscripten_InitMouse(void);
-extern void Emscripten_QuitMouse(void);
+बाह्य व्योम Emscripten_InitMouse(व्योम);
+बाह्य व्योम Emscripten_QuitMouse(व्योम);
 
-#endif // SDL_emscriptenmouse_h_
+#पूर्ण_अगर // SDL_emscriptenmouse_h_

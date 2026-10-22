@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#अगर_घोषित SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#समावेश "../SDL_sysvideo.h"
+#समावेश "../SDL_pixels_c.h"
+#समावेश "../../events/SDL_events_c.h"
+#समावेश "../../events/SDL_keyboard_c.h"
+#समावेश "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosmouse.h"
-#include "SDL_riscosmodes.h"
-#include "SDL_riscoswindow.h"
-#include "SDL_riscosmessagebox.h"
+#समावेश "SDL_riscosvideo.h"
+#समावेश "SDL_riscosevents_c.h"
+#समावेश "SDL_riscosframebuffer_c.h"
+#समावेश "SDL_riscosmouse.h"
+#समावेश "SDL_riscosmodes.h"
+#समावेश "SDL_riscoswindow.h"
+#समावेश "SDL_riscosmessagebox.h"
 
-#define RISCOSVID_DRIVER_NAME "riscos"
+#घोषणा RISCOSVID_DRIVER_NAME "riscos"
 
 // Initialization/Query functions
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this);
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this);
+अटल bool RISCOS_VideoInit(SDL_VideoDevice *_this);
+अटल व्योम RISCOS_VideoQuit(SDL_VideoDevice *_this);
 
 // RISC OS driver bootstrap functions
 
-static void RISCOS_DeleteDevice(SDL_VideoDevice *device)
+अटल व्योम RISCOS_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *RISCOS_CreateDevice(void)
+अटल SDL_VideoDevice *RISCOS_CreateDevice(व्योम)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_तथ्य *तथ्य;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, माप(SDL_VideoDevice));
+    अगर (!device) {
+        वापस शून्य;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    तथ्य = (SDL_Video_तथ्य *)SDL_calloc(1, माप(SDL_Video_तथ्य));
+    अगर (!तथ्य) {
         SDL_free(device);
-        return NULL;
+        वापस शून्य;
     }
 
-    device->internal = data;
+    device->internal = तथ्य;
 
     // Set the function pointers
     device->VideoInit = RISCOS_VideoInit;
@@ -85,12 +85,12 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     device->UpdateWindowFramebuffer = RISCOS_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = RISCOS_DestroyWindowFramebuffer;
 
-    device->free = RISCOS_DeleteDevice;
+    device->मुक्त = RISCOS_DeleteDevice;
 
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    वापस device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
@@ -100,31 +100,31 @@ VideoBootStrap RISCOS_bootstrap = {
     false
 };
 
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
+अटल bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    अगर (!RISCOS_InitEvents(_this)) {
+        वापस false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    अगर (!RISCOS_InitMouse(_this)) {
+        वापस false;
     }
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, शून्य);
+    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, शून्य);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    अगर (!RISCOS_InitModes(_this)) {
+        वापस false;
     }
 
     // We're done!
-    return true;
+    वापस true;
 }
 
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this)
+अटल व्योम RISCOS_VideoQuit(SDL_VideoDevice *_this)
 {
     RISCOS_QuitEvents(_this);
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_RISCOS

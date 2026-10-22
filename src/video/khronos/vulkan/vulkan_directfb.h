@@ -1,5 +1,5 @@
-#ifndef VULKAN_DIRECTFB_H_
-#define VULKAN_DIRECTFB_H_ 1
+#अगर_अघोषित VULKAN_DIRECTFB_H_
+#घोषणा VULKAN_DIRECTFB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
 
 
 // VK_EXT_directfb_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_directfb_surface 1
+#घोषणा VK_EXT_directfb_surface 1
 
-#define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
-#define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
+#घोषणा VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
+#घोषणा VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
 
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+प्रकार VkFlags VkDirectFBSurfaceCreateFlagsEXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+प्रकार काष्ठा VkDirectFBSurfaceCreateInfoEXT {
     VkStructureType                    sType;
-    const void*                        pNext;
+    स्थिर व्योम*                        p_अग्र;
     VkDirectFBSurfaceCreateFlagsEXT    flags;
     IDirectFB*                         dfb;
     IDirectFBSurface*                  surface;
 } VkDirectFBSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
+प्रकार Vk_परिणाम (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, स्थिर VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, स्थिर VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकार VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_सूचकांक, IDirectFB* dfb);
 
-#ifndef VK_NO_PROTOTYPES
+#अगर_अघोषित VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vkCreateDirectFBSurfaceEXT(
     VkInstance                                  instance,
-    const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    स्थिर VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
+    स्थिर VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#पूर्ण_अगर
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceDirectFBPresentationSupportEXT(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    queue_Family_सूचकांक,
     IDirectFB*                                  dfb);
-#endif
-#endif
+#पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

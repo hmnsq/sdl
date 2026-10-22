@@ -24,29 +24,29 @@
  * www.edgewise-consulting.com, and originally based on Jacob Lifshay's SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_openharmonyvulkan_h_
-#define SDL_openharmonyvulkan_h_
+#अगर_अघोषित SDL_openharmonyvulkan_h_
+#घोषणा SDL_openharmonyvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_vulkan_internal.h"
+#समावेश "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#अगर defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
-extern bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+बाह्य bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य व्योम OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य अक्षर स्थिर * स्थिर *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गिनती);
+बाह्य bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                          SDL_Window *window,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         स्थिर काष्ठा VkAllocationCallbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य व्योम OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          स्थिर काष्ठा VkAllocationCallbacks *allocator);
 
-#endif
+#पूर्ण_अगर
 
-#endif // SDL_openharmonyvulkan_h_
+#पूर्ण_अगर // SDL_openharmonyvulkan_h_

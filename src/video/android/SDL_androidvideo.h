@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#अगर_अघोषित SDL_androidvideo_h_
+#घोषणा SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+बाह्य व्योम Android_SetScreenResolution(पूर्णांक surfaceWidth, पूर्णांक surfaceHeight, पूर्णांक deviceWidth, पूर्णांक deviceHeight, भग्न density, भग्न rate);
+बाह्य व्योम Android_SetScreenHDRHeadroom(भग्न headroom);
+बाह्य व्योम Android_SetFormat(पूर्णांक format_wanted, पूर्णांक format_got);
+बाह्य व्योम Android_SetOrientation(SDL_DisplayOrientation orientation);
+बाह्य व्योम Android_SendResize(SDL_Window *window);
+बाह्य व्योम Android_SetWindowSafeAreaInsets(पूर्णांक बायाँ, पूर्णांक दायाँ, पूर्णांक शीर्ष, पूर्णांक bottom);
+बाह्य व्योम Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+काष्ठा SDL_Video_तथ्य
 {
-    int isPaused;
-    int isPausing;
+    पूर्णांक isPaused;
+    पूर्णांक isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+बाह्य पूर्णांक Android_SurfaceWidth;
+बाह्य पूर्णांक Android_SurfaceHeight;
+बाह्य भग्न Android_ScreenDensity;
+बाह्य पूर्णांक Android_Safe_Inset_बायाँ;
+बाह्य पूर्णांक Android_Safe_Inset_दायाँ;
+बाह्य पूर्णांक Android_Safe_Inset_शीर्ष;
+बाह्य पूर्णांक Android_SafeInsetBottom;
 
-#endif // SDL_androidvideo_h_
+#पूर्ण_अगर // SDL_androidvideo_h_

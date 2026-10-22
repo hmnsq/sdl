@@ -18,113 +18,113 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#अगर_घोषित SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5_webgl.h>
-#include <GLES2/gl2.h>
+#समावेश <emscripten/emscripten.h>
+#समावेश <emscripten/html5_webgl.h>
+#समावेश <GLES2/gl2.h>
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "../../main/SDL_main_callbacks.h"
+#समावेश "SDL_emscriptenvideo.h"
+#समावेश "SDL_emscriptenopengles.h"
+#समावेश "../../main/SDL_main_callbacks.h"
 
-bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path)
 {
-    return true;
+    वापस true;
 }
 
-void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+व्योम Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
 }
 
-SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, स्थिर अक्षर *proc)
 {
-    return emscripten_webgl_get_proc_address(proc);
+    वापस emscripten_webgl_get_proc_address(proc);
 }
 
-bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, पूर्णांक interval)
 {
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
+    अगर (interval < 0) {
+        वापस SDL_SetError("Late swap tearing currently unsupported");
     }
 
-    if (Emscripten_ShouldSetSwapInterval(interval)) {
+    अगर (Emscripten_ShouldSetSwapInterval(interval)) {
         // don't change the mainloop timing if the app is also driving a main callback with this hint,
         //  as we assume that was the more deliberate action.
-        if (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
-            if (interval == 0) {
+        अगर (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
+            अगर (interval == 0) {
                 emscripten_set_main_loop_timing(EM_TIMING_SETTIMEOUT, 0);
-            } else {
+            } अन्यथा {
                 emscripten_set_main_loop_timing(EM_TIMING_RAF, interval);
             }
         }
     }
 
-    return true;
+    वापस true;
 }
 
-bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, पूर्णांक *interval)
 {
-    const int pending = Emscripten_GetPendingSwapInterval();
-    if (pending >= 0) {
+    स्थिर पूर्णांक pending = Emscripten_GetPendingSwapInterval();
+    अगर (pending >= 0) {
         *interval = pending;
-        return true;  // we're planning to set it to this once the system settles down.
+        वापस true;  // we're planning to set it to this once the system settles down.
     }
 
-    int mode, value;
+    पूर्णांक mode, मूल्य;
 
-    emscripten_get_main_loop_timing(&mode, &value);
+    emscripten_get_main_loop_timing(&mode, &मूल्य);
 
-    if (mode == EM_TIMING_RAF) {
-        *interval = value;
-        return true;
-    } else {
+    अगर (mode == EM_TIMING_RAF) {
+        *interval = मूल्य;
+        वापस true;
+    } अन्यथा {
         *interval = 0;
-        return true;
+        वापस true;
     }
 }
 
 SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *window_data;
+    SDL_Window_तथ्य *window_तथ्य_2;
 
     EmscriptenWebGLContextAttributes attribs;
     EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
 
     emscripten_webgl_init_context_attributes(&attribs);
 
-    attribs.alpha = _this->gl_config.alpha_size > 0;
-    attribs.depth = _this->gl_config.depth_size > 0;
-    attribs.stencil = _this->gl_config.stencil_size > 0;
+    attribs.alpha = _this->gl_config.alpha_आकार > 0;
+    attribs.depth = _this->gl_config.depth_आकार > 0;
+    attribs.stencil = _this->gl_config.stencil_आकार > 0;
     attribs.antialias = _this->gl_config.multisamplebuffers == 1;
 
-    if (_this->gl_config.major_version == 3)
+    अगर (_this->gl_config.major_version == 3)
         attribs.majorVersion = 2; // WebGL 2.0 ~= GLES 3.0
 
-    window_data = window->internal;
+    window_तथ्य_2 = window->internal;
 
-    if (window_data->gl_context) {
+    अगर (window_तथ्य_2->gl_context) {
         SDL_SetError("Cannot create multiple webgl contexts per window");
-        return NULL;
+        वापस शून्य;
     }
 
-    context = emscripten_webgl_create_context(window_data->canvas_id, &attribs);
+    context = emscripten_webgl_create_context(window_तथ्य_2->canvas_id, &attribs);
 
-    if (!context) {
+    अगर (!context) {
         SDL_SetError("Could not create webgl context");
-        return NULL;
+        वापस शून्य;
     }
 
-    if (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
+    अगर (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_परिणाम_SUCCESS) {
         emscripten_webgl_destroy_context(context);
-        return NULL;
+        वापस शून्य;
     }
 
-    window_data->gl_context = (SDL_GLContext)context;
+    window_तथ्य_2->gl_context = (SDL_GLContext)context;
 
-    return (SDL_GLContext)context;
+    वापस (SDL_GLContext)context;
 }
 
 bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -132,42 +132,42 @@ bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext contex
     SDL_Window *window;
 
     // remove the context from its window
-    for (window = _this->windows; window; window = window->next) {
-        SDL_WindowData *window_data = window->internal;
+    क्रम (window = _this->windows; window; window = window->अग्र) {
+        SDL_Window_तथ्य *window_तथ्य_2 = window->internal;
 
-        if (window_data->gl_context == context) {
-            window_data->gl_context = NULL;
+        अगर (window_तथ्य_2->gl_context == context) {
+            window_तथ्य_2->gl_context = शून्य;
         }
     }
 
     emscripten_webgl_destroy_context((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context);
-    return true;
+    वापस true;
 }
 
 bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    अगर (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
-    return true;
+    वापस true;
 }
 
 bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
     // it isn't possible to reuse contexts across canvases
-    if (window && context) {
-        SDL_WindowData *window_data = window->internal;
+    अगर (window && context) {
+        SDL_Window_तथ्य *window_तथ्य_2 = window->internal;
 
-        if (context != window_data->gl_context) {
-            return SDL_SetError("Cannot make context current to another window");
+        अगर (context != window_तथ्य_2->gl_context) {
+            वापस SDL_SetError("Cannot make context current to another window");
         }
     }
 
-    if (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
-        return SDL_SetError("Unable to make context current");
+    अगर (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_परिणाम_SUCCESS) {
+        वापस SDL_SetError("Unable to make context current");
     }
-    return true;
+    वापस true;
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_EMSCRIPTEN

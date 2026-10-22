@@ -1,5 +1,5 @@
-#ifndef VULKAN_OHOS_H_
-#define VULKAN_OHOS_H_ 1
+#अगर_अघोषित VULKAN_OHOS_H_
+#घोषणा VULKAN_OHOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,36 +13,36 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
 
 
 // VK_OHOS_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_external_memory 1
+#घोषणा VK_OHOS_external_memory 1
 
-struct OH_NativeBuffer;
+काष्ठा OH_Native_बफर;
 
-#define VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
+#घोषणा VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
+#घोषणा VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
 
-typedef struct VkNativeBufferUsageOHOS {
+प्रकार काष्ठा Vk_Native_बफर_Usage_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    uint64_t           OHOSNativeBufferUsage;
-} VkNativeBufferUsageOHOS;
+    व्योम*              p_अग्र;
+    uint64_t           OHOSNative_बफर_Usage;
+} Vk_Native_बफर_Usage_OHOS;
 
-typedef struct VkNativeBufferPropertiesOHOS {
+प्रकार काष्ठा Vk_Native_बफर_Properties_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
+    व्योम*              p_अग्र;
+    Vk_Device_आकार       allocation_आकार;
     uint32_t           memoryTypeBits;
-} VkNativeBufferPropertiesOHOS;
+} Vk_Native_बफर_Properties_OHOS;
 
-typedef struct VkNativeBufferFormatPropertiesOHOS {
+प्रकार काष्ठा Vk_Native_बफर_Format_Properties_OHOS {
     VkStructureType                  sType;
-    void*                            pNext;
+    व्योम*                            p_अग्र;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
@@ -51,80 +51,80 @@ typedef struct VkNativeBufferFormatPropertiesOHOS {
     VkSamplerYcbcrRange              suggestedYcbcrRange;
     VkChromaLocation                 suggestedXChromaOffset;
     VkChromaLocation                 suggestedYChromaOffset;
-} VkNativeBufferFormatPropertiesOHOS;
+} Vk_Native_बफर_Format_Properties_OHOS;
 
-typedef struct VkImportNativeBufferInfoOHOS {
+प्रकार काष्ठा Vk_Import_Native_बफर_Info_OHOS {
     VkStructureType            sType;
-    const void*                pNext;
-    struct OH_NativeBuffer*    buffer;
-} VkImportNativeBufferInfoOHOS;
+    स्थिर व्योम*                p_अग्र;
+    काष्ठा OH_Native_बफर*    बफर_2;
+} Vk_Import_Native_बफर_Info_OHOS;
 
-typedef struct VkMemoryGetNativeBufferInfoOHOS {
+प्रकार काष्ठा Vk_Memory_Get_Native_बफर_Info_OHOS {
     VkStructureType    sType;
-    const void*        pNext;
+    स्थिर व्योम*        p_अग्र;
     VkDeviceMemory     memory;
-} VkMemoryGetNativeBufferInfoOHOS;
+} Vk_Memory_Get_Native_बफर_Info_OHOS;
 
-typedef struct VkExternalFormatOHOS {
+प्रकार काष्ठा VkExternalFormatOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    व्योम*              p_अग्र;
     uint64_t           externalFormat;
 } VkExternalFormatOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+प्रकार Vk_परिणाम (VKAPI_PTR *PFN_vk_Get_Native_बफर_Properties_OHOS)(VkDevice device, स्थिर काष्ठा OH_Native_बफर* बफर_2, Vk_Native_बफर_Properties_OHOS* pProperties);
+प्रकार Vk_परिणाम (VKAPI_PTR *PFN_vk_Get_Memory_Native_बफर_OHOS)(VkDevice device, स्थिर Vk_Memory_Get_Native_बफर_Info_OHOS* pInfo, काष्ठा OH_Native_बफर** p_बफर);
 
-#ifndef VK_NO_PROTOTYPES
+#अगर_अघोषित VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetNativeBufferPropertiesOHOS(
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vk_Get_Native_बफर_Properties_OHOS(
     VkDevice                                    device,
-    const struct OH_NativeBuffer*               buffer,
-    VkNativeBufferPropertiesOHOS*               pProperties);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
+    स्थिर काष्ठा OH_Native_बफर*               बफर_2,
+    Vk_Native_बफर_Properties_OHOS*               pProperties);
+#पूर्ण_अगर
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vk_Get_Memory_Native_बफर_OHOS(
     VkDevice                                    device,
-    const VkMemoryGetNativeBufferInfoOHOS*      pInfo,
-    struct OH_NativeBuffer**                    pBuffer);
-#endif
-#endif
+    स्थिर Vk_Memory_Get_Native_बफर_Info_OHOS*      pInfo,
+    काष्ठा OH_Native_बफर**                    p_बफर);
+#पूर्ण_अगर
+#पूर्ण_अगर
 
 
 // VK_OHOS_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_surface 1
+#घोषणा VK_OHOS_surface 1
 
-typedef struct NativeWindow OHNativeWindow;
+प्रकार काष्ठा NativeWindow OHNativeWindow;
 
-#define VK_OHOS_SURFACE_SPEC_VERSION      1
-#define VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
+#घोषणा VK_OHOS_SURFACE_SPEC_VERSION      1
+#घोषणा VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
 
-typedef VkFlags VkSurfaceCreateFlagsOHOS;
+प्रकार VkFlags VkSurfaceCreateFlagsOHOS;
 
-typedef struct VkSurfaceCreateInfoOHOS {
+प्रकार काष्ठा VkSurfaceCreateInfoOHOS {
     VkStructureType             sType;
-    const void*                 pNext;
+    स्थिर व्योम*                 p_अग्र;
     VkSurfaceCreateFlagsOHOS    flags;
     OHNativeWindow*             window;
 } VkSurfaceCreateInfoOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकार Vk_परिणाम (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, स्थिर VkSurfaceCreateInfoOHOS* pCreateInfo, स्थिर VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#अगर_अघोषित VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateSurfaceOHOS(
+#अगर_अघोषित VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vkCreateSurfaceOHOS(
     VkInstance                                  instance,
-    const VkSurfaceCreateInfoOHOS*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    स्थिर VkSurfaceCreateInfoOHOS*              pCreateInfo,
+    स्थिर VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

@@ -9,10 +9,10 @@
  * in egl.h leading applications to include only egl.h
  */
 
-#ifndef __legacy_egl_h_
-#define __legacy_egl_h_
+#अगर_अघोषित __legacy_egl_h_
+#घोषणा __legacy_egl_h_
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
+#समावेश <EGL/egl.h>
+#समावेश <GLES/gl.h>
 
-#endif /* __legacy_egl_h_ */
+#पूर्ण_अगर /* __legacy_egl_h_ */

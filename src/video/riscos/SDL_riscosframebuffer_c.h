@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_riscosframebuffer_c_h_
-#define SDL_riscosframebuffer_c_h_
+#अगर_अघोषित SDL_riscosframebuffer_c_h_
+#घोषणा SDL_riscosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-extern bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, व्योम **pixels, पूर्णांक *pitch);
+बाह्य bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, स्थिर SDL_Rect *rects, पूर्णांक numrects);
+बाह्य व्योम RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 
-#endif // SDL_riscosframebuffer_c_h_
+#पूर्ण_अगर // SDL_riscosframebuffer_c_h_

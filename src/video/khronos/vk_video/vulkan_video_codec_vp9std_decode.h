@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODEC_VP9STD_DECODE_H_
-#define VULKAN_VIDEO_CODEC_VP9STD_DECODE_H_ 1
+#अगर_अघोषित VULKAN_VIDEO_CODEC_VP9STD_DECODE_H_
+#घोषणा VULKAN_VIDEO_CODEC_VP9STD_DECODE_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,35 +13,35 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
 
 
 // vulkan_video_codec_vp9std_decode is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codec_vp9std_decode 1
+#घोषणा vulkan_video_codec_vp9std_decode 1
 
-#include "vulkan_video_codec_vp9std.h"
+#समावेश "vulkan_video_codec_vp9std.h"
 
-#define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
+#घोषणा VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
-#define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0
-#define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_vp9_decode"
+#घोषणा VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0
+#घोषणा VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_vp9_decode"
 
-typedef struct StdVideoDecodeVP9PictureInfoFlags {
+प्रकार काष्ठा StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    intra_only : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_ऊपरी_precision_mv : 1;
     uint32_t    refresh_frame_context : 1;
     uint32_t    frame_parallel_decoding_mode : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    show_frame : 1;
-    uint32_t    UsePrevFrameMvs : 1;
+    uint32_t    Use_पूर्व_Frame_Mvs : 1;
     uint32_t    reserved : 24;
 } StdVideoDecodeVP9PictureInfoFlags;
 
-typedef struct StdVideoDecodeVP9PictureInfo {
+प्रकार काष्ठा StdVideoDecodeVP9PictureInfo {
     StdVideoDecodeVP9PictureInfoFlags    flags;
     StdVideoVP9Profile                   profile;
     StdVideoVP9FrameType                 frame_type;
@@ -57,14 +57,14 @@ typedef struct StdVideoDecodeVP9PictureInfo {
     uint8_t                              tile_cols_log2;
     uint8_t                              tile_rows_log2;
     uint16_t                             reserved1[3];
-    const StdVideoVP9ColorConfig*        pColorConfig;
-    const StdVideoVP9LoopFilter*         pLoopFilter;
-    const StdVideoVP9Segmentation*       pSegmentation;
+    स्थिर StdVideoVP9ColorConfig*        pColorConfig;
+    स्थिर StdVideoVP9LoopFilter*         pLoopFilter;
+    स्थिर StdVideoVP9Segmentation*       pSegmentation;
 } StdVideoDecodeVP9PictureInfo;
 
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

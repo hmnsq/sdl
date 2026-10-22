@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#अगर_घोषित SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#समावेश <3ds.h>
 
-#include "../../events/SDL_touch_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#समावेश "../../events/SDL_touch_c.h"
+#समावेश "../SDL_sysvideo.h"
+#समावेश "SDL_n3dstouch.h"
+#समावेश "SDL_n3dsvideo.h"
 
-#define N3DS_TOUCH_ID 1
-#define N3DS_TOUCH_FINGER 1
+#घोषणा N3DS_TOUCH_ID 1
+#घोषणा N3DS_TOUCH_FINGER 1
 
 /*
   Factors used to convert touchscreen coordinates to
@@ -39,34 +39,34 @@
   internally in a portrait disposition so the
   GSP_SCREEN constants are flipped.
 */
-#define TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
-#define TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_WIDTH - 1)
+#घोषणा TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
+#घोषणा TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_WIDTH - 1)
 
-void N3DS_InitTouch(void)
+व्योम N3DS_InitTouch(व्योम)
 {
     SDL_AddTouch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_DIRECT, "Touchscreen");
 }
 
-void N3DS_QuitTouch(void)
+व्योम N3DS_QuitTouch(व्योम)
 {
     SDL_DelTouch(N3DS_TOUCH_ID);
 }
 
-void N3DS_PollTouch(SDL_VideoDevice *_this)
+व्योम N3DS_PollTouch(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_तथ्य *internal = (SDL_Video_तथ्य *)_this->internal;
     touchPosition touch;
     SDL_Window *window;
     SDL_VideoDisplay *display;
-    static bool was_pressed = false;
+    अटल bool was_pressed = false;
     bool pressed;
     hidTouchRead(&touch);
     pressed = (touch.px != 0 || touch.py != 0);
 
     display = SDL_GetVideoDisplay(internal->touch_display);
-    window = display ? display->fullscreen_window : NULL;
+    window = display ? display->fullscreen_window : शून्य;
 
-    if (pressed != was_pressed) {
+    अगर (pressed != was_pressed) {
         was_pressed = pressed;
         SDL_SendTouch(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
                       window,
@@ -74,7 +74,7 @@ void N3DS_PollTouch(SDL_VideoDevice *_this)
                       touch.px * TOUCHSCREEN_SCALE_X,
                       touch.py * TOUCHSCREEN_SCALE_Y,
                       pressed ? 1.0f : 0.0f);
-    } else if (pressed) {
+    } अन्यथा अगर (pressed) {
         SDL_SendTouchMotion(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
                             window,
                             touch.px * TOUCHSCREEN_SCALE_X,
@@ -83,4 +83,4 @@ void N3DS_PollTouch(SDL_VideoDevice *_this)
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_N3DS

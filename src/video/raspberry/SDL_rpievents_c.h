@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rpievents_c_h_
-#define SDL_rpievents_c_h_
+#अगर_अघोषित SDL_rpievents_c_h_
+#घोषणा SDL_rpievents_c_h_
 
-#include "SDL_rpivideo.h"
+#समावेश "SDL_rpivideo.h"
 
-void RPI_PumpEvents(SDL_VideoDevice *_this);
+व्योम RPI_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_rpievents_c_h_
+#पूर्ण_अगर // SDL_rpievents_c_h_

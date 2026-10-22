@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_uikitpen_h_
-#define SDL_uikitpen_h_
+#अगर_अघोषित SDL_uikitpen_h_
+#घोषणा SDL_uikitpen_h_
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#समावेश "SDL_uikitvideo.h"
+#समावेश "SDL_uikitwindow.h"
 
-extern bool UIKit_InitPen(SDL_VideoDevice *_this);
-extern void UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
+बाह्य bool UIKit_InitPen(SDL_VideoDevice *_this);
+बाह्य व्योम UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
+बाह्य व्योम UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
+बाह्य व्योम UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
 
-#if !defined(SDL_PLATFORM_TVOS)
-extern void UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
-#endif
+#अगर !defined(SDL_PLATFORM_TVOS)
+बाह्य व्योम UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
+#पूर्ण_अगर
 
-extern void UIKit_QuitPen(SDL_VideoDevice *_this);
+बाह्य व्योम UIKit_QuitPen(SDL_VideoDevice *_this);
 
-#endif // SDL_uikitpen_h_
+#पूर्ण_अगर // SDL_uikitpen_h_

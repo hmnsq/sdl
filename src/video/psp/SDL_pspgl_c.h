@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_pspgl_c_h_
-#define SDL_pspgl_c_h_
+#अगर_अघोषित SDL_pspgl_c_h_
+#घोषणा SDL_pspgl_c_h_
 
-#include <GLES/egl.h>
-#include <GLES/gl.h>
+#समावेश <GLES/egl.h>
+#समावेश <GLES/gl.h>
 
-#include "SDL_pspvideo.h"
+#समावेश "SDL_pspvideo.h"
 
-typedef struct SDL_GLDriverData
+प्रकार काष्ठा SDL_GLDriver_तथ्य
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
+} SDL_GLDriver_तथ्य;
 
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
+बाह्य SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, स्थिर अक्षर *proc);
+बाह्य bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य व्योम PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
 
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+बाह्य bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य व्योम PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, पूर्णांक interval);
+बाह्य bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णांक *interval);
 
-#endif // SDL_pspgl_c_h_
+#पूर्ण_अगर // SDL_pspgl_c_h_

@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_cocoaopengl_h_
-#define SDL_cocoaopengl_h_
+#अगर_अघोषित SDL_cocoaopengl_h_
+#घोषणा SDL_cocoaopengl_h_
 
-#ifdef SDL_VIDEO_OPENGL_CGL
+#अगर_घोषित SDL_VIDEO_OPENGL_CGL
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 
 // We still support OpenGL as long as Apple offers it, deprecated or not, so disable deprecation warnings about it.
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
+#अगर_घोषित __clang__
+#आशय clang diagnostic धकेलो
+#आशय clang diagnostic ignored "-Wdeprecated-declarations"
+#पूर्ण_अगर
 
-struct SDL_GLDriverData
+काष्ठा SDL_GLDriver_तथ्य
 {
-    int initialized;
+    पूर्णांक initialized;
 };
 
 @interface SDL3OpenGLContext : NSOpenGLContext
@@ -44,45 +44,45 @@ struct SDL_GLDriverData
     SDL_AtomicInt dirty;
     SDL_Window *window;
     CVDisplayLinkRef displayLink;
-  @public
+  @खुला
     SDL_Mutex *swapIntervalMutex;
-  @public
+  @खुला
     SDL_Condition *swapIntervalCond;
-  @public
+  @खुला
     SDL_AtomicInt swapIntervalSetting;
-  @public
+  @खुला
     SDL_AtomicInt swapIntervalsPassed;
 }
 
 - (id)initWithFormat:(NSOpenGLPixelFormat *)format
         shareContext:(NSOpenGLContext *)share;
-- (void)scheduleUpdate;
-- (void)updateIfNeeded;
-- (void)movedToNewScreen;
-- (void)setWindow:(SDL_Window *)window;
+- (व्योम)scheduleUpdate;
+- (व्योम)updateIfNeeded;
+- (व्योम)movedToNewScreen;
+- (व्योम)setWindow:(SDL_Window *)window;
 - (SDL_Window *)window;
-- (void)explicitUpdate;
-- (void)cleanup;
+- (व्योम)explicitUpdate;
+- (व्योम)cleanup;
 
 @property(retain, nonatomic) NSOpenGLPixelFormat *openglPixelFormat; // macOS 10.10 has -[NSOpenGLContext pixelFormat] but this handles older OS releases.
 
 @end
 
 // OpenGL functions
-extern bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+बाह्य bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, स्थिर अक्षर *proc);
+बाह्य व्योम Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, पूर्णांक interval);
+बाह्य bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णांक *interval);
+बाह्य bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+#अगर_घोषित __clang__
+#आशय clang diagnostic निकालो
+#पूर्ण_अगर
 
-#endif // SDL_VIDEO_OPENGL_CGL
+#पूर्ण_अगर // SDL_VIDEO_OPENGL_CGL
 
-#endif // SDL_cocoaopengl_h_
+#पूर्ण_अगर // SDL_cocoaopengl_h_

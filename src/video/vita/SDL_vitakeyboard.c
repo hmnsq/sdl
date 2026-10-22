@@ -18,173 +18,173 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#अगर_घोषित SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#समावेश <psp2/kernel/processmgr.h>
+#समावेश <psp2/ctrl.h>
+#समावेश <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitakeyboard.h"
-#include "../../events/SDL_keyboard_c.h"
+#समावेश "SDL_vitavideo.h"
+#समावेश "SDL_vitakeyboard.h"
+#समावेश "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
-Uint8 prev_keys[6] = { 0 };
-Uint8 prev_modifiers = 0;
+पूर्णांक keyboard_hid_handle = 0;
+Uint8 पूर्व_कुंजियाँ[6] = { 0 };
+Uint8 पूर्व_modifiers = 0;
 Uint8 locks = 0;
-Uint8 lock_key_down = 0;
+Uint8 lock_कुंजी_down = 0;
 
-void VITA_InitKeyboard(void)
+व्योम VITA_InitKeyboard(व्योम)
 {
-#ifdef SDL_VIDEO_VITA_PVR
+#अगर_घोषित SDL_VIDEO_VITA_PVR
     sceSysmoduleLoadModule(SCE_SYSMODULE_IME); /** For PVR OSK Support **/
-#endif
+#पूर्ण_अगर
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
-        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
+    अगर (keyboard_hid_handle > 0) {
+        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, शून्य);
     }
 }
 
-void VITA_PollKeyboard(void)
+व्योम VITA_PollKeyboard(व्योम)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    अगर (!Vita_Window) {
+        वापस;
     }
 
-    if (keyboard_hid_handle > 0) {
+    अगर (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        पूर्णांक अंक_Reports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        अगर (अंक_Reports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } अन्यथा अगर (अंक_Reports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+            अगर (k_reports[अंक_Reports - 1].modifiers[1] & 0x1) {
+                अगर (!(locks & 0x1)) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+            } अन्यथा {
+                अगर (locks & 0x1) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     locks &= ~0x1;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+            अगर (k_reports[अंक_Reports - 1].modifiers[1] & 0x2) {
+                अगर (!(locks & 0x2)) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+            } अन्यथा {
+                अगर (locks & 0x2) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     locks &= ~0x2;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
+            अगर (k_reports[अंक_Reports - 1].modifiers[1] & 0x4) {
+                अगर (!(locks & 0x4)) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
+            } अन्यथा {
+                अगर (locks & 0x4) {
+                    SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
             }
 
             {
-                Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
+                Uint8 changed_modifiers = k_reports[अंक_Reports - 1].modifiers[0] ^ पूर्व_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
+                अगर (changed_modifiers & 0x01) {
+                    अगर (पूर्व_modifiers & 0x01) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
+                अगर (changed_modifiers & 0x02) {
+                    अगर (पूर्व_modifiers & 0x02) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
+                अगर (changed_modifiers & 0x04) {
+                    अगर (पूर्व_modifiers & 0x04) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
+                अगर (changed_modifiers & 0x08) {
+                    अगर (पूर्व_modifiers & 0x08) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
+                अगर (changed_modifiers & 0x10) {
+                    अगर (पूर्व_modifiers & 0x10) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
+                अगर (changed_modifiers & 0x20) {
+                    अगर (पूर्व_modifiers & 0x20) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
+                अगर (changed_modifiers & 0x40) {
+                    अगर (पूर्व_modifiers & 0x40) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
+                अगर (changed_modifiers & 0x80) {
+                    अगर (पूर्व_modifiers & 0x80) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
+                    } अन्यथा {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
             }
 
-            prev_modifiers = k_reports[numReports - 1].modifiers[0];
+            पूर्व_modifiers = k_reports[अंक_Reports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            क्रम (पूर्णांक i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                पूर्णांक कुंजी_Code = k_reports[अंक_Reports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                अगर (कुंजी_Code != पूर्व_कुंजियाँ[i]) {
 
-                    if (prev_keys[i]) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
+                    अगर (पूर्व_कुंजियाँ[i]) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, पूर्व_कुंजियाँ[i], false);
                     }
-                    if (keyCode) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
+                    अगर (कुंजी_Code) {
+                        SDL_Send_Keyboard_कुंजी(0, keyboardID, 0, कुंजी_Code, true);
                     }
-                    prev_keys[i] = keyCode;
+                    पूर्व_कुंजियाँ[i] = कुंजी_Code;
                 }
             }
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_VITA

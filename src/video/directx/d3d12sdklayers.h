@@ -14,230 +14,230 @@
 
 
 /* verify that the <rpcndr.h> version is high enough to compile this file*/
-#ifndef __REQUIRED_RPCNDR_H_VERSION__
-#define __REQUIRED_RPCNDR_H_VERSION__ 500
-#endif
+#अगर_अघोषित __REQUIRED_RPCNDR_H_VERSION__
+#घोषणा __REQUIRED_RPCNDR_H_VERSION__ 500
+#पूर्ण_अगर
 
 /* verify that the <rpcsal.h> version is high enough to compile this file*/
-#ifndef __REQUIRED_RPCSAL_H_VERSION__
-#define __REQUIRED_RPCSAL_H_VERSION__ 100
-#endif
+#अगर_अघोषित __REQUIRED_RPCSAL_H_VERSION__
+#घोषणा __REQUIRED_RPCSAL_H_VERSION__ 100
+#पूर्ण_अगर
 
-#include "rpc.h"
-#include "rpcndr.h"
+#समावेश "rpc.h"
+#समावेश "rpcndr.h"
 
-#ifndef __RPCNDR_H_VERSION__
-#error this stub requires an updated version of <rpcndr.h>
-#endif /* __RPCNDR_H_VERSION__ */
+#अगर_अघोषित __RPCNDR_H_VERSION__
+#त्रुटि this stub requires an updated version of <rpcndr.h>
+#पूर्ण_अगर /* __RPCNDR_H_VERSION__ */
 
-#ifndef COM_NO_WINDOWS_H
-#include "windows.h"
-#include "ole2.h"
-#endif /*COM_NO_WINDOWS_H*/
+#अगर_अघोषित COM_NO_WINDOWS_H
+#समावेश "windows.h"
+#समावेश "ole2.h"
+#पूर्ण_अगर /*COM_NO_WINDOWS_H*/
 
-#ifndef __d3d12sdklayers_h__
-#define __d3d12sdklayers_h__
+#अगर_अघोषित __d3d12sdklayers_h__
+#घोषणा __d3d12sdklayers_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-#pragma once
-#endif
+#अगर defined(_MSC_VER) && (_MSC_VER >= 1020)
+#आशय once
+#पूर्ण_अगर
 
-#ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
-#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
-#define DECLSPEC_XFGVIRT(base, func)
-#endif
-#endif
+#अगर_अघोषित DECLSPEC_XFGVIRT
+#अगर defined(_CONTROL_FLOW_GUARD_XFG)
+#घोषणा DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#अन्यथा
+#घोषणा DECLSPEC_XFGVIRT(base, func)
+#पूर्ण_अगर
+#पूर्ण_अगर
 
 /* Forward Declarations */ 
 
-#ifndef __ID3D12Debug_FWD_DEFINED__
-#define __ID3D12Debug_FWD_DEFINED__
-typedef interface ID3D12Debug ID3D12Debug;
+#अगर_अघोषित __ID3D12Debug_FWD_DEFINED__
+#घोषणा __ID3D12Debug_FWD_DEFINED__
+प्रकार interface ID3D12Debug ID3D12Debug;
 
-#endif 	/* __ID3D12Debug_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12Debug1_FWD_DEFINED__
-#define __ID3D12Debug1_FWD_DEFINED__
-typedef interface ID3D12Debug1 ID3D12Debug1;
-
-#endif 	/* __ID3D12Debug1_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12Debug2_FWD_DEFINED__
-#define __ID3D12Debug2_FWD_DEFINED__
-typedef interface ID3D12Debug2 ID3D12Debug2;
+#अगर_अघोषित __ID3D12Debug1_FWD_DEFINED__
+#घोषणा __ID3D12Debug1_FWD_DEFINED__
+प्रकार interface ID3D12Debug1 ID3D12Debug1;
 
-#endif 	/* __ID3D12Debug2_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12Debug3_FWD_DEFINED__
-#define __ID3D12Debug3_FWD_DEFINED__
-typedef interface ID3D12Debug3 ID3D12Debug3;
-
-#endif 	/* __ID3D12Debug3_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug1_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12Debug4_FWD_DEFINED__
-#define __ID3D12Debug4_FWD_DEFINED__
-typedef interface ID3D12Debug4 ID3D12Debug4;
+#अगर_अघोषित __ID3D12Debug2_FWD_DEFINED__
+#घोषणा __ID3D12Debug2_FWD_DEFINED__
+प्रकार interface ID3D12Debug2 ID3D12Debug2;
 
-#endif 	/* __ID3D12Debug4_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12Debug5_FWD_DEFINED__
-#define __ID3D12Debug5_FWD_DEFINED__
-typedef interface ID3D12Debug5 ID3D12Debug5;
-
-#endif 	/* __ID3D12Debug5_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug2_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12Debug6_FWD_DEFINED__
-#define __ID3D12Debug6_FWD_DEFINED__
-typedef interface ID3D12Debug6 ID3D12Debug6;
+#अगर_अघोषित __ID3D12Debug3_FWD_DEFINED__
+#घोषणा __ID3D12Debug3_FWD_DEFINED__
+प्रकार interface ID3D12Debug3 ID3D12Debug3;
 
-#endif 	/* __ID3D12Debug6_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12DebugDevice1_FWD_DEFINED__
-#define __ID3D12DebugDevice1_FWD_DEFINED__
-typedef interface ID3D12DebugDevice1 ID3D12DebugDevice1;
-
-#endif 	/* __ID3D12DebugDevice1_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug3_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12DebugDevice_FWD_DEFINED__
-#define __ID3D12DebugDevice_FWD_DEFINED__
-typedef interface ID3D12DebugDevice ID3D12DebugDevice;
+#अगर_अघोषित __ID3D12Debug4_FWD_DEFINED__
+#घोषणा __ID3D12Debug4_FWD_DEFINED__
+प्रकार interface ID3D12Debug4 ID3D12Debug4;
 
-#endif 	/* __ID3D12DebugDevice_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12DebugDevice2_FWD_DEFINED__
-#define __ID3D12DebugDevice2_FWD_DEFINED__
-typedef interface ID3D12DebugDevice2 ID3D12DebugDevice2;
-
-#endif 	/* __ID3D12DebugDevice2_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug4_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandQueue_FWD_DEFINED__
-#define __ID3D12DebugCommandQueue_FWD_DEFINED__
-typedef interface ID3D12DebugCommandQueue ID3D12DebugCommandQueue;
+#अगर_अघोषित __ID3D12Debug5_FWD_DEFINED__
+#घोषणा __ID3D12Debug5_FWD_DEFINED__
+प्रकार interface ID3D12Debug5 ID3D12Debug5;
 
-#endif 	/* __ID3D12DebugCommandQueue_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12DebugCommandQueue1_FWD_DEFINED__
-#define __ID3D12DebugCommandQueue1_FWD_DEFINED__
-typedef interface ID3D12DebugCommandQueue1 ID3D12DebugCommandQueue1;
-
-#endif 	/* __ID3D12DebugCommandQueue1_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug5_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandList1_FWD_DEFINED__
-#define __ID3D12DebugCommandList1_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList1 ID3D12DebugCommandList1;
+#अगर_अघोषित __ID3D12Debug6_FWD_DEFINED__
+#घोषणा __ID3D12Debug6_FWD_DEFINED__
+प्रकार interface ID3D12Debug6 ID3D12Debug6;
 
-#endif 	/* __ID3D12DebugCommandList1_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12DebugCommandList_FWD_DEFINED__
-#define __ID3D12DebugCommandList_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList ID3D12DebugCommandList;
-
-#endif 	/* __ID3D12DebugCommandList_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug6_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandList2_FWD_DEFINED__
-#define __ID3D12DebugCommandList2_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList2 ID3D12DebugCommandList2;
+#अगर_अघोषित __ID3D12DebugDevice1_FWD_DEFINED__
+#घोषणा __ID3D12DebugDevice1_FWD_DEFINED__
+प्रकार interface ID3D12DebugDevice1 ID3D12DebugDevice1;
 
-#endif 	/* __ID3D12DebugCommandList2_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12DebugCommandList3_FWD_DEFINED__
-#define __ID3D12DebugCommandList3_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList3 ID3D12DebugCommandList3;
-
-#endif 	/* __ID3D12DebugCommandList3_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugDevice1_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12SharingContract_FWD_DEFINED__
-#define __ID3D12SharingContract_FWD_DEFINED__
-typedef interface ID3D12SharingContract ID3D12SharingContract;
+#अगर_अघोषित __ID3D12DebugDevice_FWD_DEFINED__
+#घोषणा __ID3D12DebugDevice_FWD_DEFINED__
+प्रकार interface ID3D12DebugDevice ID3D12DebugDevice;
 
-#endif 	/* __ID3D12SharingContract_FWD_DEFINED__ */
-
-
-#ifndef __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
-#define __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
-typedef interface ID3D12ManualWriteTrackingResource ID3D12ManualWriteTrackingResource;
-
-#endif 	/* __ID3D12ManualWriteTrackingResource_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugDevice_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12InfoQueue_FWD_DEFINED__
-#define __ID3D12InfoQueue_FWD_DEFINED__
-typedef interface ID3D12InfoQueue ID3D12InfoQueue;
+#अगर_अघोषित __ID3D12DebugDevice2_FWD_DEFINED__
+#घोषणा __ID3D12DebugDevice2_FWD_DEFINED__
+प्रकार interface ID3D12DebugDevice2 ID3D12DebugDevice2;
 
-#endif 	/* __ID3D12InfoQueue_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugDevice2_FWD_DEFINED__ */
 
 
-#ifndef __ID3D12InfoQueue1_FWD_DEFINED__
-#define __ID3D12InfoQueue1_FWD_DEFINED__
-typedef interface ID3D12InfoQueue1 ID3D12InfoQueue1;
+#अगर_अघोषित __ID3D12DebugCommandQueue_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandQueue_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandQueue ID3D12DebugCommandQueue;
 
-#endif 	/* __ID3D12InfoQueue1_FWD_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugCommandQueue_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandQueue1_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandQueue1_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandQueue1 ID3D12DebugCommandQueue1;
+
+#पूर्ण_अगर 	/* __ID3D12DebugCommandQueue1_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList1_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandList1_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandList1 ID3D12DebugCommandList1;
+
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList1_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandList_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandList ID3D12DebugCommandList;
+
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList2_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandList2_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandList2 ID3D12DebugCommandList2;
+
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList2_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList3_FWD_DEFINED__
+#घोषणा __ID3D12DebugCommandList3_FWD_DEFINED__
+प्रकार interface ID3D12DebugCommandList3 ID3D12DebugCommandList3;
+
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList3_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12SharingContract_FWD_DEFINED__
+#घोषणा __ID3D12SharingContract_FWD_DEFINED__
+प्रकार interface ID3D12SharingContract ID3D12SharingContract;
+
+#पूर्ण_अगर 	/* __ID3D12SharingContract_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
+#घोषणा __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
+प्रकार interface ID3D12ManualWriteTrackingResource ID3D12ManualWriteTrackingResource;
+
+#पूर्ण_अगर 	/* __ID3D12ManualWriteTrackingResource_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12InfoQueue_FWD_DEFINED__
+#घोषणा __ID3D12InfoQueue_FWD_DEFINED__
+प्रकार interface ID3D12InfoQueue ID3D12InfoQueue;
+
+#पूर्ण_अगर 	/* __ID3D12InfoQueue_FWD_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12InfoQueue1_FWD_DEFINED__
+#घोषणा __ID3D12InfoQueue1_FWD_DEFINED__
+प्रकार interface ID3D12InfoQueue1 ID3D12InfoQueue1;
+
+#पूर्ण_अगर 	/* __ID3D12InfoQueue1_FWD_DEFINED__ */
 
 
 /* header files for imported files */
-#include "oaidl.h"
-#include "ocidl.h"
-#include "d3d12.h"
+#समावेश "oaidl.h"
+#समावेश "ocidl.h"
+#समावेश "d3d12.h"
 
-#ifdef __cplusplus
-extern "C"{
-#endif 
+#अगर_घोषित __cplusplus
+बाह्य "C"{
+#पूर्ण_अगर 
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0000 */
 /* [local] */ 
 
-#include <winapifamily.h>
-#ifdef _MSC_VER
-#pragma region App Family
-#endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#समावेश <winapifamily.h>
+#अगर_घोषित _MSC_VER
+#आशय region App Family
+#पूर्ण_अगर
+#अगर WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
 
-#ifndef __ID3D12Debug_INTERFACE_DEFINED__
-#define __ID3D12Debug_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug;
+EXTERN_C स्थिर IID IID_ID3D12Debug;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("344488b7-6846-474b-b989-f027448245e0")
-    ID3D12Debug : public IUnknown
+    ID3D12Debug : खुला IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE EnableDebugLayer( void) = 0;
+    खुला:
+        भव व्योम STDMETHODCALLTYPE EnableDebugLayer( व्योम) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugVtbl
+    प्रकार काष्ठा ID3D12DebugVtbl
     {
         BEGIN_INTERFACE
         
@@ -245,7 +245,7 @@ EXTERN_C const IID IID_ID3D12Debug;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -256,7 +256,7 @@ EXTERN_C const IID IID_ID3D12Debug;
             ID3D12Debug * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug * This);
         
         END_INTERFACE
@@ -264,43 +264,43 @@ EXTERN_C const IID IID_ID3D12Debug;
 
     interface ID3D12Debug
     {
-        CONST_VTBL struct ID3D12DebugVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug_AddRef(This)	\
+#घोषणा ID3D12Debug_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug_Release(This)	\
+#घोषणा ID3D12Debug_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0001 */
 /* [local] */ 
 
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_FLAGS
+प्रकार 
+क्रमागत D3D12_GPU_BASED_VALIDATION_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_FLAGS_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_FLAGS_DISABLE_STATE_TRACKING	= 0x1
@@ -309,38 +309,38 @@ enum D3D12_GPU_BASED_VALIDATION_FLAGS
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_GPU_BASED_VALIDATION_FLAGS)
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
 
-#ifndef __ID3D12Debug1_INTERFACE_DEFINED__
-#define __ID3D12Debug1_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug1_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug1_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug1 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug1;
+EXTERN_C स्थिर IID IID_ID3D12Debug1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("affaa4ca-63fe-4d8e-b8ad-159000af4304")
-    ID3D12Debug1 : public IUnknown
+    ID3D12Debug1 : खुला IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE EnableDebugLayer( void) = 0;
+    खुला:
+        भव व्योम STDMETHODCALLTYPE EnableDebugLayer( व्योम) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
+        भव व्योम STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
+        भव व्योम STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug1Vtbl
+    प्रकार काष्ठा ID3D12Debug1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -348,7 +348,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -359,16 +359,16 @@ EXTERN_C const IID IID_ID3D12Debug1;
             ID3D12Debug1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug1 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug1 * This,
             BOOL Enable);
         
@@ -377,68 +377,68 @@ EXTERN_C const IID IID_ID3D12Debug1;
 
     interface ID3D12Debug1
     {
-        CONST_VTBL struct ID3D12Debug1Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug1Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug1_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug1_AddRef(This)	\
+#घोषणा ID3D12Debug1_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug1_Release(This)	\
+#घोषणा ID3D12Debug1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug1_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug1_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
-#define ID3D12Debug1_SetEnableGPUBasedValidation(This,Enable)	\
+#घोषणा ID3D12Debug1_SetEnableGPUBasedValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableGPUBasedValidation(This,Enable) ) 
 
-#define ID3D12Debug1_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
+#घोषणा ID3D12Debug1_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableSynchronizedCommandQueueValidation(This,Enable) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug1_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug1_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12Debug2_INTERFACE_DEFINED__
-#define __ID3D12Debug2_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug2_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug2_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug2 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug2;
+EXTERN_C स्थिर IID IID_ID3D12Debug2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("93a665c4-a3b2-4e5d-b692-a26ae14e3374")
-    ID3D12Debug2 : public IUnknown
+    ID3D12Debug2 : खुला IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug2Vtbl
+    प्रकार काष्ठा ID3D12Debug2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -446,7 +446,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -457,7 +457,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
             ID3D12Debug2 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug2, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        व्योम ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug2 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
@@ -466,68 +466,68 @@ EXTERN_C const IID IID_ID3D12Debug2;
 
     interface ID3D12Debug2
     {
-        CONST_VTBL struct ID3D12Debug2Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug2Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug2_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug2_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug2_AddRef(This)	\
+#घोषणा ID3D12Debug2_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug2_Release(This)	\
+#घोषणा ID3D12Debug2_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug2_SetGPUBasedValidationFlags(This,Flags)	\
+#घोषणा ID3D12Debug2_SetGPUBasedValidationFlags(This,Flags)	\
     ( (This)->lpVtbl -> SetGPUBasedValidationFlags(This,Flags) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug2_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug2_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12Debug3_INTERFACE_DEFINED__
-#define __ID3D12Debug3_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug3_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug3_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug3 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug3;
+EXTERN_C स्थिर IID IID_ID3D12Debug3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5cf4e58f-f671-4ff1-a542-3686e3d153d1")
-    ID3D12Debug3 : public ID3D12Debug
+    ID3D12Debug3 : खुला ID3D12Debug
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
+        भव व्योम STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
+        भव व्योम STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug3Vtbl
+    प्रकार काष्ठा ID3D12Debug3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -535,7 +535,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug3 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -546,21 +546,21 @@ EXTERN_C const IID IID_ID3D12Debug3;
             ID3D12Debug3 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug3 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug3 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug3 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        व्योम ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug3 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
@@ -569,71 +569,71 @@ EXTERN_C const IID IID_ID3D12Debug3;
 
     interface ID3D12Debug3
     {
-        CONST_VTBL struct ID3D12Debug3Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug3Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug3_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug3_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug3_AddRef(This)	\
+#घोषणा ID3D12Debug3_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug3_Release(This)	\
+#घोषणा ID3D12Debug3_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug3_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug3_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
 
-#define ID3D12Debug3_SetEnableGPUBasedValidation(This,Enable)	\
+#घोषणा ID3D12Debug3_SetEnableGPUBasedValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableGPUBasedValidation(This,Enable) ) 
 
-#define ID3D12Debug3_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
+#घोषणा ID3D12Debug3_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableSynchronizedCommandQueueValidation(This,Enable) ) 
 
-#define ID3D12Debug3_SetGPUBasedValidationFlags(This,Flags)	\
+#घोषणा ID3D12Debug3_SetGPUBasedValidationFlags(This,Flags)	\
     ( (This)->lpVtbl -> SetGPUBasedValidationFlags(This,Flags) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug3_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug3_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12Debug4_INTERFACE_DEFINED__
-#define __ID3D12Debug4_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug4_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug4_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug4 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug4;
+EXTERN_C स्थिर IID IID_ID3D12Debug4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("014b816e-9ec5-4a2f-a845-ffbe441ce13a")
-    ID3D12Debug4 : public ID3D12Debug3
+    ID3D12Debug4 : खुला ID3D12Debug3
     {
-    public:
-        virtual void STDMETHODCALLTYPE DisableDebugLayer( void) = 0;
+    खुला:
+        भव व्योम STDMETHODCALLTYPE DisableDebugLayer( व्योम) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug4Vtbl
+    प्रकार काष्ठा ID3D12Debug4Vtbl
     {
         BEGIN_INTERFACE
         
@@ -641,7 +641,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug4 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -652,26 +652,26 @@ EXTERN_C const IID IID_ID3D12Debug4;
             ID3D12Debug4 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug4 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug4 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug4 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        व्योम ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug4 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug4 * This);
         
         END_INTERFACE
@@ -679,76 +679,76 @@ EXTERN_C const IID IID_ID3D12Debug4;
 
     interface ID3D12Debug4
     {
-        CONST_VTBL struct ID3D12Debug4Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug4Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug4_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug4_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug4_AddRef(This)	\
+#घोषणा ID3D12Debug4_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug4_Release(This)	\
+#घोषणा ID3D12Debug4_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug4_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug4_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
 
-#define ID3D12Debug4_SetEnableGPUBasedValidation(This,Enable)	\
+#घोषणा ID3D12Debug4_SetEnableGPUBasedValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableGPUBasedValidation(This,Enable) ) 
 
-#define ID3D12Debug4_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
+#घोषणा ID3D12Debug4_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableSynchronizedCommandQueueValidation(This,Enable) ) 
 
-#define ID3D12Debug4_SetGPUBasedValidationFlags(This,Flags)	\
+#घोषणा ID3D12Debug4_SetGPUBasedValidationFlags(This,Flags)	\
     ( (This)->lpVtbl -> SetGPUBasedValidationFlags(This,Flags) ) 
 
 
-#define ID3D12Debug4_DisableDebugLayer(This)	\
+#घोषणा ID3D12Debug4_DisableDebugLayer(This)	\
     ( (This)->lpVtbl -> DisableDebugLayer(This) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug4_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug4_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12Debug5_INTERFACE_DEFINED__
-#define __ID3D12Debug5_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug5_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug5_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug5 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug5;
+EXTERN_C स्थिर IID IID_ID3D12Debug5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("548d6b12-09fa-40e0-9069-5dcd589a52c9")
-    ID3D12Debug5 : public ID3D12Debug4
+    ID3D12Debug5 : खुला ID3D12Debug4
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetEnableAutoName( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE SetEnableAutoName( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug5Vtbl
+    प्रकार काष्ठा ID3D12Debug5Vtbl
     {
         BEGIN_INTERFACE
         
@@ -756,7 +756,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug5 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -767,30 +767,30 @@ EXTERN_C const IID IID_ID3D12Debug5;
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        व्योम ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug5 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug5, SetEnableAutoName)
-        void ( STDMETHODCALLTYPE *SetEnableAutoName )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableAutoName )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
@@ -799,80 +799,80 @@ EXTERN_C const IID IID_ID3D12Debug5;
 
     interface ID3D12Debug5
     {
-        CONST_VTBL struct ID3D12Debug5Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug5Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug5_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug5_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug5_AddRef(This)	\
+#घोषणा ID3D12Debug5_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug5_Release(This)	\
+#घोषणा ID3D12Debug5_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug5_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug5_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
 
-#define ID3D12Debug5_SetEnableGPUBasedValidation(This,Enable)	\
+#घोषणा ID3D12Debug5_SetEnableGPUBasedValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableGPUBasedValidation(This,Enable) ) 
 
-#define ID3D12Debug5_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
+#घोषणा ID3D12Debug5_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableSynchronizedCommandQueueValidation(This,Enable) ) 
 
-#define ID3D12Debug5_SetGPUBasedValidationFlags(This,Flags)	\
+#घोषणा ID3D12Debug5_SetGPUBasedValidationFlags(This,Flags)	\
     ( (This)->lpVtbl -> SetGPUBasedValidationFlags(This,Flags) ) 
 
 
-#define ID3D12Debug5_DisableDebugLayer(This)	\
+#घोषणा ID3D12Debug5_DisableDebugLayer(This)	\
     ( (This)->lpVtbl -> DisableDebugLayer(This) ) 
 
 
-#define ID3D12Debug5_SetEnableAutoName(This,Enable)	\
+#घोषणा ID3D12Debug5_SetEnableAutoName(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableAutoName(This,Enable) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug5_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug5_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12Debug6_INTERFACE_DEFINED__
-#define __ID3D12Debug6_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12Debug6_INTERFACE_DEFINED__
+#घोषणा __ID3D12Debug6_INTERFACE_DEFINED__
 
 /* interface ID3D12Debug6 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug6;
+EXTERN_C स्थिर IID IID_ID3D12Debug6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82a816d6-5d01-4157-97d0-4975463fd1ed")
-    ID3D12Debug6 : public ID3D12Debug5
+    ID3D12Debug6 : खुला ID3D12Debug5
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetForceLegacyBarrierValidation( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE SetForceLegacyBarrierValidation( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12Debug6Vtbl
+    प्रकार काष्ठा ID3D12Debug6Vtbl
     {
         BEGIN_INTERFACE
         
@@ -880,7 +880,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug6 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -891,35 +891,35 @@ EXTERN_C const IID IID_ID3D12Debug6;
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        व्योम ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug6 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        व्योम ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug5, SetEnableAutoName)
-        void ( STDMETHODCALLTYPE *SetEnableAutoName )( 
+        व्योम ( STDMETHODCALLTYPE *SetEnableAutoName )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug6, SetForceLegacyBarrierValidation)
-        void ( STDMETHODCALLTYPE *SetForceLegacyBarrierValidation )( 
+        व्योम ( STDMETHODCALLTYPE *SetForceLegacyBarrierValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
@@ -928,66 +928,66 @@ EXTERN_C const IID IID_ID3D12Debug6;
 
     interface ID3D12Debug6
     {
-        CONST_VTBL struct ID3D12Debug6Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12Debug6Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12Debug6_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12Debug6_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12Debug6_AddRef(This)	\
+#घोषणा ID3D12Debug6_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12Debug6_Release(This)	\
+#घोषणा ID3D12Debug6_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12Debug6_EnableDebugLayer(This)	\
+#घोषणा ID3D12Debug6_EnableDebugLayer(This)	\
     ( (This)->lpVtbl -> EnableDebugLayer(This) ) 
 
 
-#define ID3D12Debug6_SetEnableGPUBasedValidation(This,Enable)	\
+#घोषणा ID3D12Debug6_SetEnableGPUBasedValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableGPUBasedValidation(This,Enable) ) 
 
-#define ID3D12Debug6_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
+#घोषणा ID3D12Debug6_SetEnableSynchronizedCommandQueueValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableSynchronizedCommandQueueValidation(This,Enable) ) 
 
-#define ID3D12Debug6_SetGPUBasedValidationFlags(This,Flags)	\
+#घोषणा ID3D12Debug6_SetGPUBasedValidationFlags(This,Flags)	\
     ( (This)->lpVtbl -> SetGPUBasedValidationFlags(This,Flags) ) 
 
 
-#define ID3D12Debug6_DisableDebugLayer(This)	\
+#घोषणा ID3D12Debug6_DisableDebugLayer(This)	\
     ( (This)->lpVtbl -> DisableDebugLayer(This) ) 
 
 
-#define ID3D12Debug6_SetEnableAutoName(This,Enable)	\
+#घोषणा ID3D12Debug6_SetEnableAutoName(This,Enable)	\
     ( (This)->lpVtbl -> SetEnableAutoName(This,Enable) ) 
 
 
-#define ID3D12Debug6_SetForceLegacyBarrierValidation(This,Enable)	\
+#घोषणा ID3D12Debug6_SetForceLegacyBarrierValidation(This,Enable)	\
     ( (This)->lpVtbl -> SetForceLegacyBarrierValidation(This,Enable) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12Debug6_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12Debug6_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0007 */
 /* [local] */ 
 
 DEFINE_GUID(WKPDID_D3DAutoDebugObjectNameW, 0xd4902e36, 0x757a, 0x4942, 0x95, 0x94, 0xb6, 0x76, 0x9a, 0xfa, 0x43, 0xcd);
-typedef 
-enum D3D12_RLDO_FLAGS
+प्रकार 
+क्रमागत D3D12_RLDO_FLAGS
     {
         D3D12_RLDO_NONE	= 0,
         D3D12_RLDO_SUMMARY	= 0x1,
@@ -996,16 +996,16 @@ enum D3D12_RLDO_FLAGS
     } 	D3D12_RLDO_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_RLDO_FLAGS)
-typedef 
-enum D3D12_DEBUG_DEVICE_PARAMETER_TYPE
+प्रकार 
+क्रमागत D3D12_DEBUG_DEVICE_PARAMETER_TYPE
     {
         D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS	= 0,
         D3D12_DEBUG_DEVICE_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= ( D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS + 1 ) ,
         D3D12_DEBUG_DEVICE_PARAMETER_GPU_SLOWDOWN_PERFORMANCE_FACTOR	= ( D3D12_DEBUG_DEVICE_PARAMETER_GPU_BASED_VALIDATION_SETTINGS + 1 ) 
     } 	D3D12_DEBUG_DEVICE_PARAMETER_TYPE;
 
-typedef 
-enum D3D12_DEBUG_FEATURE
+प्रकार 
+क्रमागत D3D12_DEBUG_FEATURE
     {
         D3D12_DEBUG_FEATURE_NONE	= 0,
         D3D12_DEBUG_FEATURE_ALLOW_BEHAVIOR_CHANGING_DEBUG_AIDS	= 0x1,
@@ -1015,18 +1015,18 @@ enum D3D12_DEBUG_FEATURE
     } 	D3D12_DEBUG_FEATURE;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_DEBUG_FEATURE)
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
+प्रकार 
+क्रमागत D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
     {
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_STATE_TRACKING_ONLY	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE + 1 ) ,
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_UNGUARDED_VALIDATION	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_STATE_TRACKING_ONLY + 1 ) ,
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_GUARDED_VALIDATION	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_UNGUARDED_VALIDATION + 1 ) ,
-        NUM_D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODES	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_GUARDED_VALIDATION + 1 ) 
+        अंक_D3_D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODES	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_GUARDED_VALIDATION + 1 ) 
     } 	D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE;
 
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
+प्रकार 
+क्रमागत D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_FRONT_LOAD_CREATE_TRACKING_ONLY_SHADERS	= 0x1,
@@ -1036,57 +1036,57 @@ enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     } 	D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS)
-typedef struct D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
+प्रकार काष्ठा D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
     {
     UINT MaxMessagesPerCommandList;
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE DefaultShaderPatchMode;
     D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS PipelineStateCreateFlags;
     } 	D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS;
 
-typedef struct D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
+प्रकार काष्ठा D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
     {
     FLOAT SlowdownFactor;
     } 	D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR;
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
 
-#ifndef __ID3D12DebugDevice1_INTERFACE_DEFINED__
-#define __ID3D12DebugDevice1_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugDevice1_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugDevice1_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugDevice1 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice1;
+EXTERN_C स्थिर IID IID_ID3D12DebugDevice1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("a9b71770-d099-4a65-a698-3dee10020f88")
-    ID3D12DebugDevice1 : public IUnknown
+    ID3D12DebugDevice1 : खुला IUnknown
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize) = 0;
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
+        भव HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize) = 0;
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
+        भव HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
             D3D12_RLDO_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice1Vtbl
+    प्रकार काष्ठा ID3D12DebugDevice1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1094,7 +1094,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1108,15 +1108,15 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugDevice1 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize);
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice1, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugDevice1 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize);
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice1, ReportLiveDeviceObjects)
         HRESULT ( STDMETHODCALLTYPE *ReportLiveDeviceObjects )( 
@@ -1128,73 +1128,73 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 
     interface ID3D12DebugDevice1
     {
-        CONST_VTBL struct ID3D12DebugDevice1Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugDevice1Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugDevice1_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugDevice1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugDevice1_AddRef(This)	\
+#घोषणा ID3D12DebugDevice1_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugDevice1_Release(This)	\
+#घोषणा ID3D12DebugDevice1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugDevice1_SetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> SetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugDevice1_SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugDevice1_GetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> GetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugDevice1_GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugDevice1_ReportLiveDeviceObjects(This,Flags)	\
+#घोषणा ID3D12DebugDevice1_ReportLiveDeviceObjects(This,Flags)	\
     ( (This)->lpVtbl -> ReportLiveDeviceObjects(This,Flags) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugDevice1_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugDevice1_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugDevice_INTERFACE_DEFINED__
-#define __ID3D12DebugDevice_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugDevice_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugDevice_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugDevice */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice;
+EXTERN_C स्थिर IID IID_ID3D12DebugDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3febd6dd-4973-4787-8194-e45f9e28923e")
-    ID3D12DebugDevice : public IUnknown
+    ID3D12DebugDevice : खुला IUnknown
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE SetFeatureMask( 
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE SetFeatureMask( 
             D3D12_DEBUG_FEATURE Mask) = 0;
         
-        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( void) = 0;
+        भव D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
+        भव HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
             D3D12_RLDO_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugDeviceVtbl
+    प्रकार काष्ठा ID3D12DebugDeviceVtbl
     {
         BEGIN_INTERFACE
         
@@ -1202,7 +1202,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1231,75 +1231,75 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 
     interface ID3D12DebugDevice
     {
-        CONST_VTBL struct ID3D12DebugDeviceVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugDeviceVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugDevice_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugDevice_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugDevice_AddRef(This)	\
+#घोषणा ID3D12DebugDevice_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugDevice_Release(This)	\
+#घोषणा ID3D12DebugDevice_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugDevice_SetFeatureMask(This,Mask)	\
+#घोषणा ID3D12DebugDevice_SetFeatureMask(This,Mask)	\
     ( (This)->lpVtbl -> SetFeatureMask(This,Mask) ) 
 
-#define ID3D12DebugDevice_GetFeatureMask(This)	\
+#घोषणा ID3D12DebugDevice_GetFeatureMask(This)	\
     ( (This)->lpVtbl -> GetFeatureMask(This) ) 
 
-#define ID3D12DebugDevice_ReportLiveDeviceObjects(This,Flags)	\
+#घोषणा ID3D12DebugDevice_ReportLiveDeviceObjects(This,Flags)	\
     ( (This)->lpVtbl -> ReportLiveDeviceObjects(This,Flags) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugDevice_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugDevice_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugDevice2_INTERFACE_DEFINED__
-#define __ID3D12DebugDevice2_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugDevice2_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugDevice2_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugDevice2 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice2;
+EXTERN_C स्थिर IID IID_ID3D12DebugDevice2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("60eccbc1-378d-4df1-894c-f8ac5ce4d7dd")
-    ID3D12DebugDevice2 : public ID3D12DebugDevice
+    ID3D12DebugDevice2 : खुला ID3D12DebugDevice
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize) = 0;
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
+        भव HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize) = 0;
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice2Vtbl
+    प्रकार काष्ठा ID3D12DebugDevice2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1307,7 +1307,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1335,64 +1335,64 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugDevice2 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize);
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugDevice2 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize);
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         END_INTERFACE
     } ID3D12DebugDevice2Vtbl;
 
     interface ID3D12DebugDevice2
     {
-        CONST_VTBL struct ID3D12DebugDevice2Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugDevice2Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugDevice2_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugDevice2_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugDevice2_AddRef(This)	\
+#घोषणा ID3D12DebugDevice2_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugDevice2_Release(This)	\
+#घोषणा ID3D12DebugDevice2_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugDevice2_SetFeatureMask(This,Mask)	\
+#घोषणा ID3D12DebugDevice2_SetFeatureMask(This,Mask)	\
     ( (This)->lpVtbl -> SetFeatureMask(This,Mask) ) 
 
-#define ID3D12DebugDevice2_GetFeatureMask(This)	\
+#घोषणा ID3D12DebugDevice2_GetFeatureMask(This)	\
     ( (This)->lpVtbl -> GetFeatureMask(This) ) 
 
-#define ID3D12DebugDevice2_ReportLiveDeviceObjects(This,Flags)	\
+#घोषणा ID3D12DebugDevice2_ReportLiveDeviceObjects(This,Flags)	\
     ( (This)->lpVtbl -> ReportLiveDeviceObjects(This,Flags) ) 
 
 
-#define ID3D12DebugDevice2_SetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> SetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugDevice2_SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugDevice2_GetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> GetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugDevice2_GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#endif /* COBJMACROS */
-
-
-#endif 	/* C style interface */
+#पूर्ण_अगर /* COBJMACROS */
 
 
+#पूर्ण_अगर 	/* C style interface */
 
 
-#endif 	/* __ID3D12DebugDevice2_INTERFACE_DEFINED__ */
+
+
+#पूर्ण_अगर 	/* __ID3D12DebugDevice2_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0010 */
@@ -1401,25 +1401,25 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
 DEFINE_GUID(DXGI_DEBUG_D3D12, 0xcf59a98c, 0xa950, 0x4326, 0x91, 0xef, 0x9b, 0xba, 0xa1, 0x7b, 0xfd, 0x95);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
 
-#ifndef __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandQueue */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandQueue;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053a")
-    ID3D12DebugCommandQueue : public IUnknown
+    ID3D12DebugCommandQueue : खुला IUnknown
     {
-    public:
-        virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
+    खुला:
+        भव BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             UINT State) = 0;
@@ -1427,9 +1427,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueueVtbl
+    प्रकार काष्ठा ID3D12DebugCommandQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -1437,7 +1437,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandQueue * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1459,59 +1459,59 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
     interface ID3D12DebugCommandQueue
     {
-        CONST_VTBL struct ID3D12DebugCommandQueueVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandQueueVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandQueue_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandQueue_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandQueue_AddRef(This)	\
+#घोषणा ID3D12DebugCommandQueue_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandQueue_Release(This)	\
+#घोषणा ID3D12DebugCommandQueue_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandQueue_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandQueue_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugCommandQueue_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugCommandQueue_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandQueue1 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("16be35a2-bfd6-49f2-bcae-eaae4aff862d")
-    ID3D12DebugCommandQueue1 : public ID3D12DebugCommandQueue
+    ID3D12DebugCommandQueue1 : खुला ID3D12DebugCommandQueue
     {
-    public:
-        virtual void STDMETHODCALLTYPE AssertResourceAccess( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE AssertResourceAccess( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access) = 0;
         
-        virtual void STDMETHODCALLTYPE AssertTextureLayout( 
+        भव व्योम STDMETHODCALLTYPE AssertTextureLayout( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_LAYOUT Layout) = 0;
@@ -1519,9 +1519,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueue1Vtbl
+    प्रकार काष्ठा ID3D12DebugCommandQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1529,7 +1529,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandQueue1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1547,14 +1547,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
             UINT State);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandQueue1, AssertResourceAccess)
-        void ( STDMETHODCALLTYPE *AssertResourceAccess )( 
+        व्योम ( STDMETHODCALLTYPE *AssertResourceAccess )( 
             ID3D12DebugCommandQueue1 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandQueue1, AssertTextureLayout)
-        void ( STDMETHODCALLTYPE *AssertTextureLayout )( 
+        व्योम ( STDMETHODCALLTYPE *AssertTextureLayout )( 
             ID3D12DebugCommandQueue1 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -1565,100 +1565,100 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 
     interface ID3D12DebugCommandQueue1
     {
-        CONST_VTBL struct ID3D12DebugCommandQueue1Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandQueue1Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandQueue1_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandQueue1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandQueue1_AddRef(This)	\
+#घोषणा ID3D12DebugCommandQueue1_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandQueue1_Release(This)	\
+#घोषणा ID3D12DebugCommandQueue1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandQueue1_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandQueue1_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
 
-#define ID3D12DebugCommandQueue1_AssertResourceAccess(This,pResource,Subresource,Access)	\
+#घोषणा ID3D12DebugCommandQueue1_AssertResourceAccess(This,pResource,Subresource,Access)	\
     ( (This)->lpVtbl -> AssertResourceAccess(This,pResource,Subresource,Access) ) 
 
-#define ID3D12DebugCommandQueue1_AssertTextureLayout(This,pResource,Subresource,Layout)	\
+#घोषणा ID3D12DebugCommandQueue1_AssertTextureLayout(This,pResource,Subresource,Layout)	\
     ( (This)->lpVtbl -> AssertTextureLayout(This,pResource,Subresource,Layout) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugCommandQueue1_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0012 */
 /* [local] */ 
 
-typedef 
-enum D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
+प्रकार 
+क्रमागत D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
     {
         D3D12_DEBUG_COMMAND_LIST_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= 0
     } 	D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE;
 
-typedef struct D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
+प्रकार काष्ठा D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
     {
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE ShaderPatchMode;
     } 	D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS;
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
 
-#ifndef __ID3D12DebugCommandList1_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandList1_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugCommandList1_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandList1_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandList1 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList1;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("102ca951-311b-4b01-b11f-ecb83e061b37")
-    ID3D12DebugCommandList1 : public IUnknown
+    ID3D12DebugCommandList1 : खुला IUnknown
     {
-    public:
-        virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
+    खुला:
+        भव BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             UINT State) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
+        भव HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize) = 0;
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
+        भव HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize) = 0;
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList1Vtbl
+    प्रकार काष्ठा ID3D12DebugCommandList1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1666,7 +1666,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1687,90 +1687,90 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList1 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize);
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList1, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList1 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize);
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         END_INTERFACE
     } ID3D12DebugCommandList1Vtbl;
 
     interface ID3D12DebugCommandList1
     {
-        CONST_VTBL struct ID3D12DebugCommandList1Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandList1Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandList1_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandList1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandList1_AddRef(This)	\
+#घोषणा ID3D12DebugCommandList1_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandList1_Release(This)	\
+#घोषणा ID3D12DebugCommandList1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandList1_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandList1_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
-#define ID3D12DebugCommandList1_SetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> SetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList1_SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugCommandList1_GetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> GetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList1_GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#endif /* COBJMACROS */
-
-
-#endif 	/* C style interface */
+#पूर्ण_अगर /* COBJMACROS */
 
 
+#पूर्ण_अगर 	/* C style interface */
 
 
-#endif 	/* __ID3D12DebugCommandList1_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandList_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandList_INTERFACE_DEFINED__
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList1_INTERFACE_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandList_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandList */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053f")
-    ID3D12DebugCommandList : public IUnknown
+    ID3D12DebugCommandList : खुला IUnknown
     {
-    public:
-        virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
+    खुला:
+        भव BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             UINT State) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE SetFeatureMask( 
+        भव HRESULT STDMETHODCALLTYPE SetFeatureMask( 
             D3D12_DEBUG_FEATURE Mask) = 0;
         
-        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( void) = 0;
+        भव D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( व्योम) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandListVtbl
+    प्रकार काष्ठा ID3D12DebugCommandListVtbl
     {
         BEGIN_INTERFACE
         
@@ -1778,7 +1778,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1809,75 +1809,75 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 
     interface ID3D12DebugCommandList
     {
-        CONST_VTBL struct ID3D12DebugCommandListVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandListVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandList_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandList_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandList_AddRef(This)	\
+#घोषणा ID3D12DebugCommandList_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandList_Release(This)	\
+#घोषणा ID3D12DebugCommandList_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandList_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandList_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
-#define ID3D12DebugCommandList_SetFeatureMask(This,Mask)	\
+#घोषणा ID3D12DebugCommandList_SetFeatureMask(This,Mask)	\
     ( (This)->lpVtbl -> SetFeatureMask(This,Mask) ) 
 
-#define ID3D12DebugCommandList_GetFeatureMask(This)	\
+#घोषणा ID3D12DebugCommandList_GetFeatureMask(This)	\
     ( (This)->lpVtbl -> GetFeatureMask(This) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugCommandList_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandList2_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandList2_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12DebugCommandList2_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandList2_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandList2 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList2;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("aeb575cf-4e06-48be-ba3b-c450fc96652e")
-    ID3D12DebugCommandList2 : public ID3D12DebugCommandList
+    ID3D12DebugCommandList2 : खुला ID3D12DebugCommandList
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize) = 0;
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
+        भव HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize) = 0;
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList2Vtbl
+    प्रकार काष्ठा ID3D12DebugCommandList2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1885,7 +1885,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1915,87 +1915,87 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList2 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize);
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList2 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize);
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         END_INTERFACE
     } ID3D12DebugCommandList2Vtbl;
 
     interface ID3D12DebugCommandList2
     {
-        CONST_VTBL struct ID3D12DebugCommandList2Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandList2Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandList2_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandList2_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandList2_AddRef(This)	\
+#घोषणा ID3D12DebugCommandList2_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandList2_Release(This)	\
+#घोषणा ID3D12DebugCommandList2_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandList2_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandList2_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
-#define ID3D12DebugCommandList2_SetFeatureMask(This,Mask)	\
+#घोषणा ID3D12DebugCommandList2_SetFeatureMask(This,Mask)	\
     ( (This)->lpVtbl -> SetFeatureMask(This,Mask) ) 
 
-#define ID3D12DebugCommandList2_GetFeatureMask(This)	\
+#घोषणा ID3D12DebugCommandList2_GetFeatureMask(This)	\
     ( (This)->lpVtbl -> GetFeatureMask(This) ) 
 
 
-#define ID3D12DebugCommandList2_SetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> SetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList2_SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugCommandList2_GetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> GetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList2_GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#endif /* COBJMACROS */
-
-
-#endif 	/* C style interface */
+#पूर्ण_अगर /* COBJMACROS */
 
 
+#पूर्ण_अगर 	/* C style interface */
 
 
-#endif 	/* __ID3D12DebugCommandList2_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12DebugCommandList3_INTERFACE_DEFINED__
-#define __ID3D12DebugCommandList3_INTERFACE_DEFINED__
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList2_INTERFACE_DEFINED__ */
+
+
+#अगर_अघोषित __ID3D12DebugCommandList3_INTERFACE_DEFINED__
+#घोषणा __ID3D12DebugCommandList3_INTERFACE_DEFINED__
 
 /* interface ID3D12DebugCommandList3 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList3;
+EXTERN_C स्थिर IID IID_ID3D12DebugCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("197d5e15-4d37-4d34-af78-724cd70fdb1f")
-    ID3D12DebugCommandList3 : public ID3D12DebugCommandList2
+    ID3D12DebugCommandList3 : खुला ID3D12DebugCommandList2
     {
-    public:
-        virtual void STDMETHODCALLTYPE AssertResourceAccess( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE AssertResourceAccess( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access) = 0;
         
-        virtual void STDMETHODCALLTYPE AssertTextureLayout( 
+        भव व्योम STDMETHODCALLTYPE AssertTextureLayout( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_LAYOUT Layout) = 0;
@@ -2003,9 +2003,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList3Vtbl
+    प्रकार काष्ठा ID3D12DebugCommandList3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -2013,7 +2013,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList3 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2043,25 +2043,25 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList3 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
-            UINT DataSize);
+            _In_reads_bytes_(तथ्य_आकार)  स्थिर व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList3 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
-            UINT DataSize);
+            _Out_writes_bytes_(तथ्य_आकार)  व्योम *p_तथ्य,
+            UINT तथ्य_आकार);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList3, AssertResourceAccess)
-        void ( STDMETHODCALLTYPE *AssertResourceAccess )( 
+        व्योम ( STDMETHODCALLTYPE *AssertResourceAccess )( 
             ID3D12DebugCommandList3 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList3, AssertTextureLayout)
-        void ( STDMETHODCALLTYPE *AssertTextureLayout )( 
+        व्योम ( STDMETHODCALLTYPE *AssertTextureLayout )( 
             ID3D12DebugCommandList3 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -2072,94 +2072,94 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
     interface ID3D12DebugCommandList3
     {
-        CONST_VTBL struct ID3D12DebugCommandList3Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12DebugCommandList3Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12DebugCommandList3_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12DebugCommandList3_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12DebugCommandList3_AddRef(This)	\
+#घोषणा ID3D12DebugCommandList3_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12DebugCommandList3_Release(This)	\
+#घोषणा ID3D12DebugCommandList3_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12DebugCommandList3_AssertResourceState(This,pResource,Subresource,State)	\
+#घोषणा ID3D12DebugCommandList3_AssertResourceState(This,pResource,Subresource,State)	\
     ( (This)->lpVtbl -> AssertResourceState(This,pResource,Subresource,State) ) 
 
-#define ID3D12DebugCommandList3_SetFeatureMask(This,Mask)	\
+#घोषणा ID3D12DebugCommandList3_SetFeatureMask(This,Mask)	\
     ( (This)->lpVtbl -> SetFeatureMask(This,Mask) ) 
 
-#define ID3D12DebugCommandList3_GetFeatureMask(This)	\
+#घोषणा ID3D12DebugCommandList3_GetFeatureMask(This)	\
     ( (This)->lpVtbl -> GetFeatureMask(This) ) 
 
 
-#define ID3D12DebugCommandList3_SetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> SetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList3_SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> SetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
-#define ID3D12DebugCommandList3_GetDebugParameter(This,Type,pData,DataSize)	\
-    ( (This)->lpVtbl -> GetDebugParameter(This,Type,pData,DataSize) ) 
+#घोषणा ID3D12DebugCommandList3_GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार)	\
+    ( (This)->lpVtbl -> GetDebugParameter(This,Type,p_तथ्य,तथ्य_आकार) ) 
 
 
-#define ID3D12DebugCommandList3_AssertResourceAccess(This,pResource,Subresource,Access)	\
+#घोषणा ID3D12DebugCommandList3_AssertResourceAccess(This,pResource,Subresource,Access)	\
     ( (This)->lpVtbl -> AssertResourceAccess(This,pResource,Subresource,Access) ) 
 
-#define ID3D12DebugCommandList3_AssertTextureLayout(This,pResource,Subresource,Layout)	\
+#घोषणा ID3D12DebugCommandList3_AssertTextureLayout(This,pResource,Subresource,Layout)	\
     ( (This)->lpVtbl -> AssertTextureLayout(This,pResource,Subresource,Layout) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12DebugCommandList3_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12DebugCommandList3_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12SharingContract_INTERFACE_DEFINED__
-#define __ID3D12SharingContract_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12SharingContract_INTERFACE_DEFINED__
+#घोषणा __ID3D12SharingContract_INTERFACE_DEFINED__
 
 /* interface ID3D12SharingContract */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12SharingContract;
+EXTERN_C स्थिर IID IID_ID3D12SharingContract;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0adf7d52-929c-4e61-addb-ffed30de66ef")
-    ID3D12SharingContract : public IUnknown
+    ID3D12SharingContract : खुला IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE Present( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE Present( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             _In_  HWND window) = 0;
         
-        virtual void STDMETHODCALLTYPE SharedFenceSignal( 
+        भव व्योम STDMETHODCALLTYPE SharedFenceSignal( 
             _In_  ID3D12Fence *pFence,
-            UINT64 FenceValue) = 0;
+            UINT64 Fence_मूल्य) = 0;
         
-        virtual void STDMETHODCALLTYPE BeginCapturableWork( 
+        भव व्योम STDMETHODCALLTYPE BeginCapturableWork( 
             _In_  REFGUID guid) = 0;
         
-        virtual void STDMETHODCALLTYPE EndCapturableWork( 
+        भव व्योम STDMETHODCALLTYPE EndCapturableWork( 
             _In_  REFGUID guid) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12SharingContractVtbl
+    प्रकार काष्ठा ID3D12SharingContractVtbl
     {
         BEGIN_INTERFACE
         
@@ -2167,7 +2167,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12SharingContract * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2178,25 +2178,25 @@ EXTERN_C const IID IID_ID3D12SharingContract;
             ID3D12SharingContract * This);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, Present)
-        void ( STDMETHODCALLTYPE *Present )( 
+        व्योम ( STDMETHODCALLTYPE *Present )( 
             ID3D12SharingContract * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             _In_  HWND window);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, SharedFenceSignal)
-        void ( STDMETHODCALLTYPE *SharedFenceSignal )( 
+        व्योम ( STDMETHODCALLTYPE *SharedFenceSignal )( 
             ID3D12SharingContract * This,
             _In_  ID3D12Fence *pFence,
-            UINT64 FenceValue);
+            UINT64 Fence_मूल्य);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, BeginCapturableWork)
-        void ( STDMETHODCALLTYPE *BeginCapturableWork )( 
+        व्योम ( STDMETHODCALLTYPE *BeginCapturableWork )( 
             ID3D12SharingContract * This,
             _In_  REFGUID guid);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, EndCapturableWork)
-        void ( STDMETHODCALLTYPE *EndCapturableWork )( 
+        व्योम ( STDMETHODCALLTYPE *EndCapturableWork )( 
             ID3D12SharingContract * This,
             _In_  REFGUID guid);
         
@@ -2205,72 +2205,72 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 
     interface ID3D12SharingContract
     {
-        CONST_VTBL struct ID3D12SharingContractVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12SharingContractVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12SharingContract_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12SharingContract_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12SharingContract_AddRef(This)	\
+#घोषणा ID3D12SharingContract_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12SharingContract_Release(This)	\
+#घोषणा ID3D12SharingContract_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12SharingContract_Present(This,pResource,Subresource,window)	\
+#घोषणा ID3D12SharingContract_Present(This,pResource,Subresource,window)	\
     ( (This)->lpVtbl -> Present(This,pResource,Subresource,window) ) 
 
-#define ID3D12SharingContract_SharedFenceSignal(This,pFence,FenceValue)	\
-    ( (This)->lpVtbl -> SharedFenceSignal(This,pFence,FenceValue) ) 
+#घोषणा ID3D12SharingContract_SharedFenceSignal(This,pFence,Fence_मूल्य)	\
+    ( (This)->lpVtbl -> SharedFenceSignal(This,pFence,Fence_मूल्य) ) 
 
-#define ID3D12SharingContract_BeginCapturableWork(This,guid)	\
+#घोषणा ID3D12SharingContract_BeginCapturableWork(This,guid)	\
     ( (This)->lpVtbl -> BeginCapturableWork(This,guid) ) 
 
-#define ID3D12SharingContract_EndCapturableWork(This,guid)	\
+#घोषणा ID3D12SharingContract_EndCapturableWork(This,guid)	\
     ( (This)->lpVtbl -> EndCapturableWork(This,guid) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12SharingContract_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12SharingContract_INTERFACE_DEFINED__ */
 
 
-#ifndef __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__
-#define __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__
+#घोषणा __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__
 
 /* interface ID3D12ManualWriteTrackingResource */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
+EXTERN_C स्थिर IID IID_ID3D12ManualWriteTrackingResource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("86ca3b85-49ad-4b6e-aed5-eddb18540f41")
-    ID3D12ManualWriteTrackingResource : public IUnknown
+    ID3D12ManualWriteTrackingResource : खुला IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE TrackWrite( 
+    खुला:
+        भव व्योम STDMETHODCALLTYPE TrackWrite( 
             UINT Subresource,
-            _In_opt_  const D3D12_RANGE *pWrittenRange) = 0;
+            _In_opt_  स्थिर D3D12_RANGE *pWrittenRange) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12ManualWriteTrackingResourceVtbl
+    प्रकार काष्ठा ID3D12ManualWriteTrackingResourceVtbl
     {
         BEGIN_INTERFACE
         
@@ -2278,7 +2278,7 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12ManualWriteTrackingResource * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2289,53 +2289,53 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
             ID3D12ManualWriteTrackingResource * This);
         
         DECLSPEC_XFGVIRT(ID3D12ManualWriteTrackingResource, TrackWrite)
-        void ( STDMETHODCALLTYPE *TrackWrite )( 
+        व्योम ( STDMETHODCALLTYPE *TrackWrite )( 
             ID3D12ManualWriteTrackingResource * This,
             UINT Subresource,
-            _In_opt_  const D3D12_RANGE *pWrittenRange);
+            _In_opt_  स्थिर D3D12_RANGE *pWrittenRange);
         
         END_INTERFACE
     } ID3D12ManualWriteTrackingResourceVtbl;
 
     interface ID3D12ManualWriteTrackingResource
     {
-        CONST_VTBL struct ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12ManualWriteTrackingResource_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12ManualWriteTrackingResource_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12ManualWriteTrackingResource_AddRef(This)	\
+#घोषणा ID3D12ManualWriteTrackingResource_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12ManualWriteTrackingResource_Release(This)	\
+#घोषणा ID3D12ManualWriteTrackingResource_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12ManualWriteTrackingResource_TrackWrite(This,Subresource,pWrittenRange)	\
+#घोषणा ID3D12ManualWriteTrackingResource_TrackWrite(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> TrackWrite(This,Subresource,pWrittenRange) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12ManualWriteTrackingResource_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0018 */
 /* [local] */ 
 
-typedef 
-enum D3D12_MESSAGE_CATEGORY
+प्रकार 
+क्रमागत D3D12_MESSAGE_CATEGORY
     {
         D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED	= 0,
         D3D12_MESSAGE_CATEGORY_MISCELLANEOUS	= ( D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED + 1 ) ,
@@ -2350,8 +2350,8 @@ enum D3D12_MESSAGE_CATEGORY
         D3D12_MESSAGE_CATEGORY_SHADER	= ( D3D12_MESSAGE_CATEGORY_EXECUTION + 1 ) 
     } 	D3D12_MESSAGE_CATEGORY;
 
-typedef 
-enum D3D12_MESSAGE_SEVERITY
+प्रकार 
+क्रमागत D3D12_MESSAGE_SEVERITY
     {
         D3D12_MESSAGE_SEVERITY_CORRUPTION	= 0,
         D3D12_MESSAGE_SEVERITY_ERROR	= ( D3D12_MESSAGE_SEVERITY_CORRUPTION + 1 ) ,
@@ -2360,8 +2360,8 @@ enum D3D12_MESSAGE_SEVERITY
         D3D12_MESSAGE_SEVERITY_MESSAGE	= ( D3D12_MESSAGE_SEVERITY_INFO + 1 ) 
     } 	D3D12_MESSAGE_SEVERITY;
 
-typedef 
-enum D3D12_MESSAGE_ID
+प्रकार 
+क्रमागत D3D12_MESSAGE_ID
     {
         D3D12_MESSAGE_ID_UNKNOWN	= 0,
         D3D12_MESSAGE_ID_STRING_FROM_APPLICATION	= 1,
@@ -2473,17 +2473,17 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_GET_WORK_GRAPH_PROPERTIES_ERROR	= 119,
         D3D12_MESSAGE_ID_SET_PROGRAM_ERROR	= 120,
         D3D12_MESSAGE_ID_CLEARDEPTHSTENCILVIEW_INVALID	= 135,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_ROOT_SIGNATURE_NOT_SET	= 200,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_ROOT_SIGNATURE_MISMATCH	= 201,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_BUFFER_NOT_SET	= 202,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_BUFFER_STRIDE_TOO_SMALL	= 209,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_BUFFER_TOO_SMALL	= 210,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INDEX_BUFFER_NOT_SET	= 211,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INDEX_BUFFER_FORMAT_INVALID	= 212,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INDEX_BUFFER_TOO_SMALL	= 213,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_मूल_SIGNATURE_NOT_SET	= 200,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_मूल_SIGNATURE_MISMATCH	= 201,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_बफर_NOT_SET	= 202,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_बफर_STRIDE_TOO_SMALL	= 209,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_बफर_TOO_SMALL	= 210,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_सूचकांक_बफर_NOT_SET	= 211,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_सूचकांक_बफर_FORMAT_INVALID	= 212,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_सूचकांक_बफर_TOO_SMALL	= 213,
         D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INVALID_PRIMITIVETOPOLOGY	= 219,
         D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_VERTEX_STRIDE_UNALIGNED	= 221,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INDEX_OFFSET_UNALIGNED	= 222,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_सूचकांक_OFFSET_UNALIGNED	= 222,
         D3D12_MESSAGE_ID_DEVICE_REMOVAL_PROCESS_AT_FAULT	= 232,
         D3D12_MESSAGE_ID_DEVICE_REMOVAL_PROCESS_POSSIBLY_AT_FAULT	= 233,
         D3D12_MESSAGE_ID_DEVICE_REMOVAL_PROCESS_NOT_AT_FAULT	= 234,
@@ -2512,7 +2512,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATEDOMAINSHADER_INVALIDSHADERTYPE	= 296,
         D3D12_MESSAGE_ID_CREATEDOMAINSHADER_INVALIDCLASSLINKAGE	= 297,
         D3D12_MESSAGE_ID_RESOURCE_UNMAP_NOTMAPPED	= 310,
-        D3D12_MESSAGE_ID_DEVICE_CHECKFEATURESUPPORT_MISMATCHED_DATA_SIZE	= 318,
+        D3_D12_MESSAGE_ID_DEVICE_CHECKFEATURESUPPORT_MISMATCHED_तथ्य_आकार	= 318,
         D3D12_MESSAGE_ID_CREATECOMPUTESHADER_OUTOFMEMORY	= 321,
         D3D12_MESSAGE_ID_CREATECOMPUTESHADER_INVALIDSHADERBYTECODE	= 322,
         D3D12_MESSAGE_ID_CREATECOMPUTESHADER_INVALIDCLASSLINKAGE	= 323,
@@ -2563,7 +2563,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_COMBINATION	= 526,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_BEFORE_AFTER_MISMATCH	= 527,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_RESOURCE	= 528,
-        D3D12_MESSAGE_ID_RESOURCE_BARRIER_SAMPLE_COUNT	= 529,
+        D3_D12_MESSAGE_ID_RESOURCE_BARRIER_SAMPLE_गिनती	= 529,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_FLAGS	= 530,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_COMBINED_FLAGS	= 531,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_FLAGS_FOR_FORMAT	= 532,
@@ -2660,13 +2660,13 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATE_DESCRIPTOR_HEAP_INVALID_DESC	= 645,
         D3D12_MESSAGE_ID_INVALID_DESCRIPTOR_HANDLE	= 646,
         D3D12_MESSAGE_ID_CREATERASTERIZERSTATE_INVALID_CONSERVATIVERASTERMODE	= 647,
-        D3D12_MESSAGE_ID_CREATE_CONSTANT_BUFFER_VIEW_INVALID_RESOURCE	= 649,
-        D3D12_MESSAGE_ID_CREATE_CONSTANT_BUFFER_VIEW_INVALID_DESC	= 650,
-        D3D12_MESSAGE_ID_CREATE_UNORDEREDACCESS_VIEW_INVALID_COUNTER_USAGE	= 652,
+        D3_D12_MESSAGE_ID_CREATE_CONSTANT_बफर_VIEW_INVALID_RESOURCE	= 649,
+        D3_D12_MESSAGE_ID_CREATE_CONSTANT_बफर_VIEW_INVALID_DESC	= 650,
+        D3_D12_MESSAGE_ID_CREATE_UNORDEREDACCESS_VIEW_INVALID_गणक_USAGE	= 652,
         D3D12_MESSAGE_ID_COPY_DESCRIPTORS_INVALID_RANGES	= 653,
         D3D12_MESSAGE_ID_COPY_DESCRIPTORS_WRITE_ONLY_DESCRIPTOR	= 654,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_RTV_FORMAT_NOT_UNKNOWN	= 655,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_RENDER_TARGET_COUNT	= 656,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_RENDER_TARGET_गिनती	= 656,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_VERTEX_SHADER_NOT_SET	= 657,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INPUTLAYOUT_NOT_SET	= 658,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_SHADER_LINKAGE_HS_DS_SIGNATURE_MISMATCH	= 659,
@@ -2678,11 +2678,11 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_SHADER_LINKAGE_MINPRECISION	= 665,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_SHADER_LINKAGE_SEMANTICNAME_NOT_FOUND	= 666,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_XOR_DS_MISMATCH	= 667,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HULL_SHADER_INPUT_TOPOLOGY_MISMATCH	= 668,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_DS_CONTROL_POINT_COUNT_MISMATCH	= 669,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HULL_SHADER_निवेश_TOPOLOGY_MISMATCH	= 668,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_DS_CONTROL_POINT_गिनती_MISMATCH	= 669,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_DS_TESSELLATOR_DOMAIN_MISMATCH	= 670,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_USE_OF_CENTER_MULTISAMPLE_PATTERN	= 671,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_USE_OF_FORCED_SAMPLE_COUNT	= 672,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_USE_OF_FORCED_SAMPLE_गिनती	= 672,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_PRIMITIVETOPOLOGY	= 673,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_SYSTEMVALUE	= 674,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_OM_DUAL_SOURCE_BLENDING_CAN_ONLY_HAVE_RENDER_TARGET_0	= 675,
@@ -2691,37 +2691,37 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_OM_RENDER_TARGET_DOES_NOT_SUPPORT_LOGIC_OPS	= 678,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_RENDERTARGETVIEW_NOT_SET	= 679,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_DEPTHSTENCILVIEW_NOT_SET	= 680,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_GS_INPUT_PRIMITIVE_MISMATCH	= 681,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_GS_निवेश_PRIMITIVE_MISMATCH	= 681,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_POSITION_NOT_PRESENT	= 682,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MISSING_ROOT_SIGNATURE_FLAGS	= 683,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_INDEX_BUFFER_PROPERTIES	= 684,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MISSING_मूल_SIGNATURE_FLAGS	= 683,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_सूचकांक_बफर_PROPERTIES	= 684,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_INVALID_SAMPLE_DESC	= 685,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_ROOT_SIGNATURE_MISMATCH	= 686,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_DS_ROOT_SIGNATURE_MISMATCH	= 687,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_VS_ROOT_SIGNATURE_MISMATCH	= 688,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_GS_ROOT_SIGNATURE_MISMATCH	= 689,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_PS_ROOT_SIGNATURE_MISMATCH	= 690,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MISSING_ROOT_SIGNATURE	= 691,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_HS_मूल_SIGNATURE_MISMATCH	= 686,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_DS_मूल_SIGNATURE_MISMATCH	= 687,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_VS_मूल_SIGNATURE_MISMATCH	= 688,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_GS_मूल_SIGNATURE_MISMATCH	= 689,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_PS_मूल_SIGNATURE_MISMATCH	= 690,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MISSING_मूल_SIGNATURE	= 691,
         D3D12_MESSAGE_ID_EXECUTE_BUNDLE_OPEN_BUNDLE	= 692,
         D3D12_MESSAGE_ID_EXECUTE_BUNDLE_DESCRIPTOR_HEAP_MISMATCH	= 693,
         D3D12_MESSAGE_ID_EXECUTE_BUNDLE_TYPE	= 694,
         D3D12_MESSAGE_ID_DRAW_EMPTY_SCISSOR_RECTANGLE	= 695,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_BLOB_NOT_FOUND	= 696,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_DESERIALIZE_FAILED	= 697,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_INVALID_CONFIGURATION	= 698,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_NOT_SUPPORTED_ON_DEVICE	= 699,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_BLOB_NOT_FOUND	= 696,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_DESERIALIZE_FAILED	= 697,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_INVALID_CONFIGURATION	= 698,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_NOT_SUPPORTED_ON_DEVICE	= 699,
         D3D12_MESSAGE_ID_CREATERESOURCEANDHEAP_NULLRESOURCEPROPERTIES	= 700,
         D3D12_MESSAGE_ID_CREATERESOURCEANDHEAP_NULLHEAP	= 701,
         D3D12_MESSAGE_ID_GETRESOURCEALLOCATIONINFO_INVALIDRDESCS	= 702,
         D3D12_MESSAGE_ID_MAKERESIDENT_NULLOBJECTARRAY	= 703,
         D3D12_MESSAGE_ID_EVICT_NULLOBJECTARRAY	= 705,
         D3D12_MESSAGE_ID_SET_DESCRIPTOR_TABLE_INVALID	= 708,
-        D3D12_MESSAGE_ID_SET_ROOT_CONSTANT_INVALID	= 709,
-        D3D12_MESSAGE_ID_SET_ROOT_CONSTANT_BUFFER_VIEW_INVALID	= 710,
-        D3D12_MESSAGE_ID_SET_ROOT_SHADER_RESOURCE_VIEW_INVALID	= 711,
-        D3D12_MESSAGE_ID_SET_ROOT_UNORDERED_ACCESS_VIEW_INVALID	= 712,
+        D3_D12_MESSAGE_ID_SET_मूल_CONSTANT_INVALID	= 709,
+        D3_D12_MESSAGE_ID_SET_मूल_CONSTANT_बफर_VIEW_INVALID	= 710,
+        D3_D12_MESSAGE_ID_SET_मूल_SHADER_RESOURCE_VIEW_INVALID	= 711,
+        D3_D12_MESSAGE_ID_SET_मूल_UNORDERED_ACCESS_VIEW_INVALID	= 712,
         D3D12_MESSAGE_ID_SET_VERTEX_BUFFERS_INVALID_DESC	= 713,
-        D3D12_MESSAGE_ID_SET_INDEX_BUFFER_INVALID_DESC	= 715,
+        D3_D12_MESSAGE_ID_SET_सूचकांक_बफर_INVALID_DESC	= 715,
         D3D12_MESSAGE_ID_SET_STREAM_OUTPUT_BUFFERS_INVALID_DESC	= 717,
         D3D12_MESSAGE_ID_CREATERESOURCE_UNRECOGNIZEDDIMENSIONALITY	= 718,
         D3D12_MESSAGE_ID_CREATERESOURCE_UNRECOGNIZEDLAYOUT	= 719,
@@ -2730,14 +2730,14 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATERESOURCE_INVALIDMIPLEVELS	= 722,
         D3D12_MESSAGE_ID_CREATERESOURCE_INVALIDSAMPLEDESC	= 723,
         D3D12_MESSAGE_ID_CREATERESOURCE_INVALIDLAYOUT	= 724,
-        D3D12_MESSAGE_ID_SET_INDEX_BUFFER_INVALID	= 725,
+        D3_D12_MESSAGE_ID_SET_सूचकांक_बफर_INVALID	= 725,
         D3D12_MESSAGE_ID_SET_VERTEX_BUFFERS_INVALID	= 726,
         D3D12_MESSAGE_ID_SET_STREAM_OUTPUT_BUFFERS_INVALID	= 727,
         D3D12_MESSAGE_ID_SET_RENDER_TARGETS_INVALID	= 728,
         D3D12_MESSAGE_ID_CREATEQUERY_HEAP_INVALID_PARAMETERS	= 729,
         D3D12_MESSAGE_ID_BEGIN_END_QUERY_INVALID_PARAMETERS	= 731,
         D3D12_MESSAGE_ID_CLOSE_COMMAND_LIST_OPEN_QUERY	= 732,
-        D3D12_MESSAGE_ID_RESOLVE_QUERY_DATA_INVALID_PARAMETERS	= 733,
+        D3_D12_MESSAGE_ID_RESOLVE_QUERY_तथ्य_INVALID_PARAMETERS	= 733,
         D3D12_MESSAGE_ID_SET_PREDICATION_INVALID_PARAMETERS	= 734,
         D3D12_MESSAGE_ID_TIMESTAMPS_NOT_SUPPORTED	= 735,
         D3D12_MESSAGE_ID_CREATERESOURCE_UNRECOGNIZEDFORMAT	= 737,
@@ -2810,13 +2810,13 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_COPYTEXTUREREGION_FORMATMISMATCH	= 874,
         D3D12_MESSAGE_ID_COPYTEXTUREREGION_EMPTYBOX	= 875,
         D3D12_MESSAGE_ID_COPYTEXTUREREGION_INVALIDCOPYFLAGS	= 876,
-        D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALID_SUBRESOURCE_INDEX	= 877,
+        D3_D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALID_SUBRESOURCE_सूचकांक	= 877,
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALID_FORMAT	= 878,
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_RESOURCE_MISMATCH	= 879,
-        D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALID_SAMPLE_COUNT	= 880,
+        D3_D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALID_SAMPLE_गिनती	= 880,
         D3D12_MESSAGE_ID_CREATECOMPUTEPIPELINESTATE_INVALID_SHADER	= 881,
-        D3D12_MESSAGE_ID_CREATECOMPUTEPIPELINESTATE_CS_ROOT_SIGNATURE_MISMATCH	= 882,
-        D3D12_MESSAGE_ID_CREATECOMPUTEPIPELINESTATE_MISSING_ROOT_SIGNATURE	= 883,
+        D3_D12_MESSAGE_ID_CREATECOMPUTEPIPELINESTATE_CS_मूल_SIGNATURE_MISMATCH	= 882,
+        D3_D12_MESSAGE_ID_CREATECOMPUTEPIPELINESTATE_MISSING_मूल_SIGNATURE	= 883,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_INVALIDCACHEDBLOB	= 884,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_CACHEDBLOBADAPTERMISMATCH	= 885,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_CACHEDBLOBDRIVERVERSIONMISMATCH	= 886,
@@ -2833,11 +2833,11 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_READFROMSUBRESOURCE_INVALIDSUBRESOURCE	= 897,
         D3D12_MESSAGE_ID_READFROMSUBRESOURCE_EMPTYBOX	= 898,
         D3D12_MESSAGE_ID_TOO_MANY_NODES_SPECIFIED	= 899,
-        D3D12_MESSAGE_ID_INVALID_NODE_INDEX	= 900,
+        D3_D12_MESSAGE_ID_INVALID_गाँठ_सूचकांक	= 900,
         D3D12_MESSAGE_ID_GETHEAPPROPERTIES_INVALIDRESOURCE	= 901,
-        D3D12_MESSAGE_ID_NODE_MASK_MISMATCH	= 902,
+        D3_D12_MESSAGE_ID_गाँठ_MASK_MISMATCH	= 902,
         D3D12_MESSAGE_ID_COMMAND_LIST_OUTOFMEMORY	= 903,
-        D3D12_MESSAGE_ID_COMMAND_LIST_MULTIPLE_SWAPCHAIN_BUFFER_REFERENCES	= 904,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_MULTIPLE_SWAPCHAIN_बफर_REFERENCES	= 904,
         D3D12_MESSAGE_ID_COMMAND_LIST_TOO_MANY_SWAPCHAIN_REFERENCES	= 905,
         D3D12_MESSAGE_ID_COMMAND_QUEUE_TOO_MANY_SWAPCHAIN_REFERENCES	= 906,
         D3D12_MESSAGE_ID_EXECUTECOMMANDLISTS_WRONGSWAPCHAINBUFFERREFERENCE	= 907,
@@ -2867,9 +2867,9 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_NO_GRAPHICS_API_SUPPORT	= 932,
         D3D12_MESSAGE_ID_NO_COMPUTE_API_SUPPORT	= 933,
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_RESOURCE_FLAGS_NOT_SUPPORTED	= 934,
-        D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_ROOT_ARGUMENT_UNINITIALIZED	= 935,
-        D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_HEAP_INDEX_OUT_OF_BOUNDS	= 936,
-        D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_TABLE_REGISTER_INDEX_OUT_OF_BOUNDS	= 937,
+        D3_D12_MESSAGE_ID_GPU_BASED_VALIDATION_मूल_ARGUMENT_UNINITIALIZED	= 935,
+        D3_D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_HEAP_सूचकांक_OUT_OF_BOUNDS	= 936,
+        D3_D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_TABLE_REGISTER_सूचकांक_OUT_OF_BOUNDS	= 937,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_UNINITIALIZED	= 938,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_DESCRIPTOR_TYPE_MISMATCH	= 939,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_SRV_RESOURCE_DIMENSION_MISMATCH	= 940,
@@ -2884,8 +2884,8 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_NULLSRC	= 949,
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_INVALIDSRCRESOURCE	= 950,
         D3D12_MESSAGE_ID_PIPELINE_STATE_TYPE_MISMATCH	= 951,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DISPATCH_ROOT_SIGNATURE_NOT_SET	= 952,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DISPATCH_ROOT_SIGNATURE_MISMATCH	= 953,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DISPATCH_मूल_SIGNATURE_NOT_SET	= 952,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DISPATCH_मूल_SIGNATURE_MISMATCH	= 953,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_ZERO_BARRIERS	= 954,
         D3D12_MESSAGE_ID_BEGIN_END_EVENT_MISMATCH	= 955,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_POSSIBLE_BEFORE_AFTER_MISMATCH	= 956,
@@ -2893,7 +2893,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_INVALID_RESOURCE	= 958,
         D3D12_MESSAGE_ID_USE_OF_ZERO_REFCOUNT_OBJECT	= 959,
         D3D12_MESSAGE_ID_OBJECT_EVICTED_WHILE_STILL_IN_USE	= 960,
-        D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_ROOT_DESCRIPTOR_ACCESS_OUT_OF_BOUNDS	= 961,
+        D3_D12_MESSAGE_ID_GPU_BASED_VALIDATION_मूल_DESCRIPTOR_ACCESS_OUT_OF_BOUNDS	= 961,
         D3D12_MESSAGE_ID_CREATEPIPELINELIBRARY_INVALIDLIBRARYBLOB	= 962,
         D3D12_MESSAGE_ID_CREATEPIPELINELIBRARY_DRIVERVERSIONMISMATCH	= 963,
         D3D12_MESSAGE_ID_CREATEPIPELINELIBRARY_ADAPTERVERSIONMISMATCH	= 964,
@@ -2924,9 +2924,9 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_DEPRECATED_API	= 989,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE	= 990,
         D3D12_MESSAGE_ID_COMMAND_LIST_DESCRIPTOR_TABLE_NOT_SET	= 991,
-        D3D12_MESSAGE_ID_COMMAND_LIST_ROOT_CONSTANT_BUFFER_VIEW_NOT_SET	= 992,
-        D3D12_MESSAGE_ID_COMMAND_LIST_ROOT_SHADER_RESOURCE_VIEW_NOT_SET	= 993,
-        D3D12_MESSAGE_ID_COMMAND_LIST_ROOT_UNORDERED_ACCESS_VIEW_NOT_SET	= 994,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_मूल_CONSTANT_बफर_VIEW_NOT_SET	= 992,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_मूल_SHADER_RESOURCE_VIEW_NOT_SET	= 993,
+        D3_D12_MESSAGE_ID_COMMAND_LIST_मूल_UNORDERED_ACCESS_VIEW_NOT_SET	= 994,
         D3D12_MESSAGE_ID_DISCARD_INVALID_SUBRESOURCE_RANGE	= 995,
         D3D12_MESSAGE_ID_DISCARD_ONE_SUBRESOURCE_FOR_MIPS_WITH_RECTS	= 996,
         D3D12_MESSAGE_ID_DISCARD_NO_RECTS_FOR_NON_TEXTURE2D	= 997,
@@ -2934,22 +2934,22 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_SETRESIDENCYPRIORITY_INVALID_PAGEABLE	= 999,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_UNSUPPORTED	= 1000,
         D3D12_MESSAGE_ID_STATIC_DESCRIPTOR_INVALID_DESCRIPTOR_CHANGE	= 1001,
-        D3D12_MESSAGE_ID_DATA_STATIC_DESCRIPTOR_INVALID_DATA_CHANGE	= 1002,
-        D3D12_MESSAGE_ID_DATA_STATIC_WHILE_SET_AT_EXECUTE_DESCRIPTOR_INVALID_DATA_CHANGE	= 1003,
-        D3D12_MESSAGE_ID_EXECUTE_BUNDLE_STATIC_DESCRIPTOR_DATA_STATIC_NOT_SET	= 1004,
+        D3_D12_MESSAGE_ID_तथ्य_STATIC_DESCRIPTOR_INVALID_तथ्य_CHANGE	= 1002,
+        D3_D12_MESSAGE_ID_तथ्य_STATIC_WHILE_SET_AT_EXECUTE_DESCRIPTOR_INVALID_तथ्य_CHANGE	= 1003,
+        D3_D12_MESSAGE_ID_EXECUTE_BUNDLE_STATIC_DESCRIPTOR_तथ्य_STATIC_NOT_SET	= 1004,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_RESOURCE_ACCESS_OUT_OF_BOUNDS	= 1005,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_SAMPLER_MODE_MISMATCH	= 1006,
         D3D12_MESSAGE_ID_CREATE_FENCE_INVALID_FLAGS	= 1007,
         D3D12_MESSAGE_ID_RESOURCE_BARRIER_DUPLICATE_SUBRESOURCE_TRANSITIONS	= 1008,
         D3D12_MESSAGE_ID_SETRESIDENCYPRIORITY_INVALID_PRIORITY	= 1009,
-        D3D12_MESSAGE_ID_CREATE_DESCRIPTOR_HEAP_LARGE_NUM_DESCRIPTORS	= 1013,
+        D3_D12_MESSAGE_ID_CREATE_DESCRIPTOR_HEAP_LARGE_अंक_DESCRIPTORS	= 1013,
         D3D12_MESSAGE_ID_BEGIN_EVENT	= 1014,
         D3D12_MESSAGE_ID_END_EVENT	= 1015,
         D3D12_MESSAGE_ID_CREATEDEVICE_DEBUG_LAYER_STARTUP_OPTIONS	= 1016,
         D3D12_MESSAGE_ID_CREATEDEPTHSTENCILSTATE_DEPTHBOUNDSTEST_UNSUPPORTED	= 1017,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_DUPLICATE_SUBOBJECT	= 1018,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_UNKNOWN_SUBOBJECT	= 1019,
-        D3D12_MESSAGE_ID_CREATEPIPELINESTATE_ZERO_SIZE_STREAM	= 1020,
+        D3_D12_MESSAGE_ID_CREATEPIPELINESTATE_ZERO_आकार_STREAM	= 1020,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_INVALID_STREAM	= 1021,
         D3D12_MESSAGE_ID_CREATEPIPELINESTATE_CANNOT_DEDUCE_TYPE	= 1022,
         D3D12_MESSAGE_ID_COMMAND_LIST_STATIC_DESCRIPTOR_RESOURCE_DIMENSION_MISMATCH	= 1023,
@@ -3030,13 +3030,13 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_COPYRESOURCE_MISMATCH_DECODE_REFERENCE_ONLY_FLAG	= 1098,
         D3D12_MESSAGE_ID_CREATE_VIDEO_DECODE_HEAP_CAPS_FAILURE	= 1099,
         D3D12_MESSAGE_ID_CREATE_VIDEO_DECODE_HEAP_CAPS_UNSUPPORTED	= 1100,
-        D3D12_MESSAGE_ID_VIDEO_DECODE_SUPPORT_INVALID_INPUT	= 1101,
+        D3_D12_MESSAGE_ID_VIDEO_DECODE_SUPPORT_INVALID_निवेश	= 1101,
         D3D12_MESSAGE_ID_CREATE_VIDEO_DECODER_UNSUPPORTED	= 1102,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_METADATA_ERROR	= 1103,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_VIEW_INSTANCING_VERTEX_SIZE_EXCEEDED	= 1104,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_VIEW_INSTANCING_VERTEX_आकार_EXCEEDED	= 1104,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_RUNTIME_INTERNAL_ERROR	= 1105,
         D3D12_MESSAGE_ID_NO_VIDEO_API_SUPPORT	= 1106,
-        D3D12_MESSAGE_ID_VIDEO_PROCESS_SUPPORT_INVALID_INPUT	= 1107,
+        D3_D12_MESSAGE_ID_VIDEO_PROCESS_SUPPORT_INVALID_निवेश	= 1107,
         D3D12_MESSAGE_ID_CREATE_VIDEO_PROCESSOR_CAPS_FAILURE	= 1108,
         D3D12_MESSAGE_ID_VIDEO_PROCESS_SUPPORT_UNSUPPORTED_FORMAT	= 1109,
         D3D12_MESSAGE_ID_VIDEO_DECODE_FRAME_INVALID_ARGUMENT	= 1110,
@@ -3073,12 +3073,12 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_COPYBUFFERREGION_INVALID_SRC_RESOURCE	= 1141,
         D3D12_MESSAGE_ID_ATOMICCOPYBUFFER_INVALID_DST_RESOURCE	= 1142,
         D3D12_MESSAGE_ID_ATOMICCOPYBUFFER_INVALID_SRC_RESOURCE	= 1143,
-        D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_NULL_BUFFER	= 1144,
+        D3_D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_NULL_बफर	= 1144,
         D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_NULL_RESOURCE_DESC	= 1145,
         D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_UNSUPPORTED	= 1146,
-        D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_BUFFER_DIMENSION	= 1147,
-        D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_BUFFER_FLAGS	= 1148,
-        D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_BUFFER_OFFSET	= 1149,
+        D3_D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_बफर_DIMENSION	= 1147,
+        D3_D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_बफर_FLAGS	= 1148,
+        D3_D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_बफर_OFFSET	= 1149,
         D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_RESOURCE_DIMENSION	= 1150,
         D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_INVALID_RESOURCE_FLAGS	= 1151,
         D3D12_MESSAGE_ID_CREATEPLACEDRESOURCEONBUFFER_OUTOFMEMORY_RETURN	= 1152,
@@ -3103,7 +3103,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_META_COMMAND_ID_INVALID	= 1171,
         D3D12_MESSAGE_ID_META_COMMAND_UNSUPPORTED_PARAMS	= 1172,
         D3D12_MESSAGE_ID_META_COMMAND_FAILED_ENUMERATION	= 1173,
-        D3D12_MESSAGE_ID_META_COMMAND_PARAMETER_SIZE_MISMATCH	= 1174,
+        D3_D12_MESSAGE_ID_META_COMMAND_PARAMETER_आकार_MISMATCH	= 1174,
         D3D12_MESSAGE_ID_UNINITIALIZED_META_COMMAND	= 1175,
         D3D12_MESSAGE_ID_META_COMMAND_INVALID_GPU_VIRTUAL_ADDRESS	= 1176,
         D3D12_MESSAGE_ID_CREATE_VIDEOENCODECOMMANDLIST	= 1177,
@@ -3125,10 +3125,10 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_INCOMPLETE_TRACKED_WORKLOAD_PAIR	= 1193,
         D3D12_MESSAGE_ID_CREATE_STATE_OBJECT_ERROR	= 1194,
         D3D12_MESSAGE_ID_GET_SHADER_IDENTIFIER_ERROR	= 1195,
-        D3D12_MESSAGE_ID_GET_SHADER_STACK_SIZE_ERROR	= 1196,
-        D3D12_MESSAGE_ID_GET_PIPELINE_STACK_SIZE_ERROR	= 1197,
-        D3D12_MESSAGE_ID_SET_PIPELINE_STACK_SIZE_ERROR	= 1198,
-        D3D12_MESSAGE_ID_GET_SHADER_IDENTIFIER_SIZE_INVALID	= 1199,
+        D3_D12_MESSAGE_ID_GET_SHADER_ढेर_आकार_ERROR	= 1196,
+        D3_D12_MESSAGE_ID_GET_PIPELINE_ढेर_आकार_ERROR	= 1197,
+        D3_D12_MESSAGE_ID_SET_PIPELINE_ढेर_आकार_ERROR	= 1198,
+        D3_D12_MESSAGE_ID_GET_SHADER_IDENTIFIER_आकार_INVALID	= 1199,
         D3D12_MESSAGE_ID_CHECK_DRIVER_MATCHING_IDENTIFIER_INVALID	= 1200,
         D3D12_MESSAGE_ID_CHECK_DRIVER_MATCHING_IDENTIFIER_DRIVER_REPORTED_ISSUE	= 1201,
         D3D12_MESSAGE_ID_RENDER_PASS_INVALID_RESOURCE_BARRIER	= 1202,
@@ -3159,22 +3159,22 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_DESTROY_VIDEOEXTENSIONCOMMAND	= 1227,
         D3D12_MESSAGE_ID_INVALID_VIDEO_EXTENSION_COMMAND_ID	= 1228,
         D3D12_MESSAGE_ID_VIDEO_EXTENSION_COMMAND_INVALID_ARGUMENT	= 1229,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_NOT_UNIQUE_IN_DXIL_LIBRARY	= 1230,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_NOT_UNIQUE_IN_DXIL_LIBRARY	= 1230,
         D3D12_MESSAGE_ID_VARIABLE_SHADING_RATE_NOT_ALLOWED_WITH_TIR	= 1231,
-        D3D12_MESSAGE_ID_GEOMETRY_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_INDEX_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1232,
+        D3_D12_MESSAGE_ID_GEOMETRY_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_सूचकांक_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1232,
         D3D12_MESSAGE_ID_RSSETSHADING_RATE_INVALID_SHADING_RATE	= 1233,
         D3D12_MESSAGE_ID_RSSETSHADING_RATE_SHADING_RATE_NOT_PERMITTED_BY_CAP	= 1234,
         D3D12_MESSAGE_ID_RSSETSHADING_RATE_INVALID_COMBINER	= 1235,
         D3D12_MESSAGE_ID_RSSETSHADINGRATEIMAGE_REQUIRES_TIER_2	= 1236,
         D3D12_MESSAGE_ID_RSSETSHADINGRATE_REQUIRES_TIER_1	= 1237,
         D3D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_FORMAT	= 1238,
-        D3D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_ARRAY_SIZE	= 1239,
+        D3_D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_ARRAY_आकार	= 1239,
         D3D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_MIP_LEVEL	= 1240,
-        D3D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_SAMPLE_COUNT	= 1241,
+        D3_D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_SAMPLE_गिनती	= 1241,
         D3D12_MESSAGE_ID_SHADING_RATE_IMAGE_INCORRECT_SAMPLE_QUALITY	= 1242,
         D3D12_MESSAGE_ID_NON_RETAIL_SHADER_MODEL_WONT_VALIDATE	= 1243,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_AS_ROOT_SIGNATURE_MISMATCH	= 1244,
-        D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MS_ROOT_SIGNATURE_MISMATCH	= 1245,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_AS_मूल_SIGNATURE_MISMATCH	= 1244,
+        D3_D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MS_मूल_SIGNATURE_MISMATCH	= 1245,
         D3D12_MESSAGE_ID_ADD_TO_STATE_OBJECT_ERROR	= 1246,
         D3D12_MESSAGE_ID_CREATE_PROTECTED_RESOURCE_SESSION_INVALID_ARGUMENT	= 1247,
         D3D12_MESSAGE_ID_CREATEGRAPHICSPIPELINESTATE_MS_PSO_DESC_MISMATCH	= 1248,
@@ -3187,7 +3187,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_RESOURCE_FORMAT_REQUIRES_SAMPLER_FEEDBACK_CAPABILITY	= 1255,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_MIP_REGION	= 1256,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_DIMENSION	= 1257,
-        D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_SAMPLE_COUNT	= 1258,
+        D3_D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_SAMPLE_गिनती	= 1258,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_SAMPLE_QUALITY	= 1259,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_INVALID_LAYOUT	= 1260,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_MAP_REQUIRES_UNORDERED_ACCESS_FLAG	= 1261,
@@ -3198,15 +3198,15 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATEMESHSHADER_OUTOFMEMORY	= 1266,
         D3D12_MESSAGE_ID_CREATEMESHSHADERWITHSTREAMOUTPUT_INVALIDSHADERTYPE	= 1267,
         D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_SAMPLER_FEEDBACK_TRANSCODE_INVALID_FORMAT	= 1268,
-        D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_SAMPLER_FEEDBACK_INVALID_MIP_LEVEL_COUNT	= 1269,
-        D3D12_MESSAGE_ID_RESOLVESUBRESOURCE_SAMPLER_FEEDBACK_TRANSCODE_ARRAY_SIZE_MISMATCH	= 1270,
+        D3_D12_MESSAGE_ID_RESOLVESUBRESOURCE_SAMPLER_FEEDBACK_INVALID_MIP_LEVEL_गिनती	= 1269,
+        D3_D12_MESSAGE_ID_RESOLVESUBRESOURCE_SAMPLER_FEEDBACK_TRANSCODE_ARRAY_आकार_MISMATCH	= 1270,
         D3D12_MESSAGE_ID_SAMPLER_FEEDBACK_CREATE_UAV_MISMATCHING_TARGETED_RESOURCE	= 1271,
         D3D12_MESSAGE_ID_CREATEMESHSHADER_OUTPUTEXCEEDSMAXSIZE	= 1272,
         D3D12_MESSAGE_ID_CREATEMESHSHADER_GROUPSHAREDEXCEEDSMAXSIZE	= 1273,
-        D3D12_MESSAGE_ID_VERTEX_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_INDEX_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1274,
-        D3D12_MESSAGE_ID_MESH_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_INDEX_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1275,
+        D3_D12_MESSAGE_ID_VERTEX_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_सूचकांक_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1274,
+        D3_D12_MESSAGE_ID_MESH_SHADER_OUTPUTTING_BOTH_VIEWPORT_ARRAY_सूचकांक_AND_SHADING_RATE_NOT_SUPPORTED_ON_DEVICE	= 1275,
         D3D12_MESSAGE_ID_CREATEMESHSHADER_MISMATCHEDASMSPAYLOADSIZE	= 1276,
-        D3D12_MESSAGE_ID_CREATE_ROOT_SIGNATURE_UNBOUNDED_STATIC_DESCRIPTORS	= 1277,
+        D3_D12_MESSAGE_ID_CREATE_मूल_SIGNATURE_UNBOUNDED_STATIC_DESCRIPTORS	= 1277,
         D3D12_MESSAGE_ID_CREATEAMPLIFICATIONSHADER_INVALIDSHADERBYTECODE	= 1278,
         D3D12_MESSAGE_ID_CREATEAMPLIFICATIONSHADER_OUTOFMEMORY	= 1279,
         D3D12_MESSAGE_ID_CREATE_SHADERCACHESESSION	= 1280,
@@ -3251,16 +3251,16 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_RESOLVE_QUERY_INVALID_QUERY_STATE	= 1319,
         D3D12_MESSAGE_ID_SETPRIVATEDATA_NO_ACCESS	= 1320,
         D3D12_MESSAGE_ID_COMMAND_LIST_STATIC_DESCRIPTOR_SAMPLER_MODE_MISMATCH	= 1321,
-        D3D12_MESSAGE_ID_GETCOPYABLEFOOTPRINTS_UNSUPPORTED_BUFFER_WIDTH	= 1322,
+        D3_D12_MESSAGE_ID_GETCOPYABLEFOOTPRINTS_UNSUPPORTED_बफर_WIDTH	= 1322,
         D3D12_MESSAGE_ID_CREATEMESHSHADER_TOPOLOGY_MISMATCH	= 1323,
-        D3D12_MESSAGE_ID_VRS_SUM_COMBINER_REQUIRES_CAPABILITY	= 1324,
+        D3_D12_MESSAGE_ID_VRS_योग_COMBINER_REQUIRES_CAPABILITY	= 1324,
         D3D12_MESSAGE_ID_SETTING_SHADING_RATE_FROM_MS_REQUIRES_CAPABILITY	= 1325,
         D3D12_MESSAGE_ID_SHADERCACHESESSION_SHADERCACHEDELETE_NOTSUPPORTED	= 1326,
         D3D12_MESSAGE_ID_SHADERCACHECONTROL_SHADERCACHECLEAR_NOTSUPPORTED	= 1327,
         D3D12_MESSAGE_ID_CREATERESOURCE_STATE_IGNORED	= 1328,
         D3D12_MESSAGE_ID_UNUSED_CROSS_EXECUTE_SPLIT_BARRIER	= 1329,
         D3D12_MESSAGE_ID_DEVICE_OPEN_SHARED_HANDLE_ACCESS_DENIED	= 1330,
-        D3D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_VALUES	= 1331,
+        D3_D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_मूल्यावली	= 1331,
         D3D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_ACCESS	= 1332,
         D3D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_SYNC	= 1333,
         D3D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_LAYOUT	= 1334,
@@ -3269,12 +3269,12 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_INCOMPATIBLE_BARRIER_RESOURCE_DIMENSION	= 1337,
         D3D12_MESSAGE_ID_SET_SCISSOR_RECTS_INVALID_RECT	= 1338,
         D3D12_MESSAGE_ID_SHADING_RATE_SOURCE_REQUIRES_DIMENSION_TEXTURE2D	= 1339,
-        D3D12_MESSAGE_ID_BUFFER_BARRIER_SUBREGION_OUT_OF_BOUNDS	= 1340,
+        D3_D12_MESSAGE_ID_बफर_BARRIER_SUBREGION_OUT_OF_BOUNDS	= 1340,
         D3D12_MESSAGE_ID_UNSUPPORTED_BARRIER_LAYOUT	= 1341,
         D3D12_MESSAGE_ID_CREATERESOURCEANDHEAP_INVALID_PARAMETERS	= 1342,
         D3D12_MESSAGE_ID_ENHANCED_BARRIERS_NOT_SUPPORTED	= 1343,
         D3D12_MESSAGE_ID_LEGACY_BARRIER_VALIDATION_FORCED_ON	= 1346,
-        D3D12_MESSAGE_ID_EMPTY_ROOT_DESCRIPTOR_TABLE	= 1347,
+        D3_D12_MESSAGE_ID_EMPTY_मूल_DESCRIPTOR_TABLE	= 1347,
         D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_ELEMENT_OFFSET_UNALIGNED	= 1348,
         D3D12_MESSAGE_ID_ALPHA_BLEND_FACTOR_NOT_SUPPORTED	= 1349,
         D3D12_MESSAGE_ID_BARRIER_INTEROP_INVALID_LAYOUT	= 1350,
@@ -3284,9 +3284,9 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATEDEPTHSTENCILSTATE_INDEPENDENT_MASKS_UNSUPPORTED	= 1354,
         D3D12_MESSAGE_ID_TEXTURE_BARRIER_SUBRESOURCES_OUT_OF_BOUNDS	= 1355,
         D3D12_MESSAGE_ID_NON_OPTIMAL_BARRIER_ONLY_EXECUTE_COMMAND_LISTS	= 1356,
-        D3D12_MESSAGE_ID_EXECUTE_INDIRECT_ZERO_COMMAND_COUNT	= 1357,
+        D3_D12_MESSAGE_ID_EXECUTE_INDIRECT_ZERO_COMMAND_गिनती	= 1357,
         D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_INCOMPATIBLE_TEXTURE_LAYOUT	= 1358,
-        D3D12_MESSAGE_ID_DYNAMIC_INDEX_BUFFER_STRIP_CUT_NOT_SUPPORTED	= 1359,
+        D3_D12_MESSAGE_ID_DYNAMIC_सूचकांक_बफर_STRIP_CUT_NOT_SUPPORTED	= 1359,
         D3D12_MESSAGE_ID_PRIMITIVE_TOPOLOGY_TRIANGLE_FANS_NOT_SUPPORTED	= 1360,
         D3D12_MESSAGE_ID_CREATE_SAMPLER_COMPARISON_FUNC_IGNORED	= 1361,
         D3D12_MESSAGE_ID_CREATEHEAP_INVALIDHEAPTYPE	= 1362,
@@ -3295,8 +3295,8 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_CREATERASTERIZERSTATE_NON_WHOLE_DYNAMIC_DEPTH_BIAS	= 1365,
         D3D12_MESSAGE_ID_DYNAMIC_DEPTH_BIAS_FLAG_MISSING	= 1366,
         D3D12_MESSAGE_ID_DYNAMIC_DEPTH_BIAS_NO_PIPELINE	= 1367,
-        D3D12_MESSAGE_ID_DYNAMIC_INDEX_BUFFER_STRIP_CUT_FLAG_MISSING	= 1368,
-        D3D12_MESSAGE_ID_DYNAMIC_INDEX_BUFFER_STRIP_CUT_NO_PIPELINE	= 1369,
+        D3_D12_MESSAGE_ID_DYNAMIC_सूचकांक_बफर_STRIP_CUT_FLAG_MISSING	= 1368,
+        D3_D12_MESSAGE_ID_DYNAMIC_सूचकांक_बफर_STRIP_CUT_NO_PIPELINE	= 1369,
         D3D12_MESSAGE_ID_NONNORMALIZED_COORDINATE_SAMPLING_NOT_SUPPORTED	= 1370,
         D3D12_MESSAGE_ID_INVALID_CAST_TARGET	= 1371,
         D3D12_MESSAGE_ID_RENDER_PASS_COMMANDLIST_INVALID_END_STATE	= 1372,
@@ -3314,7 +3314,7 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_PIX_EVENT_UNDERFLOW	= 1384,
         D3D12_MESSAGE_ID_RECREATEAT_INVALID_TARGET	= 1385,
         D3D12_MESSAGE_ID_RECREATEAT_INSUFFICIENT_SUPPORT	= 1386,
-        D3D12_MESSAGE_ID_GPU_BASED_VALIDATION_STRUCTURED_BUFFER_STRIDE_MISMATCH	= 1387,
+        D3_D12_MESSAGE_ID_GPU_BASED_VALIDATION_STRUCTURED_बफर_STRIDE_MISMATCH	= 1387,
         D3D12_MESSAGE_ID_DISPATCH_GRAPH_INVALID	= 1388,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_TARGET_FORMAT_INVALID	= 1389,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_TARGET_DIMENSION_INVALID	= 1390,
@@ -3332,8 +3332,8 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_MOTION_VECTORS_FORMAT_INVALID	= 1402,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_FLAGS_INVALID	= 1403,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_FORMAT_INVALID	= 1404,
-        D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_EXPOSURE_SCALE_TEXTURE_SIZE_INVALID	= 1405,
-        D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_VARIANT_INDEX_OUT_OF_BOUNDS	= 1406,
+        D3_D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_EXPOSURE_SCALE_TEXTURE_आकार_INVALID	= 1405,
+        D3_D12_MESSAGE_ID_DIRECTSR_SUPERRES_VARIANT_सूचकांक_OUT_OF_BOUNDS	= 1406,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_VARIANT_ID_NOT_FOUND	= 1407,
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_DUPLICATE_VARIANT_ID	= 1408,
         D3D12_MESSAGE_ID_DIRECTSR_OUT_OF_MEMORY	= 1409,
@@ -3343,164 +3343,164 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_DIRECTSR_SUPERRES_UPSCALER_EXECUTE_INVALID_CAMERA_JITTER	= 1413,
         D3D12_MESSAGE_ID_CREATE_STATE_OBJECT_WARNING	= 1414,
         D3D12_MESSAGE_ID_GUID_TEXTURE_LAYOUT_UNSUPPORTED	= 1415,
-        D3D12_MESSAGE_ID_RESOLVE_ENCODER_INPUT_PARAM_LAYOUT_INVALID_PARAMETERS	= 1416,
+        D3_D12_MESSAGE_ID_RESOLVE_ENCODER_निवेश_PARAM_LAYOUT_INVALID_PARAMETERS	= 1416,
         D3D12_MESSAGE_ID_INVALID_BARRIER_ACCESS	= 1417,
-        D3D12_MESSAGE_ID_COMMAND_LIST_DRAW_INSTANCE_COUNT_ZERO	= 1418,
-        D3D12_MESSAGE_ID_DESCRIPTOR_HEAP_NOT_SET_BEFORE_ROOT_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG	= 1419,
-        D3D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_ROOT_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG	= 1420,
-        D3D12_MESSAGE_ID_D3D12_MESSAGES_END	= ( D3D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_ROOT_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG + 1 ) 
+        D3_D12_MESSAGE_ID_COMMAND_LIST_DRAW_INSTANCE_गिनती_ZERO	= 1418,
+        D3_D12_MESSAGE_ID_DESCRIPTOR_HEAP_NOT_SET_BEFORE_मूल_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG	= 1419,
+        D3_D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_मूल_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG	= 1420,
+        D3D12_MESSAGE_ID_D3D12_MESSAGES_END	= ( D3_D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_मूल_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG + 1 ) 
     } 	D3D12_MESSAGE_ID;
 
-typedef struct D3D12_MESSAGE
+प्रकार काष्ठा D3D12_MESSAGE
     {
     D3D12_MESSAGE_CATEGORY Category;
     D3D12_MESSAGE_SEVERITY Severity;
     D3D12_MESSAGE_ID ID;
-    _Field_size_(DescriptionByteLength)  const char *pDescription;
-    SIZE_T DescriptionByteLength;
+    Field_आकार(Description_Byte_लंबाई)  स्थिर अक्षर *pDescription;
+    आकार_T Description_Byte_लंबाई;
     } 	D3D12_MESSAGE;
 
-typedef struct D3D12_INFO_QUEUE_FILTER_DESC
+प्रकार काष्ठा D3D12_INFO_QUEUE_FILTER_DESC
     {
-    UINT NumCategories;
-    _Field_size_(NumCategories)  D3D12_MESSAGE_CATEGORY *pCategoryList;
-    UINT NumSeverities;
-    _Field_size_(NumSeverities)  D3D12_MESSAGE_SEVERITY *pSeverityList;
-    UINT NumIDs;
-    _Field_size_(NumIDs)  D3D12_MESSAGE_ID *pIDList;
+    UINT अंक_Categories;
+    Field_आकार(अंक_Categories)  D3D12_MESSAGE_CATEGORY *pCategoryList;
+    UINT अंक_Severities;
+    Field_आकार(अंक_Severities)  D3D12_MESSAGE_SEVERITY *pSeverityList;
+    UINT अंक_IDs;
+    Field_आकार(अंक_IDs)  D3D12_MESSAGE_ID *pIDList;
     } 	D3D12_INFO_QUEUE_FILTER_DESC;
 
-typedef struct D3D12_INFO_QUEUE_FILTER
+प्रकार काष्ठा D3D12_INFO_QUEUE_FILTER
     {
     D3D12_INFO_QUEUE_FILTER_DESC AllowList;
     D3D12_INFO_QUEUE_FILTER_DESC DenyList;
     } 	D3D12_INFO_QUEUE_FILTER;
 
-#define D3D12_INFO_QUEUE_DEFAULT_MESSAGE_COUNT_LIMIT 1024
+#घोषणा D3_D12_INFO_QUEUE_DEFAULT_MESSAGE_गिनती_LIMIT 1024
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
 
-#ifndef __ID3D12InfoQueue_INTERFACE_DEFINED__
-#define __ID3D12InfoQueue_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12InfoQueue_INTERFACE_DEFINED__
+#घोषणा __ID3D12InfoQueue_INTERFACE_DEFINED__
 
 /* interface ID3D12InfoQueue */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12InfoQueue;
+EXTERN_C स्थिर IID IID_ID3D12InfoQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0742a90b-c387-483f-b946-30a7e4e61458")
-    ID3D12InfoQueue : public IUnknown
+    ID3D12InfoQueue : खुला IUnknown
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE SetMessageCountLimit( 
-            _In_  UINT64 MessageCountLimit) = 0;
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE Set_Message_गिनती_Limit( 
+            _In_  UINT64 Message_गिनती_Limit) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearStoredMessages( void) = 0;
+        भव व्योम STDMETHODCALLTYPE ClearStoredMessages( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetMessage( 
-            _In_  UINT64 MessageIndex,
-            _Out_writes_bytes_opt_(*pMessageByteLength)  D3D12_MESSAGE *pMessage,
-            _Inout_  SIZE_T *pMessageByteLength) = 0;
+        भव HRESULT STDMETHODCALLTYPE GetMessage( 
+            _In_  UINT64 Message_सूचकांक,
+            _Out_writes_bytes_opt_(*p_Message_Byte_लंबाई)  D3D12_MESSAGE *pMessage,
+            _Inout_  आकार_T *p_Message_Byte_लंबाई) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesAllowedByStorageFilter( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_अंक_Messages_Allowed_By_Storage_Filter( व्योम) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDeniedByStorageFilter( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_अंक_Messages_Denied_By_Storage_Filter( व्योम) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessages( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_अंक_Stored_Messages( व्योम) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessagesAllowedByRetrievalFilter( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter( व्योम) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDiscardedByMessageCountLimit( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_अंक_Messages_Discarded_By_Message_गिनती_Limit( व्योम) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetMessageCountLimit( void) = 0;
+        भव UINT64 STDMETHODCALLTYPE Get_Message_गिनती_Limit( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddStorageFilterEntries( 
+        भव HRESULT STDMETHODCALLTYPE AddStorageFilterEntries( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetStorageFilter( 
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength) = 0;
+        भव HRESULT STDMETHODCALLTYPE GetStorageFilter( 
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearStorageFilter( void) = 0;
+        भव व्योम STDMETHODCALLTYPE ClearStorageFilter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushEmptyStorageFilter( void) = 0;
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Empty_Storage_Filter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushCopyOfStorageFilter( void) = 0;
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Copy_Of_Storage_Filter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushStorageFilter( 
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Storage_Filter( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual void STDMETHODCALLTYPE PopStorageFilter( void) = 0;
+        भव व्योम STDMETHODCALLTYPE निकालो_Storage_Filter( व्योम) = 0;
         
-        virtual UINT STDMETHODCALLTYPE GetStorageFilterStackSize( void) = 0;
+        भव UINT STDMETHODCALLTYPE Get_Storage_Filter_ढेर_आकार( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddRetrievalFilterEntries( 
+        भव HRESULT STDMETHODCALLTYPE AddRetrievalFilterEntries( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE GetRetrievalFilter( 
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength) = 0;
+        भव HRESULT STDMETHODCALLTYPE GetRetrievalFilter( 
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearRetrievalFilter( void) = 0;
+        भव व्योम STDMETHODCALLTYPE ClearRetrievalFilter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushEmptyRetrievalFilter( void) = 0;
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Empty_Retrieval_Filter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushCopyOfRetrievalFilter( void) = 0;
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Copy_Of_Retrieval_Filter( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushRetrievalFilter( 
+        भव HRESULT STDMETHODCALLTYPE धकेलो_Retrieval_Filter( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual void STDMETHODCALLTYPE PopRetrievalFilter( void) = 0;
+        भव व्योम STDMETHODCALLTYPE निकालो_Retrieval_Filter( व्योम) = 0;
         
-        virtual UINT STDMETHODCALLTYPE GetRetrievalFilterStackSize( void) = 0;
+        भव UINT STDMETHODCALLTYPE Get_Retrieval_Filter_ढेर_आकार( व्योम) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddMessage( 
+        भव HRESULT STDMETHODCALLTYPE AddMessage( 
             _In_  D3D12_MESSAGE_CATEGORY Category,
             _In_  D3D12_MESSAGE_SEVERITY Severity,
             _In_  D3D12_MESSAGE_ID ID,
             _In_  LPCSTR pDescription) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddApplicationMessage( 
+        भव HRESULT STDMETHODCALLTYPE AddApplicationMessage( 
             _In_  D3D12_MESSAGE_SEVERITY Severity,
             _In_  LPCSTR pDescription) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE SetBreakOnCategory( 
+        भव HRESULT STDMETHODCALLTYPE SetBreakOnCategory( 
             _In_  D3D12_MESSAGE_CATEGORY Category,
             _In_  BOOL bEnable) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE SetBreakOnSeverity( 
+        भव HRESULT STDMETHODCALLTYPE SetBreakOnSeverity( 
             _In_  D3D12_MESSAGE_SEVERITY Severity,
             _In_  BOOL bEnable) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE SetBreakOnID( 
+        भव HRESULT STDMETHODCALLTYPE SetBreakOnID( 
             _In_  D3D12_MESSAGE_ID ID,
             _In_  BOOL bEnable) = 0;
         
-        virtual BOOL STDMETHODCALLTYPE GetBreakOnCategory( 
+        भव BOOL STDMETHODCALLTYPE GetBreakOnCategory( 
             _In_  D3D12_MESSAGE_CATEGORY Category) = 0;
         
-        virtual BOOL STDMETHODCALLTYPE GetBreakOnSeverity( 
+        भव BOOL STDMETHODCALLTYPE GetBreakOnSeverity( 
             _In_  D3D12_MESSAGE_SEVERITY Severity) = 0;
         
-        virtual BOOL STDMETHODCALLTYPE GetBreakOnID( 
+        भव BOOL STDMETHODCALLTYPE GetBreakOnID( 
             _In_  D3D12_MESSAGE_ID ID) = 0;
         
-        virtual void STDMETHODCALLTYPE SetMuteDebugOutput( 
+        भव व्योम STDMETHODCALLTYPE SetMuteDebugOutput( 
             _In_  BOOL bMute) = 0;
         
-        virtual BOOL STDMETHODCALLTYPE GetMuteDebugOutput( void) = 0;
+        भव BOOL STDMETHODCALLTYPE GetMuteDebugOutput( व्योम) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12InfoQueueVtbl
+    प्रकार काष्ठा ID3D12InfoQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -3508,7 +3508,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12InfoQueue * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -3518,44 +3518,44 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         ULONG ( STDMETHODCALLTYPE *Release )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMessageCountLimit)
-        HRESULT ( STDMETHODCALLTYPE *SetMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Set_Message_गिनती_Limit)
+        HRESULT ( STDMETHODCALLTYPE *Set_Message_गिनती_Limit )( 
             ID3D12InfoQueue * This,
-            _In_  UINT64 MessageCountLimit);
+            _In_  UINT64 Message_गिनती_Limit);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStoredMessages)
-        void ( STDMETHODCALLTYPE *ClearStoredMessages )( 
+        व्योम ( STDMETHODCALLTYPE *ClearStoredMessages )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessage)
         HRESULT ( STDMETHODCALLTYPE *GetMessage )( 
             ID3D12InfoQueue * This,
-            _In_  UINT64 MessageIndex,
-            _Out_writes_bytes_opt_(*pMessageByteLength)  D3D12_MESSAGE *pMessage,
-            _Inout_  SIZE_T *pMessageByteLength);
+            _In_  UINT64 Message_सूचकांक,
+            _Out_writes_bytes_opt_(*p_Message_Byte_लंबाई)  D3D12_MESSAGE *pMessage,
+            _Inout_  आकार_T *p_Message_Byte_लंबाई);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesAllowedByStorageFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesAllowedByStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Allowed_By_Storage_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Allowed_By_Storage_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesDeniedByStorageFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesDeniedByStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Denied_By_Storage_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Denied_By_Storage_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumStoredMessages)
-        UINT64 ( STDMETHODCALLTYPE *GetNumStoredMessages )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Stored_Messages)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Stored_Messages )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumStoredMessagesAllowedByRetrievalFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumStoredMessagesAllowedByRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesDiscardedByMessageCountLimit)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesDiscardedByMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Discarded_By_Message_गिनती_Limit)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Discarded_By_Message_गिनती_Limit )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessageCountLimit)
-        UINT64 ( STDMETHODCALLTYPE *GetMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Message_गिनती_Limit)
+        UINT64 ( STDMETHODCALLTYPE *Get_Message_गिनती_Limit )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddStorageFilterEntries)
@@ -3566,32 +3566,32 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilter)
         HRESULT ( STDMETHODCALLTYPE *GetStorageFilter )( 
             ID3D12InfoQueue * This,
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength);
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStorageFilter)
-        void ( STDMETHODCALLTYPE *ClearStorageFilter )( 
+        व्योम ( STDMETHODCALLTYPE *ClearStorageFilter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushEmptyStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Empty_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Empty_Storage_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushCopyOfStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushCopyOfStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Copy_Of_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Copy_Of_Storage_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Storage_Filter )( 
             ID3D12InfoQueue * This,
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopStorageFilter)
-        void ( STDMETHODCALLTYPE *PopStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, निकालो_Storage_Filter)
+        व्योम ( STDMETHODCALLTYPE *निकालो_Storage_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilterStackSize)
-        UINT ( STDMETHODCALLTYPE *GetStorageFilterStackSize )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Storage_Filter_ढेर_आकार)
+        UINT ( STDMETHODCALLTYPE *Get_Storage_Filter_ढेर_आकार )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddRetrievalFilterEntries)
@@ -3602,32 +3602,32 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilter)
         HRESULT ( STDMETHODCALLTYPE *GetRetrievalFilter )( 
             ID3D12InfoQueue * This,
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength);
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearRetrievalFilter)
-        void ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
+        व्योम ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushEmptyRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Empty_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Empty_Retrieval_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushCopyOfRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushCopyOfRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Copy_Of_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Copy_Of_Retrieval_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Retrieval_Filter )( 
             ID3D12InfoQueue * This,
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopRetrievalFilter)
-        void ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, निकालो_Retrieval_Filter)
+        व्योम ( STDMETHODCALLTYPE *निकालो_Retrieval_Filter )( 
             ID3D12InfoQueue * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilterStackSize)
-        UINT ( STDMETHODCALLTYPE *GetRetrievalFilterStackSize )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Retrieval_Filter_ढेर_आकार)
+        UINT ( STDMETHODCALLTYPE *Get_Retrieval_Filter_ढेर_आकार )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddMessage)
@@ -3678,7 +3678,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _In_  D3D12_MESSAGE_ID ID);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMuteDebugOutput)
-        void ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
+        व्योम ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
             ID3D12InfoQueue * This,
             _In_  BOOL bMute);
         
@@ -3691,193 +3691,193 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
 
     interface ID3D12InfoQueue
     {
-        CONST_VTBL struct ID3D12InfoQueueVtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12InfoQueueVtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12InfoQueue_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12InfoQueue_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12InfoQueue_AddRef(This)	\
+#घोषणा ID3D12InfoQueue_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12InfoQueue_Release(This)	\
+#घोषणा ID3D12InfoQueue_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12InfoQueue_SetMessageCountLimit(This,MessageCountLimit)	\
-    ( (This)->lpVtbl -> SetMessageCountLimit(This,MessageCountLimit) ) 
+#घोषणा ID3_D12_Info_Queue_Set_Message_गिनती_Limit(This,Message_गिनती_Limit)	\
+    ( (This)->lpVtbl -> Set_Message_गिनती_Limit(This,Message_गिनती_Limit) ) 
 
-#define ID3D12InfoQueue_ClearStoredMessages(This)	\
+#घोषणा ID3D12InfoQueue_ClearStoredMessages(This)	\
     ( (This)->lpVtbl -> ClearStoredMessages(This) ) 
 
-#define ID3D12InfoQueue_GetMessage(This,MessageIndex,pMessage,pMessageByteLength)	\
-    ( (This)->lpVtbl -> GetMessage(This,MessageIndex,pMessage,pMessageByteLength) ) 
+#घोषणा ID3D12InfoQueue_GetMessage(This,Message_सूचकांक,pMessage,p_Message_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetMessage(This,Message_सूचकांक,pMessage,p_Message_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue_GetNumMessagesAllowedByStorageFilter(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesAllowedByStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_अंक_Messages_Allowed_By_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Allowed_By_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue_GetNumMessagesDeniedByStorageFilter(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesDeniedByStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_अंक_Messages_Denied_By_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Denied_By_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue_GetNumStoredMessages(This)	\
-    ( (This)->lpVtbl -> GetNumStoredMessages(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_अंक_Stored_Messages(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Stored_Messages(This) ) 
 
-#define ID3D12InfoQueue_GetNumStoredMessagesAllowedByRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> GetNumStoredMessagesAllowedByRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue_GetNumMessagesDiscardedByMessageCountLimit(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesDiscardedByMessageCountLimit(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_अंक_Messages_Discarded_By_Message_गिनती_Limit(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Discarded_By_Message_गिनती_Limit(This) ) 
 
-#define ID3D12InfoQueue_GetMessageCountLimit(This)	\
-    ( (This)->lpVtbl -> GetMessageCountLimit(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_Message_गिनती_Limit(This)	\
+    ( (This)->lpVtbl -> Get_Message_गिनती_Limit(This) ) 
 
-#define ID3D12InfoQueue_AddStorageFilterEntries(This,pFilter)	\
+#घोषणा ID3D12InfoQueue_AddStorageFilterEntries(This,pFilter)	\
     ( (This)->lpVtbl -> AddStorageFilterEntries(This,pFilter) ) 
 
-#define ID3D12InfoQueue_GetStorageFilter(This,pFilter,pFilterByteLength)	\
-    ( (This)->lpVtbl -> GetStorageFilter(This,pFilter,pFilterByteLength) ) 
+#घोषणा ID3D12InfoQueue_GetStorageFilter(This,pFilter,p_Filter_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetStorageFilter(This,pFilter,p_Filter_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue_ClearStorageFilter(This)	\
+#घोषणा ID3D12InfoQueue_ClearStorageFilter(This)	\
     ( (This)->lpVtbl -> ClearStorageFilter(This) ) 
 
-#define ID3D12InfoQueue_PushEmptyStorageFilter(This)	\
-    ( (This)->lpVtbl -> PushEmptyStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Empty_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Empty_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue_PushCopyOfStorageFilter(This)	\
-    ( (This)->lpVtbl -> PushCopyOfStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Copy_Of_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Copy_Of_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue_PushStorageFilter(This,pFilter)	\
-    ( (This)->lpVtbl -> PushStorageFilter(This,pFilter) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Storage_Filter(This,pFilter)	\
+    ( (This)->lpVtbl -> धकेलो_Storage_Filter(This,pFilter) ) 
 
-#define ID3D12InfoQueue_PopStorageFilter(This)	\
-    ( (This)->lpVtbl -> PopStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_निकालो_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> निकालो_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue_GetStorageFilterStackSize(This)	\
-    ( (This)->lpVtbl -> GetStorageFilterStackSize(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_Storage_Filter_ढेर_आकार(This)	\
+    ( (This)->lpVtbl -> Get_Storage_Filter_ढेर_आकार(This) ) 
 
-#define ID3D12InfoQueue_AddRetrievalFilterEntries(This,pFilter)	\
+#घोषणा ID3D12InfoQueue_AddRetrievalFilterEntries(This,pFilter)	\
     ( (This)->lpVtbl -> AddRetrievalFilterEntries(This,pFilter) ) 
 
-#define ID3D12InfoQueue_GetRetrievalFilter(This,pFilter,pFilterByteLength)	\
-    ( (This)->lpVtbl -> GetRetrievalFilter(This,pFilter,pFilterByteLength) ) 
+#घोषणा ID3D12InfoQueue_GetRetrievalFilter(This,pFilter,p_Filter_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetRetrievalFilter(This,pFilter,p_Filter_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue_ClearRetrievalFilter(This)	\
+#घोषणा ID3D12InfoQueue_ClearRetrievalFilter(This)	\
     ( (This)->lpVtbl -> ClearRetrievalFilter(This) ) 
 
-#define ID3D12InfoQueue_PushEmptyRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PushEmptyRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Empty_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Empty_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue_PushCopyOfRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PushCopyOfRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Copy_Of_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Copy_Of_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue_PushRetrievalFilter(This,pFilter)	\
-    ( (This)->lpVtbl -> PushRetrievalFilter(This,pFilter) ) 
+#घोषणा ID3_D12_Info_Queue_धकेलो_Retrieval_Filter(This,pFilter)	\
+    ( (This)->lpVtbl -> धकेलो_Retrieval_Filter(This,pFilter) ) 
 
-#define ID3D12InfoQueue_PopRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PopRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue_निकालो_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> निकालो_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue_GetRetrievalFilterStackSize(This)	\
-    ( (This)->lpVtbl -> GetRetrievalFilterStackSize(This) ) 
+#घोषणा ID3_D12_Info_Queue_Get_Retrieval_Filter_ढेर_आकार(This)	\
+    ( (This)->lpVtbl -> Get_Retrieval_Filter_ढेर_आकार(This) ) 
 
-#define ID3D12InfoQueue_AddMessage(This,Category,Severity,ID,pDescription)	\
+#घोषणा ID3D12InfoQueue_AddMessage(This,Category,Severity,ID,pDescription)	\
     ( (This)->lpVtbl -> AddMessage(This,Category,Severity,ID,pDescription) ) 
 
-#define ID3D12InfoQueue_AddApplicationMessage(This,Severity,pDescription)	\
+#घोषणा ID3D12InfoQueue_AddApplicationMessage(This,Severity,pDescription)	\
     ( (This)->lpVtbl -> AddApplicationMessage(This,Severity,pDescription) ) 
 
-#define ID3D12InfoQueue_SetBreakOnCategory(This,Category,bEnable)	\
+#घोषणा ID3D12InfoQueue_SetBreakOnCategory(This,Category,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnCategory(This,Category,bEnable) ) 
 
-#define ID3D12InfoQueue_SetBreakOnSeverity(This,Severity,bEnable)	\
+#घोषणा ID3D12InfoQueue_SetBreakOnSeverity(This,Severity,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnSeverity(This,Severity,bEnable) ) 
 
-#define ID3D12InfoQueue_SetBreakOnID(This,ID,bEnable)	\
+#घोषणा ID3D12InfoQueue_SetBreakOnID(This,ID,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnID(This,ID,bEnable) ) 
 
-#define ID3D12InfoQueue_GetBreakOnCategory(This,Category)	\
+#घोषणा ID3D12InfoQueue_GetBreakOnCategory(This,Category)	\
     ( (This)->lpVtbl -> GetBreakOnCategory(This,Category) ) 
 
-#define ID3D12InfoQueue_GetBreakOnSeverity(This,Severity)	\
+#घोषणा ID3D12InfoQueue_GetBreakOnSeverity(This,Severity)	\
     ( (This)->lpVtbl -> GetBreakOnSeverity(This,Severity) ) 
 
-#define ID3D12InfoQueue_GetBreakOnID(This,ID)	\
+#घोषणा ID3D12InfoQueue_GetBreakOnID(This,ID)	\
     ( (This)->lpVtbl -> GetBreakOnID(This,ID) ) 
 
-#define ID3D12InfoQueue_SetMuteDebugOutput(This,bMute)	\
+#घोषणा ID3D12InfoQueue_SetMuteDebugOutput(This,bMute)	\
     ( (This)->lpVtbl -> SetMuteDebugOutput(This,bMute) ) 
 
-#define ID3D12InfoQueue_GetMuteDebugOutput(This)	\
+#घोषणा ID3D12InfoQueue_GetMuteDebugOutput(This)	\
     ( (This)->lpVtbl -> GetMuteDebugOutput(This) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12InfoQueue_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12InfoQueue_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0019 */
 /* [local] */ 
 
-typedef 
-enum D3D12_MESSAGE_CALLBACK_FLAGS
+प्रकार 
+क्रमागत D3D12_MESSAGE_CALLBACK_FLAGS
     {
         D3D12_MESSAGE_CALLBACK_FLAG_NONE	= 0,
         D3D12_MESSAGE_CALLBACK_IGNORE_FILTERS	= 0x1
     } 	D3D12_MESSAGE_CALLBACK_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_MESSAGE_CALLBACK_FLAGS)
-typedef void ( __stdcall *D3D12MessageFunc )( 
+प्रकार व्योम ( __stdcall *D3D12MessageFunc )( 
     D3D12_MESSAGE_CATEGORY Category,
     D3D12_MESSAGE_SEVERITY Severity,
     D3D12_MESSAGE_ID ID,
     LPCSTR pDescription,
-    void *pContext);
+    व्योम *pContext);
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
 
-#ifndef __ID3D12InfoQueue1_INTERFACE_DEFINED__
-#define __ID3D12InfoQueue1_INTERFACE_DEFINED__
+#अगर_अघोषित __ID3D12InfoQueue1_INTERFACE_DEFINED__
+#घोषणा __ID3D12InfoQueue1_INTERFACE_DEFINED__
 
 /* interface ID3D12InfoQueue1 */
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12InfoQueue1;
+EXTERN_C स्थिर IID IID_ID3D12InfoQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#अगर defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("2852dd88-b484-4c0c-b6b1-67168500e600")
-    ID3D12InfoQueue1 : public ID3D12InfoQueue
+    ID3D12InfoQueue1 : खुला ID3D12InfoQueue
     {
-    public:
-        virtual HRESULT STDMETHODCALLTYPE RegisterMessageCallback( 
+    खुला:
+        भव HRESULT STDMETHODCALLTYPE RegisterMessageCallback( 
             _In_  D3D12MessageFunc CallbackFunc,
             _In_  D3D12_MESSAGE_CALLBACK_FLAGS CallbackFilterFlags,
-            _Inout_  void *pContext,
+            _Inout_  व्योम *pContext,
             _Inout_  DWORD *pCallbackCookie) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE UnregisterMessageCallback( 
+        भव HRESULT STDMETHODCALLTYPE UnregisterMessageCallback( 
             _In_  DWORD CallbackCookie) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#अन्यथा 	/* C style interface */
 
-    typedef struct ID3D12InfoQueue1Vtbl
+    प्रकार काष्ठा ID3D12InfoQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -3885,7 +3885,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12InfoQueue1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  व्योम **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -3895,44 +3895,44 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
         ULONG ( STDMETHODCALLTYPE *Release )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMessageCountLimit)
-        HRESULT ( STDMETHODCALLTYPE *SetMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Set_Message_गिनती_Limit)
+        HRESULT ( STDMETHODCALLTYPE *Set_Message_गिनती_Limit )( 
             ID3D12InfoQueue1 * This,
-            _In_  UINT64 MessageCountLimit);
+            _In_  UINT64 Message_गिनती_Limit);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStoredMessages)
-        void ( STDMETHODCALLTYPE *ClearStoredMessages )( 
+        व्योम ( STDMETHODCALLTYPE *ClearStoredMessages )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessage)
         HRESULT ( STDMETHODCALLTYPE *GetMessage )( 
             ID3D12InfoQueue1 * This,
-            _In_  UINT64 MessageIndex,
-            _Out_writes_bytes_opt_(*pMessageByteLength)  D3D12_MESSAGE *pMessage,
-            _Inout_  SIZE_T *pMessageByteLength);
+            _In_  UINT64 Message_सूचकांक,
+            _Out_writes_bytes_opt_(*p_Message_Byte_लंबाई)  D3D12_MESSAGE *pMessage,
+            _Inout_  आकार_T *p_Message_Byte_लंबाई);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesAllowedByStorageFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesAllowedByStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Allowed_By_Storage_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Allowed_By_Storage_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesDeniedByStorageFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesDeniedByStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Denied_By_Storage_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Denied_By_Storage_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumStoredMessages)
-        UINT64 ( STDMETHODCALLTYPE *GetNumStoredMessages )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Stored_Messages)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Stored_Messages )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumStoredMessagesAllowedByRetrievalFilter)
-        UINT64 ( STDMETHODCALLTYPE *GetNumStoredMessagesAllowedByRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetNumMessagesDiscardedByMessageCountLimit)
-        UINT64 ( STDMETHODCALLTYPE *GetNumMessagesDiscardedByMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_अंक_Messages_Discarded_By_Message_गिनती_Limit)
+        UINT64 ( STDMETHODCALLTYPE *Get_अंक_Messages_Discarded_By_Message_गिनती_Limit )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessageCountLimit)
-        UINT64 ( STDMETHODCALLTYPE *GetMessageCountLimit )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Message_गिनती_Limit)
+        UINT64 ( STDMETHODCALLTYPE *Get_Message_गिनती_Limit )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddStorageFilterEntries)
@@ -3943,32 +3943,32 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilter)
         HRESULT ( STDMETHODCALLTYPE *GetStorageFilter )( 
             ID3D12InfoQueue1 * This,
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength);
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStorageFilter)
-        void ( STDMETHODCALLTYPE *ClearStorageFilter )( 
+        व्योम ( STDMETHODCALLTYPE *ClearStorageFilter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushEmptyStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Empty_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Empty_Storage_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushCopyOfStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushCopyOfStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Copy_Of_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Copy_Of_Storage_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushStorageFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Storage_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Storage_Filter )( 
             ID3D12InfoQueue1 * This,
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopStorageFilter)
-        void ( STDMETHODCALLTYPE *PopStorageFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, निकालो_Storage_Filter)
+        व्योम ( STDMETHODCALLTYPE *निकालो_Storage_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilterStackSize)
-        UINT ( STDMETHODCALLTYPE *GetStorageFilterStackSize )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Storage_Filter_ढेर_आकार)
+        UINT ( STDMETHODCALLTYPE *Get_Storage_Filter_ढेर_आकार )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddRetrievalFilterEntries)
@@ -3979,32 +3979,32 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilter)
         HRESULT ( STDMETHODCALLTYPE *GetRetrievalFilter )( 
             ID3D12InfoQueue1 * This,
-            _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
-            _Inout_  SIZE_T *pFilterByteLength);
+            _Out_writes_bytes_opt_(*p_Filter_Byte_लंबाई)  D3D12_INFO_QUEUE_FILTER *pFilter,
+            _Inout_  आकार_T *p_Filter_Byte_लंबाई);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearRetrievalFilter)
-        void ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
+        व्योम ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushEmptyRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Empty_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Empty_Retrieval_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushCopyOfRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushCopyOfRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Copy_Of_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Copy_Of_Retrieval_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushRetrievalFilter)
-        HRESULT ( STDMETHODCALLTYPE *PushRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, धकेलो_Retrieval_Filter)
+        HRESULT ( STDMETHODCALLTYPE *धकेलो_Retrieval_Filter )( 
             ID3D12InfoQueue1 * This,
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopRetrievalFilter)
-        void ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, निकालो_Retrieval_Filter)
+        व्योम ( STDMETHODCALLTYPE *निकालो_Retrieval_Filter )( 
             ID3D12InfoQueue1 * This);
         
-        DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilterStackSize)
-        UINT ( STDMETHODCALLTYPE *GetRetrievalFilterStackSize )( 
+        DECLSPEC_XFGVIRT(ID3D12InfoQueue, Get_Retrieval_Filter_ढेर_आकार)
+        UINT ( STDMETHODCALLTYPE *Get_Retrieval_Filter_ढेर_आकार )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, AddMessage)
@@ -4055,7 +4055,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _In_  D3D12_MESSAGE_ID ID);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMuteDebugOutput)
-        void ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
+        व्योम ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
             ID3D12InfoQueue1 * This,
             _In_  BOOL bMute);
         
@@ -4068,7 +4068,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             ID3D12InfoQueue1 * This,
             _In_  D3D12MessageFunc CallbackFunc,
             _In_  D3D12_MESSAGE_CALLBACK_FLAGS CallbackFilterFlags,
-            _Inout_  void *pContext,
+            _Inout_  व्योम *pContext,
             _Inout_  DWORD *pCallbackCookie);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue1, UnregisterMessageCallback)
@@ -4081,154 +4081,154 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
 
     interface ID3D12InfoQueue1
     {
-        CONST_VTBL struct ID3D12InfoQueue1Vtbl *lpVtbl;
+        CONST_VTBL काष्ठा ID3D12InfoQueue1Vtbl *lpVtbl;
     };
 
     
 
-#ifdef COBJMACROS
+#अगर_घोषित COBJMACROS
 
 
-#define ID3D12InfoQueue1_QueryInterface(This,riid,ppvObject)	\
+#घोषणा ID3D12InfoQueue1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define ID3D12InfoQueue1_AddRef(This)	\
+#घोषणा ID3D12InfoQueue1_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define ID3D12InfoQueue1_Release(This)	\
+#घोषणा ID3D12InfoQueue1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define ID3D12InfoQueue1_SetMessageCountLimit(This,MessageCountLimit)	\
-    ( (This)->lpVtbl -> SetMessageCountLimit(This,MessageCountLimit) ) 
+#घोषणा ID3_D12_Info_Queue1_Set_Message_गिनती_Limit(This,Message_गिनती_Limit)	\
+    ( (This)->lpVtbl -> Set_Message_गिनती_Limit(This,Message_गिनती_Limit) ) 
 
-#define ID3D12InfoQueue1_ClearStoredMessages(This)	\
+#घोषणा ID3D12InfoQueue1_ClearStoredMessages(This)	\
     ( (This)->lpVtbl -> ClearStoredMessages(This) ) 
 
-#define ID3D12InfoQueue1_GetMessage(This,MessageIndex,pMessage,pMessageByteLength)	\
-    ( (This)->lpVtbl -> GetMessage(This,MessageIndex,pMessage,pMessageByteLength) ) 
+#घोषणा ID3D12InfoQueue1_GetMessage(This,Message_सूचकांक,pMessage,p_Message_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetMessage(This,Message_सूचकांक,pMessage,p_Message_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue1_GetNumMessagesAllowedByStorageFilter(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesAllowedByStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_अंक_Messages_Allowed_By_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Allowed_By_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue1_GetNumMessagesDeniedByStorageFilter(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesDeniedByStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_अंक_Messages_Denied_By_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Denied_By_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue1_GetNumStoredMessages(This)	\
-    ( (This)->lpVtbl -> GetNumStoredMessages(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_अंक_Stored_Messages(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Stored_Messages(This) ) 
 
-#define ID3D12InfoQueue1_GetNumStoredMessagesAllowedByRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> GetNumStoredMessagesAllowedByRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Stored_Messages_Allowed_By_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue1_GetNumMessagesDiscardedByMessageCountLimit(This)	\
-    ( (This)->lpVtbl -> GetNumMessagesDiscardedByMessageCountLimit(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_अंक_Messages_Discarded_By_Message_गिनती_Limit(This)	\
+    ( (This)->lpVtbl -> Get_अंक_Messages_Discarded_By_Message_गिनती_Limit(This) ) 
 
-#define ID3D12InfoQueue1_GetMessageCountLimit(This)	\
-    ( (This)->lpVtbl -> GetMessageCountLimit(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_Message_गिनती_Limit(This)	\
+    ( (This)->lpVtbl -> Get_Message_गिनती_Limit(This) ) 
 
-#define ID3D12InfoQueue1_AddStorageFilterEntries(This,pFilter)	\
+#घोषणा ID3D12InfoQueue1_AddStorageFilterEntries(This,pFilter)	\
     ( (This)->lpVtbl -> AddStorageFilterEntries(This,pFilter) ) 
 
-#define ID3D12InfoQueue1_GetStorageFilter(This,pFilter,pFilterByteLength)	\
-    ( (This)->lpVtbl -> GetStorageFilter(This,pFilter,pFilterByteLength) ) 
+#घोषणा ID3D12InfoQueue1_GetStorageFilter(This,pFilter,p_Filter_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetStorageFilter(This,pFilter,p_Filter_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue1_ClearStorageFilter(This)	\
+#घोषणा ID3D12InfoQueue1_ClearStorageFilter(This)	\
     ( (This)->lpVtbl -> ClearStorageFilter(This) ) 
 
-#define ID3D12InfoQueue1_PushEmptyStorageFilter(This)	\
-    ( (This)->lpVtbl -> PushEmptyStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Empty_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Empty_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue1_PushCopyOfStorageFilter(This)	\
-    ( (This)->lpVtbl -> PushCopyOfStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Copy_Of_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Copy_Of_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue1_PushStorageFilter(This,pFilter)	\
-    ( (This)->lpVtbl -> PushStorageFilter(This,pFilter) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Storage_Filter(This,pFilter)	\
+    ( (This)->lpVtbl -> धकेलो_Storage_Filter(This,pFilter) ) 
 
-#define ID3D12InfoQueue1_PopStorageFilter(This)	\
-    ( (This)->lpVtbl -> PopStorageFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_निकालो_Storage_Filter(This)	\
+    ( (This)->lpVtbl -> निकालो_Storage_Filter(This) ) 
 
-#define ID3D12InfoQueue1_GetStorageFilterStackSize(This)	\
-    ( (This)->lpVtbl -> GetStorageFilterStackSize(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_Storage_Filter_ढेर_आकार(This)	\
+    ( (This)->lpVtbl -> Get_Storage_Filter_ढेर_आकार(This) ) 
 
-#define ID3D12InfoQueue1_AddRetrievalFilterEntries(This,pFilter)	\
+#घोषणा ID3D12InfoQueue1_AddRetrievalFilterEntries(This,pFilter)	\
     ( (This)->lpVtbl -> AddRetrievalFilterEntries(This,pFilter) ) 
 
-#define ID3D12InfoQueue1_GetRetrievalFilter(This,pFilter,pFilterByteLength)	\
-    ( (This)->lpVtbl -> GetRetrievalFilter(This,pFilter,pFilterByteLength) ) 
+#घोषणा ID3D12InfoQueue1_GetRetrievalFilter(This,pFilter,p_Filter_Byte_लंबाई)	\
+    ( (This)->lpVtbl -> GetRetrievalFilter(This,pFilter,p_Filter_Byte_लंबाई) ) 
 
-#define ID3D12InfoQueue1_ClearRetrievalFilter(This)	\
+#घोषणा ID3D12InfoQueue1_ClearRetrievalFilter(This)	\
     ( (This)->lpVtbl -> ClearRetrievalFilter(This) ) 
 
-#define ID3D12InfoQueue1_PushEmptyRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PushEmptyRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Empty_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Empty_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue1_PushCopyOfRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PushCopyOfRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Copy_Of_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> धकेलो_Copy_Of_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue1_PushRetrievalFilter(This,pFilter)	\
-    ( (This)->lpVtbl -> PushRetrievalFilter(This,pFilter) ) 
+#घोषणा ID3_D12_Info_Queue1_धकेलो_Retrieval_Filter(This,pFilter)	\
+    ( (This)->lpVtbl -> धकेलो_Retrieval_Filter(This,pFilter) ) 
 
-#define ID3D12InfoQueue1_PopRetrievalFilter(This)	\
-    ( (This)->lpVtbl -> PopRetrievalFilter(This) ) 
+#घोषणा ID3_D12_Info_Queue1_निकालो_Retrieval_Filter(This)	\
+    ( (This)->lpVtbl -> निकालो_Retrieval_Filter(This) ) 
 
-#define ID3D12InfoQueue1_GetRetrievalFilterStackSize(This)	\
-    ( (This)->lpVtbl -> GetRetrievalFilterStackSize(This) ) 
+#घोषणा ID3_D12_Info_Queue1_Get_Retrieval_Filter_ढेर_आकार(This)	\
+    ( (This)->lpVtbl -> Get_Retrieval_Filter_ढेर_आकार(This) ) 
 
-#define ID3D12InfoQueue1_AddMessage(This,Category,Severity,ID,pDescription)	\
+#घोषणा ID3D12InfoQueue1_AddMessage(This,Category,Severity,ID,pDescription)	\
     ( (This)->lpVtbl -> AddMessage(This,Category,Severity,ID,pDescription) ) 
 
-#define ID3D12InfoQueue1_AddApplicationMessage(This,Severity,pDescription)	\
+#घोषणा ID3D12InfoQueue1_AddApplicationMessage(This,Severity,pDescription)	\
     ( (This)->lpVtbl -> AddApplicationMessage(This,Severity,pDescription) ) 
 
-#define ID3D12InfoQueue1_SetBreakOnCategory(This,Category,bEnable)	\
+#घोषणा ID3D12InfoQueue1_SetBreakOnCategory(This,Category,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnCategory(This,Category,bEnable) ) 
 
-#define ID3D12InfoQueue1_SetBreakOnSeverity(This,Severity,bEnable)	\
+#घोषणा ID3D12InfoQueue1_SetBreakOnSeverity(This,Severity,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnSeverity(This,Severity,bEnable) ) 
 
-#define ID3D12InfoQueue1_SetBreakOnID(This,ID,bEnable)	\
+#घोषणा ID3D12InfoQueue1_SetBreakOnID(This,ID,bEnable)	\
     ( (This)->lpVtbl -> SetBreakOnID(This,ID,bEnable) ) 
 
-#define ID3D12InfoQueue1_GetBreakOnCategory(This,Category)	\
+#घोषणा ID3D12InfoQueue1_GetBreakOnCategory(This,Category)	\
     ( (This)->lpVtbl -> GetBreakOnCategory(This,Category) ) 
 
-#define ID3D12InfoQueue1_GetBreakOnSeverity(This,Severity)	\
+#घोषणा ID3D12InfoQueue1_GetBreakOnSeverity(This,Severity)	\
     ( (This)->lpVtbl -> GetBreakOnSeverity(This,Severity) ) 
 
-#define ID3D12InfoQueue1_GetBreakOnID(This,ID)	\
+#घोषणा ID3D12InfoQueue1_GetBreakOnID(This,ID)	\
     ( (This)->lpVtbl -> GetBreakOnID(This,ID) ) 
 
-#define ID3D12InfoQueue1_SetMuteDebugOutput(This,bMute)	\
+#घोषणा ID3D12InfoQueue1_SetMuteDebugOutput(This,bMute)	\
     ( (This)->lpVtbl -> SetMuteDebugOutput(This,bMute) ) 
 
-#define ID3D12InfoQueue1_GetMuteDebugOutput(This)	\
+#घोषणा ID3D12InfoQueue1_GetMuteDebugOutput(This)	\
     ( (This)->lpVtbl -> GetMuteDebugOutput(This) ) 
 
 
-#define ID3D12InfoQueue1_RegisterMessageCallback(This,CallbackFunc,CallbackFilterFlags,pContext,pCallbackCookie)	\
+#घोषणा ID3D12InfoQueue1_RegisterMessageCallback(This,CallbackFunc,CallbackFilterFlags,pContext,pCallbackCookie)	\
     ( (This)->lpVtbl -> RegisterMessageCallback(This,CallbackFunc,CallbackFilterFlags,pContext,pCallbackCookie) ) 
 
-#define ID3D12InfoQueue1_UnregisterMessageCallback(This,CallbackCookie)	\
+#घोषणा ID3D12InfoQueue1_UnregisterMessageCallback(This,CallbackCookie)	\
     ( (This)->lpVtbl -> UnregisterMessageCallback(This,CallbackCookie) ) 
 
-#endif /* COBJMACROS */
+#पूर्ण_अगर /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#पूर्ण_अगर 	/* C style interface */
 
 
 
 
-#endif 	/* __ID3D12InfoQueue1_INTERFACE_DEFINED__ */
+#पूर्ण_अगर 	/* __ID3D12InfoQueue1_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0020 */
 /* [local] */ 
 
-#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
-#ifdef _MSC_VER
-#pragma endregion
-#endif
+#पूर्ण_अगर /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
+#अगर_घोषित _MSC_VER
+#आशय endregion
+#पूर्ण_अगर
 DEFINE_GUID(IID_ID3D12Debug,0x344488b7,0x6846,0x474b,0xb9,0x89,0xf0,0x27,0x44,0x82,0x45,0xe0);
 DEFINE_GUID(IID_ID3D12Debug1,0xaffaa4ca,0x63fe,0x4d8e,0xb8,0xad,0x15,0x90,0x00,0xaf,0x43,0x04);
 DEFINE_GUID(IID_ID3D12Debug2,0x93a665c4,0xa3b2,0x4e5d,0xb6,0x92,0xa2,0x6a,0xe1,0x4e,0x33,0x74);
@@ -4251,17 +4251,17 @@ DEFINE_GUID(IID_ID3D12InfoQueue,0x0742a90b,0xc387,0x483f,0xb9,0x46,0x30,0xa7,0xe
 DEFINE_GUID(IID_ID3D12InfoQueue1,0x2852dd88,0xb484,0x4c0c,0xb6,0xb1,0x67,0x16,0x85,0x00,0xe6,0x00);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_s_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_c_ifspec;
+बाह्य RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 
 /* end of Additional Prototypes */
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर
 
 

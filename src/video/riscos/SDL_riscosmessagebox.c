@@ -18,50 +18,50 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#अगर_घोषित SDL_VIDEO_DRIVER_RISCOS
 
-#include "SDL_riscosmessagebox.h"
+#समावेश "SDL_riscosmessagebox.h"
 
-#include <kernel.h>
-#include <swis.h>
+#समावेश <kernel.h>
+#समावेश <swis.h>
 
-bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool RISCOS_ShowMessageBox(स्थिर SDL_Message_Box_तथ्य *messageboxdata, पूर्णांक *buttonID)
 {
     _kernel_swi_regs regs;
     _kernel_oserror error;
-    char buttonstring[1024];
-    int i;
+    अक्षर buttonstring[1024];
+    पूर्णांक i;
 
     error.errnum = 0;
     SDL_strlcpy(error.errmess, messageboxdata->message, 252);
-    regs.r[0] = (unsigned int)&error;
+    regs.r[0] = (अचिन्हित पूर्णांक)&error;
 
     regs.r[1] = (1 << 8) | (1 << 4);
-    if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    अगर (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         regs.r[1] |= (1 << 9);
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } अन्यथा अगर (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         regs.r[1] |= (2 << 9);
     }
 
-    regs.r[2] = (unsigned int)messageboxdata->title;
+    regs.r[2] = (अचिन्हित पूर्णांक)messageboxdata->title;
     regs.r[3] = 0;
     regs.r[4] = 0;
 
     SDL_strlcpy(buttonstring, "", 1024);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    क्रम (i = 0; i < messageboxdata->numbuttons; i++) {
         SDL_strlcat(buttonstring, messageboxdata->buttons[i].text, 1024);
-        if (i + 1 < messageboxdata->numbuttons) {
+        अगर (i + 1 < messageboxdata->numbuttons) {
             SDL_strlcat(buttonstring, ",", 1024);
         }
     }
-    regs.r[5] = (unsigned int)buttonstring;
+    regs.r[5] = (अचिन्हित पूर्णांक)buttonstring;
 
     _kernel_swi(Wimp_ReportError, &regs, &regs);
 
     *buttonID = (regs.r[1] == 0) ? -1 : messageboxdata->buttons[regs.r[1] - 3].buttonID;
-    return true;
+    वापस true;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_RISCOS

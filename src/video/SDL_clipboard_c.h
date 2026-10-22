@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_clipboard_c_h_
-#define SDL_clipboard_c_h_
+#अगर_अघोषित SDL_clipboard_c_h_
+#घोषणा SDL_clipboard_c_h_
 
-#include "SDL_sysvideo.h"
+#समावेश "SDL_sysvideo.h"
 
 
 // Return true if the mime type is valid clipboard text
-extern bool SDL_IsTextMimeType(const char *mime_type);
+बाह्य bool SDL_IsTextMimeType(स्थिर अक्षर *mime_type);
 
 // Cancel the clipboard data callback, called internally for cleanup
-extern void SDL_CancelClipboardData(Uint32 sequence);
+बाह्य व्योम SDL_Cancel_Clipboard_तथ्य(Uint32 sequence);
 
 // Call the clipboard callback for application data
-extern void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type);
+बाह्य व्योम *SDL_Get_Internal_Clipboard_तथ्य(SDL_VideoDevice *_this, स्थिर अक्षर *mime_type, माप_प्रकार *आकार);
+बाह्य bool SDL_Has_Internal_Clipboard_तथ्य(SDL_VideoDevice *_this, स्थिर अक्षर *mime_type);
 
 // General purpose clipboard text callback
-const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size);
+स्थिर व्योम * SDLCALL SDL_ClipboardTextCallback(व्योम *userdata, स्थिर अक्षर *mime_type, माप_प्रकार *आकार);
 
-bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_types);
-void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
-char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary);
+bool SDL_SaveClipboardMimeTypes(स्थिर अक्षर *स्थिर *mime_types, माप_प्रकार अंक_mime_types);
+व्योम SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
+अक्षर **SDL_CopyClipboardMimeTypes(स्थिर अक्षर *स्थिर *clipboard_mime_types, माप_प्रकार अंक_mime_types, bool temporary);
 
-#endif // SDL_clipboard_c_h_
+#पूर्ण_अगर // SDL_clipboard_c_h_

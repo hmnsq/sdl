@@ -18,8 +18,8 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvisionosscene_h_
-#define SDL_uikitvisionosscene_h_
+#अगर_अघोषित SDL_uikitvisionosscene_h_
+#घोषणा SDL_uikitvisionosscene_h_
 
 #import <UIKit/UIKit.h>
 #import <Metal/Metal.h>
@@ -45,11 +45,11 @@ bool SDL_UIKit_IsCurvedWindow(SDL_Window *window);
 /**
  * Dismiss the curved content view
  */
-void SDL_UIKit_HideCurvedWindow(SDL_Window *window);
+व्योम SDL_UIKit_HideCurvedWindow(SDL_Window *window);
 
 /**
  * Get the curved content display texture.
  */
-id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, int width, int height, MTLPixelFormat pixelFormat);
+id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommand_बफर> command_बफर, पूर्णांक width, पूर्णांक height, MTLPixelFormat pixelFormat);
 
-#endif /* SDL_uikitvisionosscene_h_ */
+#पूर्ण_अगर /* SDL_uikitvisionosscene_h_ */

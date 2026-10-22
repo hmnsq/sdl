@@ -18,44 +18,44 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#include "SDL_surface_c.h"
-#include "SDL_blit_copy.h"
+#समावेश "SDL_surface_c.h"
+#समावेश "SDL_blit_copy.h"
 
-#ifdef SDL_SSE_INTRINSICS
+#अगर_घोषित SDL_SSE_INTRINSICS
 // This assumes 16-byte aligned src and dst
-static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, int len)
+अटल SDL_INLINE व्योम SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, स्थिर Uint8 *src, पूर्णांक len)
 {
-    int i;
+    पूर्णांक i;
 
-    __m128 values[4];
-    for (i = len / 64; i--;) {
-        _mm_prefetch((const char *)src, _MM_HINT_NTA);
-        values[0] = *(__m128 *)(src + 0);
-        values[1] = *(__m128 *)(src + 16);
-        values[2] = *(__m128 *)(src + 32);
-        values[3] = *(__m128 *)(src + 48);
-        _mm_stream_ps((float *)(dst + 0), values[0]);
-        _mm_stream_ps((float *)(dst + 16), values[1]);
-        _mm_stream_ps((float *)(dst + 32), values[2]);
-        _mm_stream_ps((float *)(dst + 48), values[3]);
+    __m128 मूल्यावली[4];
+    क्रम (i = len / 64; i--;) {
+        _mm_prefetch((स्थिर अक्षर *)src, _MM_HINT_NTA);
+        मूल्यावली[0] = *(__m128 *)(src + 0);
+        मूल्यावली[1] = *(__m128 *)(src + 16);
+        मूल्यावली[2] = *(__m128 *)(src + 32);
+        मूल्यावली[3] = *(__m128 *)(src + 48);
+        _mm_stream_ps((भग्न *)(dst + 0), मूल्यावली[0]);
+        _mm_stream_ps((भग्न *)(dst + 16), मूल्यावली[1]);
+        _mm_stream_ps((भग्न *)(dst + 32), मूल्यावली[2]);
+        _mm_stream_ps((भग्न *)(dst + 48), मूल्यावली[3]);
         src += 64;
         dst += 64;
     }
 
-    if (len & 63) {
+    अगर (len & 63) {
         SDL_memcpy(dst, src, len & 63);
     }
 }
-#endif // SDL_SSE_INTRINSICS
+#पूर्ण_अगर // SDL_SSE_INTRINSICS
 
-void SDL_BlitCopy(SDL_BlitInfo *info)
+व्योम SDL_BlitCopy(SDL_BlitInfo *info)
 {
     bool overlap;
     Uint8 *src, *dst;
-    int w, h;
-    int srcskip, dstskip;
+    पूर्णांक w, h;
+    पूर्णांक srcskip, dstskip;
 
     w = info->dst_w * info->dst_fmt->bytes_per_pixel;
     h = info->dst_h;
@@ -65,44 +65,44 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
     dstskip = info->dst_pitch;
 
     // Properly handle overlapping blits
-    if (src < dst) {
+    अगर (src < dst) {
         overlap = (dst < (src + h * srcskip));
-    } else {
+    } अन्यथा {
         overlap = (src < (dst + h * dstskip));
     }
-    if (overlap) {
-        if (dst < src) {
-            while (h--) {
+    अगर (overlap) {
+        अगर (dst < src) {
+            जबतक (h--) {
                 SDL_memmove(dst, src, w);
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
+        } अन्यथा {
             src += ((h - 1) * srcskip);
             dst += ((h - 1) * dstskip);
-            while (h--) {
+            जबतक (h--) {
                 SDL_memmove(dst, src, w);
                 src -= srcskip;
                 dst -= dstskip;
             }
         }
-        return;
+        वापस;
     }
 
-#ifdef SDL_SSE_INTRINSICS
-    if (SDL_HasSSE() &&
+#अगर_घोषित SDL_SSE_INTRINSICS
+    अगर (SDL_HasSSE() &&
         !((uintptr_t)src & 15) && !(srcskip & 15) &&
         !((uintptr_t)dst & 15) && !(dstskip & 15)) {
-        while (h--) {
+        जबतक (h--) {
             SDL_memcpySSE(dst, src, w);
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        वापस;
     }
-#endif
+#पूर्ण_अगर
 
-    while (h--) {
+    जबतक (h--) {
         SDL_memcpy(dst, src, w);
         src += srcskip;
         dst += dstskip;

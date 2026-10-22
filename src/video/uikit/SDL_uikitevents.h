@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitevents_h_
-#define SDL_uikitevents_h_
+#अगर_अघोषित SDL_uikitevents_h_
+#घोषणा SDL_uikitevents_h_
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-extern void SDL_UpdateLifecycleObserver(void);
+बाह्य व्योम SDL_UpdateLifecycleObserver(व्योम);
 
-extern Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
-extern void UIKit_PumpEvents(SDL_VideoDevice *_this);
+बाह्य Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
+बाह्य व्योम UIKit_PumpEvents(SDL_VideoDevice *_this);
 
-extern void SDL_InitGCKeyboard(void);
-extern void SDL_QuitGCKeyboard(void);
+बाह्य व्योम SDL_InitGCKeyboard(व्योम);
+बाह्य व्योम SDL_QuitGCKeyboard(व्योम);
 
-extern void SDL_InitGCMouse(void);
-extern bool SDL_GCMouseRelativeMode(void);
-extern void SDL_QuitGCMouse(void);
+बाह्य व्योम SDL_InitGCMouse(व्योम);
+बाह्य bool SDL_GCMouseRelativeMode(व्योम);
+बाह्य व्योम SDL_QuitGCMouse(व्योम);
 
-#endif // SDL_uikitevents_h_
+#पूर्ण_अगर // SDL_uikitevents_h_

@@ -19,20 +19,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BKEYBOARD_H
-#define SDL_BKEYBOARD_H
+#अगर_अघोषित SDL_BKEYBOARD_H
+#घोषणा SDL_BKEYBOARD_H
 
-#include <SupportDefs.h>
+#समावेश <SupportDefs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
-extern void HAIKU_InitOSKeymap(void);
-extern SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey);
+बाह्य व्योम HAIKU_InitOSKeymap(व्योम);
+बाह्य SDL_Scancode HAIKU_Get_Scancode_From_Be_कुंजी(int32 bkey);
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif
+#पूर्ण_अगर

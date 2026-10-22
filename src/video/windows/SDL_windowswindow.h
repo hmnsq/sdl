@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_windowswindow_h_
-#define SDL_windowswindow_h_
+#अगर_अघोषित SDL_windowswindow_h_
+#घोषणा SDL_windowswindow_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#else
-#include "../SDL_sysvideo.h"
-#endif
+#अगर_घोषित SDL_VIDEO_OPENGL_EGL
+#समावेश "../SDL_egl_c.h"
+#अन्यथा
+#समावेश "../SDL_sysvideo.h"
+#पूर्ण_अगर
 
 // Set up for C function definitions, even when using C++
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
-typedef enum SDL_WindowRect
+प्रकार क्रमागत SDL_WindowRect
 {
     SDL_WINDOWRECT_CURRENT,
     SDL_WINDOWRECT_WINDOWED,
@@ -42,24 +42,24 @@ typedef enum SDL_WindowRect
     SDL_WINDOWRECT_PENDING
 } SDL_WindowRect;
 
-typedef enum SDL_WindowEraseBackgroundMode
+प्रकार क्रमागत SDL_WindowEraseBackgroundMode
 {
     SDL_ERASEBACKGROUNDMODE_NEVER,
     SDL_ERASEBACKGROUNDMODE_INITIAL,
     SDL_ERASEBACKGROUNDMODE_ALWAYS,
 } SDL_WindowEraseBackgroundMode;
 
-typedef struct
+प्रकार काष्ठा
 {
-    void **lpVtbl;
-    int refcount;
+    व्योम **lpVtbl;
+    पूर्णांक refcount;
     SDL_Window *window;
     HWND hwnd;
     UINT format_text;
     UINT format_file;
 } SDLDropTarget;
 
-struct SDL_WindowData
+काष्ठा SDL_Window_तथ्य
 {
     SDL_Window *window;
     HWND hwnd;
@@ -73,7 +73,7 @@ struct SDL_WindowData
     HHOOK keyboard_hook;
     WPARAM mouse_button_flags;
     LPARAM last_pointer_update;
-    WCHAR high_surrogate;
+    WCHAR ऊपरी_surrogate;
     bool initializing;
     bool expected_resize;
     bool in_border_change;
@@ -84,12 +84,12 @@ struct SDL_WindowData
     bool windowed_mode_was_maximized;
     bool in_window_deactivation;
     bool force_ws_maximizebox;
-    bool disable_move_size_events;
+    bool disable_move_आकार_events;
     bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
-    RECT initial_size_rect;
+    पूर्णांक in_modal_loop;
+    पूर्णांक last_modal_width;
+    पूर्णांक last_modal_height;
+    RECT initial_आकार_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
     bool mouse_tracked;
@@ -97,58 +97,58 @@ struct SDL_WindowData
     WCHAR *ICMFileName;
     SDL_WindowEraseBackgroundMode hint_erase_background_mode;
     bool taskbar_button_created;
-    struct SDL_VideoData *videodata;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    काष्ठा SDL_Video_तथ्य *videodata;
+#अगर_घोषित SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#पूर्ण_अगर
 
     // Whether we retain the content of the window when changing state
     UINT copybits_flag;
     SDLDropTarget *drop_target;
 };
 
-extern bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
-extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event);
-extern void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_UpdateClipCursor(SDL_Window *window);
-extern void WIN_UnclipCursorForWindow(SDL_Window *window);
-extern bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
-extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
-extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+बाह्य bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+बाह्य व्योम WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
+बाह्य bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_Set_Window_आकार(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_Get_Window_Borders_आकार(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक *शीर्ष, पूर्णांक *बायाँ, पूर्णांक *bottom, पूर्णांक *दायाँ);
+बाह्य व्योम WIN_Get_Window_आकार_In_Pixels(SDL_VideoDevice *_this, SDL_Window *window, पूर्णांक *width, पूर्णांक *height);
+बाह्य bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, भग्न opacity);
+बाह्य व्योम WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+बाह्य व्योम WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+बाह्य व्योम WIN_Set_Window_Always_On_शीर्ष(SDL_VideoDevice *_this, SDL_Window *window, bool on_शीर्ष);
+बाह्य SDL_Fullscreen_परिणाम WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+बाह्य व्योम WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event);
+बाह्य व्योम *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, माप_प्रकार *आकार);
+बाह्य bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+बाह्य bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+बाह्य व्योम WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य व्योम WIN_UpdateClipCursor(SDL_Window *window);
+बाह्य व्योम WIN_UnclipCursorForWindow(SDL_Window *window);
+बाह्य bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled);
+बाह्य व्योम WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
+बाह्य bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
+बाह्य bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
+बाह्य व्योम WIN_ShowWindowSystemMenu(SDL_Window *window, पूर्णांक x, पूर्णांक y);
+बाह्य bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+बाह्य bool WIN_AdjustWindowRect(SDL_Window *window, पूर्णांक *x, पूर्णांक *y, पूर्णांक *width, पूर्णांक *height, SDL_WindowRect rect_type);
+बाह्य bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
+बाह्य bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
+बाह्य bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
 
 // Ends C function definitions when using C++
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif // SDL_windowswindow_h_
+#पूर्ण_अगर // SDL_windowswindow_h_

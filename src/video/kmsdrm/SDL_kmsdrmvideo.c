@@ -19,140 +19,140 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#अगर_घोषित SDL_VIDEO_DRIVER_KMSDRM
 
 /* Include this first, as some system headers may pull in EGL headers that
  * define EGL types as native types for other enabled platforms, which can
  * result in type-mismatch warnings when building with LTO.
  */
-#include "../SDL_egl_c.h"
+#समावेश "../SDL_egl_c.h"
 
 // SDL internals
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#समावेश "../../events/SDL_events_c.h"
+#समावेश "../../events/SDL_keyboard_c.h"
+#समावेश "../../events/SDL_mouse_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
-#include "../../core/openbsd/SDL_wscons.h"
-#endif
+#अगर_घोषित SDL_निवेश_LINUXEV
+#समावेश "../../core/linux/SDL_evdev.h"
+#या_अगर defined SDL_निवेश_WSCONS
+#समावेश "../../core/openbsd/SDL_wscons.h"
+#पूर्ण_अगर
 
 // KMS/DRM declarations
-#include "SDL_kmsdrmdyn.h"
-#include "SDL_kmsdrmevents.h"
-#include "SDL_kmsdrmmouse.h"
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmopengles.h"
-#include "SDL_kmsdrmvulkan.h"
-#include <dirent.h>
-#include <errno.h>
-#include <poll.h>
-#include <sys/param.h>
-#include <sys/stat.h>
-#include <sys/utsname.h>
+#समावेश "SDL_kmsdrmdyn.h"
+#समावेश "SDL_kmsdrmevents.h"
+#समावेश "SDL_kmsdrmmouse.h"
+#समावेश "SDL_kmsdrmvideo.h"
+#समावेश "SDL_kmsdrmopengles.h"
+#समावेश "SDL_kmsdrmvulkan.h"
+#समावेश <dirent.h>
+#समावेश <errno.h>
+#समावेश <poll.h>
+#समावेश <sys/param.h>
+#समावेश <sys/stat.h>
+#समावेश <sys/utsname.h>
 
-#ifdef SDL_PLATFORM_OPENBSD
-static bool moderndri = false;
-#else
-static bool moderndri = true;
-#endif
+#अगर_घोषित SDL_PLATFORM_OPENBSD
+अटल bool moderndri = false;
+#अन्यथा
+अटल bool moderndri = true;
+#पूर्ण_अगर
 
-static char kmsdrm_dri_path[16];
-static int kmsdrm_dri_pathsize = 0;
-static char kmsdrm_dri_devname[8];
-static int kmsdrm_dri_devnamesize = 0;
-static char kmsdrm_dri_cardpath[32];
+अटल अक्षर kmsdrm_dri_path[16];
+अटल पूर्णांक kmsdrm_dri_pathsize = 0;
+अटल अक्षर kmsdrm_dri_devname[8];
+अटल पूर्णांक kmsdrm_dri_devnamesize = 0;
+अटल अक्षर kmsdrm_dri_cardpath[32];
 
 /* for older KMSDRM headers... */
-#ifndef DRM_FORMAT_MOD_VENDOR_NONE
-#define DRM_FORMAT_MOD_VENDOR_NONE 0
-#endif
-#ifndef DRM_FORMAT_MOD_LINEAR
-#define DRM_FORMAT_MOD_LINEAR fourcc_mod_code(NONE, 0)
-#endif
+#अगर_अघोषित DRM_FORMAT_MOD_VENDOR_NONE
+#घोषणा DRM_FORMAT_MOD_VENDOR_NONE 0
+#पूर्ण_अगर
+#अगर_अघोषित DRM_FORMAT_MOD_LINEAR
+#घोषणा DRM_FORMAT_MOD_LINEAR fourcc_mod_code(NONE, 0)
+#पूर्ण_अगर
 
-static int get_driindex(void)
+अटल पूर्णांक get_driindex(व्योम)
 {
-    int available = -ENOENT;
-    char device[sizeof(kmsdrm_dri_cardpath)];
-    int drm_fd;
-    int i;
-    int devindex = -1;
-    DIR *folder;
-    const char *hint;
-    struct dirent *res;
+    पूर्णांक available = -ENOENT;
+    अक्षर device[माप(kmsdrm_dri_cardpath)];
+    पूर्णांक drm_fd;
+    पूर्णांक i;
+    पूर्णांक devindex = -1;
+    सूची *folder;
+    स्थिर अक्षर *hint;
+    काष्ठा dirent *res;
 
-    hint = SDL_GetHint(SDL_HINT_KMSDRM_DEVICE_INDEX);
-    if (hint && *hint) {
-        char *endptr = NULL;
-        const int idx = (int)SDL_strtol(hint, &endptr, 10);
-        if ((*endptr == '\0') && (idx >= 0)) { /* *endptr==0 means "whole string was a valid number" */
-            return idx;                        // we'll take the user's request here.
+    hint = SDL_GetHint(SDL_HINT_KMSDRM_DEVICE_सूचकांक);
+    अगर (hint && *hint) {
+        अक्षर *endptr = शून्य;
+        स्थिर पूर्णांक idx = (पूर्णांक)SDL_strtol(hint, &endptr, 10);
+        अगर ((*endptr == '\0') && (idx >= 0)) { /* *endptr==0 means "whole string was a valid number" */
+            वापस idx;                        // we'll take the user's request here.
         }
     }
 
-    SDL_strlcpy(device, kmsdrm_dri_path, sizeof(device));
-    folder = opendir(device);
-    if (!folder) {
+    SDL_strlcpy(device, kmsdrm_dri_path, माप(device));
+    folder = सूची_खोलो(device);
+    अगर (!folder) {
         SDL_SetError("Failed to open directory '%s'", device);
-        return -ENOENT;
+        वापस -ENOENT;
     }
 
     SDL_strlcpy(device + kmsdrm_dri_pathsize, kmsdrm_dri_devname,
-                sizeof(device) - kmsdrm_dri_pathsize);
-    while((res = readdir(folder)) != NULL && available < 0) {
-        if (SDL_memcmp(res->d_name, kmsdrm_dri_devname,
+                माप(device) - kmsdrm_dri_pathsize);
+    जबतक((res = सूची_पढ़ो(folder)) != शून्य && available < 0) {
+        अगर (SDL_memcmp(res->d_name, kmsdrm_dri_devname,
                        kmsdrm_dri_devnamesize) == 0) {
             SDL_strlcpy(device + kmsdrm_dri_pathsize + kmsdrm_dri_devnamesize,
                         res->d_name + kmsdrm_dri_devnamesize,
-                        sizeof(device) - kmsdrm_dri_pathsize -
+                        माप(device) - kmsdrm_dri_pathsize -
                             kmsdrm_dri_devnamesize);
 
-            drm_fd = open(device, O_RDWR | O_CLOEXEC);
-            if (drm_fd >= 0) {
+            drm_fd = खोलो(device, O_RDWR | O_CLOEXEC);
+            अगर (drm_fd >= 0) {
                 devindex = SDL_atoi(device + kmsdrm_dri_pathsize +
                                     kmsdrm_dri_devnamesize);
-                if (SDL_KMSDRM_LoadSymbols()) {
+                अगर (SDL_KMSDRM_LoadSymbols()) {
                     drmModeRes *resources = KMSDRM_drmModeGetResources(drm_fd);
-                    if (resources) {
+                    अगर (resources) {
                         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO,
                                      "%s%d connector, encoder and CRTC counts are: %d %d %d",
                                      kmsdrm_dri_cardpath, devindex,
-                                     resources->count_connectors,
-                                     resources->count_encoders,
-                                     resources->count_crtcs);
+                                     resources->गिनती_connectors,
+                                     resources->गिनती_encoders,
+                                     resources->गिनती_crtcs);
 
-                        if (resources->count_connectors > 0 &&
-                            resources->count_encoders > 0 &&
-                            resources->count_crtcs > 0) {
+                        अगर (resources->गिनती_connectors > 0 &&
+                            resources->गिनती_encoders > 0 &&
+                            resources->गिनती_crtcs > 0) {
                             available = -ENOENT;
-                            for (i = 0; i < resources->count_connectors && available < 0; i++) {
+                            क्रम (i = 0; i < resources->गिनती_connectors && available < 0; i++) {
                                 drmModeConnector *conn =
                                     KMSDRM_drmModeGetConnector(
                                         drm_fd, resources->connectors[i]);
 
-                                if (!conn) {
-                                    continue;
+                                अगर (!conn) {
+                                    जारी;
                                 }
 
-                                if (conn->connection == DRM_MODE_CONNECTED &&
-                                    conn->count_modes) {
+                                अगर (conn->connection == DRM_MODE_CONNECTED &&
+                                    conn->गिनती_modes) {
                                     bool access_denied = false;
-                                    if (SDL_GetHintBoolean(
+                                    अगर (SDL_GetHintBoolean(
                                             SDL_HINT_KMSDRM_REQUIRE_DRM_MASTER,
                                             true)) {
                                         /* Skip this device if we can't obtain
                                          * DRM master */
                                         KMSDRM_drmSetMaster(drm_fd);
-                                        if (KMSDRM_drmAuthMagic(drm_fd, 0) == -EACCES) {
+                                        अगर (KMSDRM_drmAuthMagic(drm_fd, 0) == -EACCES) {
                                             access_denied = true;
                                         }
                                     }
 
-                                    if (!access_denied) {
+                                    अगर (!access_denied) {
                                         available = devindex;
                                     }
                                 }
@@ -164,129 +164,129 @@ static int get_driindex(void)
                     }
                     SDL_KMSDRM_UnloadSymbols();
                 }
-                close(drm_fd);
-            } else {
+                बंद(drm_fd);
+            } अन्यथा {
                 SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO,
-                             "Failed to open KMSDRM device %s, errno: %d", device, errno);
+                             "Failed to open KMSDRM device %s, errno: %d", device, त्रुटि_सं);
             }
         }
     }
 
-    closedir(folder);
+    बंद_सूची(folder);
 
-    return available;
+    वापस available;
 }
 
-static void CalculateRefreshRate(drmModeModeInfo *mode, int *numerator, int *denominator)
+अटल व्योम CalculateRefreshRate(drmModeModeInfo *mode, पूर्णांक *numerator, पूर्णांक *denominator)
 {
-    *numerator = mode->clock * 1000;
+    *numerator = mode->घड़ी * 1000;
     *denominator = mode->htotal * mode->vtotal;
 
-    if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
+    अगर (mode->flags & DRM_MODE_FLAG_INTERLACE) {
         *numerator *= 2;
     }
 
-    if (mode->flags & DRM_MODE_FLAG_DBLSCAN) {
+    अगर (mode->flags & DRM_MODE_FLAG_DBLSCAN) {
         *denominator *= 2;
     }
 
-    if (mode->vscan > 1) {
+    अगर (mode->vscan > 1) {
         *denominator *= mode->vscan;
     }
 }
 
 
-int add_connector_property(drmModeAtomicReq *req, KMSDRM_connector *conn, const char *name, uint64_t value)
+पूर्णांक add_connector_property(drmModeAtomicReq *req, KMSDRM_connector *conn, स्थिर अक्षर *name, uint64_t मूल्य)
 {
-    unsigned int i;
-    int prop_id = 0;
+    अचिन्हित पूर्णांक i;
+    पूर्णांक prop_id = 0;
 
-    for (i = 0 ; i < conn->props->count_props ; i++) {
-        if (SDL_strcmp(conn->props_info[i]->name, name) == 0) {
+    क्रम (i = 0 ; i < conn->props->गिनती_props ; i++) {
+        अगर (SDL_strcmp(conn->props_info[i]->name, name) == 0) {
             prop_id = conn->props_info[i]->prop_id;
-            break;
+            अवरोध;
         }
     }
 
-    if (prop_id < 0) {
+    अगर (prop_id < 0) {
         SDL_SetError("no connector property: %s", name);
-        return -EINVAL;
+        वापस -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, conn->connector->connector_id, prop_id, value);
+    वापस KMSDRM_drmModeAtomicAddProperty(req, conn->connector->connector_id, prop_id, मूल्य);
 }
 
-int add_crtc_property(drmModeAtomicReq *req, KMSDRM_crtc *c, const char *name, uint64_t value)
+पूर्णांक add_crtc_property(drmModeAtomicReq *req, KMSDRM_crtc *c, स्थिर अक्षर *name, uint64_t मूल्य)
 {
-    unsigned int i;
-    int prop_id = -1;
+    अचिन्हित पूर्णांक i;
+    पूर्णांक prop_id = -1;
 
-    for (i = 0 ; i < c->props->count_props ; i++) {
-        if (SDL_strcmp(c->props_info[i]->name, name) == 0) {
+    क्रम (i = 0 ; i < c->props->गिनती_props ; i++) {
+        अगर (SDL_strcmp(c->props_info[i]->name, name) == 0) {
             prop_id = c->props_info[i]->prop_id;
-            break;
+            अवरोध;
         }
     }
 
-    if (prop_id < 0) {
+    अगर (prop_id < 0) {
         SDL_SetError("no crtc property: %s", name);
-        return -EINVAL;
+        वापस -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, c->crtc->crtc_id, prop_id, value);
+    वापस KMSDRM_drmModeAtomicAddProperty(req, c->crtc->crtc_id, prop_id, मूल्य);
 }
 
-int add_plane_property(drmModeAtomicReq *req, KMSDRM_plane *p, const char *name, uint64_t value)
+पूर्णांक add_plane_property(drmModeAtomicReq *req, KMSDRM_plane *p, स्थिर अक्षर *name, uint64_t मूल्य)
 {
-    unsigned int i;
-    int prop_id = -1;
+    अचिन्हित पूर्णांक i;
+    पूर्णांक prop_id = -1;
 
-    for (i = 0 ; i < p->props->count_props ; i++) {
-        if (SDL_strcmp(p->props_info[i]->name, name) == 0) {
+    क्रम (i = 0 ; i < p->props->गिनती_props ; i++) {
+        अगर (SDL_strcmp(p->props_info[i]->name, name) == 0) {
             prop_id = p->props_info[i]->prop_id;
-            break;
+            अवरोध;
         }
     }
 
-    if (prop_id < 0) {
+    अगर (prop_id < 0) {
         SDL_SetError("no plane property: %s", name);
-        return -EINVAL;
+        वापस -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, p->plane->plane_id, prop_id, value);
+    वापस KMSDRM_drmModeAtomicAddProperty(req, p->plane->plane_id, prop_id, मूल्य);
 }
 
-#ifdef DEBUG_KMSDRM
-static void print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
+#अगर_घोषित DEBUG_KMSDRM
+अटल व्योम print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
 {
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
+    SDL_Video_तथ्य *viddata = ((SDL_Video_तथ्य *)_this->internal);
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd,
         plane->plane_id, DRM_MODE_OBJECT_PLANE);
 
     /* Search the plane props for the plane type. */
     uint32_t type = 0;
-    for (int i = 0; i < props->count_props; i++) {
+    क्रम (पूर्णांक i = 0; i < props->गिनती_props; i++) {
         drmModePropertyPtr p = KMSDRM_drmModeGetProperty(viddata->drm_fd, props->props[i]);
-        if ((SDL_strcmp(p->name, "type") == 0)) {
-            type = props->prop_values[i];
+        अगर ((SDL_strcmp(p->name, "type") == 0)) {
+            type = props->prop_मूल्यावली[i];
         }
 
         KMSDRM_drmModeFreeProperty(p);
     }
 
-    char *plane_type = "unknown";
-    switch (type) {
-        case DRM_PLANE_TYPE_OVERLAY:
+    अक्षर *plane_type = "unknown";
+    चयन (type) {
+        हाल DRM_PLANE_TYPE_OVERLAY:
             plane_type = "overlay";
-            break;
+            अवरोध;
 
-        case DRM_PLANE_TYPE_PRIMARY:
+        हाल DRM_PLANE_TYPE_PRIMARY:
             plane_type = "primary";
-            break;
+            अवरोध;
 
-        case DRM_PLANE_TYPE_CURSOR:
+        हाल DRM_PLANE_TYPE_CURSOR:
             plane_type = "cursor";
-            break;
+            अवरोध;
     }
 
 
@@ -296,42 +296,42 @@ static void print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
 
     /* Now we look for the CRTCs supported by the plane. */
     drmModeRes *resources = KMSDRM_drmModeGetResources(viddata->drm_fd);
-    if (resources) {
+    अगर (resources) {
         SDL_IOStream *io = SDL_IOFromDynamicMem();
         SDL_IOprintf(io, "--PLANE ID: %d\nPLANE TYPE: %s\nCRTC READING THIS PLANE: %d\nCRTCS SUPPORTED BY THIS PLANE: ",  plane->plane_id, plane_type, plane->crtc_id);
-        for (int i = 0; i < resources->count_crtcs; i++) {
-            if (plane->possible_crtcs & (1 << i)) {
+        क्रम (पूर्णांक i = 0; i < resources->गिनती_crtcs; i++) {
+            अगर (plane->possible_crtcs & (1 << i)) {
                 uint32_t crtc_id = resources->crtcs[i];
                 SDL_IOprintf(io, " %d", crtc_id);
-                break;
+                अवरोध;
             }
         }
-        SDL_Log("%s\n\n", (const char *)SDL_GetPointerProperty(SDL_GetIOProperties(io), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, ""));
+        SDL_Log("%s\n\n", (स्थिर अक्षर *)SDL_GetPointerProperty(SDL_GetIOProperties(io), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, ""));
         SDL_CloseIO(io);
     }
 }
 
-static void get_planes_info(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
+अटल व्योम get_planes_info(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata)
 {
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
+    SDL_Video_तथ्य *viddata = ((SDL_Video_तथ्य *)_this->internal);
 
     drmModePlaneResPtr plane_resources = KMSDRM_drmModeGetPlaneResources(viddata->drm_fd);
-    if (!plane_resources) {
-        SDL_Log("drmModeGetPlaneResources failed: %s", strerror(errno));
-        return;
+    अगर (!plane_resources) {
+        SDL_Log("drmModeGetPlaneResources failed: %s", म_त्रुटि(त्रुटि_सं));
+        वापस;
     }
 
-    SDL_Log("--Number of planes found: %d--", plane_resources->count_planes);
+    SDL_Log("--Number of planes found: %d--", plane_resources->गिनती_planes);
     SDL_Log("--Usable CRTC that we have chosen: %d--", dispdata->crtc.crtc->crtc_id);
 
     /* Iterate on all the available planes. */
-    for (uint32_t i = 0; (i < plane_resources->count_planes); i++) {
-        const uint32_t plane_id = plane_resources->planes[i];
+    क्रम (uint32_t i = 0; (i < plane_resources->गिनती_planes); i++) {
+        स्थिर uint32_t plane_id = plane_resources->planes[i];
 
         drmModePlanePtr plane = KMSDRM_drmModeGetPlane(viddata->drm_fd, plane_id);
-        if (!plane) {
-            SDL_Log("drmModeGetPlane(%u) failed: %s", plane_id, strerror(errno));
-            continue;
+        अगर (!plane) {
+            SDL_Log("drmModeGetPlane(%u) failed: %s", plane_id, म_त्रुटि(त्रुटि_सं));
+            जारी;
         }
 
         /* Print plane info. */
@@ -341,49 +341,49 @@ static void get_planes_info(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
 
     KMSDRM_drmModeFreePlaneResources(plane_resources);
 }
-#endif
+#पूर्ण_अगर
 
 /* Get the plane_id of a plane that is of the specified plane type (primary,
    overlay, cursor...) and can use specified CRTC. */
-static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t plane_type)
+अटल पूर्णांक get_plane_id(SDL_VideoDevice *_this, अचिन्हित पूर्णांक crtc_id, uint32_t plane_type)
 {
-    drmModeRes *resources = NULL;
-    drmModePlaneResPtr plane_resources = NULL;
+    drmModeRes *resources = शून्य;
+    drmModePlaneResPtr plane_resources = शून्य;
     uint32_t i, j;
-    unsigned int crtc_index = 0;
-    int ret = -EINVAL;
-    int found = 0;
+    अचिन्हित पूर्णांक crtc_सूचकांक = 0;
+    पूर्णांक ret = -EINVAL;
+    पूर्णांक found = 0;
 
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
+    SDL_Video_तथ्य *viddata = ((SDL_Video_तथ्य *)_this->internal);
 
     resources = KMSDRM_drmModeGetResources(viddata->drm_fd);
 
     /* Get the crtc_index for the current CRTC.
        It's needed to find out if a plane supports the CRTC. */
-    for (i = 0; i < resources->count_crtcs; i++) {
-        if (resources->crtcs[i] == crtc_id) {
-            crtc_index = i;
-            break;
+    क्रम (i = 0; i < resources->गिनती_crtcs; i++) {
+        अगर (resources->crtcs[i] == crtc_id) {
+            crtc_सूचकांक = i;
+            अवरोध;
         }
     }
 
     plane_resources = KMSDRM_drmModeGetPlaneResources(viddata->drm_fd);
-    if (!plane_resources) {
-        return SDL_SetError("drmModeGetPlaneResources failed.");
+    अगर (!plane_resources) {
+        वापस SDL_SetError("drmModeGetPlaneResources failed.");
     }
 
     /* Iterate on all the available planes. */
-    for (i = 0; (i < plane_resources->count_planes) && !found; i++) {
+    क्रम (i = 0; (i < plane_resources->गिनती_planes) && !found; i++) {
 
         uint32_t plane_id = plane_resources->planes[i];
 
         drmModePlanePtr plane = KMSDRM_drmModeGetPlane(viddata->drm_fd, plane_id);
-        if (!plane) {
-            continue;
+        अगर (!plane) {
+            जारी;
         }
 
         /* See if the current CRTC is available for this plane. */
-        if (plane->possible_crtcs & (1 << crtc_index)) {
+        अगर (plane->possible_crtcs & (1 << crtc_सूचकांक)) {
 
             drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(
                 viddata->drm_fd, plane_id, DRM_MODE_OBJECT_PLANE);
@@ -391,12 +391,12 @@ static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t p
 
             /* Iterate on the plane props to find the type of the plane,
                to see if it's of the type we want. */
-            for (j = 0; j < props->count_props; j++) {
+            क्रम (j = 0; j < props->गिनती_props; j++) {
 
                 drmModePropertyPtr p = KMSDRM_drmModeGetProperty(viddata->drm_fd,
                     props->props[j]);
 
-                if ((SDL_strcmp(p->name, "type") == 0) && (props->prop_values[j] == plane_type)) {
+                अगर ((SDL_strcmp(p->name, "type") == 0) && (props->prop_मूल्यावली[j] == plane_type)) {
                     /* found our plane, use that: */
                     found = 1;
                 }
@@ -413,74 +413,74 @@ static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t p
     KMSDRM_drmModeFreePlaneResources(plane_resources);
     KMSDRM_drmModeFreeResources(resources);
 
-    return ret;
+    वापस ret;
 }
 
 /* Setup a plane and it's props. */
-bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, KMSDRM_plane **_plane, uint32_t plane_type)
+bool setup_plane(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata, KMSDRM_plane **_plane, uint32_t plane_type)
 {
     uint32_t plane_id;
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
+    SDL_Video_तथ्य *viddata = ((SDL_Video_तथ्य *)_this->internal);
     bool ret = true;
 
-    *_plane = SDL_calloc(1, sizeof(**_plane));
-    if (!(*_plane)) {
+    *_plane = SDL_calloc(1, माप(**_plane));
+    अगर (!(*_plane)) {
         ret = false;
-        goto cleanup;
+        जाओ cleanup;
     }
 
     /* Get plane ID for a given CRTC and plane type. */
     plane_id = get_plane_id(_this, dispdata->crtc.crtc->crtc_id, plane_type);
 
-    if (!plane_id) {
+    अगर (!plane_id) {
         ret = SDL_SetError("Invalid Plane ID");
-        goto cleanup;
+        जाओ cleanup;
     }
 
     /* Get the DRM plane itself. */
     (*_plane)->plane = KMSDRM_drmModeGetPlane(viddata->drm_fd, plane_id);
 
     /* Get the DRM plane properties. */
-    if ((*_plane)->plane) {
-        unsigned int i;
+    अगर ((*_plane)->plane) {
+        अचिन्हित पूर्णांक i;
         (*_plane)->props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd,
         (*_plane)->plane->plane_id, DRM_MODE_OBJECT_PLANE);
-        (*_plane)->props_info = SDL_calloc((*_plane)->props->count_props, sizeof(*(*_plane)->props_info));
+        (*_plane)->props_info = SDL_calloc((*_plane)->props->गिनती_props, माप(*(*_plane)->props_info));
 
-        if ( !((*_plane)->props_info) ) {
+        अगर ( !((*_plane)->props_info) ) {
             ret = false;
-            goto cleanup;
+            जाओ cleanup;
         }
 
-        for (i = 0; i < (*_plane)->props->count_props; i++) {
+        क्रम (i = 0; i < (*_plane)->props->गिनती_props; i++) {
             (*_plane)->props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd, (*_plane)->props->props[i]);
         }
     }
 
 cleanup:
-    if (!ret) {
-        if (*_plane) {
+    अगर (!ret) {
+        अगर (*_plane) {
             SDL_free(*_plane);
-            *_plane = NULL;
+            *_plane = शून्य;
         }
     }
-    return ret;
+    वापस ret;
 }
 
 /* Free a plane and it's props. */
-void free_plane(KMSDRM_plane **_plane)
+व्योम free_plane(KMSDRM_plane **_plane)
 {
-    if (*_plane) {
-        if ((*_plane)->plane) {
+    अगर (*_plane) {
+        अगर ((*_plane)->plane) {
             KMSDRM_drmModeFreePlane((*_plane)->plane);
-            (*_plane)->plane = NULL;
+            (*_plane)->plane = शून्य;
         }
-        if ((*_plane)->props_info) {
+        अगर ((*_plane)->props_info) {
             SDL_free((*_plane)->props_info);
-            (*_plane)->props_info = NULL;
+            (*_plane)->props_info = शून्य;
         }
         SDL_free(*_plane);
-        *_plane = NULL;
+        *_plane = शून्य;
     }
 }
 
@@ -502,11 +502,11 @@ void free_plane(KMSDRM_plane **_plane)
 /*   first, move the plane away from those buffers and ONLY THEN destroy the      */
 /*   buffers and/or the GBM surface containing them.                              */
 /**********************************************************************************/
-void
-drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info)
+व्योम
+drm_atomic_set_plane_props(SDL_Display_तथ्य *dispdata, काष्ठा KMSDRM_PlaneInfo *info)
 {
     /* Do we have a set of changes already in the making? If not, allocate a new one. */
-    if (!dispdata->atomic_req) {
+    अगर (!dispdata->atomic_req) {
         dispdata->atomic_req = KMSDRM_drmModeAtomicAlloc();
     }
 
@@ -522,17 +522,17 @@ drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *i
     add_plane_property(dispdata->atomic_req, info->plane, "CRTC_Y", info->crtc_y);
 }
 
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset)
+पूर्णांक drm_atomic_commit(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata, bool blocking, bool allow_modeset)
 {
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
+    SDL_Video_तथ्य *viddata = ((SDL_Video_तथ्य *)_this->internal);
     uint32_t atomic_flags = 0;
-    int ret;
+    पूर्णांक ret;
 
-    if (!blocking) {
+    अगर (!blocking) {
         atomic_flags |= DRM_MODE_ATOMIC_NONBLOCK;
     }
 
-    if (allow_modeset) {
+    अगर (allow_modeset) {
         atomic_flags |= DRM_MODE_ATOMIC_ALLOW_MODESET;
     }
 
@@ -541,90 +541,90 @@ int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool bl
     drm_atomic_waitpending(_this, dispdata);
 
     ret = KMSDRM_drmModeAtomicCommit(viddata->drm_fd, dispdata->atomic_req,
-              atomic_flags, NULL);
+              atomic_flags, शून्य);
 
-    if (ret) {
+    अगर (ret) {
         SDL_SetError("Atomic commit failed, returned %d.", ret);
         /* Uncomment this for fast-debugging */
-#if 0
-        SDL_Log("ATOMIC COMMIT FAILED: %s.", strerror(errno));
-#endif
-        goto out;
+#अगर 0
+        SDL_Log("ATOMIC COMMIT FAILED: %s.", म_त्रुटि(त्रुटि_सं));
+#पूर्ण_अगर
+        जाओ out;
     }
 
-    if (dispdata->kms_in_fence_fd != -1) {
-        close(dispdata->kms_in_fence_fd);
+    अगर (dispdata->kms_in_fence_fd != -1) {
+        बंद(dispdata->kms_in_fence_fd);
         dispdata->kms_in_fence_fd = -1;
     }
 
 out:
     KMSDRM_drmModeAtomicFree(dispdata->atomic_req);
-    dispdata->atomic_req = NULL;
+    dispdata->atomic_req = शून्य;
 
-    return ret;
+    वापस ret;
 }
 
-void
-drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
+व्योम
+drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata)
 {
     /* Will return immediately if we have already destroyed the fence, because we NULL-ify it just after.
        Also, will return immediately in double-buffer mode, because kms_fence will alsawys be NULL. */
-    if (dispdata->kms_fence) {
+    अगर (dispdata->kms_fence) {
        EGLint status;
 
-        do {
-            status = _this->egl_data->eglClientWaitSyncKHR(_this->egl_data->egl_display,
+        करो {
+            status = _this->egl_तथ्य->eglClientWaitSyncKHR(_this->egl_तथ्य->egl_display,
                 dispdata->kms_fence, 0, EGL_FOREVER_KHR);
-        } while (status != EGL_CONDITION_SATISFIED_KHR);
+        } जबतक (status != EGL_CONDITION_SATISFIED_KHR);
 
-        _this->egl_data->eglDestroySyncKHR(_this->egl_data->egl_display, dispdata->kms_fence);
-            dispdata->kms_fence = NULL;
+        _this->egl_तथ्य->eglDestroySyncKHR(_this->egl_तथ्य->egl_display, dispdata->kms_fence);
+            dispdata->kms_fence = शून्य;
     }
 }
 
-static bool KMSDRM_Available(void)
+अटल bool KMSDRM_Available(व्योम)
 {
-#ifdef SDL_PLATFORM_OPENBSD
-    struct utsname nameofsystem;
-    double releaseversion;
-#endif
-    int ret = -ENOENT;
+#अगर_घोषित SDL_PLATFORM_OPENBSD
+    काष्ठा utsname nameofsystem;
+    द्विगुन releaseversion;
+#पूर्ण_अगर
+    पूर्णांक ret = -ENOENT;
 
-#ifdef SDL_PLATFORM_OPENBSD
-    if (!(uname(&nameofsystem) < 0)) {
+#अगर_घोषित SDL_PLATFORM_OPENBSD
+    अगर (!(uname(&nameofsystem) < 0)) {
         releaseversion = SDL_atof(nameofsystem.release);
-        if (releaseversion >= 6.9) {
+        अगर (releaseversion >= 6.9) {
             moderndri = true;
         }
     }
-#endif
+#पूर्ण_अगर
 
-    if (moderndri) {
-        SDL_strlcpy(kmsdrm_dri_path, "/dev/dri/", sizeof(kmsdrm_dri_path));
-        SDL_strlcpy(kmsdrm_dri_devname, "card", sizeof(kmsdrm_dri_devname));
-    } else {
-        SDL_strlcpy(kmsdrm_dri_path, "/dev/", sizeof(kmsdrm_dri_path));
-        SDL_strlcpy(kmsdrm_dri_devname, "drm", sizeof(kmsdrm_dri_devname));
+    अगर (moderndri) {
+        SDL_strlcpy(kmsdrm_dri_path, "/dev/dri/", माप(kmsdrm_dri_path));
+        SDL_strlcpy(kmsdrm_dri_devname, "card", माप(kmsdrm_dri_devname));
+    } अन्यथा {
+        SDL_strlcpy(kmsdrm_dri_path, "/dev/", माप(kmsdrm_dri_path));
+        SDL_strlcpy(kmsdrm_dri_devname, "drm", माप(kmsdrm_dri_devname));
     }
 
     kmsdrm_dri_pathsize = SDL_strlen(kmsdrm_dri_path);
     kmsdrm_dri_devnamesize = SDL_strlen(kmsdrm_dri_devname);
-    (void)SDL_snprintf(kmsdrm_dri_cardpath, sizeof(kmsdrm_dri_cardpath), "%s%s",
+    (व्योम)SDL_snprintf(kmsdrm_dri_cardpath, माप(kmsdrm_dri_cardpath), "%s%s",
                        kmsdrm_dri_path, kmsdrm_dri_devname);
 
     ret = get_driindex();
-    if (ret >= 0) {
-        return true;
+    अगर (ret >= 0) {
+        वापस true;
     }
 
-    return false;
+    वापस false;
 }
 
-static void KMSDRM_DeleteDevice(SDL_VideoDevice *device)
+अटल व्योम KMSDRM_DeleteDevice(SDL_VideoDevice *device)
 {
-    if (device->internal) {
+    अगर (device->internal) {
         SDL_free(device->internal);
-        device->internal = NULL;
+        device->internal = शून्य;
     }
 
     SDL_free(device);
@@ -632,34 +632,34 @@ static void KMSDRM_DeleteDevice(SDL_VideoDevice *device)
     SDL_KMSDRM_UnloadSymbols();
 }
 
-static SDL_VideoDevice *KMSDRM_CreateDevice(void)
+अटल SDL_VideoDevice *KMSDRM_CreateDevice(व्योम)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *viddata;
-    int devindex;
+    SDL_Video_तथ्य *viddata;
+    पूर्णांक devindex;
 
-    if (!KMSDRM_Available()) {
-        return NULL;
+    अगर (!KMSDRM_Available()) {
+        वापस शून्य;
     }
 
     devindex = get_driindex();
-    if (devindex < 0) {
+    अगर (devindex < 0) {
         SDL_SetError("devindex (%d) must not be negative.", devindex);
-        return NULL;
+        वापस शून्य;
     }
 
-    if (!SDL_KMSDRM_LoadSymbols()) {
-        return NULL;
+    अगर (!SDL_KMSDRM_LoadSymbols()) {
+        वापस शून्य;
     }
 
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, माप(SDL_VideoDevice));
+    अगर (!device) {
+        वापस शून्य;
     }
 
-    viddata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!viddata) {
-        goto cleanup;
+    viddata = (SDL_Video_तथ्य *)SDL_calloc(1, माप(SDL_Video_तथ्य));
+    अगर (!viddata) {
+        जाओ cleanup;
     }
     viddata->devindex = devindex;
     viddata->drm_fd = -1;
@@ -674,7 +674,7 @@ static SDL_VideoDevice *KMSDRM_CreateDevice(void)
     device->CreateSDLWindow = KMSDRM_CreateWindow;
     device->SetWindowTitle = KMSDRM_SetWindowTitle;
     device->SetWindowPosition = KMSDRM_SetWindowPosition;
-    device->SetWindowSize = KMSDRM_SetWindowSize;
+    device->Set_Window_आकार = KMSDRM_Set_Window_आकार;
     device->SetWindowFullscreen = KMSDRM_SetWindowFullscreen;
     device->ShowWindow = KMSDRM_ShowWindow;
     device->HideWindow = KMSDRM_HideWindow;
@@ -696,39 +696,39 @@ static SDL_VideoDevice *KMSDRM_CreateDevice(void)
     device->GL_DestroyContext = KMSDRM_GLES_DestroyContext;
     device->GL_SetDefaultProfileConfig = KMSDRM_GLES_SetDefaultProfileConfig;
 
-#ifdef SDL_VIDEO_VULKAN
+#अगर_घोषित SDL_VIDEO_VULKAN
     device->Vulkan_LoadLibrary = KMSDRM_Vulkan_LoadLibrary;
     device->Vulkan_UnloadLibrary = KMSDRM_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = KMSDRM_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = KMSDRM_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = KMSDRM_Vulkan_DestroySurface;
-#endif
+#पूर्ण_अगर
 
     device->PumpEvents = KMSDRM_PumpEvents;
-    device->free = KMSDRM_DeleteDevice;
+    device->मुक्त = KMSDRM_DeleteDevice;
 
-    return device;
+    वापस device;
 
 cleanup:
     SDL_free(device);
 
     SDL_free(viddata);
-    return NULL;
+    वापस शून्य;
 }
 
 VideoBootStrap KMSDRM_bootstrap = {
     "kmsdrm",
     "KMS/DRM Video Driver",
     KMSDRM_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    शून्य, // no ShowMessageBox implementation
     false
 };
 
-static void KMSDRM_FBDestroyCallback(struct gbm_bo *bo, void *data)
+अटल व्योम KMSDRM_FBDestroyCallback(काष्ठा gbm_bo *bo, व्योम *तथ्य)
 {
-    KMSDRM_FBInfo *fb_info = (KMSDRM_FBInfo *)data;
+    KMSDRM_FBInfo *fb_info = (KMSDRM_FBInfo *)तथ्य;
 
-    if (fb_info && fb_info->drm_fd >= 0 && fb_info->fb_id != 0) {
+    अगर (fb_info && fb_info->drm_fd >= 0 && fb_info->fb_id != 0) {
         KMSDRM_drmModeRmFB(fb_info->drm_fd, fb_info->fb_id);
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Delete DRM FB %u", fb_info->fb_id);
     }
@@ -736,28 +736,28 @@ static void KMSDRM_FBDestroyCallback(struct gbm_bo *bo, void *data)
     SDL_free(fb_info);
 }
 
-KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo)
+KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, काष्ठा gbm_bo *bo)
 {
-    SDL_VideoData *viddata = _this->internal;
-    unsigned w, h;
-    int rc = -1;
-    int num_planes = 0;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    अचिन्हित w, h;
+    पूर्णांक rc = -1;
+    पूर्णांक अंक_planes = 0;
     uint32_t format, strides[4] = { 0 }, handles[4] = { 0 }, offsets[4] = { 0 }, flags = 0;
     uint64_t modifiers[4] = { 0 };
 
     // Check for an existing framebuffer
-    KMSDRM_FBInfo *fb_info = (KMSDRM_FBInfo *)KMSDRM_gbm_bo_get_user_data(bo);
+    KMSDRM_FBInfo *fb_info = (KMSDRM_FBInfo *)KMSDRM_gbm_bo_get_user_तथ्य(bo);
 
-    if (fb_info) {
-        return fb_info;
+    अगर (fb_info) {
+        वापस fb_info;
     }
 
     /* Create a structure that contains enough info to remove the framebuffer
        when the backing buffer is destroyed */
-    fb_info = (KMSDRM_FBInfo *)SDL_calloc(1, sizeof(KMSDRM_FBInfo));
+    fb_info = (KMSDRM_FBInfo *)SDL_calloc(1, माप(KMSDRM_FBInfo));
 
-    if (!fb_info) {
-        return NULL;
+    अगर (!fb_info) {
+        वापस शून्य;
     }
 
     fb_info->drm_fd = viddata->drm_fd;
@@ -768,61 +768,61 @@ KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo)
     h = KMSDRM_gbm_bo_get_height(bo);
     format = KMSDRM_gbm_bo_get_format(bo);
 
-    if (KMSDRM_drmModeAddFB2WithModifiers &&
+    अगर (KMSDRM_drmModeAddFB2WithModifiers &&
         KMSDRM_gbm_bo_get_modifier &&
-        KMSDRM_gbm_bo_get_plane_count &&
+        KMSDRM_gbm_bo_get_plane_गिनती &&
         KMSDRM_gbm_bo_get_offset &&
         KMSDRM_gbm_bo_get_stride_for_plane &&
         KMSDRM_gbm_bo_get_handle_for_plane) {
 
         modifiers[0] = KMSDRM_gbm_bo_get_modifier(bo);
-        num_planes = KMSDRM_gbm_bo_get_plane_count(bo);
-        for (int i = 0; i < num_planes; i++) {
+        अंक_planes = KMSDRM_gbm_bo_get_plane_गिनती(bo);
+        क्रम (पूर्णांक i = 0; i < अंक_planes; i++) {
             strides[i] = KMSDRM_gbm_bo_get_stride_for_plane(bo, i);
             handles[i] = KMSDRM_gbm_bo_get_handle_for_plane(bo, i).u32;
             offsets[i] = KMSDRM_gbm_bo_get_offset(bo, i);
             modifiers[i] = modifiers[0];
         }
 
-        if (modifiers[0] && modifiers[0] != DRM_FORMAT_MOD_INVALID) {
+        अगर (modifiers[0] && modifiers[0] != DRM_FORMAT_MOD_INVALID) {
             flags = DRM_MODE_FB_MODIFIERS;
         }
 
         rc = KMSDRM_drmModeAddFB2WithModifiers(viddata->drm_fd, w, h, format, handles, strides, offsets, modifiers, &fb_info->fb_id, flags);
     }
 
-    if (rc < 0) {
+    अगर (rc < 0) {
         strides[0] = KMSDRM_gbm_bo_get_stride(bo);
         handles[0] = KMSDRM_gbm_bo_get_handle(bo).u32;
         rc = KMSDRM_drmModeAddFB(viddata->drm_fd, w, h, 24, 32, strides[0], handles[0], &fb_info->fb_id);
     }
 
-    if (rc < 0) {
+    अगर (rc < 0) {
         SDL_free(fb_info);
-        return NULL;
+        वापस शून्य;
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "New DRM FB (%u): %ux%u, from BO %p",
-                 fb_info->fb_id, w, h, (void *)bo);
+                 fb_info->fb_id, w, h, (व्योम *)bo);
 
     // Associate our DRM framebuffer with this buffer object
-    KMSDRM_gbm_bo_set_user_data(bo, fb_info, KMSDRM_FBDestroyCallback);
+    KMSDRM_gbm_bo_set_user_तथ्य(bo, fb_info, KMSDRM_FBDestroyCallback);
 
-    return fb_info;
+    वापस fb_info;
 }
 
-static void KMSDRM_FlipHandler(int fd, unsigned int frame, unsigned int sec, unsigned int usec, void *data)
+अटल व्योम KMSDRM_FlipHandler(पूर्णांक fd, अचिन्हित पूर्णांक frame, अचिन्हित पूर्णांक sec, अचिन्हित पूर्णांक usec, व्योम *तथ्य)
 {
-    *((bool *)data) = false;
+    *((bool *)तथ्य) = false;
 }
 
-bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata)
+bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_Window_तथ्य *windata)
 {
 
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
     drmEventContext ev = { 0 };
-    struct pollfd pfd = { 0 };
-    int ret;
+    काष्ठा pollfd pfd = { 0 };
+    पूर्णांक ret;
 
     ev.version = DRM_EVENT_CONTEXT_VERSION;
     ev.page_flip_handler = KMSDRM_FlipHandler;
@@ -847,7 +847,7 @@ bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata)
       since waiting_for_flip is set on the pageflip handle, it's not set and we stay
       on the loop, until we get the event for the pageflip, which is fine.
     */
-    while (windata->waiting_for_flip) {
+    जबतक (windata->waiting_for_flip) {
 
         pfd.revents = 0;
 
@@ -857,25 +857,25 @@ bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata)
            to see if it's of the required type, then if it's a pageflip, etc */
         ret = poll(&pfd, 1, -1);
 
-        if (ret < 0) {
-            if (errno == EINTR) {
+        अगर (ret < 0) {
+            अगर (त्रुटि_सं == EINTR) {
                 /* poll() returning < 0 and setting errno = EINTR means there was a signal before
                    any requested event, so we immediately poll again. */
-                continue;
-            } else {
+                जारी;
+            } अन्यथा {
                 // There was another error. Don't pull again or we could get into a busy loop.
                 SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "DRM poll error");
-                return false;
+                वापस false;
             }
         }
 
-        if (pfd.revents & (POLLHUP | POLLERR)) {
+        अगर (pfd.revents & (POLLHUP | POLLERR)) {
             // An event arrived on the FD in time, but it's an error.
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "DRM poll hup or error");
-            return false;
+            वापस false;
         }
 
-        if (pfd.revents & POLLIN) {
+        अगर (pfd.revents & POLLIN) {
             /* There is data to read on the FD!
                Is the event a pageflip? We know it is a pageflip if it matches the
                event we are passing in &ev. If it does, drmHandleEvent() will unset
@@ -896,28 +896,28 @@ bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata)
             to polling. */
     }
 
-    return true;
+    वापस true;
 }
 
 /* Given w, h and refresh rate, returns the closest DRM video mode
    available on the DRM connector of the display.
    We use the SDL mode list (which we filled in KMSDRM_GetDisplayModes)
    because it's ordered, while the list on the connector is mostly random.*/
-static drmModeModeInfo *KMSDRM_GetClosestDisplayMode(SDL_VideoDisplay *display, int width, int height)
+अटल drmModeModeInfo *KMSDRM_GetClosestDisplayMode(SDL_VideoDisplay *display, पूर्णांक width, पूर्णांक height)
 {
 
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
     drmModeConnector *conn = dispdata->connector.connector;
 
     SDL_DisplayMode closest;
     drmModeModeInfo *drm_mode;
 
-    if (SDL_GetClosestFullscreenDisplayMode(display->id, width, height, 0.0f, false, &closest)) {
-        const SDL_DisplayModeData *modedata = closest.internal;
-        drm_mode = &conn->modes[modedata->mode_index];
-        return drm_mode;
-    } else {
-        return NULL;
+    अगर (SDL_GetClosestFullscreenDisplayMode(display->id, width, height, 0.0f, false, &closest)) {
+        स्थिर SDL_Display_Mode_तथ्य *modedata = closest.internal;
+        drm_mode = &conn->modes[modedata->mode_सूचकांक];
+        वापस drm_mode;
+    } अन्यथा {
+        वापस शून्य;
     }
 }
 
@@ -926,73 +926,73 @@ static drmModeModeInfo *KMSDRM_GetClosestDisplayMode(SDL_VideoDisplay *display, 
 /* _this is a SDL_VideoDevice *                                              */
 /*****************************************************************************/
 
-static bool KMSDRM_DropMaster(SDL_VideoDevice *_this)
+अटल bool KMSDRM_DropMaster(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
 
-    if (viddata->is_atomic) {  // turn off atomic support until we are in control again.
+    अगर (viddata->is_atomic) {  // turn off atomic support until we are in control again.
         KMSDRM_drmSetClientCap(viddata->drm_fd, DRM_CLIENT_CAP_ATOMIC, 0);
         KMSDRM_drmSetClientCap(viddata->drm_fd, DRM_CLIENT_CAP_UNIVERSAL_PLANES, 0);
     }
 
     /* Check if we have DRM master to begin with */
-    if (KMSDRM_drmAuthMagic(viddata->drm_fd, 0) == -EACCES) {
+    अगर (KMSDRM_drmAuthMagic(viddata->drm_fd, 0) == -EACCES) {
         /* Nope, nothing to do then */
-        return true;
+        वापस true;
     }
 
-    return KMSDRM_drmDropMaster(viddata->drm_fd) == 0;
+    वापस KMSDRM_drmDropMaster(viddata->drm_fd) == 0;
 }
 
 // Deinitializes the internal of the SDL Displays in the SDL display list.
-static void KMSDRM_DeinitDisplays(SDL_VideoDevice *_this)
+अटल व्योम KMSDRM_DeinitDisplays(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
     SDL_DisplayID *displays;
-    SDL_DisplayData *dispdata;
-    int i;
+    SDL_Display_तथ्य *dispdata;
+    पूर्णांक i;
 
-    displays = SDL_GetDisplays(NULL);
-    if (displays) {
+    displays = SDL_GetDisplays(शून्य);
+    अगर (displays) {
         // Iterate on the SDL Display list.
-        for (i = 0; displays[i]; ++i) {
+        क्रम (i = 0; displays[i]; ++i) {
 
             // Get the internal for this display
-            dispdata = SDL_GetDisplayDriverData(displays[i]);
+            dispdata = SDL_Get_Display_Driver_तथ्य(displays[i]);
 
             // Free connector
-            if (dispdata && dispdata->connector.connector) {
+            अगर (dispdata && dispdata->connector.connector) {
                 KMSDRM_drmModeFreeConnector(dispdata->connector.connector);
-                dispdata->connector.connector = NULL;
+                dispdata->connector.connector = शून्य;
             }
 
             // Free CRTC
-            if (dispdata && dispdata->crtc.crtc) {
+            अगर (dispdata && dispdata->crtc.crtc) {
                 KMSDRM_drmModeFreeCrtc(dispdata->crtc.crtc);
-                dispdata->crtc.crtc = NULL;
+                dispdata->crtc.crtc = शून्य;
             }
         }
         SDL_free(displays);
     }
 
-    if (viddata->drm_fd >= 0) {
-        close(viddata->drm_fd);
+    अगर (viddata->drm_fd >= 0) {
+        बंद(viddata->drm_fd);
         viddata->drm_fd = -1;
     }
 }
 
-static bool KMSDRM_ConnectorCheckVrrCapable(uint32_t drm_fd, uint32_t output_id)
+अटल bool KMSDRM_ConnectorCheckVrrCapable(uint32_t drm_fd, uint32_t output_id)
 {
     bool found = false;
-    uint64_t prop_value = 0;
+    uint64_t prop_मूल्य = 0;
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, output_id, DRM_MODE_OBJECT_CONNECTOR);
-    if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+    अगर (props) {
+        क्रम (uint32_t i = 0; !found && i < props->गिनती_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
-            if (prop) {
-                if (SDL_strcasecmp(prop->name, "VRR_CAPABLE") == 0) {
-                    prop_value = props->prop_values[i];
+            अगर (prop) {
+                अगर (SDL_strcasecmp(prop->name, "VRR_CAPABLE") == 0) {
+                    prop_मूल्य = props->prop_मूल्यावली[i];
                     found = true;
                 }
                 KMSDRM_drmModeFreeProperty(prop);
@@ -1000,21 +1000,21 @@ static bool KMSDRM_ConnectorCheckVrrCapable(uint32_t drm_fd, uint32_t output_id)
         }
         KMSDRM_drmModeFreeObjectProperties(props);
     }
-    if (found) {
-        return prop_value ? true : false;
+    अगर (found) {
+        वापस prop_मूल्य ? true : false;
     }
-    return false;
+    वापस false;
 }
 
-static bool KMSDRM_VrrPropId(uint32_t drm_fd, uint32_t crtc_id, uint32_t *vrr_prop_id)
+अटल bool KMSDRM_VrrPropId(uint32_t drm_fd, uint32_t crtc_id, uint32_t *vrr_prop_id)
 {
     bool found = false;
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CRTC);
-    if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+    अगर (props) {
+        क्रम (uint32_t i = 0; !found && i < props->गिनती_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
-            if (prop) {
-                if (SDL_strcmp(prop->name, "VRR_ENABLED") == 0) {
+            अगर (prop) {
+                अगर (SDL_strcmp(prop->name, "VRR_ENABLED") == 0) {
                     *vrr_prop_id = prop->prop_id;
                     found = true;
                 }
@@ -1023,36 +1023,36 @@ static bool KMSDRM_VrrPropId(uint32_t drm_fd, uint32_t crtc_id, uint32_t *vrr_pr
         }
         KMSDRM_drmModeFreeObjectProperties(props);
     }
-    return found;
+    वापस found;
 }
 
-static void KMSDRM_CrtcSetVrr(uint32_t drm_fd, uint32_t crtc_id, bool enabled)
+अटल व्योम KMSDRM_CrtcSetVrr(uint32_t drm_fd, uint32_t crtc_id, bool enabled)
 {
     uint32_t vrr_prop_id;
-    if (!KMSDRM_VrrPropId(drm_fd, crtc_id, &vrr_prop_id)) {
-        return;
+    अगर (!KMSDRM_VrrPropId(drm_fd, crtc_id, &vrr_prop_id)) {
+        वापस;
     }
 
     KMSDRM_drmModeObjectSetProperty(drm_fd, crtc_id, DRM_MODE_OBJECT_CRTC, vrr_prop_id, enabled);
 }
 
-static bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
+अटल bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
 {
     uint32_t vrr_prop_id = 0;
     bool found = false;
-    uint64_t prop_value = 0;
+    uint64_t prop_मूल्य = 0;
 
-    if (!KMSDRM_VrrPropId(drm_fd, crtc_id, &vrr_prop_id)) {
-        return false;
+    अगर (!KMSDRM_VrrPropId(drm_fd, crtc_id, &vrr_prop_id)) {
+        वापस false;
     }
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CRTC);
-    if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+    अगर (props) {
+        क्रम (uint32_t i = 0; !found && i < props->गिनती_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
-            if (prop) {
-                if (prop->prop_id == vrr_prop_id) {
-                    prop_value = props->prop_values[i];
+            अगर (prop) {
+                अगर (prop->prop_id == vrr_prop_id) {
+                    prop_मूल्य = props->prop_मूल्यावली[i];
                     found = true;
                 }
                 KMSDRM_drmModeFreeProperty(prop);
@@ -1060,30 +1060,30 @@ static bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
         }
         KMSDRM_drmModeFreeObjectProperties(props);
     }
-    if (found) {
-        return prop_value ? true : false;
+    अगर (found) {
+        वापस prop_मूल्य ? true : false;
     }
-    return false;
+    वापस false;
 }
 
-static int KMSDRM_CrtcGetOrientation(uint32_t drm_fd, uint32_t crtc_id)
+अटल पूर्णांक KMSDRM_CrtcGetOrientation(uint32_t drm_fd, uint32_t crtc_id)
 {
     bool found = false;
-    int orientation = 0;
+    पूर्णांक orientation = 0;
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CONNECTOR);
-    if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+    अगर (props) {
+        क्रम (uint32_t i = 0; !found && i < props->गिनती_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
-            if (prop) {
-                if (SDL_strcasecmp(prop->name, "panel orientation") == 0 && (prop->flags & DRM_MODE_PROP_ENUM)) {
-                    if (prop->count_enums) {
+            अगर (prop) {
+                अगर (SDL_strcasecmp(prop->name, "panel orientation") == 0 && (prop->flags & DRM_MODE_PROP_ENUM)) {
+                    अगर (prop->गिनती_enums) {
                         // "Normal" is the default of no rotation (0 degrees)
-                        if (SDL_strcmp(prop->enums[0].name, "Left Side Up") == 0) {
+                        अगर (SDL_strcmp(prop->enums[0].name, "Left Side Up") == 0) {
                             orientation = 90;
-                        } else if (SDL_strcmp(prop->enums[0].name, "Upside Down") == 0) {
+                        } अन्यथा अगर (SDL_strcmp(prop->enums[0].name, "Upside Down") == 0) {
                             orientation = 180;
-                        } else if (SDL_strcmp(prop->enums[0].name, "Right Side Up") == 0) {
+                        } अन्यथा अगर (SDL_strcmp(prop->enums[0].name, "Right Side Up") == 0) {
                             orientation = 270;
                         }
                     }
@@ -1094,38 +1094,38 @@ static int KMSDRM_CrtcGetOrientation(uint32_t drm_fd, uint32_t crtc_id)
         }
         KMSDRM_drmModeFreeObjectProperties(props);
     }
-    return orientation;
+    वापस orientation;
 }
 
 /* Gets a DRM connector, builds an SDL_Display with it, and adds it to the
    list of SDL Displays in _this->displays[]  */
-static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, drmModeRes *resources)
+अटल व्योम KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, drmModeRes *resources)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *dispdata = NULL;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    SDL_Display_तथ्य *dispdata = शून्य;
     SDL_VideoDisplay display = { 0 };
-    SDL_DisplayModeData *modedata = NULL;
-    drmModeEncoder *encoder = NULL;
-    drmModeCrtc *crtc = NULL;
-    const char *connector_type = NULL;
+    SDL_Display_Mode_तथ्य *modedata = शून्य;
+    drmModeEncoder *encoder = शून्य;
+    drmModeCrtc *crtc = शून्य;
+    स्थिर अक्षर *connector_type = शून्य;
     SDL_DisplayID display_id;
     SDL_PropertiesID display_properties;
-    char name_fmt[64];
-    int orientation;
-    int mode_index;
-    int i, j;
-    int ret = 0;
+    अक्षर name_fmt[64];
+    पूर्णांक orientation;
+    पूर्णांक mode_सूचकांक;
+    पूर्णांक i, j;
+    पूर्णांक ret = 0;
 
     // Reserve memory for the new display's internal.
-    dispdata = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!dispdata) {
+    dispdata = (SDL_Display_तथ्य *)SDL_calloc(1, माप(SDL_Display_तथ्य));
+    अगर (!dispdata) {
         ret = -1;
-        goto cleanup;
+        जाओ cleanup;
     }
 
     /* Initialize some of the members of the new display's internal
        to sane values. */
-    dispdata->cursor_bo = NULL;
+    dispdata->cursor_bo = शून्य;
     dispdata->cursor_bo_drm_fd = -1;
     dispdata->kms_in_fence_fd = -1;
     dispdata->kms_out_fence_fd = -1;
@@ -1138,49 +1138,49 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     dispdata->default_cursor_init = false;
 
     // Try to find the connector's current encoder
-    for (i = 0; i < resources->count_encoders; i++) {
+    क्रम (i = 0; i < resources->गिनती_encoders; i++) {
         encoder = KMSDRM_drmModeGetEncoder(viddata->drm_fd, resources->encoders[i]);
 
-        if (!encoder) {
-            continue;
+        अगर (!encoder) {
+            जारी;
         }
 
-        if (encoder->encoder_id == conn->encoder_id) {
-            break;
+        अगर (encoder->encoder_id == conn->encoder_id) {
+            अवरोध;
         }
 
         KMSDRM_drmModeFreeEncoder(encoder);
-        encoder = NULL;
+        encoder = शून्य;
     }
 
-    if (!encoder) {
+    अगर (!encoder) {
         // No encoder was connected, find the first supported one
-        for (i = 0; i < resources->count_encoders; i++) {
+        क्रम (i = 0; i < resources->गिनती_encoders; i++) {
             encoder = KMSDRM_drmModeGetEncoder(viddata->drm_fd,
                                                resources->encoders[i]);
 
-            if (!encoder) {
-                continue;
+            अगर (!encoder) {
+                जारी;
             }
 
-            for (j = 0; j < conn->count_encoders; j++) {
-                if (conn->encoders[j] == encoder->encoder_id) {
-                    break;
+            क्रम (j = 0; j < conn->गिनती_encoders; j++) {
+                अगर (conn->encoders[j] == encoder->encoder_id) {
+                    अवरोध;
                 }
             }
 
-            if (j != conn->count_encoders) {
-                break;
+            अगर (j != conn->गिनती_encoders) {
+                अवरोध;
             }
 
             KMSDRM_drmModeFreeEncoder(encoder);
-            encoder = NULL;
+            encoder = शून्य;
         }
     }
 
-    if (!encoder) {
+    अगर (!encoder) {
         ret = SDL_SetError("No connected encoder found for connector.");
-        goto cleanup;
+        जाओ cleanup;
     }
 
     // Try to find a CRTC connected to this encoder
@@ -1188,59 +1188,59 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
 
     /* If no CRTC was connected to the encoder, find the first CRTC
        that is supported by the encoder, and use that. */
-    if (!crtc) {
-        for (i = 0; i < resources->count_crtcs; i++) {
-            if (encoder->possible_crtcs & (1 << i)) {
+    अगर (!crtc) {
+        क्रम (i = 0; i < resources->गिनती_crtcs; i++) {
+            अगर (encoder->possible_crtcs & (1 << i)) {
                 encoder->crtc_id = resources->crtcs[i];
                 crtc = KMSDRM_drmModeGetCrtc(viddata->drm_fd, encoder->crtc_id);
-                break;
+                अवरोध;
             }
         }
     }
 
-    if (!crtc) {
+    अगर (!crtc) {
         ret = SDL_SetError("No CRTC found for connector.");
-        goto cleanup;
+        जाओ cleanup;
     }
 
     // Find the index of the mode attached to this CRTC
-    mode_index = -1;
+    mode_सूचकांक = -1;
 
-    for (i = 0; i < conn->count_modes; i++) {
+    क्रम (i = 0; i < conn->गिनती_modes; i++) {
         drmModeModeInfo *mode = &conn->modes[i];
 
-        if (!SDL_memcmp(mode, &crtc->mode, sizeof(crtc->mode))) {
-            mode_index = i;
-            break;
+        अगर (!SDL_memcmp(mode, &crtc->mode, माप(crtc->mode))) {
+            mode_सूचकांक = i;
+            अवरोध;
         }
     }
 
-    if (mode_index == -1) {
-        int current_area, largest_area = 0;
+    अगर (mode_सूचकांक == -1) {
+        पूर्णांक current_area, largest_area = 0;
 
         // Find the preferred mode or the highest resolution mode
-        for (i = 0; i < conn->count_modes; i++) {
+        क्रम (i = 0; i < conn->गिनती_modes; i++) {
             drmModeModeInfo *mode = &conn->modes[i];
 
-            if (mode->type & DRM_MODE_TYPE_PREFERRED) {
-                mode_index = i;
-                break;
+            अगर (mode->type & DRM_MODE_TYPE_PREFERRED) {
+                mode_सूचकांक = i;
+                अवरोध;
             }
 
             current_area = mode->hdisplay * mode->vdisplay;
-            if (current_area > largest_area) {
-                mode_index = i;
+            अगर (current_area > largest_area) {
+                mode_सूचकांक = i;
                 largest_area = current_area;
             }
         }
-        if (mode_index != -1) {
-            crtc->mode = conn->modes[mode_index];
+        अगर (mode_सूचकांक != -1) {
+            crtc->mode = conn->modes[mode_सूचकांक];
         }
     }
 
-    if (mode_index == -1) {
+    अगर (mode_सूचकांक == -1) {
         ret = SDL_SetError("Failed to find index of mode attached to the CRTC.");
-        goto cleanup;
+        जाओ cleanup;
     }
 
     /*********************************************/
@@ -1258,9 +1258,9 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     dispdata->original_mode = crtc->mode;
     dispdata->fullscreen_mode = crtc->mode;
 
-    if (dispdata->mode.hdisplay == 0 || dispdata->mode.vdisplay == 0) {
+    अगर (dispdata->mode.hdisplay == 0 || dispdata->mode.vdisplay == 0) {
         ret = SDL_SetError("Couldn't get a valid connector videomode.");
-        goto cleanup;
+        जाओ cleanup;
     }
 
     // Store the connector and crtc for this display.
@@ -1270,40 +1270,40 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     // save previous vrr state
     dispdata->saved_vrr = KMSDRM_CrtcGetVrr(viddata->drm_fd, crtc->crtc_id);
     // try to enable vrr
-    if (KMSDRM_ConnectorCheckVrrCapable(viddata->drm_fd, conn->connector_id)) {
+    अगर (KMSDRM_ConnectorCheckVrrCapable(viddata->drm_fd, conn->connector_id)) {
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Enabling VRR");
         KMSDRM_CrtcSetVrr(viddata->drm_fd, crtc->crtc_id, true);
     }
 
     // Set the name by the connector type, if possible
-    if (KMSDRM_drmModeGetConnectorTypeName) {
+    अगर (KMSDRM_drmModeGetConnectorTypeName) {
         connector_type = KMSDRM_drmModeGetConnectorTypeName(conn->connector_type);
-        if (connector_type == NULL) {
+        अगर (connector_type == शून्य) {
             connector_type = "Unknown";
         }
-        SDL_snprintf(name_fmt, sizeof(name_fmt), "%s-%u", connector_type, conn->connector_type_id);
+        SDL_snprintf(name_fmt, माप(name_fmt), "%s-%u", connector_type, conn->connector_type_id);
     }
 
     dispdata->crtc.props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd, crtc->crtc_id, DRM_MODE_OBJECT_CRTC);
-    dispdata->crtc.props_info = SDL_calloc(dispdata->crtc.props->count_props, sizeof(*dispdata->crtc.props_info));
-    if (!dispdata->crtc.props_info) {
+    dispdata->crtc.props_info = SDL_calloc(dispdata->crtc.props->गिनती_props, माप(*dispdata->crtc.props_info));
+    अगर (!dispdata->crtc.props_info) {
         ret = false;
-        goto cleanup;
+        जाओ cleanup;
     }
 
-    for (i = 0; i < dispdata->crtc.props->count_props; i++) {
+    क्रम (i = 0; i < dispdata->crtc.props->गिनती_props; i++) {
         dispdata->crtc.props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd, dispdata->crtc.props->props[i]);
     }
 
     /* Get connector properties */
     dispdata->connector.props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd, conn->connector_id, DRM_MODE_OBJECT_CONNECTOR);
-    dispdata->connector.props_info = SDL_calloc(dispdata->connector.props->count_props, sizeof(*dispdata->connector.props_info));
-    if (!dispdata->connector.props_info) {
+    dispdata->connector.props_info = SDL_calloc(dispdata->connector.props->गिनती_props, माप(*dispdata->connector.props_info));
+    अगर (!dispdata->connector.props_info) {
         ret = false;
-        goto cleanup;
+        जाओ cleanup;
     }
 
-    for (i = 0; i < dispdata->connector.props->count_props; i++) {
+    क्रम (i = 0; i < dispdata->connector.props->गिनती_props; i++) {
         dispdata->connector.props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd,
         dispdata->connector.props->props[i]);
     }
@@ -1314,14 +1314,14 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
 
     /* Setup the display.
        There's no problem with it being still incomplete. */
-    modedata = SDL_calloc(1, sizeof(SDL_DisplayModeData));
+    modedata = SDL_calloc(1, माप(SDL_Display_Mode_तथ्य));
 
-    if (!modedata) {
+    अगर (!modedata) {
         ret = -1;
-        goto cleanup;
+        जाओ cleanup;
     }
 
-    modedata->mode_index = mode_index;
+    modedata->mode_सूचकांक = mode_सूचकांक;
 
     display.internal = dispdata;
     display.desktop_mode.w = dispdata->mode.hdisplay;
@@ -1329,36 +1329,36 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     CalculateRefreshRate(&dispdata->mode, &display.desktop_mode.refresh_rate_numerator, &display.desktop_mode.refresh_rate_denominator);
     display.desktop_mode.format = SDL_PIXELFORMAT_ARGB8888;
     display.desktop_mode.internal = modedata;
-    if (connector_type) {
+    अगर (connector_type) {
         display.name = name_fmt;
     }
 
     // Add the display to the list of SDL displays.
     display_id = SDL_AddVideoDisplay(&display, false);
-    if (!display_id) {
+    अगर (!display_id) {
         ret = -1;
-        goto cleanup;
+        जाओ cleanup;
     }
 
     orientation = KMSDRM_CrtcGetOrientation(viddata->drm_fd, crtc->crtc_id);
     display_properties = SDL_GetDisplayProperties(display_id);
-    SDL_SetNumberProperty(display_properties, SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER, orientation);
+    SDL_Set_संख्या_Property(display_properties, SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_संख्या, orientation);
 
-#ifdef DEBUG_KMSDRM  // Use this if you ever need to see info on all available planes.
+#अगर_घोषित DEBUG_KMSDRM  // Use this if you ever need to see info on all available planes.
     get_planes_info(_this, dispdata);
-#endif
+#पूर्ण_अगर
 
 cleanup:
-    if (encoder) {
+    अगर (encoder) {
         KMSDRM_drmModeFreeEncoder(encoder);
     }
-    if (ret) {
+    अगर (ret) {
         // Error (complete) cleanup
-        if (dispdata) {
-            if (dispdata->connector.connector) {
+        अगर (dispdata) {
+            अगर (dispdata->connector.connector) {
                 KMSDRM_drmModeFreeConnector(dispdata->connector.connector);
             }
-            if (dispdata->crtc.crtc) {
+            अगर (dispdata->crtc.crtc) {
                 KMSDRM_drmModeFreeCrtc(dispdata->crtc.crtc);
             }
             SDL_free(dispdata->connector.props_info);
@@ -1369,42 +1369,42 @@ cleanup:
     }
 } // NOLINT(clang-analyzer-unix.Malloc): If no error `dispdata` is saved in the display
 
-static void KMSDRM_SortDisplays(SDL_VideoDevice *_this)
+अटल व्योम KMSDRM_SortDisplays(SDL_VideoDevice *_this)
 {
-    const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
+    स्थिर अक्षर *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
 
-    if (name_hint) {
-        char *saveptr;
-        char *str = SDL_strdup(name_hint);
-        SDL_VideoDisplay **sorted_list = SDL_malloc(sizeof(SDL_VideoDisplay *) * _this->num_displays);
+    अगर (name_hint) {
+        अक्षर *saveptr;
+        अक्षर *str = SDL_strdup(name_hint);
+        SDL_VideoDisplay **sorted_list = SDL_malloc(माप(SDL_VideoDisplay *) * _this->अंक_displays);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        अगर (str && sorted_list) {
+            पूर्णांक sorted_सूचकांक = 0;
 
             // Sort the requested displays to the front of the list.
-            const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < _this->num_displays; ++i) {
+            स्थिर अक्षर *token = SDL_strtok_r(str, ",", &saveptr);
+            जबतक (token) {
+                क्रम (पूर्णांक i = 0; i < _this->अंक_displays; ++i) {
                     SDL_VideoDisplay *d = _this->displays[i];
-                    if (d && SDL_strcmp(token, d->name) == 0) {
-                        sorted_list[sorted_index++] = d;
-                        _this->displays[i] = NULL;
-                        break;
+                    अगर (d && SDL_strcmp(token, d->name) == 0) {
+                        sorted_list[sorted_सूचकांक++] = d;
+                        _this->displays[i] = शून्य;
+                        अवरोध;
                     }
                 }
 
-                token = SDL_strtok_r(NULL, ",", &saveptr);
+                token = SDL_strtok_r(शून्य, ",", &saveptr);
             }
 
             // Append the remaining displays to the end of the list.
-            for (int i = 0; i < _this->num_displays; ++i) {
-                if (_this->displays[i]) {
-                    sorted_list[sorted_index++] = _this->displays[i];
+            क्रम (पूर्णांक i = 0; i < _this->अंक_displays; ++i) {
+                अगर (_this->displays[i]) {
+                    sorted_list[sorted_सूचकांक++] = _this->displays[i];
                 }
             }
 
             // Copy the sorted list back to the display list.
-            SDL_memcpy(_this->displays, sorted_list, sizeof(SDL_VideoDisplay *) * _this->num_displays);
+            SDL_memcpy(_this->displays, sorted_list, माप(SDL_VideoDisplay *) * _this->अंक_displays);
         }
 
         SDL_free(str);
@@ -1412,41 +1412,41 @@ static void KMSDRM_SortDisplays(SDL_VideoDevice *_this)
     }
 }
 
-static bool set_client_atomic_caps(int fd)
+अटल bool set_client_atomic_caps(पूर्णांक fd)
 {
-    if (!SDL_GetHintBoolean(SDL_HINT_KMSDRM_ATOMIC, true)) {
-        return false;  // emergency escape hatch.
-    } else if (KMSDRM_drmSetClientCap(fd, DRM_CLIENT_CAP_ATOMIC, 1)) {
-        return false;  // no atomic modesetting support.
-    } else if (KMSDRM_drmSetClientCap(fd, DRM_CLIENT_CAP_UNIVERSAL_PLANES, 1)) {
+    अगर (!SDL_GetHintBoolean(SDL_HINT_KMSDRM_ATOMIC, true)) {
+        वापस false;  // emergency escape hatch.
+    } अन्यथा अगर (KMSDRM_drmSetClientCap(fd, DRM_CLIENT_CAP_ATOMIC, 1)) {
+        वापस false;  // no atomic modesetting support.
+    } अन्यथा अगर (KMSDRM_drmSetClientCap(fd, DRM_CLIENT_CAP_UNIVERSAL_PLANES, 1)) {
         KMSDRM_drmSetClientCap(fd, DRM_CLIENT_CAP_ATOMIC, 0);  // turn this back off again.
-        return false;  // no universal planes support.
+        वापस false;  // no universal planes support.
     }
-    return true;
+    वापस true;
 }
 
 /* Initializes the list of SDL displays: we build a new display for each
    connecter connector we find.
    This is to be called early, in VideoInit(), because it gets us
    the videomode information, which SDL needs immediately after VideoInit(). */
-static bool KMSDRM_InitDisplays(SDL_VideoDevice *_this)
+अटल bool KMSDRM_InitDisplays(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *viddata = _this->internal;
-    drmModeRes *resources = NULL;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    drmModeRes *resources = शून्य;
     uint64_t async_pageflip = 0;
-    int i;
-    bool result = true;
+    पूर्णांक i;
+    bool परिणाम = true;
 
     // Open /dev/dri/cardNN (/dev/drmN if on OpenBSD version less than 6.9)
-    (void)SDL_snprintf(viddata->devpath, sizeof(viddata->devpath), "%s%d",
+    (व्योम)SDL_snprintf(viddata->devpath, माप(viddata->devpath), "%s%d",
                        kmsdrm_dri_cardpath, viddata->devindex);
 
     SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Opening device %s", viddata->devpath);
-    viddata->drm_fd = open(viddata->devpath, O_RDWR | O_CLOEXEC);
+    viddata->drm_fd = खोलो(viddata->devpath, O_RDWR | O_CLOEXEC);
 
-    if (viddata->drm_fd < 0) {
-        result = SDL_SetError("Could not open %s", viddata->devpath);
-        goto cleanup;
+    अगर (viddata->drm_fd < 0) {
+        परिणाम = SDL_SetError("Could not open %s", viddata->devpath);
+        जाओ cleanup;
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Opened DRM FD (%d)", viddata->drm_fd);
@@ -1458,42 +1458,42 @@ static bool KMSDRM_InitDisplays(SDL_VideoDevice *_this)
 
     // Get all of the available connectors / devices / crtcs
     resources = KMSDRM_drmModeGetResources(viddata->drm_fd);
-    if (!resources) {
-        result = SDL_SetError("drmModeGetResources(%d) failed", viddata->drm_fd);
-        goto cleanup;
+    अगर (!resources) {
+        परिणाम = SDL_SetError("drmModeGetResources(%d) failed", viddata->drm_fd);
+        जाओ cleanup;
     }
 
     /* Iterate on the available connectors. For every connected connector,
        we create an SDL_Display and add it to the list of SDL Displays. */
-    for (i = 0; i < resources->count_connectors; i++) {
+    क्रम (i = 0; i < resources->गिनती_connectors; i++) {
         drmModeConnector *conn = KMSDRM_drmModeGetConnector(viddata->drm_fd, resources->connectors[i]);
-        if (!conn) {
-            continue;
+        अगर (!conn) {
+            जारी;
         }
 
-        if (conn->connection == DRM_MODE_CONNECTED && conn->count_modes) {
+        अगर (conn->connection == DRM_MODE_CONNECTED && conn->गिनती_modes) {
             /* If it's a connected connector with available videomodes, try to add
                an SDL Display representing it. KMSDRM_AddDisplay() is purposely void,
                so if it fails (no encoder for connector, no valid video mode for
                connector etc...) we can keep looking for connected connectors. */
             KMSDRM_AddDisplay(_this, conn, resources);
-        } else {
+        } अन्यथा {
             // If it's not, free it now.
             KMSDRM_drmModeFreeConnector(conn);
         }
     }
 
     // Have we added any SDL displays?
-    if (SDL_GetPrimaryDisplay() == 0) {
-        result = SDL_SetError("No connected displays found.");
-        goto cleanup;
+    अगर (SDL_GetPrimaryDisplay() == 0) {
+        परिणाम = SDL_SetError("No connected displays found.");
+        जाओ cleanup;
     }
 
     // Sort the displays, if necessary
     KMSDRM_SortDisplays(_this);
 
     // Determine if video hardware supports async pageflips.
-    if (KMSDRM_drmGetCap(viddata->drm_fd, DRM_CAP_ASYNC_PAGE_FLIP, &async_pageflip) != 0) {
+    अगर (KMSDRM_drmGetCap(viddata->drm_fd, DRM_CAP_ASYNC_PAGE_FLIP, &async_pageflip) != 0) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not determine async page flip capability.");
     }
     viddata->async_pageflip_support = async_pageflip ? true : false;
@@ -1505,22 +1505,22 @@ static bool KMSDRM_InitDisplays(SDL_VideoDevice *_this)
     /* Vulkan requires DRM master on its own FD to work, so try to drop master
        on our FD. This will only work without root on kernels v5.8 and later.
        If it doesn't work, just close the FD and we'll reopen it later. */
-    if (!KMSDRM_DropMaster(_this)) {
-        close(viddata->drm_fd);
+    अगर (!KMSDRM_DropMaster(_this)) {
+        बंद(viddata->drm_fd);
         viddata->drm_fd = -1;
     }
 
 cleanup:
-    if (resources) {
+    अगर (resources) {
         KMSDRM_drmModeFreeResources(resources);
     }
-    if (!result) {
-        if (viddata->drm_fd >= 0) {
-            close(viddata->drm_fd);
+    अगर (!परिणाम) {
+        अगर (viddata->drm_fd >= 0) {
+            बंद(viddata->drm_fd);
             viddata->drm_fd = -1;
         }
     }
-    return result;
+    वापस परिणाम;
 }
 
 /* Init the Vulkan-INCOMPATIBLE stuff:
@@ -1531,16 +1531,16 @@ cleanup:
    These things are incompatible with Vulkan, which accesses the same resources
    internally so they must be free when trying to build a Vulkan surface.
 */
-static bool KMSDRM_GBMInit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
+अटल bool KMSDRM_GBMInit(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata)
 {
-    SDL_VideoData *viddata = _this->internal;
-    bool result = true;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    bool परिणाम = true;
 
     // Reopen the FD if we weren't able to drop master on the original one
-    if (viddata->drm_fd < 0) {
-        viddata->drm_fd = open(viddata->devpath, O_RDWR | O_CLOEXEC);
-        if (viddata->drm_fd < 0) {
-            return SDL_SetError("Could not reopen %s", viddata->devpath);
+    अगर (viddata->drm_fd < 0) {
+        viddata->drm_fd = खोलो(viddata->devpath, O_RDWR | O_CLOEXEC);
+        अगर (viddata->drm_fd < 0) {
+            वापस SDL_SetError("Could not reopen %s", viddata->devpath);
         }
     }
 
@@ -1551,26 +1551,26 @@ static bool KMSDRM_GBMInit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
 
     // Create the GBM device.
     viddata->gbm_dev = KMSDRM_gbm_create_device(viddata->drm_fd);
-    if (!viddata->gbm_dev) {
-        result = SDL_SetError("Couldn't create gbm device.");
-    } else {
+    अगर (!viddata->gbm_dev) {
+        परिणाम = SDL_SetError("Couldn't create gbm device.");
+    } अन्यथा {
         // Setup the display plane. ONLY do this after dispdata has the right
         // crtc and connector, because these are used in this function.
-        result = setup_plane(_this, dispdata, &dispdata->display_plane, DRM_PLANE_TYPE_PRIMARY);
-        if (!result) {
+        परिणाम = setup_plane(_this, dispdata, &dispdata->display_plane, DRM_PLANE_TYPE_PRIMARY);
+        अगर (!परिणाम) {
             SDL_SetError("can't find suitable display plane.");
         }
     }
 
     viddata->gbm_init = true;
 
-    return result;
+    वापस परिणाम;
 }
 
 // Deinit the Vulkan-incompatible KMSDRM stuff.
-static void KMSDRM_GBMDeinit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
+अटल व्योम KMSDRM_GBMDeinit(SDL_VideoDevice *_this, SDL_Display_तथ्य *dispdata)
 {
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
 
     // Free display plane
     free_plane(&dispdata->display_plane);
@@ -1580,40 +1580,40 @@ static void KMSDRM_GBMDeinit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
 
     /* Destroy GBM device. GBM surface is destroyed by DestroySurfaces(),
        already called when we get here. */
-    if (viddata->gbm_dev) {
+    अगर (viddata->gbm_dev) {
         KMSDRM_gbm_device_destroy(viddata->gbm_dev);
-        viddata->gbm_dev = NULL;
+        viddata->gbm_dev = शून्य;
     }
 
     /* Finally drop DRM master if possible, otherwise close DRM FD.
        May be reopened on next non-vulkan window creation. */
-    if (viddata->drm_fd >= 0 && !KMSDRM_DropMaster(_this)) {
-        close(viddata->drm_fd);
+    अगर (viddata->drm_fd >= 0 && !KMSDRM_DropMaster(_this)) {
+        बंद(viddata->drm_fd);
         viddata->drm_fd = -1;
     }
 
     viddata->gbm_init = false;
 }
 
-static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
+अटल व्योम KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *windata = window->internal;
-    SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
-    int ret;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    SDL_Window_तथ्य *windata = window->internal;
+    SDL_Display_तथ्य *dispdata = SDL_Get_Display_Driver_तथ्य_For_Window(window);
+    पूर्णांक ret;
 
     /**********************************************/
     // Wait for last issued pageflip to complete.
     /**********************************************/
     // KMSDRM_WaitPageflip(_this, windata);
 
-    if (viddata->is_atomic) {
+    अगर (viddata->is_atomic) {
 
     /* TODO : Continue investigating why this doesn't work. We should do this instead
        of making the display plane point to the TTY console, which isn't there
        after creating and destroying a Vulkan window. */
 
-#if 0  // (note that this code has bitrotted a little, in addition to TODO comment above.)
+#अगर 0  // (note that this code has bitrotted a little, in addition to TODO comment above.)
         /* Disconnect the connector from the CRTC (remember: several connectors
            can read a CRTC), deactivate the CRTC, and set the PRIMARY PLANE props
            CRTC_ID and FB_ID to 0. Then we can destroy the GBM buffers and surface. */
@@ -1635,21 +1635,21 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
 
         drm_atomic_set_plane_props(dispdata, &plane_info);
         ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd, dispdata->crtc->crtc_id,
-                dispdata->crtc->buffer_id, 0, 0, &dispdata->connector->connector_id, 1,
+                dispdata->crtc->बफर_id, 0, 0, &dispdata->connector->connector_id, 1,
                 &dispdata->original_mode);
 
         /* Issue atomic commit that is blocking and allows modesetting. */
-        if (drm_atomic_commit(_this, dispdata, true, true)) {
+        अगर (drm_atomic_commit(_this, dispdata, true, true)) {
             SDL_SetError("Failed to issue atomic commit on surfaces destruction.");
         /* If we failed to set the original mode, try to set the connector preferred mode. */
-        if (ret && (dispdata->crtc->mode_valid == 0)) {
+        अगर (ret && (dispdata->crtc->mode_valid == 0)) {
             ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd, dispdata->crtc->crtc_id,
-                    dispdata->crtc->buffer_id, 0, 0, &dispdata->connector->connector_id, 1,
+                    dispdata->crtc->बफर_id, 0, 0, &dispdata->connector->connector_id, 1,
                     &dispdata->original_mode);
         }
-#endif
+#पूर्ण_अगर
 
-#if 1
+#अगर 1
         /************************************************************/
         /* Make the display plane point to the original TTY buffer. */
         /* We have to configure it's input and output scaling       */
@@ -1660,7 +1660,7 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
         SDL_zero(plane_info);
         plane_info.plane = dispdata->display_plane;
         plane_info.crtc_id = dispdata->crtc.crtc->crtc_id;
-        plane_info.fb_id = dispdata->crtc.crtc->buffer_id;
+        plane_info.fb_id = dispdata->crtc.crtc->बफर_id;
         plane_info.src_w = dispdata->original_mode.hdisplay;
         plane_info.src_h = dispdata->original_mode.vdisplay;
         plane_info.crtc_w = dispdata->original_mode.hdisplay;
@@ -1668,11 +1668,11 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
 
         drm_atomic_set_plane_props(dispdata, &plane_info);
 
-        if (drm_atomic_commit(_this, dispdata, true, false)) {
+        अगर (drm_atomic_commit(_this, dispdata, true, false)) {
             SDL_SetError("Failed to issue atomic commit on surfaces destruction.");
         }
     }
-#endif
+#पूर्ण_अगर
 
     /************************************************************************/
     // Restore the original CRTC configuration: configure the crtc with the
@@ -1680,17 +1680,17 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
     /************************************************************************/
 
     ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd, dispdata->crtc.crtc->crtc_id,
-                                dispdata->crtc.crtc->buffer_id, 0, 0, &dispdata->connector.connector->connector_id, 1,
+                                dispdata->crtc.crtc->बफर_id, 0, 0, &dispdata->connector.connector->connector_id, 1,
                                 &dispdata->original_mode);
 
     // If we failed to set the original mode, try to set the connector preferred mode.
-    if (ret && (dispdata->crtc.crtc->mode_valid == 0)) {
+    अगर (ret && (dispdata->crtc.crtc->mode_valid == 0)) {
         ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd, dispdata->crtc.crtc->crtc_id,
-                                    dispdata->crtc.crtc->buffer_id, 0, 0, &dispdata->connector.connector->connector_id, 1,
+                                    dispdata->crtc.crtc->बफर_id, 0, 0, &dispdata->connector.connector->connector_id, 1,
                                     &dispdata->original_mode);
     }
 
-    if (ret) {
+    अगर (ret) {
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Could not restore CRTC");
     }
 
@@ -1698,16 +1698,16 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
     // Destroy the GBM buffers
     /***************************/
 
-    if (windata->bo) {
-        if (windata->bo != windata->next_bo) {
-            KMSDRM_gbm_surface_release_buffer(windata->gs, windata->bo);
+    अगर (windata->bo) {
+        अगर (windata->bo != windata->अग्र_bo) {
+            KMSDRM_gbm_surface_release_बफर(windata->gs, windata->bo);
         }
-        windata->bo = NULL;
+        windata->bo = शून्य;
     }
 
-    if (windata->next_bo) {
-        KMSDRM_gbm_surface_release_buffer(windata->gs, windata->next_bo);
-        windata->next_bo = NULL;
+    अगर (windata->अग्र_bo) {
+        KMSDRM_gbm_surface_release_बफर(windata->gs, windata->अग्र_bo);
+        windata->अग्र_bo = शून्य;
     }
 
     /***************************/
@@ -1716,7 +1716,7 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
 
     SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 
-    if (windata->egl_surface != EGL_NO_SURFACE) {
+    अगर (windata->egl_surface != EGL_NO_SURFACE) {
         SDL_EGL_DestroySurface(_this, windata->egl_surface);
         windata->egl_surface = EGL_NO_SURFACE;
     }
@@ -1725,32 +1725,32 @@ static void KMSDRM_DestroySurfaces(SDL_VideoDevice *_this, SDL_Window *window)
     // Destroy the GBM surface
     /***************************/
 
-    if (windata->gs) {
+    अगर (windata->gs) {
         KMSDRM_gbm_surface_destroy(windata->gs);
-        windata->gs = NULL;
+        windata->gs = शून्य;
     }
 }
 
-static void KMSDRM_GetModeToSet(SDL_Window *window, drmModeModeInfo *out_mode)
+अटल व्योम KMSDRM_GetModeToSet(SDL_Window *window, drmModeModeInfo *out_mode)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
 
-    if (window->fullscreen_exclusive) {
+    अगर (window->fullscreen_exclusive) {
         *out_mode = dispdata->fullscreen_mode;
-    } else {
+    } अन्यथा {
         drmModeModeInfo *mode = KMSDRM_GetClosestDisplayMode(display, window->windowed.w, window->windowed.h);
-        if (mode) {
+        अगर (mode) {
             *out_mode = *mode;
-        } else {
+        } अन्यथा {
             *out_mode = dispdata->original_mode;
         }
     }
 }
 
-static void KMSDRM_DirtySurfaces(SDL_Window *window)
+अटल व्योम KMSDRM_DirtySurfaces(SDL_Window *window)
 {
-    SDL_WindowData *windata = window->internal;
+    SDL_Window_तथ्य *windata = window->internal;
     drmModeModeInfo mode;
 
     /* Can't recreate EGL surfaces right now, need to wait until SwapWindow
@@ -1768,9 +1768,9 @@ static void KMSDRM_DirtySurfaces(SDL_Window *window)
    that we create here. */
 bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    static const struct { uint32_t fmt; const char *name; int r; int g; int b; int a; } gbm_formats[] = {
+    अटल स्थिर काष्ठा { uint32_t fmt; स्थिर अक्षर *name; पूर्णांक r; पूर्णांक g; पूर्णांक b; पूर्णांक a; } gbm_formats[] = {
         // !!! FIXME: I have no idea if this is a good preferred order for this list.
-        #define FMT(name, r, g, b, a) { GBM_FORMAT_##name, #name, r, g, b, a }
+        #घोषणा FMT(name, r, g, b, a) { GBM_FORMAT_##name, #name, r, g, b, a }
         FMT(ARGB8888, 8, 8, 8, 8),
         FMT(ABGR8888, 8, 8, 8, 8),
         FMT(BGRA8888, 8, 8, 8, 8),
@@ -1797,31 +1797,31 @@ bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window)
         FMT(BGRX5551, 5, 5, 5, 0),
         FMT(RGB565, 5, 6, 5, 0),
         FMT(BGR565, 5, 6, 5, 0)
-        #undef FMT
+        #अघोषित FMT
     };
 
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *windata = window->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    SDL_Window_तथ्य *windata = window->internal;
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
     EGLContext egl_context;
-    bool result = false;
+    bool परिणाम = false;
 
     // If the current window already has surfaces, destroy them before creating other.
-    if (windata->gs) {
+    अगर (windata->gs) {
         KMSDRM_DestroySurfaces(_this, window);
     }
 
     bool tried_setting_format = false;
-    const uint32_t surface_flags = GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING;
-    for (int i = 0; i < SDL_arraysize(gbm_formats); i++) {
-        const uint32_t surface_fmt = gbm_formats[i].fmt;
+    स्थिर uint32_t surface_flags = GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING;
+    क्रम (पूर्णांक i = 0; i < SDL_arraysize(gbm_formats); i++) {
+        स्थिर uint32_t surface_fmt = gbm_formats[i].fmt;
 
         SDL_Log("KMSDRM: Trying format GBM_FORMAT_%s", gbm_formats[i].name);
 
-        if (!KMSDRM_gbm_device_is_format_supported(viddata->gbm_dev, surface_fmt, surface_flags)) {
+        अगर (!KMSDRM_gbm_device_is_format_supported(viddata->gbm_dev, surface_fmt, surface_flags)) {
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "KMSDRM: GBM_FORMAT_%s is not supported.", gbm_formats[i].name);
-            continue;  // try the next one.
+            जारी;  // try the next one.
         }
 
         tried_setting_format = true;
@@ -1835,14 +1835,14 @@ bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window)
         KMSDRM_GetModeToSet(window, &dispdata->mode);
 
         windata->gs = KMSDRM_gbm_surface_create(viddata->gbm_dev, dispdata->mode.hdisplay, dispdata->mode.vdisplay, surface_fmt, surface_flags);
-        if (!windata->gs && errno == ENOSYS) {
+        अगर (!windata->gs && त्रुटि_सं == ENOSYS) {
             // Try again without the scanout flags, needed on NVIDIA drivers
             windata->gs = KMSDRM_gbm_surface_create(viddata->gbm_dev, dispdata->mode.hdisplay, dispdata->mode.vdisplay, surface_fmt, 0);
         }
-        if (!windata->gs) {
+        अगर (!windata->gs) {
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "KMSDRM: gbm_surface_create(GBM_FORMAT_%s) failed.", gbm_formats[i].name);
-            SDL_SetError("Could not create %s GBM surface: %s", gbm_formats[i].name, strerror(errno));  // set error in case this was the last supposedly-supported format.
-            continue;   // try the next one.
+            SDL_SetError("Could not create %s GBM surface: %s", gbm_formats[i].name, म_त्रुटि(त्रुटि_सं));  // set error in case this was the last supposedly-supported format.
+            जारी;   // try the next one.
         }
 
         /* We can't get the EGL context yet because SDL_CreateRenderer has not been called,
@@ -1850,85 +1850,85 @@ bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window)
            and we won't see the first frame. */
         SDL_EGL_SetRequiredVisualId(_this, surface_fmt);
         windata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)windata->gs);
-        if (windata->egl_surface == EGL_NO_SURFACE) {
+        अगर (windata->egl_surface == EGL_NO_SURFACE) {
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "KMSDRM: SDL_EGL_CreateSurface(GBM_FORMAT_%s) failed: %s", gbm_formats[i].name, SDL_GetError());
             KMSDRM_gbm_surface_destroy(windata->gs);
-            windata->gs = NULL;
-            continue;  // try the next one.
+            windata->gs = शून्य;
+            जारी;  // try the next one.
         }
 
         /* Current context passing to EGL is now done here. If something fails,
            go back to delayed SDL_EGL_MakeCurrent() call in SwapWindow. */
         egl_context = (EGLContext)SDL_GL_GetCurrentContext();
-        result = SDL_EGL_MakeCurrent(_this, windata->egl_surface, egl_context);
-        if (!result) {
+        परिणाम = SDL_EGL_MakeCurrent(_this, windata->egl_surface, egl_context);
+        अगर (!परिणाम) {
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "KMSDRM: SDL_EGL_MakeCurrent with GBM_FORMAT_%s failed: %s", gbm_formats[i].name, SDL_GetError());
-            continue;
+            जारी;
         }
 
-        _this->gl_config.red_size = gbm_formats[i].r;
-        _this->gl_config.green_size = gbm_formats[i].g;
-        _this->gl_config.blue_size = gbm_formats[i].b;
-        _this->gl_config.alpha_size = gbm_formats[i].a;
+        _this->gl_config.red_आकार = gbm_formats[i].r;
+        _this->gl_config.green_आकार = gbm_formats[i].g;
+        _this->gl_config.blue_आकार = gbm_formats[i].b;
+        _this->gl_config.alpha_आकार = gbm_formats[i].a;
 
         windata->egl_surface_dirty = false;
 
-        result = true;
+        परिणाम = true;
 
         SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, dispdata->mode.hdisplay, dispdata->mode.vdisplay);
 
-        break;
+        अवरोध;
     }
 
-    SDL_assert(result || (windata->gs == NULL));
+    SDL_assert(परिणाम || (windata->gs == शून्य));
 
-    if (!result) {
+    अगर (!परिणाम) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "KMSDRM: Failed to create surfaces in _any_ format!");
-        if (!tried_setting_format) {   // make sure there's an error string set.
+        अगर (!tried_setting_format) {   // make sure there's an error string set.
             SDL_SetError("Could not find any supported GBM surface format.");
         }
     }
 
-    return result;
+    वापस परिणाम;
 }
 
-#ifdef SDL_INPUT_LINUXEV
-static void KMSDRM_ReleaseVT(void *userdata)
+#अगर_घोषित SDL_निवेश_LINUXEV
+अटल व्योम KMSDRM_ReleaseVT(व्योम *userdata)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    SDL_VideoData *viddata = _this->internal;
-    int i;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    पूर्णांक i;
 
-    for (i = 0; i < viddata->num_windows; i++) {
+    क्रम (i = 0; i < viddata->अंक_windows; i++) {
         SDL_Window *window = viddata->windows[i];
-        if (!(window->flags & SDL_WINDOW_VULKAN)) {
+        अगर (!(window->flags & SDL_WINDOW_VULKAN)) {
             KMSDRM_DestroySurfaces(_this, window);
         }
     }
     KMSDRM_drmDropMaster(viddata->drm_fd);
 }
 
-static void KMSDRM_AcquireVT(void *userdata)
+अटल व्योम KMSDRM_AcquireVT(व्योम *userdata)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    SDL_VideoData *viddata = _this->internal;
-    int i;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    पूर्णांक i;
 
     KMSDRM_drmSetMaster(viddata->drm_fd);
-    for (i = 0; i < viddata->num_windows; i++) {
+    क्रम (i = 0; i < viddata->अंक_windows; i++) {
         SDL_Window *window = viddata->windows[i];
-        if (!(window->flags & SDL_WINDOW_VULKAN)) {
+        अगर (!(window->flags & SDL_WINDOW_VULKAN)) {
             KMSDRM_CreateSurfaces(_this, window);
         }
     }
 }
-#endif // defined SDL_INPUT_LINUXEV
+#पूर्ण_अगर // defined SDL_INPUT_LINUXEV
 
 bool KMSDRM_VideoInit(SDL_VideoDevice *_this)
 {
-    bool result = true;
+    bool परिणाम = true;
 
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
     SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "KMSDRM_VideoInit()");
 
     viddata->video_init = false;
@@ -1938,58 +1938,58 @@ bool KMSDRM_VideoInit(SDL_VideoDevice *_this)
        this info isn't a problem for VK compatibility.
        For VK-incompatible initializations we have KMSDRM_GBMInit(), which is
        called on window creation, and only when we know it's not a VK window. */
-    if (!KMSDRM_InitDisplays(_this)) {
-        result = SDL_SetError("error getting KMSDRM displays information");
+    अगर (!KMSDRM_InitDisplays(_this)) {
+        परिणाम = SDL_SetError("error getting KMSDRM displays information");
     }
 
-#ifdef SDL_INPUT_LINUXEV
+#अगर_घोषित SDL_निवेश_LINUXEV
     SDL_EVDEV_Init();
     SDL_EVDEV_SetVTSwitchCallbacks(KMSDRM_ReleaseVT, _this, KMSDRM_AcquireVT, _this);
-#elif defined(SDL_INPUT_WSCONS)
+#या_अगर defined(SDL_निवेश_WSCONS)
     SDL_WSCONS_Init();
-#endif
+#पूर्ण_अगर
 
     viddata->video_init = true;
 
-    return result;
+    वापस परिणाम;
 }
 
 /* The internal pointers, like dispdata, viddata, windata, etc...
    are freed by SDL internals, so not our job. */
-void KMSDRM_VideoQuit(SDL_VideoDevice *_this)
+व्योम KMSDRM_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
 
     KMSDRM_DeinitDisplays(_this);
 
-#ifdef SDL_INPUT_LINUXEV
-    SDL_EVDEV_SetVTSwitchCallbacks(NULL, NULL, NULL, NULL);
+#अगर_घोषित SDL_निवेश_LINUXEV
+    SDL_EVDEV_SetVTSwitchCallbacks(शून्य, शून्य, शून्य, शून्य);
     SDL_EVDEV_Quit();
-#elif defined(SDL_INPUT_WSCONS)
+#या_अगर defined(SDL_निवेश_WSCONS)
     SDL_WSCONS_Quit();
-#endif
+#पूर्ण_अगर
 
     // Clear out the window list
     SDL_free(viddata->windows);
-    viddata->windows = NULL;
+    viddata->windows = शून्य;
     viddata->max_windows = 0;
-    viddata->num_windows = 0;
+    viddata->अंक_windows = 0;
     viddata->video_init = false;
 }
 
 // Read modes from the connector modes, and store them in display->display_modes.
 bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
     drmModeConnector *conn = dispdata->connector.connector;
     SDL_DisplayMode mode;
-    int i;
+    पूर्णांक i;
 
-    for (i = 0; i < conn->count_modes; i++) {
-        SDL_DisplayModeData *modedata = SDL_calloc(1, sizeof(SDL_DisplayModeData));
+    क्रम (i = 0; i < conn->गिनती_modes; i++) {
+        SDL_Display_Mode_तथ्य *modedata = SDL_calloc(1, माप(SDL_Display_Mode_तथ्य));
 
-        if (modedata) {
-            modedata->mode_index = i;
+        अगर (modedata) {
+            modedata->mode_सूचकांक = i;
         }
 
         SDL_zero(mode);
@@ -1999,11 +1999,11 @@ bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
         mode.format = SDL_PIXELFORMAT_ARGB8888;
         mode.internal = modedata;
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        अगर (!SDL_AddFullscreenDisplayMode(display, &mode)) {
             SDL_free(modedata);
         }
     }
-    return true;
+    वापस true;
 }
 
 bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
@@ -2011,42 +2011,42 @@ bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SD
     /* Set the dispdata->mode to the new mode and leave actual modesetting
        pending to be done on SwapWindow() via drmModeSetCrtc() */
 
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *dispdata = display->internal;
-    SDL_DisplayModeData *modedata = mode->internal;
+    SDL_Video_तथ्य *viddata = _this->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
+    SDL_Display_Mode_तथ्य *modedata = mode->internal;
     drmModeConnector *conn = dispdata->connector.connector;
-    int i;
+    पूर्णांक i;
 
     // Don't do anything if we are in Vulkan mode.
-    if (viddata->vulkan_mode) {
-        return true;
+    अगर (viddata->vulkan_mode) {
+        वापस true;
     }
 
-    if (!modedata) {
-        return SDL_SetError("Mode doesn't have an associated index");
+    अगर (!modedata) {
+        वापस SDL_SetError("Mode doesn't have an associated index");
     }
 
     /* Take note of the new mode to be set, and leave the CRTC modeset pending
        so it's done in SwapWindow. */
-    dispdata->fullscreen_mode = conn->modes[modedata->mode_index];
+    dispdata->fullscreen_mode = conn->modes[modedata->mode_सूचकांक];
 
-    for (i = 0; i < viddata->num_windows; i++) {
+    क्रम (i = 0; i < viddata->अंक_windows; i++) {
         KMSDRM_DirtySurfaces(viddata->windows[i]);
     }
 
-    return true;
+    वापस true;
 }
 
-void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *windata = window->internal;
-    SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
-    SDL_VideoData *viddata;
+    SDL_Window_तथ्य *windata = window->internal;
+    SDL_Display_तथ्य *dispdata = SDL_Get_Display_Driver_तथ्य_For_Window(window);
+    SDL_Video_तथ्य *viddata;
     bool is_vulkan = window->flags & SDL_WINDOW_VULKAN; // Is this a VK window?
-    unsigned int i, j;
+    अचिन्हित पूर्णांक i, j;
 
-    if (!windata) {
-        return;
+    अगर (!windata) {
+        वापस;
     }
 
     // restore vrr state
@@ -2054,7 +2054,7 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     viddata = windata->viddata;
 
-    if (!is_vulkan && viddata->gbm_init) {
+    अगर (!is_vulkan && viddata->gbm_init) {
 
         // Destroy cursor GBM BO of the display of this window.
         KMSDRM_DestroyCursorBO(_this, SDL_GetVideoDisplayForWindow(window));
@@ -2067,10 +2067,10 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
            if there is a complete window, or 0 if we got here from SDL_CreateWindow()
            because KMSDRM_CreateWindow() returned an error so the window wasn't
            added to the windows list. */
-        if (viddata->num_windows <= 1) {
+        अगर (viddata->अंक_windows <= 1) {
 
             // Unload EGL/GL library and free egl_data.
-            if (_this->egl_data) {
+            अगर (_this->egl_तथ्य) {
                 SDL_EGL_UnloadLibrary(_this);
                 _this->gl_config.driver_loaded = 0;
             }
@@ -2079,10 +2079,10 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
             KMSDRM_GBMDeinit(_this, dispdata);
         }
 
-    } else {
+    } अन्यथा {
 
         // If we were in Vulkan mode, get out of it.
-        if (viddata->vulkan_mode) {
+        अगर (viddata->vulkan_mode) {
             viddata->vulkan_mode = false;
         }
     }
@@ -2091,15 +2091,15 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     // Remove from the internal SDL window list
     /********************************************/
 
-    for (i = 0; i < viddata->num_windows; i++) {
-        if (viddata->windows[i] == window) {
-            viddata->num_windows--;
+    क्रम (i = 0; i < viddata->अंक_windows; i++) {
+        अगर (viddata->windows[i] == window) {
+            viddata->अंक_windows--;
 
-            for (j = i; j < viddata->num_windows; j++) {
+            क्रम (j = i; j < viddata->अंक_windows; j++) {
                 viddata->windows[j] = viddata->windows[j + 1];
             }
 
-            break;
+            अवरोध;
         }
     }
 
@@ -2107,7 +2107,7 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     // Free the window internal. Bye bye, surface and buffer pointers!
     /*********************************************************************/
     SDL_free(window->internal);
-    window->internal = NULL;
+    window->internal = शून्य;
 }
 
 /**********************************************************************/
@@ -2117,20 +2117,20 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 /**********************************************************************/
 bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *windata = NULL;
-    SDL_VideoData *viddata = _this->internal;
+    SDL_Window_तथ्य *windata = शून्य;
+    SDL_Video_तथ्य *viddata = _this->internal;
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_तथ्य *dispdata = display->internal;
     bool is_vulkan = window->flags & SDL_WINDOW_VULKAN; // Is this a VK window?
     bool vulkan_mode = viddata->vulkan_mode;            // Do we have any Vulkan windows?
     NativeDisplayType egl_display;
     drmModeModeInfo *mode;
-    bool result = true;
+    bool परिणाम = true;
 
     // Allocate window internal data
-    windata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!windata) {
-        return false;
+    windata = (SDL_Window_तथ्य *)SDL_calloc(1, माप(SDL_Window_तथ्य));
+    अगर (!windata) {
+        वापस false;
     }
 
     // Setup driver data for this window
@@ -2138,18 +2138,18 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
     window->internal = windata;
 
     // Do we want a double buffering scheme to get low video lag?
-    windata->double_buffer = false;
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
-        windata->double_buffer = true;
+    windata->double_बफर = false;
+    अगर (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_बफर, false)) {
+        windata->double_बफर = true;
     }
 
-    if (!is_vulkan && !vulkan_mode) { // NON-Vulkan block.
+    अगर (!is_vulkan && !vulkan_mode) { // NON-Vulkan block.
 
         /* Maybe you didn't ask for an OPENGL window, but that's what you will get.
            See following comments on why. */
         window->flags |= SDL_WINDOW_OPENGL;
 
-        if (!(viddata->gbm_init)) {
+        अगर (!(viddata->gbm_init)) {
 
             /* After SDL_CreateWindow, most SDL programs will do SDL_CreateRenderer(),
                which will in turn call GL_CreateRenderer() or GLES2_CreateRenderer().
@@ -2167,8 +2167,8 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
             /* Reopen FD, create gbm dev, setup display plane, etc,.
                but only when we come here for the first time,
                and only if it's not a VK window. */
-            if (!KMSDRM_GBMInit(_this, dispdata)) {
-                return SDL_SetError("Can't init GBM on window creation.");
+            अगर (!KMSDRM_GBMInit(_this, dispdata)) {
+                वापस SDL_SetError("Can't init GBM on window creation.");
             }
         }
 
@@ -2177,15 +2177,15 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
            our KMSDRM_EGL_LoadLibrary() is a dummy precisely to be able to load it here.
            If we let SDL_CreateWindow() load the lib, it would be loaded
            before we call KMSDRM_GBMInit(), causing all GLES programs to fail. */
-        if (!_this->egl_data) {
+        अगर (!_this->egl_तथ्य) {
             egl_display = (NativeDisplayType)_this->internal->gbm_dev;
-            if (!SDL_EGL_LoadLibrary(_this, NULL, egl_display)) {
+            अगर (!SDL_EGL_LoadLibrary(_this, शून्य, egl_display)) {
                 // Try again with OpenGL ES 2.0
                 _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
                 _this->gl_config.major_version = 2;
                 _this->gl_config.minor_version = 0;
-                if (!SDL_EGL_LoadLibrary(_this, NULL, egl_display)) {
-                    return SDL_SetError("Can't load EGL/GL library on window creation.");
+                अगर (!SDL_EGL_LoadLibrary(_this, शून्य, egl_display)) {
+                    वापस SDL_SetError("Can't load EGL/GL library on window creation.");
                 }
             }
 
@@ -2207,45 +2207,45 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
            KMSDRM_SetWindowFullscreen() to reconfigure it if necessary. */
         mode = KMSDRM_GetClosestDisplayMode(display, window->windowed.w, window->windowed.h);
 
-        if (mode) {
+        अगर (mode) {
             dispdata->fullscreen_mode = *mode;
-        } else {
+        } अन्यथा {
             dispdata->fullscreen_mode = dispdata->original_mode;
         }
 
         /* Create the window surfaces with the size we have just chosen.
            Needs the window driverdata in place. */
-        if (!KMSDRM_CreateSurfaces(_this, window)) {
-            return false;
+        अगर (!KMSDRM_CreateSurfaces(_this, window)) {
+            वापस false;
         }
     } // NON-Vulkan block ends.
 
     /* Add window to the internal list of tracked windows. Note, while it may
        seem odd to support multiple fullscreen windows, some apps create an
        extra window as a dummy surface when working with multiple contexts */
-    if (viddata->num_windows >= viddata->max_windows) {
-        unsigned int new_max_windows = viddata->max_windows + 1;
+    अगर (viddata->अंक_windows >= viddata->max_windows) {
+        अचिन्हित पूर्णांक new_max_windows = viddata->max_windows + 1;
         SDL_Window **new_windows = (SDL_Window **)SDL_realloc(viddata->windows,
-                                                              new_max_windows * sizeof(SDL_Window *));
-        if (!new_windows) {
-            return false;
+                                                              new_max_windows * माप(SDL_Window *));
+        अगर (!new_windows) {
+            वापस false;
         }
         viddata->windows = new_windows;
         viddata->max_windows = new_max_windows;
 
     }
 
-    viddata->windows[viddata->num_windows++] = window;
+    viddata->windows[viddata->अंक_windows++] = window;
 
     // If we have just created a Vulkan window, establish that we are in Vulkan mode now.
     viddata->vulkan_mode = is_vulkan;
 
     SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_KMSDRM_DEVICE_INDEX_NUMBER, viddata->devindex);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_KMSDRM_DRM_FD_NUMBER, viddata->drm_fd);
+    SDL_Set_संख्या_Property(props, SDL_PROP_WINDOW_KMSDRM_DEVICE_सूचकांक_संख्या, viddata->devindex);
+    SDL_Set_संख्या_Property(props, SDL_PROP_WINDOW_KMSDRM_DRM_FD_संख्या, viddata->drm_fd);
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER, viddata->gbm_dev);
 
-    if ((window->flags & SDL_WINDOW_NOT_FOCUSABLE) == 0) {
+    अगर ((window->flags & SDL_WINDOW_NOT_FOCUSABLE) == 0) {
         /* Focus on the newly created window.
            SDL_SetMouseFocus() also takes care of calling KMSDRM_ShowCursor() if necessary. */
         SDL_SetMouseFocus(window);
@@ -2260,52 +2260,52 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
     /* Allocated windata will be freed in KMSDRM_DestroyWindow,
        and KMSDRM_DestroyWindow() will be called by SDL_CreateWindow()
        if we return error on any of the previous returns of the function. */
-    return result;
+    वापस परिणाम;
 }
 
-void KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
 bool KMSDRM_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_Unsupported();
+    वापस SDL_Unsupported();
 }
-void KMSDRM_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_Set_Window_आकार(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_VideoData *viddata = _this->internal;
-    if (!viddata->vulkan_mode) {
+    SDL_Video_तथ्य *viddata = _this->internal;
+    अगर (!viddata->vulkan_mode) {
         KMSDRM_DirtySurfaces(window);
     }
 }
-SDL_FullscreenResult KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_परिणाम KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_VideoData *viddata = _this->internal;
-    if (!viddata->vulkan_mode) {
+    SDL_Video_तथ्य *viddata = _this->internal;
+    अगर (!viddata->vulkan_mode) {
         KMSDRM_DirtySurfaces(window);
     }
-    return SDL_FULLSCREEN_SUCCEEDED;
+    वापस SDL_FULLSCREEN_SUCCEEDED;
 }
-void KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
-void KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
-void KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
-void KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
-void KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
-void KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 }
 bool KMSDRM_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
 {
-    return true;  // this just has to exist or SDL_SetWindowFocusable() will refuse to change the window flag.
+    वापस true;  // this just has to exist or SDL_SetWindowFocusable() will refuse to change the window flag.
 }
 
-#endif // SDL_VIDEO_DRIVER_KMSDRM
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_KMSDRM

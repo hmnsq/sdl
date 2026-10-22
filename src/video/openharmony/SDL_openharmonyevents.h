@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
 // src/core/openharmony/SDL_openharmony.c calls these when it gets events from the system.
-extern void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchMouseEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchKeyEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchUIInputEvent(void *component, void *event, int32_t type);
+बाह्य व्योम SDL_OpenHarmonyDispatchTouchEvent(व्योम *component, व्योम *window);
+बाह्य व्योम SDL_OpenHarmonyDispatchMouseEvent(व्योम *component, व्योम *window);
+बाह्य व्योम SDL_Open_Harmony_Dispatch_कुंजी_Event(व्योम *component, व्योम *window);
+बाह्य व्योम SDL_OpenHarmonyDispatchUIInputEvent(व्योम *component, व्योम *event, int32_t type);
 
-extern void OPENHARMONY_InitEvents(void);
-extern void OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitEvents(void);
+बाह्य व्योम OPENHARMONY_InitEvents(व्योम);
+बाह्य व्योम OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
+बाह्य व्योम OPENHARMONY_QuitEvents(व्योम);

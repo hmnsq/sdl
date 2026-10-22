@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_x11clipboard_h_
-#define SDL_x11clipboard_h_
+#अगर_अघोषित SDL_x11clipboard_h_
+#घोषणा SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#समावेश <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
-    SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+प्रकार काष्ठा X11_Clipboard_तथ्य {
+    SDL_Clipboard_तथ्य_Callback callback;
+    व्योम *userdata;
+    स्थिर अक्षर *स्थिर *mime_types;
+    माप_प्रकार mime_गिनती;
     Uint32 sequence;
-} SDLX11_ClipboardData;
+} SDLX11_Clipboard_तथ्य;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
+बाह्य स्थिर अक्षर *स्थिर *X11_GetTextMimeTypes(SDL_VideoDevice *_this, माप_प्रकार *अंक_mime_types);
+बाह्य bool X11_Set_Clipboard_तथ्य(SDL_VideoDevice *_this);
+बाह्य व्योम *X11_Get_Clipboard_तथ्य(SDL_VideoDevice *_this, स्थिर अक्षर *mime_type, माप_प्रकार *लंबाई);
+बाह्य bool X11_Has_Clipboard_तथ्य(SDL_VideoDevice *_this, स्थिर अक्षर *mime_type);
+बाह्य bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, स्थिर अक्षर *text);
+बाह्य अक्षर *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
+बाह्य bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
+बाह्य व्योम X11_QuitClipboard(SDL_VideoDevice *_this);
 Window GetWindow(SDL_VideoDevice *_this);
 
-#endif // SDL_x11clipboard_h_
+#पूर्ण_अगर // SDL_x11clipboard_h_

@@ -18,203 +18,203 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#अगर_घोषित SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include <database/pasteboard/oh_pasteboard.h>
-#include <database/pasteboard/oh_pasteboard_err_code.h>
-#include <database/udmf/udmf.h>
-#include <database/udmf/uds.h>
+#समावेश <database/pasteboard/oh_pasteboard.h>
+#समावेश <database/pasteboard/oh_pasteboard_err_code.h>
+#समावेश <database/udmf/udmf.h>
+#समावेश <database/udmf/uds.h>
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyclipboard.h"
-#include "../../core/openharmony/SDL_openharmony.h"
-#include "../../events/SDL_events_c.h"
+#समावेश "SDL_openharmonyvideo.h"
+#समावेश "SDL_openharmonyclipboard.h"
+#समावेश "../../core/openharmony/SDL_openharmony.h"
+#समावेश "../../events/SDL_events_c.h"
 
-static void PasteboardNotifyCallback(void *userdata, Pasteboard_NotifyType type)
+अटल व्योम PasteboardNotifyCallback(व्योम *userdata, Pasteboard_NotifyType type)
 {
-    SDL_assert(userdata != NULL);
+    SDL_assert(userdata != शून्य);
     SDL_VideoDevice *_this = (SDL_VideoDevice *) userdata;
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->clipboard_set) {
-        data->clipboard_set = false;  // this was us, ignore it.
-        return;
+    अगर (तथ्य->clipboard_set) {
+        तथ्य->clipboard_set = false;  // this was us, ignore it.
+        वापस;
     }
 
-    OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    SDL_assert(pasteboard != NULL);
+    OH_Pasteboard *pasteboard = (OH_Pasteboard *) तथ्य->oh_pasteboard;
+    SDL_assert(pasteboard != शून्य);
 
-    const char *mimetype = "text/plain";
-    if (OH_Pasteboard_HasType(pasteboard, mimetype)) {
-        const size_t slen = SDL_strlen(mimetype);
-        const size_t allocationsize = (slen + 1) + (sizeof (char *) * 2);
-        char **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
-        if (new_mime_types) {
-            char *ptr = (char *)(new_mime_types + 2);
+    स्थिर अक्षर *mimetype = "text/plain";
+    अगर (OH_Pasteboard_HasType(pasteboard, mimetype)) {
+        स्थिर माप_प्रकार slen = SDL_strlen(mimetype);
+        स्थिर माप_प्रकार allocationsize = (slen + 1) + (माप (अक्षर *) * 2);
+        अक्षर **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
+        अगर (new_mime_types) {
+            अक्षर *ptr = (अक्षर *)(new_mime_types + 2);
             SDL_strlcpy(ptr, mimetype, slen + 1);
             new_mime_types[0] = ptr;
-            new_mime_types[1] = NULL;
+            new_mime_types[1] = शून्य;
             SDL_SendClipboardUpdate(false, new_mime_types, 1);
         }
     }
 }
 
-static void PasteboardFinalizeCallback(void *userdata)
+अटल व्योम PasteboardFinalizeCallback(व्योम *userdata)
 {
     // do nothing.
 }
 
-void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
+व्योम OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    data->clipboard_set = false;
+    तथ्य->clipboard_set = false;
 
     OH_Pasteboard *pasteboard = OH_Pasteboard_Create();
-    data->oh_pasteboard = pasteboard;
+    तथ्य->oh_pasteboard = pasteboard;
 
     OH_PasteboardObserver *observer = OH_PasteboardObserver_Create();
-    data->oh_pasteboard_observer = observer;
-    if (observer) {
-        OH_PasteboardObserver_SetData(observer, _this, PasteboardNotifyCallback, PasteboardFinalizeCallback);
+    तथ्य->oh_pasteboard_observer = observer;
+    अगर (observer) {
+        OH_Pasteboard_Observer_Set_तथ्य(observer, _this, PasteboardNotifyCallback, PasteboardFinalizeCallback);
     }
 
-    if (pasteboard && observer) {
-        OH_Pasteboard_Subscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
+    अगर (pasteboard && observer) {
+        OH_Pasteboard_Subscribe(pasteboard, NOTIFY_LOCAL_तथ्य_CHANGE, observer);
     }
 }
 
-void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
+व्योम OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    OH_PasteboardObserver *observer = (OH_PasteboardObserver *) data->oh_pasteboard_observer;
-    OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
+    OH_PasteboardObserver *observer = (OH_PasteboardObserver *) तथ्य->oh_pasteboard_observer;
+    OH_Pasteboard *pasteboard = (OH_Pasteboard *) तथ्य->oh_pasteboard;
 
-    if (observer && pasteboard) {
-        OH_Pasteboard_Unsubscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
+    अगर (observer && pasteboard) {
+        OH_Pasteboard_Unsubscribe(pasteboard, NOTIFY_LOCAL_तथ्य_CHANGE, observer);
     }
 
-    if (observer) {
+    अगर (observer) {
         OH_PasteboardObserver_Destroy(observer);
-        data->oh_pasteboard_observer = NULL;
+        तथ्य->oh_pasteboard_observer = शून्य;
     }
 
-    if (pasteboard) {
+    अगर (pasteboard) {
         OH_Pasteboard_Destroy(pasteboard);
-        data->oh_pasteboard = NULL;
+        तथ्य->oh_pasteboard = शून्य;
     }
 }
 
-const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+स्थिर अक्षर *स्थिर *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, माप_प्रकार *अंक_mime_types)
 {
-    static const char *const text_mime_types[] = { "text/plain" };
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    अटल स्थिर अक्षर *स्थिर text_mime_types[] = { "text/plain" };
+    *अंक_mime_types = SDL_arraysize(text_mime_types);
+    वापस text_mime_types;
 }
 
-bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, स्थिर अक्षर *text)
 {
-    SDL_VideoData *data = _this->internal;
-    OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    SDL_Video_तथ्य *तथ्य = _this->internal;
+    OH_Pasteboard *pasteboard = (OH_Pasteboard *) तथ्य->oh_pasteboard;
+    अगर (!pasteboard) {
+        वापस SDL_SetError("Pasteboard not initialized");
     }
 
     OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-    if (!udspt) {
-        return SDL_SetError("Could not create OH_UdsPlainText instance");
+    अगर (!udspt) {
+        वापस SDL_SetError("Could not create OH_UdsPlainText instance");
     }
     OH_UdsPlainText_SetContent(udspt, text);
 
     OH_UdmfRecord *udmfrec = OH_UdmfRecord_Create();
-    if (!udmfrec) {
+    अगर (!udmfrec) {
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfRecord instance");
+        वापस SDL_SetError("Could not create OH_UdmfRecord instance");
     }
     OH_UdmfRecord_AddPlainText(udmfrec, udspt);
 
-    OH_UdmfData *udmfdata = OH_UdmfData_Create();
-    if (!udmfdata) {
+    OH_Udmf_तथ्य *udmfdata = OH_Udmf_तथ्य_Create();
+    अगर (!udmfdata) {
         OH_UdmfRecord_Destroy(udmfrec);
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfData instance");
+        वापस SDL_SetError("Could not create OH_UdmfData instance");
     }
-    OH_UdmfData_AddRecord(udmfdata, udmfrec);
+    OH_Udmf_तथ्य_Add_Record(udmfdata, udmfrec);
 
-    data->clipboard_set = true;
-    const PASTEBOARD_ErrCode rc = OH_Pasteboard_SetData(pasteboard, udmfdata);
+    तथ्य->clipboard_set = true;
+    स्थिर PASTEBOARD_ErrCode rc = OH_Pasteboard_Set_तथ्य(pasteboard, udmfdata);
 
-    OH_UdmfData_Destroy(udmfdata);
+    OH_Udmf_तथ्य_Destroy(udmfdata);
     OH_UdmfRecord_Destroy(udmfrec);
     OH_UdsPlainText_Destroy(udspt);
 
-    if (rc != ERR_OK) {
-        data->clipboard_set = true;
-        return SDL_SetError("OH_Pasteboard_SetData failed: %d", (int) rc);
+    अगर (rc != ERR_OK) {
+        तथ्य->clipboard_set = true;
+        वापस SDL_SetError("OH_Pasteboard_SetData failed: %d", (पूर्णांक) rc);
     }
-    return true;
+    वापस true;
 }
 
-char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
+अक्षर *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
+    SDL_Video_तथ्य *तथ्य = _this->internal;
+    OH_Pasteboard *pasteboard = (OH_Pasteboard *) तथ्य->oh_pasteboard;
+    अगर (!pasteboard) {
         SDL_SetError("Pasteboard not initialized");
-        return NULL;
+        वापस शून्य;
     }
 
-    char *retval = NULL;
-    if (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
-        int rc = (int) ERR_OK;
-        OH_UdmfData *udmfdata = OH_Pasteboard_GetData(pasteboard, &rc);
-        if (!udmfdata) {
+    अक्षर *retval = शून्य;
+    अगर (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
+        पूर्णांक rc = (पूर्णांक) ERR_OK;
+        OH_Udmf_तथ्य *udmfdata = OH_Pasteboard_Get_तथ्य(pasteboard, &rc);
+        अगर (!udmfdata) {
             SDL_SetError("Could not create OH_UdmfData instance %d", rc);
-            return NULL;
+            वापस शून्य;
         }
 
-        OH_UdmfRecord *udmfrec = OH_UdmfData_GetRecord(udmfdata, 0); // 0 == first record in udmfdata
-        if (!udmfrec) {
-            OH_UdmfData_Destroy(udmfdata);
+        OH_UdmfRecord *udmfrec = OH_Udmf_तथ्य_Get_Record(udmfdata, 0); // 0 == first record in udmfdata
+        अगर (!udmfrec) {
+            OH_Udmf_तथ्य_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdmfRecord instance");
-            return NULL;
+            वापस शून्य;
         }
 
         OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-        if (!udspt) {
+        अगर (!udspt) {
             OH_UdmfRecord_Destroy(udmfrec);
-            OH_UdmfData_Destroy(udmfdata);
+            OH_Udmf_तथ्य_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdsPlainText instance");
-            return NULL;
+            वापस शून्य;
         }
 
         OH_UdmfRecord_GetPlainText(udmfrec, udspt);
-        const char *utf8 = OH_UdsPlainText_GetContent(udspt);
-        if (!utf8) {
+        स्थिर अक्षर *utf8 = OH_UdsPlainText_GetContent(udspt);
+        अगर (!utf8) {
             SDL_SetError("Could not get plaintext content");
-        } else {
+        } अन्यथा {
             retval = SDL_strdup(utf8);
         }
 
         OH_UdsPlainText_Destroy(udspt);
         OH_UdmfRecord_Destroy(udmfrec);
-        OH_UdmfData_Destroy(udmfdata);
+        OH_Udmf_तथ्य_Destroy(udmfdata);
     }
 
-    return retval;
+    वापस retval;
 }
 
 bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    SDL_Video_तथ्य *तथ्य = _this->internal;
+    OH_Pasteboard *pasteboard = (OH_Pasteboard *) तथ्य->oh_pasteboard;
+    अगर (!pasteboard) {
+        वापस SDL_SetError("Pasteboard not initialized");
     }
-    return OH_Pasteboard_HasType(pasteboard, "text/plain");
+    वापस OH_Pasteboard_HasType(pasteboard, "text/plain");
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_OPENHARMONY

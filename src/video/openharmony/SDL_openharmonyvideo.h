@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_openharmonyvideo_h_
-#define SDL_openharmonyvideo_h_
+#अगर_अघोषित SDL_openharmonyvideo_h_
+#घोषणा SDL_openharmonyvideo_h_
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
 // these are fired from XComponent callbacks registered in src/core/openharmony/SDL_openharmony.c
-extern void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window);
+बाह्य व्योम SDL_OpenHarmonyVideoSurfaceDestroyed(व्योम *component, व्योम *window);
+बाह्य व्योम SDL_OpenHarmonyVideoSurfaceChanged(व्योम *component, व्योम *window);
+बाह्य व्योम SDL_OpenHarmonyVideoSurfaceCreated(व्योम *component, व्योम *window);
 
 // Get the app's current native window.
-extern void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window);
+बाह्य व्योम SDL_OpenHarmonyGetNativeWindowPointers(व्योम **xcomponent, व्योम **window);
 
-struct SDL_VideoData
+काष्ठा SDL_Video_तथ्य
 {
-    void *oh_pasteboard;
-    void *oh_pasteboard_observer;
+    व्योम *oh_pasteboard;
+    व्योम *oh_pasteboard_observer;
     bool clipboard_set;
 
 // !!! FIXME: Android stuff.
-    int isPaused;
-    int isPausing;
+    पूर्णांक isPaused;
+    पूर्णांक isPausing;
 };
 
-#endif // SDL_openharmonyvideo_h_
+#पूर्ण_अगर // SDL_openharmonyvideo_h_

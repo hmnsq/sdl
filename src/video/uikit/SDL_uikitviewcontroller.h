@@ -18,84 +18,84 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-#ifdef SDL_PLATFORM_TVOS
+#अगर_घोषित SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
-#define SDLRootViewController GCEventViewController
-#else
-#define SDLRootViewController UIViewController
-#endif
+#घोषणा SDLRootViewController GCEventViewController
+#अन्यथा
+#घोषणा SDLRootViewController UIViewController
+#पूर्ण_अगर
 
 @interface SDLUITextField : UITextField
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender;
 @end
 
-#ifdef SDL_IPHONE_KEYBOARD
+#अगर_घोषित SDL_IPHONE_KEYBOARD
 @interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#अन्यथा
 @interface SDL_uikitviewcontroller : SDLRootViewController
-#endif
+#पूर्ण_अगर
 
 @property(nonatomic, assign) SDL_Window *window;
 
 - (instancetype)initWithSDLWindow:(SDL_Window *)_window;
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+- (व्योम)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
 
-- (void)setAnimationCallback:(int)interval
-                    callback:(void (*)(void *))callback
-               callbackParam:(void *)callbackParam;
+- (व्योम)setAnimationCallback:(पूर्णांक)interval
+                    callback:(व्योम (*)(व्योम *))callback
+               callbackParam:(व्योम *)callbackParam;
 
-- (void)startAnimation;
-- (void)stopAnimation;
+- (व्योम)startAnimation;
+- (व्योम)stopAnimation;
 
-- (void)doLoop:(CADisplayLink *)sender;
+- (व्योम)doLoop:(CADisplayLink *)sender;
 
-- (void)loadView;
-- (void)viewDidLayoutSubviews;
+- (व्योम)loadView;
+- (व्योम)viewDidLayoutSubviews;
 
-#ifdef SDL_PLATFORM_VISIONOS
-- (void)initializeVisionOSCurvedUI;
-#endif
+#अगर_घोषित SDL_PLATFORM_VISIONOS
+- (व्योम)initializeVisionOSCurvedUI;
+#पूर्ण_अगर
 
-#ifndef SDL_PLATFORM_TVOS
+#अगर_अघोषित SDL_PLATFORM_TVOS
 - (NSUInteger)supportedInterfaceOrientations;
 - (BOOL)prefersStatusBarHidden;
 - (BOOL)prefersHomeIndicatorAutoHidden;
 - (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
-#endif
+@property(nonatomic, assign) पूर्णांक homeIndicatorHidden;
+#पूर्ण_अगर
 
-#ifdef SDL_IPHONE_KEYBOARD
-- (bool)startTextInput;
-- (bool)stopTextInput;
-- (void)initKeyboard;
-- (void)deinitKeyboard;
+#अगर_घोषित SDL_IPHONE_KEYBOARD
+- (bool)start_Text_निवेश;
+- (bool)stop_Text_निवेश;
+- (व्योम)initKeyboard;
+- (व्योम)deinitKeyboard;
 
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardDidShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardDidHide:(NSNotification *)notification;
+- (व्योम)keyboardWillShow:(NSNotification *)notification;
+- (व्योम)keyboardDidShow:(NSNotification *)notification;
+- (व्योम)keyboardWillHide:(NSNotification *)notification;
+- (व्योम)keyboardDidHide:(NSNotification *)notification;
 
-- (void)updateKeyboard;
+- (व्योम)updateKeyboard;
 
 @property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
-@property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
-#endif
+@property(nonatomic, assign) SDL_Rect text_निवेश_Rect;
+@property(nonatomic, assign) पूर्णांक keyboardHeight;
+#पूर्ण_अगर
 
 @end
 
-#ifdef SDL_IPHONE_KEYBOARD
+#अगर_घोषित SDL_IPHONE_KEYBOARD
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-#endif
+bool UIKit_Start_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool UIKit_Stop_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window);
+व्योम UIKit_Set_Text_निवेश_Properties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool UIKit_Update_Text_निवेश_Area(SDL_VideoDevice *_this, SDL_Window *window);
+#पूर्ण_अगर

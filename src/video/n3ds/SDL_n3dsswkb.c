@@ -19,51 +19,51 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#अगर_घोषित SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#समावेश <3ds.h>
 
-#include "SDL_n3dsswkb.h"
+#समावेश "SDL_n3dsswkb.h"
 
-static SwkbdState sw_keyboard;
-static const size_t BUFFER_SIZE = 256;
+अटल SwkbdState sw_keyboard;
+अटल स्थिर माप_प्रकार बफर_आकार_3 = 256;
 
-void N3DS_SwkbInit(void)
+व्योम N3DS_SwkbInit(व्योम)
 {
     swkbdInit(&sw_keyboard, SWKBD_TYPE_NORMAL, 2, -1);
 }
 
-void N3DS_SwkbPoll(void)
+व्योम N3DS_SwkbPoll(व्योम)
 {
-    return;
+    वापस;
 }
 
-void N3DS_SwkbQuit(void)
+व्योम N3DS_SwkbQuit(व्योम)
 {
-    return;
+    वापस;
 }
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    वापस true;
 }
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool N3_DS_Start_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    char buffer[BUFFER_SIZE];
+    अक्षर बफर_2[बफर_आकार_3];
     SwkbdButton button_pressed;
-    button_pressed = swkbdInputText(&sw_keyboard, buffer, BUFFER_SIZE);
-    if (button_pressed == SWKBD_BUTTON_CONFIRM) {
-        SDL_SendKeyboardText(buffer);
+    button_pressed = swkbd_निवेश_Text(&sw_keyboard, बफर_2, बफर_आकार_3);
+    अगर (button_pressed == SWKBD_BUTTON_CONFIRM) {
+        SDL_SendKeyboardText(बफर_2);
     }
-    return true;
+    वापस true;
 }
 
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool N3_DS_Stop_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return true;
+    वापस true;
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_N3DS

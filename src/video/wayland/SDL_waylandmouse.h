@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_waylandmouse_h_
-#define SDL_waylandmouse_h_
+#अगर_अघोषित SDL_waylandmouse_h_
+#घोषणा SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
-#endif // 0
+बाह्य व्योम Wayland_InitMouse(SDL_Video_तथ्य *तथ्य);
+बाह्य व्योम Wayland_FiniMouse(SDL_Video_तथ्य *तथ्य);
+बाह्य व्योम Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
+बाह्य व्योम Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
+बाह्य व्योम Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+बाह्य व्योम Wayland_DisplayUpdatePointerFocusedScale(SDL_Window_तथ्य *updated_window);
+बाह्य व्योम Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+बाह्य व्योम Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_Window_तथ्य *window, भग्न x, भग्न y);
+बाह्य व्योम Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, व्योम *userdata);
+बाह्य व्योम Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
+बाह्य व्योम Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#अगर 0  // TODO RECONNECT: See waylandvideo.c for more information!
+बाह्य व्योम Wayland_RecreateCursors(व्योम);
+#पूर्ण_अगर // 0
 
-#endif
+#पूर्ण_अगर

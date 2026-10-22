@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvideo_h_
-#define SDL_uikitvideo_h_
+#अगर_अघोषित SDL_uikitvideo_h_
+#घोषणा SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-#ifdef __OBJC__
+#अगर_घोषित __OBJC__
 
-#include <UIKit/UIKit.h>
+#समावेश <UIKit/UIKit.h>
 
-@interface SDL_UIKitVideoData : NSObject
+@interface SDL_UIKit_Video_तथ्य : NSObject
 
 @property(nonatomic, assign) id pasteboardObserver;
 
@@ -35,29 +35,29 @@
 
 @end
 
-#ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
-#endif
+#अगर_घोषित SDL_PLATFORM_VISIONOS
+बाह्य CGRect UIKit_ComputeViewFrame(SDL_Window *window);
+#अन्यथा
+बाह्य CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
+#पूर्ण_अगर
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+बाह्य API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(व्योम);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+बाह्य व्योम UIKit_SetGameControllerInteraction(bool enabled);
+बाह्य व्योम UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
-#endif
+#अगर !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+बाह्य UIInterfaceOrientation UIKit_GetInterfaceOrientation(व्योम);
+#पूर्ण_अगर
 
-#endif // __OBJC__
+#पूर्ण_अगर // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+बाह्य bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+बाह्य व्योम UIKit_ForceUpdateHomeIndicator(व्योम);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+बाह्य bool UIKit_IsSystemVersionAtLeast(द्विगुन version);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+बाह्य SDL_SystemTheme UIKit_GetSystemTheme(व्योम);
 
-#endif // SDL_uikitvideo_h_
+#पूर्ण_अगर // SDL_uikitvideo_h_

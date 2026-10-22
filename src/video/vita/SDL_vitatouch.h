@@ -19,15 +19,15 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitatouch_h
-#define SDL_vitatouch_h
+#अगर_अघोषित SDL_vitatouch_h
+#घोषणा SDL_vitatouch_h
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
 // Touch functions
-extern void VITA_InitTouch(void);
-extern void VITA_QuitTouch(void);
-extern void VITA_PollTouch(void);
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port);
+बाह्य व्योम VITA_InitTouch(व्योम);
+बाह्य व्योम VITA_QuitTouch(व्योम);
+बाह्य व्योम VITA_PollTouch(व्योम);
+व्योम VITA_ConvertTouchXYToSDLXY(भग्न *sdl_x, भग्न *sdl_y, पूर्णांक vita_x, पूर्णांक vita_y, पूर्णांक port);
 
-#endif // SDL_vitatouch_h
+#पूर्ण_अगर // SDL_vitatouch_h

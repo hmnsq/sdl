@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitamouse_h
-#define SDL_vitamouse_h
+#अगर_अघोषित SDL_vitamouse_h
+#घोषणा SDL_vitamouse_h
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
 // mouse functions
-extern void VITA_InitMouse(void);
-extern void VITA_PollMouse(void);
+बाह्य व्योम VITA_InitMouse(व्योम);
+बाह्य व्योम VITA_PollMouse(व्योम);
 
-#endif // SDL_vitamouse_h
+#पूर्ण_अगर // SDL_vitamouse_h

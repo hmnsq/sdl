@@ -156,8 +156,8 @@
      (i.e. 32-bit stat() fails for me on files > 0x7FFFFFFF bytes).
 */
 
-#ifndef MINIZ_HEADER_INCLUDED
-#define MINIZ_HEADER_INCLUDED
+#अगर_अघोषित MINIZ_HEADER_INCLUDED
+#घोषणा MINIZ_HEADER_INCLUDED
 
 /*#include <stdlib.h>*/
 
@@ -165,173 +165,173 @@
 // If all macros here are defined the only functionality remaining will be CRC-32, adler-32, tinfl, and tdefl.
 
 // Define MINIZ_NO_STDIO to disable all usage and any functions which rely on stdio for file I/O.
-#define MINIZ_NO_STDIO
+#घोषणा MINIZ_NO_STDIO
 
 // If MINIZ_NO_TIME is specified then the ZIP archive functions will not be able to get the current time, or
 // get/set file times, and the C run-time funcs that get/set times won't be called.
 // The current downside is the times written to your archives will be from 1979.
-#define MINIZ_NO_TIME
+#घोषणा MINIZ_NO_TIME
 
 // Define MINIZ_NO_DEFLATE_APIS to disable all compression API's.
 //#define MINIZ_NO_DEFLATE_APIS
 
 // Define MINIZ_NO_INFLATE_APIS to disable all decompression API's.
-#define MINIZ_NO_INFLATE_APIS
+#घोषणा MINIZ_NO_INFLATE_APIS
 
 // Define MINIZ_NO_ARCHIVE_APIS to disable all ZIP archive API's.
-#define MINIZ_NO_ARCHIVE_APIS
+#घोषणा MINIZ_NO_ARCHIVE_APIS
 
 // Define MINIZ_NO_ARCHIVE_APIS to disable all writing related ZIP archive API's.
-#define MINIZ_NO_ARCHIVE_WRITING_APIS
+#घोषणा MINIZ_NO_ARCHIVE_WRITING_APIS
 
 // Define MINIZ_NO_ZLIB_APIS to remove all ZLIB-style compression/decompression API's.
-#define MINIZ_NO_ZLIB_APIS
+#घोषणा MINIZ_NO_ZLIB_APIS
 
 // Define MINIZ_NO_ZLIB_COMPATIBLE_NAME to disable zlib names, to prevent conflicts against stock zlib.
-#define MINIZ_NO_ZLIB_COMPATIBLE_NAMES
+#घोषणा MINIZ_NO_ZLIB_COMPATIBLE_NAMES
 
 // Define MINIZ_NO_MALLOC to disable all calls to malloc, free, and realloc.
 // Note if MINIZ_NO_MALLOC is defined then the user must always provide custom user alloc/free/realloc
 // callbacks to the zlib and archive API's, and a few stand-alone helper API's which don't provide custom user
 // functions (such as tdefl_compress_mem_to_heap() and tinfl_decompress_mem_to_heap()) won't work.
 //#define MINIZ_NO_MALLOC
-#define MINIZ_SDL_MALLOC
+#घोषणा MINIZ_SDL_MALLOC
 
-#ifdef MINIZ_NO_INFLATE_APIS
-#define MINIZ_NO_ARCHIVE_APIS
-#endif
+#अगर_घोषित MINIZ_NO_INFLATE_APIS
+#घोषणा MINIZ_NO_ARCHIVE_APIS
+#पूर्ण_अगर
 
-#ifdef MINIZ_NO_DEFLATE_APIS
-#define MINIZ_NO_ARCHIVE_WRITING_APIS
-#endif
+#अगर_घोषित MINIZ_NO_DEFLATE_APIS
+#घोषणा MINIZ_NO_ARCHIVE_WRITING_APIS
+#पूर्ण_अगर
 
 // Define MINIZ_STATIC_FUNCTIONS to make all functions static. You probably
 // want this if you're using miniz in a library
-#define MINIZ_STATIC_FUNCTIONS
+#घोषणा MINIZ_STATIC_FUNCTIONS
 
-#if defined(__TINYC__) && (defined(__linux) || defined(__linux__))
+#अगर defined(__TINYC__) && (defined(__linux) || defined(__linux__))
   // TODO: Work around "error: include file 'sys\utime.h' when compiling with tcc on Linux
-  #define MINIZ_NO_TIME
-#endif
+  #घोषणा MINIZ_NO_TIME
+#पूर्ण_अगर
 
-#if !defined(MINIZ_NO_TIME) && !defined(MINIZ_NO_ARCHIVE_APIS)
-  #include <time.h>
-#endif
+#अगर !defined(MINIZ_NO_TIME) && !defined(MINIZ_NO_ARCHIVE_APIS)
+  #समावेश <time.h>
+#पूर्ण_अगर
 
-#if defined(_M_IX86) || defined(_M_X64) || defined(__i386__) || defined(__i386) || defined(__i486__) || defined(__i486) || defined(i386) || defined(__ia64__) || defined(__x86_64__)
+#अगर defined(_M_IX86) || defined(_M_X64) || defined(__i386__) || defined(__i386) || defined(__i486__) || defined(__i486) || defined(i386) || defined(__ia64__) || defined(__x86_64__)
 // MINIZ_X86_OR_X64_CPU is only used to help set the below macros.
-#define MINIZ_X86_OR_X64_CPU 1
-#endif
+#घोषणा MINIZ_X86_OR_X64_CPU 1
+#पूर्ण_अगर
 
-#ifndef MINIZ_LITTLE_ENDIAN /* if not defined by SDL */
-#if (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__) || MINIZ_X86_OR_X64_CPU
+#अगर_अघोषित MINIZ_LITTLE_ENDIAN /* if not defined by SDL */
+#अगर (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__) || MINIZ_X86_OR_X64_CPU
 // Set MINIZ_LITTLE_ENDIAN to 1 if the processor is little endian.
-#define MINIZ_LITTLE_ENDIAN 1
-#endif
-#endif // MINIZ_LITTLE_ENDIAN /* if not defined by SDL */
+#घोषणा MINIZ_LITTLE_ENDIAN 1
+#पूर्ण_अगर
+#पूर्ण_अगर // MINIZ_LITTLE_ENDIAN /* if not defined by SDL */
 
-#ifndef MINIZ_USE_UNALIGNED_LOADS_AND_STORES
-#if MINIZ_X86_OR_X64_CPU
+#अगर_अघोषित MINIZ_USE_UNALIGNED_LOADS_AND_STORES
+#अगर MINIZ_X86_OR_X64_CPU
 // Set MINIZ_USE_UNALIGNED_LOADS_AND_STORES to 1 on CPU's that permit efficient integer loads and stores from unaligned addresses.
-#define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 1
-#endif
-#endif // MINIZ_USE_UNALIGNED_LOADS_AND_STORES
+#घोषणा MINIZ_USE_UNALIGNED_LOADS_AND_STORES 1
+#पूर्ण_अगर
+#पूर्ण_अगर // MINIZ_USE_UNALIGNED_LOADS_AND_STORES
 
-#if defined(_M_X64) || defined(_WIN64) || defined(__MINGW64__) || defined(_LP64) || defined(__LP64__) || defined(__ia64__) || defined(__x86_64__)
+#अगर defined(_M_X64) || defined(_WIN64) || defined(__MINGW64__) || defined(_LP64) || defined(__LP64__) || defined(__ia64__) || defined(__x86_64__)
 // Set MINIZ_HAS_64BIT_REGISTERS to 1 if operations on 64-bit integers are reasonably fast (and don't involve compiler generated calls to helper functions).
-#define MINIZ_HAS_64BIT_REGISTERS 1
-#endif
+#घोषणा MINIZ_HAS_64BIT_REGISTERS 1
+#पूर्ण_अगर
 
-#ifdef MINIZ_STATIC_FUNCTIONS
-#define MINIZ_STATIC static
-#else
-#define MINIZ_STATIC
-#endif
+#अगर_घोषित MINIZ_STATIC_FUNCTIONS
+#घोषणा MINIZ_STATIC अटल
+#अन्यथा
+#घोषणा MINIZ_STATIC
+#पूर्ण_अगर
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
 // ------------------- zlib-style API Definitions.
 
 // For more compatibility with zlib, miniz.c uses unsigned long for some parameters/struct members. Beware: mz_ulong can be either 32 or 64-bits!
-typedef unsigned long mz_ulong;
+प्रकार अचिन्हित दीर्घ mz_ulong;
 
 // mz_free() internally uses the MZ_FREE() macro (which by default calls free() unless you've modified the MZ_MALLOC macro) to release a block allocated from the heap.
-MINIZ_STATIC void mz_free(void *p);
+MINIZ_STATIC व्योम mz_free(व्योम *p);
 
-#define MZ_ADLER32_INIT (1)
+#घोषणा MZ_ADLER32_INIT (1)
 // mz_adler32() returns the initial adler-32 value to use when called with ptr==NULL.
-MINIZ_STATIC mz_ulong mz_adler32(mz_ulong adler, const unsigned char *ptr, size_t buf_len);
+MINIZ_STATIC mz_ulong mz_adler32(mz_ulong adler, स्थिर अचिन्हित अक्षर *ptr, माप_प्रकार buf_len);
 
-#define MZ_CRC32_INIT (0)
+#घोषणा MZ_CRC32_INIT (0)
 // mz_crc32() returns the initial CRC-32 value to use when called with ptr==NULL.
-MINIZ_STATIC mz_ulong mz_crc32(mz_ulong crc, const unsigned char *ptr, size_t buf_len);
+MINIZ_STATIC mz_ulong mz_crc32(mz_ulong crc, स्थिर अचिन्हित अक्षर *ptr, माप_प्रकार buf_len);
 
 // Compression strategies.
-enum { MZ_DEFAULT_STRATEGY = 0, MZ_FILTERED = 1, MZ_HUFFMAN_ONLY = 2, MZ_RLE = 3, MZ_FIXED = 4 };
+क्रमागत { MZ_DEFAULT_STRATEGY = 0, MZ_FILTERED = 1, MZ_HUFFMAN_ONLY = 2, MZ_RLE = 3, MZ_FIXED = 4 };
 
 // Method
-#define MZ_DEFLATED 8
+#घोषणा MZ_DEFLATED 8
 
-#ifndef MINIZ_NO_ZLIB_APIS
+#अगर_अघोषित MINIZ_NO_ZLIB_APIS
 
 // Heap allocation callbacks.
 // Note that mz_alloc_func parameter types purpsosely differ from zlib's: items/size is size_t, not unsigned long.
-typedef void *(*mz_alloc_func)(void *opaque, size_t items, size_t size);
-typedef void (*mz_free_func)(void *opaque, void *address);
-typedef void *(*mz_realloc_func)(void *opaque, void *address, size_t items, size_t size);
+प्रकार व्योम *(*mz_alloc_func)(व्योम *opaque, माप_प्रकार वस्तुएँ, माप_प्रकार आकार);
+प्रकार व्योम (*mz_free_func)(व्योम *opaque, व्योम *address);
+प्रकार व्योम *(*mz_realloc_func)(व्योम *opaque, व्योम *address, माप_प्रकार वस्तुएँ, माप_प्रकार आकार);
 
-#define MZ_VERSION          "9.1.15"
-#define MZ_VERNUM           0x91F0
-#define MZ_VER_MAJOR        9
-#define MZ_VER_MINOR        1
-#define MZ_VER_REVISION     15
-#define MZ_VER_SUBREVISION  0
+#घोषणा MZ_VERSION          "9.1.15"
+#घोषणा MZ_VERNUM           0x91F0
+#घोषणा MZ_VER_MAJOR        9
+#घोषणा MZ_VER_MINOR        1
+#घोषणा MZ_VER_REVISION     15
+#घोषणा MZ_VER_SUBREVISION  0
 
 // Flush values. For typical usage you only need MZ_NO_FLUSH and MZ_FINISH. The other values are for advanced use (refer to the zlib docs).
-enum { MZ_NO_FLUSH = 0, MZ_PARTIAL_FLUSH = 1, MZ_SYNC_FLUSH = 2, MZ_FULL_FLUSH = 3, MZ_FINISH = 4, MZ_BLOCK = 5 };
+क्रमागत { MZ_NO_FLUSH = 0, MZ_PARTIAL_FLUSH = 1, MZ_SYNC_FLUSH = 2, MZ_FULL_FLUSH = 3, MZ_FINISH = 4, MZ_BLOCK = 5 };
 
 // Return status codes. MZ_PARAM_ERROR is non-standard.
-enum { MZ_OK = 0, MZ_STREAM_END = 1, MZ_NEED_DICT = 2, MZ_ERRNO = -1, MZ_STREAM_ERROR = -2, MZ_DATA_ERROR = -3, MZ_MEM_ERROR = -4, MZ_BUF_ERROR = -5, MZ_VERSION_ERROR = -6, MZ_PARAM_ERROR = -10000 };
+क्रमागत { MZ_OK = 0, MZ_STREAM_END = 1, MZ_NEED_DICT = 2, MZ_ERRNO = -1, MZ_STREAM_ERROR = -2, MZ_तथ्य_ERROR = -3, MZ_MEM_ERROR = -4, MZ_BUF_ERROR = -5, MZ_VERSION_ERROR = -6, MZ_PARAM_ERROR = -10000 };
 
 // Compression levels: 0-9 are the standard zlib-style levels, 10 is best possible compression (not zlib compatible, and may be very slow), MZ_DEFAULT_COMPRESSION=MZ_DEFAULT_LEVEL.
-enum { MZ_NO_COMPRESSION = 0, MZ_BEST_SPEED = 1, MZ_BEST_COMPRESSION = 9, MZ_UBER_COMPRESSION = 10, MZ_DEFAULT_LEVEL = 6, MZ_DEFAULT_COMPRESSION = -1 };
+क्रमागत { MZ_NO_COMPRESSION = 0, MZ_BEST_SPEED = 1, MZ_BEST_COMPRESSION = 9, MZ_UBER_COMPRESSION = 10, MZ_DEFAULT_LEVEL = 6, MZ_DEFAULT_COMPRESSION = -1 };
 
 // Window bits
-#define MZ_DEFAULT_WINDOW_BITS 15
+#घोषणा MZ_DEFAULT_WINDOW_BITS 15
 
-struct mz_internal_state;
+काष्ठा mz_internal_state;
 
 // Compression/decompression stream struct.
-typedef struct mz_stream_s
+प्रकार काष्ठा mz_stream_s
 {
-  const unsigned char *next_in;     // pointer to next byte to read
-  unsigned int avail_in;            // number of bytes available at next_in
-  mz_ulong total_in;                // total number of bytes consumed so far
+  स्थिर अचिन्हित अक्षर *अग्र_in;     // pointer to next byte to read
+  अचिन्हित पूर्णांक avail_in;            // number of bytes available at next_in
+  mz_ulong योग_in;                // total number of bytes consumed so far
 
-  unsigned char *next_out;          // pointer to next byte to write
-  unsigned int avail_out;           // number of bytes that can be written to next_out
-  mz_ulong total_out;               // total number of bytes produced so far
+  अचिन्हित अक्षर *अग्र_out;          // pointer to next byte to write
+  अचिन्हित पूर्णांक avail_out;           // number of bytes that can be written to next_out
+  mz_ulong योग_out;               // total number of bytes produced so far
 
-  char *msg;                        // error msg (unused)
-  struct mz_internal_state *state;  // internal state, allocated by zalloc/zfree
+  अक्षर *संदेश;                        // error msg (unused)
+  काष्ठा mz_internal_state *state;  // internal state, allocated by zalloc/zfree
 
   mz_alloc_func zalloc;             // optional heap allocation function (defaults to malloc)
   mz_free_func zfree;               // optional heap free function (defaults to free)
-  void *opaque;                     // heap alloc function user pointer
+  व्योम *opaque;                     // heap alloc function user pointer
 
-  int data_type;                    // data_type (unused)
+  पूर्णांक तथ्य_type;                    // data_type (unused)
   mz_ulong adler;                   // adler32 of the source or uncompressed data
   mz_ulong reserved;                // not used
 } mz_stream;
 
-typedef mz_stream *mz_streamp;
+प्रकार mz_stream *mz_streamp;
 
 // Returns the version string of miniz.c.
-MINIZ_STATIC const char *mz_version(void);
+MINIZ_STATIC स्थिर अक्षर *mz_version(व्योम);
 
-#ifndef MINIZ_NO_DEFLATE_APIS
+#अगर_अघोषित MINIZ_NO_DEFLATE_APIS
 
 // mz_deflateInit() initializes a compressor with default options:
 // Parameters:
@@ -344,17 +344,17 @@ MINIZ_STATIC const char *mz_version(void);
 //  MZ_STREAM_ERROR if the stream is bogus.
 //  MZ_PARAM_ERROR if the input parameters are bogus.
 //  MZ_MEM_ERROR on out of memory.
-MINIZ_STATIC int mz_deflateInit(mz_streamp pStream, int level);
+MINIZ_STATIC पूर्णांक mz_deflateInit(mz_streamp pStream, पूर्णांक level);
 
 // mz_deflateInit2() is like mz_deflate(), except with more control:
 // Additional parameters:
 //   method must be MZ_DEFLATED
 //   window_bits must be MZ_DEFAULT_WINDOW_BITS (to wrap the deflate stream with zlib header/adler-32 footer) or -MZ_DEFAULT_WINDOW_BITS (raw deflate/no header or footer)
 //   mem_level must be between [1, 9] (it's checked but ignored by miniz.c)
-MINIZ_STATIC int mz_deflateInit2(mz_streamp pStream, int level, int method, int window_bits, int mem_level, int strategy);
+MINIZ_STATIC पूर्णांक mz_deflateInit2(mz_streamp pStream, पूर्णांक level, पूर्णांक method, पूर्णांक window_bits, पूर्णांक mem_level, पूर्णांक strategy);
 
 // Quickly resets a compressor without having to reallocate anything. Same as calling mz_deflateEnd() followed by mz_deflateInit()/mz_deflateInit2().
-MINIZ_STATIC int mz_deflateReset(mz_streamp pStream);
+MINIZ_STATIC पूर्णांक mz_deflateReset(mz_streamp pStream);
 
 // mz_deflate() compresses the input to output, consuming as much of the input and producing as much output as possible.
 // Parameters:
@@ -366,35 +366,35 @@ MINIZ_STATIC int mz_deflateReset(mz_streamp pStream);
 //   MZ_STREAM_ERROR if the stream is bogus.
 //   MZ_PARAM_ERROR if one of the parameters is invalid.
 //   MZ_BUF_ERROR if no forward progress is possible because the input and/or output buffers are empty. (Fill up the input buffer or free up some output space and try again.)
-MINIZ_STATIC int mz_deflate(mz_streamp pStream, int flush);
+MINIZ_STATIC पूर्णांक mz_deflate(mz_streamp pStream, पूर्णांक flush);
 
 // mz_deflateEnd() deinitializes a compressor:
 // Return values:
 //  MZ_OK on success.
 //  MZ_STREAM_ERROR if the stream is bogus.
-MINIZ_STATIC int mz_deflateEnd(mz_streamp pStream);
+MINIZ_STATIC पूर्णांक mz_deflateEnd(mz_streamp pStream);
 
 // mz_deflateBound() returns a (very) conservative upper bound on the amount of data that could be generated by deflate(), assuming flush is set to only MZ_NO_FLUSH or MZ_FINISH.
 MINIZ_STATIC mz_ulong mz_deflateBound(mz_streamp pStream, mz_ulong source_len);
 
 // Single-call compression functions mz_compress() and mz_compress2():
 // Returns MZ_OK on success, or one of the error codes from mz_deflate() on failure.
-MINIZ_STATIC int mz_compress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len);
-MINIZ_STATIC int mz_compress2(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len, int level);
+MINIZ_STATIC पूर्णांक mz_compress(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len);
+MINIZ_STATIC पूर्णांक mz_compress2(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len, पूर्णांक level);
 
 // mz_compressBound() returns a (very) conservative upper bound on the amount of data that could be generated by calling mz_compress().
 MINIZ_STATIC mz_ulong mz_compressBound(mz_ulong source_len);
 
-#endif /*#ifndef MINIZ_NO_DEFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_DEFLATE_APIS*/
 
-#ifndef MINIZ_NO_INFLATE_APIS
+#अगर_अघोषित MINIZ_NO_INFLATE_APIS
 
 // Initializes a decompressor.
-MINIZ_STATIC int mz_inflateInit(mz_streamp pStream);
+MINIZ_STATIC पूर्णांक mz_inflateInit(mz_streamp pStream);
 
 // mz_inflateInit2() is like mz_inflateInit() with an additional option that controls the window size and whether or not the stream has been wrapped with a zlib header/footer:
 // window_bits must be MZ_DEFAULT_WINDOW_BITS (to parse zlib header/footer) or -MZ_DEFAULT_WINDOW_BITS (raw deflate).
-MINIZ_STATIC int mz_inflateInit2(mz_streamp pStream, int window_bits);
+MINIZ_STATIC पूर्णांक mz_inflateInit2(mz_streamp pStream, पूर्णांक window_bits);
 
 // Decompresses the input stream to the output, consuming only as much of the input as needed, and writing as much to the output as possible.
 // Parameters:
@@ -410,162 +410,162 @@ MINIZ_STATIC int mz_inflateInit2(mz_streamp pStream, int window_bits);
 //   MZ_PARAM_ERROR if one of the parameters is invalid.
 //   MZ_BUF_ERROR if no forward progress is possible because the input buffer is empty but the inflater needs more input to continue, or if the output buffer is not large enough. Call mz_inflate() again
 //   with more input data, or with more room in the output buffer (except when using single call decompression, described above).
-MINIZ_STATIC int mz_inflate(mz_streamp pStream, int flush);
+MINIZ_STATIC पूर्णांक mz_inflate(mz_streamp pStream, पूर्णांक flush);
 
 // Deinitializes a decompressor.
-MINIZ_STATIC int mz_inflateEnd(mz_streamp pStream);
+MINIZ_STATIC पूर्णांक mz_inflateEnd(mz_streamp pStream);
 
 // Single-call decompression.
 // Returns MZ_OK on success, or one of the error codes from mz_inflate() on failure.
-MINIZ_STATIC int mz_uncompress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len);
-#endif /*#ifndef MINIZ_NO_INFLATE_APIS*/
+MINIZ_STATIC पूर्णांक mz_uncompress(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len);
+#पूर्ण_अगर /*#ifndef MINIZ_NO_INFLATE_APIS*/
 
 // Returns a string description of the specified error code, or NULL if the error code is invalid.
-MINIZ_STATIC const char *mz_error(int err);
+MINIZ_STATIC स्थिर अक्षर *mz_error(पूर्णांक err);
 
 // Redefine zlib-compatible names to miniz equivalents, so miniz.c can be used as a drop-in replacement for the subset of zlib that miniz.c supports.
 // Define MINIZ_NO_ZLIB_COMPATIBLE_NAMES to disable zlib-compatibility if you use zlib in the same project.
-#ifndef MINIZ_NO_ZLIB_COMPATIBLE_NAMES
-  typedef unsigned char Byte;
-  typedef unsigned int uInt;
-  typedef mz_ulong uLong;
-  typedef Byte Bytef;
-  typedef uInt uIntf;
-  typedef char charf;
-  typedef int intf;
-  typedef void *voidpf;
-  typedef uLong uLongf;
-  typedef void *voidp;
-  typedef void *const voidpc;
-  #define Z_NULL                0
-  #define Z_NO_FLUSH            MZ_NO_FLUSH
-  #define Z_PARTIAL_FLUSH       MZ_PARTIAL_FLUSH
-  #define Z_SYNC_FLUSH          MZ_SYNC_FLUSH
-  #define Z_FULL_FLUSH          MZ_FULL_FLUSH
-  #define Z_FINISH              MZ_FINISH
-  #define Z_BLOCK               MZ_BLOCK
-  #define Z_OK                  MZ_OK
-  #define Z_STREAM_END          MZ_STREAM_END
-  #define Z_NEED_DICT           MZ_NEED_DICT
-  #define Z_ERRNO               MZ_ERRNO
-  #define Z_STREAM_ERROR        MZ_STREAM_ERROR
-  #define Z_DATA_ERROR          MZ_DATA_ERROR
-  #define Z_MEM_ERROR           MZ_MEM_ERROR
-  #define Z_BUF_ERROR           MZ_BUF_ERROR
-  #define Z_VERSION_ERROR       MZ_VERSION_ERROR
-  #define Z_PARAM_ERROR         MZ_PARAM_ERROR
-  #define Z_NO_COMPRESSION      MZ_NO_COMPRESSION
-  #define Z_BEST_SPEED          MZ_BEST_SPEED
-  #define Z_BEST_COMPRESSION    MZ_BEST_COMPRESSION
-  #define Z_DEFAULT_COMPRESSION MZ_DEFAULT_COMPRESSION
-  #define Z_DEFAULT_STRATEGY    MZ_DEFAULT_STRATEGY
-  #define Z_FILTERED            MZ_FILTERED
-  #define Z_HUFFMAN_ONLY        MZ_HUFFMAN_ONLY
-  #define Z_RLE                 MZ_RLE
-  #define Z_FIXED               MZ_FIXED
-  #define Z_DEFLATED            MZ_DEFLATED
-  #define Z_DEFAULT_WINDOW_BITS MZ_DEFAULT_WINDOW_BITS
-  #define alloc_func            mz_alloc_func
-  #define free_func             mz_free_func
-  #define internal_state        mz_internal_state
-  #define z_stream              mz_stream
-#ifndef MINIZ_NO_DEFLATE_APIS
-  #define deflateInit           mz_deflateInit
-  #define deflateInit2          mz_deflateInit2
-  #define deflateReset          mz_deflateReset
-  #define deflate               mz_deflate
-  #define deflateEnd            mz_deflateEnd
-  #define deflateBound          mz_deflateBound
-  #define compress              mz_compress
-  #define compress2             mz_compress2
-  #define compressBound         mz_compressBound
-#endif /*#ifndef MINIZ_NO_DEFLATE_APIS*/
+#अगर_अघोषित MINIZ_NO_ZLIB_COMPATIBLE_NAMES
+  प्रकार अचिन्हित अक्षर Byte;
+  प्रकार अचिन्हित पूर्णांक uInt;
+  प्रकार mz_ulong uLong;
+  प्रकार Byte Bytef;
+  प्रकार uInt uIntf;
+  प्रकार अक्षर charf;
+  प्रकार पूर्णांक intf;
+  प्रकार व्योम *voidpf;
+  प्रकार uLong uLongf;
+  प्रकार व्योम *voidp;
+  प्रकार व्योम *स्थिर voidpc;
+  #घोषणा Z_NULL                0
+  #घोषणा Z_NO_FLUSH            MZ_NO_FLUSH
+  #घोषणा Z_PARTIAL_FLUSH       MZ_PARTIAL_FLUSH
+  #घोषणा Z_SYNC_FLUSH          MZ_SYNC_FLUSH
+  #घोषणा Z_FULL_FLUSH          MZ_FULL_FLUSH
+  #घोषणा Z_FINISH              MZ_FINISH
+  #घोषणा Z_BLOCK               MZ_BLOCK
+  #घोषणा Z_OK                  MZ_OK
+  #घोषणा Z_STREAM_END          MZ_STREAM_END
+  #घोषणा Z_NEED_DICT           MZ_NEED_DICT
+  #घोषणा Z_ERRNO               MZ_ERRNO
+  #घोषणा Z_STREAM_ERROR        MZ_STREAM_ERROR
+  #घोषणा Z_तथ्य_ERROR          MZ_तथ्य_ERROR
+  #घोषणा Z_MEM_ERROR           MZ_MEM_ERROR
+  #घोषणा Z_BUF_ERROR           MZ_BUF_ERROR
+  #घोषणा Z_VERSION_ERROR       MZ_VERSION_ERROR
+  #घोषणा Z_PARAM_ERROR         MZ_PARAM_ERROR
+  #घोषणा Z_NO_COMPRESSION      MZ_NO_COMPRESSION
+  #घोषणा Z_BEST_SPEED          MZ_BEST_SPEED
+  #घोषणा Z_BEST_COMPRESSION    MZ_BEST_COMPRESSION
+  #घोषणा Z_DEFAULT_COMPRESSION MZ_DEFAULT_COMPRESSION
+  #घोषणा Z_DEFAULT_STRATEGY    MZ_DEFAULT_STRATEGY
+  #घोषणा Z_FILTERED            MZ_FILTERED
+  #घोषणा Z_HUFFMAN_ONLY        MZ_HUFFMAN_ONLY
+  #घोषणा Z_RLE                 MZ_RLE
+  #घोषणा Z_FIXED               MZ_FIXED
+  #घोषणा Z_DEFLATED            MZ_DEFLATED
+  #घोषणा Z_DEFAULT_WINDOW_BITS MZ_DEFAULT_WINDOW_BITS
+  #घोषणा alloc_func            mz_alloc_func
+  #घोषणा free_func             mz_free_func
+  #घोषणा internal_state        mz_internal_state
+  #घोषणा z_stream              mz_stream
+#अगर_अघोषित MINIZ_NO_DEFLATE_APIS
+  #घोषणा deflateInit           mz_deflateInit
+  #घोषणा deflateInit2          mz_deflateInit2
+  #घोषणा deflateReset          mz_deflateReset
+  #घोषणा deflate               mz_deflate
+  #घोषणा deflateEnd            mz_deflateEnd
+  #घोषणा deflateBound          mz_deflateBound
+  #घोषणा compress              mz_compress
+  #घोषणा compress2             mz_compress2
+  #घोषणा compressBound         mz_compressBound
+#पूर्ण_अगर /*#ifndef MINIZ_NO_DEFLATE_APIS*/
 
-#ifndef MINIZ_NO_INFLATE_APIS
-  #define inflateInit           mz_inflateInit
-  #define inflateInit2          mz_inflateInit2
-  #define inflate               mz_inflate
-  #define inflateEnd            mz_inflateEnd
-  #define uncompress            mz_uncompress
-#endif /*#ifndef MINIZ_NO_INFLATE_APIS*/
-  #define crc32                 mz_crc32
-  #define adler32               mz_adler32
-  #define MAX_WBITS             15
-  #define MAX_MEM_LEVEL         9
-  #define zError                mz_error
-  #define ZLIB_VERSION          MZ_VERSION
-  #define ZLIB_VERNUM           MZ_VERNUM
-  #define ZLIB_VER_MAJOR        MZ_VER_MAJOR
-  #define ZLIB_VER_MINOR        MZ_VER_MINOR
-  #define ZLIB_VER_REVISION     MZ_VER_REVISION
-  #define ZLIB_VER_SUBREVISION  MZ_VER_SUBREVISION
-  #define zlibVersion           mz_version
-  #define zlib_version          mz_version()
-#endif // #ifndef MINIZ_NO_ZLIB_COMPATIBLE_NAMES
+#अगर_अघोषित MINIZ_NO_INFLATE_APIS
+  #घोषणा inflateInit           mz_inflateInit
+  #घोषणा inflateInit2          mz_inflateInit2
+  #घोषणा inflate               mz_inflate
+  #घोषणा inflateEnd            mz_inflateEnd
+  #घोषणा uncompress            mz_uncompress
+#पूर्ण_अगर /*#ifndef MINIZ_NO_INFLATE_APIS*/
+  #घोषणा crc32                 mz_crc32
+  #घोषणा adler32               mz_adler32
+  #घोषणा MAX_WBITS             15
+  #घोषणा MAX_MEM_LEVEL         9
+  #घोषणा zError                mz_error
+  #घोषणा ZLIB_VERSION          MZ_VERSION
+  #घोषणा ZLIB_VERNUM           MZ_VERNUM
+  #घोषणा ZLIB_VER_MAJOR        MZ_VER_MAJOR
+  #घोषणा ZLIB_VER_MINOR        MZ_VER_MINOR
+  #घोषणा ZLIB_VER_REVISION     MZ_VER_REVISION
+  #घोषणा ZLIB_VER_SUBREVISION  MZ_VER_SUBREVISION
+  #घोषणा zlibVersion           mz_version
+  #घोषणा zlib_version          mz_version()
+#पूर्ण_अगर // #ifndef MINIZ_NO_ZLIB_COMPATIBLE_NAMES
 
-#endif // MINIZ_NO_ZLIB_APIS
+#पूर्ण_अगर // MINIZ_NO_ZLIB_APIS
 
 // ------------------- Types and macros
 
-typedef unsigned char mz_uint8;
-typedef signed short mz_int16;
-typedef unsigned short mz_uint16;
-typedef unsigned int mz_uint32;
-typedef unsigned int mz_uint;
-typedef long long mz_int64;
-typedef unsigned long long mz_uint64;
-typedef int mz_bool;
+प्रकार अचिन्हित अक्षर mz_uint8;
+प्रकार चिन्हित लघु mz_int16;
+प्रकार अचिन्हित लघु mz_uint16;
+प्रकार अचिन्हित पूर्णांक mz_uint32;
+प्रकार अचिन्हित पूर्णांक mz_uint;
+प्रकार दीर्घ दीर्घ mz_int64;
+प्रकार अचिन्हित दीर्घ दीर्घ mz_uint64;
+प्रकार पूर्णांक mz_bool;
 
-#define MZ_FALSE (0)
-#define MZ_TRUE (1)
+#घोषणा MZ_FALSE (0)
+#घोषणा MZ_TRUE (1)
 
 // An attempt to work around MSVC's spammy "warning C4127: conditional expression is constant" message.
-#ifdef _MSC_VER
-   #define MZ_MACRO_END while (0, 0)
-#else
-   #define MZ_MACRO_END while (0)
-#endif
+#अगर_घोषित _MSC_VER
+   #घोषणा MZ_MACRO_END जबतक (0, 0)
+#अन्यथा
+   #घोषणा MZ_MACRO_END जबतक (0)
+#पूर्ण_अगर
 
 // ------------------- ZIP archive reading/writing
 
-#ifndef MINIZ_NO_ARCHIVE_APIS
+#अगर_अघोषित MINIZ_NO_ARCHIVE_APIS
 
-enum
+क्रमागत
 {
-  MZ_ZIP_MAX_IO_BUF_SIZE = 64*1024,
-  MZ_ZIP_MAX_ARCHIVE_FILENAME_SIZE = 260,
-  MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_SIZE = 256
+  MZ_ZIP_MAX_IO_BUF_आकार = 64*1024,
+  MZ_ZIP_MAX_ARCHIVE_FILENAME_आकार = 260,
+  MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_आकार = 256
 };
 
-typedef struct
+प्रकार काष्ठा
 {
-  mz_uint32 m_file_index;
+  mz_uint32 m_file_सूचकांक;
   mz_uint32 m_central_dir_ofs;
   mz_uint16 m_version_made_by;
   mz_uint16 m_version_needed;
   mz_uint16 m_bit_flag;
   mz_uint16 m_method;
-#ifndef MINIZ_NO_TIME
-  time_t m_time;
-#endif
+#अगर_अघोषित MINIZ_NO_TIME
+  समय_प्रकार m_time;
+#पूर्ण_अगर
   mz_uint32 m_crc32;
-  mz_uint64 m_comp_size;
-  mz_uint64 m_uncomp_size;
+  mz_uint64 m_comp_आकार;
+  mz_uint64 m_uncomp_आकार;
   mz_uint16 m_internal_attr;
   mz_uint32 m_external_attr;
   mz_uint64 m_local_header_ofs;
-  mz_uint32 m_comment_size;
-  char m_filename[MZ_ZIP_MAX_ARCHIVE_FILENAME_SIZE];
-  char m_comment[MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_SIZE];
+  mz_uint32 m_comment_आकार;
+  अक्षर m_filename[MZ_ZIP_MAX_ARCHIVE_FILENAME_आकार];
+  अक्षर m_comment[MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_आकार];
 } mz_zip_archive_file_stat;
 
-typedef size_t (*mz_file_read_func)(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n);
-typedef size_t (*mz_file_write_func)(void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n);
+प्रकार माप_प्रकार (*mz_file_read_func)(व्योम *pOpaque, mz_uint64 file_ofs, व्योम *pBuf, माप_प्रकार n);
+प्रकार माप_प्रकार (*mz_file_write_func)(व्योम *pOpaque, mz_uint64 file_ofs, स्थिर व्योम *pBuf, माप_प्रकार n);
 
-struct mz_zip_internal_state_tag;
-typedef struct mz_zip_internal_state_tag mz_zip_internal_state;
+काष्ठा mz_zip_internal_state_tag;
+प्रकार काष्ठा mz_zip_internal_state_tag mz_zip_internal_state;
 
-typedef enum
+प्रकार क्रमागत
 {
   MZ_ZIP_MODE_INVALID = 0,
   MZ_ZIP_MODE_READING = 1,
@@ -573,11 +573,11 @@ typedef enum
   MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED = 3
 } mz_zip_mode;
 
-typedef struct mz_zip_archive_tag
+प्रकार काष्ठा mz_zip_archive_tag
 {
-  mz_uint64 m_archive_size;
+  mz_uint64 m_archive_आकार;
   mz_uint64 m_central_directory_file_ofs;
-  mz_uint m_total_files;
+  mz_uint m_योग_files;
   mz_zip_mode m_zip_mode;
 
   mz_uint m_file_offset_alignment;
@@ -585,21 +585,21 @@ typedef struct mz_zip_archive_tag
   mz_alloc_func m_pAlloc;
   mz_free_func m_pFree;
   mz_realloc_func m_pRealloc;
-  void *m_pAlloc_opaque;
+  व्योम *m_pAlloc_opaque;
 
   mz_file_read_func m_pRead;
   mz_file_write_func m_pWrite;
-  void *m_pIO_opaque;
+  व्योम *m_pIO_opaque;
 
   mz_zip_internal_state *m_pState;
 
 } mz_zip_archive;
 
-typedef enum
+प्रकार क्रमागत
 {
   MZ_ZIP_FLAG_CASE_SENSITIVE                = 0x0100,
   MZ_ZIP_FLAG_IGNORE_PATH                   = 0x0200,
-  MZ_ZIP_FLAG_COMPRESSED_DATA               = 0x0400,
+  MZ_ZIP_FLAG_COMPRESSED_तथ्य               = 0x0400,
   MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY = 0x0800
 } mz_zip_flags;
 
@@ -607,69 +607,69 @@ typedef enum
 
 // Inits a ZIP archive reader.
 // These functions read and validate the archive's central directory.
-MINIZ_STATIC mz_bool mz_zip_reader_init(mz_zip_archive *pZip, mz_uint64 size, mz_uint32 flags);
-MINIZ_STATIC mz_bool mz_zip_reader_init_mem(mz_zip_archive *pZip, const void *pMem, size_t size, mz_uint32 flags);
+MINIZ_STATIC mz_bool mz_zip_reader_init(mz_zip_archive *pZip, mz_uint64 आकार, mz_uint32 flags);
+MINIZ_STATIC mz_bool mz_zip_reader_init_mem(mz_zip_archive *pZip, स्थिर व्योम *pMem, माप_प्रकार आकार, mz_uint32 flags);
 
-#ifndef MINIZ_NO_STDIO
-MINIZ_STATIC mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint32 flags);
-#endif
+#अगर_अघोषित MINIZ_NO_STDIO
+MINIZ_STATIC mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_uint32 flags);
+#पूर्ण_अगर
 
 // Returns the total number of files in the archive.
-MINIZ_STATIC mz_uint mz_zip_reader_get_num_files(mz_zip_archive *pZip);
+MINIZ_STATIC mz_uint mz_zip_reader_get_अंक_files(mz_zip_archive *pZip);
 
 // Returns detailed information about an archive file entry.
-MINIZ_STATIC mz_bool mz_zip_reader_file_stat(mz_zip_archive *pZip, mz_uint file_index, mz_zip_archive_file_stat *pStat);
+MINIZ_STATIC mz_bool mz_zip_reader_file_stat(mz_zip_archive *pZip, mz_uint file_सूचकांक, mz_zip_archive_file_stat *pStat);
 
 // Determines if an archive file entry is a directory entry.
-MINIZ_STATIC mz_bool mz_zip_reader_is_file_a_directory(mz_zip_archive *pZip, mz_uint file_index);
-MINIZ_STATIC mz_bool mz_zip_reader_is_file_encrypted(mz_zip_archive *pZip, mz_uint file_index);
+MINIZ_STATIC mz_bool mz_zip_reader_is_file_a_directory(mz_zip_archive *pZip, mz_uint file_सूचकांक);
+MINIZ_STATIC mz_bool mz_zip_reader_is_file_encrypted(mz_zip_archive *pZip, mz_uint file_सूचकांक);
 
 // Retrieves the filename of an archive file entry.
 // Returns the number of bytes written to pFilename, or if filename_buf_size is 0 this function returns the number of bytes needed to fully store the filename.
-MINIZ_STATIC mz_uint mz_zip_reader_get_filename(mz_zip_archive *pZip, mz_uint file_index, char *pFilename, mz_uint filename_buf_size);
+MINIZ_STATIC mz_uint mz_zip_reader_get_filename(mz_zip_archive *pZip, mz_uint file_सूचकांक, अक्षर *pFilename, mz_uint filename_buf_आकार);
 
 // Attempts to locates a file in the archive's central directory.
 // Valid flags: MZ_ZIP_FLAG_CASE_SENSITIVE, MZ_ZIP_FLAG_IGNORE_PATH
 // Returns -1 if the file cannot be found.
-MINIZ_STATIC int mz_zip_reader_locate_file(mz_zip_archive *pZip, const char *pName, const char *pComment, mz_uint flags);
+MINIZ_STATIC पूर्णांक mz_zip_reader_locate_file(mz_zip_archive *pZip, स्थिर अक्षर *pName, स्थिर अक्षर *pComment, mz_uint flags);
 
 // Extracts a archive file to a memory buffer using no memory allocation.
-MINIZ_STATIC mz_bool mz_zip_reader_extract_to_mem_no_alloc(mz_zip_archive *pZip, mz_uint file_index, void *pBuf, size_t buf_size, mz_uint flags, void *pUser_read_buf, size_t user_read_buf_size);
-MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_mem_no_alloc(mz_zip_archive *pZip, const char *pFilename, void *pBuf, size_t buf_size, mz_uint flags, void *pUser_read_buf, size_t user_read_buf_size);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_to_mem_no_alloc(mz_zip_archive *pZip, mz_uint file_सूचकांक, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags, व्योम *pUser_read_buf, माप_प्रकार user_read_buf_आकार);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_mem_no_alloc(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags, व्योम *pUser_read_buf, माप_प्रकार user_read_buf_आकार);
 
 // Extracts a archive file to a memory buffer.
-MINIZ_STATIC mz_bool mz_zip_reader_extract_to_mem(mz_zip_archive *pZip, mz_uint file_index, void *pBuf, size_t buf_size, mz_uint flags);
-MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_mem(mz_zip_archive *pZip, const char *pFilename, void *pBuf, size_t buf_size, mz_uint flags);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_to_mem(mz_zip_archive *pZip, mz_uint file_सूचकांक, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_mem(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags);
 
 // Extracts a archive file to a dynamically allocated heap buffer.
-MINIZ_STATIC void *mz_zip_reader_extract_to_heap(mz_zip_archive *pZip, mz_uint file_index, size_t *pSize, mz_uint flags);
-MINIZ_STATIC void *mz_zip_reader_extract_file_to_heap(mz_zip_archive *pZip, const char *pFilename, size_t *pSize, mz_uint flags);
+MINIZ_STATIC व्योम *mz_zip_reader_extract_to_heap(mz_zip_archive *pZip, mz_uint file_सूचकांक, माप_प्रकार *p_आकार, mz_uint flags);
+MINIZ_STATIC व्योम *mz_zip_reader_extract_file_to_heap(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, माप_प्रकार *p_आकार, mz_uint flags);
 
 // Extracts a archive file using a callback function to output the file's data.
-MINIZ_STATIC mz_bool mz_zip_reader_extract_to_callback(mz_zip_archive *pZip, mz_uint file_index, mz_file_write_func pCallback, void *pOpaque, mz_uint flags);
-MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_callback(mz_zip_archive *pZip, const char *pFilename, mz_file_write_func pCallback, void *pOpaque, mz_uint flags);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_to_callback(mz_zip_archive *pZip, mz_uint file_सूचकांक, mz_file_write_func pCallback, व्योम *pOpaque, mz_uint flags);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_callback(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_file_write_func pCallback, व्योम *pOpaque, mz_uint flags);
 
-#ifndef MINIZ_NO_STDIO
+#अगर_अघोषित MINIZ_NO_STDIO
 // Extracts a archive file to a disk file and sets its last accessed and modified times.
 // This function only extracts files, not archive directory records.
-MINIZ_STATIC mz_bool mz_zip_reader_extract_to_file(mz_zip_archive *pZip, mz_uint file_index, const char *pDst_filename, mz_uint flags);
-MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_file(mz_zip_archive *pZip, const char *pArchive_filename, const char *pDst_filename, mz_uint flags);
-#endif
+MINIZ_STATIC mz_bool mz_zip_reader_extract_to_file(mz_zip_archive *pZip, mz_uint file_सूचकांक, स्थिर अक्षर *pDst_filename, mz_uint flags);
+MINIZ_STATIC mz_bool mz_zip_reader_extract_file_to_file(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_filename, स्थिर अक्षर *pDst_filename, mz_uint flags);
+#पूर्ण_अगर
 
 // Ends archive reading, freeing all allocations, and closing the input archive file if mz_zip_reader_init_file() was used.
 MINIZ_STATIC mz_bool mz_zip_reader_end(mz_zip_archive *pZip);
 
 // ZIP archive writing
 
-#ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
+#अगर_अघोषित MINIZ_NO_ARCHIVE_WRITING_APIS
 
 // Inits a ZIP archive writer.
-MINIZ_STATIC mz_bool mz_zip_writer_init(mz_zip_archive *pZip, mz_uint64 existing_size);
-MINIZ_STATIC mz_bool mz_zip_writer_init_heap(mz_zip_archive *pZip, size_t size_to_reserve_at_beginning, size_t initial_allocation_size);
+MINIZ_STATIC mz_bool mz_zip_writer_init(mz_zip_archive *pZip, mz_uint64 existing_आकार);
+MINIZ_STATIC mz_bool mz_zip_writer_init_heap(mz_zip_archive *pZip, माप_प्रकार आकार_to_reserve_at_beginning, माप_प्रकार initial_allocation_आकार);
 
-#ifndef MINIZ_NO_STDIO
-MINIZ_STATIC mz_bool mz_zip_writer_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint64 size_to_reserve_at_beginning);
-#endif
+#अगर_अघोषित MINIZ_NO_STDIO
+MINIZ_STATIC mz_bool mz_zip_writer_init_file(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_uint64 आकार_to_reserve_at_beginning);
+#पूर्ण_अगर
 
 // Converts a ZIP archive reader object into a writer object, to allow efficient in-place file appends to occur on an existing archive.
 // For archives opened using mz_zip_reader_init_file, pFilename must be the archive's filename so it can be reopened for writing. If the file can't be reopened, mz_zip_reader_end() will be called.
@@ -677,29 +677,29 @@ MINIZ_STATIC mz_bool mz_zip_writer_init_file(mz_zip_archive *pZip, const char *p
 // Finally, for archives opened using mz_zip_reader_init, the mz_zip_archive's user provided m_pWrite function cannot be NULL.
 // Note: In-place archive modification is not recommended unless you know what you're doing, because if execution stops or something goes wrong before
 // the archive is finalized the file's central directory will be hosed.
-MINIZ_STATIC mz_bool mz_zip_writer_init_from_reader(mz_zip_archive *pZip, const char *pFilename);
+MINIZ_STATIC mz_bool mz_zip_writer_init_from_reader(mz_zip_archive *pZip, स्थिर अक्षर *pFilename);
 
 // Adds the contents of a memory buffer to an archive. These functions record the current local time into the archive.
 // To add a directory entry, call this method with an archive name ending in a forwardslash with empty buffer.
 // level_and_flags - compression level (0-10, see MZ_BEST_SPEED, MZ_BEST_COMPRESSION, etc.) logically OR'd with zero or more mz_zip_flags, or just set to MZ_DEFAULT_COMPRESSION.
-MINIZ_STATIC mz_bool mz_zip_writer_add_mem(mz_zip_archive *pZip, const char *pArchive_name, const void *pBuf, size_t buf_size, mz_uint level_and_flags);
-MINIZ_STATIC mz_bool mz_zip_writer_add_mem_ex(mz_zip_archive *pZip, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags, mz_uint64 uncomp_size, mz_uint32 uncomp_crc32);
+MINIZ_STATIC mz_bool mz_zip_writer_add_mem(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint level_and_flags);
+MINIZ_STATIC mz_bool mz_zip_writer_add_mem_ex(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags, mz_uint64 uncomp_आकार, mz_uint32 uncomp_crc32);
 
-#ifndef MINIZ_NO_STDIO
+#अगर_अघोषित MINIZ_NO_STDIO
 // Adds the contents of a disk file to an archive. This function also records the disk file's modified time into the archive.
 // level_and_flags - compression level (0-10, see MZ_BEST_SPEED, MZ_BEST_COMPRESSION, etc.) logically OR'd with zero or more mz_zip_flags, or just set to MZ_DEFAULT_COMPRESSION.
-MINIZ_STATIC mz_bool mz_zip_writer_add_file(mz_zip_archive *pZip, const char *pArchive_name, const char *pSrc_filename, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags);
-#endif
+MINIZ_STATIC mz_bool mz_zip_writer_add_file(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर अक्षर *pSrc_filename, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags);
+#पूर्ण_अगर
 
 // Adds a file to an archive by fully cloning the data from another archive.
 // This function fully clones the source file's compressed data (no recompression), along with its full filename, extra data, and comment fields.
-MINIZ_STATIC mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *pSource_zip, mz_uint file_index);
+MINIZ_STATIC mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *pSource_zip, mz_uint file_सूचकांक);
 
 // Finalizes the archive by writing the central directory records followed by the end of central directory record.
 // After an archive is finalized, the only valid call on the mz_zip_archive struct is mz_zip_writer_end().
 // An archive must be manually finalized by calling this function for it to be valid.
 MINIZ_STATIC mz_bool mz_zip_writer_finalize_archive(mz_zip_archive *pZip);
-MINIZ_STATIC mz_bool mz_zip_writer_finalize_heap_archive(mz_zip_archive *pZip, void **pBuf, size_t *pSize);
+MINIZ_STATIC mz_bool mz_zip_writer_finalize_heap_archive(mz_zip_archive *pZip, व्योम **pBuf, माप_प्रकार *p_आकार);
 
 // Ends archive writing, freeing all allocations, and closing the output file if mz_zip_writer_init_file() was used.
 // Note for the archive to be valid, it must have been finalized before ending.
@@ -709,28 +709,28 @@ MINIZ_STATIC mz_bool mz_zip_writer_end(mz_zip_archive *pZip);
 
 // mz_zip_add_mem_to_archive_file_in_place() efficiently (but not atomically) appends a memory blob to a ZIP archive.
 // level_and_flags - compression level (0-10, see MZ_BEST_SPEED, MZ_BEST_COMPRESSION, etc.) logically OR'd with zero or more mz_zip_flags, or just set to MZ_DEFAULT_COMPRESSION.
-MINIZ_STATIC mz_bool mz_zip_add_mem_to_archive_file_in_place(const char *pZip_filename, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags);
+MINIZ_STATIC mz_bool mz_zip_add_mem_to_archive_file_in_place(स्थिर अक्षर *pZip_filename, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags);
 
 // Reads a single file from an archive into a heap block.
 // Returns NULL on failure.
-MINIZ_STATIC void *mz_zip_extract_archive_file_to_heap(const char *pZip_filename, const char *pArchive_name, size_t *pSize, mz_uint zip_flags);
+MINIZ_STATIC व्योम *mz_zip_extract_archive_file_to_heap(स्थिर अक्षर *pZip_filename, स्थिर अक्षर *pArchive_name, माप_प्रकार *p_आकार, mz_uint zip_flags);
 
-#endif // #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
+#पूर्ण_अगर // #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
 
-#endif // #ifndef MINIZ_NO_ARCHIVE_APIS
+#पूर्ण_अगर // #ifndef MINIZ_NO_ARCHIVE_APIS
 
 // ------------------- Low-level Decompression API Definitions
-#ifndef MINIZ_NO_INFLATE_APIS
+#अगर_अघोषित MINIZ_NO_INFLATE_APIS
 
 // Decompression flags used by tinfl_decompress().
 // TINFL_FLAG_PARSE_ZLIB_HEADER: If set, the input has a valid zlib header and ends with an adler32 checksum (it's a valid zlib stream). Otherwise, the input is a raw deflate stream.
 // TINFL_FLAG_HAS_MORE_INPUT: If set, there are more input bytes available beyond the end of the supplied input buffer. If clear, the input buffer contains all remaining input.
 // TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF: If set, the output buffer is large enough to hold the entire decompressed stream. If clear, the output buffer is at least the size of the dictionary (typically 32KB).
 // TINFL_FLAG_COMPUTE_ADLER32: Force adler-32 checksum computation of the decompressed bytes.
-enum
+क्रमागत
 {
   TINFL_FLAG_PARSE_ZLIB_HEADER = 1,
-  TINFL_FLAG_HAS_MORE_INPUT = 2,
+  TINFL_FLAG_HAS_MORE_निवेश = 2,
   TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF = 4,
   TINFL_FLAG_COMPUTE_ADLER32 = 8
 };
@@ -743,86 +743,86 @@ enum
 //  Function returns a pointer to the decompressed data, or NULL on failure.
 //  *pOut_len will be set to the decompressed data's size, which could be larger than src_buf_len on uncompressible data.
 //  The caller must call mz_free() on the returned block when it's no longer needed.
-MINIZ_STATIC void *tinfl_decompress_mem_to_heap(const void *pSrc_buf, size_t src_buf_len, size_t *pOut_len, int flags);
+MINIZ_STATIC व्योम *tinfl_decompress_mem_to_heap(स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, माप_प्रकार *pOut_len, पूर्णांक flags);
 
 // tinfl_decompress_mem_to_mem() decompresses a block in memory to another block in memory.
 // Returns TINFL_DECOMPRESS_MEM_TO_MEM_FAILED on failure, or the number of bytes written on success.
-#define TINFL_DECOMPRESS_MEM_TO_MEM_FAILED ((size_t)(-1))
-MINIZ_STATIC size_t tinfl_decompress_mem_to_mem(void *pOut_buf, size_t out_buf_len, const void *pSrc_buf, size_t src_buf_len, int flags);
+#घोषणा TINFL_DECOMPRESS_MEM_TO_MEM_FAILED ((माप_प्रकार)(-1))
+MINIZ_STATIC माप_प्रकार tinfl_decompress_mem_to_mem(व्योम *pOut_buf, माप_प्रकार out_buf_len, स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, पूर्णांक flags);
 
 // tinfl_decompress_mem_to_callback() decompresses a block in memory to an internal 32KB buffer, and a user provided callback function will be called to flush the buffer.
 // Returns 1 on success or 0 on failure.
-typedef int (*tinfl_put_buf_func_ptr)(const void* pBuf, int len, void *pUser);
-MINIZ_STATIC int tinfl_decompress_mem_to_callback(const void *pIn_buf, size_t *pIn_buf_size, tinfl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags);
+प्रकार पूर्णांक (*tinfl_put_buf_func_ptr)(स्थिर व्योम* pBuf, पूर्णांक len, व्योम *pUser);
+MINIZ_STATIC पूर्णांक tinfl_decompress_mem_to_callback(स्थिर व्योम *pIn_buf, माप_प्रकार *p_In_buf_आकार, tinfl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags);
 
-struct tinfl_decompressor_tag; typedef struct tinfl_decompressor_tag tinfl_decompressor;
+काष्ठा tinfl_decompressor_tag; प्रकार काष्ठा tinfl_decompressor_tag tinfl_decompressor;
 
 // Max size of LZ dictionary.
-#define TINFL_LZ_DICT_SIZE 32768
+#घोषणा TINFL_LZ_DICT_आकार 32768
 
 // Return status.
-typedef enum
+प्रकार क्रमागत
 {
   TINFL_STATUS_BAD_PARAM = -3,
   TINFL_STATUS_ADLER32_MISMATCH = -2,
   TINFL_STATUS_FAILED = -1,
   TINFL_STATUS_DONE = 0,
-  TINFL_STATUS_NEEDS_MORE_INPUT = 1,
+  TINFL_STATUS_NEEDS_MORE_निवेश = 1,
   TINFL_STATUS_HAS_MORE_OUTPUT = 2
 } tinfl_status;
 
 // Initializes the decompressor to its initial state.
-#define tinfl_init(r) do { (r)->m_state = 0; } MZ_MACRO_END
-#define tinfl_get_adler32(r) (r)->m_check_adler32
+#घोषणा tinfl_init(r) करो { (r)->m_state = 0; } MZ_MACRO_END
+#घोषणा tinfl_get_adler32(r) (r)->m_check_adler32
 
 // Main low-level decompressor coroutine function. This is the only function actually needed for decompression. All the other functions are just high-level helpers for improved usability.
 // This is a universal API, i.e. it can be used as a building block to build any desired higher level decompression API. In the limit case, it can be called once per every byte input or output.
-MINIZ_STATIC tinfl_status tinfl_decompress(tinfl_decompressor *r, const mz_uint8 *pIn_buf_next, size_t *pIn_buf_size, mz_uint8 *pOut_buf_start, mz_uint8 *pOut_buf_next, size_t *pOut_buf_size, const mz_uint32 decomp_flags);
+MINIZ_STATIC tinfl_status tinfl_decompress(tinfl_decompressor *r, स्थिर mz_uint8 *p_In_buf_अग्र, माप_प्रकार *p_In_buf_आकार, mz_uint8 *pOut_buf_start, mz_uint8 *p_Out_buf_अग्र, माप_प्रकार *p_Out_buf_आकार, स्थिर mz_uint32 decomp_flags);
 
 // Internal/private bits follow.
-enum
+क्रमागत
 {
   TINFL_MAX_HUFF_TABLES = 3, TINFL_MAX_HUFF_SYMBOLS_0 = 288, TINFL_MAX_HUFF_SYMBOLS_1 = 32, TINFL_MAX_HUFF_SYMBOLS_2 = 19,
-  TINFL_FAST_LOOKUP_BITS = 10, TINFL_FAST_LOOKUP_SIZE = 1 << TINFL_FAST_LOOKUP_BITS
+  TINFL_FAST_LOOKUP_BITS = 10, TINFL_FAST_LOOKUP_आकार = 1 << TINFL_FAST_LOOKUP_BITS
 };
 
-typedef struct
+प्रकार काष्ठा
 {
-  mz_uint8 m_code_size[TINFL_MAX_HUFF_SYMBOLS_0];
-  mz_int16 m_look_up[TINFL_FAST_LOOKUP_SIZE], m_tree[TINFL_MAX_HUFF_SYMBOLS_0 * 2];
+  mz_uint8 m_code_आकार[TINFL_MAX_HUFF_SYMBOLS_0];
+  mz_int16 m_look_up[TINFL_FAST_LOOKUP_आकार], m_वृक्ष[TINFL_MAX_HUFF_SYMBOLS_0 * 2];
 } tinfl_huff_table;
 
-#if MINIZ_HAS_64BIT_REGISTERS
-  #define TINFL_USE_64BIT_BITBUF 1
-#endif
+#अगर MINIZ_HAS_64BIT_REGISTERS
+  #घोषणा TINFL_USE_64BIT_BITBUF 1
+#पूर्ण_अगर
 
-#if TINFL_USE_64BIT_BITBUF
-  typedef mz_uint64 tinfl_bit_buf_t;
-  #define TINFL_BITBUF_SIZE (64)
-#else
-  typedef mz_uint32 tinfl_bit_buf_t;
-  #define TINFL_BITBUF_SIZE (32)
-#endif
+#अगर TINFL_USE_64BIT_BITBUF
+  प्रकार mz_uint64 tinfl_bit_buf_t;
+  #घोषणा TINFL_BITBUF_आकार (64)
+#अन्यथा
+  प्रकार mz_uint32 tinfl_bit_buf_t;
+  #घोषणा TINFL_BITBUF_आकार (32)
+#पूर्ण_अगर
 
-struct tinfl_decompressor_tag
+काष्ठा tinfl_decompressor_tag
 {
-  mz_uint32 m_state, m_num_bits, m_zhdr0, m_zhdr1, m_z_adler32, m_final, m_type, m_check_adler32, m_dist, m_counter, m_num_extra, m_table_sizes[TINFL_MAX_HUFF_TABLES];
+  mz_uint32 m_state, m_अंक_bits, m_zhdr0, m_zhdr1, m_z_adler32, m_final, m_type, m_check_adler32, m_dist, m_गणक, m_अंक_extra, m_table_sizes[TINFL_MAX_HUFF_TABLES];
   tinfl_bit_buf_t m_bit_buf;
-  size_t m_dist_from_out_buf_start;
+  माप_प्रकार m_dist_from_out_buf_start;
   tinfl_huff_table m_tables[TINFL_MAX_HUFF_TABLES];
   mz_uint8 m_raw_header[4], m_len_codes[TINFL_MAX_HUFF_SYMBOLS_0 + TINFL_MAX_HUFF_SYMBOLS_1 + 137];
 };
-#endif /*#ifndef MINIZ_NO_INFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_INFLATE_APIS*/
 
 // ------------------- Low-level Compression API Definitions
-#ifndef MINIZ_NO_DEFLATE_APIS
+#अगर_अघोषित MINIZ_NO_DEFLATE_APIS
 
 // Set TDEFL_LESS_MEMORY to 1 to use less memory (compression will be slightly slower, and raw/dynamic blocks will be output more frequently).
-#define TDEFL_LESS_MEMORY 0
+#घोषणा TDEFL_LESS_MEMORY 0
 
 // tdefl_init() compression flags logically OR'd together (low 12 bits contain the max. number of probes per dictionary search):
 // TDEFL_DEFAULT_MAX_PROBES: The compressor defaults to 128 dictionary probes per dictionary search. 0=Huffman only, 1=Huffman+LZ (fastest/crap compression), 4095=Huffman+LZ (slowest/best compression).
-enum
+क्रमागत
 {
   TDEFL_HUFFMAN_ONLY = 0, TDEFL_DEFAULT_MAX_PROBES = 128, TDEFL_MAX_PROBES_MASK = 0xFFF
 };
@@ -836,7 +836,7 @@ enum
 // TDEFL_FORCE_ALL_STATIC_BLOCKS: Disable usage of optimized Huffman tables.
 // TDEFL_FORCE_ALL_RAW_BLOCKS: Only use raw (uncompressed) deflate blocks.
 // The low 12 bits are reserved to control the max # of hash probes per dictionary lookup (see TDEFL_MAX_PROBES_MASK).
-enum
+क्रमागत
 {
   TDEFL_WRITE_ZLIB_HEADER             = 0x01000,
   TDEFL_COMPUTE_ADLER32               = 0x02000,
@@ -848,7 +848,7 @@ enum
   TDEFL_FORCE_ALL_RAW_BLOCKS          = 0x80000
 };
 
-#ifndef MINIZ_SDL_NOUNUSED
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
 // High level compression functions:
 // tdefl_compress_mem_to_heap() compresses a block in memory to a heap block allocated via malloc().
 // On entry:
@@ -858,12 +858,12 @@ enum
 //  Function returns a pointer to the compressed data, or NULL on failure.
 //  *pOut_len will be set to the compressed data's size, which could be larger than src_buf_len on uncompressible data.
 //  The caller must free() the returned block when it's no longer needed.
-MINIZ_STATIC void *tdefl_compress_mem_to_heap(const void *pSrc_buf, size_t src_buf_len, size_t *pOut_len, int flags);
+MINIZ_STATIC व्योम *tdefl_compress_mem_to_heap(स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, माप_प्रकार *pOut_len, पूर्णांक flags);
 
 // tdefl_compress_mem_to_mem() compresses a block in memory to another block in memory.
 // Returns 0 on failure.
-MINIZ_STATIC size_t tdefl_compress_mem_to_mem(void *pOut_buf, size_t out_buf_len, const void *pSrc_buf, size_t src_buf_len, int flags);
-#endif /* MINIZ_SDL_NOUNUSED */
+MINIZ_STATIC माप_प्रकार tdefl_compress_mem_to_mem(व्योम *pOut_buf, माप_प्रकार out_buf_len, स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, पूर्णांक flags);
+#पूर्ण_अगर /* MINIZ_SDL_NOUNUSED */
 
 // Compresses an image to a compressed PNG file in memory.
 // On entry:
@@ -875,38 +875,38 @@ MINIZ_STATIC size_t tdefl_compress_mem_to_mem(void *pOut_buf, size_t out_buf_len
 //  Function returns a pointer to the compressed data, or NULL on failure.
 //  *pLen_out will be set to the size of the PNG image file.
 //  The caller must mz_free() the returned heap block (which will typically be larger than *pLen_out) when it's no longer needed.
-MINIZ_STATIC void *tdefl_write_image_to_png_file_in_memory_ex(const void *pImage, int w, int h, int num_chans, int bpl, size_t *pLen_out, mz_uint level, mz_bool flip, mz_uint8 *plte, int plte_size, mz_uint8 *trns, int trns_size);
-#ifndef MINIZ_SDL_NOUNUSED
-MINIZ_STATIC void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, int num_chans, int bpl, size_t *pLen_out);
-#endif
+MINIZ_STATIC व्योम *tdefl_write_image_to_png_file_in_memory_ex(स्थिर व्योम *pImage, पूर्णांक w, पूर्णांक h, पूर्णांक अंक_chans, पूर्णांक bpl, माप_प्रकार *pLen_out, mz_uint level, mz_bool flip, mz_uint8 *plte, पूर्णांक plte_आकार, mz_uint8 *trns, पूर्णांक trns_आकार);
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
+MINIZ_STATIC व्योम *tdefl_write_image_to_png_file_in_memory(स्थिर व्योम *pImage, पूर्णांक w, पूर्णांक h, पूर्णांक अंक_chans, पूर्णांक bpl, माप_प्रकार *pLen_out);
+#पूर्ण_अगर
 
 // Output stream interface. The compressor uses this interface to write compressed data. It'll typically be called TDEFL_OUT_BUF_SIZE at a time.
-typedef mz_bool (*tdefl_put_buf_func_ptr)(const void* pBuf, int len, void *pUser);
+प्रकार mz_bool (*tdefl_put_buf_func_ptr)(स्थिर व्योम* pBuf, पूर्णांक len, व्योम *pUser);
 
-#ifndef MINIZ_SDL_NOUNUSED
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
 // tdefl_compress_mem_to_output() compresses a block to an output stream. The above helpers use this function internally.
-MINIZ_STATIC mz_bool tdefl_compress_mem_to_output(const void *pBuf, size_t buf_len, tdefl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags);
-#endif
+MINIZ_STATIC mz_bool tdefl_compress_mem_to_output(स्थिर व्योम *pBuf, माप_प्रकार buf_len, tdefl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags);
+#पूर्ण_अगर
 
 //enum { TDEFL_MAX_HUFF_TABLES = 3, TDEFL_MAX_HUFF_SYMBOLS_0 = 288, TDEFL_MAX_HUFF_SYMBOLS_1 = 32, TDEFL_MAX_HUFF_SYMBOLS_2 = 19, TDEFL_LZ_DICT_SIZE = 32768, TDEFL_LZ_DICT_SIZE_MASK = TDEFL_LZ_DICT_SIZE - 1, TDEFL_MIN_MATCH_LEN = 3, TDEFL_MAX_MATCH_LEN = 258 };
-#define TDEFL_MAX_HUFF_TABLES	3
-#define TDEFL_MAX_HUFF_SYMBOLS_0 288
-#define TDEFL_MAX_HUFF_SYMBOLS_1 32
-#define TDEFL_MAX_HUFF_SYMBOLS_2 19
-#define TDEFL_LZ_DICT_SIZE 32768
-#define TDEFL_LZ_DICT_SIZE_MASK	( TDEFL_LZ_DICT_SIZE - 1 )
-#define TDEFL_MIN_MATCH_LEN	3
-#define TDEFL_MAX_MATCH_LEN 258
+#घोषणा TDEFL_MAX_HUFF_TABLES	3
+#घोषणा TDEFL_MAX_HUFF_SYMBOLS_0 288
+#घोषणा TDEFL_MAX_HUFF_SYMBOLS_1 32
+#घोषणा TDEFL_MAX_HUFF_SYMBOLS_2 19
+#घोषणा TDEFL_LZ_DICT_आकार 32768
+#घोषणा TDEFL_LZ_DICT_आकार_MASK	( TDEFL_LZ_DICT_आकार - 1 )
+#घोषणा TDEFL_MIN_MATCH_LEN	3
+#घोषणा TDEFL_MAX_MATCH_LEN 258
 
 // TDEFL_OUT_BUF_SIZE MUST be large enough to hold a single entire compressed output block (using static/fixed Huffman codes).
-#if TDEFL_LESS_MEMORY
-enum { TDEFL_LZ_CODE_BUF_SIZE = 24 * 1024, TDEFL_OUT_BUF_SIZE = (TDEFL_LZ_CODE_BUF_SIZE * 13 ) / 10, TDEFL_MAX_HUFF_SYMBOLS = 288, TDEFL_LZ_HASH_BITS = 12, TDEFL_LEVEL1_HASH_SIZE_MASK = 4095, TDEFL_LZ_HASH_SHIFT = (TDEFL_LZ_HASH_BITS + 2) / 3, TDEFL_LZ_HASH_SIZE = 1 << TDEFL_LZ_HASH_BITS };
-#else
-enum { TDEFL_LZ_CODE_BUF_SIZE = 64 * 1024, TDEFL_OUT_BUF_SIZE = (TDEFL_LZ_CODE_BUF_SIZE * 13 ) / 10, TDEFL_MAX_HUFF_SYMBOLS = 288, TDEFL_LZ_HASH_BITS = 15, TDEFL_LEVEL1_HASH_SIZE_MASK = 4095, TDEFL_LZ_HASH_SHIFT = (TDEFL_LZ_HASH_BITS + 2) / 3, TDEFL_LZ_HASH_SIZE = 1 << TDEFL_LZ_HASH_BITS };
-#endif
+#अगर TDEFL_LESS_MEMORY
+क्रमागत { TDEFL_LZ_CODE_BUF_आकार = 24 * 1024, TDEFL_OUT_BUF_आकार = (TDEFL_LZ_CODE_BUF_आकार * 13 ) / 10, TDEFL_MAX_HUFF_SYMBOLS = 288, TDEFL_LZ_HASH_BITS = 12, TDEFL_LEVEL1_HASH_आकार_MASK = 4095, TDEFL_LZ_HASH_SHIFT = (TDEFL_LZ_HASH_BITS + 2) / 3, TDEFL_LZ_HASH_आकार = 1 << TDEFL_LZ_HASH_BITS };
+#अन्यथा
+क्रमागत { TDEFL_LZ_CODE_BUF_आकार = 64 * 1024, TDEFL_OUT_BUF_आकार = (TDEFL_LZ_CODE_BUF_आकार * 13 ) / 10, TDEFL_MAX_HUFF_SYMBOLS = 288, TDEFL_LZ_HASH_BITS = 15, TDEFL_LEVEL1_HASH_आकार_MASK = 4095, TDEFL_LZ_HASH_SHIFT = (TDEFL_LZ_HASH_BITS + 2) / 3, TDEFL_LZ_HASH_आकार = 1 << TDEFL_LZ_HASH_BITS };
+#पूर्ण_अगर
 
 // The low-level tdefl functions below may be used directly if the above helper functions aren't flexible enough. The low-level functions don't make any heap allocations, unlike the above helper functions.
-typedef enum
+प्रकार क्रमागत
 {
   TDEFL_STATUS_BAD_PARAM = -2,
   TDEFL_STATUS_PUT_BUF_FAILED = -1,
@@ -915,7 +915,7 @@ typedef enum
 } tdefl_status;
 
 // Must map to MZ_NO_FLUSH, MZ_SYNC_FLUSH, etc. enums
-typedef enum
+प्रकार क्रमागत
 {
   TDEFL_NO_FLUSH = 0,
   TDEFL_SYNC_FLUSH = 2,
@@ -924,31 +924,31 @@ typedef enum
 } tdefl_flush;
 
 // tdefl's compression state structure.
-typedef struct
+प्रकार काष्ठा
 {
   tdefl_put_buf_func_ptr m_pPut_buf_func;
-  void *m_pPut_buf_user;
+  व्योम *m_pPut_buf_user;
   mz_uint m_flags, m_max_probes[2];
-  int m_greedy_parsing;
-  mz_uint m_adler32, m_lookahead_pos, m_lookahead_size, m_dict_size;
+  पूर्णांक m_greedy_parsing;
+  mz_uint m_adler32, m_lookahead_pos, m_lookahead_आकार, m_dict_आकार;
   mz_uint8 *m_pLZ_code_buf, *m_pLZ_flags, *m_pOutput_buf, *m_pOutput_buf_end;
-  mz_uint m_num_flags_left, m_total_lz_bytes, m_lz_code_buf_dict_pos, m_bits_in, m_bit_buffer;
-  mz_uint m_saved_match_dist, m_saved_match_len, m_saved_lit, m_output_flush_ofs, m_output_flush_remaining, m_finished, m_block_index, m_wants_to_finish;
-  tdefl_status m_prev_return_status;
-  const void *m_pIn_buf;
-  void *m_pOut_buf;
-  size_t *m_pIn_buf_size, *m_pOut_buf_size;
+  mz_uint m_अंक_flags_बायाँ, m_योग_lz_bytes, m_lz_code_buf_dict_pos, m_bits_in, m_bit_बफर;
+  mz_uint m_saved_match_dist, m_saved_match_len, m_saved_lit, m_output_flush_ofs, m_output_flush_remaining, m_finished, m_block_सूचकांक, m_wants_to_finish;
+  tdefl_status m_पूर्व_return_status;
+  स्थिर व्योम *m_pIn_buf;
+  व्योम *m_pOut_buf;
+  माप_प्रकार *m_p_In_buf_आकार, *m_p_Out_buf_आकार;
   tdefl_flush m_flush;
-  const mz_uint8 *m_pSrc;
-  size_t m_src_buf_left, m_out_buf_ofs;
-  mz_uint8 m_dict[TDEFL_LZ_DICT_SIZE + TDEFL_MAX_MATCH_LEN - 1];
-  mz_uint16 m_huff_count[TDEFL_MAX_HUFF_TABLES][TDEFL_MAX_HUFF_SYMBOLS];
+  स्थिर mz_uint8 *m_pSrc;
+  माप_प्रकार m_src_buf_बायाँ, m_out_buf_ofs;
+  mz_uint8 m_dict[TDEFL_LZ_DICT_आकार + TDEFL_MAX_MATCH_LEN - 1];
+  mz_uint16 m_huff_गिनती[TDEFL_MAX_HUFF_TABLES][TDEFL_MAX_HUFF_SYMBOLS];
   mz_uint16 m_huff_codes[TDEFL_MAX_HUFF_TABLES][TDEFL_MAX_HUFF_SYMBOLS];
   mz_uint8 m_huff_code_sizes[TDEFL_MAX_HUFF_TABLES][TDEFL_MAX_HUFF_SYMBOLS];
-  mz_uint8 m_lz_code_buf[TDEFL_LZ_CODE_BUF_SIZE];
-  mz_uint16 m_next[TDEFL_LZ_DICT_SIZE];
-  mz_uint16 m_hash[TDEFL_LZ_HASH_SIZE];
-  mz_uint8 m_output_buf[TDEFL_OUT_BUF_SIZE];
+  mz_uint8 m_lz_code_buf[TDEFL_LZ_CODE_BUF_आकार];
+  mz_uint16 m_अग्र[TDEFL_LZ_DICT_आकार];
+  mz_uint16 m_hash[TDEFL_LZ_HASH_आकार];
+  mz_uint8 m_output_buf[TDEFL_OUT_BUF_आकार];
 } tdefl_compressor;
 
 // Initializes the compressor.
@@ -956,909 +956,909 @@ typedef struct
 // pBut_buf_func: If NULL, output data will be supplied to the specified callback. In this case, the user should call the tdefl_compress_buffer() API for compression.
 // If pBut_buf_func is NULL the user should always call the tdefl_compress() API.
 // flags: See the above enums (TDEFL_HUFFMAN_ONLY, TDEFL_WRITE_ZLIB_HEADER, etc.)
-MINIZ_STATIC tdefl_status tdefl_init(tdefl_compressor *d, tdefl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags);
+MINIZ_STATIC tdefl_status tdefl_init(tdefl_compressor *d, tdefl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags);
 
 // Compresses a block of data, consuming as much of the specified input buffer as possible, and writing as much compressed data to the specified output buffer as possible.
-MINIZ_STATIC tdefl_status tdefl_compress(tdefl_compressor *d, const void *pIn_buf, size_t *pIn_buf_size, void *pOut_buf, size_t *pOut_buf_size, tdefl_flush flush);
+MINIZ_STATIC tdefl_status tdefl_compress(tdefl_compressor *d, स्थिर व्योम *pIn_buf, माप_प्रकार *p_In_buf_आकार, व्योम *pOut_buf, माप_प्रकार *p_Out_buf_आकार, tdefl_flush flush);
 
 // tdefl_compress_buffer() is only usable when the tdefl_init() is called with a non-NULL tdefl_put_buf_func_ptr.
 // tdefl_compress_buffer() always consumes the entire input buffer.
-MINIZ_STATIC tdefl_status tdefl_compress_buffer(tdefl_compressor *d, const void *pIn_buf, size_t in_buf_size, tdefl_flush flush);
+MINIZ_STATIC tdefl_status tdefl_compress_बफर(tdefl_compressor *d, स्थिर व्योम *pIn_buf, माप_प्रकार in_buf_आकार, tdefl_flush flush);
 
-#ifndef MINIZ_SDL_NOUNUSED
-MINIZ_STATIC tdefl_status tdefl_get_prev_return_status(tdefl_compressor *d);
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
+MINIZ_STATIC tdefl_status tdefl_get_पूर्व_return_status(tdefl_compressor *d);
 MINIZ_STATIC mz_uint32 tdefl_get_adler32(tdefl_compressor *d);
-#endif
+#पूर्ण_अगर
 
 // Can't use tdefl_create_comp_flags_from_zip_params if MINIZ_NO_ZLIB_APIS isn't defined, because it uses some of its macros.
-#ifndef MINIZ_NO_ZLIB_APIS
+#अगर_अघोषित MINIZ_NO_ZLIB_APIS
 // Create tdefl_compress() flags given zlib-style compression parameters.
 // level may range from [0,10] (where 10 is absolute max compression, but may be much slower on some files)
 // window_bits may be -15 (raw deflate) or 15 (zlib)
 // strategy may be either MZ_DEFAULT_STRATEGY, MZ_FILTERED, MZ_HUFFMAN_ONLY, MZ_RLE, or MZ_FIXED
-MINIZ_STATIC mz_uint tdefl_create_comp_flags_from_zip_params(int level, int window_bits, int strategy);
-#endif // #ifndef MINIZ_NO_ZLIB_APIS
+MINIZ_STATIC mz_uint tdefl_create_comp_flags_from_zip_params(पूर्णांक level, पूर्णांक window_bits, पूर्णांक strategy);
+#पूर्ण_अगर // #ifndef MINIZ_NO_ZLIB_APIS
 
-#endif /*#ifndef MINIZ_NO_DEFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_DEFLATE_APIS*/
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif // MINIZ_HEADER_INCLUDED
+#पूर्ण_अगर // MINIZ_HEADER_INCLUDED
 
 // ------------------- End of Header: Implementation follows. (If you only want the header, define MINIZ_HEADER_FILE_ONLY.)
 
-#ifndef MINIZ_HEADER_FILE_ONLY
+#अगर_अघोषित MINIZ_HEADER_FILE_ONLY
 
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable:4505) // unreferenced local function has been removed
-#endif
+#अगर_घोषित _MSC_VER
+#आशय warning (धकेलो)
+#आशय warning (disable:4505) // unreferenced local function has been removed
+#पूर्ण_अगर
 
-typedef unsigned char mz_validate_uint16[sizeof(mz_uint16)==2 ? 1 : -1];
-typedef unsigned char mz_validate_uint32[sizeof(mz_uint32)==4 ? 1 : -1];
-typedef unsigned char mz_validate_uint64[sizeof(mz_uint64)==8 ? 1 : -1];
+प्रकार अचिन्हित अक्षर mz_validate_uint16[माप(mz_uint16)==2 ? 1 : -1];
+प्रकार अचिन्हित अक्षर mz_validate_uint32[माप(mz_uint32)==4 ? 1 : -1];
+प्रकार अचिन्हित अक्षर mz_validate_uint64[माप(mz_uint64)==8 ? 1 : -1];
 
 /*#include <string.h>*/
 
-#ifndef MZ_ASSERT
-#include <assert.h>
-#define MZ_ASSERT(x) assert(x)
-#endif
+#अगर_अघोषित MZ_ASSERT
+#समावेश <assert.h>
+#घोषणा MZ_ASSERT(x) निश्चित(x)
+#पूर्ण_अगर
 
-#ifdef MINIZ_NO_MALLOC
-  #define MZ_MALLOC(x) NULL
-  #define MZ_FREE(x) (void)x, ((void)0)
-  #define MZ_REALLOC(p, x) NULL
-#elif defined(MINIZ_SDL_MALLOC)
-  #define MZ_MALLOC(x) SDL_malloc(x)
-  #define MZ_FREE(x) SDL_free(x)
-  #define MZ_REALLOC(p, x) SDL_realloc(p, x)
-#else
-  #define MZ_MALLOC(x) malloc(x)
-  #define MZ_FREE(x) free(x)
-  #define MZ_REALLOC(p, x) realloc(p, x)
-#endif
+#अगर_घोषित MINIZ_NO_MALLOC
+  #घोषणा MZ_MALLOC(x) शून्य
+  #घोषणा MZ_FREE(x) (व्योम)x, ((व्योम)0)
+  #घोषणा MZ_REALLOC(p, x) शून्य
+#या_अगर defined(MINIZ_SDL_MALLOC)
+  #घोषणा MZ_MALLOC(x) SDL_malloc(x)
+  #घोषणा MZ_FREE(x) SDL_free(x)
+  #घोषणा MZ_REALLOC(p, x) SDL_realloc(p, x)
+#अन्यथा
+  #घोषणा MZ_MALLOC(x) दो_स्मृति(x)
+  #घोषणा MZ_FREE(x) मुक्त(x)
+  #घोषणा MZ_REALLOC(p, x) पुनः_स्मृति(p, x)
+#पूर्ण_अगर
 
-#define MZ_MAX(a,b) (((a)>(b))?(a):(b))
-#define MZ_MIN(a,b) (((a)<(b))?(a):(b))
-#define MZ_CLEAR_OBJ(obj) memset(&(obj), 0, sizeof(obj))
-#define MZ_CLEAR_ARR(obj) memset((obj), 0, sizeof(obj))
-#define MZ_CLEAR_PTR(obj) memset((obj), 0, sizeof(*obj))
+#घोषणा MZ_MAX(a,b) (((a)>(b))?(a):(b))
+#घोषणा MZ_MIN(a,b) (((a)<(b))?(a):(b))
+#घोषणा MZ_CLEAR_OBJ(obj) स_रखो(&(obj), 0, माप(obj))
+#घोषणा MZ_CLEAR_ARR(obj) स_रखो((obj), 0, माप(obj))
+#घोषणा MZ_CLEAR_PTR(obj) स_रखो((obj), 0, माप(*obj))
 
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
-  #define MZ_READ_LE16(p) *((const mz_uint16 *)(p))
-  #define MZ_READ_LE32(p) *((const mz_uint32 *)(p))
-#else
-  #define MZ_READ_LE16(p) ((mz_uint32)(((const mz_uint8 *)(p))[0]) | ((mz_uint32)(((const mz_uint8 *)(p))[1]) << 8U))
-  #define MZ_READ_LE32(p) ((mz_uint32)(((const mz_uint8 *)(p))[0]) | ((mz_uint32)(((const mz_uint8 *)(p))[1]) << 8U) | ((mz_uint32)(((const mz_uint8 *)(p))[2]) << 16U) | ((mz_uint32)(((const mz_uint8 *)(p))[3]) << 24U))
-#endif
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
+  #घोषणा MZ_READ_LE16(p) *((स्थिर mz_uint16 *)(p))
+  #घोषणा MZ_READ_LE32(p) *((स्थिर mz_uint32 *)(p))
+#अन्यथा
+  #घोषणा MZ_READ_LE16(p) ((mz_uint32)(((स्थिर mz_uint8 *)(p))[0]) | ((mz_uint32)(((स्थिर mz_uint8 *)(p))[1]) << 8U))
+  #घोषणा MZ_READ_LE32(p) ((mz_uint32)(((स्थिर mz_uint8 *)(p))[0]) | ((mz_uint32)(((स्थिर mz_uint8 *)(p))[1]) << 8U) | ((mz_uint32)(((स्थिर mz_uint8 *)(p))[2]) << 16U) | ((mz_uint32)(((स्थिर mz_uint8 *)(p))[3]) << 24U))
+#पूर्ण_अगर
 
-#ifdef _MSC_VER
-  #define MZ_FORCEINLINE __forceinline
-#elif defined(__GNUC__)
-  #define MZ_FORCEINLINE inline __attribute__((__always_inline__))
-#else
-  #define MZ_FORCEINLINE inline
-#endif
+#अगर_घोषित _MSC_VER
+  #घोषणा MZ_FORCEINLINE __forceinline
+#या_अगर defined(__GNUC__)
+  #घोषणा MZ_FORCEINLINE अंतरभूत __attribute__((__always_inline__))
+#अन्यथा
+  #घोषणा MZ_FORCEINLINE अंतरभूत
+#पूर्ण_अगर
 
-#ifdef __cplusplus
-  extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+  बाह्य "C" {
+#पूर्ण_अगर
 
 // ------------------- zlib-style API's
 
-mz_ulong mz_adler32(mz_ulong adler, const unsigned char *ptr, size_t buf_len)
+mz_ulong mz_adler32(mz_ulong adler, स्थिर अचिन्हित अक्षर *ptr, माप_प्रकार buf_len)
 {
-  mz_uint32 i, s1 = (mz_uint32)(adler & 0xffff), s2 = (mz_uint32)(adler >> 16); size_t block_len = buf_len % 5552;
-  if (!ptr) return MZ_ADLER32_INIT;
-  while (buf_len) {
-    for (i = 0; i + 7 < block_len; i += 8, ptr += 8) {
+  mz_uint32 i, s1 = (mz_uint32)(adler & 0xffff), s2 = (mz_uint32)(adler >> 16); माप_प्रकार block_len = buf_len % 5552;
+  अगर (!ptr) वापस MZ_ADLER32_INIT;
+  जबतक (buf_len) {
+    क्रम (i = 0; i + 7 < block_len; i += 8, ptr += 8) {
       s1 += ptr[0]; s2 += s1; s1 += ptr[1]; s2 += s1; s1 += ptr[2]; s2 += s1; s1 += ptr[3]; s2 += s1;
       s1 += ptr[4]; s2 += s1; s1 += ptr[5]; s2 += s1; s1 += ptr[6]; s2 += s1; s1 += ptr[7]; s2 += s1;
     }
-    for ( ; i < block_len; ++i) { s1 += *ptr++; s2 += s1; }
+    क्रम ( ; i < block_len; ++i) { s1 += *ptr++; s2 += s1; }
     s1 %= 65521U; s2 %= 65521U; buf_len -= block_len; block_len = 5552;
   }
-  return (s2 << 16) + s1;
+  वापस (s2 << 16) + s1;
 }
 
 // Karl Malbrain's compact CRC-32. See "A compact CCITT crc16 and crc32 C implementation that balances processor cache usage against speed": http://www.geocities.com/malbrain/
-mz_ulong mz_crc32(mz_ulong crc, const mz_uint8 *ptr, size_t buf_len)
+mz_ulong mz_crc32(mz_ulong crc, स्थिर mz_uint8 *ptr, माप_प्रकार buf_len)
 {
-  static const mz_uint32 s_crc32[16] = { 0, 0x1db71064, 0x3b6e20c8, 0x26d930ac, 0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
+  अटल स्थिर mz_uint32 s_crc32[16] = { 0, 0x1db71064, 0x3b6e20c8, 0x26d930ac, 0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
     0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c, 0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c };
   mz_uint32 crcu32 = (mz_uint32)crc;
-  if (!ptr) return MZ_CRC32_INIT;
-  crcu32 = ~crcu32; while (buf_len--) { mz_uint8 b = *ptr++; crcu32 = (crcu32 >> 4) ^ s_crc32[(crcu32 & 0xF) ^ (b & 0xF)]; crcu32 = (crcu32 >> 4) ^ s_crc32[(crcu32 & 0xF) ^ (b >> 4)]; }
-  return ~crcu32;
+  अगर (!ptr) वापस MZ_CRC32_INIT;
+  crcu32 = ~crcu32; जबतक (buf_len--) { mz_uint8 b = *ptr++; crcu32 = (crcu32 >> 4) ^ s_crc32[(crcu32 & 0xF) ^ (b & 0xF)]; crcu32 = (crcu32 >> 4) ^ s_crc32[(crcu32 & 0xF) ^ (b >> 4)]; }
+  वापस ~crcu32;
 }
 
-MINIZ_STATIC void mz_free(void *p)
+MINIZ_STATIC व्योम mz_free(व्योम *p)
 {
   MZ_FREE(p);
 }
 
-#ifndef MINIZ_NO_ZLIB_APIS
+#अगर_अघोषित MINIZ_NO_ZLIB_APIS
 
-static void *def_alloc_func(void *opaque, size_t items, size_t size) { (void)opaque, (void)items, (void)size; return MZ_MALLOC(items * size); }
-static void def_free_func(void *opaque, void *address) { (void)opaque, (void)address; MZ_FREE(address); }
-static void *def_realloc_func(void *opaque, void *address, size_t items, size_t size) { (void)opaque, (void)address, (void)items, (void)size; return MZ_REALLOC(address, items * size); }
+अटल व्योम *def_alloc_func(व्योम *opaque, माप_प्रकार वस्तुएँ, माप_प्रकार आकार) { (व्योम)opaque, (व्योम)वस्तुएँ, (व्योम)आकार; वापस MZ_MALLOC(वस्तुएँ * आकार); }
+अटल व्योम def_free_func(व्योम *opaque, व्योम *address) { (व्योम)opaque, (व्योम)address; MZ_FREE(address); }
+अटल व्योम *def_realloc_func(व्योम *opaque, व्योम *address, माप_प्रकार वस्तुएँ, माप_प्रकार आकार) { (व्योम)opaque, (व्योम)address, (व्योम)वस्तुएँ, (व्योम)आकार; वापस MZ_REALLOC(address, वस्तुएँ * आकार); }
 
-const char *mz_version(void)
+स्थिर अक्षर *mz_version(व्योम)
 {
-  return MZ_VERSION;
+  वापस MZ_VERSION;
 }
 
-#ifndef MINIZ_NO_DEFLATE_APIS
+#अगर_अघोषित MINIZ_NO_DEFLATE_APIS
 
-int mz_deflateInit(mz_streamp pStream, int level)
+पूर्णांक mz_deflateInit(mz_streamp pStream, पूर्णांक level)
 {
-  return mz_deflateInit2(pStream, level, MZ_DEFLATED, MZ_DEFAULT_WINDOW_BITS, 9, MZ_DEFAULT_STRATEGY);
+  वापस mz_deflateInit2(pStream, level, MZ_DEFLATED, MZ_DEFAULT_WINDOW_BITS, 9, MZ_DEFAULT_STRATEGY);
 }
 
-int mz_deflateInit2(mz_streamp pStream, int level, int method, int window_bits, int mem_level, int strategy)
+पूर्णांक mz_deflateInit2(mz_streamp pStream, पूर्णांक level, पूर्णांक method, पूर्णांक window_bits, पूर्णांक mem_level, पूर्णांक strategy)
 {
   tdefl_compressor *pComp;
   mz_uint comp_flags = TDEFL_COMPUTE_ADLER32 | tdefl_create_comp_flags_from_zip_params(level, window_bits, strategy);
 
-  if (!pStream) return MZ_STREAM_ERROR;
-  if ((method != MZ_DEFLATED) || ((mem_level < 1) || (mem_level > 9)) || ((window_bits != MZ_DEFAULT_WINDOW_BITS) && (-window_bits != MZ_DEFAULT_WINDOW_BITS))) return MZ_PARAM_ERROR;
+  अगर (!pStream) वापस MZ_STREAM_ERROR;
+  अगर ((method != MZ_DEFLATED) || ((mem_level < 1) || (mem_level > 9)) || ((window_bits != MZ_DEFAULT_WINDOW_BITS) && (-window_bits != MZ_DEFAULT_WINDOW_BITS))) वापस MZ_PARAM_ERROR;
 
-  pStream->data_type = 0;
+  pStream->तथ्य_type = 0;
   pStream->adler = MZ_ADLER32_INIT;
-  pStream->msg = NULL;
+  pStream->संदेश = शून्य;
   pStream->reserved = 0;
-  pStream->total_in = 0;
-  pStream->total_out = 0;
-  if (!pStream->zalloc) pStream->zalloc = def_alloc_func;
-  if (!pStream->zfree) pStream->zfree = def_free_func;
+  pStream->योग_in = 0;
+  pStream->योग_out = 0;
+  अगर (!pStream->zalloc) pStream->zalloc = def_alloc_func;
+  अगर (!pStream->zfree) pStream->zfree = def_free_func;
 
-  pComp = (tdefl_compressor *)pStream->zalloc(pStream->opaque, 1, sizeof(tdefl_compressor));
-  if (!pComp)
-    return MZ_MEM_ERROR;
+  pComp = (tdefl_compressor *)pStream->zalloc(pStream->opaque, 1, माप(tdefl_compressor));
+  अगर (!pComp)
+    वापस MZ_MEM_ERROR;
 
-  pStream->state = (struct mz_internal_state *)pComp;
+  pStream->state = (काष्ठा mz_internal_state *)pComp;
 
-  if (tdefl_init(pComp, NULL, NULL, comp_flags) != TDEFL_STATUS_OKAY)
+  अगर (tdefl_init(pComp, शून्य, शून्य, comp_flags) != TDEFL_STATUS_OKAY)
   {
     mz_deflateEnd(pStream);
-    return MZ_PARAM_ERROR;
+    वापस MZ_PARAM_ERROR;
   }
 
-  return MZ_OK;
+  वापस MZ_OK;
 }
 
-int mz_deflateReset(mz_streamp pStream)
+पूर्णांक mz_deflateReset(mz_streamp pStream)
 {
-  if ((!pStream) || (!pStream->state) || (!pStream->zalloc) || (!pStream->zfree)) return MZ_STREAM_ERROR;
-  pStream->total_in = pStream->total_out = 0;
-  tdefl_init((tdefl_compressor*)pStream->state, NULL, NULL, ((tdefl_compressor*)pStream->state)->m_flags);
-  return MZ_OK;
+  अगर ((!pStream) || (!pStream->state) || (!pStream->zalloc) || (!pStream->zfree)) वापस MZ_STREAM_ERROR;
+  pStream->योग_in = pStream->योग_out = 0;
+  tdefl_init((tdefl_compressor*)pStream->state, शून्य, शून्य, ((tdefl_compressor*)pStream->state)->m_flags);
+  वापस MZ_OK;
 }
 
-int mz_deflate(mz_streamp pStream, int flush)
+पूर्णांक mz_deflate(mz_streamp pStream, पूर्णांक flush)
 {
-  size_t in_bytes, out_bytes;
-  mz_ulong orig_total_in, orig_total_out;
-  int mz_status = MZ_OK;
+  माप_प्रकार in_bytes, out_bytes;
+  mz_ulong orig_योग_in, orig_योग_out;
+  पूर्णांक mz_status = MZ_OK;
 
-  if ((!pStream) || (!pStream->state) || (flush < 0) || (flush > MZ_FINISH) || (!pStream->next_out)) return MZ_STREAM_ERROR;
-  if (!pStream->avail_out) return MZ_BUF_ERROR;
+  अगर ((!pStream) || (!pStream->state) || (flush < 0) || (flush > MZ_FINISH) || (!pStream->अग्र_out)) वापस MZ_STREAM_ERROR;
+  अगर (!pStream->avail_out) वापस MZ_BUF_ERROR;
 
-  if (flush == MZ_PARTIAL_FLUSH) flush = MZ_SYNC_FLUSH;
+  अगर (flush == MZ_PARTIAL_FLUSH) flush = MZ_SYNC_FLUSH;
 
-  if (((tdefl_compressor*)pStream->state)->m_prev_return_status == TDEFL_STATUS_DONE)
-    return (flush == MZ_FINISH) ? MZ_STREAM_END : MZ_BUF_ERROR;
+  अगर (((tdefl_compressor*)pStream->state)->m_पूर्व_return_status == TDEFL_STATUS_DONE)
+    वापस (flush == MZ_FINISH) ? MZ_STREAM_END : MZ_BUF_ERROR;
 
-  orig_total_in = pStream->total_in; orig_total_out = pStream->total_out;
-  for ( ; ; )
+  orig_योग_in = pStream->योग_in; orig_योग_out = pStream->योग_out;
+  क्रम ( ; ; )
   {
     tdefl_status defl_status;
     in_bytes = pStream->avail_in; out_bytes = pStream->avail_out;
 
-    defl_status = tdefl_compress((tdefl_compressor*)pStream->state, pStream->next_in, &in_bytes, pStream->next_out, &out_bytes, (tdefl_flush)flush);
-    pStream->next_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes;
-    pStream->total_in += (mz_uint)in_bytes; pStream->adler = tdefl_get_adler32((tdefl_compressor*)pStream->state);
+    defl_status = tdefl_compress((tdefl_compressor*)pStream->state, pStream->अग्र_in, &in_bytes, pStream->अग्र_out, &out_bytes, (tdefl_flush)flush);
+    pStream->अग्र_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes;
+    pStream->योग_in += (mz_uint)in_bytes; pStream->adler = tdefl_get_adler32((tdefl_compressor*)pStream->state);
 
-    pStream->next_out += (mz_uint)out_bytes; pStream->avail_out -= (mz_uint)out_bytes;
-    pStream->total_out += (mz_uint)out_bytes;
+    pStream->अग्र_out += (mz_uint)out_bytes; pStream->avail_out -= (mz_uint)out_bytes;
+    pStream->योग_out += (mz_uint)out_bytes;
 
-    if (defl_status < 0)
+    अगर (defl_status < 0)
     {
       mz_status = MZ_STREAM_ERROR;
-      break;
+      अवरोध;
     }
-    else if (defl_status == TDEFL_STATUS_DONE)
+    अन्यथा अगर (defl_status == TDEFL_STATUS_DONE)
     {
       mz_status = MZ_STREAM_END;
-      break;
+      अवरोध;
     }
-    else if (!pStream->avail_out)
-      break;
-    else if ((!pStream->avail_in) && (flush != MZ_FINISH))
+    अन्यथा अगर (!pStream->avail_out)
+      अवरोध;
+    अन्यथा अगर ((!pStream->avail_in) && (flush != MZ_FINISH))
     {
-      if ((flush) || (pStream->total_in != orig_total_in) || (pStream->total_out != orig_total_out))
-        break;
-      return MZ_BUF_ERROR; // Can't make forward progress without some input.
+      अगर ((flush) || (pStream->योग_in != orig_योग_in) || (pStream->योग_out != orig_योग_out))
+        अवरोध;
+      वापस MZ_BUF_ERROR; // Can't make forward progress without some input.
     }
   }
-  return mz_status;
+  वापस mz_status;
 }
 
-int mz_deflateEnd(mz_streamp pStream)
+पूर्णांक mz_deflateEnd(mz_streamp pStream)
 {
-  if (!pStream) return MZ_STREAM_ERROR;
-  if (pStream->state)
+  अगर (!pStream) वापस MZ_STREAM_ERROR;
+  अगर (pStream->state)
   {
     pStream->zfree(pStream->opaque, pStream->state);
-    pStream->state = NULL;
+    pStream->state = शून्य;
   }
-  return MZ_OK;
+  वापस MZ_OK;
 }
 
 mz_ulong mz_deflateBound(mz_streamp pStream, mz_ulong source_len)
 {
-  (void)pStream;
+  (व्योम)pStream;
   // This is really over conservative. (And lame, but it's actually pretty tricky to compute a true upper bound given the way tdefl's blocking works.)
-  return MZ_MAX(128 + (source_len * 110) / 100, 128 + source_len + ((source_len / (31 * 1024)) + 1) * 5);
+  वापस MZ_MAX(128 + (source_len * 110) / 100, 128 + source_len + ((source_len / (31 * 1024)) + 1) * 5);
 }
 
-int mz_compress2(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len, int level)
+पूर्णांक mz_compress2(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len, पूर्णांक level)
 {
-  int status;
+  पूर्णांक status;
   mz_stream stream;
-  memset(&stream, 0, sizeof(stream));
+  स_रखो(&stream, 0, माप(stream));
 
   // In case mz_ulong is 64-bits (argh I hate longs).
-  if ((source_len | *pDest_len) > 0xFFFFFFFFU) return MZ_PARAM_ERROR;
+  अगर ((source_len | *pDest_len) > 0xFFFFFFFFU) वापस MZ_PARAM_ERROR;
 
-  stream.next_in = pSource;
+  stream.अग्र_in = pSource;
   stream.avail_in = (mz_uint32)source_len;
-  stream.next_out = pDest;
+  stream.अग्र_out = pDest;
   stream.avail_out = (mz_uint32)*pDest_len;
 
   status = mz_deflateInit(&stream, level);
-  if (status != MZ_OK) return status;
+  अगर (status != MZ_OK) वापस status;
 
   status = mz_deflate(&stream, MZ_FINISH);
-  if (status != MZ_STREAM_END)
+  अगर (status != MZ_STREAM_END)
   {
     mz_deflateEnd(&stream);
-    return (status == MZ_OK) ? MZ_BUF_ERROR : status;
+    वापस (status == MZ_OK) ? MZ_BUF_ERROR : status;
   }
 
-  *pDest_len = stream.total_out;
-  return mz_deflateEnd(&stream);
+  *pDest_len = stream.योग_out;
+  वापस mz_deflateEnd(&stream);
 }
 
-int mz_compress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len)
+पूर्णांक mz_compress(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len)
 {
-  return mz_compress2(pDest, pDest_len, pSource, source_len, MZ_DEFAULT_COMPRESSION);
+  वापस mz_compress2(pDest, pDest_len, pSource, source_len, MZ_DEFAULT_COMPRESSION);
 }
 
 mz_ulong mz_compressBound(mz_ulong source_len)
 {
-  return mz_deflateBound(NULL, source_len);
+  वापस mz_deflateBound(शून्य, source_len);
 }
 
-#endif /*#ifndef MINIZ_NO_DEFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_DEFLATE_APIS*/
 
-#ifndef MINIZ_NO_INFLATE_APIS
+#अगर_अघोषित MINIZ_NO_INFLATE_APIS
 
-typedef struct
+प्रकार काष्ठा
 {
   tinfl_decompressor m_decomp;
-  mz_uint m_dict_ofs, m_dict_avail, m_first_call, m_has_flushed; int m_window_bits;
-  mz_uint8 m_dict[TINFL_LZ_DICT_SIZE];
+  mz_uint m_dict_ofs, m_dict_avail, m_first_call, m_has_flushed; पूर्णांक m_window_bits;
+  mz_uint8 m_dict[TINFL_LZ_DICT_आकार];
   tinfl_status m_last_status;
 } inflate_state;
 
-int mz_inflateInit2(mz_streamp pStream, int window_bits)
+पूर्णांक mz_inflateInit2(mz_streamp pStream, पूर्णांक window_bits)
 {
   inflate_state *pDecomp;
-  if (!pStream) return MZ_STREAM_ERROR;
-  if ((window_bits != MZ_DEFAULT_WINDOW_BITS) && (-window_bits != MZ_DEFAULT_WINDOW_BITS)) return MZ_PARAM_ERROR;
+  अगर (!pStream) वापस MZ_STREAM_ERROR;
+  अगर ((window_bits != MZ_DEFAULT_WINDOW_BITS) && (-window_bits != MZ_DEFAULT_WINDOW_BITS)) वापस MZ_PARAM_ERROR;
 
-  pStream->data_type = 0;
+  pStream->तथ्य_type = 0;
   pStream->adler = 0;
-  pStream->msg = NULL;
-  pStream->total_in = 0;
-  pStream->total_out = 0;
+  pStream->संदेश = शून्य;
+  pStream->योग_in = 0;
+  pStream->योग_out = 0;
   pStream->reserved = 0;
-  if (!pStream->zalloc) pStream->zalloc = def_alloc_func;
-  if (!pStream->zfree) pStream->zfree = def_free_func;
+  अगर (!pStream->zalloc) pStream->zalloc = def_alloc_func;
+  अगर (!pStream->zfree) pStream->zfree = def_free_func;
 
-  pDecomp = (inflate_state*)pStream->zalloc(pStream->opaque, 1, sizeof(inflate_state));
-  if (!pDecomp) return MZ_MEM_ERROR;
+  pDecomp = (inflate_state*)pStream->zalloc(pStream->opaque, 1, माप(inflate_state));
+  अगर (!pDecomp) वापस MZ_MEM_ERROR;
 
-  pStream->state = (struct mz_internal_state *)pDecomp;
+  pStream->state = (काष्ठा mz_internal_state *)pDecomp;
 
   tinfl_init(&pDecomp->m_decomp);
   pDecomp->m_dict_ofs = 0;
   pDecomp->m_dict_avail = 0;
-  pDecomp->m_last_status = TINFL_STATUS_NEEDS_MORE_INPUT;
+  pDecomp->m_last_status = TINFL_STATUS_NEEDS_MORE_निवेश;
   pDecomp->m_first_call = 1;
   pDecomp->m_has_flushed = 0;
   pDecomp->m_window_bits = window_bits;
 
-  return MZ_OK;
+  वापस MZ_OK;
 }
 
-int mz_inflateInit(mz_streamp pStream)
+पूर्णांक mz_inflateInit(mz_streamp pStream)
 {
-   return mz_inflateInit2(pStream, MZ_DEFAULT_WINDOW_BITS);
+   वापस mz_inflateInit2(pStream, MZ_DEFAULT_WINDOW_BITS);
 }
 
-int mz_inflate(mz_streamp pStream, int flush)
+पूर्णांक mz_inflate(mz_streamp pStream, पूर्णांक flush)
 {
   inflate_state* pState;
   mz_uint n, first_call, decomp_flags = TINFL_FLAG_COMPUTE_ADLER32;
-  size_t in_bytes, out_bytes, orig_avail_in;
+  माप_प्रकार in_bytes, out_bytes, orig_avail_in;
   tinfl_status status;
 
-  if ((!pStream) || (!pStream->state)) return MZ_STREAM_ERROR;
-  if (flush == MZ_PARTIAL_FLUSH) flush = MZ_SYNC_FLUSH;
-  if ((flush) && (flush != MZ_SYNC_FLUSH) && (flush != MZ_FINISH)) return MZ_STREAM_ERROR;
+  अगर ((!pStream) || (!pStream->state)) वापस MZ_STREAM_ERROR;
+  अगर (flush == MZ_PARTIAL_FLUSH) flush = MZ_SYNC_FLUSH;
+  अगर ((flush) && (flush != MZ_SYNC_FLUSH) && (flush != MZ_FINISH)) वापस MZ_STREAM_ERROR;
 
   pState = (inflate_state*)pStream->state;
-  if (pState->m_window_bits > 0) decomp_flags |= TINFL_FLAG_PARSE_ZLIB_HEADER;
+  अगर (pState->m_window_bits > 0) decomp_flags |= TINFL_FLAG_PARSE_ZLIB_HEADER;
   orig_avail_in = pStream->avail_in;
 
   first_call = pState->m_first_call; pState->m_first_call = 0;
-  if (pState->m_last_status < 0) return MZ_DATA_ERROR;
+  अगर (pState->m_last_status < 0) वापस MZ_तथ्य_ERROR;
 
-  if (pState->m_has_flushed && (flush != MZ_FINISH)) return MZ_STREAM_ERROR;
+  अगर (pState->m_has_flushed && (flush != MZ_FINISH)) वापस MZ_STREAM_ERROR;
   pState->m_has_flushed |= (flush == MZ_FINISH);
 
-  if ((flush == MZ_FINISH) && (first_call))
+  अगर ((flush == MZ_FINISH) && (first_call))
   {
     // MZ_FINISH on the first call implies that the input and output buffers are large enough to hold the entire compressed/decompressed file.
     decomp_flags |= TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF;
     in_bytes = pStream->avail_in; out_bytes = pStream->avail_out;
-    status = tinfl_decompress(&pState->m_decomp, pStream->next_in, &in_bytes, pStream->next_out, pStream->next_out, &out_bytes, decomp_flags);
+    status = tinfl_decompress(&pState->m_decomp, pStream->अग्र_in, &in_bytes, pStream->अग्र_out, pStream->अग्र_out, &out_bytes, decomp_flags);
     pState->m_last_status = status;
-    pStream->next_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes; pStream->total_in += (mz_uint)in_bytes;
+    pStream->अग्र_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes; pStream->योग_in += (mz_uint)in_bytes;
     pStream->adler = tinfl_get_adler32(&pState->m_decomp);
-    pStream->next_out += (mz_uint)out_bytes; pStream->avail_out -= (mz_uint)out_bytes; pStream->total_out += (mz_uint)out_bytes;
+    pStream->अग्र_out += (mz_uint)out_bytes; pStream->avail_out -= (mz_uint)out_bytes; pStream->योग_out += (mz_uint)out_bytes;
 
-    if (status < 0)
-      return MZ_DATA_ERROR;
-    else if (status != TINFL_STATUS_DONE)
+    अगर (status < 0)
+      वापस MZ_तथ्य_ERROR;
+    अन्यथा अगर (status != TINFL_STATUS_DONE)
     {
       pState->m_last_status = TINFL_STATUS_FAILED;
-      return MZ_BUF_ERROR;
+      वापस MZ_BUF_ERROR;
     }
-    return MZ_STREAM_END;
+    वापस MZ_STREAM_END;
   }
   // flush != MZ_FINISH then we must assume there's more input.
-  if (flush != MZ_FINISH) decomp_flags |= TINFL_FLAG_HAS_MORE_INPUT;
+  अगर (flush != MZ_FINISH) decomp_flags |= TINFL_FLAG_HAS_MORE_निवेश;
 
-  if (pState->m_dict_avail)
+  अगर (pState->m_dict_avail)
   {
     n = MZ_MIN(pState->m_dict_avail, pStream->avail_out);
-    memcpy(pStream->next_out, pState->m_dict + pState->m_dict_ofs, n);
-    pStream->next_out += n; pStream->avail_out -= n; pStream->total_out += n;
-    pState->m_dict_avail -= n; pState->m_dict_ofs = (pState->m_dict_ofs + n) & (TINFL_LZ_DICT_SIZE - 1);
-    return ((pState->m_last_status == TINFL_STATUS_DONE) && (!pState->m_dict_avail)) ? MZ_STREAM_END : MZ_OK;
+    स_नकल(pStream->अग्र_out, pState->m_dict + pState->m_dict_ofs, n);
+    pStream->अग्र_out += n; pStream->avail_out -= n; pStream->योग_out += n;
+    pState->m_dict_avail -= n; pState->m_dict_ofs = (pState->m_dict_ofs + n) & (TINFL_LZ_DICT_आकार - 1);
+    वापस ((pState->m_last_status == TINFL_STATUS_DONE) && (!pState->m_dict_avail)) ? MZ_STREAM_END : MZ_OK;
   }
 
-  for ( ; ; )
+  क्रम ( ; ; )
   {
     in_bytes = pStream->avail_in;
-    out_bytes = TINFL_LZ_DICT_SIZE - pState->m_dict_ofs;
+    out_bytes = TINFL_LZ_DICT_आकार - pState->m_dict_ofs;
 
-    status = tinfl_decompress(&pState->m_decomp, pStream->next_in, &in_bytes, pState->m_dict, pState->m_dict + pState->m_dict_ofs, &out_bytes, decomp_flags);
+    status = tinfl_decompress(&pState->m_decomp, pStream->अग्र_in, &in_bytes, pState->m_dict, pState->m_dict + pState->m_dict_ofs, &out_bytes, decomp_flags);
     pState->m_last_status = status;
 
-    pStream->next_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes;
-    pStream->total_in += (mz_uint)in_bytes; pStream->adler = tinfl_get_adler32(&pState->m_decomp);
+    pStream->अग्र_in += (mz_uint)in_bytes; pStream->avail_in -= (mz_uint)in_bytes;
+    pStream->योग_in += (mz_uint)in_bytes; pStream->adler = tinfl_get_adler32(&pState->m_decomp);
 
     pState->m_dict_avail = (mz_uint)out_bytes;
 
     n = MZ_MIN(pState->m_dict_avail, pStream->avail_out);
-    memcpy(pStream->next_out, pState->m_dict + pState->m_dict_ofs, n);
-    pStream->next_out += n; pStream->avail_out -= n; pStream->total_out += n;
-    pState->m_dict_avail -= n; pState->m_dict_ofs = (pState->m_dict_ofs + n) & (TINFL_LZ_DICT_SIZE - 1);
+    स_नकल(pStream->अग्र_out, pState->m_dict + pState->m_dict_ofs, n);
+    pStream->अग्र_out += n; pStream->avail_out -= n; pStream->योग_out += n;
+    pState->m_dict_avail -= n; pState->m_dict_ofs = (pState->m_dict_ofs + n) & (TINFL_LZ_DICT_आकार - 1);
 
-    if (status < 0)
-       return MZ_DATA_ERROR; // Stream is corrupted (there could be some uncompressed data left in the output dictionary - oh well).
-    else if ((status == TINFL_STATUS_NEEDS_MORE_INPUT) && (!orig_avail_in))
-      return MZ_BUF_ERROR; // Signal caller that we can't make forward progress without supplying more input or by setting flush to MZ_FINISH.
-    else if (flush == MZ_FINISH)
+    अगर (status < 0)
+       वापस MZ_तथ्य_ERROR; // Stream is corrupted (there could be some uncompressed data left in the output dictionary - oh well).
+    अन्यथा अगर ((status == TINFL_STATUS_NEEDS_MORE_निवेश) && (!orig_avail_in))
+      वापस MZ_BUF_ERROR; // Signal caller that we can't make forward progress without supplying more input or by setting flush to MZ_FINISH.
+    अन्यथा अगर (flush == MZ_FINISH)
     {
        // The output buffer MUST be large to hold the remaining uncompressed data when flush==MZ_FINISH.
-       if (status == TINFL_STATUS_DONE)
-          return pState->m_dict_avail ? MZ_BUF_ERROR : MZ_STREAM_END;
+       अगर (status == TINFL_STATUS_DONE)
+          वापस pState->m_dict_avail ? MZ_BUF_ERROR : MZ_STREAM_END;
        // status here must be TINFL_STATUS_HAS_MORE_OUTPUT, which means there's at least 1 more byte on the way. If there's no more room left in the output buffer then something is wrong.
-       else if (!pStream->avail_out)
-          return MZ_BUF_ERROR;
+       अन्यथा अगर (!pStream->avail_out)
+          वापस MZ_BUF_ERROR;
     }
-    else if ((status == TINFL_STATUS_DONE) || (!pStream->avail_in) || (!pStream->avail_out) || (pState->m_dict_avail))
-      break;
+    अन्यथा अगर ((status == TINFL_STATUS_DONE) || (!pStream->avail_in) || (!pStream->avail_out) || (pState->m_dict_avail))
+      अवरोध;
   }
 
-  return ((status == TINFL_STATUS_DONE) && (!pState->m_dict_avail)) ? MZ_STREAM_END : MZ_OK;
+  वापस ((status == TINFL_STATUS_DONE) && (!pState->m_dict_avail)) ? MZ_STREAM_END : MZ_OK;
 }
 
-int mz_inflateEnd(mz_streamp pStream)
+पूर्णांक mz_inflateEnd(mz_streamp pStream)
 {
-  if (!pStream)
-    return MZ_STREAM_ERROR;
-  if (pStream->state)
+  अगर (!pStream)
+    वापस MZ_STREAM_ERROR;
+  अगर (pStream->state)
   {
     pStream->zfree(pStream->opaque, pStream->state);
-    pStream->state = NULL;
+    pStream->state = शून्य;
   }
-  return MZ_OK;
+  वापस MZ_OK;
 }
 
-int mz_uncompress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len)
+पूर्णांक mz_uncompress(अचिन्हित अक्षर *pDest, mz_ulong *pDest_len, स्थिर अचिन्हित अक्षर *pSource, mz_ulong source_len)
 {
   mz_stream stream;
-  int status;
-  memset(&stream, 0, sizeof(stream));
+  पूर्णांक status;
+  स_रखो(&stream, 0, माप(stream));
 
   // In case mz_ulong is 64-bits (argh I hate longs).
-  if ((source_len | *pDest_len) > 0xFFFFFFFFU) return MZ_PARAM_ERROR;
+  अगर ((source_len | *pDest_len) > 0xFFFFFFFFU) वापस MZ_PARAM_ERROR;
 
-  stream.next_in = pSource;
+  stream.अग्र_in = pSource;
   stream.avail_in = (mz_uint32)source_len;
-  stream.next_out = pDest;
+  stream.अग्र_out = pDest;
   stream.avail_out = (mz_uint32)*pDest_len;
 
   status = mz_inflateInit(&stream);
-  if (status != MZ_OK)
-    return status;
+  अगर (status != MZ_OK)
+    वापस status;
 
   status = mz_inflate(&stream, MZ_FINISH);
-  if (status != MZ_STREAM_END)
+  अगर (status != MZ_STREAM_END)
   {
     mz_inflateEnd(&stream);
-    return ((status == MZ_BUF_ERROR) && (!stream.avail_in)) ? MZ_DATA_ERROR : status;
+    वापस ((status == MZ_BUF_ERROR) && (!stream.avail_in)) ? MZ_तथ्य_ERROR : status;
   }
-  *pDest_len = stream.total_out;
+  *pDest_len = stream.योग_out;
 
-  return mz_inflateEnd(&stream);
+  वापस mz_inflateEnd(&stream);
 }
 
-#endif /*#ifndef MINIZ_NO_INFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_INFLATE_APIS*/
 
-const char *mz_error(int err)
+स्थिर अक्षर *mz_error(पूर्णांक err)
 {
-  static struct { int m_err; const char *m_pDesc; } s_error_descs[] =
+  अटल काष्ठा { पूर्णांक m_err; स्थिर अक्षर *m_pDesc; } s_error_descs[] =
   {
     { MZ_OK, "" }, { MZ_STREAM_END, "stream end" }, { MZ_NEED_DICT, "need dictionary" }, { MZ_ERRNO, "file error" }, { MZ_STREAM_ERROR, "stream error" },
-    { MZ_DATA_ERROR, "data error" }, { MZ_MEM_ERROR, "out of memory" }, { MZ_BUF_ERROR, "buf error" }, { MZ_VERSION_ERROR, "version error" }, { MZ_PARAM_ERROR, "parameter error" }
+    { MZ_तथ्य_ERROR, "data error" }, { MZ_MEM_ERROR, "out of memory" }, { MZ_BUF_ERROR, "buf error" }, { MZ_VERSION_ERROR, "version error" }, { MZ_PARAM_ERROR, "parameter error" }
   };
-  mz_uint i; for (i = 0; i < sizeof(s_error_descs) / sizeof(s_error_descs[0]); ++i) if (s_error_descs[i].m_err == err) return s_error_descs[i].m_pDesc;
-  return NULL;
+  mz_uint i; क्रम (i = 0; i < माप(s_error_descs) / माप(s_error_descs[0]); ++i) अगर (s_error_descs[i].m_err == err) वापस s_error_descs[i].m_pDesc;
+  वापस शून्य;
 }
 
-#endif //MINIZ_NO_ZLIB_APIS
+#पूर्ण_अगर //MINIZ_NO_ZLIB_APIS
 
 // ------------------- Low-level Decompression (completely independent from all compression API's)
-#ifndef MINIZ_NO_INFLATE_APIS
+#अगर_अघोषित MINIZ_NO_INFLATE_APIS
 
-#define TINFL_MEMCPY(d, s, l) memcpy(d, s, l)
-#define TINFL_MEMSET(p, c, l) memset(p, c, l)
+#घोषणा TINFL_MEMCPY(d, s, l) स_नकल(d, s, l)
+#घोषणा TINFL_MEMSET(p, c, l) स_रखो(p, c, l)
 
-#define TINFL_CR_BEGIN switch(r->m_state) { case 0:
-#define TINFL_CR_RETURN(state_index, result) do { status = result; r->m_state = state_index; goto common_exit; case state_index:; } MZ_MACRO_END
-#define TINFL_CR_RETURN_FOREVER(state_index, result) do { for ( ; ; ) { TINFL_CR_RETURN(state_index, result); } } MZ_MACRO_END
-#define TINFL_CR_FINISH }
+#घोषणा TINFL_CR_BEGIN चयन(r->m_state) { हाल 0:
+#घोषणा TINFL_CR_RETURN(state_सूचकांक, परिणाम) करो { status = परिणाम; r->m_state = state_सूचकांक; जाओ common_exit; हाल state_सूचकांक:; } MZ_MACRO_END
+#घोषणा TINFL_CR_RETURN_FOREVER(state_सूचकांक, परिणाम) करो { क्रम ( ; ; ) { TINFL_CR_RETURN(state_सूचकांक, परिणाम); } } MZ_MACRO_END
+#घोषणा TINFL_CR_FINISH }
 
 // TODO: If the caller has indicated that there's no more input, and we attempt to read beyond the input buf, then something is wrong with the input because the inflator never
 // reads ahead more than it needs to. Currently TINFL_GET_BYTE() pads the end of the stream with 0's in this scenario.
-#define TINFL_GET_BYTE(state_index, c) do { \
-  if (pIn_buf_cur >= pIn_buf_end) { \
-    for ( ; ; ) { \
-      if (decomp_flags & TINFL_FLAG_HAS_MORE_INPUT) { \
-        TINFL_CR_RETURN(state_index, TINFL_STATUS_NEEDS_MORE_INPUT); \
-        if (pIn_buf_cur < pIn_buf_end) { \
+#घोषणा TINFL_GET_BYTE(state_सूचकांक, c) करो { \
+  अगर (pIn_buf_cur >= pIn_buf_end) { \
+    क्रम ( ; ; ) { \
+      अगर (decomp_flags & TINFL_FLAG_HAS_MORE_निवेश) { \
+        TINFL_CR_RETURN(state_सूचकांक, TINFL_STATUS_NEEDS_MORE_निवेश); \
+        अगर (pIn_buf_cur < pIn_buf_end) { \
           c = *pIn_buf_cur++; \
-          break; \
+          अवरोध; \
         } \
-      } else { \
+      } अन्यथा { \
         c = 0; \
-        break; \
+        अवरोध; \
       } \
     } \
-  } else c = *pIn_buf_cur++; } MZ_MACRO_END
+  } अन्यथा c = *pIn_buf_cur++; } MZ_MACRO_END
 
-#define TINFL_NEED_BITS(state_index, n) do { mz_uint c; TINFL_GET_BYTE(state_index, c); bit_buf |= (((tinfl_bit_buf_t)c) << num_bits); num_bits += 8; } while (num_bits < (mz_uint)(n))
-#define TINFL_SKIP_BITS(state_index, n) do { if (num_bits < (mz_uint)(n)) { TINFL_NEED_BITS(state_index, n); } bit_buf >>= (n); num_bits -= (n); } MZ_MACRO_END
-#define TINFL_GET_BITS(state_index, b, n) do { if (num_bits < (mz_uint)(n)) { TINFL_NEED_BITS(state_index, n); } b = bit_buf & ((1 << (n)) - 1); bit_buf >>= (n); num_bits -= (n); } MZ_MACRO_END
+#घोषणा TINFL_NEED_BITS(state_सूचकांक, n) करो { mz_uint c; TINFL_GET_BYTE(state_सूचकांक, c); bit_buf |= (((tinfl_bit_buf_t)c) << अंक_bits); अंक_bits += 8; } जबतक (अंक_bits < (mz_uint)(n))
+#घोषणा TINFL_SKIP_BITS(state_सूचकांक, n) करो { अगर (अंक_bits < (mz_uint)(n)) { TINFL_NEED_BITS(state_सूचकांक, n); } bit_buf >>= (n); अंक_bits -= (n); } MZ_MACRO_END
+#घोषणा TINFL_GET_BITS(state_सूचकांक, b, n) करो { अगर (अंक_bits < (mz_uint)(n)) { TINFL_NEED_BITS(state_सूचकांक, n); } b = bit_buf & ((1 << (n)) - 1); bit_buf >>= (n); अंक_bits -= (n); } MZ_MACRO_END
 
 // TINFL_HUFF_BITBUF_FILL() is only used rarely, when the number of bytes remaining in the input buffer falls below 2.
 // It reads just enough bytes from the input stream that are needed to decode the next Huffman code (and absolutely no more). It works by trying to fully decode a
 // Huffman code by using whatever bits are currently present in the bit buffer. If this fails, it reads another byte, and tries again until it succeeds or until the
 // bit buffer contains >=15 bits (deflate's max. Huffman code size).
-#define TINFL_HUFF_BITBUF_FILL(state_index, pHuff) \
-  do { \
-    temp = (pHuff)->m_look_up[bit_buf & (TINFL_FAST_LOOKUP_SIZE - 1)]; \
-    if (temp >= 0) { \
-      code_len = temp >> 9; \
-      if ((code_len) && (num_bits >= code_len)) \
-          break; \
-    } else if (num_bits > TINFL_FAST_LOOKUP_BITS) { \
+#घोषणा TINFL_HUFF_BITBUF_FILL(state_सूचकांक, pHuff) \
+  करो { \
+    अस्थायी = (pHuff)->m_look_up[bit_buf & (TINFL_FAST_LOOKUP_आकार - 1)]; \
+    अगर (अस्थायी >= 0) { \
+      code_len = अस्थायी >> 9; \
+      अगर ((code_len) && (अंक_bits >= code_len)) \
+          अवरोध; \
+    } अन्यथा अगर (अंक_bits > TINFL_FAST_LOOKUP_BITS) { \
        code_len = TINFL_FAST_LOOKUP_BITS; \
-       do { \
-          temp = (pHuff)->m_tree[~temp + ((bit_buf >> code_len++) & 1)]; \
-       } while ((temp < 0) && (num_bits >= (code_len + 1))); \
-       if (temp >= 0) break; \
+       करो { \
+          अस्थायी = (pHuff)->m_वृक्ष[~अस्थायी + ((bit_buf >> code_len++) & 1)]; \
+       } जबतक ((अस्थायी < 0) && (अंक_bits >= (code_len + 1))); \
+       अगर (अस्थायी >= 0) अवरोध; \
     } \
-    TINFL_GET_BYTE(state_index, c); \
-    bit_buf |= (((tinfl_bit_buf_t)c) << num_bits); \
-    num_bits += 8; \
-  } while (num_bits < 15);
+    TINFL_GET_BYTE(state_सूचकांक, c); \
+    bit_buf |= (((tinfl_bit_buf_t)c) << अंक_bits); \
+    अंक_bits += 8; \
+  } जबतक (अंक_bits < 15);
 
 // TINFL_HUFF_DECODE() decodes the next Huffman coded symbol. It's more complex than you would initially expect because the zlib API expects the decompressor to never read
 // beyond the final byte of the deflate stream. (In other words, when this macro wants to read another byte from the input, it REALLY needs another byte in order to fully
 // decode the next Huffman code.) Handling this properly is particularly important on raw deflate (non-zlib) streams, which aren't followed by a byte aligned adler-32.
 // The slow path is only executed at the very end of the input buffer.
-#define TINFL_HUFF_DECODE(state_index, sym, pHuff) do { \
-  int temp; mz_uint code_len, c; \
-  if (num_bits < 15) { \
-    if ((pIn_buf_end - pIn_buf_cur) < 2) { \
-       TINFL_HUFF_BITBUF_FILL(state_index, pHuff); \
-    } else { \
-       bit_buf |= (((tinfl_bit_buf_t)pIn_buf_cur[0]) << num_bits) | (((tinfl_bit_buf_t)pIn_buf_cur[1]) << (num_bits + 8)); pIn_buf_cur += 2; num_bits += 16; \
+#घोषणा TINFL_HUFF_DECODE(state_सूचकांक, sym, pHuff) करो { \
+  पूर्णांक अस्थायी; mz_uint code_len, c; \
+  अगर (अंक_bits < 15) { \
+    अगर ((pIn_buf_end - pIn_buf_cur) < 2) { \
+       TINFL_HUFF_BITBUF_FILL(state_सूचकांक, pHuff); \
+    } अन्यथा { \
+       bit_buf |= (((tinfl_bit_buf_t)pIn_buf_cur[0]) << अंक_bits) | (((tinfl_bit_buf_t)pIn_buf_cur[1]) << (अंक_bits + 8)); pIn_buf_cur += 2; अंक_bits += 16; \
     } \
   } \
-  if ((temp = (pHuff)->m_look_up[bit_buf & (TINFL_FAST_LOOKUP_SIZE - 1)]) >= 0) \
-    code_len = temp >> 9, temp &= 511; \
-  else { \
-    code_len = TINFL_FAST_LOOKUP_BITS; do { temp = (pHuff)->m_tree[~temp + ((bit_buf >> code_len++) & 1)]; } while (temp < 0); \
-  } sym = temp; bit_buf >>= code_len; num_bits -= code_len; } MZ_MACRO_END
+  अगर ((अस्थायी = (pHuff)->m_look_up[bit_buf & (TINFL_FAST_LOOKUP_आकार - 1)]) >= 0) \
+    code_len = अस्थायी >> 9, अस्थायी &= 511; \
+  अन्यथा { \
+    code_len = TINFL_FAST_LOOKUP_BITS; करो { अस्थायी = (pHuff)->m_वृक्ष[~अस्थायी + ((bit_buf >> code_len++) & 1)]; } जबतक (अस्थायी < 0); \
+  } sym = अस्थायी; bit_buf >>= code_len; अंक_bits -= code_len; } MZ_MACRO_END
 
-tinfl_status tinfl_decompress(tinfl_decompressor *r, const mz_uint8 *pIn_buf_next, size_t *pIn_buf_size, mz_uint8 *pOut_buf_start, mz_uint8 *pOut_buf_next, size_t *pOut_buf_size, const mz_uint32 decomp_flags)
+tinfl_status tinfl_decompress(tinfl_decompressor *r, स्थिर mz_uint8 *p_In_buf_अग्र, माप_प्रकार *p_In_buf_आकार, mz_uint8 *pOut_buf_start, mz_uint8 *p_Out_buf_अग्र, माप_प्रकार *p_Out_buf_आकार, स्थिर mz_uint32 decomp_flags)
 {
-  static const int s_length_base[31] = { 3,4,5,6,7,8,9,10,11,13, 15,17,19,23,27,31,35,43,51,59, 67,83,99,115,131,163,195,227,258,0,0 };
-  static const int s_length_extra[31]= { 0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0 };
-  static const int s_dist_base[32] = { 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193, 257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0};
-  static const int s_dist_extra[32] = { 0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
-  static const mz_uint8 s_length_dezigzag[19] = { 16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15 };
-  static const int s_min_table_sizes[3] = { 257, 1, 4 };
+  अटल स्थिर पूर्णांक s_लंबाई_base[31] = { 3,4,5,6,7,8,9,10,11,13, 15,17,19,23,27,31,35,43,51,59, 67,83,99,115,131,163,195,227,258,0,0 };
+  अटल स्थिर पूर्णांक s_लंबाई_extra[31]= { 0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0 };
+  अटल स्थिर पूर्णांक s_dist_base[32] = { 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193, 257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0};
+  अटल स्थिर पूर्णांक s_dist_extra[32] = { 0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
+  अटल स्थिर mz_uint8 s_लंबाई_dezigzag[19] = { 16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15 };
+  अटल स्थिर पूर्णांक s_min_table_sizes[3] = { 257, 1, 4 };
 
-  tinfl_status status = TINFL_STATUS_FAILED; mz_uint32 num_bits, dist, counter, num_extra; tinfl_bit_buf_t bit_buf;
-  const mz_uint8 *pIn_buf_cur = pIn_buf_next, *const pIn_buf_end = pIn_buf_next + *pIn_buf_size;
-  mz_uint8 *pOut_buf_cur = pOut_buf_next, *const pOut_buf_end = pOut_buf_next + *pOut_buf_size;
-  size_t out_buf_size_mask = (decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF) ? (size_t)-1 : ((pOut_buf_next - pOut_buf_start) + *pOut_buf_size) - 1, dist_from_out_buf_start;
+  tinfl_status status = TINFL_STATUS_FAILED; mz_uint32 अंक_bits, dist, गणक, अंक_extra; tinfl_bit_buf_t bit_buf;
+  स्थिर mz_uint8 *pIn_buf_cur = p_In_buf_अग्र, *स्थिर pIn_buf_end = p_In_buf_अग्र + *p_In_buf_आकार;
+  mz_uint8 *pOut_buf_cur = p_Out_buf_अग्र, *स्थिर pOut_buf_end = p_Out_buf_अग्र + *p_Out_buf_आकार;
+  माप_प्रकार out_buf_आकार_mask = (decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF) ? (माप_प्रकार)-1 : ((p_Out_buf_अग्र - pOut_buf_start) + *p_Out_buf_आकार) - 1, dist_from_out_buf_start;
 
   // Ensure the output buffer's size is a power of 2, unless the output buffer is large enough to hold the entire output file (in which case it doesn't matter).
-  if (((out_buf_size_mask + 1) & out_buf_size_mask) || (pOut_buf_next < pOut_buf_start)) { *pIn_buf_size = *pOut_buf_size = 0; return TINFL_STATUS_BAD_PARAM; }
+  अगर (((out_buf_आकार_mask + 1) & out_buf_आकार_mask) || (p_Out_buf_अग्र < pOut_buf_start)) { *p_In_buf_आकार = *p_Out_buf_आकार = 0; वापस TINFL_STATUS_BAD_PARAM; }
 
-  num_bits = r->m_num_bits; bit_buf = r->m_bit_buf; dist = r->m_dist; counter = r->m_counter; num_extra = r->m_num_extra; dist_from_out_buf_start = r->m_dist_from_out_buf_start;
+  अंक_bits = r->m_अंक_bits; bit_buf = r->m_bit_buf; dist = r->m_dist; गणक = r->m_गणक; अंक_extra = r->m_अंक_extra; dist_from_out_buf_start = r->m_dist_from_out_buf_start;
   TINFL_CR_BEGIN
 
-  bit_buf = num_bits = dist = counter = num_extra = r->m_zhdr0 = r->m_zhdr1 = 0; r->m_z_adler32 = r->m_check_adler32 = 1;
-  if (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER)
+  bit_buf = अंक_bits = dist = गणक = अंक_extra = r->m_zhdr0 = r->m_zhdr1 = 0; r->m_z_adler32 = r->m_check_adler32 = 1;
+  अगर (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER)
   {
     TINFL_GET_BYTE(1, r->m_zhdr0); TINFL_GET_BYTE(2, r->m_zhdr1);
-    counter = (((r->m_zhdr0 * 256 + r->m_zhdr1) % 31 != 0) || (r->m_zhdr1 & 32) || ((r->m_zhdr0 & 15) != 8));
-    if (!(decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF)) counter |= (((1U << (8U + (r->m_zhdr0 >> 4))) > 32768U) || ((out_buf_size_mask + 1) < (size_t)(1U << (8U + (r->m_zhdr0 >> 4)))));
-    if (counter) { TINFL_CR_RETURN_FOREVER(36, TINFL_STATUS_FAILED); }
+    गणक = (((r->m_zhdr0 * 256 + r->m_zhdr1) % 31 != 0) || (r->m_zhdr1 & 32) || ((r->m_zhdr0 & 15) != 8));
+    अगर (!(decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF)) गणक |= (((1U << (8U + (r->m_zhdr0 >> 4))) > 32768U) || ((out_buf_आकार_mask + 1) < (माप_प्रकार)(1U << (8U + (r->m_zhdr0 >> 4)))));
+    अगर (गणक) { TINFL_CR_RETURN_FOREVER(36, TINFL_STATUS_FAILED); }
   }
 
-  do
+  करो
   {
     TINFL_GET_BITS(3, r->m_final, 3); r->m_type = r->m_final >> 1;
-    if (r->m_type == 0)
+    अगर (r->m_type == 0)
     {
-      TINFL_SKIP_BITS(5, num_bits & 7);
-      for (counter = 0; counter < 4; ++counter) { if (num_bits) TINFL_GET_BITS(6, r->m_raw_header[counter], 8); else TINFL_GET_BYTE(7, r->m_raw_header[counter]); }
-      if ((counter = (r->m_raw_header[0] | (r->m_raw_header[1] << 8))) != (mz_uint)(0xFFFF ^ (r->m_raw_header[2] | (r->m_raw_header[3] << 8)))) { TINFL_CR_RETURN_FOREVER(39, TINFL_STATUS_FAILED); }
-      while ((counter) && (num_bits))
+      TINFL_SKIP_BITS(5, अंक_bits & 7);
+      क्रम (गणक = 0; गणक < 4; ++गणक) { अगर (अंक_bits) TINFL_GET_BITS(6, r->m_raw_header[गणक], 8); अन्यथा TINFL_GET_BYTE(7, r->m_raw_header[गणक]); }
+      अगर ((गणक = (r->m_raw_header[0] | (r->m_raw_header[1] << 8))) != (mz_uint)(0xFFFF ^ (r->m_raw_header[2] | (r->m_raw_header[3] << 8)))) { TINFL_CR_RETURN_FOREVER(39, TINFL_STATUS_FAILED); }
+      जबतक ((गणक) && (अंक_bits))
       {
         TINFL_GET_BITS(51, dist, 8);
-        while (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(52, TINFL_STATUS_HAS_MORE_OUTPUT); }
+        जबतक (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(52, TINFL_STATUS_HAS_MORE_OUTPUT); }
         *pOut_buf_cur++ = (mz_uint8)dist;
-        counter--;
+        गणक--;
       }
-      while (counter)
+      जबतक (गणक)
       {
-        size_t n; while (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(9, TINFL_STATUS_HAS_MORE_OUTPUT); }
-        while (pIn_buf_cur >= pIn_buf_end)
+        माप_प्रकार n; जबतक (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(9, TINFL_STATUS_HAS_MORE_OUTPUT); }
+        जबतक (pIn_buf_cur >= pIn_buf_end)
         {
-          if (decomp_flags & TINFL_FLAG_HAS_MORE_INPUT)
+          अगर (decomp_flags & TINFL_FLAG_HAS_MORE_निवेश)
           {
-            TINFL_CR_RETURN(38, TINFL_STATUS_NEEDS_MORE_INPUT);
+            TINFL_CR_RETURN(38, TINFL_STATUS_NEEDS_MORE_निवेश);
           }
-          else
+          अन्यथा
           {
             TINFL_CR_RETURN_FOREVER(40, TINFL_STATUS_FAILED);
           }
         }
-        n = MZ_MIN(MZ_MIN((size_t)(pOut_buf_end - pOut_buf_cur), (size_t)(pIn_buf_end - pIn_buf_cur)), counter);
-        TINFL_MEMCPY(pOut_buf_cur, pIn_buf_cur, n); pIn_buf_cur += n; pOut_buf_cur += n; counter -= (mz_uint)n;
+        n = MZ_MIN(MZ_MIN((माप_प्रकार)(pOut_buf_end - pOut_buf_cur), (माप_प्रकार)(pIn_buf_end - pIn_buf_cur)), गणक);
+        TINFL_MEMCPY(pOut_buf_cur, pIn_buf_cur, n); pIn_buf_cur += n; pOut_buf_cur += n; गणक -= (mz_uint)n;
       }
     }
-    else if (r->m_type == 3)
+    अन्यथा अगर (r->m_type == 3)
     {
       TINFL_CR_RETURN_FOREVER(10, TINFL_STATUS_FAILED);
     }
-    else
+    अन्यथा
     {
-      if (r->m_type == 1)
+      अगर (r->m_type == 1)
       {
-        mz_uint8 *p = r->m_tables[0].m_code_size; mz_uint i;
-        r->m_table_sizes[0] = 288; r->m_table_sizes[1] = 32; TINFL_MEMSET(r->m_tables[1].m_code_size, 5, 32);
-        for ( i = 0; i <= 143; ++i) *p++ = 8;
-        for ( ; i <= 255; ++i) *p++ = 9;
-        for ( ; i <= 279; ++i) *p++ = 7;
-        for ( ; i <= 287; ++i) *p++ = 8;
+        mz_uint8 *p = r->m_tables[0].m_code_आकार; mz_uint i;
+        r->m_table_sizes[0] = 288; r->m_table_sizes[1] = 32; TINFL_MEMSET(r->m_tables[1].m_code_आकार, 5, 32);
+        क्रम ( i = 0; i <= 143; ++i) *p++ = 8;
+        क्रम ( ; i <= 255; ++i) *p++ = 9;
+        क्रम ( ; i <= 279; ++i) *p++ = 7;
+        क्रम ( ; i <= 287; ++i) *p++ = 8;
       }
-      else
+      अन्यथा
       {
-        for (counter = 0; counter < 3; counter++) { TINFL_GET_BITS(11, r->m_table_sizes[counter], "\05\05\04"[counter]); r->m_table_sizes[counter] += s_min_table_sizes[counter]; }
-        MZ_CLEAR_ARR(r->m_tables[2].m_code_size); for (counter = 0; counter < r->m_table_sizes[2]; counter++) { mz_uint s; TINFL_GET_BITS(14, s, 3); r->m_tables[2].m_code_size[s_length_dezigzag[counter]] = (mz_uint8)s; }
+        क्रम (गणक = 0; गणक < 3; गणक++) { TINFL_GET_BITS(11, r->m_table_sizes[गणक], "\05\05\04"[गणक]); r->m_table_sizes[गणक] += s_min_table_sizes[गणक]; }
+        MZ_CLEAR_ARR(r->m_tables[2].m_code_आकार); क्रम (गणक = 0; गणक < r->m_table_sizes[2]; गणक++) { mz_uint s; TINFL_GET_BITS(14, s, 3); r->m_tables[2].m_code_आकार[s_लंबाई_dezigzag[गणक]] = (mz_uint8)s; }
         r->m_table_sizes[2] = 19;
       }
-      for ( ; (int)r->m_type >= 0; r->m_type--)
+      क्रम ( ; (पूर्णांक)r->m_type >= 0; r->m_type--)
       {
-        int tree_next, tree_cur; tinfl_huff_table *pTable;
-        mz_uint i, j, used_syms, total, sym_index, next_code[17], total_syms[16]; pTable = &r->m_tables[r->m_type]; MZ_CLEAR_ARR(total_syms); MZ_CLEAR_ARR(pTable->m_look_up); MZ_CLEAR_ARR(pTable->m_tree);
-        for (i = 0; i < r->m_table_sizes[r->m_type]; ++i) total_syms[pTable->m_code_size[i]]++;
-        used_syms = 0, total = 0; next_code[0] = next_code[1] = 0;
-        for (i = 1; i <= 15; ++i) { used_syms += total_syms[i]; next_code[i + 1] = (total = ((total + total_syms[i]) << 1)); }
-        if ((65536 != total) && (used_syms > 1))
+        पूर्णांक वृक्ष_अग्र, वृक्ष_cur; tinfl_huff_table *pTable;
+        mz_uint i, j, used_syms, योग, sym_सूचकांक, अग्र_code[17], योग_syms[16]; pTable = &r->m_tables[r->m_type]; MZ_CLEAR_ARR(योग_syms); MZ_CLEAR_ARR(pTable->m_look_up); MZ_CLEAR_ARR(pTable->m_वृक्ष);
+        क्रम (i = 0; i < r->m_table_sizes[r->m_type]; ++i) योग_syms[pTable->m_code_आकार[i]]++;
+        used_syms = 0, योग = 0; अग्र_code[0] = अग्र_code[1] = 0;
+        क्रम (i = 1; i <= 15; ++i) { used_syms += योग_syms[i]; अग्र_code[i + 1] = (योग = ((योग + योग_syms[i]) << 1)); }
+        अगर ((65536 != योग) && (used_syms > 1))
         {
           TINFL_CR_RETURN_FOREVER(35, TINFL_STATUS_FAILED);
         }
-        for (tree_next = -1, sym_index = 0; sym_index < r->m_table_sizes[r->m_type]; ++sym_index)
+        क्रम (वृक्ष_अग्र = -1, sym_सूचकांक = 0; sym_सूचकांक < r->m_table_sizes[r->m_type]; ++sym_सूचकांक)
         {
-          mz_uint rev_code = 0, l, cur_code, code_size = pTable->m_code_size[sym_index]; if (!code_size) continue;
-          cur_code = next_code[code_size]++; for (l = code_size; l > 0; l--, cur_code >>= 1) rev_code = (rev_code << 1) | (cur_code & 1);
-          if (code_size <= TINFL_FAST_LOOKUP_BITS) { mz_int16 k = (mz_int16)((code_size << 9) | sym_index); while (rev_code < TINFL_FAST_LOOKUP_SIZE) { pTable->m_look_up[rev_code] = k; rev_code += (1 << code_size); } continue; }
-          if (0 == (tree_cur = pTable->m_look_up[rev_code & (TINFL_FAST_LOOKUP_SIZE - 1)])) { pTable->m_look_up[rev_code & (TINFL_FAST_LOOKUP_SIZE - 1)] = (mz_int16)tree_next; tree_cur = tree_next; tree_next -= 2; }
+          mz_uint rev_code = 0, l, cur_code, code_आकार_2 = pTable->m_code_आकार[sym_सूचकांक]; अगर (!code_आकार_2) जारी;
+          cur_code = अग्र_code[code_आकार_2]++; क्रम (l = code_आकार_2; l > 0; l--, cur_code >>= 1) rev_code = (rev_code << 1) | (cur_code & 1);
+          अगर (code_आकार_2 <= TINFL_FAST_LOOKUP_BITS) { mz_int16 k = (mz_int16)((code_आकार_2 << 9) | sym_सूचकांक); जबतक (rev_code < TINFL_FAST_LOOKUP_आकार) { pTable->m_look_up[rev_code] = k; rev_code += (1 << code_आकार_2); } जारी; }
+          अगर (0 == (वृक्ष_cur = pTable->m_look_up[rev_code & (TINFL_FAST_LOOKUP_आकार - 1)])) { pTable->m_look_up[rev_code & (TINFL_FAST_LOOKUP_आकार - 1)] = (mz_int16)वृक्ष_अग्र; वृक्ष_cur = वृक्ष_अग्र; वृक्ष_अग्र -= 2; }
           rev_code >>= (TINFL_FAST_LOOKUP_BITS - 1);
-          for (j = code_size; j > (TINFL_FAST_LOOKUP_BITS + 1); j--)
+          क्रम (j = code_आकार_2; j > (TINFL_FAST_LOOKUP_BITS + 1); j--)
           {
-            tree_cur -= ((rev_code >>= 1) & 1);
-            if (!pTable->m_tree[-tree_cur - 1]) { pTable->m_tree[-tree_cur - 1] = (mz_int16)tree_next; tree_cur = tree_next; tree_next -= 2; } else tree_cur = pTable->m_tree[-tree_cur - 1];
+            वृक्ष_cur -= ((rev_code >>= 1) & 1);
+            अगर (!pTable->m_वृक्ष[-वृक्ष_cur - 1]) { pTable->m_वृक्ष[-वृक्ष_cur - 1] = (mz_int16)वृक्ष_अग्र; वृक्ष_cur = वृक्ष_अग्र; वृक्ष_अग्र -= 2; } अन्यथा वृक्ष_cur = pTable->m_वृक्ष[-वृक्ष_cur - 1];
           }
-          tree_cur -= ((rev_code >>= 1) & 1); pTable->m_tree[-tree_cur - 1] = (mz_int16)sym_index;
+          वृक्ष_cur -= ((rev_code >>= 1) & 1); pTable->m_वृक्ष[-वृक्ष_cur - 1] = (mz_int16)sym_सूचकांक;
         }
-        if (r->m_type == 2)
+        अगर (r->m_type == 2)
         {
-          for (counter = 0; counter < (r->m_table_sizes[0] + r->m_table_sizes[1]); )
+          क्रम (गणक = 0; गणक < (r->m_table_sizes[0] + r->m_table_sizes[1]); )
           {
-            mz_uint s; TINFL_HUFF_DECODE(16, dist, &r->m_tables[2]); if (dist < 16) { r->m_len_codes[counter++] = (mz_uint8)dist; continue; }
-            if ((dist == 16) && (!counter))
+            mz_uint s; TINFL_HUFF_DECODE(16, dist, &r->m_tables[2]); अगर (dist < 16) { r->m_len_codes[गणक++] = (mz_uint8)dist; जारी; }
+            अगर ((dist == 16) && (!गणक))
             {
               TINFL_CR_RETURN_FOREVER(17, TINFL_STATUS_FAILED);
             }
-            num_extra = "\02\03\07"[dist - 16]; TINFL_GET_BITS(18, s, num_extra); s += "\03\03\013"[dist - 16];
-            TINFL_MEMSET(r->m_len_codes + counter, (dist == 16) ? r->m_len_codes[counter - 1] : 0, s); counter += s;
+            अंक_extra = "\02\03\07"[dist - 16]; TINFL_GET_BITS(18, s, अंक_extra); s += "\03\03\013"[dist - 16];
+            TINFL_MEMSET(r->m_len_codes + गणक, (dist == 16) ? r->m_len_codes[गणक - 1] : 0, s); गणक += s;
           }
-          if ((r->m_table_sizes[0] + r->m_table_sizes[1]) != counter)
+          अगर ((r->m_table_sizes[0] + r->m_table_sizes[1]) != गणक)
           {
             TINFL_CR_RETURN_FOREVER(21, TINFL_STATUS_FAILED);
           }
-          TINFL_MEMCPY(r->m_tables[0].m_code_size, r->m_len_codes, r->m_table_sizes[0]); TINFL_MEMCPY(r->m_tables[1].m_code_size, r->m_len_codes + r->m_table_sizes[0], r->m_table_sizes[1]);
+          TINFL_MEMCPY(r->m_tables[0].m_code_आकार, r->m_len_codes, r->m_table_sizes[0]); TINFL_MEMCPY(r->m_tables[1].m_code_आकार, r->m_len_codes + r->m_table_sizes[0], r->m_table_sizes[1]);
         }
       }
-      for ( ; ; )
+      क्रम ( ; ; )
       {
         mz_uint8 *pSrc;
-        for ( ; ; )
+        क्रम ( ; ; )
         {
-          if (((pIn_buf_end - pIn_buf_cur) < 4) || ((pOut_buf_end - pOut_buf_cur) < 2))
+          अगर (((pIn_buf_end - pIn_buf_cur) < 4) || ((pOut_buf_end - pOut_buf_cur) < 2))
           {
-            TINFL_HUFF_DECODE(23, counter, &r->m_tables[0]);
-            if (counter >= 256)
-              break;
-            while (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(24, TINFL_STATUS_HAS_MORE_OUTPUT); }
-            *pOut_buf_cur++ = (mz_uint8)counter;
+            TINFL_HUFF_DECODE(23, गणक, &r->m_tables[0]);
+            अगर (गणक >= 256)
+              अवरोध;
+            जबतक (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(24, TINFL_STATUS_HAS_MORE_OUTPUT); }
+            *pOut_buf_cur++ = (mz_uint8)गणक;
           }
-          else
+          अन्यथा
           {
-            int sym2; mz_uint code_len;
-#if TINFL_USE_64BIT_BITBUF
-            if (num_bits < 30) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE32(pIn_buf_cur)) << num_bits); pIn_buf_cur += 4; num_bits += 32; }
-#else
-            if (num_bits < 15) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE16(pIn_buf_cur)) << num_bits); pIn_buf_cur += 2; num_bits += 16; }
-#endif
-            if ((sym2 = r->m_tables[0].m_look_up[bit_buf & (TINFL_FAST_LOOKUP_SIZE - 1)]) >= 0)
+            पूर्णांक sym2; mz_uint code_len;
+#अगर TINFL_USE_64BIT_BITBUF
+            अगर (अंक_bits < 30) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE32(pIn_buf_cur)) << अंक_bits); pIn_buf_cur += 4; अंक_bits += 32; }
+#अन्यथा
+            अगर (अंक_bits < 15) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE16(pIn_buf_cur)) << अंक_bits); pIn_buf_cur += 2; अंक_bits += 16; }
+#पूर्ण_अगर
+            अगर ((sym2 = r->m_tables[0].m_look_up[bit_buf & (TINFL_FAST_LOOKUP_आकार - 1)]) >= 0)
               code_len = sym2 >> 9;
-            else
+            अन्यथा
             {
-              code_len = TINFL_FAST_LOOKUP_BITS; do { sym2 = r->m_tables[0].m_tree[~sym2 + ((bit_buf >> code_len++) & 1)]; } while (sym2 < 0);
+              code_len = TINFL_FAST_LOOKUP_BITS; करो { sym2 = r->m_tables[0].m_वृक्ष[~sym2 + ((bit_buf >> code_len++) & 1)]; } जबतक (sym2 < 0);
             }
-            counter = sym2; bit_buf >>= code_len; num_bits -= code_len;
-            if (counter & 256)
-              break;
+            गणक = sym2; bit_buf >>= code_len; अंक_bits -= code_len;
+            अगर (गणक & 256)
+              अवरोध;
 
-#if !TINFL_USE_64BIT_BITBUF
-            if (num_bits < 15) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE16(pIn_buf_cur)) << num_bits); pIn_buf_cur += 2; num_bits += 16; }
-#endif
-            if ((sym2 = r->m_tables[0].m_look_up[bit_buf & (TINFL_FAST_LOOKUP_SIZE - 1)]) >= 0)
+#अगर !TINFL_USE_64BIT_BITBUF
+            अगर (अंक_bits < 15) { bit_buf |= (((tinfl_bit_buf_t)MZ_READ_LE16(pIn_buf_cur)) << अंक_bits); pIn_buf_cur += 2; अंक_bits += 16; }
+#पूर्ण_अगर
+            अगर ((sym2 = r->m_tables[0].m_look_up[bit_buf & (TINFL_FAST_LOOKUP_आकार - 1)]) >= 0)
               code_len = sym2 >> 9;
-            else
+            अन्यथा
             {
-              code_len = TINFL_FAST_LOOKUP_BITS; do { sym2 = r->m_tables[0].m_tree[~sym2 + ((bit_buf >> code_len++) & 1)]; } while (sym2 < 0);
+              code_len = TINFL_FAST_LOOKUP_BITS; करो { sym2 = r->m_tables[0].m_वृक्ष[~sym2 + ((bit_buf >> code_len++) & 1)]; } जबतक (sym2 < 0);
             }
-            bit_buf >>= code_len; num_bits -= code_len;
+            bit_buf >>= code_len; अंक_bits -= code_len;
 
-            pOut_buf_cur[0] = (mz_uint8)counter;
-            if (sym2 & 256)
+            pOut_buf_cur[0] = (mz_uint8)गणक;
+            अगर (sym2 & 256)
             {
               pOut_buf_cur++;
-              counter = sym2;
-              break;
+              गणक = sym2;
+              अवरोध;
             }
             pOut_buf_cur[1] = (mz_uint8)sym2;
             pOut_buf_cur += 2;
           }
         }
-        if ((counter &= 511) == 256) break;
+        अगर ((गणक &= 511) == 256) अवरोध;
 
-        num_extra = s_length_extra[counter - 257]; counter = s_length_base[counter - 257];
-        if (num_extra) { mz_uint extra_bits; TINFL_GET_BITS(25, extra_bits, num_extra); counter += extra_bits; }
+        अंक_extra = s_लंबाई_extra[गणक - 257]; गणक = s_लंबाई_base[गणक - 257];
+        अगर (अंक_extra) { mz_uint extra_bits; TINFL_GET_BITS(25, extra_bits, अंक_extra); गणक += extra_bits; }
 
         TINFL_HUFF_DECODE(26, dist, &r->m_tables[1]);
-        num_extra = s_dist_extra[dist]; dist = s_dist_base[dist];
-        if (num_extra) { mz_uint extra_bits; TINFL_GET_BITS(27, extra_bits, num_extra); dist += extra_bits; }
+        अंक_extra = s_dist_extra[dist]; dist = s_dist_base[dist];
+        अगर (अंक_extra) { mz_uint extra_bits; TINFL_GET_BITS(27, extra_bits, अंक_extra); dist += extra_bits; }
 
         dist_from_out_buf_start = pOut_buf_cur - pOut_buf_start;
-        if ((dist > dist_from_out_buf_start) && (decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF))
+        अगर ((dist > dist_from_out_buf_start) && (decomp_flags & TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF))
         {
           TINFL_CR_RETURN_FOREVER(37, TINFL_STATUS_FAILED);
         }
 
-        pSrc = pOut_buf_start + ((dist_from_out_buf_start - dist) & out_buf_size_mask);
+        pSrc = pOut_buf_start + ((dist_from_out_buf_start - dist) & out_buf_आकार_mask);
 
-        if ((MZ_MAX(pOut_buf_cur, pSrc) + counter) > pOut_buf_end)
+        अगर ((MZ_MAX(pOut_buf_cur, pSrc) + गणक) > pOut_buf_end)
         {
-          while (counter--)
+          जबतक (गणक--)
           {
-            while (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(53, TINFL_STATUS_HAS_MORE_OUTPUT); }
-            *pOut_buf_cur++ = pOut_buf_start[(dist_from_out_buf_start++ - dist) & out_buf_size_mask];
+            जबतक (pOut_buf_cur >= pOut_buf_end) { TINFL_CR_RETURN(53, TINFL_STATUS_HAS_MORE_OUTPUT); }
+            *pOut_buf_cur++ = pOut_buf_start[(dist_from_out_buf_start++ - dist) & out_buf_आकार_mask];
           }
-          continue;
+          जारी;
         }
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES
-        else if ((counter >= 9) && (counter <= dist))
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES
+        अन्यथा अगर ((गणक >= 9) && (गणक <= dist))
         {
-          const mz_uint8 *pSrc_end = pSrc + (counter & ~7);
-          do
+          स्थिर mz_uint8 *pSrc_end = pSrc + (गणक & ~7);
+          करो
           {
-            ((mz_uint32 *)pOut_buf_cur)[0] = ((const mz_uint32 *)pSrc)[0];
-            ((mz_uint32 *)pOut_buf_cur)[1] = ((const mz_uint32 *)pSrc)[1];
+            ((mz_uint32 *)pOut_buf_cur)[0] = ((स्थिर mz_uint32 *)pSrc)[0];
+            ((mz_uint32 *)pOut_buf_cur)[1] = ((स्थिर mz_uint32 *)pSrc)[1];
             pOut_buf_cur += 8;
-          } while ((pSrc += 8) < pSrc_end);
-          if ((counter &= 7) < 3)
+          } जबतक ((pSrc += 8) < pSrc_end);
+          अगर ((गणक &= 7) < 3)
           {
-            if (counter)
+            अगर (गणक)
             {
               pOut_buf_cur[0] = pSrc[0];
-              if (counter > 1)
+              अगर (गणक > 1)
                 pOut_buf_cur[1] = pSrc[1];
-              pOut_buf_cur += counter;
+              pOut_buf_cur += गणक;
             }
-            continue;
+            जारी;
           }
         }
-#endif
-        do
+#पूर्ण_अगर
+        करो
         {
           pOut_buf_cur[0] = pSrc[0];
           pOut_buf_cur[1] = pSrc[1];
           pOut_buf_cur[2] = pSrc[2];
           pOut_buf_cur += 3; pSrc += 3;
-        } while ((int)(counter -= 3) > 2);
-        if ((int)counter > 0)
+        } जबतक ((पूर्णांक)(गणक -= 3) > 2);
+        अगर ((पूर्णांक)गणक > 0)
         {
           pOut_buf_cur[0] = pSrc[0];
-          if ((int)counter > 1)
+          अगर ((पूर्णांक)गणक > 1)
             pOut_buf_cur[1] = pSrc[1];
-          pOut_buf_cur += counter;
+          pOut_buf_cur += गणक;
         }
       }
     }
-  } while (!(r->m_final & 1));
-  if (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER)
+  } जबतक (!(r->m_final & 1));
+  अगर (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER)
   {
-    TINFL_SKIP_BITS(32, num_bits & 7); for (counter = 0; counter < 4; ++counter) { mz_uint s; if (num_bits) TINFL_GET_BITS(41, s, 8); else TINFL_GET_BYTE(42, s); r->m_z_adler32 = (r->m_z_adler32 << 8) | s; }
+    TINFL_SKIP_BITS(32, अंक_bits & 7); क्रम (गणक = 0; गणक < 4; ++गणक) { mz_uint s; अगर (अंक_bits) TINFL_GET_BITS(41, s, 8); अन्यथा TINFL_GET_BYTE(42, s); r->m_z_adler32 = (r->m_z_adler32 << 8) | s; }
   }
   TINFL_CR_RETURN_FOREVER(34, TINFL_STATUS_DONE);
   TINFL_CR_FINISH
 
 common_exit:
-  r->m_num_bits = num_bits; r->m_bit_buf = bit_buf; r->m_dist = dist; r->m_counter = counter; r->m_num_extra = num_extra; r->m_dist_from_out_buf_start = dist_from_out_buf_start;
-  *pIn_buf_size = pIn_buf_cur - pIn_buf_next; *pOut_buf_size = pOut_buf_cur - pOut_buf_next;
-  if ((decomp_flags & (TINFL_FLAG_PARSE_ZLIB_HEADER | TINFL_FLAG_COMPUTE_ADLER32)) && (status >= 0))
+  r->m_अंक_bits = अंक_bits; r->m_bit_buf = bit_buf; r->m_dist = dist; r->m_गणक = गणक; r->m_अंक_extra = अंक_extra; r->m_dist_from_out_buf_start = dist_from_out_buf_start;
+  *p_In_buf_आकार = pIn_buf_cur - p_In_buf_अग्र; *p_Out_buf_आकार = pOut_buf_cur - p_Out_buf_अग्र;
+  अगर ((decomp_flags & (TINFL_FLAG_PARSE_ZLIB_HEADER | TINFL_FLAG_COMPUTE_ADLER32)) && (status >= 0))
   {
-    const mz_uint8 *ptr = pOut_buf_next; size_t buf_len = *pOut_buf_size;
-    mz_uint32 i, s1 = r->m_check_adler32 & 0xffff, s2 = r->m_check_adler32 >> 16; size_t block_len = buf_len % 5552;
-    while (buf_len)
+    स्थिर mz_uint8 *ptr = p_Out_buf_अग्र; माप_प्रकार buf_len = *p_Out_buf_आकार;
+    mz_uint32 i, s1 = r->m_check_adler32 & 0xffff, s2 = r->m_check_adler32 >> 16; माप_प्रकार block_len = buf_len % 5552;
+    जबतक (buf_len)
     {
-      for (i = 0; i + 7 < block_len; i += 8, ptr += 8)
+      क्रम (i = 0; i + 7 < block_len; i += 8, ptr += 8)
       {
         s1 += ptr[0], s2 += s1; s1 += ptr[1], s2 += s1; s1 += ptr[2], s2 += s1; s1 += ptr[3], s2 += s1;
         s1 += ptr[4], s2 += s1; s1 += ptr[5], s2 += s1; s1 += ptr[6], s2 += s1; s1 += ptr[7], s2 += s1;
       }
-      for ( ; i < block_len; ++i) s1 += *ptr++, s2 += s1;
+      क्रम ( ; i < block_len; ++i) s1 += *ptr++, s2 += s1;
       s1 %= 65521U, s2 %= 65521U; buf_len -= block_len; block_len = 5552;
     }
-    r->m_check_adler32 = (s2 << 16) + s1; if ((status == TINFL_STATUS_DONE) && (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER) && (r->m_check_adler32 != r->m_z_adler32)) status = TINFL_STATUS_ADLER32_MISMATCH;
+    r->m_check_adler32 = (s2 << 16) + s1; अगर ((status == TINFL_STATUS_DONE) && (decomp_flags & TINFL_FLAG_PARSE_ZLIB_HEADER) && (r->m_check_adler32 != r->m_z_adler32)) status = TINFL_STATUS_ADLER32_MISMATCH;
   }
-  return status;
+  वापस status;
 }
 
 // Higher level helper functions.
-void *tinfl_decompress_mem_to_heap(const void *pSrc_buf, size_t src_buf_len, size_t *pOut_len, int flags)
+व्योम *tinfl_decompress_mem_to_heap(स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, माप_प्रकार *pOut_len, पूर्णांक flags)
 {
-  tinfl_decompressor decomp; void *pBuf = NULL, *pNew_buf; size_t src_buf_ofs = 0, out_buf_capacity = 0;
+  tinfl_decompressor decomp; व्योम *pBuf = शून्य, *pNew_buf; माप_प्रकार src_buf_ofs = 0, out_buf_capacity = 0;
   *pOut_len = 0;
   tinfl_init(&decomp);
-  for ( ; ; )
+  क्रम ( ; ; )
   {
-    size_t src_buf_size = src_buf_len - src_buf_ofs, dst_buf_size = out_buf_capacity - *pOut_len, new_out_buf_capacity;
-    tinfl_status status = tinfl_decompress(&decomp, (const mz_uint8*)pSrc_buf + src_buf_ofs, &src_buf_size, (mz_uint8*)pBuf, pBuf ? (mz_uint8*)pBuf + *pOut_len : NULL, &dst_buf_size,
-      (flags & ~TINFL_FLAG_HAS_MORE_INPUT) | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF);
-    if ((status < 0) || (status == TINFL_STATUS_NEEDS_MORE_INPUT))
+    माप_प्रकार src_buf_आकार = src_buf_len - src_buf_ofs, dst_buf_आकार = out_buf_capacity - *pOut_len, new_out_buf_capacity;
+    tinfl_status status = tinfl_decompress(&decomp, (स्थिर mz_uint8*)pSrc_buf + src_buf_ofs, &src_buf_आकार, (mz_uint8*)pBuf, pBuf ? (mz_uint8*)pBuf + *pOut_len : शून्य, &dst_buf_आकार,
+      (flags & ~TINFL_FLAG_HAS_MORE_निवेश) | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF);
+    अगर ((status < 0) || (status == TINFL_STATUS_NEEDS_MORE_निवेश))
     {
-      MZ_FREE(pBuf); *pOut_len = 0; return NULL;
+      MZ_FREE(pBuf); *pOut_len = 0; वापस शून्य;
     }
-    src_buf_ofs += src_buf_size;
-    *pOut_len += dst_buf_size;
-    if (status == TINFL_STATUS_DONE) break;
-    new_out_buf_capacity = out_buf_capacity * 2; if (new_out_buf_capacity < 128) new_out_buf_capacity = 128;
+    src_buf_ofs += src_buf_आकार;
+    *pOut_len += dst_buf_आकार;
+    अगर (status == TINFL_STATUS_DONE) अवरोध;
+    new_out_buf_capacity = out_buf_capacity * 2; अगर (new_out_buf_capacity < 128) new_out_buf_capacity = 128;
     pNew_buf = MZ_REALLOC(pBuf, new_out_buf_capacity);
-    if (!pNew_buf)
+    अगर (!pNew_buf)
     {
-      MZ_FREE(pBuf); *pOut_len = 0; return NULL;
+      MZ_FREE(pBuf); *pOut_len = 0; वापस शून्य;
     }
     pBuf = pNew_buf; out_buf_capacity = new_out_buf_capacity;
   }
-  return pBuf;
+  वापस pBuf;
 }
 
-size_t tinfl_decompress_mem_to_mem(void *pOut_buf, size_t out_buf_len, const void *pSrc_buf, size_t src_buf_len, int flags)
+माप_प्रकार tinfl_decompress_mem_to_mem(व्योम *pOut_buf, माप_प्रकार out_buf_len, स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, पूर्णांक flags)
 {
   tinfl_decompressor decomp; tinfl_status status; tinfl_init(&decomp);
-  status = tinfl_decompress(&decomp, (const mz_uint8*)pSrc_buf, &src_buf_len, (mz_uint8*)pOut_buf, (mz_uint8*)pOut_buf, &out_buf_len, (flags & ~TINFL_FLAG_HAS_MORE_INPUT) | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF);
-  return (status != TINFL_STATUS_DONE) ? TINFL_DECOMPRESS_MEM_TO_MEM_FAILED : out_buf_len;
+  status = tinfl_decompress(&decomp, (स्थिर mz_uint8*)pSrc_buf, &src_buf_len, (mz_uint8*)pOut_buf, (mz_uint8*)pOut_buf, &out_buf_len, (flags & ~TINFL_FLAG_HAS_MORE_निवेश) | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF);
+  वापस (status != TINFL_STATUS_DONE) ? TINFL_DECOMPRESS_MEM_TO_MEM_FAILED : out_buf_len;
 }
 
-int tinfl_decompress_mem_to_callback(const void *pIn_buf, size_t *pIn_buf_size, tinfl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags)
+पूर्णांक tinfl_decompress_mem_to_callback(स्थिर व्योम *pIn_buf, माप_प्रकार *p_In_buf_आकार, tinfl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags)
 {
-  int result = 0;
+  पूर्णांक परिणाम = 0;
   tinfl_decompressor decomp;
-  mz_uint8 *pDict = (mz_uint8*)MZ_MALLOC(TINFL_LZ_DICT_SIZE); size_t in_buf_ofs = 0, dict_ofs = 0;
-  if (!pDict)
-    return TINFL_STATUS_FAILED;
-  memset(pDict,0,TINFL_LZ_DICT_SIZE);
+  mz_uint8 *pDict = (mz_uint8*)MZ_MALLOC(TINFL_LZ_DICT_आकार); माप_प्रकार in_buf_ofs = 0, dict_ofs = 0;
+  अगर (!pDict)
+    वापस TINFL_STATUS_FAILED;
+  स_रखो(pDict,0,TINFL_LZ_DICT_आकार);
   tinfl_init(&decomp);
-  for ( ; ; )
+  क्रम ( ; ; )
   {
-    size_t in_buf_size = *pIn_buf_size - in_buf_ofs, dst_buf_size = TINFL_LZ_DICT_SIZE - dict_ofs;
-    tinfl_status status = tinfl_decompress(&decomp, (const mz_uint8*)pIn_buf + in_buf_ofs, &in_buf_size, pDict, pDict + dict_ofs, &dst_buf_size,
-      (flags & ~(TINFL_FLAG_HAS_MORE_INPUT | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF)));
-    in_buf_ofs += in_buf_size;
-    if ((dst_buf_size) && (!(*pPut_buf_func)(pDict + dict_ofs, (int)dst_buf_size, pPut_buf_user)))
-      break;
-    if (status != TINFL_STATUS_HAS_MORE_OUTPUT)
+    माप_प्रकार in_buf_आकार = *p_In_buf_आकार - in_buf_ofs, dst_buf_आकार = TINFL_LZ_DICT_आकार - dict_ofs;
+    tinfl_status status = tinfl_decompress(&decomp, (स्थिर mz_uint8*)pIn_buf + in_buf_ofs, &in_buf_आकार, pDict, pDict + dict_ofs, &dst_buf_आकार,
+      (flags & ~(TINFL_FLAG_HAS_MORE_निवेश | TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF)));
+    in_buf_ofs += in_buf_आकार;
+    अगर ((dst_buf_आकार) && (!(*pPut_buf_func)(pDict + dict_ofs, (पूर्णांक)dst_buf_आकार, pPut_buf_user)))
+      अवरोध;
+    अगर (status != TINFL_STATUS_HAS_MORE_OUTPUT)
     {
-      result = (status == TINFL_STATUS_DONE);
-      break;
+      परिणाम = (status == TINFL_STATUS_DONE);
+      अवरोध;
     }
-    dict_ofs = (dict_ofs + dst_buf_size) & (TINFL_LZ_DICT_SIZE - 1);
+    dict_ofs = (dict_ofs + dst_buf_आकार) & (TINFL_LZ_DICT_आकार - 1);
   }
   MZ_FREE(pDict);
-  *pIn_buf_size = in_buf_ofs;
-  return result;
+  *p_In_buf_आकार = in_buf_ofs;
+  वापस परिणाम;
 }
-#endif /*#ifndef MINIZ_NO_INFLATE_APIS*/
+#पूर्ण_अगर /*#ifndef MINIZ_NO_INFLATE_APIS*/
 
 // ------------------- Low-level Compression (independent from all decompression API's)
-#ifndef MINIZ_NO_DEFLATE_APIS
+#अगर_अघोषित MINIZ_NO_DEFLATE_APIS
 
 // Purposely making these tables static for faster init and thread safety.
-static const mz_uint16 s_tdefl_len_sym[256] = {
+अटल स्थिर mz_uint16 s_tdefl_len_sym[256] = {
   257,258,259,260,261,262,263,264,265,265,266,266,267,267,268,268,269,269,269,269,270,270,270,270,271,271,271,271,272,272,272,272,
   273,273,273,273,273,273,273,273,274,274,274,274,274,274,274,274,275,275,275,275,275,275,275,275,276,276,276,276,276,276,276,276,
   277,277,277,277,277,277,277,277,277,277,277,277,277,277,277,277,278,278,278,278,278,278,278,278,278,278,278,278,278,278,278,278,
@@ -1868,13 +1868,13 @@ static const mz_uint16 s_tdefl_len_sym[256] = {
   283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,283,
   284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,285 };
 
-static const mz_uint8 s_tdefl_len_extra[256] = {
+अटल स्थिर mz_uint8 s_tdefl_len_extra[256] = {
   0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
   4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
   5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
   5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0 };
 
-static const mz_uint8 s_tdefl_small_dist_sym[512] = {
+अटल स्थिर mz_uint8 s_tdefl_small_dist_sym[512] = {
   0,1,2,3,4,4,5,5,6,6,6,6,7,7,7,7,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,11,11,11,11,
   11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,13,
   13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,14,14,14,14,
@@ -1888,7 +1888,7 @@ static const mz_uint8 s_tdefl_small_dist_sym[512] = {
   17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,
   17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17 };
 
-static const mz_uint8 s_tdefl_small_dist_extra[512] = {
+अटल स्थिर mz_uint8 s_tdefl_small_dist_extra[512] = {
   0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,
   5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
   6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
@@ -1898,212 +1898,212 @@ static const mz_uint8 s_tdefl_small_dist_extra[512] = {
   7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
   7,7,7,7,7,7,7,7 };
 
-static const mz_uint8 s_tdefl_large_dist_sym[128] = {
+अटल स्थिर mz_uint8 s_tdefl_large_dist_sym[128] = {
   0,0,18,19,20,20,21,21,22,22,22,22,23,23,23,23,24,24,24,24,24,24,24,24,25,25,25,25,25,25,25,25,26,26,26,26,26,26,26,26,26,26,26,26,
   26,26,26,26,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,
   28,28,28,28,28,28,28,28,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29 };
 
-static const mz_uint8 s_tdefl_large_dist_extra[128] = {
+अटल स्थिर mz_uint8 s_tdefl_large_dist_extra[128] = {
   0,0,8,8,9,9,9,9,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,
   12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,
   13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13 };
 
 // Radix sorts tdefl_sym_freq[] array by 16-bit key m_key. Returns ptr to sorted values.
-typedef struct { mz_uint16 m_key, m_sym_index; } tdefl_sym_freq;
-static tdefl_sym_freq* tdefl_radix_sort_syms(mz_uint num_syms, tdefl_sym_freq* pSyms0, tdefl_sym_freq* pSyms1)
+प्रकार काष्ठा { mz_uint16 m_कुंजी, m_sym_सूचकांक; } tdefl_sym_freq;
+अटल tdefl_sym_freq* tdefl_radix_sort_syms(mz_uint अंक_syms, tdefl_sym_freq* pSyms0, tdefl_sym_freq* pSyms1)
 {
-  mz_uint32 total_passes = 2, pass_shift, pass, i, hist[256 * 2]; tdefl_sym_freq* pCur_syms = pSyms0, *pNew_syms = pSyms1; MZ_CLEAR_ARR(hist);
-  for (i = 0; i < num_syms; i++) { mz_uint freq = pSyms0[i].m_key; hist[freq & 0xFF]++; hist[256 + ((freq >> 8) & 0xFF)]++; }
-  while ((total_passes > 1) && (num_syms == hist[(total_passes - 1) * 256])) total_passes--;
-  for (pass_shift = 0, pass = 0; pass < total_passes; pass++, pass_shift += 8)
+  mz_uint32 योग_passes = 2, pass_shift, pass, i, hist[256 * 2]; tdefl_sym_freq* pCur_syms = pSyms0, *pNew_syms = pSyms1; MZ_CLEAR_ARR(hist);
+  क्रम (i = 0; i < अंक_syms; i++) { mz_uint freq = pSyms0[i].m_कुंजी; hist[freq & 0xFF]++; hist[256 + ((freq >> 8) & 0xFF)]++; }
+  जबतक ((योग_passes > 1) && (अंक_syms == hist[(योग_passes - 1) * 256])) योग_passes--;
+  क्रम (pass_shift = 0, pass = 0; pass < योग_passes; pass++, pass_shift += 8)
   {
-    const mz_uint32* pHist = &hist[pass << 8];
+    स्थिर mz_uint32* pHist = &hist[pass << 8];
     mz_uint offsets[256], cur_ofs = 0;
-    for (i = 0; i < 256; i++) { offsets[i] = cur_ofs; cur_ofs += pHist[i]; }
-    for (i = 0; i < num_syms; i++) pNew_syms[offsets[(pCur_syms[i].m_key >> pass_shift) & 0xFF]++] = pCur_syms[i];
+    क्रम (i = 0; i < 256; i++) { offsets[i] = cur_ofs; cur_ofs += pHist[i]; }
+    क्रम (i = 0; i < अंक_syms; i++) pNew_syms[offsets[(pCur_syms[i].m_कुंजी >> pass_shift) & 0xFF]++] = pCur_syms[i];
     { tdefl_sym_freq* t = pCur_syms; pCur_syms = pNew_syms; pNew_syms = t; }
   }
-  return pCur_syms;
+  वापस pCur_syms;
 }
 
 // tdefl_calculate_minimum_redundancy() originally written by: Alistair Moffat, alistair@cs.mu.oz.au, Jyrki Katajainen, jyrki@diku.dk, November 1996.
-static void tdefl_calculate_minimum_redundancy(tdefl_sym_freq *A, int n)
+अटल व्योम tdefl_calculate_minimum_redundancy(tdefl_sym_freq *A, पूर्णांक n)
 {
-  int root, leaf, next, avbl, used, dpth;
-  if (n==0) return; else if (n==1) { A[0].m_key = 1; return; }
-  A[0].m_key += A[1].m_key; root = 0; leaf = 2;
-  for (next=1; next < n-1; next++)
+  पूर्णांक मूल, leaf, अग्र, avbl, used, dpth;
+  अगर (n==0) वापस; अन्यथा अगर (n==1) { A[0].m_कुंजी = 1; वापस; }
+  A[0].m_कुंजी += A[1].m_कुंजी; मूल = 0; leaf = 2;
+  क्रम (अग्र=1; अग्र < n-1; अग्र++)
   {
-    if (leaf>=n || A[root].m_key<A[leaf].m_key) { A[next].m_key = A[root].m_key; A[root++].m_key = (mz_uint16)next; } else A[next].m_key = A[leaf++].m_key;
-    if (leaf>=n || (root<next && A[root].m_key<A[leaf].m_key)) { A[next].m_key = (mz_uint16)(A[next].m_key + A[root].m_key); A[root++].m_key = (mz_uint16)next; } else A[next].m_key = (mz_uint16)(A[next].m_key + A[leaf++].m_key);
+    अगर (leaf>=n || A[मूल].m_कुंजी<A[leaf].m_कुंजी) { A[अग्र].m_कुंजी = A[मूल].m_कुंजी; A[मूल++].m_कुंजी = (mz_uint16)अग्र; } अन्यथा A[अग्र].m_कुंजी = A[leaf++].m_कुंजी;
+    अगर (leaf>=n || (मूल<अग्र && A[मूल].m_कुंजी<A[leaf].m_कुंजी)) { A[अग्र].m_कुंजी = (mz_uint16)(A[अग्र].m_कुंजी + A[मूल].m_कुंजी); A[मूल++].m_कुंजी = (mz_uint16)अग्र; } अन्यथा A[अग्र].m_कुंजी = (mz_uint16)(A[अग्र].m_कुंजी + A[leaf++].m_कुंजी);
   }
-  A[n-2].m_key = 0; for (next=n-3; next>=0; next--) A[next].m_key = A[A[next].m_key].m_key+1;
-  avbl = 1; used = dpth = 0; root = n-2; next = n-1;
-  while (avbl>0)
+  A[n-2].m_कुंजी = 0; क्रम (अग्र=n-3; अग्र>=0; अग्र--) A[अग्र].m_कुंजी = A[A[अग्र].m_कुंजी].m_कुंजी+1;
+  avbl = 1; used = dpth = 0; मूल = n-2; अग्र = n-1;
+  जबतक (avbl>0)
   {
-    while (root>=0 && (int)A[root].m_key==dpth) { used++; root--; }
-    while (avbl>used) { A[next--].m_key = (mz_uint16)(dpth); avbl--; }
+    जबतक (मूल>=0 && (पूर्णांक)A[मूल].m_कुंजी==dpth) { used++; मूल--; }
+    जबतक (avbl>used) { A[अग्र--].m_कुंजी = (mz_uint16)(dpth); avbl--; }
     avbl = 2*used; dpth++; used = 0;
   }
 }
 
 // Limits canonical Huffman code table's max code size.
-enum { TDEFL_MAX_SUPPORTED_HUFF_CODESIZE = 32 };
-static void tdefl_huffman_enforce_max_code_size(int *pNum_codes, int code_list_len, int max_code_size)
+क्रमागत { TDEFL_MAX_SUPPORTED_HUFF_CODESIZE = 32 };
+अटल व्योम tdefl_huffman_enforce_max_code_आकार(पूर्णांक *p_अंक_codes, पूर्णांक code_list_len, पूर्णांक max_code_आकार)
 {
-  int i; mz_uint32 total = 0; if (code_list_len <= 1) return;
-  for (i = max_code_size + 1; i <= TDEFL_MAX_SUPPORTED_HUFF_CODESIZE; i++) pNum_codes[max_code_size] += pNum_codes[i];
-  for (i = max_code_size; i > 0; i--) total += (((mz_uint32)pNum_codes[i]) << (max_code_size - i));
-  while (total != (1UL << max_code_size))
+  पूर्णांक i; mz_uint32 योग = 0; अगर (code_list_len <= 1) वापस;
+  क्रम (i = max_code_आकार + 1; i <= TDEFL_MAX_SUPPORTED_HUFF_CODESIZE; i++) p_अंक_codes[max_code_आकार] += p_अंक_codes[i];
+  क्रम (i = max_code_आकार; i > 0; i--) योग += (((mz_uint32)p_अंक_codes[i]) << (max_code_आकार - i));
+  जबतक (योग != (1UL << max_code_आकार))
   {
-    pNum_codes[max_code_size]--;
-    for (i = max_code_size - 1; i > 0; i--) if (pNum_codes[i]) { pNum_codes[i]--; pNum_codes[i + 1] += 2; break; }
-    total--;
+    p_अंक_codes[max_code_आकार]--;
+    क्रम (i = max_code_आकार - 1; i > 0; i--) अगर (p_अंक_codes[i]) { p_अंक_codes[i]--; p_अंक_codes[i + 1] += 2; अवरोध; }
+    योग--;
   }
 }
 
-static void tdefl_optimize_huffman_table(tdefl_compressor *d, int table_num, int table_len, int code_size_limit, int static_table)
+अटल व्योम tdefl_optimize_huffman_table(tdefl_compressor *d, पूर्णांक table_अंक, पूर्णांक table_len, पूर्णांक code_आकार_limit, पूर्णांक static_table)
 {
-  int i, j, l, num_codes[1 + TDEFL_MAX_SUPPORTED_HUFF_CODESIZE]; mz_uint next_code[TDEFL_MAX_SUPPORTED_HUFF_CODESIZE + 1]; MZ_CLEAR_ARR(num_codes);
-  if (static_table)
+  पूर्णांक i, j, l, अंक_codes[1 + TDEFL_MAX_SUPPORTED_HUFF_CODESIZE]; mz_uint अग्र_code[TDEFL_MAX_SUPPORTED_HUFF_CODESIZE + 1]; MZ_CLEAR_ARR(अंक_codes);
+  अगर (static_table)
   {
-    for (i = 0; i < table_len; i++) num_codes[d->m_huff_code_sizes[table_num][i]]++;
+    क्रम (i = 0; i < table_len; i++) अंक_codes[d->m_huff_code_sizes[table_अंक][i]]++;
   }
-  else
+  अन्यथा
   {
     tdefl_sym_freq syms0[TDEFL_MAX_HUFF_SYMBOLS], syms1[TDEFL_MAX_HUFF_SYMBOLS], *pSyms;
-    int num_used_syms = 0;
-    const mz_uint16 *pSym_count = &d->m_huff_count[table_num][0];
-    for (i = 0; i < table_len; i++) if (pSym_count[i]) { syms0[num_used_syms].m_key = (mz_uint16)pSym_count[i]; syms0[num_used_syms++].m_sym_index = (mz_uint16)i; }
+    पूर्णांक अंक_used_syms = 0;
+    स्थिर mz_uint16 *p_Sym_गिनती = &d->m_huff_गिनती[table_अंक][0];
+    क्रम (i = 0; i < table_len; i++) अगर (p_Sym_गिनती[i]) { syms0[अंक_used_syms].m_कुंजी = (mz_uint16)p_Sym_गिनती[i]; syms0[अंक_used_syms++].m_sym_सूचकांक = (mz_uint16)i; }
 
-    pSyms = tdefl_radix_sort_syms(num_used_syms, syms0, syms1); tdefl_calculate_minimum_redundancy(pSyms, num_used_syms);
+    pSyms = tdefl_radix_sort_syms(अंक_used_syms, syms0, syms1); tdefl_calculate_minimum_redundancy(pSyms, अंक_used_syms);
 
-    for (i = 0; i < num_used_syms; i++) num_codes[pSyms[i].m_key]++;
+    क्रम (i = 0; i < अंक_used_syms; i++) अंक_codes[pSyms[i].m_कुंजी]++;
 
-    tdefl_huffman_enforce_max_code_size(num_codes, num_used_syms, code_size_limit);
+    tdefl_huffman_enforce_max_code_आकार(अंक_codes, अंक_used_syms, code_आकार_limit);
 
-    MZ_CLEAR_ARR(d->m_huff_code_sizes[table_num]); MZ_CLEAR_ARR(d->m_huff_codes[table_num]);
-    for (i = 1, j = num_used_syms; i <= code_size_limit; i++)
-      for (l = num_codes[i]; l > 0; l--) d->m_huff_code_sizes[table_num][pSyms[--j].m_sym_index] = (mz_uint8)(i);
+    MZ_CLEAR_ARR(d->m_huff_code_sizes[table_अंक]); MZ_CLEAR_ARR(d->m_huff_codes[table_अंक]);
+    क्रम (i = 1, j = अंक_used_syms; i <= code_आकार_limit; i++)
+      क्रम (l = अंक_codes[i]; l > 0; l--) d->m_huff_code_sizes[table_अंक][pSyms[--j].m_sym_सूचकांक] = (mz_uint8)(i);
   }
 
-  next_code[1] = 0; for (j = 0, i = 2; i <= code_size_limit; i++) next_code[i] = j = ((j + num_codes[i - 1]) << 1);
+  अग्र_code[1] = 0; क्रम (j = 0, i = 2; i <= code_आकार_limit; i++) अग्र_code[i] = j = ((j + अंक_codes[i - 1]) << 1);
 
-  for (i = 0; i < table_len; i++)
+  क्रम (i = 0; i < table_len; i++)
   {
-    mz_uint rev_code = 0, code, code_size; if ((code_size = d->m_huff_code_sizes[table_num][i]) == 0) continue;
-    code = next_code[code_size]++; for (l = code_size; l > 0; l--, code >>= 1) rev_code = (rev_code << 1) | (code & 1);
-    d->m_huff_codes[table_num][i] = (mz_uint16)rev_code;
+    mz_uint rev_code = 0, code, code_आकार_2; अगर ((code_आकार_2 = d->m_huff_code_sizes[table_अंक][i]) == 0) जारी;
+    code = अग्र_code[code_आकार_2]++; क्रम (l = code_आकार_2; l > 0; l--, code >>= 1) rev_code = (rev_code << 1) | (code & 1);
+    d->m_huff_codes[table_अंक][i] = (mz_uint16)rev_code;
   }
 }
 
-#define TDEFL_PUT_BITS(b, l) do { \
+#घोषणा TDEFL_PUT_BITS(b, l) करो { \
   mz_uint bits = b; mz_uint len = l; MZ_ASSERT(bits <= ((1U << len) - 1U)); \
-  d->m_bit_buffer |= (bits << d->m_bits_in); d->m_bits_in += len; \
-  while (d->m_bits_in >= 8) { \
-    if (d->m_pOutput_buf < d->m_pOutput_buf_end) \
-      *d->m_pOutput_buf++ = (mz_uint8)(d->m_bit_buffer); \
-    d->m_bit_buffer >>= 8; \
+  d->m_bit_बफर |= (bits << d->m_bits_in); d->m_bits_in += len; \
+  जबतक (d->m_bits_in >= 8) { \
+    अगर (d->m_pOutput_buf < d->m_pOutput_buf_end) \
+      *d->m_pOutput_buf++ = (mz_uint8)(d->m_bit_बफर); \
+    d->m_bit_बफर >>= 8; \
     d->m_bits_in -= 8; \
   } \
 } MZ_MACRO_END
 
-#define TDEFL_RLE_PREV_CODE_SIZE() do { \
-  if (rle_repeat_count) { \
-    if (rle_repeat_count < 3) { \
-      d->m_huff_count[2][prev_code_size] = (mz_uint16)(d->m_huff_count[2][prev_code_size] + rle_repeat_count); \
-      while (rle_repeat_count--) packed_code_sizes[num_packed_code_sizes++] = prev_code_size; \
-    } else { \
-      d->m_huff_count[2][16] = (mz_uint16)(d->m_huff_count[2][16] + 1); packed_code_sizes[num_packed_code_sizes++] = 16; packed_code_sizes[num_packed_code_sizes++] = (mz_uint8)(rle_repeat_count - 3); \
-  } rle_repeat_count = 0; } \
+#घोषणा TDEFL_RLE_पूर्व_CODE_आकार() करो { \
+  अगर (rle_repeat_गिनती) { \
+    अगर (rle_repeat_गिनती < 3) { \
+      d->m_huff_गिनती[2][पूर्व_code_आकार] = (mz_uint16)(d->m_huff_गिनती[2][पूर्व_code_आकार] + rle_repeat_गिनती); \
+      जबतक (rle_repeat_गिनती--) packed_code_sizes[अंक_packed_code_sizes++] = पूर्व_code_आकार; \
+    } अन्यथा { \
+      d->m_huff_गिनती[2][16] = (mz_uint16)(d->m_huff_गिनती[2][16] + 1); packed_code_sizes[अंक_packed_code_sizes++] = 16; packed_code_sizes[अंक_packed_code_sizes++] = (mz_uint8)(rle_repeat_गिनती - 3); \
+  } rle_repeat_गिनती = 0; } \
 } MZ_MACRO_END
 
-#define TDEFL_RLE_ZERO_CODE_SIZE() do { \
-  if (rle_z_count) { \
-    if (rle_z_count < 3) { \
-      d->m_huff_count[2][0] = (mz_uint16)(d->m_huff_count[2][0] + rle_z_count); while (rle_z_count--) packed_code_sizes[num_packed_code_sizes++] = 0; \
-    } else if (rle_z_count <= 10) { \
-      d->m_huff_count[2][17] = (mz_uint16)(d->m_huff_count[2][17] + 1); packed_code_sizes[num_packed_code_sizes++] = 17; packed_code_sizes[num_packed_code_sizes++] = (mz_uint8)(rle_z_count - 3); \
-    } else { \
-      d->m_huff_count[2][18] = (mz_uint16)(d->m_huff_count[2][18] + 1); packed_code_sizes[num_packed_code_sizes++] = 18; packed_code_sizes[num_packed_code_sizes++] = (mz_uint8)(rle_z_count - 11); \
-  } rle_z_count = 0; } \
+#घोषणा TDEFL_RLE_ZERO_CODE_आकार() करो { \
+  अगर (rle_z_गिनती) { \
+    अगर (rle_z_गिनती < 3) { \
+      d->m_huff_गिनती[2][0] = (mz_uint16)(d->m_huff_गिनती[2][0] + rle_z_गिनती); जबतक (rle_z_गिनती--) packed_code_sizes[अंक_packed_code_sizes++] = 0; \
+    } अन्यथा अगर (rle_z_गिनती <= 10) { \
+      d->m_huff_गिनती[2][17] = (mz_uint16)(d->m_huff_गिनती[2][17] + 1); packed_code_sizes[अंक_packed_code_sizes++] = 17; packed_code_sizes[अंक_packed_code_sizes++] = (mz_uint8)(rle_z_गिनती - 3); \
+    } अन्यथा { \
+      d->m_huff_गिनती[2][18] = (mz_uint16)(d->m_huff_गिनती[2][18] + 1); packed_code_sizes[अंक_packed_code_sizes++] = 18; packed_code_sizes[अंक_packed_code_sizes++] = (mz_uint8)(rle_z_गिनती - 11); \
+  } rle_z_गिनती = 0; } \
 } MZ_MACRO_END
 
-static mz_uint8 s_tdefl_packed_code_size_syms_swizzle[] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+अटल mz_uint8 s_tdefl_packed_code_आकार_syms_swizzle[] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
-static void tdefl_start_dynamic_block(tdefl_compressor *d)
+अटल व्योम tdefl_start_dynamic_block(tdefl_compressor *d)
 {
-  int num_lit_codes, num_dist_codes, num_bit_lengths; mz_uint i, total_code_sizes_to_pack, num_packed_code_sizes, rle_z_count, rle_repeat_count, packed_code_sizes_index;
-  mz_uint8 code_sizes_to_pack[TDEFL_MAX_HUFF_SYMBOLS_0 + TDEFL_MAX_HUFF_SYMBOLS_1], packed_code_sizes[TDEFL_MAX_HUFF_SYMBOLS_0 + TDEFL_MAX_HUFF_SYMBOLS_1], prev_code_size = 0xFF;
+  पूर्णांक अंक_lit_codes, अंक_dist_codes, अंक_bit_lengths; mz_uint i, योग_code_sizes_to_pack, अंक_packed_code_sizes, rle_z_गिनती, rle_repeat_गिनती, packed_code_sizes_सूचकांक;
+  mz_uint8 code_sizes_to_pack[TDEFL_MAX_HUFF_SYMBOLS_0 + TDEFL_MAX_HUFF_SYMBOLS_1], packed_code_sizes[TDEFL_MAX_HUFF_SYMBOLS_0 + TDEFL_MAX_HUFF_SYMBOLS_1], पूर्व_code_आकार = 0xFF;
 
-  d->m_huff_count[0][256] = 1;
+  d->m_huff_गिनती[0][256] = 1;
 
   tdefl_optimize_huffman_table(d, 0, TDEFL_MAX_HUFF_SYMBOLS_0, 15, MZ_FALSE);
   tdefl_optimize_huffman_table(d, 1, TDEFL_MAX_HUFF_SYMBOLS_1, 15, MZ_FALSE);
 
-  for (num_lit_codes = 286; num_lit_codes > 257; num_lit_codes--) if (d->m_huff_code_sizes[0][num_lit_codes - 1]) break;
-  for (num_dist_codes = 30; num_dist_codes > 1; num_dist_codes--) if (d->m_huff_code_sizes[1][num_dist_codes - 1]) break;
+  क्रम (अंक_lit_codes = 286; अंक_lit_codes > 257; अंक_lit_codes--) अगर (d->m_huff_code_sizes[0][अंक_lit_codes - 1]) अवरोध;
+  क्रम (अंक_dist_codes = 30; अंक_dist_codes > 1; अंक_dist_codes--) अगर (d->m_huff_code_sizes[1][अंक_dist_codes - 1]) अवरोध;
 
-  memcpy(code_sizes_to_pack, &d->m_huff_code_sizes[0][0], num_lit_codes);
-  memcpy(code_sizes_to_pack + num_lit_codes, &d->m_huff_code_sizes[1][0], num_dist_codes);
-  total_code_sizes_to_pack = num_lit_codes + num_dist_codes; num_packed_code_sizes = 0; rle_z_count = 0; rle_repeat_count = 0;
+  स_नकल(code_sizes_to_pack, &d->m_huff_code_sizes[0][0], अंक_lit_codes);
+  स_नकल(code_sizes_to_pack + अंक_lit_codes, &d->m_huff_code_sizes[1][0], अंक_dist_codes);
+  योग_code_sizes_to_pack = अंक_lit_codes + अंक_dist_codes; अंक_packed_code_sizes = 0; rle_z_गिनती = 0; rle_repeat_गिनती = 0;
 
-  memset(&d->m_huff_count[2][0], 0, sizeof(d->m_huff_count[2][0]) * TDEFL_MAX_HUFF_SYMBOLS_2);
-  for (i = 0; i < total_code_sizes_to_pack; i++)
+  स_रखो(&d->m_huff_गिनती[2][0], 0, माप(d->m_huff_गिनती[2][0]) * TDEFL_MAX_HUFF_SYMBOLS_2);
+  क्रम (i = 0; i < योग_code_sizes_to_pack; i++)
   {
-    mz_uint8 code_size = code_sizes_to_pack[i];
-    if (!code_size)
+    mz_uint8 code_आकार_2 = code_sizes_to_pack[i];
+    अगर (!code_आकार_2)
     {
-      TDEFL_RLE_PREV_CODE_SIZE();
-      if (++rle_z_count == 138) { TDEFL_RLE_ZERO_CODE_SIZE(); }
+      TDEFL_RLE_पूर्व_CODE_आकार();
+      अगर (++rle_z_गिनती == 138) { TDEFL_RLE_ZERO_CODE_आकार(); }
     }
-    else
+    अन्यथा
     {
-      TDEFL_RLE_ZERO_CODE_SIZE();
-      if (code_size != prev_code_size)
+      TDEFL_RLE_ZERO_CODE_आकार();
+      अगर (code_आकार_2 != पूर्व_code_आकार)
       {
-        TDEFL_RLE_PREV_CODE_SIZE();
-        d->m_huff_count[2][code_size] = (mz_uint16)(d->m_huff_count[2][code_size] + 1); packed_code_sizes[num_packed_code_sizes++] = code_size;
+        TDEFL_RLE_पूर्व_CODE_आकार();
+        d->m_huff_गिनती[2][code_आकार_2] = (mz_uint16)(d->m_huff_गिनती[2][code_आकार_2] + 1); packed_code_sizes[अंक_packed_code_sizes++] = code_आकार_2;
       }
-      else if (++rle_repeat_count == 6)
+      अन्यथा अगर (++rle_repeat_गिनती == 6)
       {
-        TDEFL_RLE_PREV_CODE_SIZE();
+        TDEFL_RLE_पूर्व_CODE_आकार();
       }
     }
-    prev_code_size = code_size;
+    पूर्व_code_आकार = code_आकार_2;
   }
-  if (rle_repeat_count) { TDEFL_RLE_PREV_CODE_SIZE(); } else { TDEFL_RLE_ZERO_CODE_SIZE(); }
+  अगर (rle_repeat_गिनती) { TDEFL_RLE_पूर्व_CODE_आकार(); } अन्यथा { TDEFL_RLE_ZERO_CODE_आकार(); }
 
   tdefl_optimize_huffman_table(d, 2, TDEFL_MAX_HUFF_SYMBOLS_2, 7, MZ_FALSE);
 
   TDEFL_PUT_BITS(2, 2);
 
-  TDEFL_PUT_BITS(num_lit_codes - 257, 5);
-  TDEFL_PUT_BITS(num_dist_codes - 1, 5);
+  TDEFL_PUT_BITS(अंक_lit_codes - 257, 5);
+  TDEFL_PUT_BITS(अंक_dist_codes - 1, 5);
 
-  for (num_bit_lengths = 18; num_bit_lengths >= 0; num_bit_lengths--) if (d->m_huff_code_sizes[2][s_tdefl_packed_code_size_syms_swizzle[num_bit_lengths]]) break;
-  num_bit_lengths = MZ_MAX(4, (num_bit_lengths + 1)); TDEFL_PUT_BITS(num_bit_lengths - 4, 4);
-  for (i = 0; (int)i < num_bit_lengths; i++) TDEFL_PUT_BITS(d->m_huff_code_sizes[2][s_tdefl_packed_code_size_syms_swizzle[i]], 3);
+  क्रम (अंक_bit_lengths = 18; अंक_bit_lengths >= 0; अंक_bit_lengths--) अगर (d->m_huff_code_sizes[2][s_tdefl_packed_code_आकार_syms_swizzle[अंक_bit_lengths]]) अवरोध;
+  अंक_bit_lengths = MZ_MAX(4, (अंक_bit_lengths + 1)); TDEFL_PUT_BITS(अंक_bit_lengths - 4, 4);
+  क्रम (i = 0; (पूर्णांक)i < अंक_bit_lengths; i++) TDEFL_PUT_BITS(d->m_huff_code_sizes[2][s_tdefl_packed_code_आकार_syms_swizzle[i]], 3);
 
-  for (packed_code_sizes_index = 0; packed_code_sizes_index < num_packed_code_sizes; )
+  क्रम (packed_code_sizes_सूचकांक = 0; packed_code_sizes_सूचकांक < अंक_packed_code_sizes; )
   {
-    mz_uint code = packed_code_sizes[packed_code_sizes_index++]; MZ_ASSERT(code < TDEFL_MAX_HUFF_SYMBOLS_2);
+    mz_uint code = packed_code_sizes[packed_code_sizes_सूचकांक++]; MZ_ASSERT(code < TDEFL_MAX_HUFF_SYMBOLS_2);
     TDEFL_PUT_BITS(d->m_huff_codes[2][code], d->m_huff_code_sizes[2][code]);
-    if (code >= 16) TDEFL_PUT_BITS(packed_code_sizes[packed_code_sizes_index++], "\02\03\07"[code - 16]);
+    अगर (code >= 16) TDEFL_PUT_BITS(packed_code_sizes[packed_code_sizes_सूचकांक++], "\02\03\07"[code - 16]);
   }
 }
 
-static void tdefl_start_static_block(tdefl_compressor *d)
+अटल व्योम tdefl_start_static_block(tdefl_compressor *d)
 {
   mz_uint i;
   mz_uint8 *p = &d->m_huff_code_sizes[0][0];
 
-  for (i = 0; i <= 143; ++i) *p++ = 8;
-  for ( ; i <= 255; ++i) *p++ = 9;
-  for ( ; i <= 279; ++i) *p++ = 7;
-  for ( ; i <= 287; ++i) *p++ = 8;
+  क्रम (i = 0; i <= 143; ++i) *p++ = 8;
+  क्रम ( ; i <= 255; ++i) *p++ = 9;
+  क्रम ( ; i <= 279; ++i) *p++ = 7;
+  क्रम ( ; i <= 287; ++i) *p++ = 8;
 
-  memset(d->m_huff_code_sizes[1], 5, 32);
+  स_रखो(d->m_huff_code_sizes[1], 5, 32);
 
   tdefl_optimize_huffman_table(d, 0, 288, 15, MZ_TRUE);
   tdefl_optimize_huffman_table(d, 1, 32, 15, MZ_TRUE);
@@ -2111,30 +2111,30 @@ static void tdefl_start_static_block(tdefl_compressor *d)
   TDEFL_PUT_BITS(1, 2);
 }
 
-static const mz_uint mz_bitmasks[17] = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF, 0x03FF, 0x07FF, 0x0FFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
+अटल स्थिर mz_uint mz_bitmasks[17] = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF, 0x03FF, 0x07FF, 0x0FFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
 
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN && MINIZ_HAS_64BIT_REGISTERS
-static mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN && MINIZ_HAS_64BIT_REGISTERS
+अटल mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
 {
   mz_uint flags;
   mz_uint8 *pLZ_codes;
   mz_uint8 *pOutput_buf = d->m_pOutput_buf;
   mz_uint8 *pLZ_code_buf_end = d->m_pLZ_code_buf;
-  mz_uint64 bit_buffer = d->m_bit_buffer;
+  mz_uint64 bit_बफर = d->m_bit_बफर;
   mz_uint bits_in = d->m_bits_in;
 
-#define TDEFL_PUT_BITS_FAST(b, l) { bit_buffer |= (((mz_uint64)(b)) << bits_in); bits_in += (l); }
+#घोषणा TDEFL_PUT_BITS_FAST(b, l) { bit_बफर |= (((mz_uint64)(b)) << bits_in); bits_in += (l); }
 
   flags = 1;
-  for (pLZ_codes = d->m_lz_code_buf; pLZ_codes < pLZ_code_buf_end; flags >>= 1)
+  क्रम (pLZ_codes = d->m_lz_code_buf; pLZ_codes < pLZ_code_buf_end; flags >>= 1)
   {
-    if (flags == 1)
+    अगर (flags == 1)
       flags = *pLZ_codes++ | 0x100;
 
-    if (flags & 1)
+    अगर (flags & 1)
     {
-      mz_uint s0, s1, n0, n1, sym, num_extra_bits;
-      mz_uint match_len = pLZ_codes[0], match_dist = *(const mz_uint16 *)(pLZ_codes + 1); pLZ_codes += 3;
+      mz_uint s0, s1, n0, n1, sym, अंक_extra_bits;
+      mz_uint match_len = pLZ_codes[0], match_dist = *(स्थिर mz_uint16 *)(pLZ_codes + 1); pLZ_codes += 3;
 
       MZ_ASSERT(d->m_huff_code_sizes[0][s_tdefl_len_sym[match_len]]);
       TDEFL_PUT_BITS_FAST(d->m_huff_codes[0][s_tdefl_len_sym[match_len]], d->m_huff_code_sizes[0][s_tdefl_len_sym[match_len]]);
@@ -2146,26 +2146,26 @@ static mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
       s1 = s_tdefl_large_dist_sym[match_dist >> 8];
       n1 = s_tdefl_large_dist_extra[match_dist >> 8];
       sym = (match_dist < 512) ? s0 : s1;
-      num_extra_bits = (match_dist < 512) ? n0 : n1;
+      अंक_extra_bits = (match_dist < 512) ? n0 : n1;
 
       MZ_ASSERT(d->m_huff_code_sizes[1][sym]);
       TDEFL_PUT_BITS_FAST(d->m_huff_codes[1][sym], d->m_huff_code_sizes[1][sym]);
-      TDEFL_PUT_BITS_FAST(match_dist & mz_bitmasks[num_extra_bits], num_extra_bits);
+      TDEFL_PUT_BITS_FAST(match_dist & mz_bitmasks[अंक_extra_bits], अंक_extra_bits);
     }
-    else
+    अन्यथा
     {
       mz_uint lit = *pLZ_codes++;
       MZ_ASSERT(d->m_huff_code_sizes[0][lit]);
       TDEFL_PUT_BITS_FAST(d->m_huff_codes[0][lit], d->m_huff_code_sizes[0][lit]);
 
-      if (((flags & 2) == 0) && (pLZ_codes < pLZ_code_buf_end))
+      अगर (((flags & 2) == 0) && (pLZ_codes < pLZ_code_buf_end))
       {
         flags >>= 1;
         lit = *pLZ_codes++;
         MZ_ASSERT(d->m_huff_code_sizes[0][lit]);
         TDEFL_PUT_BITS_FAST(d->m_huff_codes[0][lit], d->m_huff_code_sizes[0][lit]);
 
-        if (((flags & 2) == 0) && (pLZ_codes < pLZ_code_buf_end))
+        अगर (((flags & 2) == 0) && (pLZ_codes < pLZ_code_buf_end))
         {
           flags >>= 1;
           lit = *pLZ_codes++;
@@ -2175,66 +2175,66 @@ static mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
       }
     }
 
-    if (pOutput_buf >= d->m_pOutput_buf_end)
-      return MZ_FALSE;
+    अगर (pOutput_buf >= d->m_pOutput_buf_end)
+      वापस MZ_FALSE;
 
-    *(mz_uint64*)pOutput_buf = bit_buffer;
+    *(mz_uint64*)pOutput_buf = bit_बफर;
     pOutput_buf += (bits_in >> 3);
-    bit_buffer >>= (bits_in & ~7);
+    bit_बफर >>= (bits_in & ~7);
     bits_in &= 7;
   }
 
-#undef TDEFL_PUT_BITS_FAST
+#अघोषित TDEFL_PUT_BITS_FAST
 
   d->m_pOutput_buf = pOutput_buf;
   d->m_bits_in = 0;
-  d->m_bit_buffer = 0;
+  d->m_bit_बफर = 0;
 
-  while (bits_in)
+  जबतक (bits_in)
   {
     mz_uint32 n = MZ_MIN(bits_in, 16);
-    TDEFL_PUT_BITS((mz_uint)bit_buffer & mz_bitmasks[n], n);
-    bit_buffer >>= n;
+    TDEFL_PUT_BITS((mz_uint)bit_बफर & mz_bitmasks[n], n);
+    bit_बफर >>= n;
     bits_in -= n;
   }
 
   TDEFL_PUT_BITS(d->m_huff_codes[0][256], d->m_huff_code_sizes[0][256]);
 
-  return (d->m_pOutput_buf < d->m_pOutput_buf_end);
+  वापस (d->m_pOutput_buf < d->m_pOutput_buf_end);
 }
-#else
-static mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
+#अन्यथा
+अटल mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
 {
   mz_uint flags;
   mz_uint8 *pLZ_codes;
 
   flags = 1;
-  for (pLZ_codes = d->m_lz_code_buf; pLZ_codes < d->m_pLZ_code_buf; flags >>= 1)
+  क्रम (pLZ_codes = d->m_lz_code_buf; pLZ_codes < d->m_pLZ_code_buf; flags >>= 1)
   {
-    if (flags == 1)
+    अगर (flags == 1)
       flags = *pLZ_codes++ | 0x100;
-    if (flags & 1)
+    अगर (flags & 1)
     {
-      mz_uint sym, num_extra_bits;
+      mz_uint sym, अंक_extra_bits;
       mz_uint match_len = pLZ_codes[0], match_dist = (pLZ_codes[1] | (pLZ_codes[2] << 8)); pLZ_codes += 3;
 
       MZ_ASSERT(d->m_huff_code_sizes[0][s_tdefl_len_sym[match_len]]);
       TDEFL_PUT_BITS(d->m_huff_codes[0][s_tdefl_len_sym[match_len]], d->m_huff_code_sizes[0][s_tdefl_len_sym[match_len]]);
       TDEFL_PUT_BITS(match_len & mz_bitmasks[s_tdefl_len_extra[match_len]], s_tdefl_len_extra[match_len]);
 
-      if (match_dist < 512)
+      अगर (match_dist < 512)
       {
-        sym = s_tdefl_small_dist_sym[match_dist]; num_extra_bits = s_tdefl_small_dist_extra[match_dist];
+        sym = s_tdefl_small_dist_sym[match_dist]; अंक_extra_bits = s_tdefl_small_dist_extra[match_dist];
       }
-      else
+      अन्यथा
       {
-        sym = s_tdefl_large_dist_sym[match_dist >> 8]; num_extra_bits = s_tdefl_large_dist_extra[match_dist >> 8];
+        sym = s_tdefl_large_dist_sym[match_dist >> 8]; अंक_extra_bits = s_tdefl_large_dist_extra[match_dist >> 8];
       }
       MZ_ASSERT(d->m_huff_code_sizes[1][sym]);
       TDEFL_PUT_BITS(d->m_huff_codes[1][sym], d->m_huff_code_sizes[1][sym]);
-      TDEFL_PUT_BITS(match_dist & mz_bitmasks[num_extra_bits], num_extra_bits);
+      TDEFL_PUT_BITS(match_dist & mz_bitmasks[अंक_extra_bits], अंक_extra_bits);
     }
-    else
+    अन्यथा
     {
       mz_uint lit = *pLZ_codes++;
       MZ_ASSERT(d->m_huff_code_sizes[0][lit]);
@@ -2244,260 +2244,260 @@ static mz_bool tdefl_compress_lz_codes(tdefl_compressor *d)
 
   TDEFL_PUT_BITS(d->m_huff_codes[0][256], d->m_huff_code_sizes[0][256]);
 
-  return (d->m_pOutput_buf < d->m_pOutput_buf_end);
+  वापस (d->m_pOutput_buf < d->m_pOutput_buf_end);
 }
-#endif // MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN && MINIZ_HAS_64BIT_REGISTERS
+#पूर्ण_अगर // MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN && MINIZ_HAS_64BIT_REGISTERS
 
-static mz_bool tdefl_compress_block(tdefl_compressor *d, mz_bool static_block)
+अटल mz_bool tdefl_compress_block(tdefl_compressor *d, mz_bool static_block)
 {
-  if (static_block)
+  अगर (static_block)
     tdefl_start_static_block(d);
-  else
+  अन्यथा
     tdefl_start_dynamic_block(d);
-  return tdefl_compress_lz_codes(d);
+  वापस tdefl_compress_lz_codes(d);
 }
 
-static int tdefl_flush_block(tdefl_compressor *d, int flush)
+अटल पूर्णांक tdefl_flush_block(tdefl_compressor *d, पूर्णांक flush)
 {
   mz_uint saved_bit_buf, saved_bits_in;
   mz_uint8 *pSaved_output_buf;
   mz_bool comp_block_succeeded = MZ_FALSE;
-  int n, use_raw_block = ((d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS) != 0) && (d->m_lookahead_pos - d->m_lz_code_buf_dict_pos) <= d->m_dict_size;
-  mz_uint8 *pOutput_buf_start = ((d->m_pPut_buf_func == NULL) && ((*d->m_pOut_buf_size - d->m_out_buf_ofs) >= TDEFL_OUT_BUF_SIZE)) ? ((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs) : d->m_output_buf;
+  पूर्णांक n, use_raw_block = ((d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS) != 0) && (d->m_lookahead_pos - d->m_lz_code_buf_dict_pos) <= d->m_dict_आकार;
+  mz_uint8 *pOutput_buf_start = ((d->m_pPut_buf_func == शून्य) && ((*d->m_p_Out_buf_आकार - d->m_out_buf_ofs) >= TDEFL_OUT_BUF_आकार)) ? ((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs) : d->m_output_buf;
 
   d->m_pOutput_buf = pOutput_buf_start;
-  d->m_pOutput_buf_end = d->m_pOutput_buf + TDEFL_OUT_BUF_SIZE - 16;
+  d->m_pOutput_buf_end = d->m_pOutput_buf + TDEFL_OUT_BUF_आकार - 16;
 
   MZ_ASSERT(!d->m_output_flush_remaining);
   d->m_output_flush_ofs = 0;
   d->m_output_flush_remaining = 0;
 
-  *d->m_pLZ_flags = (mz_uint8)(*d->m_pLZ_flags >> d->m_num_flags_left);
-  d->m_pLZ_code_buf -= (d->m_num_flags_left == 8);
+  *d->m_pLZ_flags = (mz_uint8)(*d->m_pLZ_flags >> d->m_अंक_flags_बायाँ);
+  d->m_pLZ_code_buf -= (d->m_अंक_flags_बायाँ == 8);
 
-  if ((d->m_flags & TDEFL_WRITE_ZLIB_HEADER) && (!d->m_block_index))
+  अगर ((d->m_flags & TDEFL_WRITE_ZLIB_HEADER) && (!d->m_block_सूचकांक))
   {
     TDEFL_PUT_BITS(0x78, 8); TDEFL_PUT_BITS(0x01, 8);
   }
 
   TDEFL_PUT_BITS(flush == TDEFL_FINISH, 1);
 
-  pSaved_output_buf = d->m_pOutput_buf; saved_bit_buf = d->m_bit_buffer; saved_bits_in = d->m_bits_in;
+  pSaved_output_buf = d->m_pOutput_buf; saved_bit_buf = d->m_bit_बफर; saved_bits_in = d->m_bits_in;
 
-  if (!use_raw_block)
-    comp_block_succeeded = tdefl_compress_block(d, (d->m_flags & TDEFL_FORCE_ALL_STATIC_BLOCKS) || (d->m_total_lz_bytes < 48));
+  अगर (!use_raw_block)
+    comp_block_succeeded = tdefl_compress_block(d, (d->m_flags & TDEFL_FORCE_ALL_STATIC_BLOCKS) || (d->m_योग_lz_bytes < 48));
 
   // If the block gets expanded, forget the current contents of the output buffer and send a raw block instead.
-  if ( ((use_raw_block) || ((d->m_total_lz_bytes) && ((d->m_pOutput_buf - pSaved_output_buf + 1U) >= d->m_total_lz_bytes))) &&
-       ((d->m_lookahead_pos - d->m_lz_code_buf_dict_pos) <= d->m_dict_size) )
+  अगर ( ((use_raw_block) || ((d->m_योग_lz_bytes) && ((d->m_pOutput_buf - pSaved_output_buf + 1U) >= d->m_योग_lz_bytes))) &&
+       ((d->m_lookahead_pos - d->m_lz_code_buf_dict_pos) <= d->m_dict_आकार) )
   {
-    mz_uint i; d->m_pOutput_buf = pSaved_output_buf; d->m_bit_buffer = saved_bit_buf; d->m_bits_in = saved_bits_in;
+    mz_uint i; d->m_pOutput_buf = pSaved_output_buf; d->m_bit_बफर = saved_bit_buf; d->m_bits_in = saved_bits_in;
     TDEFL_PUT_BITS(0, 2);
-    if (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); }
-    for (i = 2; i; --i, d->m_total_lz_bytes ^= 0xFFFF)
+    अगर (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); }
+    क्रम (i = 2; i; --i, d->m_योग_lz_bytes ^= 0xFFFF)
     {
-      TDEFL_PUT_BITS(d->m_total_lz_bytes & 0xFFFF, 16);
+      TDEFL_PUT_BITS(d->m_योग_lz_bytes & 0xFFFF, 16);
     }
-    for (i = 0; i < d->m_total_lz_bytes; ++i)
+    क्रम (i = 0; i < d->m_योग_lz_bytes; ++i)
     {
-      TDEFL_PUT_BITS(d->m_dict[(d->m_lz_code_buf_dict_pos + i) & TDEFL_LZ_DICT_SIZE_MASK], 8);
+      TDEFL_PUT_BITS(d->m_dict[(d->m_lz_code_buf_dict_pos + i) & TDEFL_LZ_DICT_आकार_MASK], 8);
     }
   }
   // Check for the extremely unlikely (if not impossible) case of the compressed block not fitting into the output buffer when using dynamic codes.
-  else if (!comp_block_succeeded)
+  अन्यथा अगर (!comp_block_succeeded)
   {
-    d->m_pOutput_buf = pSaved_output_buf; d->m_bit_buffer = saved_bit_buf; d->m_bits_in = saved_bits_in;
+    d->m_pOutput_buf = pSaved_output_buf; d->m_bit_बफर = saved_bit_buf; d->m_bits_in = saved_bits_in;
     tdefl_compress_block(d, MZ_TRUE);
   }
 
-  if (flush)
+  अगर (flush)
   {
-    if (flush == TDEFL_FINISH)
+    अगर (flush == TDEFL_FINISH)
     {
-      if (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); }
-      if (d->m_flags & TDEFL_WRITE_ZLIB_HEADER) { mz_uint i, a = d->m_adler32; for (i = 0; i < 4; i++) { TDEFL_PUT_BITS((a >> 24) & 0xFF, 8); a <<= 8; } }
+      अगर (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); }
+      अगर (d->m_flags & TDEFL_WRITE_ZLIB_HEADER) { mz_uint i, a = d->m_adler32; क्रम (i = 0; i < 4; i++) { TDEFL_PUT_BITS((a >> 24) & 0xFF, 8); a <<= 8; } }
     }
-    else
+    अन्यथा
     {
-      mz_uint i, z = 0; TDEFL_PUT_BITS(0, 3); if (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); } for (i = 2; i; --i, z ^= 0xFFFF) { TDEFL_PUT_BITS(z & 0xFFFF, 16); }
+      mz_uint i, z = 0; TDEFL_PUT_BITS(0, 3); अगर (d->m_bits_in) { TDEFL_PUT_BITS(0, 8 - d->m_bits_in); } क्रम (i = 2; i; --i, z ^= 0xFFFF) { TDEFL_PUT_BITS(z & 0xFFFF, 16); }
     }
   }
 
   MZ_ASSERT(d->m_pOutput_buf < d->m_pOutput_buf_end);
 
-  memset(&d->m_huff_count[0][0], 0, sizeof(d->m_huff_count[0][0]) * TDEFL_MAX_HUFF_SYMBOLS_0);
-  memset(&d->m_huff_count[1][0], 0, sizeof(d->m_huff_count[1][0]) * TDEFL_MAX_HUFF_SYMBOLS_1);
+  स_रखो(&d->m_huff_गिनती[0][0], 0, माप(d->m_huff_गिनती[0][0]) * TDEFL_MAX_HUFF_SYMBOLS_0);
+  स_रखो(&d->m_huff_गिनती[1][0], 0, माप(d->m_huff_गिनती[1][0]) * TDEFL_MAX_HUFF_SYMBOLS_1);
 
-  d->m_pLZ_code_buf = d->m_lz_code_buf + 1; d->m_pLZ_flags = d->m_lz_code_buf; d->m_num_flags_left = 8; d->m_lz_code_buf_dict_pos += d->m_total_lz_bytes; d->m_total_lz_bytes = 0; d->m_block_index++;
+  d->m_pLZ_code_buf = d->m_lz_code_buf + 1; d->m_pLZ_flags = d->m_lz_code_buf; d->m_अंक_flags_बायाँ = 8; d->m_lz_code_buf_dict_pos += d->m_योग_lz_bytes; d->m_योग_lz_bytes = 0; d->m_block_सूचकांक++;
 
-  if ((n = (int)(d->m_pOutput_buf - pOutput_buf_start)) != 0)
+  अगर ((n = (पूर्णांक)(d->m_pOutput_buf - pOutput_buf_start)) != 0)
   {
-    if (d->m_pPut_buf_func)
+    अगर (d->m_pPut_buf_func)
     {
-      *d->m_pIn_buf_size = d->m_pSrc - (const mz_uint8 *)d->m_pIn_buf;
-      if (!(*d->m_pPut_buf_func)(d->m_output_buf, n, d->m_pPut_buf_user))
-        return (d->m_prev_return_status = TDEFL_STATUS_PUT_BUF_FAILED);
+      *d->m_p_In_buf_आकार = d->m_pSrc - (स्थिर mz_uint8 *)d->m_pIn_buf;
+      अगर (!(*d->m_pPut_buf_func)(d->m_output_buf, n, d->m_pPut_buf_user))
+        वापस (d->m_पूर्व_return_status = TDEFL_STATUS_PUT_BUF_FAILED);
     }
-    else if (pOutput_buf_start == d->m_output_buf)
+    अन्यथा अगर (pOutput_buf_start == d->m_output_buf)
     {
-      int bytes_to_copy = (int)MZ_MIN((size_t)n, (size_t)(*d->m_pOut_buf_size - d->m_out_buf_ofs));
-      memcpy((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs, d->m_output_buf, bytes_to_copy);
+      पूर्णांक bytes_to_copy = (पूर्णांक)MZ_MIN((माप_प्रकार)n, (माप_प्रकार)(*d->m_p_Out_buf_आकार - d->m_out_buf_ofs));
+      स_नकल((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs, d->m_output_buf, bytes_to_copy);
       d->m_out_buf_ofs += bytes_to_copy;
-      if ((n -= bytes_to_copy) != 0)
+      अगर ((n -= bytes_to_copy) != 0)
       {
         d->m_output_flush_ofs = bytes_to_copy;
         d->m_output_flush_remaining = n;
       }
     }
-    else
+    अन्यथा
     {
       d->m_out_buf_ofs += n;
     }
   }
 
-  return d->m_output_flush_remaining;
+  वापस d->m_output_flush_remaining;
 }
 
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES
-#define TDEFL_READ_UNALIGNED_WORD(p) *(const mz_uint16*)(p)
-static MZ_FORCEINLINE void tdefl_find_match(tdefl_compressor *d, mz_uint lookahead_pos, mz_uint max_dist, mz_uint max_match_len, mz_uint *pMatch_dist, mz_uint *pMatch_len)
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES
+#घोषणा TDEFL_READ_UNALIGNED_WORD(p) *(स्थिर mz_uint16*)(p)
+अटल MZ_FORCEINLINE व्योम tdefl_find_match(tdefl_compressor *d, mz_uint lookahead_pos, mz_uint max_dist, mz_uint max_match_len, mz_uint *pMatch_dist, mz_uint *pMatch_len)
 {
-  mz_uint dist, pos = lookahead_pos & TDEFL_LZ_DICT_SIZE_MASK, match_len = *pMatch_len, probe_pos = pos, next_probe_pos, probe_len;
-  mz_uint num_probes_left = d->m_max_probes[match_len >= 32];
-  const mz_uint16 *s = (const mz_uint16*)(d->m_dict + pos), *p, *q;
+  mz_uint dist, pos = lookahead_pos & TDEFL_LZ_DICT_आकार_MASK, match_len = *pMatch_len, probe_pos = pos, अग्र_probe_pos, probe_len;
+  mz_uint अंक_probes_बायाँ = d->m_max_probes[match_len >= 32];
+  स्थिर mz_uint16 *s = (स्थिर mz_uint16*)(d->m_dict + pos), *p, *q;
   mz_uint16 c01 = TDEFL_READ_UNALIGNED_WORD(&d->m_dict[pos + match_len - 1]), s01 = TDEFL_READ_UNALIGNED_WORD(s);
-  MZ_ASSERT(max_match_len <= TDEFL_MAX_MATCH_LEN); if (max_match_len <= match_len) return;
-  for ( ; ; )
+  MZ_ASSERT(max_match_len <= TDEFL_MAX_MATCH_LEN); अगर (max_match_len <= match_len) वापस;
+  क्रम ( ; ; )
   {
-    for ( ; ; )
+    क्रम ( ; ; )
     {
-      if (--num_probes_left == 0) return;
-      #define TDEFL_PROBE \
-        next_probe_pos = d->m_next[probe_pos]; \
-        if ((!next_probe_pos) || ((dist = (mz_uint16)(lookahead_pos - next_probe_pos)) > max_dist)) return; \
-        probe_pos = next_probe_pos & TDEFL_LZ_DICT_SIZE_MASK; \
-        if (TDEFL_READ_UNALIGNED_WORD(&d->m_dict[probe_pos + match_len - 1]) == c01) break;
+      अगर (--अंक_probes_बायाँ == 0) वापस;
+      #घोषणा TDEFL_PROBE \
+        अग्र_probe_pos = d->m_अग्र[probe_pos]; \
+        अगर ((!अग्र_probe_pos) || ((dist = (mz_uint16)(lookahead_pos - अग्र_probe_pos)) > max_dist)) वापस; \
+        probe_pos = अग्र_probe_pos & TDEFL_LZ_DICT_आकार_MASK; \
+        अगर (TDEFL_READ_UNALIGNED_WORD(&d->m_dict[probe_pos + match_len - 1]) == c01) अवरोध;
       TDEFL_PROBE
       TDEFL_PROBE
       TDEFL_PROBE
     }
-    if (!dist) break;
-    q = (const mz_uint16*)(d->m_dict + probe_pos);
-    if (TDEFL_READ_UNALIGNED_WORD(q) != s01) continue;
+    अगर (!dist) अवरोध;
+    q = (स्थिर mz_uint16*)(d->m_dict + probe_pos);
+    अगर (TDEFL_READ_UNALIGNED_WORD(q) != s01) जारी;
     p = s; probe_len = 32;
-    do { } while ( (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) &&
+    करो { } जबतक ( (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) &&
                    (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (--probe_len > 0) );
-    if (!probe_len)
+    अगर (!probe_len)
     {
-      *pMatch_dist = dist; *pMatch_len = MZ_MIN(max_match_len, TDEFL_MAX_MATCH_LEN); break;
+      *pMatch_dist = dist; *pMatch_len = MZ_MIN(max_match_len, TDEFL_MAX_MATCH_LEN); अवरोध;
     }
-    else if ((probe_len = ((mz_uint)(p - s) * 2) + (mz_uint)(*(const mz_uint8*)p == *(const mz_uint8*)q)) > match_len)
+    अन्यथा अगर ((probe_len = ((mz_uint)(p - s) * 2) + (mz_uint)(*(स्थिर mz_uint8*)p == *(स्थिर mz_uint8*)q)) > match_len)
     {
-      *pMatch_dist = dist; if ((*pMatch_len = match_len = MZ_MIN(max_match_len, probe_len)) == max_match_len) break;
+      *pMatch_dist = dist; अगर ((*pMatch_len = match_len = MZ_MIN(max_match_len, probe_len)) == max_match_len) अवरोध;
       c01 = TDEFL_READ_UNALIGNED_WORD(&d->m_dict[pos + match_len - 1]);
     }
   }
 }
-#else
-static MZ_FORCEINLINE void tdefl_find_match(tdefl_compressor *d, mz_uint lookahead_pos, mz_uint max_dist, mz_uint max_match_len, mz_uint *pMatch_dist, mz_uint *pMatch_len)
+#अन्यथा
+अटल MZ_FORCEINLINE व्योम tdefl_find_match(tdefl_compressor *d, mz_uint lookahead_pos, mz_uint max_dist, mz_uint max_match_len, mz_uint *pMatch_dist, mz_uint *pMatch_len)
 {
-  mz_uint dist, pos = lookahead_pos & TDEFL_LZ_DICT_SIZE_MASK, match_len = *pMatch_len, probe_pos = pos, next_probe_pos, probe_len;
-  mz_uint num_probes_left = d->m_max_probes[match_len >= 32];
-  const mz_uint8 *s = d->m_dict + pos, *p, *q;
+  mz_uint dist, pos = lookahead_pos & TDEFL_LZ_DICT_आकार_MASK, match_len = *pMatch_len, probe_pos = pos, अग्र_probe_pos, probe_len;
+  mz_uint अंक_probes_बायाँ = d->m_max_probes[match_len >= 32];
+  स्थिर mz_uint8 *s = d->m_dict + pos, *p, *q;
   mz_uint8 c0 = d->m_dict[pos + match_len], c1 = d->m_dict[pos + match_len - 1];
-  MZ_ASSERT(max_match_len <= TDEFL_MAX_MATCH_LEN); if (max_match_len <= match_len) return;
-  for ( ; ; )
+  MZ_ASSERT(max_match_len <= TDEFL_MAX_MATCH_LEN); अगर (max_match_len <= match_len) वापस;
+  क्रम ( ; ; )
   {
-    for ( ; ; )
+    क्रम ( ; ; )
     {
-      if (--num_probes_left == 0) return;
-      #define TDEFL_PROBE \
-        next_probe_pos = d->m_next[probe_pos]; \
-        if ((!next_probe_pos) || ((dist = (mz_uint16)(lookahead_pos - next_probe_pos)) > max_dist)) return; \
-        probe_pos = next_probe_pos & TDEFL_LZ_DICT_SIZE_MASK; \
-        if ((d->m_dict[probe_pos + match_len] == c0) && (d->m_dict[probe_pos + match_len - 1] == c1)) break;
+      अगर (--अंक_probes_बायाँ == 0) वापस;
+      #घोषणा TDEFL_PROBE \
+        अग्र_probe_pos = d->m_अग्र[probe_pos]; \
+        अगर ((!अग्र_probe_pos) || ((dist = (mz_uint16)(lookahead_pos - अग्र_probe_pos)) > max_dist)) वापस; \
+        probe_pos = अग्र_probe_pos & TDEFL_LZ_DICT_आकार_MASK; \
+        अगर ((d->m_dict[probe_pos + match_len] == c0) && (d->m_dict[probe_pos + match_len - 1] == c1)) अवरोध;
       TDEFL_PROBE
       TDEFL_PROBE
       TDEFL_PROBE
     }
-    if (!dist) break;
+    अगर (!dist) अवरोध;
     p = s; q = d->m_dict + probe_pos;
-    for (probe_len = 0; probe_len < max_match_len; probe_len++) {
-        if (*p++ != *q++) break;
+    क्रम (probe_len = 0; probe_len < max_match_len; probe_len++) {
+        अगर (*p++ != *q++) अवरोध;
     }
-    if (probe_len > match_len)
+    अगर (probe_len > match_len)
     {
       *pMatch_dist = dist;
-      if ((*pMatch_len = match_len = probe_len) == max_match_len) return;
+      अगर ((*pMatch_len = match_len = probe_len) == max_match_len) वापस;
       c0 = d->m_dict[pos + match_len]; c1 = d->m_dict[pos + match_len - 1];
     }
   }
 }
-#endif // #if MINIZ_USE_UNALIGNED_LOADS_AND_STORES
+#पूर्ण_अगर // #if MINIZ_USE_UNALIGNED_LOADS_AND_STORES
 
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
-static mz_bool tdefl_compress_fast(tdefl_compressor *d)
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
+अटल mz_bool tdefl_compress_fast(tdefl_compressor *d)
 {
   // Faster, minimally featured LZRW1-style match+parse loop with better register utilization. Intended for applications where raw throughput is valued more highly than ratio.
-  mz_uint lookahead_pos = d->m_lookahead_pos, lookahead_size = d->m_lookahead_size, dict_size = d->m_dict_size, total_lz_bytes = d->m_total_lz_bytes, num_flags_left = d->m_num_flags_left;
+  mz_uint lookahead_pos = d->m_lookahead_pos, lookahead_आकार = d->m_lookahead_आकार, dict_आकार = d->m_dict_आकार, योग_lz_bytes = d->m_योग_lz_bytes, अंक_flags_बायाँ = d->m_अंक_flags_बायाँ;
   mz_uint8 *pLZ_code_buf = d->m_pLZ_code_buf, *pLZ_flags = d->m_pLZ_flags;
-  mz_uint cur_pos = lookahead_pos & TDEFL_LZ_DICT_SIZE_MASK;
+  mz_uint cur_pos = lookahead_pos & TDEFL_LZ_DICT_आकार_MASK;
 
-  while ((d->m_src_buf_left) || ((d->m_flush) && (lookahead_size)))
+  जबतक ((d->m_src_buf_बायाँ) || ((d->m_flush) && (lookahead_आकार)))
   {
-    const mz_uint TDEFL_COMP_FAST_LOOKAHEAD_SIZE = 4096;
-    mz_uint dst_pos = (lookahead_pos + lookahead_size) & TDEFL_LZ_DICT_SIZE_MASK;
-    mz_uint num_bytes_to_process = (mz_uint)MZ_MIN(d->m_src_buf_left, TDEFL_COMP_FAST_LOOKAHEAD_SIZE - lookahead_size);
-    d->m_src_buf_left -= num_bytes_to_process;
-    lookahead_size += num_bytes_to_process;
+    स्थिर mz_uint TDEFL_COMP_FAST_LOOKAHEAD_आकार = 4096;
+    mz_uint dst_pos = (lookahead_pos + lookahead_आकार) & TDEFL_LZ_DICT_आकार_MASK;
+    mz_uint अंक_bytes_to_process = (mz_uint)MZ_MIN(d->m_src_buf_बायाँ, TDEFL_COMP_FAST_LOOKAHEAD_आकार - lookahead_आकार);
+    d->m_src_buf_बायाँ -= अंक_bytes_to_process;
+    lookahead_आकार += अंक_bytes_to_process;
 
-    while (num_bytes_to_process)
+    जबतक (अंक_bytes_to_process)
     {
-      mz_uint32 n = MZ_MIN(TDEFL_LZ_DICT_SIZE - dst_pos, num_bytes_to_process);
-      memcpy(d->m_dict + dst_pos, d->m_pSrc, n);
-      if (dst_pos < (TDEFL_MAX_MATCH_LEN - 1))
-        memcpy(d->m_dict + TDEFL_LZ_DICT_SIZE + dst_pos, d->m_pSrc, MZ_MIN(n, (TDEFL_MAX_MATCH_LEN - 1) - dst_pos));
+      mz_uint32 n = MZ_MIN(TDEFL_LZ_DICT_आकार - dst_pos, अंक_bytes_to_process);
+      स_नकल(d->m_dict + dst_pos, d->m_pSrc, n);
+      अगर (dst_pos < (TDEFL_MAX_MATCH_LEN - 1))
+        स_नकल(d->m_dict + TDEFL_LZ_DICT_आकार + dst_pos, d->m_pSrc, MZ_MIN(n, (TDEFL_MAX_MATCH_LEN - 1) - dst_pos));
       d->m_pSrc += n;
-      dst_pos = (dst_pos + n) & TDEFL_LZ_DICT_SIZE_MASK;
-      num_bytes_to_process -= n;
+      dst_pos = (dst_pos + n) & TDEFL_LZ_DICT_आकार_MASK;
+      अंक_bytes_to_process -= n;
     }
 
-    dict_size = MZ_MIN(TDEFL_LZ_DICT_SIZE - lookahead_size, dict_size);
-    if ((!d->m_flush) && (lookahead_size < TDEFL_COMP_FAST_LOOKAHEAD_SIZE)) break;
+    dict_आकार = MZ_MIN(TDEFL_LZ_DICT_आकार - lookahead_आकार, dict_आकार);
+    अगर ((!d->m_flush) && (lookahead_आकार < TDEFL_COMP_FAST_LOOKAHEAD_आकार)) अवरोध;
 
-    while (lookahead_size >= 4)
+    जबतक (lookahead_आकार >= 4)
     {
       mz_uint cur_match_dist, cur_match_len = 1;
       mz_uint8 *pCur_dict = d->m_dict + cur_pos;
-      mz_uint first_trigram = (*(const mz_uint32 *)pCur_dict) & 0xFFFFFF;
-      mz_uint hash = (first_trigram ^ (first_trigram >> (24 - (TDEFL_LZ_HASH_BITS - 8)))) & TDEFL_LEVEL1_HASH_SIZE_MASK;
+      mz_uint first_trigram = (*(स्थिर mz_uint32 *)pCur_dict) & 0xFFFFFF;
+      mz_uint hash = (first_trigram ^ (first_trigram >> (24 - (TDEFL_LZ_HASH_BITS - 8)))) & TDEFL_LEVEL1_HASH_आकार_MASK;
       mz_uint probe_pos = d->m_hash[hash];
       d->m_hash[hash] = (mz_uint16)lookahead_pos;
 
-      if (((cur_match_dist = (mz_uint16)(lookahead_pos - probe_pos)) <= dict_size) && ((*(const mz_uint32 *)(d->m_dict + (probe_pos &= TDEFL_LZ_DICT_SIZE_MASK)) & 0xFFFFFF) == first_trigram))
+      अगर (((cur_match_dist = (mz_uint16)(lookahead_pos - probe_pos)) <= dict_आकार) && ((*(स्थिर mz_uint32 *)(d->m_dict + (probe_pos &= TDEFL_LZ_DICT_आकार_MASK)) & 0xFFFFFF) == first_trigram))
       {
-        const mz_uint16 *p = (const mz_uint16 *)pCur_dict;
-        const mz_uint16 *q = (const mz_uint16 *)(d->m_dict + probe_pos);
+        स्थिर mz_uint16 *p = (स्थिर mz_uint16 *)pCur_dict;
+        स्थिर mz_uint16 *q = (स्थिर mz_uint16 *)(d->m_dict + probe_pos);
         mz_uint32 probe_len = 32;
-        do { } while ( (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) &&
+        करो { } जबतक ( (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) &&
           (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (TDEFL_READ_UNALIGNED_WORD(++p) == TDEFL_READ_UNALIGNED_WORD(++q)) && (--probe_len > 0) );
-        cur_match_len = ((mz_uint)(p - (const mz_uint16 *)pCur_dict) * 2) + (mz_uint)(*(const mz_uint8 *)p == *(const mz_uint8 *)q);
-        if (!probe_len)
+        cur_match_len = ((mz_uint)(p - (स्थिर mz_uint16 *)pCur_dict) * 2) + (mz_uint)(*(स्थिर mz_uint8 *)p == *(स्थिर mz_uint8 *)q);
+        अगर (!probe_len)
           cur_match_len = cur_match_dist ? TDEFL_MAX_MATCH_LEN : 0;
 
-        if ((cur_match_len < TDEFL_MIN_MATCH_LEN) || ((cur_match_len == TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 8U*1024U)))
+        अगर ((cur_match_len < TDEFL_MIN_MATCH_LEN) || ((cur_match_len == TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 8U*1024U)))
         {
           cur_match_len = 1;
           *pLZ_code_buf++ = (mz_uint8)first_trigram;
           *pLZ_flags = (mz_uint8)(*pLZ_flags >> 1);
-          d->m_huff_count[0][(mz_uint8)first_trigram]++;
+          d->m_huff_गिनती[0][(mz_uint8)first_trigram]++;
         }
-        else
+        अन्यथा
         {
           mz_uint32 s0, s1;
-          cur_match_len = MZ_MIN(cur_match_len, lookahead_size);
+          cur_match_len = MZ_MIN(cur_match_len, lookahead_आकार);
 
-          MZ_ASSERT((cur_match_len >= TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 1) && (cur_match_dist <= TDEFL_LZ_DICT_SIZE));
+          MZ_ASSERT((cur_match_len >= TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 1) && (cur_match_dist <= TDEFL_LZ_DICT_आकार));
 
           cur_match_dist--;
 
@@ -2508,87 +2508,87 @@ static mz_bool tdefl_compress_fast(tdefl_compressor *d)
 
           s0 = s_tdefl_small_dist_sym[cur_match_dist & 511];
           s1 = s_tdefl_large_dist_sym[cur_match_dist >> 8];
-          d->m_huff_count[1][(cur_match_dist < 512) ? s0 : s1]++;
+          d->m_huff_गिनती[1][(cur_match_dist < 512) ? s0 : s1]++;
 
-          d->m_huff_count[0][s_tdefl_len_sym[cur_match_len - TDEFL_MIN_MATCH_LEN]]++;
+          d->m_huff_गिनती[0][s_tdefl_len_sym[cur_match_len - TDEFL_MIN_MATCH_LEN]]++;
         }
       }
-      else
+      अन्यथा
       {
         *pLZ_code_buf++ = (mz_uint8)first_trigram;
         *pLZ_flags = (mz_uint8)(*pLZ_flags >> 1);
-        d->m_huff_count[0][(mz_uint8)first_trigram]++;
+        d->m_huff_गिनती[0][(mz_uint8)first_trigram]++;
       }
 
-      if (--num_flags_left == 0) { num_flags_left = 8; pLZ_flags = pLZ_code_buf++; }
+      अगर (--अंक_flags_बायाँ == 0) { अंक_flags_बायाँ = 8; pLZ_flags = pLZ_code_buf++; }
 
-      total_lz_bytes += cur_match_len;
+      योग_lz_bytes += cur_match_len;
       lookahead_pos += cur_match_len;
-      dict_size = MZ_MIN(dict_size + cur_match_len, TDEFL_LZ_DICT_SIZE);
-      cur_pos = (cur_pos + cur_match_len) & TDEFL_LZ_DICT_SIZE_MASK;
-      MZ_ASSERT(lookahead_size >= cur_match_len);
-      lookahead_size -= cur_match_len;
+      dict_आकार = MZ_MIN(dict_आकार + cur_match_len, TDEFL_LZ_DICT_आकार);
+      cur_pos = (cur_pos + cur_match_len) & TDEFL_LZ_DICT_आकार_MASK;
+      MZ_ASSERT(lookahead_आकार >= cur_match_len);
+      lookahead_आकार -= cur_match_len;
 
-      if (pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_SIZE - 8])
+      अगर (pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_आकार - 8])
       {
-        int n;
-        d->m_lookahead_pos = lookahead_pos; d->m_lookahead_size = lookahead_size; d->m_dict_size = dict_size;
-        d->m_total_lz_bytes = total_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_num_flags_left = num_flags_left;
-        if ((n = tdefl_flush_block(d, 0)) != 0)
-          return (n < 0) ? MZ_FALSE : MZ_TRUE;
-        total_lz_bytes = d->m_total_lz_bytes; pLZ_code_buf = d->m_pLZ_code_buf; pLZ_flags = d->m_pLZ_flags; num_flags_left = d->m_num_flags_left;
+        पूर्णांक n;
+        d->m_lookahead_pos = lookahead_pos; d->m_lookahead_आकार = lookahead_आकार; d->m_dict_आकार = dict_आकार;
+        d->m_योग_lz_bytes = योग_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_अंक_flags_बायाँ = अंक_flags_बायाँ;
+        अगर ((n = tdefl_flush_block(d, 0)) != 0)
+          वापस (n < 0) ? MZ_FALSE : MZ_TRUE;
+        योग_lz_bytes = d->m_योग_lz_bytes; pLZ_code_buf = d->m_pLZ_code_buf; pLZ_flags = d->m_pLZ_flags; अंक_flags_बायाँ = d->m_अंक_flags_बायाँ;
       }
     }
 
-    while (lookahead_size)
+    जबतक (lookahead_आकार)
     {
       mz_uint8 lit = d->m_dict[cur_pos];
 
-      total_lz_bytes++;
+      योग_lz_bytes++;
       *pLZ_code_buf++ = lit;
       *pLZ_flags = (mz_uint8)(*pLZ_flags >> 1);
-      if (--num_flags_left == 0) { num_flags_left = 8; pLZ_flags = pLZ_code_buf++; }
+      अगर (--अंक_flags_बायाँ == 0) { अंक_flags_बायाँ = 8; pLZ_flags = pLZ_code_buf++; }
 
-      d->m_huff_count[0][lit]++;
+      d->m_huff_गिनती[0][lit]++;
 
       lookahead_pos++;
-      dict_size = MZ_MIN(dict_size + 1, TDEFL_LZ_DICT_SIZE);
-      cur_pos = (cur_pos + 1) & TDEFL_LZ_DICT_SIZE_MASK;
-      lookahead_size--;
+      dict_आकार = MZ_MIN(dict_आकार + 1, TDEFL_LZ_DICT_आकार);
+      cur_pos = (cur_pos + 1) & TDEFL_LZ_DICT_आकार_MASK;
+      lookahead_आकार--;
 
-      if (pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_SIZE - 8])
+      अगर (pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_आकार - 8])
       {
-        int n;
-        d->m_lookahead_pos = lookahead_pos; d->m_lookahead_size = lookahead_size; d->m_dict_size = dict_size;
-        d->m_total_lz_bytes = total_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_num_flags_left = num_flags_left;
-        if ((n = tdefl_flush_block(d, 0)) != 0)
-          return (n < 0) ? MZ_FALSE : MZ_TRUE;
-        total_lz_bytes = d->m_total_lz_bytes; pLZ_code_buf = d->m_pLZ_code_buf; pLZ_flags = d->m_pLZ_flags; num_flags_left = d->m_num_flags_left;
+        पूर्णांक n;
+        d->m_lookahead_pos = lookahead_pos; d->m_lookahead_आकार = lookahead_आकार; d->m_dict_आकार = dict_आकार;
+        d->m_योग_lz_bytes = योग_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_अंक_flags_बायाँ = अंक_flags_बायाँ;
+        अगर ((n = tdefl_flush_block(d, 0)) != 0)
+          वापस (n < 0) ? MZ_FALSE : MZ_TRUE;
+        योग_lz_bytes = d->m_योग_lz_bytes; pLZ_code_buf = d->m_pLZ_code_buf; pLZ_flags = d->m_pLZ_flags; अंक_flags_बायाँ = d->m_अंक_flags_बायाँ;
       }
     }
   }
 
-  d->m_lookahead_pos = lookahead_pos; d->m_lookahead_size = lookahead_size; d->m_dict_size = dict_size;
-  d->m_total_lz_bytes = total_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_num_flags_left = num_flags_left;
-  return MZ_TRUE;
+  d->m_lookahead_pos = lookahead_pos; d->m_lookahead_आकार = lookahead_आकार; d->m_dict_आकार = dict_आकार;
+  d->m_योग_lz_bytes = योग_lz_bytes; d->m_pLZ_code_buf = pLZ_code_buf; d->m_pLZ_flags = pLZ_flags; d->m_अंक_flags_बायाँ = अंक_flags_बायाँ;
+  वापस MZ_TRUE;
 }
-#endif // MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
+#पूर्ण_अगर // MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
 
-static MZ_FORCEINLINE void tdefl_record_literal(tdefl_compressor *d, mz_uint8 lit)
+अटल MZ_FORCEINLINE व्योम tdefl_record_literal(tdefl_compressor *d, mz_uint8 lit)
 {
-  d->m_total_lz_bytes++;
+  d->m_योग_lz_bytes++;
   *d->m_pLZ_code_buf++ = lit;
-  *d->m_pLZ_flags = (mz_uint8)(*d->m_pLZ_flags >> 1); if (--d->m_num_flags_left == 0) { d->m_num_flags_left = 8; d->m_pLZ_flags = d->m_pLZ_code_buf++; }
-  d->m_huff_count[0][lit]++;
+  *d->m_pLZ_flags = (mz_uint8)(*d->m_pLZ_flags >> 1); अगर (--d->m_अंक_flags_बायाँ == 0) { d->m_अंक_flags_बायाँ = 8; d->m_pLZ_flags = d->m_pLZ_code_buf++; }
+  d->m_huff_गिनती[0][lit]++;
 }
 
-static MZ_FORCEINLINE void tdefl_record_match(tdefl_compressor *d, mz_uint match_len, mz_uint match_dist)
+अटल MZ_FORCEINLINE व्योम tdefl_record_match(tdefl_compressor *d, mz_uint match_len, mz_uint match_dist)
 {
   mz_uint32 s0, s1;
 
-  MZ_ASSERT((match_len >= TDEFL_MIN_MATCH_LEN) && (match_dist >= 1) && (match_dist <= TDEFL_LZ_DICT_SIZE));
+  MZ_ASSERT((match_len >= TDEFL_MIN_MATCH_LEN) && (match_dist >= 1) && (match_dist <= TDEFL_LZ_DICT_आकार));
 
-  d->m_total_lz_bytes += match_len;
+  d->m_योग_lz_bytes += match_len;
 
   d->m_pLZ_code_buf[0] = (mz_uint8)(match_len - TDEFL_MIN_MATCH_LEN);
 
@@ -2596,339 +2596,339 @@ static MZ_FORCEINLINE void tdefl_record_match(tdefl_compressor *d, mz_uint match
   d->m_pLZ_code_buf[1] = (mz_uint8)(match_dist & 0xFF);
   d->m_pLZ_code_buf[2] = (mz_uint8)(match_dist >> 8); d->m_pLZ_code_buf += 3;
 
-  *d->m_pLZ_flags = (mz_uint8)((*d->m_pLZ_flags >> 1) | 0x80); if (--d->m_num_flags_left == 0) { d->m_num_flags_left = 8; d->m_pLZ_flags = d->m_pLZ_code_buf++; }
+  *d->m_pLZ_flags = (mz_uint8)((*d->m_pLZ_flags >> 1) | 0x80); अगर (--d->m_अंक_flags_बायाँ == 0) { d->m_अंक_flags_बायाँ = 8; d->m_pLZ_flags = d->m_pLZ_code_buf++; }
 
   s0 = s_tdefl_small_dist_sym[match_dist & 511]; s1 = s_tdefl_large_dist_sym[(match_dist >> 8) & 127];
-  d->m_huff_count[1][(match_dist < 512) ? s0 : s1]++;
+  d->m_huff_गिनती[1][(match_dist < 512) ? s0 : s1]++;
 
-  if (match_len >= TDEFL_MIN_MATCH_LEN) d->m_huff_count[0][s_tdefl_len_sym[match_len - TDEFL_MIN_MATCH_LEN]]++;
+  अगर (match_len >= TDEFL_MIN_MATCH_LEN) d->m_huff_गिनती[0][s_tdefl_len_sym[match_len - TDEFL_MIN_MATCH_LEN]]++;
 }
 
-static mz_bool tdefl_compress_normal(tdefl_compressor *d)
+अटल mz_bool tdefl_compress_normal(tdefl_compressor *d)
 {
-  const mz_uint8 *pSrc = d->m_pSrc; size_t src_buf_left = d->m_src_buf_left;
+  स्थिर mz_uint8 *pSrc = d->m_pSrc; माप_प्रकार src_buf_बायाँ = d->m_src_buf_बायाँ;
   tdefl_flush flush = d->m_flush;
 
-  while ((src_buf_left) || ((flush) && (d->m_lookahead_size)))
+  जबतक ((src_buf_बायाँ) || ((flush) && (d->m_lookahead_आकार)))
   {
     mz_uint len_to_move, cur_match_dist, cur_match_len, cur_pos;
     // Update dictionary and hash chains. Keeps the lookahead size equal to TDEFL_MAX_MATCH_LEN.
-    if ((d->m_lookahead_size + d->m_dict_size) >= (TDEFL_MIN_MATCH_LEN - 1))
+    अगर ((d->m_lookahead_आकार + d->m_dict_आकार) >= (TDEFL_MIN_MATCH_LEN - 1))
     {
-      mz_uint dst_pos = (d->m_lookahead_pos + d->m_lookahead_size) & TDEFL_LZ_DICT_SIZE_MASK, ins_pos = d->m_lookahead_pos + d->m_lookahead_size - 2;
-      mz_uint hash = (d->m_dict[ins_pos & TDEFL_LZ_DICT_SIZE_MASK] << TDEFL_LZ_HASH_SHIFT) ^ d->m_dict[(ins_pos + 1) & TDEFL_LZ_DICT_SIZE_MASK];
-      mz_uint num_bytes_to_process = (mz_uint)MZ_MIN(src_buf_left, TDEFL_MAX_MATCH_LEN - d->m_lookahead_size);
-      const mz_uint8 *pSrc_end = pSrc ? pSrc + num_bytes_to_process : NULL;
-      src_buf_left -= num_bytes_to_process;
-      d->m_lookahead_size += num_bytes_to_process;
-      while (pSrc != pSrc_end)
+      mz_uint dst_pos = (d->m_lookahead_pos + d->m_lookahead_आकार) & TDEFL_LZ_DICT_आकार_MASK, ins_pos = d->m_lookahead_pos + d->m_lookahead_आकार - 2;
+      mz_uint hash = (d->m_dict[ins_pos & TDEFL_LZ_DICT_आकार_MASK] << TDEFL_LZ_HASH_SHIFT) ^ d->m_dict[(ins_pos + 1) & TDEFL_LZ_DICT_आकार_MASK];
+      mz_uint अंक_bytes_to_process = (mz_uint)MZ_MIN(src_buf_बायाँ, TDEFL_MAX_MATCH_LEN - d->m_lookahead_आकार);
+      स्थिर mz_uint8 *pSrc_end = pSrc ? pSrc + अंक_bytes_to_process : शून्य;
+      src_buf_बायाँ -= अंक_bytes_to_process;
+      d->m_lookahead_आकार += अंक_bytes_to_process;
+      जबतक (pSrc != pSrc_end)
       {
-        mz_uint8 c = *pSrc++; d->m_dict[dst_pos] = c; if (dst_pos < (TDEFL_MAX_MATCH_LEN - 1)) d->m_dict[TDEFL_LZ_DICT_SIZE + dst_pos] = c;
-        hash = ((hash << TDEFL_LZ_HASH_SHIFT) ^ c) & (TDEFL_LZ_HASH_SIZE - 1);
-        d->m_next[ins_pos & TDEFL_LZ_DICT_SIZE_MASK] = d->m_hash[hash]; d->m_hash[hash] = (mz_uint16)(ins_pos);
-        dst_pos = (dst_pos + 1) & TDEFL_LZ_DICT_SIZE_MASK; ins_pos++;
+        mz_uint8 c = *pSrc++; d->m_dict[dst_pos] = c; अगर (dst_pos < (TDEFL_MAX_MATCH_LEN - 1)) d->m_dict[TDEFL_LZ_DICT_आकार + dst_pos] = c;
+        hash = ((hash << TDEFL_LZ_HASH_SHIFT) ^ c) & (TDEFL_LZ_HASH_आकार - 1);
+        d->m_अग्र[ins_pos & TDEFL_LZ_DICT_आकार_MASK] = d->m_hash[hash]; d->m_hash[hash] = (mz_uint16)(ins_pos);
+        dst_pos = (dst_pos + 1) & TDEFL_LZ_DICT_आकार_MASK; ins_pos++;
       }
     }
-    else
+    अन्यथा
     {
-      while ((src_buf_left) && (d->m_lookahead_size < TDEFL_MAX_MATCH_LEN))
+      जबतक ((src_buf_बायाँ) && (d->m_lookahead_आकार < TDEFL_MAX_MATCH_LEN))
       {
         mz_uint8 c = *pSrc++;
-        mz_uint dst_pos = (d->m_lookahead_pos + d->m_lookahead_size) & TDEFL_LZ_DICT_SIZE_MASK;
-        src_buf_left--;
+        mz_uint dst_pos = (d->m_lookahead_pos + d->m_lookahead_आकार) & TDEFL_LZ_DICT_आकार_MASK;
+        src_buf_बायाँ--;
         d->m_dict[dst_pos] = c;
-        if (dst_pos < (TDEFL_MAX_MATCH_LEN - 1))
-          d->m_dict[TDEFL_LZ_DICT_SIZE + dst_pos] = c;
-        if ((++d->m_lookahead_size + d->m_dict_size) >= TDEFL_MIN_MATCH_LEN)
+        अगर (dst_pos < (TDEFL_MAX_MATCH_LEN - 1))
+          d->m_dict[TDEFL_LZ_DICT_आकार + dst_pos] = c;
+        अगर ((++d->m_lookahead_आकार + d->m_dict_आकार) >= TDEFL_MIN_MATCH_LEN)
         {
-          mz_uint ins_pos = d->m_lookahead_pos + (d->m_lookahead_size - 1) - 2;
-          mz_uint hash = ((d->m_dict[ins_pos & TDEFL_LZ_DICT_SIZE_MASK] << (TDEFL_LZ_HASH_SHIFT * 2)) ^ (d->m_dict[(ins_pos + 1) & TDEFL_LZ_DICT_SIZE_MASK] << TDEFL_LZ_HASH_SHIFT) ^ c) & (TDEFL_LZ_HASH_SIZE - 1);
-          d->m_next[ins_pos & TDEFL_LZ_DICT_SIZE_MASK] = d->m_hash[hash]; d->m_hash[hash] = (mz_uint16)(ins_pos);
+          mz_uint ins_pos = d->m_lookahead_pos + (d->m_lookahead_आकार - 1) - 2;
+          mz_uint hash = ((d->m_dict[ins_pos & TDEFL_LZ_DICT_आकार_MASK] << (TDEFL_LZ_HASH_SHIFT * 2)) ^ (d->m_dict[(ins_pos + 1) & TDEFL_LZ_DICT_आकार_MASK] << TDEFL_LZ_HASH_SHIFT) ^ c) & (TDEFL_LZ_HASH_आकार - 1);
+          d->m_अग्र[ins_pos & TDEFL_LZ_DICT_आकार_MASK] = d->m_hash[hash]; d->m_hash[hash] = (mz_uint16)(ins_pos);
         }
       }
     }
-    d->m_dict_size = MZ_MIN(TDEFL_LZ_DICT_SIZE - d->m_lookahead_size, d->m_dict_size);
-    if ((!flush) && (d->m_lookahead_size < TDEFL_MAX_MATCH_LEN))
-      break;
+    d->m_dict_आकार = MZ_MIN(TDEFL_LZ_DICT_आकार - d->m_lookahead_आकार, d->m_dict_आकार);
+    अगर ((!flush) && (d->m_lookahead_आकार < TDEFL_MAX_MATCH_LEN))
+      अवरोध;
 
     // Simple lazy/greedy parsing state machine.
-    len_to_move = 1; cur_match_dist = 0; cur_match_len = d->m_saved_match_len ? d->m_saved_match_len : (TDEFL_MIN_MATCH_LEN - 1); cur_pos = d->m_lookahead_pos & TDEFL_LZ_DICT_SIZE_MASK;
-    if (d->m_flags & (TDEFL_RLE_MATCHES | TDEFL_FORCE_ALL_RAW_BLOCKS))
+    len_to_move = 1; cur_match_dist = 0; cur_match_len = d->m_saved_match_len ? d->m_saved_match_len : (TDEFL_MIN_MATCH_LEN - 1); cur_pos = d->m_lookahead_pos & TDEFL_LZ_DICT_आकार_MASK;
+    अगर (d->m_flags & (TDEFL_RLE_MATCHES | TDEFL_FORCE_ALL_RAW_BLOCKS))
     {
-      if ((d->m_dict_size) && (!(d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS)))
+      अगर ((d->m_dict_आकार) && (!(d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS)))
       {
-        mz_uint8 c = d->m_dict[(cur_pos - 1) & TDEFL_LZ_DICT_SIZE_MASK];
-        cur_match_len = 0; while (cur_match_len < d->m_lookahead_size) { if (d->m_dict[cur_pos + cur_match_len] != c) break; cur_match_len++; }
-        if (cur_match_len < TDEFL_MIN_MATCH_LEN) cur_match_len = 0; else cur_match_dist = 1;
+        mz_uint8 c = d->m_dict[(cur_pos - 1) & TDEFL_LZ_DICT_आकार_MASK];
+        cur_match_len = 0; जबतक (cur_match_len < d->m_lookahead_आकार) { अगर (d->m_dict[cur_pos + cur_match_len] != c) अवरोध; cur_match_len++; }
+        अगर (cur_match_len < TDEFL_MIN_MATCH_LEN) cur_match_len = 0; अन्यथा cur_match_dist = 1;
       }
     }
-    else
+    अन्यथा
     {
-      tdefl_find_match(d, d->m_lookahead_pos, d->m_dict_size, d->m_lookahead_size, &cur_match_dist, &cur_match_len);
+      tdefl_find_match(d, d->m_lookahead_pos, d->m_dict_आकार, d->m_lookahead_आकार, &cur_match_dist, &cur_match_len);
     }
-    if (((cur_match_len == TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 8U*1024U)) || (cur_pos == cur_match_dist) || ((d->m_flags & TDEFL_FILTER_MATCHES) && (cur_match_len <= 5)))
+    अगर (((cur_match_len == TDEFL_MIN_MATCH_LEN) && (cur_match_dist >= 8U*1024U)) || (cur_pos == cur_match_dist) || ((d->m_flags & TDEFL_FILTER_MATCHES) && (cur_match_len <= 5)))
     {
       cur_match_dist = cur_match_len = 0;
     }
-    if (d->m_saved_match_len)
+    अगर (d->m_saved_match_len)
     {
-      if (cur_match_len > d->m_saved_match_len)
+      अगर (cur_match_len > d->m_saved_match_len)
       {
         tdefl_record_literal(d, (mz_uint8)d->m_saved_lit);
-        if (cur_match_len >= 128)
+        अगर (cur_match_len >= 128)
         {
           tdefl_record_match(d, cur_match_len, cur_match_dist);
           d->m_saved_match_len = 0; len_to_move = cur_match_len;
         }
-        else
+        अन्यथा
         {
           d->m_saved_lit = d->m_dict[cur_pos]; d->m_saved_match_dist = cur_match_dist; d->m_saved_match_len = cur_match_len;
         }
       }
-      else
+      अन्यथा
       {
         tdefl_record_match(d, d->m_saved_match_len, d->m_saved_match_dist);
         len_to_move = d->m_saved_match_len - 1; d->m_saved_match_len = 0;
       }
     }
-    else if (!cur_match_dist)
-      tdefl_record_literal(d, d->m_dict[MZ_MIN(cur_pos, sizeof(d->m_dict) - 1)]);
-    else if ((d->m_greedy_parsing) || (d->m_flags & TDEFL_RLE_MATCHES) || (cur_match_len >= 128))
+    अन्यथा अगर (!cur_match_dist)
+      tdefl_record_literal(d, d->m_dict[MZ_MIN(cur_pos, माप(d->m_dict) - 1)]);
+    अन्यथा अगर ((d->m_greedy_parsing) || (d->m_flags & TDEFL_RLE_MATCHES) || (cur_match_len >= 128))
     {
       tdefl_record_match(d, cur_match_len, cur_match_dist);
       len_to_move = cur_match_len;
     }
-    else
+    अन्यथा
     {
-      d->m_saved_lit = d->m_dict[MZ_MIN(cur_pos, sizeof(d->m_dict) - 1)]; d->m_saved_match_dist = cur_match_dist; d->m_saved_match_len = cur_match_len;
+      d->m_saved_lit = d->m_dict[MZ_MIN(cur_pos, माप(d->m_dict) - 1)]; d->m_saved_match_dist = cur_match_dist; d->m_saved_match_len = cur_match_len;
     }
     // Move the lookahead forward by len_to_move bytes.
     d->m_lookahead_pos += len_to_move;
-    MZ_ASSERT(d->m_lookahead_size >= len_to_move);
-    d->m_lookahead_size -= len_to_move;
-    d->m_dict_size = MZ_MIN(d->m_dict_size + len_to_move, TDEFL_LZ_DICT_SIZE);
+    MZ_ASSERT(d->m_lookahead_आकार >= len_to_move);
+    d->m_lookahead_आकार -= len_to_move;
+    d->m_dict_आकार = MZ_MIN(d->m_dict_आकार + len_to_move, TDEFL_LZ_DICT_आकार);
     // Check if it's time to flush the current LZ codes to the internal output buffer.
-    if ( (d->m_pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_SIZE - 8]) ||
-         ( (d->m_total_lz_bytes > 31*1024) && (((((mz_uint)(d->m_pLZ_code_buf - d->m_lz_code_buf) * 115) >> 7) >= d->m_total_lz_bytes) || (d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS))) )
+    अगर ( (d->m_pLZ_code_buf > &d->m_lz_code_buf[TDEFL_LZ_CODE_BUF_आकार - 8]) ||
+         ( (d->m_योग_lz_bytes > 31*1024) && (((((mz_uint)(d->m_pLZ_code_buf - d->m_lz_code_buf) * 115) >> 7) >= d->m_योग_lz_bytes) || (d->m_flags & TDEFL_FORCE_ALL_RAW_BLOCKS))) )
     {
-      int n;
-      d->m_pSrc = pSrc; d->m_src_buf_left = src_buf_left;
-      if ((n = tdefl_flush_block(d, 0)) != 0)
-        return (n < 0) ? MZ_FALSE : MZ_TRUE;
+      पूर्णांक n;
+      d->m_pSrc = pSrc; d->m_src_buf_बायाँ = src_buf_बायाँ;
+      अगर ((n = tdefl_flush_block(d, 0)) != 0)
+        वापस (n < 0) ? MZ_FALSE : MZ_TRUE;
     }
   }
 
-  d->m_pSrc = pSrc; d->m_src_buf_left = src_buf_left;
-  return MZ_TRUE;
+  d->m_pSrc = pSrc; d->m_src_buf_बायाँ = src_buf_बायाँ;
+  वापस MZ_TRUE;
 }
 
-static tdefl_status tdefl_flush_output_buffer(tdefl_compressor *d)
+अटल tdefl_status tdefl_flush_output_बफर(tdefl_compressor *d)
 {
-  if (d->m_pIn_buf_size)
+  अगर (d->m_p_In_buf_आकार)
   {
-    *d->m_pIn_buf_size = d->m_pSrc - (const mz_uint8 *)d->m_pIn_buf;
+    *d->m_p_In_buf_आकार = d->m_pSrc - (स्थिर mz_uint8 *)d->m_pIn_buf;
   }
 
-  if (d->m_pOut_buf_size)
+  अगर (d->m_p_Out_buf_आकार)
   {
-    size_t n = MZ_MIN(*d->m_pOut_buf_size - d->m_out_buf_ofs, d->m_output_flush_remaining);
-    memcpy((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs, d->m_output_buf + d->m_output_flush_ofs, n);
+    माप_प्रकार n = MZ_MIN(*d->m_p_Out_buf_आकार - d->m_out_buf_ofs, d->m_output_flush_remaining);
+    स_नकल((mz_uint8 *)d->m_pOut_buf + d->m_out_buf_ofs, d->m_output_buf + d->m_output_flush_ofs, n);
     d->m_output_flush_ofs += (mz_uint)n;
     d->m_output_flush_remaining -= (mz_uint)n;
     d->m_out_buf_ofs += n;
 
-    *d->m_pOut_buf_size = d->m_out_buf_ofs;
+    *d->m_p_Out_buf_आकार = d->m_out_buf_ofs;
   }
 
-  return (d->m_finished && !d->m_output_flush_remaining) ? TDEFL_STATUS_DONE : TDEFL_STATUS_OKAY;
+  वापस (d->m_finished && !d->m_output_flush_remaining) ? TDEFL_STATUS_DONE : TDEFL_STATUS_OKAY;
 }
 
-tdefl_status tdefl_compress(tdefl_compressor *d, const void *pIn_buf, size_t *pIn_buf_size, void *pOut_buf, size_t *pOut_buf_size, tdefl_flush flush)
+tdefl_status tdefl_compress(tdefl_compressor *d, स्थिर व्योम *pIn_buf, माप_प्रकार *p_In_buf_आकार, व्योम *pOut_buf, माप_प्रकार *p_Out_buf_आकार, tdefl_flush flush)
 {
-  if (!d)
+  अगर (!d)
   {
-    if (pIn_buf_size) *pIn_buf_size = 0;
-    if (pOut_buf_size) *pOut_buf_size = 0;
-    return TDEFL_STATUS_BAD_PARAM;
+    अगर (p_In_buf_आकार) *p_In_buf_आकार = 0;
+    अगर (p_Out_buf_आकार) *p_Out_buf_आकार = 0;
+    वापस TDEFL_STATUS_BAD_PARAM;
   }
 
-  d->m_pIn_buf = pIn_buf; d->m_pIn_buf_size = pIn_buf_size;
-  d->m_pOut_buf = pOut_buf; d->m_pOut_buf_size = pOut_buf_size;
-  d->m_pSrc = (const mz_uint8 *)(pIn_buf); d->m_src_buf_left = pIn_buf_size ? *pIn_buf_size : 0;
+  d->m_pIn_buf = pIn_buf; d->m_p_In_buf_आकार = p_In_buf_आकार;
+  d->m_pOut_buf = pOut_buf; d->m_p_Out_buf_आकार = p_Out_buf_आकार;
+  d->m_pSrc = (स्थिर mz_uint8 *)(pIn_buf); d->m_src_buf_बायाँ = p_In_buf_आकार ? *p_In_buf_आकार : 0;
   d->m_out_buf_ofs = 0;
   d->m_flush = flush;
 
-  if ( ((d->m_pPut_buf_func != NULL) == ((pOut_buf != NULL) || (pOut_buf_size != NULL))) || (d->m_prev_return_status != TDEFL_STATUS_OKAY) ||
-        (d->m_wants_to_finish && (flush != TDEFL_FINISH)) || (pIn_buf_size && *pIn_buf_size && !pIn_buf) || (pOut_buf_size && *pOut_buf_size && !pOut_buf) )
+  अगर ( ((d->m_pPut_buf_func != शून्य) == ((pOut_buf != शून्य) || (p_Out_buf_आकार != शून्य))) || (d->m_पूर्व_return_status != TDEFL_STATUS_OKAY) ||
+        (d->m_wants_to_finish && (flush != TDEFL_FINISH)) || (p_In_buf_आकार && *p_In_buf_आकार && !pIn_buf) || (p_Out_buf_आकार && *p_Out_buf_आकार && !pOut_buf) )
   {
-    if (pIn_buf_size) *pIn_buf_size = 0;
-    if (pOut_buf_size) *pOut_buf_size = 0;
-    return (d->m_prev_return_status = TDEFL_STATUS_BAD_PARAM);
+    अगर (p_In_buf_आकार) *p_In_buf_आकार = 0;
+    अगर (p_Out_buf_आकार) *p_Out_buf_आकार = 0;
+    वापस (d->m_पूर्व_return_status = TDEFL_STATUS_BAD_PARAM);
   }
   d->m_wants_to_finish |= (flush == TDEFL_FINISH);
 
-  if ((d->m_output_flush_remaining) || (d->m_finished))
-    return (d->m_prev_return_status = tdefl_flush_output_buffer(d));
+  अगर ((d->m_output_flush_remaining) || (d->m_finished))
+    वापस (d->m_पूर्व_return_status = tdefl_flush_output_बफर(d));
 
-#if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
-  if (((d->m_flags & TDEFL_MAX_PROBES_MASK) == 1) &&
+#अगर MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
+  अगर (((d->m_flags & TDEFL_MAX_PROBES_MASK) == 1) &&
       ((d->m_flags & TDEFL_GREEDY_PARSING_FLAG) != 0) &&
       ((d->m_flags & (TDEFL_FILTER_MATCHES | TDEFL_FORCE_ALL_RAW_BLOCKS | TDEFL_RLE_MATCHES)) == 0))
   {
-    if (!tdefl_compress_fast(d))
-      return d->m_prev_return_status;
+    अगर (!tdefl_compress_fast(d))
+      वापस d->m_पूर्व_return_status;
   }
-  else
-#endif // #if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
+  अन्यथा
+#पूर्ण_अगर // #if MINIZ_USE_UNALIGNED_LOADS_AND_STORES && MINIZ_LITTLE_ENDIAN
   {
-    if (!tdefl_compress_normal(d))
-      return d->m_prev_return_status;
+    अगर (!tdefl_compress_normal(d))
+      वापस d->m_पूर्व_return_status;
   }
 
-  if ((d->m_flags & (TDEFL_WRITE_ZLIB_HEADER | TDEFL_COMPUTE_ADLER32)) && (pIn_buf))
-    d->m_adler32 = (mz_uint32)mz_adler32(d->m_adler32, (const mz_uint8 *)pIn_buf, d->m_pSrc - (const mz_uint8 *)pIn_buf);
+  अगर ((d->m_flags & (TDEFL_WRITE_ZLIB_HEADER | TDEFL_COMPUTE_ADLER32)) && (pIn_buf))
+    d->m_adler32 = (mz_uint32)mz_adler32(d->m_adler32, (स्थिर mz_uint8 *)pIn_buf, d->m_pSrc - (स्थिर mz_uint8 *)pIn_buf);
 
-  if ((flush) && (!d->m_lookahead_size) && (!d->m_src_buf_left) && (!d->m_output_flush_remaining))
+  अगर ((flush) && (!d->m_lookahead_आकार) && (!d->m_src_buf_बायाँ) && (!d->m_output_flush_remaining))
   {
-    if (tdefl_flush_block(d, flush) < 0)
-      return d->m_prev_return_status;
+    अगर (tdefl_flush_block(d, flush) < 0)
+      वापस d->m_पूर्व_return_status;
     d->m_finished = (flush == TDEFL_FINISH);
-    if (flush == TDEFL_FULL_FLUSH) { MZ_CLEAR_ARR(d->m_hash); MZ_CLEAR_ARR(d->m_next); d->m_dict_size = 0; }
+    अगर (flush == TDEFL_FULL_FLUSH) { MZ_CLEAR_ARR(d->m_hash); MZ_CLEAR_ARR(d->m_अग्र); d->m_dict_आकार = 0; }
   }
 
-  return (d->m_prev_return_status = tdefl_flush_output_buffer(d));
+  वापस (d->m_पूर्व_return_status = tdefl_flush_output_बफर(d));
 }
 
-tdefl_status tdefl_compress_buffer(tdefl_compressor *d, const void *pIn_buf, size_t in_buf_size, tdefl_flush flush)
+tdefl_status tdefl_compress_बफर(tdefl_compressor *d, स्थिर व्योम *pIn_buf, माप_प्रकार in_buf_आकार, tdefl_flush flush)
 {
-  MZ_ASSERT(d->m_pPut_buf_func); return tdefl_compress(d, pIn_buf, &in_buf_size, NULL, NULL, flush);
+  MZ_ASSERT(d->m_pPut_buf_func); वापस tdefl_compress(d, pIn_buf, &in_buf_आकार, शून्य, शून्य, flush);
 }
 
-tdefl_status tdefl_init(tdefl_compressor *d, tdefl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags)
+tdefl_status tdefl_init(tdefl_compressor *d, tdefl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags)
 {
   d->m_pPut_buf_func = pPut_buf_func; d->m_pPut_buf_user = pPut_buf_user;
   d->m_flags = (mz_uint)(flags); d->m_max_probes[0] = 1 + ((flags & 0xFFF) + 2) / 3; d->m_greedy_parsing = (flags & TDEFL_GREEDY_PARSING_FLAG) != 0;
   d->m_max_probes[1] = 1 + (((flags & 0xFFF) >> 2) + 2) / 3;
-  if (!(flags & TDEFL_NONDETERMINISTIC_PARSING_FLAG)) MZ_CLEAR_ARR(d->m_hash);
-  d->m_lookahead_pos = d->m_lookahead_size = d->m_dict_size = d->m_total_lz_bytes = d->m_lz_code_buf_dict_pos = d->m_bits_in = 0;
-  d->m_output_flush_ofs = d->m_output_flush_remaining = d->m_finished = d->m_block_index = d->m_bit_buffer = d->m_wants_to_finish = 0;
-  d->m_pLZ_code_buf = d->m_lz_code_buf + 1; d->m_pLZ_flags = d->m_lz_code_buf; d->m_num_flags_left = 8;
-  d->m_pOutput_buf = d->m_output_buf; d->m_pOutput_buf_end = d->m_output_buf; d->m_prev_return_status = TDEFL_STATUS_OKAY;
+  अगर (!(flags & TDEFL_NONDETERMINISTIC_PARSING_FLAG)) MZ_CLEAR_ARR(d->m_hash);
+  d->m_lookahead_pos = d->m_lookahead_आकार = d->m_dict_आकार = d->m_योग_lz_bytes = d->m_lz_code_buf_dict_pos = d->m_bits_in = 0;
+  d->m_output_flush_ofs = d->m_output_flush_remaining = d->m_finished = d->m_block_सूचकांक = d->m_bit_बफर = d->m_wants_to_finish = 0;
+  d->m_pLZ_code_buf = d->m_lz_code_buf + 1; d->m_pLZ_flags = d->m_lz_code_buf; d->m_अंक_flags_बायाँ = 8;
+  d->m_pOutput_buf = d->m_output_buf; d->m_pOutput_buf_end = d->m_output_buf; d->m_पूर्व_return_status = TDEFL_STATUS_OKAY;
   d->m_saved_match_dist = d->m_saved_match_len = d->m_saved_lit = 0; d->m_adler32 = 1;
-  d->m_pIn_buf = NULL; d->m_pOut_buf = NULL;
-  d->m_pIn_buf_size = NULL; d->m_pOut_buf_size = NULL;
-  d->m_flush = TDEFL_NO_FLUSH; d->m_pSrc = NULL; d->m_src_buf_left = 0; d->m_out_buf_ofs = 0;
-  memset(&d->m_huff_count[0][0], 0, sizeof(d->m_huff_count[0][0]) * TDEFL_MAX_HUFF_SYMBOLS_0);
-  memset(&d->m_huff_count[1][0], 0, sizeof(d->m_huff_count[1][0]) * TDEFL_MAX_HUFF_SYMBOLS_1);
-  return TDEFL_STATUS_OKAY;
+  d->m_pIn_buf = शून्य; d->m_pOut_buf = शून्य;
+  d->m_p_In_buf_आकार = शून्य; d->m_p_Out_buf_आकार = शून्य;
+  d->m_flush = TDEFL_NO_FLUSH; d->m_pSrc = शून्य; d->m_src_buf_बायाँ = 0; d->m_out_buf_ofs = 0;
+  स_रखो(&d->m_huff_गिनती[0][0], 0, माप(d->m_huff_गिनती[0][0]) * TDEFL_MAX_HUFF_SYMBOLS_0);
+  स_रखो(&d->m_huff_गिनती[1][0], 0, माप(d->m_huff_गिनती[1][0]) * TDEFL_MAX_HUFF_SYMBOLS_1);
+  वापस TDEFL_STATUS_OKAY;
 }
 
-#ifndef MINIZ_SDL_NOUNUSED
-tdefl_status tdefl_get_prev_return_status(tdefl_compressor *d)
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
+tdefl_status tdefl_get_पूर्व_return_status(tdefl_compressor *d)
 {
-  return d->m_prev_return_status;
+  वापस d->m_पूर्व_return_status;
 }
 
 mz_uint32 tdefl_get_adler32(tdefl_compressor *d)
 {
-  return d->m_adler32;
+  वापस d->m_adler32;
 }
 
-mz_bool tdefl_compress_mem_to_output(const void *pBuf, size_t buf_len, tdefl_put_buf_func_ptr pPut_buf_func, void *pPut_buf_user, int flags)
+mz_bool tdefl_compress_mem_to_output(स्थिर व्योम *pBuf, माप_प्रकार buf_len, tdefl_put_buf_func_ptr pPut_buf_func, व्योम *pPut_buf_user, पूर्णांक flags)
 {
-  tdefl_compressor *pComp; mz_bool succeeded; if (((buf_len) && (!pBuf)) || (!pPut_buf_func)) return MZ_FALSE;
-  pComp = (tdefl_compressor*)MZ_MALLOC(sizeof(tdefl_compressor)); if (!pComp) return MZ_FALSE;
+  tdefl_compressor *pComp; mz_bool succeeded; अगर (((buf_len) && (!pBuf)) || (!pPut_buf_func)) वापस MZ_FALSE;
+  pComp = (tdefl_compressor*)MZ_MALLOC(माप(tdefl_compressor)); अगर (!pComp) वापस MZ_FALSE;
   succeeded = (tdefl_init(pComp, pPut_buf_func, pPut_buf_user, flags) == TDEFL_STATUS_OKAY);
-  succeeded = succeeded && (tdefl_compress_buffer(pComp, pBuf, buf_len, TDEFL_FINISH) == TDEFL_STATUS_DONE);
-  MZ_FREE(pComp); return succeeded;
+  succeeded = succeeded && (tdefl_compress_बफर(pComp, pBuf, buf_len, TDEFL_FINISH) == TDEFL_STATUS_DONE);
+  MZ_FREE(pComp); वापस succeeded;
 }
-#endif /* MINIZ_SDL_NOUNUSED */
+#पूर्ण_अगर /* MINIZ_SDL_NOUNUSED */
 
-typedef struct
+प्रकार काष्ठा
 {
-  size_t m_size, m_capacity;
+  माप_प्रकार m_आकार, m_capacity;
   mz_uint8 *m_pBuf;
   mz_bool m_expandable;
-} tdefl_output_buffer;
+} tdefl_output_बफर;
 
-static mz_bool tdefl_output_buffer_putter(const void *pBuf, int len, void *pUser)
+अटल mz_bool tdefl_output_बफर_putter(स्थिर व्योम *pBuf, पूर्णांक len, व्योम *pUser)
 {
-  tdefl_output_buffer *p = (tdefl_output_buffer *)pUser;
-  size_t new_size = p->m_size + len;
-  if (new_size > p->m_capacity)
+  tdefl_output_बफर *p = (tdefl_output_बफर *)pUser;
+  माप_प्रकार new_आकार = p->m_आकार + len;
+  अगर (new_आकार > p->m_capacity)
   {
-    size_t new_capacity = p->m_capacity; mz_uint8 *pNew_buf; if (!p->m_expandable) return MZ_FALSE;
-    do { new_capacity = MZ_MAX(128U, new_capacity << 1U); } while (new_size > new_capacity);
-    pNew_buf = (mz_uint8*)MZ_REALLOC(p->m_pBuf, new_capacity); if (!pNew_buf) return MZ_FALSE;
+    माप_प्रकार new_capacity = p->m_capacity; mz_uint8 *pNew_buf; अगर (!p->m_expandable) वापस MZ_FALSE;
+    करो { new_capacity = MZ_MAX(128U, new_capacity << 1U); } जबतक (new_आकार > new_capacity);
+    pNew_buf = (mz_uint8*)MZ_REALLOC(p->m_pBuf, new_capacity); अगर (!pNew_buf) वापस MZ_FALSE;
     p->m_pBuf = pNew_buf; p->m_capacity = new_capacity;
   }
-  memcpy((mz_uint8*)p->m_pBuf + p->m_size, pBuf, len); p->m_size = new_size;
-  return MZ_TRUE;
+  स_नकल((mz_uint8*)p->m_pBuf + p->m_आकार, pBuf, len); p->m_आकार = new_आकार;
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_SDL_NOUNUSED
-void *tdefl_compress_mem_to_heap(const void *pSrc_buf, size_t src_buf_len, size_t *pOut_len, int flags)
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
+व्योम *tdefl_compress_mem_to_heap(स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, माप_प्रकार *pOut_len, पूर्णांक flags)
 {
-  tdefl_output_buffer out_buf; MZ_CLEAR_OBJ(out_buf);
-  if (!pOut_len) return MZ_FALSE; else *pOut_len = 0;
+  tdefl_output_बफर out_buf; MZ_CLEAR_OBJ(out_buf);
+  अगर (!pOut_len) वापस MZ_FALSE; अन्यथा *pOut_len = 0;
   out_buf.m_expandable = MZ_TRUE;
-  if (!tdefl_compress_mem_to_output(pSrc_buf, src_buf_len, tdefl_output_buffer_putter, &out_buf, flags)) return NULL;
-  *pOut_len = out_buf.m_size; return out_buf.m_pBuf;
+  अगर (!tdefl_compress_mem_to_output(pSrc_buf, src_buf_len, tdefl_output_बफर_putter, &out_buf, flags)) वापस शून्य;
+  *pOut_len = out_buf.m_आकार; वापस out_buf.m_pBuf;
 }
 
-size_t tdefl_compress_mem_to_mem(void *pOut_buf, size_t out_buf_len, const void *pSrc_buf, size_t src_buf_len, int flags)
+माप_प्रकार tdefl_compress_mem_to_mem(व्योम *pOut_buf, माप_प्रकार out_buf_len, स्थिर व्योम *pSrc_buf, माप_प्रकार src_buf_len, पूर्णांक flags)
 {
-  tdefl_output_buffer out_buf; MZ_CLEAR_OBJ(out_buf);
-  if (!pOut_buf) return 0;
+  tdefl_output_बफर out_buf; MZ_CLEAR_OBJ(out_buf);
+  अगर (!pOut_buf) वापस 0;
   out_buf.m_pBuf = (mz_uint8*)pOut_buf; out_buf.m_capacity = out_buf_len;
-  if (!tdefl_compress_mem_to_output(pSrc_buf, src_buf_len, tdefl_output_buffer_putter, &out_buf, flags)) return 0;
-  return out_buf.m_size;
+  अगर (!tdefl_compress_mem_to_output(pSrc_buf, src_buf_len, tdefl_output_बफर_putter, &out_buf, flags)) वापस 0;
+  वापस out_buf.m_आकार;
 }
-#endif /* MINIZ_SDL_NOUNUSED */
+#पूर्ण_अगर /* MINIZ_SDL_NOUNUSED */
 
-#ifndef MINIZ_NO_ZLIB_APIS
-static const mz_uint s_tdefl_num_probes[11] = { 0, 1, 6, 32,  16, 32, 128, 256,  512, 768, 1500 };
+#अगर_अघोषित MINIZ_NO_ZLIB_APIS
+अटल स्थिर mz_uint s_tdefl_अंक_probes[11] = { 0, 1, 6, 32,  16, 32, 128, 256,  512, 768, 1500 };
 
 // level may actually range from [0,10] (10 is a "hidden" max level, where we want a bit more compression and it's fine if throughput to fall off a cliff on some files).
-mz_uint tdefl_create_comp_flags_from_zip_params(int level, int window_bits, int strategy)
+mz_uint tdefl_create_comp_flags_from_zip_params(पूर्णांक level, पूर्णांक window_bits, पूर्णांक strategy)
 {
-  mz_uint comp_flags = s_tdefl_num_probes[(level >= 0) ? MZ_MIN(10, level) : MZ_DEFAULT_LEVEL] | ((level <= 3) ? TDEFL_GREEDY_PARSING_FLAG : 0);
-  if (window_bits > 0) comp_flags |= TDEFL_WRITE_ZLIB_HEADER;
+  mz_uint comp_flags = s_tdefl_अंक_probes[(level >= 0) ? MZ_MIN(10, level) : MZ_DEFAULT_LEVEL] | ((level <= 3) ? TDEFL_GREEDY_PARSING_FLAG : 0);
+  अगर (window_bits > 0) comp_flags |= TDEFL_WRITE_ZLIB_HEADER;
 
-  if (!level) comp_flags |= TDEFL_FORCE_ALL_RAW_BLOCKS;
-  else if (strategy == MZ_FILTERED) comp_flags |= TDEFL_FILTER_MATCHES;
-  else if (strategy == MZ_HUFFMAN_ONLY) comp_flags &= ~TDEFL_MAX_PROBES_MASK;
-  else if (strategy == MZ_FIXED) comp_flags |= TDEFL_FORCE_ALL_STATIC_BLOCKS;
-  else if (strategy == MZ_RLE) comp_flags |= TDEFL_RLE_MATCHES;
+  अगर (!level) comp_flags |= TDEFL_FORCE_ALL_RAW_BLOCKS;
+  अन्यथा अगर (strategy == MZ_FILTERED) comp_flags |= TDEFL_FILTER_MATCHES;
+  अन्यथा अगर (strategy == MZ_HUFFMAN_ONLY) comp_flags &= ~TDEFL_MAX_PROBES_MASK;
+  अन्यथा अगर (strategy == MZ_FIXED) comp_flags |= TDEFL_FORCE_ALL_STATIC_BLOCKS;
+  अन्यथा अगर (strategy == MZ_RLE) comp_flags |= TDEFL_RLE_MATCHES;
 
-  return comp_flags;
+  वापस comp_flags;
 }
-#endif //MINIZ_NO_ZLIB_APIS
+#पूर्ण_अगर //MINIZ_NO_ZLIB_APIS
 
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable:4204) // nonstandard extension used : non-constant aggregate initializer (also supported by GNU C and C99, so no big deal)
-#endif
+#अगर_घोषित _MSC_VER
+#आशय warning (धकेलो)
+#आशय warning (disable:4204) // nonstandard extension used : non-constant aggregate initializer (also supported by GNU C and C99, so no big deal)
+#पूर्ण_अगर
 
 // Simple PNG writer function by Alex Evans, 2011. Released into the public domain: https://gist.github.com/908299, more context at
 // http://altdevblogaday.org/2011/04/06/a-smaller-jpg-encoder/.
 // This is actually a modification of Alex's original code so PNG files generated by this function pass pngcheck.
-MINIZ_STATIC void *tdefl_write_image_to_png_file_in_memory_ex(const void *pImage, int w, int h, int num_chans, int bpl, size_t *pLen_out, mz_uint level, mz_bool flip, mz_uint8 *plte, int plte_size, mz_uint8 *trns, int trns_size)
+MINIZ_STATIC व्योम *tdefl_write_image_to_png_file_in_memory_ex(स्थिर व्योम *pImage, पूर्णांक w, पूर्णांक h, पूर्णांक अंक_chans, पूर्णांक bpl, माप_प्रकार *pLen_out, mz_uint level, mz_bool flip, mz_uint8 *plte, पूर्णांक plte_आकार, mz_uint8 *trns, पूर्णांक trns_आकार)
 {
   // Using a local copy of this array here in case MINIZ_NO_ZLIB_APIS was defined.
-  static const mz_uint s_tdefl_png_num_probes[11] = { 0, 1, 6, 32,  16, 32, 128, 256,  512, 768, 1500 };
-  tdefl_compressor *pComp = (tdefl_compressor *)MZ_MALLOC(sizeof(tdefl_compressor)); tdefl_output_buffer out_buf; int i, y, z = 0; mz_uint32 c; *pLen_out = 0; size_t data_start, data_size;
-  if (!pComp) return NULL;
+  अटल स्थिर mz_uint s_tdefl_png_अंक_probes[11] = { 0, 1, 6, 32,  16, 32, 128, 256,  512, 768, 1500 };
+  tdefl_compressor *pComp = (tdefl_compressor *)MZ_MALLOC(माप(tdefl_compressor)); tdefl_output_बफर out_buf; पूर्णांक i, y, z = 0; mz_uint32 c; *pLen_out = 0; माप_प्रकार तथ्य_start, तथ्य_आकार_3;
+  अगर (!pComp) वापस शून्य;
   MZ_CLEAR_OBJ(out_buf); out_buf.m_expandable = MZ_TRUE;
-  out_buf.m_capacity = 57+MZ_MAX(64, (1+w*num_chans)*h);
-  if (plte_size > 0)
-    out_buf.m_capacity += 12+plte_size;
-  if (trns_size > 0)
-    out_buf.m_capacity += 12+trns_size;
-  if (NULL == (out_buf.m_pBuf = (mz_uint8*)MZ_MALLOC(out_buf.m_capacity))) { MZ_FREE(pComp); return NULL; }
+  out_buf.m_capacity = 57+MZ_MAX(64, (1+w*अंक_chans)*h);
+  अगर (plte_आकार > 0)
+    out_buf.m_capacity += 12+plte_आकार;
+  अगर (trns_आकार > 0)
+    out_buf.m_capacity += 12+trns_आकार;
+  अगर (शून्य == (out_buf.m_pBuf = (mz_uint8*)MZ_MALLOC(out_buf.m_capacity))) { MZ_FREE(pComp); वापस शून्य; }
   // write header
   {
-    static const mz_uint8 chans[] = {0x00, 0x00, 0x04, 0x02, 0x06};
+    अटल स्थिर mz_uint8 chans[] = {0x00, 0x00, 0x04, 0x02, 0x06};
 
     mz_uint8 pnghdr[33]={ 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,
                           0x00,0x00,0x00,0x0d,0x49,0x48,0x44,0x52,
@@ -2941,1061 +2941,1061 @@ MINIZ_STATIC void *tdefl_write_image_to_png_file_in_memory_ex(const void *pImage
     pnghdr[22] = (mz_uint8)(h>>8);
     pnghdr[23] = (mz_uint8)(h>>0);
 
-    if (num_chans == 1 && plte_size > 0)
+    अगर (अंक_chans == 1 && plte_आकार > 0)
       pnghdr[25] = 3;
-    else
-      pnghdr[25] = (chans[num_chans]);
+    अन्यथा
+      pnghdr[25] = (chans[अंक_chans]);
 
     c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,pnghdr+12,17);
-    for (i=0; i<4; ++i, c<<=8) ((mz_uint8*)(pnghdr+29))[i] = (mz_uint8)(c>>24);
-    if (!tdefl_output_buffer_putter(pnghdr, sizeof(pnghdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
+    क्रम (i=0; i<4; ++i, c<<=8) ((mz_uint8*)(pnghdr+29))[i] = (mz_uint8)(c>>24);
+    अगर (!tdefl_output_बफर_putter(pnghdr, माप(pnghdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
   }
   // write PLTE chunk
-  if (plte_size > 0)
+  अगर (plte_आकार > 0)
   {
     mz_uint8 hdr[8]={0x00,0x00,0x00,0x00,0x50,0x4c,0x54,0x45};
 
-    hdr[0] = (mz_uint8)(plte_size>>24);
-    hdr[1] = (mz_uint8)(plte_size>>16);
-    hdr[2] = (mz_uint8)(plte_size>> 8);
-    hdr[3] = (mz_uint8)(plte_size>> 0);
-    if (!tdefl_output_buffer_putter(hdr, sizeof(hdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    data_start = out_buf.m_size;
-    if (!tdefl_output_buffer_putter(plte, plte_size, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    if (!tdefl_output_buffer_putter("\0\0\0\0", 4, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+data_start-4, plte_size+4);
-    for (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_size-4)[i] = (mz_uint8)(c >> 24);
+    hdr[0] = (mz_uint8)(plte_आकार>>24);
+    hdr[1] = (mz_uint8)(plte_आकार>>16);
+    hdr[2] = (mz_uint8)(plte_आकार>> 8);
+    hdr[3] = (mz_uint8)(plte_आकार>> 0);
+    अगर (!tdefl_output_बफर_putter(hdr, माप(hdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    तथ्य_start = out_buf.m_आकार;
+    अगर (!tdefl_output_बफर_putter(plte, plte_आकार, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    अगर (!tdefl_output_बफर_putter("\0\0\0\0", 4, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+तथ्य_start-4, plte_आकार+4);
+    क्रम (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_आकार-4)[i] = (mz_uint8)(c >> 24);
   }
   // write tRNS chunk
-  if (trns_size > 0)
+  अगर (trns_आकार > 0)
   {
     mz_uint8 hdr[8]={0x00,0x00,0x00,0x00,0x74,0x52,0x4E,0x53};
 
-    hdr[0] = (mz_uint8)(trns_size>>24);
-    hdr[1] = (mz_uint8)(trns_size>>16);
-    hdr[2] = (mz_uint8)(trns_size>> 8);
-    hdr[3] = (mz_uint8)(trns_size>> 0);
-    if (!tdefl_output_buffer_putter(hdr, sizeof(hdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    data_start = out_buf.m_size;
-    if (!tdefl_output_buffer_putter(trns, trns_size, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    if (!tdefl_output_buffer_putter("\0\0\0\0", 4, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-    c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+data_start-4, trns_size+4);
-    for (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_size-4)[i] = (mz_uint8)(c >> 24);
+    hdr[0] = (mz_uint8)(trns_आकार>>24);
+    hdr[1] = (mz_uint8)(trns_आकार>>16);
+    hdr[2] = (mz_uint8)(trns_आकार>> 8);
+    hdr[3] = (mz_uint8)(trns_आकार>> 0);
+    अगर (!tdefl_output_बफर_putter(hdr, माप(hdr), &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    तथ्य_start = out_buf.m_आकार;
+    अगर (!tdefl_output_बफर_putter(trns, trns_आकार, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    अगर (!tdefl_output_बफर_putter("\0\0\0\0", 4, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+    c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+तथ्य_start-4, trns_आकार+4);
+    क्रम (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_आकार-4)[i] = (mz_uint8)(c >> 24);
   }
   // write IDAT chunk
-  if (!tdefl_output_buffer_putter("\0\0\0\0\x49\x44\x41\x54", 8, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-  data_start = out_buf.m_size;
+  अगर (!tdefl_output_बफर_putter("\0\0\0\0\x49\x44\x41\x54", 8, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+  तथ्य_start = out_buf.m_आकार;
   // compress image data
-  tdefl_init(pComp, tdefl_output_buffer_putter, &out_buf, s_tdefl_png_num_probes[MZ_MIN(10, level)] | TDEFL_WRITE_ZLIB_HEADER);
-  for (y = 0; y < h; ++y) { tdefl_compress_buffer(pComp, &z, 1, TDEFL_NO_FLUSH); tdefl_compress_buffer(pComp, (mz_uint8*)pImage + (flip ? (h - 1 - y) : y) * bpl, w * num_chans, TDEFL_NO_FLUSH); }
-  if (tdefl_compress_buffer(pComp, NULL, 0, TDEFL_FINISH) != TDEFL_STATUS_DONE) { MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
+  tdefl_init(pComp, tdefl_output_बफर_putter, &out_buf, s_tdefl_png_अंक_probes[MZ_MIN(10, level)] | TDEFL_WRITE_ZLIB_HEADER);
+  क्रम (y = 0; y < h; ++y) { tdefl_compress_बफर(pComp, &z, 1, TDEFL_NO_FLUSH); tdefl_compress_बफर(pComp, (mz_uint8*)pImage + (flip ? (h - 1 - y) : y) * bpl, w * अंक_chans, TDEFL_NO_FLUSH); }
+  अगर (tdefl_compress_बफर(pComp, शून्य, 0, TDEFL_FINISH) != TDEFL_STATUS_DONE) { MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
   // write IDAT size
-  data_size = out_buf.m_size-data_start;
-  (out_buf.m_pBuf+data_start-8)[0] = (mz_uint8)(data_size>>24);
-  (out_buf.m_pBuf+data_start-8)[1] = (mz_uint8)(data_size>>16);
-  (out_buf.m_pBuf+data_start-8)[2] = (mz_uint8)(data_size>> 8);
-  (out_buf.m_pBuf+data_start-8)[3] = (mz_uint8)(data_size>> 0);
+  तथ्य_आकार_3 = out_buf.m_आकार-तथ्य_start;
+  (out_buf.m_pBuf+तथ्य_start-8)[0] = (mz_uint8)(तथ्य_आकार_3>>24);
+  (out_buf.m_pBuf+तथ्य_start-8)[1] = (mz_uint8)(तथ्य_आकार_3>>16);
+  (out_buf.m_pBuf+तथ्य_start-8)[2] = (mz_uint8)(तथ्य_आकार_3>> 8);
+  (out_buf.m_pBuf+तथ्य_start-8)[3] = (mz_uint8)(तथ्य_आकार_3>> 0);
   // write footer (IDAT CRC-32, followed by IEND chunk)
-  if (!tdefl_output_buffer_putter("\0\0\0\0\0\0\0\0\x49\x45\x4e\x44\xae\x42\x60\x82", 16, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
-  c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+data_start-4, data_size+4);
-  for (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_size-16)[i] = (mz_uint8)(c >> 24);
+  अगर (!tdefl_output_बफर_putter("\0\0\0\0\0\0\0\0\x49\x45\x4e\x44\xae\x42\x60\x82", 16, &out_buf)) { *pLen_out = 0; MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); वापस शून्य; }
+  c = (mz_uint32)mz_crc32(MZ_CRC32_INIT,out_buf.m_pBuf+तथ्य_start-4, तथ्य_आकार_3+4);
+  क्रम (i=0; i<4; ++i, c<<=8) (out_buf.m_pBuf+out_buf.m_आकार-16)[i] = (mz_uint8)(c >> 24);
   // compute final size of file, grab compressed data buffer and return
-  *pLen_out = out_buf.m_size;
+  *pLen_out = out_buf.m_आकार;
   MZ_FREE(pComp);
-  return out_buf.m_pBuf;
+  वापस out_buf.m_pBuf;
 }
-#ifndef MINIZ_SDL_NOUNUSED
-MINIZ_STATIC void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, int num_chans, int bpl, size_t *pLen_out)
+#अगर_अघोषित MINIZ_SDL_NOUNUSED
+MINIZ_STATIC व्योम *tdefl_write_image_to_png_file_in_memory(स्थिर व्योम *pImage, पूर्णांक w, पूर्णांक h, पूर्णांक अंक_chans, पूर्णांक bpl, माप_प्रकार *pLen_out)
 {
   // Level 6 corresponds to TDEFL_DEFAULT_MAX_PROBES or MZ_DEFAULT_LEVEL (but we can't depend on MZ_DEFAULT_LEVEL being available in case the zlib API's where #defined out)
-  return tdefl_write_image_to_png_file_in_memory_ex(pImage, w, h, num_chans, bpl, pLen_out, 6, MZ_FALSE, NULL, 0, NULL, 0);
+  वापस tdefl_write_image_to_png_file_in_memory_ex(pImage, w, h, अंक_chans, bpl, pLen_out, 6, MZ_FALSE, शून्य, 0, शून्य, 0);
 }
-#endif
+#पूर्ण_अगर
 
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
-#endif /*#ifndef MINIZ_NO_DEFLATE_APIS*/
+#अगर_घोषित _MSC_VER
+#आशय warning (निकालो)
+#पूर्ण_अगर
+#पूर्ण_अगर /*#ifndef MINIZ_NO_DEFLATE_APIS*/
 
 // ------------------- .ZIP archive reading
 
-#ifndef MINIZ_NO_ARCHIVE_APIS
+#अगर_अघोषित MINIZ_NO_ARCHIVE_APIS
 
-#ifdef MINIZ_NO_STDIO
-  #define MZ_FILE void *
-#else
-  #include <stdio.h>
-  #include <sys/stat.h>
+#अगर_घोषित MINIZ_NO_STDIO
+  #घोषणा MZ_FILE व्योम *
+#अन्यथा
+  #समावेश <stdio.h>
+  #समावेश <sys/stat.h>
 
-  #if defined(_MSC_VER) || defined(__MINGW64__)
-    static FILE *mz_fopen(const char *pFilename, const char *pMode)
+  #अगर defined(_MSC_VER) || defined(__MINGW64__)
+    अटल खाता *mz_fopen(स्थिर अक्षर *pFilename, स्थिर अक्षर *pMode)
     {
-      FILE* pFile = NULL;
+      खाता* pFile = शून्य;
       fopen_s(&pFile, pFilename, pMode);
-      return pFile;
+      वापस pFile;
     }
-    static FILE *mz_freopen(const char *pPath, const char *pMode, FILE *pStream)
+    अटल खाता *mz_freopen(स्थिर अक्षर *pPath, स्थिर अक्षर *pMode, खाता *pStream)
     {
-      FILE* pFile = NULL;
-      if (freopen_s(&pFile, pPath, pMode, pStream))
-        return NULL;
-      return pFile;
+      खाता* pFile = शून्य;
+      अगर (freopen_s(&pFile, pPath, pMode, pStream))
+        वापस शून्य;
+      वापस pFile;
     }
-    #ifndef MINIZ_NO_TIME
-      #include <sys/utime.h>
-    #endif
-    #define MZ_FILE FILE
-    #define MZ_FOPEN mz_fopen
-    #define MZ_FCLOSE fclose
-    #define MZ_FREAD fread
-    #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 _ftelli64
-    #define MZ_FSEEK64 _fseeki64
-    #define MZ_FILE_STAT_STRUCT _stat
-    #define MZ_FILE_STAT _stat
-    #define MZ_FFLUSH fflush
-    #define MZ_FREOPEN mz_freopen
-    #define MZ_DELETE_FILE remove
-  #elif defined(__MINGW32__)
-    #ifndef MINIZ_NO_TIME
-      #include <sys/utime.h>
-    #endif
-    #define MZ_FILE FILE
-    #define MZ_FOPEN(f, m) fopen(f, m)
-    #define MZ_FCLOSE fclose
-    #define MZ_FREAD fread
-    #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 ftello64
-    #define MZ_FSEEK64 fseeko64
-    #define MZ_FILE_STAT_STRUCT _stat
-    #define MZ_FILE_STAT _stat
-    #define MZ_FFLUSH fflush
-    #define MZ_FREOPEN(f, m, s) freopen(f, m, s)
-    #define MZ_DELETE_FILE remove
-  #elif defined(__TINYC__)
-    #ifndef MINIZ_NO_TIME
-      #include <sys/utime.h>
-    #endif
-    #define MZ_FILE FILE
-    #define MZ_FOPEN(f, m) fopen(f, m)
-    #define MZ_FCLOSE fclose
-    #define MZ_FREAD fread
-    #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 ftell
-    #define MZ_FSEEK64 fseek
-    #define MZ_FILE_STAT_STRUCT stat
-    #define MZ_FILE_STAT stat
-    #define MZ_FFLUSH fflush
-    #define MZ_FREOPEN(f, m, s) freopen(f, m, s)
-    #define MZ_DELETE_FILE remove
-  #elif defined(__GNUC__) && _LARGEFILE64_SOURCE
-    #ifndef MINIZ_NO_TIME
-      #include <utime.h>
-    #endif
-    #define MZ_FILE FILE
-    #define MZ_FOPEN(f, m) fopen64(f, m)
-    #define MZ_FCLOSE fclose
-    #define MZ_FREAD fread
-    #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 ftello64
-    #define MZ_FSEEK64 fseeko64
-    #define MZ_FILE_STAT_STRUCT stat64
-    #define MZ_FILE_STAT stat64
-    #define MZ_FFLUSH fflush
-    #define MZ_FREOPEN(p, m, s) freopen64(p, m, s)
-    #define MZ_DELETE_FILE remove
-  #else
-    #ifndef MINIZ_NO_TIME
-      #include <utime.h>
-    #endif
-    #define MZ_FILE FILE
-    #define MZ_FOPEN(f, m) fopen(f, m)
-    #define MZ_FCLOSE fclose
-    #define MZ_FREAD fread
-    #define MZ_FWRITE fwrite
-    #define MZ_FTELL64 ftello
-    #define MZ_FSEEK64 fseeko
-    #define MZ_FILE_STAT_STRUCT stat
-    #define MZ_FILE_STAT stat
-    #define MZ_FFLUSH fflush
-    #define MZ_FREOPEN(f, m, s) freopen(f, m, s)
-    #define MZ_DELETE_FILE remove
-  #endif // #ifdef _MSC_VER
-#endif // #ifdef MINIZ_NO_STDIO
+    #अगर_अघोषित MINIZ_NO_TIME
+      #समावेश <sys/utime.h>
+    #पूर्ण_अगर
+    #घोषणा MZ_FILE खाता
+    #घोषणा MZ_FOPEN mz_fopen
+    #घोषणा MZ_FCLOSE ख_बंद
+    #घोषणा MZ_FREAD ख_पढ़ो
+    #घोषणा MZ_FWRITE ख_डालो
+    #घोषणा MZ_FTELL64 _ftelli64
+    #घोषणा MZ_FSEEK64 _fseeki64
+    #घोषणा MZ_FILE_STAT_STRUCT _stat
+    #घोषणा MZ_FILE_STAT _stat
+    #घोषणा MZ_FFLUSH ख_साफ
+    #घोषणा MZ_FREOPEN mz_freopen
+    #घोषणा MZ_DELETE_FILE हटाओ
+  #या_अगर defined(__MINGW32__)
+    #अगर_अघोषित MINIZ_NO_TIME
+      #समावेश <sys/utime.h>
+    #पूर्ण_अगर
+    #घोषणा MZ_FILE खाता
+    #घोषणा MZ_FOPEN(f, m) ख_खोलो(f, m)
+    #घोषणा MZ_FCLOSE ख_बंद
+    #घोषणा MZ_FREAD ख_पढ़ो
+    #घोषणा MZ_FWRITE ख_डालो
+    #घोषणा MZ_FTELL64 ftello64
+    #घोषणा MZ_FSEEK64 fseeko64
+    #घोषणा MZ_FILE_STAT_STRUCT _stat
+    #घोषणा MZ_FILE_STAT _stat
+    #घोषणा MZ_FFLUSH ख_साफ
+    #घोषणा MZ_FREOPEN(f, m, s) ख_व_खोलो(f, m, s)
+    #घोषणा MZ_DELETE_FILE हटाओ
+  #या_अगर defined(__TINYC__)
+    #अगर_अघोषित MINIZ_NO_TIME
+      #समावेश <sys/utime.h>
+    #पूर्ण_अगर
+    #घोषणा MZ_FILE खाता
+    #घोषणा MZ_FOPEN(f, m) ख_खोलो(f, m)
+    #घोषणा MZ_FCLOSE ख_बंद
+    #घोषणा MZ_FREAD ख_पढ़ो
+    #घोषणा MZ_FWRITE ख_डालो
+    #घोषणा MZ_FTELL64 ख_बताओ
+    #घोषणा MZ_FSEEK64 ख_जाओ
+    #घोषणा MZ_FILE_STAT_STRUCT stat
+    #घोषणा MZ_FILE_STAT stat
+    #घोषणा MZ_FFLUSH ख_साफ
+    #घोषणा MZ_FREOPEN(f, m, s) ख_व_खोलो(f, m, s)
+    #घोषणा MZ_DELETE_FILE हटाओ
+  #या_अगर defined(__GNUC__) && _LARGEFILE64_SOURCE
+    #अगर_अघोषित MINIZ_NO_TIME
+      #समावेश <utime.h>
+    #पूर्ण_अगर
+    #घोषणा MZ_FILE खाता
+    #घोषणा MZ_FOPEN(f, m) fopen64(f, m)
+    #घोषणा MZ_FCLOSE ख_बंद
+    #घोषणा MZ_FREAD ख_पढ़ो
+    #घोषणा MZ_FWRITE ख_डालो
+    #घोषणा MZ_FTELL64 ftello64
+    #घोषणा MZ_FSEEK64 fseeko64
+    #घोषणा MZ_FILE_STAT_STRUCT stat64
+    #घोषणा MZ_FILE_STAT stat64
+    #घोषणा MZ_FFLUSH ख_साफ
+    #घोषणा MZ_FREOPEN(p, m, s) freopen64(p, m, s)
+    #घोषणा MZ_DELETE_FILE हटाओ
+  #अन्यथा
+    #अगर_अघोषित MINIZ_NO_TIME
+      #समावेश <utime.h>
+    #पूर्ण_अगर
+    #घोषणा MZ_FILE खाता
+    #घोषणा MZ_FOPEN(f, m) ख_खोलो(f, m)
+    #घोषणा MZ_FCLOSE ख_बंद
+    #घोषणा MZ_FREAD ख_पढ़ो
+    #घोषणा MZ_FWRITE ख_डालो
+    #घोषणा MZ_FTELL64 ftello
+    #घोषणा MZ_FSEEK64 fseeko
+    #घोषणा MZ_FILE_STAT_STRUCT stat
+    #घोषणा MZ_FILE_STAT stat
+    #घोषणा MZ_FFLUSH ख_साफ
+    #घोषणा MZ_FREOPEN(f, m, s) ख_व_खोलो(f, m, s)
+    #घोषणा MZ_DELETE_FILE हटाओ
+  #पूर्ण_अगर // #ifdef _MSC_VER
+#पूर्ण_अगर // #ifdef MINIZ_NO_STDIO
 
-#define MZ_TOLOWER(c) ((((c) >= 'A') && ((c) <= 'Z')) ? ((c) - 'A' + 'a') : (c))
+#घोषणा MZ_TOLOWER(c) ((((c) >= 'A') && ((c) <= 'Z')) ? ((c) - 'A' + 'a') : (c))
 
 // Various ZIP archive enums. To completely avoid cross platform compiler alignment and platform endian issues, miniz.c doesn't use structs for any of this stuff.
-enum
+क्रमागत
 {
   // ZIP archive identifiers and record sizes
   MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG = 0x06054b50, MZ_ZIP_CENTRAL_DIR_HEADER_SIG = 0x02014b50, MZ_ZIP_LOCAL_DIR_HEADER_SIG = 0x04034b50,
-  MZ_ZIP_LOCAL_DIR_HEADER_SIZE = 30, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE = 46, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE = 22,
+  MZ_ZIP_LOCAL_DIR_HEADER_आकार = 30, MZ_ZIP_CENTRAL_DIR_HEADER_आकार = 46, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार = 22,
   // Central directory header record offsets
   MZ_ZIP_CDH_SIG_OFS = 0, MZ_ZIP_CDH_VERSION_MADE_BY_OFS = 4, MZ_ZIP_CDH_VERSION_NEEDED_OFS = 6, MZ_ZIP_CDH_BIT_FLAG_OFS = 8,
   MZ_ZIP_CDH_METHOD_OFS = 10, MZ_ZIP_CDH_FILE_TIME_OFS = 12, MZ_ZIP_CDH_FILE_DATE_OFS = 14, MZ_ZIP_CDH_CRC32_OFS = 16,
-  MZ_ZIP_CDH_COMPRESSED_SIZE_OFS = 20, MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS = 24, MZ_ZIP_CDH_FILENAME_LEN_OFS = 28, MZ_ZIP_CDH_EXTRA_LEN_OFS = 30,
+  MZ_ZIP_CDH_COMPRESSED_आकार_OFS = 20, MZ_ZIP_CDH_DECOMPRESSED_आकार_OFS = 24, MZ_ZIP_CDH_FILENAME_LEN_OFS = 28, MZ_ZIP_CDH_EXTRA_LEN_OFS = 30,
   MZ_ZIP_CDH_COMMENT_LEN_OFS = 32, MZ_ZIP_CDH_DISK_START_OFS = 34, MZ_ZIP_CDH_INTERNAL_ATTR_OFS = 36, MZ_ZIP_CDH_EXTERNAL_ATTR_OFS = 38, MZ_ZIP_CDH_LOCAL_HEADER_OFS = 42,
   // Local directory header offsets
   MZ_ZIP_LDH_SIG_OFS = 0, MZ_ZIP_LDH_VERSION_NEEDED_OFS = 4, MZ_ZIP_LDH_BIT_FLAG_OFS = 6, MZ_ZIP_LDH_METHOD_OFS = 8, MZ_ZIP_LDH_FILE_TIME_OFS = 10,
-  MZ_ZIP_LDH_FILE_DATE_OFS = 12, MZ_ZIP_LDH_CRC32_OFS = 14, MZ_ZIP_LDH_COMPRESSED_SIZE_OFS = 18, MZ_ZIP_LDH_DECOMPRESSED_SIZE_OFS = 22,
+  MZ_ZIP_LDH_FILE_DATE_OFS = 12, MZ_ZIP_LDH_CRC32_OFS = 14, MZ_ZIP_LDH_COMPRESSED_आकार_OFS = 18, MZ_ZIP_LDH_DECOMPRESSED_आकार_OFS = 22,
   MZ_ZIP_LDH_FILENAME_LEN_OFS = 26, MZ_ZIP_LDH_EXTRA_LEN_OFS = 28,
   // End of central directory offsets
-  MZ_ZIP_ECDH_SIG_OFS = 0, MZ_ZIP_ECDH_NUM_THIS_DISK_OFS = 4, MZ_ZIP_ECDH_NUM_DISK_CDIR_OFS = 6, MZ_ZIP_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS = 8,
-  MZ_ZIP_ECDH_CDIR_TOTAL_ENTRIES_OFS = 10, MZ_ZIP_ECDH_CDIR_SIZE_OFS = 12, MZ_ZIP_ECDH_CDIR_OFS_OFS = 16, MZ_ZIP_ECDH_COMMENT_SIZE_OFS = 20,
+  MZ_ZIP_ECDH_SIG_OFS = 0, MZ_ZIP_ECDH_अंक_THIS_DISK_OFS = 4, MZ_ZIP_ECDH_अंक_DISK_CDIR_OFS = 6, MZ_ZIP_ECDH_CDIR_अंक_ENTRIES_ON_DISK_OFS = 8,
+  MZ_ZIP_ECDH_CDIR_योग_ENTRIES_OFS = 10, MZ_ZIP_ECDH_CDIR_आकार_OFS = 12, MZ_ZIP_ECDH_CDIR_OFS_OFS = 16, MZ_ZIP_ECDH_COMMENT_आकार_OFS = 20,
 };
 
-typedef struct
+प्रकार काष्ठा
 {
-  void *m_p;
-  size_t m_size, m_capacity;
-  mz_uint m_element_size;
+  व्योम *m_p;
+  माप_प्रकार m_आकार, m_capacity;
+  mz_uint m_element_आकार;
 } mz_zip_array;
 
-struct mz_zip_internal_state_tag
+काष्ठा mz_zip_internal_state_tag
 {
   mz_zip_array m_central_dir;
   mz_zip_array m_central_dir_offsets;
   mz_zip_array m_sorted_central_dir_offsets;
   MZ_FILE *m_pFile;
-  void *m_pMem;
-  size_t m_mem_size;
-  size_t m_mem_capacity;
+  व्योम *m_pMem;
+  माप_प्रकार m_mem_आकार;
+  माप_प्रकार m_mem_capacity;
 };
 
-#define MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(array_ptr, element_size) (array_ptr)->m_element_size = element_size
-#define MZ_ZIP_ARRAY_ELEMENT(array_ptr, element_type, index) ((element_type *)((array_ptr)->m_p))[index]
+#घोषणा MZ_ZIP_ARRAY_SET_ELEMENT_आकार(array_ptr, element_आकार) (array_ptr)->m_element_आकार = element_आकार
+#घोषणा MZ_ZIP_ARRAY_ELEMENT(array_ptr, element_type, सूचकांक) ((element_type *)((array_ptr)->m_p))[सूचकांक]
 
-static MZ_FORCEINLINE void mz_zip_array_clear(mz_zip_archive *pZip, mz_zip_array *pArray)
+अटल MZ_FORCEINLINE व्योम mz_zip_array_clear(mz_zip_archive *pZip, mz_zip_array *pArray)
 {
   pZip->m_pFree(pZip->m_pAlloc_opaque, pArray->m_p);
-  memset(pArray, 0, sizeof(mz_zip_array));
+  स_रखो(pArray, 0, माप(mz_zip_array));
 }
 
-static mz_bool mz_zip_array_ensure_capacity(mz_zip_archive *pZip, mz_zip_array *pArray, size_t min_new_capacity, mz_uint growing)
+अटल mz_bool mz_zip_array_ensure_capacity(mz_zip_archive *pZip, mz_zip_array *pArray, माप_प्रकार min_new_capacity, mz_uint growing)
 {
-  void *pNew_p; size_t new_capacity = min_new_capacity; MZ_ASSERT(pArray->m_element_size); if (pArray->m_capacity >= min_new_capacity) return MZ_TRUE;
-  if (growing) { new_capacity = MZ_MAX(1, pArray->m_capacity); while (new_capacity < min_new_capacity) new_capacity *= 2; }
-  if (NULL == (pNew_p = pZip->m_pRealloc(pZip->m_pAlloc_opaque, pArray->m_p, pArray->m_element_size, new_capacity))) return MZ_FALSE;
+  व्योम *pNew_p; माप_प्रकार new_capacity = min_new_capacity; MZ_ASSERT(pArray->m_element_आकार); अगर (pArray->m_capacity >= min_new_capacity) वापस MZ_TRUE;
+  अगर (growing) { new_capacity = MZ_MAX(1, pArray->m_capacity); जबतक (new_capacity < min_new_capacity) new_capacity *= 2; }
+  अगर (शून्य == (pNew_p = pZip->m_pRealloc(pZip->m_pAlloc_opaque, pArray->m_p, pArray->m_element_आकार, new_capacity))) वापस MZ_FALSE;
   pArray->m_p = pNew_p; pArray->m_capacity = new_capacity;
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_array_reserve(mz_zip_archive *pZip, mz_zip_array *pArray, size_t new_capacity, mz_uint growing)
+अटल MZ_FORCEINLINE mz_bool mz_zip_array_reserve(mz_zip_archive *pZip, mz_zip_array *pArray, माप_प्रकार new_capacity, mz_uint growing)
 {
-  if (new_capacity > pArray->m_capacity) { if (!mz_zip_array_ensure_capacity(pZip, pArray, new_capacity, growing)) return MZ_FALSE; }
-  return MZ_TRUE;
+  अगर (new_capacity > pArray->m_capacity) { अगर (!mz_zip_array_ensure_capacity(pZip, pArray, new_capacity, growing)) वापस MZ_FALSE; }
+  वापस MZ_TRUE;
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_array_resize(mz_zip_archive *pZip, mz_zip_array *pArray, size_t new_size, mz_uint growing)
+अटल MZ_FORCEINLINE mz_bool mz_zip_array_resize(mz_zip_archive *pZip, mz_zip_array *pArray, माप_प्रकार new_आकार, mz_uint growing)
 {
-  if (new_size > pArray->m_capacity) { if (!mz_zip_array_ensure_capacity(pZip, pArray, new_size, growing)) return MZ_FALSE; }
-  pArray->m_size = new_size;
-  return MZ_TRUE;
+  अगर (new_आकार > pArray->m_capacity) { अगर (!mz_zip_array_ensure_capacity(pZip, pArray, new_आकार, growing)) वापस MZ_FALSE; }
+  pArray->m_आकार = new_आकार;
+  वापस MZ_TRUE;
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_array_ensure_room(mz_zip_archive *pZip, mz_zip_array *pArray, size_t n)
+अटल MZ_FORCEINLINE mz_bool mz_zip_array_ensure_room(mz_zip_archive *pZip, mz_zip_array *pArray, माप_प्रकार n)
 {
-  return mz_zip_array_reserve(pZip, pArray, pArray->m_size + n, MZ_TRUE);
+  वापस mz_zip_array_reserve(pZip, pArray, pArray->m_आकार + n, MZ_TRUE);
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_array_push_back(mz_zip_archive *pZip, mz_zip_array *pArray, const void *pElements, size_t n)
+अटल MZ_FORCEINLINE mz_bool mz_zip_array_धकेलो_back(mz_zip_archive *pZip, mz_zip_array *pArray, स्थिर व्योम *pElements, माप_प्रकार n)
 {
-  size_t orig_size = pArray->m_size; if (!mz_zip_array_resize(pZip, pArray, orig_size + n, MZ_TRUE)) return MZ_FALSE;
-  memcpy((mz_uint8*)pArray->m_p + orig_size * pArray->m_element_size, pElements, n * pArray->m_element_size);
-  return MZ_TRUE;
+  माप_प्रकार orig_आकार = pArray->m_आकार; अगर (!mz_zip_array_resize(pZip, pArray, orig_आकार + n, MZ_TRUE)) वापस MZ_FALSE;
+  स_नकल((mz_uint8*)pArray->m_p + orig_आकार * pArray->m_element_आकार, pElements, n * pArray->m_element_आकार);
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_TIME
-static time_t mz_zip_dos_to_time_t(int dos_time, int dos_date)
+#अगर_अघोषित MINIZ_NO_TIME
+अटल समय_प्रकार mz_zip_dos_to_time_t(पूर्णांक dos_time, पूर्णांक dos_date)
 {
-  struct tm tm;
-  memset(&tm, 0, sizeof(tm)); tm.tm_isdst = -1;
-  tm.tm_year = ((dos_date >> 9) & 127) + 1980 - 1900; tm.tm_mon = ((dos_date >> 5) & 15) - 1; tm.tm_mday = dos_date & 31;
-  tm.tm_hour = (dos_time >> 11) & 31; tm.tm_min = (dos_time >> 5) & 63; tm.tm_sec = (dos_time << 1) & 62;
-  return mktime(&tm);
+  काष्ठा पंचांग पंचांग;
+  स_रखो(&पंचांग, 0, माप(पंचांग)); पंचांग.tm_isdst = -1;
+  पंचांग.tm_year = ((dos_date >> 9) & 127) + 1980 - 1900; पंचांग.tm_mon = ((dos_date >> 5) & 15) - 1; पंचांग.tm_mday = dos_date & 31;
+  पंचांग.tm_hour = (dos_time >> 11) & 31; पंचांग.tm_min = (dos_time >> 5) & 63; पंचांग.tm_sec = (dos_time << 1) & 62;
+  वापस स_गढ़ो(&पंचांग);
 }
 
-static void mz_zip_time_to_dos_time(time_t time, mz_uint16 *pDOS_time, mz_uint16 *pDOS_date)
+अटल व्योम mz_zip_time_to_dos_time(समय_प्रकार समय, mz_uint16 *pDOS_time, mz_uint16 *pDOS_date)
 {
-#ifdef _MSC_VER
-  struct tm tm_struct;
-  struct tm *tm = &tm_struct;
-  errno_t err = localtime_s(tm, &time);
-  if (err)
+#अगर_घोषित _MSC_VER
+  काष्ठा पंचांग tm_struct;
+  काष्ठा पंचांग *पंचांग = &tm_struct;
+  errno_t err = localtime_s(पंचांग, &समय);
+  अगर (err)
   {
     *pDOS_date = 0; *pDOS_time = 0;
-    return;
+    वापस;
   }
-#else
-  struct tm *tm = localtime(&time);
-#endif
-  *pDOS_time = (mz_uint16)(((tm->tm_hour) << 11) + ((tm->tm_min) << 5) + ((tm->tm_sec) >> 1));
-  *pDOS_date = (mz_uint16)(((tm->tm_year + 1900 - 1980) << 9) + ((tm->tm_mon + 1) << 5) + tm->tm_mday);
+#अन्यथा
+  काष्ठा पंचांग *पंचांग = स_स्थानीय(&समय);
+#पूर्ण_अगर
+  *pDOS_time = (mz_uint16)(((पंचांग->tm_hour) << 11) + ((पंचांग->tm_min) << 5) + ((पंचांग->tm_sec) >> 1));
+  *pDOS_date = (mz_uint16)(((पंचांग->tm_year + 1900 - 1980) << 9) + ((पंचांग->tm_mon + 1) << 5) + पंचांग->tm_mday);
 }
-#endif
+#पूर्ण_अगर
 
-#ifndef MINIZ_NO_STDIO
-static mz_bool mz_zip_get_file_modified_time(const char *pFilename, mz_uint16 *pDOS_time, mz_uint16 *pDOS_date)
+#अगर_अघोषित MINIZ_NO_STDIO
+अटल mz_bool mz_zip_get_file_modified_time(स्थिर अक्षर *pFilename, mz_uint16 *pDOS_time, mz_uint16 *pDOS_date)
 {
-#ifdef MINIZ_NO_TIME
-  (void)pFilename; *pDOS_date = *pDOS_time = 0;
-#else
-  struct MZ_FILE_STAT_STRUCT file_stat;
+#अगर_घोषित MINIZ_NO_TIME
+  (व्योम)pFilename; *pDOS_date = *pDOS_time = 0;
+#अन्यथा
+  काष्ठा MZ_FILE_STAT_STRUCT file_stat;
   // On Linux with x86 glibc, this call will fail on large files (>= 0x80000000 bytes) unless you compiled with _LARGEFILE64_SOURCE. Argh.
-  if (MZ_FILE_STAT(pFilename, &file_stat) != 0)
-    return MZ_FALSE;
+  अगर (MZ_FILE_STAT(pFilename, &file_stat) != 0)
+    वापस MZ_FALSE;
   mz_zip_time_to_dos_time(file_stat.st_mtime, pDOS_time, pDOS_date);
-#endif // #ifdef MINIZ_NO_TIME
-  return MZ_TRUE;
+#पूर्ण_अगर // #ifdef MINIZ_NO_TIME
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_TIME
-static mz_bool mz_zip_set_file_times(const char *pFilename, time_t access_time, time_t modified_time)
+#अगर_अघोषित MINIZ_NO_TIME
+अटल mz_bool mz_zip_set_file_times(स्थिर अक्षर *pFilename, समय_प्रकार access_time, समय_प्रकार modified_time)
 {
-  struct utimbuf t; t.actime = access_time; t.modtime = modified_time;
-  return !utime(pFilename, &t);
+  काष्ठा utimbuf t; t.actime = access_time; t.modtime = modified_time;
+  वापस !utime(pFilename, &t);
 }
-#endif // #ifndef MINIZ_NO_TIME
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_TIME
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-static mz_bool mz_zip_reader_init_internal(mz_zip_archive *pZip, mz_uint32 flags)
+अटल mz_bool mz_zip_reader_init_internal(mz_zip_archive *pZip, mz_uint32 flags)
 {
-  (void)flags;
-  if ((!pZip) || (pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_INVALID))
-    return MZ_FALSE;
+  (व्योम)flags;
+  अगर ((!pZip) || (pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_INVALID))
+    वापस MZ_FALSE;
 
-  if (!pZip->m_pAlloc) pZip->m_pAlloc = def_alloc_func;
-  if (!pZip->m_pFree) pZip->m_pFree = def_free_func;
-  if (!pZip->m_pRealloc) pZip->m_pRealloc = def_realloc_func;
+  अगर (!pZip->m_pAlloc) pZip->m_pAlloc = def_alloc_func;
+  अगर (!pZip->m_pFree) pZip->m_pFree = def_free_func;
+  अगर (!pZip->m_pRealloc) pZip->m_pRealloc = def_realloc_func;
 
   pZip->m_zip_mode = MZ_ZIP_MODE_READING;
-  pZip->m_archive_size = 0;
+  pZip->m_archive_आकार = 0;
   pZip->m_central_directory_file_ofs = 0;
-  pZip->m_total_files = 0;
+  pZip->m_योग_files = 0;
 
-  if (NULL == (pZip->m_pState = (mz_zip_internal_state *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, sizeof(mz_zip_internal_state))))
-    return MZ_FALSE;
-  memset(pZip->m_pState, 0, sizeof(mz_zip_internal_state));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_central_dir, sizeof(mz_uint8));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_central_dir_offsets, sizeof(mz_uint32));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_sorted_central_dir_offsets, sizeof(mz_uint32));
-  return MZ_TRUE;
+  अगर (शून्य == (pZip->m_pState = (mz_zip_internal_state *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, माप(mz_zip_internal_state))))
+    वापस MZ_FALSE;
+  स_रखो(pZip->m_pState, 0, माप(mz_zip_internal_state));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_central_dir, माप(mz_uint8));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_central_dir_offsets, माप(mz_uint32));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_sorted_central_dir_offsets, माप(mz_uint32));
+  वापस MZ_TRUE;
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_reader_filename_less(const mz_zip_array *pCentral_dir_array, const mz_zip_array *pCentral_dir_offsets, mz_uint l_index, mz_uint r_index)
+अटल MZ_FORCEINLINE mz_bool mz_zip_reader_filename_less(स्थिर mz_zip_array *pCentral_dir_array, स्थिर mz_zip_array *pCentral_dir_offsets, mz_uint l_सूचकांक, mz_uint r_सूचकांक)
 {
-  const mz_uint8 *pL = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, l_index)), *pE;
-  const mz_uint8 *pR = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, r_index));
+  स्थिर mz_uint8 *pL = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, l_सूचकांक)), *pE;
+  स्थिर mz_uint8 *pR = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, r_सूचकांक));
   mz_uint l_len = MZ_READ_LE16(pL + MZ_ZIP_CDH_FILENAME_LEN_OFS), r_len = MZ_READ_LE16(pR + MZ_ZIP_CDH_FILENAME_LEN_OFS);
   mz_uint8 l = 0, r = 0;
-  pL += MZ_ZIP_CENTRAL_DIR_HEADER_SIZE; pR += MZ_ZIP_CENTRAL_DIR_HEADER_SIZE;
+  pL += MZ_ZIP_CENTRAL_DIR_HEADER_आकार; pR += MZ_ZIP_CENTRAL_DIR_HEADER_आकार;
   pE = pL + MZ_MIN(l_len, r_len);
-  while (pL < pE)
+  जबतक (pL < pE)
   {
-    if ((l = MZ_TOLOWER(*pL)) != (r = MZ_TOLOWER(*pR)))
-      break;
+    अगर ((l = MZ_TOLOWER(*pL)) != (r = MZ_TOLOWER(*pR)))
+      अवरोध;
     pL++; pR++;
   }
-  return (pL == pE) ? (l_len < r_len) : (l < r);
+  वापस (pL == pE) ? (l_len < r_len) : (l < r);
 }
 
-#define MZ_SWAP_UINT32(a, b) do { mz_uint32 t = a; a = b; b = t; } MZ_MACRO_END
+#घोषणा MZ_SWAP_UINT32(a, b) करो { mz_uint32 t = a; a = b; b = t; } MZ_MACRO_END
 
 // Heap sort of lowercased filenames, used to help accelerate plain central directory searches by mz_zip_reader_locate_file(). (Could also use qsort(), but it could allocate memory.)
-static void mz_zip_reader_sort_central_dir_offsets_by_filename(mz_zip_archive *pZip)
+अटल व्योम mz_zip_reader_sort_central_dir_offsets_by_filename(mz_zip_archive *pZip)
 {
   mz_zip_internal_state *pState = pZip->m_pState;
-  const mz_zip_array *pCentral_dir_offsets = &pState->m_central_dir_offsets;
-  const mz_zip_array *pCentral_dir = &pState->m_central_dir;
+  स्थिर mz_zip_array *pCentral_dir_offsets = &pState->m_central_dir_offsets;
+  स्थिर mz_zip_array *pCentral_dir = &pState->m_central_dir;
   mz_uint32 *pIndices = &MZ_ZIP_ARRAY_ELEMENT(&pState->m_sorted_central_dir_offsets, mz_uint32, 0);
-  const int size = pZip->m_total_files;
-  int start = (size - 2) >> 1, end;
-  while (start >= 0)
+  स्थिर पूर्णांक आकार = pZip->m_योग_files;
+  पूर्णांक start = (आकार - 2) >> 1, end;
+  जबतक (start >= 0)
   {
-    int child, root = start;
-    for ( ; ; )
+    पूर्णांक child, मूल = start;
+    क्रम ( ; ; )
     {
-      if ((child = (root << 1) + 1) >= size)
-        break;
-      child += (((child + 1) < size) && (mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[child], pIndices[child + 1])));
-      if (!mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[root], pIndices[child]))
-        break;
-      MZ_SWAP_UINT32(pIndices[root], pIndices[child]); root = child;
+      अगर ((child = (मूल << 1) + 1) >= आकार)
+        अवरोध;
+      child += (((child + 1) < आकार) && (mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[child], pIndices[child + 1])));
+      अगर (!mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[मूल], pIndices[child]))
+        अवरोध;
+      MZ_SWAP_UINT32(pIndices[मूल], pIndices[child]); मूल = child;
     }
     start--;
   }
 
-  end = size - 1;
-  while (end > 0)
+  end = आकार - 1;
+  जबतक (end > 0)
   {
-    int child, root = 0;
+    पूर्णांक child, मूल = 0;
     MZ_SWAP_UINT32(pIndices[end], pIndices[0]);
-    for ( ; ; )
+    क्रम ( ; ; )
     {
-      if ((child = (root << 1) + 1) >= end)
-        break;
+      अगर ((child = (मूल << 1) + 1) >= end)
+        अवरोध;
       child += (((child + 1) < end) && mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[child], pIndices[child + 1]));
-      if (!mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[root], pIndices[child]))
-        break;
-      MZ_SWAP_UINT32(pIndices[root], pIndices[child]); root = child;
+      अगर (!mz_zip_reader_filename_less(pCentral_dir, pCentral_dir_offsets, pIndices[मूल], pIndices[child]))
+        अवरोध;
+      MZ_SWAP_UINT32(pIndices[मूल], pIndices[child]); मूल = child;
     }
     end--;
   }
 }
 
-static mz_bool mz_zip_reader_read_central_dir(mz_zip_archive *pZip, mz_uint32 flags)
+अटल mz_bool mz_zip_reader_read_central_dir(mz_zip_archive *pZip, mz_uint32 flags)
 {
-  mz_uint cdir_size, num_this_disk, cdir_disk_index;
+  mz_uint cdir_आकार, अंक_this_disk, cdir_disk_सूचकांक;
   mz_uint64 cdir_ofs;
   mz_int64 cur_file_ofs;
-  const mz_uint8 *p;
-  mz_uint32 buf_u32[4096 / sizeof(mz_uint32)]; mz_uint8 *pBuf = (mz_uint8 *)buf_u32;
+  स्थिर mz_uint8 *p;
+  mz_uint32 buf_u32[4096 / माप(mz_uint32)]; mz_uint8 *pBuf = (mz_uint8 *)buf_u32;
   mz_bool sort_central_dir = ((flags & MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY) == 0);
   // Basic sanity checks - reject files which are too small, and check the first 4 bytes of the file to make sure a local header is there.
-  if (pZip->m_archive_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
+  अगर (pZip->m_archive_आकार < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
   // Find the end of central directory record by scanning the file from the end towards the beginning.
-  cur_file_ofs = MZ_MAX((mz_int64)pZip->m_archive_size - (mz_int64)sizeof(buf_u32), 0);
-  for ( ; ; )
+  cur_file_ofs = MZ_MAX((mz_int64)pZip->m_archive_आकार - (mz_int64)माप(buf_u32), 0);
+  क्रम ( ; ; )
   {
-    int i, n = (int)MZ_MIN(sizeof(buf_u32), pZip->m_archive_size - cur_file_ofs);
-    if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, n) != (mz_uint)n)
-      return MZ_FALSE;
-    for (i = n - 4; i >= 0; --i)
-      if (MZ_READ_LE32(pBuf + i) == MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG)
-        break;
-    if (i >= 0)
+    पूर्णांक i, n = (पूर्णांक)MZ_MIN(माप(buf_u32), pZip->m_archive_आकार - cur_file_ofs);
+    अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, n) != (mz_uint)n)
+      वापस MZ_FALSE;
+    क्रम (i = n - 4; i >= 0; --i)
+      अगर (MZ_READ_LE32(pBuf + i) == MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG)
+        अवरोध;
+    अगर (i >= 0)
     {
       cur_file_ofs += i;
-      break;
+      अवरोध;
     }
-    if ((!cur_file_ofs) || ((pZip->m_archive_size - cur_file_ofs) >= (0xFFFF + MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)))
-      return MZ_FALSE;
-    cur_file_ofs = MZ_MAX(cur_file_ofs - (sizeof(buf_u32) - 3), 0);
+    अगर ((!cur_file_ofs) || ((pZip->m_archive_आकार - cur_file_ofs) >= (0xFFFF + MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार)))
+      वापस MZ_FALSE;
+    cur_file_ofs = MZ_MAX(cur_file_ofs - (माप(buf_u32) - 3), 0);
   }
   // Read and verify the end of central directory record.
-  if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE) != MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
-  if ((MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_SIG_OFS) != MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG) ||
-      ((pZip->m_total_files = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_TOTAL_ENTRIES_OFS)) != MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS)))
-    return MZ_FALSE;
+  अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार) != MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
+  अगर ((MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_SIG_OFS) != MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG) ||
+      ((pZip->m_योग_files = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_योग_ENTRIES_OFS)) != MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_अंक_ENTRIES_ON_DISK_OFS)))
+    वापस MZ_FALSE;
 
-  num_this_disk = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_NUM_THIS_DISK_OFS);
-  cdir_disk_index = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_NUM_DISK_CDIR_OFS);
-  if (((num_this_disk | cdir_disk_index) != 0) && ((num_this_disk != 1) || (cdir_disk_index != 1)))
-    return MZ_FALSE;
+  अंक_this_disk = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_अंक_THIS_DISK_OFS);
+  cdir_disk_सूचकांक = MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_अंक_DISK_CDIR_OFS);
+  अगर (((अंक_this_disk | cdir_disk_सूचकांक) != 0) && ((अंक_this_disk != 1) || (cdir_disk_सूचकांक != 1)))
+    वापस MZ_FALSE;
 
-  if ((cdir_size = MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_SIZE_OFS)) < pZip->m_total_files * MZ_ZIP_CENTRAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
+  अगर ((cdir_आकार = MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_आकार_OFS)) < pZip->m_योग_files * MZ_ZIP_CENTRAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
 
   cdir_ofs = MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_OFS_OFS);
-  if ((cdir_ofs + (mz_uint64)cdir_size) > pZip->m_archive_size)
-    return MZ_FALSE;
+  अगर ((cdir_ofs + (mz_uint64)cdir_आकार) > pZip->m_archive_आकार)
+    वापस MZ_FALSE;
 
   pZip->m_central_directory_file_ofs = cdir_ofs;
 
-  if (pZip->m_total_files)
+  अगर (pZip->m_योग_files)
   {
      mz_uint i, n;
 
     // Read the entire central directory into a heap block, and allocate another heap block to hold the unsorted central dir file record offsets, and another to hold the sorted indices.
-    if ((!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir, cdir_size, MZ_FALSE)) ||
-        (!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir_offsets, pZip->m_total_files, MZ_FALSE)))
-      return MZ_FALSE;
+    अगर ((!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir, cdir_आकार, MZ_FALSE)) ||
+        (!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir_offsets, pZip->m_योग_files, MZ_FALSE)))
+      वापस MZ_FALSE;
 
-    if (sort_central_dir)
+    अगर (sort_central_dir)
     {
-      if (!mz_zip_array_resize(pZip, &pZip->m_pState->m_sorted_central_dir_offsets, pZip->m_total_files, MZ_FALSE))
-        return MZ_FALSE;
+      अगर (!mz_zip_array_resize(pZip, &pZip->m_pState->m_sorted_central_dir_offsets, pZip->m_योग_files, MZ_FALSE))
+        वापस MZ_FALSE;
     }
 
-    if (pZip->m_pRead(pZip->m_pIO_opaque, cdir_ofs, pZip->m_pState->m_central_dir.m_p, cdir_size) != cdir_size)
-      return MZ_FALSE;
+    अगर (pZip->m_pRead(pZip->m_pIO_opaque, cdir_ofs, pZip->m_pState->m_central_dir.m_p, cdir_आकार) != cdir_आकार)
+      वापस MZ_FALSE;
 
     // Now create an index into the central directory file records, do some basic sanity checking on each record, and check for zip64 entries (which are not yet supported).
-    p = (const mz_uint8 *)pZip->m_pState->m_central_dir.m_p;
-    for (n = cdir_size, i = 0; i < pZip->m_total_files; ++i)
+    p = (स्थिर mz_uint8 *)pZip->m_pState->m_central_dir.m_p;
+    क्रम (n = cdir_आकार, i = 0; i < pZip->m_योग_files; ++i)
     {
-      mz_uint total_header_size, comp_size, decomp_size, disk_index;
-      if ((n < MZ_ZIP_CENTRAL_DIR_HEADER_SIZE) || (MZ_READ_LE32(p) != MZ_ZIP_CENTRAL_DIR_HEADER_SIG))
-        return MZ_FALSE;
-      MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, i) = (mz_uint32)(p - (const mz_uint8 *)pZip->m_pState->m_central_dir.m_p);
-      if (sort_central_dir)
+      mz_uint योग_header_आकार, comp_आकार, decomp_आकार, disk_सूचकांक;
+      अगर ((n < MZ_ZIP_CENTRAL_DIR_HEADER_आकार) || (MZ_READ_LE32(p) != MZ_ZIP_CENTRAL_DIR_HEADER_SIG))
+        वापस MZ_FALSE;
+      MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, i) = (mz_uint32)(p - (स्थिर mz_uint8 *)pZip->m_pState->m_central_dir.m_p);
+      अगर (sort_central_dir)
         MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_sorted_central_dir_offsets, mz_uint32, i) = i;
-      comp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS);
-      decomp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS);
-      if (((!MZ_READ_LE32(p + MZ_ZIP_CDH_METHOD_OFS)) && (decomp_size != comp_size)) || (decomp_size && !comp_size) || (decomp_size == 0xFFFFFFFF) || (comp_size == 0xFFFFFFFF))
-        return MZ_FALSE;
-      disk_index = MZ_READ_LE16(p + MZ_ZIP_CDH_DISK_START_OFS);
-      if ((disk_index != num_this_disk) && (disk_index != 1))
-        return MZ_FALSE;
-      if (((mz_uint64)MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS) + MZ_ZIP_LOCAL_DIR_HEADER_SIZE + comp_size) > pZip->m_archive_size)
-        return MZ_FALSE;
-      if ((total_header_size = MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_COMMENT_LEN_OFS)) > n)
-        return MZ_FALSE;
-      n -= total_header_size; p += total_header_size;
+      comp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_आकार_OFS);
+      decomp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_आकार_OFS);
+      अगर (((!MZ_READ_LE32(p + MZ_ZIP_CDH_METHOD_OFS)) && (decomp_आकार != comp_आकार)) || (decomp_आकार && !comp_आकार) || (decomp_आकार == 0xFFFFFFFF) || (comp_आकार == 0xFFFFFFFF))
+        वापस MZ_FALSE;
+      disk_सूचकांक = MZ_READ_LE16(p + MZ_ZIP_CDH_DISK_START_OFS);
+      अगर ((disk_सूचकांक != अंक_this_disk) && (disk_सूचकांक != 1))
+        वापस MZ_FALSE;
+      अगर (((mz_uint64)MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS) + MZ_ZIP_LOCAL_DIR_HEADER_आकार + comp_आकार) > pZip->m_archive_आकार)
+        वापस MZ_FALSE;
+      अगर ((योग_header_आकार = MZ_ZIP_CENTRAL_DIR_HEADER_आकार + MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_COMMENT_LEN_OFS)) > n)
+        वापस MZ_FALSE;
+      n -= योग_header_आकार; p += योग_header_आकार;
     }
   }
 
-  if (sort_central_dir)
+  अगर (sort_central_dir)
     mz_zip_reader_sort_central_dir_offsets_by_filename(pZip);
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-mz_bool mz_zip_reader_init(mz_zip_archive *pZip, mz_uint64 size, mz_uint32 flags)
+mz_bool mz_zip_reader_init(mz_zip_archive *pZip, mz_uint64 आकार, mz_uint32 flags)
 {
-  if ((!pZip) || (!pZip->m_pRead))
-    return MZ_FALSE;
-  if (!mz_zip_reader_init_internal(pZip, flags))
-    return MZ_FALSE;
-  pZip->m_archive_size = size;
-  if (!mz_zip_reader_read_central_dir(pZip, flags))
+  अगर ((!pZip) || (!pZip->m_pRead))
+    वापस MZ_FALSE;
+  अगर (!mz_zip_reader_init_internal(pZip, flags))
+    वापस MZ_FALSE;
+  pZip->m_archive_आकार = आकार;
+  अगर (!mz_zip_reader_read_central_dir(pZip, flags))
   {
     mz_zip_reader_end(pZip);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-static size_t mz_zip_mem_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)
+अटल माप_प्रकार mz_zip_mem_read_func(व्योम *pOpaque, mz_uint64 file_ofs, व्योम *pBuf, माप_प्रकार n)
 {
   mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;
-  size_t s = (file_ofs >= pZip->m_archive_size) ? 0 : (size_t)MZ_MIN(pZip->m_archive_size - file_ofs, n);
-  memcpy(pBuf, (const mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);
-  return s;
+  माप_प्रकार s = (file_ofs >= pZip->m_archive_आकार) ? 0 : (माप_प्रकार)MZ_MIN(pZip->m_archive_आकार - file_ofs, n);
+  स_नकल(pBuf, (स्थिर mz_uint8 *)pZip->m_pState->m_pMem + file_ofs, s);
+  वापस s;
 }
 
-mz_bool mz_zip_reader_init_mem(mz_zip_archive *pZip, const void *pMem, size_t size, mz_uint32 flags)
+mz_bool mz_zip_reader_init_mem(mz_zip_archive *pZip, स्थिर व्योम *pMem, माप_प्रकार आकार, mz_uint32 flags)
 {
-  if (!mz_zip_reader_init_internal(pZip, flags))
-    return MZ_FALSE;
-  pZip->m_archive_size = size;
+  अगर (!mz_zip_reader_init_internal(pZip, flags))
+    वापस MZ_FALSE;
+  pZip->m_archive_आकार = आकार;
   pZip->m_pRead = mz_zip_mem_read_func;
   pZip->m_pIO_opaque = pZip;
-#ifdef __cplusplus
-  pZip->m_pState->m_pMem = const_cast<void *>(pMem);
-#else
-  pZip->m_pState->m_pMem = (void *)pMem;
-#endif
-  pZip->m_pState->m_mem_size = size;
-  if (!mz_zip_reader_read_central_dir(pZip, flags))
+#अगर_घोषित __cplusplus
+  pZip->m_pState->m_pMem = const_cast<व्योम *>(pMem);
+#अन्यथा
+  pZip->m_pState->m_pMem = (व्योम *)pMem;
+#पूर्ण_अगर
+  pZip->m_pState->m_mem_आकार = आकार;
+  अगर (!mz_zip_reader_read_central_dir(pZip, flags))
   {
     mz_zip_reader_end(pZip);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_STDIO
-static size_t mz_zip_file_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)
+#अगर_अघोषित MINIZ_NO_STDIO
+अटल माप_प्रकार mz_zip_file_read_func(व्योम *pOpaque, mz_uint64 file_ofs, व्योम *pBuf, माप_प्रकार n)
 {
   mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;
   mz_int64 cur_ofs = MZ_FTELL64(pZip->m_pState->m_pFile);
-  if (((mz_int64)file_ofs < 0) || (((cur_ofs != (mz_int64)file_ofs)) && (MZ_FSEEK64(pZip->m_pState->m_pFile, (mz_int64)file_ofs, SEEK_SET))))
-    return 0;
-  return MZ_FREAD(pBuf, 1, n, pZip->m_pState->m_pFile);
+  अगर (((mz_int64)file_ofs < 0) || (((cur_ofs != (mz_int64)file_ofs)) && (MZ_FSEEK64(pZip->m_pState->m_pFile, (mz_int64)file_ofs, शुरू_से))))
+    वापस 0;
+  वापस MZ_FREAD(pBuf, 1, n, pZip->m_pState->m_pFile);
 }
 
-mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint32 flags)
+mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_uint32 flags)
 {
-  mz_uint64 file_size;
+  mz_uint64 file_आकार;
   MZ_FILE *pFile = MZ_FOPEN(pFilename, "rb");
-  if (!pFile)
-    return MZ_FALSE;
-  if (MZ_FSEEK64(pFile, 0, SEEK_END))
+  अगर (!pFile)
+    वापस MZ_FALSE;
+  अगर (MZ_FSEEK64(pFile, 0, अंत_से))
   {
     MZ_FCLOSE(pFile);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  file_size = MZ_FTELL64(pFile);
-  if (!mz_zip_reader_init_internal(pZip, flags))
+  file_आकार = MZ_FTELL64(pFile);
+  अगर (!mz_zip_reader_init_internal(pZip, flags))
   {
     MZ_FCLOSE(pFile);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
   pZip->m_pRead = mz_zip_file_read_func;
   pZip->m_pIO_opaque = pZip;
   pZip->m_pState->m_pFile = pFile;
-  pZip->m_archive_size = file_size;
-  if (!mz_zip_reader_read_central_dir(pZip, flags))
+  pZip->m_archive_आकार = file_आकार;
+  अगर (!mz_zip_reader_read_central_dir(pZip, flags))
   {
     mz_zip_reader_end(pZip);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-mz_uint mz_zip_reader_get_num_files(mz_zip_archive *pZip)
+mz_uint mz_zip_reader_get_अंक_files(mz_zip_archive *pZip)
 {
-  return pZip ? pZip->m_total_files : 0;
+  वापस pZip ? pZip->m_योग_files : 0;
 }
 
-static MZ_FORCEINLINE const mz_uint8 *mz_zip_reader_get_cdh(mz_zip_archive *pZip, mz_uint file_index)
+अटल MZ_FORCEINLINE स्थिर mz_uint8 *mz_zip_reader_get_cdh(mz_zip_archive *pZip, mz_uint file_सूचकांक)
 {
-  if ((!pZip) || (!pZip->m_pState) || (file_index >= pZip->m_total_files) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
-    return NULL;
-  return &MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_index));
+  अगर ((!pZip) || (!pZip->m_pState) || (file_सूचकांक >= pZip->m_योग_files) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
+    वापस शून्य;
+  वापस &MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_सूचकांक));
 }
 
-mz_bool mz_zip_reader_is_file_encrypted(mz_zip_archive *pZip, mz_uint file_index)
+mz_bool mz_zip_reader_is_file_encrypted(mz_zip_archive *pZip, mz_uint file_सूचकांक)
 {
   mz_uint m_bit_flag;
-  const mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_index);
-  if (!p)
-    return MZ_FALSE;
+  स्थिर mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_सूचकांक);
+  अगर (!p)
+    वापस MZ_FALSE;
   m_bit_flag = MZ_READ_LE16(p + MZ_ZIP_CDH_BIT_FLAG_OFS);
-  return (m_bit_flag & 1);
+  वापस (m_bit_flag & 1);
 }
 
-mz_bool mz_zip_reader_is_file_a_directory(mz_zip_archive *pZip, mz_uint file_index)
+mz_bool mz_zip_reader_is_file_a_directory(mz_zip_archive *pZip, mz_uint file_सूचकांक)
 {
   mz_uint filename_len, external_attr;
-  const mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_index);
-  if (!p)
-    return MZ_FALSE;
+  स्थिर mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_सूचकांक);
+  अगर (!p)
+    वापस MZ_FALSE;
 
   // First see if the filename ends with a '/' character.
   filename_len = MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS);
-  if (filename_len)
+  अगर (filename_len)
   {
-    if (*(p + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + filename_len - 1) == '/')
-      return MZ_TRUE;
+    अगर (*(p + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + filename_len - 1) == '/')
+      वापस MZ_TRUE;
   }
 
   // Bugfix: This code was also checking if the internal attribute was non-zero, which wasn't correct.
   // Most/all zip writers (hopefully) set DOS file/directory attributes in the low 16-bits, so check for the DOS directory flag and ignore the source OS ID in the created by field.
   // FIXME: Remove this check? Is it necessary - we already check the filename.
   external_attr = MZ_READ_LE32(p + MZ_ZIP_CDH_EXTERNAL_ATTR_OFS);
-  if ((external_attr & 0x10) != 0)
-    return MZ_TRUE;
+  अगर ((external_attr & 0x10) != 0)
+    वापस MZ_TRUE;
 
-  return MZ_FALSE;
+  वापस MZ_FALSE;
 }
 
-mz_bool mz_zip_reader_file_stat(mz_zip_archive *pZip, mz_uint file_index, mz_zip_archive_file_stat *pStat)
+mz_bool mz_zip_reader_file_stat(mz_zip_archive *pZip, mz_uint file_सूचकांक, mz_zip_archive_file_stat *pStat)
 {
   mz_uint n;
-  const mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_index);
-  if ((!p) || (!pStat))
-    return MZ_FALSE;
+  स्थिर mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_सूचकांक);
+  अगर ((!p) || (!pStat))
+    वापस MZ_FALSE;
 
   // Unpack the central directory record.
-  pStat->m_file_index = file_index;
-  pStat->m_central_dir_ofs = MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_index);
+  pStat->m_file_सूचकांक = file_सूचकांक;
+  pStat->m_central_dir_ofs = MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_सूचकांक);
   pStat->m_version_made_by = MZ_READ_LE16(p + MZ_ZIP_CDH_VERSION_MADE_BY_OFS);
   pStat->m_version_needed = MZ_READ_LE16(p + MZ_ZIP_CDH_VERSION_NEEDED_OFS);
   pStat->m_bit_flag = MZ_READ_LE16(p + MZ_ZIP_CDH_BIT_FLAG_OFS);
   pStat->m_method = MZ_READ_LE16(p + MZ_ZIP_CDH_METHOD_OFS);
-#ifndef MINIZ_NO_TIME
+#अगर_अघोषित MINIZ_NO_TIME
   pStat->m_time = mz_zip_dos_to_time_t(MZ_READ_LE16(p + MZ_ZIP_CDH_FILE_TIME_OFS), MZ_READ_LE16(p + MZ_ZIP_CDH_FILE_DATE_OFS));
-#endif
+#पूर्ण_अगर
   pStat->m_crc32 = MZ_READ_LE32(p + MZ_ZIP_CDH_CRC32_OFS);
-  pStat->m_comp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS);
-  pStat->m_uncomp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS);
+  pStat->m_comp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_आकार_OFS);
+  pStat->m_uncomp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_आकार_OFS);
   pStat->m_internal_attr = MZ_READ_LE16(p + MZ_ZIP_CDH_INTERNAL_ATTR_OFS);
   pStat->m_external_attr = MZ_READ_LE32(p + MZ_ZIP_CDH_EXTERNAL_ATTR_OFS);
   pStat->m_local_header_ofs = MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS);
 
   // Copy as much of the filename and comment as possible.
-  n = MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS); n = MZ_MIN(n, MZ_ZIP_MAX_ARCHIVE_FILENAME_SIZE - 1);
-  memcpy(pStat->m_filename, p + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE, n); pStat->m_filename[n] = '\0';
+  n = MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS); n = MZ_MIN(n, MZ_ZIP_MAX_ARCHIVE_FILENAME_आकार - 1);
+  स_नकल(pStat->m_filename, p + MZ_ZIP_CENTRAL_DIR_HEADER_आकार, n); pStat->m_filename[n] = '\0';
 
-  n = MZ_READ_LE16(p + MZ_ZIP_CDH_COMMENT_LEN_OFS); n = MZ_MIN(n, MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_SIZE - 1);
-  pStat->m_comment_size = n;
-  memcpy(pStat->m_comment, p + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OFS), n); pStat->m_comment[n] = '\0';
+  n = MZ_READ_LE16(p + MZ_ZIP_CDH_COMMENT_LEN_OFS); n = MZ_MIN(n, MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_आकार - 1);
+  pStat->m_comment_आकार = n;
+  स_नकल(pStat->m_comment, p + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS) + MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OFS), n); pStat->m_comment[n] = '\0';
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-mz_uint mz_zip_reader_get_filename(mz_zip_archive *pZip, mz_uint file_index, char *pFilename, mz_uint filename_buf_size)
+mz_uint mz_zip_reader_get_filename(mz_zip_archive *pZip, mz_uint file_सूचकांक, अक्षर *pFilename, mz_uint filename_buf_आकार)
 {
   mz_uint n;
-  const mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_index);
-  if (!p) { if (filename_buf_size) pFilename[0] = '\0'; return 0; }
+  स्थिर mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_सूचकांक);
+  अगर (!p) { अगर (filename_buf_आकार) pFilename[0] = '\0'; वापस 0; }
   n = MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS);
-  if (filename_buf_size)
+  अगर (filename_buf_आकार)
   {
-    n = MZ_MIN(n, filename_buf_size - 1);
-    memcpy(pFilename, p + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE, n);
+    n = MZ_MIN(n, filename_buf_आकार - 1);
+    स_नकल(pFilename, p + MZ_ZIP_CENTRAL_DIR_HEADER_आकार, n);
     pFilename[n] = '\0';
   }
-  return n + 1;
+  वापस n + 1;
 }
 
-static MZ_FORCEINLINE mz_bool mz_zip_reader_string_equal(const char *pA, const char *pB, mz_uint len, mz_uint flags)
+अटल MZ_FORCEINLINE mz_bool mz_zip_reader_string_equal(स्थिर अक्षर *pA, स्थिर अक्षर *pB, mz_uint len, mz_uint flags)
 {
   mz_uint i;
-  if (flags & MZ_ZIP_FLAG_CASE_SENSITIVE)
-    return 0 == memcmp(pA, pB, len);
-  for (i = 0; i < len; ++i)
-    if (MZ_TOLOWER(pA[i]) != MZ_TOLOWER(pB[i]))
-      return MZ_FALSE;
-  return MZ_TRUE;
+  अगर (flags & MZ_ZIP_FLAG_CASE_SENSITIVE)
+    वापस 0 == स_भेद(pA, pB, len);
+  क्रम (i = 0; i < len; ++i)
+    अगर (MZ_TOLOWER(pA[i]) != MZ_TOLOWER(pB[i]))
+      वापस MZ_FALSE;
+  वापस MZ_TRUE;
 }
 
-static MZ_FORCEINLINE int mz_zip_reader_filename_compare(const mz_zip_array *pCentral_dir_array, const mz_zip_array *pCentral_dir_offsets, mz_uint l_index, const char *pR, mz_uint r_len)
+अटल MZ_FORCEINLINE पूर्णांक mz_zip_reader_filename_compare(स्थिर mz_zip_array *pCentral_dir_array, स्थिर mz_zip_array *pCentral_dir_offsets, mz_uint l_सूचकांक, स्थिर अक्षर *pR, mz_uint r_len)
 {
-  const mz_uint8 *pL = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, l_index)), *pE;
+  स्थिर mz_uint8 *pL = &MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_array, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(pCentral_dir_offsets, mz_uint32, l_सूचकांक)), *pE;
   mz_uint l_len = MZ_READ_LE16(pL + MZ_ZIP_CDH_FILENAME_LEN_OFS);
   mz_uint8 l = 0, r = 0;
-  pL += MZ_ZIP_CENTRAL_DIR_HEADER_SIZE;
+  pL += MZ_ZIP_CENTRAL_DIR_HEADER_आकार;
   pE = pL + MZ_MIN(l_len, r_len);
-  while (pL < pE)
+  जबतक (pL < pE)
   {
-    if ((l = MZ_TOLOWER(*pL)) != (r = MZ_TOLOWER(*pR)))
-      break;
+    अगर ((l = MZ_TOLOWER(*pL)) != (r = MZ_TOLOWER(*pR)))
+      अवरोध;
     pL++; pR++;
   }
-  return (pL == pE) ? (int)(l_len - r_len) : (l - r);
+  वापस (pL == pE) ? (पूर्णांक)(l_len - r_len) : (l - r);
 }
 
-static int mz_zip_reader_locate_file_binary_search(mz_zip_archive *pZip, const char *pFilename)
+अटल पूर्णांक mz_zip_reader_locate_file_द्विआधारी_खोज(mz_zip_archive *pZip, स्थिर अक्षर *pFilename)
 {
   mz_zip_internal_state *pState = pZip->m_pState;
-  const mz_zip_array *pCentral_dir_offsets = &pState->m_central_dir_offsets;
-  const mz_zip_array *pCentral_dir = &pState->m_central_dir;
+  स्थिर mz_zip_array *pCentral_dir_offsets = &pState->m_central_dir_offsets;
+  स्थिर mz_zip_array *pCentral_dir = &pState->m_central_dir;
   mz_uint32 *pIndices = &MZ_ZIP_ARRAY_ELEMENT(&pState->m_sorted_central_dir_offsets, mz_uint32, 0);
-  const int size = pZip->m_total_files;
-  const mz_uint filename_len = (mz_uint)strlen(pFilename);
-  int l = 0, h = size - 1;
-  while (l <= h)
+  स्थिर पूर्णांक आकार = pZip->m_योग_files;
+  स्थिर mz_uint filename_len = (mz_uint)म_माप(pFilename);
+  पूर्णांक l = 0, h = आकार - 1;
+  जबतक (l <= h)
   {
-    int m = (l + h) >> 1, file_index = pIndices[m], comp = mz_zip_reader_filename_compare(pCentral_dir, pCentral_dir_offsets, file_index, pFilename, filename_len);
-    if (!comp)
-      return file_index;
-    else if (comp < 0)
+    पूर्णांक m = (l + h) >> 1, file_सूचकांक = pIndices[m], comp = mz_zip_reader_filename_compare(pCentral_dir, pCentral_dir_offsets, file_सूचकांक, pFilename, filename_len);
+    अगर (!comp)
+      वापस file_सूचकांक;
+    अन्यथा अगर (comp < 0)
       l = m + 1;
-    else
+    अन्यथा
       h = m - 1;
   }
-  return -1;
+  वापस -1;
 }
 
-int mz_zip_reader_locate_file(mz_zip_archive *pZip, const char *pName, const char *pComment, mz_uint flags)
+पूर्णांक mz_zip_reader_locate_file(mz_zip_archive *pZip, स्थिर अक्षर *pName, स्थिर अक्षर *pComment, mz_uint flags)
 {
-  mz_uint file_index; size_t name_len, comment_len;
-  if ((!pZip) || (!pZip->m_pState) || (!pName) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
-    return -1;
-  if (((flags & (MZ_ZIP_FLAG_IGNORE_PATH | MZ_ZIP_FLAG_CASE_SENSITIVE)) == 0) && (!pComment) && (pZip->m_pState->m_sorted_central_dir_offsets.m_size))
-    return mz_zip_reader_locate_file_binary_search(pZip, pName);
-  name_len = strlen(pName); if (name_len > 0xFFFF) return -1;
-  comment_len = pComment ? strlen(pComment) : 0; if (comment_len > 0xFFFF) return -1;
-  for (file_index = 0; file_index < pZip->m_total_files; file_index++)
+  mz_uint file_सूचकांक; माप_प्रकार name_len, comment_len;
+  अगर ((!pZip) || (!pZip->m_pState) || (!pName) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
+    वापस -1;
+  अगर (((flags & (MZ_ZIP_FLAG_IGNORE_PATH | MZ_ZIP_FLAG_CASE_SENSITIVE)) == 0) && (!pComment) && (pZip->m_pState->m_sorted_central_dir_offsets.m_आकार))
+    वापस mz_zip_reader_locate_file_द्विआधारी_खोज(pZip, pName);
+  name_len = म_माप(pName); अगर (name_len > 0xFFFF) वापस -1;
+  comment_len = pComment ? म_माप(pComment) : 0; अगर (comment_len > 0xFFFF) वापस -1;
+  क्रम (file_सूचकांक = 0; file_सूचकांक < pZip->m_योग_files; file_सूचकांक++)
   {
-    const mz_uint8 *pHeader = &MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_index));
+    स्थिर mz_uint8 *pHeader = &MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir, mz_uint8, MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_uint32, file_सूचकांक));
     mz_uint filename_len = MZ_READ_LE16(pHeader + MZ_ZIP_CDH_FILENAME_LEN_OFS);
-    const char *pFilename = (const char *)pHeader + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE;
-    if (filename_len < name_len)
-      continue;
-    if (comment_len)
+    स्थिर अक्षर *pFilename = (स्थिर अक्षर *)pHeader + MZ_ZIP_CENTRAL_DIR_HEADER_आकार;
+    अगर (filename_len < name_len)
+      जारी;
+    अगर (comment_len)
     {
       mz_uint file_extra_len = MZ_READ_LE16(pHeader + MZ_ZIP_CDH_EXTRA_LEN_OFS), file_comment_len = MZ_READ_LE16(pHeader + MZ_ZIP_CDH_COMMENT_LEN_OFS);
-      const char *pFile_comment = pFilename + filename_len + file_extra_len;
-      if ((file_comment_len != comment_len) || (!mz_zip_reader_string_equal(pComment, pFile_comment, file_comment_len, flags)))
-        continue;
+      स्थिर अक्षर *pFile_comment = pFilename + filename_len + file_extra_len;
+      अगर ((file_comment_len != comment_len) || (!mz_zip_reader_string_equal(pComment, pFile_comment, file_comment_len, flags)))
+        जारी;
     }
-    if ((flags & MZ_ZIP_FLAG_IGNORE_PATH) && (filename_len))
+    अगर ((flags & MZ_ZIP_FLAG_IGNORE_PATH) && (filename_len))
     {
-      int ofs = filename_len - 1;
-      do
+      पूर्णांक ofs = filename_len - 1;
+      करो
       {
-        if ((pFilename[ofs] == '/') || (pFilename[ofs] == '\\') || (pFilename[ofs] == ':'))
-          break;
-      } while (--ofs >= 0);
+        अगर ((pFilename[ofs] == '/') || (pFilename[ofs] == '\\') || (pFilename[ofs] == ':'))
+          अवरोध;
+      } जबतक (--ofs >= 0);
       ofs++;
       pFilename += ofs; filename_len -= ofs;
     }
-    if ((filename_len == name_len) && (mz_zip_reader_string_equal(pName, pFilename, filename_len, flags)))
-      return file_index;
+    अगर ((filename_len == name_len) && (mz_zip_reader_string_equal(pName, pFilename, filename_len, flags)))
+      वापस file_सूचकांक;
   }
-  return -1;
+  वापस -1;
 }
 
-mz_bool mz_zip_reader_extract_to_mem_no_alloc(mz_zip_archive *pZip, mz_uint file_index, void *pBuf, size_t buf_size, mz_uint flags, void *pUser_read_buf, size_t user_read_buf_size)
+mz_bool mz_zip_reader_extract_to_mem_no_alloc(mz_zip_archive *pZip, mz_uint file_सूचकांक, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags, व्योम *pUser_read_buf, माप_प्रकार user_read_buf_आकार)
 {
-  int status = TINFL_STATUS_DONE;
-  mz_uint64 needed_size, cur_file_ofs, comp_remaining, out_buf_ofs = 0, read_buf_size, read_buf_ofs = 0, read_buf_avail;
+  पूर्णांक status = TINFL_STATUS_DONE;
+  mz_uint64 needed_आकार, cur_file_ofs, comp_remaining, out_buf_ofs = 0, read_buf_आकार, read_buf_ofs = 0, read_buf_avail;
   mz_zip_archive_file_stat file_stat;
-  void *pRead_buf;
-  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_SIZE + sizeof(mz_uint32) - 1) / sizeof(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
+  व्योम *pRead_buf;
+  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_आकार + माप(mz_uint32) - 1) / माप(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
   tinfl_decompressor inflator;
 
-  if ((buf_size) && (!pBuf))
-    return MZ_FALSE;
+  अगर ((buf_आकार_2) && (!pBuf))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_reader_file_stat(pZip, file_index, &file_stat))
-    return MZ_FALSE;
+  अगर (!mz_zip_reader_file_stat(pZip, file_सूचकांक, &file_stat))
+    वापस MZ_FALSE;
 
   // Empty file, or a directory (but not always a directory - I've seen odd zips with directories that have compressed data which inflates to 0 bytes)
-  if (!file_stat.m_comp_size)
-    return MZ_TRUE;
+  अगर (!file_stat.m_comp_आकार)
+    वापस MZ_TRUE;
 
   // Entry is a subdirectory (I've seen old zips with dir entries which have compressed deflate data which inflates to 0 bytes, but these entries claim to uncompress to 512 bytes in the headers).
   // I'm torn how to handle this case - should it fail instead?
-  if (mz_zip_reader_is_file_a_directory(pZip, file_index))
-    return MZ_TRUE;
+  अगर (mz_zip_reader_is_file_a_directory(pZip, file_सूचकांक))
+    वापस MZ_TRUE;
 
   // Encryption and patch files are not supported.
-  if (file_stat.m_bit_flag & (1 | 32))
-    return MZ_FALSE;
+  अगर (file_stat.m_bit_flag & (1 | 32))
+    वापस MZ_FALSE;
 
   // This function only supports stored and deflate.
-  if ((!(flags & MZ_ZIP_FLAG_COMPRESSED_DATA)) && (file_stat.m_method != 0) && (file_stat.m_method != MZ_DEFLATED))
-    return MZ_FALSE;
+  अगर ((!(flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)) && (file_stat.m_method != 0) && (file_stat.m_method != MZ_DEFLATED))
+    वापस MZ_FALSE;
 
   // Ensure supplied output buffer is large enough.
-  needed_size = (flags & MZ_ZIP_FLAG_COMPRESSED_DATA) ? file_stat.m_comp_size : file_stat.m_uncomp_size;
-  if (buf_size < needed_size)
-    return MZ_FALSE;
+  needed_आकार = (flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य) ? file_stat.m_comp_आकार : file_stat.m_uncomp_आकार;
+  अगर (buf_आकार_2 < needed_आकार)
+    वापस MZ_FALSE;
 
   // Read and parse the local directory entry.
   cur_file_ofs = file_stat.m_local_header_ofs;
-  if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_SIZE) != MZ_ZIP_LOCAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
-  if (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
-    return MZ_FALSE;
+  अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_आकार) != MZ_ZIP_LOCAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
+  अगर (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
+    वापस MZ_FALSE;
 
-  cur_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_SIZE + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_EXTRA_LEN_OFS);
-  if ((cur_file_ofs + file_stat.m_comp_size) > pZip->m_archive_size)
-    return MZ_FALSE;
+  cur_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_आकार + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_EXTRA_LEN_OFS);
+  अगर ((cur_file_ofs + file_stat.m_comp_आकार) > pZip->m_archive_आकार)
+    वापस MZ_FALSE;
 
-  if ((flags & MZ_ZIP_FLAG_COMPRESSED_DATA) || (!file_stat.m_method))
+  अगर ((flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य) || (!file_stat.m_method))
   {
     // The file is stored or the caller has requested the compressed data.
-    if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, (size_t)needed_size) != needed_size)
-      return MZ_FALSE;
-    return ((flags & MZ_ZIP_FLAG_COMPRESSED_DATA) != 0) || (mz_crc32(MZ_CRC32_INIT, (const mz_uint8 *)pBuf, (size_t)file_stat.m_uncomp_size) == file_stat.m_crc32);
+    अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, (माप_प्रकार)needed_आकार) != needed_आकार)
+      वापस MZ_FALSE;
+    वापस ((flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य) != 0) || (mz_crc32(MZ_CRC32_INIT, (स्थिर mz_uint8 *)pBuf, (माप_प्रकार)file_stat.m_uncomp_आकार) == file_stat.m_crc32);
   }
 
   // Decompress the file either directly from memory or from a file input buffer.
   tinfl_init(&inflator);
 
-  if (pZip->m_pState->m_pMem)
+  अगर (pZip->m_pState->m_pMem)
   {
     // Read directly from the archive in memory.
     pRead_buf = (mz_uint8 *)pZip->m_pState->m_pMem + cur_file_ofs;
-    read_buf_size = read_buf_avail = file_stat.m_comp_size;
+    read_buf_आकार = read_buf_avail = file_stat.m_comp_आकार;
     comp_remaining = 0;
   }
-  else if (pUser_read_buf)
+  अन्यथा अगर (pUser_read_buf)
   {
     // Use a user provided read buffer.
-    if (!user_read_buf_size)
-      return MZ_FALSE;
+    अगर (!user_read_buf_आकार)
+      वापस MZ_FALSE;
     pRead_buf = (mz_uint8 *)pUser_read_buf;
-    read_buf_size = user_read_buf_size;
+    read_buf_आकार = user_read_buf_आकार;
     read_buf_avail = 0;
-    comp_remaining = file_stat.m_comp_size;
+    comp_remaining = file_stat.m_comp_आकार;
   }
-  else
+  अन्यथा
   {
     // Temporarily allocate a read buffer.
-    read_buf_size = MZ_MIN(file_stat.m_comp_size, MZ_ZIP_MAX_IO_BUF_SIZE);
-#ifdef _MSC_VER
-    if (((0, sizeof(size_t) == sizeof(mz_uint32))) && (read_buf_size > 0x7FFFFFFF))
-#else
-    if (((sizeof(size_t) == sizeof(mz_uint32))) && (read_buf_size > 0x7FFFFFFF))
-#endif
-      return MZ_FALSE;
-    if (NULL == (pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (size_t)read_buf_size)))
-      return MZ_FALSE;
+    read_buf_आकार = MZ_MIN(file_stat.m_comp_आकार, MZ_ZIP_MAX_IO_BUF_आकार);
+#अगर_घोषित _MSC_VER
+    अगर (((0, माप(माप_प्रकार) == माप(mz_uint32))) && (read_buf_आकार > 0x7FFFFFFF))
+#अन्यथा
+    अगर (((माप(माप_प्रकार) == माप(mz_uint32))) && (read_buf_आकार > 0x7FFFFFFF))
+#पूर्ण_अगर
+      वापस MZ_FALSE;
+    अगर (शून्य == (pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (माप_प्रकार)read_buf_आकार)))
+      वापस MZ_FALSE;
     read_buf_avail = 0;
-    comp_remaining = file_stat.m_comp_size;
+    comp_remaining = file_stat.m_comp_आकार;
   }
 
-  do
+  करो
   {
-    size_t in_buf_size, out_buf_size = (size_t)(file_stat.m_uncomp_size - out_buf_ofs);
-    if ((!read_buf_avail) && (!pZip->m_pState->m_pMem))
+    माप_प्रकार in_buf_आकार, out_buf_आकार = (माप_प्रकार)(file_stat.m_uncomp_आकार - out_buf_ofs);
+    अगर ((!read_buf_avail) && (!pZip->m_pState->m_pMem))
     {
-      read_buf_avail = MZ_MIN(read_buf_size, comp_remaining);
-      if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (size_t)read_buf_avail) != read_buf_avail)
+      read_buf_avail = MZ_MIN(read_buf_आकार, comp_remaining);
+      अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (माप_प्रकार)read_buf_avail) != read_buf_avail)
       {
         status = TINFL_STATUS_FAILED;
-        break;
+        अवरोध;
       }
       cur_file_ofs += read_buf_avail;
       comp_remaining -= read_buf_avail;
       read_buf_ofs = 0;
     }
-    in_buf_size = (size_t)read_buf_avail;
-    status = tinfl_decompress(&inflator, (mz_uint8 *)pRead_buf + read_buf_ofs, &in_buf_size, (mz_uint8 *)pBuf, (mz_uint8 *)pBuf + out_buf_ofs, &out_buf_size, TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF | (comp_remaining ? TINFL_FLAG_HAS_MORE_INPUT : 0));
-    read_buf_avail -= in_buf_size;
-    read_buf_ofs += in_buf_size;
-    out_buf_ofs += out_buf_size;
-  } while (status == TINFL_STATUS_NEEDS_MORE_INPUT);
+    in_buf_आकार = (माप_प्रकार)read_buf_avail;
+    status = tinfl_decompress(&inflator, (mz_uint8 *)pRead_buf + read_buf_ofs, &in_buf_आकार, (mz_uint8 *)pBuf, (mz_uint8 *)pBuf + out_buf_ofs, &out_buf_आकार, TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF | (comp_remaining ? TINFL_FLAG_HAS_MORE_निवेश : 0));
+    read_buf_avail -= in_buf_आकार;
+    read_buf_ofs += in_buf_आकार;
+    out_buf_ofs += out_buf_आकार;
+  } जबतक (status == TINFL_STATUS_NEEDS_MORE_निवेश);
 
-  if (status == TINFL_STATUS_DONE)
+  अगर (status == TINFL_STATUS_DONE)
   {
     // Make sure the entire file was decompressed, and check its CRC.
-    if ((out_buf_ofs != file_stat.m_uncomp_size) || (mz_crc32(MZ_CRC32_INIT, (const mz_uint8 *)pBuf, (size_t)file_stat.m_uncomp_size) != file_stat.m_crc32))
+    अगर ((out_buf_ofs != file_stat.m_uncomp_आकार) || (mz_crc32(MZ_CRC32_INIT, (स्थिर mz_uint8 *)pBuf, (माप_प्रकार)file_stat.m_uncomp_आकार) != file_stat.m_crc32))
       status = TINFL_STATUS_FAILED;
   }
 
-  if ((!pZip->m_pState->m_pMem) && (!pUser_read_buf))
+  अगर ((!pZip->m_pState->m_pMem) && (!pUser_read_buf))
     pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
 
-  return status == TINFL_STATUS_DONE;
+  वापस status == TINFL_STATUS_DONE;
 }
 
-mz_bool mz_zip_reader_extract_file_to_mem_no_alloc(mz_zip_archive *pZip, const char *pFilename, void *pBuf, size_t buf_size, mz_uint flags, void *pUser_read_buf, size_t user_read_buf_size)
+mz_bool mz_zip_reader_extract_file_to_mem_no_alloc(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags, व्योम *pUser_read_buf, माप_प्रकार user_read_buf_आकार)
 {
-  int file_index = mz_zip_reader_locate_file(pZip, pFilename, NULL, flags);
-  if (file_index < 0)
-    return MZ_FALSE;
-  return mz_zip_reader_extract_to_mem_no_alloc(pZip, file_index, pBuf, buf_size, flags, pUser_read_buf, user_read_buf_size);
+  पूर्णांक file_सूचकांक = mz_zip_reader_locate_file(pZip, pFilename, शून्य, flags);
+  अगर (file_सूचकांक < 0)
+    वापस MZ_FALSE;
+  वापस mz_zip_reader_extract_to_mem_no_alloc(pZip, file_सूचकांक, pBuf, buf_आकार_2, flags, pUser_read_buf, user_read_buf_आकार);
 }
 
-mz_bool mz_zip_reader_extract_to_mem(mz_zip_archive *pZip, mz_uint file_index, void *pBuf, size_t buf_size, mz_uint flags)
+mz_bool mz_zip_reader_extract_to_mem(mz_zip_archive *pZip, mz_uint file_सूचकांक, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags)
 {
-  return mz_zip_reader_extract_to_mem_no_alloc(pZip, file_index, pBuf, buf_size, flags, NULL, 0);
+  वापस mz_zip_reader_extract_to_mem_no_alloc(pZip, file_सूचकांक, pBuf, buf_आकार_2, flags, शून्य, 0);
 }
 
-mz_bool mz_zip_reader_extract_file_to_mem(mz_zip_archive *pZip, const char *pFilename, void *pBuf, size_t buf_size, mz_uint flags)
+mz_bool mz_zip_reader_extract_file_to_mem(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint flags)
 {
-  return mz_zip_reader_extract_file_to_mem_no_alloc(pZip, pFilename, pBuf, buf_size, flags, NULL, 0);
+  वापस mz_zip_reader_extract_file_to_mem_no_alloc(pZip, pFilename, pBuf, buf_आकार_2, flags, शून्य, 0);
 }
 
-void *mz_zip_reader_extract_to_heap(mz_zip_archive *pZip, mz_uint file_index, size_t *pSize, mz_uint flags)
+व्योम *mz_zip_reader_extract_to_heap(mz_zip_archive *pZip, mz_uint file_सूचकांक, माप_प्रकार *p_आकार, mz_uint flags)
 {
-  mz_uint64 comp_size, uncomp_size, alloc_size;
-  const mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_index);
-  void *pBuf;
+  mz_uint64 comp_आकार, uncomp_आकार, alloc_आकार_2;
+  स्थिर mz_uint8 *p = mz_zip_reader_get_cdh(pZip, file_सूचकांक);
+  व्योम *pBuf;
 
-  if (pSize)
-    *pSize = 0;
-  if (!p)
-    return NULL;
+  अगर (p_आकार)
+    *p_आकार = 0;
+  अगर (!p)
+    वापस शून्य;
 
-  comp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS);
-  uncomp_size = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS);
+  comp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_आकार_OFS);
+  uncomp_आकार = MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_आकार_OFS);
 
-  alloc_size = (flags & MZ_ZIP_FLAG_COMPRESSED_DATA) ? comp_size : uncomp_size;
-#ifdef _MSC_VER
-  if (((0, sizeof(size_t) == sizeof(mz_uint32))) && (alloc_size > 0x7FFFFFFF))
-#else
-  if (((sizeof(size_t) == sizeof(mz_uint32))) && (alloc_size > 0x7FFFFFFF))
-#endif
-    return NULL;
-  if (NULL == (pBuf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (size_t)alloc_size)))
-    return NULL;
+  alloc_आकार_2 = (flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य) ? comp_आकार : uncomp_आकार;
+#अगर_घोषित _MSC_VER
+  अगर (((0, माप(माप_प्रकार) == माप(mz_uint32))) && (alloc_आकार_2 > 0x7FFFFFFF))
+#अन्यथा
+  अगर (((माप(माप_प्रकार) == माप(mz_uint32))) && (alloc_आकार_2 > 0x7FFFFFFF))
+#पूर्ण_अगर
+    वापस शून्य;
+  अगर (शून्य == (pBuf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (माप_प्रकार)alloc_आकार_2)))
+    वापस शून्य;
 
-  if (!mz_zip_reader_extract_to_mem(pZip, file_index, pBuf, (size_t)alloc_size, flags))
+  अगर (!mz_zip_reader_extract_to_mem(pZip, file_सूचकांक, pBuf, (माप_प्रकार)alloc_आकार_2, flags))
   {
     pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
-    return NULL;
+    वापस शून्य;
   }
 
-  if (pSize) *pSize = (size_t)alloc_size;
-  return pBuf;
+  अगर (p_आकार) *p_आकार = (माप_प्रकार)alloc_आकार_2;
+  वापस pBuf;
 }
 
-void *mz_zip_reader_extract_file_to_heap(mz_zip_archive *pZip, const char *pFilename, size_t *pSize, mz_uint flags)
+व्योम *mz_zip_reader_extract_file_to_heap(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, माप_प्रकार *p_आकार, mz_uint flags)
 {
-  int file_index = mz_zip_reader_locate_file(pZip, pFilename, NULL, flags);
-  if (file_index < 0)
+  पूर्णांक file_सूचकांक = mz_zip_reader_locate_file(pZip, pFilename, शून्य, flags);
+  अगर (file_सूचकांक < 0)
   {
-    if (pSize) *pSize = 0;
-    return MZ_FALSE;
+    अगर (p_आकार) *p_आकार = 0;
+    वापस MZ_FALSE;
   }
-  return mz_zip_reader_extract_to_heap(pZip, file_index, pSize, flags);
+  वापस mz_zip_reader_extract_to_heap(pZip, file_सूचकांक, p_आकार, flags);
 }
 
-mz_bool mz_zip_reader_extract_to_callback(mz_zip_archive *pZip, mz_uint file_index, mz_file_write_func pCallback, void *pOpaque, mz_uint flags)
+mz_bool mz_zip_reader_extract_to_callback(mz_zip_archive *pZip, mz_uint file_सूचकांक, mz_file_write_func pCallback, व्योम *pOpaque, mz_uint flags)
 {
-  int status = TINFL_STATUS_DONE; mz_uint file_crc32 = MZ_CRC32_INIT;
-  mz_uint64 read_buf_size, read_buf_ofs = 0, read_buf_avail, comp_remaining, out_buf_ofs = 0, cur_file_ofs;
+  पूर्णांक status = TINFL_STATUS_DONE; mz_uint file_crc32 = MZ_CRC32_INIT;
+  mz_uint64 read_buf_आकार, read_buf_ofs = 0, read_buf_avail, comp_remaining, out_buf_ofs = 0, cur_file_ofs;
   mz_zip_archive_file_stat file_stat;
-  void *pRead_buf = NULL; void *pWrite_buf = NULL;
-  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_SIZE + sizeof(mz_uint32) - 1) / sizeof(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
+  व्योम *pRead_buf = शून्य; व्योम *pWrite_buf = शून्य;
+  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_आकार + माप(mz_uint32) - 1) / माप(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
 
-  if (!mz_zip_reader_file_stat(pZip, file_index, &file_stat))
-    return MZ_FALSE;
+  अगर (!mz_zip_reader_file_stat(pZip, file_सूचकांक, &file_stat))
+    वापस MZ_FALSE;
 
   // Empty file, or a directory (but not always a directory - I've seen odd zips with directories that have compressed data which inflates to 0 bytes)
-  if (!file_stat.m_comp_size)
-    return MZ_TRUE;
+  अगर (!file_stat.m_comp_आकार)
+    वापस MZ_TRUE;
 
   // Entry is a subdirectory (I've seen old zips with dir entries which have compressed deflate data which inflates to 0 bytes, but these entries claim to uncompress to 512 bytes in the headers).
   // I'm torn how to handle this case - should it fail instead?
-  if (mz_zip_reader_is_file_a_directory(pZip, file_index))
-    return MZ_TRUE;
+  अगर (mz_zip_reader_is_file_a_directory(pZip, file_सूचकांक))
+    वापस MZ_TRUE;
 
   // Encryption and patch files are not supported.
-  if (file_stat.m_bit_flag & (1 | 32))
-    return MZ_FALSE;
+  अगर (file_stat.m_bit_flag & (1 | 32))
+    वापस MZ_FALSE;
 
   // This function only supports stored and deflate.
-  if ((!(flags & MZ_ZIP_FLAG_COMPRESSED_DATA)) && (file_stat.m_method != 0) && (file_stat.m_method != MZ_DEFLATED))
-    return MZ_FALSE;
+  अगर ((!(flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)) && (file_stat.m_method != 0) && (file_stat.m_method != MZ_DEFLATED))
+    वापस MZ_FALSE;
 
   // Read and parse the local directory entry.
   cur_file_ofs = file_stat.m_local_header_ofs;
-  if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_SIZE) != MZ_ZIP_LOCAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
-  if (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
-    return MZ_FALSE;
+  अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_आकार) != MZ_ZIP_LOCAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
+  अगर (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
+    वापस MZ_FALSE;
 
-  cur_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_SIZE + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_EXTRA_LEN_OFS);
-  if ((cur_file_ofs + file_stat.m_comp_size) > pZip->m_archive_size)
-    return MZ_FALSE;
+  cur_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_आकार + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_EXTRA_LEN_OFS);
+  अगर ((cur_file_ofs + file_stat.m_comp_आकार) > pZip->m_archive_आकार)
+    वापस MZ_FALSE;
 
   // Decompress the file either directly from memory or from a file input buffer.
-  if (pZip->m_pState->m_pMem)
+  अगर (pZip->m_pState->m_pMem)
   {
     pRead_buf = (mz_uint8 *)pZip->m_pState->m_pMem + cur_file_ofs;
-    read_buf_size = read_buf_avail = file_stat.m_comp_size;
+    read_buf_आकार = read_buf_avail = file_stat.m_comp_आकार;
     comp_remaining = 0;
   }
-  else
+  अन्यथा
   {
-    read_buf_size = MZ_MIN(file_stat.m_comp_size, MZ_ZIP_MAX_IO_BUF_SIZE);
-    if (NULL == (pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (size_t)read_buf_size)))
-      return MZ_FALSE;
+    read_buf_आकार = MZ_MIN(file_stat.m_comp_आकार, MZ_ZIP_MAX_IO_BUF_आकार);
+    अगर (शून्य == (pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (माप_प्रकार)read_buf_आकार)))
+      वापस MZ_FALSE;
     read_buf_avail = 0;
-    comp_remaining = file_stat.m_comp_size;
+    comp_remaining = file_stat.m_comp_आकार;
   }
 
-  if ((flags & MZ_ZIP_FLAG_COMPRESSED_DATA) || (!file_stat.m_method))
+  अगर ((flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य) || (!file_stat.m_method))
   {
     // The file is stored or the caller has requested the compressed data.
-    if (pZip->m_pState->m_pMem)
+    अगर (pZip->m_pState->m_pMem)
     {
-#ifdef _MSC_VER
-      if (((0, sizeof(size_t) == sizeof(mz_uint32))) && (file_stat.m_comp_size > 0xFFFFFFFF))
-#else
-      if (((sizeof(size_t) == sizeof(mz_uint32))) && (file_stat.m_comp_size > 0xFFFFFFFF))
-#endif
-        return MZ_FALSE;
-      if (pCallback(pOpaque, out_buf_ofs, pRead_buf, (size_t)file_stat.m_comp_size) != file_stat.m_comp_size)
+#अगर_घोषित _MSC_VER
+      अगर (((0, माप(माप_प्रकार) == माप(mz_uint32))) && (file_stat.m_comp_आकार > 0xFFFFFFFF))
+#अन्यथा
+      अगर (((माप(माप_प्रकार) == माप(mz_uint32))) && (file_stat.m_comp_आकार > 0xFFFFFFFF))
+#पूर्ण_अगर
+        वापस MZ_FALSE;
+      अगर (pCallback(pOpaque, out_buf_ofs, pRead_buf, (माप_प्रकार)file_stat.m_comp_आकार) != file_stat.m_comp_आकार)
         status = TINFL_STATUS_FAILED;
-      else if (!(flags & MZ_ZIP_FLAG_COMPRESSED_DATA))
-        file_crc32 = (mz_uint32)mz_crc32(file_crc32, (const mz_uint8 *)pRead_buf, (size_t)file_stat.m_comp_size);
-      cur_file_ofs += file_stat.m_comp_size;
-      out_buf_ofs += file_stat.m_comp_size;
+      अन्यथा अगर (!(flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य))
+        file_crc32 = (mz_uint32)mz_crc32(file_crc32, (स्थिर mz_uint8 *)pRead_buf, (माप_प्रकार)file_stat.m_comp_आकार);
+      cur_file_ofs += file_stat.m_comp_आकार;
+      out_buf_ofs += file_stat.m_comp_आकार;
       comp_remaining = 0;
     }
-    else
+    अन्यथा
     {
-      while (comp_remaining)
+      जबतक (comp_remaining)
       {
-        read_buf_avail = MZ_MIN(read_buf_size, comp_remaining);
-        if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (size_t)read_buf_avail) != read_buf_avail)
+        read_buf_avail = MZ_MIN(read_buf_आकार, comp_remaining);
+        अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (माप_प्रकार)read_buf_avail) != read_buf_avail)
         {
           status = TINFL_STATUS_FAILED;
-          break;
+          अवरोध;
         }
 
-        if (!(flags & MZ_ZIP_FLAG_COMPRESSED_DATA))
-          file_crc32 = (mz_uint32)mz_crc32(file_crc32, (const mz_uint8 *)pRead_buf, (size_t)read_buf_avail);
+        अगर (!(flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य))
+          file_crc32 = (mz_uint32)mz_crc32(file_crc32, (स्थिर mz_uint8 *)pRead_buf, (माप_प्रकार)read_buf_avail);
 
-        if (pCallback(pOpaque, out_buf_ofs, pRead_buf, (size_t)read_buf_avail) != read_buf_avail)
+        अगर (pCallback(pOpaque, out_buf_ofs, pRead_buf, (माप_प्रकार)read_buf_avail) != read_buf_avail)
         {
           status = TINFL_STATUS_FAILED;
-          break;
+          अवरोध;
         }
         cur_file_ofs += read_buf_avail;
         out_buf_ofs += read_buf_avail;
@@ -4003,340 +4003,340 @@ mz_bool mz_zip_reader_extract_to_callback(mz_zip_archive *pZip, mz_uint file_ind
       }
     }
   }
-  else
+  अन्यथा
   {
     tinfl_decompressor inflator;
     tinfl_init(&inflator);
 
-    if (NULL == (pWrite_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, TINFL_LZ_DICT_SIZE)))
+    अगर (शून्य == (pWrite_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, TINFL_LZ_DICT_आकार)))
       status = TINFL_STATUS_FAILED;
-    else
+    अन्यथा
     {
-      do
+      करो
       {
-        mz_uint8 *pWrite_buf_cur = (mz_uint8 *)pWrite_buf + (out_buf_ofs & (TINFL_LZ_DICT_SIZE - 1));
-        size_t in_buf_size, out_buf_size = TINFL_LZ_DICT_SIZE - (out_buf_ofs & (TINFL_LZ_DICT_SIZE - 1));
-        if ((!read_buf_avail) && (!pZip->m_pState->m_pMem))
+        mz_uint8 *pWrite_buf_cur = (mz_uint8 *)pWrite_buf + (out_buf_ofs & (TINFL_LZ_DICT_आकार - 1));
+        माप_प्रकार in_buf_आकार, out_buf_आकार = TINFL_LZ_DICT_आकार - (out_buf_ofs & (TINFL_LZ_DICT_आकार - 1));
+        अगर ((!read_buf_avail) && (!pZip->m_pState->m_pMem))
         {
-          read_buf_avail = MZ_MIN(read_buf_size, comp_remaining);
-          if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (size_t)read_buf_avail) != read_buf_avail)
+          read_buf_avail = MZ_MIN(read_buf_आकार, comp_remaining);
+          अगर (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pRead_buf, (माप_प्रकार)read_buf_avail) != read_buf_avail)
           {
             status = TINFL_STATUS_FAILED;
-            break;
+            अवरोध;
           }
           cur_file_ofs += read_buf_avail;
           comp_remaining -= read_buf_avail;
           read_buf_ofs = 0;
         }
 
-        in_buf_size = (size_t)read_buf_avail;
-        status = tinfl_decompress(&inflator, (const mz_uint8 *)pRead_buf + read_buf_ofs, &in_buf_size, (mz_uint8 *)pWrite_buf, pWrite_buf_cur, &out_buf_size, comp_remaining ? TINFL_FLAG_HAS_MORE_INPUT : 0);
-        read_buf_avail -= in_buf_size;
-        read_buf_ofs += in_buf_size;
+        in_buf_आकार = (माप_प्रकार)read_buf_avail;
+        status = tinfl_decompress(&inflator, (स्थिर mz_uint8 *)pRead_buf + read_buf_ofs, &in_buf_आकार, (mz_uint8 *)pWrite_buf, pWrite_buf_cur, &out_buf_आकार, comp_remaining ? TINFL_FLAG_HAS_MORE_निवेश : 0);
+        read_buf_avail -= in_buf_आकार;
+        read_buf_ofs += in_buf_आकार;
 
-        if (out_buf_size)
+        अगर (out_buf_आकार)
         {
-          if (pCallback(pOpaque, out_buf_ofs, pWrite_buf_cur, out_buf_size) != out_buf_size)
+          अगर (pCallback(pOpaque, out_buf_ofs, pWrite_buf_cur, out_buf_आकार) != out_buf_आकार)
           {
             status = TINFL_STATUS_FAILED;
-            break;
+            अवरोध;
           }
-          file_crc32 = (mz_uint32)mz_crc32(file_crc32, pWrite_buf_cur, out_buf_size);
-          if ((out_buf_ofs += out_buf_size) > file_stat.m_uncomp_size)
+          file_crc32 = (mz_uint32)mz_crc32(file_crc32, pWrite_buf_cur, out_buf_आकार);
+          अगर ((out_buf_ofs += out_buf_आकार) > file_stat.m_uncomp_आकार)
           {
             status = TINFL_STATUS_FAILED;
-            break;
+            अवरोध;
           }
         }
-      } while ((status == TINFL_STATUS_NEEDS_MORE_INPUT) || (status == TINFL_STATUS_HAS_MORE_OUTPUT));
+      } जबतक ((status == TINFL_STATUS_NEEDS_MORE_निवेश) || (status == TINFL_STATUS_HAS_MORE_OUTPUT));
     }
   }
 
-  if ((status == TINFL_STATUS_DONE) && (!(flags & MZ_ZIP_FLAG_COMPRESSED_DATA)))
+  अगर ((status == TINFL_STATUS_DONE) && (!(flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)))
   {
     // Make sure the entire file was decompressed, and check its CRC.
-    if ((out_buf_ofs != file_stat.m_uncomp_size) || (file_crc32 != file_stat.m_crc32))
+    अगर ((out_buf_ofs != file_stat.m_uncomp_आकार) || (file_crc32 != file_stat.m_crc32))
       status = TINFL_STATUS_FAILED;
   }
 
-  if (!pZip->m_pState->m_pMem)
+  अगर (!pZip->m_pState->m_pMem)
     pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
-  if (pWrite_buf)
+  अगर (pWrite_buf)
     pZip->m_pFree(pZip->m_pAlloc_opaque, pWrite_buf);
 
-  return status == TINFL_STATUS_DONE;
+  वापस status == TINFL_STATUS_DONE;
 }
 
-mz_bool mz_zip_reader_extract_file_to_callback(mz_zip_archive *pZip, const char *pFilename, mz_file_write_func pCallback, void *pOpaque, mz_uint flags)
+mz_bool mz_zip_reader_extract_file_to_callback(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_file_write_func pCallback, व्योम *pOpaque, mz_uint flags)
 {
-  int file_index = mz_zip_reader_locate_file(pZip, pFilename, NULL, flags);
-  if (file_index < 0)
-    return MZ_FALSE;
-  return mz_zip_reader_extract_to_callback(pZip, file_index, pCallback, pOpaque, flags);
+  पूर्णांक file_सूचकांक = mz_zip_reader_locate_file(pZip, pFilename, शून्य, flags);
+  अगर (file_सूचकांक < 0)
+    वापस MZ_FALSE;
+  वापस mz_zip_reader_extract_to_callback(pZip, file_सूचकांक, pCallback, pOpaque, flags);
 }
 
-#ifndef MINIZ_NO_STDIO
-static size_t mz_zip_file_write_callback(void *pOpaque, mz_uint64 ofs, const void *pBuf, size_t n)
+#अगर_अघोषित MINIZ_NO_STDIO
+अटल माप_प्रकार mz_zip_file_write_callback(व्योम *pOpaque, mz_uint64 ofs, स्थिर व्योम *pBuf, माप_प्रकार n)
 {
-  (void)ofs; return MZ_FWRITE(pBuf, 1, n, (MZ_FILE*)pOpaque);
+  (व्योम)ofs; वापस MZ_FWRITE(pBuf, 1, n, (MZ_FILE*)pOpaque);
 }
 
-mz_bool mz_zip_reader_extract_to_file(mz_zip_archive *pZip, mz_uint file_index, const char *pDst_filename, mz_uint flags)
+mz_bool mz_zip_reader_extract_to_file(mz_zip_archive *pZip, mz_uint file_सूचकांक, स्थिर अक्षर *pDst_filename, mz_uint flags)
 {
   mz_bool status;
   mz_zip_archive_file_stat file_stat;
   MZ_FILE *pFile;
-  if (!mz_zip_reader_file_stat(pZip, file_index, &file_stat))
-    return MZ_FALSE;
+  अगर (!mz_zip_reader_file_stat(pZip, file_सूचकांक, &file_stat))
+    वापस MZ_FALSE;
   pFile = MZ_FOPEN(pDst_filename, "wb");
-  if (!pFile)
-    return MZ_FALSE;
-  status = mz_zip_reader_extract_to_callback(pZip, file_index, mz_zip_file_write_callback, pFile, flags);
-  if (MZ_FCLOSE(pFile) == EOF)
-    return MZ_FALSE;
-#ifndef MINIZ_NO_TIME
-  if (status)
+  अगर (!pFile)
+    वापस MZ_FALSE;
+  status = mz_zip_reader_extract_to_callback(pZip, file_सूचकांक, mz_zip_file_write_callback, pFile, flags);
+  अगर (MZ_FCLOSE(pFile) == खातापूर्ण)
+    वापस MZ_FALSE;
+#अगर_अघोषित MINIZ_NO_TIME
+  अगर (status)
     mz_zip_set_file_times(pDst_filename, file_stat.m_time, file_stat.m_time);
-#endif
-  return status;
+#पूर्ण_अगर
+  वापस status;
 }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
 mz_bool mz_zip_reader_end(mz_zip_archive *pZip)
 {
-  if ((!pZip) || (!pZip->m_pState) || (!pZip->m_pAlloc) || (!pZip->m_pFree) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (!pZip->m_pAlloc) || (!pZip->m_pFree) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
+    वापस MZ_FALSE;
 
-  if (pZip->m_pState)
+  अगर (pZip->m_pState)
   {
-    mz_zip_internal_state *pState = pZip->m_pState; pZip->m_pState = NULL;
+    mz_zip_internal_state *pState = pZip->m_pState; pZip->m_pState = शून्य;
     mz_zip_array_clear(pZip, &pState->m_central_dir);
     mz_zip_array_clear(pZip, &pState->m_central_dir_offsets);
     mz_zip_array_clear(pZip, &pState->m_sorted_central_dir_offsets);
 
-#ifndef MINIZ_NO_STDIO
-    if (pState->m_pFile)
+#अगर_अघोषित MINIZ_NO_STDIO
+    अगर (pState->m_pFile)
     {
       MZ_FCLOSE(pState->m_pFile);
-      pState->m_pFile = NULL;
+      pState->m_pFile = शून्य;
     }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
     pZip->m_pFree(pZip->m_pAlloc_opaque, pState);
   }
   pZip->m_zip_mode = MZ_ZIP_MODE_INVALID;
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_STDIO
-mz_bool mz_zip_reader_extract_file_to_file(mz_zip_archive *pZip, const char *pArchive_filename, const char *pDst_filename, mz_uint flags)
+#अगर_अघोषित MINIZ_NO_STDIO
+mz_bool mz_zip_reader_extract_file_to_file(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_filename, स्थिर अक्षर *pDst_filename, mz_uint flags)
 {
-  int file_index = mz_zip_reader_locate_file(pZip, pArchive_filename, NULL, flags);
-  if (file_index < 0)
-    return MZ_FALSE;
-  return mz_zip_reader_extract_to_file(pZip, file_index, pDst_filename, flags);
+  पूर्णांक file_सूचकांक = mz_zip_reader_locate_file(pZip, pArchive_filename, शून्य, flags);
+  अगर (file_सूचकांक < 0)
+    वापस MZ_FALSE;
+  वापस mz_zip_reader_extract_to_file(pZip, file_सूचकांक, pDst_filename, flags);
 }
-#endif
+#पूर्ण_अगर
 
 // ------------------- .ZIP archive writing
 
-#ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
+#अगर_अघोषित MINIZ_NO_ARCHIVE_WRITING_APIS
 
-static void mz_write_le16(mz_uint8 *p, mz_uint16 v) { p[0] = (mz_uint8)v; p[1] = (mz_uint8)(v >> 8); }
-static void mz_write_le32(mz_uint8 *p, mz_uint32 v) { p[0] = (mz_uint8)v; p[1] = (mz_uint8)(v >> 8); p[2] = (mz_uint8)(v >> 16); p[3] = (mz_uint8)(v >> 24); }
-#define MZ_WRITE_LE16(p, v) mz_write_le16((mz_uint8 *)(p), (mz_uint16)(v))
-#define MZ_WRITE_LE32(p, v) mz_write_le32((mz_uint8 *)(p), (mz_uint32)(v))
+अटल व्योम mz_write_le16(mz_uint8 *p, mz_uint16 v) { p[0] = (mz_uint8)v; p[1] = (mz_uint8)(v >> 8); }
+अटल व्योम mz_write_le32(mz_uint8 *p, mz_uint32 v) { p[0] = (mz_uint8)v; p[1] = (mz_uint8)(v >> 8); p[2] = (mz_uint8)(v >> 16); p[3] = (mz_uint8)(v >> 24); }
+#घोषणा MZ_WRITE_LE16(p, v) mz_write_le16((mz_uint8 *)(p), (mz_uint16)(v))
+#घोषणा MZ_WRITE_LE32(p, v) mz_write_le32((mz_uint8 *)(p), (mz_uint32)(v))
 
-mz_bool mz_zip_writer_init(mz_zip_archive *pZip, mz_uint64 existing_size)
+mz_bool mz_zip_writer_init(mz_zip_archive *pZip, mz_uint64 existing_आकार)
 {
-  if ((!pZip) || (pZip->m_pState) || (!pZip->m_pWrite) || (pZip->m_zip_mode != MZ_ZIP_MODE_INVALID))
-    return MZ_FALSE;
+  अगर ((!pZip) || (pZip->m_pState) || (!pZip->m_pWrite) || (pZip->m_zip_mode != MZ_ZIP_MODE_INVALID))
+    वापस MZ_FALSE;
 
-  if (pZip->m_file_offset_alignment)
+  अगर (pZip->m_file_offset_alignment)
   {
     // Ensure user specified file offset alignment is a power of 2.
-    if (pZip->m_file_offset_alignment & (pZip->m_file_offset_alignment - 1))
-      return MZ_FALSE;
+    अगर (pZip->m_file_offset_alignment & (pZip->m_file_offset_alignment - 1))
+      वापस MZ_FALSE;
   }
 
-  if (!pZip->m_pAlloc) pZip->m_pAlloc = def_alloc_func;
-  if (!pZip->m_pFree) pZip->m_pFree = def_free_func;
-  if (!pZip->m_pRealloc) pZip->m_pRealloc = def_realloc_func;
+  अगर (!pZip->m_pAlloc) pZip->m_pAlloc = def_alloc_func;
+  अगर (!pZip->m_pFree) pZip->m_pFree = def_free_func;
+  अगर (!pZip->m_pRealloc) pZip->m_pRealloc = def_realloc_func;
 
   pZip->m_zip_mode = MZ_ZIP_MODE_WRITING;
-  pZip->m_archive_size = existing_size;
+  pZip->m_archive_आकार = existing_आकार;
   pZip->m_central_directory_file_ofs = 0;
-  pZip->m_total_files = 0;
+  pZip->m_योग_files = 0;
 
-  if (NULL == (pZip->m_pState = (mz_zip_internal_state *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, sizeof(mz_zip_internal_state))))
-    return MZ_FALSE;
-  memset(pZip->m_pState, 0, sizeof(mz_zip_internal_state));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_central_dir, sizeof(mz_uint8));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_central_dir_offsets, sizeof(mz_uint32));
-  MZ_ZIP_ARRAY_SET_ELEMENT_SIZE(&pZip->m_pState->m_sorted_central_dir_offsets, sizeof(mz_uint32));
-  return MZ_TRUE;
+  अगर (शून्य == (pZip->m_pState = (mz_zip_internal_state *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, माप(mz_zip_internal_state))))
+    वापस MZ_FALSE;
+  स_रखो(pZip->m_pState, 0, माप(mz_zip_internal_state));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_central_dir, माप(mz_uint8));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_central_dir_offsets, माप(mz_uint32));
+  MZ_ZIP_ARRAY_SET_ELEMENT_आकार(&pZip->m_pState->m_sorted_central_dir_offsets, माप(mz_uint32));
+  वापस MZ_TRUE;
 }
 
-static size_t mz_zip_heap_write_func(void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)
+अटल माप_प्रकार mz_zip_heap_write_func(व्योम *pOpaque, mz_uint64 file_ofs, स्थिर व्योम *pBuf, माप_प्रकार n)
 {
   mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;
   mz_zip_internal_state *pState = pZip->m_pState;
-  mz_uint64 new_size = MZ_MAX(file_ofs + n, pState->m_mem_size);
-#ifdef _MSC_VER
-  if ((!n) || ((0, sizeof(size_t) == sizeof(mz_uint32)) && (new_size > 0x7FFFFFFF)))
-#else
-  if ((!n) || ((sizeof(size_t) == sizeof(mz_uint32)) && (new_size > 0x7FFFFFFF)))
-#endif
-    return 0;
-  if (new_size > pState->m_mem_capacity)
+  mz_uint64 new_आकार = MZ_MAX(file_ofs + n, pState->m_mem_आकार);
+#अगर_घोषित _MSC_VER
+  अगर ((!n) || ((0, माप(माप_प्रकार) == माप(mz_uint32)) && (new_आकार > 0x7FFFFFFF)))
+#अन्यथा
+  अगर ((!n) || ((माप(माप_प्रकार) == माप(mz_uint32)) && (new_आकार > 0x7FFFFFFF)))
+#पूर्ण_अगर
+    वापस 0;
+  अगर (new_आकार > pState->m_mem_capacity)
   {
-    void *pNew_block;
-    size_t new_capacity = MZ_MAX(64, pState->m_mem_capacity); while (new_capacity < new_size) new_capacity *= 2;
-    if (NULL == (pNew_block = pZip->m_pRealloc(pZip->m_pAlloc_opaque, pState->m_pMem, 1, new_capacity)))
-      return 0;
+    व्योम *pNew_block;
+    माप_प्रकार new_capacity = MZ_MAX(64, pState->m_mem_capacity); जबतक (new_capacity < new_आकार) new_capacity *= 2;
+    अगर (शून्य == (pNew_block = pZip->m_pRealloc(pZip->m_pAlloc_opaque, pState->m_pMem, 1, new_capacity)))
+      वापस 0;
     pState->m_pMem = pNew_block; pState->m_mem_capacity = new_capacity;
   }
-  memcpy((mz_uint8 *)pState->m_pMem + file_ofs, pBuf, n);
-  pState->m_mem_size = (size_t)new_size;
-  return n;
+  स_नकल((mz_uint8 *)pState->m_pMem + file_ofs, pBuf, n);
+  pState->m_mem_आकार = (माप_प्रकार)new_आकार;
+  वापस n;
 }
 
-mz_bool mz_zip_writer_init_heap(mz_zip_archive *pZip, size_t size_to_reserve_at_beginning, size_t initial_allocation_size)
+mz_bool mz_zip_writer_init_heap(mz_zip_archive *pZip, माप_प्रकार आकार_to_reserve_at_beginning, माप_प्रकार initial_allocation_आकार)
 {
   pZip->m_pWrite = mz_zip_heap_write_func;
   pZip->m_pIO_opaque = pZip;
-  if (!mz_zip_writer_init(pZip, size_to_reserve_at_beginning))
-    return MZ_FALSE;
-  if (0 != (initial_allocation_size = MZ_MAX(initial_allocation_size, size_to_reserve_at_beginning)))
+  अगर (!mz_zip_writer_init(pZip, आकार_to_reserve_at_beginning))
+    वापस MZ_FALSE;
+  अगर (0 != (initial_allocation_आकार = MZ_MAX(initial_allocation_आकार, आकार_to_reserve_at_beginning)))
   {
-    if (NULL == (pZip->m_pState->m_pMem = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, initial_allocation_size)))
+    अगर (शून्य == (pZip->m_pState->m_pMem = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, initial_allocation_आकार)))
     {
       mz_zip_writer_end(pZip);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
-    pZip->m_pState->m_mem_capacity = initial_allocation_size;
+    pZip->m_pState->m_mem_capacity = initial_allocation_आकार;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_STDIO
-static size_t mz_zip_file_write_func(void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)
+#अगर_अघोषित MINIZ_NO_STDIO
+अटल माप_प्रकार mz_zip_file_write_func(व्योम *pOpaque, mz_uint64 file_ofs, स्थिर व्योम *pBuf, माप_प्रकार n)
 {
   mz_zip_archive *pZip = (mz_zip_archive *)pOpaque;
   mz_int64 cur_ofs = MZ_FTELL64(pZip->m_pState->m_pFile);
-  if (((mz_int64)file_ofs < 0) || (((cur_ofs != (mz_int64)file_ofs)) && (MZ_FSEEK64(pZip->m_pState->m_pFile, (mz_int64)file_ofs, SEEK_SET))))
-    return 0;
-  return MZ_FWRITE(pBuf, 1, n, pZip->m_pState->m_pFile);
+  अगर (((mz_int64)file_ofs < 0) || (((cur_ofs != (mz_int64)file_ofs)) && (MZ_FSEEK64(pZip->m_pState->m_pFile, (mz_int64)file_ofs, शुरू_से))))
+    वापस 0;
+  वापस MZ_FWRITE(pBuf, 1, n, pZip->m_pState->m_pFile);
 }
 
-mz_bool mz_zip_writer_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint64 size_to_reserve_at_beginning)
+mz_bool mz_zip_writer_init_file(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_uint64 आकार_to_reserve_at_beginning)
 {
   MZ_FILE *pFile;
   pZip->m_pWrite = mz_zip_file_write_func;
   pZip->m_pIO_opaque = pZip;
-  if (!mz_zip_writer_init(pZip, size_to_reserve_at_beginning))
-    return MZ_FALSE;
-  if (NULL == (pFile = MZ_FOPEN(pFilename, "wb")))
+  अगर (!mz_zip_writer_init(pZip, आकार_to_reserve_at_beginning))
+    वापस MZ_FALSE;
+  अगर (शून्य == (pFile = MZ_FOPEN(pFilename, "wb")))
   {
     mz_zip_writer_end(pZip);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
   pZip->m_pState->m_pFile = pFile;
-  if (size_to_reserve_at_beginning)
+  अगर (आकार_to_reserve_at_beginning)
   {
-    mz_uint64 cur_ofs = 0; char buf[4096]; MZ_CLEAR_ARR(buf);
-    do
+    mz_uint64 cur_ofs = 0; अक्षर buf[4096]; MZ_CLEAR_ARR(buf);
+    करो
     {
-      size_t n = (size_t)MZ_MIN(sizeof(buf), size_to_reserve_at_beginning);
-      if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_ofs, buf, n) != n)
+      माप_प्रकार n = (माप_प्रकार)MZ_MIN(माप(buf), आकार_to_reserve_at_beginning);
+      अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_ofs, buf, n) != n)
       {
         mz_zip_writer_end(pZip);
-        return MZ_FALSE;
+        वापस MZ_FALSE;
       }
-      cur_ofs += n; size_to_reserve_at_beginning -= n;
-    } while (size_to_reserve_at_beginning);
+      cur_ofs += n; आकार_to_reserve_at_beginning -= n;
+    } जबतक (आकार_to_reserve_at_beginning);
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-mz_bool mz_zip_writer_init_from_reader(mz_zip_archive *pZip, const char *pFilename)
+mz_bool mz_zip_writer_init_from_reader(mz_zip_archive *pZip, स्थिर अक्षर *pFilename)
 {
   mz_zip_internal_state *pState;
-  if ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_READING))
+    वापस MZ_FALSE;
   // No sense in trying to write to an archive that's already at the support max size
-  if ((pZip->m_total_files == 0xFFFF) || ((pZip->m_archive_size + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + MZ_ZIP_LOCAL_DIR_HEADER_SIZE) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((pZip->m_योग_files == 0xFFFF) || ((pZip->m_archive_आकार + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + MZ_ZIP_LOCAL_DIR_HEADER_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
   pState = pZip->m_pState;
 
-  if (pState->m_pFile)
+  अगर (pState->m_pFile)
   {
-#ifdef MINIZ_NO_STDIO
-    pFilename; return MZ_FALSE;
-#else
+#अगर_घोषित MINIZ_NO_STDIO
+    pFilename; वापस MZ_FALSE;
+#अन्यथा
     // Archive is being read from stdio - try to reopen as writable.
-    if (pZip->m_pIO_opaque != pZip)
-      return MZ_FALSE;
-    if (!pFilename)
-      return MZ_FALSE;
+    अगर (pZip->m_pIO_opaque != pZip)
+      वापस MZ_FALSE;
+    अगर (!pFilename)
+      वापस MZ_FALSE;
     pZip->m_pWrite = mz_zip_file_write_func;
-    if (NULL == (pState->m_pFile = MZ_FREOPEN(pFilename, "r+b", pState->m_pFile)))
+    अगर (शून्य == (pState->m_pFile = MZ_FREOPEN(pFilename, "r+b", pState->m_pFile)))
     {
       // The mz_zip_archive is now in a bogus state because pState->m_pFile is NULL, so just close it.
       mz_zip_reader_end(pZip);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
-#endif // #ifdef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifdef MINIZ_NO_STDIO
   }
-  else if (pState->m_pMem)
+  अन्यथा अगर (pState->m_pMem)
   {
     // Archive lives in a memory block. Assume it's from the heap that we can resize using the realloc callback.
-    if (pZip->m_pIO_opaque != pZip)
-      return MZ_FALSE;
-    pState->m_mem_capacity = pState->m_mem_size;
+    अगर (pZip->m_pIO_opaque != pZip)
+      वापस MZ_FALSE;
+    pState->m_mem_capacity = pState->m_mem_आकार;
     pZip->m_pWrite = mz_zip_heap_write_func;
   }
   // Archive is being read via a user provided read function - make sure the user has specified a write function too.
-  else if (!pZip->m_pWrite)
-    return MZ_FALSE;
+  अन्यथा अगर (!pZip->m_pWrite)
+    वापस MZ_FALSE;
 
   // Start writing new files at the archive's current central directory location.
-  pZip->m_archive_size = pZip->m_central_directory_file_ofs;
+  pZip->m_archive_आकार = pZip->m_central_directory_file_ofs;
   pZip->m_zip_mode = MZ_ZIP_MODE_WRITING;
   pZip->m_central_directory_file_ofs = 0;
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-mz_bool mz_zip_writer_add_mem(mz_zip_archive *pZip, const char *pArchive_name, const void *pBuf, size_t buf_size, mz_uint level_and_flags)
+mz_bool mz_zip_writer_add_mem(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, mz_uint level_and_flags)
 {
-  return mz_zip_writer_add_mem_ex(pZip, pArchive_name, pBuf, buf_size, NULL, 0, level_and_flags, 0, 0);
+  वापस mz_zip_writer_add_mem_ex(pZip, pArchive_name, pBuf, buf_आकार_2, शून्य, 0, level_and_flags, 0, 0);
 }
 
-typedef struct
+प्रकार काष्ठा
 {
   mz_zip_archive *m_pZip;
   mz_uint64 m_cur_archive_file_ofs;
-  mz_uint64 m_comp_size;
+  mz_uint64 m_comp_आकार;
 } mz_zip_writer_add_state;
 
-static mz_bool mz_zip_writer_add_put_buf_callback(const void* pBuf, int len, void *pUser)
+अटल mz_bool mz_zip_writer_add_put_buf_callback(स्थिर व्योम* pBuf, पूर्णांक len, व्योम *pUser)
 {
   mz_zip_writer_add_state *pState = (mz_zip_writer_add_state *)pUser;
-  if ((int)pState->m_pZip->m_pWrite(pState->m_pZip->m_pIO_opaque, pState->m_cur_archive_file_ofs, pBuf, len) != len)
-    return MZ_FALSE;
+  अगर ((पूर्णांक)pState->m_pZip->m_pWrite(pState->m_pZip->m_pIO_opaque, pState->m_cur_archive_file_ofs, pBuf, len) != len)
+    वापस MZ_FALSE;
   pState->m_cur_archive_file_ofs += len;
-  pState->m_comp_size += len;
-  return MZ_TRUE;
+  pState->m_comp_आकार += len;
+  वापस MZ_TRUE;
 }
 
-static mz_bool mz_zip_writer_create_local_dir_header(mz_zip_archive *pZip, mz_uint8 *pDst, mz_uint16 filename_size, mz_uint16 extra_size, mz_uint64 uncomp_size, mz_uint64 comp_size, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date)
+अटल mz_bool mz_zip_writer_create_local_dir_header(mz_zip_archive *pZip, mz_uint8 *pDst, mz_uint16 filename_आकार, mz_uint16 extra_आकार, mz_uint64 uncomp_आकार, mz_uint64 comp_आकार, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date)
 {
-  (void)pZip;
-  memset(pDst, 0, MZ_ZIP_LOCAL_DIR_HEADER_SIZE);
+  (व्योम)pZip;
+  स_रखो(pDst, 0, MZ_ZIP_LOCAL_DIR_HEADER_आकार);
   MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_SIG_OFS, MZ_ZIP_LOCAL_DIR_HEADER_SIG);
   MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_VERSION_NEEDED_OFS, method ? 20 : 0);
   MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_BIT_FLAG_OFS, bit_flags);
@@ -4344,17 +4344,17 @@ static mz_bool mz_zip_writer_create_local_dir_header(mz_zip_archive *pZip, mz_ui
   MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_FILE_TIME_OFS, dos_time);
   MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_FILE_DATE_OFS, dos_date);
   MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_CRC32_OFS, uncomp_crc32);
-  MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_COMPRESSED_SIZE_OFS, comp_size);
-  MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_DECOMPRESSED_SIZE_OFS, uncomp_size);
-  MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_FILENAME_LEN_OFS, filename_size);
-  MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_EXTRA_LEN_OFS, extra_size);
-  return MZ_TRUE;
+  MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_COMPRESSED_आकार_OFS, comp_आकार);
+  MZ_WRITE_LE32(pDst + MZ_ZIP_LDH_DECOMPRESSED_आकार_OFS, uncomp_आकार);
+  MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_FILENAME_LEN_OFS, filename_आकार);
+  MZ_WRITE_LE16(pDst + MZ_ZIP_LDH_EXTRA_LEN_OFS, extra_आकार);
+  वापस MZ_TRUE;
 }
 
-static mz_bool mz_zip_writer_create_central_dir_header(mz_zip_archive *pZip, mz_uint8 *pDst, mz_uint16 filename_size, mz_uint16 extra_size, mz_uint16 comment_size, mz_uint64 uncomp_size, mz_uint64 comp_size, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date, mz_uint64 local_header_ofs, mz_uint32 ext_attributes)
+अटल mz_bool mz_zip_writer_create_central_dir_header(mz_zip_archive *pZip, mz_uint8 *pDst, mz_uint16 filename_आकार, mz_uint16 extra_आकार, mz_uint16 comment_आकार, mz_uint64 uncomp_आकार, mz_uint64 comp_आकार, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date, mz_uint64 local_header_ofs, mz_uint32 ext_attributes)
 {
-  (void)pZip;
-  memset(pDst, 0, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE);
+  (व्योम)pZip;
+  स_रखो(pDst, 0, MZ_ZIP_CENTRAL_DIR_HEADER_आकार);
   MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_SIG_OFS, MZ_ZIP_CENTRAL_DIR_HEADER_SIG);
   MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_VERSION_NEEDED_OFS, method ? 20 : 0);
   MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_BIT_FLAG_OFS, bit_flags);
@@ -4362,380 +4362,380 @@ static mz_bool mz_zip_writer_create_central_dir_header(mz_zip_archive *pZip, mz_
   MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_FILE_TIME_OFS, dos_time);
   MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_FILE_DATE_OFS, dos_date);
   MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_CRC32_OFS, uncomp_crc32);
-  MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS, comp_size);
-  MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS, uncomp_size);
-  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_FILENAME_LEN_OFS, filename_size);
-  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_EXTRA_LEN_OFS, extra_size);
-  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_COMMENT_LEN_OFS, comment_size);
+  MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_COMPRESSED_आकार_OFS, comp_आकार);
+  MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_DECOMPRESSED_आकार_OFS, uncomp_आकार);
+  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_FILENAME_LEN_OFS, filename_आकार);
+  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_EXTRA_LEN_OFS, extra_आकार);
+  MZ_WRITE_LE16(pDst + MZ_ZIP_CDH_COMMENT_LEN_OFS, comment_आकार);
   MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_EXTERNAL_ATTR_OFS, ext_attributes);
   MZ_WRITE_LE32(pDst + MZ_ZIP_CDH_LOCAL_HEADER_OFS, local_header_ofs);
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-static mz_bool mz_zip_writer_add_to_central_dir(mz_zip_archive *pZip, const char *pFilename, mz_uint16 filename_size, const void *pExtra, mz_uint16 extra_size, const void *pComment, mz_uint16 comment_size, mz_uint64 uncomp_size, mz_uint64 comp_size, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date, mz_uint64 local_header_ofs, mz_uint32 ext_attributes)
+अटल mz_bool mz_zip_writer_add_to_central_dir(mz_zip_archive *pZip, स्थिर अक्षर *pFilename, mz_uint16 filename_आकार, स्थिर व्योम *pExtra, mz_uint16 extra_आकार, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint64 uncomp_आकार, mz_uint64 comp_आकार, mz_uint32 uncomp_crc32, mz_uint16 method, mz_uint16 bit_flags, mz_uint16 dos_time, mz_uint16 dos_date, mz_uint64 local_header_ofs, mz_uint32 ext_attributes)
 {
   mz_zip_internal_state *pState = pZip->m_pState;
-  mz_uint32 central_dir_ofs = (mz_uint32)pState->m_central_dir.m_size;
-  size_t orig_central_dir_size = pState->m_central_dir.m_size;
-  mz_uint8 central_dir_header[MZ_ZIP_CENTRAL_DIR_HEADER_SIZE];
+  mz_uint32 central_dir_ofs = (mz_uint32)pState->m_central_dir.m_आकार;
+  माप_प्रकार orig_central_dir_आकार = pState->m_central_dir.m_आकार;
+  mz_uint8 central_dir_header[MZ_ZIP_CENTRAL_DIR_HEADER_आकार];
 
   // No zip64 support yet
-  if ((local_header_ofs > 0xFFFFFFFF) || (((mz_uint64)pState->m_central_dir.m_size + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + filename_size + extra_size + comment_size) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((local_header_ofs > 0xFFFFFFFF) || (((mz_uint64)pState->m_central_dir.m_आकार + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + filename_आकार + extra_आकार + comment_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_writer_create_central_dir_header(pZip, central_dir_header, filename_size, extra_size, comment_size, uncomp_size, comp_size, uncomp_crc32, method, bit_flags, dos_time, dos_date, local_header_ofs, ext_attributes))
-    return MZ_FALSE;
+  अगर (!mz_zip_writer_create_central_dir_header(pZip, central_dir_header, filename_आकार, extra_आकार, comment_आकार, uncomp_आकार, comp_आकार, uncomp_crc32, method, bit_flags, dos_time, dos_date, local_header_ofs, ext_attributes))
+    वापस MZ_FALSE;
 
-  if ((!mz_zip_array_push_back(pZip, &pState->m_central_dir, central_dir_header, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE)) ||
-      (!mz_zip_array_push_back(pZip, &pState->m_central_dir, pFilename, filename_size)) ||
-      (!mz_zip_array_push_back(pZip, &pState->m_central_dir, pExtra, extra_size)) ||
-      (!mz_zip_array_push_back(pZip, &pState->m_central_dir, pComment, comment_size)) ||
-      (!mz_zip_array_push_back(pZip, &pState->m_central_dir_offsets, &central_dir_ofs, 1)))
+  अगर ((!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, central_dir_header, MZ_ZIP_CENTRAL_DIR_HEADER_आकार)) ||
+      (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, pFilename, filename_आकार)) ||
+      (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, pExtra, extra_आकार)) ||
+      (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, pComment, comment_आकार)) ||
+      (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir_offsets, &central_dir_ofs, 1)))
   {
     // Try to push the central directory array back into its original state.
-    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_size, MZ_FALSE);
-    return MZ_FALSE;
+    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_आकार, MZ_FALSE);
+    वापस MZ_FALSE;
   }
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-static mz_bool mz_zip_writer_validate_archive_name(const char *pArchive_name)
+अटल mz_bool mz_zip_writer_validate_archive_name(स्थिर अक्षर *pArchive_name)
 {
   // Basic ZIP archive filename validity checks: Valid filenames cannot start with a forward slash, cannot contain a drive letter, and cannot use DOS-style backward slashes.
-  if (*pArchive_name == '/')
-    return MZ_FALSE;
-  while (*pArchive_name)
+  अगर (*pArchive_name == '/')
+    वापस MZ_FALSE;
+  जबतक (*pArchive_name)
   {
-    if ((*pArchive_name == '\\') || (*pArchive_name == ':'))
-      return MZ_FALSE;
+    अगर ((*pArchive_name == '\\') || (*pArchive_name == ':'))
+      वापस MZ_FALSE;
     pArchive_name++;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-static mz_uint mz_zip_writer_compute_padding_needed_for_file_alignment(mz_zip_archive *pZip)
+अटल mz_uint mz_zip_writer_compute_padding_needed_for_file_alignment(mz_zip_archive *pZip)
 {
   mz_uint32 n;
-  if (!pZip->m_file_offset_alignment)
-    return 0;
-  n = (mz_uint32)(pZip->m_archive_size & (pZip->m_file_offset_alignment - 1));
-  return (pZip->m_file_offset_alignment - n) & (pZip->m_file_offset_alignment - 1);
+  अगर (!pZip->m_file_offset_alignment)
+    वापस 0;
+  n = (mz_uint32)(pZip->m_archive_आकार & (pZip->m_file_offset_alignment - 1));
+  वापस (pZip->m_file_offset_alignment - n) & (pZip->m_file_offset_alignment - 1);
 }
 
-static mz_bool mz_zip_writer_write_zeros(mz_zip_archive *pZip, mz_uint64 cur_file_ofs, mz_uint32 n)
+अटल mz_bool mz_zip_writer_write_zeros(mz_zip_archive *pZip, mz_uint64 cur_file_ofs, mz_uint32 n)
 {
-  char buf[4096];
-  memset(buf, 0, MZ_MIN(sizeof(buf), n));
-  while (n)
+  अक्षर buf[4096];
+  स_रखो(buf, 0, MZ_MIN(माप(buf), n));
+  जबतक (n)
   {
-    mz_uint32 s = MZ_MIN(sizeof(buf), n);
-    if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_file_ofs, buf, s) != s)
-      return MZ_FALSE;
+    mz_uint32 s = MZ_MIN(माप(buf), n);
+    अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_file_ofs, buf, s) != s)
+      वापस MZ_FALSE;
     cur_file_ofs += s; n -= s;
   }
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-mz_bool mz_zip_writer_add_mem_ex(mz_zip_archive *pZip, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags, mz_uint64 uncomp_size, mz_uint32 uncomp_crc32)
+mz_bool mz_zip_writer_add_mem_ex(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags, mz_uint64 uncomp_आकार, mz_uint32 uncomp_crc32)
 {
   mz_uint16 method = 0, dos_time = 0, dos_date = 0;
-  mz_uint level, ext_attributes = 0, num_alignment_padding_bytes;
-  mz_uint64 local_dir_header_ofs = pZip->m_archive_size, cur_archive_file_ofs = pZip->m_archive_size, comp_size = 0;
-  size_t archive_name_size;
-  mz_uint8 local_dir_header[MZ_ZIP_LOCAL_DIR_HEADER_SIZE];
-  tdefl_compressor *pComp = NULL;
-  mz_bool store_data_uncompressed;
+  mz_uint level, ext_attributes = 0, अंक_alignment_padding_bytes;
+  mz_uint64 local_dir_header_ofs = pZip->m_archive_आकार, cur_archive_file_ofs = pZip->m_archive_आकार, comp_आकार = 0;
+  माप_प्रकार archive_name_आकार;
+  mz_uint8 local_dir_header[MZ_ZIP_LOCAL_DIR_HEADER_आकार];
+  tdefl_compressor *pComp = शून्य;
+  mz_bool store_तथ्य_uncompressed;
   mz_zip_internal_state *pState;
 
-  if ((int)level_and_flags < 0)
+  अगर ((पूर्णांक)level_and_flags < 0)
     level_and_flags = MZ_DEFAULT_LEVEL;
   level = level_and_flags & 0xF;
-  store_data_uncompressed = ((!level) || (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_DATA));
+  store_तथ्य_uncompressed = ((!level) || (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य));
 
-  if ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) || ((buf_size) && (!pBuf)) || (!pArchive_name) || ((comment_size) && (!pComment)) || (pZip->m_total_files == 0xFFFF) || (level > MZ_UBER_COMPRESSION))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) || ((buf_आकार_2) && (!pBuf)) || (!pArchive_name) || ((comment_आकार) && (!pComment)) || (pZip->m_योग_files == 0xFFFF) || (level > MZ_UBER_COMPRESSION))
+    वापस MZ_FALSE;
 
   pState = pZip->m_pState;
 
-  if ((!(level_and_flags & MZ_ZIP_FLAG_COMPRESSED_DATA)) && (uncomp_size))
-    return MZ_FALSE;
+  अगर ((!(level_and_flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)) && (uncomp_आकार))
+    वापस MZ_FALSE;
   // No zip64 support yet
-  if ((buf_size > 0xFFFFFFFF) || (uncomp_size > 0xFFFFFFFF))
-    return MZ_FALSE;
-  if (!mz_zip_writer_validate_archive_name(pArchive_name))
-    return MZ_FALSE;
+  अगर ((buf_आकार_2 > 0xFFFFFFFF) || (uncomp_आकार > 0xFFFFFFFF))
+    वापस MZ_FALSE;
+  अगर (!mz_zip_writer_validate_archive_name(pArchive_name))
+    वापस MZ_FALSE;
 
-#ifndef MINIZ_NO_TIME
+#अगर_अघोषित MINIZ_NO_TIME
   {
-    time_t cur_time; time(&cur_time);
+    समय_प्रकार cur_time; समय(&cur_time);
     mz_zip_time_to_dos_time(cur_time, &dos_time, &dos_date);
   }
-#endif // #ifndef MINIZ_NO_TIME
+#पूर्ण_अगर // #ifndef MINIZ_NO_TIME
 
-  archive_name_size = strlen(pArchive_name);
-  if (archive_name_size > 0xFFFF)
-    return MZ_FALSE;
+  archive_name_आकार = म_माप(pArchive_name);
+  अगर (archive_name_आकार > 0xFFFF)
+    वापस MZ_FALSE;
 
-  num_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
+  अंक_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
 
   // no zip64 support yet
-  if ((pZip->m_total_files == 0xFFFF) || ((pZip->m_archive_size + num_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_SIZE + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + comment_size + archive_name_size) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((pZip->m_योग_files == 0xFFFF) || ((pZip->m_archive_आकार + अंक_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_आकार + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + comment_आकार + archive_name_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
-  if ((archive_name_size) && (pArchive_name[archive_name_size - 1] == '/'))
+  अगर ((archive_name_आकार) && (pArchive_name[archive_name_आकार - 1] == '/'))
   {
     // Set DOS Subdirectory attribute bit.
     ext_attributes |= 0x10;
     // Subdirectories cannot contain data.
-    if ((buf_size) || (uncomp_size))
-      return MZ_FALSE;
+    अगर ((buf_आकार_2) || (uncomp_आकार))
+      वापस MZ_FALSE;
   }
 
   // Try to do any allocations before writing to the archive, so if an allocation fails the file remains unmodified. (A good idea if we're doing an in-place modification.)
-  if ((!mz_zip_array_ensure_room(pZip, &pState->m_central_dir, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + archive_name_size + comment_size)) || (!mz_zip_array_ensure_room(pZip, &pState->m_central_dir_offsets, 1)))
-    return MZ_FALSE;
+  अगर ((!mz_zip_array_ensure_room(pZip, &pState->m_central_dir, MZ_ZIP_CENTRAL_DIR_HEADER_आकार + archive_name_आकार + comment_आकार)) || (!mz_zip_array_ensure_room(pZip, &pState->m_central_dir_offsets, 1)))
+    वापस MZ_FALSE;
 
-  if ((!store_data_uncompressed) && (buf_size))
+  अगर ((!store_तथ्य_uncompressed) && (buf_आकार_2))
   {
-    if (NULL == (pComp = (tdefl_compressor *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, sizeof(tdefl_compressor))))
-      return MZ_FALSE;
+    अगर (शून्य == (pComp = (tdefl_compressor *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, माप(tdefl_compressor))))
+      वापस MZ_FALSE;
   }
 
-  if (!mz_zip_writer_write_zeros(pZip, cur_archive_file_ofs, num_alignment_padding_bytes + sizeof(local_dir_header)))
+  अगर (!mz_zip_writer_write_zeros(pZip, cur_archive_file_ofs, अंक_alignment_padding_bytes + माप(local_dir_header)))
   {
     pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  local_dir_header_ofs += num_alignment_padding_bytes;
-  if (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
-  cur_archive_file_ofs += num_alignment_padding_bytes + sizeof(local_dir_header);
+  local_dir_header_ofs += अंक_alignment_padding_bytes;
+  अगर (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
+  cur_archive_file_ofs += अंक_alignment_padding_bytes + माप(local_dir_header);
 
   MZ_CLEAR_ARR(local_dir_header);
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pArchive_name, archive_name_size) != archive_name_size)
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pArchive_name, archive_name_आकार) != archive_name_आकार)
   {
     pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  cur_archive_file_ofs += archive_name_size;
+  cur_archive_file_ofs += archive_name_आकार;
 
-  if (!(level_and_flags & MZ_ZIP_FLAG_COMPRESSED_DATA))
+  अगर (!(level_and_flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य))
   {
-    uncomp_crc32 = (mz_uint32)mz_crc32(MZ_CRC32_INIT, (const mz_uint8*)pBuf, buf_size);
-    uncomp_size = buf_size;
-    if (uncomp_size <= 3)
+    uncomp_crc32 = (mz_uint32)mz_crc32(MZ_CRC32_INIT, (स्थिर mz_uint8*)pBuf, buf_आकार_2);
+    uncomp_आकार = buf_आकार_2;
+    अगर (uncomp_आकार <= 3)
     {
       level = 0;
-      store_data_uncompressed = MZ_TRUE;
+      store_तथ्य_uncompressed = MZ_TRUE;
     }
   }
 
-  if (store_data_uncompressed)
+  अगर (store_तथ्य_uncompressed)
   {
-    if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pBuf, buf_size) != buf_size)
+    अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pBuf, buf_आकार_2) != buf_आकार_2)
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
 
-    cur_archive_file_ofs += buf_size;
-    comp_size = buf_size;
+    cur_archive_file_ofs += buf_आकार_2;
+    comp_आकार = buf_आकार_2;
 
-    if (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_DATA)
+    अगर (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)
       method = MZ_DEFLATED;
   }
-  else if (buf_size)
+  अन्यथा अगर (buf_आकार_2)
   {
     mz_zip_writer_add_state state;
 
     state.m_pZip = pZip;
     state.m_cur_archive_file_ofs = cur_archive_file_ofs;
-    state.m_comp_size = 0;
+    state.m_comp_आकार = 0;
 
-    if ((tdefl_init(pComp, mz_zip_writer_add_put_buf_callback, &state, tdefl_create_comp_flags_from_zip_params(level, -15, MZ_DEFAULT_STRATEGY)) != TDEFL_STATUS_OKAY) ||
-        (tdefl_compress_buffer(pComp, pBuf, buf_size, TDEFL_FINISH) != TDEFL_STATUS_DONE))
+    अगर ((tdefl_init(pComp, mz_zip_writer_add_put_buf_callback, &state, tdefl_create_comp_flags_from_zip_params(level, -15, MZ_DEFAULT_STRATEGY)) != TDEFL_STATUS_OKAY) ||
+        (tdefl_compress_बफर(pComp, pBuf, buf_आकार_2, TDEFL_FINISH) != TDEFL_STATUS_DONE))
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
 
-    comp_size = state.m_comp_size;
+    comp_आकार = state.m_comp_आकार;
     cur_archive_file_ofs = state.m_cur_archive_file_ofs;
 
     method = MZ_DEFLATED;
   }
 
   pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
-  pComp = NULL;
+  pComp = शून्य;
 
   // no zip64 support yet
-  if ((comp_size > 0xFFFFFFFF) || (cur_archive_file_ofs > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((comp_आकार > 0xFFFFFFFF) || (cur_archive_file_ofs > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_writer_create_local_dir_header(pZip, local_dir_header, (mz_uint16)archive_name_size, 0, uncomp_size, comp_size, uncomp_crc32, method, 0, dos_time, dos_date))
-    return MZ_FALSE;
+  अगर (!mz_zip_writer_create_local_dir_header(pZip, local_dir_header, (mz_uint16)archive_name_आकार, 0, uncomp_आकार, comp_आकार, uncomp_crc32, method, 0, dos_time, dos_date))
+    वापस MZ_FALSE;
 
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, local_dir_header_ofs, local_dir_header, sizeof(local_dir_header)) != sizeof(local_dir_header))
-    return MZ_FALSE;
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, local_dir_header_ofs, local_dir_header, माप(local_dir_header)) != माप(local_dir_header))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_writer_add_to_central_dir(pZip, pArchive_name, (mz_uint16)archive_name_size, NULL, 0, pComment, comment_size, uncomp_size, comp_size, uncomp_crc32, method, 0, dos_time, dos_date, local_dir_header_ofs, ext_attributes))
-    return MZ_FALSE;
+  अगर (!mz_zip_writer_add_to_central_dir(pZip, pArchive_name, (mz_uint16)archive_name_आकार, शून्य, 0, pComment, comment_आकार, uncomp_आकार, comp_आकार, uncomp_crc32, method, 0, dos_time, dos_date, local_dir_header_ofs, ext_attributes))
+    वापस MZ_FALSE;
 
-  pZip->m_total_files++;
-  pZip->m_archive_size = cur_archive_file_ofs;
+  pZip->m_योग_files++;
+  pZip->m_archive_आकार = cur_archive_file_ofs;
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-#ifndef MINIZ_NO_STDIO
-mz_bool mz_zip_writer_add_file(mz_zip_archive *pZip, const char *pArchive_name, const char *pSrc_filename, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags)
+#अगर_अघोषित MINIZ_NO_STDIO
+mz_bool mz_zip_writer_add_file(mz_zip_archive *pZip, स्थिर अक्षर *pArchive_name, स्थिर अक्षर *pSrc_filename, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags)
 {
-  mz_uint uncomp_crc32 = MZ_CRC32_INIT, level, num_alignment_padding_bytes;
+  mz_uint uncomp_crc32 = MZ_CRC32_INIT, level, अंक_alignment_padding_bytes;
   mz_uint16 method = 0, dos_time = 0, dos_date = 0, ext_attributes = 0;
-  mz_uint64 local_dir_header_ofs = pZip->m_archive_size, cur_archive_file_ofs = pZip->m_archive_size, uncomp_size = 0, comp_size = 0;
-  size_t archive_name_size;
-  mz_uint8 local_dir_header[MZ_ZIP_LOCAL_DIR_HEADER_SIZE];
-  MZ_FILE *pSrc_file = NULL;
+  mz_uint64 local_dir_header_ofs = pZip->m_archive_आकार, cur_archive_file_ofs = pZip->m_archive_आकार, uncomp_आकार = 0, comp_आकार = 0;
+  माप_प्रकार archive_name_आकार;
+  mz_uint8 local_dir_header[MZ_ZIP_LOCAL_DIR_HEADER_आकार];
+  MZ_FILE *pSrc_file = शून्य;
 
-  if ((int)level_and_flags < 0)
+  अगर ((पूर्णांक)level_and_flags < 0)
     level_and_flags = MZ_DEFAULT_LEVEL;
   level = level_and_flags & 0xF;
 
-  if ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) || (!pArchive_name) || ((comment_size) && (!pComment)) || (level > MZ_UBER_COMPRESSION))
-    return MZ_FALSE;
-  if (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_DATA)
-    return MZ_FALSE;
-  if (!mz_zip_writer_validate_archive_name(pArchive_name))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) || (!pArchive_name) || ((comment_आकार) && (!pComment)) || (level > MZ_UBER_COMPRESSION))
+    वापस MZ_FALSE;
+  अगर (level_and_flags & MZ_ZIP_FLAG_COMPRESSED_तथ्य)
+    वापस MZ_FALSE;
+  अगर (!mz_zip_writer_validate_archive_name(pArchive_name))
+    वापस MZ_FALSE;
 
-  archive_name_size = strlen(pArchive_name);
-  if (archive_name_size > 0xFFFF)
-    return MZ_FALSE;
+  archive_name_आकार = म_माप(pArchive_name);
+  अगर (archive_name_आकार > 0xFFFF)
+    वापस MZ_FALSE;
 
-  num_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
+  अंक_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
 
   // no zip64 support yet
-  if ((pZip->m_total_files == 0xFFFF) || ((pZip->m_archive_size + num_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_SIZE + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + comment_size + archive_name_size) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((pZip->m_योग_files == 0xFFFF) || ((pZip->m_archive_आकार + अंक_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_आकार + MZ_ZIP_CENTRAL_DIR_HEADER_आकार + comment_आकार + archive_name_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_get_file_modified_time(pSrc_filename, &dos_time, &dos_date))
-    return MZ_FALSE;
+  अगर (!mz_zip_get_file_modified_time(pSrc_filename, &dos_time, &dos_date))
+    वापस MZ_FALSE;
 
   pSrc_file = MZ_FOPEN(pSrc_filename, "rb");
-  if (!pSrc_file)
-    return MZ_FALSE;
-  MZ_FSEEK64(pSrc_file, 0, SEEK_END);
-  uncomp_size = MZ_FTELL64(pSrc_file);
-  MZ_FSEEK64(pSrc_file, 0, SEEK_SET);
+  अगर (!pSrc_file)
+    वापस MZ_FALSE;
+  MZ_FSEEK64(pSrc_file, 0, अंत_से);
+  uncomp_आकार = MZ_FTELL64(pSrc_file);
+  MZ_FSEEK64(pSrc_file, 0, शुरू_से);
 
-  if (uncomp_size > 0xFFFFFFFF)
+  अगर (uncomp_आकार > 0xFFFFFFFF)
   {
     // No zip64 support yet
     MZ_FCLOSE(pSrc_file);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  if (uncomp_size <= 3)
+  अगर (uncomp_आकार <= 3)
     level = 0;
 
-  if (!mz_zip_writer_write_zeros(pZip, cur_archive_file_ofs, num_alignment_padding_bytes + sizeof(local_dir_header)))
+  अगर (!mz_zip_writer_write_zeros(pZip, cur_archive_file_ofs, अंक_alignment_padding_bytes + माप(local_dir_header)))
   {
     MZ_FCLOSE(pSrc_file);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  local_dir_header_ofs += num_alignment_padding_bytes;
-  if (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
-  cur_archive_file_ofs += num_alignment_padding_bytes + sizeof(local_dir_header);
+  local_dir_header_ofs += अंक_alignment_padding_bytes;
+  अगर (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
+  cur_archive_file_ofs += अंक_alignment_padding_bytes + माप(local_dir_header);
 
   MZ_CLEAR_ARR(local_dir_header);
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pArchive_name, archive_name_size) != archive_name_size)
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pArchive_name, archive_name_आकार) != archive_name_आकार)
   {
     MZ_FCLOSE(pSrc_file);
-    return MZ_FALSE;
+    वापस MZ_FALSE;
   }
-  cur_archive_file_ofs += archive_name_size;
+  cur_archive_file_ofs += archive_name_आकार;
 
-  if (uncomp_size)
+  अगर (uncomp_आकार)
   {
-    mz_uint64 uncomp_remaining = uncomp_size;
-    void *pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, MZ_ZIP_MAX_IO_BUF_SIZE);
-    if (!pRead_buf)
+    mz_uint64 uncomp_remaining = uncomp_आकार;
+    व्योम *pRead_buf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, MZ_ZIP_MAX_IO_BUF_आकार);
+    अगर (!pRead_buf)
     {
       MZ_FCLOSE(pSrc_file);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
 
-    if (!level)
+    अगर (!level)
     {
-      while (uncomp_remaining)
+      जबतक (uncomp_remaining)
       {
-        mz_uint n = (mz_uint)MZ_MIN(MZ_ZIP_MAX_IO_BUF_SIZE, uncomp_remaining);
-        if ((MZ_FREAD(pRead_buf, 1, n, pSrc_file) != n) || (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pRead_buf, n) != n))
+        mz_uint n = (mz_uint)MZ_MIN(MZ_ZIP_MAX_IO_BUF_आकार, uncomp_remaining);
+        अगर ((MZ_FREAD(pRead_buf, 1, n, pSrc_file) != n) || (pZip->m_pWrite(pZip->m_pIO_opaque, cur_archive_file_ofs, pRead_buf, n) != n))
         {
           pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
           MZ_FCLOSE(pSrc_file);
-          return MZ_FALSE;
+          वापस MZ_FALSE;
         }
-        uncomp_crc32 = (mz_uint32)mz_crc32(uncomp_crc32, (const mz_uint8 *)pRead_buf, n);
+        uncomp_crc32 = (mz_uint32)mz_crc32(uncomp_crc32, (स्थिर mz_uint8 *)pRead_buf, n);
         uncomp_remaining -= n;
         cur_archive_file_ofs += n;
       }
-      comp_size = uncomp_size;
+      comp_आकार = uncomp_आकार;
     }
-    else
+    अन्यथा
     {
-      mz_bool result = MZ_FALSE;
+      mz_bool परिणाम = MZ_FALSE;
       mz_zip_writer_add_state state;
-      tdefl_compressor *pComp = (tdefl_compressor *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, sizeof(tdefl_compressor));
-      if (!pComp)
+      tdefl_compressor *pComp = (tdefl_compressor *)pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, माप(tdefl_compressor));
+      अगर (!pComp)
       {
         pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
         MZ_FCLOSE(pSrc_file);
-        return MZ_FALSE;
+        वापस MZ_FALSE;
       }
 
       state.m_pZip = pZip;
       state.m_cur_archive_file_ofs = cur_archive_file_ofs;
-      state.m_comp_size = 0;
+      state.m_comp_आकार = 0;
 
-      if (tdefl_init(pComp, mz_zip_writer_add_put_buf_callback, &state, tdefl_create_comp_flags_from_zip_params(level, -15, MZ_DEFAULT_STRATEGY)) != TDEFL_STATUS_OKAY)
+      अगर (tdefl_init(pComp, mz_zip_writer_add_put_buf_callback, &state, tdefl_create_comp_flags_from_zip_params(level, -15, MZ_DEFAULT_STRATEGY)) != TDEFL_STATUS_OKAY)
       {
         pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
         pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
         MZ_FCLOSE(pSrc_file);
-        return MZ_FALSE;
+        वापस MZ_FALSE;
       }
 
-      for ( ; ; )
+      क्रम ( ; ; )
       {
-        size_t in_buf_size = (mz_uint32)MZ_MIN(uncomp_remaining, MZ_ZIP_MAX_IO_BUF_SIZE);
+        माप_प्रकार in_buf_आकार = (mz_uint32)MZ_MIN(uncomp_remaining, MZ_ZIP_MAX_IO_BUF_आकार);
         tdefl_status status;
 
-        if (MZ_FREAD(pRead_buf, 1, in_buf_size, pSrc_file) != in_buf_size)
-          break;
+        अगर (MZ_FREAD(pRead_buf, 1, in_buf_आकार, pSrc_file) != in_buf_आकार)
+          अवरोध;
 
-        uncomp_crc32 = (mz_uint32)mz_crc32(uncomp_crc32, (const mz_uint8 *)pRead_buf, in_buf_size);
-        uncomp_remaining -= in_buf_size;
+        uncomp_crc32 = (mz_uint32)mz_crc32(uncomp_crc32, (स्थिर mz_uint8 *)pRead_buf, in_buf_आकार);
+        uncomp_remaining -= in_buf_आकार;
 
-        status = tdefl_compress_buffer(pComp, pRead_buf, in_buf_size, uncomp_remaining ? TDEFL_NO_FLUSH : TDEFL_FINISH);
-        if (status == TDEFL_STATUS_DONE)
+        status = tdefl_compress_बफर(pComp, pRead_buf, in_buf_आकार, uncomp_remaining ? TDEFL_NO_FLUSH : TDEFL_FINISH);
+        अगर (status == TDEFL_STATUS_DONE)
         {
-          result = MZ_TRUE;
-          break;
+          परिणाम = MZ_TRUE;
+          अवरोध;
         }
-        else if (status != TDEFL_STATUS_OKAY)
-          break;
+        अन्यथा अगर (status != TDEFL_STATUS_OKAY)
+          अवरोध;
       }
 
       pZip->m_pFree(pZip->m_pAlloc_opaque, pComp);
 
-      if (!result)
+      अगर (!परिणाम)
       {
         pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
         MZ_FCLOSE(pSrc_file);
-        return MZ_FALSE;
+        वापस MZ_FALSE;
       }
 
-      comp_size = state.m_comp_size;
+      comp_आकार = state.m_comp_आकार;
       cur_archive_file_ofs = state.m_cur_archive_file_ofs;
 
       method = MZ_DEFLATED;
@@ -4744,90 +4744,90 @@ mz_bool mz_zip_writer_add_file(mz_zip_archive *pZip, const char *pArchive_name, 
     pZip->m_pFree(pZip->m_pAlloc_opaque, pRead_buf);
   }
 
-  MZ_FCLOSE(pSrc_file); pSrc_file = NULL;
+  MZ_FCLOSE(pSrc_file); pSrc_file = शून्य;
 
   // no zip64 support yet
-  if ((comp_size > 0xFFFFFFFF) || (cur_archive_file_ofs > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((comp_आकार > 0xFFFFFFFF) || (cur_archive_file_ofs > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_writer_create_local_dir_header(pZip, local_dir_header, (mz_uint16)archive_name_size, 0, uncomp_size, comp_size, uncomp_crc32, method, 0, dos_time, dos_date))
-    return MZ_FALSE;
+  अगर (!mz_zip_writer_create_local_dir_header(pZip, local_dir_header, (mz_uint16)archive_name_आकार, 0, uncomp_आकार, comp_आकार, uncomp_crc32, method, 0, dos_time, dos_date))
+    वापस MZ_FALSE;
 
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, local_dir_header_ofs, local_dir_header, sizeof(local_dir_header)) != sizeof(local_dir_header))
-    return MZ_FALSE;
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, local_dir_header_ofs, local_dir_header, माप(local_dir_header)) != माप(local_dir_header))
+    वापस MZ_FALSE;
 
-  if (!mz_zip_writer_add_to_central_dir(pZip, pArchive_name, (mz_uint16)archive_name_size, NULL, 0, pComment, comment_size, uncomp_size, comp_size, uncomp_crc32, method, 0, dos_time, dos_date, local_dir_header_ofs, ext_attributes))
-    return MZ_FALSE;
+  अगर (!mz_zip_writer_add_to_central_dir(pZip, pArchive_name, (mz_uint16)archive_name_आकार, शून्य, 0, pComment, comment_आकार, uncomp_आकार, comp_आकार, uncomp_crc32, method, 0, dos_time, dos_date, local_dir_header_ofs, ext_attributes))
+    वापस MZ_FALSE;
 
-  pZip->m_total_files++;
-  pZip->m_archive_size = cur_archive_file_ofs;
+  pZip->m_योग_files++;
+  pZip->m_archive_आकार = cur_archive_file_ofs;
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *pSource_zip, mz_uint file_index)
+mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *pSource_zip, mz_uint file_सूचकांक)
 {
-  mz_uint n, bit_flags, num_alignment_padding_bytes;
+  mz_uint n, bit_flags, अंक_alignment_padding_bytes;
   mz_uint64 comp_bytes_remaining, local_dir_header_ofs;
   mz_uint64 cur_src_file_ofs, cur_dst_file_ofs;
-  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_SIZE + sizeof(mz_uint32) - 1) / sizeof(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
-  mz_uint8 central_header[MZ_ZIP_CENTRAL_DIR_HEADER_SIZE];
-  size_t orig_central_dir_size;
+  mz_uint32 local_header_u32[(MZ_ZIP_LOCAL_DIR_HEADER_आकार + माप(mz_uint32) - 1) / माप(mz_uint32)]; mz_uint8 *pLocal_header = (mz_uint8 *)local_header_u32;
+  mz_uint8 central_header[MZ_ZIP_CENTRAL_DIR_HEADER_आकार];
+  माप_प्रकार orig_central_dir_आकार;
   mz_zip_internal_state *pState;
-  void *pBuf; const mz_uint8 *pSrc_central_header;
+  व्योम *pBuf; स्थिर mz_uint8 *pSrc_central_header;
 
-  if ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING))
-    return MZ_FALSE;
-  if (NULL == (pSrc_central_header = mz_zip_reader_get_cdh(pSource_zip, file_index)))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING))
+    वापस MZ_FALSE;
+  अगर (शून्य == (pSrc_central_header = mz_zip_reader_get_cdh(pSource_zip, file_सूचकांक)))
+    वापस MZ_FALSE;
   pState = pZip->m_pState;
 
-  num_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
+  अंक_alignment_padding_bytes = mz_zip_writer_compute_padding_needed_for_file_alignment(pZip);
 
   // no zip64 support yet
-  if ((pZip->m_total_files == 0xFFFF) || ((pZip->m_archive_size + num_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_SIZE + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((pZip->m_योग_files == 0xFFFF) || ((pZip->m_archive_आकार + अंक_alignment_padding_bytes + MZ_ZIP_LOCAL_DIR_HEADER_आकार + MZ_ZIP_CENTRAL_DIR_HEADER_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
   cur_src_file_ofs = MZ_READ_LE32(pSrc_central_header + MZ_ZIP_CDH_LOCAL_HEADER_OFS);
-  cur_dst_file_ofs = pZip->m_archive_size;
+  cur_dst_file_ofs = pZip->m_archive_आकार;
 
-  if (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_SIZE) != MZ_ZIP_LOCAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
-  if (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
-    return MZ_FALSE;
-  cur_src_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_SIZE;
+  अगर (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_आकार) != MZ_ZIP_LOCAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
+  अगर (MZ_READ_LE32(pLocal_header) != MZ_ZIP_LOCAL_DIR_HEADER_SIG)
+    वापस MZ_FALSE;
+  cur_src_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_आकार;
 
-  if (!mz_zip_writer_write_zeros(pZip, cur_dst_file_ofs, num_alignment_padding_bytes))
-    return MZ_FALSE;
-  cur_dst_file_ofs += num_alignment_padding_bytes;
+  अगर (!mz_zip_writer_write_zeros(pZip, cur_dst_file_ofs, अंक_alignment_padding_bytes))
+    वापस MZ_FALSE;
+  cur_dst_file_ofs += अंक_alignment_padding_bytes;
   local_dir_header_ofs = cur_dst_file_ofs;
-  if (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
+  अगर (pZip->m_file_offset_alignment) { MZ_ASSERT((local_dir_header_ofs & (pZip->m_file_offset_alignment - 1)) == 0); }
 
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_SIZE) != MZ_ZIP_LOCAL_DIR_HEADER_SIZE)
-    return MZ_FALSE;
-  cur_dst_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_SIZE;
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pLocal_header, MZ_ZIP_LOCAL_DIR_HEADER_आकार) != MZ_ZIP_LOCAL_DIR_HEADER_आकार)
+    वापस MZ_FALSE;
+  cur_dst_file_ofs += MZ_ZIP_LOCAL_DIR_HEADER_आकार;
 
   n = MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_EXTRA_LEN_OFS);
-  comp_bytes_remaining = n + MZ_READ_LE32(pSrc_central_header + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS);
+  comp_bytes_remaining = n + MZ_READ_LE32(pSrc_central_header + MZ_ZIP_CDH_COMPRESSED_आकार_OFS);
 
-  if (NULL == (pBuf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (size_t)MZ_MAX(sizeof(mz_uint32) * 4, MZ_MIN(MZ_ZIP_MAX_IO_BUF_SIZE, comp_bytes_remaining)))))
-    return MZ_FALSE;
+  अगर (शून्य == (pBuf = pZip->m_pAlloc(pZip->m_pAlloc_opaque, 1, (माप_प्रकार)MZ_MAX(माप(mz_uint32) * 4, MZ_MIN(MZ_ZIP_MAX_IO_BUF_आकार, comp_bytes_remaining)))))
+    वापस MZ_FALSE;
 
-  while (comp_bytes_remaining)
+  जबतक (comp_bytes_remaining)
   {
-    n = (mz_uint)MZ_MIN(MZ_ZIP_MAX_IO_BUF_SIZE, comp_bytes_remaining);
-    if (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pBuf, n) != n)
+    n = (mz_uint)MZ_MIN(MZ_ZIP_MAX_IO_BUF_आकार, comp_bytes_remaining);
+    अगर (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pBuf, n) != n)
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
     cur_src_file_ofs += n;
 
-    if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pBuf, n) != n)
+    अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pBuf, n) != n)
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
     cur_dst_file_ofs += n;
 
@@ -4835,20 +4835,20 @@ mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *
   }
 
   bit_flags = MZ_READ_LE16(pLocal_header + MZ_ZIP_LDH_BIT_FLAG_OFS);
-  if (bit_flags & 8)
+  अगर (bit_flags & 8)
   {
     // Copy data descriptor
-    if (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pBuf, sizeof(mz_uint32) * 4) != sizeof(mz_uint32) * 4)
+    अगर (pSource_zip->m_pRead(pSource_zip->m_pIO_opaque, cur_src_file_ofs, pBuf, माप(mz_uint32) * 4) != माप(mz_uint32) * 4)
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
 
-    n = sizeof(mz_uint32) * ((MZ_READ_LE32(pBuf) == 0x08074b50) ? 4 : 3);
-    if (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pBuf, n) != n)
+    n = माप(mz_uint32) * ((MZ_READ_LE32(pBuf) == 0x08074b50) ? 4 : 3);
+    अगर (pZip->m_pWrite(pZip->m_pIO_opaque, cur_dst_file_ofs, pBuf, n) != n)
     {
       pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
 
     cur_src_file_ofs += n;
@@ -4857,219 +4857,219 @@ mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *
   pZip->m_pFree(pZip->m_pAlloc_opaque, pBuf);
 
   // no zip64 support yet
-  if (cur_dst_file_ofs > 0xFFFFFFFF)
-    return MZ_FALSE;
+  अगर (cur_dst_file_ofs > 0xFFFFFFFF)
+    वापस MZ_FALSE;
 
-  orig_central_dir_size = pState->m_central_dir.m_size;
+  orig_central_dir_आकार = pState->m_central_dir.m_आकार;
 
-  memcpy(central_header, pSrc_central_header, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE);
+  स_नकल(central_header, pSrc_central_header, MZ_ZIP_CENTRAL_DIR_HEADER_आकार);
   MZ_WRITE_LE32(central_header + MZ_ZIP_CDH_LOCAL_HEADER_OFS, local_dir_header_ofs);
-  if (!mz_zip_array_push_back(pZip, &pState->m_central_dir, central_header, MZ_ZIP_CENTRAL_DIR_HEADER_SIZE))
-    return MZ_FALSE;
+  अगर (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, central_header, MZ_ZIP_CENTRAL_DIR_HEADER_आकार))
+    वापस MZ_FALSE;
 
   n = MZ_READ_LE16(pSrc_central_header + MZ_ZIP_CDH_FILENAME_LEN_OFS) + MZ_READ_LE16(pSrc_central_header + MZ_ZIP_CDH_EXTRA_LEN_OFS) + MZ_READ_LE16(pSrc_central_header + MZ_ZIP_CDH_COMMENT_LEN_OFS);
-  if (!mz_zip_array_push_back(pZip, &pState->m_central_dir, pSrc_central_header + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE, n))
+  अगर (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir, pSrc_central_header + MZ_ZIP_CENTRAL_DIR_HEADER_आकार, n))
   {
-    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_size, MZ_FALSE);
-    return MZ_FALSE;
+    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_आकार, MZ_FALSE);
+    वापस MZ_FALSE;
   }
 
-  if (pState->m_central_dir.m_size > 0xFFFFFFFF)
-    return MZ_FALSE;
-  n = (mz_uint32)orig_central_dir_size;
-  if (!mz_zip_array_push_back(pZip, &pState->m_central_dir_offsets, &n, 1))
+  अगर (pState->m_central_dir.m_आकार > 0xFFFFFFFF)
+    वापस MZ_FALSE;
+  n = (mz_uint32)orig_central_dir_आकार;
+  अगर (!mz_zip_array_धकेलो_back(pZip, &pState->m_central_dir_offsets, &n, 1))
   {
-    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_size, MZ_FALSE);
-    return MZ_FALSE;
+    mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_आकार, MZ_FALSE);
+    वापस MZ_FALSE;
   }
 
-  pZip->m_total_files++;
-  pZip->m_archive_size = cur_dst_file_ofs;
+  pZip->m_योग_files++;
+  pZip->m_archive_आकार = cur_dst_file_ofs;
 
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
 mz_bool mz_zip_writer_finalize_archive(mz_zip_archive *pZip)
 {
   mz_zip_internal_state *pState;
-  mz_uint64 central_dir_ofs, central_dir_size;
-  mz_uint8 hdr[MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE];
+  mz_uint64 central_dir_ofs, central_dir_आकार;
+  mz_uint8 hdr[MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार];
 
-  if ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING))
+    वापस MZ_FALSE;
 
   pState = pZip->m_pState;
 
   // no zip64 support yet
-  if ((pZip->m_total_files > 0xFFFF) || ((pZip->m_archive_size + pState->m_central_dir.m_size + MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE) > 0xFFFFFFFF))
-    return MZ_FALSE;
+  अगर ((pZip->m_योग_files > 0xFFFF) || ((pZip->m_archive_आकार + pState->m_central_dir.m_आकार + MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_आकार) > 0xFFFFFFFF))
+    वापस MZ_FALSE;
 
   central_dir_ofs = 0;
-  central_dir_size = 0;
-  if (pZip->m_total_files)
+  central_dir_आकार = 0;
+  अगर (pZip->m_योग_files)
   {
     // Write central directory
-    central_dir_ofs = pZip->m_archive_size;
-    central_dir_size = pState->m_central_dir.m_size;
+    central_dir_ofs = pZip->m_archive_आकार;
+    central_dir_आकार = pState->m_central_dir.m_आकार;
     pZip->m_central_directory_file_ofs = central_dir_ofs;
-    if (pZip->m_pWrite(pZip->m_pIO_opaque, central_dir_ofs, pState->m_central_dir.m_p, (size_t)central_dir_size) != central_dir_size)
-      return MZ_FALSE;
-    pZip->m_archive_size += central_dir_size;
+    अगर (pZip->m_pWrite(pZip->m_pIO_opaque, central_dir_ofs, pState->m_central_dir.m_p, (माप_प्रकार)central_dir_आकार) != central_dir_आकार)
+      वापस MZ_FALSE;
+    pZip->m_archive_आकार += central_dir_आकार;
   }
 
   // Write end of central directory record
   MZ_CLEAR_ARR(hdr);
   MZ_WRITE_LE32(hdr + MZ_ZIP_ECDH_SIG_OFS, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG);
-  MZ_WRITE_LE16(hdr + MZ_ZIP_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS, pZip->m_total_files);
-  MZ_WRITE_LE16(hdr + MZ_ZIP_ECDH_CDIR_TOTAL_ENTRIES_OFS, pZip->m_total_files);
-  MZ_WRITE_LE32(hdr + MZ_ZIP_ECDH_CDIR_SIZE_OFS, central_dir_size);
+  MZ_WRITE_LE16(hdr + MZ_ZIP_ECDH_CDIR_अंक_ENTRIES_ON_DISK_OFS, pZip->m_योग_files);
+  MZ_WRITE_LE16(hdr + MZ_ZIP_ECDH_CDIR_योग_ENTRIES_OFS, pZip->m_योग_files);
+  MZ_WRITE_LE32(hdr + MZ_ZIP_ECDH_CDIR_आकार_OFS, central_dir_आकार);
   MZ_WRITE_LE32(hdr + MZ_ZIP_ECDH_CDIR_OFS_OFS, central_dir_ofs);
 
-  if (pZip->m_pWrite(pZip->m_pIO_opaque, pZip->m_archive_size, hdr, sizeof(hdr)) != sizeof(hdr))
-    return MZ_FALSE;
-#ifndef MINIZ_NO_STDIO
-  if ((pState->m_pFile) && (MZ_FFLUSH(pState->m_pFile) == EOF))
-    return MZ_FALSE;
-#endif // #ifndef MINIZ_NO_STDIO
+  अगर (pZip->m_pWrite(pZip->m_pIO_opaque, pZip->m_archive_आकार, hdr, माप(hdr)) != माप(hdr))
+    वापस MZ_FALSE;
+#अगर_अघोषित MINIZ_NO_STDIO
+  अगर ((pState->m_pFile) && (MZ_FFLUSH(pState->m_pFile) == खातापूर्ण))
+    वापस MZ_FALSE;
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-  pZip->m_archive_size += sizeof(hdr);
+  pZip->m_archive_आकार += माप(hdr);
 
   pZip->m_zip_mode = MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED;
-  return MZ_TRUE;
+  वापस MZ_TRUE;
 }
 
-mz_bool mz_zip_writer_finalize_heap_archive(mz_zip_archive *pZip, void **pBuf, size_t *pSize)
+mz_bool mz_zip_writer_finalize_heap_archive(mz_zip_archive *pZip, व्योम **pBuf, माप_प्रकार *p_आकार)
 {
-  if ((!pZip) || (!pZip->m_pState) || (!pBuf) || (!pSize))
-    return MZ_FALSE;
-  if (pZip->m_pWrite != mz_zip_heap_write_func)
-    return MZ_FALSE;
-  if (!mz_zip_writer_finalize_archive(pZip))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (!pBuf) || (!p_आकार))
+    वापस MZ_FALSE;
+  अगर (pZip->m_pWrite != mz_zip_heap_write_func)
+    वापस MZ_FALSE;
+  अगर (!mz_zip_writer_finalize_archive(pZip))
+    वापस MZ_FALSE;
 
   *pBuf = pZip->m_pState->m_pMem;
-  *pSize = pZip->m_pState->m_mem_size;
-  pZip->m_pState->m_pMem = NULL;
-  pZip->m_pState->m_mem_size = pZip->m_pState->m_mem_capacity = 0;
-  return MZ_TRUE;
+  *p_आकार = pZip->m_pState->m_mem_आकार;
+  pZip->m_pState->m_pMem = शून्य;
+  pZip->m_pState->m_mem_आकार = pZip->m_pState->m_mem_capacity = 0;
+  वापस MZ_TRUE;
 }
 
 mz_bool mz_zip_writer_end(mz_zip_archive *pZip)
 {
   mz_zip_internal_state *pState;
   mz_bool status = MZ_TRUE;
-  if ((!pZip) || (!pZip->m_pState) || (!pZip->m_pAlloc) || (!pZip->m_pFree) || ((pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) && (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED)))
-    return MZ_FALSE;
+  अगर ((!pZip) || (!pZip->m_pState) || (!pZip->m_pAlloc) || (!pZip->m_pFree) || ((pZip->m_zip_mode != MZ_ZIP_MODE_WRITING) && (pZip->m_zip_mode != MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED)))
+    वापस MZ_FALSE;
 
   pState = pZip->m_pState;
-  pZip->m_pState = NULL;
+  pZip->m_pState = शून्य;
   mz_zip_array_clear(pZip, &pState->m_central_dir);
   mz_zip_array_clear(pZip, &pState->m_central_dir_offsets);
   mz_zip_array_clear(pZip, &pState->m_sorted_central_dir_offsets);
 
-#ifndef MINIZ_NO_STDIO
-  if (pState->m_pFile)
+#अगर_अघोषित MINIZ_NO_STDIO
+  अगर (pState->m_pFile)
   {
     MZ_FCLOSE(pState->m_pFile);
-    pState->m_pFile = NULL;
+    pState->m_pFile = शून्य;
   }
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-  if ((pZip->m_pWrite == mz_zip_heap_write_func) && (pState->m_pMem))
+  अगर ((pZip->m_pWrite == mz_zip_heap_write_func) && (pState->m_pMem))
   {
     pZip->m_pFree(pZip->m_pAlloc_opaque, pState->m_pMem);
-    pState->m_pMem = NULL;
+    pState->m_pMem = शून्य;
   }
 
   pZip->m_pFree(pZip->m_pAlloc_opaque, pState);
   pZip->m_zip_mode = MZ_ZIP_MODE_INVALID;
-  return status;
+  वापस status;
 }
 
-#ifndef MINIZ_NO_STDIO
-mz_bool mz_zip_add_mem_to_archive_file_in_place(const char *pZip_filename, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags)
+#अगर_अघोषित MINIZ_NO_STDIO
+mz_bool mz_zip_add_mem_to_archive_file_in_place(स्थिर अक्षर *pZip_filename, स्थिर अक्षर *pArchive_name, स्थिर व्योम *pBuf, माप_प्रकार buf_आकार_2, स्थिर व्योम *pComment, mz_uint16 comment_आकार, mz_uint level_and_flags)
 {
   mz_bool status, created_new_archive = MZ_FALSE;
   mz_zip_archive zip_archive;
-  struct MZ_FILE_STAT_STRUCT file_stat;
+  काष्ठा MZ_FILE_STAT_STRUCT file_stat;
   MZ_CLEAR_OBJ(zip_archive);
-  if ((int)level_and_flags < 0)
+  अगर ((पूर्णांक)level_and_flags < 0)
      level_and_flags = MZ_DEFAULT_LEVEL;
-  if ((!pZip_filename) || (!pArchive_name) || ((buf_size) && (!pBuf)) || ((comment_size) && (!pComment)) || ((level_and_flags & 0xF) > MZ_UBER_COMPRESSION))
-    return MZ_FALSE;
-  if (!mz_zip_writer_validate_archive_name(pArchive_name))
-    return MZ_FALSE;
-  if (MZ_FILE_STAT(pZip_filename, &file_stat) != 0)
+  अगर ((!pZip_filename) || (!pArchive_name) || ((buf_आकार_2) && (!pBuf)) || ((comment_आकार) && (!pComment)) || ((level_and_flags & 0xF) > MZ_UBER_COMPRESSION))
+    वापस MZ_FALSE;
+  अगर (!mz_zip_writer_validate_archive_name(pArchive_name))
+    वापस MZ_FALSE;
+  अगर (MZ_FILE_STAT(pZip_filename, &file_stat) != 0)
   {
     // Create a new archive.
-    if (!mz_zip_writer_init_file(&zip_archive, pZip_filename, 0))
-      return MZ_FALSE;
+    अगर (!mz_zip_writer_init_file(&zip_archive, pZip_filename, 0))
+      वापस MZ_FALSE;
     created_new_archive = MZ_TRUE;
   }
-  else
+  अन्यथा
   {
     // Append to an existing archive.
-    if (!mz_zip_reader_init_file(&zip_archive, pZip_filename, level_and_flags | MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
-      return MZ_FALSE;
-    if (!mz_zip_writer_init_from_reader(&zip_archive, pZip_filename))
+    अगर (!mz_zip_reader_init_file(&zip_archive, pZip_filename, level_and_flags | MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
+      वापस MZ_FALSE;
+    अगर (!mz_zip_writer_init_from_reader(&zip_archive, pZip_filename))
     {
       mz_zip_reader_end(&zip_archive);
-      return MZ_FALSE;
+      वापस MZ_FALSE;
     }
   }
-  status = mz_zip_writer_add_mem_ex(&zip_archive, pArchive_name, pBuf, buf_size, pComment, comment_size, level_and_flags, 0, 0);
+  status = mz_zip_writer_add_mem_ex(&zip_archive, pArchive_name, pBuf, buf_आकार_2, pComment, comment_आकार, level_and_flags, 0, 0);
   // Always finalize, even if adding failed for some reason, so we have a valid central directory. (This may not always succeed, but we can try.)
-  if (!mz_zip_writer_finalize_archive(&zip_archive))
+  अगर (!mz_zip_writer_finalize_archive(&zip_archive))
     status = MZ_FALSE;
-  if (!mz_zip_writer_end(&zip_archive))
+  अगर (!mz_zip_writer_end(&zip_archive))
     status = MZ_FALSE;
-  if ((!status) && (created_new_archive))
+  अगर ((!status) && (created_new_archive))
   {
     // It's a new archive and something went wrong, so just delete it.
-    int ignoredStatus = MZ_DELETE_FILE(pZip_filename);
-    (void)ignoredStatus;
+    पूर्णांक ignoredStatus = MZ_DELETE_FILE(pZip_filename);
+    (व्योम)ignoredStatus;
   }
-  return status;
+  वापस status;
 }
 
-void *mz_zip_extract_archive_file_to_heap(const char *pZip_filename, const char *pArchive_name, size_t *pSize, mz_uint flags)
+व्योम *mz_zip_extract_archive_file_to_heap(स्थिर अक्षर *pZip_filename, स्थिर अक्षर *pArchive_name, माप_प्रकार *p_आकार, mz_uint flags)
 {
-  int file_index;
+  पूर्णांक file_सूचकांक;
   mz_zip_archive zip_archive;
-  void *p = NULL;
+  व्योम *p = शून्य;
 
-  if (pSize)
-    *pSize = 0;
+  अगर (p_आकार)
+    *p_आकार = 0;
 
-  if ((!pZip_filename) || (!pArchive_name))
-    return NULL;
+  अगर ((!pZip_filename) || (!pArchive_name))
+    वापस शून्य;
 
   MZ_CLEAR_OBJ(zip_archive);
-  if (!mz_zip_reader_init_file(&zip_archive, pZip_filename, flags | MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
-    return NULL;
+  अगर (!mz_zip_reader_init_file(&zip_archive, pZip_filename, flags | MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
+    वापस शून्य;
 
-  if ((file_index = mz_zip_reader_locate_file(&zip_archive, pArchive_name, NULL, flags)) >= 0)
-    p = mz_zip_reader_extract_to_heap(&zip_archive, file_index, pSize, flags);
+  अगर ((file_सूचकांक = mz_zip_reader_locate_file(&zip_archive, pArchive_name, शून्य, flags)) >= 0)
+    p = mz_zip_reader_extract_to_heap(&zip_archive, file_सूचकांक, p_आकार, flags);
 
   mz_zip_reader_end(&zip_archive);
-  return p;
+  वापस p;
 }
 
-#endif // #ifndef MINIZ_NO_STDIO
+#पूर्ण_अगर // #ifndef MINIZ_NO_STDIO
 
-#endif // #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
+#पूर्ण_अगर // #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
 
-#endif // #ifndef MINIZ_NO_ARCHIVE_APIS
+#पूर्ण_अगर // #ifndef MINIZ_NO_ARCHIVE_APIS
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
+#अगर_घोषित _MSC_VER
+#आशय warning (निकालो)
+#पूर्ण_अगर
 
-#endif // MINIZ_HEADER_FILE_ONLY
+#पूर्ण_अगर // MINIZ_HEADER_FILE_ONLY
 
 /*
   This is free and unencumbered software released into the public domain.

@@ -18,73 +18,73 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
+#समावेश "SDL_windowsvideo.h"
 
-bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, व्योम **pixels, पूर्णांक *pitch)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_तथ्य *तथ्य = window->internal;
     bool isstack;
-    size_t size;
+    माप_प्रकार आकार;
     LPBITMAPINFO info;
     HBITMAP hbm;
-    int w, h;
+    पूर्णांक w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_Window_आकार_In_Pixels(window, &w, &h);
 
     // Free the old framebuffer surface
-    if (data->mdc) {
-        DeleteDC(data->mdc);
+    अगर (तथ्य->mdc) {
+        DeleteDC(तथ्य->mdc);
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
+    अगर (तथ्य->hbm) {
+        DeleteObject(तथ्य->hbm);
     }
 
     // Find out the format of the screen
-    size = sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD);
-    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, size, &isstack);
-    if (!info) {
-        return false;
+    आकार = माप(BITMAPINFOHEADER) + 256 * माप(RGBQUAD);
+    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, आकार, &isstack);
+    अगर (!info) {
+        वापस false;
     }
 
-    SDL_memset(info, 0, size);
-    info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    SDL_memset(info, 0, आकार);
+    info->bmiHeader.bi_आकार = माप(BITMAPINFOHEADER);
 
     // The second call to GetDIBits() fills in the bitfields
-    hbm = CreateCompatibleBitmap(data->hdc, 1, 1);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
+    hbm = CreateCompatibleBitmap(तथ्य->hdc, 1, 1);
+    GetDIBits(तथ्य->hdc, hbm, 0, 0, शून्य, info, DIB_RGB_COLORS);
+    GetDIBits(तथ्य->hdc, hbm, 0, 0, शून्य, info, DIB_RGB_COLORS);
     DeleteObject(hbm);
 
     // Check if a transparent channel is required
     bool need_alpha = (window->flags & SDL_WINDOW_TRANSPARENT) != 0;
 
     *format = SDL_PIXELFORMAT_UNKNOWN;
-    if (info->bmiHeader.biCompression == BI_BITFIELDS) {
-        int bpp;
+    अगर (info->bmiHeader.biCompression == BI_BITFIELDS) {
+        पूर्णांक bpp;
         Uint32 *masks;
 
-        bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
-        masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        bpp = info->bmiHeader.biPlanes * info->bmiHeader.bi_Bit_गिनती;
+        masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.bi_आकार);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
-    if (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
+    अगर (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
         // We'll use RGB or BGRA32 format for now
         *format = need_alpha ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_XRGB8888;
 
         // Create a new one
-        SDL_memset(info, 0, size);
-        info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        SDL_memset(info, 0, आकार);
+        info->bmiHeader.bi_आकार = माप(BITMAPINFOHEADER);
         info->bmiHeader.biPlanes = 1;
-        info->bmiHeader.biBitCount = 32;
+        info->bmiHeader.bi_Bit_गिनती = 32;
         info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
-        if (need_alpha) {
-            int tmpbpp;
-            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        अगर (need_alpha) {
+            पूर्णांक tmpbpp;
+            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.bi_आकार);
             SDL_GetMasksForPixelFormat(SDL_PIXELFORMAT_BGRA32, &tmpbpp, &bgr32masks[0], &bgr32masks[1], &bgr32masks[2], &bgr32masks[3]);
         }
     }
@@ -93,49 +93,49 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
     info->bmiHeader.biWidth = w;
     info->bmiHeader.biHeight = -h; // negative for topdown bitmap
-    info->bmiHeader.biSizeImage = (DWORD)h * (*pitch);
+    info->bmiHeader.bi_आकार_Image = (DWORD)h * (*pitch);
 
-    data->mdc = CreateCompatibleDC(data->hdc);
-    data->hbm = CreateDIBSection(data->hdc, info, DIB_RGB_COLORS, pixels, NULL, 0);
+    तथ्य->mdc = CreateCompatibleDC(तथ्य->hdc);
+    तथ्य->hbm = CreateDIBSection(तथ्य->hdc, info, DIB_RGB_COLORS, pixels, शून्य, 0);
     SDL_small_free(info, isstack);
 
-    if (!data->hbm) {
-        return WIN_SetError("Unable to create DIB");
+    अगर (!तथ्य->hbm) {
+        वापस WIN_SetError("Unable to create DIB");
     }
-    SelectObject(data->mdc, data->hbm);
+    SelectObject(तथ्य->mdc, तथ्य->hbm);
 
-    return true;
+    वापस true;
 }
 
-bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, स्थिर SDL_Rect *rects, पूर्णांक numrects)
 {
-    SDL_WindowData *data = window->internal;
-    int i;
+    SDL_Window_तथ्य *तथ्य = window->internal;
+    पूर्णांक i;
 
-    for (i = 0; i < numrects; ++i) {
-        BitBlt(data->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
-               data->mdc, rects[i].x, rects[i].y, SRCCOPY);
+    क्रम (i = 0; i < numrects; ++i) {
+        BitBlt(तथ्य->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
+               तथ्य->mdc, rects[i].x, rects[i].y, SRCCOPY);
     }
-    return true;
+    वापस true;
 }
 
-void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+व्योम WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_तथ्य *तथ्य = window->internal;
 
-    if (!data) {
+    अगर (!तथ्य) {
         // The window wasn't fully initialized
-        return;
+        वापस;
     }
 
-    if (data->mdc) {
-        DeleteDC(data->mdc);
-        data->mdc = NULL;
+    अगर (तथ्य->mdc) {
+        DeleteDC(तथ्य->mdc);
+        तथ्य->mdc = शून्य;
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
-        data->hbm = NULL;
+    अगर (तथ्य->hbm) {
+        DeleteObject(तथ्य->hbm);
+        तथ्य->hbm = शून्य;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_WINDOWS

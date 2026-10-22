@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_blit_copy_h_
-#define SDL_blit_copy_h_
+#अगर_अघोषित SDL_blit_copy_h_
+#घोषणा SDL_blit_copy_h_
 
-void SDL_BlitCopy(SDL_BlitInfo *info);
+व्योम SDL_BlitCopy(SDL_BlitInfo *info);
 
-#endif // SDL_blit_copy_h_
+#पूर्ण_अगर // SDL_blit_copy_h_

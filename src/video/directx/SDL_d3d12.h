@@ -18,93 +18,93 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_D3D12_H
-#define SDL_D3D12_H
+#अगर_अघोषित SDL_D3D12_H
+#घोषणा SDL_D3D12_H
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#अगर !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
 /* From the DirectX-Headers build system:
  * "MinGW has RPC headers which define old versions, and complain if D3D
  * headers are included before the RPC headers, since D3D headers were
  * generated with new MIDL and "require" new RPC headers."
  */
-#define __REQUIRED_RPCNDR_H_VERSION__ 475
+#घोषणा __REQUIRED_RPCNDR_H_VERSION__ 475
 
 // May not be defined in winapifamily.h, can safely be ignored
-#ifndef WINAPI_PARTITION_GAMES
-#define WINAPI_PARTITION_GAMES 0
-#endif // WINAPI_PARTITION_GAMES
+#अगर_अघोषित WINAPI_PARTITION_GAMES
+#घोषणा WINAPI_PARTITION_GAMES 0
+#पूर्ण_अगर // WINAPI_PARTITION_GAMES
 
-#ifdef __CYGWIN__
+#अगर_घोषित __CYGWIN__
   // generated header d3d12.h wants to see _WIN32 defined in order to believe it's targeting windows
-  #define _WIN32 1
-#endif
-#define COBJMACROS
-#include "d3d12.h"
-#ifdef __CYGWIN__
-  #undef _WIN32
-#endif
-#include <dxgi1_6.h>
-#include <dxgidebug.h>
+  #घोषणा _WIN32 1
+#पूर्ण_अगर
+#घोषणा COBJMACROS
+#समावेश "d3d12.h"
+#अगर_घोषित __CYGWIN__
+  #अघोषित _WIN32
+#पूर्ण_अगर
+#समावेश <dxgi1_6.h>
+#समावेश <dxgidebug.h>
 
-#define D3D_GUID(X) &(X)
+#घोषणा D3D_GUID(X) &(X)
 
-#define D3D_SAFE_RELEASE(X)      \
-    if (X) {                     \
+#घोषणा D3D_SAFE_RELEASE(X)      \
+    अगर (X) {                     \
         (X)->lpVtbl->Release(X); \
-        X = NULL;                \
+        X = शून्य;                \
     }
 
 /* Some D3D12 calls are mismatched between Windows/Xbox, so we need to wrap the
  * C function ourselves :(
  */
-#define D3D_CALL_RET(THIS, FUNC, ...) (THIS)->lpVtbl->FUNC((THIS), ##__VA_ARGS__)
+#घोषणा D3D_CALL_RET(THIS, FUNC, ...) (THIS)->lpVtbl->FUNC((THIS), ##__VA_ARGS__)
 
-#else // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#अन्यथा // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-#if defined(SDL_PLATFORM_XBOXONE)
-#include <d3d12_x.h>
-#else // SDL_PLATFORM_XBOXSERIES
-#include <d3d12_xs.h>
-#endif
+#अगर defined(SDL_PLATFORM_XBOXONE)
+#समावेश <d3d12_x.h>
+#अन्यथा // SDL_PLATFORM_XBOXSERIES
+#समावेश <d3d12_xs.h>
+#पूर्ण_अगर
 
-#define D3D_GUID(X) (X)
+#घोषणा D3D_GUID(X) (X)
 
-#define D3D_SAFE_RELEASE(X) \
-    if (X) {                \
+#घोषणा D3D_SAFE_RELEASE(X) \
+    अगर (X) {                \
         (X)->Release();     \
-        X = NULL;           \
+        X = शून्य;           \
     }
 
 // Older versions of the Xbox GDK may not have this defined
-#ifndef D3D12_TEXTURE_DATA_PITCH_ALIGNMENT
-#define D3D12_TEXTURE_DATA_PITCH_ALIGNMENT 256
-#endif
-#ifndef D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE
-#define D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE ((D3D12_RESOURCE_STATES) (0x40 | 0x80))
-#endif
-#ifndef D3D12_HEAP_TYPE_GPU_UPLOAD
-#define D3D12_HEAP_TYPE_GPU_UPLOAD ((D3D12_HEAP_TYPE) 5)
-#endif
+#अगर_अघोषित D3_D12_TEXTURE_तथ्य_PITCH_ALIGNMENT
+#घोषणा D3_D12_TEXTURE_तथ्य_PITCH_ALIGNMENT 256
+#पूर्ण_अगर
+#अगर_अघोषित D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE
+#घोषणा D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE ((D3D12_RESOURCE_STATES) (0x40 | 0x80))
+#पूर्ण_अगर
+#अगर_अघोषित D3D12_HEAP_TYPE_GPU_UPLOAD
+#घोषणा D3D12_HEAP_TYPE_GPU_UPLOAD ((D3D12_HEAP_TYPE) 5)
+#पूर्ण_अगर
 
 // DXGI_PRESENT flags are removed on Xbox
-#define DXGI_PRESENT_ALLOW_TEARING 0
+#घोषणा DXGI_PRESENT_ALLOW_TEARING 0
 
 // Xbox D3D12 does not define the COBJMACROS, so we need to define them ourselves
-#include "SDL_d3d12_xbox_cmacros.h"
+#समावेश "SDL_d3d12_xbox_cmacros.h"
 
 // They don't even define the CMACROS for ID3DBlob, come on man
-#define ID3D10Blob_GetBufferPointer(blob) blob->GetBufferPointer()
-#define ID3D10Blob_GetBufferSize(blob) blob->GetBufferSize()
-#define ID3D10Blob_Release(blob) blob->Release()
+#घोषणा ID3_D10_Blob_Get_बफर_Pointer(blob) blob->Get_बफर_Pointer()
+#घोषणा ID3_D10_Blob_Get_बफर_आकार(blob) blob->Get_बफर_आकार()
+#घोषणा ID3D10Blob_Release(blob) blob->Release()
 
 /* Xbox's D3D12 ABI actually varies from Windows, if a function does not exist
  * in the above header then you need to use this instead :(
  */
-#define D3D_CALL_RET(THIS, FUNC, RETVAL, ...) *(RETVAL) = (THIS)->FUNC(__VA_ARGS__)
+#घोषणा D3D_CALL_RET(THIS, FUNC, RETVAL, ...) *(RETVAL) = (THIS)->FUNC(__VA_ARGS__)
 
-#endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#पूर्ण_अगर // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-#endif // SDL_D3D12_H
+#पूर्ण_अगर // SDL_D3D12_H

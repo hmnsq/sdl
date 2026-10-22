@@ -18,58 +18,58 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_x11modes_h_
-#define SDL_x11modes_h_
+#अगर_अघोषित SDL_x11modes_h_
+#घोषणा SDL_x11modes_h_
 
-#include "SDL_x11settings.h"
+#समावेश "SDL_x11settings.h"
 
-struct SDL_DisplayData
+काष्ठा SDL_Display_तथ्य
 {
-    int screen;
+    पूर्णांक screen;
     Visual *visual;
-    int depth;
-    int scanline_pad;
-    int x;
-    int y;
+    पूर्णांक depth;
+    पूर्णांक scanline_pad;
+    पूर्णांक x;
+    पूर्णांक y;
 
     Uint64 mode_switch_deadline_ns;
 
     bool use_xrandr;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XRANDR
     RROutput xrandr_output;
-    char connector_name[16];
-#endif
+    अक्षर connector_name[16];
+#पूर्ण_अगर
 };
 
-struct SDL_DisplayModeData
+काष्ठा SDL_Display_Mode_तथ्य
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XRANDR
     RRMode xrandr_mode;
-#else
-    int unused; // just so struct isn't empty.
-#endif
+#अन्यथा
+    पूर्णांक unused; // just so struct isn't empty.
+#पूर्ण_अगर
 };
 
-extern bool X11_InitModes(SDL_VideoDevice *_this);
-extern bool X11_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool X11_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void X11_QuitModes(SDL_VideoDevice *_this);
+बाह्य bool X11_InitModes(SDL_VideoDevice *_this);
+बाह्य bool X11_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+बाह्य bool X11_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+बाह्य व्योम X11_QuitModes(SDL_VideoDevice *_this);
 
 // Some utility functions for working with visuals
-extern bool X11_GetVisualInfoFromVisual(Display *display, Visual *visual, XVisualInfo *vinfo);
-extern SDL_PixelFormat X11_GetPixelFormatFromVisualInfo(Display *display, XVisualInfo *vinfo);
-extern bool X11_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect);
-extern bool X11_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect);
+बाह्य bool X11_GetVisualInfoFromVisual(Display *display, Visual *visual, XVisualInfo *vinfo);
+बाह्य SDL_PixelFormat X11_GetPixelFormatFromVisualInfo(Display *display, XVisualInfo *vinfo);
+बाह्य bool X11_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect);
+बाह्य bool X11_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect);
 
-extern float X11_GetGlobalContentScale(Display *display, XSettingsClient *client);
-extern float X11_GetGlobalContentScaleForDevice(SDL_VideoDevice *_this);
+बाह्य भग्न X11_GetGlobalContentScale(Display *display, XSettingsClient *client);
+बाह्य भग्न X11_GetGlobalContentScaleForDevice(SDL_VideoDevice *_this);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-extern void X11_CheckDisplaysMoved(SDL_VideoDevice *_this, Display *dpy);
-extern void X11_HandleXRandREvent(SDL_VideoDevice *_this, const XEvent *xevent);
-#endif
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XRANDR
+बाह्य व्योम X11_CheckDisplaysMoved(SDL_VideoDevice *_this, Display *dpy);
+बाह्य व्योम X11_HandleXRandREvent(SDL_VideoDevice *_this, स्थिर XEvent *xevent);
+#पूर्ण_अगर
 
-#endif // SDL_x11modes_h_
+#पूर्ण_अगर // SDL_x11modes_h_

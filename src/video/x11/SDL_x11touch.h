@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_x11touch_h_
-#define SDL_x11touch_h_
+#अगर_अघोषित SDL_x11touch_h_
+#घोषणा SDL_x11touch_h_
 
-extern void X11_InitTouch(SDL_VideoDevice *_this);
-extern void X11_QuitTouch(SDL_VideoDevice *_this);
-extern void X11_ResetTouch(SDL_VideoDevice *_this);
+बाह्य व्योम X11_InitTouch(SDL_VideoDevice *_this);
+बाह्य व्योम X11_QuitTouch(SDL_VideoDevice *_this);
+बाह्य व्योम X11_ResetTouch(SDL_VideoDevice *_this);
 
-#endif // SDL_x11touch_h_
+#पूर्ण_अगर // SDL_x11touch_h_

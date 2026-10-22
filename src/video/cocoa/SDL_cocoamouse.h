@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_cocoamouse_h_
-#define SDL_cocoamouse_h_
+#अगर_अघोषित SDL_cocoamouse_h_
+#घोषणा SDL_cocoamouse_h_
 
-#include "SDL_cocoavideo.h"
+#समावेश "SDL_cocoavideo.h"
 
-extern bool Cocoa_InitMouse(SDL_VideoDevice *_this);
-extern NSWindow *Cocoa_GetMouseFocus(void);
-extern void Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
-extern void Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
-extern void Cocoa_QuitMouse(SDL_VideoDevice *_this);
+बाह्य bool Cocoa_InitMouse(SDL_VideoDevice *_this);
+बाह्य NSWindow *Cocoa_GetMouseFocus(व्योम);
+बाह्य व्योम Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
+बाह्य व्योम Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
+बाह्य व्योम Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
+बाह्य व्योम Cocoa_QuitMouse(SDL_VideoDevice *_this);
 
-extern void Cocoa_InitGCMouse(void);
-extern bool Cocoa_GCMouseRelativeMode(void);
-extern bool Cocoa_HasGCMouse(void);
-extern void Cocoa_QuitGCMouse(void);
+बाह्य व्योम Cocoa_InitGCMouse(व्योम);
+बाह्य bool Cocoa_GCMouseRelativeMode(व्योम);
+बाह्य bool Cocoa_HasGCMouse(व्योम);
+बाह्य व्योम Cocoa_QuitGCMouse(व्योम);
 
-struct SDL_CursorData
+काष्ठा SDL_Cursor_तथ्य
 {
     NSTimer *frameTimer;
-    int current_frame;
+    पूर्णांक current_frame;
 
-    int num_cursors;
-    struct
+    पूर्णांक अंक_cursors;
+    काष्ठा
     {
-        void *cursor;
+        व्योम *cursor;
         Uint32 duration;
     } frames[];
 };
 
-typedef struct
+प्रकार काष्ठा
 {
     // Whether we've seen a cursor warp since the last move event.
     bool seenWarp;
@@ -60,10 +60,10 @@ typedef struct
     // What location we last saw the cursor move to.
     CGFloat lastMoveX;
     CGFloat lastMoveY;
-} SDL_MouseData;
+} SDL_Mouse_तथ्य;
 
 @interface NSCursor (InvisibleCursor)
 + (NSCursor *)invisibleCursor;
 @end
 
-#endif // SDL_cocoamouse_h_
+#पूर्ण_अगर // SDL_cocoamouse_h_

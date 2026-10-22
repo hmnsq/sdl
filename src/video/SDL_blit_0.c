@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_HAVE_BLIT_0
+#अगर_घोषित SDL_HAVE_BLIT_0
 
-#include "SDL_surface_c.h"
+#समावेश "SDL_surface_c.h"
 
 // Functions to blit from bitmaps to other surfaces
 
-SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम BlitBto1(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int c;
-    int width, height;
+    पूर्णांक c;
+    पूर्णांक width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    पूर्णांक srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -47,29 +47,29 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (map) {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    अगर (map) {
+        अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (1) {
+                    अगर (1) {
                         *dst = map[bit];
                     }
                     dst++;
@@ -78,21 +78,21 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } अन्यथा {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (1) {
+                    अगर (1) {
                         *dst = map[bit];
                     }
                     dst++;
@@ -102,22 +102,22 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 dst += dstskip;
             }
         }
-    } else {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    } अन्यथा {
+        अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (1) {
+                    अगर (1) {
                         *dst = bit;
                     }
                     dst++;
@@ -126,21 +126,21 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } अन्यथा {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (1) {
+                    अगर (1) {
                         *dst = bit;
                     }
                     dst++;
@@ -153,16 +153,16 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम BlitBto2(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int c;
-    int width, height;
+    पूर्णांक c;
+    पूर्णांक width, height;
     Uint8 *src;
     Uint16 *map, *dst;
-    int srcskip, dstskip;
+    पूर्णांक srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -175,28 +175,28 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                अगर (1) {
                     *dst = map[bit];
                 }
                 byte >>= srcbpp;
@@ -205,21 +205,21 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                अगर (1) {
                     *dst = map[bit];
                 }
                 byte <<= srcbpp;
@@ -231,15 +231,15 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम BlitBto3(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int c, o;
-    int width, height;
+    पूर्णांक c, o;
+    पूर्णांक width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    पूर्णांक srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -252,28 +252,28 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                अगर (1) {
                     o = bit * 4;
                     dst[0] = map[o++];
                     dst[1] = map[o++];
@@ -285,21 +285,21 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                अगर (1) {
                     o = bit * 4;
                     dst[0] = map[o++];
                     dst[1] = map[o++];
@@ -314,16 +314,16 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम BlitBto4(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int width, height;
+    पूर्णांक width, height;
     Uint8 *src;
     Uint32 *map, *dst;
-    int srcskip, dstskip;
-    int c;
+    पूर्णांक srcskip, dstskip;
+    पूर्णांक c;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -336,28 +336,28 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                अगर (1) {
                     *dst = map[bit];
                 }
                 byte >>= srcbpp;
@@ -366,21 +366,21 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                अगर (1) {
                     *dst = map[bit];
                 }
                 byte <<= srcbpp;
@@ -392,46 +392,46 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम Blit_Bto1_कुंजी(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    पूर्णांक c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (palmap) {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    अगर (palmap) {
+        अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (bit != ckey) {
+                    अगर (bit != ckey) {
                         *dst = palmap[bit];
                     }
                     dst++;
@@ -440,21 +440,21 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } अन्यथा {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (bit != ckey) {
+                    अगर (bit != ckey) {
                         *dst = palmap[bit];
                     }
                     dst++;
@@ -464,22 +464,22 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 dst += dstskip;
             }
         }
-    } else {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    } अन्यथा {
+        अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (bit != ckey) {
+                    अगर (bit != ckey) {
                         *dst = bit;
                     }
                     dst++;
@@ -488,21 +488,21 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } अन्यथा {
+            जबतक (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                क्रम (c = 0; c < info->leading_skip; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                क्रम (; c < width; ++c) {
+                    अगर (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (bit != ckey) {
+                    अगर (bit != ckey) {
                         *dst = bit;
                     }
                     dst++;
@@ -515,46 +515,46 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम Blit_Bto2_कुंजी(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint16 *dstp = (Uint16 *)info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    पूर्णांक c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     dstskip /= 2;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     *dstp = ((Uint16 *)palmap)[bit];
                 }
                 byte >>= srcbpp;
@@ -563,21 +563,21 @@ SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dstp += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     *dstp = ((Uint16 *)palmap)[bit];
                 }
                 byte <<= srcbpp;
@@ -589,45 +589,45 @@ SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम Blit_Bto3_कुंजी(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    पूर्णांक c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     SDL_memcpy(dst, &palmap[bit * 4], 3);
                 }
                 byte >>= srcbpp;
@@ -636,21 +636,21 @@ SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     SDL_memcpy(dst, &palmap[bit * 4], 3);
                 }
                 byte <<= srcbpp;
@@ -662,46 +662,46 @@ SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE व्योम Blit_Bto4_कुंजी(SDL_BlitInfo *info, स्थिर Uint32 srcbpp)
 {
-    const Uint32 mask = (1 << srcbpp) - 1;
-    const Uint32 align = (8 / srcbpp) - 1;
+    स्थिर Uint32 mask = (1 << srcbpp) - 1;
+    स्थिर Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint32 *dstp = (Uint32 *)info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    पूर्णांक c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     dstskip /= 4;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     *dstp = ((Uint32 *)palmap)[bit];
                 }
                 byte >>= srcbpp;
@@ -710,21 +710,21 @@ SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dstp += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     *dstp = ((Uint32 *)palmap)[bit];
                 }
                 byte <<= srcbpp;
@@ -736,52 +736,52 @@ SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-static void BlitBtoNAlpha(SDL_BlitInfo *info)
+अटल व्योम BlitBtoNAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
-    const SDL_Color *srcpal = info->src_pal->colors;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int srcbpp, dstbpp;
-    int c;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
+    स्थिर SDL_Color *srcpal = info->src_pal->colors;
+    स्थिर SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    स्थिर SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    पूर्णांक srcbpp, dstbpp;
+    पूर्णांक c;
     Uint32 pixelvalue, mask, align;
-    unsigned sR, sG, sB;
-    unsigned dR, dG, dB, dA;
-    const unsigned A = info->a;
+    अचिन्हित sR, sG, sB;
+    अचिन्हित dR, dG, dB, dA;
+    स्थिर अचिन्हित A = info->a;
 
     width += info->leading_skip;
 
     srcbpp = srcfmt->bytes_per_pixel;
     dstbpp = dstfmt->bytes_per_pixel;
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     mask = (1 << srcbpp) - 1;
     align = (8 / srcbpp) - 1;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                अगर (1) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -795,21 +795,21 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                अगर (1) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -826,53 +826,53 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
+अटल व्योम Blit_Bto_NAlpha_कुंजी(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णांक width = info->dst_w;
+    पूर्णांक height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    const SDL_Color *srcpal = info->src_pal->colors;
-    int srcbpp, dstbpp;
-    int c;
+    पूर्णांक srcskip = info->src_skip;
+    पूर्णांक dstskip = info->dst_skip;
+    स्थिर SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    स्थिर SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    स्थिर SDL_Color *srcpal = info->src_pal->colors;
+    पूर्णांक srcbpp, dstbpp;
+    पूर्णांक c;
     Uint32 pixelvalue, mask, align;
-    unsigned sR, sG, sB;
-    unsigned dR, dG, dB, dA;
-    const unsigned A = info->a;
+    अचिन्हित sR, sG, sB;
+    अचिन्हित dR, dG, dB, dA;
+    स्थिर अचिन्हित A = info->a;
     Uint32 ckey = info->colorkey;
 
     width += info->leading_skip;
 
     srcbpp = srcfmt->bytes_per_pixel;
     dstbpp = dstfmt->bytes_per_pixel;
-    if (srcbpp == 4)
+    अगर (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    अन्यथा अगर (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    अन्यथा अगर (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     mask = (1 << srcbpp) - 1;
     align = (8 / srcbpp) - 1;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    अगर (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -886,21 +886,21 @@ static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } अन्यथा {
+        जबतक (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            क्रम (c = 0; c < info->leading_skip; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            क्रम (; c < width; ++c) {
+                अगर (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                अगर (bit != ckey) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -919,212 +919,212 @@ static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
 
 
 
-static void Blit1bto1(SDL_BlitInfo *info) {
+अटल व्योम Blit1bto1(SDL_BlitInfo *info) {
     BlitBto1(info, 1);
 }
 
-static void Blit1bto2(SDL_BlitInfo *info) {
+अटल व्योम Blit1bto2(SDL_BlitInfo *info) {
     BlitBto2(info, 1);
 }
 
-static void Blit1bto3(SDL_BlitInfo *info) {
+अटल व्योम Blit1bto3(SDL_BlitInfo *info) {
     BlitBto3(info, 1);
 }
 
-static void Blit1bto4(SDL_BlitInfo *info) {
+अटल व्योम Blit1bto4(SDL_BlitInfo *info) {
     BlitBto4(info, 1);
 }
 
-static const SDL_BlitFunc bitmap_blit_1b[] = {
-    (SDL_BlitFunc)NULL, Blit1bto1, Blit1bto2, Blit1bto3, Blit1bto4
+अटल स्थिर SDL_BlitFunc bitmap_blit_1b[] = {
+    (SDL_BlitFunc)शून्य, Blit1bto1, Blit1bto2, Blit1bto3, Blit1bto4
 };
 
-static void Blit1bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 1);
+अटल व्योम Blit1bto1_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto1_कुंजी(info, 1);
 }
 
-static void Blit1bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 1);
+अटल व्योम Blit1bto2_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto2_कुंजी(info, 1);
 }
 
-static void Blit1bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 1);
+अटल व्योम Blit1bto3_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto3_कुंजी(info, 1);
 }
 
-static void Blit1bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 1);
+अटल व्योम Blit1bto4_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto4_कुंजी(info, 1);
 }
 
-static const SDL_BlitFunc colorkey_blit_1b[] = {
-    (SDL_BlitFunc)NULL, Blit1bto1Key, Blit1bto2Key, Blit1bto3Key, Blit1bto4Key
+अटल स्थिर SDL_BlitFunc colorkey_blit_1b[] = {
+    (SDL_BlitFunc)शून्य, Blit1bto1_कुंजी, Blit1bto2_कुंजी, Blit1bto3_कुंजी, Blit1bto4_कुंजी
 };
 
 
 
-static void Blit2bto1(SDL_BlitInfo *info) {
+अटल व्योम Blit2bto1(SDL_BlitInfo *info) {
     BlitBto1(info, 2);
 }
 
-static void Blit2bto2(SDL_BlitInfo *info) {
+अटल व्योम Blit2bto2(SDL_BlitInfo *info) {
     BlitBto2(info, 2);
 }
 
-static void Blit2bto3(SDL_BlitInfo *info) {
+अटल व्योम Blit2bto3(SDL_BlitInfo *info) {
     BlitBto3(info, 2);
 }
 
-static void Blit2bto4(SDL_BlitInfo *info) {
+अटल व्योम Blit2bto4(SDL_BlitInfo *info) {
     BlitBto4(info, 2);
 }
 
-static const SDL_BlitFunc bitmap_blit_2b[] = {
-    (SDL_BlitFunc)NULL, Blit2bto1, Blit2bto2, Blit2bto3, Blit2bto4
+अटल स्थिर SDL_BlitFunc bitmap_blit_2b[] = {
+    (SDL_BlitFunc)शून्य, Blit2bto1, Blit2bto2, Blit2bto3, Blit2bto4
 };
 
-static void Blit2bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 2);
+अटल व्योम Blit2bto1_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto1_कुंजी(info, 2);
 }
 
-static void Blit2bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 2);
+अटल व्योम Blit2bto2_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto2_कुंजी(info, 2);
 }
 
-static void Blit2bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 2);
+अटल व्योम Blit2bto3_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto3_कुंजी(info, 2);
 }
 
-static void Blit2bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 2);
+अटल व्योम Blit2bto4_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto4_कुंजी(info, 2);
 }
 
-static const SDL_BlitFunc colorkey_blit_2b[] = {
-    (SDL_BlitFunc)NULL, Blit2bto1Key, Blit2bto2Key, Blit2bto3Key, Blit2bto4Key
+अटल स्थिर SDL_BlitFunc colorkey_blit_2b[] = {
+    (SDL_BlitFunc)शून्य, Blit2bto1_कुंजी, Blit2bto2_कुंजी, Blit2bto3_कुंजी, Blit2bto4_कुंजी
 };
 
 
 
-static void Blit4bto1(SDL_BlitInfo *info) {
+अटल व्योम Blit4bto1(SDL_BlitInfo *info) {
     BlitBto1(info, 4);
 }
 
-static void Blit4bto2(SDL_BlitInfo *info) {
+अटल व्योम Blit4bto2(SDL_BlitInfo *info) {
     BlitBto2(info, 4);
 }
 
-static void Blit4bto3(SDL_BlitInfo *info) {
+अटल व्योम Blit4bto3(SDL_BlitInfo *info) {
     BlitBto3(info, 4);
 }
 
-static void Blit4bto4(SDL_BlitInfo *info) {
+अटल व्योम Blit4bto4(SDL_BlitInfo *info) {
     BlitBto4(info, 4);
 }
 
-static const SDL_BlitFunc bitmap_blit_4b[] = {
-    (SDL_BlitFunc)NULL, Blit4bto1, Blit4bto2, Blit4bto3, Blit4bto4
+अटल स्थिर SDL_BlitFunc bitmap_blit_4b[] = {
+    (SDL_BlitFunc)शून्य, Blit4bto1, Blit4bto2, Blit4bto3, Blit4bto4
 };
 
-static void Blit4bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 4);
+अटल व्योम Blit4bto1_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto1_कुंजी(info, 4);
 }
 
-static void Blit4bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 4);
+अटल व्योम Blit4bto2_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto2_कुंजी(info, 4);
 }
 
-static void Blit4bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 4);
+अटल व्योम Blit4bto3_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto3_कुंजी(info, 4);
 }
 
-static void Blit4bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 4);
+अटल व्योम Blit4bto4_कुंजी(SDL_BlitInfo *info) {
+    Blit_Bto4_कुंजी(info, 4);
 }
 
-static const SDL_BlitFunc colorkey_blit_4b[] = {
-    (SDL_BlitFunc)NULL, Blit4bto1Key, Blit4bto2Key, Blit4bto3Key, Blit4bto4Key
+अटल स्थिर SDL_BlitFunc colorkey_blit_4b[] = {
+    (SDL_BlitFunc)शून्य, Blit4bto1_कुंजी, Blit4bto2_कुंजी, Blit4bto3_कुंजी, Blit4bto4_कुंजी
 };
 
 
 
 SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
 {
-    int which;
+    पूर्णांक which;
 
-    if (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
+    अगर (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
         which = 0;
-    } else {
+    } अन्यथा {
         which = SDL_BYTESPERPIXEL(surface->map.info.dst_fmt->format);
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX1) {
-        switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
-        case 0:
-            if (which < SDL_arraysize(bitmap_blit_1b)) {
-                return bitmap_blit_1b[which];
+    अगर (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX1) {
+        चयन (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
+        हाल 0:
+            अगर (which < SDL_arraysize(bitmap_blit_1b)) {
+                वापस bitmap_blit_1b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_1b)) {
-                return colorkey_blit_1b[which];
+        हाल SDL_COPY_COLORKEY:
+            अगर (which < SDL_arraysize(colorkey_blit_1b)) {
+                वापस colorkey_blit_1b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)शून्य;
 
-        case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? Blit_Bto_NAlpha_कुंजी : (SDL_BlitFunc)शून्य;
         }
-        return NULL;
+        वापस शून्य;
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX2) {
-        switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
-        case 0:
-            if (which < SDL_arraysize(bitmap_blit_2b)) {
-                return bitmap_blit_2b[which];
+    अगर (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX2) {
+        चयन (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
+        हाल 0:
+            अगर (which < SDL_arraysize(bitmap_blit_2b)) {
+                वापस bitmap_blit_2b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_2b)) {
-                return colorkey_blit_2b[which];
+        हाल SDL_COPY_COLORKEY:
+            अगर (which < SDL_arraysize(colorkey_blit_2b)) {
+                वापस colorkey_blit_2b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)शून्य;
 
-        case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? Blit_Bto_NAlpha_कुंजी : (SDL_BlitFunc)शून्य;
         }
-        return NULL;
+        वापस शून्य;
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX4) {
-        switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
-        case 0:
-            if (which < SDL_arraysize(bitmap_blit_4b)) {
-                return bitmap_blit_4b[which];
+    अगर (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX4) {
+        चयन (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
+        हाल 0:
+            अगर (which < SDL_arraysize(bitmap_blit_4b)) {
+                वापस bitmap_blit_4b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_4b)) {
-                return colorkey_blit_4b[which];
+        हाल SDL_COPY_COLORKEY:
+            अगर (which < SDL_arraysize(colorkey_blit_4b)) {
+                वापस colorkey_blit_4b[which];
             }
-            break;
+            अवरोध;
 
-        case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)शून्य;
 
-        case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+        हाल SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+            वापस which >= 2 ? Blit_Bto_NAlpha_कुंजी : (SDL_BlitFunc)शून्य;
         }
-        return NULL;
+        वापस शून्य;
     }
 
-    return NULL;
+    वापस शून्य;
 }
 
-#endif // SDL_HAVE_BLIT_0
+#पूर्ण_अगर // SDL_HAVE_BLIT_0

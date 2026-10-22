@@ -19,38 +19,38 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "SDL_qnx.h"
-#include "SDL3/SDL_mouse.h"
-#include "SDL3/SDL_events.h"
-#include "SDL3/SDL_video.h"
-#include "../../events/SDL_mouse_c.h"
+#समावेश "SDL_internal.h"
+#समावेश "SDL_qnx.h"
+#समावेश "SDL3/SDL_mouse.h"
+#समावेश "SDL3/SDL_events.h"
+#समावेश "SDL3/SDL_video.h"
+#समावेश "../../events/SDL_mouse_c.h"
 
 
-static Uint8 screenToMouseButton(int x)
+अटल Uint8 screenToMouseButton(पूर्णांक x)
 {
     //Screen only supports 3 mouse buttons.
-    switch(x){
-        case SCREEN_LEFT_MOUSE_BUTTON: // 1 << 0
-        return SDL_BUTTON_LEFT;
-        case SCREEN_RIGHT_MOUSE_BUTTON: //1 << 1
-        return SDL_BUTTON_RIGHT;
-        case SCREEN_MIDDLE_MOUSE_BUTTON: //1 << 2
-        return SDL_BUTTON_MIDDLE;
+    चयन(x){
+        हाल SCREEN_बायाँ_MOUSE_BUTTON: // 1 << 0
+        वापस SDL_BUTTON_बायाँ;
+        हाल SCREEN_दायाँ_MOUSE_BUTTON: //1 << 1
+        वापस SDL_BUTTON_दायाँ;
+        हाल SCREEN_मध्य_MOUSE_BUTTON: //1 << 2
+        वापस SDL_BUTTON_मध्य;
     }
-    return 0;
+    वापस 0;
 }
 
-void handlePointerEvent(screen_event_t event)
+व्योम handlePointerEvent(screen_event_t event)
 {
-    int              buttons = 0;
-    int              mouse_wheel = 0;
-    int              mouse_h_wheel = 0;
-    int              pos[2] = {0,0};
+    पूर्णांक              buttons = 0;
+    पूर्णांक              mouse_wheel = 0;
+    पूर्णांक              mouse_h_wheel = 0;
+    पूर्णांक              pos[2] = {0,0};
 
     Uint64           timestamp = SDL_GetTicksNS();
     SDL_Mouse        *mouse;
-    SDL_MouseData    *mouse_data;
+    SDL_Mouse_तथ्य    *mouse_तथ्य;
     SDL_Window       *window;
 
     screen_get_event_property_iv(event, SCREEN_PROPERTY_BUTTONS, &buttons);
@@ -61,22 +61,22 @@ void handlePointerEvent(screen_event_t event)
     mouse = SDL_GetMouse();
 
     window = mouse->focus;
-    mouse_data = mouse->internal;
-    SDL_assert(mouse_data != NULL);
+    mouse_तथ्य = mouse->internal;
+    SDL_assert(mouse_तथ्य != शून्य);
 
-    if (mouse->relative_mode) {
+    अगर (mouse->relative_mode) {
         // The mouse is hidden. We don't have control over its actual position
         // with SCREEN_PROPERTY_POSITION, just the position of the icon.
-        SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, true, pos[0] - mouse_data->x_prev, pos[1] - mouse_data->y_prev);
-    } else {
+        SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, true, pos[0] - mouse_तथ्य->x_पूर्व, pos[1] - mouse_तथ्य->y_पूर्व);
+    } अन्यथा {
         SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, false, pos[0], pos[1]);
     }
 
-    mouse_data->x_prev = pos[0];
-    mouse_data->y_prev = pos[1];
+    mouse_तथ्य->x_पूर्व = pos[0];
+    mouse_तथ्य->y_पूर्व = pos[1];
 
     // Capture button presses
-    for (int i = 0; i < 3; ++i)
+    क्रम (पूर्णांक i = 0; i < 3; ++i)
     {
         Uint8 ret = screenToMouseButton(1 << i);
         SDL_SendMouseButton(timestamp, window, SDL_DEFAULT_MOUSE_ID, ret, (bool) ((buttons & (1 << i)) == (1 << i)));
@@ -85,5 +85,5 @@ void handlePointerEvent(screen_event_t event)
     // Capture mouse wheel
     // TODO: Verify this. I can at least confirm that this behaves the same
     //       way as x11.
-    SDL_SendMouseWheel(timestamp, window, 0, (float) mouse_wheel, (float) mouse_h_wheel, SDL_MOUSEWHEEL_NORMAL);
+    SDL_SendMouseWheel(timestamp, window, 0, (भग्न) mouse_wheel, (भग्न) mouse_h_wheel, SDL_MOUSEWHEEL_NORMAL);
 }

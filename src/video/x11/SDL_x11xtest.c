@@ -19,66 +19,66 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#अगर defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#समावेश "SDL_x11video.h"
+#समावेश "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+अटल bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+व्योम X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#अगर 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    पूर्णांक event, error;
+    पूर्णांक opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    अगर (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        वापस;
     }
 
     xtest_initialized = true;
-#endif
+#पूर्ण_अगर
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(व्योम)
 {
-    return xtest_initialized;
+    वापस xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, भग्न x, भग्न y)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+#अगर_घोषित SDL_VIDEO_DRIVER_X11_XTEST
+    अगर (!X11_XTestIsInitialized()) {
+        वापस false;
     }
 
     Display *display = _this->internal->display;
-    SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    SDL_Display_तथ्य *displaydata = window ? SDL_Get_Display_Driver_तथ्य_For_Window(window) : SDL_Get_Display_Driver_तथ्य(SDL_GetPrimaryDisplay());
+    अगर (!displaydata) {
+        वापस false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    पूर्णांक motion_x = (पूर्णांक)SDL_roundf(x);
+    पूर्णांक motion_y = (पूर्णांक)SDL_roundf(y);
+    अगर (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    अगर (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        वापस false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
-#endif
+    वापस true;
+#अन्यथा
+    वापस false;
+#पूर्ण_अगर
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_X11

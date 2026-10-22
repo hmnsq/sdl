@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_windowskeyboard_h_
-#define SDL_windowskeyboard_h_
+#अगर_अघोषित SDL_windowskeyboard_h_
+#घोषणा SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+बाह्य व्योम WIN_InitKeyboard(SDL_VideoDevice *_this);
+बाह्य व्योम WIN_UpdateKeymap(bool send_event);
+बाह्य व्योम WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+बाह्य व्योम WIN_Reset_Dead_कुंजियाँ(व्योम);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_Start_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+बाह्य bool WIN_Stop_Text_निवेश(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_Update_Text_निवेश_Area(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+बाह्य bool WIN_HandleIMEMessage(HWND hwnd, UINT संदेश, WPARAM wParam, LPARAM *lParam, काष्ठा SDL_Video_तथ्य *videodata);
+बाह्य व्योम WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
-#endif // SDL_windowskeyboard_h_
+#पूर्ण_अगर // SDL_windowskeyboard_h_

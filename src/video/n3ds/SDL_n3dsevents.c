@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#अगर_घोषित SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#समावेश <3ds.h>
 
-#include "../../events/SDL_events_c.h"
-#include "SDL_n3dsevents_c.h"
-#include "SDL_n3dstouch.h"
+#समावेश "../../events/SDL_events_c.h"
+#समावेश "SDL_n3dsevents_c.h"
+#समावेश "SDL_n3dstouch.h"
 
-void N3DS_PumpEvents(SDL_VideoDevice *_this)
+व्योम N3DS_PumpEvents(SDL_VideoDevice *_this)
 {
-    hidScanInput();
+    hid_Scan_निवेश();
     N3DS_PollTouch(_this);
 
-    if (!aptMainLoop()) {
+    अगर (!aptMainLoop()) {
         SDL_Event ev;
         ev.type = SDL_EVENT_QUIT;
         ev.common.timestamp = 0;
-        SDL_PushEvent(&ev);
-        return;
+        SDL_धकेलो_Event(&ev);
+        वापस;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_N3DS

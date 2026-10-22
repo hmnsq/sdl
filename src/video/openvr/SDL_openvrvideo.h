@@ -1,85 +1,85 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#अगर_अघोषित _SDL_OPENVRVIDEO_H
+#घोषणा _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#अगर_घोषित SDL_VIDEO_DRIVER_WINDOWS
+#अगर_घोषित EXTERN_C
+#अघोषित EXTERN_C
+#पूर्ण_अगर
+#पूर्ण_अगर
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#अगर_घोषित __GNUC__
+#आशय GCC diagnostic धकेलो
+#आशय GCC diagnostic ignored "-Wunused-variable"
+#पूर्ण_अगर
 
-#define USE_SDL
-#include "openvr_capi.h"
+#घोषणा USE_SDL
+#समावेश "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#अगर_घोषित __GNUC__
+#आशय GCC diagnostic निकालो
+#पूर्ण_अगर
 
-#include <stdint.h>
+#समावेश <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#अगर_अघोषित SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#समावेश <GLES3/gl3.h>
+#समावेश <GLES3/gl32.h>
+#समावेश <EGL/egl.h>
+#समावेश <GLES2/gl2.h>
+#समावेश <GLES2/gl2ext.h>
+#समावेश <GLES2/gl2ext.h>
 
-#endif
+#पूर्ण_अगर
 
 
-struct SDL_WindowData
+काष्ठा SDL_Window_तथ्य
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#अगर_घोषित SDL_VIDEO_DRIVER_WINDOWS
     SDL_Window *window;
     HWND hwnd;
     HWND parent;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#अन्यथा
+    पूर्णांक dummy;
+#पूर्ण_अगर
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+काष्ठा SDL_Video_तथ्य {
+    व्योम * openVRLIB;
     intptr_t vrtoken;
     intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    स्थिर अक्षर *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( स्थिर अक्षर *pchInterfaceVersion, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    पूर्णांक is_बफर_rendering;
 
-    unsigned int overlaytexture;
+    अचिन्हित पूर्णांक overlaytexture;
 
-    unsigned int fbo, rbo;
+    अचिन्हित पूर्णांक fbo, rbo;
 
-    int saved_texture_state;
+    पूर्णांक saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    काष्ठा VR_IVRSystem_FnTable *oSystem;
+    काष्ठा VR_IVROverlay_FnTable *oOverlay;
+	काष्ठा VR_IVRInput_FnTable * o_निवेश;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	अक्षर * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRActionSetHandle_t निवेश_action_set;
+	VRActionHandle_t * निवेश_action_handles_buttons;
+	पूर्णांक निवेश_action_handles_buttons_गिनती;
+	VRActionHandle_t * निवेश_action_handles_axes;
+	पूर्णांक निवेश_action_handles_axes_गिनती;
+	VRActionHandle_t निवेश_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    पूर्णांक targw, targh;
+    पूर्णांक last_targw, last_targh;
+    पूर्णांक swap_interval;
 
     bool bDidCreateOverlay;
 	bool renderdoc_debugmarker_frame_end;
@@ -88,18 +88,18 @@ struct SDL_VideoData {
 	SDL_Window * window;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#अगर_घोषित SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#अन्यथा
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#पूर्ण_अगर
 };
 
-struct SDL_DisplayData
+काष्ठा SDL_Display_तथ्य
 {
-    int dummy;
+    पूर्णांक dummy;
 };
 
-#endif
+#पूर्ण_अगर

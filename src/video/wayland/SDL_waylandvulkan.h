@@ -24,32 +24,32 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifndef SDL_waylandvulkan_h_
-#define SDL_waylandvulkan_h_
+#अगर_अघोषित SDL_waylandvulkan_h_
+#घोषणा SDL_waylandvulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#समावेश <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WAYLAND)
+#अगर defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WAYLAND)
 
-extern bool Wayland_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Wayland_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Wayland_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Wayland_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+बाह्य bool Wayland_Vulkan_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);
+बाह्य व्योम Wayland_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य अक्षर स्थिर * स्थिर *Wayland_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गिनती);
+बाह्य bool Wayland_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                       SDL_Window *window,
                                       VkInstance instance,
-                                      const struct VkAllocationCallbacks *allocator,
+                                      स्थिर काष्ठा VkAllocationCallbacks *allocator,
                                       VkSurfaceKHR *surface);
-extern void Wayland_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य व्योम Wayland_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
-extern bool Wayland_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                                   स्थिर काष्ठा VkAllocationCallbacks *allocator);
+बाह्य bool Wayland_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                                VkInstance instance,
                                                VkPhysicalDevice physicalDevice,
-                                               Uint32 queueFamilyIndex);
+                                               Uint32 queue_Family_सूचकांक);
 
-#endif
+#पूर्ण_अगर
 
-#endif // SDL_waylandvulkan_h_
+#पूर्ण_अगर // SDL_waylandvulkan_h_

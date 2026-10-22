@@ -18,65 +18,65 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#अगर defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenwindow.h"
+#समावेश "SDL_offscreenopengles.h"
+#समावेश "SDL_offscreenvideo.h"
+#समावेश "SDL_offscreenwindow.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path)
 {
-    if (!SDL_EGL_LoadLibraryOnly(_this, path)) {
-        return false;
+    अगर (!SDL_EGL_LoadLibraryOnly(_this, path)) {
+        वापस false;
     }
 
     /* driver_loaded gets incremented by SDL_GL_LoadLibrary when we return,
        but SDL_EGL_InitializeOffscreen checks that we're loaded before then,
        so temporarily bump it since we know that LoadLibraryOnly succeeded. */
-    bool result;
+    bool परिणाम;
     _this->gl_config.driver_loaded++;
-    result = SDL_EGL_InitializeOffscreen(_this, 0);
+    परिणाम = SDL_EGL_InitializeOffscreen(_this, 0);
     _this->gl_config.driver_loaded--;
-    if (!result) {
-        return false;
+    अगर (!परिणाम) {
+        वापस false;
     }
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return false;
+    अगर (!SDL_EGL_ChooseConfig(_this)) {
+        वापस false;
     }
 
-    return true;
+    वापस true;
 }
 
 SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_Window_तथ्य *offscreen_window = window->internal;
 
     SDL_GLContext context;
     context = SDL_EGL_CreateContext(_this, offscreen_window->egl_surface);
 
-    return context;
+    वापस context;
 }
 
 bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window) {
+    अगर (window) {
         EGLSurface egl_surface = window->internal->egl_surface;
-        return SDL_EGL_MakeCurrent(_this, egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+        वापस SDL_EGL_MakeCurrent(_this, egl_surface, context);
+    } अन्यथा {
+        वापस SDL_EGL_MakeCurrent(_this, शून्य, शून्य);
     }
 }
 
 bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *offscreen_wind = window->internal;
+    SDL_Window_तथ्य *offscreen_wind = window->internal;
 
-    return SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
+    वापस SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL

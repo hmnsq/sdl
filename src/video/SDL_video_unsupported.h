@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#अगर !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#अगर defined(SDL_PLATFORM_WINDOWS)
 
-extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
-extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
-extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+बाह्य SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(स्थिर अक्षर *name, Uint32 style, व्योम *hInst);
+बाह्य SDL_DECLSPEC व्योम SDLCALL SDL_UnregisterApp(व्योम);
+बाह्य SDL_DECLSPEC व्योम SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, व्योम *userdata);
 
-#endif /* SDL_PLATFORM_WINDOWS */
+#पूर्ण_अगर /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+बाह्य SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, पूर्णांक *adapter_सूचकांक, पूर्णांक *output_सूचकांक);
+बाह्य SDL_DECLSPEC पूर्णांक SDLCALL SDL_Get_Direct3_D9_Adapter_सूचकांक(SDL_DisplayID displayID);
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#या_अगर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+बाह्य SDL_DECLSPEC पूर्णांक SDLCALL SDL_Get_Direct3_D9_Adapter_सूचकांक(SDL_DisplayID displayID);
 
-#endif /* !SDL_VIDEO_DRIVER_WINDOWS */
+#पूर्ण_अगर /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#अगर !defined(SDL_PLATFORM_GDK)
 
-typedef struct XTaskQueueHandle XTaskQueueHandle;
+प्रकार काष्ठा XTaskQueueHandle XTaskQueueHandle;
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
+बाह्य SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
 
-#endif /* !SDL_PLATFORM_GDK */
+#पूर्ण_अगर /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#अगर !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
+बाह्य SDL_DECLSPEC व्योम SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(व्योम);
 
-#endif
+#पूर्ण_अगर
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#अगर !defined(SDL_VIDEO_DRIVER_UIKIT)
 
-typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
+प्रकार व्योम (SDLCALL *SDL_iOSAnimationCallback)(व्योम *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
-extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
-#endif
+बाह्य SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, पूर्णांक interval, SDL_iOSAnimationCallback callback, व्योम *callbackParam);
+बाह्य SDL_DECLSPEC व्योम SDLCALL SDL_SetiOSEventPump(bool enabled);
+#पूर्ण_अगर

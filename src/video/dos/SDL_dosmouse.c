@@ -18,43 +18,43 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_DOSVESA
+#अगर_घोषित SDL_VIDEO_DRIVER_DOSVESA
 
 // https://stanislavs.org/helppc/int_33.html
 
-#include "SDL_dosmouse.h"
-#include "SDL_dosvideo.h"
+#समावेश "SDL_dosmouse.h"
+#समावेश "SDL_dosvideo.h"
 
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/default_cursor.h"
-#include "../SDL_sysvideo.h"
+#समावेश "../../events/SDL_mouse_c.h"
+#समावेश "../../events/default_cursor.h"
+#समावेश "../SDL_sysvideo.h"
 
 // Create a cursor from a surface
-static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+अटल SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, पूर्णांक hot_x, पूर्णांक hot_y)
 {
-    SDL_CursorData *curdata;
+    SDL_Cursor_तथ्य *curdata;
     SDL_Cursor *cursor;
 
     SDL_assert(surface->format == SDL_PIXELFORMAT_ARGB8888);
     SDL_assert(surface->pitch == surface->w * 4);
 
-    cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    cursor = (SDL_Cursor *)SDL_calloc(1, माप(*cursor));
+    अगर (!cursor) {
+        वापस शून्य;
     }
-    curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-    if (!curdata) {
+    curdata = (SDL_Cursor_तथ्य *)SDL_calloc(1, माप(*curdata));
+    अगर (!curdata) {
         SDL_free(cursor);
-        return NULL;
+        वापस शून्य;
     }
 
     curdata->surface = SDL_DuplicateSurface(surface);
-    if (!curdata->surface) {
+    अगर (!curdata->surface) {
         SDL_free(curdata);
         SDL_free(cursor);
-        return NULL;
+        वापस शून्य;
     }
 
     SDL_SetSurfaceBlendMode(curdata->surface, SDL_BLENDMODE_BLEND);
@@ -66,29 +66,29 @@ static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, int hot_x, int hot
 
     cursor->internal = curdata;
 
-    return cursor;
+    वापस cursor;
 }
 
-static SDL_Cursor *DOSVESA_CreateDefaultCursor(void)
+अटल SDL_Cursor *DOSVESA_CreateDefaultCursor(व्योम)
 {
-    return SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
+    वापस SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
 }
 
 // Show the specified cursor, or hide if cursor is NULL
-static bool DOSVESA_ShowCursor(SDL_Cursor *cursor)
+अटल bool DOSVESA_ShowCursor(SDL_Cursor *cursor)
 {
-    return true; // we handle this elsewhere.
+    वापस true; // we handle this elsewhere.
 }
 
 // Free a window manager cursor
-static void DOSVESA_FreeCursor(SDL_Cursor *cursor)
+अटल व्योम DOSVESA_FreeCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
+    SDL_Cursor_तथ्य *curdata;
 
-    if (cursor) {
+    अगर (cursor) {
         curdata = cursor->internal;
 
-        if (curdata) {
+        अगर (curdata) {
             SDL_DestroySurface(curdata->surface);
             SDL_DestroySurface(curdata->converted_surface);
             SDL_free(cursor->internal);
@@ -97,12 +97,12 @@ static void DOSVESA_FreeCursor(SDL_Cursor *cursor)
     }
 }
 
-static bool DOSVESA_WarpMouseGlobal(float x, float y)
+अटल bool DOSVESA_WarpMouseGlobal(भग्न x, भग्न y)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
-        return true;
+    अगर (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
+        वापस true;
     }
 
     // warp mouse in the driver, so we get correct screen coordinates from it.
@@ -115,40 +115,40 @@ static bool DOSVESA_WarpMouseGlobal(float x, float y)
     // Update internal mouse position.
     SDL_SendMouseMotion(0, mouse->focus, SDL_GLOBAL_MOUSE_ID, false, x, y);
 
-    return true;
+    वापस true;
 }
 
-static bool DOSVESA_WarpMouse(SDL_Window *window, float x, float y)
+अटल bool DOSVESA_WarpMouse(SDL_Window *window, भग्न x, भग्न y)
 {
-    return DOSVESA_WarpMouseGlobal(x, y);
+    वापस DOSVESA_WarpMouseGlobal(x, y);
 }
 
 // This is called when a mouse motion event occurs
-static bool DOSVESA_MoveCursor(SDL_Cursor *cursor)
+अटल bool DOSVESA_MoveCursor(SDL_Cursor *cursor)
 {
-    return true; // we handle this elsewhere.
+    वापस true; // we handle this elsewhere.
 }
 
-void DOSVESA_InitMouse(SDL_VideoDevice *_this)
+व्योम DOSVESA_InitMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
-    mouse->internal = NULL;
+    mouse->internal = शून्य;
 
     __dpmi_regs regs;
     regs.x.ax = 0;
     __dpmi_int(0x33, &regs);
-    if (regs.x.ax == 0) {
-        return; // no mouse found, don't hook up cursor support, etc.
+    अगर (regs.x.ax == 0) {
+        वापस; // no mouse found, don't hook up cursor support, etc.
     }
 
     mouse->internal = SDL_calloc(1, 1); // just something non-NULL (and safely freeable) to say "there's a mouse available."
 
     // Query mouse sensitivity (mickeys per pixel) via INT 33h function 0x1B
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
     regs.x.ax = 0x1B; // Get Mouse Sensitivity
     __dpmi_int(0x33, &regs);
-    data->mickeys_per_hpixel = (regs.x.bx > 0) ? (float)regs.x.bx : 8.0f;
-    data->mickeys_per_vpixel = (regs.x.cx > 0) ? (float)regs.x.cx : 16.0f;
+    तथ्य->mickeys_per_hpixel = (regs.x.bx > 0) ? (भग्न)regs.x.bx : 8.0f;
+    तथ्य->mickeys_per_vpixel = (regs.x.cx > 0) ? (भग्न)regs.x.cx : 16.0f;
 
     mouse->CreateCursor = DOSVESA_CreateCursor;
     mouse->ShowCursor = DOSVESA_ShowCursor;
@@ -160,11 +160,11 @@ void DOSVESA_InitMouse(SDL_VideoDevice *_this)
     SDL_SetDefaultCursor(DOSVESA_CreateDefaultCursor());
 }
 
-void DOSVESA_QuitMouse(SDL_VideoDevice *_this)
+व्योम DOSVESA_QuitMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_free(mouse->internal);
-    mouse->internal = NULL;
+    mouse->internal = शून्य;
 }
 
-#endif // SDL_VIDEO_DRIVER_DOSVESA
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_DOSVESA

@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_vulkan_internal_h_
-#define SDL_vulkan_internal_h_
+#अगर_अघोषित SDL_vulkan_internal_h_
+#घोषणा SDL_vulkan_internal_h_
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_VULKAN
-#ifdef SDL_VIDEO_DRIVER_ANDROID
-#define VK_USE_PLATFORM_ANDROID_KHR
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
-#define VK_USE_PLATFORM_OHOS
-#endif
-#ifdef SDL_VIDEO_DRIVER_COCOA
-#define VK_USE_PLATFORM_METAL_EXT
-#define VK_USE_PLATFORM_MACOS_MVK
-#endif
-#ifdef SDL_VIDEO_DRIVER_UIKIT
-#define VK_USE_PLATFORM_METAL_EXT
-#define VK_USE_PLATFORM_IOS_MVK
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
-#define VK_USE_PLATFORM_WAYLAND_KHR
-#include "wayland/SDL_waylanddyn.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#define VK_USE_PLATFORM_WIN32_KHR
-#include "../core/windows/SDL_windows.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11
-#define VK_USE_PLATFORM_XLIB_KHR
-#define VK_USE_PLATFORM_XCB_KHR
-#endif
+#अगर_घोषित SDL_VIDEO_VULKAN
+#अगर_घोषित SDL_VIDEO_DRIVER_ANDROID
+#घोषणा VK_USE_PLATFORM_ANDROID_KHR
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_OPENHARMONY
+#घोषणा VK_USE_PLATFORM_OHOS
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_COCOA
+#घोषणा VK_USE_PLATFORM_METAL_EXT
+#घोषणा VK_USE_PLATFORM_MACOS_MVK
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_UIKIT
+#घोषणा VK_USE_PLATFORM_METAL_EXT
+#घोषणा VK_USE_PLATFORM_IOS_MVK
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_WAYLAND
+#घोषणा VK_USE_PLATFORM_WAYLAND_KHR
+#समावेश "wayland/SDL_waylanddyn.h"
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_WINDOWS
+#घोषणा VK_USE_PLATFORM_WIN32_KHR
+#समावेश "../core/windows/SDL_windows.h"
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_DRIVER_X11
+#घोषणा VK_USE_PLATFORM_XLIB_KHR
+#घोषणा VK_USE_PLATFORM_XCB_KHR
+#पूर्ण_अगर
 
-#define VK_NO_PROTOTYPES
-#include "./khronos/vulkan/vulkan.h"
+#घोषणा VK_NO_PROTOTYPES
+#समावेश "./khronos/vulkan/vulkan.h"
 
-#include <SDL3/SDL_vulkan.h>
+#समावेश <SDL3/SDL_vulkan.h>
 
-extern const char *SDL_Vulkan_GetResultString(VkResult result);
+बाह्य स्थिर अक्षर *SDL_Vulkan_Get_परिणाम_String(Vk_परिणाम परिणाम);
 
-extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
+बाह्य VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
-    Uint32 *extensionCount); // free returned list with SDL_free
+    Uint32 *extension_गिनती); // free returned list with SDL_free
 
 /* Create a surface directly from a display connected to a physical device
  * using the DisplayKHR extension.
  * This needs to be passed an instance that was created with the VK_KHR_DISPLAY_EXTENSION_NAME
  * extension. */
-extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
+बाह्य bool SDL_Vulkan_Display_CreateSurface(व्योम *vkGetInstanceProcAddr,
                                              VkInstance instance,
-                                             const struct VkAllocationCallbacks *allocator,
+                                             स्थिर काष्ठा VkAllocationCallbacks *allocator,
                                              VkSurfaceKHR *surface);
 
 /* Platform independent base function for destroying the Vulkan surface. Unlike surface
@@ -77,18 +77,18 @@ extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
  * necessary extension is cross platform VK_KHR_surface, which is a dependency to all
  * WSI platform extensions, so we can handle surface destruction in an platform-independent
  * manner. */
-extern void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr,
+बाह्य व्योम SDL_Vulkan_DestroySurface_Internal(व्योम *vkGetInstanceProcAddr,
                                                VkInstance instance,
                                                VkSurfaceKHR surface,
-                                               const struct VkAllocationCallbacks *allocator);
-#else
+                                               स्थिर काष्ठा VkAllocationCallbacks *allocator);
+#अन्यथा
 
 // No SDL Vulkan support, just include the header for typedefs
-#include <SDL3/SDL_vulkan.h>
+#समावेश <SDL3/SDL_vulkan.h>
 
-typedef void (*PFN_vkGetInstanceProcAddr)(void);
-typedef int (*PFN_vkEnumerateInstanceExtensionProperties)(void);
+प्रकार व्योम (*PFN_vkGetInstanceProcAddr)(व्योम);
+प्रकार पूर्णांक (*PFN_vkEnumerateInstanceExtensionProperties)(व्योम);
 
-#endif // SDL_VIDEO_VULKAN
+#पूर्ण_अगर // SDL_VIDEO_VULKAN
 
-#endif // SDL_vulkan_internal_h_
+#पूर्ण_अगर // SDL_vulkan_internal_h_

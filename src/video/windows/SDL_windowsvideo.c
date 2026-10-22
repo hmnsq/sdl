@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#अगर_घोषित SDL_VIDEO_DRIVER_WINDOWS
 
-#ifdef SDL_VIDEO_VULKAN
-#include "../SDL_vulkan_internal.h"
-#endif
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../SDL_hints_c.h"
-#include "../../core/windows/SDL_hid.h"
+#अगर_घोषित SDL_VIDEO_VULKAN
+#समावेश "../SDL_vulkan_internal.h"
+#पूर्ण_अगर
+#समावेश "../SDL_sysvideo.h"
+#समावेश "../SDL_pixels_c.h"
+#समावेश "../../SDL_hints_c.h"
+#समावेश "../../core/windows/SDL_hid.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsframebuffer.h"
-#include "SDL_windowsmessagebox.h"
-#include "SDL_windowsrawinput.h"
-#include "SDL_windowsvulkan.h"
+#समावेश "SDL_windowsvideo.h"
+#समावेश "SDL_windowsframebuffer.h"
+#समावेश "SDL_windowsmessagebox.h"
+#समावेश "SDL_windowsrawinput.h"
+#समावेश "SDL_windowsvulkan.h"
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
+#अगर !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#समावेश <shobjidl.h>
 
-#ifndef __ITaskbarList3_FWD_DEFINED__
-typedef struct ITaskbarList3 ITaskbarList3;
-#endif
+#अगर_अघोषित __ITaskbarList3_FWD_DEFINED__
+प्रकार काष्ठा ITaskbarList3 ITaskbarList3;
+#पूर्ण_अगर
 
-#ifndef __ITaskbarList3_INTERFACE_DEFINED__
-typedef enum TBPFLAG
+#अगर_अघोषित __ITaskbarList3_INTERFACE_DEFINED__
+प्रकार क्रमागत TBPFLAG
 {
     TBPF_NOPROGRESS = 0x0,
     TBPF_INDETERMINATE = 0x1,
@@ -53,7 +53,7 @@ typedef enum TBPFLAG
     TBPF_PAUSED = 0x8
 } TBPFLAG;
 
-typedef enum THUMBBUTTONMASK
+प्रकार क्रमागत THUMBBUTTONMASK
 {
     THB_BITMAP = 0x1,
     THB_ICON = 0x2,
@@ -61,7 +61,7 @@ typedef enum THUMBBUTTONMASK
     THB_FLAGS = 0x8
 } THUMBBUTTONMASK;
 
-typedef enum THUMBBUTTONFLAGS
+प्रकार क्रमागत THUMBBUTTONFLAGS
 {
     THBF_ENABLED = 0x0,
     THBF_DISABLED = 0x1,
@@ -71,11 +71,11 @@ typedef enum THUMBBUTTONFLAGS
     THBF_NONINTERACTIVE = 0x10
 } THUMBBUTTONFLAGS;
 
-#if defined(_MSC_VER)
-#pragma warning(disable: 4103)
-#endif
-#pragma pack(push, 8)
-typedef struct THUMBBUTTON
+#अगर defined(_MSC_VER)
+#आशय warning(disable: 4103)
+#पूर्ण_अगर
+#आशय pack(धकेलो, 8)
+प्रकार काष्ठा THUMBBUTTON
 {
     THUMBBUTTONMASK dwMask;
     UINT iId;
@@ -85,17 +85,17 @@ typedef struct THUMBBUTTON
     THUMBBUTTONFLAGS dwFlags;
 } THUMBBUTTON;
 
-typedef struct THUMBBUTTON *LPTHUMBBUTTON;
-#pragma pack(pop)
+प्रकार काष्ठा THUMBBUTTON *LPTHUMBBUTTON;
+#आशय pack(निकालो)
 
-#ifndef HIMAGELIST
-struct _IMAGELIST;
-typedef struct _IMAGELIST *HIMAGELIST;
-#endif
+#अगर_अघोषित HIMAGELIST
+काष्ठा _IMAGELIST;
+प्रकार काष्ठा _IMAGELIST *HIMAGELIST;
+#पूर्ण_अगर
 
-typedef struct ITaskbarList3Vtbl
+प्रकार काष्ठा ITaskbarList3Vtbl
 {
-    HRESULT (__stdcall *QueryInterface)(ITaskbarList3 *This, REFIID riid, void **ppvObject);
+    HRESULT (__stdcall *QueryInterface)(ITaskbarList3 *This, REFIID riid, व्योम **ppvObject);
     ULONG (__stdcall *AddRef)(ITaskbarList3 *This);
     ULONG (__stdcall *Release)(ITaskbarList3 *This);
     HRESULT (__stdcall *HrInit)(ITaskbarList3 *This);
@@ -104,11 +104,11 @@ typedef struct ITaskbarList3Vtbl
     HRESULT (__stdcall *ActivateTab)(ITaskbarList3 *This, HWND hwnd);
     HRESULT (__stdcall *SetActiveAlt)(ITaskbarList3 *This, HWND hwnd);
     HRESULT (__stdcall *MarkFullscreenWindow)(ITaskbarList3 *This, HWND hwnd, BOOL fFullscreen);
-    HRESULT (__stdcall *SetProgressValue)(ITaskbarList3 *This, HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ullTotal);
+    HRESULT (__stdcall *Set_Progress_मूल्य)(ITaskbarList3 *This, HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ull_योग);
     HRESULT (__stdcall *SetProgressState)(ITaskbarList3 *This, HWND hwnd, TBPFLAG tbpFlags);
     HRESULT (__stdcall *RegisterTab)(ITaskbarList3 *This, HWND hwndTab, HWND hwndMDI);
     HRESULT (__stdcall *UnregisterTab)(ITaskbarList3 *This, HWND hwndTab);
-    HRESULT (__stdcall *SetTabOrder)(ITaskbarList3 *This, HWND hwndTab, HWND hwndInsertBefore);
+    HRESULT (__stdcall *SetTabOrder)(ITaskbarList3 *This, HWND hwndTab, HWND hwnd_जोड़ो_Before);
     HRESULT (__stdcall *SetTabActive)(ITaskbarList3 *This, HWND hwndTab, HWND hwndMDI, DWORD dwReserved);
     HRESULT (__stdcall *ThumbBarAddButtons)(ITaskbarList3 *This, HWND hwnd, UINT cButtons, LPTHUMBBUTTON pButton);
     HRESULT (__stdcall *ThumbBarUpdateButtons)(ITaskbarList3 *This, HWND hwnd, UINT cButtons, LPTHUMBBUTTON pButton);
@@ -118,237 +118,237 @@ typedef struct ITaskbarList3Vtbl
     HRESULT (__stdcall *SetThumbnailClip)(ITaskbarList3 *This, HWND hwnd, RECT *prcClip);
 } ITaskbarList3Vtbl;
 
-struct ITaskbarList3
+काष्ठा ITaskbarList3
 {
     ITaskbarList3Vtbl *lpVtbl;
 };
 
-#endif // #ifndef __ITaskbarList3_INTERFACE_DEFINED__
+#पूर्ण_अगर // #ifndef __ITaskbarList3_INTERFACE_DEFINED__
 
-#endif
+#पूर्ण_अगर
 
-#ifdef SDL_GDK_TEXTINPUT
-#include "../gdk/SDL_gdktextinput.h"
-#endif
+#अगर_घोषित SDL_GDK_TEXTINPUT
+#समावेश "../gdk/SDL_gdktextinput.h"
+#पूर्ण_अगर
 
 // #define HIGHDPI_DEBUG
 
 // Initialization/Query functions
-static bool WIN_VideoInit(SDL_VideoDevice *_this);
-static void WIN_VideoQuit(SDL_VideoDevice *_this);
+अटल bool WIN_VideoInit(SDL_VideoDevice *_this);
+अटल व्योम WIN_VideoQuit(SDL_VideoDevice *_this);
 
 // Hints
 bool g_WindowsEnableMessageLoop = true;
 bool g_WindowsEnableMenuMnemonics = false;
 bool g_WindowFrameUsableWhileCursorHidden = true;
 
-static void SDLCALL UpdateWindowsRawKeyboard(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsRawKeyboard(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_मूल्य, false);
     WIN_SetRawKeyboardEnabled(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawKeyboardNoHotkeys(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsRawKeyboardNoHotkeys(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_मूल्य, false);
     WIN_SetRawKeyboardFlag_NoHotkeys(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawKeyboardInputsink(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsRawKeyboardInputsink(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_मूल्य, false);
     WIN_SetRawKeyboardFlag_Inputsink(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawMouseNoLegacy(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsRawMouseNoLegacy(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_मूल्य, false);
     WIN_SetRawMouseFlag_NoLegacy(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsEnableMessageLoop(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsEnableMessageLoop(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
-    g_WindowsEnableMessageLoop = SDL_GetStringBoolean(newValue, true);
+    g_WindowsEnableMessageLoop = SDL_GetStringBoolean(new_मूल्य, true);
 }
 
-static void SDLCALL UpdateWindowsEnableMenuMnemonics(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowsEnableMenuMnemonics(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
-    g_WindowsEnableMenuMnemonics = SDL_GetStringBoolean(newValue, false);
+    g_WindowsEnableMenuMnemonics = SDL_GetStringBoolean(new_मूल्य, false);
 }
 
-static void SDLCALL UpdateWindowFrameUsableWhileCursorHidden(void *userdata, const char *name, const char *oldValue, const char *newValue)
+अटल व्योम SDLCALL UpdateWindowFrameUsableWhileCursorHidden(व्योम *userdata, स्थिर अक्षर *name, स्थिर अक्षर *old_मूल्य, स्थिर अक्षर *new_मूल्य)
 {
-    g_WindowFrameUsableWhileCursorHidden = SDL_GetStringBoolean(newValue, true);
+    g_WindowFrameUsableWhileCursorHidden = SDL_GetStringBoolean(new_मूल्य, true);
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static bool WIN_SuspendScreenSaver(SDL_VideoDevice *_this)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+अटल bool WIN_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    DWORD result;
-    if (_this->suspend_screensaver) {
-        result = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
-    } else {
-        result = SetThreadExecutionState(ES_CONTINUOUS);
+    DWORD परिणाम;
+    अगर (_this->suspend_screensaver) {
+        परिणाम = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
+    } अन्यथा {
+        परिणाम = SetThreadExecutionState(ES_CONTINUOUS);
     }
-    if (result == 0) {
+    अगर (परिणाम == 0) {
         SDL_SetError("SetThreadExecutionState() failed");
-        return false;
+        वापस false;
     }
-    return true;
+    वापस true;
 }
-#endif
+#पूर्ण_अगर
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-extern void D3D12_XBOX_GetResolution(Uint32 *width, Uint32 *height);
-#endif
+#अगर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+बाह्य व्योम D3D12_XBOX_GetResolution(Uint32 *width, Uint32 *height);
+#पूर्ण_अगर
 
 // Windows driver bootstrap functions
 
-static void WIN_DeleteDevice(SDL_VideoDevice *device)
+अटल व्योम WIN_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
+    SDL_Video_तथ्य *तथ्य = device->internal;
 
     SDL_UnregisterApp();
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (data->userDLL) {
-        SDL_UnloadObject(data->userDLL);
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    अगर (तथ्य->userDLL) {
+        SDL_UnloadObject(तथ्य->userDLL);
     }
-    if (data->shcoreDLL) {
-        SDL_UnloadObject(data->shcoreDLL);
+    अगर (तथ्य->shcoreDLL) {
+        SDL_UnloadObject(तथ्य->shcoreDLL);
     }
-    if (data->dwmapiDLL) {
-        SDL_UnloadObject(data->dwmapiDLL);
+    अगर (तथ्य->dwmapiDLL) {
+        SDL_UnloadObject(तथ्य->dwmapiDLL);
     }
-#endif
-#ifdef HAVE_DXGI_H
-    if (data->pDXGIFactory) {
-        IDXGIFactory_Release(data->pDXGIFactory);
+#पूर्ण_अगर
+#अगर_घोषित HAVE_DXGI_H
+    अगर (तथ्य->pDXGIFactory) {
+        IDXGIFactory_Release(तथ्य->pDXGIFactory);
     }
-    if (data->dxgiDLL) {
-        SDL_UnloadObject(data->dxgiDLL);
+    अगर (तथ्य->dxgiDLL) {
+        SDL_UnloadObject(तथ्य->dxgiDLL);
     }
-#endif
+#पूर्ण_अगर
     SDL_free(device->internal->rawinput);
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *WIN_CreateDevice(void)
+अटल SDL_VideoDevice *WIN_CreateDevice(व्योम)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_तथ्य *तथ्य;
 
-    SDL_RegisterApp(NULL, 0, NULL);
+    SDL_RegisterApp(शून्य, 0, शून्य);
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (device) {
-        data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    } else {
-        data = NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, माप(SDL_VideoDevice));
+    अगर (device) {
+        तथ्य = (SDL_Video_तथ्य *)SDL_calloc(1, माप(SDL_Video_तथ्य));
+    } अन्यथा {
+        तथ्य = शून्य;
     }
-    if (!data) {
+    अगर (!तथ्य) {
         SDL_UnregisterApp();
         SDL_free(device);
-        return NULL;
+        वापस शून्य;
     }
-    device->internal = data;
+    device->internal = तथ्य;
     device->system_theme = WIN_GetSystemTheme();
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    data->userDLL = SDL_LoadObject("USER32.DLL");
-    if (data->userDLL) {
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    तथ्य->userDLL = SDL_LoadObject("USER32.DLL");
+    अगर (तथ्य->userDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        data->CloseTouchInputHandle = (BOOL (WINAPI *)(HTOUCHINPUT))SDL_LoadFunction(data->userDLL, "CloseTouchInputHandle");
-        data->GetTouchInputInfo = (BOOL (WINAPI *)(HTOUCHINPUT, UINT, PTOUCHINPUT, int)) SDL_LoadFunction(data->userDLL, "GetTouchInputInfo");
-        data->RegisterTouchWindow = (BOOL (WINAPI *)(HWND, ULONG))SDL_LoadFunction(data->userDLL, "RegisterTouchWindow");
-        data->SetProcessDPIAware = (BOOL (WINAPI *)(void))SDL_LoadFunction(data->userDLL, "SetProcessDPIAware");
-        data->SetProcessDpiAwarenessContext = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "SetProcessDpiAwarenessContext");
-        data->SetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "SetThreadDpiAwarenessContext");
-        data->GetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(void))SDL_LoadFunction(data->userDLL, "GetThreadDpiAwarenessContext");
-        data->GetAwarenessFromDpiAwarenessContext = (DPI_AWARENESS (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "GetAwarenessFromDpiAwarenessContext");
-        data->EnableNonClientDpiScaling = (BOOL (WINAPI *)(HWND))SDL_LoadFunction(data->userDLL, "EnableNonClientDpiScaling");
-        data->AdjustWindowRectExForDpi = (BOOL (WINAPI *)(LPRECT, DWORD, BOOL, DWORD, UINT))SDL_LoadFunction(data->userDLL, "AdjustWindowRectExForDpi");
-        data->GetDpiForWindow = (UINT (WINAPI *)(HWND))SDL_LoadFunction(data->userDLL, "GetDpiForWindow");
-        data->AreDpiAwarenessContextsEqual = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT, DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "AreDpiAwarenessContextsEqual");
-        data->IsValidDpiAwarenessContext = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "IsValidDpiAwarenessContext");
-        data->GetDisplayConfigBufferSizes = (LONG (WINAPI *)(UINT32,UINT32 *,UINT32 *))SDL_LoadFunction(data->userDLL, "GetDisplayConfigBufferSizes");
-        data->QueryDisplayConfig = (LONG (WINAPI *)(UINT32,UINT32 *,DISPLAYCONFIG_PATH_INFO*,UINT32 *,DISPLAYCONFIG_MODE_INFO*,DISPLAYCONFIG_TOPOLOGY_ID*))SDL_LoadFunction(data->userDLL, "QueryDisplayConfig");
-        data->DisplayConfigGetDeviceInfo = (LONG (WINAPI *)(DISPLAYCONFIG_DEVICE_INFO_HEADER*))SDL_LoadFunction(data->userDLL, "DisplayConfigGetDeviceInfo");
-        data->GetPointerType = (BOOL (WINAPI *)(UINT32, POINTER_INPUT_TYPE *))SDL_LoadFunction(data->userDLL, "GetPointerType");
-        data->GetPointerPenInfo = (BOOL (WINAPI *)(UINT32, POINTER_PEN_INFO *))SDL_LoadFunction(data->userDLL, "GetPointerPenInfo");
-        data->GetPointerDeviceRects = (BOOL (WINAPI *)(HANDLE, RECT *, RECT *))SDL_LoadFunction(data->userDLL, "GetPointerDeviceRects");
+        तथ्य->Close_Touch_निवेश_Handle = (BOOL (WINAPI *)(HTOUCHINPUT))SDL_LoadFunction(तथ्य->userDLL, "CloseTouchInputHandle");
+        तथ्य->Get_Touch_निवेश_Info = (BOOL (WINAPI *)(HTOUCHINPUT, UINT, PTOUCHINPUT, पूर्णांक)) SDL_LoadFunction(तथ्य->userDLL, "GetTouchInputInfo");
+        तथ्य->RegisterTouchWindow = (BOOL (WINAPI *)(HWND, ULONG))SDL_LoadFunction(तथ्य->userDLL, "RegisterTouchWindow");
+        तथ्य->SetProcessDPIAware = (BOOL (WINAPI *)(व्योम))SDL_LoadFunction(तथ्य->userDLL, "SetProcessDPIAware");
+        तथ्य->SetProcessDpiAwarenessContext = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(तथ्य->userDLL, "SetProcessDpiAwarenessContext");
+        तथ्य->SetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(तथ्य->userDLL, "SetThreadDpiAwarenessContext");
+        तथ्य->GetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(व्योम))SDL_LoadFunction(तथ्य->userDLL, "GetThreadDpiAwarenessContext");
+        तथ्य->GetAwarenessFromDpiAwarenessContext = (DPI_AWARENESS (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(तथ्य->userDLL, "GetAwarenessFromDpiAwarenessContext");
+        तथ्य->EnableNonClientDpiScaling = (BOOL (WINAPI *)(HWND))SDL_LoadFunction(तथ्य->userDLL, "EnableNonClientDpiScaling");
+        तथ्य->AdjustWindowRectExForDpi = (BOOL (WINAPI *)(LPRECT, DWORD, BOOL, DWORD, UINT))SDL_LoadFunction(तथ्य->userDLL, "AdjustWindowRectExForDpi");
+        तथ्य->GetDpiForWindow = (UINT (WINAPI *)(HWND))SDL_LoadFunction(तथ्य->userDLL, "GetDpiForWindow");
+        तथ्य->AreDpiAwarenessContextsEqual = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT, DPI_AWARENESS_CONTEXT))SDL_LoadFunction(तथ्य->userDLL, "AreDpiAwarenessContextsEqual");
+        तथ्य->IsValidDpiAwarenessContext = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(तथ्य->userDLL, "IsValidDpiAwarenessContext");
+        तथ्य->Get_Display_Config_बफर_Sizes = (LONG (WINAPI *)(UINT32,UINT32 *,UINT32 *))SDL_LoadFunction(तथ्य->userDLL, "GetDisplayConfigBufferSizes");
+        तथ्य->QueryDisplayConfig = (LONG (WINAPI *)(UINT32,UINT32 *,DISPLAYCONFIG_PATH_INFO*,UINT32 *,DISPLAYCONFIG_MODE_INFO*,DISPLAYCONFIG_TOPOLOGY_ID*))SDL_LoadFunction(तथ्य->userDLL, "QueryDisplayConfig");
+        तथ्य->DisplayConfigGetDeviceInfo = (LONG (WINAPI *)(DISPLAYCONFIG_DEVICE_INFO_HEADER*))SDL_LoadFunction(तथ्य->userDLL, "DisplayConfigGetDeviceInfo");
+        तथ्य->GetPointerType = (BOOL (WINAPI *)(UINT32, POINTER_निवेश_TYPE *))SDL_LoadFunction(तथ्य->userDLL, "GetPointerType");
+        तथ्य->GetPointerPenInfo = (BOOL (WINAPI *)(UINT32, POINTER_PEN_INFO *))SDL_LoadFunction(तथ्य->userDLL, "GetPointerPenInfo");
+        तथ्य->GetPointerDeviceRects = (BOOL (WINAPI *)(HANDLE, RECT *, RECT *))SDL_LoadFunction(तथ्य->userDLL, "GetPointerDeviceRects");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } अन्यथा {
         SDL_ClearError();
     }
 
-    data->shcoreDLL = SDL_LoadObject("SHCORE.DLL");
-    if (data->shcoreDLL) {
+    तथ्य->shcoreDLL = SDL_LoadObject("SHCORE.DLL");
+    अगर (तथ्य->shcoreDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        data->GetDpiForMonitor = (HRESULT (WINAPI *)(HMONITOR, MONITOR_DPI_TYPE, UINT *, UINT *))SDL_LoadFunction(data->shcoreDLL, "GetDpiForMonitor");
-        data->SetProcessDpiAwareness = (HRESULT (WINAPI *)(PROCESS_DPI_AWARENESS))SDL_LoadFunction(data->shcoreDLL, "SetProcessDpiAwareness");
+        तथ्य->GetDpiForMonitor = (HRESULT (WINAPI *)(HMONITOR, MONITOR_DPI_TYPE, UINT *, UINT *))SDL_LoadFunction(तथ्य->shcoreDLL, "GetDpiForMonitor");
+        तथ्य->SetProcessDpiAwareness = (HRESULT (WINAPI *)(PROCESS_DPI_AWARENESS))SDL_LoadFunction(तथ्य->shcoreDLL, "SetProcessDpiAwareness");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } अन्यथा {
         SDL_ClearError();
     }
 
-    data->dwmapiDLL = SDL_LoadObject("DWMAPI.DLL");
-    if (data->dwmapiDLL) {
+    तथ्य->dwmapiDLL = SDL_LoadObject("DWMAPI.DLL");
+    अगर (तथ्य->dwmapiDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        data->DwmFlush = (HRESULT (WINAPI *)(void))SDL_LoadFunction(data->dwmapiDLL, "DwmFlush");
-        data->DwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND hwnd, const DWM_BLURBEHIND *pBlurBehind))SDL_LoadFunction(data->dwmapiDLL, "DwmEnableBlurBehindWindow");
-        data->DwmSetWindowAttribute = (HRESULT (WINAPI *)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute))SDL_LoadFunction(data->dwmapiDLL, "DwmSetWindowAttribute");
+        तथ्य->DwmFlush = (HRESULT (WINAPI *)(व्योम))SDL_LoadFunction(तथ्य->dwmapiDLL, "DwmFlush");
+        तथ्य->DwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND hwnd, स्थिर DWM_BLURBEHIND *pBlurBehind))SDL_LoadFunction(तथ्य->dwmapiDLL, "DwmEnableBlurBehindWindow");
+        तथ्य->DwmSetWindowAttribute = (HRESULT (WINAPI *)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute))SDL_LoadFunction(तथ्य->dwmapiDLL, "DwmSetWindowAttribute");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } अन्यथा {
         SDL_ClearError();
     }
-#endif // #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#पूर्ण_अगर // #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_DXGI_H
-    data->dxgiDLL = SDL_LoadObject("DXGI.DLL");
-    if (data->dxgiDLL) {
+#अगर_घोषित HAVE_DXGI_H
+    तथ्य->dxgiDLL = SDL_LoadObject("DXGI.DLL");
+    अगर (तथ्य->dxgiDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        typedef HRESULT (WINAPI *pfnCreateDXGI)(REFIID riid, void **ppFactory);
+        प्रकार HRESULT (WINAPI *pfnCreateDXGI)(REFIID riid, व्योम **ppFactory);
         /* *INDENT-ON* */ // clang-format on
         pfnCreateDXGI pCreateDXGI;
 
-        pCreateDXGI = (pfnCreateDXGI)SDL_LoadFunction(data->dxgiDLL, "CreateDXGIFactory");
-        if (pCreateDXGI) {
+        pCreateDXGI = (pfnCreateDXGI)SDL_LoadFunction(तथ्य->dxgiDLL, "CreateDXGIFactory");
+        अगर (pCreateDXGI) {
             GUID dxgiGUID = { 0x7b7166ec, 0x21c7, 0x44ae, { 0xb2, 0x1a, 0xc9, 0xae, 0x32, 0x1a, 0xe3, 0x69 } };
-            pCreateDXGI(&dxgiGUID, (void **)&data->pDXGIFactory);
+            pCreateDXGI(&dxgiGUID, (व्योम **)&तथ्य->pDXGIFactory);
         }
     }
-#endif
+#पूर्ण_अगर
 
     // Set the function pointers
     device->VideoInit = WIN_VideoInit;
     device->VideoQuit = WIN_VideoQuit;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->RefreshDisplays = WIN_RefreshDisplays;
     device->GetDisplayBounds = WIN_GetDisplayBounds;
     device->GetDisplayUsableBounds = WIN_GetDisplayUsableBounds;
     device->GetDisplayModes = WIN_GetDisplayModes;
     device->SetDisplayMode = WIN_SetDisplayMode;
-#endif
+#पूर्ण_अगर
     device->PumpEvents = WIN_PumpEvents;
     device->WaitEventTimeout = WIN_WaitEventTimeout;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->SendWakeupEvent = WIN_SendWakeupEvent;
     device->SuspendScreenSaver = WIN_SuspendScreenSaver;
-#endif
+#पूर्ण_अगर
 
     device->CreateSDLWindow = WIN_CreateWindow;
     device->SetWindowTitle = WIN_SetWindowTitle;
     device->SetWindowIcon = WIN_SetWindowIcon;
     device->SetWindowPosition = WIN_SetWindowPosition;
-    device->SetWindowSize = WIN_SetWindowSize;
-    device->GetWindowBordersSize = WIN_GetWindowBordersSize;
-    device->GetWindowSizeInPixels = WIN_GetWindowSizeInPixels;
+    device->Set_Window_आकार = WIN_Set_Window_आकार;
+    device->Get_Window_Borders_आकार = WIN_Get_Window_Borders_आकार;
+    device->Get_Window_आकार_In_Pixels = WIN_Get_Window_आकार_In_Pixels;
     device->SetWindowOpacity = WIN_SetWindowOpacity;
     device->ShowWindow = WIN_ShowWindow;
     device->HideWindow = WIN_HideWindow;
@@ -358,18 +358,18 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->RestoreWindow = WIN_RestoreWindow;
     device->SetWindowBordered = WIN_SetWindowBordered;
     device->SetWindowResizable = WIN_SetWindowResizable;
-    device->SetWindowAlwaysOnTop = WIN_SetWindowAlwaysOnTop;
+    device->Set_Window_Always_On_शीर्ष = WIN_Set_Window_Always_On_शीर्ष;
     device->SetWindowFullscreen = WIN_SetWindowFullscreen;
     device->SetWindowParent = WIN_SetWindowParent;
     device->SetWindowModal = WIN_SetWindowModal;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->GetWindowICCProfile = WIN_GetWindowICCProfile;
     device->SetWindowMouseRect = WIN_SetWindowMouseRect;
     device->SetWindowMouseGrab = WIN_SetWindowMouseGrab;
     device->SetWindowKeyboardGrab = WIN_SetWindowKeyboardGrab;
-#endif
+#पूर्ण_अगर
     device->DestroyWindow = WIN_DestroyWindow;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->CreateWindowFramebuffer = WIN_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = WIN_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = WIN_DestroyWindowFramebuffer;
@@ -381,9 +381,9 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->ShowWindowSystemMenu = WIN_ShowWindowSystemMenu;
     device->SetWindowFocusable = WIN_SetWindowFocusable;
     device->UpdateWindowShape = WIN_UpdateWindowShape;
-#endif
+#पूर्ण_अगर
 
-#ifdef SDL_VIDEO_OPENGL_WGL
+#अगर_घोषित SDL_VIDEO_OPENGL_WGL
     device->GL_LoadLibrary = WIN_GL_LoadLibrary;
     device->GL_GetProcAddress = WIN_GL_GetProcAddress;
     device->GL_UnloadLibrary = WIN_GL_UnloadLibrary;
@@ -393,12 +393,12 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
     device->GL_SwapWindow = WIN_GL_SwapWindow;
     device->GL_DestroyContext = WIN_GL_DestroyContext;
-    device->GL_GetEGLSurface = NULL;
-#endif
-#ifdef SDL_VIDEO_OPENGL_EGL
-#ifdef SDL_VIDEO_OPENGL_WGL
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#endif
+    device->GL_GetEGLSurface = शून्य;
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_OPENGL_EGL
+#अगर_घोषित SDL_VIDEO_OPENGL_WGL
+    अगर (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+#पूर्ण_अगर
         // Use EGL based functions
         device->GL_LoadLibrary = WIN_GLES_LoadLibrary;
         device->GL_GetProcAddress = WIN_GLES_GetProcAddress;
@@ -410,125 +410,125 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
         device->GL_SwapWindow = WIN_GLES_SwapWindow;
         device->GL_DestroyContext = WIN_GLES_DestroyContext;
         device->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
-#ifdef SDL_VIDEO_OPENGL_WGL
+#अगर_घोषित SDL_VIDEO_OPENGL_WGL
     }
-#endif
-#endif
-#ifdef SDL_VIDEO_VULKAN
+#पूर्ण_अगर
+#पूर्ण_अगर
+#अगर_घोषित SDL_VIDEO_VULKAN
     device->Vulkan_LoadLibrary = WIN_Vulkan_LoadLibrary;
     device->Vulkan_UnloadLibrary = WIN_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = WIN_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = WIN_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = WIN_Vulkan_DestroySurface;
     device->Vulkan_GetPresentationSupport = WIN_Vulkan_GetPresentationSupport;
-#endif
+#पूर्ण_अगर
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    device->StartTextInput = WIN_StartTextInput;
-    device->StopTextInput = WIN_StopTextInput;
-    device->UpdateTextInputArea = WIN_UpdateTextInputArea;
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    device->Start_Text_निवेश = WIN_Start_Text_निवेश;
+    device->Stop_Text_निवेश = WIN_Stop_Text_निवेश;
+    device->Update_Text_निवेश_Area = WIN_Update_Text_निवेश_Area;
     device->ClearComposition = WIN_ClearComposition;
 
-    device->SetClipboardData = WIN_SetClipboardData;
-    device->GetClipboardData = WIN_GetClipboardData;
-    device->HasClipboardData = WIN_HasClipboardData;
-#endif
+    device->Set_Clipboard_तथ्य = WIN_Set_Clipboard_तथ्य;
+    device->Get_Clipboard_तथ्य = WIN_Get_Clipboard_तथ्य;
+    device->Has_Clipboard_तथ्य = WIN_Has_Clipboard_तथ्य;
+#पूर्ण_अगर
 
-#ifdef SDL_GDK_TEXTINPUT
+#अगर_घोषित SDL_GDK_TEXTINPUT
     GDK_EnsureHints();
 
-    device->StartTextInput = GDK_StartTextInput;
-    device->StopTextInput = GDK_StopTextInput;
-    device->UpdateTextInputArea = GDK_UpdateTextInputArea;
+    device->Start_Text_निवेश = GDK_Start_Text_निवेश;
+    device->Stop_Text_निवेश = GDK_Stop_Text_निवेश;
+    device->Update_Text_निवेश_Area = GDK_Update_Text_निवेश_Area;
     device->ClearComposition = GDK_ClearComposition;
 
     device->HasScreenKeyboardSupport = GDK_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = GDK_ShowScreenKeyboard;
     device->HideScreenKeyboard = GDK_HideScreenKeyboard;
-#endif
+#पूर्ण_अगर
 
-    device->free = WIN_DeleteDevice;
+    device->मुक्त = WIN_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
                           VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    वापस device;
 }
 
 VideoBootStrap WINDOWS_bootstrap = {
     "windows", "SDL Windows video driver", WIN_CreateDevice,
-    #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    #अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     WIN_ShowMessageBox,
-    #else
-    NULL,
-    #endif
+    #अन्यथा
+    शून्य,
+    #पूर्ण_अगर
     false
 };
 
-static BOOL WIN_DeclareDPIAwareUnaware(SDL_VideoDevice *_this)
+अटल BOOL WIN_DeclareDPIAwareUnaware(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *data = _this->internal;
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
-        data->dpi_unaware_context_declared = true;
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
-    } else if (data->SetProcessDpiAwareness) {
+    अगर (तथ्य->SetProcessDpiAwarenessContext) {
+        तथ्य->dpi_unaware_context_declared = true;
+        वापस तथ्य->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
+    } अन्यथा अगर (तथ्य->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_DPI_UNAWARE));
+        वापस SUCCEEDED(तथ्य->SetProcessDpiAwareness(PROCESS_DPI_UNAWARE));
     }
-#endif
-    return FALSE;
+#पूर्ण_अगर
+    वापस FALSE;
 }
 
-static BOOL WIN_DeclareDPIAwareSystem(SDL_VideoDevice *_this)
+अटल BOOL WIN_DeclareDPIAwareSystem(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *data = _this->internal;
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
+    अगर (तथ्य->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
-    } else if (data->SetProcessDpiAwareness) {
+        वापस तथ्य->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+    } अन्यथा अगर (तथ्य->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE));
-    } else if (data->SetProcessDPIAware) {
+        वापस SUCCEEDED(तथ्य->SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE));
+    } अन्यथा अगर (तथ्य->SetProcessDPIAware) {
         // Windows Vista
-        return data->SetProcessDPIAware();
+        वापस तथ्य->SetProcessDPIAware();
     }
-#endif
-    return FALSE;
+#पूर्ण_अगर
+    वापस FALSE;
 }
 
-static BOOL WIN_DeclareDPIAwarePerMonitor(SDL_VideoDevice *_this)
+अटल BOOL WIN_DeclareDPIAwarePerMonitor(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *data = _this->internal;
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
+    अगर (तथ्य->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
-    } else if (data->SetProcessDpiAwareness) {
+        वापस तथ्य->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
+    } अन्यथा अगर (तथ्य->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE));
-    } else {
+        वापस SUCCEEDED(तथ्य->SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE));
+    } अन्यथा {
         // Older OS: fall back to system DPI aware
-        return WIN_DeclareDPIAwareSystem(_this);
+        वापस WIN_DeclareDPIAwareSystem(_this);
     }
-#else
-    return FALSE;
-#endif
+#अन्यथा
+    वापस FALSE;
+#पूर्ण_अगर
 }
 
-static BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
+अटल BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    return FALSE;
-#else
-    SDL_VideoData *data = _this->internal;
+#अगर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    वापस FALSE;
+#अन्यथा
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
     // Declare DPI aware (may have been done in external code or a manifest, as well)
-    if (data->SetProcessDpiAwarenessContext) {
+    अगर (तथ्य->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
 
         /* NOTE: SetThreadDpiAwarenessContext doesn't work here with OpenGL - the OpenGL contents
@@ -546,90 +546,90 @@ static BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
            will fail in the future until you manually clear the "Override high DPI Scaling behaviour"
            setting in Windows Explorer (tested on Windows 10 21H2).
          */
-        if (data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            return TRUE;
-        } else {
-            return WIN_DeclareDPIAwarePerMonitor(_this);
+        अगर (तथ्य->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+            वापस TRUE;
+        } अन्यथा {
+            वापस WIN_DeclareDPIAwarePerMonitor(_this);
         }
-    } else {
+    } अन्यथा {
         // Older OS: fall back to per-monitor (or system)
-        return WIN_DeclareDPIAwarePerMonitor(_this);
+        वापस WIN_DeclareDPIAwarePerMonitor(_this);
     }
-#endif
+#पूर्ण_अगर
 }
 
-#ifdef HIGHDPI_DEBUG
-static const char *WIN_GetDPIAwareness(SDL_VideoDevice *_this)
+#अगर_घोषित HIGHDPI_DEBUG
+अटल स्थिर अक्षर *WIN_GetDPIAwareness(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->GetThreadDpiAwarenessContext && data->AreDpiAwarenessContextsEqual) {
-        DPI_AWARENESS_CONTEXT context = data->GetThreadDpiAwarenessContext();
+    अगर (तथ्य->GetThreadDpiAwarenessContext && तथ्य->AreDpiAwarenessContextsEqual) {
+        DPI_AWARENESS_CONTEXT context = तथ्य->GetThreadDpiAwarenessContext();
 
-        if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE)) {
-            return "unaware";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)) {
-            return "system";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)) {
-            return "permonitor";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            return "permonitorv2";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)) {
-            return "unaware_gdiscaled";
+        अगर (तथ्य->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE)) {
+            वापस "unaware";
+        } अन्यथा अगर (तथ्य->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)) {
+            वापस "system";
+        } अन्यथा अगर (तथ्य->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)) {
+            वापस "permonitor";
+        } अन्यथा अगर (तथ्य->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+            वापस "permonitorv2";
+        } अन्यथा अगर (तथ्य->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)) {
+            वापस "unaware_gdiscaled";
         }
     }
 
-    return "";
+    वापस "";
 }
-#endif
+#पूर्ण_अगर
 
-static void WIN_InitDPIAwareness(SDL_VideoDevice *_this)
+अटल व्योम WIN_InitDPIAwareness(SDL_VideoDevice *_this)
 {
-    const char *hint = SDL_GetHint("SDL_WINDOWS_DPI_AWARENESS");
+    स्थिर अक्षर *hint = SDL_GetHint("SDL_WINDOWS_DPI_AWARENESS");
 
-    if (!hint || SDL_strcmp(hint, "permonitorv2") == 0) {
+    अगर (!hint || SDL_strcmp(hint, "permonitorv2") == 0) {
         WIN_DeclareDPIAwarePerMonitorV2(_this);
-    } else if (SDL_strcmp(hint, "permonitor") == 0) {
+    } अन्यथा अगर (SDL_strcmp(hint, "permonitor") == 0) {
         WIN_DeclareDPIAwarePerMonitor(_this);
-    } else if (SDL_strcmp(hint, "system") == 0) {
+    } अन्यथा अगर (SDL_strcmp(hint, "system") == 0) {
         WIN_DeclareDPIAwareSystem(_this);
-    } else if (SDL_strcmp(hint, "unaware") == 0) {
+    } अन्यथा अगर (SDL_strcmp(hint, "unaware") == 0) {
         WIN_DeclareDPIAwareUnaware(_this);
     }
 }
 
-static bool WIN_VideoInit(SDL_VideoDevice *_this)
+अटल bool WIN_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
     HRESULT hr;
 
     hr = WIN_CoInitialize();
-    if (SUCCEEDED(hr)) {
-        data->coinitialized = true;
+    अगर (SUCCEEDED(hr)) {
+        तथ्य->coinitialized = true;
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-        hr = OleInitialize(NULL);
-        if (SUCCEEDED(hr)) {
-            data->oleinitialized = true;
-        } else {
-            SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "OleInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned int)hr);
+#अगर !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+        hr = OleInitialize(शून्य);
+        अगर (SUCCEEDED(hr)) {
+            तथ्य->oleinitialized = true;
+        } अन्यथा {
+            SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "OleInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (अचिन्हित पूर्णांक)hr);
         }
-#endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-    } else {
-        SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "CoInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned int)hr);
+#पूर्ण_अगर // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+    } अन्यथा {
+        SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "CoInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (अचिन्हित पूर्णांक)hr);
     }
 
     WIN_InitDPIAwareness(_this);
 
-#ifdef HIGHDPI_DEBUG
+#अगर_घोषित HIGHDPI_DEBUG
     SDL_Log("DPI awareness: %s", WIN_GetDPIAwareness(_this));
-#endif
+#पूर्ण_अगर
 
-    if (SDL_GetHintBoolean(SDL_HINT_WINDOWS_GAMEINPUT, false)) {
-        WIN_InitGameInput(_this);
+    अगर (SDL_GetHintBoolean(SDL_HINT_WINDOWS_GAMEINPUT, false)) {
+        WIN_Init_Game_निवेश(_this);
     }
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#अगर defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     // For Xbox, we just need to create the single display
     {
         SDL_DisplayMode mode;
@@ -641,9 +641,9 @@ static bool WIN_VideoInit(SDL_VideoDevice *_this)
 
         SDL_AddBasicVideoDisplay(&mode);
     }
-#else // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!WIN_InitModes(_this)) {
-        return false;
+#अन्यथा // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    अगर (!WIN_InitModes(_this)) {
+        वापस false;
     }
 
     _this->internal->detect_device_hotplug = SDL_GetHintBoolean("SDL_WINDOWS_DETECT_DEVICE_HOTPLUG", true);
@@ -651,149 +651,149 @@ static bool WIN_VideoInit(SDL_VideoDevice *_this)
     WIN_InitKeyboard(_this);
     WIN_InitMouse(_this);
     WIN_InitDeviceNotification();
-#endif
+#पूर्ण_अगर
 
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD, UpdateWindowsRawKeyboard, _this);
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS, UpdateWindowsRawKeyboardNoHotkeys, _this);
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK, UpdateWindowsRawKeyboardInputsink, _this);
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_MOUSE_NOLEGACY, UpdateWindowsRawMouseNoLegacy, _this);
-    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, NULL);
-    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, NULL);
-    SDL_AddHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, NULL);
+    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, शून्य);
+    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, शून्य);
+    SDL_AddHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, शून्य);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    data->_SDL_WAKEUP = RegisterWindowMessageA("_SDL_WAKEUP");
-    data->WM_TASKBAR_BUTTON_CREATED = WIN_IsWindows7OrGreater() ? RegisterWindowMessageA("TaskbarButtonCreated") : 0;
-#endif
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    तथ्य->_SDL_WAKEUP = RegisterWindowMessageA("_SDL_WAKEUP");
+    तथ्य->WM_TASKBAR_BUTTON_CREATED = WIN_IsWindows7OrGreater() ? RegisterWindowMessageA("TaskbarButtonCreated") : 0;
+#पूर्ण_अगर
 
-    return true;
+    वापस true;
 }
 
-void WIN_VideoQuit(SDL_VideoDevice *_this)
+व्योम WIN_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD, UpdateWindowsRawKeyboard, _this);
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS, UpdateWindowsRawKeyboardNoHotkeys, _this);
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK, UpdateWindowsRawKeyboardInputsink, _this);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, NULL);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, NULL);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, NULL);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, शून्य);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, शून्य);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, शून्य);
 
-    WIN_QuitRawInput(_this);
-    WIN_QuitGameInput(_this);
+    WIN_Quit_Raw_निवेश(_this);
+    WIN_Quit_Game_निवेश(_this);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     WIN_QuitModes(_this);
     WIN_QuitDeviceNotification();
     WIN_QuitKeyboard(_this);
     WIN_QuitMouse(_this);
 
-    if (data->taskbar_list) {
-        data->taskbar_list->lpVtbl->Release(data->taskbar_list);
-        data->taskbar_list = NULL;
+    अगर (तथ्य->taskbar_list) {
+        तथ्य->taskbar_list->lpVtbl->Release(तथ्य->taskbar_list);
+        तथ्य->taskbar_list = शून्य;
     }
 
-    if (data->oleinitialized) {
+    अगर (तथ्य->oleinitialized) {
         OleUninitialize();
-        data->oleinitialized = false;
+        तथ्य->oleinitialized = false;
     }
-#endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#पूर्ण_अगर // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-    if (data->coinitialized) {
+    अगर (तथ्य->coinitialized) {
         WIN_CoUninitialize();
-        data->coinitialized = false;
+        तथ्य->coinitialized = false;
     }
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#define D3D_DEBUG_INFO
-#include <d3d9.h>
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#घोषणा D3D_DEBUG_INFO
+#समावेश <d3d9.h>
 
-#ifdef D3D_DEBUG_INFO
-#ifndef D3D_SDK_VERSION
-#define D3D_SDK_VERSION (32 | 0x80000000)
-#endif
-#ifndef D3D9b_SDK_VERSION
-#define D3D9b_SDK_VERSION (31 | 0x80000000)
-#endif
-#else //
-#ifndef D3D_SDK_VERSION
-#define D3D_SDK_VERSION 32
-#endif
-#ifndef D3D9b_SDK_VERSION
-#define D3D9b_SDK_VERSION 31
-#endif
-#endif
+#अगर_घोषित D3D_DEBUG_INFO
+#अगर_अघोषित D3D_SDK_VERSION
+#घोषणा D3D_SDK_VERSION (32 | 0x80000000)
+#पूर्ण_अगर
+#अगर_अघोषित D3D9b_SDK_VERSION
+#घोषणा D3D9b_SDK_VERSION (31 | 0x80000000)
+#पूर्ण_अगर
+#अन्यथा //
+#अगर_अघोषित D3D_SDK_VERSION
+#घोषणा D3D_SDK_VERSION 32
+#पूर्ण_अगर
+#अगर_अघोषित D3D9b_SDK_VERSION
+#घोषणा D3D9b_SDK_VERSION 31
+#पूर्ण_अगर
+#पूर्ण_अगर
 
-bool D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface)
+bool D3D_LoadDLL(व्योम **pD3DDLL, IDirect3D9 **pDirect3D9Interface)
 {
     *pD3DDLL = SDL_LoadObject("D3D9.DLL");
-    if (*pD3DDLL) {
+    अगर (*pD3DDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        typedef IDirect3D9 *(WINAPI *pfnDirect3DCreate9)(UINT SDKVersion);
-        typedef HRESULT (WINAPI *pfnDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex **ppD3D);
+        प्रकार IDirect3D9 *(WINAPI *pfnDirect3DCreate9)(UINT SDKVersion);
+        प्रकार HRESULT (WINAPI *pfnDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex **ppD3D);
         /* *INDENT-ON* */ // clang-format on
         pfnDirect3DCreate9 pDirect3DCreate9;
 
-        if (SDL_GetHintBoolean(SDL_HINT_WINDOWS_USE_D3D9EX, false)) {
+        अगर (SDL_GetHintBoolean(SDL_HINT_WINDOWS_USE_D3D9EX, false)) {
             pfnDirect3DCreate9Ex pDirect3DCreate9Ex;
 
             pDirect3DCreate9Ex = (pfnDirect3DCreate9Ex)SDL_LoadFunction(*pD3DDLL, "Direct3DCreate9Ex");
-            if (pDirect3DCreate9Ex) {
+            अगर (pDirect3DCreate9Ex) {
                 IDirect3D9Ex *pDirect3D9ExInterface;
                 HRESULT hr = pDirect3DCreate9Ex(D3D_SDK_VERSION, &pDirect3D9ExInterface);
-                if (SUCCEEDED(hr)) {
-                    const GUID IDirect3D9_GUID = { 0x81bdcbca, 0x64d4, 0x426d, { 0xae, 0x8d, 0xad, 0x1, 0x47, 0xf4, 0x27, 0x5c } };
-                    hr = IDirect3D9Ex_QueryInterface(pDirect3D9ExInterface, &IDirect3D9_GUID, (void **)pDirect3D9Interface);
+                अगर (SUCCEEDED(hr)) {
+                    स्थिर GUID IDirect3D9_GUID = { 0x81bdcbca, 0x64d4, 0x426d, { 0xae, 0x8d, 0xad, 0x1, 0x47, 0xf4, 0x27, 0x5c } };
+                    hr = IDirect3D9Ex_QueryInterface(pDirect3D9ExInterface, &IDirect3D9_GUID, (व्योम **)pDirect3D9Interface);
                     IDirect3D9Ex_Release(pDirect3D9ExInterface);
-                    if (SUCCEEDED(hr)) {
-                        return true;
+                    अगर (SUCCEEDED(hr)) {
+                        वापस true;
                     }
                 }
             }
         }
 
         pDirect3DCreate9 = (pfnDirect3DCreate9)SDL_LoadFunction(*pD3DDLL, "Direct3DCreate9");
-        if (pDirect3DCreate9) {
+        अगर (pDirect3DCreate9) {
             *pDirect3D9Interface = pDirect3DCreate9(D3D_SDK_VERSION);
-            if (*pDirect3D9Interface) {
-                return true;
+            अगर (*pDirect3D9Interface) {
+                वापस true;
             }
         }
 
         SDL_UnloadObject(*pD3DDLL);
-        *pD3DDLL = NULL;
+        *pD3DDLL = शून्य;
     }
-    *pDirect3D9Interface = NULL;
-    return false;
+    *pDirect3D9Interface = शून्य;
+    वापस false;
 }
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+पूर्णांक SDL_Get_Direct3_D9_Adapter_सूचकांक(SDL_DisplayID displayID)
 {
-    void *pD3DDLL;
+    व्योम *pD3DDLL;
     IDirect3D9 *pD3D;
-    if (!D3D_LoadDLL(&pD3DDLL, &pD3D)) {
+    अगर (!D3D_LoadDLL(&pD3DDLL, &pD3D)) {
         SDL_SetError("Unable to create Direct3D interface");
-        return -1;
-    } else {
-        SDL_DisplayData *pData = SDL_GetDisplayDriverData(displayID);
-        int adapterIndex = D3DADAPTER_DEFAULT;
+        वापस -1;
+    } अन्यथा {
+        SDL_Display_तथ्य *p_तथ्य = SDL_Get_Display_Driver_तथ्य(displayID);
+        पूर्णांक adapter_सूचकांक = D3DADAPTER_DEFAULT;
 
-        if (!pData) {
+        अगर (!p_तथ्य) {
             SDL_SetError("Invalid display index");
-            adapterIndex = -1; // make sure we return something invalid
-        } else {
-            char *displayName = WIN_StringToUTF8W(pData->DeviceName);
-            unsigned int count = IDirect3D9_GetAdapterCount(pD3D);
-            unsigned int i;
-            for (i = 0; i < count; i++) {
+            adapter_सूचकांक = -1; // make sure we return something invalid
+        } अन्यथा {
+            अक्षर *displayName = WIN_StringToUTF8W(p_तथ्य->DeviceName);
+            अचिन्हित पूर्णांक गिनती = IDirect3_D9_Get_Adapter_गिनती(pD3D);
+            अचिन्हित पूर्णांक i;
+            क्रम (i = 0; i < गिनती; i++) {
                 D3DADAPTER_IDENTIFIER9 id;
                 IDirect3D9_GetAdapterIdentifier(pD3D, i, 0, &id);
 
-                if (SDL_strcmp(id.DeviceName, displayName) == 0) {
-                    adapterIndex = i;
-                    break;
+                अगर (SDL_strcmp(id.DeviceName, displayName) == 0) {
+                    adapter_सूचकांक = i;
+                    अवरोध;
                 }
             }
             SDL_free(displayName);
@@ -803,57 +803,57 @@ int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
         IDirect3D9_Release(pD3D);
         SDL_UnloadObject(pD3DDLL);
 
-        return adapterIndex;
+        वापस adapter_सूचकांक;
     }
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#पूर्ण_अगर // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex)
+bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, पूर्णांक *adapter_सूचकांक, पूर्णांक *output_सूचकांक)
 {
-#ifndef HAVE_DXGI_H
-    if (adapterIndex) {
-        *adapterIndex = -1;
+#अगर_अघोषित HAVE_DXGI_H
+    अगर (adapter_सूचकांक) {
+        *adapter_सूचकांक = -1;
     }
-    if (outputIndex) {
-        *outputIndex = -1;
+    अगर (output_सूचकांक) {
+        *output_सूचकांक = -1;
     }
-    return SDL_SetError("SDL was compiled without DXGI support due to missing dxgi.h header");
-#else
-    const SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
-    const SDL_VideoData *videodata = videodevice ? videodevice->internal : NULL;
-    SDL_DisplayData *pData = SDL_GetDisplayDriverData(displayID);
-    int nAdapter, nOutput;
+    वापस SDL_SetError("SDL was compiled without DXGI support due to missing dxgi.h header");
+#अन्यथा
+    स्थिर SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
+    स्थिर SDL_Video_तथ्य *videodata = videodevice ? videodevice->internal : शून्य;
+    SDL_Display_तथ्य *p_तथ्य = SDL_Get_Display_Driver_तथ्य(displayID);
+    पूर्णांक nAdapter, nOutput;
     IDXGIAdapter *pDXGIAdapter;
     IDXGIOutput *pDXGIOutput;
 
-    CHECK_PARAM(!adapterIndex) {
-        return SDL_InvalidParamError("adapterIndex");
+    CHECK_PARAM(!adapter_सूचकांक) {
+        वापस SDL_InvalidParamError("adapterIndex");
     }
 
-    CHECK_PARAM(!outputIndex) {
-        return SDL_InvalidParamError("outputIndex");
+    CHECK_PARAM(!output_सूचकांक) {
+        वापस SDL_InvalidParamError("outputIndex");
     }
 
-    *adapterIndex = -1;
-    *outputIndex = -1;
+    *adapter_सूचकांक = -1;
+    *output_सूचकांक = -1;
 
-    if (!pData) {
-        return SDL_SetError("Invalid display index");
+    अगर (!p_तथ्य) {
+        वापस SDL_SetError("Invalid display index");
     }
 
-    if (!videodata || !videodata->pDXGIFactory) {
-        return SDL_SetError("Unable to create DXGI interface");
+    अगर (!videodata || !videodata->pDXGIFactory) {
+        वापस SDL_SetError("Unable to create DXGI interface");
     }
 
     nAdapter = 0;
-    while (*adapterIndex == -1 && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
+    जबतक (*adapter_सूचकांक == -1 && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
         nOutput = 0;
-        while (*adapterIndex == -1 && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
+        जबतक (*adapter_सूचकांक == -1 && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
             DXGI_OUTPUT_DESC outputDesc;
-            if (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
-                if (SDL_wcscmp(outputDesc.DeviceName, pData->DeviceName) == 0) {
-                    *adapterIndex = nAdapter;
-                    *outputIndex = nOutput;
+            अगर (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
+                अगर (SDL_wcscmp(outputDesc.DeviceName, p_तथ्य->DeviceName) == 0) {
+                    *adapter_सूचकांक = nAdapter;
+                    *output_सूचकांक = nOutput;
                 }
             }
             IDXGIOutput_Release(pDXGIOutput);
@@ -863,44 +863,44 @@ bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outp
         nAdapter++;
     }
 
-    if (*adapterIndex == -1) {
-        return SDL_SetError("Couldn't find matching adapter");
+    अगर (*adapter_सूचकांक == -1) {
+        वापस SDL_SetError("Couldn't find matching adapter");
     }
-    return true;
-#endif
+    वापस true;
+#पूर्ण_अगर
 }
 
-SDL_SystemTheme WIN_GetSystemTheme(void)
+SDL_SystemTheme WIN_GetSystemTheme(व्योम)
 {
     SDL_SystemTheme theme = SDL_SYSTEM_THEME_LIGHT;
-    HKEY hKey;
+    HKEY h_कुंजी;
     DWORD dwType = REG_DWORD;
-    DWORD value = ~0U;
-    DWORD length = sizeof(value);
+    DWORD मूल्य = ~0U;
+    DWORD लंबाई = माप(मूल्य);
 
     // Technically this isn't the system theme, but it's the preference for applications
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-        if (RegQueryValueExW(hKey, L"AppsUseLightTheme", 0, &dwType, (LPBYTE)&value, &length) == ERROR_SUCCESS) {
-            if (value == 0) {
+    अगर (Reg_Open_कुंजी_Ex_W(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, कुंजी_READ, &h_कुंजी) == ERROR_SUCCESS) {
+        अगर (Reg_Query_मूल्य_Ex_W(h_कुंजी, L"AppsUseLightTheme", 0, &dwType, (LPBYTE)&मूल्य, &लंबाई) == ERROR_SUCCESS) {
+            अगर (मूल्य == 0) {
                 theme = SDL_SYSTEM_THEME_DARK;
             }
         }
-        RegCloseKey(hKey);
+        Reg_Close_कुंजी(h_कुंजी);
     }
-    return theme;
+    वापस theme;
 }
 
 bool WIN_IsPerMonitorV2DPIAware(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *data = _this->internal;
+#अगर !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_तथ्य *तथ्य = _this->internal;
 
-    if (data->AreDpiAwarenessContextsEqual && data->GetThreadDpiAwarenessContext) {
+    अगर (तथ्य->AreDpiAwarenessContextsEqual && तथ्य->GetThreadDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->AreDpiAwarenessContextsEqual(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2, data->GetThreadDpiAwarenessContext());
+        वापस तथ्य->AreDpiAwarenessContextsEqual(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2, तथ्य->GetThreadDpiAwarenessContext());
     }
-#endif
-    return false;
+#पूर्ण_अगर
+    वापस false;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_WINDOWS

@@ -19,130 +19,130 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#समावेश "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
+#अगर defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xsync.h"
+#समावेश "SDL_x11video.h"
+#समावेश "SDL_x11xsync.h"
 
-static bool xsync_initialized = false;
+अटल bool xsync_initialized = false;
 
-static int query_xsync_version(Display *display, int major, int minor)
+अटल पूर्णांक query_xsync_version(Display *display, पूर्णांक major, पूर्णांक minor)
 {
     /* We don't care if this fails, so long as it sets major/minor on it's way out the door. */
     X11_XSyncInitialize(display, &major, &minor);
-    return (major * 1000) + minor;
+    वापस (major * 1000) + minor;
 }
 
-static bool xsync_version_atleast(const int version, const int wantmajor, const int wantminor)
+अटल bool xsync_version_atleast(स्थिर पूर्णांक version, स्थिर पूर्णांक wantmajor, स्थिर पूर्णांक wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    वापस version >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXsync(SDL_VideoDevice *_this)
+व्योम X11_InitXsync(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data =  _this->internal;
+    SDL_Video_तथ्य *तथ्य =  _this->internal;
 
-    int version = 0;
-    int event, error;
-    int sync_opcode;
+    पूर्णांक version = 0;
+    पूर्णांक event, error;
+    पूर्णांक sync_opcode;
 
-    if (!SDL_X11_HAVE_XSYNC ||
-        !X11_XQueryExtension(data->display, "SYNC", &sync_opcode, &event, &error)) {
-        return;
+    अगर (!SDL_X11_HAVE_XSYNC ||
+        !X11_XQueryExtension(तथ्य->display, "SYNC", &sync_opcode, &event, &error)) {
+        वापस;
     }
 
     /* We need at least 5.0 for barriers. */
-    version = query_xsync_version(data->display, 5, 0);
-    if (!xsync_version_atleast(version, 3, 0)) {
-        return; /* X server does not support the version we want at all. */
+    version = query_xsync_version(तथ्य->display, 5, 0);
+    अगर (!xsync_version_atleast(version, 3, 0)) {
+        वापस; /* X server does not support the version we want at all. */
     }
 
     xsync_initialized = true;
 }
 
-bool X11_XsyncIsInitialized(void)
+bool X11_XsyncIsInitialized(व्योम)
 {
-    return xsync_initialized;
+    वापस xsync_initialized;
 }
 
 bool X11_InitResizeSync(SDL_Window *window)
 {
-    SDL_assert(window != NULL);
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
-    XSyncCounter counter;
-    CARD32 counter_id;
+    SDL_assert(window != शून्य);
+    SDL_Window_तथ्य *तथ्य = window->internal;
+    Display *display = तथ्य->videodata->display;
+    Atom गणक_prop = तथ्य->videodata->atoms.NET_WM_SYNC_REQUEST_गणक;
+    XSync_गणक गणक;
+    CARD32 गणक_id;
 
-    if (!X11_XsyncIsInitialized()){
-        return SDL_Unsupported();
+    अगर (!X11_XsyncIsInitialized()){
+        वापस SDL_Unsupported();
     }
 
-    counter = X11_XSyncCreateCounter(display, (XSyncValue){0, 0});
-    data->resize_counter = counter;
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    गणक = X11_XSync_Create_गणक(display, (XSync_मूल्य){0, 0});
+    तथ्य->resize_गणक = गणक;
+    तथ्य->resize_id.lo = 0;
+    तथ्य->resize_id.hi = 0;
+    तथ्य->resize_in_progress = false;
 
-    if (counter == None){
-        return SDL_Unsupported();
+    अगर (गणक == None){
+        वापस SDL_Unsupported();
     }
 
-    counter_id = counter;
-    X11_XChangeProperty(display, data->xwindow, counter_prop, XA_CARDINAL, 32,
-                        PropModeReplace, (unsigned char *)&counter_id, 1);
+    गणक_id = गणक;
+    X11_XChangeProperty(display, तथ्य->xwindow, गणक_prop, XA_CARDINAL, 32,
+                        PropModeReplace, (अचिन्हित अक्षर *)&गणक_id, 1);
 
-    return true;
+    वापस true;
 }
 
-void X11_TermResizeSync(SDL_Window *window)
+व्योम X11_TermResizeSync(SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
-    XSyncCounter counter = data->resize_counter;
+    SDL_Window_तथ्य *तथ्य = window->internal;
+    Display *display = तथ्य->videodata->display;
+    Atom गणक_prop = तथ्य->videodata->atoms.NET_WM_SYNC_REQUEST_गणक;
+    XSync_गणक गणक = तथ्य->resize_गणक;
 
-    X11_XDeleteProperty(display, data->xwindow, counter_prop);
-    if (counter != None) {
-        X11_XSyncDestroyCounter(display, counter);
+    X11_XDeleteProperty(display, तथ्य->xwindow, गणक_prop);
+    अगर (गणक != None) {
+        X11_XSync_Destroy_गणक(display, गणक);
     }
 }
 
-void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event)
+व्योम X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_तथ्य *तथ्य = window->internal;
 
-    data->resize_id.lo = event->data.l[2];
-    data->resize_id.hi = event->data.l[3];
-    data->resize_in_progress = false;
+    तथ्य->resize_id.lo = event->तथ्य.l[2];
+    तथ्य->resize_id.hi = event->तथ्य.l[3];
+    तथ्य->resize_in_progress = false;
 }
 
-void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event)
+व्योम X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_तथ्य *तथ्य = window->internal;
 
-    if (data->resize_id.lo || data->resize_id.hi) {
-        data->resize_in_progress = true;
+    अगर (तथ्य->resize_id.lo || तथ्य->resize_id.hi) {
+        तथ्य->resize_in_progress = true;
     }
 }
 
-void X11_HandlePresent(SDL_Window *window)
+व्योम X11_HandlePresent(SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XSyncCounter counter = data->resize_counter;
+    SDL_Window_तथ्य *तथ्य = window->internal;
+    Display *display = तथ्य->videodata->display;
+    XSync_गणक गणक = तथ्य->resize_गणक;
 
-    if ((counter == None) || (!data->resize_in_progress)) {
-        return;
+    अगर ((गणक == None) || (!तथ्य->resize_in_progress)) {
+        वापस;
     }
 
-    X11_XSyncSetCounter(display, counter, data->resize_id);
+    X11_XSync_Set_गणक(display, गणक, तथ्य->resize_id);
 
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    तथ्य->resize_id.lo = 0;
+    तथ्य->resize_id.hi = 0;
+    तथ्य->resize_in_progress = false;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC

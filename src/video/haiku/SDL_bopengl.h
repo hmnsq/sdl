@@ -19,34 +19,34 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BOPENGL_H
-#define SDL_BOPENGL_H
+#अगर_अघोषित SDL_BOPENGL_H
+#घोषणा SDL_BOPENGL_H
 
-#if defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
+#अगर defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
-#include "../SDL_sysvideo.h"
+#समावेश "../SDL_sysvideo.h"
 
-extern bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);      // FIXME
-extern SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc); // FIXME
-extern void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
-extern bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+बाह्य bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, स्थिर अक्षर *path);      // FIXME
+बाह्य SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, स्थिर अक्षर *proc); // FIXME
+बाह्य व्योम HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
+बाह्य bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                                 SDL_GLContext context);
-extern bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval); // TODO
-extern bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval); // TODO
-extern bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+बाह्य bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, पूर्णांक interval); // TODO
+बाह्य bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णांक *interval); // TODO
+बाह्य bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-extern void HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
+बाह्य व्योम HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 }
-#endif
+#पूर्ण_अगर
 
-#endif // SDL_VIDEO_DRIVER_HAIKU && SDL_VIDEO_OPENGL
+#पूर्ण_अगर // SDL_VIDEO_DRIVER_HAIKU && SDL_VIDEO_OPENGL
 
-#endif
+#पूर्ण_अगर
