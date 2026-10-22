@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_offscreenwindow_h
 #define SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#अन्तर्भाव "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+संरचना SDL_WindowData
 {
     SDL_Window *sdl_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -33,8 +33,8 @@ struct SDL_WindowData
 #endif
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+बाह्य शून्य OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_offscreenwindow_h

@@ -18,107 +18,107 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamessagebox.h"
-#include <psp2/message_dialog.h>
+#अन्तर्भाव "SDL_vitavideo.h"
+#अन्तर्भाव "SDL_vitamessagebox.h"
+#अन्तर्भाव <psp2/message_dialog.h>
 
 #ifdef SDL_VIDEO_RENDER_VITA_GXM
-#include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
+#अन्तर्भाव "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_ShowMessageBox(ध्रुव SDL_MessageBoxData *messageboxdata, पूर्णाङ्क *buttonID)
 {
 #ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
+    Sce_सन्देशः_Dialog_Param param;
+    Sce_सन्देशः_Dialog_User_Message_Param सन्देशः_Param;
+    Sce_सन्देशः_Dialog_Buttons_Param buttonParam;
     SceDisplayFrameBuf dispparam;
-    char message[512];
+    वर्ण message[512];
 
-    SceMsgDialogResult dialog_result;
+    Sce_सन्देशः_Dialog_Result dialog_result;
     SceCommonDialogErrorCode init_result;
     bool setup_minimal_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    जइ (messageboxdata->numbuttons > 3) {
+        प्रत्यागम false;
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_सन्देशः_Dialog_Param_Init(&param);
+    param.mode = SCE_सन्देशः_DIALOG_MODE_USER_सन्देशः;
 
-    SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_zero(सन्देशः_Param);
+    SDL_snprintf(message, परिमाण(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
 
-    msgParam.msg = (const SceChar8 *)message;
+    सन्देशः_Param.सन्देशः = (ध्रुव SceChar8 *)message;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
+    जइ (messageboxdata->numbuttons == 3) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        सन्देशः_Param.buttonParam = &buttonParam;
         buttonParam.msg1 = messageboxdata->buttons[0].text;
         buttonParam.msg2 = messageboxdata->buttons[1].text;
         buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+    } अण्णहा जइ (messageboxdata->numbuttons == 2) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_YESNO;
+    } अण्णहा जइ (messageboxdata->numbuttons == 1) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_सन्देशः_Param = &सन्देशः_Param;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.size = परिमाण(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_result = sce_सन्देशः_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+    जइ (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
         gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
+        init_result = sce_सन्देशः_Dialog_Init(&param);
         setup_minimal_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+    जइ (init_result >= 0) {
+        जाव (sce_सन्देशः_Dialog_Get_Status() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
             gxm_swap_for_common_dialog();
         }
         SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        sce_सन्देशः_Dialog_Get_Result(&dialog_result);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } अण्णहा जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } अण्णहा जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } अण्णहा जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } अण्णहा जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } अण्णहा जइ (dialog_result.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
-    } else {
-        return false;
+        sce_सन्देशः_Dialog_Term();
+    } अण्णहा {
+        प्रत्यागम false;
     }
 
     gxm_term_for_common_dialog();
 
-    if (setup_minimal_gxm) {
+    जइ (setup_minimal_gxm) {
         gxm_minimal_term_for_common_dialog();
     }
 
-    return true;
-#else
-    (void)messageboxdata;
-    (void)buttonID;
-    return SDL_Unsupported();
+    प्रत्यागम true;
+#अण्णहा
+    (शून्य)messageboxdata;
+    (शून्य)buttonID;
+    प्रत्यागम SDL_Unsupported();
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 }
 

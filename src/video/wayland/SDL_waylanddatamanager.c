@@ -19,23 +19,23 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <limits.h>
-#include <signal.h>
+#अन्तर्भाव <fcntl.h>
+#अन्तर्भाव <unistd.h>
+#अन्तर्भाव <limits.h>
+#अन्तर्भाव <signal.h>
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../SDL_clipboard_c.h"
+#अन्तर्भाव "../../core/unix/SDL_poll.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
+#अन्तर्भाव "../SDL_clipboard_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylanddatamanager.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
+#अन्तर्भाव "SDL_waylandvideo.h"
+#अन्तर्भाव "SDL_waylandevents_c.h"
+#अन्तर्भाव "SDL_waylanddatamanager.h"
+#अन्तर्भाव "primary-selection-unstable-v1-client-protocol.h"
 
 /* This value is arbitrary, but needs to be long enough to allow the remote end to
  * wake up and do any necessary processing of the data before sending it. In some
@@ -47,155 +47,155 @@
  * Based on https://comp.unix.programmer.narkive.com/rEDH0sPT/sigtimedwait-implementation
  */
 #ifndef HAVE_SIGTIMEDWAIT
-#include <errno.h>
-#include <time.h>
-static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
+#अन्तर्भाव <errno.h>
+#अन्तर्भाव <time.h>
+स्थिर पूर्णाङ्क sigtimedwait(ध्रुव sigset_t *set, siginfo_t *info, ध्रुव संरचना timespec *timeout)
 {
-    struct timespec elapsed = { 0 }, rem = { 0 };
+    संरचना timespec elapsed = { 0 }, rem = { 0 };
     sigset_t pending;
 
-    do {
+    करेहि {
         // Check the pending signals, and call sigwait if there is at least one of interest in the set.
         sigpending(&pending);
-        for (int signo = 1; signo < NSIG; ++signo) {
-            if (sigismember(set, signo) && sigismember(&pending, signo)) {
-                if (!sigwait(set, &signo)) {
-                    if (info) {
+        प्रति (पूर्णाङ्क signo = 1; signo < NSIG; ++signo) {
+            जइ (sigismember(set, signo) && sigismember(&pending, signo)) {
+                जइ (!sigwait(set, &signo)) {
+                    जइ (info) {
                         SDL_zerop(info);
                         info->si_signo = signo;
                     }
-                    return signo;
-                } else {
-                    return -1;
+                    प्रत्यागम signo;
+                } अण्णहा {
+                    प्रत्यागम -1;
                 }
             }
         }
 
-        if (timeout->tv_sec || timeout->tv_nsec) {
+        जइ (timeout->tv_sec || timeout->tv_nsec) {
             long ns = 20000000L; // 2/100ths of a second
-            nanosleep(&(struct timespec){ 0, ns }, &rem);
+            nanosleep(&(संरचना timespec){ 0, ns }, &rem);
             ns -= rem.tv_nsec;
             elapsed.tv_sec += (elapsed.tv_nsec + ns) / 1000000000L;
             elapsed.tv_nsec = (elapsed.tv_nsec + ns) % 1000000000L;
         }
-    } while (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
+    } जाव (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
 
     errno = EAGAIN;
-    return -1;
+    प्रत्यागम -1;
 }
 #endif
 
-static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t *pos)
+स्थिर ssize_t WritePipe(पूर्णाङ्क fd, ध्रुव शून्य *buffer, size_t total_length, size_t *pos)
 {
     ssize_t bytes_written = 0;
-    const ssize_t length = total_length - *pos;
+    ध्रुव ssize_t length = total_length - *pos;
 
     sigset_t sig_set;
     sigset_t old_sig_set;
-    struct timespec zerotime = { 0 };
+    संरचना timespec zerotime = { 0 };
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
+    ध्रुव पूर्णाङ्क ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
 
     sigemptyset(&sig_set);
     sigaddset(&sig_set, SIGPIPE);
 
 #ifdef SDL_THREADS_DISABLED
     sigprocmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#else
+#अण्णहा
     pthread_sigmask(SIG_BLOCK, &sig_set, &old_sig_set);
 #endif
 
-    if (ready > 0) {
-        if (length > 0) {
-            bytes_written = write(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
+    जइ (ready > 0) {
+        जइ (length > 0) {
+            bytes_written = लिख(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
         }
 
-        if (bytes_written > 0) {
+        जइ (bytes_written > 0) {
             *pos += bytes_written;
         }
-    } else if (ready == 0) {
+    } अण्णहा जइ (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else  {
+    } अण्णहा  {
         SDL_SetError("Pipe poll error");
     }
 
-    sigtimedwait(&sig_set, NULL, &zerotime);
+    sigtimedwait(&sig_set, रिक्त, &zerotime);
 
 #ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_SETMASK, &old_sig_set, NULL);
-#else
-    pthread_sigmask(SIG_SETMASK, &old_sig_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_sig_set, रिक्त);
+#अण्णहा
+    pthread_sigmask(SIG_SETMASK, &old_sig_set, रिक्त);
 #endif
 
-    return bytes_written;
+    प्रत्यागम bytes_written;
 }
 
-static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
+स्थिर ssize_t ReadPipe(पूर्णाङ्क fd, शून्य **buffer, size_t *total_length, Sint64 timeout_ns)
 {
-    void *output_buffer = NULL;
-    char temp[PIPE_BUF];
+    शून्य *output_buffer = रिक्त;
+    वर्ण temp[PIPE_BUF];
     ssize_t bytes_read = 0;
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
+    ध्रुव पूर्णाङ्क ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
 
-    if (ready > 0) {
-        bytes_read = read(fd, temp, sizeof(temp));
-    } else if (ready == 0) {
+    जइ (ready > 0) {
+        bytes_read = पठ(fd, temp, परिमाण(temp));
+    } अण्णहा जइ (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else {
+    } अण्णहा {
         SDL_SetError("Pipe poll error");
     }
 
-    if (bytes_read > 0) {
-        const size_t pos = *total_length;
+    जइ (bytes_read > 0) {
+        ध्रुव size_t pos = *total_length;
         *total_length += bytes_read;
 
-        const size_t new_buffer_length = *total_length + sizeof(Uint32);
+        ध्रुव size_t new_buffer_length = *total_length + परिमाण(Uint32);
 
-        if (!*buffer) {
+        जइ (!*buffer) {
             output_buffer = SDL_malloc(new_buffer_length);
-        } else {
+        } अण्णहा {
             output_buffer = SDL_realloc(*buffer, new_buffer_length);
         }
 
-        if (!output_buffer) {
+        जइ (!output_buffer) {
             bytes_read = -1;
-        } else {
+        } अण्णहा {
             SDL_memcpy((Uint8 *)output_buffer + pos, temp, bytes_read);
-            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - sizeof(Uint32)), 0, sizeof(Uint32));
+            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - परिमाण(Uint32)), 0, परिमाण(Uint32));
 
             *buffer = output_buffer;
         }
     }
 
-    return bytes_read;
+    प्रत्यागम bytes_read;
 }
 
-static bool MIMEDataListHasType(struct wl_array *list, const char *mime_type)
+स्थिर bool MIMEDataListHasType(संरचना wl_array *list, ध्रुव वर्ण *mime_type)
 {
-    const char **item;
+    ध्रुव वर्ण **item;
     wl_array_for_each(item, list) {
-        if (SDL_strcmp(*item, mime_type) == 0) {
-            return true;
+        जइ (SDL_strcmp(*item, mime_type) == 0) {
+            प्रत्यागम true;
         }
     }
 
-    return false;
+    प्रत्यागम false;
 }
 
-static bool MIMEDataListAdd(struct wl_array *list, const char *mime_type)
+स्थिर bool MIMEDataListAdd(संरचना wl_array *list, ध्रुव वर्ण *mime_type)
 {
-    if (!MIMEDataListHasType(list, mime_type)) {
-        char **item = WAYLAND_wl_array_add(list, sizeof(char *));
+    जइ (!MIMEDataListHasType(list, mime_type)) {
+        वर्ण **item = WAYLAND_wl_array_add(list, परिमाण(वर्ण *));
         *item = SDL_strdup(mime_type);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-static void MIMEDataListFree(struct wl_array *list)
+स्थिर शून्य MIMEDataListFree(संरचना wl_array *list)
 {
-    char **item;
+    वर्ण **item;
     wl_array_for_each(item, list) {
         SDL_free(*item);
     }
@@ -203,40 +203,40 @@ static void MIMEDataListFree(struct wl_array *list)
     WAYLAND_wl_array_release(list);
 }
 
-static void data_source_handle_target(void *data, struct wl_data_source *wl_data_source, const char *mime_type)
+स्थिर शून्य data_source_handle_target(शून्य *data, संरचना wl_data_source *wl_data_source, ध्रुव वर्ण *mime_type)
 {
 }
 
-static void data_source_handle_send(void *data, struct wl_data_source *wl_data_source, const char *mime_type, int32_t fd)
+स्थिर शून्य data_source_handle_send(शून्य *data, संरचना wl_data_source *wl_data_source, ध्रुव वर्ण *mime_type, int32_t fd)
 {
     Wayland_DataSourceSend((SDL_WaylandDataSource *)data, mime_type, fd);
 }
 
-static void data_source_handle_cancelled(void *data, struct wl_data_source *wl_data_source)
+स्थिर शून्य data_source_handle_cancelled(शून्य *data, संरचना wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    जइ (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
 
-static void data_source_handle_dnd_drop_performed(void *data, struct wl_data_source *wl_data_source)
+स्थिर शून्य data_source_handle_dnd_drop_performed(शून्य *data, संरचना wl_data_source *wl_data_source)
 {
 }
 
-static void data_source_handle_dnd_finished(void *data, struct wl_data_source *wl_data_source)
+स्थिर शून्य data_source_handle_dnd_finished(शून्य *data, संरचना wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    जइ (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
 
-static void data_source_handle_action(void *data, struct wl_data_source *wl_data_source, uint32_t dnd_action)
+स्थिर शून्य data_source_handle_action(शून्य *data, संरचना wl_data_source *wl_data_source, uint32_t dnd_action)
 {
 }
 
-static const struct wl_data_source_listener data_source_listener = {
+स्थिर ध्रुव संरचना wl_data_source_listener data_source_listener = {
     data_source_handle_target,
     data_source_handle_send,
     data_source_handle_cancelled,
@@ -247,92 +247,92 @@ static const struct wl_data_source_listener data_source_listener = {
 
 SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
 {
-    SDL_WaylandDataSource *data_source = SDL_calloc(1, sizeof(*data_source));
-    if (!data_source) {
-        return NULL;
+    SDL_WaylandDataSource *data_source = SDL_calloc(1, परिमाण(*data_source));
+    जइ (!data_source) {
+        प्रत्यागम रिक्त;
     }
 
-    struct wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
+    संरचना wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
     data_source->source = id;
     wl_data_source_set_user_data(id, data_source);
     wl_data_source_add_listener(id, &data_source_listener, data_source);
 
-    return data_source;
+    प्रत्यागम data_source;
 }
 
-static void primary_selection_source_send(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, const char *mime_type, int32_t fd)
+स्थिर शून्य primary_selection_source_send(शून्य *data, संरचना zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, ध्रुव वर्ण *mime_type, int32_t fd)
 {
     Wayland_PrimarySelectionSourceSend((SDL_WaylandPrimarySelectionSource *)data, mime_type, fd);
 }
 
-static void primary_selection_source_cancelled(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
+स्थिर शून्य primary_selection_source_cancelled(शून्य *data, संरचना zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
 {
     Wayland_PrimarySelectionSourceDestroy(data);
 }
 
-static const struct zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
+स्थिर ध्रुव संरचना zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
     primary_selection_source_send,
     primary_selection_source_cancelled,
 };
 
 SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data)
 {
-    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, sizeof(*primary_selection_source));
-    if (!primary_selection_source) {
-        return NULL;
+    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, परिमाण(*primary_selection_source));
+    जइ (!primary_selection_source) {
+        प्रत्यागम रिक्त;
     }
 
-    struct zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
+    संरचना zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
     primary_selection_source->source = id;
     zwp_primary_selection_source_v1_add_listener(id, &primary_selection_source_listener, primary_selection_source);
 
-    return primary_selection_source;
+    प्रत्यागम primary_selection_source;
 }
 
-static size_t SendData(const void *data, size_t length, int fd)
+स्थिर size_t SendData(ध्रुव शून्य *data, size_t length, पूर्णाङ्क fd)
 {
     size_t result = 0;
 
-    if (length > 0 && data) {
-        while (WritePipe(fd, data, length, &result) > 0) {
+    जइ (length > 0 && data) {
+        जाव (WritePipe(fd, data, length, &result) > 0) {
             // Just keep spinning
         }
     }
     close(fd);
 
-    return result;
+    प्रत्यागम result;
 }
 
-ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd)
+ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, ध्रुव वर्ण *mime_type, पूर्णाङ्क fd)
 {
-    const void *data = NULL;
+    ध्रुव शून्य *data = रिक्त;
     size_t length = 0;
 
-    if (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
+    जइ (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
         data = source->data_device->id_str;
         length = SDL_strlen(source->data_device->id_str);
-    } else if (source->data_callback) {
+    } अण्णहा जइ (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    प्रत्यागम SendData(data, length, fd);
 }
 
-ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd)
+ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, ध्रुव वर्ण *mime_type, पूर्णाङ्क fd)
 {
-    const void *data = NULL;
+    ध्रुव शून्य *data = रिक्त;
     size_t length = 0;
 
-    if (source->data_callback) {
+    जइ (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    प्रत्यागम SendData(data, length, fd);
 }
 
-void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence)
+शून्य Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, शून्य *userdata, Uint32 sequence)
 {
-    if (source) {
+    जइ (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = sequence;
@@ -340,9 +340,9 @@ void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardD
     }
 }
 
-void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata)
+शून्य Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, शून्य *userdata)
 {
-    if (source) {
+    जइ (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = 0;
@@ -350,120 +350,120 @@ void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource
     }
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t *len)
+स्थिर शून्य *CloneDataBuffer(ध्रुव शून्य *buffer, ध्रुव size_t *len)
 {
-    void *clone = NULL;
-    if (*len > 0 && buffer) {
-        clone = SDL_malloc((*len)+sizeof(Uint32));
-        if (clone) {
+    शून्य *clone = रिक्त;
+    जइ (*len > 0 && buffer) {
+        clone = SDL_malloc((*len)+परिमाण(Uint32));
+        जइ (clone) {
             SDL_memcpy(clone, buffer, *len);
-            SDL_memset((Uint8 *)clone + *len, 0, sizeof(Uint32));
+            SDL_memset((Uint8 *)clone + *len, 0, परिमाण(Uint32));
         }
     }
-    return clone;
+    प्रत्यागम clone;
 }
 
-void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length)
+शून्य *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, ध्रुव वर्ण *mime_type, size_t *length)
 {
-    void *buffer = NULL;
+    शून्य *buffer = रिक्त;
     *length = 0;
 
-    if (!source) {
+    जइ (!source) {
         SDL_SetError("Invalid data source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
+    } अण्णहा जइ (source->data_callback) {
+        ध्रुव शून्य *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    प्रत्यागम buffer;
 }
 
-void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length)
+शून्य *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, ध्रुव वर्ण *mime_type, size_t *length)
 {
-    void *buffer = NULL;
+    शून्य *buffer = रिक्त;
     *length = 0;
 
-    if (!source) {
+    जइ (!source) {
         SDL_SetError("Invalid primary selection source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
+    } अण्णहा जइ (source->data_callback) {
+        ध्रुव शून्य *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    प्रत्यागम buffer;
 }
 
-void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
+शून्य Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
 {
-    if (source) {
+    जइ (source) {
         SDL_WaylandDataDevice *data_device = source->data_device;
-        if (data_device && (data_device->selection_source == source)) {
-            data_device->selection_source = NULL;
+        जइ (data_device && (data_device->selection_source == source)) {
+            data_device->selection_source = रिक्त;
         }
         wl_data_source_destroy(source->source);
-        if (source->userdata.sequence) {
+        जइ (source->userdata.sequence) {
             SDL_CancelClipboardData(source->userdata.sequence);
-        } else if (source->cleanup_callback) {
+        } अण्णहा जइ (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
     }
 }
 
-void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
+शून्य Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
 {
-    if (source) {
+    जइ (source) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = source->primary_selection_device;
-        if (primary_selection_device && (primary_selection_device->selection_source == source)) {
-            primary_selection_device->selection_source = NULL;
+        जइ (primary_selection_device && (primary_selection_device->selection_source == source)) {
+            primary_selection_device->selection_source = रिक्त;
         }
         zwp_primary_selection_source_v1_destroy(source->source);
-        if (source->cleanup_callback) {
+        जइ (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
     }
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
+स्थिर शून्य SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
 
-static void offer_source_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+स्थिर शून्य offer_source_done_handler(शून्य *data, संरचना wl_callback *callback, uint32_t callback_data)
 {
-    if (!callback) {
-        return;
+    जइ (!callback) {
+        प्रत्यागम;
     }
 
     SDL_WaylandDataOffer *offer = (SDL_WaylandDataOffer *)data;
-    char *id = NULL;
+    वर्ण *id = रिक्त;
     size_t length = 0;
 
     wl_callback_destroy(offer->callback);
-    offer->callback = NULL;
+    offer->callback = रिक्त;
 
-    while (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+    जाव (ReadPipe(offer->read_fd, (शून्य **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
     }
     close(offer->read_fd);
     offer->read_fd = -1;
 
-    if (id) {
-        const bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
+    जइ (id) {
+        ध्रुव bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
         SDL_free(id);
-        if (source_is_external) {
+        जइ (source_is_external) {
             SelectionOfferNotifyFromMIMEs(offer->data_device, false);
-        } else {
+        } अण्णहा {
             // Recursive data offer; just destroy it.
             SDL_WaylandDataDevice *data_device = offer->data_device;
             Wayland_DataOfferDestroy(offer);
-            data_device->selection_offer = NULL;
+            data_device->selection_offer = रिक्त;
         }
     }
 }
 
-static const struct wl_callback_listener offer_source_listener = {
+स्थिर ध्रुव संरचना wl_callback_listener offer_source_listener = {
     offer_source_done_handler
 };
 
-static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
+स्थिर शून्य UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
 {
     SDL_WaylandSeat *offer_seat = data_device->seat;
     SDL_VideoData *video_data = offer_seat->display;
@@ -471,14 +471,14 @@ static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
     // Clear any existing references to the existing clipboard data before replacing the current offer.
     SDL_WaylandSeat *s;
     wl_list_for_each (s, &video_data->seat_list, link) {
-        if (s->data_device) {
+        जइ (s->data_device) {
             Wayland_DataSourceDestroy(s->data_device->selection_source);
-            s->data_device->selection_source = NULL;
+            s->data_device->selection_source = रिक्त;
 
             // Don't clear the offer that is about to be set.
-            if (s != offer_seat) {
+            जइ (s != offer_seat) {
                 Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                s->data_device->selection_offer = रिक्त;
             }
         }
     }
@@ -486,110 +486,110 @@ static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
     video_data->current_data_offer_seat = offer_seat;
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
+स्थिर शून्य SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
 {
     SDL_WaylandDataOffer *offer = data_device->selection_offer;
-    char **new_mime_types = NULL;
-    size_t num_formats = 0;
+    वर्ण **new_mime_types = रिक्त;
+    size_t अङ्कः_formats = 0;
 
-    if (offer) {
+    जइ (offer) {
         size_t alloc_size = 0;
 
         // Do a first pass to compute allocation size.
-        const char **item;
+        ध्रुव वर्ण **item;
         wl_array_for_each(item, &offer->mimes) {
             // If origin metadata is found, queue a check and wait for confirmation that this offer isn't recursive.
-            if (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
+            जइ (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
                 Wayland_DataOfferRequestDataFromSelf(offer, *item, &offer_source_listener, offer);
-                return;
+                प्रत्यागम;
             }
 
-            ++num_formats;
+            ++अङ्कः_formats;
             alloc_size += SDL_strlen(*item) + 1;
         }
 
-        alloc_size += (num_formats + 1) * sizeof(char *);
+        alloc_size += (अङ्कः_formats + 1) * परिमाण(वर्ण *);
 
         new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
-        if (!new_mime_types) {
-            SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
-            return;
+        जइ (!new_mime_types) {
+            SDL_LogError(SDL_LOG_CATEGORY_निवेशः, "unable to allocate new_mime_types");
+            प्रत्यागम;
         }
 
         // Second pass to fill.
-        char *strPtr = (char *)(new_mime_types + num_formats + 1);
+        वर्ण *strPtr = (वर्ण *)(new_mime_types + अङ्कः_formats + 1);
         alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-        item = NULL;
-        int i = 0;
+        item = रिक्त;
+        पूर्णाङ्क i = 0;
         wl_array_for_each(item, &offer->mimes) {
-            if (!item) {
-                continue;
+            जइ (!item) {
+                अनुवर्त;
             }
 
             new_mime_types[i++] = strPtr;
-            const size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
+            ध्रुव size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
             strPtr += len;
             alloc_size -= len;
         }
-        new_mime_types[num_formats] = NULL;
+        new_mime_types[अङ्कः_formats] = रिक्त;
     }
 
     UpdateSeatOffers(data_device);
-    SDL_SendClipboardUpdate(false, new_mime_types, num_formats);
+    SDL_SendClipboardUpdate(false, new_mime_types, अङ्कः_formats);
 }
 
-void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
+शून्य Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
 {
     // Don't notify when clearing the old selection offer if doing so will inadvertently clear the selection source.
-    const bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
+    ध्रुव bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
     Wayland_DataOfferDestroy(data_device->selection_offer);
     data_device->selection_offer = offer;
-    if (notify) {
+    जइ (notify) {
         SelectionOfferNotifyFromMIMEs(data_device, true);
     }
 }
 
-void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
+शून्य *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
 {
-    if (!offer) {
+    जइ (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    if (offer->read_fd < 0) {
+    जइ (offer->read_fd < 0) {
         SDL_SetError("Pipe closed");
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
     // The timeout is 0, as the data will already be in the pipe if it is from this process.
-    void *buffer = NULL;
-    while (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
+    शून्य *buffer = रिक्त;
+    जाव (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
     }
 
-    return buffer;
+    प्रत्यागम buffer;
 }
 
-bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata)
+bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, ध्रुव वर्ण *mime_type, ध्रुव संरचना wl_callback_listener *completion_listener, शून्य *userdata)
 {
-    int pipefd[2];
+    पूर्णाङ्क pipefd[2];
 
-    if (!offer) {
+    जइ (!offer) {
         SDL_SetError("Invalid data offer");
-        return false;
+        प्रत्यागम false;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
-    if (offer->read_fd >= 0) {
+    जइ (offer->read_fd >= 0) {
         close(offer->read_fd);
         offer->read_fd = -1;
     }
-    if (offer->callback) {
+    जइ (offer->callback) {
         wl_callback_destroy(offer->callback);
-        offer->callback = NULL;
+        offer->callback = रिक्त;
     }
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    जइ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         offer->read_fd = pipefd[0];
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
@@ -598,113 +598,113 @@ bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const cha
         wl_callback_add_listener(offer->callback, completion_listener, userdata);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
-    } else {
-        return SDL_SetError("Could not create pipe");
+    } अण्णहा {
+        प्रत्यागम SDL_SetError("Could not create pipe");
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length)
+शून्य *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, ध्रुव वर्ण *mime_type, size_t *length)
 {
-    int pipefd[2];
-    void *buffer = NULL;
+    पूर्णाङ्क pipefd[2];
+    शून्य *buffer = रिक्त;
     *length = 0;
 
-    if (!offer) {
+    जइ (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    जइ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        जाव (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
-    } else {
+    } अण्णहा {
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    प्रत्यागम buffer;
 }
 
-void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length)
+शून्य *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, ध्रुव वर्ण *mime_type, size_t *length)
 {
-    int pipefd[2];
-    void *buffer = NULL;
+    पूर्णाङ्क pipefd[2];
+    शून्य *buffer = रिक्त;
     *length = 0;
 
-    if (!offer) {
+    जइ (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
     SDL_WaylandPrimarySelectionDevice *primary_selection_device = offer->primary_selection_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    जइ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         zwp_primary_selection_offer_v1_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(primary_selection_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        जाव (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
 
-    } else {
+    } अण्णहा {
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    प्रत्यागम buffer;
 }
 
-bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, ध्रुव वर्ण *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    प्रत्यागम MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
-bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, ध्रुव वर्ण *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    प्रत्यागम MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
-bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, ध्रुव वर्ण *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    जइ (offer && mime_type) {
+        प्रत्यागम MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    प्रत्यागम false;
 }
 
-bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, ध्रुव वर्ण *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    जइ (offer && mime_type) {
+        प्रत्यागम MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    प्रत्यागम false;
 }
 
-void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
+शून्य Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
 {
-    if (offer) {
-        if (offer->callback) {
+    जइ (offer) {
+        जइ (offer->callback) {
             wl_callback_destroy(offer->callback);
         }
-        if (offer->read_fd >= 0) {
+        जइ (offer->read_fd >= 0) {
             close(offer->read_fd);
         }
         wl_data_offer_destroy(offer->offer);
@@ -713,27 +713,27 @@ void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
     }
 }
 
-void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
+शून्य Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
 {
-    if (offer) {
+    जइ (offer) {
         zwp_primary_selection_offer_v1_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
+bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, ध्रुव वर्ण **mime_types, size_t mime_गणनम्)
 {
-    if (!data_device) {
-        return SDL_SetError("Invalid Data Device");
+    जइ (!data_device) {
+        प्रत्यागम SDL_SetError("Invalid Data Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    जइ (!source) {
+        प्रत्यागम SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
+    जइ (mime_गणनम्) {
+        प्रति (size_t index = 0; index < mime_गणनम्; ++index) {
+            ध्रुव वर्ण *mime_type = mime_types[index];
             wl_data_source_offer(source->source, mime_type);
         }
 
@@ -741,53 +741,53 @@ bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SD
         wl_data_source_offer(source->source, SDL_DATA_ORIGIN_MIME);
 
         wl_data_device_set_selection(data_device->data_device, source->source, data_device->seat->last_implicit_grab_serial);
-        if (data_device->selection_source) {
+        जइ (data_device->selection_source) {
             Wayland_DataSourceDestroy(data_device->selection_source);
         }
         data_device->selection_source = source;
         source->data_device = data_device;
 
-    } else {
+    } अण्णहा {
         Wayland_DataSourceDestroy(data_device->selection_source);
-        data_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        data_device->selection_source = रिक्त;
+        प्रत्यागम SDL_SetError("No mime data");
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
                                                 SDL_WaylandPrimarySelectionSource *source,
-                                                const char *const *mime_types, size_t mime_count)
+                                                ध्रुव वर्ण *ध्रुव *mime_types, size_t mime_गणनम्)
 {
-    if (!primary_selection_device) {
-        return SDL_SetError("Invalid Primary Selection Device");
+    जइ (!primary_selection_device) {
+        प्रत्यागम SDL_SetError("Invalid Primary Selection Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    जइ (!source) {
+        प्रत्यागम SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
+    जइ (mime_गणनम्) {
+        प्रति (size_t index = 0; index < mime_गणनम्; ++index) {
+            ध्रुव वर्ण *mime_type = mime_types[index];
             zwp_primary_selection_source_v1_offer(source->source, mime_type);
         }
 
         zwp_primary_selection_device_v1_set_selection(primary_selection_device->primary_selection_device,
                                                       source->source,
                                                       primary_selection_device->seat->last_implicit_grab_serial);
-        if (primary_selection_device->selection_source) {
+        जइ (primary_selection_device->selection_source) {
             Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
         }
         primary_selection_device->selection_source = source;
         source->primary_selection_device = primary_selection_device;
-    } else {
+    } अण्णहा {
         Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
-        primary_selection_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        primary_selection_device->selection_source = रिक्त;
+        प्रत्यागम SDL_SetError("No mime data");
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

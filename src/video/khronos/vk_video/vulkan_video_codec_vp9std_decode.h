@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 
@@ -22,17 +22,17 @@ extern "C" {
 // vulkan_video_codec_vp9std_decode is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_vp9std_decode 1
 
-#include "vulkan_video_codec_vp9std.h"
+#अन्तर्भाव "vulkan_video_codec_vp9std.h"
 
 #define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
 #define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_vp9_decode"
 
-typedef struct StdVideoDecodeVP9PictureInfoFlags {
+प्रकारनिर्देश संरचना StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    intra_only : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_उच्चः_precision_mv : 1;
     uint32_t    refresh_frame_context : 1;
     uint32_t    frame_parallel_decoding_mode : 1;
     uint32_t    segmentation_enabled : 1;
@@ -41,7 +41,7 @@ typedef struct StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    reserved : 24;
 } StdVideoDecodeVP9PictureInfoFlags;
 
-typedef struct StdVideoDecodeVP9PictureInfo {
+प्रकारनिर्देश संरचना StdVideoDecodeVP9PictureInfo {
     StdVideoDecodeVP9PictureInfoFlags    flags;
     StdVideoVP9Profile                   profile;
     StdVideoVP9FrameType                 frame_type;
@@ -57,9 +57,9 @@ typedef struct StdVideoDecodeVP9PictureInfo {
     uint8_t                              tile_cols_log2;
     uint8_t                              tile_rows_log2;
     uint16_t                             reserved1[3];
-    const StdVideoVP9ColorConfig*        pColorConfig;
-    const StdVideoVP9LoopFilter*         pLoopFilter;
-    const StdVideoVP9Segmentation*       pSegmentation;
+    ध्रुव StdVideoVP9ColorConfig*        pColorConfig;
+    ध्रुव StdVideoVP9LoopFilter*         pLoopFilter;
+    ध्रुव StdVideoVP9Segmentation*       pSegmentation;
 } StdVideoDecodeVP9PictureInfo;
 
 

@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_x11toolkit_h_
 #define SDL_x11toolkit_h_
 
-#include "../../SDL_list.h"
-#include "SDL_x11video.h"
-#include "SDL_x11dyn.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11toolkit.h"
-#include "xsettings-client.h"
+#अन्तर्भाव "../../SDL_list.h"
+#अन्तर्भाव "SDL_x11video.h"
+#अन्तर्भाव "SDL_x11dyn.h"
+#अन्तर्भाव "SDL_x11settings.h"
+#अन्तर्भाव "SDL_x11toolkit.h"
+#अन्तर्भाव "xsettings-client.h"
 #ifdef HAVE_FRIBIDI_H
-#include "../../core/unix/SDL_fribidi.h"
+#अन्तर्भाव "../../core/unix/SDL_fribidi.h"
 #endif
 #ifdef HAVE_LIBTHAI_H
-#include "../../core/unix/SDL_libthai.h"
+#अन्तर्भाव "../../core/unix/SDL_libthai.h"
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11
@@ -45,7 +45,7 @@
 #define SDL_TOOLKIT_X11_ELEMENT_PADDING_4 16
 #define SDL_TOOLKIT_X11_ELEMENT_PADDING_5 3
 
-typedef enum SDL_ToolkitChildModeX11
+प्रकारनिर्देश गणना SDL_ToolkitChildModeX11
 {
     SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG,
     SDL_TOOLKIT_WINDOW_MODE_X11_CHILD, /* For embedding into a normal SDL_Window */
@@ -53,7 +53,7 @@ typedef enum SDL_ToolkitChildModeX11
     SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP
 } SDL_ToolkitWindowModeX11;
 
-typedef enum SDL_ToolkitThaiEncodingX11
+प्रकारनिर्देश गणना SDL_ToolkitThaiEncodingX11
 {
     SDL_TOOLKIT_THAI_ENCODING_X11_NONE,
     SDL_TOOLKIT_THAI_ENCODING_X11_TIS, /* -0 */
@@ -63,29 +63,29 @@ typedef enum SDL_ToolkitThaiEncodingX11
     SDL_TOOLKIT_THAI_ENCODING_X11_UNICODE
 } SDL_ToolkitThaiEncodingX11;
 
-typedef enum SDL_ToolkitThaiFontX11
+प्रकारनिर्देश गणना SDL_ToolkitThaiFontX11
 {
     SDL_TOOLKIT_THAI_FONT_X11_OFFSET,
     SDL_TOOLKIT_THAI_FONT_X11_CELL
 } SDL_ToolkitThaiFontX11;
 
-typedef struct SDL_ToolkitWindowX11
+प्रकारनिर्देश संरचना SDL_ToolkitWindowX11
 {
     /* Locale */
-    char *origlocale;
+    वर्ण *origlocale;
 
     /* Mode */
     SDL_ToolkitWindowModeX11 mode;
 
     /* Display */
     Display *display;
-    int screen;
+    पूर्णाङ्क screen;
     bool display_close;
 
     /* Parent */
     SDL_VideoDevice *parent_device;
     SDL_Window *parent;
-    struct SDL_ToolkitWindowX11 *tk_parent;
+    संरचना SDL_ToolkitWindowX11 *tk_parent;
 
     /* Window */
     Window window;
@@ -93,7 +93,7 @@ typedef struct SDL_ToolkitWindowX11
 #ifndef NO_SHARED_MEMORY
     XImage *image;
     XShmSegmentInfo shm_info;
-    int shm_bytes_per_line;
+    पूर्णाङ्क shm_bytes_per_पङ्क्तिः;
 #endif
 
     /* Visuals and drawing */
@@ -101,7 +101,7 @@ typedef struct SDL_ToolkitWindowX11
     XVisualInfo vi;
     Colormap cmap;
     GC ctx;
-    int depth;
+    पूर्णाङ्क depth;
     bool pixmap;
 
     /* X11 extensions */
@@ -122,18 +122,18 @@ typedef struct SDL_ToolkitWindowX11
     Atom wm_delete_message;
 
     /* Window and pixmap sizes */
-    int window_width;  // Window width.
-    int window_height; // Window height.
-    int pixmap_width;
-    int pixmap_height;
-    int window_x;
-    int window_y;
+    पूर्णाङ्क window_width;  // Window width.
+    पूर्णाङ्क window_height; // Window height.
+    पूर्णाङ्क pixmap_width;
+    पूर्णाङ्क pixmap_height;
+    पूर्णाङ्क window_x;
+    पूर्णाङ्क window_y;
 
     /* XSettings and scaling */
     XSettingsClient *xsettings;
     bool xsettings_first_time;
-    int iscale;
-    float scale;
+    पूर्णाङ्क iscale;
+    भिन्न scale;
 
     /* Font */
     XFontSet font_set;        // for UTF-8 systems
@@ -142,8 +142,8 @@ typedef struct SDL_ToolkitWindowX11
     SDL_ToolkitThaiFontX11 thai_font;
     
     /* Control colors */
-    const SDL_MessageBoxColor *color_hints;
-    XColor xcolor[SDL_MESSAGEBOX_COLOR_COUNT];
+    ध्रुव SDL_MessageBoxColor *color_hints;
+    XColor xcolor[SDL_MESSAGEBOX_COLOR_गणनम्];
     XColor xcolor_bevel_l1;
     XColor xcolor_bevel_l2;
     XColor xcolor_bevel_d;
@@ -152,29 +152,29 @@ typedef struct SDL_ToolkitWindowX11
 
     /* Control list */
     bool has_focus;
-    struct SDL_ToolkitControlX11 *focused_control;
-    struct SDL_ToolkitControlX11 *fiddled_control;
-    struct SDL_ToolkitControlX11 **controls;
+    संरचना SDL_ToolkitControlX11 *focused_control;
+    संरचना SDL_ToolkitControlX11 *fiddled_control;
+    संरचना SDL_ToolkitControlX11 **controls;
     size_t controls_sz;
-    struct SDL_ToolkitControlX11 **dyn_controls;
+    संरचना SDL_ToolkitControlX11 **dyn_controls;
     size_t dyn_controls_sz;
 
     /* User callbacks */
-    void *cb_data;
-    void (*cb_on_scale_change)(struct SDL_ToolkitWindowX11 *, void *);
+    शून्य *cb_data;
+    शून्य (*cb_on_scale_change)(संरचना SDL_ToolkitWindowX11 *, शून्य *);
 
     /* Popup windows */
-    SDL_ListNode *popup_windows;
+    SDL_List_ग्रन्थिः *popup_windows;
 
     /* Event loop */
     XEvent *e;
-    struct SDL_ToolkitControlX11 *previous_control;
-    struct SDL_ToolkitControlX11 *key_control_esc;
-    struct SDL_ToolkitControlX11 *key_control_enter;
-    KeySym last_key_pressed;
-    int ev_i;
-    float ev_scale;
-    float ev_iscale;
+    संरचना SDL_ToolkitControlX11 *previous_control;
+    संरचना SDL_ToolkitControlX11 *कुञ्चिका_control_esc;
+    संरचना SDL_ToolkitControlX11 *कुञ्चिका_control_enter;
+    कुञ्चिका_Sym last_कुञ्चिका_pressed;
+    पूर्णाङ्क ev_i;
+    भिन्न ev_scale;
+    भिन्न ev_iscale;
     bool draw;
     bool close;
     long event_mask;
@@ -192,7 +192,7 @@ typedef struct SDL_ToolkitWindowX11
     bool flip_interface;
 } SDL_ToolkitWindowX11;
 
-typedef enum SDL_ToolkitControlStateX11
+प्रकारनिर्देश गणना SDL_ToolkitControlStateX11
 {
     SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL,
     SDL_TOOLKIT_CONTROL_STATE_X11_HOVER,
@@ -201,7 +201,7 @@ typedef enum SDL_ToolkitControlStateX11
     SDL_TOOLKIT_CONTROL_STATE_X11_DISABLED
 } SDL_ToolkitControlStateX11;
 
-typedef struct SDL_ToolkitControlX11
+प्रकारनिर्देश संरचना SDL_ToolkitControlX11
 {
     SDL_ToolkitWindowX11 *window;
     SDL_ToolkitControlStateX11 state;
@@ -213,58 +213,58 @@ typedef struct SDL_ToolkitControlX11
     bool do_size;
 
     /* User data */
-    void *data;
+    शून्य *data;
 
     /* Virtual functions */
-    void (*func_draw)(struct SDL_ToolkitControlX11 *);
-    void (*func_calc_size)(struct SDL_ToolkitControlX11 *);
-    void (*func_on_scale_change)(struct SDL_ToolkitControlX11 *);
-    void (*func_on_state_change)(struct SDL_ToolkitControlX11 *);
-    void (*func_free)(struct SDL_ToolkitControlX11 *);
+    शून्य (*func_draw)(संरचना SDL_ToolkitControlX11 *);
+    शून्य (*func_calc_size)(संरचना SDL_ToolkitControlX11 *);
+    शून्य (*func_on_scale_change)(संरचना SDL_ToolkitControlX11 *);
+    शून्य (*func_on_state_change)(संरचना SDL_ToolkitControlX11 *);
+    शून्य (*func_free)(संरचना SDL_ToolkitControlX11 *);
 } SDL_ToolkitControlX11;
 
-typedef struct SDL_ToolkitMenuItemX11
+प्रकारनिर्देश संरचना SDL_ToolkitMenuItemX11
 {
-    const char *utf8;
+    ध्रुव वर्ण *utf8;
     bool checkbox;
     bool checked;
     bool disabled;
-    void *cb_data;
-    void (*cb)(struct SDL_ToolkitMenuItemX11 *, void *);
-    SDL_ListNode *sub_menu;
+    शून्य *cb_data;
+    शून्य (*cb)(संरचना SDL_ToolkitMenuItemX11 *, शून्य *);
+    SDL_List_ग्रन्थिः *sub_menu;
 
     /* Internal use */
     SDL_Rect utf8_rect;
     SDL_Rect hover_rect;
     SDL_Rect check_rect;
     SDL_ToolkitControlStateX11 state;
-    int arrow_x;
-    int arrow_y;
+    पूर्णाङ्क arrow_x;
+    पूर्णाङ्क arrow_y;
     bool reverse_arrows;
 } SDL_ToolkitMenuItemX11;
 
 /* WINDOW FUNCTIONS */
-extern SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, const SDL_MessageBoxColor *colorhints, bool create_new_display);
-extern bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx, int cy, char *title);
-extern void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data);
-extern void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, int w, int h);
-extern void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data);
-extern void X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data);
+बाह्य SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, ध्रुव SDL_MessageBoxColor *colorhints, bool create_new_display);
+बाह्य bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, पूर्णाङ्क w, पूर्णाङ्क h, पूर्णाङ्क cx, पूर्णाङ्क cy, वर्ण *title);
+बाह्य शून्य X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data);
+बाह्य शून्य X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, पूर्णाङ्क w, पूर्णाङ्क h);
+बाह्य शून्य X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data);
+बाह्य शून्य X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data);
 
 /* GENERIC CONTROL FUNCTIONS */
-extern bool X11Toolkit_NotifyControlOfSizeChange(SDL_ToolkitControlX11 *control);
+बाह्य bool X11Toolkit_NotifyControlOfSizeChange(SDL_ToolkitControlX11 *control);
 
 /* ICON CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window, SDL_MessageBoxFlags flags);
+बाह्य SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window, SDL_MessageBoxFlags flags);
 
 /* LABEL CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8);
-extern int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control);
+बाह्य SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, वर्ण *utf8);
+बाह्य पूर्णाङ्क X11_Toolkit_Get_Label_Control_First_पङ्क्तिः_Height(SDL_ToolkitControlX11 *control);
 
 /* BUTTON CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, const SDL_MessageBoxButtonData *data);
-extern void X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, void *data, void (*cb)(struct SDL_ToolkitControlX11 *, void *));
-extern const SDL_MessageBoxButtonData *X11Toolkit_GetButtonControlData(SDL_ToolkitControlX11 *control);
+बाह्य SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, ध्रुव SDL_MessageBoxButtonData *data);
+बाह्य शून्य X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, शून्य *data, शून्य (*cb)(संरचना SDL_ToolkitControlX11 *, शून्य *));
+बाह्य ध्रुव SDL_MessageBoxButtonData *X11Toolkit_GetButtonControlData(SDL_ToolkitControlX11 *control);
 
 #endif // SDL_VIDEO_DRIVER_X11
 

@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WAYLAND) && defined(SDL_VIDEO_OPENGL_EGL)
+#जइ defined(SDL_VIDEO_DRIVER_WAYLAND) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../../core/unix/SDL_poll.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandopengles.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylandevents_c.h"
+#अन्तर्भाव "../../core/unix/SDL_poll.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "SDL_waylandvideo.h"
+#अन्तर्भाव "SDL_waylandopengles.h"
+#अन्तर्भाव "SDL_waylandwindow.h"
+#अन्तर्भाव "SDL_waylandevents_c.h"
 
-#include "xdg-shell-client-protocol.h"
+#अन्तर्भाव "xdg-shell-client-protocol.h"
 
 #ifndef EGL_PLATFORM_WAYLAND_KHR
 #define EGL_PLATFORM_WAYLAND_KHR 0x31D8
@@ -38,21 +38,21 @@
 
 // EGL implementation of SDL OpenGL ES support
 
-void Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+शून्य Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
 {
     _this->gl_config.egl_platform = EGL_PLATFORM_WAYLAND_KHR;
 }
 
-bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, ध्रुव वर्ण *path)
 {
     SDL_VideoData *data = _this->internal;
 
-    const bool result = SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType)data->display);
+    ध्रुव bool result = SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType)data->display);
 
     Wayland_PumpEvents(_this);
     WAYLAND_wl_display_flush(data->display);
 
-    return result;
+    प्रत्यागम result;
 }
 
 SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
@@ -61,7 +61,7 @@ SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *win
     context = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
     WAYLAND_wl_display_flush(_this->internal->display);
 
-    return context;
+    प्रत्यागम context;
 }
 
 /* Wayland wants to tell you when to provide new frames, and if you have a non-zero
@@ -78,42 +78,42 @@ SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *win
    libretro, Wayland, probably others...it feels like we're eventually going to have
    to give in with a future SDL API revision, since we can bend the other APIs to
    this style, but this style is much harder to bend the other way.  :/ */
-bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, पूर्णाङ्क interval)
 {
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    जइ (!_this->egl_data) {
+        प्रत्यागम SDL_SetError("EGL not initialized");
     }
 
     /* technically, this is _all_ adaptive vsync (-1), because we can't
        actually wait for the _next_ vsync if you set 1, but things that
        request 1 probably won't care _that_ much. I hope. No matter what
        you do, though, you never see tearing on Wayland. */
-    if (interval > 1) {
+    जइ (interval > 1) {
         interval = 1;
-    } else if (interval < -1) {
+    } अण्णहा जइ (interval < -1) {
         interval = -1;
     }
 
     // !!! FIXME: technically, this should be per-context, right?
     _this->egl_data->egl_swapinterval = interval;
     _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, 0);
-    return true;
+    प्रत्यागम true;
 }
 
-bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, पूर्णाङ्क *interval)
 {
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    जइ (!_this->egl_data) {
+        प्रत्यागम SDL_SetError("EGL not initialized");
     }
 
     *interval =_this->egl_data->egl_swapinterval;
-    return true;
+    प्रत्यागम true;
 }
 
 bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
-    const int swap_interval = _this->egl_data->egl_swapinterval;
+    ध्रुव पूर्णाङ्क swap_interval = _this->egl_data->egl_swapinterval;
 
     /* For windows that we know are hidden, skip swaps entirely, if we don't do
      * this compositors will intentionally stall us indefinitely and there's no
@@ -123,56 +123,56 @@ bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * FIXME: Request EGL_WAYLAND_swap_buffers_with_timeout.
      * -flibit
      */
-    if (data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN &&
+    जइ (data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN &&
         data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME) {
-        return true;
+        प्रत्यागम true;
     }
 
     /* By default, we wait for the Wayland frame callback and then issue the pageflip (eglSwapBuffers),
      * but if we want low latency (double buffer scheme), we issue the pageflip and then wait
      * immediately for the Wayland frame callback.
      */
-    if (data->double_buffer) {
+    जइ (data->double_buffer) {
         // Feed the frame to Wayland. This will set it so the wl_surface_frame callback can fire again.
-        if (!_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, data->egl_surface)) {
-            return SDL_EGL_SetError("unable to show color buffer in an OS-native window", "eglSwapBuffers");
+        जइ (!_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, data->egl_surface)) {
+            प्रत्यागम SDL_EGL_SetError("unable to show color buffer in an OS-native window", "eglSwapBuffers");
         }
 
         WAYLAND_wl_display_flush(data->waylandData->display);
     }
 
     // Control swap interval ourselves. See comments on Wayland_GLES_SetSwapInterval
-    if (swap_interval != 0 && data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    जइ (swap_interval != 0 && data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
         SDL_VideoData *videodata = _this->internal;
-        struct wl_display *display = videodata->display;
+        संरचना wl_display *display = videodata->display;
         // 20hz, so we'll progress even if throttled to zero.
-        const Uint64 max_wait = SDL_GetTicksNS() + (SDL_NS_PER_SECOND / 20);
-        while (SDL_GetAtomicInt(&data->swap_interval_ready) == 0) {
+        ध्रुव Uint64 max_wait = SDL_GetTicksNS() + (SDL_NS_PER_SECOND / 20);
+        जाव (SDL_GetAtomicInt(&data->swap_interval_ready) == 0) {
             Uint64 now;
 
             WAYLAND_wl_display_flush(display);
 
             /* wl_display_prepare_read_queue() will return false if the event queue is not empty.
              * If the event queue is empty, it will prepare us for our SDL_IOReady() call. */
-            if (WAYLAND_wl_display_prepare_read_queue(display, data->gles_swap_frame_event_queue) != 0) {
+            जइ (WAYLAND_wl_display_prepare_read_queue(display, data->gles_swap_frame_event_queue) != 0) {
                 // We have some pending events. Check if the frame callback happened.
                 WAYLAND_wl_display_dispatch_queue_pending(display, data->gles_swap_frame_event_queue);
-                continue;
+                अनुवर्त;
             }
 
             // Beyond this point, we must either call wl_display_cancel_read() or wl_display_read_events()
 
             now = SDL_GetTicksNS();
-            if (now >= max_wait) {
+            जइ (now >= max_wait) {
                 // Timeout expired. Cancel the read.
                 WAYLAND_wl_display_cancel_read(display);
-                break;
+                भङ्ग;
             }
 
-            if (SDL_IOReady(WAYLAND_wl_display_get_fd(display), SDL_IOR_READ, max_wait - now) <= 0) {
+            जइ (SDL_IOReady(WAYLAND_wl_display_get_fd(display), SDL_IOR_READ, max_wait - now) <= 0) {
                 // Error or timeout expired without any events for us. Cancel the read.
                 WAYLAND_wl_display_cancel_read(display);
-                break;
+                भङ्ग;
             }
 
             // We have events. Read and dispatch them.
@@ -182,47 +182,47 @@ bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
         SDL_SetAtomicInt(&data->swap_interval_ready, 0);
     }
 
-    if (!data->double_buffer) {
+    जइ (!data->double_buffer) {
         // Feed the frame to Wayland. This will set it so the wl_surface_frame callback can fire again.
-        if (!_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, data->egl_surface)) {
-            return SDL_EGL_SetError("unable to show color buffer in an OS-native window", "eglSwapBuffers");
+        जइ (!_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, data->egl_surface)) {
+            प्रत्यागम SDL_EGL_SetError("unable to show color buffer in an OS-native window", "eglSwapBuffers");
         }
 
         WAYLAND_wl_display_flush(data->waylandData->display);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
     bool result;
 
-    if (window && context) {
+    जइ (window && context) {
         result = SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        result = SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    } अण्णहा {
+        result = SDL_EGL_MakeCurrent(_this, रिक्त, रिक्त);
     }
 
     WAYLAND_wl_display_flush(_this->internal->display);
 
     _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, 0); // see comments on Wayland_GLES_SetSwapInterval.
 
-    return result;
+    प्रत्यागम result;
 }
 
 bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
     bool result = SDL_EGL_DestroyContext(_this, context);
     WAYLAND_wl_display_flush(_this->internal->display);
-    return result;
+    प्रत्यागम result;
 }
 
 EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *windowdata = window->internal;
 
-    return windowdata->egl_surface;
+    प्रत्यागम windowdata->egl_surface;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND && SDL_VIDEO_OPENGL_EGL
