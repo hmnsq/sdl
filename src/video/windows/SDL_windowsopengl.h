@@ -25,7 +25,7 @@
 
 #ifdef SDL_VIDEO_OPENGL_WGL
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#만약 defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 typedef struct tagPIXELFORMATDESCRIPTOR
 {
     WORD nSize;
@@ -74,8 +74,8 @@ struct SDL_GLDriverData
      */
     struct
     {
-        int major;
-        int minor;
+        정수 major;
+        정수 minor;
     } es_profile_max_supported_version;
 
     /* *INDENT-OFF* */ // clang-format off
@@ -84,22 +84,22 @@ struct SDL_GLDriverData
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-    BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
-    int (WINAPI *wglGetSwapIntervalEXT)(void);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const 정수 *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, 정수 *piFormats, UINT * nNumFormats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, 정수 iPixelFormat, 정수 iLayerPlane, UINT nAttributes, const 정수 *piAttributes, 정수 *piValues);
+    BOOL (WINAPI *wglSwapIntervalEXT)(정수 interval);
+    정수 (WINAPI *wglGetSwapIntervalEXT)(void);
+#만약 defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     BOOL (WINAPI *wglSwapBuffers)(HDC hdc);
-    int (WINAPI *wglDescribePixelFormat)(HDC hdc,
-                                         int iPixelFormat,
+    정수 (WINAPI *wglDescribePixelFormat)(HDC hdc,
+                                         정수 iPixelFormat,
                                          UINT nBytes,
                                          LPPIXELFORMATDESCRIPTOR ppfd);
-    int (WINAPI *wglChoosePixelFormat)(HDC hdc,
+    정수 (WINAPI *wglChoosePixelFormat)(HDC hdc,
                                        const PIXELFORMATDESCRIPTOR *ppfd);
     BOOL (WINAPI *wglSetPixelFormat)(HDC hdc,
-                                     int format,
+                                     정수 format,
                                      const PIXELFORMATDESCRIPTOR *ppfd);
-    int (WINAPI *wglGetPixelFormat)(HDC hdc);
+    정수 (WINAPI *wglGetPixelFormat)(HDC hdc);
 #endif
     /* *INDENT-ON* */ // clang-format on
 };
@@ -113,8 +113,8 @@ extern bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, 정수 interval);
+extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, 정수 *interval);
 extern bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);

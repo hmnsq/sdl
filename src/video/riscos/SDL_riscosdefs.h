@@ -25,25 +25,25 @@
 
 typedef struct sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    정수 size;  // +0
+    정수 count; // +4
+    정수 start; // +8
+    정수 end;   // +12
 } sprite_area;
 
 SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
 
 typedef struct sprite_header
 {
-    int next;         // +0
+    정수 next;         // +0
     char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
+    정수 width;        // +16
+    정수 height;       // +20
+    정수 first_bit;    // +24
+    정수 last_bit;     // +28
+    정수 image_offset; // +32
+    정수 mask_offset;  // +36
+    정수 mode;         // +40
 } sprite_header;
 
 SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);

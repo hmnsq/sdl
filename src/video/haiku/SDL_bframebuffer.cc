@@ -37,20 +37,20 @@ extern "C" {
 
 static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
 {
-    return (SDL_BWin *)(window->internal);
+    반환 (SDL_BWin *)(window->internal);
 }
 
 static SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    반환 SDL_Looper;
 }
 
-bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, void ** pixels, int *pitch)
+bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, void ** pixels, 정수 *pitch)
 {
     SDL_BWin *bwin = _ToBeWin(window);
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return false;
+    만약 (!bscreen.IsValid()) {
+        반환 false;
     }
 
     // Make sure we have exclusive access to frame buffer data
@@ -66,16 +66,16 @@ bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, 
     // Create the new bitmap object
     BBitmap *bitmap = bwin->GetBitmap();
 
-    if (bitmap) {
+    만약 (bitmap) {
         delete bitmap;
     }
     bitmap = new BBitmap(bwin->Bounds(), (color_space)bmode.space,
             false,    // Views not accepted
             true);    // Contiguous memory required
 
-    if (bitmap->InitCheck() != B_OK) {
+    만약 (bitmap->InitCheck() != B_OK) {
         delete bitmap;
-        return SDL_SetError("Could not initialize back buffer!");
+        반환 SDL_SetError("Could not initialize back buffer!");
     }
 
 
@@ -88,22 +88,22 @@ bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, 
     *pitch = bitmap->BytesPerRow();
 
     bwin->UnlockBuffer();
-    return true;
+    반환 true;
 }
 
 
 
 bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window,
-                                      const SDL_Rect * rects, int numrects) {
-    if (!window) {
-        return true;
+                                      const SDL_Rect * rects, 정수 numrects) {
+    만약 (!window) {
+        반환 true;
     }
 
     SDL_BWin *bwin = _ToBeWin(window);
 
     bwin->PostMessage(BWIN_UPDATE_FRAMEBUFFER);
 
-    return true;
+    반환 true;
 }
 
 void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window) {

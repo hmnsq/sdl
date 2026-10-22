@@ -32,7 +32,7 @@
 #include "../SDL_vulkan_internal.h"
 #include "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#만약 defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
 extern bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);

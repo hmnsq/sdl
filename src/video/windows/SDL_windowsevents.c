@@ -43,7 +43,7 @@
 #include <tpcshrd.h>
 #endif // HAVE_TPCSHRD_H
 
-#if 0
+#만약 0
 #define WMMSG_DEBUG
 #endif
 #ifdef WMMSG_DEBUG
@@ -51,7 +51,7 @@
 #include "wmmsg.h"
 #endif
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#만약 !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 #include <shobjidl.h>
 #endif
 
@@ -159,31 +159,31 @@ static Uint64 WIN_GetEventTimestamp(void)
     const Uint64 TIMESTAMP_WRAP_OFFSET = SDL_MS_TO_NS(0x100000000LL);
     Uint64 timestamp, now;
 
-    if (!SDL_processing_messages) {
+    만약 (!SDL_processing_messages) {
         // message_tick isn't valid, just use the current time
-        return 0;
+        반환 0;
     }
 
     now = SDL_GetTicksNS();
     timestamp = SDL_MS_TO_NS(message_tick);
     timestamp += timestamp_offset;
-    if (!timestamp_offset) {
+    만약 (!timestamp_offset) {
         // Initializing timestamp offset
         //SDL_Log("Initializing timestamp offset");
         timestamp_offset = (now - timestamp);
         timestamp = now;
-    } else if ((Sint64)(now - timestamp - TIMESTAMP_WRAP_OFFSET) >= 0) {
+    } 아니면 만약 ((Sint64)(now - timestamp - TIMESTAMP_WRAP_OFFSET) >= 0) {
         // The windows message tick wrapped
         //SDL_Log("Adjusting timestamp offset for wrapping tick");
         timestamp_offset += TIMESTAMP_WRAP_OFFSET;
         timestamp += TIMESTAMP_WRAP_OFFSET;
-    } else if (timestamp > now) {
+    } 아니면 만약 (timestamp > now) {
         // We got a newer timestamp, but it can't be newer than now, so adjust our offset
         //SDL_Log("Adjusting timestamp offset, %.2f ms newer", (double)(timestamp - now) / SDL_NS_PER_MS);
         timestamp_offset -= (timestamp - now);
         timestamp = now;
     }
-    return timestamp;
+    반환 timestamp;
 }
 
 // A message hook called before TranslateMessage()
@@ -209,17 +209,17 @@ static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, U
 
     *virtual_key = (scanCode == 0);
 
-    if (scanCode != 0) {
-        if ((keyFlags & KF_EXTENDED) == KF_EXTENDED) {
+    만약 (scanCode != 0) {
+        만약 ((keyFlags & KF_EXTENDED) == KF_EXTENDED) {
             scanCode = MAKEWORD(scanCode, 0xe0);
-        } else if (scanCode == 0x45) {
+        } 아니면 만약 (scanCode == 0x45) {
             // Pause
             scanCode = 0xe046;
         }
-    } else {
+    } 아니면 {
         Uint16 vkCode = LOWORD(wParam);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         /* Windows may not report scan codes for some buttons (multimedia buttons etc).
          * Get scan code from the VK code.*/
         scanCode = LOWORD(MapVirtualKey(vkCode, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
@@ -227,7 +227,7 @@ static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, U
 
         /* Pause/Break key have a special scan code with 0xe1 prefix.
          * Use Pause scan code that is used in Win32. */
-        if (scanCode == 0xe11d) {
+        만약 (scanCode == 0xe11d) {
             scanCode = 0xe046;
         }
     }
@@ -237,38 +237,38 @@ static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, U
     code = windows_scancode_table[index];
     *rawcode = scanCode;
 
-    return code;
+    반환 code;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 static bool WIN_ShouldIgnoreFocusClick(SDL_WindowData *data)
 {
-    return !SDL_WINDOW_IS_POPUP(data->window) &&
+    반환 !SDL_WINDOW_IS_POPUP(data->window) &&
            !SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false);
 }
 
 static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool bSwapButtons, SDL_WindowData *data, Uint8 button, SDL_MouseID mouseID)
 {
-    if (bSwapButtons) {
-        if (button == SDL_BUTTON_LEFT) {
+    만약 (bSwapButtons) {
+        만약 (button == SDL_BUTTON_LEFT) {
             button = SDL_BUTTON_RIGHT;
-        } else if (button == SDL_BUTTON_RIGHT) {
+        } 아니면 만약 (button == SDL_BUTTON_RIGHT) {
             button = SDL_BUTTON_LEFT;
         }
     }
 
-    if (data->focus_click_pending & SDL_BUTTON_MASK(button)) {
+    만약 (data->focus_click_pending & SDL_BUTTON_MASK(button)) {
         // Ignore the button click for activation
-        if (!bwParamMousePressed) {
+        만약 (!bwParamMousePressed) {
             data->focus_click_pending &= ~SDL_BUTTON_MASK(button);
             WIN_UpdateClipCursor(data->window);
         }
-        return;
+        반환;
     }
 
-    if (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_MASK(button))) {
+    만약 (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_MASK(button))) {
         SDL_SendMouseButton(timestamp, data->window, mouseID, button, true);
-    } else if (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_MASK(button))) {
+    } 아니면 만약 (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_MASK(button))) {
         SDL_SendMouseButton(timestamp, data->window, mouseID, button, false);
     }
 }
@@ -279,7 +279,7 @@ static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePresse
  */
 static void WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_WindowData *data, SDL_MouseID mouseID)
 {
-    if (wParam != data->mouse_button_flags) {
+    만약 (wParam != data->mouse_button_flags) {
         SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(NULL, NULL);
 
         // WM_LBUTTONDOWN and friends handle button swapping for us. No need to check SM_SWAPBUTTON here.
@@ -307,23 +307,23 @@ static void WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_WindowData *data)
     swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
 
     keyState = GetAsyncKeyState(VK_LBUTTON);
-    if (!(keyState & 0x8000)) {
+    만약 (!(keyState & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_LEFT, mouseID);
     }
     keyState = GetAsyncKeyState(VK_RBUTTON);
-    if (!(keyState & 0x8000)) {
+    만약 (!(keyState & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_RIGHT, mouseID);
     }
     keyState = GetAsyncKeyState(VK_MBUTTON);
-    if (!(keyState & 0x8000)) {
+    만약 (!(keyState & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_MIDDLE, mouseID);
     }
     keyState = GetAsyncKeyState(VK_XBUTTON1);
-    if (!(keyState & 0x8000)) {
+    만약 (!(keyState & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X1, mouseID);
     }
     keyState = GetAsyncKeyState(VK_XBUTTON2);
-    if (!(keyState & 0x8000)) {
+    만약 (!(keyState & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X2, mouseID);
     }
     data->mouse_button_flags = (WPARAM)-1;
@@ -336,28 +336,28 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
     bool had_focus = (SDL_GetKeyboardFocus() == window);
     bool has_focus = (GetForegroundWindow() == hwnd);
 
-    if (had_focus == has_focus || has_focus != expect_focus) {
-        return;
+    만약 (had_focus == has_focus || has_focus != expect_focus) {
+        반환;
     }
 
-    if (has_focus) {
+    만약 (has_focus) {
         POINT cursorPos;
 
-        if (WIN_ShouldIgnoreFocusClick(data) && !(window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+        만약 (WIN_ShouldIgnoreFocusClick(data) && !(window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
             bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
-            if (GetAsyncKeyState(VK_LBUTTON)) {
+            만약 (GetAsyncKeyState(VK_LBUTTON)) {
                 data->focus_click_pending |= !swapButtons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
             }
-            if (GetAsyncKeyState(VK_RBUTTON)) {
+            만약 (GetAsyncKeyState(VK_RBUTTON)) {
                 data->focus_click_pending |= !swapButtons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
             }
-            if (GetAsyncKeyState(VK_MBUTTON)) {
+            만약 (GetAsyncKeyState(VK_MBUTTON)) {
                 data->focus_click_pending |= SDL_BUTTON_MMASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON1)) {
+            만약 (GetAsyncKeyState(VK_XBUTTON1)) {
                 data->focus_click_pending |= SDL_BUTTON_X1MASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON2)) {
+            만약 (GetAsyncKeyState(VK_XBUTTON2)) {
                 data->focus_click_pending |= SDL_BUTTON_X2MASK;
             }
         }
@@ -365,7 +365,7 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
         SDL_SetKeyboardFocus(window->keyboard_focus ? window->keyboard_focus : window);
 
         // In relative mode we are guaranteed to have mouse focus if we have keyboard focus
-        if (!SDL_GetMouse()->relative_mode) {
+        만약 (!SDL_GetMouse()->relative_mode) {
             cursorPos.x = pos->x;
             cursorPos.y = pos->y;
             ScreenToClient(hwnd, &cursorPos);
@@ -385,12 +385,12 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
         SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
 
         WIN_UpdateWindowICCProfile(data->window, true);
-    } else {
+    } 아니면 {
         data->in_window_deactivation = true;
 
         SDL_SetKeyboardFocus(NULL);
         // In relative mode we are guaranteed to not have mouse focus if we don't have keyboard focus
-        if (SDL_GetMouse()->relative_mode) {
+        만약 (SDL_GetMouse()->relative_mode) {
             SDL_SetMouseFocus(NULL);
         }
         WIN_ResetDeadKeys();
@@ -404,25 +404,25 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
 
 static bool ShouldGenerateWindowCloseOnAltF4(void)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
+    반환 SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
 }
 
 static bool ShouldClearWindowOnEraseBackground(SDL_WindowData *data)
 {
     switch (data->hint_erase_background_mode) {
     case SDL_ERASEBACKGROUNDMODE_NEVER:
-        return false;
+        반환 false;
     case SDL_ERASEBACKGROUNDMODE_INITIAL:
-        return !data->videodata->cleared;
+        반환 !data->videodata->cleared;
     case SDL_ERASEBACKGROUNDMODE_ALWAYS:
-        return true;
+        반환 true;
     default:
         // Unexpected value, fallback to default behaviour
-        return !data->videodata->cleared;
+        반환 !data->videodata->cleared;
     }
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 // We want to generate mouse events from mouse and pen, and touch events from touchscreens
 #define MI_WP_SIGNATURE      0xFF515700
 #define MI_WP_SIGNATURE_MASK 0xFFFFFF00
@@ -443,14 +443,14 @@ static SDL_MOUSE_EVENT_SOURCE GetMouseMessageSource(ULONG extrainfo)
        Check bits 8-31 for the signature (which will indicate a Tablet PC Pen or Touch Device).
        Only check bit 7 when Vista and up(Cleared=Pen, Set=Touch(which we need to filter out)),
        when the signature is set. The Mouse ID will be zero for an actual mouse. */
-    if (IsTouchEvent(extrainfo)) {
-        if (extrainfo & 0x80) {
-            return SDL_MOUSE_EVENT_SOURCE_TOUCH;
-        } else {
-            return SDL_MOUSE_EVENT_SOURCE_PEN;
+    만약 (IsTouchEvent(extrainfo)) {
+        만약 (extrainfo & 0x80) {
+            반환 SDL_MOUSE_EVENT_SOURCE_TOUCH;
+        } 아니면 {
+            반환 SDL_MOUSE_EVENT_SOURCE_PEN;
         }
     }
-    return SDL_MOUSE_EVENT_SOURCE_MOUSE;
+    반환 SDL_MOUSE_EVENT_SOURCE_MOUSE;
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
@@ -459,31 +459,31 @@ static SDL_WindowData *WIN_GetWindowDataFromHWND(HWND hwnd)
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     SDL_Window *window;
 
-    if (_this) {
-        for (window = _this->windows; window; window = window->next) {
+    만약 (_this) {
+        위해 (window = _this->windows; window; window = window->next) {
             SDL_WindowData *data = window->internal;
-            if (data && data->hwnd == hwnd) {
-                return data;
+            만약 (data && data->hwnd == hwnd) {
+                반환 data;
             }
         }
     }
-    return NULL;
+    반환 NULL;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 LRESULT CALLBACK
-WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
+WIN_KeyboardHookProc(정수 nCode, WPARAM wParam, LPARAM lParam)
 {
     KBDLLHOOKSTRUCT *hookData = (KBDLLHOOKSTRUCT *)lParam;
     SDL_VideoData *data = SDL_GetVideoDevice()->internal;
     SDL_Scancode scanCode;
 
-    if (nCode < 0 || nCode != HC_ACTION) {
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+    만약 (nCode < 0 || nCode != HC_ACTION) {
+        반환 CallNextHookEx(NULL, nCode, wParam, lParam);
     }
-    if (hookData->scanCode == 0x21d) {
+    만약 (hookData->scanCode == 0x21d) {
         // Skip fake LCtrl when RAlt is pressed
-        return 1;
+        반환 1;
     }
 
     switch (hookData->vkCode) {
@@ -518,15 +518,15 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
         break;
 
     default:
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+        반환 CallNextHookEx(NULL, nCode, wParam, lParam);
     }
 
-    if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
-        if (!data->raw_keyboard_enabled) {
+    만약 (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
+        만약 (!data->raw_keyboard_enabled) {
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, true);
         }
-    } else {
-        if (!data->raw_keyboard_enabled) {
+    } 아니면 {
+        만약 (!data->raw_keyboard_enabled) {
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, false);
         }
 
@@ -535,22 +535,22 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
            windows have a consistent view of the key state, and avoids keys
            being stuck down in those windows if they are down when the grab
            happens and raised while grabbed. */
-        if (hookData->vkCode <= 0xFF && data->pre_hook_key_state[hookData->vkCode]) {
+        만약 (hookData->vkCode <= 0xFF && data->pre_hook_key_state[hookData->vkCode]) {
             data->pre_hook_key_state[hookData->vkCode] = 0;
-            return CallNextHookEx(NULL, nCode, wParam, lParam);
+            반환 CallNextHookEx(NULL, nCode, wParam, lParam);
         }
     }
 
-    return 1;
+    반환 1;
 }
 
 static bool WIN_SwapButtons(HANDLE hDevice)
 {
-    if (hDevice == NULL) {
+    만약 (hDevice == NULL) {
         // Touchpad, already has buttons swapped
-        return false;
+        반환 false;
     }
-    return GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    반환 GetSystemMetrics(SM_SWAPBUTTON) != 0;
 }
 
 static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWMOUSE *rawmouse)
@@ -572,40 +572,40 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
         { RI_MOUSE_BUTTON_5_UP, SDL_BUTTON_X2, false }
     };
 
-    int dx = (int)rawmouse->lLastX;
-    int dy = (int)rawmouse->lLastY;
+    정수 dx = (정수)rawmouse->lLastX;
+    정수 dy = (정수)rawmouse->lLastY;
     bool haveMotion = (dx || dy);
     bool haveButton = (rawmouse->usButtonFlags != 0);
     bool isAbsolute = ((rawmouse->usFlags & MOUSE_MOVE_ABSOLUTE) != 0);
     SDL_MouseID mouseID = (SDL_MouseID)(uintptr_t)hDevice;
 
     // Check whether relative mode should also receive events from the rawinput stream
-    if (!data->raw_mouse_enabled) {
-        return;
+    만약 (!data->raw_mouse_enabled) {
+        반환;
     }
 
     // Relative mouse motion is delivered to the window with keyboard focus
     SDL_Window *window = SDL_GetKeyboardFocus();
-    if (!window) {
-        return;
+    만약 (!window) {
+        반환;
     }
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (!mouse) {
-        return;
+    만약 (!mouse) {
+        반환;
     }
 
-    if (GetMouseMessageSource(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_SOURCE_MOUSE ||
+    만약 (GetMouseMessageSource(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_SOURCE_MOUSE ||
         (SDL_TouchDevicesAvailable() && (rawmouse->ulExtraInformation & 0x80) == 0x80)) {
-        return;
+        반환;
     }
 
     SDL_WindowData *windowdata = window->internal;
 
-    if (haveMotion && !windowdata->in_modal_loop) {
-        if (!isAbsolute) {
+    만약 (haveMotion && !windowdata->in_modal_loop) {
+        만약 (!isAbsolute) {
             SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)dx, (float)dy);
-        } else {
+        } 아니면 {
             /* This is absolute motion, either using a tablet or mouse over RDP
 
                 Notes on how RDP appears to work, as of Windows 10 2004:
@@ -619,64 +619,64 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
             bool remote_desktop = (GetSystemMetrics(SM_REMOTESESSION) == TRUE);
             bool virtual_desktop = ((rawmouse->usFlags & MOUSE_VIRTUAL_DESKTOP) != 0);
             bool raw_coordinates = ((rawmouse->usFlags & 0x40) != 0);
-            int w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
-            int h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
-            int x = raw_coordinates ? dx : (int)(((float)dx / 65535.0f) * w);
-            int y = raw_coordinates ? dy : (int)(((float)dy / 65535.0f) * h);
-            int relX, relY;
+            정수 w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
+            정수 h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
+            정수 x = raw_coordinates ? dx : (정수)(((float)dx / 65535.0f) * w);
+            정수 y = raw_coordinates ? dy : (정수)(((float)dy / 65535.0f) * h);
+            정수 relX, relY;
 
             /* Calculate relative motion */
-            if (data->last_raw_mouse_position.x == 0 && data->last_raw_mouse_position.y == 0) {
+            만약 (data->last_raw_mouse_position.x == 0 && data->last_raw_mouse_position.y == 0) {
                 data->last_raw_mouse_position.x = x;
                 data->last_raw_mouse_position.y = y;
             }
             relX = x - data->last_raw_mouse_position.x;
             relY = y - data->last_raw_mouse_position.y;
 
-            if (remote_desktop) {
-                if (!windowdata->in_title_click && !windowdata->focus_click_pending) {
-                    static int wobble;
+            만약 (remote_desktop) {
+                만약 (!windowdata->in_title_click && !windowdata->focus_click_pending) {
+                    static 정수 wobble;
                     float floatX = (float)x / w;
                     float floatY = (float)y / h;
 
                     /* See if the mouse is at the edge of the screen, or in the RDP title bar area */
-                    if (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
+                    만약 (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
                         /* Wobble the cursor position so it's not ignored if the last warp didn't have any effect */
                         RECT rect = windowdata->cursor_clipped_rect;
-                        int warpX = rect.left + ((rect.right - rect.left) / 2) + wobble;
-                        int warpY = rect.top + ((rect.bottom - rect.top) / 2);
+                        정수 warpX = rect.left + ((rect.right - rect.left) / 2) + wobble;
+                        정수 warpY = rect.top + ((rect.bottom - rect.top) / 2);
 
                         WIN_SetCursorPos(warpX, warpY);
 
                         ++wobble;
-                        if (wobble > 1) {
+                        만약 (wobble > 1) {
                             wobble = -1;
                         }
-                    } else {
+                    } 아니면 {
                         /* Send relative motion if we didn't warp last frame (had good position data)
                            We also sometimes get large deltas due to coalesced mouse motion and warping,
                            so ignore those.
                          */
-                        const int MAX_RELATIVE_MOTION = (h / 6);
-                        if (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
+                        const 정수 MAX_RELATIVE_MOTION = (h / 6);
+                        만약 (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
                             SDL_abs(relY) < MAX_RELATIVE_MOTION) {
                             SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
                         }
                     }
                 }
-            } else if (mouse->pen_mouse_events) {
-                const int MAXIMUM_TABLET_RELATIVE_MOTION = 32;
-                if (SDL_abs(relX) > MAXIMUM_TABLET_RELATIVE_MOTION ||
+            } 아니면 만약 (mouse->pen_mouse_events) {
+                const 정수 MAXIMUM_TABLET_RELATIVE_MOTION = 32;
+                만약 (SDL_abs(relX) > MAXIMUM_TABLET_RELATIVE_MOTION ||
                     SDL_abs(relY) > MAXIMUM_TABLET_RELATIVE_MOTION) {
                     /* Ignore this motion, probably a pen lift and drop */
-                } else {
+                } 아니면 {
                     SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
                 }
-            } else {
-                int screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
-                int screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
+            } 아니면 {
+                정수 screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
+                정수 screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
 
-                if (!data->raw_input_fake_pen_id) {
+                만약 (!data->raw_input_fake_pen_id) {
                     data->raw_input_fake_pen_id = SDL_AddPenDevice(timestamp, "raw mouse input", window, NULL, (void *)(size_t)-1, true);
                 }
                 SDL_SendPenMotion(timestamp, data->raw_input_fake_pen_id, window, (float)(x + screen_x - window->x), (float)(y + screen_y - window->y));
@@ -687,25 +687,25 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
         }
     }
 
-    if (haveButton) {
-        for (int i = 0; i < SDL_arraysize(raw_buttons); ++i) {
-            if (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
+    만약 (haveButton) {
+        위해 (정수 i = 0; i < SDL_arraysize(raw_buttons); ++i) {
+            만약 (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
                 Uint8 button = raw_buttons[i].button;
                 bool down = raw_buttons[i].down;
 
-                if (button == SDL_BUTTON_LEFT) {
-                    if (WIN_SwapButtons(hDevice)) {
+                만약 (button == SDL_BUTTON_LEFT) {
+                    만약 (WIN_SwapButtons(hDevice)) {
                         button = SDL_BUTTON_RIGHT;
                     }
-                } else if (button == SDL_BUTTON_RIGHT) {
-                    if (WIN_SwapButtons(hDevice)) {
+                } 아니면 만약 (button == SDL_BUTTON_RIGHT) {
+                    만약 (WIN_SwapButtons(hDevice)) {
                         button = SDL_BUTTON_LEFT;
                     }
                 }
 
-                if (windowdata->focus_click_pending & SDL_BUTTON_MASK(button)) {
+                만약 (windowdata->focus_click_pending & SDL_BUTTON_MASK(button)) {
                     // Ignore the button click for activation
-                    if (!down) {
+                    만약 (!down) {
                         windowdata->focus_click_pending &= ~SDL_BUTTON_MASK(button);
                         WIN_UpdateClipCursor(window);
                     }
@@ -716,11 +716,11 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
             }
         }
 
-        if (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
+        만약 (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
             SHORT amount = (SHORT)rawmouse->usButtonData;
             float fAmount = (float)amount / WHEEL_DELTA;
             SDL_SendMouseWheel(timestamp, window, mouseID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-        } else if (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
+        } 아니면 만약 (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
             SHORT amount = (SHORT)rawmouse->usButtonData;
             float fAmount = (float)amount / WHEEL_DELTA;
             SDL_SendMouseWheel(timestamp, window, mouseID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
@@ -736,28 +736,28 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
 {
     SDL_KeyboardID keyboardID = (SDL_KeyboardID)(uintptr_t)hDevice;
 
-    if (!data->raw_keyboard_enabled) {
-        return;
+    만약 (!data->raw_keyboard_enabled) {
+        반환;
     }
 
-    if (rawkeyboard->Flags & RI_KEY_E1) {
+    만약 (rawkeyboard->Flags & RI_KEY_E1) {
         // First key in a Ctrl+{key} sequence
         data->pending_E1_key_sequence = true;
-        return;
+        반환;
     }
 
-    if ((rawkeyboard->Flags & RI_KEY_E0) && rawkeyboard->MakeCode == 0x2A) {
+    만약 ((rawkeyboard->Flags & RI_KEY_E0) && rawkeyboard->MakeCode == 0x2A) {
         // 0xE02A make code prefix, ignored
-        return;
+        반환;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!rawkeyboard->MakeCode) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (!rawkeyboard->MakeCode) {
         rawkeyboard->MakeCode = LOWORD(MapVirtualKey(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
     }
 #endif
-    if (!rawkeyboard->MakeCode) {
-        return;
+    만약 (!rawkeyboard->MakeCode) {
+        반환;
     }
 
     bool down;
@@ -777,31 +777,31 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
 
     SDL_Scancode code;
     USHORT rawcode = rawkeyboard->MakeCode;
-    if (data->pending_E1_key_sequence) {
+    만약 (data->pending_E1_key_sequence) {
         rawcode |= 0xE100;
-        if (rawkeyboard->MakeCode == 0x45) {
+        만약 (rawkeyboard->MakeCode == 0x45) {
             // Ctrl+NumLock == Pause
             code = SDL_SCANCODE_PAUSE;
-        } else {
+        } 아니면 {
             // Ctrl+ScrollLock == Break (no SDL scancode?)
             code = SDL_SCANCODE_UNKNOWN;
         }
         data->pending_E1_key_sequence = false;
-    } else {
+    } 아니면 {
         // The code is in the lower 7 bits, the high bit is set for the E0 prefix
         Uint8 index = (Uint8)rawkeyboard->MakeCode;
-        if (rawkeyboard->Flags & RI_KEY_E0) {
+        만약 (rawkeyboard->Flags & RI_KEY_E0) {
             rawcode |= 0xE000;
             index |= 0x80;
         }
         code = windows_scancode_table[index];
     }
 
-    if (down) {
+    만약 (down) {
         SDL_Window *focus = SDL_GetKeyboardFocus();
         // With input sink flag we want to receive input even if not focused
-        if ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_input_active)) {
-            return;
+        만약 ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_input_active)) {
+            반환;
         }
     }
 
@@ -815,11 +815,11 @@ void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
     RAWINPUT *input;
     Uint64 poll_finish;
 
-    if (data->rawinput_offset == 0) {
+    만약 (data->rawinput_offset == 0) {
         BOOL isWow64;
 
         data->rawinput_offset = sizeof(RAWINPUTHEADER);
-        if (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
+        만약 (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
             // We're going to get 64-bit data, so use the 64-bit RAWINPUTHEADER size
             data->rawinput_offset += 8;
         }
@@ -827,49 +827,49 @@ void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
 
     // Get all available events
     input = (RAWINPUT *)data->rawinput;
-    for (;;) {
+    위해 (;;) {
         size = data->rawinput_size - (UINT)((BYTE *)input - data->rawinput);
         count = GetRawInputBuffer(input, &size, sizeof(RAWINPUTHEADER));
         poll_finish = SDL_GetTicksNS();
-        if (count == 0 || count == (UINT)-1) {
-            if (!data->rawinput || (count == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
+        만약 (count == 0 || count == (UINT)-1) {
+            만약 (!data->rawinput || (count == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
                 const UINT RAWINPUT_BUFFER_SIZE_INCREMENT = 96;   // 2 64-bit raw mouse packets
                 BYTE *rawinput = (BYTE *)SDL_realloc(data->rawinput, data->rawinput_size + RAWINPUT_BUFFER_SIZE_INCREMENT);
-                if (!rawinput) {
+                만약 (!rawinput) {
                     break;
                 }
                 input = (RAWINPUT *)(rawinput + ((BYTE *)input - data->rawinput));
                 data->rawinput = rawinput;
                 data->rawinput_size += RAWINPUT_BUFFER_SIZE_INCREMENT;
-            } else {
+            } 아니면 {
                 break;
             }
-        } else {
+        } 아니면 {
             total += count;
 
             // Advance input to the end of the buffer
-            while (count--) {
+            동안 (count--) {
                 input = NEXTRAWINPUTBLOCK(input);
             }
         }
     }
 
-    if (total > 0) {
+    만약 (total > 0) {
         Uint64 delta = poll_finish - poll_start;
         UINT mouse_total = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
+        위해 (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
+            만약 (input->header.dwType == RIM_TYPEMOUSE) {
                 mouse_total += 1;
             }
         }
-        int mouse_index = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
+        정수 mouse_index = 0;
+        위해 (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
+            만약 (input->header.dwType == RIM_TYPEMOUSE) {
                 mouse_index += 1; // increment first so that it starts at one
                 RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)input + data->rawinput_offset);
                 Uint64 time = poll_finish - (delta * (mouse_total - mouse_index)) / mouse_total;
                 WIN_HandleRawMouseInput(time, data, input->header.hDevice, rawmouse);
-            } else if (input->header.dwType == RIM_TYPEKEYBOARD) {
+            } 아니면 만약 (input->header.dwType == RIM_TYPEKEYBOARD) {
                 RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)input + data->rawinput_offset);
                 WIN_HandleRawKeyboardInput(poll_finish, data, input->header.hDevice, rawkeyboard);
             }
@@ -878,13 +878,13 @@ void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
     data->last_rawinput_poll = poll_finish;
 }
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+static void AddDeviceID(Uint32 deviceID, Uint32 **list, 정수 *count)
 {
-    int new_count = (*count + 1);
+    정수 new_count = (*count + 1);
     Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
-    if (!new_list) {
+    만약 (!new_list) {
         // Oh well, we'll drop this one
-        return;
+        반환;
     }
     new_list[new_count - 1] = deviceID;
 
@@ -892,14 +892,14 @@ static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, 정수 count)
 {
-    for (int i = 0; i < count; ++i) {
-        if (deviceID == list[i]) {
-            return true;
+    위해 (정수 i = 0; i < count; ++i) {
+        만약 (deviceID == list[i]) {
+            반환 true;
         }
     }
-    return false;
+    반환 false;
 }
 
 static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instance, Uint16 vendor, Uint16 product, const char *default_name, bool hid_loaded)
@@ -913,19 +913,19 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
     vend[0] = 0;
     prod[0] = 0;
 
-    if (hid_loaded) {
+    만약 (hid_loaded) {
         char devName[MAX_PATH + 1];
         devName[0] = '\0';
         UINT cap = sizeof(devName) - 1;
         UINT len = GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, devName, &cap);
-        if (len != (UINT)-1) {
+        만약 (len != (UINT)-1) {
             devName[len] = '\0';
 
             // important: for devices with exclusive access mode as per
             // https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/top-level-collections-opened-by-windows-for-system-use
             // they can only be opened with a desired access of none instead of generic read.
             HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-            if (hFile != INVALID_HANDLE_VALUE) {
+            만약 (hFile != INVALID_HANDLE_VALUE) {
                 SDL_HidD_GetManufacturerString(hFile, vend, sizeof(vend));
                 SDL_HidD_GetProductString(hFile, prod, sizeof(prod));
                 CloseHandle(hFile);
@@ -933,43 +933,43 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
         }
     }
 
-    if (vend[0]) {
+    만약 (vend[0]) {
         vendor_name = WIN_StringToUTF8W(vend);
     }
 
-    if (prod[0]) {
+    만약 (prod[0]) {
         product_name = WIN_StringToUTF8W(prod);
-    } else {
+    } 아니면 {
         SP_DEVINFO_DATA data;
         SDL_zero(data);
         data.cbSize = sizeof(data);
-        for (DWORD i = 0;; ++i) {
-            if (!SetupDiEnumDeviceInfo(devinfo, i, &data)) {
-                if (GetLastError() == ERROR_NO_MORE_ITEMS) {
+        위해 (DWORD i = 0;; ++i) {
+            만약 (!SetupDiEnumDeviceInfo(devinfo, i, &data)) {
+                만약 (GetLastError() == ERROR_NO_MORE_ITEMS) {
                     break;
-                } else {
+                } 아니면 {
                     continue;
                 }
             }
 
             char DeviceInstanceId[64];
-            if (!SetupDiGetDeviceInstanceIdA(devinfo, &data, DeviceInstanceId, sizeof(DeviceInstanceId), NULL))
+            만약 (!SetupDiGetDeviceInstanceIdA(devinfo, &data, DeviceInstanceId, sizeof(DeviceInstanceId), NULL))
                 continue;
 
-            if (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
+            만약 (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
                 DWORD size = 0;
-                if (SetupDiGetDeviceRegistryPropertyW(devinfo, &data, SPDRP_DEVICEDESC, NULL, (PBYTE)prod, sizeof(prod), &size)) {
+                만약 (SetupDiGetDeviceRegistryPropertyW(devinfo, &data, SPDRP_DEVICEDESC, NULL, (PBYTE)prod, sizeof(prod), &size)) {
                     // Make sure the device description is null terminated
                     size /= sizeof(*prod);
-                    if (size >= SDL_arraysize(prod)) {
+                    만약 (size >= SDL_arraysize(prod)) {
                         // Truncated description...
                         size = (SDL_arraysize(prod) - 1);
                     }
                     prod[size] = 0;
 
-                    if (vendor || product) {
+                    만약 (vendor || product) {
                         SDL_asprintf(&product_name, "%S (0x%.4x/0x%.4x)", prod, vendor, product);
-                    } else {
+                    } 아니면 {
                         product_name = WIN_StringToUTF8W(prod);
                     }
                 }
@@ -978,14 +978,14 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
         }
     }
 
-    if (!product_name && (vendor || product)) {
+    만약 (!product_name && (vendor || product)) {
         SDL_asprintf(&product_name, "%s (0x%.4x/0x%.4x)", default_name, vendor, product);
     }
     name = SDL_CreateDeviceName(vendor, product, vendor_name, product_name, default_name);
     SDL_free(vendor_name);
     SDL_free(product_name);
 
-    return name;
+    반환 name;
 }
 
 void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
@@ -993,36 +993,36 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     PRAWINPUTDEVICELIST raw_devices = NULL;
     UINT raw_device_count = 0;
-    int old_keyboard_count = 0;
+    정수 old_keyboard_count = 0;
     SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
+    정수 new_keyboard_count = 0;
     SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
+    정수 old_mouse_count = 0;
     SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
+    정수 new_mouse_count = 0;
     SDL_MouseID *new_mice = NULL;
 
-    if (!_this ||
+    만약 (!_this ||
         SDL_strcmp(_this->name, "windows") != 0 ||
         !_this->internal->detect_device_hotplug ||
         _this->internal->gameinput_context) {
-        return;
+        반환;
     }
 
-    if ((GetRawInputDeviceList(NULL, &raw_device_count, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_count)) {
-        return; // oh well.
+    만약 ((GetRawInputDeviceList(NULL, &raw_device_count, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_count)) {
+        반환; // oh well.
     }
 
     raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(sizeof(RAWINPUTDEVICELIST) * raw_device_count);
-    if (!raw_devices) {
-        return; // oh well.
+    만약 (!raw_devices) {
+        반환; // oh well.
     }
 
     raw_device_count = GetRawInputDeviceList(raw_devices, &raw_device_count, sizeof(RAWINPUTDEVICELIST));
-    if (raw_device_count == (UINT)-1) {
+    만약 (raw_device_count == (UINT)-1) {
         SDL_free(raw_devices);
         raw_devices = NULL;
-        return; // oh well.
+        반환; // oh well.
     }
 
     HDEVINFO devinfo = SetupDiGetClassDevsA(NULL, NULL, NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
@@ -1030,36 +1030,36 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
     old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
     old_mice = SDL_GetMice(&old_mouse_count);
 
-    for (UINT i = 0; i < raw_device_count; i++) {
+    위해 (UINT i = 0; i < raw_device_count; i++) {
         RID_DEVICE_INFO rdi;
         char devName[MAX_PATH] = { 0 };
         UINT rdiSize = sizeof(rdi);
         UINT nameSize = SDL_arraysize(devName);
-        int vendor = 0, product = 0;
+        정수 vendor = 0, product = 0;
         DWORD dwType = raw_devices[i].dwType;
         char *instance, *ptr, *name;
 
-        if (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
+        만약 (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
             continue;
         }
 
         rdi.cbSize = sizeof(rdi);
-        if (GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
+        만약 (GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
             GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &nameSize) == ((UINT)-1)) {
             continue;
         }
 
         // Extract the device instance
         instance = devName;
-        while (*instance == '\\' || *instance == '?') {
+        동안 (*instance == '\\' || *instance == '?') {
             ++instance;
         }
-        for (ptr = instance; *ptr; ++ptr) {
-            if (*ptr == '#') {
+        위해 (ptr = instance; *ptr; ++ptr) {
+            만약 (*ptr == '#') {
                 *ptr = '\\';
             }
-            if (*ptr == '{') {
-                if (ptr > instance && ptr[-1] == '\\') {
+            만약 (*ptr == '{') {
+                만약 (ptr > instance && ptr[-1] == '\\') {
                     --ptr;
                 }
                 break;
@@ -1071,10 +1071,10 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 
         switch (dwType) {
         case RIM_TYPEKEYBOARD:
-            if (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dwNumberOfKeysTotal)) {
+            만약 (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dwNumberOfKeysTotal)) {
                 SDL_KeyboardID keyboardID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
                 AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
+                만약 (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
                     name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Keyboard", hid_loaded);
                     SDL_AddKeyboard(keyboardID, name);
                     SDL_free(name);
@@ -1082,10 +1082,10 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
             }
             break;
         case RIM_TYPEMOUSE:
-            if (SDL_IsMouse((Uint16)vendor, (Uint16)product)) {
+            만약 (SDL_IsMouse((Uint16)vendor, (Uint16)product)) {
                 SDL_MouseID mouseID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
                 AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
+                만약 (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
                     name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Mouse", hid_loaded);
                     SDL_AddMouse(mouseID, name);
                     SDL_free(name);
@@ -1097,14 +1097,14 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
         }
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    위해 (정수 i = old_keyboard_count; i--;) {
+        만약 (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    위해 (정수 i = old_mouse_count; i--;) {
+        만약 (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
@@ -1124,33 +1124,33 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 // LCtrl is sent when RAltGR is pressed
 static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
 {
-    if (wParam != VK_CONTROL) {
-        return false;
+    만약 (wParam != VK_CONTROL) {
+        반환 false;
     }
 
     // Is this an extended key (i.e. right key)?
-    if (lParam & 0x01000000) {
-        return false;
+    만약 (lParam & 0x01000000) {
+        반환 false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Here is a trick: "Alt Gr" sends LCTRL, then RALT. We only
     // want the RALT message, so we try to see if the next message
     // is a RALT message. In that case, this is a false LCTRL!
     MSG next_msg;
     DWORD msg_time = GetMessageTime();
-    if (PeekMessage(&next_msg, NULL, 0, 0, PM_NOREMOVE)) {
-        if (next_msg.message == WM_KEYDOWN ||
+    만약 (PeekMessage(&next_msg, NULL, 0, 0, PM_NOREMOVE)) {
+        만약 (next_msg.message == WM_KEYDOWN ||
             next_msg.message == WM_SYSKEYDOWN) {
-            if (next_msg.wParam == VK_MENU && (next_msg.lParam & 0x01000000) && next_msg.time == msg_time) {
+            만약 (next_msg.wParam == VK_MENU && (next_msg.lParam & 0x01000000) && next_msg.time == msg_time) {
                 // Next message is a RALT down message, which means that this is NOT a proper LCTRL message!
-                return true;
+                반환 true;
             }
         }
     }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return false;
+    반환 false;
 }
 
 static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, LPARAM *lParam)
@@ -1162,14 +1162,14 @@ static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, 
     dummy.message = *msg;
     dummy.wParam = *wParam;
     dummy.lParam = *lParam;
-    if (g_WindowsMessageHook(g_WindowsMessageHookData, &dummy)) {
+    만약 (g_WindowsMessageHook(g_WindowsMessageHookData, &dummy)) {
         // Can't modify the hwnd, but everything else is fair game
         *msg = dummy.message;
         *wParam = dummy.wParam;
         *lParam = dummy.lParam;
-        return true;
+        반환 true;
     }
-    return false;
+    반환 false;
 }
 
 LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1179,22 +1179,22 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     // Get the window data for the window
     data = WIN_GetWindowDataFromHWND(hwnd);
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!data) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (!data) {
         // Fallback
         data = (SDL_WindowData *)GetProp(hwnd, TEXT("SDL_WindowData"));
     }
 #endif
-    if (!data) {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+    만약 (!data) {
+        반환 CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
     }
 
 #ifdef WMMSG_DEBUG
     {
         char message[1024];
-        if (msg > MAX_WMMSG) {
+        만약 (msg > MAX_WMMSG) {
             SDL_snprintf(message, sizeof(message), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, msg, wParam, lParam);
-        } else {
+        } 아니면 {
             SDL_snprintf(message, sizeof(message), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[msg], wParam, lParam);
         }
         OutputDebugStringA(message);
@@ -1202,16 +1202,16 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 #endif // WMMSG_DEBUG
 
 
-    if (g_WindowsMessageHook && data->in_modal_loop) {
+    만약 (g_WindowsMessageHook && data->in_modal_loop) {
         // Synthesize a message for window hooks so they can modify the message if desired
-        if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-            return 0;
+        만약 (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
+            반환 0;
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (WIN_HandleIMEMessage(hwnd, msg, wParam, &lParam, data->videodata)) {
-        return 0;
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (WIN_HandleIMEMessage(hwnd, msg, wParam, &lParam, data->videodata)) {
+        반환 0;
     }
 #endif
 
@@ -1219,14 +1219,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     case WM_SHOWWINDOW:
     {
-        if (wParam) {
+        만약 (wParam) {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-        } else {
+        } 아니면 {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
         }
     } break;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     case WM_NCACTIVATE:
     {
         // Don't immediately clip the cursor in case we're clicking minimize/maximize buttons
@@ -1245,7 +1245,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         /* Handle borderless windows; this event is intended for drawing the titlebar, so we need
            to stop that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
+        만약 (data->window->flags & SDL_WINDOW_BORDERLESS) {
             lParam = -1; // According to MSDN, DefWindowProc will draw a title bar if lParam != -1
         }
     } break;
@@ -1257,7 +1257,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
            caption. Notably, WM_NCUAHDRAWCAPTION is sent when calling SetWindowText on a window.
            For borderless windows, we don't want to draw a frame or caption, so we should stop
            that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
+        만약 (data->window->flags & SDL_WINDOW_BORDERLESS) {
             returnCode = 0;
         }
     } break;
@@ -1272,16 +1272,16 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     case WM_MOUSEACTIVATE:
     {
-        if (SDL_WINDOW_IS_POPUP(data->window)) {
-            return MA_NOACTIVATE;
+        만약 (SDL_WINDOW_IS_POPUP(data->window)) {
+            반환 MA_NOACTIVATE;
         }
 
         // Check parents to see if they are in relative mouse mode and focused
         SDL_Window *parent = data->window->parent;
-        while (parent) {
-            if ((parent->flags & SDL_WINDOW_INPUT_FOCUS) &&
+        동안 (parent) {
+            만약 ((parent->flags & SDL_WINDOW_INPUT_FOCUS) &&
                 (parent->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE)) {
-                return MA_NOACTIVATE;
+                반환 MA_NOACTIVATE;
             }
             parent = parent->parent;
         }
@@ -1309,19 +1309,19 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
         POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
+        만약 (!data->videodata->GetPointerType) {
             break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
+        } 아니면 만약 (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
             break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
+        } 아니면 만약 (pointer_type != PT_PEN) {
             break;  // we only care about pens here.
         }
 
         void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
         const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen) {
+        만약 (pen) {
             SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, true, true);
-        } else {
+        } 아니면 {
             // one can use GetPointerPenInfo() to get the current state of the pen, and check POINTER_PEN_INFO::penMask,
             //  but the docs aren't clear if these masks are _always_ set for pens with specific features, or if they
             //  could be unset at this moment because Windows is still deciding what capabilities the pen has, and/or
@@ -1344,22 +1344,22 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
         POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
+        만약 (!data->videodata->GetPointerType) {
             break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
+        } 아니면 만약 (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
             break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
+        } 아니면 만약 (pointer_type != PT_PEN) {
             break;  // we only care about pens here.
         }
 
         void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
         const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen == 0) {
+        만약 (pen == 0) {
             break;  // not a pen, or not a pen we already knew about.
         }
 
         // if this just left the _window_, we don't care. If this is no longer visible to the tablet, time to remove it!
-        if ((msg == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
+        만약 ((msg == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
             // technically this isn't just _proximity_ but maybe just leaving the window. Good enough. WinTab apparently has real proximity info.
             SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, false, false);
         }
@@ -1372,22 +1372,22 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
         POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType || !data->videodata->GetPointerType(pointerid, &pointer_type)) {
+        만약 (!data->videodata->GetPointerType || !data->videodata->GetPointerType(pointerid, &pointer_type)) {
             break;  // oh well.
-        } else if ((msg == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
+        } 아니면 만약 ((msg == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
             data->last_pointer_update = lParam;
             returnCode = 0;
             break;
-        } else if (pointer_type != PT_PEN) {
+        } 아니면 만약 (pointer_type != PT_PEN) {
             break; // we only care about pens here.
         }
 
         void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
         const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
         POINTER_PEN_INFO pen_info;
-        if (pen == 0) {
+        만약 (pen == 0) {
             break;  // not a pen, or not a pen we already knew about.
-        } else if (!data->videodata->GetPointerPenInfo || !data->videodata->GetPointerPenInfo(pointerid, &pen_info)) {
+        } 아니면 만약 (!data->videodata->GetPointerPenInfo || !data->videodata->GetPointerPenInfo(pointerid, &pen_info)) {
             break;  // oh well.
         }
 
@@ -1397,7 +1397,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         const bool istouching = IS_POINTER_INCONTACT_WPARAM(wParam) && IS_POINTER_FIRSTBUTTON_WPARAM(wParam);
 
         // if lifting off, do it first, so any motion changes don't cause app issues.
-        if (!istouching) {
+        만약 (!istouching) {
             SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, false);
         }
 
@@ -1407,13 +1407,13 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         // try to get a more-precise position than is stored in lParam...GetPointerDeviceRects is available starting in Windows 8.
         // we might need to cache this somewhere (and if we cache it, we will need to update it if the display changes)...for now we'll see if GetPointerDeviceRect is fast enough.
-        if (!data->videodata->GetPointerDeviceRects || !data->videodata->GetPointerDeviceRects(pointer_info->sourceDevice, &tablet_bounds, &tablet_mapping)) {
+        만약 (!data->videodata->GetPointerDeviceRects || !data->videodata->GetPointerDeviceRects(pointer_info->sourceDevice, &tablet_bounds, &tablet_mapping)) {
             POINT position = { (LONG) GET_X_LPARAM(lParam), (LONG) GET_Y_LPARAM(lParam) };
             ScreenToClient(data->hwnd, &position);
             fx = (float) position.x;
             fy = (float) position.y;
-        } else {
-            int ix, iy;
+        } 아니면 {
+            정수 ix, iy;
             SDL_GetWindowPosition(window, &ix, &iy);
             const SDL_FPoint window_pos = { (float) ix, (float) iy };
 
@@ -1431,24 +1431,24 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         SDL_SendPenButton(timestamp, pen, window, 1, (pen_info.penFlags & PEN_FLAG_BARREL) != 0);
         SDL_SendPenButton(timestamp, pen, window, 2, (pen_info.penFlags & PEN_FLAG_ERASER) != 0);
 
-        if (pen_info.penMask & PEN_MASK_PRESSURE) {
+        만약 (pen_info.penMask & PEN_MASK_PRESSURE) {
             SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_PRESSURE, ((float) pen_info.pressure) / 1024.0f);  // pen_info.pressure is in the range 0..1024.
         }
 
-        if (pen_info.penMask & PEN_MASK_ROTATION) {
+        만약 (pen_info.penMask & PEN_MASK_ROTATION) {
             SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_ROTATION, ((float) pen_info.rotation));  // it's already in the range of 0 to 359.
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_X) {
+        만약 (pen_info.penMask & PEN_MASK_TILT_X) {
             SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_XTILT, ((float) pen_info.tiltX));  // it's already in the range of -90 to 90..
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_Y) {
+        만약 (pen_info.penMask & PEN_MASK_TILT_Y) {
             SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_YTILT, ((float) pen_info.tiltY));  // it's already in the range of -90 to 90..
         }
 
         // if setting down, do it last, so the pen is positioned correctly from the first contact.
-        if (istouching) {
+        만약 (istouching) {
             SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, true);
         }
 
@@ -1459,33 +1459,33 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         SDL_Window *window = data->window;
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        만약 (window->flags & SDL_WINDOW_INPUT_FOCUS) {
             bool wish_clip_cursor = (
                 window->flags & (SDL_WINDOW_MOUSE_RELATIVE_MODE | SDL_WINDOW_MOUSE_GRABBED) ||
                 (window->mouse_rect.w > 0 && window->mouse_rect.h > 0)
             );
-            if (wish_clip_cursor) { // queue clipcursor refresh on pump finish
+            만약 (wish_clip_cursor) { // queue clipcursor refresh on pump finish
                 data->clipcursor_queued = true;
             }
         }
 
-        if (!data->mouse_tracked) {
+        만약 (!data->mouse_tracked) {
             TRACKMOUSEEVENT trackMouseEvent;
 
             trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
             trackMouseEvent.dwFlags = TME_LEAVE;
             trackMouseEvent.hwndTrack = data->hwnd;
 
-            if (TrackMouseEvent(&trackMouseEvent)) {
+            만약 (TrackMouseEvent(&trackMouseEvent)) {
                 data->mouse_tracked = true;
             }
 
             WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
         }
 
-        if (!data->videodata->raw_mouse_enabled) {
+        만약 (!data->videodata->raw_mouse_enabled) {
             // Only generate mouse events for real mouse
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
+            만약 (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
                 lParam != data->last_pointer_update) {
                 SDL_SendMouseMotion(WIN_GetEventTimestamp(), window, SDL_GLOBAL_MOUSE_ID, false, (float)GET_X_LPARAM(lParam), (float)GET_Y_LPARAM(lParam));
             }
@@ -1507,15 +1507,15 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_XBUTTONDBLCLK:
     {
         /* SDL_Mouse *mouse = SDL_GetMouse(); */
-        if (!data->videodata->raw_mouse_enabled) {
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
+        만약 (!data->videodata->raw_mouse_enabled) {
+            만약 (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
                 lParam != data->last_pointer_update) {
                 WIN_CheckWParamMouseButtons(WIN_GetEventTimestamp(), wParam, data, SDL_GLOBAL_MOUSE_ID);
             }
         }
     } break;
 
-#if 0   // We handle raw input all at once instead of using a syscall for each mouse event
+#만약 0   // We handle raw input all at once instead of using a syscall for each mouse event
     case WM_INPUT:
     {
         HRAWINPUT hRawInput = (HRAWINPUT)lParam;
@@ -1523,14 +1523,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         UINT size = sizeof(inp);
 
         // Relative mouse motion is delivered to the window with keyboard focus
-        if (data->window != SDL_GetKeyboardFocus()) {
+        만약 (data->window != SDL_GetKeyboardFocus()) {
             break;
         }
 
         GetRawInputData(hRawInput, RID_INPUT, &inp, &size, sizeof(RAWINPUTHEADER));
-        if (inp.header.dwType == RIM_TYPEMOUSE) {
+        만약 (inp.header.dwType == RIM_TYPEMOUSE) {
             WIN_HandleRawMouseInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.mouse);
-        } else if (inp.header.dwType == RIM_TYPEKEYBOARD) {
+        } 아니면 만약 (inp.header.dwType == RIM_TYPEKEYBOARD) {
             WIN_HandleRawKeyboardInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.keyboard);
         }
     } break;
@@ -1539,20 +1539,20 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_MOUSEWHEEL:
     case WM_MOUSEHWHEEL:
     {
-        if (!data->videodata->raw_mouse_enabled) {
+        만약 (!data->videodata->raw_mouse_enabled) {
             short amount = GET_WHEEL_DELTA_WPARAM(wParam);
             float fAmount = (float)amount / WHEEL_DELTA;
-            if (msg == WM_MOUSEWHEEL) {
+            만약 (msg == WM_MOUSEWHEEL) {
                 SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-            } else {
+            } 아니면 {
                 SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
             }
         }
     } break;
 
     case WM_MOUSELEAVE:
-        if (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            if (SDL_GetMouseFocus() == data->window && !SDL_GetMouse()->relative_mode && !IsIconic(hwnd)) {
+        만약 (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+            만약 (SDL_GetMouseFocus() == data->window && !SDL_GetMouse()->relative_mode && !IsIconic(hwnd)) {
                 SDL_Mouse *mouse;
                 DWORD pos = GetMessagePos();
                 POINT cursorPos;
@@ -1560,19 +1560,19 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 cursorPos.y = GET_Y_LPARAM(pos);
                 ScreenToClient(hwnd, &cursorPos);
                 mouse = SDL_GetMouse();
-                if (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
+                만약 (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
                     SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
-                } else {                                       // touch handling?
+                } 아니면 {                                       // touch handling?
                     mouse->was_touch_mouse_events = false; // not anymore
-                    if (mouse->touch_mouse_events) {           // convert touch to mouse events
+                    만약 (mouse->touch_mouse_events) {           // convert touch to mouse events
                         SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_TOUCH_MOUSEID, false, (float)cursorPos.x, (float)cursorPos.y);
-                    } else { // normal handling
+                    } 아니면 { // normal handling
                         SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
                     }
                 }
             }
 
-            if (!SDL_GetMouse()->relative_mode) {
+            만약 (!SDL_GetMouse()->relative_mode) {
                 // When WM_MOUSELEAVE is fired we can be assured that the cursor has left the window
                 SDL_SetMouseFocus(NULL);
             }
@@ -1588,7 +1588,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
+        만약 (SkipAltGrLeftControl(wParam, lParam)) {
             returnCode = 0;
             break;
         }
@@ -1598,14 +1598,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
 
         // Detect relevant keyboard shortcuts
-        if (code == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
+        만약 (code == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
             // ALT+F4: Close window
-            if (ShouldGenerateWindowCloseOnAltF4()) {
+            만약 (ShouldGenerateWindowCloseOnAltF4()) {
                 SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
             }
         }
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
+        만약 (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
             SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
         }
     }
@@ -1616,7 +1616,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_SYSKEYUP:
     case WM_KEYUP:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
+        만약 (SkipAltGrLeftControl(wParam, lParam)) {
             returnCode = 0;
             break;
         }
@@ -1626,8 +1626,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
         const bool *keyboardState = SDL_GetKeyboardState(NULL);
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            if (code == SDL_SCANCODE_PRINTSCREEN && !keyboardState[code]) {
+        만약 (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
+            만약 (code == SDL_SCANCODE_PRINTSCREEN && !keyboardState[code]) {
                 SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
             }
             SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, false);
@@ -1637,10 +1637,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
 
     case WM_UNICHAR:
-        if (wParam == UNICODE_NOCHAR) {
+        만약 (wParam == UNICODE_NOCHAR) {
             returnCode = 1;
-        } else {
-            if (SDL_TextInputActive(data->window)) {
+        } 아니면 {
+            만약 (SDL_TextInputActive(data->window)) {
                 char text[5];
                 char *end = SDL_UCS4ToUTF8((Uint32)wParam, text);
                 *end = '\0';
@@ -1651,13 +1651,13 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
 
     case WM_CHAR:
-        if (SDL_TextInputActive(data->window)) {
+        만약 (SDL_TextInputActive(data->window)) {
             /* Characters outside Unicode Basic Multilingual Plane (BMP)
              * are coded as so called "surrogate pair" in two separate UTF-16 character events.
              * Cache high surrogate until next character event. */
-            if (IS_HIGH_SURROGATE(wParam)) {
+            만약 (IS_HIGH_SURROGATE(wParam)) {
                 data->high_surrogate = (WCHAR)wParam;
-            } else {
+            } 아니면 {
                 WCHAR utf16[3];
 
                 utf16[0] = data->high_surrogate ? data->high_surrogate : (WCHAR)wParam;
@@ -1665,20 +1665,20 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 utf16[2] = L'\0';
 
                 char utf8[5];
-                int result = WIN_WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, sizeof(utf8), NULL, NULL);
-                if (result > 0) {
+                정수 result = WIN_WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, sizeof(utf8), NULL, NULL);
+                만약 (result > 0) {
                     SDL_SendKeyboardText(utf8);
                 }
                 data->high_surrogate = L'\0';
             }
-        } else {
+        } 아니면 {
             data->high_surrogate = L'\0';
         }
 
         returnCode = 0;
         break;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #ifdef WM_INPUTLANGCHANGE
     case WM_INPUTLANGCHANGE:
     {
@@ -1694,7 +1694,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         // Fix for 500ms hang after user clicks on the title bar, but before moving mouse
         // Reference: https://gamedev.net/forums/topic/672094-keeping-things-moving-during-win32-moveresize-events/5254386/
-        if (SendMessage(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
+        만약 (SendMessage(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
             POINT cursorPos;
             GetCursorPos(&cursorPos); // want the most current pos so as to not cause position change
             ScreenToClient(hwnd, &cursorPos);
@@ -1715,14 +1715,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         MINMAXINFO *info;
         RECT size;
-        int x, y;
-        int w, h;
-        int min_w, min_h;
-        int max_w, max_h;
+        정수 x, y;
+        정수 w, h;
+        정수 min_w, min_h;
+        정수 max_w, max_h;
         BOOL constrain_max_size;
 
         // If this is an expected size change, allow it
-        if (data->expected_resize) {
+        만약 (data->expected_resize) {
             break;
         }
 
@@ -1740,15 +1740,15 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
            size so we don't need to call AdjustWindowRectEx twice */
         min_w -= w;
         min_h -= h;
-        if (max_w && max_h) {
+        만약 (max_w && max_h) {
             max_w -= w;
             max_h -= h;
             constrain_max_size = TRUE;
-        } else {
+        } 아니면 {
             constrain_max_size = FALSE;
         }
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
+        만약 (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
             size.top = 0;
             size.left = 0;
             size.bottom = h;
@@ -1763,10 +1763,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         // Fix our size to the current size
         info = (MINMAXINFO *)lParam;
-        if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_RESIZABLE) {
-            if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) {
-                int screenW = GetSystemMetrics(SM_CXSCREEN);
-                int screenH = GetSystemMetrics(SM_CYSCREEN);
+        만약 (SDL_GetWindowFlags(data->window) & SDL_WINDOW_RESIZABLE) {
+            만약 (SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) {
+                정수 screenW = GetSystemMetrics(SM_CXSCREEN);
+                정수 screenH = GetSystemMetrics(SM_CYSCREEN);
                 info->ptMaxSize.x = SDL_max(w, screenW);
                 info->ptMaxSize.y = SDL_max(h, screenH);
                 info->ptMaxPosition.x = SDL_min(0, ((screenW - w) / 2));
@@ -1774,11 +1774,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             }
             info->ptMinTrackSize.x = (LONG)w + min_w;
             info->ptMinTrackSize.y = (LONG)h + min_h;
-            if (constrain_max_size) {
+            만약 (constrain_max_size) {
                 info->ptMaxTrackSize.x = (LONG)w + max_w;
                 info->ptMaxTrackSize.y = (LONG)h + max_h;
             }
-        } else {
+        } 아니면 {
             info->ptMaxSize.x = w;
             info->ptMaxSize.y = h;
             info->ptMaxPosition.x = x;
@@ -1795,16 +1795,16 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     case WM_WINDOWPOSCHANGING:
 
-        if (data->expected_resize) {
+        만약 (data->expected_resize) {
             returnCode = 0;
-        } else if (data->in_modal_loop) {
+        } 아니면 만약 (data->in_modal_loop) {
             WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
 
             /* While in a modal loop, the size may only be updated if the window is being resized interactively.
              * Set the SWP_NOSIZE flag if the reported size hasn't changed from the last WM_WINDOWPOSCHANGING
              * event, or a size set programmatically may end up being overwritten by old size data.
              */
-            if (data->last_modal_width == windowpos->cx && data->last_modal_height == windowpos->cy) {
+            만약 (data->last_modal_width == windowpos->cx && data->last_modal_height == windowpos->cy) {
                 windowpos->flags |= SWP_NOSIZE;
             }
 
@@ -1823,10 +1823,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         bool iconic;
         bool zoomed;
         RECT rect;
-        int x, y;
-        int w, h;
+        정수 x, y;
+        정수 w, h;
 
-        if (windowpos->flags & SWP_SHOWWINDOW) {
+        만약 (windowpos->flags & SWP_SHOWWINDOW) {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
         }
 
@@ -1835,42 +1835,42 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         iconic = IsIconic(hwnd);
         zoomed = IsZoomed(hwnd);
 
-        if (iconic) {
+        만약 (iconic) {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-        } else if (zoomed) {
-            if (data->window->flags & SDL_WINDOW_MINIMIZED) {
+        } 아니면 만약 (zoomed) {
+            만약 (data->window->flags & SDL_WINDOW_MINIMIZED) {
                 // If going from minimized to maximized, send the restored event first.
                 SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
             }
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MAXIMIZED, 0, 0);
             data->force_ws_maximizebox = true;
-        } else if (data->window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
+        } 아니면 만약 (data->window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
 
             /* If resizable was forced on for the maximized window, clear the style flags now,
              * but not if the window is fullscreen, as this needs to be preserved in that case.
              */
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
+            만약 (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
                 data->force_ws_maximizebox = false;
                 WIN_SetWindowResizable(SDL_GetVideoDevice(), data->window, !!(data->window->flags & SDL_WINDOW_RESIZABLE));
             }
         }
 
-        if (windowpos->flags & SWP_HIDEWINDOW) {
+        만약 (windowpos->flags & SWP_HIDEWINDOW) {
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
         }
 
         // When the window is minimized it's resized to the dock icon size, ignore this
-        if (iconic) {
+        만약 (iconic) {
             break;
         }
 
-        if (data->initializing) {
+        만약 (data->initializing) {
             break;
         }
 
-        if (!data->disable_move_size_events) {
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
+        만약 (!data->disable_move_size_events) {
+            만약 (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
                 ClientToScreen(hwnd, (LPPOINT) &rect);
                 ClientToScreen(hwnd, (LPPOINT) &rect + 1);
 
@@ -1882,7 +1882,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             }
 
             // Moving the window from one display to another can change the size of the window (in the handling of SDL_EVENT_WINDOW_MOVED), so we need to re-query the bounds
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
+            만약 (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
                 w = rect.right;
                 h = rect.bottom;
 
@@ -1893,15 +1893,15 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         WIN_UpdateClipCursor(data->window);
 
         // Update the window display position
-        if (data->window->displayID != original_displayID) {
+        만약 (data->window->displayID != original_displayID) {
             // Display changed, check ICC profile
             WIN_UpdateWindowICCProfile(data->window, true);
         }
 
         // Update the position of any child windows
-        for (win = data->window->first_child; win; win = win->next_sibling) {
+        위해 (win = data->window->first_child; win; win = win->next_sibling) {
             // Don't update hidden child popup windows, their relative position doesn't change
-            if (SDL_WINDOW_IS_POPUP(win) && !(win->flags & SDL_WINDOW_HIDDEN)) {
+            만약 (SDL_WINDOW_IS_POPUP(win) && !(win->flags & SDL_WINDOW_HIDDEN)) {
                 WIN_SetWindowPositionInternal(win, SWP_NOCOPYBITS | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
             }
         }
@@ -1911,14 +1911,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_ENTERSIZEMOVE:
     case WM_ENTERMENULOOP:
     {
-        if (g_WindowsMessageHook) {
-            if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-                return 0;
+        만약 (g_WindowsMessageHook) {
+            만약 (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
+                반환 0;
             }
         }
 
         ++data->in_modal_loop;
-        if (data->in_modal_loop == 1) {
+        만약 (data->in_modal_loop == 1) {
             RECT rect;
             SDL_zero(rect);
             GetWindowRect(data->hwnd, &rect);
@@ -1939,18 +1939,18 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     case WM_TIMER:
     {
-        if (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
+        만약 (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
             SDL_OnWindowLiveResizeUpdate(data->window);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#if 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
             // Make sure graphics operations are complete for smooth refresh
-            if (data->videodata->DwmFlush) {
+            만약 (data->videodata->DwmFlush) {
                 data->videodata->DwmFlush();
             }
 #endif
 #endif
-            return 0;
+            반환 0;
         }
     } break;
 
@@ -1958,7 +1958,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_EXITMENULOOP:
     {
         --data->in_modal_loop;
-        if (data->in_modal_loop == 0) {
+        만약 (data->in_modal_loop == 0) {
             KillTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks);
         }
     } break;
@@ -1974,13 +1974,13 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             float new_aspect;
 
             // if aspect ratio constraints are not enabled then skip this message
-            if (data->window->min_aspect <= 0 && data->window->max_aspect <= 0) {
+            만약 (data->window->min_aspect <= 0 && data->window->max_aspect <= 0) {
                 break;
             }
 
             // unadjust the dragRect from the window rect to the client rect
             SetRectEmpty(&rc);
-            if (!AdjustWindowRectEx(&rc, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
+            만약 (!AdjustWindowRectEx(&rc, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
                 break;
             }
 
@@ -1994,42 +1994,42 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             new_aspect = w / (float)h;
 
             // handle the special case in which the min ar and max ar are the same so the window can size symmetrically
-            if (lock_aspect_ratio) {
+            만약 (lock_aspect_ratio) {
                 switch (edge) {
                 case WMSZ_LEFT:
                 case WMSZ_RIGHT:
-                    h = (int)SDL_roundf(w / data->window->max_aspect);
+                    h = (정수)SDL_roundf(w / data->window->max_aspect);
                     break;
                 default:
                     // resizing via corners or top or bottom
-                    w = (int)SDL_roundf(h * data->window->max_aspect);
+                    w = (정수)SDL_roundf(h * data->window->max_aspect);
                     break;
                 }
-            } else {
+            } 아니면 {
                 switch (edge) {
                 case WMSZ_LEFT:
                 case WMSZ_RIGHT:
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        w = (int)SDL_roundf(h * data->window->min_aspect);
+                    만약 (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
+                        w = (정수)SDL_roundf(h * data->window->max_aspect);
+                    } 아니면 만약 (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
+                        w = (정수)SDL_roundf(h * data->window->min_aspect);
                     }
                     break;
                 case WMSZ_TOP:
                 case WMSZ_BOTTOM:
-                    if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
-                    } else if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        h = (int)SDL_roundf(w / data->window->max_aspect);
+                    만약 (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
+                        h = (정수)SDL_roundf(w / data->window->min_aspect);
+                    } 아니면 만약 (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
+                        h = (정수)SDL_roundf(w / data->window->max_aspect);
                     }
                     break;
 
                 default:
                     // resizing via corners
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
+                    만약 (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
+                        w = (정수)SDL_roundf(h * data->window->max_aspect);
+                    } 아니면 만약 (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
+                        h = (정수)SDL_roundf(w / data->window->min_aspect);
                     }
                     break;
                 }
@@ -2038,7 +2038,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             switch (edge) {
             case WMSZ_LEFT:
                 clientDragRect.left = clientDragRect.right - w;
-                if (lock_aspect_ratio) {
+                만약 (lock_aspect_ratio) {
                     clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
                 }
                 clientDragRect.bottom = h + clientDragRect.top;
@@ -2049,7 +2049,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 break;
             case WMSZ_RIGHT:
                 clientDragRect.right = w + clientDragRect.left;
-                if (lock_aspect_ratio) {
+                만약 (lock_aspect_ratio) {
                     clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
                 }
                 clientDragRect.bottom = h + clientDragRect.top;
@@ -2059,7 +2059,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 clientDragRect.top = clientDragRect.bottom - h;
                 break;
             case WMSZ_TOP:
-                if (lock_aspect_ratio) {
+                만약 (lock_aspect_ratio) {
                     clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
                 }
                 clientDragRect.right = w + clientDragRect.left;
@@ -2070,7 +2070,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 clientDragRect.top = clientDragRect.bottom - h;
                 break;
             case WMSZ_BOTTOM:
-                if (lock_aspect_ratio) {
+                만약 (lock_aspect_ratio) {
                     clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
                 }
                 clientDragRect.right = w + clientDragRect.left;
@@ -2083,7 +2083,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             }
 
             // convert the client rect to a window rect
-            if (!AdjustWindowRectEx(&clientDragRect, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
+            만약 (!AdjustWindowRectEx(&clientDragRect, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
                 break;
             }
 
@@ -2096,10 +2096,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         Uint16 hittest;
 
         hittest = LOWORD(lParam);
-        if (hittest == HTCLIENT) {
+        만약 (hittest == HTCLIENT) {
             SetCursor(SDL_cursor);
             returnCode = TRUE;
-        } else if (!g_WindowFrameUsableWhileCursorHidden && !SDL_cursor) {
+        } 아니면 만약 (!g_WindowFrameUsableWhileCursorHidden && !SDL_cursor) {
             SetCursor(NULL);
             returnCode = TRUE;
         }
@@ -2109,12 +2109,12 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_PAINT:
     {
         RECT rect;
-        if (GetUpdateRect(hwnd, &rect, FALSE)) {
+        만약 (GetUpdateRect(hwnd, &rect, FALSE)) {
             const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
 
             /* Composited windows will continue to receive WM_PAINT messages for update
                regions until the window is actually painted through Begin/EndPaint */
-            if (style & WS_EX_COMPOSITED) {
+            만약 (style & WS_EX_COMPOSITED) {
                 PAINTSTRUCT ps;
                 BeginPaint(hwnd, &ps);
                 EndPaint(hwnd, &ps);
@@ -2129,7 +2129,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         // We'll do our own drawing, prevent flicker
     case WM_ERASEBKGND:
-        if (ShouldClearWindowOnEraseBackground(data)) {
+        만약 (ShouldClearWindowOnEraseBackground(data)) {
             RECT client_rect;
             HBRUSH brush;
             data->videodata->cleared = true;
@@ -2138,22 +2138,22 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             FillRect(GetDC(hwnd), &client_rect, brush);
             DeleteObject(brush);
         }
-        return 1;
+        반환 1;
 
     case WM_SYSCOMMAND:
     {
-        if (!g_WindowsEnableMenuMnemonics) {
-            if ((wParam & 0xFFF0) == SC_KEYMENU) {
-                return 0;
+        만약 (!g_WindowsEnableMenuMnemonics) {
+            만약 ((wParam & 0xFFF0) == SC_KEYMENU) {
+                반환 0;
             }
         }
 
-#if defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
+#만약 defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
         // Don't start the screensaver or blank the monitor in fullscreen apps
-        if ((wParam & 0xFFF0) == SC_SCREENSAVE ||
+        만약 ((wParam & 0xFFF0) == SC_SCREENSAVE ||
             (wParam & 0xFFF0) == SC_MONITORPOWER) {
-            if (SDL_GetVideoDevice()->suspend_screensaver) {
-                return 0;
+            만약 (SDL_GetVideoDevice()->suspend_screensaver) {
+                반환 0;
             }
         }
 #endif // System has screensaver support
@@ -2167,16 +2167,16 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
 
     case WM_TOUCH:
-        if (data->videodata->GetTouchInputInfo && data->videodata->CloseTouchInputHandle) {
+        만약 (data->videodata->GetTouchInputInfo && data->videodata->CloseTouchInputHandle) {
             UINT i, num_inputs = LOWORD(wParam);
             bool isstack;
             PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, num_inputs, &isstack);
-            if (inputs && data->videodata->GetTouchInputInfo((HTOUCHINPUT)lParam, num_inputs, inputs, sizeof(TOUCHINPUT))) {
+            만약 (inputs && data->videodata->GetTouchInputInfo((HTOUCHINPUT)lParam, num_inputs, inputs, sizeof(TOUCHINPUT))) {
                 RECT rect;
                 float x, y;
 
-                if (!GetClientRect(hwnd, &rect) || !WIN_WindowRectValid(&rect)) {
-                    if (inputs) {
+                만약 (!GetClientRect(hwnd, &rect) || !WIN_WindowRectValid(&rect)) {
+                    만약 (inputs) {
                         SDL_small_free(inputs, isstack);
                     }
                     break;
@@ -2188,10 +2188,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 rect.bottom *= 100;
                 rect.right *= 100;
 
-                for (i = 0; i < num_inputs; ++i) {
+                위해 (i = 0; i < num_inputs; ++i) {
                     PTOUCHINPUT input = &inputs[i];
-                    const int w = (rect.right - rect.left);
-                    const int h = (rect.bottom - rect.top);
+                    const 정수 w = (rect.right - rect.left);
+                    const 정수 h = (rect.bottom - rect.top);
 
                     const SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)input->hSource);
                     const SDL_FingerID fingerId = (input->dwID + 1);
@@ -2199,30 +2199,30 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     /* TODO: Can we use GetRawInputDeviceInfo and HID info to
                        determine if this is a direct or indirect touch device?
                      */
-                    if (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (input->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
+                    만약 (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (input->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
                         continue;
                     }
 
                     // Get the normalized coordinates for the window
-                    if (w <= 1) {
+                    만약 (w <= 1) {
                         x = 0.5f;
-                    } else {
+                    } 아니면 {
                         x = (float)(input->x - rect.left) / (w - 1);
                     }
-                    if (h <= 1) {
+                    만약 (h <= 1) {
                         y = 0.5f;
-                    } else {
+                    } 아니면 {
                         y = (float)(input->y - rect.top) / (h - 1);
                     }
 
                     // FIXME: Should we use the input->dwTime field for the tick source of the timestamp?
-                    if (input->dwFlags & TOUCHEVENTF_DOWN) {
+                    만약 (input->dwFlags & TOUCHEVENTF_DOWN) {
                         SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_MOVE) {
+                    만약 (input->dwFlags & TOUCHEVENTF_MOVE) {
                         SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, data->window, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_UP) {
+                    만약 (input->dwFlags & TOUCHEVENTF_UP) {
                         SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
                     }
                 }
@@ -2230,7 +2230,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             SDL_small_free(inputs, isstack);
 
             data->videodata->CloseTouchInputHandle((HTOUCHINPUT)lParam);
-            return 0;
+            반환 0;
         }
         break;
 
@@ -2241,7 +2241,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
          * If we're handling our own touches, we don't want any gestures.
          * Not all of these settings are documented.
          * The use of the undocumented ones was suggested by https://github.com/bjarkeck/GCGJ/blob/master/Monogame/Windows/WinFormsGameForm.cs . */
-        return TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
+        반환 TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen up (waves)
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen button down (circle)
                                                                                                                                                                                                                                                                                                          // disables pen flicks (back, forward, drag down, drag up)
@@ -2253,11 +2253,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         UINT i;
         HDROP drop = (HDROP)wParam;
         UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-        for (i = 0; i < count; ++i) {
+        위해 (i = 0; i < count; ++i) {
             UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
             LPTSTR buffer = (LPTSTR)SDL_malloc(sizeof(TCHAR) * size);
-            if (buffer) {
-                if (DragQueryFile(drop, i, buffer, size)) {
+            만약 (buffer) {
+                만약 (DragQueryFile(drop, i, buffer, size)) {
                     char *file = WIN_StringToUTF8(buffer);
                     SDL_SendDropFile(data->window, NULL, file);
                     SDL_free(file);
@@ -2267,7 +2267,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         }
         SDL_SendDropComplete(data->window);
         DragFinish(drop);
-        return 0;
+        반환 0;
     }
 
     case WM_DISPLAYCHANGE:
@@ -2279,39 +2279,39 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_NCCALCSIZE:
     {
         SDL_WindowFlags window_flags = data->window->flags;
-        if (wParam == TRUE && (window_flags & SDL_WINDOW_BORDERLESS) && !(window_flags & SDL_WINDOW_FULLSCREEN)) {
+        만약 (wParam == TRUE && (window_flags & SDL_WINDOW_BORDERLESS) && !(window_flags & SDL_WINDOW_FULLSCREEN)) {
             // When borderless, need to tell windows that the size of the non-client area is 0
             NCCALCSIZE_PARAMS *params = (NCCALCSIZE_PARAMS *)lParam;
             WINDOWPLACEMENT placement;
-            if (GetWindowPlacement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
+            만약 (GetWindowPlacement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
                 // Maximized borderless windows should use the monitor work area.
                 HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONULL);
-                if (!hMonitor) {
+                만약 (!hMonitor) {
                     // The returned monitor can be null when restoring from minimized, so use the last coordinates.
                     const POINT pt = { data->window->windowed.x, data->window->windowed.y };
                     hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
                 }
-                if (hMonitor) {
+                만약 (hMonitor) {
                     MONITORINFO info;
                     SDL_zero(info);
                     info.cbSize = sizeof(info);
-                    if (GetMonitorInfo(hMonitor, &info)) {
+                    만약 (GetMonitorInfo(hMonitor, &info)) {
                         params->rgrc[0] = info.rcWork;
                     }
                 }
-            } else if (!(window_flags & SDL_WINDOW_RESIZABLE) && !data->force_ws_maximizebox) {
-                int w, h;
-                if (data->window->last_size_pending) {
+            } 아니면 만약 (!(window_flags & SDL_WINDOW_RESIZABLE) && !data->force_ws_maximizebox) {
+                정수 w, h;
+                만약 (data->window->last_size_pending) {
                     w = data->window->pending.w;
                     h = data->window->pending.h;
-                } else {
+                } 아니면 {
                     w = data->window->floating.w;
                     h = data->window->floating.h;
                 }
                 params->rgrc[0].right = params->rgrc[0].left + w;
                 params->rgrc[0].bottom = params->rgrc[0].top + h;
             }
-            return 0;
+            반환 0;
         }
     } break;
 
@@ -2319,15 +2319,15 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         SDL_Window *window = data->window;
 
-        if (window->flags & SDL_WINDOW_TOOLTIP) {
-            return HTTRANSPARENT;
+        만약 (window->flags & SDL_WINDOW_TOOLTIP) {
+            반환 HTTRANSPARENT;
         }
 
-        if (window->hit_test) {
+        만약 (window->hit_test) {
             POINT winpoint;
             winpoint.x = GET_X_LPARAM(lParam);
             winpoint.y = GET_Y_LPARAM(lParam);
-            if (ScreenToClient(hwnd, &winpoint)) {
+            만약 (ScreenToClient(hwnd, &winpoint)) {
                 SDL_Point point;
                 SDL_HitTestResult rc;
                 point.x = winpoint.x;
@@ -2337,7 +2337,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 #define POST_HIT_TEST(ret)                                                 \
     {                                                                      \
         SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIT_TEST, 0, 0); \
-        return ret;                                                        \
+        반환 ret;                                                        \
     }
                 case SDL_HITTEST_DRAGGABLE:
                 {
@@ -2345,10 +2345,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                      * return HTCLIENT, or Windows will eat the button press.
                      */
                     SDL_MouseButtonFlags buttonState = SDL_GetGlobalMouseState(NULL, NULL);
-                    if (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
+                    만약 (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
                         // Set focus in case it was lost while previously moving over a draggable area.
                         SDL_SetMouseFocus(window);
-                        return HTCLIENT;
+                        반환 HTCLIENT;
                     }
 
                     POST_HIT_TEST(HTCAPTION);
@@ -2371,7 +2371,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     POST_HIT_TEST(HTLEFT);
 #undef POST_HIT_TEST
                 case SDL_HITTEST_NORMAL:
-                    return HTCLIENT;
+                    반환 HTCLIENT;
                 }
             }
             // If we didn't return, this will call DefWindowProc below.
@@ -2384,7 +2384,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
            Experimentation shows it's only sent during interactive dragging, not in response to
            SetWindowPos. */
-        if (data->videodata->GetDpiForWindow && data->videodata->AdjustWindowRectExForDpi) {
+        만약 (data->videodata->GetDpiForWindow && data->videodata->AdjustWindowRectExForDpi) {
             /* Windows expects applications to scale their window rects linearly
                when dragging between monitors with different DPI's.
                e.g. a 100x100 window dragged to a 200% scaled monitor
@@ -2396,12 +2396,12 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                linearly. So, we need to handle this message to request custom
                scaling. */
 
-            const int nextDPI = (int)wParam;
-            const int prevDPI = (int)data->videodata->GetDpiForWindow(hwnd);
+            const 정수 nextDPI = (정수)wParam;
+            const 정수 prevDPI = (정수)data->videodata->GetDpiForWindow(hwnd);
             SIZE *sizeInOut = (SIZE *)lParam;
 
-            int frame_w, frame_h;
-            int query_client_w_win, query_client_h_win;
+            정수 frame_w, frame_h;
+            정수 query_client_w_win, query_client_h_win;
 
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_GETDPISCALEDSIZE: current DPI: %d potential DPI: %d input size: (%dx%d)",
@@ -2412,7 +2412,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             {
                 RECT rect = { 0 };
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
+                만약 (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
                     WIN_AdjustWindowRectForHWND(hwnd, &rect, prevDPI);
                 }
 
@@ -2429,7 +2429,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 rect.right = query_client_w_win;
                 rect.bottom = query_client_h_win;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
+                만약 (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
                     WIN_AdjustWindowRectForHWND(hwnd, &rect, nextDPI);
                 }
 
@@ -2441,30 +2441,30 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_GETDPISCALEDSIZE: output size: (%dx%d)", sizeInOut->cx, sizeInOut->cy);
 #endif
-            return TRUE;
+            반환 TRUE;
         }
         break;
 
     case WM_DPICHANGED:
         // Windows 8.1+
         {
-            const int newDPI = HIWORD(wParam);
+            const 정수 newDPI = HIWORD(wParam);
             RECT *const suggestedRect = (RECT *)lParam;
-            int w, h;
+            정수 w, h;
 
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: to %d\tsuggested rect: (%d, %d), (%dx%d)", newDPI,
                     suggestedRect->left, suggestedRect->top, suggestedRect->right - suggestedRect->left, suggestedRect->bottom - suggestedRect->top);
 #endif
 
-            if (data->expected_resize) {
+            만약 (data->expected_resize) {
                 /* This DPI change is coming from an explicit SetWindowPos call within SDL.
                    Assume all call sites are calculating the DPI-aware frame correctly, so
                    we don't need to do any further adjustment. */
 #ifdef HIGHDPI_DEBUG
                 SDL_Log("WM_DPICHANGED: Doing nothing, assuming window is already sized correctly");
 #endif
-                return 0;
+                반환 0;
             }
 
             // Interactive user-initiated resizing/movement
@@ -2475,7 +2475,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 rect.right = data->window->w;
                 rect.bottom = data->window->h;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
+                만약 (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
                     WIN_AdjustWindowRectForHWND(hwnd, &rect, newDPI);
                 }
 
@@ -2498,29 +2498,29 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                          h,
                          SWP_NOZORDER | SWP_NOACTIVATE);
             data->expected_resize = false;
-            return 0;
+            반환 0;
         }
 
     case WM_SETTINGCHANGE:
-        if (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
+        만약 (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
             SDL_SetSystemTheme(WIN_GetSystemTheme());
             WIN_UpdateDarkModeForHWND(hwnd);
         }
-        if (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
+        만약 (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
             WIN_UpdateMouseSystemScale();
         }
-        if (wParam == SPI_SETWORKAREA) {
+        만약 (wParam == SPI_SETWORKAREA) {
             WIN_UpdateDisplayUsableBounds(SDL_GetVideoDevice());
         }
         break;
-#else
+#아니면
     // Xbox does not support WM_WINDOWPOSCHANGED, so use WM_SIZE instead to detect window resizes
     case WM_SIZE:
     {
         RECT rect;
-        int w, h;
+        정수 w, h;
 
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
+        만약 (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
             w = rect.right;
             h = rect.bottom;
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
@@ -2532,69 +2532,69 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (msg && msg == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (msg && msg == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
         data->taskbar_button_created = true;
         WIN_ApplyWindowProgress(SDL_GetVideoDevice(), data->window);
     }
 #endif
 
     // If there's a window proc, assume it's going to handle messages
-    if (data->wndproc) {
-        return CallWindowProc(data->wndproc, hwnd, msg, wParam, lParam);
-    } else if (returnCode >= 0) {
-        return returnCode;
-    } else {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+    만약 (data->wndproc) {
+        반환 CallWindowProc(data->wndproc, hwnd, msg, wParam, lParam);
+    } 아니면 만약 (returnCode >= 0) {
+        반환 returnCode;
+    } 아니면 {
+        반환 CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
     }
 }
 
-int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+정수 WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    if (g_WindowsEnableMessageLoop) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (g_WindowsEnableMessageLoop) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         DWORD timeout, ret;
         timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_TO_MS(timeoutNS);
         ret = MsgWaitForMultipleObjects(0, NULL, FALSE, timeout, QS_ALLINPUT);
-        if (ret == WAIT_OBJECT_0) {
-            return 1;
-        } else {
-            return 0;
+        만약 (ret == WAIT_OBJECT_0) {
+            반환 1;
+        } 아니면 {
+            반환 0;
         }
-#else
+#아니면
         // MsgWaitForMultipleObjects is desktop-only.
         MSG msg;
         BOOL message_result;
         UINT_PTR timer_id = 0;
-        if (timeoutNS > 0) {
+        만약 (timeoutNS > 0) {
             timer_id = SetTimer(NULL, 0, (UINT)SDL_NS_TO_MS(timeoutNS), NULL);
             message_result = GetMessage(&msg, 0, 0, 0);
             KillTimer(NULL, timer_id);
-        } else if (timeoutNS == 0) {
+        } 아니면 만약 (timeoutNS == 0) {
             message_result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-        } else {
+        } 아니면 {
             message_result = GetMessage(&msg, 0, 0, 0);
         }
-        if (message_result) {
-            if (msg.message == WM_TIMER && !msg.hwnd && msg.wParam == timer_id) {
-                return 0;
+        만약 (message_result) {
+            만약 (msg.message == WM_TIMER && !msg.hwnd && msg.wParam == timer_id) {
+                반환 0;
             }
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
-                    return 1;
+            만약 (g_WindowsMessageHook) {
+                만약 (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
+                    반환 1;
                 }
             }
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-            return 1;
-        } else {
-            return 0;
+            반환 1;
+        } 아니면 {
+            반환 0;
         }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    } else {
+    } 아니면 {
         // Fail the wait so the caller falls back to polling
-        return -1;
+        반환 -1;
     }
 }
 
@@ -2609,10 +2609,10 @@ void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
 {
     MSG msg;
 
-    if (g_WindowsEnableMessageLoop) {
+    만약 (g_WindowsEnableMessageLoop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE)) {
+        동안 (PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE)) {
             WIN_SetMessageTick(msg.time);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
@@ -2635,26 +2635,26 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    int new_messages = 0;
+    정수 new_messages = 0;
 
-    if (_this->internal->gameinput_context) {
+    만약 (_this->internal->gameinput_context) {
         WIN_UpdateGameInput(_this);
     }
 
-    if (g_WindowsEnableMessageLoop) {
+    만약 (g_WindowsEnableMessageLoop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
+        동안 (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+            만약 (g_WindowsMessageHook) {
+                만약 (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
                     continue;
                 }
             }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
             // Don't dispatch any mouse motion queued prior to or including the last mouse warp
-            if (msg.message == WM_MOUSEMOVE && SDL_last_warp_time) {
-                if (!SDL_TICKS_PASSED(msg.time, (SDL_last_warp_time + 1))) {
+            만약 (msg.message == WM_MOUSEMOVE && SDL_last_warp_time) {
+                만약 (!SDL_TICKS_PASSED(msg.time, (SDL_last_warp_time + 1))) {
                     continue;
                 }
 
@@ -2670,14 +2670,14 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
             DispatchMessage(&msg);
 
             // Make sure we don't busy loop here forever if there are lots of events coming in
-            if (SDL_TICKS_PASSED(msg.time, end_ticks)) {
+            만약 (SDL_TICKS_PASSED(msg.time, end_ticks)) {
                 /* We might get a few new messages generated by the Steam overlay or other application hooks
                    In this case those messages will be processed before any pending input, so we want to continue after those messages.
                    (thanks to Peter Deayton for his investigation here)
                  */
-                const int MAX_NEW_MESSAGES = 3;
+                const 정수 MAX_NEW_MESSAGES = 3;
                 ++new_messages;
-                if (new_messages > MAX_NEW_MESSAGES) {
+                만약 (new_messages > MAX_NEW_MESSAGES) {
                     break;
                 }
             }
@@ -2686,16 +2686,16 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
         SDL_processing_messages = false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* Windows loses a shift KEYUP event when you have both pressed at once and let go of one.
        You won't get a KEYUP until both are released, and that keyup will only be for the second
        key you released. Take heroic measures and check the keystate as of the last handled event,
        and if we think a key is pressed when Windows doesn't, unstick it in SDL's state. */
     const bool *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_LSHIFT] && !(GetKeyState(VK_LSHIFT) & 0x8000)) {
+    만약 (keystate[SDL_SCANCODE_LSHIFT] && !(GetKeyState(VK_LSHIFT) & 0x8000)) {
         SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
     }
-    if (keystate[SDL_SCANCODE_RSHIFT] && !(GetKeyState(VK_RSHIFT) & 0x8000)) {
+    만약 (keystate[SDL_SCANCODE_RSHIFT] && !(GetKeyState(VK_RSHIFT) & 0x8000)) {
         SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
     }
 
@@ -2703,22 +2703,22 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
        not grabbing the keyboard. Note: If we *are* grabbing the keyboard, GetKeyState()
        will return inaccurate results for VK_LWIN and VK_RWIN but we don't need it anyway. */
     SDL_Window *focusWindow = SDL_GetKeyboardFocus();
-    if (!focusWindow || !(focusWindow->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        if (keystate[SDL_SCANCODE_LGUI] && !(GetKeyState(VK_LWIN) & 0x8000)) {
+    만약 (!focusWindow || !(focusWindow->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
+        만약 (keystate[SDL_SCANCODE_LGUI] && !(GetKeyState(VK_LWIN) & 0x8000)) {
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
         }
-        if (keystate[SDL_SCANCODE_RGUI] && !(GetKeyState(VK_RWIN) & 0x8000)) {
+        만약 (keystate[SDL_SCANCODE_RGUI] && !(GetKeyState(VK_RWIN) & 0x8000)) {
             SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
         }
     }
 
     // fire queued clipcursor refreshes
-    if (_this) {
+    만약 (_this) {
         SDL_Window *window = _this->windows;
-        while (window) {
+        동안 (window) {
             bool refresh_clipcursor = false;
             SDL_WindowData *data = window->internal;
-            if (data) {
+            만약 (data) {
                 refresh_clipcursor = data->clipcursor_queued;
                 data->clipcursor_queued = false;    // Must be cleared unconditionally.
                 data->postpone_clipcursor = false;  // Must be cleared unconditionally.
@@ -2732,7 +2732,7 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
                                                     // conveys its unconditionality
                                                     // vis-a-vis the queuing of clipcursor.
             }
-            if (refresh_clipcursor) {
+            만약 (refresh_clipcursor) {
                 WIN_UpdateClipCursor(window);
             }
             window = window->next;
@@ -2745,13 +2745,13 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
     // Formerly WIN_UpdateMouseCapture().
     // TODO: can this go before clipcursor?
     focusWindow = SDL_GetKeyboardFocus();
-    if (focusWindow && (focusWindow->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+    만약 (focusWindow && (focusWindow->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
         SDL_WindowData *data = focusWindow->internal;
 
-        if (!data->mouse_tracked) {
+        만약 (!data->mouse_tracked) {
             POINT cursorPos;
 
-            if (GetCursorPos(&cursorPos) && ScreenToClient(data->hwnd, &cursorPos)) {
+            만약 (GetCursorPos(&cursorPos) && ScreenToClient(data->hwnd, &cursorPos)) {
                 bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
                 SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
 
@@ -2784,18 +2784,18 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
 #endif
 }
 
-static int app_registered = 0;
+static 정수 app_registered = 0;
 LPTSTR SDL_Appname = NULL;
 Uint32 SDL_Appstyle = 0;
 HINSTANCE SDL_Instance = NULL;
 
 static void WIN_CleanRegisterApp(WNDCLASSEX wcex)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (wcex.hIcon) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    만약 (wcex.hIcon) {
         DestroyIcon(wcex.hIcon);
     }
-    if (wcex.hIconSm) {
+    만약 (wcex.hIconSm) {
         DestroyIcon(wcex.hIconSm);
     }
 #endif
@@ -2803,7 +2803,7 @@ static void WIN_CleanRegisterApp(WNDCLASSEX wcex)
     SDL_Appname = NULL;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 static BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
 {
     WNDCLASSEX *wcex = (WNDCLASSEX *)lParam;
@@ -2815,7 +2815,7 @@ static BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, L
     wcex->hIcon = LoadIcon(hModule, lpName);
 
     // Do not bother enumerating any more.
-    return FALSE;
+    반환 FALSE;
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
@@ -2823,19 +2823,19 @@ static BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, L
 bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
 {
     WNDCLASSEX wcex;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     const char *hint;
 #endif
 
     // Only do this once...
-    if (app_registered) {
+    만약 (app_registered) {
         ++app_registered;
-        return true;
+        반환 true;
     }
     SDL_assert(!SDL_Appname);
-    if (!name) {
+    만약 (!name) {
         name = "SDL_app";
-#if defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
+#만약 defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
         style = (CS_BYTEALIGNCLIENT | CS_OWNDC);
 #endif
     }
@@ -2851,28 +2851,28 @@ bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
     wcex.lpfnWndProc = WIN_WindowProc;
     wcex.hInstance = SDL_Instance;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON);
-    if (hint && *hint) {
+    만약 (hint && *hint) {
         wcex.hIcon = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
 
         hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL);
-        if (hint && *hint) {
+        만약 (hint && *hint) {
             wcex.hIconSm = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
         }
-    } else {
+    } 아니면 {
         // Use the first icon as a default icon, like in the Explorer.
         EnumResourceNames(SDL_Instance, RT_GROUP_ICON, WIN_ResourceNameCallback, (LONG_PTR)&wcex);
     }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    if (!RegisterClassEx(&wcex)) {
+    만약 (!RegisterClassEx(&wcex)) {
         WIN_CleanRegisterApp(wcex);
-        return SDL_SetError("Couldn't register application class");
+        반환 SDL_SetError("Couldn't register application class");
     }
 
     app_registered = 1;
-    return true;
+    반환 true;
 }
 
 // Unregisters the windowclass registered in SDL_RegisterApp above.
@@ -2881,17 +2881,17 @@ void SDL_UnregisterApp(void)
     WNDCLASSEX wcex;
 
     // SDL_RegisterApp might not have been called before
-    if (!app_registered) {
-        return;
+    만약 (!app_registered) {
+        반환;
     }
     --app_registered;
-    if (app_registered == 0) {
+    만약 (app_registered == 0) {
         // Ensure the icons are initialized.
         wcex.hIcon = NULL;
         wcex.hIconSm = NULL;
         // Check for any registered window classes.
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
+#만약 !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        만약 (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
             UnregisterClass(SDL_Appname, SDL_Instance);
         }
 #endif

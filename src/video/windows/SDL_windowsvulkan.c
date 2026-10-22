@@ -26,7 +26,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#만약 defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
 #include "../SDL_vulkan_internal.h"
 
@@ -43,68 +43,68 @@ bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     bool hasSurfaceExtension = false;
     bool hasWin32SurfaceExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    만약 (_this->vulkan_config.loader_handle) {
+        반환 SDL_SetError("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
+    만약 (!path) {
         path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
+    만약 (!path) {
         path = "vulkan-1.dll";
     }
     _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    만약 (!_this->vulkan_config.loader_handle) {
+        반환 false;
     }
     SDL_strlcpy(_this->vulkan_config.loader_path, path,
                 SDL_arraysize(_this->vulkan_config.loader_path));
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
+    만약 (!vkGetInstanceProcAddr) {
         goto fail;
     }
     _this->vulkan_config.vkGetInstanceProcAddr = (SDL_FunctionPointer)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
         (SDL_FunctionPointer)vkGetInstanceProcAddr(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+    만약 (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
         goto fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
         &extensionCount);
-    if (!extensions) {
+    만약 (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    위해 (i = 0; i < extensionCount; i++) {
+        만약 (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } 아니면 만약 (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasWin32SurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
+    만약 (!hasSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
         goto fail;
-    } else if (!hasWin32SurfaceExtension) {
+    } 아니면 만약 (!hasWin32SurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension");
         goto fail;
     }
-    return true;
+    반환 true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
     _this->vulkan_config.loader_handle = NULL;
-    return false;
+    반환 false;
 }
 
 void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    만약 (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
         _this->vulkan_config.loader_handle = NULL;
     }
@@ -116,7 +116,7 @@ char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uin
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME
     };
     *count = SDL_arraysize(extensionsForWin32);
-    return extensionsForWin32;
+    반환 extensionsForWin32;
 }
 
 bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
@@ -135,12 +135,12 @@ bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     VkWin32SurfaceCreateInfoKHR createInfo;
     VkResult result;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    만약 (!_this->vulkan_config.loader_handle) {
+        반환 SDL_SetError("Vulkan is not loaded");
     }
 
-    if (!vkCreateWin32SurfaceKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+    만약 (!vkCreateWin32SurfaceKHR) {
+        반환 SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
     createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -149,10 +149,10 @@ bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     createInfo.hinstance = windowData->hinstance;
     createInfo.hwnd = windowData->hwnd;
     result = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        return SDL_SetError("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+    만약 (result != VK_SUCCESS) {
+        반환 SDL_SetError("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
     }
-    return true;
+    반환 true;
 }
 
 void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
@@ -160,7 +160,7 @@ void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkSurfaceKHR surface,
                                const struct VkAllocationCallbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
+    만약 (_this->vulkan_config.loader_handle) {
         SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
@@ -177,15 +177,15 @@ bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
             instance,
             "vkGetPhysicalDeviceWin32PresentationSupportKHR");
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    만약 (!_this->vulkan_config.loader_handle) {
+        반환 SDL_SetError("Vulkan is not loaded");
     }
 
-    if (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    만약 (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
+        반환 SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
-    return vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
+    반환 vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
                                                           queueFamilyIndex);
 }
 

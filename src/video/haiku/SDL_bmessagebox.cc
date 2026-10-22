@@ -60,8 +60,8 @@ class HAIKU_SDL_MessageBox : public BAlert
 
 	BTextView *fMessageBoxTextView;
 
-	int fCloseButton;
-	int fDefaultButton;
+	정수 fCloseButton;
+	정수 fDefaultButton;
 
 	bool fCustomColorScheme;
 	bool fThereIsLongLine;
@@ -78,7 +78,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 	SortButtonsPredicate(const SDL_MessageBoxButtonData *aButtonLeft,
 	                                 const SDL_MessageBoxButtonData *aButtonRight)
 	{
-		return aButtonLeft->buttonID < aButtonRight->buttonID;
+		반환 aButtonLeft->buttonID < aButtonRight->buttonID;
 	}
 
 	alert_type
@@ -89,15 +89,15 @@ class HAIKU_SDL_MessageBox : public BAlert
 			default:
 			case SDL_MESSAGEBOX_WARNING:
 			{
-				return B_WARNING_ALERT;
+				반환 B_WARNING_ALERT;
 			}
 			case SDL_MESSAGEBOX_ERROR:
 			{
-				return B_STOP_ALERT;
+				반환 B_STOP_ALERT;
 			}
 			case SDL_MESSAGEBOX_INFORMATION:
 			{
-				return B_INFO_ALERT;
+				반환 B_INFO_ALERT;
 			}
 		}
 	}
@@ -106,7 +106,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 	ConvertColorType(const SDL_MessageBoxColor *aColor) const
 	{
 		rgb_color color = { aColor->r, aColor->g, aColor->b, color.alpha = 255 };
-		return color;
+		반환 color;
 	}
 
 	int32
@@ -119,7 +119,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 		//    RealWidth = (IconStripeWidth * Scale) + (IconSize * Scale)
 
 		int32 scale = max_c(1, ((int32)be_plain_font->Size() + 15) / 16);
-		return (30 * scale) + (32 * scale);
+		반환 (30 * scale) + (32 * scale);
 	}
 
 	void
@@ -131,20 +131,20 @@ class HAIKU_SDL_MessageBox : public BAlert
 	void
 	ParseSdlMessageBoxData(const SDL_MessageBoxData *aMessageBoxData)
 	{
-		if (aMessageBoxData == NULL) {
+		만약 (aMessageBoxData == NULL) {
 			SetTitle(HAIKU_SDL_DefTitle);
 			SetMessageText(HAIKU_SDL_DefMessage);
 			AddButton(HAIKU_SDL_DefButton);
-			return;
+			반환;
 		}
 
-		if (aMessageBoxData->numbuttons <= 0) {
+		만약 (aMessageBoxData->numbuttons <= 0) {
 			AddButton(HAIKU_SDL_DefButton);
-		} else {
+		} 아니면 {
 			AddSdlButtons(aMessageBoxData->buttons, aMessageBoxData->numbuttons);
 		}
 
-		if (aMessageBoxData->colorScheme != NULL) {
+		만약 (aMessageBoxData->colorScheme != NULL) {
 			fCustomColorScheme = true;
 			ApplyAndParseColorScheme(aMessageBoxData->colorScheme);
 		}
@@ -174,9 +174,9 @@ class HAIKU_SDL_MessageBox : public BAlert
 	                const SDL_MessageBoxColor *aTextColor,
 	                const SDL_MessageBoxColor *aSelectedColor)
 	{
-		if (fCustomColorScheme) {
+		만약 (fCustomColorScheme) {
 			int32 countButtons = CountButtons();
-			for (int i = 0; i < countButtons; ++i) {
+			위해 (정수 i = 0; i < countButtons; ++i) {
 				ButtonAt(i)->SetViewColor(ConvertColorType(aBorderColor));
 				ButtonAt(i)->SetLowColor(ConvertColorType(aBackgroundColor));
 
@@ -205,35 +205,35 @@ class HAIKU_SDL_MessageBox : public BAlert
 	bool
 	CheckLongLines(const char *aMessage)
 	{
-		int final = 0;
+		정수 final = 0;
 
 		// This UTF-8 friendly.
 		BString message = aMessage;
 		int32 length = message.CountChars();
 
-		for (int i = 0, c = 0; i < length; ++i) {
+		위해 (정수 i = 0, c = 0; i < length; ++i) {
 			c++;
-			if (*(message.CharAt(i)) == '\n') {
+			만약 (*(message.CharAt(i)) == '\n') {
 				c = 0;
 			}
-			if (c > final) {
+			만약 (c > final) {
 				final = c;
 			}
 		}
 
-		return (final > G_MAX_STRING_LENGTH_BYTES);
+		반환 (final > G_MAX_STRING_LENGTH_BYTES);
 	}
 
 	void
 	SetMessageText(const char *aMessage)
 	{
 		fThereIsLongLine = CheckLongLines(aMessage);
-		if (fThereIsLongLine) {
+		만약 (fThereIsLongLine) {
 			fMessageBoxTextView->SetWordWrap(true);
 		}
 
 		rgb_color textColor = ui_color(B_PANEL_TEXT_COLOR);
-		if (fCustomColorScheme) {
+		만약 (fCustomColorScheme) {
 			textColor = fTextColor;
 		}
 
@@ -254,21 +254,21 @@ class HAIKU_SDL_MessageBox : public BAlert
 	}
 
 	void
-	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, int aNumButtons)
+	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, 정수 aNumButtons)
 	{
-		for (int i = 0; i < aNumButtons; ++i) {
+		위해 (정수 i = 0; i < aNumButtons; ++i) {
 			fButtons.push_back(&aButtons[i]);
 		}
 
 		std::sort(fButtons.begin(), fButtons.end(), &HAIKU_SDL_MessageBox::SortButtonsPredicate);
 
 		size_t countButtons = fButtons.size();
-		for (size_t i = 0; i < countButtons; ++i) {
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
-                fCloseButton = static_cast<int>(i);
+		위해 (size_t i = 0; i < countButtons; ++i) {
+			만약 (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+                fCloseButton = static_cast<정수>(i);
             }
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
-                fDefaultButton = static_cast<int>(i);
+			만약 (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+                fDefaultButton = static_cast<정수>(i);
             }
 			AddButton(fButtons[i]->text);
 		}
@@ -300,10 +300,10 @@ public:
 		ParseSdlMessageBoxData(aMessageBoxData);
 	}
 
-	int
+	정수
 	GetCloseButtonId(void) const
 	{
-		return fCloseButton;
+		반환 fCloseButton;
 	}
 
 	virtual
@@ -316,9 +316,9 @@ protected:
 	virtual void
 	FrameResized(float aNewWidth, float aNewHeight)
 	{
-		if (fComputedMessageBoxWidth > aNewWidth) {
+		만약 (fComputedMessageBoxWidth > aNewWidth) {
 			ResizeTo(fComputedMessageBoxWidth, aNewHeight);
-		} else {
+		} 아니면 {
 			BAlert::FrameResized(aNewWidth, aNewHeight);
 		}
 	}
@@ -335,7 +335,7 @@ protected:
 extern "C" {
 #endif
 
-bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, 정수 *buttonID)
 {
 	// Initialize button by closed or error value first.
 	*buttonID = G_CLOSE_BUTTON_ID;
@@ -345,22 +345,22 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// "You need a valid BApplication object before interacting with the app_server."
 	// "2 BApplication objects were created. Only one is allowed."
 	std::unique_ptr<BApplication> application;
-	if (!be_app) {
+	만약 (!be_app) {
 		application = std::unique_ptr<BApplication>(new(std::nothrow) BApplication(SDL_signature));
-		if (!application) {
-			return SDL_SetError("Cannot create the BApplication object. Lack of memory?");
+		만약 (!application) {
+			반환 SDL_SetError("Cannot create the BApplication object. Lack of memory?");
 		}
 	}
 
 	HAIKU_SDL_MessageBox *SDL_MessageBox = new(std::nothrow) HAIKU_SDL_MessageBox(messageboxdata);
-	if (!SDL_MessageBox) {
-		return SDL_SetError("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
+	만약 (!SDL_MessageBox) {
+		반환 SDL_SetError("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
 	}
-	const int closeButton = SDL_MessageBox->GetCloseButtonId();
-	int pushedButton = SDL_MessageBox->Go();
+	const 정수 closeButton = SDL_MessageBox->GetCloseButtonId();
+	정수 pushedButton = SDL_MessageBox->Go();
 
 	// The close button is equivalent to pressing Escape.
-	if (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
+	만약 (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
 		pushedButton = closeButton;
 	}
 
@@ -373,7 +373,7 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// Initialize button by real pushed value then.
 	*buttonID = pushedButton;
 
-	return true;
+	반환 true;
 }
 
 #ifdef __cplusplus

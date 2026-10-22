@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#만약 defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowswindow.h"
@@ -37,29 +37,29 @@ static UINT GetClipboardFormatPNG(void)
 {
     static UINT format;
 
-    if (!format) {
+    만약 (!format) {
         format = RegisterClipboardFormat(TEXT("PNG"));
     }
-    return format;
+    반환 format;
 }
 
 static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
+    const 정수 MAX_ATTEMPTS = 3;
+    정수 attempt;
     HWND hwnd = NULL;
 
-    if (_this->windows) {
+    만약 (_this->windows) {
         hwnd = _this->windows->internal->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    위해 (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        만약 (OpenClipboard(hwnd)) {
+            반환 TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    반환 FALSE;
 }
 
 static void WIN_CloseClipboard(void)
@@ -71,44 +71,44 @@ static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format
 {
     HANDLE hMem = NULL;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    만약 (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
         BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
         size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
         size_t pixels_size = pbih->biSizeImage;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        만약 (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
             *format = CF_DIBV5;
-        } else {
+        } 아니면 {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
+        만약 (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
             (pbfh->bfOffBits + pixels_size) <= bmp_size) {
             const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
             size_t dib_size = bih_size + pixels_size;
             hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
+            만약 (hMem) {
                 LPVOID dst = GlobalLock(hMem);
-                if (dst) {
+                만약 (dst) {
                     SDL_memcpy(dst, pbih, bih_size);
                     SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
                     GlobalUnlock(hMem);
-                } else {
+                } 아니면 {
                     WIN_SetError("GlobalLock()");
                     GlobalFree(hMem);
                     hMem = NULL;
                 }
-            } else {
+            } 아니면 {
                 SDL_OutOfMemory();
             }
-        } else {
+        } 아니면 {
             SDL_SetError("Invalid BMP data");
         }
-    } else {
+    } 아니면 {
         SDL_SetError("Invalid BMP data");
     }
-    return hMem;
+    반환 hMem;
 }
 
 static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
@@ -116,18 +116,18 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
     void *bmp = NULL;
     size_t mem_size = GlobalSize(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
+    만약 (mem_size > sizeof(BITMAPINFOHEADER)) {
         LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+        만약 (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
             size_t color_table_size;
             switch (pbih->biCompression) {
             case BI_RGB:
-                if (pbih->biBitCount <= 8) {
+                만약 (pbih->biBitCount <= 8) {
                     color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
+                } 아니면 {
                     color_table_size = 0;
                 }
                 break;
@@ -144,10 +144,10 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
 
             size_t bih_size = pbih->biSize + color_table_size;
             size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
+            만약 (dib_size <= mem_size) {
                 size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
                 bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+                만약 (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
                     pbfh->bfSize = (DWORD)bmp_size;
@@ -157,17 +157,17 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
                     SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
                     *size = bmp_size;
                 }
-            } else {
+            } 아니면 {
                 SDL_SetError("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
+        } 아니면 {
             WIN_SetError("GlobalLock()");
         }
-    } else {
+    } 아니면 {
         SDL_SetError("Invalid BMP data");
     }
-    return bmp;
+    반환 bmp;
 }
 
 static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
@@ -179,37 +179,37 @@ static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
+    만약 (SDL_strcmp(mime_type, "image/bmp") == 0) {
         hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    } 아니면 만약 (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
         hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
+        만약 (hMem) {
             LPVOID dst = GlobalLock(hMem);
-            if (dst) {
+            만약 (dst) {
                 SDL_memcpy(dst, clipboard_data, clipboard_data_size);
                 GlobalUnlock(hMem);
-            } else {
+            } 아니면 {
                 result = WIN_SetError("GlobalLock()");
                 GlobalFree(hMem);
                 hMem = NULL;
             }
-        } else {
+        } 아니면 {
             result = SDL_OutOfMemory();
         }
-    } else {
+    } 아니면 {
         result = SDL_SetError("Unknown image format");
     }
-    if (hMem) {
+    만약 (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
+        만약 (!SetClipboardData(format, hMem)) {
             result = WIN_SetError("Couldn't set clipboard data");
         }
-    } else {
+    } 아니면 {
         // WIN_ConvertBMPtoDIB() set the error
         result = false;
     }
-    return result;
+    반환 result;
 }
 
 static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
@@ -220,16 +220,16 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
+    만약 (clipboard_data && clipboard_data_size > 0) {
         SIZE_T i, size;
         LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+        만약 (!tstr) {
+            반환 SDL_SetError("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        위해 (size = 0, i = 0; tstr[i]; ++i, ++size) {
+            만약 (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
                 ++size;
             }
@@ -238,12 +238,12 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
 
         // Save the data to the clipboard
         hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
+        만약 (hMem) {
             LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+            만약 (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                위해 (i = 0; tstr[i]; ++i) {
+                    만약 (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,15 +252,15 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
+            만약 (!SetClipboardData(CF_UNICODETEXT, hMem)) {
                 result = WIN_SetError("Couldn't set clipboard data");
             }
-        } else {
+        } 아니면 {
             result = SDL_OutOfMemory();
         }
         SDL_free(tstr);
     }
-    return result;
+    반환 result;
 }
 
 bool WIN_SetClipboardData(SDL_VideoDevice *_this)
@@ -274,15 +274,15 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
+    만약 (WIN_OpenClipboard(_this)) {
         EmptyClipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        위해 (i = 0; i < _this->num_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
+            만약 (SDL_IsTextMimeType(mime_type)) {
+                만약 (!WIN_SetClipboardText(_this, mime_type)) {
                     result = false;
                 }
                 // Only set the first clipboard text
@@ -291,12 +291,12 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        위해 (i = 0; i < _this->num_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            만약 (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
+                만약 (!WIN_SetClipboardImage(_this, mime_type)) {
                     result = false;
                 }
                 break;
@@ -305,136 +305,136 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
 
         data->clipboard_count = GetClipboardSequenceNumber();
         WIN_CloseClipboard();
-    } else {
+    } 아니면 {
         result = WIN_SetError("Couldn't open clipboard");
     }
-    return result;
+    반환 result;
 }
 
 void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
 {
     void *data = NULL;
 
-    if (SDL_IsTextMimeType(mime_type)) {
+    만약 (SDL_IsTextMimeType(mime_type)) {
         char *text = NULL;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        만약 (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
+            만약 (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
                 hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
+                만약 (hMem) {
                     str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
+                    만약 (str) {
                         text = WIN_StringToUTF8W(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } 아니면 {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } 아니면 {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } 아니면 만약 (IsClipboardFormatAvailable(CF_TEXT)) {
+            만약 (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
                 hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
+                만약 (hMem) {
                     str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
+                    만약 (str) {
                         text = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } 아니면 {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } 아니면 {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
+        만약 (!text) {
             text = SDL_strdup("");
         }
         data = text;
         *size = SDL_strlen(text);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
+    } 아니면 만약 (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        만약 (IsClipboardFormatAvailable(CF_DIBV5)) {
+            만약 (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
+                만약 (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } 아니면 {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
+        } 아니면 만약 (IsClipboardFormatAvailable(CF_DIB)) {
+            만약 (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
+                만약 (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } 아니면 {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
+    } 아니면 만약 (SDL_strcmp(mime_type, "image/png") == 0) {
+        만약 (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            만약 (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
+                만약 (hMem) {
                     size_t mem_size = GlobalSize(hMem);
                     void *mem = GlobalLock(hMem);
-                    if (mem) {
+                    만약 (mem) {
                         data = SDL_malloc(mem_size);
-                        if (data) {
+                        만약 (data) {
                             SDL_memcpy(data, mem, mem_size);
                             *size = mem_size;
                         }
                         GlobalUnlock(hMem);
-                    } else {
+                    } 아니면 {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } 아니면 {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
+    } 아니면 {
         data = SDL_GetInternalClipboardData(_this, mime_type, size);
     }
-    return data;
+    반환 data;
 }
 
 bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    만약 (SDL_IsTextMimeType(mime_type)) {
+        만약 (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
+            반환 true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } 아니면 만약 (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        만약 (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
+            반환 true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } 아니면 만약 (SDL_strcmp(mime_type, "image/png") == 0) {
+        만약 (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            반환 true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    반환 SDL_HasInternalClipboardData(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+static 정수 GetClipboardFormatMimeType(UINT format, char *name)
 {
     const char *mime_type = NULL;
 
@@ -450,35 +450,35 @@ static int GetClipboardFormatMimeType(UINT format, char *name)
         mime_type = "image/bmp";
         break;
     default:
-        if (format == GetClipboardFormatPNG()) {
+        만약 (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
         break;
     }
-    if (mime_type) {
+    만약 (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        만약 (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        반환 (정수)len;
     }
-    return 0;
+    반환 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+static char **GetMimeTypes(정수 *pnformats)
 {
     char **new_mime_types = NULL;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    만약 (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        정수 nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        정수 formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        위해 ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
+            만약 (!format) {
                 break;
             }
 
@@ -488,16 +488,16 @@ static char **GetMimeTypes(int *pnformats)
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
 #endif
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            만약 (format == CF_DIB || format == CF_DIBV5) {
+                만약 (have_image_bmp) {
                     // We have already registered this format
                     continue;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            정수 len = GetClipboardFormatMimeType(format, NULL);
+            만약 (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
@@ -505,26 +505,26 @@ static char **GetMimeTypes(int *pnformats)
 
         have_image_bmp = false;
         new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        만약 (new_mime_types) {
             format = 0;
             char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            정수 i = 0;
+            위해 ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
+                만약 (!format) {
                     break;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                만약 (format == CF_DIB || format == CF_DIBV5) {
+                    만약 (have_image_bmp) {
                         // We have already registered this format
                         continue;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                정수 len = GetClipboardFormatMimeType(format, strPtr);
+                만약 (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
@@ -535,17 +535,17 @@ static char **GetMimeTypes(int *pnformats)
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    반환 new_mime_types;
 }
 
 void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
 {
     DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
+    만약 (count != data->clipboard_count) {
+        만약 (count) {
+            정수 nformats = 0;
             char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+            만약 (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }

@@ -27,12 +27,12 @@
 
 struct SDL_DisplayData
 {
-    int screen;
+    정수 screen;
     Visual *visual;
-    int depth;
-    int scanline_pad;
-    int x;
-    int y;
+    정수 depth;
+    정수 scanline_pad;
+    정수 x;
+    정수 y;
 
     Uint64 mode_switch_deadline_ns;
 
@@ -48,8 +48,8 @@ struct SDL_DisplayModeData
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
     RRMode xrandr_mode;
-#else
-    int unused; // just so struct isn't empty.
+#아니면
+    정수 unused; // just so struct isn't empty.
 #endif
 };
 

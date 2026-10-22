@@ -30,7 +30,7 @@
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
 #include <gc_vdk.h>
-#else
+#아니면
 #include <EGL/egl.h>
 #endif
 
@@ -38,16 +38,16 @@ struct SDL_VideoData
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     vdkPrivate vdk_private;
-#else
+#아니면
     SDL_SharedObject *egl_handle; // EGL shared library handle
     EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(정수 DisplayIndex);
+    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, 정수 *Width, 정수 *Height);
+    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, 정수 *Width, 정수 *Height, unsigned long *Physical, 정수 *Stride, 정수 *bits_per_pixel);
     void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
+    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, 정수 X, 정수 Y, 정수 Width, 정수 Height);
+    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, 정수 *X, 정수 *Y, 정수 *Width, 정수 *Height);
+    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, 정수 *X, 정수 *Y, 정수 *Width, 정수 *Height, 정수 *bits_per_pixel, unsigned 정수 *Offset);
     void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
 #endif
 };

@@ -36,41 +36,41 @@
 
 #ifndef __OPENVR_API_FLAT_H__
 #define __OPENVR_API_FLAT_H__
-#if defined( _WIN32 ) || defined( __clang__ )
+#만약 defined( _WIN32 ) || defined( __clang__ )
 #pragma once
 #endif
 
 #ifdef __cplusplus
 #define EXTERN_C extern "C"
-#else
+#아니면
 #define EXTERN_C
 #endif
 
-#if defined( _WIN32 )
+#만약 defined( _WIN32 )
 #define OPENVR_FNTABLE_CALLTYPE __stdcall
-#else
+#아니면
 #define OPENVR_FNTABLE_CALLTYPE 
 #endif
 
 // OPENVR API export macro
-#if defined( _WIN32 ) && !defined( _X360 )
-	#if defined( OPENVR_API_EXPORTS )
+#만약 defined( _WIN32 ) && !defined( _X360 )
+	#만약 defined( OPENVR_API_EXPORTS )
 	#define S_API EXTERN_C __declspec( dllexport )
 	#elif defined( OPENVR_API_NODLL )
 	#define S_API EXTERN_C
-	#else
+	#아니면
 	#define S_API extern "C" __declspec( dllimport ) 
 	#endif // OPENVR_API_EXPORTS
 #elif defined( __GNUC__ )
-	#if defined( OPENVR_API_EXPORTS )
+	#만약 defined( OPENVR_API_EXPORTS )
 	#define S_API EXTERN_C __attribute__ ((visibility("default")))
-	#else
+	#아니면
 	#define S_API EXTERN_C
 	#endif // OPENVR_API_EXPORTS
-#else // !WIN32
-	#if defined( OPENVR_API_EXPORTS )
+#아니면 // !WIN32
+	#만약 defined( OPENVR_API_EXPORTS )
 	#define S_API EXTERN_C
-	#else
+	#아니면
 	#define S_API EXTERN_C
 	#endif // OPENVR_API_EXPORTS
 #endif
@@ -78,9 +78,9 @@
 #ifndef USE_SDL
 #include <stdint.h>
 
-#if defined( __WIN32 )
+#만약 defined( __WIN32 )
 typedef char bool;
-#else
+#아니면
 #include <stdbool.h>
 #endif
 #endif // USE_SDL
@@ -385,9 +385,9 @@ static const unsigned long k_unMaxActionNameLength = 64;
 static const unsigned long k_unMaxActionSetNameLength = 64;
 static const unsigned long k_unMaxActionOriginCount = 16;
 static const unsigned long k_unMaxBoneNameLength = 32;
-static const int k_nActionSetOverlayGlobalPriorityMin = 16777216;
-static const int k_nActionSetOverlayGlobalPriorityMax = 33554431;
-static const int k_nActionSetPriorityReservedMin = 33554432;
+static const 정수 k_nActionSetOverlayGlobalPriorityMin = 16777216;
+static const 정수 k_nActionSetOverlayGlobalPriorityMax = 33554431;
+static const 정수 k_nActionSetPriorityReservedMin = 33554432;
 static const char * IVRInput_Version = "IVRInput_010";
 static const unsigned long long k_ulInvalidIOBufferHandle = 0;
 static const char * IVRIOBuffer_Version = "IVRIOBuffer_002";
@@ -2457,7 +2457,7 @@ typedef struct RenderModel_Vertex_t
 	float rfTextureCoord[2]; //float[2]
 } RenderModel_Vertex_t;
 
-#if defined(__linux__) || defined(__APPLE__)
+#만약 defined(__linux__) || defined(__APPLE__)
 #pragma pack( push, 4 )
 #endif
 typedef struct RenderModel_TextureMap_t
@@ -2469,10 +2469,10 @@ typedef struct RenderModel_TextureMap_t
 	uint16_t unMipLevels;
 } RenderModel_TextureMap_t;
 
-#if defined(__linux__) || defined(__APPLE__)
+#만약 defined(__linux__) || defined(__APPLE__)
 #pragma pack( pop )
 #endif
-#if defined(__linux__) || defined(__APPLE__)
+#만약 defined(__linux__) || defined(__APPLE__)
 #pragma pack( push, 4 )
 #endif
 typedef struct RenderModel_t
@@ -2484,7 +2484,7 @@ typedef struct RenderModel_t
 	TextureID_t diffuseTextureId;
 } RenderModel_t;
 
-#if defined(__linux__) || defined(__APPLE__)
+#만약 defined(__linux__) || defined(__APPLE__)
 #pragma pack( pop )
 #endif
 typedef struct RenderModel_ControllerMode_State_t
@@ -2679,7 +2679,7 @@ typedef union
 	VREvent_SpatialAnchor_t spatialAnchor;
 } VREvent_Data_t;
 
-#if defined(__linux__) || defined(__APPLE__) 
+#만약 defined(__linux__) || defined(__APPLE__) 
 // This structure was originally defined mis-packed on Linux, preserved for 
 // compatibility. 
 #pragma pack( push, 4 )
@@ -2695,7 +2695,7 @@ struct VREvent_t
 	VREvent_Data_t data;
 };
 
-#if defined(__linux__) || defined(__APPLE__) 
+#만약 defined(__linux__) || defined(__APPLE__) 
 #pragma pack( pop )
 #endif
 
@@ -2831,7 +2831,7 @@ struct VR_IVRChaperone_FnTable
 	bool (OPENVR_FNTABLE_CALLTYPE *GetPlayAreaRect)(struct HmdQuad_t * rect);
 	void (OPENVR_FNTABLE_CALLTYPE *ReloadInfo)();
 	void (OPENVR_FNTABLE_CALLTYPE *SetSceneColor)(struct HmdColor_t color);
-	void (OPENVR_FNTABLE_CALLTYPE *GetBoundsColor)(struct HmdColor_t * pOutputColorArray, int nNumOutputColors, float flCollisionBoundsFadeDistance, struct HmdColor_t * pOutputCameraColor);
+	void (OPENVR_FNTABLE_CALLTYPE *GetBoundsColor)(struct HmdColor_t * pOutputColorArray, 정수 nNumOutputColors, float flCollisionBoundsFadeDistance, struct HmdColor_t * pOutputCameraColor);
 	bool (OPENVR_FNTABLE_CALLTYPE *AreBoundsVisible)();
 	void (OPENVR_FNTABLE_CALLTYPE *ForceBoundsVisible)(bool bForce);
 	void (OPENVR_FNTABLE_CALLTYPE *ResetZeroPose)(ETrackingUniverseOrigin eTrackingUniverseOrigin);
@@ -3070,7 +3070,7 @@ struct VR_IVRSettings_FnTable
 struct VR_IVRScreenshots_FnTable
 {
 	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *RequestScreenshot)(ScreenshotHandle_t * pOutScreenshotHandle, EVRScreenshotType type, char * pchPreviewFilename, char * pchVRFilename);
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *HookScreenshot)(EVRScreenshotType * pSupportedTypes, int numTypes);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *HookScreenshot)(EVRScreenshotType * pSupportedTypes, 정수 numTypes);
 	EVRScreenshotType (OPENVR_FNTABLE_CALLTYPE *GetScreenshotPropertyType)(ScreenshotHandle_t screenshotHandle, EVRScreenshotError * pError);
 	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetScreenshotPropertyFilename)(ScreenshotHandle_t screenshotHandle, EVRScreenshotPropertyFilenames filenameType, char * pchFilename, uint32_t cchFilename, EVRScreenshotError * pError);
 	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *UpdateScreenshotProgress)(ScreenshotHandle_t screenshotHandle, float flProgress);
@@ -3184,7 +3184,7 @@ struct VR_IVRBlockQueue_FnTable
 };
 
 
-#if 0
+#만약 0
 // Global entry points
 S_API intptr_t VR_InitInternal( EVRInitError *peError, EVRApplicationType eType );
 S_API void VR_ShutdownInternal();

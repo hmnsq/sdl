@@ -40,7 +40,7 @@ static SDL_Scancode keymap[KEYMAP_SIZE];
 
 void HAIKU_InitOSKeymap(void)
 {
-        for ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
+        위해 ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
             keymap[i] = SDL_SCANCODE_UNKNOWN;
         }
 
@@ -154,10 +154,10 @@ void HAIKU_InitOSKeymap(void)
 }
 
 SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey) {
-    if (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
-        return keymap[bkey];
-    } else {
-        return SDL_SCANCODE_UNKNOWN;
+    만약 (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
+        반환 keymap[bkey];
+    } 아니면 {
+        반환 SDL_SCANCODE_UNKNOWN;
     }
 }
 

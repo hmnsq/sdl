@@ -58,74 +58,74 @@ typedef enum
 
 struct Timing
 {
-    int width;
-    int height;
-    int frequency;
+    정수 width;
+    정수 height;
+    정수 frequency;
 };
 
 struct DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    정수 pixel_clock;
+    정수 h_addr;
+    정수 h_blank;
+    정수 h_sync;
+    정수 h_front_porch;
+    정수 v_addr;
+    정수 v_blank;
+    정수 v_sync;
+    정수 v_front_porch;
+    정수 width_mm;
+    정수 height_mm;
+    정수 right_border;
+    정수 top_border;
+    정수 interlaced;
     StereoType stereo;
 
-    int digital_sync;
+    정수 digital_sync;
     union
     {
         struct
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            정수 bipolar;
+            정수 serrations;
+            정수 sync_on_green;
         } analog;
 
         struct
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            정수 composite;
+            정수 serrations;
+            정수 negative_vsync;
+            정수 negative_hsync;
         } digital;
     } ad;
 };
 
 struct MonitorInfo
 {
-    int checksum;
+    정수 checksum;
     char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    정수 product_code;
+    unsigned 정수 serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    정수 production_week; // -1 if not specified
+    정수 production_year; // -1 if not specified
+    정수 model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    정수 major_version;
+    정수 minor_version;
 
-    int is_digital;
+    정수 is_digital;
 
     union
     {
         struct
         {
-            int bits_per_primary;
+            정수 bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            정수 rgb444;
+            정수 ycrcb444;
+            정수 ycrcb422;
         } digital;
 
         struct
@@ -134,29 +134,29 @@ struct MonitorInfo
             double sync_signal_level;
             double total_signal_level;
 
-            int blank_to_black;
+            정수 blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            정수 separate_hv_sync;
+            정수 composite_sync_on_h;
+            정수 composite_sync_on_green;
+            정수 serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
+    정수 width_mm;        // -1 if not specified
+    정수 height_mm;       // -1 if not specified
     double aspect_ratio; // -1.0 if not specififed
 
     double gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    정수 standby;
+    정수 suspend;
+    정수 active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    정수 srgb_is_standard;
+    정수 preferred_timing_includes_native;
+    정수 continuous_frequency;
 
     double red_x;
     double red_y;
@@ -174,7 +174,7 @@ struct MonitorInfo
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    정수 n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is

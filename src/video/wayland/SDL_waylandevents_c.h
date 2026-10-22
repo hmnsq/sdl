@@ -73,7 +73,7 @@ typedef struct SDL_WaylandCursorState
     Uint32 current_frame_time_ms;
 
     // 0 or greater if a buffer is attached, -1 if in the reset state.
-    int current_frame;
+    정수 current_frame;
 
     SDL_HitTestResult hit_test_result;
 } SDL_WaylandCursorState;
@@ -259,7 +259,7 @@ typedef struct SDL_WaylandSeat
     {
         struct zwp_text_input_v3 *zwp_text_input;
         SDL_Rect text_input_rect;
-        int text_input_cursor;
+        정수 text_input_cursor;
         bool enabled;
         bool has_preedit;
     } text_input;
@@ -276,7 +276,7 @@ extern Uint64 Wayland_GetTouchTimestamp(struct SDL_WaylandSeat *seat, Uint32 wl_
 
 extern void Wayland_PumpEvents(SDL_VideoDevice *_this);
 extern void Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+extern 정수 Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 extern void Wayland_DisplayInitInputTimestampManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display);

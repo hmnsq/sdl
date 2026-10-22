@@ -31,26 +31,26 @@
 
 static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+반환 false;
+#만약 0
+    만약 (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    만약 (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        만약 (data->custom_cursor) {
+            만약 (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                반환 SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } 아니면 {
+            만약 (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                반환 SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        반환 true;
+    } 아니면 {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        반환 false;
     }
 #endif
 }

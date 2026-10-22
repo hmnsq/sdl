@@ -49,71 +49,71 @@
 
 struct SDL_CursorData
 {
-    int custom_cursor;
-    int system_cursor;
+    정수 custom_cursor;
+    정수 system_cursor;
 };
 
 static const char k_aAndroidButtons[] = { BUTTON_PRIMARY, BUTTON_SECONDARY, BUTTON_TERTIARY, BUTTON_BACK, BUTTON_FORWARD };
 
 // Last known Android mouse button state (includes all buttons)
-static int last_state;
+static 정수 last_state;
 
 // Blank cursor
 static SDL_Cursor *empty_cursor;
 
-static SDL_Cursor *Android_WrapCursor(int custom_cursor, int system_cursor)
+static SDL_Cursor *Android_WrapCursor(정수 custom_cursor, 정수 system_cursor)
 {
     SDL_Cursor *cursor;
 
     cursor = SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
+    만약 (cursor) {
         SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (data) {
+        만약 (data) {
             data->custom_cursor = custom_cursor;
             data->system_cursor = system_cursor;
             cursor->internal = data;
-        } else {
+        } 아니면 {
             SDL_free(cursor);
             cursor = NULL;
         }
     }
 
-    return cursor;
+    반환 cursor;
 }
 
 static SDL_Cursor *Android_CreateDefaultCursor(void)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return Android_WrapCursor(0, id);
+    반환 Android_WrapCursor(0, id);
 }
 
-static SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+static SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, 정수 hot_x, 정수 hot_y)
 {
-    int custom_cursor;
+    정수 custom_cursor;
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    만약 (!converted) {
+        반환 NULL;
     }
     custom_cursor = Android_JNI_CreateCustomCursor(converted, hot_x, hot_y);
     SDL_DestroySurface(converted);
-    if (!custom_cursor) {
+    만약 (!custom_cursor) {
         SDL_Unsupported();
-        return NULL;
+        반환 NULL;
     }
-    return Android_WrapCursor(custom_cursor, 0);
+    반환 Android_WrapCursor(custom_cursor, 0);
 }
 
 static SDL_Cursor *Android_CreateSystemCursor(SDL_SystemCursor id)
 {
-    return Android_WrapCursor(0, id);
+    반환 Android_WrapCursor(0, id);
 }
 
 static void Android_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
-    if (data->custom_cursor != 0) {
+    만약 (data->custom_cursor != 0) {
         Android_JNI_DestroyCustomCursor(data->custom_cursor);
     }
     SDL_free(cursor->internal);
@@ -122,19 +122,19 @@ static void Android_FreeCursor(SDL_Cursor *cursor)
 
 static SDL_Cursor *Android_CreateEmptyCursor(void)
 {
-    if (!empty_cursor) {
+    만약 (!empty_cursor) {
         SDL_Surface *empty_surface = SDL_CreateSurfaceZeroed(1, 1, SDL_PIXELFORMAT_ARGB8888);
-        if (empty_surface) {
+        만약 (empty_surface) {
             empty_cursor = Android_CreateCursor(empty_surface, 0, 0);
             SDL_DestroySurface(empty_surface);
         }
     }
-    return empty_cursor;
+    반환 empty_cursor;
 }
 
 static void Android_DestroyEmptyCursor(void)
 {
-    if (empty_cursor) {
+    만약 (empty_cursor) {
         Android_FreeCursor(empty_cursor);
         empty_cursor = NULL;
     }
@@ -142,38 +142,38 @@ static void Android_DestroyEmptyCursor(void)
 
 static bool Android_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
+    만약 (!cursor) {
         cursor = Android_CreateEmptyCursor();
     }
-    if (cursor) {
+    만약 (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        만약 (data->custom_cursor) {
+            만약 (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
+                반환 SDL_Unsupported();
             }
-        } else {
-            if (!Android_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } 아니면 {
+            만약 (!Android_JNI_SetSystemCursor(data->system_cursor)) {
+                반환 SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        반환 true;
+    } 아니면 {
         // SDL error set inside Android_CreateEmptyCursor()
-        return false;
+        반환 false;
     }
 }
 
 static bool Android_SetRelativeMouseMode(bool enabled)
 {
-    if (!Android_JNI_SupportsRelativeMouse()) {
-        return SDL_Unsupported();
+    만약 (!Android_JNI_SupportsRelativeMouse()) {
+        반환 SDL_Unsupported();
     }
 
-    if (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
-        return SDL_Unsupported();
+    만약 (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
+        반환 SDL_Unsupported();
     }
 
-    return true;
+    반환 true;
 }
 
 void Android_InitMouse(void)
@@ -197,31 +197,31 @@ void Android_QuitMouse(void)
 }
 
 // Translate Android mouse button state to SDL mouse button
-static Uint8 TranslateButton(int state)
+static Uint8 TranslateButton(정수 state)
 {
-    if (state & BUTTON_PRIMARY) {
-        return SDL_BUTTON_LEFT;
-    } else if (state & BUTTON_SECONDARY) {
-        return SDL_BUTTON_RIGHT;
-    } else if (state & BUTTON_TERTIARY) {
-        return SDL_BUTTON_MIDDLE;
-    } else if (state & BUTTON_FORWARD) {
-        return SDL_BUTTON_X1;
-    } else if (state & BUTTON_BACK) {
-        return SDL_BUTTON_X2;
-    } else {
-        return 0;
+    만약 (state & BUTTON_PRIMARY) {
+        반환 SDL_BUTTON_LEFT;
+    } 아니면 만약 (state & BUTTON_SECONDARY) {
+        반환 SDL_BUTTON_RIGHT;
+    } 아니면 만약 (state & BUTTON_TERTIARY) {
+        반환 SDL_BUTTON_MIDDLE;
+    } 아니면 만약 (state & BUTTON_FORWARD) {
+        반환 SDL_BUTTON_X1;
+    } 아니면 만약 (state & BUTTON_BACK) {
+        반환 SDL_BUTTON_X2;
+    } 아니면 {
+        반환 0;
     }
 }
 
-void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y, bool relative)
+void Android_OnMouse(SDL_Window *window, 정수 state, 정수 action, float x, float y, bool relative)
 {
-    int changes_press;
-    int changes_release;
+    정수 changes_press;
+    정수 changes_release;
     Uint8 button;
 
-    if (!window) {
-        return;
+    만약 (!window) {
+        반환;
     }
 
     switch (action) {
@@ -261,9 +261,9 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
 
         // Some versions of Android will send multiple mouse buttons in a single
         // event, so read it bit-by-bit.
-        if (changes_press) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_press & k_aAndroidButtons[i]) {
+        만약 (changes_press) {
+            위해 (정수 i = 0; i < sizeof(k_aAndroidButtons); i++) {
+                만약 (changes_press & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, true);
                 }
@@ -271,9 +271,9 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
             last_state = state;
         }
 
-        if (changes_release) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_release & k_aAndroidButtons[i]) {
+        만약 (changes_release) {
+            위해 (정수 i = 0; i < sizeof(k_aAndroidButtons); i++) {
+                만약 (changes_release & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, false);
                 }

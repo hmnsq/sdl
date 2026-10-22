@@ -26,8 +26,8 @@
 
 typedef struct Wayland_SHMPool Wayland_SHMPool;
 
-extern Wayland_SHMPool *Wayland_AllocSHMPool(int size);
-extern struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data);
+extern Wayland_SHMPool *Wayland_AllocSHMPool(정수 size);
+extern struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, 정수 width, 정수 height, void **data);
 extern void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool);
 
 extern struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a);

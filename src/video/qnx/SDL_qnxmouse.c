@@ -27,10 +27,10 @@
 #include <errno.h>
 
 
-static int SDLToScreenCursorShape(SDL_SystemCursor id)
+static 정수 SDLToScreenCursorShape(SDL_SystemCursor id)
 {
     // This is reserved by screen, but still not used for anything.
-    int shape = -1;
+    정수 shape = -1;
 
     switch(id)
     {
@@ -93,10 +93,10 @@ static int SDLToScreenCursorShape(SDL_SystemCursor id)
     default:
         break;
     }
-    return shape;
+    반환 shape;
 }
 
-static SDL_Cursor *genericCreateCursor(int shape)
+static SDL_Cursor *genericCreateCursor(정수 shape)
 {
     SDL_Cursor          *cursor;
     SDL_CursorData      *impl;
@@ -104,9 +104,9 @@ static SDL_Cursor *genericCreateCursor(int shape)
     screen_context_t    *context = getContext();
 
     cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
+    만약 (cursor) {
         impl = SDL_calloc(1, sizeof(SDL_CursorData));;
-        if (impl == NULL) {
+        만약 (impl == NULL) {
             SDL_free(cursor);
             SDL_OutOfMemory();
         }
@@ -118,72 +118,72 @@ static SDL_Cursor *genericCreateCursor(int shape)
         impl->session = session;
         impl->is_visible = true;
         cursor->internal = (void*)impl;
-    } else {
+    } 아니면 {
         SDL_OutOfMemory();
     }
 
-    return cursor;
+    반환 cursor;
 }
 
-static SDL_Cursor *createCursor(SDL_Surface * surface, int hot_x, int hot_y)
+static SDL_Cursor *createCursor(SDL_Surface * surface, 정수 hot_x, 정수 hot_y)
 {
-    return genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
+    반환 genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
 }
 
 static SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
 {
-    int shape = SDLToScreenCursorShape(id);
-    if (shape < 0) {
+    정수 shape = SDLToScreenCursorShape(id);
+    만약 (shape < 0) {
         SDL_assert(0);
-        return NULL;
+        반환 NULL;
     }
 
-    return genericCreateCursor(shape);
+    반환 genericCreateCursor(shape);
 }
 
 static bool showCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData      *impl;
     screen_session_t    session;
-    int shape;
+    정수 shape;
 
     // SDL does not provide information about previous visibility to its
     // drivers. We need to track that ourselves.
-    if (cursor) {
+    만약 (cursor) {
         impl = (SDL_CursorData*)cursor->internal;
         SDL_assert(impl != NULL);
-        if (impl->is_visible) {
-            return true;
+        만약 (impl->is_visible) {
+            반환 true;
         }
         session = impl->session;
         shape = impl->realized_shape;
         impl->is_visible = true;
-    } else {
+    } 아니면 {
         cursor = SDL_GetCursor();
-        if (cursor == NULL) {
-            return false;
+        만약 (cursor == NULL) {
+            반환 false;
         }
         impl = (SDL_CursorData*)cursor->internal;
         SDL_assert(impl != NULL);
-        if (!impl->is_visible) {
-            return 0;
+        만약 (!impl->is_visible) {
+            반환 0;
         }
         session = impl->session;
         shape = SCREEN_CURSOR_SHAPE_NONE;
         impl->is_visible = false;
     }
 
-    if (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
-        return false;
+    만약 (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
+        반환 false;
     }
 
-    return true;
+    반환 true;
 }
 
 static void freeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *impl = (SDL_CursorData*)cursor->internal;
-    if (impl != NULL) {
+    만약 (impl != NULL) {
         screen_destroy_session(impl->session);
         SDL_free(impl);
     }
@@ -196,7 +196,7 @@ static bool setRelativeMouseMode(bool enabled)
     // SDL_SetRelativeMouseMode() & friends aren't a no-op.
     //
     // TODO: It may be possible to achieve this using SCREEN_PROPERTY_DISPLACEMENT instead.
-    return true;
+    반환 true;
 }
 
 void initMouse(SDL_VideoDevice *_this)
@@ -205,8 +205,8 @@ void initMouse(SDL_VideoDevice *_this)
     SDL_MouseData   *mouse_data;
 
     mouse_data = (SDL_MouseData *)SDL_calloc(1, sizeof(SDL_MouseData));
-    if (mouse_data == NULL) {
-        return;
+    만약 (mouse_data == NULL) {
+        반환;
     }
     SDL_zerop(mouse_data);
     mouse->internal = mouse_data;

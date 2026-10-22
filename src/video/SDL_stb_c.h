@@ -26,6 +26,6 @@
 
 // Image conversion functions
 
-extern bool SDL_ConvertPixels_STB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+extern bool SDL_ConvertPixels_STB(정수 width, 정수 height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, 정수 src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, 정수 dst_pitch);
 
 #endif // SDL_stb_c_h_

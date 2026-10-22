@@ -81,7 +81,7 @@ extern SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, const
 extern void RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
+extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, 정수 interval);
 extern bool RPI_GLES_GetSwapInterval(SDL_VideoDevice *_this);
 extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);

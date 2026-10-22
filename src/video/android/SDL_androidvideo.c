@@ -57,24 +57,24 @@ static void Android_VideoQuit(SDL_VideoDevice *_this);
 // Android driver bootstrap functions
 
 // These are filled in with real values in Android_SetScreenResolution on init (before SDL_main())
-int Android_SurfaceWidth = 0;
-int Android_SurfaceHeight = 0;
-static int Android_DeviceWidth = 0;
-static int Android_DeviceHeight = 0;
+정수 Android_SurfaceWidth = 0;
+정수 Android_SurfaceHeight = 0;
+static 정수 Android_DeviceWidth = 0;
+static 정수 Android_DeviceHeight = 0;
 static Uint32 Android_ScreenFormat = SDL_PIXELFORMAT_RGB565; // Default SurfaceView format, in case this is queried before being filled
 float Android_ScreenDensity = 1.0f;
 static float Android_ScreenRate = 0.0f;
 static float Android_ScreenHDRHeadroom = 1.0f;
 static SDL_DisplayOrientation Android_ScreenOrientation = SDL_ORIENTATION_UNKNOWN;
-int Android_SafeInsetLeft = 0;
-int Android_SafeInsetRight = 0;
-int Android_SafeInsetTop = 0;
-int Android_SafeInsetBottom = 0;
+정수 Android_SafeInsetLeft = 0;
+정수 Android_SafeInsetRight = 0;
+정수 Android_SafeInsetTop = 0;
+정수 Android_SafeInsetBottom = 0;
 static SDL_SystemTheme Android_SystemTheme;
 
 static bool Android_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return Android_JNI_SuspendScreenSaver(_this->suspend_screensaver);
+    반환 Android_JNI_SuspendScreenSaver(_this->suspend_screensaver);
 }
 
 static void Android_DeleteDevice(SDL_VideoDevice *device)
@@ -100,14 +100,14 @@ static SDL_VideoDevice *Android_CreateDevice(void)
 
     // Initialize all variables that we clean on shutdown
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    만약 (!device) {
+        반환 NULL;
     }
 
     data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    만약 (!data) {
         SDL_free(device);
-        return NULL;
+        반환 NULL;
     }
 
     device->internal = data;
@@ -162,7 +162,7 @@ static SDL_VideoDevice *Android_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    반환 device;
 }
 
 VideoBootStrap Android_bootstrap = {
@@ -189,8 +189,8 @@ bool Android_VideoInit(SDL_VideoDevice *_this)
     mode.refresh_rate = Android_ScreenRate;
 
     displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    만약 (displayID == 0) {
+        반환 false;
     }
     display = SDL_GetVideoDisplay(displayID);
     display->natural_orientation = Android_JNI_GetDisplayNaturalOrientation();
@@ -205,7 +205,7 @@ bool Android_VideoInit(SDL_VideoDevice *_this)
     Android_InitMouse();
 
     // We're done!
-    return true;
+    반환 true;
 }
 
 void Android_VideoQuit(SDL_VideoDevice *_this)
@@ -215,7 +215,7 @@ void Android_VideoQuit(SDL_VideoDevice *_this)
     Android_QuitTouch();
 }
 
-void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate)
+void Android_SetScreenResolution(정수 surfaceWidth, 정수 surfaceHeight, 정수 deviceWidth, 정수 deviceHeight, float density, float rate)
 {
     Android_SurfaceWidth = surfaceWidth;
     Android_SurfaceHeight = surfaceHeight;
@@ -230,7 +230,7 @@ void Android_SetScreenHDRHeadroom(float headroom)
     Android_ScreenHDRHeadroom = headroom;
 
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    만약 (device && device->num_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         SDL_HDROutputProperties HDR;
 
@@ -240,33 +240,33 @@ void Android_SetScreenHDRHeadroom(float headroom)
     }
 }
 
-static Uint32 format_to_pixelFormat(int format)
+static Uint32 format_to_pixelFormat(정수 format)
 {
     Uint32 pf;
-    if (format == AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM) { // 1
+    만약 (format == AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM) { // 1
         pf = SDL_PIXELFORMAT_RGBA8888;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM) { // 2
+    } 아니면 만약 (format == AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM) { // 2
         pf = SDL_PIXELFORMAT_RGBX8888;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM) { // 3
+    } 아니면 만약 (format == AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM) { // 3
         pf = SDL_PIXELFORMAT_RGB24;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM) { // 4
+    } 아니면 만약 (format == AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM) { // 4
         pf = SDL_PIXELFORMAT_RGB565;
-    } else if (format == 5) {
+    } 아니면 만약 (format == 5) {
         pf = SDL_PIXELFORMAT_BGRA8888;
-    } else if (format == 6) {
+    } 아니면 만약 (format == 6) {
         pf = SDL_PIXELFORMAT_RGBA5551;
-    } else if (format == 7) {
+    } 아니면 만약 (format == 7) {
         pf = SDL_PIXELFORMAT_RGBA4444;
-    } else if (format == 0x115) {
+    } 아니면 만약 (format == 0x115) {
         // HAL_PIXEL_FORMAT_BGR_565
         pf = SDL_PIXELFORMAT_RGB565;
-    } else {
+    } 아니면 {
         pf = SDL_PIXELFORMAT_UNKNOWN;
     }
-    return pf;
+    반환 pf;
 }
 
-void Android_SetFormat(int format_wanted, int format_got)
+void Android_SetFormat(정수 format_wanted, 정수 format_got)
 {
     Uint32 pf_wanted;
     Uint32 pf_got;
@@ -288,11 +288,11 @@ static void Android_SendOrientationUpdate(void)
      * resize event.
      */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    만약 (device && device->num_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         bool mode_landscape = (display->desktop_mode.w > display->desktop_mode.h);
         bool sensor_landscape = (Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE || Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE_FLIPPED);
-        if (sensor_landscape == mode_landscape) {
+        만약 (sensor_landscape == mode_landscape) {
             SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_ORIENTATION, Android_ScreenOrientation, 0);
         }
     }
@@ -313,7 +313,7 @@ void Android_SendResize(SDL_Window *window)
       which can happen after VideoInit().
     */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    만약 (device && device->num_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         SDL_DisplayMode desktop_mode;
 
@@ -326,19 +326,19 @@ void Android_SendResize(SDL_Window *window)
         Android_SendOrientationUpdate();
     }
 
-    if (window) {
+    만약 (window) {
         SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, Android_SurfaceWidth, Android_SurfaceHeight);
     }
 }
 
-void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom)
+void Android_SetWindowSafeAreaInsets(정수 left, 정수 right, 정수 top, 정수 bottom)
 {
     Android_SafeInsetLeft = left;
     Android_SafeInsetRight = right;
     Android_SafeInsetTop = top;
     Android_SafeInsetBottom = bottom;
 
-    if (Android_Window) {
+    만약 (Android_Window) {
         SDL_SetWindowSafeAreaInsets(Android_Window, left, right, top, bottom);
     }
 }
@@ -347,13 +347,13 @@ void Android_SetDarkMode(bool enabled)
 {
     SDL_VideoDevice *device = SDL_GetVideoDevice();
 
-    if (enabled) {
+    만약 (enabled) {
         Android_SystemTheme = SDL_SYSTEM_THEME_DARK;
-    } else {
+    } 아니면 {
         Android_SystemTheme = SDL_SYSTEM_THEME_LIGHT;
     }
 
-    if (device) {
+    만약 (device) {
         SDL_SetSystemTheme(Android_SystemTheme);
     }
 }

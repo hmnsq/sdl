@@ -25,7 +25,7 @@
  *
  */
 
-#if !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
+#만약 !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
 #define SD_SVE2_SWIZZLE_H
 
 #include "SDL_sve2_extension.h"
@@ -266,10 +266,10 @@ static inline void sdl_sve_accc_blend_to_accc_fill_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_accc_fill_alpha(
             (uint32_t *)pchSource,
@@ -288,10 +288,10 @@ static inline void sdl_sve_accc_blend_to_accc_copy_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_accc_copy_alpha(
             (uint32_t *)pchSource,
@@ -310,10 +310,10 @@ static inline void sdl_sve_ccca_blend_to_ccca_fill_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
             (uint32_t *)pchSource,
@@ -332,10 +332,10 @@ static inline void sdl_sve_ccca_blend_to_ccca_copy_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
             (uint32_t *)pchSource,
@@ -381,10 +381,10 @@ static inline void sdl_sve_a123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -401,10 +401,10 @@ static inline void sdl_sve_a123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -449,10 +449,10 @@ static inline void sdl_sve_123a_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -469,10 +469,10 @@ static inline void sdl_sve_123a_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -517,10 +517,10 @@ static inline void sdl_sve_accc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -537,10 +537,10 @@ static inline void sdl_sve_accc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -583,10 +583,10 @@ static inline void sdl_sve_ccca_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -603,10 +603,10 @@ static inline void sdl_sve_ccca_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -647,10 +647,10 @@ static inline void sdl_sve_a123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -667,10 +667,10 @@ static inline void sdl_sve_a123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -710,10 +710,10 @@ static inline void sdl_sve_123a_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -730,10 +730,10 @@ static inline void sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -809,10 +809,10 @@ static inline void sdl_sve_xccc_blend_to_accc_fill_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
             (uint32_t *)pchSource,
@@ -831,10 +831,10 @@ static inline void sdl_sve_xccc_blend_to_accc_copy_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
             (uint32_t *)pchSource,
@@ -853,10 +853,10 @@ static inline void sdl_sve_cccx_blend_to_ccca_fill_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
             (uint32_t *)pchSource,
@@ -875,10 +875,10 @@ static inline void sdl_sve_cccx_blend_to_ccca_copy_alpha(
     size_t uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
     size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    정수 nWidth,
+    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
             (uint32_t *)pchSource,
@@ -922,10 +922,10 @@ static inline void sdl_sve_x123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -942,10 +942,10 @@ static inline void sdl_sve_x123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -988,10 +988,10 @@ static inline void sdl_sve_123x_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1008,10 +1008,10 @@ static inline void sdl_sve_123x_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1054,10 +1054,10 @@ static inline void sdl_sve_xccc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1074,10 +1074,10 @@ static inline void sdl_sve_xccc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1120,10 +1120,10 @@ static inline void sdl_sve_cccx_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1140,10 +1140,10 @@ static inline void sdl_sve_cccx_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1186,10 +1186,10 @@ static inline void sdl_sve_x123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1206,10 +1206,10 @@ static inline void sdl_sve_x123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1251,10 +1251,10 @@ static inline void sdl_sve_123x_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1271,10 +1271,10 @@ static inline void sdl_sve_123x_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
                                                          size_t uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
                                                          size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         정수 nWidth,
+                                                         정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1289,33 +1289,33 @@ SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
 static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    정수 width = info->dst_w;
+    정수 height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    정수 srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    정수 dstskip = info->dst_skip;
 
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    정수 srcbpp = srcfmt->bytes_per_pixel;
+    정수 dstbpp = dstfmt->bytes_per_pixel;
 
     assert((srcbpp == 4) && (dstbpp == 4));
 
     bool fill_alpha = (!dstfmt->Amask);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    정수 srcstride = srcskip + srcbpp * width;
+    정수 dststride = dstskip + dstbpp * width;
 
     switch (srcfmt->format) {
     case SDL_PIXELFORMAT_XRGB8888:
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_xccc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1323,7 +1323,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_xccc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1336,14 +1336,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1355,14 +1355,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_x123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_x123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1374,14 +1374,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_x123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_x123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1400,7 +1400,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_accc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1408,7 +1408,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_accc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1421,14 +1421,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_accc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_accc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1440,14 +1440,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_a123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_a123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1459,14 +1459,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_a123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_a123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1485,14 +1485,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_cccx_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_cccx_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1504,7 +1504,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_cccx_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1512,7 +1512,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_cccx_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1525,14 +1525,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123x_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123x_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1544,14 +1544,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123x_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123x_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1570,14 +1570,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_ccca_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_ccca_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1589,7 +1589,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_ccca_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1597,7 +1597,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_ccca_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1610,14 +1610,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123a_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123a_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1629,14 +1629,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123a_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123a_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1655,14 +1655,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_x123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_x123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1674,14 +1674,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_x123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_x123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1693,7 +1693,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_xccc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1701,7 +1701,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_xccc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1714,14 +1714,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1740,14 +1740,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_a123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_a123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1759,14 +1759,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_a123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_a123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1778,7 +1778,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_accc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1786,7 +1786,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_accc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1799,14 +1799,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_accc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_accc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1825,14 +1825,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123x_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123x_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1844,14 +1844,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123x_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123x_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1863,14 +1863,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_cccx_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_cccx_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1882,7 +1882,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_cccx_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1890,7 +1890,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_cccx_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1910,14 +1910,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
         switch (dstfmt->format) {
         case SDL_PIXELFORMAT_ARGB8888:
         case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123a_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123a_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1929,14 +1929,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_RGBA8888:
         case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_123a_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_123a_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1948,14 +1948,14 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_ABGR8888:
         case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_ccca_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } 아니면 {
                 sdl_sve_ccca_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1967,7 +1967,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 
         case SDL_PIXELFORMAT_BGRA8888:
         case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+            만약 (fill_alpha) {
                 sdl_sve_ccca_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1975,7 +1975,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } 아니면 {
                 sdl_sve_ccca_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -2023,10 +2023,10 @@ static inline void sdl_sve_argb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_argb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2056,10 +2056,10 @@ static inline void sdl_sve_rgba8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_rgba8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2089,10 +2089,10 @@ static inline void sdl_sve_bgra8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_bgra8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2122,10 +2122,10 @@ static inline void sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_abgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2159,10 +2159,10 @@ static inline void sdl_sve_xrgb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xrgb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2193,10 +2193,10 @@ static inline void sdl_sve_rgbx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_rgbx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2227,10 +2227,10 @@ static inline void sdl_sve_bgrx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_bgrx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2261,10 +2261,10 @@ static inline void sdl_sve_xbgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
                                                     size_t uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
                                                     size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    정수 nWidth,
+                                                    정수 nHeight)
 {
-    while (nHeight--) {
+    동안 (nHeight--) {
 
         sdl_sve_xbgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2279,25 +2279,25 @@ SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
 static inline void sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    정수 width = info->dst_w;
+    정수 height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    정수 srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    정수 dstskip = info->dst_skip;
 
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    정수 srcbpp = srcfmt->bytes_per_pixel;
+    정수 dstbpp = dstfmt->bytes_per_pixel;
 
     assert(srcbpp == 4);
     assert(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    정수 srcstride = srcskip + srcbpp * width;
+    정수 dststride = dstskip + dstbpp * width;
 
     switch (srcfmt->format) {
     case SDL_PIXELFORMAT_XRGB8888:

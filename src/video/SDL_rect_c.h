@@ -24,6 +24,6 @@
 
 #include "SDL_internal.h"
 
-extern bool SDL_GetSpanEnclosingRect(int width, int height, int numrects, const SDL_Rect *rects, SDL_Rect *span);
+extern bool SDL_GetSpanEnclosingRect(정수 width, 정수 height, 정수 numrects, const SDL_Rect *rects, SDL_Rect *span);
 
 #endif // SDL_rect_c_h_

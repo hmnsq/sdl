@@ -353,44 +353,44 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PASTE,            // AKEYCODE_PASTE
 };
 
-static SDL_Scancode TranslateKeycode(int keycode)
+static SDL_Scancode TranslateKeycode(정수 keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(Android_Keycodes)) {
+    만약 (keycode < SDL_arraysize(Android_Keycodes)) {
         scancode = Android_Keycodes[keycode];
     }
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
+    만약 (scancode == SDL_SCANCODE_UNKNOWN) {
+        만약 (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
             // Ignore game controller buttons
-        } else {
+        } 아니면 {
             __android_log_print(ANDROID_LOG_INFO, "SDL", "Unknown keycode %d", keycode);
         }
     }
-    return scancode;
+    반환 scancode;
 }
 
-void Android_OnKeyDown(int keycode)
+void Android_OnKeyDown(정수 keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
 }
 
-void Android_OnKeyUp(int keycode)
+void Android_OnKeyUp(정수 keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
 }
 
 bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    반환 true;
 }
 
 void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
-    } else {
+    정수 input_type = 0;
+    만약 (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
+        input_type = (정수)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
+    } 아니면 {
         switch (SDL_GetTextInputType(props)) {
         default:
         case SDL_TEXTINPUT_TYPE_TEXT:
@@ -437,11 +437,11 @@ void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_
             break;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
+        만약 (SDL_GetTextInputAutocorrect(props)) {
             input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
 
-        if (SDL_GetTextInputMultiline(props)) {
+        만약 (SDL_GetTextInputMultiline(props)) {
             input_type |= TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
@@ -455,7 +455,7 @@ void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 
 void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (_this->screen_keyboard_shown) {
+    만약 (_this->screen_keyboard_shown) {
         Android_ShowScreenKeyboard(_this, window, window->text_input_props);
     }
 }

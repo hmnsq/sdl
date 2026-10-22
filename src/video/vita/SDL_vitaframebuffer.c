@@ -31,39 +31,39 @@
 #define ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
 #define DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
 
-void *vita_gpu_alloc(unsigned int type, unsigned int size, SceUID *uid)
+void *vita_gpu_alloc(unsigned 정수 type, unsigned 정수 size, SceUID *uid)
 {
     void *mem;
 
-    if (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
+    만약 (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
         size = ALIGN(size, 256 * 1024);
-    } else {
+    } 아니면 {
         size = ALIGN(size, 4 * 1024);
     }
 
     *uid = sceKernelAllocMemBlock("gpu_mem", type, size, NULL);
 
-    if (*uid < 0) {
-        return NULL;
+    만약 (*uid < 0) {
+        반환 NULL;
     }
 
-    if (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
-        return NULL;
+    만약 (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
+        반환 NULL;
     }
 
-    return mem;
+    반환 mem;
 }
 
 void vita_gpu_free(SceUID uid)
 {
     void *mem = NULL;
-    if (sceKernelGetMemBlockBase(uid, &mem) < 0) {
-        return;
+    만약 (sceKernelGetMemBlockBase(uid, &mem) < 0) {
+        반환;
     }
     sceKernelFreeMemBlock(uid);
 }
 
-bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, 정수 *pitch)
 {
     SDL_WindowData *data = window->internal;
     SceDisplayFrameBuf framebuf;
@@ -90,27 +90,27 @@ bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SD
 
     *pixels = data->buffer;
 
-    return true;
+    반환 true;
 }
 
-bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, 정수 numrects)
 {
     // do nothing
-    return true;
+    반환 true;
 }
 
 void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!data) {
+    만약 (!data) {
         // The window wasn't fully initialized
-        return;
+        반환;
     }
 
     vita_gpu_free(data->buffer_uid);
     data->buffer = NULL;
-    return;
+    반환;
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA

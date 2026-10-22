@@ -21,7 +21,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#만약 defined(SDL_VIDEO_DRIVER_X11)
 
 #include "SDL_x11video.h"
 #include "SDL_x11xtest.h"
@@ -31,14 +31,14 @@ static bool xtest_initialized = false;
 void X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#만약 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    정수 event, error;
+    정수 opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    만약 (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        반환;
     }
 
     xtest_initialized = true;
@@ -47,37 +47,37 @@ void X11_InitXTest(SDL_VideoDevice *_this)
 
 bool X11_XTestIsInitialized(void)
 {
-    return xtest_initialized;
+    반환 xtest_initialized;
 }
 
 bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    만약 (!X11_XTestIsInitialized()) {
+        반환 false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    만약 (!displaydata) {
+        반환 false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    정수 motion_x = (정수)SDL_roundf(x);
+    정수 motion_y = (정수)SDL_roundf(y);
+    만약 (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    만약 (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        반환 false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    반환 true;
+#아니면
+    반환 false;
 #endif
 }
 

@@ -37,7 +37,7 @@
 
 #ifdef SDL_PLATFORM_VISIONOS
 extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
+#아니면
 extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
 #endif
 
@@ -46,7 +46,7 @@ extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
 extern void UIKit_SetGameControllerInteraction(bool enabled);
 extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+#만약 !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
 extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
 #endif
 

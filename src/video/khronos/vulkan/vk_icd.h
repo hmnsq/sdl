@@ -52,20 +52,20 @@ typedef PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance 
 typedef VkResult (VKAPI_PTR *PFN_vk_icdNegotiateLoaderICDInterfaceVersion)(uint32_t* pVersion);
 typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, const char* pName);
 typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
+#만약 defined(VK_USE_PLATFORM_WIN32_KHR)
 typedef VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
     uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
 #endif
 
 // Prototypes for loader/ICD interface
-#if !defined(VK_NO_PROTOTYPES)
+#만약 !defined(VK_NO_PROTOTYPES)
 #ifdef __cplusplus
 extern "C" {
 #endif
     VKAPI_ATTR VkResult VKAPI_CALL vk_icdNegotiateLoaderICDInterfaceVersion(uint32_t* pVersion);
     VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, const char* pName);
     VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
+#만약 defined(VK_USE_PLATFORM_WIN32_KHR)
     VKAPI_ATTR VkResult VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
         uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
 #endif
@@ -94,7 +94,7 @@ static inline void set_loader_magic_value(void *pNewObject) {
 
 static inline bool valid_loader_magic_value(void *pNewObject) {
     const VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
-    return (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
+    반환 (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
 }
 
 /*

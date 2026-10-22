@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#만약 !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#만약 defined(SDL_PLATFORM_WINDOWS)
 
 extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
 extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
@@ -29,16 +29,16 @@ extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHoo
 
 #endif /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, 정수 *adapterIndex, 정수 *outputIndex);
+extern SDL_DECLSPEC 정수 SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
 #elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+extern SDL_DECLSPEC 정수 SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
 #endif /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#만약 !defined(SDL_PLATFORM_GDK)
 
 typedef struct XTaskQueueHandle XTaskQueueHandle;
 
@@ -46,16 +46,16 @@ extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQu
 
 #endif /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#만약 !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
 extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
 
 #endif
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#만약 !defined(SDL_VIDEO_DRIVER_UIKIT)
 
 typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
+extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, 정수 interval, SDL_iOSAnimationCallback callback, void *callbackParam);
 extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
 #endif
