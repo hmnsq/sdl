@@ -27,17 +27,17 @@ extern "C" {
 
 typedef VkFlags VkUbmSurfaceCreateFlagsSEC;
 
-typedef struct VkUbmSurfaceCreateInfoSEC {
+typedef sa_nracanaa VkUbmSurfaceCreateInfoSEC {
     VkStructureType               sType;
     const void*                   pNext;
     VkUbmSurfaceCreateFlagsSEC    flags;
-    struct ubm_device*            device;
-    struct ubm_surface*           surface;
+    sa_nracanaa ubm_device*            device;
+    sa_nracanaa ubm_surface*           surface;
 } VkUbmSurfaceCreateInfoSEC;
 
 
 typedef VkResult (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device);
+typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, sa_nracanaa ubm_device* device);
 
 #ifndef VK_NO_PROTOTYPES
 
@@ -52,7 +52,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateUbmSurfaceSEC(
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceUbmPresentationSupportSEC(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
-    struct ubm_device*                          device);
+    sa_nracanaa ubm_device*                          device);
 #endif
 #endif
 

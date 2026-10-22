@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#ຖ້າ defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
 #include "SDL_offscreenopengles.h"
 #include "SDL_offscreenvideo.h"
@@ -28,10 +28,10 @@
 
 // EGL implementation of SDL OpenGL support
 
-bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
-    if (!SDL_EGL_LoadLibraryOnly(_this, path)) {
-        return false;
+    ຖ້າ (!SDL_EGL_LoadLibraryOnly(_this, path)) {
+        ສົ່ງຄືນ false;
     }
 
     /* driver_loaded gets incremented by SDL_GL_LoadLibrary when we return,
@@ -41,15 +41,15 @@ bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     _this->gl_config.driver_loaded++;
     result = SDL_EGL_InitializeOffscreen(_this, 0);
     _this->gl_config.driver_loaded--;
-    if (!result) {
-        return false;
+    ຖ້າ (!result) {
+        ສົ່ງຄືນ false;
     }
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return false;
+    ຖ້າ (!SDL_EGL_ChooseConfig(_this)) {
+        ສົ່ງຄືນ false;
     }
 
-    return true;
+    ສົ່ງຄືນ true;
 }
 
 SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
@@ -59,16 +59,16 @@ SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *w
     SDL_GLContext context;
     context = SDL_EGL_CreateContext(_this, offscreen_window->egl_surface);
 
-    return context;
+    ສົ່ງຄືນ context;
 }
 
 bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window) {
+    ຖ້າ (window) {
         EGLSurface egl_surface = window->internal->egl_surface;
-        return SDL_EGL_MakeCurrent(_this, egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+        ສົ່ງຄືນ SDL_EGL_MakeCurrent(_this, egl_surface, context);
+    } ບໍ່ດັ່ງນັ້ນ {
+        ສົ່ງຄືນ SDL_EGL_MakeCurrent(_this, NULL, NULL);
     }
 }
 
@@ -76,7 +76,7 @@ bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *offscreen_wind = window->internal;
 
-    return SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
+    ສົ່ງຄືນ SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
 }
 
 #endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL

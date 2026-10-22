@@ -25,30 +25,30 @@ static uint8_t clampU8(int32_t v)
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255
             };
-    return lut[((v+128*PRECISION_FACTOR)>>PRECISION)&511];
+    ສົ່ງຄືນ lut[((v+128*PRECISION_FACTOR)>>PRECISION)&511];
 }
 
 static uint16_t clamp10(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 1023) {
-        return 1023;
-    } else {
-        return (uint16_t)v;
+    ຖ້າ (v < 0) {
+        ສົ່ງຄືນ 0;
+    } ບໍ່ດັ່ງນັ້ນ ຖ້າ (v > 1023) {
+        ສົ່ງຄືນ 1023;
+    } ບໍ່ດັ່ງນັ້ນ {
+        ສົ່ງຄືນ (uint16_t)v;
     }
 }
 
 static uint16_t clamp16(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 0xffff) {
-        return 0xffff;
-    } else {
-        return (uint16_t)v;
+    ຖ້າ (v < 0) {
+        ສົ່ງຄືນ 0;
+    } ບໍ່ດັ່ງນັ້ນ ຖ້າ (v > 0xffff) {
+        ສົ່ງຄືນ 0xffff;
+    } ບໍ່ດັ່ງນັ້ນ {
+        ສົ່ງຄືນ (uint16_t)v;
     }
 }
 
@@ -194,7 +194,7 @@ void rgb24_yuv420_std(
     const RGB2YUVParam *const param = &(RGB2YUV[yuv_type]);
 
     uint32_t x, y;
-    for(y=0; y<(height-1); y+=2)
+    ສຳລັບ(y=0; y<(height-1); y+=2)
     {
         const uint8_t *rgb_ptr1=RGB+y*RGB_stride,
                 *rgb_ptr2=RGB+(y+1)*RGB_stride;
@@ -204,7 +204,7 @@ void rgb24_yuv420_std(
                 *u_ptr=U+(y/2)*UV_stride,
                 *v_ptr=V+(y/2)*UV_stride;
 
-        for(x=0; x<(width-1); x+=2)
+        ສຳລັບ(x=0; x<(width-1); x+=2)
         {
             // compute yuv for the four pixels, u and v values are summed
             int32_t y_tmp, u_tmp, v_tmp;

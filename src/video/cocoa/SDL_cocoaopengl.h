@@ -34,9 +34,9 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-struct SDL_GLDriverData
+sa_nracanaa SDL_GLDriverData
 {
-    int initialized;
+    ຈຳນວນເຕັມ initialized;
 };
 
 @interface SDL3OpenGLContext : NSOpenGLContext
@@ -69,13 +69,13 @@ struct SDL_GLDriverData
 @end
 
 // OpenGL functions
-extern bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
+extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 extern void Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, ຈຳນວນເຕັມ interval);
+extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, ຈຳນວນເຕັມ *interval);
 extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 

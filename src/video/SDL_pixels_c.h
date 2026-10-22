@@ -44,7 +44,7 @@ extern float SDL_sRGBtoLinear(float v);
 extern float SDL_sRGBfromLinear(float v);
 extern float SDL_PQtoNits(float v);
 extern float SDL_PQfromNits(float v);
-extern const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, int w, int h, int bits_per_pixel);
+extern const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, ຈຳນວນເຕັມ w, ຈຳນວນເຕັມ h, ຈຳນວນເຕັມ bits_per_pixel);
 extern const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_ColorPrimaries dst);
 extern void SDL_ConvertColorPrimaries(float *fR, float *fG, float *fB, const float *matrix);
 extern void SDL_ConvertColor709to2020(float *fR, float *fG, float *fB);
@@ -59,6 +59,6 @@ extern bool SDL_IsSamePalette(const SDL_Palette *src, const SDL_Palette *dst);
 extern void SDL_DitherPalette(SDL_Palette *palette);
 extern Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const SDL_Palette *pal);
 extern void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel);
-extern SDL_Surface *SDL_DuplicatePixels(int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, int pitch);
+extern SDL_Surface *SDL_DuplicatePixels(ຈຳນວນເຕັມ width, ຈຳນວນເຕັມ height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, ຈຳນວນເຕັມ pitch);
 
 #endif // SDL_pixels_c_h_

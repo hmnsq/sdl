@@ -25,20 +25,20 @@
 
 #include <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
+typedef sa_nracanaa X11_ClipboardData {
     SDL_ClipboardDataCallback callback;
     void *userdata;
-    const char *const *mime_types;
+    const var_na *const *mime_types;
     size_t mime_count;
     Uint32 sequence;
 } SDLX11_ClipboardData;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
+extern const var_na *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
 extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
+extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const var_na *mime_type, size_t *length);
+extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const var_na *mime_type);
+extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const var_na *text);
+extern var_na *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
 extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
 extern void X11_QuitClipboard(SDL_VideoDevice *_this);
 Window GetWindow(SDL_VideoDevice *_this);

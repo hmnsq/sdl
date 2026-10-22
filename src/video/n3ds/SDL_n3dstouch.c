@@ -66,7 +66,7 @@ void N3DS_PollTouch(SDL_VideoDevice *_this)
     display = SDL_GetVideoDisplay(internal->touch_display);
     window = display ? display->fullscreen_window : NULL;
 
-    if (pressed != was_pressed) {
+    ຖ້າ (pressed != was_pressed) {
         was_pressed = pressed;
         SDL_SendTouch(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
                       window,
@@ -74,7 +74,7 @@ void N3DS_PollTouch(SDL_VideoDevice *_this)
                       touch.px * TOUCHSCREEN_SCALE_X,
                       touch.py * TOUCHSCREEN_SCALE_Y,
                       pressed ? 1.0f : 0.0f);
-    } else if (pressed) {
+    } ບໍ່ດັ່ງນັ້ນ ຖ້າ (pressed) {
         SDL_SendTouchMotion(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
                             window,
                             touch.px * TOUCHSCREEN_SCALE_X,

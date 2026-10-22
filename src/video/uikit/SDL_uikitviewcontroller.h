@@ -27,7 +27,7 @@
 #ifdef SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
 #define SDLRootViewController GCEventViewController
-#else
+#ບໍ່ດັ່ງນັ້ນ
 #define SDLRootViewController UIViewController
 #endif
 
@@ -37,7 +37,7 @@
 
 #ifdef SDL_IPHONE_KEYBOARD
 @interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#ບໍ່ດັ່ງນັ້ນ
 @interface SDL_uikitviewcontroller : SDLRootViewController
 #endif
 
@@ -47,7 +47,7 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
 
-- (void)setAnimationCallback:(int)interval
+- (void)setAnimationCallback:(ຈຳນວນເຕັມ)interval
                     callback:(void (*)(void *))callback
                callbackParam:(void *)callbackParam;
 
@@ -69,7 +69,7 @@
 - (BOOL)prefersHomeIndicatorAutoHidden;
 - (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
+@property(nonatomic, assign) ຈຳນວນເຕັມ homeIndicatorHidden;
 #endif
 
 #ifdef SDL_IPHONE_KEYBOARD
@@ -87,7 +87,7 @@
 
 @property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
 @property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
+@property(nonatomic, assign) ຈຳນວນເຕັມ keyboardHeight;
 #endif
 
 @end

@@ -30,50 +30,50 @@
 
 bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, parimaa_na(SDL_WindowData));
 
-    if (!offscreen_window) {
-        return false;
+    ຖ້າ (!offscreen_window) {
+        ສົ່ງຄືນ false;
     }
 
     window->internal = offscreen_window;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
+    ຖ້າ (window->x == SDL_WINDOWPOS_UNDEFINED) {
         window->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
+    ຖ້າ (window->y == SDL_WINDOWPOS_UNDEFINED) {
         window->y = 0;
     }
 
     offscreen_window->sdl_window = window;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ຖ້າ (window->flags & SDL_WINDOW_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        ຖ້າ (!_this->egl_data) {
+            ສົ່ງຄືນ SDL_SetError("Cannot create an OPENGL window invalid egl_data");
         }
 
         offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
+        ຖ້າ (offscreen_window->egl_surface == EGL_NO_SURFACE) {
+            ສົ່ງຄືນ SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
                                 _this->egl_data->egl_display);
         }
-    } else {
+    } ບໍ່ດັ່ງນັ້ນ {
         offscreen_window->egl_surface = EGL_NO_SURFACE;
     }
 #endif // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    ສົ່ງຄືນ true;
 }
 
 void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *offscreen_window = window->internal;
 
-    if (offscreen_window) {
+    ຖ້າ (offscreen_window) {
 #ifdef SDL_VIDEO_OPENGL_EGL
         SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
 #endif

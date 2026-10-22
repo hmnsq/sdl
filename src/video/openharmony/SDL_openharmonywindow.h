@@ -35,13 +35,13 @@ extern void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *w
 extern void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern SDL_Window *OPENHARMONY_Window;
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
+    ຈຳນວນເຕັມ has_swap_interval;  // Save/Restore the swap interval / vsync
+    ຈຳນວນເຕັມ swap_interval;
 #endif
     bool backup_done;
     void *native_xcomponent;

@@ -35,7 +35,7 @@
 #define Cocoa_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define Cocoa_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 
-extern bool Cocoa_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool Cocoa_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext Cocoa_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);

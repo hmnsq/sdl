@@ -21,7 +21,7 @@
 #ifndef SDL_uikitopengles_
 #define SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ຖ້າ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #include "../SDL_sysvideo.h"
 
@@ -30,8 +30,8 @@ extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
 extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
+extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 
 extern void UIKit_GL_RestoreCurrentContext(void);
 

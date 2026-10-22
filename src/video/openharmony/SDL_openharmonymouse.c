@@ -31,26 +31,26 @@
 
 static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+ສົ່ງຄືນ false;
+#ຖ້າ 0
+    ຖ້າ (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    ຖ້າ (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        ຖ້າ (data->custom_cursor) {
+            ຖ້າ (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                ສົ່ງຄືນ SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } ບໍ່ດັ່ງນັ້ນ {
+            ຖ້າ (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                ສົ່ງຄືນ SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        ສົ່ງຄືນ true;
+    } ບໍ່ດັ່ງນັ້ນ {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        ສົ່ງຄືນ false;
     }
 #endif
 }

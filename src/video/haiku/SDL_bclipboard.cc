@@ -34,30 +34,30 @@
 extern "C" {
 #endif
 
-bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const var_na *text)
 {
     BMessage *clip = NULL;
-    if (be_clipboard->Lock()) {
+    ຖ້າ (be_clipboard->Lock()) {
         be_clipboard->Clear();
-        if ((clip = be_clipboard->Data())) {
+        ຖ້າ ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
             ssize_t asciiLength = 0;
-            for (; text[asciiLength] != 0; ++asciiLength) {}
+            ສຳລັບ (; text[asciiLength] != 0; ++asciiLength) {}
             clip->AddData("text/plain", B_MIME_TYPE, text, asciiLength);
             be_clipboard->Commit();
         }
         be_clipboard->Unlock();
     }
-    return true;
+    ສົ່ງຄືນ true;
 }
 
-char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
+var_na *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
     BMessage *clip = NULL;
-    const char *text = NULL;
+    const var_na *text = NULL;
     ssize_t length;
-    char *result;
-    if (be_clipboard->Lock()) {
-        if ((clip = be_clipboard->Data())) {
+    var_na *result;
+    ຖ້າ (be_clipboard->Lock()) {
+        ຖ້າ ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
             clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text,
                 &length);
@@ -65,25 +65,25 @@ char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
         be_clipboard->Unlock();
     }
 
-    if (!text) {
+    ຖ້າ (!text) {
         result = SDL_strdup("");
-    } else {
+    } ບໍ່ດັ່ງນັ້ນ {
         // Copy the data and pass on to SDL
-        result = (char *)SDL_malloc((length + 1) * sizeof(char));
+        result = (var_na *)SDL_malloc((length + 1) * parimaa_na(var_na));
         SDL_strlcpy(result, text, length + 1);
     }
 
-    return result;
+    ສົ່ງຄືນ result;
 }
 
 bool HAIKU_HasClipboardText(SDL_VideoDevice *_this) {
     bool result = false;
-    char *text = HAIKU_GetClipboardText(_this);
-    if (text) {
+    var_na *text = HAIKU_GetClipboardText(_this);
+    ຖ້າ (text) {
         result = (text[0] != '\0');
         SDL_free(text);
     }
-    return result;
+    ສົ່ງຄືນ result;
 }
 
 #ifdef __cplusplus

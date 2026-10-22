@@ -23,15 +23,15 @@
 #ifndef SDL_offscreenvulkan_h
 #define SDL_offscreenvulkan_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
+#ຖ້າ defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
 
 #include "../SDL_sysvideo.h"
 
-extern bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-extern void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+extern var_na const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
+extern bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const sa_nracanaa VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
+extern void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const sa_nracanaa VkAllocationCallbacks *allocator);
 
 #endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
 

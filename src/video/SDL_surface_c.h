@@ -35,17 +35,17 @@ typedef Uint32 SDL_SurfaceDataFlags;
 #define SDL_INTERNAL_SURFACE_RLEACCEL   0x00000004u /**< Surface is RLE encoded */
 
 // Surface internal data definition
-struct SDL_Surface
+sa_nracanaa SDL_Surface
 {
     // Public API definition
     SDL_SurfaceFlags flags;     /**< The flags of the surface, read-only */
     SDL_PixelFormat format;     /**< The format of the surface, read-only */
-    int w;                      /**< The width of the surface, read-only. */
-    int h;                      /**< The height of the surface, read-only. */
-    int pitch;                  /**< The distance in bytes between rows of pixels, read-only */
+    ຈຳນວນເຕັມ w;                      /**< The width of the surface, read-only. */
+    ຈຳນວນເຕັມ h;                      /**< The height of the surface, read-only. */
+    ຈຳນວນເຕັມ pitch;                  /**< The distance in bytes between rows of pixels, read-only */
     void *pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
 
-    int refcount;               /**< Application reference count, used when freeing surface */
+    ຈຳນວນເຕັມ refcount;               /**< Application reference count, used when freeing surface */
 
     void *reserved;             /**< Reserved for internal use */
 
@@ -67,11 +67,11 @@ struct SDL_Surface
     SDL_Palette *palette;
 
     /** Alternate representation of images */
-    int num_images;
+    ຈຳນວນເຕັມ num_images;
     SDL_Surface **images;
 
     /** information needed for surfaces requiring locks */
-    int locked;
+    ຈຳນວນເຕັມ locked;
 
     /** clipping information */
     SDL_Rect clip_rect;
@@ -86,13 +86,13 @@ struct SDL_Surface
 // Surface functions
 extern bool SDL_SurfaceValid(SDL_Surface *surface);
 extern void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface);
-extern bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, int width, int height, size_t *size, size_t *pitch, bool minimalPitch);
+extern bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, ຈຳນວນເຕັມ width, ຈຳນວນເຕັມ height, size_t *size, size_t *pitch, bool minimalPitch);
 extern float SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace);
 extern float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace);
 extern float SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace);
 extern float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace);
-extern SDL_Surface *SDL_CreateSurfaceZeroed(int width, int height, SDL_PixelFormat format);
-extern SDL_Surface *SDL_CreateSurfaceUninitialized(int width, int height, SDL_PixelFormat format);
+extern SDL_Surface *SDL_CreateSurfaceZeroed(ຈຳນວນເຕັມ width, ຈຳນວນເຕັມ height, SDL_PixelFormat format);
+extern SDL_Surface *SDL_CreateSurfaceUninitialized(ຈຳນວນເຕັມ width, ຈຳນວນເຕັມ height, SDL_PixelFormat format);
 extern SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale);
 extern SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format);
 extern bool SDL_IsBMP(SDL_IOStream *src);

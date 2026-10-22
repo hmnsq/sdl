@@ -39,7 +39,7 @@
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-typedef struct SDL_GLDriverData
+typedef sa_nracanaa SDL_GLDriverData
 {
     EGLDisplay display;
     EGLContext context;
@@ -48,7 +48,7 @@ typedef struct SDL_GLDriverData
 } SDL_GLDriverData;
 #endif
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     bool egl_initialized; // OpenGL device initialization status
     uint32_t egl_refcount;    // OpenGL reference count
@@ -57,7 +57,7 @@ struct SDL_VideoData
     bool ime_active;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     bool uses_gles;
     SceUID buffer_uid;
@@ -93,19 +93,19 @@ extern void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 #ifdef SDL_VIDEO_DRIVER_VITA
 #ifdef SDL_VIDEO_VITA_PVR_OGL
 // OpenGL functions
-extern bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 #endif
 
 // OpenGLES functions
-extern bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
+extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 extern void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, ຈຳນວນເຕັມ interval);
+extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, ຈຳນວນເຕັມ *interval);
 extern bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 #endif

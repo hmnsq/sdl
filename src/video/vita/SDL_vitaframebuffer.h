@@ -20,6 +20,6 @@
 */
 #include "SDL_internal.h"
 
-extern bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
+extern bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, ຈຳນວນເຕັມ *pitch);
+extern bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, ຈຳນວນເຕັມ numrects);
 extern void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);

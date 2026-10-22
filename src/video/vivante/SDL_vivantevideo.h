@@ -30,34 +30,34 @@
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
 #include <gc_vdk.h>
-#else
+#ບໍ່ດັ່ງນັ້ນ
 #include <EGL/egl.h>
 #endif
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     vdkPrivate vdk_private;
-#else
+#ບໍ່ດັ່ງນັ້ນ
     SDL_SharedObject *egl_handle; // EGL shared library handle
     EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(ຈຳນວນເຕັມ DisplayIndex);
+    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, ຈຳນວນເຕັມ *Width, ຈຳນວນເຕັມ *Height);
+    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, ຈຳນວນເຕັມ *Width, ຈຳນວນເຕັມ *Height, unsigned long *Physical, ຈຳນວນເຕັມ *Stride, ຈຳນວນເຕັມ *bits_per_pixel);
     void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
+    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, ຈຳນວນເຕັມ X, ຈຳນວນເຕັມ Y, ຈຳນວນເຕັມ Width, ຈຳນວນເຕັມ Height);
+    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, ຈຳນວນເຕັມ *X, ຈຳນວນເຕັມ *Y, ຈຳນວນເຕັມ *Width, ຈຳນວນເຕັມ *Height);
+    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, ຈຳນວນເຕັມ *X, ຈຳນວນເຕັມ *Y, ຈຳນວນເຕັມ *Width, ຈຳນວນເຕັມ *Height, ຈຳນວນເຕັມ *bits_per_pixel, unsigned ຈຳນວນເຕັມ *Offset);
     void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
 #endif
 };
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     EGLNativeDisplayType native_display;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     EGLNativeWindowType native_window;
     EGLSurface egl_surface;

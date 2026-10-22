@@ -21,7 +21,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ຖ້າ defined(SDL_VIDEO_DRIVER_X11)
 
 #include "SDL_x11video.h"
 #include "SDL_x11xtest.h"
@@ -31,14 +31,14 @@ static bool xtest_initialized = false;
 void X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#ຖ້າ 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    ຈຳນວນເຕັມ event, error;
+    ຈຳນວນເຕັມ opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    ຖ້າ (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        ສົ່ງຄືນ;
     }
 
     xtest_initialized = true;
@@ -47,37 +47,37 @@ void X11_InitXTest(SDL_VideoDevice *_this)
 
 bool X11_XTestIsInitialized(void)
 {
-    return xtest_initialized;
+    ສົ່ງຄືນ xtest_initialized;
 }
 
 bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    ຖ້າ (!X11_XTestIsInitialized()) {
+        ສົ່ງຄືນ false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    ຖ້າ (!displaydata) {
+        ສົ່ງຄືນ false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    ຈຳນວນເຕັມ motion_x = (ຈຳນວນເຕັມ)SDL_roundf(x);
+    ຈຳນວນເຕັມ motion_y = (ຈຳນວນເຕັມ)SDL_roundf(y);
+    ຖ້າ (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    ຖ້າ (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        ສົ່ງຄືນ false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    ສົ່ງຄືນ true;
+#ບໍ່ດັ່ງນັ້ນ
+    ສົ່ງຄືນ false;
 #endif
 }
 
