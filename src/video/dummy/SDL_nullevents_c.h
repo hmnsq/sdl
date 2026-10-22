@@ -22,10 +22,10 @@
 #ifndef SDL_nullevents_c_h_
 #define SDL_nullevents_c_h_
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#include "SDL_nullvideo.h"
+#अन्तर्भाव "SDL_nullvideo.h"
 
-extern void DUMMY_PumpEvents(SDL_VideoDevice *_this);
+बाह्य शून्य DUMMY_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_nullevents_c_h_
