@@ -30,18 +30,18 @@
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    ပြန်ပေး true;
 }
 
 void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
+    ကိန်းပြည့် input_type = 0;
+    ကိန်းပြည့် cap_type = 0;
+    အကယ်၍ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
+        input_type = (ကိန်းပြည့်)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
+    } မဟုတ်ပါက {
         switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
+            #define INPUTTYPE(sdl,oh) pak_sa SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; bha_nga
             INPUTTYPE(TEXT, 0);
             INPUTTYPE(TEXT_NAME, 0);
             INPUTTYPE(TEXT_EMAIL, 5);
@@ -51,26 +51,26 @@ void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, 
             INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
             INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
             #undef INPUTTYPE
-            default: break;
+            default: bha_nga;
         }
 
         switch (SDL_GetTextInputCapitalization(props)) {
-            #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
+            #define CAPTYPE(sdl,oh) pak_sa SDL_CAPITALIZE_##sdl: cap_type = oh; bha_nga
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
             CAPTYPE(WORDS, 2);
             CAPTYPE(SENTENCES, 1);
             #undef CAPTYPE
-            default: break;
+            default: bha_nga;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
+        #အကယ်၍ 0  // !!! FIXME
+        အကယ်၍ (SDL_GetTextInputAutocorrect(props)) {
             input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
         #endif
 
-        if (SDL_GetTextInputMultiline(props)) {
+        အကယ်၍ (SDL_GetTextInputMultiline(props)) {
             input_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
@@ -84,7 +84,7 @@ void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 
 void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (_this->screen_keyboard_shown) {
+    အကယ်၍ (_this->screen_keyboard_shown) {
         OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
     }
 }

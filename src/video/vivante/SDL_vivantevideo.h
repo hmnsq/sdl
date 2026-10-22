@@ -30,34 +30,34 @@
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
 #include <gc_vdk.h>
-#else
+#မဟုတ်ပါက
 #include <EGL/egl.h>
 #endif
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     vdkPrivate vdk_private;
-#else
+#မဟုတ်ပါက
     SDL_SharedObject *egl_handle; // EGL shared library handle
     EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(ကိန်းပြည့် DisplayIndex);
+    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, ကိန်းပြည့် *Width, ကိန်းပြည့် *Height);
+    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, ကိန်းပြည့် *Width, ကိန်းပြည့် *Height, unsigned long *Physical, ကိန်းပြည့် *Stride, ကိန်းပြည့် *bits_per_pixel);
     void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
+    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, ကိန်းပြည့် X, ကိန်းပြည့် Y, ကိန်းပြည့် Width, ကိန်းပြည့် Height);
+    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, ကိန်းပြည့် *X, ကိန်းပြည့် *Y, ကိန်းပြည့် *Width, ကိန်းပြည့် *Height);
+    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, ကိန်းပြည့် *X, ကိန်းပြည့် *Y, ကိန်းပြည့် *Width, ကိန်းပြည့် *Height, ကိန်းပြည့် *bits_per_pixel, unsigned ကိန်းပြည့် *Offset);
     void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
 #endif
 };
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     EGLNativeDisplayType native_display;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     EGLNativeWindowType native_window;
     EGLSurface egl_surface;

@@ -47,16 +47,16 @@ static SDL_VideoDevice *VIVANTE_Create(void)
     SDL_VideoData *data;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, parimaa_na(SDL_VideoDevice));
+    အကယ်၍ (!device) {
+        ပြန်ပေး NULL;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, parimaa_na(SDL_VideoData));
+    အကယ်၍ (!data) {
         SDL_free(device);
-        return NULL;
+        ပြန်ပေး NULL;
     }
 
     device->internal = data;
@@ -100,7 +100,7 @@ static SDL_VideoDevice *VIVANTE_Create(void)
 
     device->PumpEvents = VIVANTE_PumpEvents;
 
-    return device;
+    ပြန်ပေး device;
 }
 
 VideoBootStrap VIVANTE_bootstrap = {
@@ -121,12 +121,12 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     SDL_VideoDisplay display;
     SDL_DisplayMode mode;
     SDL_DisplayData *data;
-    int pitch = 0, bpp = 0;
+    ကိန်းပြည့် pitch = 0, bpp = 0;
     unsigned long pixels = 0;
 
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
-        return false;
+    data = (SDL_DisplayData *)SDL_calloc(1, parimaa_na(SDL_DisplayData));
+    အကယ်၍ (!data) {
+        ပြန်ပေး false;
     }
 
     SDL_zero(mode);
@@ -135,7 +135,7 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 
     vdkGetDisplayInfo(data->native_display, &mode.w, &mode.h, &pixels, &pitch,
                       &bpp);
-#else
+#မဟုတ်ပါက
     data->native_display = videodata->fbGetDisplayByIndex(0);
 
     videodata->fbGetDisplayInfo(data->native_display, &mode.w, &mode.h,
@@ -144,12 +144,12 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 
     switch (bpp) {
     default: // Is another format used?
-    case 32:
+    pak_sa 32:
         mode.format = SDL_PIXELFORMAT_ARGB8888;
-        break;
-    case 16:
+        bha_nga;
+    pak_sa 16:
         mode.format = SDL_PIXELFORMAT_RGB565;
-        break;
+        bha_nga;
     }
     // FIXME: How do we query refresh rate?
     mode.refresh_rate = 60.0f;
@@ -158,10 +158,10 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     display.name = VIVANTE_GetDisplayName(_this);
     display.desktop_mode = mode;
     display.internal = data;
-    if (SDL_AddVideoDisplay(&display, false) == 0) {
-        return false;
+    အကယ်၍ (SDL_AddVideoDisplay(&display, false) == 0) {
+        ပြန်ပေး false;
     }
-    return true;
+    ပြန်ပေး true;
 }
 
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
@@ -170,50 +170,50 @@ bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     videodata->vdk_private = vdkInitialize();
-    if (!videodata->vdk_private) {
-        return SDL_SetError("vdkInitialize() failed");
+    အကယ်၍ (!videodata->vdk_private) {
+        ပြန်ပေး SDL_SetError("vdkInitialize() failed");
     }
-#else
+#မဟုတ်ပါက
     videodata->egl_handle = SDL_LoadObject("libEGL.so.1");
-    if (!videodata->egl_handle) {
+    အကယ်၍ (!videodata->egl_handle) {
         videodata->egl_handle = SDL_LoadObject("libEGL.so");
-        if (!videodata->egl_handle) {
-            return false;
+        အကယ်၍ (!videodata->egl_handle) {
+            ပြန်ပေး false;
         }
     }
 #define LOAD_FUNC(TYPE, NAME)                                               \
     videodata->NAME = (TYPE)SDL_LoadFunction(videodata->egl_handle, #NAME); \
-    if (!videodata->NAME)                                                   \
-        return false;
+    အကယ်၍ (!videodata->NAME)                                                   \
+        ပြန်ပေး false;
 
     LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(void *), fbGetDisplay);
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(int), fbGetDisplayByIndex);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *), fbGetDisplayGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *, unsigned long *, int *, int *), fbGetDisplayInfo);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(ကိန်းပြည့်), fbGetDisplayByIndex);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, ကိန်းပြည့် *, ကိန်းပြည့် *), fbGetDisplayGeometry);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, ကိန်းပြည့် *, ကိန်းပြည့် *, unsigned long *, ကိန်းပြည့် *, ကိန်းပြည့် *), fbGetDisplayInfo);
     LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
-    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, int, int, int, int), fbCreateWindow);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *), fbGetWindowGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *, int *, unsigned int *), fbGetWindowInfo);
+    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, ကိန်းပြည့်, ကိန်းပြည့်, ကိန်းပြည့်, ကိန်းပြည့်), fbCreateWindow);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, ကိန်းပြည့် *, ကိန်းပြည့် *, ကိန်းပြည့် *, ကိန်းပြည့် *), fbGetWindowGeometry);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, ကိန်းပြည့် *, ကိန်းပြည့် *, ကိန်းပြည့် *, ကိန်းပြည့် *, ကိန်းပြည့် *, unsigned ကိန်းပြည့် *), fbGetWindowInfo);
     LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
 #endif
 
-    if (!VIVANTE_SetupPlatform(_this)) {
-        return false;
+    အကယ်၍ (!VIVANTE_SetupPlatform(_this)) {
+        ပြန်ပေး false;
     }
 
-    if (!VIVANTE_AddVideoDisplays(_this)) {
-        return false;
+    အကယ်၍ (!VIVANTE_AddVideoDisplays(_this)) {
+        ပြန်ပေး false;
     }
 
     VIVANTE_UpdateDisplayScale(_this);
 
 #ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+    အကယ်၍ (!SDL_EVDEV_Init()) {
+        ပြန်ပေး false;
     }
 #endif
 
-    return true;
+    ပြန်ပေး true;
 }
 
 void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
@@ -227,12 +227,12 @@ void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
     VIVANTE_CleanupPlatform(_this);
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    if (videodata->vdk_private) {
+    အကယ်၍ (videodata->vdk_private) {
         vdkExit(videodata->vdk_private);
         videodata->vdk_private = NULL;
     }
-#else
-    if (videodata->egl_handle) {
+#မဟုတ်ပါက
+    အကယ်၍ (videodata->egl_handle) {
         SDL_UnloadObject(videodata->egl_handle);
         videodata->egl_handle = NULL;
     }
@@ -248,9 +248,9 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
 
     // Allocate window internal data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, parimaa_na(SDL_WindowData));
+    အကယ်၍ (!data) {
+        ပြန်ပေး false;
     }
 
     // Setup driver data for this window
@@ -261,28 +261,28 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     data->native_window = vdkCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#else
+#မဟုတ်ပါက
     data->native_window = videodata->fbCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
 #endif
-    if (!data->native_window) {
-        return SDL_SetError("VIVANTE: Can't create native window");
+    အကယ်၍ (!data->native_window) {
+        ပြန်ပေး SDL_SetError("VIVANTE: Can't create native window");
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER, data->native_window);
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    အကယ်၍ (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("VIVANTE: Can't create EGL surface");
+        အကယ်၍ (data->egl_surface == EGL_NO_SURFACE) {
+            ပြန်ပေး SDL_SetError("VIVANTE: Can't create EGL surface");
         }
-    } else {
+    } မဟုတ်ပါက {
         data->egl_surface = EGL_NO_SURFACE;
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER, data->egl_surface);
 #endif
 
     // Window has been successfully created
-    return true;
+    ပြန်ပေး true;
 }
 
 void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -291,17 +291,17 @@ void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_WindowData *data;
 
     data = window->internal;
-    if (data) {
+    အကယ်၍ (data) {
 #ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
+        အကယ်၍ (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
         }
 #endif
 
-        if (data->native_window) {
+        အကယ်၍ (data->native_window) {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
             vdkDestroyWindow(data->native_window);
-#else
+#မဟုတ်ပါက
             videodata->fbDestroyWindow(data->native_window);
 #endif
         }
@@ -322,7 +322,7 @@ void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
-    return SDL_Unsupported();
+    ပြန်ပေး SDL_Unsupported();
 }
 
 void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)

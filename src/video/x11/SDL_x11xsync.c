@@ -21,42 +21,42 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
+#အကယ်၍ defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
 
 #include "SDL_x11video.h"
 #include "SDL_x11xsync.h"
 
 static bool xsync_initialized = false;
 
-static int query_xsync_version(Display *display, int major, int minor)
+static ကိန်းပြည့် query_xsync_version(Display *display, ကိန်းပြည့် major, ကိန်းပြည့် minor)
 {
     /* We don't care if this fails, so long as it sets major/minor on it's way out the door. */
     X11_XSyncInitialize(display, &major, &minor);
-    return (major * 1000) + minor;
+    ပြန်ပေး (major * 1000) + minor;
 }
 
-static bool xsync_version_atleast(const int version, const int wantmajor, const int wantminor)
+static bool xsync_version_atleast(const ကိန်းပြည့် version, const ကိန်းပြည့် wantmajor, const ကိန်းပြည့် wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    ပြန်ပေး version >= ((wantmajor * 1000) + wantminor);
 }
 
 void X11_InitXsync(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data =  _this->internal;
 
-    int version = 0;
-    int event, error;
-    int sync_opcode;
+    ကိန်းပြည့် version = 0;
+    ကိန်းပြည့် event, error;
+    ကိန်းပြည့် sync_opcode;
 
-    if (!SDL_X11_HAVE_XSYNC ||
+    အကယ်၍ (!SDL_X11_HAVE_XSYNC ||
         !X11_XQueryExtension(data->display, "SYNC", &sync_opcode, &event, &error)) {
-        return;
+        ပြန်ပေး;
     }
 
     /* We need at least 5.0 for barriers. */
     version = query_xsync_version(data->display, 5, 0);
-    if (!xsync_version_atleast(version, 3, 0)) {
-        return; /* X server does not support the version we want at all. */
+    အကယ်၍ (!xsync_version_atleast(version, 3, 0)) {
+        ပြန်ပေး; /* X server does not support the version we want at all. */
     }
 
     xsync_initialized = true;
@@ -64,7 +64,7 @@ void X11_InitXsync(SDL_VideoDevice *_this)
 
 bool X11_XsyncIsInitialized(void)
 {
-    return xsync_initialized;
+    ပြန်ပေး xsync_initialized;
 }
 
 bool X11_InitResizeSync(SDL_Window *window)
@@ -76,8 +76,8 @@ bool X11_InitResizeSync(SDL_Window *window)
     XSyncCounter counter;
     CARD32 counter_id;
 
-    if (!X11_XsyncIsInitialized()){
-        return SDL_Unsupported();
+    အကယ်၍ (!X11_XsyncIsInitialized()){
+        ပြန်ပေး SDL_Unsupported();
     }
 
     counter = X11_XSyncCreateCounter(display, (XSyncValue){0, 0});
@@ -86,15 +86,15 @@ bool X11_InitResizeSync(SDL_Window *window)
     data->resize_id.hi = 0;
     data->resize_in_progress = false;
 
-    if (counter == None){
-        return SDL_Unsupported();
+    အကယ်၍ (counter == None){
+        ပြန်ပေး SDL_Unsupported();
     }
 
     counter_id = counter;
     X11_XChangeProperty(display, data->xwindow, counter_prop, XA_CARDINAL, 32,
-                        PropModeReplace, (unsigned char *)&counter_id, 1);
+                        PropModeReplace, (unsigned var_na *)&counter_id, 1);
 
-    return true;
+    ပြန်ပေး true;
 }
 
 void X11_TermResizeSync(SDL_Window *window)
@@ -105,7 +105,7 @@ void X11_TermResizeSync(SDL_Window *window)
     XSyncCounter counter = data->resize_counter;
 
     X11_XDeleteProperty(display, data->xwindow, counter_prop);
-    if (counter != None) {
+    အကယ်၍ (counter != None) {
         X11_XSyncDestroyCounter(display, counter);
     }
 }
@@ -123,7 +123,7 @@ void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event)
 {
     SDL_WindowData *data = window->internal;
 
-    if (data->resize_id.lo || data->resize_id.hi) {
+    အကယ်၍ (data->resize_id.lo || data->resize_id.hi) {
         data->resize_in_progress = true;
     }
 }
@@ -134,8 +134,8 @@ void X11_HandlePresent(SDL_Window *window)
     Display *display = data->videodata->display;
     XSyncCounter counter = data->resize_counter;
 
-    if ((counter == None) || (!data->resize_in_progress)) {
-        return;
+    အကယ်၍ ((counter == None) || (!data->resize_in_progress)) {
+        ပြန်ပေး;
     }
 
     X11_XSyncSetCounter(display, counter, data->resize_id);

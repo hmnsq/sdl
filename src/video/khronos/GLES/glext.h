@@ -533,7 +533,7 @@ GL_API void GL_APIENTRY glResolveMultisampleFramebufferAPPLE (void);
 
 #ifndef GL_APPLE_sync
 #define GL_APPLE_sync 1
-typedef struct __GLsync *GLsync;
+typedef sa_nracanaa __GLsync *GLsync;
 typedef khronos_uint64_t GLuint64;
 typedef khronos_int64_t GLint64;
 #define GL_SYNC_OBJECT_APPLE              0x8A53
@@ -597,7 +597,7 @@ GL_API void GL_APIENTRY glGetSyncivAPPLE (GLsync sync, GLenum pname, GLsizei cou
 
 #ifndef GL_EXT_debug_marker
 #define GL_EXT_debug_marker 1
-typedef char GLchar;
+typedef var_na GLchar;
 typedef void (GL_APIENTRYP PFNGLINSERTEVENTMARKEREXTPROC) (GLsizei length, const GLchar *marker);
 typedef void (GL_APIENTRYP PFNGLPUSHGROUPMARKEREXTPROC) (GLsizei length, const GLchar *marker);
 typedef void (GL_APIENTRYP PFNGLPOPGROUPMARKEREXTPROC) (void);

@@ -56,16 +56,16 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, parimaa_na(SDL_VideoDevice));
+    အကယ်၍ (!device) {
+        ပြန်ပေး NULL;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, parimaa_na(SDL_VideoData));
+    အကယ်၍ (!data) {
         SDL_free(device);
-        return NULL;
+        ပြန်ပေး NULL;
     }
 
     device->internal = data;
@@ -90,7 +90,7 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ပြန်ပေး device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
@@ -102,24 +102,24 @@ VideoBootStrap RISCOS_bootstrap = {
 
 static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    အကယ်၍ (!RISCOS_InitEvents(_this)) {
+        ပြန်ပေး false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    အကယ်၍ (!RISCOS_InitMouse(_this)) {
+        ပြန်ပေး false;
     }
 
     // Assume we have a mouse and keyboard
     SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
     SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    အကယ်၍ (!RISCOS_InitModes(_this)) {
+        ပြန်ပေး false;
     }
 
     // We're done!
-    return true;
+    ပြန်ပေး true;
 }
 
 static void RISCOS_VideoQuit(SDL_VideoDevice *_this)

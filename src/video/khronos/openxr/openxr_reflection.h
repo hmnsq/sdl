@@ -10487,7 +10487,7 @@ XR_ENUM_STR(XrResult);
     _(XrAppConsumedSwapchainImageReleaseInfoEXT, XR_TYPE_APP_CONSUMED_SWAPCHAIN_IMAGE_RELEASE_INFO_EXT) \
 
 
-#if defined(XR_USE_GRAPHICS_API_D3D11)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_D3D11)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_D3D11 is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_D3D11(_) \
@@ -10495,11 +10495,11 @@ XR_ENUM_STR(XrResult);
     _(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
     _(XrGraphicsRequirementsD3D11KHR, XR_TYPE_GRAPHICS_REQUIREMENTS_D3D11_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_D3D11(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_D3D12)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_D3D12)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_D3D12 is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_D3D12(_) \
@@ -10507,11 +10507,11 @@ XR_ENUM_STR(XrResult);
     _(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
     _(XrGraphicsRequirementsD3D12KHR, XR_TYPE_GRAPHICS_REQUIREMENTS_D3D12_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_D3D12(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_METAL)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_METAL)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_METAL is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_METAL(_) \
@@ -10519,62 +10519,62 @@ XR_ENUM_STR(XrResult);
     _(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
     _(XrGraphicsRequirementsMetalKHR, XR_TYPE_GRAPHICS_REQUIREMENTS_METAL_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_METAL(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL(_) \
     _(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
     _(XrGraphicsRequirementsOpenGLKHR, XR_TYPE_GRAPHICS_REQUIREMENTS_OPENGL_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_WAYLAND)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_WAYLAND)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL and XR_USE_PLATFORM_WAYLAND are defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_WAYLAND(_) \
     _(XrGraphicsBindingOpenGLWaylandKHR, XR_TYPE_GRAPHICS_BINDING_OPENGL_WAYLAND_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_WAYLAND(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_WIN32)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_WIN32)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL and XR_USE_PLATFORM_WIN32 are defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_WIN32(_) \
     _(XrGraphicsBindingOpenGLWin32KHR, XR_TYPE_GRAPHICS_BINDING_OPENGL_WIN32_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_WIN32(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_XCB)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_XCB)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL and XR_USE_PLATFORM_XCB are defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_XCB(_) \
     _(XrGraphicsBindingOpenGLXcbKHR, XR_TYPE_GRAPHICS_BINDING_OPENGL_XCB_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_XCB(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_XLIB)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL) && defined(XR_USE_PLATFORM_XLIB)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL and XR_USE_PLATFORM_XLIB are defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_XLIB(_) \
     _(XrGraphicsBindingOpenGLXlibKHR, XR_TYPE_GRAPHICS_BINDING_OPENGL_XLIB_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_XR_USE_PLATFORM_XLIB(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL_ES)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL_ES is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_ES(_) \
@@ -10582,21 +10582,21 @@ XR_ENUM_STR(XrResult);
     _(XrGraphicsRequirementsOpenGLESKHR, XR_TYPE_GRAPHICS_REQUIREMENTS_OPENGL_ES_KHR) \
     _(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_ES(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES) && defined(XR_USE_PLATFORM_ANDROID)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_OPENGL_ES) && defined(XR_USE_PLATFORM_ANDROID)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_OPENGL_ES and XR_USE_PLATFORM_ANDROID are defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_ES_XR_USE_PLATFORM_ANDROID(_) \
     _(XrGraphicsBindingOpenGLESAndroidKHR, XR_TYPE_GRAPHICS_BINDING_OPENGL_ES_ANDROID_KHR) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_OPENGL_ES_XR_USE_PLATFORM_ANDROID(_)
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
+#အကယ်၍ defined(XR_USE_GRAPHICS_API_VULKAN)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_GRAPHICS_API_VULKAN is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_VULKAN(_) \
@@ -10611,11 +10611,11 @@ XR_ENUM_STR(XrResult);
     _(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
     _(XrVulkanSwapchainCreateInfoMETA, XR_TYPE_VULKAN_SWAPCHAIN_CREATE_INFO_META) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_GRAPHICS_API_VULKAN(_)
 #endif
 
-#if defined(XR_USE_PLATFORM_ANDROID)
+#အကယ်၍ defined(XR_USE_PLATFORM_ANDROID)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_PLATFORM_ANDROID is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_ANDROID(_) \
@@ -10627,37 +10627,37 @@ XR_ENUM_STR(XrResult);
     _(XrAnchorSharingTokenANDROID, XR_TYPE_ANCHOR_SHARING_TOKEN_ANDROID) \
     _(XrSystemAnchorSharingExportPropertiesANDROID, XR_TYPE_SYSTEM_ANCHOR_SHARING_EXPORT_PROPERTIES_ANDROID) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_ANDROID(_)
 #endif
 
-#if defined(XR_USE_PLATFORM_EGL)
+#အကယ်၍ defined(XR_USE_PLATFORM_EGL)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_PLATFORM_EGL is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_EGL(_) \
     _(XrGraphicsBindingEGLMNDX, XR_TYPE_GRAPHICS_BINDING_EGL_MNDX) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_EGL(_)
 #endif
 
-#if defined(XR_USE_PLATFORM_ML)
+#အကယ်၍ defined(XR_USE_PLATFORM_ML)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_PLATFORM_ML is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_ML(_) \
     _(XrCoordinateSpaceCreateInfoML, XR_TYPE_COORDINATE_SPACE_CREATE_INFO_ML) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_ML(_)
 #endif
 
-#if defined(XR_USE_PLATFORM_WIN32)
+#အကယ်၍ defined(XR_USE_PLATFORM_WIN32)
 /// Implementation detail of XR_LIST_STRUCTURE_TYPES()
 /// Structure types available only when XR_USE_PLATFORM_WIN32 is defined
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_WIN32(_) \
     _(XrHolographicWindowAttachmentMSFT, XR_TYPE_HOLOGRAPHIC_WINDOW_ATTACHMENT_MSFT) \
 
-#else
+#မဟုတ်ပါက
 #define XR_LIST_STRUCTURE_TYPES_XR_USE_PLATFORM_WIN32(_)
 #endif
 

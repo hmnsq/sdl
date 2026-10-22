@@ -21,7 +21,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#အကယ်၍ defined(SDL_VIDEO_DRIVER_X11)
 
 #include "SDL_x11video.h"
 #include "SDL_x11xtest.h"
@@ -31,14 +31,14 @@ static bool xtest_initialized = false;
 void X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#အကယ်၍ 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    ကိန်းပြည့် event, error;
+    ကိန်းပြည့် opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    အကယ်၍ (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        ပြန်ပေး;
     }
 
     xtest_initialized = true;
@@ -47,37 +47,37 @@ void X11_InitXTest(SDL_VideoDevice *_this)
 
 bool X11_XTestIsInitialized(void)
 {
-    return xtest_initialized;
+    ပြန်ပေး xtest_initialized;
 }
 
 bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    အကယ်၍ (!X11_XTestIsInitialized()) {
+        ပြန်ပေး false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    အကယ်၍ (!displaydata) {
+        ပြန်ပေး false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    ကိန်းပြည့် motion_x = (ကိန်းပြည့်)SDL_roundf(x);
+    ကိန်းပြည့် motion_y = (ကိန်းပြည့်)SDL_roundf(y);
+    အကယ်၍ (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    အကယ်၍ (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        ပြန်ပေး false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    ပြန်ပေး true;
+#မဟုတ်ပါက
+    ပြန်ပေး false;
 #endif
 }
 

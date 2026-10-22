@@ -25,23 +25,23 @@
 
 #include <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#အကယ်၍ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
+typedef sa_nracanaa xcb_connection_t xcb_connection_t;
 typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
+extern var_na const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
 extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                              SDL_Window *window,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             const sa_nracanaa VkAllocationCallbacks *allocator,
                              VkSurfaceKHR *surface);
 extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
+                               const sa_nracanaa VkAllocationCallbacks *allocator);
 extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,

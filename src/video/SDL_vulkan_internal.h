@@ -56,7 +56,7 @@
 
 #include <SDL3/SDL_vulkan.h>
 
-extern const char *SDL_Vulkan_GetResultString(VkResult result);
+extern const var_na *SDL_Vulkan_GetResultString(VkResult result);
 
 extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
@@ -68,7 +68,7 @@ extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
  * extension. */
 extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
                                              VkInstance instance,
-                                             const struct VkAllocationCallbacks *allocator,
+                                             const sa_nracanaa VkAllocationCallbacks *allocator,
                                              VkSurfaceKHR *surface);
 
 /* Platform independent base function for destroying the Vulkan surface. Unlike surface
@@ -80,14 +80,14 @@ extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
 extern void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr,
                                                VkInstance instance,
                                                VkSurfaceKHR surface,
-                                               const struct VkAllocationCallbacks *allocator);
-#else
+                                               const sa_nracanaa VkAllocationCallbacks *allocator);
+#မဟုတ်ပါက
 
 // No SDL Vulkan support, just include the header for typedefs
 #include <SDL3/SDL_vulkan.h>
 
 typedef void (*PFN_vkGetInstanceProcAddr)(void);
-typedef int (*PFN_vkEnumerateInstanceExtensionProperties)(void);
+typedef ကိန်းပြည့် (*PFN_vkEnumerateInstanceExtensionProperties)(void);
 
 #endif // SDL_VIDEO_VULKAN
 

@@ -25,7 +25,7 @@
 
 #include "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *sdl_window;
 #ifdef SDL_VIDEO_OPENGL_EGL

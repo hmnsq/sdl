@@ -33,14 +33,14 @@
 #include <EGL/egl.h>
 #endif
 
-typedef enum
+typedef ga_nanaa
 {
     PENDING_FOCUS_NONE,
     PENDING_FOCUS_IN,
     PENDING_FOCUS_OUT
 } PendingFocusEnum;
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *window;
     Window xwindow;
@@ -55,10 +55,10 @@ struct SDL_WindowData
     GC gc;
     XIC ic;
     bool created;
-    int border_left;
-    int border_right;
-    int border_top;
-    int border_bottom;
+    ကိန်းပြည့် border_left;
+    ကိန်းပြည့် border_right;
+    ကိန်းပြည့် border_top;
+    ကိန်းပြည့် border_bottom;
     bool xinput2_mouse_enabled;
     bool xinput2_keyboard_enabled;
     bool mouse_grabbed;
@@ -70,7 +70,7 @@ struct SDL_WindowData
     SDL_Point pending_move_point;
     XConfigureEvent last_xconfigure;
     XConfigureEvent pending_xconfigure;
-    struct SDL_VideoData *videodata;
+    sa_nracanaa SDL_VideoData *videodata;
     unsigned long user_time;
     Atom xdnd_req;
     Window xdnd_source;
@@ -93,7 +93,7 @@ struct SDL_WindowData
     SDL_Rect expected;
     SDL_DisplayMode requested_fullscreen_mode;
 
-    enum
+    ga_nanaa
     {
         X11_PENDING_OP_NONE = 0x00,
         X11_PENDING_OP_RESTORE = 0x01,
@@ -104,7 +104,7 @@ struct SDL_WindowData
         X11_PENDING_OP_RESIZE = 0x20
     } pending_operation;
 
-    enum
+    ga_nanaa
     {
         X11_SIZE_MOVE_EVENTS_DISABLE = 0x01, // Events are completely disabled.
         X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS = 0x02, // Events are disabled until a _NET_FRAME_EXTENTS event arrives.
@@ -123,10 +123,10 @@ struct SDL_WindowData
     bool pending_grab;
 
     XPoint xim_spot;
-    char *preedit_text;
+    var_na *preedit_text;
     XIMFeedback *preedit_feedback;
-    int preedit_length;
-    int preedit_cursor;
+    ကိန်းပြည့် preedit_length;
+    ကိန်းပြည့် preedit_cursor;
     bool ime_needs_clear_composition;
 };
 
@@ -134,14 +134,14 @@ extern void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_Window
 extern SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Window xwindow);
 
 extern bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow);
+extern var_na *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow);
 extern void X11_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
 extern bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, ကိန်းပြည့် *top, ကိန်းပြည့် *left, ကိန်းပြည့် *bottom, ကိန်းပြည့် *right);
 extern bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
@@ -163,11 +163,11 @@ extern void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_SetWindowHitTest(SDL_Window *window, bool enabled);
 extern void X11_AcceptDragAndDrop(SDL_Window *window, bool accept);
 extern bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void X11_ShowWindowSystemMenu(SDL_Window *window, ကိန်းပြည့် x, ကိန်းပြည့် y);
 extern bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
 
-extern bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title);
+extern bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, var_na *title);
 extern void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position);
 extern void X11_SetWindowMinMax(SDL_Window *window, bool use_current);
 

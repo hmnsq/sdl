@@ -5,7 +5,7 @@
 #define PRECISION 6
 #define PRECISION_FACTOR (1<<PRECISION)
 
-typedef struct
+typedef sa_nracanaa
 {
 	uint8_t y_shift;
 	int16_t matrix[3][3];
@@ -14,7 +14,7 @@ typedef struct
 // |U| = |  128  | + 1/PRECISION_FACTOR * |matrix[1][0] matrix[1][1] matrix[1][2]| * |G|
 // |V|   |  128  |                        |matrix[2][0] matrix[2][1] matrix[2][2]|   |B|
 
-typedef struct
+typedef sa_nracanaa
 {
 	uint8_t y_shift;
 	int16_t y_factor;

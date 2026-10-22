@@ -30,21 +30,21 @@
 #include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, ကိန်းပြည့် *buttonID)
 {
 #ifdef SDL_VIDEO_RENDER_VITA_GXM
     SceMsgDialogParam param;
     SceMsgDialogUserMessageParam msgParam;
     SceMsgDialogButtonsParam buttonParam;
     SceDisplayFrameBuf dispparam;
-    char message[512];
+    var_na message[512];
 
     SceMsgDialogResult dialog_result;
     SceCommonDialogErrorCode init_result;
     bool setup_minimal_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    အကယ်၍ (messageboxdata->numbuttons > 3) {
+        ပြန်ပေး false;
     }
 
     SDL_zero(param);
@@ -52,30 +52,30 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
     param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
 
     SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_snprintf(message, parimaa_na(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
 
     msgParam.msg = (const SceChar8 *)message;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
+    အကယ်၍ (messageboxdata->numbuttons == 3) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
         msgParam.buttonParam = &buttonParam;
         buttonParam.msg1 = messageboxdata->buttons[0].text;
         buttonParam.msg2 = messageboxdata->buttons[1].text;
         buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
+    } မဟုတ်ပါက အကယ်၍ (messageboxdata->numbuttons == 2) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
+    } မဟုတ်ပါက အကယ်၍ (messageboxdata->numbuttons == 1) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
     }
     param.userMsgParam = &msgParam;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.size = parimaa_na(dispparam);
 
     init_result = sceMsgDialogInit(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+    အကယ်၍ (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
         gxm_minimal_init_for_common_dialog();
         init_result = sceMsgDialogInit(&param);
         setup_minimal_gxm = true;
@@ -83,42 +83,42 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+    အကယ်၍ (init_result >= 0) {
+        နေစဉ် (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
             gxm_swap_for_common_dialog();
         }
         SDL_zero(dialog_result);
         sceMsgDialogGetResult(&dialog_result);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } မဟုတ်ပါက အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } မဟုတ်ပါက အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } မဟုတ်ပါက အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } မဟုတ်ပါက အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } မဟုတ်ပါက အကယ်၍ (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
         sceMsgDialogTerm();
-    } else {
-        return false;
+    } မဟုတ်ပါက {
+        ပြန်ပေး false;
     }
 
     gxm_term_for_common_dialog();
 
-    if (setup_minimal_gxm) {
+    အကယ်၍ (setup_minimal_gxm) {
         gxm_minimal_term_for_common_dialog();
     }
 
-    return true;
-#else
+    ပြန်ပေး true;
+#မဟုတ်ပါက
     (void)messageboxdata;
     (void)buttonID;
-    return SDL_Unsupported();
+    ပြန်ပေး SDL_Unsupported();
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 }
 

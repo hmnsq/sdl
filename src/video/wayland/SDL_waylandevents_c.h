@@ -32,14 +32,14 @@
 #include "SDL_waylandwindow.h"
 #include "SDL_waylanddatamanager.h"
 
-enum SDL_WaylandAxisEvent
+ga_nanaa SDL_WaylandAxisEvent
 {
     SDL_WAYLAND_AXIS_EVENT_CONTINUOUS = 0,
     SDL_WAYLAND_AXIS_EVENT_DISCRETE,
     SDL_WAYLAND_AXIS_EVENT_VALUE120
 };
 
-typedef struct
+typedef sa_nracanaa
 {
     Sint32 repeat_rate;     // Repeat rate in range of [1, 1000] character(s) per second
     Sint32 repeat_delay_ms; // Time to first repeat event in milliseconds
@@ -51,42 +51,42 @@ typedef struct
     Uint64 base_time_ns;      // Key press time as reported by the Wayland API in nanoseconds
     Uint64 sdl_press_time_ns; // Key press time expressed in SDL ticks
     Uint64 next_repeat_ns;    // Next repeat event in nanoseconds
-    char text[8];
+    var_na text[8];
 } SDL_WaylandKeyboardRepeat;
 
-typedef struct SDL_WaylandCursorState
+typedef sa_nracanaa SDL_WaylandCursorState
 {
     SDL_CursorData *current_cursor;
-    struct wp_cursor_shape_device_v1 *cursor_shape;
-    struct wl_surface *surface;
-    struct wp_viewport *viewport;
+    sa_nracanaa wp_cursor_shape_device_v1 *cursor_shape;
+    sa_nracanaa wl_surface *surface;
+    sa_nracanaa wp_viewport *viewport;
 
-    double scale;
+    dviguu_na scale;
 
     // Pointer to the internal data for system cursors.
     void *system_cursor_handle;
 
     // The cursor animation thread lock must be held when modifying this.
-    struct wl_callback *frame_callback;
+    sa_nracanaa wl_callback *frame_callback;
 
     Uint64 last_frame_callback_time_ms;
     Uint32 current_frame_time_ms;
 
     // 0 or greater if a buffer is attached, -1 if in the reset state.
-    int current_frame;
+    ကိန်းပြည့် current_frame;
 
     SDL_HitTestResult hit_test_result;
 } SDL_WaylandCursorState;
 
-typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
+typedef sa_nracanaa SDL_WaylandPenTool  // a stylus, etc, on a tablet.
 {
     SDL_PenID instance_id;
     SDL_PenInfo info;
     SDL_WindowData *focus;
-    struct zwp_tablet_tool_v2 *wltool;
+    sa_nracanaa zwp_tablet_tool_v2 *wltool;
     Uint32 proximity_serial;
 
-    struct
+    sa_nracanaa
     {
         float x;
         float y;
@@ -94,14 +94,14 @@ typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
         float axes[SDL_PEN_AXIS_COUNT];
         Uint32 axes_set;
 
-        enum
+        ga_nanaa
         {
             WAYLAND_TABLET_TOOL_BUTTON_NONE = 0,
             WAYLAND_TABLET_TOOL_BUTTON_DOWN,
             WAYLAND_TABLET_TOOL_BUTTON_UP
         } buttons[3];
 
-        enum
+        ga_nanaa
         {
             WAYLAND_TABLET_TOOL_STATE_NONE = 0,
             WAYLAND_TABLET_TOOL_STATE_DOWN,
@@ -115,30 +115,30 @@ typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
     } frame;
 
     SDL_WaylandCursorState cursor_state;
-    struct wl_list link;
+    sa_nracanaa wl_list link;
 } SDL_WaylandPenTool;
 
-typedef struct SDL_WaylandSeat
+typedef sa_nracanaa SDL_WaylandSeat
 {
     SDL_VideoData *display;
-    struct wl_seat *wl_seat;
+    sa_nracanaa wl_seat *wl_seat;
     SDL_WaylandDataDevice *data_device;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
-    char *name;
-    struct wl_list link;
+    var_na *name;
+    sa_nracanaa wl_list link;
 
     Uint32 last_implicit_grab_serial; // The serial of the last implicit grab event for window activation and selection data.
     Uint32 registry_id;               // The ID of the Wayland seat object,
 
-    struct
+    sa_nracanaa
     {
-        struct wl_keyboard *wl_keyboard;
-        struct zwp_input_timestamps_v1 *timestamps;
-        struct zwp_keyboard_shortcuts_inhibitor_v1 *key_inhibitor;
+        sa_nracanaa wl_keyboard *wl_keyboard;
+        sa_nracanaa zwp_input_timestamps_v1 *timestamps;
+        sa_nracanaa zwp_keyboard_shortcuts_inhibitor_v1 *key_inhibitor;
         SDL_WindowData *focus;
         SDL_Keymap **sdl_keymap;
-        struct wl_array reserved_scancodes;
-        char *current_locale;
+        sa_nracanaa wl_array reserved_scancodes;
+        var_na *current_locale;
 
         SDL_WaylandKeyboardRepeat repeat;
         Uint64 highres_timestamp_ns;
@@ -150,12 +150,12 @@ typedef struct SDL_WaylandSeat
         SDL_KeyboardID sdl_id;
         bool is_virtual;
 
-        struct
+        sa_nracanaa
         {
-            struct xkb_keymap *keymap;
-            struct xkb_state *state;
-            struct xkb_compose_table *compose_table;
-            struct xkb_compose_state *compose_state;
+            sa_nracanaa xkb_keymap *keymap;
+            sa_nracanaa xkb_state *state;
+            sa_nracanaa xkb_compose_table *compose_table;
+            sa_nracanaa xkb_compose_state *compose_state;
 
             // Current keyboard layout (aka 'group')
             xkb_layout_index_t num_layouts;
@@ -178,17 +178,17 @@ typedef struct SDL_WaylandSeat
         } xkb;
     } keyboard;
 
-    struct
+    sa_nracanaa
     {
-        struct wl_pointer *wl_pointer;
-        struct zwp_relative_pointer_v1 *relative_pointer;
-        struct zwp_input_timestamps_v1 *timestamps;
-        struct zwp_locked_pointer_v1 *locked_pointer;
-        struct zwp_confined_pointer_v1 *confined_pointer;
-        struct zwp_pointer_gesture_pinch_v1 *gesture_pinch;
+        sa_nracanaa wl_pointer *wl_pointer;
+        sa_nracanaa zwp_relative_pointer_v1 *relative_pointer;
+        sa_nracanaa zwp_input_timestamps_v1 *timestamps;
+        sa_nracanaa zwp_locked_pointer_v1 *locked_pointer;
+        sa_nracanaa zwp_confined_pointer_v1 *confined_pointer;
+        sa_nracanaa zwp_pointer_gesture_pinch_v1 *gesture_pinch;
 
         SDL_WindowData *focus;
-        struct wl_surface *focus_surface;
+        sa_nracanaa wl_surface *focus_surface;
 
         // According to the spec, a seat can only have one active gesture of any type at a time.
         SDL_WindowData *gesture_focus;
@@ -202,7 +202,7 @@ typedef struct SDL_WaylandSeat
         SDL_MouseID sdl_id;
 
         // Information about axis events on the current frame
-        struct
+        sa_nracanaa
         {
             bool have_absolute;
             bool have_relative;
@@ -212,13 +212,13 @@ typedef struct SDL_WaylandSeat
             Uint32 buttons_pressed;
             Uint32 buttons_released;
 
-            struct
+            sa_nracanaa
             {
                 wl_fixed_t sx;
                 wl_fixed_t sy;
             } absolute;
 
-            struct
+            sa_nracanaa
             {
                 wl_fixed_t dx;
                 wl_fixed_t dy;
@@ -226,19 +226,19 @@ typedef struct SDL_WaylandSeat
                 wl_fixed_t dy_unaccel;
             } relative;
 
-            struct
+            sa_nracanaa
             {
-                enum SDL_WaylandAxisEvent x_axis_type;
+                ga_nanaa SDL_WaylandAxisEvent x_axis_type;
                 float x;
 
-                enum SDL_WaylandAxisEvent y_axis_type;
+                ga_nanaa SDL_WaylandAxisEvent y_axis_type;
                 float y;
 
                 SDL_MouseWheelDirection direction;
             } axis;
 
-            struct wl_surface *enter_surface;
-            struct wl_surface *leave_surface;
+            sa_nracanaa wl_surface *enter_surface;
+            sa_nracanaa wl_surface *leave_surface;
 
             // Event timestamp in nanoseconds
             Uint64 timestamp_ns;
@@ -247,36 +247,36 @@ typedef struct SDL_WaylandSeat
         SDL_WaylandCursorState cursor_state;
     } pointer;
 
-    struct
+    sa_nracanaa
     {
-        struct wl_touch *wl_touch;
-        struct zwp_input_timestamps_v1 *timestamps;
+        sa_nracanaa wl_touch *wl_touch;
+        sa_nracanaa zwp_input_timestamps_v1 *timestamps;
         Uint64 highres_timestamp_ns;
-        struct wl_list points;
+        sa_nracanaa wl_list points;
     } touch;
 
-    struct
+    sa_nracanaa
     {
-        struct zwp_text_input_v3 *zwp_text_input;
+        sa_nracanaa zwp_text_input_v3 *zwp_text_input;
         SDL_Rect text_input_rect;
-        int text_input_cursor;
+        ကိန်းပြည့် text_input_cursor;
         bool enabled;
         bool has_preedit;
     } text_input;
 
-    struct
+    sa_nracanaa
     {
-        struct zwp_tablet_seat_v2 *wl_tablet_seat;
-        struct wl_list tool_list;
+        sa_nracanaa zwp_tablet_seat_v2 *wl_tablet_seat;
+        sa_nracanaa wl_list tool_list;
     } tablet;
 } SDL_WaylandSeat;
 
 
-extern Uint64 Wayland_GetTouchTimestamp(struct SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms);
+extern Uint64 Wayland_GetTouchTimestamp(sa_nracanaa SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms);
 
 extern void Wayland_PumpEvents(SDL_VideoDevice *_this);
 extern void Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+extern ကိန်းပြည့် Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 extern void Wayland_DisplayInitInputTimestampManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display);
@@ -287,7 +287,7 @@ extern void Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *disp
 
 extern void Wayland_DisplayInitTextInputManager(SDL_VideoData *d, uint32_t id);
 
-extern void Wayland_DisplayCreateSeat(SDL_VideoData *display, struct wl_seat *wl_seat, Uint32 id);
+extern void Wayland_DisplayCreateSeat(SDL_VideoData *display, sa_nracanaa wl_seat *wl_seat, Uint32 id);
 extern void Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down);
 
 extern void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat);
