@@ -19,130 +19,130 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
+#إذا defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xsync.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11xsync.h"
 
-static bool xsync_initialized = false;
+ساكن bool xsync_initialized = false;
 
-static int query_xsync_version(Display *display, int major, int minor)
+ساكن صحيح query_xsync_نسخو(Display *display, صحيح major, صحيح minor)
 {
     /* We don't care if this fails, so long as it sets major/minor on it's way out the door. */
     X11_XSyncInitialize(display, &major, &minor);
-    return (major * 1000) + minor;
+    أرجع (major * 1000) + minor;
 }
 
-static bool xsync_version_atleast(const int version, const int wantmajor, const int wantminor)
+ساكن bool xsync_نسخو_atleast(ثابت صحيح نسخو, ثابت صحيح wantmajor, ثابت صحيح wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    أرجع نسخو >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXsync(SDL_VideoDevice *_this)
+فراغ X11_InitXsync(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data =  _this->internal;
+    SDL_Video_معلومات *معلومات =  _this->اندروني;
 
-    int version = 0;
-    int event, error;
-    int sync_opcode;
+    صحيح نسخو = 0;
+    صحيح event, error;
+    صحيح sync_opcode;
 
-    if (!SDL_X11_HAVE_XSYNC ||
-        !X11_XQueryExtension(data->display, "SYNC", &sync_opcode, &event, &error)) {
-        return;
+    إذا (!SDL_X11_HAVE_XSYNC ||
+        !X11_XQueryExtension(معلومات->display, "SYNC", &sync_opcode, &event, &error)) {
+        أرجع;
     }
 
     /* We need at least 5.0 for barriers. */
-    version = query_xsync_version(data->display, 5, 0);
-    if (!xsync_version_atleast(version, 3, 0)) {
-        return; /* X server does not support the version we want at all. */
+    نسخو = query_xsync_نسخو(معلومات->display, 5, 0);
+    إذا (!xsync_نسخو_atleast(نسخو, 3, 0)) {
+        أرجع; /* X server does not support the version we want at all. */
     }
 
     xsync_initialized = true;
 }
 
-bool X11_XsyncIsInitialized(void)
+bool X11_XsyncIsInitialized(فراغ)
 {
-    return xsync_initialized;
+    أرجع xsync_initialized;
 }
 
-bool X11_InitResizeSync(SDL_Window *window)
+bool X11_InitResizeSync(SDL_دري *دري)
 {
-    SDL_assert(window != NULL);
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
+    SDL_assert(دري != عدم);
+    SDL_دري_معلومات *معلومات = دري->اندروني;
+    Display *display = معلومات->videodata->display;
+    Atom counter_prop = معلومات->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
     XSyncCounter counter;
     CARD32 counter_id;
 
-    if (!X11_XsyncIsInitialized()){
-        return SDL_Unsupported();
+    إذا (!X11_XsyncIsInitialized()){
+        أرجع SDL_Unsupported();
     }
 
-    counter = X11_XSyncCreateCounter(display, (XSyncValue){0, 0});
-    data->resize_counter = counter;
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    counter = X11_XSyncCreateCounter(display, (XSync_قدر){0, 0});
+    معلومات->resize_counter = counter;
+    معلومات->resize_id.lo = 0;
+    معلومات->resize_id.hi = 0;
+    معلومات->resize_اندريون_ترقي = false;
 
-    if (counter == None){
-        return SDL_Unsupported();
+    إذا (counter == None){
+        أرجع SDL_Unsupported();
     }
 
     counter_id = counter;
-    X11_XChangeProperty(display, data->xwindow, counter_prop, XA_CARDINAL, 32,
-                        PropModeReplace, (unsigned char *)&counter_id, 1);
+    X11_XChangeProperty(display, معلومات->xwindow, counter_prop, XA_CARDINAL, 32,
+                        Prop_گهڻائي_Replace, (بنانشان حرف *)&counter_id, 1);
 
-    return true;
+    أرجع true;
 }
 
-void X11_TermResizeSync(SDL_Window *window)
+فراغ X11_رڪن_Resize_Sync(SDL_دري *دري)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
-    XSyncCounter counter = data->resize_counter;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
+    Display *display = معلومات->videodata->display;
+    Atom counter_prop = معلومات->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
+    XSyncCounter counter = معلومات->resize_counter;
 
-    X11_XDeleteProperty(display, data->xwindow, counter_prop);
-    if (counter != None) {
+    X11_XDeleteProperty(display, معلومات->xwindow, counter_prop);
+    إذا (counter != None) {
         X11_XSyncDestroyCounter(display, counter);
     }
 }
 
-void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event)
+فراغ X11_HandleSyncRequest(SDL_دري *دري, XClient_پيغام_Event *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
 
-    data->resize_id.lo = event->data.l[2];
-    data->resize_id.hi = event->data.l[3];
-    data->resize_in_progress = false;
+    معلومات->resize_id.lo = event->معلومات.l[2];
+    معلومات->resize_id.hi = event->معلومات.l[3];
+    معلومات->resize_اندريون_ترقي = false;
 }
 
-void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event)
+فراغ X11_HandleConfigure(SDL_دري *دري, XConfigureEvent *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
 
-    if (data->resize_id.lo || data->resize_id.hi) {
-        data->resize_in_progress = true;
+    إذا (معلومات->resize_id.lo || معلومات->resize_id.hi) {
+        معلومات->resize_اندريون_ترقي = true;
     }
 }
 
-void X11_HandlePresent(SDL_Window *window)
+فراغ X11_HandlePresent(SDL_دري *دري)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XSyncCounter counter = data->resize_counter;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
+    Display *display = معلومات->videodata->display;
+    XSyncCounter counter = معلومات->resize_counter;
 
-    if ((counter == None) || (!data->resize_in_progress)) {
-        return;
+    إذا ((counter == None) || (!معلومات->resize_اندريون_ترقي)) {
+        أرجع;
     }
 
-    X11_XSyncSetCounter(display, counter, data->resize_id);
+    X11_XSync_سيٽ_Counter(display, counter, معلومات->resize_id);
 
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    معلومات->resize_id.lo = 0;
+    معلومات->resize_id.hi = 0;
+    معلومات->resize_اندريون_ترقي = false;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC

@@ -19,169 +19,169 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BWin_h_
-#define SDL_BWin_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_BWin_h_
+#وصف_ڪريو SDL_BWin_h_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
-#include "SDL_internal.h"
-#include "SDL_bframebuffer.h"
+#ضمن "SDL_internal.h"
+#ضمن "SDL_bframebuffer.h"
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#include <stdio.h>
-#include <AppKit.h>
-#include <Cursor.h>
-#include <InterfaceKit.h>
-#ifdef SDL_VIDEO_OPENGL
-#include <opengl/GLView.h>
-#endif
-#include "../../core/haiku/SDL_BApp.h"
+#ضمن <stdio.h>
+#ضمن <AppKit.h>
+#ضمن <Cursor.h>
+#ضمن <InterfaceKit.h>
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
+#ضمن <opengl/GLView.h>
+#جيڪڏهن_پورو
+#ضمن "../../core/haiku/SDL_BApp.h"
 
-enum WinCommands
+تعداد WinCommands
 {
-    BWIN_MOVE_WINDOW,
-    BWIN_RESIZE_WINDOW,
-    BWIN_SHOW_WINDOW,
-    BWIN_HIDE_WINDOW,
-    BWIN_MAXIMIZE_WINDOW,
-    BWIN_MINIMIZE_WINDOW,
-    BWIN_RESTORE_WINDOW,
-    BWIN_SET_TITLE,
-    BWIN_SET_BORDERED,
-    BWIN_SET_RESIZABLE,
+    BWIN_MOVE_دري,
+    BWIN_RESIZE_دري,
+    BWIN_SHOW_دري,
+    BWIN_HIDE_دري,
+    BWIN_MAXIMIZE_دري,
+    BWIN_MINIMIZE_دري,
+    BWIN_RESTORE_دري,
+    BWIN_سيٽ_TITLE,
+    BWIN_سيٽ_BORDERED,
+    BWIN_سيٽ_RESIZABLE,
     BWIN_FULLSCREEN,
     BWIN_UPDATE_FRAMEBUFFER,
-    BWIN_MINIMUM_SIZE_WINDOW
+    BWIN_MINIMUM_سائيز_دري
 };
 
 // non-OpenGL framebuffer view
-class SDL_BView : public BView
+class SDL_BView : عام BView
 {
-  public:
-    SDL_BView(BRect frame, const char *name, uint32 resizingMode)
-        : BView(frame, name, resizingMode, B_WILL_DRAW),
-          fBitmap(NULL)
+  عام:
+    SDL_BView(BRect چوکٺو, ثابت حرف *name, uint32 resizing_گهڻائي)
+        : BView(چوکٺو, name, resizing_گهڻائي, B_WILL_DRAW),
+          fBitmap(عدم)
     {
     }
 
-    void Draw(BRect dirty)
+    فراغ Draw(BRect dirty)
     {
-        if (fBitmap != NULL)
+        إذا (fBitmap != عدم)
             DrawBitmap(fBitmap, B_ORIGIN);
     }
 
-    void SetBitmap(BBitmap *bitmap)
+    فراغ سيٽ_Bitmap(BBitmap *bitmap)
     {
         fBitmap = bitmap;
     }
 
-  private:
+  خاص:
     BBitmap *fBitmap;
 };
 
-class SDL_BWin : public BWindow
+class SDL_BWin : عام BWindow
 {
-  public:
+  عام:
     // Constructor/Destructor
-    SDL_BWin(BRect bounds, window_look look, uint32 flags)
-        : BWindow(bounds, "Untitled", look, B_NORMAL_WINDOW_FEEL, flags)
+    SDL_BWin(BRect bounds, دري_look look, uint32 flags)
+        : BWindow(bounds, "Untitled", look, B_عام_دري_FEEL, flags)
     {
-        _last_buttons = 0;
+        آخري_buttons = 0;
 
-        _cur_view = NULL;
-        _SDL_View = NULL;
+        _cur_view = عدم;
+        _SDL_View = عدم;
 
-#ifdef SDL_VIDEO_OPENGL
-        _SDL_GLView = NULL;
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
+        _SDL_GLView = عدم;
         _gl_type = 0;
-#endif
+#جيڪڏهن_پورو
         _shown = false;
         _inhibit_resize = false;
         _mouse_focused = false;
-        _prev_frame = NULL;
-        _fullscreen = NULL;
+        prev_چوکٺو = عدم;
+        _fullscreen = عدم;
 
         // Handle framebuffer stuff
-        _buffer_locker = new BLocker();
-        _bitmap = NULL;
+        بفر_locker = new BLocker();
+        _bitmap = عدم;
     }
 
-    virtual ~SDL_BWin()
+    مجازي ~SDL_BWin()
     {
-        Lock();
+        تالو();
 
-        if (_SDL_View != NULL && _SDL_View != _cur_view) {
+        إذا (_SDL_View != عدم && _SDL_View != _cur_view) {
             delete _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = عدم;
         }
 
-#ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            if (_SDL_GLView == _cur_view)
-                RemoveChild(_SDL_GLView);
-            _SDL_GLView = NULL;
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
+        إذا (_SDL_GLView) {
+            إذا (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->سيٽ_Current_Context(عدم);
+            إذا (_SDL_GLView == _cur_view)
+                Remove_ٻار(_SDL_GLView);
+            _SDL_GLView = عدم;
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
 
-#endif
+#جيڪڏهن_پورو
         Unlock();
 
-        delete _prev_frame;
+        delete prev_چوکٺو;
 
         // Clean up framebuffer stuff
-        _buffer_locker->Lock();
-        delete _buffer_locker;
+        بفر_locker->تالو();
+        delete بفر_locker;
     }
 
-    void SetCurrentView(BView *view)
+    فراغ سيٽ_Current_View(BView *view)
     {
-        if (_cur_view != view) {
-            if (_cur_view != NULL)
-                RemoveChild(_cur_view);
+        إذا (_cur_view != view) {
+            إذا (_cur_view != عدم)
+                Remove_ٻار(_cur_view);
             _cur_view = view;
-            if (_cur_view != NULL)
-                AddChild(_cur_view);
+            إذا (_cur_view != عدم)
+                جوڙيو_ٻار(_cur_view);
         }
     }
 
-    void UpdateCurrentView()
+    فراغ UpdateCurrentView()
     {
-#ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView != NULL) {
-            SetCurrentView(_SDL_GLView);
-        } else
-#endif
-        if (_SDL_View != NULL) {
-            SetCurrentView(_SDL_View);
-        } else {
-            SetCurrentView(NULL);
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
+        إذا (_SDL_GLView != عدم) {
+            سيٽ_Current_View(_SDL_GLView);
+        } وإلا
+#جيڪڏهن_پورو
+        إذا (_SDL_View != عدم) {
+            سيٽ_Current_View(_SDL_View);
+        } وإلا {
+            سيٽ_Current_View(عدم);
         }
     }
 
     SDL_BView *CreateView()
     {
-        Lock();
-        if (_SDL_View == NULL) {
+        تالو();
+        إذا (_SDL_View == عدم) {
             _SDL_View = new SDL_BView(Bounds(), "SDL View", B_FOLLOW_ALL_SIDES);
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_View;
+        أرجع _SDL_View;
     }
 
-    void RemoveView()
+    فراغ RemoveView()
     {
-        Lock();
-        if (_SDL_View != NULL) {
+        تالو();
+        إذا (_SDL_View != عدم) {
             SDL_BView *oldView = _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = عدم;
             UpdateCurrentView();
             delete oldView;
         }
@@ -189,521 +189,521 @@ class SDL_BWin : public BWindow
     }
 
     /* * * * * OpenGL functionality * * * * */
-#ifdef SDL_VIDEO_OPENGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
     BGLView *CreateGLView(Uint32 gl_flags)
     {
-        Lock();
-        if (_SDL_GLView == NULL) {
+        تالو();
+        إذا (_SDL_GLView == عدم) {
             _SDL_GLView = new BGLView(Bounds(), "SDL GLView",
                                       B_FOLLOW_ALL_SIDES,
-                                      (B_WILL_DRAW | B_FRAME_EVENTS),
+                                      (B_WILL_DRAW | B_چوکٺو_EVENTS),
                                       gl_flags);
             _gl_type = gl_flags;
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_GLView;
+        أرجع _SDL_GLView;
     }
 
-    void RemoveGLView()
+    فراغ RemoveGLView()
     {
-        Lock();
-        if (_SDL_GLView != NULL) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            _SDL_GLView = NULL;
+        تالو();
+        إذا (_SDL_GLView != عدم) {
+            إذا (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->سيٽ_Current_Context(عدم);
+            _SDL_GLView = عدم;
             UpdateCurrentView();
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
         Unlock();
     }
 
-    void SwapBuffers(void)
+    فراغ مٽا_سٽا_Buffers(فراغ)
     {
-        _SDL_GLView->SwapBuffers();
+        _SDL_GLView->مٽا_سٽا_Buffers();
     }
-#endif
+#جيڪڏهن_پورو
 
     /* * * * * Event sending * * * * */
     // Hook functions
-    virtual void FrameMoved(BPoint origin)
+    مجازي فراغ چوکٺو_Moved(BPoint origin)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_MOVED);
-        msg.AddInt32("window-x", (int)origin.x);
-        msg.AddInt32("window-y", (int)origin.y);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_دري_MOVED);
+        نياپو.جوڙيو_Int32("window-x", (صحيح)origin.x);
+        نياپو.جوڙيو_Int32("window-y", (صحيح)origin.y);
+        Post_دري_Event(نياپو);
 
         // Perform normal hook operations
-        BWindow::FrameMoved(origin);
+        BWindow::چوکٺو_Moved(origin);
     }
 
-    void FrameResized(float width, float height)
+    فراغ چوکٺو_Resized(عائم ويڪر, عائم اوچائي)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_RESIZED);
+        BMessage نياپو(BAPP_دري_RESIZED);
 
-        msg.AddInt32("window-w", (int)width + 1);
-        msg.AddInt32("window-h", (int)height + 1);
-        _PostWindowEvent(msg);
+        نياپو.جوڙيو_Int32("window-w", (صحيح)ويڪر + 1);
+        نياپو.جوڙيو_Int32("window-h", (صحيح)اوچائي + 1);
+        Post_دري_Event(نياپو);
 
         // Perform normal hook operations
-        BWindow::FrameResized(width, height);
+        BWindow::چوکٺو_Resized(ويڪر, اوچائي);
     }
 
     bool QuitRequested()
     {
-        BMessage msg(BAPP_WINDOW_CLOSE_REQUESTED);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_دري_CLOSE_REQUESTED);
+        Post_دري_Event(نياپو);
 
         // We won't allow a quit unless asked by DestroyWindow()
-        return false;
+        أرجع false;
     }
 
-    void WindowActivated(bool active)
+    فراغ دري_Activated(bool سرگرم)
     {
-        BMessage msg(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
-        msg.AddBool("focusGained", active);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
+        نياپو.جوڙيو_Bool("focusGained", سرگرم);
+        Post_دري_Event(نياپو);
     }
 
-    void Zoom(BPoint origin,
-              float width,
-              float height)
+    فراغ Zoom(BPoint origin,
+              عائم ويڪر,
+              عائم اوچائي)
     {
-        BMessage msg(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
+        Post_دري_Event(نياپو);
 
         // Before the window zooms, record its size
-        if (!_prev_frame)
-            _prev_frame = new BRect(Frame());
+        إذا (!prev_چوکٺو)
+            prev_چوکٺو = new BRect(چوکٺو_2());
 
         // Perform normal hook operations
-        BWindow::Zoom(origin, width, height);
+        BWindow::Zoom(origin, ويڪر, اوچائي);
     }
 
     // Member functions
-    void Show()
+    فراغ Show()
     {
-        while (IsHidden()) {
+        طالما (IsHidden()) {
             BWindow::Show();
         }
         _shown = true;
 
-        BMessage msg(BAPP_SHOW);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_SHOW);
+        Post_دري_Event(نياپو);
     }
 
-    void Hide()
+    فراغ Hide()
     {
         BWindow::Hide();
         _shown = false;
 
-        BMessage msg(BAPP_HIDE);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_HIDE);
+        Post_دري_Event(نياپو);
     }
 
-    void Minimize(bool minimize)
+    فراغ Minimize(bool minimize)
     {
         BWindow::Minimize(minimize);
         int32 minState = (minimize ? BAPP_MINIMIZE : BAPP_RESTORE);
 
-        BMessage msg(minState);
-        _PostWindowEvent(msg);
+        BMessage نياپو(minState);
+        Post_دري_Event(نياپو);
     }
 
-    void ScreenChanged(BRect screenFrame, color_space depth)
+    فراغ Screen_بدليو(BRect screen_چوکٺو, color_space اونهائي_2)
     {
-        if (_fullscreen) {
-            MoveTo(screenFrame.left, screenFrame.top);
-            ResizeTo(screenFrame.Width(), screenFrame.Height());
+        إذا (_fullscreen) {
+            Move_منزل(screen_چوکٺو.کاٻو, screen_چوکٺو.چوٽي);
+            Resize_منزل(screen_چوکٺو.ويڪر_2(), screen_چوکٺو.اوچائي_2());
         }
     }
 
     // BView message interruption
-    void DispatchMessage(BMessage *msg, BHandler *target)
+    فراغ Dispatch_پيغام(BMessage *نياپو, BHandler *هدف)
     {
         BPoint where;  // Used by mouse moved
         int32 buttons; // Used for mouse button events
-        int32 key;     // Used for key events
+        int32 ڪنجي;     // Used for key events
 
-        switch (msg->what) {
-        case B_MOUSE_MOVED:
+        بدل (نياپو->what) {
+        حالة B_MOUSE_MOVED:
             int32 transit;
-            if (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
+            إذا (نياپو->ڳوليو_نقطو("where", &where) == B_OK && نياپو->ڳوليو_Int32("be:transit", &transit) == B_OK) {
                 _MouseMotionEvent(where, transit);
             }
-            break;
+            اكسر;
 
-        case B_MOUSE_DOWN:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        حالة B_MOUSE_هيٺ_ڏانهن:
+            إذا (نياپو->ڳوليو_Int32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, true);
             }
-            break;
+            اكسر;
 
-        case B_MOUSE_UP:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        حالة B_MOUSE_مٿي:
+            إذا (نياپو->ڳوليو_Int32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, false);
             }
-            break;
+            اكسر;
 
-        case B_MOUSE_WHEEL_CHANGED:
-            float x, y;
-            if (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
-                _MouseWheelEvent((int)x, (int)y);
+        حالة B_MOUSE_WHEEL_بدليو:
+            عائم x, y;
+            إذا (نياپو->ڳوليو_Float("be:wheel_delta_x", &x) == B_OK && نياپو->ڳوليو_Float("be:wheel_delta_y", &y) == B_OK) {
+                _MouseWheelEvent((صحيح)x, (صحيح)y);
             }
-            break;
+            اكسر;
 
-        case B_KEY_DOWN:
+        حالة B_ڪنجي_هيٺ_ڏانهن:
         {
             int32 i = 0;
             int8 byte;
-            int8 bytes[4] = { 0, 0, 0, 0 };
-            while (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
-                bytes[i] = byte;
+            int8 بائيٽون[4] = { 0, 0, 0, 0 };
+            طالما (i < 4 && نياپو->ڳوليو_Int8("byte", i, &byte) == B_OK) {
+                بائيٽون[i] = byte;
                 i++;
             }
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, &bytes[0], i, true);
+            إذا (نياپو->ڳوليو_Int32("key", &ڪنجي) == B_OK) {
+                ڪنجي_Event_2((SDL_Scancode)ڪنجي, &بائيٽون[0], i, true);
             }
-        } break;
+        } اكسر;
 
-        case B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, NULL, 0, true);
+        حالة B_UNMAPPED_ڪنجي_هيٺ_ڏانهن: // modifier keys are unmapped
+            إذا (نياپو->ڳوليو_Int32("key", &ڪنجي) == B_OK) {
+                ڪنجي_Event_2((SDL_Scancode)ڪنجي, عدم, 0, true);
             }
-            break;
+            اكسر;
 
-        case B_KEY_UP:
-        case B_UNMAPPED_KEY_UP: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent(key, NULL, 0, false);
+        حالة B_ڪنجي_مٿي:
+        حالة B_UNMAPPED_ڪنجي_مٿي: // modifier keys are unmapped
+            إذا (نياپو->ڳوليو_Int32("key", &ڪنجي) == B_OK) {
+                ڪنجي_Event_2(ڪنجي, عدم, 0, false);
             }
-            break;
+            اكسر;
 
-        default:
+        افتراضي:
             /* move it after switch{} so it's always handled
                that way we keep Haiku features like:
                - CTRL+Q to close window (and other shortcuts)
                - PrintScreen to make screenshot into /boot/home
                - etc.. */
             // BWindow::DispatchMessage(msg, target);
-            break;
+            اكسر;
         }
 
-        BWindow::DispatchMessage(msg, target);
+        BWindow::Dispatch_پيغام(نياپو, هدف);
     }
 
     // Handle command messages
-    void MessageReceived(BMessage *message)
+    فراغ پيغام_Received(BMessage *پيغام)
     {
-        switch (message->what) {
+        بدل (پيغام->what) {
         // Handle commands from SDL
-        case BWIN_SET_TITLE:
-            _SetTitle(message);
-            break;
-        case BWIN_MOVE_WINDOW:
-            _MoveTo(message);
-            break;
-        case BWIN_RESIZE_WINDOW:
-            _ResizeTo(message);
-            break;
-        case BWIN_SET_BORDERED:
+        حالة BWIN_سيٽ_TITLE:
+            سيٽ_Title(پيغام);
+            اكسر;
+        حالة BWIN_MOVE_دري:
+            Move_منزل_2(پيغام);
+            اكسر;
+        حالة BWIN_RESIZE_دري:
+            Resize_منزل_2(پيغام);
+            اكسر;
+        حالة BWIN_سيٽ_BORDERED:
         {
             bool bEnabled;
-            if (message->FindBool("window-border", &bEnabled) == B_OK)
-                _SetBordered(bEnabled);
-            break;
+            إذا (پيغام->ڳوليو_Bool("window-border", &bEnabled) == B_OK)
+                سيٽ_Bordered(bEnabled);
+            اكسر;
         }
-        case BWIN_SET_RESIZABLE:
+        حالة BWIN_سيٽ_RESIZABLE:
         {
             bool bEnabled;
-            if (message->FindBool("window-resizable", &bEnabled) == B_OK)
-                _SetResizable(bEnabled);
-            break;
+            إذا (پيغام->ڳوليو_Bool("window-resizable", &bEnabled) == B_OK)
+                سيٽ_Resizable(bEnabled);
+            اكسر;
         }
-        case BWIN_SHOW_WINDOW:
+        حالة BWIN_SHOW_دري:
             Show();
-            break;
-        case BWIN_HIDE_WINDOW:
+            اكسر;
+        حالة BWIN_HIDE_دري:
             Hide();
-            break;
-        case BWIN_MAXIMIZE_WINDOW:
+            اكسر;
+        حالة BWIN_MAXIMIZE_دري:
             BWindow::Zoom();
-            break;
-        case BWIN_MINIMIZE_WINDOW:
+            اكسر;
+        حالة BWIN_MINIMIZE_دري:
             Minimize(true);
-            break;
-        case BWIN_RESTORE_WINDOW:
+            اكسر;
+        حالة BWIN_RESTORE_دري:
             _Restore();
-            break;
-        case BWIN_FULLSCREEN:
+            اكسر;
+        حالة BWIN_FULLSCREEN:
         {
             bool fullscreen;
-            if (message->FindBool("fullscreen", &fullscreen) == B_OK)
-                _SetFullScreen(fullscreen);
-            break;
+            إذا (پيغام->ڳوليو_Bool("fullscreen", &fullscreen) == B_OK)
+                سيٽ_ڀريل_Screen(fullscreen);
+            اكسر;
         }
-        case BWIN_MINIMUM_SIZE_WINDOW:
-            _SetMinimumSize(message);
-            break;
-        case BWIN_UPDATE_FRAMEBUFFER:
+        حالة BWIN_MINIMUM_سائيز_دري:
+            سيٽ_Minimum_سائيز(پيغام);
+            اكسر;
+        حالة BWIN_UPDATE_FRAMEBUFFER:
         {
-            BMessage *pendingMessage;
-            while ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
-                MessageQueue()->RemoveMessage(pendingMessage);
-                delete pendingMessage;
+            BMessage *pending_پيغام;
+            طالما ((pending_پيغام = پيغام_قطار()->ڳوليو_پيغام(BWIN_UPDATE_FRAMEBUFFER, 0))) {
+                پيغام_قطار()->Remove_پيغام(pending_پيغام);
+                delete pending_پيغام;
             }
-            if (_bitmap != NULL) {
-#ifdef SDL_VIDEO_OPENGL
-                if (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
-                    _SDL_GLView->CopyPixelsIn(_bitmap, B_ORIGIN);
-                } else
-#endif
-                if (_SDL_View != NULL && _cur_view == _SDL_View) {
+            إذا (_bitmap != عدم) {
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
+                إذا (_SDL_GLView != عدم && _cur_view == _SDL_GLView) {
+                    _SDL_GLView->Copy_Pixels_اندريون(_bitmap, B_ORIGIN);
+                } وإلا
+#جيڪڏهن_پورو
+                إذا (_SDL_View != عدم && _cur_view == _SDL_View) {
                     _SDL_View->Draw(Bounds());
                 }
             }
-            break;
+            اكسر;
         }
-        default:
+        افتراضي:
             // Perform normal message handling
-            BWindow::MessageReceived(message);
-            break;
+            BWindow::پيغام_Received(پيغام);
+            اكسر;
         }
     }
 
     // Accessor methods
-    bool IsShown() { return _shown; }
-    int32 GetID() { return _id; }
-    BBitmap *GetBitmap() { return _bitmap; }
-    BView *GetCurView() { return _cur_view; }
-    SDL_BView *GetView() { return _SDL_View; }
-#ifdef SDL_VIDEO_OPENGL
+    bool IsShown() { أرجع _shown; }
+    int32 GetID() { أرجع _id; }
+    BBitmap *GetBitmap() { أرجع _bitmap; }
+    BView *GetCurView() { أرجع _cur_view; }
+    SDL_BView *GetView() { أرجع _SDL_View; }
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
     BGLView *GetGLView()
     {
-        return _SDL_GLView;
+        أرجع _SDL_GLView;
     }
-    Uint32 GetGLType() { return _gl_type; }
-#endif
+    Uint32 GetGLType() { أرجع _gl_type; }
+#جيڪڏهن_پورو
 
     // Setter methods
-    void SetID(int32 id) { _id = id; }
-    void LockBuffer() { _buffer_locker->Lock(); }
-    void UnlockBuffer() { _buffer_locker->Unlock(); }
-    void SetBitmap(BBitmap *bitmap)
+    فراغ سيٽ_ID(int32 id) { _id = id; }
+    فراغ تالو_بفر() { بفر_locker->تالو(); }
+    فراغ Unlock_بفر() { بفر_locker->Unlock(); }
+    فراغ سيٽ_Bitmap(BBitmap *bitmap)
     {
         _bitmap = bitmap;
-        if (_SDL_View != NULL)
-            _SDL_View->SetBitmap(bitmap);
+        إذا (_SDL_View != عدم)
+            _SDL_View->سيٽ_Bitmap(bitmap);
     }
 
-  private:
+  خاص:
     // Event redirection
-    void _MouseMotionEvent(BPoint &where, int32 transit)
+    فراغ _MouseMotionEvent(BPoint &where, int32 transit)
     {
-        if (transit == B_EXITED_VIEW) {
+        إذا (transit == B_EXITED_VIEW) {
             // Change mouse focus
-            if (_mouse_focused) {
+            إذا (_mouse_focused) {
                 _MouseFocusEvent(false);
             }
-        } else {
+        } وإلا {
             // Change mouse focus
-            if (!_mouse_focused) {
+            إذا (!_mouse_focused) {
                 _MouseFocusEvent(true);
             }
-            BMessage msg(BAPP_MOUSE_MOVED);
-            msg.AddInt32("x", (int)where.x);
-            msg.AddInt32("y", (int)where.y);
+            BMessage نياپو(BAPP_MOUSE_MOVED);
+            نياپو.جوڙيو_Int32("x", (صحيح)where.x);
+            نياپو.جوڙيو_Int32("y", (صحيح)where.y);
 
-            _PostWindowEvent(msg);
+            Post_دري_Event(نياپو);
         }
     }
 
-    void _MouseFocusEvent(bool focusGained)
+    فراغ _MouseFocusEvent(bool focusGained)
     {
         _mouse_focused = focusGained;
-        BMessage msg(BAPP_MOUSE_FOCUS);
-        msg.AddBool("focusGained", focusGained);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_MOUSE_FOCUS);
+        نياپو.جوڙيو_Bool("focusGained", focusGained);
+        Post_دري_Event(نياپو);
 
         /* FIXME: Why were these here?
          if false: be_app->SetCursor(B_HAND_CURSOR);
          if true:  SDL_SetCursor(NULL); */
     }
 
-    void _MouseButtonEvent(int32 buttons, bool down)
+    فراغ _MouseButtonEvent(int32 buttons, bool هيٺ_ڏانهن)
     {
-        int32 buttonStateChange = buttons ^ _last_buttons;
+        int32 buttonStateChange = buttons ^ آخري_buttons;
 
-        if (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_LEFT, down);
+        إذا (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_کاٻو, هيٺ_ڏانهن);
         }
-        if (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_RIGHT, down);
+        إذا (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_ساڄو, هيٺ_ڏانهن);
         }
-        if (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_MIDDLE, down);
+        إذا (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_وچ, هيٺ_ڏانهن);
         }
 
-        _last_buttons = buttons;
+        آخري_buttons = buttons;
     }
 
-    void _SendMouseButton(int32 button, bool down)
+    فراغ _SendMouseButton(int32 button, bool هيٺ_ڏانهن)
     {
-        BMessage msg(BAPP_MOUSE_BUTTON);
-        msg.AddInt32("button-id", button);
-        msg.AddBool("button-down", down);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_MOUSE_BUTTON);
+        نياپو.جوڙيو_Int32("button-id", button);
+        نياپو.جوڙيو_Bool("button-down", هيٺ_ڏانهن);
+        Post_دري_Event(نياپو);
     }
 
-    void _MouseWheelEvent(int32 x, int32 y)
-    {
-        // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_MOUSE_WHEEL);
-        msg.AddInt32("xticks", x);
-        msg.AddInt32("yticks", y);
-        _PostWindowEvent(msg);
-    }
-
-    void _KeyEvent(int32 keyCode, const int8 *keyUtf8, const ssize_t &len, bool down)
+    فراغ _MouseWheelEvent(int32 x, int32 y)
     {
         // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_KEY);
-        msg.AddInt32("key-scancode", keyCode);
-        if (keyUtf8 != NULL) {
-            msg.AddData("key-utf8", B_INT8_TYPE, (const void *)keyUtf8, len);
-        }
-        msg.AddBool("key-down", down);
-        SDL_Looper->PostMessage(&msg);
+        BMessage نياپو(BAPP_MOUSE_WHEEL);
+        نياپو.جوڙيو_Int32("xticks", x);
+        نياپو.جوڙيو_Int32("yticks", y);
+        Post_دري_Event(نياپو);
     }
 
-    void _RepaintEvent()
+    فراغ ڪنجي_Event_2(int32 ڪنجي_ڪوڊ, ثابت int8 *ڪنجي_Utf8, ثابت ssize_t &len, bool هيٺ_ڏانهن)
+    {
+        // Create a message to pass along to the BeApp thread
+        BMessage نياپو(BAPP_ڪنجي);
+        نياپو.جوڙيو_Int32("key-scancode", ڪنجي_ڪوڊ);
+        إذا (ڪنجي_Utf8 != عدم) {
+            نياپو.جوڙيو_معلومات("key-utf8", B_INT8_TYPE, (ثابت فراغ *)ڪنجي_Utf8, len);
+        }
+        نياپو.جوڙيو_Bool("key-down", هيٺ_ڏانهن);
+        SDL_Looper->Post_پيغام(&نياپو);
+    }
+
+    فراغ _RepaintEvent()
     {
         // Force a repaint: Call the SDL exposed event
-        BMessage msg(BAPP_REPAINT);
-        _PostWindowEvent(msg);
+        BMessage نياپو(BAPP_REPAINT);
+        Post_دري_Event(نياپو);
     }
-    void _PostWindowEvent(BMessage &msg)
+    فراغ Post_دري_Event(BMessage &نياپو)
     {
-        msg.AddInt32("window-id", _id);
-        SDL_Looper->PostMessage(&msg);
+        نياپو.جوڙيو_Int32("window-id", _id);
+        SDL_Looper->Post_پيغام(&نياپو);
     }
 
     // Command methods (functions called upon by SDL)
-    void _SetTitle(BMessage *msg)
+    فراغ سيٽ_Title(BMessage *نياپو)
     {
-        const char *title;
-        if (
-            msg->FindString("window-title", &title) != B_OK) {
-            return;
+        ثابت حرف *title;
+        إذا (
+            نياپو->ڳوليو_String("window-title", &title) != B_OK) {
+            أرجع;
         }
-        SetTitle(title);
+        سيٽ_Title_2(title);
     }
 
-    void _MoveTo(BMessage *msg)
+    فراغ Move_منزل_2(BMessage *نياپو)
     {
         int32 x, y;
-        if (
-            msg->FindInt32("window-x", &x) != B_OK ||
-            msg->FindInt32("window-y", &y) != B_OK) {
-            return;
+        إذا (
+            نياپو->ڳوليو_Int32("window-x", &x) != B_OK ||
+            نياپو->ڳوليو_Int32("window-y", &y) != B_OK) {
+            أرجع;
         }
-        if (_fullscreen)
-            _non_fullscreen_frame.OffsetTo(x, y);
-        else
-            MoveTo(x, y);
+        إذا (_fullscreen)
+            non_fullscreen_چوکٺو.وٿي_منزل(x, y);
+        وإلا
+            Move_منزل(x, y);
     }
 
-    void _ResizeTo(BMessage *msg)
+    فراغ Resize_منزل_2(BMessage *نياپو)
     {
         int32 w, h;
-        if (
-            msg->FindInt32("window-w", &w) != B_OK ||
-            msg->FindInt32("window-h", &h) != B_OK) {
-            return;
+        إذا (
+            نياپو->ڳوليو_Int32("window-w", &w) != B_OK ||
+            نياپو->ڳوليو_Int32("window-h", &h) != B_OK) {
+            أرجع;
         }
-        if (_fullscreen) {
-            _non_fullscreen_frame.right = _non_fullscreen_frame.left + w;
-            _non_fullscreen_frame.bottom = _non_fullscreen_frame.top + h;
-        } else
-            ResizeTo(w, h);
+        إذا (_fullscreen) {
+            non_fullscreen_چوکٺو.ساڄو = non_fullscreen_چوکٺو.کاٻو + w;
+            non_fullscreen_چوکٺو.bottom = non_fullscreen_چوکٺو.چوٽي + h;
+        } وإلا
+            Resize_منزل(w, h);
     }
 
-    void _SetBordered(bool bEnabled)
+    فراغ سيٽ_Bordered(bool bEnabled)
     {
-        if (_fullscreen)
+        إذا (_fullscreen)
             _bordered = bEnabled;
-        else
-            SetLook(bEnabled ? B_TITLED_WINDOW_LOOK : B_NO_BORDER_WINDOW_LOOK);
+        وإلا
+            سيٽ_Look(bEnabled ? B_TITLED_دري_LOOK : B_NO_BORDER_دري_LOOK);
     }
 
-    void _SetResizable(bool bEnabled)
+    فراغ سيٽ_Resizable(bool bEnabled)
     {
-        if (_fullscreen)
+        إذا (_fullscreen)
             _resizable = bEnabled;
-        else {
-            if (bEnabled) {
-                SetFlags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
-            } else {
-                SetFlags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
+        وإلا {
+            إذا (bEnabled) {
+                سيٽ_Flags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
+            } وإلا {
+                سيٽ_Flags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
             }
         }
     }
 
-    void _SetMinimumSize(BMessage *msg)
+    فراغ سيٽ_Minimum_سائيز(BMessage *نياپو)
     {
-        float maxHeight;
-        float maxWidth;
-        float _;
-        int32 minHeight;
-        int32 minWidth;
+        عائم max_اوچائي;
+        عائم max_ويڪر;
+        عائم _;
+        int32 min_اوچائي;
+        int32 min_ويڪر;
 
         // This is a bit convoluted, we only want to set the minimum not the maximum
         // But there is no direct call to do that, so store the maximum size beforehand
-        GetSizeLimits(&_, &maxWidth, &_, &maxHeight);
-        if (msg->FindInt32("window-w", &minWidth) != B_OK)
-            return;
-        if (msg->FindInt32("window-h", &minHeight) != B_OK)
-            return;
-        SetSizeLimits((float)minWidth, maxWidth, (float)minHeight, maxHeight);
-        UpdateSizeLimits();
+        Get_سائيز_Limits(&_, &max_ويڪر, &_, &max_اوچائي);
+        إذا (نياپو->ڳوليو_Int32("window-w", &min_ويڪر) != B_OK)
+            أرجع;
+        إذا (نياپو->ڳوليو_Int32("window-h", &min_اوچائي) != B_OK)
+            أرجع;
+        سيٽ_سائيز_Limits((عائم)min_ويڪر, max_ويڪر, (عائم)min_اوچائي, max_اوچائي);
+        Update_سائيز_Limits();
     }
 
-    void _Restore()
+    فراغ _Restore()
     {
-        if (IsMinimized()) {
+        إذا (IsMinimized()) {
             Minimize(false);
-        } else if (IsHidden()) {
+        } وإلا إذا (IsHidden()) {
             Show();
-        } else if (_fullscreen) {
+        } وإلا إذا (_fullscreen) {
 
-        } else if (_prev_frame != NULL) { // Zoomed
-            MoveTo(_prev_frame->left, _prev_frame->top);
-            ResizeTo(_prev_frame->Width(), _prev_frame->Height());
+        } وإلا إذا (prev_چوکٺو != عدم) { // Zoomed
+            Move_منزل(prev_چوکٺو->کاٻو, prev_چوکٺو->چوٽي);
+            Resize_منزل(prev_چوکٺو->ويڪر_2(), prev_چوکٺو->اوچائي_2());
         }
     }
 
-    void _SetFullScreen(bool fullscreen)
+    فراغ سيٽ_ڀريل_Screen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen) {
-            if (fullscreen) {
+        إذا (fullscreen != _fullscreen) {
+            إذا (fullscreen) {
                 BScreen screen(this);
-                BRect screenFrame = screen.Frame();
-                _bordered = Look() != B_NO_BORDER_WINDOW_LOOK;
+                BRect screen_چوکٺو = screen.چوکٺو_2();
+                _bordered = Look() != B_NO_BORDER_دري_LOOK;
                 _resizable = !(Flags() & B_NOT_RESIZABLE);
-                _non_fullscreen_frame = Frame();
-                _SetBordered(false);
-                _SetResizable(false);
-                MoveTo(screenFrame.left, screenFrame.top);
-                ResizeTo(screenFrame.Width(), screenFrame.Height());
+                non_fullscreen_چوکٺو = چوکٺو_2();
+                سيٽ_Bordered(false);
+                سيٽ_Resizable(false);
+                Move_منزل(screen_چوکٺو.کاٻو, screen_چوکٺو.چوٽي);
+                Resize_منزل(screen_چوکٺو.ويڪر_2(), screen_چوکٺو.اوچائي_2());
                 _fullscreen = fullscreen;
-            } else {
+            } وإلا {
                 _fullscreen = fullscreen;
-                MoveTo(_non_fullscreen_frame.left, _non_fullscreen_frame.top);
-                ResizeTo(_non_fullscreen_frame.Width(), _non_fullscreen_frame.Height());
-                _SetBordered(_bordered);
-                _SetResizable(_resizable);
+                Move_منزل(non_fullscreen_چوکٺو.کاٻو, non_fullscreen_چوکٺو.چوٽي);
+                Resize_منزل(non_fullscreen_چوکٺو.ويڪر_2(), non_fullscreen_چوکٺو.اوچائي_2());
+                سيٽ_Bordered(_bordered);
+                سيٽ_Resizable(_resizable);
             }
         }
     }
@@ -712,26 +712,26 @@ class SDL_BWin : public BWindow
 
     BView *_cur_view;
     SDL_BView *_SDL_View;
-#ifdef SDL_VIDEO_OPENGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL
     BGLView *_SDL_GLView;
     Uint32 _gl_type;
-#endif
+#جيڪڏهن_پورو
 
-    int32 _last_buttons;
+    int32 آخري_buttons;
     int32 _id;           // Window id used by SDL_BApp
     bool _mouse_focused; // Does this window have mouse focus?
     bool _shown;
     bool _inhibit_resize;
 
-    BRect *_prev_frame; // Previous position and size of the window
+    BRect *prev_چوکٺو; // Previous position and size of the window
     bool _fullscreen;
     // valid only if fullscreen
-    BRect _non_fullscreen_frame;
+    BRect non_fullscreen_چوکٺو;
     bool _bordered;
     bool _resizable;
 
     // Framebuffer members
-    BLocker *_buffer_locker;
+    BLocker *بفر_locker;
     BBitmap *_bitmap;
 };
 
@@ -749,4 +749,4 @@ class SDL_BWin : public BWindow
  *                         through a draw cycle.  Occurs when the previous
  *                         buffer provided by DirectConnected() is invalidated.
  */
-#endif // SDL_BWin_h_
+#جيڪڏهن_پورو // SDL_BWin_h_

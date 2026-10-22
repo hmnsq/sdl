@@ -18,184 +18,184 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_cocoawindow_h_
-#define SDL_cocoawindow_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_cocoawindow_h_
+#وصف_ڪريو SDL_cocoawindow_h_
 
 #import <Cocoa/Cocoa.h>
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#endif
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
+#ضمن "../SDL_egl_c.h"
+#جيڪڏهن_پورو
 
-#define SDL_METALVIEW_TAG 255
+#وصف_ڪريو SDL_METALVIEW_ٽيگ 255
 
-@class SDL_CocoaWindowData;
+@class SDL_Cocoa_دري_معلومات;
 
-typedef enum
+تعريفنوع تعداد
 {
     PENDING_OPERATION_NONE = 0x00,
     PENDING_OPERATION_ENTER_FULLSCREEN = 0x01,
     PENDING_OPERATION_LEAVE_FULLSCREEN = 0x02,
     PENDING_OPERATION_MINIMIZE = 0x04,
     PENDING_OPERATION_ZOOM = 0x08
-} PendingWindowOperation;
+} Pending_دري_Operation;
 
-@interface SDL3Cocoa_WindowListener : NSResponder <NSWindowDelegate>
+@interface SDL3_Cocoa_دري_Listener : NSResponder <NSWindowDelegate>
 {
     /* SDL_CocoaWindowData owns this Listener and has a strong reference to it.
      * To avoid reference cycles, we could have either a weak or an
      * unretained ref to the WindowData. */
-    __weak SDL_CocoaWindowData *_data;
+    __weak SDL_Cocoa_دري_معلومات *معلومات_2;
     BOOL observingVisible;
-    BOOL wasCtrlLeft;
+    BOOL was_Ctrl_کاٻو;
     BOOL wasVisible;
     BOOL isFullscreenSpace;
-    BOOL inFullscreenTransition;
-    PendingWindowOperation pendingWindowOperation;
+    BOOL اندريون_Fullscreen_Transition;
+    Pending_دري_Operation pending_دري_Operation;
     BOOL isMoving;
     BOOL isMiniaturizing;
     NSInteger focusClickPending;
-    float pendingWindowWarpX, pendingWindowWarpY;
+    عائم pending_دري_Warp_X, pending_دري_Warp_Y;
     BOOL isDragAreaRunning;
-    NSTimer *liveResizeTimer;
+    NSTimer *جيئرو_Resize_Timer;
 }
 
 - (BOOL)isTouchFromTrackpad:(NSEvent *)theEvent;
-- (void)listen:(SDL_CocoaWindowData *)data;
-- (void)pauseVisibleObservation;
-- (void)resumeVisibleObservation;
-- (BOOL)setFullscreenSpace:(BOOL)state;
-- (BOOL)isInFullscreenSpace;
-- (BOOL)isInFullscreenSpaceTransition;
-- (void)addPendingWindowOperation:(PendingWindowOperation)operation;
-- (void)close;
+- (فراغ)listen:(SDL_Cocoa_دري_معلومات *)معلومات;
+- (فراغ)pauseVisibleObservation;
+- (فراغ)resumeVisibleObservation;
+- (BOOL)سيٽ_Fullscreen_Space:(BOOL)state;
+- (BOOL)is_اندريون_Fullscreen_Space;
+- (BOOL)is_اندريون_Fullscreen_Space_Transition;
+- (فراغ)جوڙيو_Pending_دري_Operation:(Pending_دري_Operation)operation;
+- (فراغ)close;
 
 - (BOOL)isMoving;
 - (BOOL)isMovingOrFocusClickPending;
-- (void)setFocusClickPending:(NSInteger)button;
-- (void)clearFocusClickPending:(NSInteger)button;
-- (void)updateIgnoreMouseState:(NSEvent *)theEvent;
-- (void)setPendingMoveX:(float)x Y:(float)y;
-- (void)windowDidFinishMoving;
-- (void)onMovingOrFocusClickPendingStateCleared;
+- (فراغ)سيٽ_Focus_Click_Pending:(NSInteger)button;
+- (فراغ)clearFocusClickPending:(NSInteger)button;
+- (فراغ)updateIgnoreMouseState:(NSEvent *)theEvent;
+- (فراغ)سيٽ_Pending_Move_X:(عائم)x Y:(عائم)y;
+- (فراغ)دري_Did_پڄاڻي_Moving;
+- (فراغ)onMovingOrFocusClickPendingStateCleared;
 
 // Window delegate functionality
-- (BOOL)windowShouldClose:(id)sender;
-- (void)windowDidExpose:(NSNotification *)aNotification;
-- (void)windowDidChangeOcclusionState:(NSNotification *)aNotification;
-- (void)windowWillStartLiveResize:(NSNotification *)aNotification;
-- (void)windowDidEndLiveResize:(NSNotification *)aNotification;
-- (void)windowDidMove:(NSNotification *)aNotification;
-- (void)windowDidResize:(NSNotification *)aNotification;
-- (void)windowDidMiniaturize:(NSNotification *)aNotification;
-- (void)windowDidDeminiaturize:(NSNotification *)aNotification;
-- (void)windowDidBecomeKey:(NSNotification *)aNotification;
-- (void)windowDidResignKey:(NSNotification *)aNotification;
-- (void)windowDidChangeBackingProperties:(NSNotification *)aNotification;
-- (void)windowDidChangeScreenProfile:(NSNotification *)aNotification;
-- (void)windowDidChangeScreen:(NSNotification *)aNotification;
-- (void)windowWillEnterFullScreen:(NSNotification *)aNotification;
-- (void)windowDidEnterFullScreen:(NSNotification *)aNotification;
-- (void)windowWillExitFullScreen:(NSNotification *)aNotification;
-- (void)windowDidExitFullScreen:(NSNotification *)aNotification;
-- (NSApplicationPresentationOptions)window:(NSWindow *)window willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)proposedOptions;
+- (BOOL)دري_Should_Close:(id)sender;
+- (فراغ)دري_Did_Expose:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Change_Occlusion_State:(NSNotification *)aNotification;
+- (فراغ)دري_Will_شروعات_جيئرو_Resize:(NSNotification *)aNotification;
+- (فراغ)دري_Did_پڇاڙي_جيئرو_Resize:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Move:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Resize:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Miniaturize:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Deminiaturize:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Become_ڪنجي:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Resign_ڪنجي:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Change_Backing_Properties:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Change_Screen_Profile:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Change_Screen:(NSNotification *)aNotification;
+- (فراغ)دري_Will_Enter_ڀريل_Screen:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Enter_ڀريل_Screen:(NSNotification *)aNotification;
+- (فراغ)دري_Will_Exit_ڀريل_Screen:(NSNotification *)aNotification;
+- (فراغ)دري_Did_Exit_ڀريل_Screen:(NSNotification *)aNotification;
+- (NSApplicationPresentationOptions)دري:(NSWindow *)دري will_Use_ڀريل_Screen_Presentation_Options:(NSApplicationPresentationOptions)proposedOptions;
 
 // See if event is in a drag area, toggle on window dragging.
-- (void)updateHitTest;
-- (BOOL)processHitTest:(NSEvent *)theEvent;
+- (فراغ)update_ڪاميابي_Test;
+- (BOOL)process_ڪاميابي_Test:(NSEvent *)theEvent;
 
 // Window event handling
-- (void)mouseDown:(NSEvent *)theEvent;
-- (void)rightMouseDown:(NSEvent *)theEvent;
-- (void)otherMouseDown:(NSEvent *)theEvent;
-- (void)mouseUp:(NSEvent *)theEvent;
-- (void)rightMouseUp:(NSEvent *)theEvent;
-- (void)otherMouseUp:(NSEvent *)theEvent;
-- (void)mouseMoved:(NSEvent *)theEvent;
-- (void)mouseDragged:(NSEvent *)theEvent;
-- (void)rightMouseDragged:(NSEvent *)theEvent;
-- (void)otherMouseDragged:(NSEvent *)theEvent;
-- (void)scrollWheel:(NSEvent *)theEvent;
-- (void)touchesBeganWithEvent:(NSEvent *)theEvent;
-- (void)touchesMovedWithEvent:(NSEvent *)theEvent;
-- (void)touchesEndedWithEvent:(NSEvent *)theEvent;
-- (void)touchesCancelledWithEvent:(NSEvent *)theEvent;
-- (void)magnifyWithEvent:(NSEvent *) theEvent;
+- (فراغ)mouse_هيٺ_ڏانهن:(NSEvent *)theEvent;
+- (فراغ)ساڄو_Mouse_هيٺ_ڏانهن:(NSEvent *)theEvent;
+- (فراغ)other_Mouse_هيٺ_ڏانهن:(NSEvent *)theEvent;
+- (فراغ)mouse_مٿي:(NSEvent *)theEvent;
+- (فراغ)ساڄو_Mouse_مٿي:(NSEvent *)theEvent;
+- (فراغ)other_Mouse_مٿي:(NSEvent *)theEvent;
+- (فراغ)mouseMoved:(NSEvent *)theEvent;
+- (فراغ)mouseDragged:(NSEvent *)theEvent;
+- (فراغ)ساڄو_Mouse_Dragged:(NSEvent *)theEvent;
+- (فراغ)otherMouseDragged:(NSEvent *)theEvent;
+- (فراغ)scrollWheel:(NSEvent *)theEvent;
+- (فراغ)touchesBeganWithEvent:(NSEvent *)theEvent;
+- (فراغ)touchesMovedWithEvent:(NSEvent *)theEvent;
+- (فراغ)touchesEndedWithEvent:(NSEvent *)theEvent;
+- (فراغ)touchesCancelledWithEvent:(NSEvent *)theEvent;
+- (فراغ)magnifyWithEvent:(NSEvent *) theEvent;
 
 // Touch event handling
-- (void)handleTouches:(NSTouchPhase)phase withEvent:(NSEvent *)theEvent;
+- (فراغ)handleTouches:(NSTouchPhase)phase withEvent:(NSEvent *)theEvent;
 
 // Tablet event handling (but these also come through on mouse events sometimes!)
-- (void)tabletProximity:(NSEvent *)theEvent;
-- (void)tabletPoint:(NSEvent *)theEvent;
+- (فراغ)tabletProximity:(NSEvent *)theEvent;
+- (فراغ)tablet_نقطو:(NSEvent *)theEvent;
 
-@end
+@پڇاڙي
 /* *INDENT-ON* */
 
 @class SDL3OpenGLContext;
-@class SDL_CocoaVideoData;
+@class SDL_Cocoa_Video_معلومات;
 
-@interface SDL_CocoaWindowData : NSObject
-@property(nonatomic) SDL_Window *window;
+@interface SDL_Cocoa_دري_معلومات : NSObject
+@property(nonatomic) SDL_دري *دري;
 @property(nonatomic) NSWindow *nswindow;
 @property(nonatomic) NSView *sdlContentView;
 @property(nonatomic) NSRect viewport;
 @property(nonatomic) NSMutableArray *nscontexts;
-@property(nonatomic) BOOL in_blocking_transition;
+@property(nonatomic) BOOL اندريون_blocking_transition;
 @property(nonatomic) BOOL fullscreen_space_requested;
 @property(nonatomic) BOOL was_zoomed;
-@property(nonatomic) NSInteger window_number;
+@property(nonatomic) NSInteger دري_عدد;
 @property(nonatomic) NSInteger flash_request;
-@property(nonatomic) SDL3Cocoa_WindowListener *listener;
+@property(nonatomic) SDL3_Cocoa_دري_Listener *listener;
 @property(nonatomic) NSModalSession modal_session;
-@property(nonatomic) SDL_CocoaVideoData *videodata;
-@property(nonatomic) bool pending_size;
+@property(nonatomic) SDL_Cocoa_Video_معلومات *videodata;
+@property(nonatomic) bool pending_سائيز;
 @property(nonatomic) bool pending_position;
 @property(nonatomic) bool border_toggled;
 @property(nonatomic) bool has_modal_dialog;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
 @property(nonatomic) EGLSurface egl_surface;
-#endif
-@end
+#جيڪڏهن_پورو
+@پڇاڙي
 
-extern bool b_inModeTransition;
+خارجي bool b_اندريون_گهڻائي_Transition;
 
-extern bool Cocoa_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Cocoa_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Cocoa_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern bool Cocoa_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Cocoa_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Cocoa_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void Cocoa_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult Cocoa_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void *Cocoa_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern SDL_DisplayID Cocoa_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Cocoa_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void Cocoa_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool Cocoa_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Cocoa_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool Cocoa_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Cocoa_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool Cocoa_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool Cocoa_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props);
+خارجي فراغ Cocoa_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Cocoa_سيٽ_دري_Icon(SDL_VideoDevice *_this, SDL_دري *دري, SDL_Surface *icon);
+خارجي bool Cocoa_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_سيٽ_دري_Minimum_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_سيٽ_دري_وڌ_کان_وڌ_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_سيٽ_دري_Aspect_تناسب(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Get_دري_سائيز_اندريون_Pixels(SDL_VideoDevice *_this, SDL_دري *دري, صحيح *w, صحيح *h);
+خارجي bool Cocoa_سيٽ_دري_Opacity(SDL_VideoDevice *_this, SDL_دري *دري, عائم opacity);
+خارجي فراغ Cocoa_Show_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Hide_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Raise_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Maximize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_Restore_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Cocoa_سيٽ_دري_Bordered(SDL_VideoDevice *_this, SDL_دري *دري, bool bordered);
+خارجي فراغ Cocoa_سيٽ_دري_Resizable(SDL_VideoDevice *_this, SDL_دري *دري, bool resizable);
+خارجي فراغ Cocoa_سيٽ_دري_Always_On_چوٽي(SDL_VideoDevice *_this, SDL_دري *دري, bool on_چوٽي);
+خارجي SDL_Fullscreen_نتيجو Cocoa_سيٽ_دري_Fullscreen(SDL_VideoDevice *_this, SDL_دري *دري, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ *Cocoa_Get_دري_ICCProfile(SDL_VideoDevice *_this, SDL_دري *دري, size_t *سائيز);
+خارجي SDL_DisplayID Cocoa_Get_Display_For_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Cocoa_سيٽ_دري_Mouse_Rect(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Cocoa_سيٽ_دري_Mouse_Grab(SDL_VideoDevice *_this, SDL_دري *دري, bool grabbed);
+خارجي فراغ Cocoa_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Cocoa_سيٽ_دري_ڪاميابي_Test(SDL_دري *دري, bool enabled);
+خارجي فراغ Cocoa_AcceptDragAndDrop(SDL_دري *دري, bool accept);
+خارجي bool Cocoa_Flash_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_FlashOperation operation);
+خارجي bool Cocoa_سيٽ_دري_Focusable(SDL_VideoDevice *_this, SDL_دري *دري, bool focusable);
+خارجي bool Cocoa_سيٽ_دري_Modal(SDL_VideoDevice *_this, SDL_دري *دري, bool modal);
+خارجي bool Cocoa_سيٽ_دري_والد(SDL_VideoDevice *_this, SDL_دري *دري, SDL_دري *والد);
+خارجي bool Cocoa_Sync_دري(SDL_VideoDevice *_this, SDL_دري *دري);
 
-extern void Cocoa_MenuVisibilityCallback(void *userdata, const char *name, const char *oldValue, const char *newValue);
+خارجي فراغ Cocoa_MenuVisibilityCallback(فراغ *userdata, ثابت حرف *name, ثابت حرف *old_قدر, ثابت حرف *new_قدر);
 
-#endif // SDL_cocoawindow_h_
+#جيڪڏهن_پورو // SDL_cocoawindow_h_

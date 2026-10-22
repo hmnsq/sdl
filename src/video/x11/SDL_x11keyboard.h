@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11keyboard_h_
-#define SDL_x11keyboard_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_x11keyboard_h_
+#وصف_ڪريو SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool X11_InitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+خارجي فراغ X11_QuitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ X11_Create_داخلا_Context(SDL_دري_معلومات *معلومات);
+خارجي فراغ X11_Destroy_داخلا_Context(SDL_دري_معلومات *معلومات);
+خارجي فراغ X11_ClearComposition(SDL_دري_معلومات *معلومات);
+خارجي bool X11_شروعات_متن_داخلا(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID props);
+خارجي bool X11_Stop_متن_داخلا(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool X11_Update_متن_داخلا_Area(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+خارجي فراغ X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID props);
+خارجي فراغ X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_دري *دري);
 
-#endif // SDL_x11keyboard_h_
+#جيڪڏهن_پورو // SDL_x11keyboard_h_

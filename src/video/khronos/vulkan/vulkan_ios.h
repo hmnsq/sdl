@@ -1,5 +1,5 @@
-#ifndef VULKAN_IOS_H_
-#define VULKAN_IOS_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_IOS_H_
+#وصف_ڪريو VULKAN_IOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_MVK_ios_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_ios_surface 1
+#وصف_ڪريو VK_MVK_ios_surface 1
 
-#define VK_MVK_IOS_SURFACE_SPEC_VERSION   3
-#define VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
+#وصف_ڪريو VK_MVK_IOS_SURFACE_SPEC_نسخو   3
+#وصف_ڪريو VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
 
-typedef VkFlags VkIOSSurfaceCreateFlagsMVK;
+تعريفنوع VkFlags VkIOSSurfaceCreateFlagsMVK;
 
-typedef struct VkIOSSurfaceCreateInfoMVK {
+تعريفنوع بنية VkIOSSurfaceCreateInfoMVK {
     VkStructureType               sType;
-    const void*                   pNext;
+    ثابت فراغ*                   p_ايندڙ;
     VkIOSSurfaceCreateFlagsMVK    flags;
-    const void*                   pView;
+    ثابت فراغ*                   pView;
 } VkIOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, ثابت VkIOSSurfaceCreateInfoMVK* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateIOSSurfaceMVK(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateIOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

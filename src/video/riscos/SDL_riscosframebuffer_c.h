@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_riscosframebuffer_c_h_
-#define SDL_riscosframebuffer_c_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_riscosframebuffer_c_h_
+#وصف_ڪريو SDL_riscosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool RISCOS_Create_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PixelFormat *format, فراغ **pixels, صحيح *pitch);
+خارجي bool RISCOS_Update_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري, ثابت SDL_Rect *rects, صحيح numrects);
+خارجي فراغ RISCOS_Destroy_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري);
 
-#endif // SDL_riscosframebuffer_c_h_
+#جيڪڏهن_پورو // SDL_riscosframebuffer_c_h_

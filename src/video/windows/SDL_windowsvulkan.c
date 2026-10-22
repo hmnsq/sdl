@@ -24,108 +24,108 @@
  * SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#إذا defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#include "../SDL_vulkan_internal.h"
+#ضمن "../SDL_vulkan_internal.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
+#ضمن "SDL_windowsvideo.h"
+#ضمن "SDL_windowswindow.h"
 
-#include "SDL_windowsvulkan.h"
+#ضمن "SDL_windowsvulkan.h"
 
-bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_Vulkan_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    VkExtensionProperties *extensions = عدم;
+    Uint32 extension_ڳڻپ = 0;
     Uint32 i;
     bool hasSurfaceExtension = false;
     bool hasWin32SurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = عدم;
+    إذا (_this->vulkan_config.loader_handle) {
+        أرجع SDL_سيٽ_Error("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
-        path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
+    إذا (!رستو) {
+        رستو = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
-        path = "vulkan-1.dll";
+    إذا (!رستو) {
+        رستو = "vulkan-1.dll";
     }
-    _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    _this->vulkan_config.loader_handle = SDL_ڀريو_Object(رستو);
+    إذا (!_this->vulkan_config.loader_handle) {
+        أرجع false;
     }
-    SDL_strlcpy(_this->vulkan_config.loader_path, path,
-                SDL_arraysize(_this->vulkan_config.loader_path));
-    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
+    SDL_strlcpy(_this->vulkan_config.loader_رستو, رستو,
+                SDL_arraysize(_this->vulkan_config.loader_رستو));
+    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_ڀريو_Function(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    إذا (!vkGetInstanceProcAddr) {
+        اذهب fail;
     }
-    _this->vulkan_config.vkGetInstanceProcAddr = (SDL_FunctionPointer)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkGetInstanceProcAddr = (SDL_Function_اشارو)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
-        (SDL_FunctionPointer)vkGetInstanceProcAddr(
+        (SDL_Function_اشارو)vkGetInstanceProcAddr(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    إذا (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        اذهب fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_ڳڻپ);
+    إذا (!extensions) {
+        اذهب fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    لكل (i = 0; i < extension_ڳڻپ; i++) {
+        إذا (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } وإلا إذا (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasWin32SurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasWin32SurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+    إذا (!hasSurfaceExtension) {
+        SDL_سيٽ_Error("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
+        اذهب fail;
+    } وإلا إذا (!hasWin32SurfaceExtension) {
+        SDL_سيٽ_Error("Installed Vulkan doesn't implement the " VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension");
+        اذهب fail;
     }
-    return true;
+    أرجع true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = عدم;
+    أرجع false;
 }
 
-void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+فراغ WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    إذا (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = عدم;
     }
 }
 
-char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+حرف ثابت * ثابت *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ڳڻپ)
 {
-    static const char *const extensionsForWin32[] = {
+    ساكن ثابت حرف *ثابت extensionsForWin32[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForWin32);
-    return extensionsForWin32;
+    *ڳڻپ = SDL_arraysize(extensionsForWin32);
+    أرجع extensionsForWin32;
 }
 
 bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+                             SDL_دري *دري,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ثابت بنية Vk_ورهاست_Callbacks *allocator,
                              VkSurfaceKHR *surface)
 {
-    SDL_WindowData *windowData = window->internal;
+    SDL_دري_معلومات *دري_معلومات = دري->اندروني;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
     PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR =
@@ -133,42 +133,42 @@ bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
             instance,
             "vkCreateWin32SurfaceKHR");
     VkWin32SurfaceCreateInfoKHR createInfo;
-    VkResult result;
+    Vk_نتيجو نتيجو;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    إذا (!_this->vulkan_config.loader_handle) {
+        أرجع SDL_سيٽ_Error("Vulkan is not loaded");
     }
 
-    if (!vkCreateWin32SurfaceKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+    إذا (!vkCreateWin32SurfaceKHR) {
+        أرجع SDL_سيٽ_Error(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
     createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-    createInfo.pNext = NULL;
+    createInfo.p_ايندڙ = عدم;
     createInfo.flags = 0;
-    createInfo.hinstance = windowData->hinstance;
-    createInfo.hwnd = windowData->hwnd;
-    result = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        return SDL_SetError("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+    createInfo.hinstance = دري_معلومات->hinstance;
+    createInfo.hwnd = دري_معلومات->hwnd;
+    نتيجو = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, surface);
+    إذا (نتيجو != VK_SUCCESS) {
+        أرجع SDL_سيٽ_Error("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_Get_نتيجو_String(نتيجو));
     }
-    return true;
+    أرجع true;
 }
 
-void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+فراغ WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator)
+                               ثابت بنية Vk_ورهاست_Callbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
-        SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
+    إذا (_this->vulkan_config.loader_handle) {
+        SDL_Vulkan_Destroy_Surface_اندروني(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
 
 bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex)
+                                           Uint32 قطار_Family_اشاريو)
 {
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
@@ -177,16 +177,16 @@ bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
             instance,
             "vkGetPhysicalDeviceWin32PresentationSupportKHR");
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    إذا (!_this->vulkan_config.loader_handle) {
+        أرجع SDL_سيٽ_Error("Vulkan is not loaded");
     }
 
-    if (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    إذا (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
+        أرجع SDL_سيٽ_Error(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
-    return vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
-                                                          queueFamilyIndex);
+    أرجع vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
+                                                          قطار_Family_اشاريو);
 }
 
-#endif
+#جيڪڏهن_پورو

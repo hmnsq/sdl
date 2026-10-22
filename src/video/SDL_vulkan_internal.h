@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_vulkan_internal_h_
-#define SDL_vulkan_internal_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_vulkan_اندروني_h
+#وصف_ڪريو SDL_vulkan_اندروني_h
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_VULKAN
-#ifdef SDL_VIDEO_DRIVER_ANDROID
-#define VK_USE_PLATFORM_ANDROID_KHR
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
-#define VK_USE_PLATFORM_OHOS
-#endif
-#ifdef SDL_VIDEO_DRIVER_COCOA
-#define VK_USE_PLATFORM_METAL_EXT
-#define VK_USE_PLATFORM_MACOS_MVK
-#endif
-#ifdef SDL_VIDEO_DRIVER_UIKIT
-#define VK_USE_PLATFORM_METAL_EXT
-#define VK_USE_PLATFORM_IOS_MVK
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
-#define VK_USE_PLATFORM_WAYLAND_KHR
-#include "wayland/SDL_waylanddyn.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#define VK_USE_PLATFORM_WIN32_KHR
-#include "../core/windows/SDL_windows.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11
-#define VK_USE_PLATFORM_XLIB_KHR
-#define VK_USE_PLATFORM_XCB_KHR
-#endif
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_VULKAN
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_ANDROID
+#وصف_ڪريو VK_USE_PLATFORM_ANDROID_KHR
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_OPENHARMONY
+#وصف_ڪريو VK_USE_PLATFORM_OHOS
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_COCOA
+#وصف_ڪريو VK_USE_PLATFORM_METAL_EXT
+#وصف_ڪريو VK_USE_PLATFORM_MACOS_MVK
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_UIKIT
+#وصف_ڪريو VK_USE_PLATFORM_METAL_EXT
+#وصف_ڪريو VK_USE_PLATFORM_IOS_MVK
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_WAYLAND
+#وصف_ڪريو VK_USE_PLATFORM_WAYLAND_KHR
+#ضمن "wayland/SDL_waylanddyn.h"
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_WINDOWS
+#وصف_ڪريو VK_USE_PLATFORM_WIN32_KHR
+#ضمن "../core/windows/SDL_windows.h"
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_X11
+#وصف_ڪريو VK_USE_PLATFORM_XLIB_KHR
+#وصف_ڪريو VK_USE_PLATFORM_XCB_KHR
+#جيڪڏهن_پورو
 
-#define VK_NO_PROTOTYPES
-#include "./khronos/vulkan/vulkan.h"
+#وصف_ڪريو VK_NO_PROTOTYPES
+#ضمن "./khronos/vulkan/vulkan.h"
 
-#include <SDL3/SDL_vulkan.h>
+#ضمن <SDL3/SDL_vulkan.h>
 
-extern const char *SDL_Vulkan_GetResultString(VkResult result);
+خارجي ثابت حرف *SDL_Vulkan_Get_نتيجو_String(Vk_نتيجو نتيجو);
 
-extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
+خارجي VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
-    Uint32 *extensionCount); // free returned list with SDL_free
+    Uint32 *extension_ڳڻپ); // free returned list with SDL_free
 
 /* Create a surface directly from a display connected to a physical device
  * using the DisplayKHR extension.
  * This needs to be passed an instance that was created with the VK_KHR_DISPLAY_EXTENSION_NAME
  * extension. */
-extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
+خارجي bool SDL_Vulkan_Display_CreateSurface(فراغ *vkGetInstanceProcAddr,
                                              VkInstance instance,
-                                             const struct VkAllocationCallbacks *allocator,
+                                             ثابت بنية Vk_ورهاست_Callbacks *allocator,
                                              VkSurfaceKHR *surface);
 
 /* Platform independent base function for destroying the Vulkan surface. Unlike surface
@@ -77,18 +77,18 @@ extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
  * necessary extension is cross platform VK_KHR_surface, which is a dependency to all
  * WSI platform extensions, so we can handle surface destruction in an platform-independent
  * manner. */
-extern void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr,
+خارجي فراغ SDL_Vulkan_Destroy_Surface_اندروني(فراغ *vkGetInstanceProcAddr,
                                                VkInstance instance,
                                                VkSurfaceKHR surface,
-                                               const struct VkAllocationCallbacks *allocator);
-#else
+                                               ثابت بنية Vk_ورهاست_Callbacks *allocator);
+#وإلا
 
 // No SDL Vulkan support, just include the header for typedefs
-#include <SDL3/SDL_vulkan.h>
+#ضمن <SDL3/SDL_vulkan.h>
 
-typedef void (*PFN_vkGetInstanceProcAddr)(void);
-typedef int (*PFN_vkEnumerateInstanceExtensionProperties)(void);
+تعريفنوع فراغ (*PFN_vkGetInstanceProcAddr)(فراغ);
+تعريفنوع صحيح (*PFN_vkEnumerateInstanceExtensionProperties)(فراغ);
 
-#endif // SDL_VIDEO_VULKAN
+#جيڪڏهن_پورو // SDL_VIDEO_VULKAN
 
-#endif // SDL_vulkan_internal_h_
+#جيڪڏهن_پورو // SDL_vulkan_internal_h_

@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_emscriptenopengles_h_
-#define SDL_emscriptenopengles_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_emscriptenopengles_h_
+#وصف_ڪريو SDL_emscriptenopengles_h_
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // OpenGLES functions
-extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+خارجي bool Emscripten_GLES_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
+خارجي فراغ Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_Function_اشارو Emscripten_GLES_Get_Proc_پتو(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي bool Emscripten_GLES_سيٽ_مٽا_سٽا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool Emscripten_GLES_Get_مٽا_سٽا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool Emscripten_GLES_مٽا_سٽا_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_دري *دري, SDL_GLContext context);
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#endif // SDL_emscriptenopengles_h_
+#جيڪڏهن_پورو // SDL_emscriptenopengles_h_

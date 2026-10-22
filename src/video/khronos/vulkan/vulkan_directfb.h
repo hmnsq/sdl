@@ -1,5 +1,5 @@
-#ifndef VULKAN_DIRECTFB_H_
-#define VULKAN_DIRECTFB_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_DIRECTFB_H_
+#وصف_ڪريو VULKAN_DIRECTFB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_EXT_directfb_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_directfb_surface 1
+#وصف_ڪريو VK_EXT_directfb_surface 1
 
-#define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
-#define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
+#وصف_ڪريو VK_EXT_DIRECTFB_SURFACE_SPEC_نسخو 1
+#وصف_ڪريو VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
 
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+تعريفنوع VkFlags Vk_سڌو_FBSurface_Create_Flags_EXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+تعريفنوع بنية Vk_سڌو_FBSurface_Create_Info_EXT {
     VkStructureType                    sType;
-    const void*                        pNext;
-    VkDirectFBSurfaceCreateFlagsEXT    flags;
+    ثابت فراغ*                        p_ايندڙ;
+    Vk_سڌو_FBSurface_Create_Flags_EXT    flags;
     IDirectFB*                         dfb;
     IDirectFBSurface*                  surface;
-} VkDirectFBSurfaceCreateInfoEXT;
+} Vk_سڌو_FBSurface_Create_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Create_سڌو_FBSurface_EXT)(VkInstance instance, ثابت Vk_سڌو_FBSurface_Create_Info_EXT* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vk_Get_Physical_Device_سڌو_FBPresentation_Support_EXT)(VkPhysicalDevice physicalDevice, uint32_t قطار_Family_اشاريو, IDirectFB* dfb);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Create_سڌو_FBSurface_EXT(
     VkInstance                                  instance,
-    const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت Vk_سڌو_FBSurface_Create_Info_EXT*       pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceDirectFBPresentationSupportEXT(
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR VkBool32 VKAPI_CALL vk_Get_Physical_Device_سڌو_FBPresentation_Support_EXT(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    قطار_Family_اشاريو,
     IDirectFB*                                  dfb);
-#endif
-#endif
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

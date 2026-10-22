@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_riscosmouse_h_
-#define SDL_riscosmouse_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_riscosmouse_h_
+#وصف_ڪريو SDL_riscosmouse_h_
 
-extern bool RISCOS_InitMouse(SDL_VideoDevice *_this);
+خارجي bool RISCOS_InitMouse(SDL_VideoDevice *_this);
 
-#endif // SDL_riscosmouse_h_
+#جيڪڏهن_پورو // SDL_riscosmouse_h_

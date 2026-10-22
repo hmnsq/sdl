@@ -18,206 +18,206 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
-#include "../SDL_sysvideo.h"
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_HAIKU
+#ضمن "../SDL_sysvideo.h"
 
-#include "SDL_BWin.h"
-#include <new>
+#ضمن "SDL_BWin.h"
+#ضمن <new>
 
 // Define a path to window's BWIN data
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+ساكن SDL_INLINE SDL_BWin *منزل_Be_Win(SDL_دري *دري)
 {
-    return (SDL_BWin *)(window->internal);
+    أرجع (SDL_BWin *)(دري->اندروني);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+ساكن SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    أرجع SDL_Looper;
 }
 
-static bool _InitWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ساكن منطقي Init_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props)
 {
     uint32 flags = 0;
-    window_look look = B_TITLED_WINDOW_LOOK;
+    دري_look look = B_TITLED_دري_LOOK;
 
     BRect bounds(
-        window->x,
-        window->y,
-        window->x + window->w - 1,    //BeWindows have an off-by-one px w/h thing
-        window->y + window->h - 1
+        دري->x,
+        دري->y,
+        دري->x + دري->w - 1,    //BeWindows have an off-by-one px w/h thing
+        دري->y + دري->h - 1
     );
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    إذا (دري->flags & SDL_دري_FULLSCREEN) {
         // TODO: Add support for this flag
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    إذا (دري->flags & SDL_دري_OPENGL) {
         // TODO: Add support for this flag
     }
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    إذا (!(دري->flags & SDL_دري_RESIZABLE)) {
         flags |= B_NOT_RESIZABLE | B_NOT_ZOOMABLE;
     }
-    if (window->flags & SDL_WINDOW_BORDERLESS) {
-        look = B_NO_BORDER_WINDOW_LOOK;
+    إذا (دري->flags & SDL_دري_BORDERLESS) {
+        look = B_NO_BORDER_دري_LOOK;
     }
 
-    SDL_BWin *bwin = new(std::nothrow) SDL_BWin(bounds, look, flags);
-    if (!bwin) {
-        return false;
+    SDL_BWin *bwin = جديد(std::nothrow) SDL_BWin(bounds, look, flags);
+    إذا (!bwin) {
+        أرجع خطأ;
     }
 
-    window->internal = (SDL_WindowData *)bwin;
-    int32 winID = _GetBeLooper()->GetID(window);
-    bwin->SetID(winID);
+    دري->اندروني = (SDL_دري_معلومات *)bwin;
+    int32 winID = _GetBeLooper()->GetID(دري);
+    bwin->سيٽ_ID(winID);
 
-    return true;
+    أرجع سچ;
 }
 
-bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+منطقي HAIKU_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props)
 {
-    if (!_InitWindow(_this, window, create_props)) {
-        return false;
+    إذا (!Init_دري(_this, دري, create_props)) {
+        أرجع خطأ;
     }
 
     // Start window loop
-    _ToBeWin(window)->Show();
-    return true;
+    منزل_Be_Win(دري)->Show();
+    أرجع سچ;
 }
 
-void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_SET_TITLE);
-    msg.AddString("window-title", window->title);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_سيٽ_TITLE);
+    نياپو.جوڙيو_String("window-title", دري->title);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window * window)
+منطقي HAIKU_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_MOVE_WINDOW);
-    msg.AddInt32("window-x", window->pending.x);
-    msg.AddInt32("window-y", window->pending.y);
-    _ToBeWin(window)->PostMessage(&msg);
-    return true;
+    BMessage نياپو(BWIN_MOVE_دري);
+    نياپو.جوڙيو_Int32("window-x", دري->pending.x);
+    نياپو.جوڙيو_Int32("window-y", دري->pending.y);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
+    أرجع سچ;
 }
 
-void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_RESIZE_WINDOW);
-    msg.AddInt32("window-w", window->pending.w - 1);
-    msg.AddInt32("window-h", window->pending.h - 1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_RESIZE_دري);
+    نياپو.جوڙيو_Int32("window-w", دري->pending.w - 1);
+    نياپو.جوڙيو_Int32("window-h", دري->pending.h - 1);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window * window, bool bordered)
+فراغ HAIKU_سيٽ_دري_Bordered(SDL_VideoDevice *_this, SDL_دري * دري, منطقي bordered)
 {
-    BMessage msg(BWIN_SET_BORDERED);
-    msg.AddBool("window-border", bordered != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_سيٽ_BORDERED);
+    نياپو.جوڙيو_Bool("window-border", bordered != خطأ);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
+فراغ HAIKU_سيٽ_دري_Resizable(SDL_VideoDevice *_this, SDL_دري * دري, منطقي resizable)
 {
-    BMessage msg(BWIN_SET_RESIZABLE);
-    msg.AddBool("window-resizable", resizable != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_سيٽ_RESIZABLE);
+    نياپو.جوڙيو_Bool("window-resizable", resizable != خطأ);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Show_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_SHOW_دري);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Hide_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_HIDE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_HIDE_دري);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Raise_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);    // Activate this window and move to front
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_SHOW_دري);    // Activate this window and move to front
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Maximize_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_MAXIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_MAXIMIZE_دري);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Minimize_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_MINIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_MINIMIZE_دري);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-void HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Restore_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_RESTORE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_RESTORE_دري);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_نتيجو HAIKU_سيٽ_دري_Fullscreen(SDL_VideoDevice *_this, SDL_دري *دري, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
 {
     // Haiku tracks all video display information
-    BMessage msg(BWIN_FULLSCREEN);
-    msg.AddBool("fullscreen", !!fullscreen);
-    _ToBeWin(window)->PostMessage(&msg);
-    return SDL_FULLSCREEN_SUCCEEDED;
+    BMessage نياپو(BWIN_FULLSCREEN);
+    نياپو.جوڙيو_Bool("fullscreen", !!fullscreen);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
+    أرجع SDL_FULLSCREEN_SUCCEEDED;
 }
 
 
-void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سيٽ_دري_Minimum_سائيز(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    BMessage msg(BWIN_MINIMUM_SIZE_WINDOW);
-    msg.AddInt32("window-w", window->w -1);
-    msg.AddInt32("window-h", window->h -1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage نياپو(BWIN_MINIMUM_سائيز_دري);
+    نياپو.جوڙيو_Int32("window-w", دري->w -1);
+    نياپو.جوڙيو_Int32("window-h", دري->h -1);
+    منزل_Be_Win(دري)->Post_پيغام(&نياپو);
 }
 
-bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window * window, bool grabbed)
+منطقي HAIKU_سيٽ_دري_Mouse_Grab(SDL_VideoDevice *_this, SDL_دري * دري, منطقي grabbed)
 {
     // TODO: Implement this!
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
 
-bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window * window, SDL_Window *parent)
+منطقي HAIKU_سيٽ_دري_والد(SDL_VideoDevice *_this, SDL_دري * دري, SDL_دري *والد)
 {
-    return true;
+    أرجع سچ;
 }
 
-bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+منطقي HAIKU_سيٽ_دري_Modal(SDL_VideoDevice *_this, SDL_دري *دري, منطقي modal)
 {
-    if (modal) {
-        _ToBeWin(window)->SetLook(B_MODAL_WINDOW_LOOK);
-        _ToBeWin(window)->SetFeel(B_MODAL_SUBSET_WINDOW_FEEL);
-        _ToBeWin(window)->AddToSubset(_ToBeWin(window->parent));
-    } else {
-        window_look look = (window->flags & SDL_WINDOW_BORDERLESS) ? B_NO_BORDER_WINDOW_LOOK : B_TITLED_WINDOW_LOOK;
-        _ToBeWin(window)->RemoveFromSubset(_ToBeWin(window->parent));
-        _ToBeWin(window)->SetLook(look);
-        _ToBeWin(window)->SetFeel(B_NORMAL_WINDOW_FEEL);
+    إذا (modal) {
+        منزل_Be_Win(دري)->سيٽ_Look(B_MODAL_دري_LOOK);
+        منزل_Be_Win(دري)->سيٽ_Feel(B_MODAL_SUBSET_دري_FEEL);
+        منزل_Be_Win(دري)->جوڙيو_منزل_Subset(منزل_Be_Win(دري->والد));
+    } وإلا {
+        دري_look look = (دري->flags & SDL_دري_BORDERLESS) ? B_NO_BORDER_دري_LOOK : B_TITLED_دري_LOOK;
+        منزل_Be_Win(دري)->RemoveFromSubset(منزل_Be_Win(دري->والد));
+        منزل_Be_Win(دري)->سيٽ_Look(look);
+        منزل_Be_Win(دري)->سيٽ_Feel(B_عام_دري_FEEL);
     }
 
-    return true;
+    أرجع سچ;
 }
 
-void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Destroy_دري(SDL_VideoDevice *_this, SDL_دري * دري)
 {
-    _ToBeWin(window)->LockLooper();    // This MUST be locked
-    _GetBeLooper()->ClearID(_ToBeWin(window));
-    _ToBeWin(window)->Quit();
-    window->internal = NULL;
+    منزل_Be_Win(دري)->تالو_Looper();    // This MUST be locked
+    _GetBeLooper()->ClearID(منزل_Be_Win(دري));
+    منزل_Be_Win(دري)->Quit();
+    دري->اندروني = عدم;
 }
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_HAIKU

@@ -1,5 +1,5 @@
-#ifndef VULKAN_BETA_H_
-#define VULKAN_BETA_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_BETA_H_
+#وصف_ڪريو VULKAN_BETA_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,21 +13,21 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_KHR_portability_subset is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_portability_subset 1
+#وصف_ڪريو VK_KHR_portability_subset 1
 
-#define VK_KHR_PORTABILITY_SUBSET_SPEC_VERSION 1
-#define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
+#وصف_ڪريو VK_KHR_PORTABILITY_SUBSET_SPEC_نسخو 1
+#وصف_ڪريو VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
 
-typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
+تعريفنوع بنية VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     VkBool32           constantAlphaColorBlendFactors;
     VkBool32           events;
     VkBool32           imageViewFormatReinterpretation;
@@ -35,345 +35,345 @@ typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkBool32           imageView2DOn3DImage;
     VkBool32           multisampleArrayImage;
     VkBool32           mutableComparisonSamplers;
-    VkBool32           pointPolygons;
+    VkBool32           نقطو_Polygons;
     VkBool32           samplerMipLodBias;
-    VkBool32           separateStencilMaskRef;
-    VkBool32           shaderSampleRateInterpolationFunctions;
+    VkBool32           separate_Stencil_نقاب_Ref;
+    VkBool32           shader_Sample_شرح_Interpolation_Functions;
     VkBool32           tessellationIsolines;
-    VkBool32           tessellationPointMode;
+    VkBool32           tessellation_نقطو_گهڻائي;
     VkBool32           triangleFans;
-    VkBool32           vertexAttributeAccessBeyondStride;
+    VkBool32           راس_Attribute_Access_Beyond_Stride;
 } VkPhysicalDevicePortabilitySubsetFeaturesKHR;
 
-typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
+تعريفنوع بنية VkPhysicalDevicePortabilitySubsetPropertiesKHR {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           minVertexInputBindingStrideAlignment;
+    فراغ*              p_ايندڙ;
+    uint32_t           min_راس_داخلا_Binding_Stride_Alignment;
 } VkPhysicalDevicePortabilitySubsetPropertiesKHR;
 
 
 
 // VK_AMDX_shader_enqueue is a preprocessor guard. Do not pass it to API calls.
-#define VK_AMDX_shader_enqueue 1
+#وصف_ڪريو VK_AMDX_shader_قطار_اندر_وجهو 1
 
-#define VK_AMDX_SHADER_ENQUEUE_SPEC_VERSION 2
-#define VK_AMDX_SHADER_ENQUEUE_EXTENSION_NAME "VK_AMDX_shader_enqueue"
-#define VK_SHADER_INDEX_UNUSED_AMDX       (~0U)
+#وصف_ڪريو VK_AMDX_SHADER_قطار_اندر_وجهو_SPEC_نسخو 2
+#وصف_ڪريو VK_AMDX_SHADER_قطار_اندر_وجهو_EXTENSION_NAME "VK_AMDX_shader_enqueue"
+#وصف_ڪريو VK_SHADER_اشاريو_اڻ_استعمال_ٿيل_AMDX       (~0U)
 
-typedef struct VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
+تعريفنوع بنية Vk_Physical_Device_Shader_قطار_اندر_وجهو_Features_AMDX {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           shaderEnqueue;
-    VkBool32           shaderMeshEnqueue;
-} VkPhysicalDeviceShaderEnqueueFeaturesAMDX;
+    فراغ*              p_ايندڙ;
+    VkBool32           shader_قطار_اندر_وجهو;
+    VkBool32           shader_Mesh_قطار_اندر_وجهو;
+} Vk_Physical_Device_Shader_قطار_اندر_وجهو_Features_AMDX;
 
-typedef struct VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
+تعريفنوع بنية Vk_Physical_Device_Shader_قطار_اندر_وجهو_Properties_AMDX {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           maxExecutionGraphDepth;
-    uint32_t           maxExecutionGraphShaderOutputNodes;
-    uint32_t           maxExecutionGraphShaderPayloadSize;
-    uint32_t           maxExecutionGraphShaderPayloadCount;
-    uint32_t           executionGraphDispatchAddressAlignment;
-    uint32_t           maxExecutionGraphWorkgroupCount[3];
-    uint32_t           maxExecutionGraphWorkgroups;
-} VkPhysicalDeviceShaderEnqueuePropertiesAMDX;
+    فراغ*              p_ايندڙ;
+    uint32_t           max_Execution_گراف_اونهائي;
+    uint32_t           max_Execution_گراف_Shader_Output_Nodes;
+    uint32_t           max_Execution_گراف_Shader_Payload_سائيز;
+    uint32_t           max_Execution_گراف_Shader_Payload_ڳڻپ;
+    uint32_t           execution_گراف_Dispatch_پتو_Alignment;
+    uint32_t           max_Execution_گراف_Workgroup_ڳڻپ[3];
+    uint32_t           max_Execution_گراف_Workgroups;
+} Vk_Physical_Device_Shader_قطار_اندر_وجهو_Properties_AMDX;
 
-typedef struct VkExecutionGraphPipelineScratchSizeAMDX {
+تعريفنوع بنية Vk_Execution_گراف_Pipeline_Scratch_سائيز_AMDX {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       minSize;
-    VkDeviceSize       maxSize;
-    VkDeviceSize       sizeGranularity;
-} VkExecutionGraphPipelineScratchSizeAMDX;
+    فراغ*              p_ايندڙ;
+    Vk_Device_سائيز       min_سائيز;
+    Vk_Device_سائيز       max_سائيز_2;
+    Vk_Device_سائيز       سائيز_Granularity;
+} Vk_Execution_گراف_Pipeline_Scratch_سائيز_AMDX;
 
-typedef struct VkExecutionGraphPipelineCreateInfoAMDX {
+تعريفنوع بنية Vk_Execution_گراف_Pipeline_Create_Info_AMDX {
     VkStructureType                           sType;
-    const void*                               pNext;
+    ثابت فراغ*                               p_ايندڙ;
     VkPipelineCreateFlags                     flags;
-    uint32_t                                  stageCount;
-    const VkPipelineShaderStageCreateInfo*    pStages;
-    const VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
+    uint32_t                                  stage_ڳڻپ;
+    ثابت VkPipelineShaderStageCreateInfo*    pStages;
+    ثابت VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
     VkPipelineLayout                          layout;
-    VkPipeline                                basePipelineHandle;
-    int32_t                                   basePipelineIndex;
-} VkExecutionGraphPipelineCreateInfoAMDX;
+    VkPipeline                                بنياد_Pipeline_Handle;
+    int32_t                                   بنياد_Pipeline_اشاريو;
+} Vk_Execution_گراف_Pipeline_Create_Info_AMDX;
 
-typedef union VkDeviceOrHostAddressConstAMDX {
-    VkDeviceAddress    deviceAddress;
-    const void*        hostAddress;
-} VkDeviceOrHostAddressConstAMDX;
+تعريفنوع اتحاد Vk_Device_Or_Host_پتو_Const_AMDX {
+    Vk_Device_پتو    device_پتو;
+    ثابت فراغ*        host_پتو;
+} Vk_Device_Or_Host_پتو_Const_AMDX;
 
-typedef struct VkDispatchGraphInfoAMDX {
-    uint32_t                          nodeIndex;
-    uint32_t                          payloadCount;
-    VkDeviceOrHostAddressConstAMDX    payloads;
+تعريفنوع بنية Vk_Dispatch_گراف_Info_AMDX {
+    uint32_t                          ڳنڍ_اشاريو_2;
+    uint32_t                          payload_ڳڻپ;
+    Vk_Device_Or_Host_پتو_Const_AMDX    payloads;
     uint64_t                          payloadStride;
-} VkDispatchGraphInfoAMDX;
+} Vk_Dispatch_گراف_Info_AMDX;
 
-typedef struct VkDispatchGraphCountInfoAMDX {
-    uint32_t                          count;
-    VkDeviceOrHostAddressConstAMDX    infos;
+تعريفنوع بنية Vk_Dispatch_گراف_ڳڻپ_Info_AMDX {
+    uint32_t                          ڳڻپ;
+    Vk_Device_Or_Host_پتو_Const_AMDX    infos;
     uint64_t                          stride;
-} VkDispatchGraphCountInfoAMDX;
+} Vk_Dispatch_گراف_ڳڻپ_Info_AMDX;
 
-typedef struct VkPipelineShaderStageNodeCreateInfoAMDX {
+تعريفنوع بنية Vk_Pipeline_Shader_Stage_ڳنڍ_Create_Info_AMDX {
       VkStructureType    sType;
-    const void*          pNext;
-    const char*          pName;
-    uint32_t             index;
-} VkPipelineShaderStageNodeCreateInfoAMDX;
+    ثابت فراغ*          p_ايندڙ;
+    ثابت حرف*          pName;
+    uint32_t             اشاريو;
+} Vk_Pipeline_Shader_Stage_ڳنڍ_Create_Info_AMDX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateExecutionGraphPipelinesAMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        createInfoCount, const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos, const VkAllocationCallbacks*    pAllocator, VkPipeline*               pPipelines);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineScratchSizeAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, VkExecutionGraphPipelineScratchSizeAMDX*        pSizeInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineNodeIndexAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, const VkPipelineShaderStageNodeCreateInfoAMDX*  pNodeInfo, uint32_t*                                       pNodeIndex);
-typedef void (VKAPI_PTR *PFN_vkCmdInitializeGraphScratchMemoryAMDX)(VkCommandBuffer                                 commandBuffer, VkPipeline                                      executionGraph, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectCountAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, VkDeviceAddress                                 countInfo);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Create_Execution_گراف_Pipelines_AMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        create_Info_ڳڻپ, ثابت Vk_Execution_گراف_Pipeline_Create_Info_AMDX* pCreateInfos, ثابت Vk_ورهاست_Callbacks*    pAllocator, VkPipeline*               pPipelines);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Get_Execution_گراف_Pipeline_Scratch_سائيز_AMDX)(VkDevice                                        device, VkPipeline                                      execution_گراف, Vk_Execution_گراف_Pipeline_Scratch_سائيز_AMDX*        p_سائيز_Info);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Get_Execution_گراف_Pipeline_ڳنڍ_اشاريو_AMDX)(VkDevice                                        device, VkPipeline                                      execution_گراف, ثابت Vk_Pipeline_Shader_Stage_ڳنڍ_Create_Info_AMDX*  p_ڳنڍ_Info, uint32_t*                                       p_ڳنڍ_اشاريو);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vk_Cmd_Initialize_گراف_Scratch_يادگيري_AMDX)(Vk_Command_بفر                                 command_بفر, VkPipeline                                      execution_گراف, Vk_Device_پتو                                 scratch, Vk_Device_سائيز                                    scratch_سائيز);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vk_Cmd_Dispatch_گراف_AMDX)(Vk_Command_بفر                                 command_بفر, Vk_Device_پتو                                 scratch, Vk_Device_سائيز                                    scratch_سائيز, ثابت Vk_Dispatch_گراف_ڳڻپ_Info_AMDX*             p_ڳڻپ_Info);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vk_Cmd_Dispatch_گراف_اڻسڌو_AMDX)(Vk_Command_بفر                                 command_بفر, Vk_Device_پتو                                 scratch, Vk_Device_سائيز                                    scratch_سائيز, ثابت Vk_Dispatch_گراف_ڳڻپ_Info_AMDX*             p_ڳڻپ_Info);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vk_Cmd_Dispatch_گراف_اڻسڌو_ڳڻپ_AMDX)(Vk_Command_بفر                                 command_بفر, Vk_Device_پتو                                 scratch, Vk_Device_سائيز                                    scratch_سائيز, Vk_Device_پتو                                 ڳڻپ_Info);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateExecutionGraphPipelinesAMDX(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Create_Execution_گراف_Pipelines_AMDX(
     VkDevice                                    device,
     VkPipelineCache                             pipelineCache,
-    uint32_t                                    createInfoCount,
-    const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
-    const VkAllocationCallbacks*                pAllocator,
+    uint32_t                                    create_Info_ڳڻپ,
+    ثابت Vk_Execution_گراف_Pipeline_Create_Info_AMDX* pCreateInfos,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkPipeline*                                 pPipelines);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineScratchSizeAMDX(
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Get_Execution_گراف_Pipeline_Scratch_سائيز_AMDX(
     VkDevice                                    device,
-    VkPipeline                                  executionGraph,
-    VkExecutionGraphPipelineScratchSizeAMDX*    pSizeInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineNodeIndexAMDX(
+    VkPipeline                                  execution_گراف,
+    Vk_Execution_گراف_Pipeline_Scratch_سائيز_AMDX*    p_سائيز_Info);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Get_Execution_گراف_Pipeline_ڳنڍ_اشاريو_AMDX(
     VkDevice                                    device,
-    VkPipeline                                  executionGraph,
-    const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo,
-    uint32_t*                                   pNodeIndex);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdInitializeGraphScratchMemoryAMDX(
-    VkCommandBuffer                             commandBuffer,
-    VkPipeline                                  executionGraph,
-    VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphAMDX(
-    VkCommandBuffer                             commandBuffer,
-    VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectAMDX(
-    VkCommandBuffer                             commandBuffer,
-    VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectCountAMDX(
-    VkCommandBuffer                             commandBuffer,
-    VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    VkDeviceAddress                             countInfo);
-#endif
-#endif
+    VkPipeline                                  execution_گراف,
+    ثابت Vk_Pipeline_Shader_Stage_ڳنڍ_Create_Info_AMDX* p_ڳنڍ_Info,
+    uint32_t*                                   p_ڳنڍ_اشاريو);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vk_Cmd_Initialize_گراف_Scratch_يادگيري_AMDX(
+    Vk_Command_بفر                             command_بفر,
+    VkPipeline                                  execution_گراف,
+    Vk_Device_پتو                             scratch,
+    Vk_Device_سائيز                                scratch_سائيز);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vk_Cmd_Dispatch_گراف_AMDX(
+    Vk_Command_بفر                             command_بفر,
+    Vk_Device_پتو                             scratch,
+    Vk_Device_سائيز                                scratch_سائيز,
+    ثابت Vk_Dispatch_گراف_ڳڻپ_Info_AMDX*         p_ڳڻپ_Info);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vk_Cmd_Dispatch_گراف_اڻسڌو_AMDX(
+    Vk_Command_بفر                             command_بفر,
+    Vk_Device_پتو                             scratch,
+    Vk_Device_سائيز                                scratch_سائيز,
+    ثابت Vk_Dispatch_گراف_ڳڻپ_Info_AMDX*         p_ڳڻپ_Info);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vk_Cmd_Dispatch_گراف_اڻسڌو_ڳڻپ_AMDX(
+    Vk_Command_بفر                             command_بفر,
+    Vk_Device_پتو                             scratch,
+    Vk_Device_سائيز                                scratch_سائيز,
+    Vk_Device_پتو                             ڳڻپ_Info);
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 
 // VK_NV_cuda_kernel_launch is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_cuda_kernel_launch 1
+#وصف_ڪريو VK_NV_cuda_kernel_launch 1
 
 VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCudaModuleNV)
 VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCudaFunctionNV)
 
-#define VK_NV_CUDA_KERNEL_LAUNCH_SPEC_VERSION 2
-#define VK_NV_CUDA_KERNEL_LAUNCH_EXTENSION_NAME "VK_NV_cuda_kernel_launch"
+#وصف_ڪريو VK_NV_CUDA_KERNEL_LAUNCH_SPEC_نسخو 2
+#وصف_ڪريو VK_NV_CUDA_KERNEL_LAUNCH_EXTENSION_NAME "VK_NV_cuda_kernel_launch"
 
-typedef struct VkCudaModuleCreateInfoNV {
+تعريفنوع بنية VkCudaModuleCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
-    size_t             dataSize;
-    const void*        pData;
+    ثابت فراغ*        p_ايندڙ;
+    size_t             معلومات_سائيز_2;
+    ثابت فراغ*        p_معلومات;
 } VkCudaModuleCreateInfoNV;
 
-typedef struct VkCudaFunctionCreateInfoNV {
+تعريفنوع بنية VkCudaFunctionCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_ايندڙ;
     VkCudaModuleNV     module;
-    const char*        pName;
+    ثابت حرف*        pName;
 } VkCudaFunctionCreateInfoNV;
 
-typedef struct VkCudaLaunchInfoNV {
+تعريفنوع بنية VkCudaLaunchInfoNV {
     VkStructureType        sType;
-    const void*            pNext;
+    ثابت فراغ*            p_ايندڙ;
     VkCudaFunctionNV       function;
     uint32_t               gridDimX;
     uint32_t               gridDimY;
     uint32_t               gridDimZ;
-    uint32_t               blockDimX;
-    uint32_t               blockDimY;
-    uint32_t               blockDimZ;
-    uint32_t               sharedMemBytes;
-    size_t                 paramCount;
-    const void* const *    pParams;
-    size_t                 extraCount;
-    const void* const *    pExtras;
+    uint32_t               بلاڪ_Dim_X;
+    uint32_t               بلاڪ_Dim_Y;
+    uint32_t               بلاڪ_Dim_Z;
+    uint32_t               shared_Mem_بائيٽون;
+    size_t                 param_ڳڻپ;
+    ثابت فراغ* ثابت *    pParams;
+    size_t                 extra_ڳڻپ;
+    ثابت فراغ* ثابت *    pExtras;
 } VkCudaLaunchInfoNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
+تعريفنوع بنية VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     VkBool32           cudaKernelLaunchFeatures;
 } VkPhysicalDeviceCudaKernelLaunchFeaturesNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
+تعريفنوع بنية VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     uint32_t           computeCapabilityMinor;
     uint32_t           computeCapabilityMajor;
 } VkPhysicalDeviceCudaKernelLaunchPropertiesNV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule);
-typedef VkResult (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* pCacheSize, void* pCacheData);
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, const VkCudaFunctionCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaFunctionNV* pFunction);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(VkCommandBuffer commandBuffer, const VkCudaLaunchInfoNV* pLaunchInfo);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, ثابت VkCudaModuleCreateInfoNV* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkCudaModuleNV* pModule);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* p_Cache_سائيز, فراغ* p_Cache_معلومات);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, ثابت VkCudaFunctionCreateInfoNV* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkCudaFunctionNV* pFunction);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, ثابت Vk_ورهاست_Callbacks* pAllocator);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, ثابت Vk_ورهاست_Callbacks* pAllocator);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(Vk_Command_بفر command_بفر, ثابت VkCudaLaunchInfoNV* pLaunchInfo);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaModuleNV(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateCudaModuleNV(
     VkDevice                                    device,
-    const VkCudaModuleCreateInfoNV*             pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkCudaModuleCreateInfoNV*             pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkCudaModuleNV*                             pModule);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetCudaModuleCacheNV(
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkGetCudaModuleCacheNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
-    size_t*                                     pCacheSize,
-    void*                                       pCacheData);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaFunctionNV(
+    size_t*                                     p_Cache_سائيز,
+    فراغ*                                       p_Cache_معلومات);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateCudaFunctionNV(
     VkDevice                                    device,
-    const VkCudaFunctionCreateInfoNV*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkCudaFunctionCreateInfoNV*           pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkCudaFunctionNV*                           pFunction);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaModuleNV(
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vkDestroyCudaModuleNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
-    const VkAllocationCallbacks*                pAllocator);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaFunctionNV(
+    ثابت Vk_ورهاست_Callbacks*                pAllocator);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vkDestroyCudaFunctionNV(
     VkDevice                                    device,
     VkCudaFunctionNV                            function,
-    const VkAllocationCallbacks*                pAllocator);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
-    VkCommandBuffer                             commandBuffer,
-    const VkCudaLaunchInfoNV*                   pLaunchInfo);
-#endif
-#endif
+    ثابت Vk_ورهاست_Callbacks*                pAllocator);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vkCmdCudaLaunchKernelNV(
+    Vk_Command_بفر                             command_بفر,
+    ثابت VkCudaLaunchInfoNV*                   pLaunchInfo);
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 
 // VK_NV_displacement_micromap is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_displacement_micromap 1
+#وصف_ڪريو VK_NV_displacement_micromap 1
 
-#define VK_NV_DISPLACEMENT_MICROMAP_SPEC_VERSION 2
-#define VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME "VK_NV_displacement_micromap"
+#وصف_ڪريو VK_NV_DISPLACEMENT_MICROMAP_SPEC_نسخو 2
+#وصف_ڪريو VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME "VK_NV_displacement_micromap"
 
-typedef enum VkDisplacementMicromapFormatNV {
-    VK_DISPLACEMENT_MICROMAP_FORMAT_64_TRIANGLES_64_BYTES_NV = 1,
-    VK_DISPLACEMENT_MICROMAP_FORMAT_256_TRIANGLES_128_BYTES_NV = 2,
-    VK_DISPLACEMENT_MICROMAP_FORMAT_1024_TRIANGLES_128_BYTES_NV = 3,
+تعريفنوع تعداد VkDisplacementMicromapFormatNV {
+    VK_DISPLACEMENT_MICROMAP_FORMAT_64_TRIANGLES_64_بائيٽون_NV = 1,
+    VK_DISPLACEMENT_MICROMAP_FORMAT_256_TRIANGLES_128_بائيٽون_NV = 2,
+    VK_DISPLACEMENT_MICROMAP_FORMAT_1024_TRIANGLES_128_بائيٽون_NV = 3,
     VK_DISPLACEMENT_MICROMAP_FORMAT_MAX_ENUM_NV = 0x7FFFFFFF
 } VkDisplacementMicromapFormatNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapFeaturesNV {
+تعريفنوع بنية VkPhysicalDeviceDisplacementMicromapFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     VkBool32           displacementMicromap;
 } VkPhysicalDeviceDisplacementMicromapFeaturesNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapPropertiesNV {
+تعريفنوع بنية VkPhysicalDeviceDisplacementMicromapPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     uint32_t           maxDisplacementMicromapSubdivisionLevel;
 } VkPhysicalDeviceDisplacementMicromapPropertiesNV;
 
-typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
+تعريفنوع بنية VkAccelerationStructureTrianglesDisplacementMicromapNV {
     VkStructureType                     sType;
-    void*                               pNext;
+    فراغ*                               p_ايندڙ;
     VkFormat                            displacementBiasAndScaleFormat;
-    VkFormat                            displacementVectorFormat;
-    VkDeviceOrHostAddressConstKHR       displacementBiasAndScaleBuffer;
-    VkDeviceSize                        displacementBiasAndScaleStride;
-    VkDeviceOrHostAddressConstKHR       displacementVectorBuffer;
-    VkDeviceSize                        displacementVectorStride;
-    VkDeviceOrHostAddressConstKHR       displacedMicromapPrimitiveFlags;
-    VkDeviceSize                        displacedMicromapPrimitiveFlagsStride;
-    VkIndexType                         indexType;
-    VkDeviceOrHostAddressConstKHR       indexBuffer;
-    VkDeviceSize                        indexStride;
-    uint32_t                            baseTriangle;
-    uint32_t                            usageCountsCount;
-    const VkMicromapUsageEXT*           pUsageCounts;
-    const VkMicromapUsageEXT* const*    ppUsageCounts;
+    VkFormat                            displacement_ويڪٽر_Format;
+    Vk_Device_Or_Host_پتو_Const_KHR       displacement_Bias_And_Scale_بفر;
+    Vk_Device_سائيز                        displacementBiasAndScaleStride;
+    Vk_Device_Or_Host_پتو_Const_KHR       displacement_ويڪٽر_بفر;
+    Vk_Device_سائيز                        displacement_ويڪٽر_Stride;
+    Vk_Device_Or_Host_پتو_Const_KHR       displacedMicromapPrimitiveFlags;
+    Vk_Device_سائيز                        displacedMicromapPrimitiveFlagsStride;
+    Vk_اشاريو_Type                         اشاريو_Type;
+    Vk_Device_Or_Host_پتو_Const_KHR       اشاريو_بفر_2;
+    Vk_Device_سائيز                        اشاريو_Stride;
+    uint32_t                            بنياد_Triangle;
+    uint32_t                            usage_Counts_ڳڻپ;
+    ثابت VkMicromapUsageEXT*           pUsageCounts;
+    ثابت VkMicromapUsageEXT* ثابت*    ppUsageCounts;
     VkMicromapEXT                       micromap;
 } VkAccelerationStructureTrianglesDisplacementMicromapNV;
 
 
 
 // VK_AMDX_dense_geometry_format is a preprocessor guard. Do not pass it to API calls.
-#define VK_AMDX_dense_geometry_format 1
+#وصف_ڪريو VK_AMDX_dense_geometry_format 1
 
-#define VK_AMDX_DENSE_GEOMETRY_FORMAT_SPEC_VERSION 1
-#define VK_AMDX_DENSE_GEOMETRY_FORMAT_EXTENSION_NAME "VK_AMDX_dense_geometry_format"
-#define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX 128U
-#define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX 128U
+#وصف_ڪريو VK_AMDX_DENSE_GEOMETRY_FORMAT_SPEC_نسخو 1
+#وصف_ڪريو VK_AMDX_DENSE_GEOMETRY_FORMAT_EXTENSION_NAME "VK_AMDX_dense_geometry_format"
+#وصف_ڪريو VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX 128U
+#وصف_ڪريو VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX 128U
 
-typedef enum VkCompressedTriangleFormatAMDX {
+تعريفنوع تعداد VkCompressedTriangleFormatAMDX {
     VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_AMDX = 0,
     VK_COMPRESSED_TRIANGLE_FORMAT_MAX_ENUM_AMDX = 0x7FFFFFFF
 } VkCompressedTriangleFormatAMDX;
 
-typedef struct VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
+تعريفنوع بنية VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     VkBool32           denseGeometryFormat;
 } VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX;
 
-typedef struct VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
+تعريفنوع بنية Vk_Acceleration_Structure_Dense_Geometry_Format_Triangles_معلومات_AMDX {
     VkStructureType                   sType;
-    const void*                       pNext;
-    VkDeviceOrHostAddressConstKHR     compressedData;
-    VkDeviceSize                      dataSize;
-    uint32_t                          numTriangles;
-    uint32_t                          numVertices;
-    uint32_t                          maxPrimitiveIndex;
-    uint32_t                          maxGeometryIndex;
+    ثابت فراغ*                       p_ايندڙ;
+    Vk_Device_Or_Host_پتو_Const_KHR     compressed_معلومات;
+    Vk_Device_سائيز                      معلومات_سائيز_2;
+    uint32_t                          انگ_Triangles;
+    uint32_t                          انگ_Vertices;
+    uint32_t                          max_Primitive_اشاريو;
+    uint32_t                          max_Geometry_اشاريو;
     VkCompressedTriangleFormatAMDX    format;
-} VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX;
+} Vk_Acceleration_Structure_Dense_Geometry_Format_Triangles_معلومات_AMDX;
 
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

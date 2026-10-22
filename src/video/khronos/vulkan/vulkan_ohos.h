@@ -1,5 +1,5 @@
-#ifndef VULKAN_OHOS_H_
-#define VULKAN_OHOS_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_OHOS_H_
+#وصف_ڪريو VULKAN_OHOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,118 +13,118 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_OHOS_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_external_memory 1
+#وصف_ڪريو VK_OHOS_external_يادگيري 1
 
-struct OH_NativeBuffer;
+بنية OH_Native_بفر;
 
-#define VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
+#وصف_ڪريو VK_OHOS_EXTERNAL_يادگيري_SPEC_نسخو 1
+#وصف_ڪريو VK_OHOS_EXTERNAL_يادگيري_EXTENSION_NAME "VK_OHOS_external_memory"
 
-typedef struct VkNativeBufferUsageOHOS {
+تعريفنوع بنية Vk_Native_بفر_Usage_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    uint64_t           OHOSNativeBufferUsage;
-} VkNativeBufferUsageOHOS;
+    فراغ*              p_ايندڙ;
+    uint64_t           OHOSNative_بفر_Usage;
+} Vk_Native_بفر_Usage_OHOS;
 
-typedef struct VkNativeBufferPropertiesOHOS {
+تعريفنوع بنية Vk_Native_بفر_Properties_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
-    uint32_t           memoryTypeBits;
-} VkNativeBufferPropertiesOHOS;
+    فراغ*              p_ايندڙ;
+    Vk_Device_سائيز       ورهاست_سائيز;
+    uint32_t           يادگيري_Type_بٽ;
+} Vk_Native_بفر_Properties_OHOS;
 
-typedef struct VkNativeBufferFormatPropertiesOHOS {
+تعريفنوع بنية Vk_Native_بفر_Format_Properties_OHOS {
     VkStructureType                  sType;
-    void*                            pNext;
+    فراغ*                            p_ايندڙ;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkNativeBufferFormatPropertiesOHOS;
+    VkChromaLocation                 suggested_XChroma_وٿي;
+    VkChromaLocation                 suggested_YChroma_وٿي;
+} Vk_Native_بفر_Format_Properties_OHOS;
 
-typedef struct VkImportNativeBufferInfoOHOS {
+تعريفنوع بنية Vk_Import_Native_بفر_Info_OHOS {
     VkStructureType            sType;
-    const void*                pNext;
-    struct OH_NativeBuffer*    buffer;
-} VkImportNativeBufferInfoOHOS;
+    ثابت فراغ*                p_ايندڙ;
+    بنية OH_Native_بفر*    بفر_2;
+} Vk_Import_Native_بفر_Info_OHOS;
 
-typedef struct VkMemoryGetNativeBufferInfoOHOS {
+تعريفنوع بنية Vk_يادگيري_Get_Native_بفر_Info_OHOS {
     VkStructureType    sType;
-    const void*        pNext;
-    VkDeviceMemory     memory;
-} VkMemoryGetNativeBufferInfoOHOS;
+    ثابت فراغ*        p_ايندڙ;
+    Vk_Device_يادگيري     يادگيري;
+} Vk_يادگيري_Get_Native_بفر_Info_OHOS;
 
-typedef struct VkExternalFormatOHOS {
+تعريفنوع بنية VkExternalFormatOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     uint64_t           externalFormat;
 } VkExternalFormatOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Get_Native_بفر_Properties_OHOS)(VkDevice device, ثابت بنية OH_Native_بفر* بفر_2, Vk_Native_بفر_Properties_OHOS* pProperties);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Get_يادگيري_Native_بفر_OHOS)(VkDevice device, ثابت Vk_يادگيري_Get_Native_بفر_Info_OHOS* pInfo, بنية OH_Native_بفر** p_بفر);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetNativeBufferPropertiesOHOS(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Get_Native_بفر_Properties_OHOS(
     VkDevice                                    device,
-    const struct OH_NativeBuffer*               buffer,
-    VkNativeBufferPropertiesOHOS*               pProperties);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
+    ثابت بنية OH_Native_بفر*               بفر_2,
+    Vk_Native_بفر_Properties_OHOS*               pProperties);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Get_يادگيري_Native_بفر_OHOS(
     VkDevice                                    device,
-    const VkMemoryGetNativeBufferInfoOHOS*      pInfo,
-    struct OH_NativeBuffer**                    pBuffer);
-#endif
-#endif
+    ثابت Vk_يادگيري_Get_Native_بفر_Info_OHOS*      pInfo,
+    بنية OH_Native_بفر**                    p_بفر);
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 
 // VK_OHOS_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_surface 1
+#وصف_ڪريو VK_OHOS_surface 1
 
-typedef struct NativeWindow OHNativeWindow;
+تعريفنوع بنية Native_دري OHNative_دري;
 
-#define VK_OHOS_SURFACE_SPEC_VERSION      1
-#define VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
+#وصف_ڪريو VK_OHOS_SURFACE_SPEC_نسخو      1
+#وصف_ڪريو VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
 
-typedef VkFlags VkSurfaceCreateFlagsOHOS;
+تعريفنوع VkFlags VkSurfaceCreateFlagsOHOS;
 
-typedef struct VkSurfaceCreateInfoOHOS {
+تعريفنوع بنية VkSurfaceCreateInfoOHOS {
     VkStructureType             sType;
-    const void*                 pNext;
+    ثابت فراغ*                 p_ايندڙ;
     VkSurfaceCreateFlagsOHOS    flags;
-    OHNativeWindow*             window;
+    OHNative_دري*             دري;
 } VkSurfaceCreateInfoOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, ثابت VkSurfaceCreateInfoOHOS* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateSurfaceOHOS(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateSurfaceOHOS(
     VkInstance                                  instance,
-    const VkSurfaceCreateInfoOHOS*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkSurfaceCreateInfoOHOS*              pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

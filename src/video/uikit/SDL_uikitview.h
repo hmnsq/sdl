@@ -21,35 +21,35 @@
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#if !defined(SDL_PLATFORM_TVOS)
+#إذا !defined(SDL_PLATFORM_TVOS)
 @interface SDL_uikitview : UIView <UIPointerInteractionDelegate>
-#else
+#وإلا
 @interface SDL_uikitview : UIView
-#endif
+#جيڪڏهن_پورو
 
-- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)init_With_چوکٺو:(CGRect)چوکٺو;
 
-- (void)setSDLWindow:(SDL_Window *)window;
-- (SDL_Window *)getSDLWindow;
+- (فراغ)سيٽ_SDLWindow:(SDL_دري *)دري;
+- (SDL_دري *)getSDLWindow;
 
-#if !defined(SDL_PLATFORM_TVOS)
-- (void)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.0));
+#إذا !defined(SDL_PLATFORM_TVOS)
+- (فراغ)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_موجود(ios(13.0));
 
-- (UIPointerRegion *)pointerInteraction:(UIPointerInteraction *)interaction regionForRequest:(UIPointerRegionRequest *)request defaultRegion:(UIPointerRegion *)defaultRegion API_AVAILABLE(ios(13.4));
-- (UIPointerStyle *)pointerInteraction:(UIPointerInteraction *)interaction styleForRegion:(UIPointerRegion *)region API_AVAILABLE(ios(13.4));
-- (void)indirectPointerHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.4));
-#endif
+- (UIPointerRegion *)اشارو_Interaction:(UIPointerInteraction *)interaction regionForRequest:(UIPointerRegionRequest *)request defaultRegion:(UIPointerRegion *)defaultRegion API_موجود(ios(13.4));
+- (UIPointerStyle *)اشارو_Interaction:(UIPointerInteraction *)interaction styleForRegion:(UIPointerRegion *)region API_موجود(ios(13.4));
+- (فراغ)اڻسڌو_اشارو_Hovering:(UIHoverGestureRecognizer *)recognizer API_موجود(ios(13.4));
+#جيڪڏهن_پورو
 
 - (CGPoint)touchLocation:(UITouch *)touch shouldNormalize:(BOOL)normalize;
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
-#if !defined(SDL_PLATFORM_TVOS)
+- (فراغ)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (فراغ)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+- (فراغ)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+#إذا !defined(SDL_PLATFORM_TVOS)
 - (IBAction)sdlPinchGesture:(UIPinchGestureRecognizer *)sender;
-#endif
+#جيڪڏهن_پورو
 
-- (void)safeAreaInsetsDidChange;
+- (فراغ)محفوظ_Area_Insets_Did_Change;
 
-@end
+@پڇاڙي

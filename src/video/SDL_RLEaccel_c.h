@@ -19,14 +19,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_RLEaccel_c_h_
-#define SDL_RLEaccel_c_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_RLEaccel_c_h_
+#وصف_ڪريو SDL_RLEaccel_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 // Useful functions and variables from SDL_RLEaccel.c
 
-extern bool SDL_RLESurface(SDL_Surface *surface);
-extern void SDL_UnRLESurface(SDL_Surface *surface);
+خارجي bool SDL_RLESurface(SDL_Surface *surface);
+خارجي فراغ SDL_UnRLESurface(SDL_Surface *surface);
 
-#endif // SDL_RLEaccel_c_h_
+#جيڪڏهن_پورو // SDL_RLEaccel_c_h_

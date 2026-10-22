@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowsmodes_h_
-#define SDL_windowsmodes_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_windowsmodes_h_
+#وصف_ڪريو SDL_windowsmodes_h_
 
-typedef enum
+تعريفنوع تعداد
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+بنية SDL_Display_معلومات
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,18 +39,18 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+بنية SDL_Display_گهڻائي_معلومات
 {
-    DEVMODEW DeviceMode;
+    DEVMODEW Device_گهڻائي;
 };
 
-extern bool WIN_InitModes(SDL_VideoDevice *_this);
-extern bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void WIN_RefreshDisplays(SDL_VideoDevice *_this);
-extern void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
-extern void WIN_QuitModes(SDL_VideoDevice *_this);
+خارجي bool WIN_InitModes(SDL_VideoDevice *_this);
+خارجي bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجي bool WIN_سيٽ_Display_گهڻائي(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_گهڻائي *گهڻائي);
+خارجي فراغ WIN_RefreshDisplays(SDL_VideoDevice *_this);
+خارجي فراغ WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
+خارجي فراغ WIN_QuitModes(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsmodes_h_
+#جيڪڏهن_پورو // SDL_windowsmodes_h_

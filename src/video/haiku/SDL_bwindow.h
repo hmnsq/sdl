@@ -19,28 +19,28 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BWINDOW_H
-#define SDL_BWINDOW_H
+#جيڪڏهن_وصف_نه_ٿيل SDL_BWINDOW_H
+#وصف_ڪريو SDL_BWINDOW_H
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool HAIKU_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props);
+خارجي فراغ HAIKU_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool HAIKU_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_سيٽ_دري_Minimum_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Show_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Hide_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Raise_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Maximize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_Restore_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ HAIKU_سيٽ_دري_Bordered(SDL_VideoDevice *_this, SDL_دري *دري, bool bordered);
+خارجي فراغ HAIKU_سيٽ_دري_Resizable(SDL_VideoDevice *_this, SDL_دري *دري, bool resizable);
+خارجي SDL_Fullscreen_نتيجو HAIKU_سيٽ_دري_Fullscreen(SDL_VideoDevice *_this, SDL_دري *دري, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي bool HAIKU_سيٽ_دري_Mouse_Grab(SDL_VideoDevice *_this, SDL_دري *دري, bool grabbed);
+خارجي bool HAIKU_سيٽ_دري_والد(SDL_VideoDevice *_this, SDL_دري *دري, SDL_دري *والد);
+خارجي bool HAIKU_سيٽ_دري_Modal(SDL_VideoDevice *_this, SDL_دري *دري, bool modal);
+خارجي فراغ HAIKU_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري);
 
-#endif
+#جيڪڏهن_پورو

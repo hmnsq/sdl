@@ -19,320 +19,320 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_X11
 
-#include "../../dialog/unix/SDL_zenitymessagebox.h"
-#include "SDL_x11messagebox.h"
-#include "SDL_x11toolkit.h"
+#ضمن "../../dialog/unix/SDL_zenitymessagebox.h"
+#ضمن "SDL_x11messagebox.h"
+#ضمن "SDL_x11toolkit.h"
 
-#ifndef SDL_FORK_MESSAGEBOX
-#define SDL_FORK_MESSAGEBOX 0
-#endif
+#جيڪڏهن_وصف_نه_ٿيل SDL_FORK_MESSAGEBOX
+#وصف_ڪريو SDL_FORK_MESSAGEBOX 0
+#جيڪڏهن_پورو
 
-#if SDL_FORK_MESSAGEBOX
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <errno.h>
-#endif
+#إذا SDL_FORK_MESSAGEBOX
+#ضمن <sys/types.h>
+#ضمن <sys/wait.h>
+#ضمن <unistd.h>
+#ضمن <errno.h>
+#جيڪڏهن_پورو
 
-typedef struct SDL_MessageBoxX11
+تعريفنوع بنية SDL_پيغام_Box_X11
 {
-    SDL_ToolkitWindowX11 *window;
+    SDL_Toolkit_دري_X11 *دري;
     SDL_ToolkitControlX11 *icon;
-    SDL_ToolkitControlX11 *message;
+    SDL_ToolkitControlX11 *پيغام;
     SDL_ToolkitControlX11 **buttons;
-    const SDL_MessageBoxData *messageboxdata;
-    int *buttonID;
-} SDL_MessageBoxX11;
+    ثابت SDL_پيغام_Box_معلومات *messageboxdata;
+    صحيح *buttonID;
+} SDL_پيغام_Box_X11;
 
-static void X11_MessageBoxButtonCallback(SDL_ToolkitControlX11 *control, void *data)
+ساكن فراغ X11_پيغام_Box_Button_Callback(SDL_ToolkitControlX11 *control, فراغ *معلومات)
 {
-    SDL_MessageBoxX11 *cbdata;
+    SDL_پيغام_Box_X11 *cbdata;
 
-    cbdata = data;
-    *cbdata->buttonID = X11Toolkit_GetButtonControlData(control)->buttonID;
-    X11Toolkit_SignalWindowClose(cbdata->window);
+    cbdata = معلومات;
+    *cbdata->buttonID = X11_Toolkit_Get_Button_Control_معلومات(control)->buttonID;
+    X11_Toolkit_Signal_دري_Close(cbdata->دري);
 }
 
-static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp) {
-    int first_line_width;
-    int first_line_height;
-    int second_line_width;
-    int second_line_height;
-    int max_button_width;
-    int max_button_height;
-    int window_width;
-    int window_height;
-    int i;
+ساكن فراغ X11_Position_پيغام_Box(SDL_پيغام_Box_X11 *controls, صحيح *wp, صحيح *hp) {
+    صحيح پهريون_سٽ_ويڪر;
+    صحيح پهريون_سٽ_اوچائي;
+    صحيح ٻيو_سٽ_ويڪر;
+    صحيح ٻيو_سٽ_اوچائي;
+    صحيح max_button_ويڪر;
+    صحيح max_button_اوچائي;
+    صحيح دري_ويڪر;
+    صحيح دري_اوچائي;
+    صحيح i;
     bool rtl;
     
     /* window size */
-    window_width = 1;
-    window_height = 1;
+    دري_ويڪر = 1;
+    دري_اوچائي = 1;
     
     /* rtl */
-    if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT) {
+    إذا (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_ساڄو_منزل_کاٻو) {
         rtl = true;
-    } else if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    } وإلا إذا (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_کاٻو_منزل_ساڄو) {
         rtl = false;
-    } else {
-        rtl = controls->window->flip_interface;
+    } وإلا {
+        rtl = controls->دري->flip_interface;
     }
     
     /* first line */
-    first_line_width = first_line_height = 0;
-    if (controls->icon && controls->message) {
+    پهريون_سٽ_ويڪر = پهريون_سٽ_اوچائي = 0;
+    إذا (controls->icon && controls->پيغام) {
         controls->icon->rect.y = 0;
         
-        first_line_width = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale + controls->message->rect.w;  
+        پهريون_سٽ_ويڪر = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale + controls->پيغام->rect.w;  
         
-        if (!controls->window->flip_interface) {
-            controls->message->rect.x = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->window->iscale;
+        إذا (!controls->دري->flip_interface) {
+            controls->پيغام->rect.x = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->دري->iscale;
             controls->icon->rect.x = 0;
-        } else {
-            controls->message->rect.x = 0;    
-            controls->icon->rect.x = controls->message->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->window->iscale;
+        } وإلا {
+            controls->پيغام->rect.x = 0;    
+            controls->icon->rect.x = controls->پيغام->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->دري->iscale;
         }
         
-        if (controls->message->rect.h > controls->icon->rect.h) {
-            controls->message->rect.y = (controls->icon->rect.h - X11Toolkit_GetLabelControlFirstLineHeight(controls->message))/2;
-            first_line_height = controls->message->rect.y + controls->message->rect.h;
-        } else {
-            controls->message->rect.y = (controls->icon->rect.h - controls->message->rect.h)/2;
-            first_line_height = controls->icon->rect.h;
+        إذا (controls->پيغام->rect.h > controls->icon->rect.h) {
+            controls->پيغام->rect.y = (controls->icon->rect.h - X11_Toolkit_Get_Label_Control_پهريون_سٽ_اوچائي(controls->پيغام))/2;
+            پهريون_سٽ_اوچائي = controls->پيغام->rect.y + controls->پيغام->rect.h;
+        } وإلا {
+            controls->پيغام->rect.y = (controls->icon->rect.h - controls->پيغام->rect.h)/2;
+            پهريون_سٽ_اوچائي = controls->icon->rect.h;
         }        
-    } else if (!controls->icon && controls->message) {
-        first_line_width = controls->message->rect.w;  
-        first_line_height = controls->message->rect.h;
-        controls->message->rect.x = 0;
-        controls->message->rect.y = 0;
-    } else if (controls->icon && !controls->message) {
-        first_line_width = controls->icon->rect.w;  
-        first_line_height = controls->icon->rect.h;
+    } وإلا إذا (!controls->icon && controls->پيغام) {
+        پهريون_سٽ_ويڪر = controls->پيغام->rect.w;  
+        پهريون_سٽ_اوچائي = controls->پيغام->rect.h;
+        controls->پيغام->rect.x = 0;
+        controls->پيغام->rect.y = 0;
+    } وإلا إذا (controls->icon && !controls->پيغام) {
+        پهريون_سٽ_ويڪر = controls->icon->rect.w;  
+        پهريون_سٽ_اوچائي = controls->icon->rect.h;
         controls->icon->rect.x = 0;
         controls->icon->rect.y = 0;        
     }
     
     /* second line */
-    max_button_width = 50;
-    max_button_height = 0;
-    second_line_width = second_line_height = 0;
+    max_button_ويڪر = 50;
+    max_button_اوچائي = 0;
+    ٻيو_سٽ_ويڪر = ٻيو_سٽ_اوچائي = 0;
     
-    for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
-        max_button_width = SDL_max(max_button_width, controls->buttons[i]->rect.w);
-        max_button_height = SDL_max(max_button_height, controls->buttons[i]->rect.h);
+    لكل (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+        max_button_ويڪر = SDL_max(max_button_ويڪر, controls->buttons[i]->rect.w);
+        max_button_اوچائي = SDL_max(max_button_اوچائي, controls->buttons[i]->rect.h);
         controls->buttons[i]->rect.x = 0;
         controls->buttons[i]->rect.y = 0;
     }
 
-    if (rtl) {
-        for (i = (controls->messageboxdata->numbuttons - 1); i != -1; i--) {
-            controls->buttons[i]->rect.w = max_button_width;
-            controls->buttons[i]->rect.h = max_button_height;
-            X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
+    إذا (rtl) {
+        لكل (i = (controls->messageboxdata->numbuttons - 1); i != -1; i--) {
+            controls->buttons[i]->rect.w = max_button_ويڪر;
+            controls->buttons[i]->rect.h = max_button_اوچائي;
+            X11_Toolkit_Notify_Control_جو_سائيز_Change(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-            } else {
-                second_line_height = max_button_height;
+            إذا (پهريون_سٽ_اوچائي) {
+                controls->buttons[i]->rect.y = پهريون_سٽ_اوچائي + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->دري->iscale;
+                ٻيو_سٽ_اوچائي = max_button_اوچائي + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->دري->iscale;
+            } وإلا {
+                ٻيو_سٽ_اوچائي = max_button_اوچائي;
             }
             
-            if ((i + 1) < controls->messageboxdata->numbuttons) {
-                controls->buttons[i]->rect.x = controls->buttons[i + 1]->rect.x + controls->buttons[i + 1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->window->iscale);
+            إذا ((i + 1) < controls->messageboxdata->numbuttons) {
+                controls->buttons[i]->rect.x = controls->buttons[i + 1]->rect.x + controls->buttons[i + 1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->دري->iscale);
             }
         }    
-    } else {
-        for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
-            controls->buttons[i]->rect.w = max_button_width;
-            controls->buttons[i]->rect.h = max_button_height;
-            X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
+    } وإلا {
+        لكل (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+            controls->buttons[i]->rect.w = max_button_ويڪر;
+            controls->buttons[i]->rect.h = max_button_اوچائي;
+            X11_Toolkit_Notify_Control_جو_سائيز_Change(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-            } else {
-                second_line_height = max_button_height;
+            إذا (پهريون_سٽ_اوچائي) {
+                controls->buttons[i]->rect.y = پهريون_سٽ_اوچائي + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->دري->iscale;
+                ٻيو_سٽ_اوچائي = max_button_اوچائي + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->دري->iscale;
+            } وإلا {
+                ٻيو_سٽ_اوچائي = max_button_اوچائي;
             }
             
-            if (i) {
-                controls->buttons[i]->rect.x = controls->buttons[i-1]->rect.x + controls->buttons[i-1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->window->iscale);
+            إذا (i) {
+                controls->buttons[i]->rect.x = controls->buttons[i-1]->rect.x + controls->buttons[i-1]->rect.w + (SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * controls->دري->iscale);
             }
         }
     }
     
-    if (controls->messageboxdata->numbuttons) {
-        if (rtl) {
-            second_line_width = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
-        } else {
-            second_line_width = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
+    إذا (controls->messageboxdata->numbuttons) {
+        إذا (rtl) {
+            ٻيو_سٽ_ويڪر = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
+        } وإلا {
+            ٻيو_سٽ_ويڪر = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
         }
     }
 
     /* center lines */
-    if (second_line_width > first_line_width) {
-        int pad;
+    إذا (ٻيو_سٽ_ويڪر > پهريون_سٽ_ويڪر) {
+        صحيح pad;
         
-        pad = (second_line_width - first_line_width)/2;
-        if (controls->message) {
-            controls->message->rect.x += pad;
+        pad = (ٻيو_سٽ_ويڪر - پهريون_سٽ_ويڪر)/2;
+        إذا (controls->پيغام) {
+            controls->پيغام->rect.x += pad;
         }
-        if (controls->icon) {
+        إذا (controls->icon) {
             controls->icon->rect.x += pad;
         }
-    } else {
-        int pad;
+    } وإلا {
+        صحيح pad;
         
-        pad = (first_line_width - second_line_width)/2;
-        for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+        pad = (پهريون_سٽ_ويڪر - ٻيو_سٽ_ويڪر)/2;
+        لكل (i = 0; i < controls->messageboxdata->numbuttons; i++) {
             controls->buttons[i]->rect.x += pad;
         }
     }
      
     /* window size and final padding */
-    window_width = SDL_max(first_line_width, second_line_width) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
-    window_height = first_line_height + second_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
-    *wp = window_width;
-    *hp = window_height;
-    if (controls->message) {
-        controls->message->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
-        controls->message->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
+    دري_ويڪر = SDL_max(پهريون_سٽ_ويڪر, ٻيو_سٽ_ويڪر) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->دري->iscale;
+    دري_اوچائي = پهريون_سٽ_اوچائي + ٻيو_سٽ_اوچائي + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->دري->iscale;
+    *wp = دري_ويڪر;
+    *hp = دري_اوچائي;
+    إذا (controls->پيغام) {
+        controls->پيغام->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
+        controls->پيغام->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
     }
-    if (controls->icon) {
-        controls->icon->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
-        controls->icon->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
+    إذا (controls->icon) {
+        controls->icon->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
+        controls->icon->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
     }
-    for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
-        controls->buttons[i]->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
-        controls->buttons[i]->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale;
+    لكل (i = 0; i < controls->messageboxdata->numbuttons; i++) {
+        controls->buttons[i]->rect.x += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
+        controls->buttons[i]->rect.y += SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->دري->iscale;
     }
 }
 
-static void X11_OnMessageBoxScaleChange(SDL_ToolkitWindowX11 *window, void *data) {
-    SDL_MessageBoxX11 *controls;
-    int w;
-    int h;
+ساكن فراغ X11_On_پيغام_Box_Scale_Change(SDL_Toolkit_دري_X11 *دري, فراغ *معلومات) {
+    SDL_پيغام_Box_X11 *controls;
+    صحيح w;
+    صحيح h;
 
-    controls = data;
-    X11_PositionMessageBox(controls, &w, &h);
-    X11Toolkit_ResizeWindow(window, w, h);
+    controls = معلومات;
+    X11_Position_پيغام_Box(controls, &w, &h);
+    X11_Toolkit_Resize_دري(دري, w, h);
 }
 
-static bool X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+ساكن bool X11_Show_پيغام_Box_Impl(ثابت SDL_پيغام_Box_معلومات *messageboxdata, صحيح *buttonID)
 {
     SDL_VideoDevice *video = SDL_GetVideoDevice();
-    SDL_Window *parent_window = NULL;
-    SDL_MessageBoxX11 controls;
-    const SDL_MessageBoxColor *colorhints;
-    int i;
-    int w;
-    int h;
+    SDL_دري *والد_دري = عدم;
+    SDL_پيغام_Box_X11 controls;
+    ثابت SDL_پيغام_Box_Color *colorhints;
+    صحيح i;
+    صحيح w;
+    صحيح h;
 
     controls.messageboxdata = messageboxdata;
 
     /* Color scheme */
-    if (messageboxdata->colorScheme) {
+    إذا (messageboxdata->colorScheme) {
         colorhints = messageboxdata->colorScheme->colors;
-    } else {
-        colorhints = NULL;
+    } وإلا {
+        colorhints = عدم;
     }
 
     /* Create window */
-    if (messageboxdata->window && video && SDL_strcmp(video->name, "x11") == 0) {
+    إذا (messageboxdata->دري && video && SDL_strcmp(video->name, "x11") == 0) {
         // Only use the window as a parent if it is from the X11 driver.
-        parent_window = messageboxdata->window;
+        والد_دري = messageboxdata->دري;
     }
-#if SDL_FORK_MESSAGEBOX
-    controls.window = X11Toolkit_CreateWindowStruct(parent_window, NULL, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, true);
-#else 
-    controls.window = X11Toolkit_CreateWindowStruct(parent_window, NULL, SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG, colorhints, false);
-#endif
-    if (!controls.window) {
-        return false;
+#إذا SDL_FORK_MESSAGEBOX
+    controls.دري = X11_Toolkit_Create_دري_Struct(والد_دري, عدم, SDL_TOOLKIT_دري_گهڻائي_X11_DIALOG, colorhints, true);
+#وإلا 
+    controls.دري = X11_Toolkit_Create_دري_Struct(والد_دري, عدم, SDL_TOOLKIT_دري_گهڻائي_X11_DIALOG, colorhints, false);
+#جيڪڏهن_پورو
+    إذا (!controls.دري) {
+        أرجع false;
     }
-    controls.window->cb_data = &controls;
-    controls.window->cb_on_scale_change = X11_OnMessageBoxScaleChange;
+    controls.دري->cb_معلومات = &controls;
+    controls.دري->cb_on_scale_change = X11_On_پيغام_Box_Scale_Change;
 
     /* Create controls */
     controls.buttonID = buttonID;
-    controls.buttons = SDL_calloc(messageboxdata->numbuttons, sizeof(SDL_ToolkitControlX11 *));
-    controls.icon = X11Toolkit_CreateIconControl(controls.window, messageboxdata->flags);
-    controls.message = X11Toolkit_CreateLabelControl(controls.window, (char *)messageboxdata->message);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        controls.buttons[i] = X11Toolkit_CreateButtonControl(controls.window, &messageboxdata->buttons[i]);
-        X11Toolkit_RegisterCallbackForButtonControl(controls.buttons[i], &controls, X11_MessageBoxButtonCallback);
+    controls.buttons = SDL_calloc(messageboxdata->numbuttons, حجم(SDL_ToolkitControlX11 *));
+    controls.icon = X11Toolkit_CreateIconControl(controls.دري, messageboxdata->flags);
+    controls.پيغام = X11Toolkit_CreateLabelControl(controls.دري, (حرف *)messageboxdata->پيغام);
+    لكل (i = 0; i < messageboxdata->numbuttons; i++) {
+        controls.buttons[i] = X11Toolkit_CreateButtonControl(controls.دري, &messageboxdata->buttons[i]);
+        X11_Toolkit_رجسٽر_Callback_For_Button_Control(controls.buttons[i], &controls, X11_پيغام_Box_Button_Callback);
     }
 
     /* Positioning */
-    X11_PositionMessageBox(&controls, &w, &h);
+    X11_Position_پيغام_Box(&controls, &w, &h);
 
     /* Actually create window, do event loop, cleanup */
-    X11Toolkit_CreateWindowRes(controls.window, w, h, 0, 0, (char *)messageboxdata->title);
-    X11Toolkit_DoWindowEventLoop(controls.window);
-    X11Toolkit_DestroyWindow(controls.window);
+    X11_Toolkit_Create_دري_Res(controls.دري, w, h, 0, 0, (حرف *)messageboxdata->title);
+    X11_Toolkit_Do_دري_Event_Loop(controls.دري);
+    X11_Toolkit_Destroy_دري(controls.دري);
     SDL_free(controls.buttons);
-    return true;
+    أرجع true;
 }
 
 // Display an x11 message box.
-bool X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool X11_Show_پيغام_Box(ثابت SDL_پيغام_Box_معلومات *messageboxdata, صحيح *buttonID)
 {
-    if (SDL_Zenity_ShowMessageBox(messageboxdata, buttonID)) {
-        return true;
+    إذا (SDL_Zenity_Show_پيغام_Box(messageboxdata, buttonID)) {
+        أرجع true;
     }
 
-#if SDL_FORK_MESSAGEBOX
+#إذا SDL_FORK_MESSAGEBOX
     // Use a child process to protect against setlocale(). Annoying.
     pid_t pid;
-    int fds[2];
-    int status = 0;
-    bool result = true;
+    صحيح fds[2];
+    صحيح حالت = 0;
+    bool نتيجو = true;
 
-    if (pipe(fds) == -1) {
-        return X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
+    إذا (pipe(fds) == -1) {
+        أرجع X11_Show_پيغام_Box_Impl(messageboxdata, buttonID); // oh well.
     }
 
     pid = fork();
-    if (pid == -1) { // failed
+    إذا (pid == -1) { // failed
         close(fds[0]);
         close(fds[1]);
-        return X11_ShowMessageBoxImpl(messageboxdata, buttonID); // oh well.
-    } else if (pid == 0) {                                       // we're the child
-        int exitcode = 0;
+        أرجع X11_Show_پيغام_Box_Impl(messageboxdata, buttonID); // oh well.
+    } وإلا إذا (pid == 0) {                                       // we're the child
+        صحيح exitcode = 0;
         close(fds[0]);
-        result = X11_ShowMessageBoxImpl(messageboxdata, buttonID);
-        if (write(fds[1], &result, sizeof(result)) != sizeof(result)) {
+        نتيجو = X11_Show_پيغام_Box_Impl(messageboxdata, buttonID);
+        إذا (اكتب(fds[1], &نتيجو, حجم(نتيجو)) != حجم(نتيجو)) {
             exitcode = 1;
-        } else if (write(fds[1], buttonID, sizeof(*buttonID)) != sizeof(*buttonID)) {
+        } وإلا إذا (اكتب(fds[1], buttonID, حجم(*buttonID)) != حجم(*buttonID)) {
             exitcode = 1;
         }
         close(fds[1]);
         _exit(exitcode); // don't run atexit() stuff, static destructors, etc.
-    } else {             // we're the parent
+    } وإلا {             // we're the parent
         pid_t rc;
         close(fds[1]);
-        do {
-            rc = waitpid(pid, &status, 0);
-        } while ((rc == -1) && (errno == EINTR));
+        افعل {
+            rc = waitpid(pid, &حالت, 0);
+        } طالما ((rc == -1) && (errno == EINTR));
 
         SDL_assert(rc == pid); // not sure what to do if this fails.
 
-        if ((rc == -1) || (!WIFEXITED(status)) || (WEXITSTATUS(status) != 0)) {
-            result = SDL_SetError("msgbox child process failed");
-        } else if ((read(fds[0], &result, sizeof(result)) != sizeof(result)) ||
-                   (read(fds[0], buttonID, sizeof(*buttonID)) != sizeof(*buttonID))) {
-            result = SDL_SetError("read from msgbox child process failed");
+        إذا ((rc == -1) || (!WIFEXITED(حالت)) || (WEXITSTATUS(حالت) != 0)) {
+            نتيجو = SDL_سيٽ_Error("msgbox child process failed");
+        } وإلا إذا ((اقرأ(fds[0], &نتيجو, حجم(نتيجو)) != حجم(نتيجو)) ||
+                   (اقرأ(fds[0], buttonID, حجم(*buttonID)) != حجم(*buttonID))) {
+            نتيجو = SDL_سيٽ_Error("read from msgbox child process failed");
             *buttonID = 0;
         }
         close(fds[0]);
 
-        return result;
+        أرجع نتيجو;
     }
-#else
-    return X11_ShowMessageBoxImpl(messageboxdata, buttonID);
-#endif
+#وإلا
+    أرجع X11_Show_پيغام_Box_Impl(messageboxdata, buttonID);
+#جيڪڏهن_پورو
 }
-#endif // SDL_VIDEO_DRIVER_X11
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_X11

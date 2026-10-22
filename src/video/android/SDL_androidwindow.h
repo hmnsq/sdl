@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidwindow_h_
-#define SDL_androidwindow_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_androidwindow_h_
+#وصف_ڪريو SDL_androidwindow_h_
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_egl_c.h"
+#ضمن "../../core/android/SDL_android.h"
+#ضمن "../SDL_egl_c.h"
 
-extern bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+خارجي bool Android_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props);
+خارجي فراغ Android_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_Fullscreen_نتيجو Android_سيٽ_دري_Fullscreen(SDL_VideoDevice *_this, SDL_دري *دري, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ Android_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Android_سيٽ_دري_Resizable(SDL_VideoDevice *_this, SDL_دري *دري, bool resizable);
 
-extern void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *Android_Window;
+خارجي فراغ Android_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_دري *Android_دري;
 
-struct SDL_WindowData
+بنية SDL_دري_معلومات
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    ANativeWindow *native_window;
+    صحيح has_مٽا_سٽا_interval;  // Save/Restore the swap interval / vsync
+    صحيح مٽا_سٽا_interval;
+#جيڪڏهن_پورو
+    bool backup_پورو;
+    ANative_دري *native_دري;
 
 };
 
-#endif // SDL_androidwindow_h_
+#جيڪڏهن_پورو // SDL_androidwindow_h_

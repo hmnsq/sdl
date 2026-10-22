@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_
-#define VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_
+#وصف_ڪريو VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,99 +13,99 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // vulkan_video_codec_av1std_decode is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codec_av1std_decode 1
+#وصف_ڪريو vulkan_video_codec_av1std_decode 1
 
-#include "vulkan_video_codec_av1std.h"
+#ضمن "vulkan_video_codec_av1std.h"
 
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_نسخو_1_0_0 VK_MAKE_VIDEO_STD_نسخو(1, 0, 0)
 
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_1_0_0
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_decode"
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_نسخو VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_نسخو_1_0_0
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_decode"
 
-typedef struct StdVideoDecodeAV1PictureInfoFlags {
-    uint32_t    error_resilient_mode : 1;
+تعريفنوع بنية StdVideoDecodeAV1PictureInfoFlags {
+    uint32_t    error_resilient_گهڻائي : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
-    uint32_t    render_and_frame_size_different : 1;
+    uint32_t    render_and_چوکٺو_سائيز_different : 1;
     uint32_t    allow_screen_content_tools : 1;
     uint32_t    is_filter_switchable : 1;
     uint32_t    force_integer_mv : 1;
-    uint32_t    frame_size_override_flag : 1;
-    uint32_t    buffer_removal_time_present_flag : 1;
+    uint32_t    چوکٺو_سائيز_override_flag : 1;
+    uint32_t    بفر_removal_وقت_present_flag : 1;
     uint32_t    allow_intrabc : 1;
-    uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
-    uint32_t    is_motion_mode_switchable : 1;
-    uint32_t    use_ref_frame_mvs : 1;
-    uint32_t    disable_frame_end_update_cdf : 1;
+    uint32_t    چوکٺو_refs_short_signaling : 1;
+    uint32_t    allow_مٿاهون_precision_mv : 1;
+    uint32_t    is_motion_گهڻائي_switchable : 1;
+    uint32_t    use_ref_چوکٺو_mvs : 1;
+    uint32_t    disable_چوکٺو_پڇاڙي_update_cdf : 1;
     uint32_t    allow_warped_motion : 1;
-    uint32_t    reduced_tx_set : 1;
+    uint32_t    reduced_tx_سيٽ : 1;
     uint32_t    reference_select : 1;
-    uint32_t    skip_mode_present : 1;
+    uint32_t    skip_گهڻائي_present : 1;
     uint32_t    delta_q_present : 1;
     uint32_t    delta_lf_present : 1;
     uint32_t    delta_lf_multi : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    segmentation_update_map : 1;
     uint32_t    segmentation_temporal_update : 1;
-    uint32_t    segmentation_update_data : 1;
-    uint32_t    UsesLr : 1;
-    uint32_t    usesChromaLr : 1;
+    uint32_t    segmentation_update_معلومات : 1;
+    uint32_t    استعمال_ڪري_Lr : 1;
+    uint32_t    استعمال_ڪري_Chroma_Lr : 1;
     uint32_t    apply_grain : 1;
     uint32_t    reserved : 3;
 } StdVideoDecodeAV1PictureInfoFlags;
 
-typedef struct StdVideoDecodeAV1PictureInfo {
+تعريفنوع بنية StdVideoDecodeAV1PictureInfo {
     StdVideoDecodeAV1PictureInfoFlags    flags;
-    StdVideoAV1FrameType                 frame_type;
-    uint32_t                             current_frame_id;
-    uint8_t                              OrderHint;
-    uint8_t                              primary_ref_frame;
-    uint8_t                              refresh_frame_flags;
+    Std_Video_AV1_چوکٺو_Type                 چوکٺو_type;
+    uint32_t                             current_چوکٺو_id;
+    uint8_t                              ترتيب_Hint;
+    uint8_t                              primary_ref_چوکٺو;
+    uint8_t                              refresh_چوکٺو_flags;
     uint8_t                              reserved1;
     StdVideoAV1InterpolationFilter       interpolation_filter;
-    StdVideoAV1TxMode                    TxMode;
+    Std_Video_AV1_Tx_گهڻائي                    Tx_گهڻائي;
     uint8_t                              delta_q_res;
     uint8_t                              delta_lf_res;
-    uint8_t                              SkipModeFrame[STD_VIDEO_AV1_SKIP_MODE_FRAMES];
+    uint8_t                              Skip_گهڻائي_چوکٺو[STD_VIDEO_AV1_SKIP_گهڻائي_چوکٺا];
     uint8_t                              coded_denom;
     uint8_t                              reserved2[3];
-    uint8_t                              OrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    uint32_t                             expectedFrameId[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    const StdVideoAV1TileInfo*           pTileInfo;
-    const StdVideoAV1Quantization*       pQuantization;
-    const StdVideoAV1Segmentation*       pSegmentation;
-    const StdVideoAV1LoopFilter*         pLoopFilter;
-    const StdVideoAV1CDEF*               pCDEF;
-    const StdVideoAV1LoopRestoration*    pLoopRestoration;
-    const StdVideoAV1GlobalMotion*       pGlobalMotion;
-    const StdVideoAV1FilmGrain*          pFilmGrain;
+    uint8_t                              ترتيب_Hints[STD_VIDEO_AV1_انگ_REF_چوکٺا];
+    uint32_t                             expected_چوکٺو_Id[STD_VIDEO_AV1_انگ_REF_چوکٺا];
+    ثابت StdVideoAV1TileInfo*           pTileInfo;
+    ثابت StdVideoAV1Quantization*       pQuantization;
+    ثابت StdVideoAV1Segmentation*       pSegmentation;
+    ثابت StdVideoAV1LoopFilter*         pLoopFilter;
+    ثابت StdVideoAV1CDEF*               pCDEF;
+    ثابت StdVideoAV1LoopRestoration*    pLoopRestoration;
+    ثابت StdVideoAV1GlobalMotion*       pGlobalMotion;
+    ثابت StdVideoAV1FilmGrain*          pFilmGrain;
 } StdVideoDecodeAV1PictureInfo;
 
-typedef struct StdVideoDecodeAV1ReferenceInfoFlags {
-    uint32_t    disable_frame_end_update_cdf : 1;
+تعريفنوع بنية StdVideoDecodeAV1ReferenceInfoFlags {
+    uint32_t    disable_چوکٺو_پڇاڙي_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoDecodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoDecodeAV1ReferenceInfo {
+تعريفنوع بنية StdVideoDecodeAV1ReferenceInfo {
     StdVideoDecodeAV1ReferenceInfoFlags    flags;
-    uint8_t                                frame_type;
-    uint8_t                                RefFrameSignBias;
-    uint8_t                                OrderHint;
-    uint8_t                                SavedOrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                                چوکٺو_type;
+    uint8_t                                Ref_چوکٺو_Sign_Bias;
+    uint8_t                                ترتيب_Hint;
+    uint8_t                                Saved_ترتيب_Hints[STD_VIDEO_AV1_انگ_REF_چوکٺا];
 } StdVideoDecodeAV1ReferenceInfo;
 
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

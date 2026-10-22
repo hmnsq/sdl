@@ -4,10 +4,10 @@
  * Copyright 2015-2023 LunarG, Inc.
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  */
-#pragma once
+#هدايت once
 
-#include "vulkan.h"
-#include <stdbool.h>
+#ضمن "vulkan.h"
+#ضمن <stdbool.h>
 
 // Loader-ICD version negotiation API.  Versions add the following features:
 //   Version 0 - Initial.  Doesn't support vk_icdGetInstanceProcAddr
@@ -35,44 +35,44 @@
 //               VK_LUNARG_direct_driver_loading be able to support the entire
 //               Driver-Loader interface.
 
-#define CURRENT_LOADER_ICD_INTERFACE_VERSION 7
-#define MIN_SUPPORTED_LOADER_ICD_INTERFACE_VERSION 0
-#define MIN_PHYS_DEV_EXTENSION_ICD_INTERFACE_VERSION 4
+#وصف_ڪريو CURRENT_LOADER_ICD_INTERFACE_نسخو 7
+#وصف_ڪريو MIN_SUPPORTED_LOADER_ICD_INTERFACE_نسخو 0
+#وصف_ڪريو MIN_PHYS_DEV_EXTENSION_ICD_INTERFACE_نسخو 4
 
 // Old typedefs that don't follow a proper naming convention but are preserved for compatibility
-typedef VkResult(VKAPI_PTR *PFN_vkNegotiateLoaderICDInterfaceVersion)(uint32_t *pVersion);
+تعريفنوع Vk_نتيجو(VKAPI_PTR *PFN_vk_Negotiate_Loader_ICDInterface_نسخو)(uint32_t *p_نسخو);
 // This is defined in vk_layer.h which will be found by the loader, but if an ICD is building against this
 // file directly, it won't be found.
-#ifndef IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-typedef PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, const char *pName);
-#define IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-#endif
+#جيڪڏهن_وصف_نه_ٿيل IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+تعريفنوع PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, ثابت حرف *pName);
+#وصف_ڪريو IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+#جيڪڏهن_پورو
 
 // Typedefs for loader/ICD interface
-typedef VkResult (VKAPI_PTR *PFN_vk_icdNegotiateLoaderICDInterfaceVersion)(uint32_t* pVersion);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, const char* pName);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-typedef VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
-    uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
-#endif
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_icd_Negotiate_Loader_ICDInterface_نسخو)(uint32_t* p_نسخو);
+تعريفنوع PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, ثابت حرف* pName);
+تعريفنوع PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, ثابت حرف* pName);
+#إذا defined(VK_USE_PLATFORM_WIN32_KHR)
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
+    uint32_t* p_Physical_Device_ڳڻپ, VkPhysicalDevice* pPhysicalDevices);
+#جيڪڏهن_پورو
 
 // Prototypes for loader/ICD interface
-#if !defined(VK_NO_PROTOTYPES)
-#ifdef __cplusplus
-extern "C" {
-#endif
-    VKAPI_ATTR VkResult VKAPI_CALL vk_icdNegotiateLoaderICDInterfaceVersion(uint32_t* pVersion);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, const char* pName);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-    VKAPI_ATTR VkResult VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
-        uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
-#endif
-#ifdef __cplusplus
+#إذا !defined(VK_NO_PROTOTYPES)
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
+    VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_icd_Negotiate_Loader_ICDInterface_نسخو(uint32_t* p_نسخو);
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, ثابت حرف* pName);
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, ثابت حرف* pName);
+#إذا defined(VK_USE_PLATFORM_WIN32_KHR)
+    VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
+        uint32_t* p_Physical_Device_ڳڻپ, VkPhysicalDevice* pPhysicalDevices);
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
-#endif
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 /*
  * The ICD must reserve space for a pointer for the loader's dispatch
@@ -80,28 +80,28 @@ extern "C" {
  * The ICD must initialize this variable using the SET_LOADER_MAGIC_VALUE macro.
  */
 
-#define ICD_LOADER_MAGIC 0x01CDC0DE
+#وصف_ڪريو ICD_LOADER_MAGIC 0x01CDC0DE
 
-typedef union {
+تعريفنوع اتحاد {
     uintptr_t loaderMagic;
-    void *loaderData;
-} VK_LOADER_DATA;
+    فراغ *loader_معلومات;
+} VK_LOADER_معلومات;
 
-static inline void set_loader_magic_value(void *pNewObject) {
-    VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
+ساكن مضمن فراغ سيٽ_loader_magic_قدر(فراغ *pNewObject) {
+    VK_LOADER_معلومات *loader_info = (VK_LOADER_معلومات *)pNewObject;
     loader_info->loaderMagic = ICD_LOADER_MAGIC;
 }
 
-static inline bool valid_loader_magic_value(void *pNewObject) {
-    const VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
-    return (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
+ساكن مضمن bool valid_loader_magic_قدر(فراغ *pNewObject) {
+    ثابت VK_LOADER_معلومات *loader_info = (VK_LOADER_معلومات *)pNewObject;
+    أرجع (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
 }
 
 /*
  * Windows and Linux ICDs will treat VkSurfaceKHR as a pointer to a struct that
  * contains the platform-specific connection and surface information.
  */
-typedef enum {
+تعريفنوع تعداد {
     VK_ICD_WSI_PLATFORM_MIR,
     VK_ICD_WSI_PLATFORM_WAYLAND,
     VK_ICD_WSI_PLATFORM_WIN32,
@@ -120,125 +120,125 @@ typedef enum {
     VK_ICD_WSI_PLATFORM_FUCHSIA,
 } VkIcdWsiPlatform;
 
-typedef struct {
+تعريفنوع بنية {
     VkIcdWsiPlatform platform;
-} VkIcdSurfaceBase;
+} Vk_Icd_Surface_بنياد;
 
-#ifdef VK_USE_PLATFORM_MIR_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_MIR_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
     MirConnection *connection;
     MirSurface *mirSurface;
 } VkIcdSurfaceMir;
-#endif  // VK_USE_PLATFORM_MIR_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_MIR_KHR
 
-#ifdef VK_USE_PLATFORM_WAYLAND_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct wl_display *display;
-    struct wl_surface *surface;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_WAYLAND_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    بنية wl_display *display;
+    بنية wl_surface *surface;
 } VkIcdSurfaceWayland;
-#endif  // VK_USE_PLATFORM_WAYLAND_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_WAYLAND_KHR
 
-#ifdef VK_USE_PLATFORM_WIN32_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_WIN32_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
     HINSTANCE hinstance;
     HWND hwnd;
 } VkIcdSurfaceWin32;
-#endif  // VK_USE_PLATFORM_WIN32_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_WIN32_KHR
 
-#ifdef VK_USE_PLATFORM_XCB_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_XCB_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
     xcb_connection_t *connection;
-    xcb_window_t window;
+    xcb_دري_t دري;
 } VkIcdSurfaceXcb;
-#endif  // VK_USE_PLATFORM_XCB_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_XCB_KHR
 
-#ifdef VK_USE_PLATFORM_XLIB_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_XLIB_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
     Display *dpy;
-    Window window;
+    دري_2 دري;
 } VkIcdSurfaceXlib;
-#endif  // VK_USE_PLATFORM_XLIB_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_XLIB_KHR
 
-#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-typedef struct {
-    VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_DIRECTFB_EXT
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
     IDirectFB *dfb;
     IDirectFBSurface *surface;
-} VkIcdSurfaceDirectFB;
-#endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+} Vk_Icd_Surface_سڌو_FB;
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_DIRECTFB_EXT
 
-#ifdef VK_USE_PLATFORM_ANDROID_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct ANativeWindow *window;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_ANDROID_KHR
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    بنية ANative_دري *دري;
 } VkIcdSurfaceAndroid;
-#endif  // VK_USE_PLATFORM_ANDROID_KHR
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_ANDROID_KHR
 
-#ifdef VK_USE_PLATFORM_MACOS_MVK
-typedef struct {
-    VkIcdSurfaceBase base;
-    const void *pView;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_MACOS_MVK
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    ثابت فراغ *pView;
 } VkIcdSurfaceMacOS;
-#endif  // VK_USE_PLATFORM_MACOS_MVK
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_MACOS_MVK
 
-#ifdef VK_USE_PLATFORM_IOS_MVK
-typedef struct {
-    VkIcdSurfaceBase base;
-    const void *pView;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_IOS_MVK
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    ثابت فراغ *pView;
 } VkIcdSurfaceIOS;
-#endif  // VK_USE_PLATFORM_IOS_MVK
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_IOS_MVK
 
-#ifdef VK_USE_PLATFORM_GGP
-typedef struct {
-    VkIcdSurfaceBase base;
-    GgpStreamDescriptor streamDescriptor;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_GGP
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    Ggp_وهڪرو_Descriptor وهڪرو_Descriptor;
 } VkIcdSurfaceGgp;
-#endif  // VK_USE_PLATFORM_GGP
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_GGP
 
-typedef struct {
-    VkIcdSurfaceBase base;
-    VkDisplayModeKHR displayMode;
-    uint32_t planeIndex;
-    uint32_t planeStackIndex;
-    VkSurfaceTransformFlagBitsKHR transform;
-    float globalAlpha;
-    VkDisplayPlaneAlphaFlagBitsKHR alphaMode;
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    Vk_Display_گهڻائي_KHR display_گهڻائي;
+    uint32_t plane_اشاريو;
+    uint32_t plane_ڍير_اشاريو;
+    Vk_Surface_Transform_Flag_بٽ_KHR transform;
+    عائم globalAlpha;
+    Vk_Display_Plane_Alpha_Flag_بٽ_KHR alpha_گهڻائي;
     VkExtent2D imageExtent;
 } VkIcdSurfaceDisplay;
 
-typedef struct {
-    VkIcdSurfaceBase base;
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
 } VkIcdSurfaceHeadless;
 
-#ifdef VK_USE_PLATFORM_METAL_EXT
-typedef struct {
-    VkIcdSurfaceBase base;
-    const CAMetalLayer *pLayer;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_METAL_EXT
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    ثابت CAMetalLayer *pLayer;
 } VkIcdSurfaceMetal;
-#endif // VK_USE_PLATFORM_METAL_EXT
+#جيڪڏهن_پورو // VK_USE_PLATFORM_METAL_EXT
 
-#ifdef VK_USE_PLATFORM_VI_NN
-typedef struct {
-    VkIcdSurfaceBase base;
-    void *window;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_VI_NN
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    فراغ *دري;
 } VkIcdSurfaceVi;
-#endif // VK_USE_PLATFORM_VI_NN
+#جيڪڏهن_پورو // VK_USE_PLATFORM_VI_NN
 
-#ifdef VK_USE_PLATFORM_SCREEN_QNX
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct _screen_context *context;
-    struct _screen_window *window;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_SCREEN_QNX
+تعريفنوع بنية {
+    Vk_Icd_Surface_بنياد بنياد;
+    بنية _screen_context *context;
+    بنية screen_دري *دري;
 } VkIcdSurfaceScreen;
-#endif  // VK_USE_PLATFORM_SCREEN_QNX
+#جيڪڏهن_پورو  // VK_USE_PLATFORM_SCREEN_QNX
 
-#ifdef VK_USE_PLATFORM_FUCHSIA
-typedef struct {
-  VkIcdSurfaceBase base;
+#جيڪڏهن_وصف_ٿيل VK_USE_PLATFORM_FUCHSIA
+تعريفنوع بنية {
+  Vk_Icd_Surface_بنياد بنياد;
 } VkIcdSurfaceImagePipe;
-#endif // VK_USE_PLATFORM_FUCHSIA
+#جيڪڏهن_پورو // VK_USE_PLATFORM_FUCHSIA

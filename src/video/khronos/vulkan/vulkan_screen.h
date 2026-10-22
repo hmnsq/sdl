@@ -1,5 +1,5 @@
-#ifndef VULKAN_SCREEN_H_
-#define VULKAN_SCREEN_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_SCREEN_H_
+#وصف_ڪريو VULKAN_SCREEN_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,66 +13,66 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_QNX_screen_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_QNX_screen_surface 1
+#وصف_ڪريو VK_QNX_screen_surface 1
 
-#define VK_QNX_SCREEN_SURFACE_SPEC_VERSION 1
-#define VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
+#وصف_ڪريو VK_QNX_SCREEN_SURFACE_SPEC_نسخو 1
+#وصف_ڪريو VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
 
-typedef VkFlags VkScreenSurfaceCreateFlagsQNX;
+تعريفنوع VkFlags VkScreenSurfaceCreateFlagsQNX;
 
-typedef struct VkScreenSurfaceCreateInfoQNX {
+تعريفنوع بنية VkScreenSurfaceCreateInfoQNX {
     VkStructureType                  sType;
-    const void*                      pNext;
+    ثابت فراغ*                      p_ايندڙ;
     VkScreenSurfaceCreateFlagsQNX    flags;
-    struct _screen_context*          context;
-    struct _screen_window*           window;
+    بنية _screen_context*          context;
+    بنية screen_دري*           دري;
 } VkScreenSurfaceCreateInfoQNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, const VkScreenSurfaceCreateInfoQNX* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct _screen_window* window);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, ثابت VkScreenSurfaceCreateInfoQNX* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t قطار_Family_اشاريو, بنية screen_دري* دري);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateScreenSurfaceQNX(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateScreenSurfaceQNX(
     VkInstance                                  instance,
-    const VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct _screen_window*                      window);
-#endif
-#endif
+    uint32_t                                    قطار_Family_اشاريو,
+    بنية screen_دري*                      دري);
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 
 // VK_QNX_external_memory_screen_buffer is a preprocessor guard. Do not pass it to API calls.
-#define VK_QNX_external_memory_screen_buffer 1
+#وصف_ڪريو VK_QNX_external_يادگيري_screen_بفر 1
 
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_SPEC_VERSION 1
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
+#وصف_ڪريو VK_QNX_EXTERNAL_يادگيري_SCREEN_بفر_SPEC_نسخو 1
+#وصف_ڪريو VK_QNX_EXTERNAL_يادگيري_SCREEN_بفر_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
 
-typedef struct VkScreenBufferPropertiesQNX {
+تعريفنوع بنية Vk_Screen_بفر_Properties_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
-    uint32_t           memoryTypeBits;
-} VkScreenBufferPropertiesQNX;
+    فراغ*              p_ايندڙ;
+    Vk_Device_سائيز       ورهاست_سائيز;
+    uint32_t           يادگيري_Type_بٽ;
+} Vk_Screen_بفر_Properties_QNX;
 
-typedef struct VkScreenBufferFormatPropertiesQNX {
+تعريفنوع بنية Vk_Screen_بفر_Format_Properties_QNX {
     VkStructureType                  sType;
-    void*                            pNext;
+    فراغ*                            p_ايندڙ;
     VkFormat                         format;
     uint64_t                         externalFormat;
     uint64_t                         screenUsage;
@@ -80,43 +80,43 @@ typedef struct VkScreenBufferFormatPropertiesQNX {
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkScreenBufferFormatPropertiesQNX;
+    VkChromaLocation                 suggested_XChroma_وٿي;
+    VkChromaLocation                 suggested_YChroma_وٿي;
+} Vk_Screen_بفر_Format_Properties_QNX;
 
-typedef struct VkImportScreenBufferInfoQNX {
+تعريفنوع بنية Vk_Import_Screen_بفر_Info_QNX {
     VkStructureType           sType;
-    const void*               pNext;
-    struct _screen_buffer*    buffer;
-} VkImportScreenBufferInfoQNX;
+    ثابت فراغ*               p_ايندڙ;
+    بنية screen_بفر*    بفر_2;
+} Vk_Import_Screen_بفر_Info_QNX;
 
-typedef struct VkExternalFormatQNX {
+تعريفنوع بنية VkExternalFormatQNX {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_ايندڙ;
     uint64_t           externalFormat;
 } VkExternalFormatQNX;
 
-typedef struct VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
+تعريفنوع بنية Vk_Physical_Device_External_يادگيري_Screen_بفر_Features_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           screenBufferImport;
-} VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX;
+    فراغ*              p_ايندڙ;
+    VkBool32           screen_بفر_Import;
+} Vk_Physical_Device_External_يادگيري_Screen_بفر_Features_QNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vk_Get_Screen_بفر_Properties_QNX)(VkDevice device, ثابت بنية screen_بفر* بفر_2, Vk_Screen_بفر_Properties_QNX* pProperties);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vk_Get_Screen_بفر_Properties_QNX(
     VkDevice                                    device,
-    const struct _screen_buffer*                buffer,
-    VkScreenBufferPropertiesQNX*                pProperties);
-#endif
-#endif
+    ثابت بنية screen_بفر*                بفر_2,
+    Vk_Screen_بفر_Properties_QNX*                pProperties);
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

@@ -18,167 +18,167 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_waylanddyn_h_
-#define SDL_waylanddyn_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_waylanddyn_h_
+#وصف_ڪريو SDL_waylanddyn_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 /* We can't include wayland-client.h here
  * but we need some structs from it
  */
-struct wl_interface;
-struct wl_proxy;
-struct wl_event_queue;
-struct wl_display;
-struct wl_surface;
-struct wl_shm;
+بنية wl_interface;
+بنية wl_proxy;
+بنية wl_event_قطار;
+بنية wl_display;
+بنية wl_surface;
+بنية wl_shm;
 
 // We also need some for libdecor
-struct wl_seat;
-struct wl_output;
-struct libdecor;
-struct libdecor_frame;
-struct libdecor_state;
-struct libdecor_configuration;
-struct libdecor_interface;
-struct libdecor_frame_interface;
-enum libdecor_resize_edge;
-enum libdecor_capabilities;
-enum libdecor_window_state;
+بنية wl_seat;
+بنية wl_output;
+بنية libdecor;
+بنية libdecor_چوکٺو;
+بنية libdecor_state;
+بنية libdecor_configuration;
+بنية libdecor_interface;
+بنية libdecor_چوکٺو_interface;
+تعداد libdecor_resize_ڪنارو;
+تعداد libdecor_capabilities;
+تعداد libdecor_دري_state;
 
-#include "wayland-cursor.h"
-#include "wayland-util.h"
-#include "xkbcommon/xkbcommon.h"
-#include "xkbcommon/xkbcommon-compose.h"
+#ضمن "wayland-cursor.h"
+#ضمن "wayland-util.h"
+#ضمن "xkbcommon/xkbcommon.h"
+#ضمن "xkbcommon/xkbcommon-compose.h"
 
 // Must be included before our #defines, see Bugzilla #4957
-#include "wayland-client-core.h"
+#ضمن "wayland-client-core.h"
 
-#define SDL_WAYLAND_CHECK_VERSION(x, y, z)                        \
-    (WAYLAND_VERSION_MAJOR > x ||                                 \
-     (WAYLAND_VERSION_MAJOR == x && WAYLAND_VERSION_MINOR > y) || \
-     (WAYLAND_VERSION_MAJOR == x && WAYLAND_VERSION_MINOR == y && WAYLAND_VERSION_MICRO >= z))
+#وصف_ڪريو SDL_WAYLAND_CHECK_نسخو(x, y, z)                        \
+    (WAYLAND_نسخو_MAJOR > x ||                                 \
+     (WAYLAND_نسخو_MAJOR == x && WAYLAND_نسخو_MINOR > y) || \
+     (WAYLAND_نسخو_MAJOR == x && WAYLAND_نسخو_MINOR == y && WAYLAND_نسخو_MICRO >= z))
 
-#define SDL_XKBCOMMON_CHECK_VERSION(x, y, z)                                  \
-    (SDL_XKBCOMMON_VERSION_MAJOR > x ||                                       \
-     (SDL_XKBCOMMON_VERSION_MAJOR == x && SDL_XKBCOMMON_VERSION_MINOR > y) || \
-     (SDL_XKBCOMMON_VERSION_MAJOR == x && SDL_XKBCOMMON_VERSION_MINOR == y && SDL_XKBCOMMON_VERSION_PATCH >= z))
+#وصف_ڪريو SDL_XKBCOMMON_CHECK_نسخو(x, y, z)                                  \
+    (SDL_XKBCOMMON_نسخو_MAJOR > x ||                                       \
+     (SDL_XKBCOMMON_نسخو_MAJOR == x && SDL_XKBCOMMON_نسخو_MINOR > y) || \
+     (SDL_XKBCOMMON_نسخو_MAJOR == x && SDL_XKBCOMMON_نسخو_MINOR == y && SDL_XKBCOMMON_نسخو_PATCH >= z))
 
-#ifdef HAVE_LIBDECOR_H
-#define SDL_LIBDECOR_CHECK_VERSION(x, y, z)                                 \
-    (SDL_LIBDECOR_VERSION_MAJOR > x ||                                      \
-     (SDL_LIBDECOR_VERSION_MAJOR == x && SDL_LIBDECOR_VERSION_MINOR > y) || \
-     (SDL_LIBDECOR_VERSION_MAJOR == x && SDL_LIBDECOR_VERSION_MINOR == y && SDL_LIBDECOR_VERSION_PATCH >= z))
-#endif
+#جيڪڏهن_وصف_ٿيل HAVE_LIBDECOR_H
+#وصف_ڪريو SDL_LIBDECOR_CHECK_نسخو(x, y, z)                                 \
+    (SDL_LIBDECOR_نسخو_MAJOR > x ||                                      \
+     (SDL_LIBDECOR_نسخو_MAJOR == x && SDL_LIBDECOR_نسخو_MINOR > y) || \
+     (SDL_LIBDECOR_نسخو_MAJOR == x && SDL_LIBDECOR_نسخو_MINOR == y && SDL_LIBDECOR_نسخو_PATCH >= z))
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
-extern bool SDL_WAYLAND_LoadSymbols(void);
-extern void SDL_WAYLAND_UnloadSymbols(void);
+خارجي bool SDL_WAYLAND_ڀريو_Symbols(فراغ);
+خارجي فراغ SDL_WAYLAND_UnloadSymbols(فراغ);
 
-#define SDL_WAYLAND_MODULE(modname) extern int SDL_WAYLAND_HAVE_##modname;
-#define SDL_WAYLAND_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_INTERFACE(iface) extern const struct wl_interface *WAYLAND_##iface;
-#include "SDL_waylandsym.h"
+#وصف_ڪريو SDL_WAYLAND_MODULE(modname) خارجي صحيح SDL_WAYLAND_HAVE_##modname;
+#وصف_ڪريو SDL_WAYLAND_SYM(rc, fn, params)        \
+    تعريفنوع rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    خارجي SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+#وصف_ڪريو SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
+    تعريفنوع rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    خارجي SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+#وصف_ڪريو SDL_WAYLAND_INTERFACE(iface) خارجي ثابت بنية wl_interface *WAYLAND_##iface;
+#ضمن "SDL_waylandsym.h"
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#if defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
-#error Do not include wayland-client ahead of SDL_waylanddyn.h in dynamic loading mode
-#endif
+#إذا defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
+#غلطي Do not include wayland-client ahead جو SDL_waylanddyn.h اندريون_2 dynamic loading گهڻائي
+#جيڪڏهن_پورو
 
 /* wayland-client-protocol.h included from wayland-client.h
  * has inline functions that require these to be defined in dynamic loading mode
  */
 
-#define wl_proxy_create                        (*WAYLAND_wl_proxy_create)
-#define wl_proxy_destroy                       (*WAYLAND_wl_proxy_destroy)
-#define wl_proxy_marshal                       (*WAYLAND_wl_proxy_marshal)
-#define wl_proxy_set_user_data                 (*WAYLAND_wl_proxy_set_user_data)
-#define wl_proxy_get_user_data                 (*WAYLAND_wl_proxy_get_user_data)
-#define wl_proxy_get_version                   (*WAYLAND_wl_proxy_get_version)
-#define wl_proxy_add_listener                  (*WAYLAND_wl_proxy_add_listener)
-#define wl_proxy_marshal_constructor           (*WAYLAND_wl_proxy_marshal_constructor)
-#define wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
-#define wl_proxy_set_tag                       (*WAYLAND_wl_proxy_set_tag)
-#define wl_proxy_get_tag                       (*WAYLAND_wl_proxy_get_tag)
-#define wl_proxy_marshal_flags                 (*WAYLAND_wl_proxy_marshal_flags)
-#define wl_proxy_marshal_array_flags           (*WAYLAND_wl_proxy_marshal_array_flags)
-#define wl_display_reconnect                   (*WAYLAND_wl_display_reconnect)
+#وصف_ڪريو wl_proxy_create                        (*WAYLAND_wl_proxy_create)
+#وصف_ڪريو wl_proxy_destroy                       (*WAYLAND_wl_proxy_destroy)
+#وصف_ڪريو wl_proxy_marshal                       (*WAYLAND_wl_proxy_marshal)
+#وصف_ڪريو wl_proxy_سيٽ_user_معلومات                 (*WAYLAND_wl_proxy_سيٽ_user_معلومات)
+#وصف_ڪريو wl_proxy_get_user_معلومات                 (*WAYLAND_wl_proxy_get_user_معلومات)
+#وصف_ڪريو wl_proxy_get_نسخو                   (*WAYLAND_wl_proxy_get_نسخو)
+#وصف_ڪريو wl_proxy_جوڙيو_listener                  (*WAYLAND_wl_proxy_جوڙيو_listener)
+#وصف_ڪريو wl_proxy_marshal_constructor           (*WAYLAND_wl_proxy_marshal_constructor)
+#وصف_ڪريو wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
+#وصف_ڪريو wl_proxy_سيٽ_ٽيگ                       (*WAYLAND_wl_proxy_سيٽ_ٽيگ)
+#وصف_ڪريو wl_proxy_get_ٽيگ                       (*WAYLAND_wl_proxy_get_ٽيگ)
+#وصف_ڪريو wl_proxy_marshal_flags                 (*WAYLAND_wl_proxy_marshal_flags)
+#وصف_ڪريو wl_proxy_marshal_array_flags           (*WAYLAND_wl_proxy_marshal_array_flags)
+#وصف_ڪريو wl_display_reconnect                   (*WAYLAND_wl_display_reconnect)
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#ضمن "wayland-client-protocol.h"
+#ضمن "wayland-egl.h"
 
-#ifdef HAVE_LIBDECOR_H
+#جيڪڏهن_وصف_ٿيل HAVE_LIBDECOR_H
 // Must be included before our defines
-#include <libdecor.h>
+#ضمن <libdecor.h>
 
-#define libdecor_unref                          (*WAYLAND_libdecor_unref)
-#define libdecor_new                            (*WAYLAND_libdecor_new)
-#define libdecor_decorate                       (*WAYLAND_libdecor_decorate)
-#define libdecor_frame_unref                    (*WAYLAND_libdecor_frame_unref)
-#define libdecor_frame_set_title                (*WAYLAND_libdecor_frame_set_title)
-#define libdecor_frame_set_app_id               (*WAYLAND_libdecor_frame_set_app_id)
-#define libdecor_frame_set_max_content_size     (*WAYLAND_libdecor_frame_set_max_content_size)
-#define libdecor_frame_get_max_content_size     (*WAYLAND_libdecor_frame_get_max_content_size)
-#define libdecor_frame_set_min_content_size     (*WAYLAND_libdecor_frame_set_min_content_size)
-#define libdecor_frame_get_min_content_size     (*WAYLAND_libdecor_frame_get_min_content_size)
-#define libdecor_frame_resize                   (*WAYLAND_libdecor_frame_resize)
-#define libdecor_frame_move                     (*WAYLAND_libdecor_frame_move)
-#define libdecor_frame_commit                   (*WAYLAND_libdecor_frame_commit)
-#define libdecor_frame_set_minimized            (*WAYLAND_libdecor_frame_set_minimized)
-#define libdecor_frame_set_maximized            (*WAYLAND_libdecor_frame_set_maximized)
-#define libdecor_frame_unset_maximized          (*WAYLAND_libdecor_frame_unset_maximized)
-#define libdecor_frame_set_fullscreen           (*WAYLAND_libdecor_frame_set_fullscreen)
-#define libdecor_frame_unset_fullscreen         (*WAYLAND_libdecor_frame_unset_fullscreen)
-#define libdecor_frame_set_capabilities         (*WAYLAND_libdecor_frame_set_capabilities)
-#define libdecor_frame_unset_capabilities       (*WAYLAND_libdecor_frame_unset_capabilities)
-#define libdecor_frame_has_capability           (*WAYLAND_libdecor_frame_has_capability)
-#define libdecor_frame_set_visibility           (*WAYLAND_libdecor_frame_set_visibility)
-#define libdecor_frame_is_visible               (*WAYLAND_libdecor_frame_is_visible)
-#define libdecor_frame_is_floating              (*WAYLAND_libdecor_frame_is_floating)
-#define libdecor_frame_set_parent               (*WAYLAND_libdecor_frame_set_parent)
-#define libdecor_frame_show_window_menu         (*WAYLAND_libdecor_frame_show_window_menu)
-#define libdecor_frame_get_wm_capabilities      (*WAYLAND_libdecor_frame_get_wm_capabilities)
-#define libdecor_frame_get_xdg_surface          (*WAYLAND_libdecor_frame_get_xdg_surface)
-#define libdecor_frame_get_xdg_toplevel         (*WAYLAND_libdecor_frame_get_xdg_toplevel)
-#define libdecor_frame_translate_coordinate     (*WAYLAND_libdecor_frame_translate_coordinate)
-#define libdecor_frame_map                      (*WAYLAND_libdecor_frame_map)
-#define libdecor_state_new                      (*WAYLAND_libdecor_state_new)
-#define libdecor_state_free                     (*WAYLAND_libdecor_state_free)
-#define libdecor_configuration_get_content_size (*WAYLAND_libdecor_configuration_get_content_size)
-#define libdecor_configuration_get_window_state (*WAYLAND_libdecor_configuration_get_window_state)
-#define libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
-#endif
+#وصف_ڪريو libdecor_unref                          (*WAYLAND_libdecor_unref)
+#وصف_ڪريو libdecor_new                            (*WAYLAND_libdecor_new)
+#وصف_ڪريو libdecor_decorate                       (*WAYLAND_libdecor_decorate)
+#وصف_ڪريو libdecor_چوکٺو_unref                    (*WAYLAND_libdecor_چوکٺو_unref)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_title                (*WAYLAND_libdecor_چوکٺو_سيٽ_title)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_app_id               (*WAYLAND_libdecor_چوکٺو_سيٽ_app_id)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_max_content_سائيز     (*WAYLAND_libdecor_چوکٺو_سيٽ_max_content_سائيز)
+#وصف_ڪريو libdecor_چوکٺو_get_max_content_سائيز     (*WAYLAND_libdecor_چوکٺو_get_max_content_سائيز)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_min_content_سائيز     (*WAYLAND_libdecor_چوکٺو_سيٽ_min_content_سائيز)
+#وصف_ڪريو libdecor_چوکٺو_get_min_content_سائيز     (*WAYLAND_libdecor_چوکٺو_get_min_content_سائيز)
+#وصف_ڪريو libdecor_چوکٺو_resize                   (*WAYLAND_libdecor_چوکٺو_resize)
+#وصف_ڪريو libdecor_چوکٺو_move                     (*WAYLAND_libdecor_چوکٺو_move)
+#وصف_ڪريو libdecor_چوکٺو_commit                   (*WAYLAND_libdecor_چوکٺو_commit)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_minimized            (*WAYLAND_libdecor_چوکٺو_سيٽ_minimized)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_maximized            (*WAYLAND_libdecor_چوکٺو_سيٽ_maximized)
+#وصف_ڪريو libdecor_چوکٺو_unset_maximized          (*WAYLAND_libdecor_چوکٺو_unset_maximized)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_fullscreen           (*WAYLAND_libdecor_چوکٺو_سيٽ_fullscreen)
+#وصف_ڪريو libdecor_چوکٺو_unset_fullscreen         (*WAYLAND_libdecor_چوکٺو_unset_fullscreen)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_capabilities         (*WAYLAND_libdecor_چوکٺو_سيٽ_capabilities)
+#وصف_ڪريو libdecor_چوکٺو_unset_capabilities       (*WAYLAND_libdecor_چوکٺو_unset_capabilities)
+#وصف_ڪريو libdecor_چوکٺو_has_capability           (*WAYLAND_libdecor_چوکٺو_has_capability)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_visibility           (*WAYLAND_libdecor_چوکٺو_سيٽ_visibility)
+#وصف_ڪريو libdecor_چوکٺو_is_visible               (*WAYLAND_libdecor_چوکٺو_is_visible)
+#وصف_ڪريو libdecor_چوکٺو_is_floating              (*WAYLAND_libdecor_چوکٺو_is_floating)
+#وصف_ڪريو libdecor_چوکٺو_سيٽ_والد               (*WAYLAND_libdecor_چوکٺو_سيٽ_والد)
+#وصف_ڪريو libdecor_چوکٺو_show_دري_menu         (*WAYLAND_libdecor_چوکٺو_show_دري_menu)
+#وصف_ڪريو libdecor_چوکٺو_get_wm_capabilities      (*WAYLAND_libdecor_چوکٺو_get_wm_capabilities)
+#وصف_ڪريو libdecor_چوکٺو_get_xdg_surface          (*WAYLAND_libdecor_چوکٺو_get_xdg_surface)
+#وصف_ڪريو libdecor_چوکٺو_get_xdg_toplevel         (*WAYLAND_libdecor_چوکٺو_get_xdg_toplevel)
+#وصف_ڪريو libdecor_چوکٺو_translate_coordinate     (*WAYLAND_libdecor_چوکٺو_translate_coordinate)
+#وصف_ڪريو libdecor_چوکٺو_map                      (*WAYLAND_libdecor_چوکٺو_map)
+#وصف_ڪريو libdecor_state_new                      (*WAYLAND_libdecor_state_new)
+#وصف_ڪريو libdecor_state_free                     (*WAYLAND_libdecor_state_free)
+#وصف_ڪريو libdecor_configuration_get_content_سائيز (*WAYLAND_libdecor_configuration_get_content_سائيز)
+#وصف_ڪريو libdecor_configuration_get_دري_state (*WAYLAND_libdecor_configuration_get_دري_state)
+#وصف_ڪريو libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
+#جيڪڏهن_پورو
 
-#else // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#وإلا // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#ضمن "wayland-client-protocol.h"
+#ضمن "wayland-egl.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#جيڪڏهن_وصف_ٿيل HAVE_LIBDECOR_H
+#ضمن <libdecor.h>
+#جيڪڏهن_پورو
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#endif // SDL_waylanddyn_h_
+#جيڪڏهن_پورو // SDL_waylanddyn_h_

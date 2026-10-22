@@ -1,15 +1,15 @@
-#ifndef YUV_RGB_COMMON_H_
-#define YUV_RGB_COMMON_H_
+#جيڪڏهن_وصف_نه_ٿيل YUV_RGB_COMMON_H_
+#وصف_ڪريو YUV_RGB_COMMON_H_
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
 
-typedef enum
+تعريفنوع تعداد
 {
-    YCBCR_601_FULL,
+    YCBCR_601_ڀريل,
     YCBCR_601_LIMITED,
-    YCBCR_709_FULL,
+    YCBCR_709_ڀريل,
     YCBCR_709_LIMITED,
-    YCBCR_2020_NCL_FULL,
+    YCBCR_2020_NCL_ڀريل,
 } YCbCrType;
 
-#endif /* YUV_RGB_COMMON_H_ */
+#جيڪڏهن_پورو /* YUV_RGB_COMMON_H_ */

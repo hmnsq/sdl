@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
@@ -26,126 +26,126 @@
  * the FSL demo framework.
  */
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#إذا defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-#include "../SDL_vulkan_internal.h"
+#ضمن "../SDL_vulkan_internal.h"
 
-#include "SDL_vivantevideo.h"
+#ضمن "SDL_vivantevideo.h"
 
-#include "SDL_vivantevulkan.h"
+#ضمن "SDL_vivantevulkan.h"
 
-bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VIVANTE_Vulkan_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 i, extensionCount = 0;
+    VkExtensionProperties *extensions = عدم;
+    Uint32 i, extension_ڳڻپ = 0;
     bool hasSurfaceExtension = false;
     bool hasDisplayExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = عدم;
+    إذا (_this->vulkan_config.loader_handle) {
+        أرجع SDL_سيٽ_Error("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
-        path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
+    إذا (!رستو) {
+        رستو = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
+    إذا (!رستو) {
         // If no path set, try Vivante fb vulkan driver explicitly
-        path = "libvulkan-fb.so";
-        _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-        if (!_this->vulkan_config.loader_handle) {
+        رستو = "libvulkan-fb.so";
+        _this->vulkan_config.loader_handle = SDL_ڀريو_Object(رستو);
+        إذا (!_this->vulkan_config.loader_handle) {
             // If that couldn't be loaded, fall back to default name
-            path = "libvulkan.so";
-            _this->vulkan_config.loader_handle = SDL_LoadObject(path);
+            رستو = "libvulkan.so";
+            _this->vulkan_config.loader_handle = SDL_ڀريو_Object(رستو);
         }
-    } else {
-        _this->vulkan_config.loader_handle = SDL_LoadObject(path);
+    } وإلا {
+        _this->vulkan_config.loader_handle = SDL_ڀريو_Object(رستو);
     }
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    إذا (!_this->vulkan_config.loader_handle) {
+        أرجع false;
     }
-    SDL_strlcpy(_this->vulkan_config.loader_path, path,
-                SDL_arraysize(_this->vulkan_config.loader_path));
-    SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vivante: Loaded vulkan driver %s", path);
-    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
+    SDL_strlcpy(_this->vulkan_config.loader_رستو, رستو,
+                SDL_arraysize(_this->vulkan_config.loader_رستو));
+    SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vivante: Loaded vulkan driver %s", رستو);
+    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_ڀريو_Function(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    إذا (!vkGetInstanceProcAddr) {
+        اذهب fail;
     }
-    _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkGetInstanceProcAddr = (فراغ *)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
-        (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
+        (فراغ *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    إذا (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        اذهب fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_ڳڻپ);
+    إذا (!extensions) {
+        اذهب fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    لكل (i = 0; i < extension_ڳڻپ; i++) {
+        إذا (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_DISPLAY_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } وإلا إذا (SDL_strcmp(VK_KHR_DISPLAY_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasDisplayExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasDisplayExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_DISPLAY_EXTENSION_NAME " extension");
-        goto fail;
+    إذا (!hasSurfaceExtension) {
+        SDL_سيٽ_Error("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
+        اذهب fail;
+    } وإلا إذا (!hasDisplayExtension) {
+        SDL_سيٽ_Error("Installed Vulkan doesn't implement the " VK_KHR_DISPLAY_EXTENSION_NAME " extension");
+        اذهب fail;
     }
-    return true;
+    أرجع true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = عدم;
+    أرجع false;
 }
 
-void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+فراغ VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    إذا (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = عدم;
     }
 }
 
-char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+حرف ثابت * ثابت *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ڳڻپ)
 {
-    static const char *const extensionsForVivante[] = {
+    ساكن ثابت حرف *ثابت extensionsForVivante[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_DISPLAY_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForVivante);
-    return extensionsForVivante;
+    *ڳڻپ = SDL_arraysize(extensionsForVivante);
+    أرجع extensionsForVivante;
 }
 
 bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+                                 SDL_دري *دري,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ثابت بنية Vk_ورهاست_Callbacks *allocator,
                                  VkSurfaceKHR *surface)
 {
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    إذا (!_this->vulkan_config.loader_handle) {
+        أرجع SDL_سيٽ_Error("Vulkan is not loaded");
     }
-    return SDL_Vulkan_Display_CreateSurface(_this->vulkan_config.vkGetInstanceProcAddr, instance, allocator, surface);
+    أرجع SDL_Vulkan_Display_CreateSurface(_this->vulkan_config.vkGetInstanceProcAddr, instance, allocator, surface);
 }
 
-void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+فراغ VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator)
+                                   ثابت بنية Vk_ورهاست_Callbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
-        SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
+    إذا (_this->vulkan_config.loader_handle) {
+        SDL_Vulkan_Destroy_Surface_اندروني(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
 
-#endif
+#جيڪڏهن_پورو

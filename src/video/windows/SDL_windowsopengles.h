@@ -18,31 +18,31 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_winopengles_h_
-#define SDL_winopengles_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_winopengles_h_
+#وصف_ڪريو SDL_winopengles_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define WIN_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define WIN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define WIN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define WIN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define WIN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
+#وصف_ڪريو WIN_GLES_GetAttribute    SDL_EGL_GetAttribute
+#وصف_ڪريو WIN_GLES_Get_Proc_پتو  SDL_EGL_Get_Proc_پتو_اندروني
+#وصف_ڪريو WIN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#وصف_ڪريو WIN_GLES_Get_مٽا_سٽا_Interval SDL_EGL_Get_مٽا_سٽا_Interval
+#وصف_ڪريو WIN_GLES_سيٽ_مٽا_سٽا_Interval SDL_EGL_سيٽ_مٽا_سٽا_Interval
 
-extern bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool WIN_GLES_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
+خارجي SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool WIN_GLES_مٽا_سٽا_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_دري *دري, SDL_GLContext context);
+خارجي bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool WIN_GLES_تياري_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_دري *دري);
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#جيڪڏهن_پورو // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_winopengles_h_
+#جيڪڏهن_پورو // SDL_winopengles_h_

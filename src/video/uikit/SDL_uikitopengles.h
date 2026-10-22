@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitopengles_
-#define SDL_uikitopengles_
+#جيڪڏهن_وصف_نه_ٿيل SDL_uikitopengles_
+#وصف_ڪريو SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#إذا defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+خارجي bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_دري *دري,
                                 SDL_GLContext context);
-extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+خارجي bool UIKit_GL_مٽا_سٽا_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي SDL_Function_اشارو UIKit_GL_Get_Proc_پتو(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي bool UIKit_GL_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
 
-extern void UIKit_GL_RestoreCurrentContext(void);
+خارجي فراغ UIKit_GL_RestoreCurrentContext(فراغ);
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#جيڪڏهن_پورو // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-#endif // SDL_uikitopengles_
+#جيڪڏهن_پورو // SDL_uikitopengles_

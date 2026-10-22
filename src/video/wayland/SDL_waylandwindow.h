@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_waylandwindow_h_
-#define SDL_waylandwindow_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_waylandwindow_h_
+#وصف_ڪريو SDL_waylandwindow_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_touch_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandshmbuffer.h"
+#ضمن "SDL_waylandvideo.h"
+#ضمن "SDL_waylandshmbuffer.h"
 
-struct SDL_WindowData
+بنية SDL_دري_معلومات
 {
-    SDL_Window *sdlwindow;
-    SDL_VideoData *waylandData;
-    struct wl_surface *surface;
-    struct wl_callback *gles_swap_frame_callback;
-    struct wl_event_queue *gles_swap_frame_event_queue;
-    struct wl_surface *gles_swap_frame_surface_wrapper;
-    struct wl_callback *surface_frame_callback;
+    SDL_دري *sdlwindow;
+    SDL_Video_معلومات *wayland_معلومات;
+    بنية wl_surface *surface;
+    بنية wl_callback *gles_مٽا_سٽا_چوکٺو_callback;
+    بنية wl_event_قطار *gles_مٽا_سٽا_چوکٺو_event_قطار;
+    بنية wl_surface *gles_مٽا_سٽا_چوکٺو_surface_wrapper;
+    بنية wl_callback *surface_چوکٺو_callback;
 
-    union
+    اتحاد
     {
-#ifdef HAVE_LIBDECOR_H
-        struct
+#جيڪڏهن_وصف_ٿيل HAVE_LIBDECOR_H
+        بنية
         {
-            struct libdecor_frame *frame;
+            بنية libdecor_چوکٺو *چوکٺو;
         } libdecor;
-#endif
-        struct
+#جيڪڏهن_پورو
+        بنية
         {
-            struct xdg_surface *surface;
-            union
+            بنية xdg_surface *surface;
+            اتحاد
             {
-                struct
+                بنية
                 {
-                    struct xdg_toplevel *xdg_toplevel;
+                    بنية xdg_toplevel *xdg_toplevel;
                 } toplevel;
-                struct
+                بنية
                 {
-                    struct xdg_popup *xdg_popup;
-                    struct xdg_positioner *xdg_positioner;
+                    بنية xdg_popup *xdg_popup;
+                    بنية xdg_positioner *xdg_positioner;
                 } popup;
             };
 
             Uint32 serial;
         } xdg;
     } shell_surface;
-    enum
+    تعداد
     {
         WAYLAND_SHELL_SURFACE_TYPE_UNKNOWN = 0,
         WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL,
@@ -75,224 +75,224 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR,
         WAYLAND_SHELL_SURFACE_TYPE_CUSTOM
     } shell_surface_type;
-    enum
+    تعداد
     {
-        WAYLAND_SHELL_SURFACE_STATUS_HIDDEN = 0,
-        WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE,
-        WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME,
-        WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING,
-        WAYLAND_SHELL_SURFACE_STATUS_SHOWN
-    } shell_surface_status;
-    enum
+        WAYLAND_SHELL_SURFACE_حالت_HIDDEN = 0,
+        WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE,
+        WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکٺو,
+        WAYLAND_SHELL_SURFACE_حالت_SHOW_PENDING,
+        WAYLAND_SHELL_SURFACE_حالت_SHOWN
+    } shell_surface_حالت;
+    تعداد
     {
-        WAYLAND_WM_CAPS_WINDOW_MENU = 0x01,
+        WAYLAND_WM_CAPS_دري_MENU = 0x01,
         WAYLAND_WM_CAPS_MAXIMIZE = 0x02,
         WAYLAND_WM_CAPS_FULLSCREEN = 0x04,
         WAYLAND_WM_CAPS_MINIMIZE = 0x08,
 
-        WAYLAND_WM_CAPS_ALL = WAYLAND_WM_CAPS_WINDOW_MENU |
+        WAYLAND_WM_CAPS_ALL = WAYLAND_WM_CAPS_دري_MENU |
                               WAYLAND_WM_CAPS_MAXIMIZE |
                               WAYLAND_WM_CAPS_FULLSCREEN |
                               WAYLAND_WM_CAPS_MINIMIZE
     } wm_caps;
-    enum
+    تعداد
     {
-        WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
-        WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
-        WAYLAND_TOPLEVEL_CONSTRAINED_TOP = 0x04,
+        WAYLAND_TOPLEVEL_CONSTRAINED_کاٻو = 0x01,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ساڄو = 0x02,
+        WAYLAND_TOPLEVEL_CONSTRAINED_چوٽي = 0x04,
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
-    enum
+    تعداد
     {
-        WAYLAND_RESIZE_EDGE_LR = 0x01,
-        WAYLAND_RESIZE_EDGE_TB = 0x02,
-        WAYLAND_RESIZE_EDGE_CORNER = WAYLAND_RESIZE_EDGE_LR | WAYLAND_RESIZE_EDGE_TB,
-    } resize_edge;
+        WAYLAND_RESIZE_ڪنارو_LR = 0x01,
+        WAYLAND_RESIZE_ڪنارو_TB = 0x02,
+        WAYLAND_RESIZE_ڪنارو_ڪنڊ = WAYLAND_RESIZE_ڪنارو_LR | WAYLAND_RESIZE_ڪنارو_TB,
+    } resize_ڪنارو;
 
-    struct wl_egl_window *egl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    بنية wl_egl_دري *egl_دري;
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
-    struct zxdg_toplevel_decoration_v1 *server_decoration;
-    struct zwp_idle_inhibitor_v1 *idle_inhibitor;
-    struct xdg_activation_token_v1 *activation_token;
-    struct wp_viewport *viewport;
-    struct wp_fractional_scale_v1 *fractional_scale;
-    struct zxdg_exported_v2 *exported;
-    struct xdg_dialog_v1 *xdg_dialog_v1;
-    struct wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
-    struct xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
-    struct frog_color_managed_surface *frog_color_managed_surface;
-    struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
-    struct xdg_toplevel_session_v1 *xdg_toplevel_session;
+#جيڪڏهن_پورو
+    بنية zxdg_toplevel_decoration_v1 *server_decoration;
+    بنية zwp_idle_inhibitor_v1 *idle_inhibitor;
+    بنية xdg_activation_token_v1 *activation_token;
+    بنية wp_viewport *viewport;
+    بنية wp_fractional_scale_v1 *fractional_scale;
+    بنية zxdg_exported_v2 *exported;
+    بنية xdg_dialog_v1 *xdg_dialog_v1;
+    بنية wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
+    بنية xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
+    بنية frog_color_managed_surface *frog_color_managed_surface;
+    بنية wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
+    بنية xdg_toplevel_session_v1 *xdg_toplevel_session;
 
-    struct Wayland_ColorInfoState *color_info_state;
+    بنية Wayland_ColorInfoState *color_info_state;
 
-    SDL_AtomicInt swap_interval_ready;
+    SDL_AtomicInt مٽا_سٽا_interval_ready;
 
-    SDL_DisplayData **outputs;
-    int num_outputs;
+    SDL_Display_معلومات **outputs;
+    صحيح انگ_outputs;
 
-    char *app_id;
-    char *session_id;
-    double scale_factor;
+    حرف *app_id;
+    حرف *session_id;
+    مزدوج scale_ضرب_ڪندڙ_2;
 
-    struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    بنية wl_بفر **icon_buffers;
+    صحيح icon_بفر_ڳڻپ;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    صحيح keyboard_focus_ڳڻپ;
+    صحيح اشارو_focus_ڳڻپ;
+    صحيح سرگرم_touch_ڳڻپ;
 
-    struct
+    بنية
     {
-        double x;
-        double y;
-    } pointer_scale;
+        مزدوج x;
+        مزدوج y;
+    } اشارو_scale;
 
     // The in-flight window size request.
-    struct
+    بنية
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        صحيح logical_ويڪر;
+        صحيح logical_اوچائي;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        صحيح pixel_ويڪر;
+        صحيح pixel_اوچائي;
     } requested;
 
     // The current size of the window and drawable backing store.
-    struct
+    بنية
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        صحيح logical_ويڪر;
+        صحيح logical_اوچائي;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        صحيح pixel_ويڪر;
+        صحيح pixel_اوچائي;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        صحيح viewport_ويڪر;
+        صحيح viewport_اوچائي;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
-    struct
+    بنية
     {
-        int width;
-        int height;
+        صحيح ويڪر;
+        صحيح اوچائي;
         bool insets_apply;
-    } last_configure;
+    } آخري_configure;
 
     // System enforced window size limits.
-    struct
+    بنية
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        صحيح min_ويڪر_2;
+        صحيح min_اوچائي_2;
     } system_limits;
 
-    struct
+    بنية
     {
-        int width;
-        int height;
+        صحيح ويڪر;
+        صحيح اوچائي;
     } toplevel_bounds;
 
-    struct
+    بنية
     {
-        struct wl_surface *surface;
-        struct wl_subsurface *subsurface;
-        struct wl_buffer *buffer;
-        struct wp_viewport *viewport;
+        بنية wl_surface *surface;
+        بنية wl_subsurface *subsurface;
+        بنية wl_بفر *بفر_2;
+        بنية wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        صحيح وٿي_x;
+        صحيح وٿي_y;
 
         bool mapped;
         bool opaque;
-    } mask;
+    } نقاب;
 
-    struct
+    بنية
     {
-        int hint;
-        int purpose;
-        bool active;
-    } text_input_props;
+        صحيح hint;
+        صحيح purpose;
+        bool سرگرم;
+    } متن_داخلا_props;
 
     SDL_Rect explicit_geometry;
-    SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
-    Uint64 last_focus_event_time_ns;
-    Uint64 last_resize_event_time_ns;
-    int icc_fd;
-    Uint32 icc_size;
+    SDL_DisplayID آخري_display_ID;
+    صحيح pending_state_deadline_ڳڻپ;
+    Uint64 آخري_focus_event_وقت_ns;
+    Uint64 آخري_resize_event_وقت_ns;
+    صحيح icc_fd;
+    Uint32 icc_سائيز;
     bool floating;
     bool suspended;
     bool resizing;
-    bool active;
+    bool سرگرم;
     bool pending_config_ack;
     bool pending_state_commit;
-    bool limits_changed;
+    bool limits_بدليو;
     bool is_fullscreen;
     bool fullscreen_exclusive;
-    bool drop_fullscreen_requests;
-    bool showing_window;
+    bool drop_fullscreen_درخواستون;
+    bool showing_دري;
     bool fullscreen_was_positioned;
     bool show_hide_sync_required;
-    bool scale_to_display;
+    bool scale_منزل_display;
     bool reparenting_required;
-    bool double_buffer;
-    bool accepts_drag_and_drop;
+    bool double_بفر;
+    bool قبولي_drag_and_drop;
     bool enable_insets;
 
-    SDL_HitTestResult hit_test_result;
+    SDL_ڪاميابي_Test_نتيجو ڪاميابي_test_نتيجو;
 
-    struct wl_list external_window_list_link;
+    بنية wl_list external_دري_list_link;
 };
 
-extern void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
-extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
-extern void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
+خارجي فراغ Wayland_Show_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_Hide_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_Raise_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_Fullscreen_نتيجو Wayland_سيٽ_دري_Fullscreen(SDL_VideoDevice *_this, SDL_دري *دري, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+خارجي فراغ Wayland_Maximize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Wayland_سيٽ_دري_Mouse_Rect(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Wayland_سيٽ_دري_Mouse_Grab(SDL_VideoDevice *_this, SDL_دري *دري, bool grabbed);
+خارجي bool Wayland_سيٽ_دري_Keyboard_Grab(SDL_VideoDevice *_this, SDL_دري *دري, bool grabbed);
+خارجي فراغ Wayland_Restore_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_سيٽ_دري_Bordered(SDL_VideoDevice *_this, SDL_دري *دري, bool bordered);
+خارجي فراغ Wayland_سيٽ_دري_Resizable(SDL_VideoDevice *_this, SDL_دري *دري, bool resizable);
+خارجي bool Wayland_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props);
+خارجي bool Wayland_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_سيٽ_دري_Aspect_تناسب(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_سيٽ_دري_Minimum_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_سيٽ_دري_وڌ_کان_وڌ_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_Get_دري_سائيز_اندريون_Pixels(SDL_VideoDevice *_this, SDL_دري *دري, صحيح *w, صحيح *h);
+خارجي SDL_DisplayID Wayland_Get_Display_For_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Wayland_سيٽ_دري_والد(SDL_VideoDevice *_this, SDL_دري *دري, SDL_دري *والد_دري);
+خارجي bool Wayland_سيٽ_دري_Modal(SDL_VideoDevice *_this, SDL_دري *دري, bool modal);
+خارجي bool Wayland_سيٽ_دري_Opacity(SDL_VideoDevice *_this, SDL_دري *دري, عائم opacity);
+خارجي فراغ Wayland_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ Wayland_Show_دري_System_Menu(SDL_دري *دري, صحيح x, صحيح y);
+خارجي فراغ Wayland_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
+خارجي bool Wayland_سيٽ_دري_Icon(SDL_VideoDevice *_this, SDL_دري *دري, SDL_Surface *icon);
+خارجي bool Wayland_سيٽ_دري_Focusable(SDL_VideoDevice *_this, SDL_دري *دري, bool focusable);
+خارجي عائم Wayland_Get_دري_Content_Scale(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ *Wayland_Get_دري_ICCProfile(SDL_VideoDevice *_this, SDL_دري *دري, size_t *سائيز);
+خارجي فراغ Wayland_AcceptDragAndDrop(SDL_دري *دري, bool accept);
 
-extern bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
+خارجي bool Wayland_سيٽ_دري_ڪاميابي_Test(SDL_دري *دري, bool enabled);
+خارجي bool Wayland_Flash_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_FlashOperation operation);
+خارجي bool Wayland_Sync_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool Wayland_Reconfigure_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_دري_Flags flags);
 
-extern void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data);
-extern void Wayland_UpdateWindowPosition(SDL_Window *window);
+خارجي فراغ Wayland_Remove_Output_From_دري(SDL_دري_معلومات *دري, SDL_Display_معلومات *display_معلومات);
+خارجي فراغ Wayland_Update_دري_Position(SDL_دري *دري);
 
-#endif // SDL_waylandwindow_h_
+#جيڪڏهن_پورو // SDL_waylandwindow_h_

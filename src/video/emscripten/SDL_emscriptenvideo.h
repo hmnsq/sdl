@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_emscriptenvideo_h_
-#define SDL_emscriptenvideo_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_emscriptenvideo_h_
+#وصف_ڪريو SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_touch_c.h"
+#ضمن <emscripten/emscripten.h>
+#ضمن <emscripten/html5.h>
 
-struct SDL_WindowData
+بنية SDL_دري_معلومات
 {
-    SDL_Window *window;
+    SDL_دري *دري;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    صحيح non_fill_document_ويڪر;
+    صحيح non_fill_document_اوچائي;
 
-    char *canvas_id;
-    char *keyboard_element;
+    حرف *canvas_id;
+    حرف *keyboard_element;
 
-    float pixel_ratio;
+    عائم pixel_تناسب;
 
-    bool external_size;
+    bool external_سائيز;
 
-    Uint32 fullscreen_mode_flags;
+    Uint32 fullscreen_گهڻائي_flags;
     bool fullscreen_resize;
-    bool fullscreen_change_in_progress;
+    bool fullscreen_change_اندريون_ترقي;
 
-    bool has_pointer_lock;
+    bool has_اشارو_تالو;
 
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+خارجي SDL_دري *Emscripten_fill_document_دري;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_Should_سيٽ_مٽا_سٽا_Interval(صحيح interval);
+صحيح Emscripten_Get_Pending_مٽا_سٽا_Interval(فراغ);
 
-#endif // SDL_emscriptenvideo_h_
+#جيڪڏهن_پورو // SDL_emscriptenvideo_h_

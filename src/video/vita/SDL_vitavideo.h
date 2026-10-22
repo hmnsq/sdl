@@ -19,102 +19,102 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitavideo_h
-#define SDL_vitavideo_h
+#جيڪڏهن_وصف_نه_ٿيل SDL_vitavideo_h
+#وصف_ڪريو SDL_vitavideo_h
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ضمن "SDL_internal.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../SDL_egl_c.h"
 
-#include <psp2/types.h>
-#include <psp2/display.h>
-#include <psp2/ime_dialog.h>
-#include <psp2/sysmodule.h>
+#ضمن <psp2/types.h>
+#ضمن <psp2/display.h>
+#ضمن <psp2/ime_dialog.h>
+#ضمن <psp2/sysmodule.h>
 
-#ifdef SDL_VIDEO_VITA_PIB
-#include <psp2/gxm.h>
-#include <psp2/display.h>
-#include <pib.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-typedef struct SDL_GLDriverData
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_VITA_PIB
+#ضمن <psp2/gxm.h>
+#ضمن <psp2/display.h>
+#ضمن <pib.h>
+#ضمن <EGL/egl.h>
+#ضمن <EGL/eglext.h>
+#ضمن <GLES2/gl2.h>
+#ضمن <GLES2/gl2ext.h>
+تعريفنوع بنية SDL_GLDriver_معلومات
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
-#endif
+} SDL_GLDriver_معلومات;
+#جيڪڏهن_پورو
 
-struct SDL_VideoData
+بنية SDL_Video_معلومات
 {
     bool egl_initialized; // OpenGL device initialization status
     uint32_t egl_refcount;    // OpenGL reference count
 
-    SceWChar16 ime_buffer[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
-    bool ime_active;
+    SceWChar16 ime_بفر[SCE_IME_DIALOG_MAX_متن_ڊيگهائي];
+    bool ime_سرگرم;
 };
 
-struct SDL_WindowData
+بنية SDL_دري_معلومات
 {
-    bool uses_gles;
-    SceUID buffer_uid;
-    void *buffer;
-#ifdef SDL_VIDEO_VITA_PVR
+    bool استعمال_ڪري_gles;
+    SceUID بفر_uid;
+    فراغ *بفر_2;
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_VITA_PVR
     EGLSurface egl_surface;
     EGLContext egl_context;
-#endif
+#جيڪڏهن_پورو
 };
 
-extern SDL_Window *Vita_Window;
+خارجي SDL_دري *Vita_دري;
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool VITA_VideoInit(SDL_VideoDevice *_this);
-extern void VITA_VideoQuit(SDL_VideoDevice *_this);
-extern bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool VITA_VideoInit(SDL_VideoDevice *_this);
+خارجي فراغ VITA_VideoQuit(SDL_VideoDevice *_this);
+خارجي bool VITA_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props);
+خارجي فراغ VITA_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool VITA_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Show_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Hide_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Raise_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Maximize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي فراغ VITA_Restore_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool VITA_سيٽ_دري_Grab(SDL_VideoDevice *_this, SDL_دري *دري, bool grabbed);
+خارجي فراغ VITA_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري);
 
-#ifdef SDL_VIDEO_DRIVER_VITA
-#ifdef SDL_VIDEO_VITA_PVR_OGL
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_VITA
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_VITA_PVR_OGL
 // OpenGL functions
-extern bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-#endif
+خارجي bool VITA_GL_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
+خارجي SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي SDL_Function_اشارو VITA_GL_Get_Proc_پتو(SDL_VideoDevice *_this, ثابت حرف *proc);
+#جيڪڏهن_پورو
 
 // OpenGLES functions
-extern bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-#endif
+خارجي bool VITA_GLES_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
+خارجي SDL_Function_اشارو VITA_GLES_Get_Proc_پتو(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي فراغ VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_دري *دري, SDL_GLContext context);
+خارجي bool VITA_GLES_سيٽ_مٽا_سٽا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool VITA_GLES_Get_مٽا_سٽا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي bool VITA_GLES_مٽا_سٽا_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+#جيڪڏهن_پورو
 
 // VITA on screen keyboard
-extern bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+خارجي فراغ VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID props);
+خارجي فراغ VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_دري *دري);
 
-extern void VITA_PumpEvents(SDL_VideoDevice *_this);
+خارجي فراغ VITA_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_vitavideo_h
+#جيڪڏهن_پورو // SDL_vitavideo_h

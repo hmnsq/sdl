@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_RPI
 
 /* References
  * http://elinux.org/RPi_VideoCore_APIs
@@ -31,43 +31,43 @@
  */
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_mouse_c.h"
+#ضمن "../../events/SDL_keyboard_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#endif
+#جيڪڏهن_وصف_ٿيل SDL_داخلا_LINUXEV
+#ضمن "../../core/linux/SDL_evdev.h"
+#جيڪڏهن_پورو
 
 // RPI declarations
-#include "SDL_rpivideo.h"
-#include "SDL_rpievents_c.h"
-#include "SDL_rpiopengles.h"
-#include "SDL_rpimouse.h"
+#ضمن "SDL_rpivideo.h"
+#ضمن "SDL_rpievents_c.h"
+#ضمن "SDL_rpiopengles.h"
+#ضمن "SDL_rpimouse.h"
 
-static void RPI_Destroy(SDL_VideoDevice *device)
+ساكن فراغ RPI_Destroy(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->اندروني);
     SDL_free(device);
 }
 
-static void RPI_GetRefreshRate(int *numerator, int *denominator)
+ساكن فراغ RPI_Get_Refresh_شرح(صحيح *numerator, صحيح *denominator)
 {
     TV_DISPLAY_STATE_T tvstate;
-    if (vc_tv_get_display_state(&tvstate) == 0) {
+    إذا (vc_tv_get_display_state(&tvstate) == 0) {
         // The width/height parameters are in the same position in the union
         // for HDMI and SDTV
         HDMI_PROPERTY_PARAM_T property;
         property.property = HDMI_PROPERTY_PIXEL_CLOCK_TYPE;
         vc_tv_hdmi_get_property(&property);
-        if (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
-            *numerator = tvstate.display.hdmi.frame_rate * 1000;
+        إذا (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
+            *numerator = tvstate.display.hdmi.چوکٺو_شرح_2 * 1000;
             *denominator = 1001;
-        } else {
-            *numerator = tvstate.display.hdmi.frame_rate;
+        } وإلا {
+            *numerator = tvstate.display.hdmi.چوکٺو_شرح_2;
             *denominator = 1;
         }
-        return;
+        أرجع;
     }
 
     // Failed to get display state, default to 60
@@ -75,67 +75,67 @@ static void RPI_GetRefreshRate(int *numerator, int *denominator)
     *denominator = 1;
 }
 
-static SDL_VideoDevice *RPI_Create(void)
+ساكن SDL_VideoDevice *RPI_Create(فراغ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
+    SDL_Video_معلومات *phdata;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    إذا (!device) {
+        أرجع عدم;
     }
 
     // Initialize internal data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_معلومات *)SDL_calloc(1, حجم(SDL_Video_معلومات));
+    إذا (!phdata) {
         SDL_free(device);
-        return NULL;
+        أرجع عدم;
     }
 
-    device->internal = phdata;
+    device->اندروني = phdata;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->انگ_displays = 0;
 
     // Set device free function
-    device->free = RPI_Destroy;
+    device->حرر = RPI_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = RPI_VideoInit;
     device->VideoQuit = RPI_VideoQuit;
-    device->CreateSDLWindow = RPI_CreateWindow;
-    device->SetWindowTitle = RPI_SetWindowTitle;
-    device->SetWindowPosition = RPI_SetWindowPosition;
-    device->SetWindowSize = RPI_SetWindowSize;
-    device->ShowWindow = RPI_ShowWindow;
-    device->HideWindow = RPI_HideWindow;
-    device->RaiseWindow = RPI_RaiseWindow;
-    device->MaximizeWindow = RPI_MaximizeWindow;
-    device->MinimizeWindow = RPI_MinimizeWindow;
-    device->RestoreWindow = RPI_RestoreWindow;
-    device->DestroyWindow = RPI_DestroyWindow;
-    device->GL_LoadLibrary = RPI_GLES_LoadLibrary;
-    device->GL_GetProcAddress = RPI_GLES_GetProcAddress;
+    device->CreateSDLWindow = RPI_Create_دري;
+    device->سيٽ_دري_Title = RPI_سيٽ_دري_Title;
+    device->سيٽ_دري_Position = RPI_سيٽ_دري_Position;
+    device->سيٽ_دري_سائيز = RPI_سيٽ_دري_سائيز;
+    device->Show_دري = RPI_Show_دري;
+    device->Hide_دري = RPI_Hide_دري;
+    device->Raise_دري = RPI_Raise_دري;
+    device->Maximize_دري = RPI_Maximize_دري;
+    device->Minimize_دري = RPI_Minimize_دري;
+    device->Restore_دري = RPI_Restore_دري;
+    device->Destroy_دري = RPI_Destroy_دري;
+    device->GL_ڀريو_Library = RPI_GLES_ڀريو_Library;
+    device->GL_Get_Proc_پتو = RPI_GLES_Get_Proc_پتو;
     device->GL_UnloadLibrary = RPI_GLES_UnloadLibrary;
     device->GL_CreateContext = RPI_GLES_CreateContext;
     device->GL_MakeCurrent = RPI_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = RPI_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = RPI_GLES_GetSwapInterval;
-    device->GL_SwapWindow = RPI_GLES_SwapWindow;
+    device->GL_سيٽ_مٽا_سٽا_Interval = RPI_GLES_سيٽ_مٽا_سٽا_Interval;
+    device->GL_Get_مٽا_سٽا_Interval = RPI_GLES_Get_مٽا_سٽا_Interval;
+    device->GL_مٽا_سٽا_دري = RPI_GLES_مٽا_سٽا_دري;
     device->GL_DestroyContext = RPI_GLES_DestroyContext;
-    device->GL_SetDefaultProfileConfig = RPI_GLES_SetDefaultProfileConfig;
+    device->GL_سيٽ_Default_Profile_Config = RPI_GLES_سيٽ_Default_Profile_Config;
 
     device->PumpEvents = RPI_PumpEvents;
 
-    return device;
+    أرجع device;
 }
 
 VideoBootStrap RPI_bootstrap = {
     "rpi",
     "RPI Video Driver",
     RPI_Create,
-    NULL, // no ShowMessageBox implementation
+    عدم, // no ShowMessageBox implementation
     false
 };
 
@@ -143,48 +143,48 @@ VideoBootStrap RPI_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static void AddDispManXDisplay(const int display_id)
+ساكن فراغ جوڙيو_Disp_Man_XDisplay(ثابت صحيح display_id)
 {
     DISPMANX_MODEINFO_T modeinfo;
     DISPMANX_DISPLAY_HANDLE_T handle;
     SDL_VideoDisplay display;
-    SDL_DisplayMode mode;
-    SDL_DisplayData *data;
+    SDL_Display_گهڻائي گهڻائي;
+    SDL_Display_معلومات *معلومات;
 
     handle = vc_dispmanx_display_open(display_id);
-    if (!handle) {
-        return; // this display isn't available
+    إذا (!handle) {
+        أرجع; // this display isn't available
     }
 
-    if (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
+    إذا (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
         vc_dispmanx_display_close(handle);
-        return;
+        أرجع;
     }
 
     // RPI_GetRefreshRate() doesn't distinguish between displays. I'm not sure the hardware distinguishes either
-    SDL_zero(mode);
-    mode.w = modeinfo.width;
-    mode.h = modeinfo.height;
-    RPI_GetRefreshRate(&mode.refresh_rate_numerator, &mode.refresh_rate_denominator);
+    SDL_zero(گهڻائي);
+    گهڻائي.w = modeinfo.ويڪر;
+    گهڻائي.h = modeinfo.اوچائي;
+    RPI_Get_Refresh_شرح(&گهڻائي.refresh_شرح_numerator, &گهڻائي.refresh_شرح_denominator);
 
     // 32 bpp for default
-    mode.format = SDL_PIXELFORMAT_ABGR8888;
+    گهڻائي.format = SDL_PIXELFORMAT_ABGR8888;
 
     SDL_zero(display);
-    display.desktop_mode = mode;
+    display.desktop_گهڻائي = گهڻائي;
 
     // Allocate display internal data
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
+    معلومات = (SDL_Display_معلومات *)SDL_calloc(1, حجم(SDL_Display_معلومات));
+    إذا (!معلومات) {
         vc_dispmanx_display_close(handle);
-        return; // oh well
+        أرجع; // oh well
     }
 
-    data->dispman_display = handle;
+    معلومات->dispman_display = handle;
 
-    display.internal = data;
+    display.اندروني = معلومات;
 
-    SDL_AddVideoDisplay(&display, false);
+    SDL_جوڙيو_Video_Display(&display, false);
 }
 
 bool RPI_VideoInit(SDL_VideoDevice *_this)
@@ -192,86 +192,86 @@ bool RPI_VideoInit(SDL_VideoDevice *_this)
     // Initialize BCM Host
     bcm_host_init();
 
-    AddDispManXDisplay(DISPMANX_ID_MAIN_LCD);    // your default display
-    AddDispManXDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
+    جوڙيو_Disp_Man_XDisplay(DISPMANX_ID_MAIN_LCD);    // your default display
+    جوڙيو_Disp_Man_XDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
 
-#ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+#جيڪڏهن_وصف_ٿيل SDL_داخلا_LINUXEV
+    إذا (!SDL_EVDEV_Init()) {
+        أرجع false;
     }
-#endif
+#جيڪڏهن_پورو
 
     RPI_InitMouse(_this);
 
-    return true;
+    أرجع true;
 }
 
-void RPI_VideoQuit(SDL_VideoDevice *_this)
+فراغ RPI_VideoQuit(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#جيڪڏهن_وصف_ٿيل SDL_داخلا_LINUXEV
     SDL_EVDEV_Quit();
-#endif
+#جيڪڏهن_پورو
 }
 
-static void RPI_vsync_callback(DISPMANX_UPDATE_HANDLE_T u, void *data)
+ساكن فراغ RPI_vsync_callback(DISPMANX_UPDATE_HANDLE_T u, فراغ *معلومات)
 {
-    SDL_WindowData *wdata = (SDL_WindowData *)data;
+    SDL_دري_معلومات *wdata = (SDL_دري_معلومات *)معلومات;
 
-    SDL_LockMutex(wdata->vsync_cond_mutex);
+    SDL_تالو_Mutex(wdata->vsync_cond_mutex);
     SDL_SignalCondition(wdata->vsync_cond);
     SDL_UnlockMutex(wdata->vsync_cond_mutex);
 }
 
-bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RPI_Create_دري(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *wdata;
+    SDL_دري_معلومات *wdata;
     SDL_VideoDisplay *display;
-    SDL_DisplayData *displaydata;
+    SDL_Display_معلومات *displaydata;
     VC_RECT_T dst_rect;
     VC_RECT_T src_rect;
     VC_DISPMANX_ALPHA_T dispman_alpha;
     DISPMANX_UPDATE_HANDLE_T dispman_update;
     uint32_t layer = SDL_RPI_VIDEOLAYER;
-    const char *env;
+    ثابت حرف *env;
 
     // Disable alpha, otherwise the app looks composed with whatever dispman is showing (X11, console,etc)
     dispman_alpha.flags = DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS;
     dispman_alpha.opacity = 0xFF;
-    dispman_alpha.mask = 0;
+    dispman_alpha.نقاب = 0;
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_دري_معلومات *)SDL_calloc(1, حجم(SDL_دري_معلومات));
+    إذا (!wdata) {
+        أرجع false;
     }
-    display = SDL_GetVideoDisplayForWindow(window);
-    displaydata = display->internal;
+    display = SDL_Get_Video_Display_For_دري(دري);
+    displaydata = display->اندروني;
 
     // Windows have one size for now
-    window->w = display->desktop_mode.w;
-    window->h = display->desktop_mode.h;
+    دري->w = display->desktop_گهڻائي.w;
+    دري->h = display->desktop_گهڻائي.h;
 
     // OpenGL ES is the law here, buddy
-    window->flags |= SDL_WINDOW_OPENGL;
+    دري->flags |= SDL_دري_OPENGL;
 
     // Create a dispman element and associate a window to it
     dst_rect.x = 0;
     dst_rect.y = 0;
-    dst_rect.width = window->w;
-    dst_rect.height = window->h;
+    dst_rect.ويڪر = دري->w;
+    dst_rect.اوچائي = دري->h;
 
     src_rect.x = 0;
     src_rect.y = 0;
-    src_rect.width = window->w << 16;
-    src_rect.height = window->h << 16;
+    src_rect.ويڪر = دري->w << 16;
+    src_rect.اوچائي = دري->h << 16;
 
     env = SDL_GetHint(SDL_HINT_RPI_VIDEO_LAYER);
-    if (env) {
+    إذا (env) {
         layer = SDL_atoi(env);
     }
 
-    dispman_update = vc_dispmanx_update_start(0);
-    wdata->dispman_window.element = vc_dispmanx_element_add(dispman_update,
+    dispman_update = vc_dispmanx_update_شروعات(0);
+    wdata->dispman_دري.element = vc_dispmanx_element_جوڙيو(dispman_update,
                                                             displaydata->dispman_display,
                                                             layer /* layer */,
                                                             &dst_rect,
@@ -281,96 +281,96 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
                                                             &dispman_alpha /*alpha*/,
                                                             0 /*clamp*/,
                                                             0 /*transform*/);
-    wdata->dispman_window.width = window->w;
-    wdata->dispman_window.height = window->h;
+    wdata->dispman_دري.ويڪر = دري->w;
+    wdata->dispman_دري.اوچائي = دري->h;
     vc_dispmanx_update_submit_sync(dispman_update);
 
-    if (!_this->egl_data) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    إذا (!_this->egl_معلومات) {
+        إذا (!SDL_GL_ڀريو_Library(عدم)) {
+            أرجع false;
         }
     }
-    wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)&wdata->dispman_window);
+    wdata->egl_surface = SDL_EGL_CreateSurface(_this, دري, (Native_دري_Type)&wdata->dispman_دري);
 
-    if (wdata->egl_surface == EGL_NO_SURFACE) {
-        return SDL_SetError("Could not create GLES window surface");
+    إذا (wdata->egl_surface == EGL_NO_SURFACE) {
+        أرجع SDL_سيٽ_Error("Could not create GLES window surface");
     }
 
     // Start generating vsync callbacks if necessary
-    wdata->double_buffer = false;
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
+    wdata->double_بفر = false;
+    إذا (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_بفر, false)) {
         wdata->vsync_cond = SDL_CreateCondition();
         wdata->vsync_cond_mutex = SDL_CreateMutex();
-        wdata->double_buffer = true;
-        vc_dispmanx_vsync_callback(displaydata->dispman_display, RPI_vsync_callback, (void *)wdata);
+        wdata->double_بفر = true;
+        vc_dispmanx_vsync_callback(displaydata->dispman_display, RPI_vsync_callback, (فراغ *)wdata);
     }
 
     // Setup driver data for this window
-    window->internal = wdata;
+    دري->اندروني = wdata;
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_سيٽ_Mouse_Focus(دري);
+    SDL_سيٽ_Keyboard_Focus(دري);
 
     // Window has been successfully created
-    return true;
+    أرجع true;
 }
 
-void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Destroy_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_دري_معلومات *معلومات = دري->اندروني;
+    SDL_Display_معلومات *displaydata = SDL_Get_Display_Driver_معلومات_For_دري(دري);
 
-    if (data) {
-        if (data->double_buffer) {
+    إذا (معلومات) {
+        إذا (معلومات->double_بفر) {
             // Wait for vsync, and then stop vsync callbacks and destroy related stuff, if needed
-            SDL_LockMutex(data->vsync_cond_mutex);
-            SDL_WaitCondition(data->vsync_cond, data->vsync_cond_mutex);
-            SDL_UnlockMutex(data->vsync_cond_mutex);
+            SDL_تالو_Mutex(معلومات->vsync_cond_mutex);
+            SDL_WaitCondition(معلومات->vsync_cond, معلومات->vsync_cond_mutex);
+            SDL_UnlockMutex(معلومات->vsync_cond_mutex);
 
-            vc_dispmanx_vsync_callback(displaydata->dispman_display, NULL, NULL);
+            vc_dispmanx_vsync_callback(displaydata->dispman_display, عدم, عدم);
 
-            SDL_DestroyCondition(data->vsync_cond);
-            SDL_DestroyMutex(data->vsync_cond_mutex);
+            SDL_DestroyCondition(معلومات->vsync_cond);
+            SDL_DestroyMutex(معلومات->vsync_cond_mutex);
         }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
-            SDL_EGL_DestroySurface(_this, data->egl_surface);
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_OPENGL_EGL
+        إذا (معلومات->egl_surface != EGL_NO_SURFACE) {
+            SDL_EGL_DestroySurface(_this, معلومات->egl_surface);
         }
-#endif
-        SDL_free(data);
-        window->internal = NULL;
+#جيڪڏهن_پورو
+        SDL_free(معلومات);
+        دري->اندروني = عدم;
     }
 }
 
-void RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_سيٽ_دري_Title(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool RPI_سيٽ_دري_Position(SDL_VideoDevice *_this, SDL_دري *دري)
 {
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
-void RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
-{
-}
-void RPI_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_سيٽ_دري_سائيز(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-void RPI_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Show_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-void RPI_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Hide_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-void RPI_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Raise_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-void RPI_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Maximize_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
-void RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RPI_Minimize_دري(SDL_VideoDevice *_this, SDL_دري *دري)
+{
+}
+فراغ RPI_Restore_دري(SDL_VideoDevice *_this, SDL_دري *دري)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_RPI
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_RPI

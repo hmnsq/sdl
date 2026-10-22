@@ -1,11 +1,11 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_HAVE_YUV
-#include "yuv_rgb_internal.h"
+#جيڪڏهن_وصف_ٿيل SDL_HAVE_YUV
+#ضمن "yuv_rgb_internal.h"
 
-#ifdef SDL_SSE2_INTRINSICS
+#جيڪڏهن_وصف_ٿيل SDL_SSE2_INTRINSICS
 
 /* SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
 #define SSE_FUNCTION_NAME	yuv420_rgb565_sse
@@ -135,113 +135,113 @@
 #include "yuv_rgb_sse_func.h"
 */
 
-#define SSE_FUNCTION_NAME	yuv420_rgb565_sseu
-#define STD_FUNCTION_NAME	yuv420_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_rgb565_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_rgb565_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB565
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv420_rgb24_sseu
-#define STD_FUNCTION_NAME	yuv420_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_rgb24_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_rgb24_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB24
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv420_rgba_sseu
-#define STD_FUNCTION_NAME	yuv420_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_rgba_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_rgba_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGBA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv420_bgra_sseu
-#define STD_FUNCTION_NAME	yuv420_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_bgra_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_bgra_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_BGRA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv420_argb_sseu
-#define STD_FUNCTION_NAME	yuv420_argb_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_argb_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_argb_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ARGB
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv420_abgr_sseu
-#define STD_FUNCTION_NAME	yuv420_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv420_abgr_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv420_abgr_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_420
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ABGR
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_rgb565_sseu
-#define STD_FUNCTION_NAME	yuv422_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_rgb565_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_rgb565_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB565
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_rgb24_sseu
-#define STD_FUNCTION_NAME	yuv422_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_rgb24_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_rgb24_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB24
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_rgba_sseu
-#define STD_FUNCTION_NAME	yuv422_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_rgba_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_rgba_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGBA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_bgra_sseu
-#define STD_FUNCTION_NAME	yuv422_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_bgra_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_bgra_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_BGRA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_argb_sseu
-#define STD_FUNCTION_NAME	yuv422_argb_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_argb_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_argb_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ARGB
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuv422_abgr_sseu
-#define STD_FUNCTION_NAME	yuv422_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuv422_abgr_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuv422_abgr_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_422
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ABGR
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_rgb565_sseu
-#define STD_FUNCTION_NAME	yuvnv12_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_rgb565_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_rgb565_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB565
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_rgb24_sseu
-#define STD_FUNCTION_NAME	yuvnv12_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_rgb24_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_rgb24_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGB24
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_rgba_sseu
-#define STD_FUNCTION_NAME	yuvnv12_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_rgba_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_rgba_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_RGBA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_bgra_sseu
-#define STD_FUNCTION_NAME	yuvnv12_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_bgra_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_bgra_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_BGRA
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_argb_sseu
-#define STD_FUNCTION_NAME	yuvnv12_argb_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_argb_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_argb_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ARGB
+#ضمن "yuv_rgb_sse_func.h"
 
-#define SSE_FUNCTION_NAME	yuvnv12_abgr_sseu
-#define STD_FUNCTION_NAME	yuvnv12_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_sse_func.h"
+#وصف_ڪريو SSE_FUNCTION_NAME	yuvnv12_abgr_sseu
+#وصف_ڪريو STD_FUNCTION_NAME	yuvnv12_abgr_std
+#وصف_ڪريو YUV_FORMAT			YUV_FORMAT_NV12
+#وصف_ڪريو RGB_FORMAT			RGB_FORMAT_ABGR
+#ضمن "yuv_rgb_sse_func.h"
 
 
 /* SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
@@ -286,17 +286,17 @@ V = _mm_add_epi16(V, _mm_set1_epi16(128<<PRECISION)); \
 V = _mm_srai_epi16(V, PRECISION);
 */
 
-#if 0  // SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
-#define RGB2YUV_32 \
+#إذا 0  // SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
+#وصف_ڪريو RGB2YUV_32 \
 	__m128i r1, r2, b1, b2, g1, g2; \
 	__m128i r_16, g_16, b_16; \
 	__m128i y1_16, y2_16, u1_16, u2_16, v1_16, v2_16, y, u1, u2, v1, v2, u1_tmp, u2_tmp, v1_tmp, v2_tmp; \
-	__m128i rgb1 = LOAD_SI128((const __m128i*)(rgb_ptr1)), \
-		rgb2 = LOAD_SI128((const __m128i*)(rgb_ptr1+16)), \
-		rgb3 = LOAD_SI128((const __m128i*)(rgb_ptr1+32)), \
-		rgb4 = LOAD_SI128((const __m128i*)(rgb_ptr2)), \
-		rgb5 = LOAD_SI128((const __m128i*)(rgb_ptr2+16)), \
-		rgb6 = LOAD_SI128((const __m128i*)(rgb_ptr2+32)); \
+	__m128i rgb1 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1)), \
+		rgb2 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1+16)), \
+		rgb3 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1+32)), \
+		rgb4 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2)), \
+		rgb5 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2+16)), \
+		rgb6 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2+32)); \
 	/* unpack rgb24 data to r, g and b data in separate channels*/ \
 	UNPACK_RGB24_32(rgb1, rgb2, rgb3, rgb4, rgb5, rgb6, r1, r2, g1, g2, b1, b2) \
 	/* process pixels of first line */ \
@@ -331,12 +331,12 @@ V = _mm_srai_epi16(V, PRECISION);
 	u1_tmp = _mm_avg_epu8(u1, u2); \
 	v1_tmp = _mm_avg_epu8(v1, v2); \
 	/* do the same again with next data */ \
-	rgb1 = LOAD_SI128((const __m128i*)(rgb_ptr1+48)); \
-	rgb2 = LOAD_SI128((const __m128i*)(rgb_ptr1+64)); \
-	rgb3 = LOAD_SI128((const __m128i*)(rgb_ptr1+80)); \
-	rgb4 = LOAD_SI128((const __m128i*)(rgb_ptr2+48)); \
-	rgb5 = LOAD_SI128((const __m128i*)(rgb_ptr2+64)); \
-	rgb6 = LOAD_SI128((const __m128i*)(rgb_ptr2+80)); \
+	rgb1 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1+48)); \
+	rgb2 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1+64)); \
+	rgb3 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr1+80)); \
+	rgb4 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2+48)); \
+	rgb5 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2+64)); \
+	rgb6 = ڀريو_SI128((ثابت __m128i*)(rgb_ptr2+80)); \
 	/* unpack rgb24 data to r, g and b data in separate channels*/ \
 	UNPACK_RGB24_32(rgb1, rgb2, rgb3, rgb4, rgb5, rgb6, r1, r2, g1, g2, b1, b2) \
 	/* process pixels of first line */ \
@@ -379,7 +379,7 @@ V = _mm_srai_epi16(V, PRECISION);
 	v1 = _mm_avg_epu8(v1, v2); \
 	SAVE_SI128((__m128i*)(u_ptr), u1); \
 	SAVE_SI128((__m128i*)(v_ptr), v1);
-#endif
+#جيڪڏهن_پورو
 
 /* SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
 void SDL_TARGETING("sse2") rgb24_yuv420_sse(uint32_t width, uint32_t height,
@@ -455,6 +455,6 @@ void SDL_TARGETING("sse2") rgb24_yuv420_sseu(uint32_t width, uint32_t height,
 }
 */
 
-#endif // SDL_SSE2_INTRINSICS
+#جيڪڏهن_پورو // SDL_SSE2_INTRINSICS
 
-#endif // SDL_HAVE_YUV
+#جيڪڏهن_پورو // SDL_HAVE_YUV

@@ -18,124 +18,124 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
+#ضمن "SDL_windowsvideo.h"
 
-bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool WIN_Create_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري, SDL_PixelFormat *format, فراغ **pixels, صحيح *pitch)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
     bool isstack;
-    size_t size;
+    size_t سائيز;
     LPBITMAPINFO info;
     HBITMAP hbm;
-    int w, h;
+    صحيح w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_دري_سائيز_اندريون_Pixels(دري, &w, &h);
 
     // Free the old framebuffer surface
-    if (data->mdc) {
-        DeleteDC(data->mdc);
+    إذا (معلومات->mdc) {
+        DeleteDC(معلومات->mdc);
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
+    إذا (معلومات->hbm) {
+        DeleteObject(معلومات->hbm);
     }
 
     // Find out the format of the screen
-    size = sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD);
-    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, size, &isstack);
-    if (!info) {
-        return false;
+    سائيز = حجم(BITMAPINFOHEADER) + 256 * حجم(RGBQUAD);
+    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, سائيز, &isstack);
+    إذا (!info) {
+        أرجع false;
     }
 
-    SDL_memset(info, 0, size);
-    info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    SDL_memset(info, 0, سائيز);
+    info->bmi_سرو.bi_سائيز = حجم(BITMAPINFOHEADER);
 
     // The second call to GetDIBits() fills in the bitfields
-    hbm = CreateCompatibleBitmap(data->hdc, 1, 1);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
+    hbm = CreateCompatibleBitmap(معلومات->hdc, 1, 1);
+    GetDIBits(معلومات->hdc, hbm, 0, 0, عدم, info, DIB_RGB_COLORS);
+    GetDIBits(معلومات->hdc, hbm, 0, 0, عدم, info, DIB_RGB_COLORS);
     DeleteObject(hbm);
 
     // Check if a transparent channel is required
-    bool need_alpha = (window->flags & SDL_WINDOW_TRANSPARENT) != 0;
+    bool need_alpha = (دري->flags & SDL_دري_TRANSPARENT) != 0;
 
     *format = SDL_PIXELFORMAT_UNKNOWN;
-    if (info->bmiHeader.biCompression == BI_BITFIELDS) {
-        int bpp;
+    إذا (info->bmi_سرو.biCompression == BI_BITFIELDS) {
+        صحيح bpp;
         Uint32 *masks;
 
-        bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
-        masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        bpp = info->bmi_سرو.biPlanes * info->bmi_سرو.bi_ٻٽو_انگ_ڳڻپ;
+        masks = (Uint32 *)((Uint8 *)info + info->bmi_سرو.bi_سائيز);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
-    if (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
+    إذا (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
         // We'll use RGB or BGRA32 format for now
         *format = need_alpha ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_XRGB8888;
 
         // Create a new one
-        SDL_memset(info, 0, size);
-        info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        info->bmiHeader.biPlanes = 1;
-        info->bmiHeader.biBitCount = 32;
-        info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
+        SDL_memset(info, 0, سائيز);
+        info->bmi_سرو.bi_سائيز = حجم(BITMAPINFOHEADER);
+        info->bmi_سرو.biPlanes = 1;
+        info->bmi_سرو.bi_ٻٽو_انگ_ڳڻپ = 32;
+        info->bmi_سرو.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
-        if (need_alpha) {
-            int tmpbpp;
-            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        إذا (need_alpha) {
+            صحيح tmpbpp;
+            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmi_سرو.bi_سائيز);
             SDL_GetMasksForPixelFormat(SDL_PIXELFORMAT_BGRA32, &tmpbpp, &bgr32masks[0], &bgr32masks[1], &bgr32masks[2], &bgr32masks[3]);
         }
     }
 
     // Fill in the size information
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
-    info->bmiHeader.biWidth = w;
-    info->bmiHeader.biHeight = -h; // negative for topdown bitmap
-    info->bmiHeader.biSizeImage = (DWORD)h * (*pitch);
+    info->bmi_سرو.bi_ويڪر = w;
+    info->bmi_سرو.bi_اوچائي = -h; // negative for topdown bitmap
+    info->bmi_سرو.bi_سائيز_Image = (DWORD)h * (*pitch);
 
-    data->mdc = CreateCompatibleDC(data->hdc);
-    data->hbm = CreateDIBSection(data->hdc, info, DIB_RGB_COLORS, pixels, NULL, 0);
+    معلومات->mdc = CreateCompatibleDC(معلومات->hdc);
+    معلومات->hbm = CreateDIBSection(معلومات->hdc, info, DIB_RGB_COLORS, pixels, عدم, 0);
     SDL_small_free(info, isstack);
 
-    if (!data->hbm) {
-        return WIN_SetError("Unable to create DIB");
+    إذا (!معلومات->hbm) {
+        أرجع WIN_سيٽ_Error("Unable to create DIB");
     }
-    SelectObject(data->mdc, data->hbm);
+    SelectObject(معلومات->mdc, معلومات->hbm);
 
-    return true;
+    أرجع true;
 }
 
-bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool WIN_Update_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري, ثابت SDL_Rect *rects, صحيح numrects)
 {
-    SDL_WindowData *data = window->internal;
-    int i;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
+    صحيح i;
 
-    for (i = 0; i < numrects; ++i) {
-        BitBlt(data->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
-               data->mdc, rects[i].x, rects[i].y, SRCCOPY);
+    لكل (i = 0; i < numrects; ++i) {
+        ٻٽو_انگ_Blt(معلومات->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
+               معلومات->mdc, rects[i].x, rects[i].y, SRCCOPY);
     }
-    return true;
+    أرجع true;
 }
 
-void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Destroy_دري_Framebuffer(SDL_VideoDevice *_this, SDL_دري *دري)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_دري_معلومات *معلومات = دري->اندروني;
 
-    if (!data) {
+    إذا (!معلومات) {
         // The window wasn't fully initialized
-        return;
+        أرجع;
     }
 
-    if (data->mdc) {
-        DeleteDC(data->mdc);
-        data->mdc = NULL;
+    إذا (معلومات->mdc) {
+        DeleteDC(معلومات->mdc);
+        معلومات->mdc = عدم;
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
-        data->hbm = NULL;
+    إذا (معلومات->hbm) {
+        DeleteObject(معلومات->hbm);
+        معلومات->hbm = عدم;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_WINDOWS

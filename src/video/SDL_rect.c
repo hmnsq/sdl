@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_rect_c.h"
+#ضمن "SDL_rect_c.h"
 
 /* There's no float version of this at the moment, because it's not a public API
    and internally we only need the int version. */
-bool SDL_GetSpanEnclosingRect(int width, int height,
-                         int numrects, const SDL_Rect *rects, SDL_Rect *span)
+bool SDL_Get_وسعت_Enclosing_Rect(صحيح ويڪر, صحيح اوچائي,
+                         صحيح numrects, ثابت SDL_Rect *rects, SDL_Rect *وسعت)
 {
-    int i;
-    int span_y1, span_y2;
-    int rect_y1, rect_y2;
+    صحيح i;
+    صحيح وسعت_y1, وسعت_y2;
+    صحيح rect_y1, rect_y2;
 
-    CHECK_PARAM(width < 1) {
+    CHECK_PARAM(ويڪر < 1) {
         SDL_InvalidParamError("width");
-        return false;
+        أرجع false;
     }
-    CHECK_PARAM(height < 1) {
+    CHECK_PARAM(اوچائي < 1) {
         SDL_InvalidParamError("height");
-        return false;
+        أرجع false;
     }
     CHECK_PARAM(!rects) {
         SDL_InvalidParamError("rects");
-        return false;
+        أرجع false;
     }
-    CHECK_PARAM(!span) {
+    CHECK_PARAM(!وسعت) {
         SDL_InvalidParamError("span");
-        return false;
+        أرجع false;
     }
     CHECK_PARAM(numrects < 1) {
         SDL_InvalidParamError("numrects");
-        return false;
+        أرجع false;
     }
 
     // Initialize to empty rect
-    span_y1 = height;
-    span_y2 = 0;
+    وسعت_y1 = اوچائي;
+    وسعت_y2 = 0;
 
-    for (i = 0; i < numrects; ++i) {
+    لكل (i = 0; i < numrects; ++i) {
         rect_y1 = rects[i].y;
         rect_y2 = rect_y1 + rects[i].h;
 
         // Clip out of bounds rectangles, and expand span rect
-        if (rect_y1 < 0) {
-            span_y1 = 0;
-        } else if (rect_y1 < span_y1) {
-            span_y1 = rect_y1;
+        إذا (rect_y1 < 0) {
+            وسعت_y1 = 0;
+        } وإلا إذا (rect_y1 < وسعت_y1) {
+            وسعت_y1 = rect_y1;
         }
-        if (rect_y2 > height) {
-            span_y2 = height;
-        } else if (rect_y2 > span_y2) {
-            span_y2 = rect_y2;
+        إذا (rect_y2 > اوچائي) {
+            وسعت_y2 = اوچائي;
+        } وإلا إذا (rect_y2 > وسعت_y2) {
+            وسعت_y2 = rect_y2;
         }
     }
-    if (span_y2 > span_y1) {
-        span->x = 0;
-        span->y = span_y1;
-        span->w = width;
-        span->h = (span_y2 - span_y1);
-        return true;
+    إذا (وسعت_y2 > وسعت_y1) {
+        وسعت->x = 0;
+        وسعت->y = وسعت_y1;
+        وسعت->w = ويڪر;
+        وسعت->h = (وسعت_y2 - وسعت_y1);
+        أرجع true;
     }
-    return false;
+    أرجع false;
 }
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
-#define CODE_BOTTOM 1
-#define CODE_TOP    2
-#define CODE_LEFT   4
-#define CODE_RIGHT  8
+#وصف_ڪريو ڪوڊ_BOTTOM 1
+#وصف_ڪريو ڪوڊ_چوٽي    2
+#وصف_ڪريو ڪوڊ_کاٻو   4
+#وصف_ڪريو ڪوڊ_ساڄو  8
 
 // Same code twice, for float and int versions...
-#define RECTTYPE                 SDL_Rect
-#define POINTTYPE                SDL_Point
-#define SCALARTYPE               int
-#define BIGSCALARTYPE            Sint64
-#define COMPUTEOUTCODE           ComputeOutCode
-#define ENCLOSEPOINTS_EPSILON    1
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflow
-#define SDL_HASINTERSECTION      SDL_HasRectIntersection
-#define SDL_INTERSECTRECT        SDL_GetRectIntersection
-#define SDL_RECTEMPTY            SDL_RectEmpty
-#define SDL_UNIONRECT            SDL_GetRectUnion
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersection
-#include "SDL_rect_impl.h"
+#وصف_ڪريو RECTTYPE                 SDL_Rect
+#وصف_ڪريو POINTTYPE                SDL_نقطو
+#وصف_ڪريو SCALARTYPE               صحيح
+#وصف_ڪريو BIGSCALARTYPE            Sint64
+#وصف_ڪريو COMPUTEOUTCODE           Compute_ٻاهريون_ڪوڊ
+#وصف_ڪريو ENCLOSEPOINTS_EPSILON    1
+#وصف_ڪريو SDL_RECT_CAN_حد_کان_مٿي    SDL_Rect_Can_حد_کان_مٿي
+#وصف_ڪريو SDL_HASINTERSECTION      SDL_HasRectIntersection
+#وصف_ڪريو SDL_INTERSECTRECT        SDL_GetRectIntersection
+#وصف_ڪريو SDL_RECTEMPTY            SDL_Rect_خالي_جايون
+#وصف_ڪريو SDL_UNIONRECT            SDL_GetRectUnion
+#وصف_ڪريو SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
+#وصف_ڪريو SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_سٽ_Intersection
+#ضمن "SDL_rect_impl.h"
 
-#define RECTTYPE                 SDL_FRect
-#define POINTTYPE                SDL_FPoint
-#define SCALARTYPE               float
-#define BIGSCALARTYPE            double
-#define COMPUTEOUTCODE           ComputeOutCodeFloat
-#define ENCLOSEPOINTS_EPSILON    0.0f
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflowFloat
-#define SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
-#define SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
-#define SDL_RECTEMPTY            SDL_RectEmptyFloat
-#define SDL_UNIONRECT            SDL_GetRectUnionFloat
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersectionFloat
-#include "SDL_rect_impl.h"
+#وصف_ڪريو RECTTYPE                 SDL_FRect
+#وصف_ڪريو POINTTYPE                SDL_FPoint
+#وصف_ڪريو SCALARTYPE               عائم
+#وصف_ڪريو BIGSCALARTYPE            مزدوج
+#وصف_ڪريو COMPUTEOUTCODE           Compute_ٻاهريون_ڪوڊ_Float
+#وصف_ڪريو ENCLOSEPOINTS_EPSILON    0.0f
+#وصف_ڪريو SDL_RECT_CAN_حد_کان_مٿي    SDL_Rect_Can_حد_کان_مٿي_Float
+#وصف_ڪريو SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
+#وصف_ڪريو SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
+#وصف_ڪريو SDL_RECTEMPTY            SDL_Rect_خالي_جايون_Float
+#وصف_ڪريو SDL_UNIONRECT            SDL_GetRectUnionFloat
+#وصف_ڪريو SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
+#وصف_ڪريو SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_سٽ_Intersection_Float
+#ضمن "SDL_rect_impl.h"

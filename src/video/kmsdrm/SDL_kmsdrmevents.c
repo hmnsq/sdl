@@ -19,26 +19,26 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmevents.h"
+#ضمن "SDL_kmsdrmvideo.h"
+#ضمن "SDL_kmsdrmevents.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
-#include "../../core/openbsd/SDL_wscons.h"
-#endif
+#جيڪڏهن_وصف_ٿيل SDL_داخلا_LINUXEV
+#ضمن "../../core/linux/SDL_evdev.h"
+#وإلاإذا defined SDL_داخلا_WSCONS
+#ضمن "../../core/openbsd/SDL_wscons.h"
+#جيڪڏهن_پورو
 
-void KMSDRM_PumpEvents(SDL_VideoDevice *_this)
+فراغ KMSDRM_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#جيڪڏهن_وصف_ٿيل SDL_داخلا_LINUXEV
     SDL_EVDEV_Poll();
-#elif defined SDL_INPUT_WSCONS
+#وإلاإذا defined SDL_داخلا_WSCONS
     SDL_WSCONS_PumpEvents();
-#endif
+#جيڪڏهن_پورو
 }
 
-#endif // SDL_VIDEO_DRIVER_KMSDRM
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_KMSDRM

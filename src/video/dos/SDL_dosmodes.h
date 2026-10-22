@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosmodes_h_
-#define SDL_dosmodes_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_dosmodes_h_
+#وصف_ڪريو SDL_dosmodes_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
-extern bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode);
-extern bool DOSVESA_SupportsVESA(void);
-extern void DOSVESA_FreeVESAInfo(void);
-extern Uint32 DOSVESA_GetVESATotalMemory(void);
-extern const char *DOSVESA_GetGPUName(void);
+خارجي bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
+خارجي bool DOSVESA_سيٽ_Display_گهڻائي(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_Display_گهڻائي *گهڻائي);
+خارجي bool DOSVESA_SupportsVESA(فراغ);
+خارجي فراغ DOSVESA_FreeVESAInfo(فراغ);
+خارجي Uint32 DOSVESA_Get_VESATotal_يادگيري(فراغ);
+خارجي ثابت حرف *DOSVESA_GetGPUName(فراغ);
 
 // VGA DAC (Digital-to-Analog Converter) ports for palette programming
-#define VGA_DAC_PIXEL_MASK  0x3C6 // pixel mask register (read/write, VGA-only)
-#define VGA_DAC_WRITE_INDEX 0x3C8 // write index register (set starting color index)
-#define VGA_DAC_DATA        0x3C9 // data register (write R, G, B in sequence)
+#وصف_ڪريو VGA_DAC_PIXEL_نقاب  0x3C6 // pixel mask register (read/write, VGA-only)
+#وصف_ڪريو VGA_DAC_WRITE_اشاريو 0x3C8 // write index register (set starting color index)
+#وصف_ڪريو VGA_DAC_معلومات        0x3C9 // data register (write R, G, B in sequence)
 
 // VGA Input Status Register 1 (for vblank detection)
-#define VGA_STATUS_PORT   0x3DA
-#define VGA_STATUS_VBLANK 0x08 // bit 3: vertical retrace active
+#وصف_ڪريو VGA_حالت_پورٽ   0x3DA
+#وصف_ڪريو VGA_حالت_VBLANK 0x08 // bit 3: vertical retrace active
 
 // VBE window attribute bits (WinAAttributes / WinBAttributes field)
-#define VBE_WINATTR_SUPPORTED 0x01 // bit 0: window is supported
-#define VBE_WINATTR_WRITABLE  0x04 // bit 2: window is writable
+#وصف_ڪريو VBE_WINATTR_SUPPORTED 0x01 // bit 0: window is supported
+#وصف_ڪريو VBE_WINATTR_WRITABLE  0x04 // bit 2: window is writable
 
 // Combination: a usable banked window must be both supported and writable
-#define VBE_WINATTR_USABLE (VBE_WINATTR_SUPPORTED | VBE_WINATTR_WRITABLE)
+#وصف_ڪريو VBE_WINATTR_USABLE (VBE_WINATTR_SUPPORTED | VBE_WINATTR_WRITABLE)
 
-#endif // SDL_dosmodes_h_
+#جيڪڏهن_پورو // SDL_dosmodes_h_

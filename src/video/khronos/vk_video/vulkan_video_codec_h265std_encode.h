@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODEC_H265STD_ENCODE_H_
-#define VULKAN_VIDEO_CODEC_H265STD_ENCODE_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_VIDEO_CODEC_H265STD_ENCODE_H_
+#وصف_ڪريو VULKAN_VIDEO_CODEC_H265STD_ENCODE_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,147 +13,147 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // vulkan_video_codec_h265std_encode is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codec_h265std_encode 1
+#وصف_ڪريو vulkan_video_codec_h265std_encode 1
 
-#include "vulkan_video_codec_h265std.h"
+#ضمن "vulkan_video_codec_h265std.h"
 
-#define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_نسخو_1_0_0 VK_MAKE_VIDEO_STD_نسخو(1, 0, 0)
 
-#define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_VERSION_1_0_0
-#define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h265_encode"
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_SPEC_نسخو VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_نسخو_1_0_0
+#وصف_ڪريو VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h265_encode"
 
-typedef struct StdVideoEncodeH265WeightTableFlags {
-    uint16_t    luma_weight_l0_flag;
-    uint16_t    chroma_weight_l0_flag;
-    uint16_t    luma_weight_l1_flag;
-    uint16_t    chroma_weight_l1_flag;
-} StdVideoEncodeH265WeightTableFlags;
+تعريفنوع بنية Std_Video_Encode_H265_وزن_جدول_Flags {
+    uint16_t    luma_وزن_l0_flag;
+    uint16_t    chroma_وزن_l0_flag;
+    uint16_t    luma_وزن_l1_flag;
+    uint16_t    chroma_وزن_l1_flag;
+} Std_Video_Encode_H265_وزن_جدول_Flags;
 
-typedef struct StdVideoEncodeH265WeightTable {
-    StdVideoEncodeH265WeightTableFlags    flags;
-    uint8_t                               luma_log2_weight_denom;
-    int8_t                                delta_chroma_log2_weight_denom;
-    int8_t                                delta_luma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_luma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-} StdVideoEncodeH265WeightTable;
+تعريفنوع بنية Std_Video_Encode_H265_وزن_جدول {
+    Std_Video_Encode_H265_وزن_جدول_Flags    flags;
+    uint8_t                               luma_log2_وزن_denom;
+    int8_t                                delta_chroma_log2_وزن_denom;
+    int8_t                                delta_luma_وزن_l0[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    int8_t                                luma_وٿي_l0[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    int8_t                                delta_chroma_وزن_l0[STD_VIDEO_H265_MAX_انگ_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_وٿي_l0[STD_VIDEO_H265_MAX_انگ_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_luma_وزن_l1[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    int8_t                                luma_وٿي_l1[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    int8_t                                delta_chroma_وزن_l1[STD_VIDEO_H265_MAX_انگ_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_وٿي_l1[STD_VIDEO_H265_MAX_انگ_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+} Std_Video_Encode_H265_وزن_جدول;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
-    uint32_t    first_slice_segment_in_pic_flag : 1;
-    uint32_t    dependent_slice_segment_flag : 1;
-    uint32_t    slice_sao_luma_flag : 1;
-    uint32_t    slice_sao_chroma_flag : 1;
-    uint32_t    num_ref_idx_active_override_flag : 1;
+تعريفنوع بنية Std_Video_Encode_H265_ٽڪرو_Segment_سرو_Flags {
+    uint32_t    پهريون_ٽڪرو_segment_اندريون_pic_flag : 1;
+    uint32_t    dependent_ٽڪرو_segment_flag : 1;
+    uint32_t    ٽڪرو_sao_luma_flag : 1;
+    uint32_t    ٽڪرو_sao_chroma_flag : 1;
+    uint32_t    انگ_ref_idx_سرگرم_override_flag : 1;
     uint32_t    mvd_l1_zero_flag : 1;
     uint32_t    cabac_init_flag : 1;
-    uint32_t    cu_chroma_qp_offset_enabled_flag : 1;
+    uint32_t    cu_chroma_qp_وٿي_enabled_flag : 1;
     uint32_t    deblocking_filter_override_flag : 1;
-    uint32_t    slice_deblocking_filter_disabled_flag : 1;
+    uint32_t    ٽڪرو_deblocking_filter_disabled_flag : 1;
     uint32_t    collocated_from_l0_flag : 1;
-    uint32_t    slice_loop_filter_across_slices_enabled_flag : 1;
+    uint32_t    ٽڪرو_loop_filter_across_slices_enabled_flag : 1;
     uint32_t    reserved : 20;
-} StdVideoEncodeH265SliceSegmentHeaderFlags;
+} Std_Video_Encode_H265_ٽڪرو_Segment_سرو_Flags;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeader {
-    StdVideoEncodeH265SliceSegmentHeaderFlags    flags;
-    StdVideoH265SliceType                        slice_type;
-    uint32_t                                     slice_segment_address;
+تعريفنوع بنية Std_Video_Encode_H265_ٽڪرو_Segment_سرو {
+    Std_Video_Encode_H265_ٽڪرو_Segment_سرو_Flags    flags;
+    Std_Video_H265_ٽڪرو_Type                        ٽڪرو_type;
+    uint32_t                                     ٽڪرو_segment_پتو;
     uint8_t                                      collocated_ref_idx;
-    uint8_t                                      MaxNumMergeCand;
-    int8_t                                       slice_cb_qp_offset;
-    int8_t                                       slice_cr_qp_offset;
-    int8_t                                       slice_beta_offset_div2;
-    int8_t                                       slice_tc_offset_div2;
-    int8_t                                       slice_act_y_qp_offset;
-    int8_t                                       slice_act_cb_qp_offset;
-    int8_t                                       slice_act_cr_qp_offset;
-    int8_t                                       slice_qp_delta;
+    uint8_t                                      Max_انگ_ملايو_Cand;
+    int8_t                                       ٽڪرو_cb_qp_وٿي;
+    int8_t                                       ٽڪرو_cr_qp_وٿي;
+    int8_t                                       ٽڪرو_beta_وٿي_div2;
+    int8_t                                       ٽڪرو_tc_وٿي_div2;
+    int8_t                                       ٽڪرو_act_y_qp_وٿي;
+    int8_t                                       ٽڪرو_act_cb_qp_وٿي;
+    int8_t                                       ٽڪرو_act_cr_qp_وٿي;
+    int8_t                                       ٽڪرو_qp_delta;
     uint16_t                                     reserved1;
-    const StdVideoEncodeH265WeightTable*         pWeightTable;
-} StdVideoEncodeH265SliceSegmentHeader;
+    ثابت Std_Video_Encode_H265_وزن_جدول*         p_وزن_جدول;
+} Std_Video_Encode_H265_ٽڪرو_Segment_سرو;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfoFlags {
+تعريفنوع بنية StdVideoEncodeH265ReferenceListsInfoFlags {
     uint32_t    ref_pic_list_modification_flag_l0 : 1;
     uint32_t    ref_pic_list_modification_flag_l1 : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceListsInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfo {
+تعريفنوع بنية StdVideoEncodeH265ReferenceListsInfo {
     StdVideoEncodeH265ReferenceListsInfoFlags    flags;
-    uint8_t                                      num_ref_idx_l0_active_minus1;
-    uint8_t                                      num_ref_idx_l1_active_minus1;
-    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
+    uint8_t                                      انگ_ref_idx_l0_سرگرم_minus1;
+    uint8_t                                      انگ_ref_idx_l1_سرگرم_minus1;
+    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    uint8_t                                      list_داخلا_l0[STD_VIDEO_H265_MAX_انگ_LIST_REF];
+    uint8_t                                      list_داخلا_l1[STD_VIDEO_H265_MAX_انگ_LIST_REF];
 } StdVideoEncodeH265ReferenceListsInfo;
 
-typedef struct StdVideoEncodeH265PictureInfoFlags {
+تعريفنوع بنية StdVideoEncodeH265PictureInfoFlags {
     uint32_t    is_reference : 1;
     uint32_t    IrapPicFlag : 1;
-    uint32_t    used_for_long_term_reference : 1;
+    uint32_t    استعمال_ٿيل_for_long_رڪن_reference : 1;
     uint32_t    discardable_flag : 1;
     uint32_t    cross_layer_bla_flag : 1;
     uint32_t    pic_output_flag : 1;
-    uint32_t    no_output_of_prior_pics_flag : 1;
-    uint32_t    short_term_ref_pic_set_sps_flag : 1;
-    uint32_t    slice_temporal_mvp_enabled_flag : 1;
+    uint32_t    no_output_جو_اڳواٽ_pics_flag : 1;
+    uint32_t    short_رڪن_ref_pic_سيٽ_sps_flag : 1;
+    uint32_t    ٽڪرو_temporal_mvp_enabled_flag : 1;
     uint32_t    reserved : 23;
 } StdVideoEncodeH265PictureInfoFlags;
 
-typedef struct StdVideoEncodeH265LongTermRefPics {
-    uint8_t     num_long_term_sps;
-    uint8_t     num_long_term_pics;
-    uint8_t     lt_idx_sps[STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS];
-    uint8_t     poc_lsb_lt[STD_VIDEO_H265_MAX_LONG_TERM_PICS];
-    uint16_t    used_by_curr_pic_lt_flag;
+تعريفنوع بنية Std_Video_Encode_H265_Long_رڪن_Ref_Pics {
+    uint8_t     انگ_long_رڪن_sps;
+    uint8_t     انگ_long_رڪن_pics;
+    uint8_t     lt_idx_sps[STD_VIDEO_H265_MAX_LONG_رڪن_REF_PICS_SPS];
+    uint8_t     poc_lsb_lt[STD_VIDEO_H265_MAX_LONG_رڪن_PICS];
+    uint16_t    استعمال_ٿيل_by_curr_pic_lt_flag;
     uint8_t     delta_poc_msb_present_flag[STD_VIDEO_H265_MAX_DELTA_POC];
-    uint8_t     delta_poc_msb_cycle_lt[STD_VIDEO_H265_MAX_DELTA_POC];
-} StdVideoEncodeH265LongTermRefPics;
+    uint8_t     delta_poc_msb_چڪر_lt[STD_VIDEO_H265_MAX_DELTA_POC];
+} Std_Video_Encode_H265_Long_رڪن_Ref_Pics;
 
-typedef struct StdVideoEncodeH265PictureInfo {
+تعريفنوع بنية StdVideoEncodeH265PictureInfo {
     StdVideoEncodeH265PictureInfoFlags             flags;
     StdVideoH265PictureType                        pic_type;
-    uint8_t                                        sps_video_parameter_set_id;
-    uint8_t                                        pps_seq_parameter_set_id;
-    uint8_t                                        pps_pic_parameter_set_id;
-    uint8_t                                        short_term_ref_pic_set_idx;
-    int32_t                                        PicOrderCntVal;
+    uint8_t                                        sps_video_parameter_سيٽ_id;
+    uint8_t                                        pps_seq_parameter_سيٽ_id;
+    uint8_t                                        pps_pic_parameter_سيٽ_id;
+    uint8_t                                        short_رڪن_ref_pic_سيٽ_idx;
+    int32_t                                        Pic_ترتيب_Cnt_Val;
     uint8_t                                        TemporalId;
     uint8_t                                        reserved1[7];
-    const StdVideoEncodeH265ReferenceListsInfo*    pRefLists;
-    const StdVideoH265ShortTermRefPicSet*          pShortTermRefPicSet;
-    const StdVideoEncodeH265LongTermRefPics*       pLongTermRefPics;
+    ثابت StdVideoEncodeH265ReferenceListsInfo*    pRefLists;
+    ثابت Std_Video_H265_Short_رڪن_Ref_Pic_سيٽ*          p_Short_رڪن_Ref_Pic_سيٽ;
+    ثابت Std_Video_Encode_H265_Long_رڪن_Ref_Pics*       p_Long_رڪن_Ref_Pics;
 } StdVideoEncodeH265PictureInfo;
 
-typedef struct StdVideoEncodeH265ReferenceInfoFlags {
-    uint32_t    used_for_long_term_reference : 1;
-    uint32_t    unused_for_reference : 1;
+تعريفنوع بنية StdVideoEncodeH265ReferenceInfoFlags {
+    uint32_t    استعمال_ٿيل_for_long_رڪن_reference : 1;
+    uint32_t    اڻ_استعمال_ٿيل_for_reference : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceInfo {
+تعريفنوع بنية StdVideoEncodeH265ReferenceInfo {
     StdVideoEncodeH265ReferenceInfoFlags    flags;
     StdVideoH265PictureType                 pic_type;
-    int32_t                                 PicOrderCntVal;
+    int32_t                                 Pic_ترتيب_Cnt_Val;
     uint8_t                                 TemporalId;
 } StdVideoEncodeH265ReferenceInfo;
 
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

@@ -20,23 +20,23 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BMESSAGEBOX_H
-#define SDL_BMESSAGEBOX_H
+#جيڪڏهن_وصف_نه_ٿيل SDL_BMESSAGEBOX_H
+#وصف_ڪريو SDL_BMESSAGEBOX_H
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#جيڪڏهن_وصف_ٿيل SDL_VIDEO_DRIVER_HAIKU
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
-extern bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+خارجي bool HAIKU_Show_پيغام_Box(ثابت SDL_پيغام_Box_معلومات *messageboxdata, صحيح *buttonID);
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#جيڪڏهن_پورو // SDL_VIDEO_DRIVER_HAIKU
 
-#endif
+#جيڪڏهن_پورو

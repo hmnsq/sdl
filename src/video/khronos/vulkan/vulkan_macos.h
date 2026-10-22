@@ -1,5 +1,5 @@
-#ifndef VULKAN_MACOS_H_
-#define VULKAN_MACOS_H_ 1
+#جيڪڏهن_وصف_نه_ٿيل VULKAN_MACOS_H_
+#وصف_ڪريو VULKAN_MACOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+خارجي "C" {
+#جيڪڏهن_پورو
 
 
 
 // VK_MVK_macos_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_macos_surface 1
+#وصف_ڪريو VK_MVK_macos_surface 1
 
-#define VK_MVK_MACOS_SURFACE_SPEC_VERSION 3
-#define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
+#وصف_ڪريو VK_MVK_MACOS_SURFACE_SPEC_نسخو 3
+#وصف_ڪريو VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 
-typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
+تعريفنوع VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+تعريفنوع بنية VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ثابت فراغ*                     p_ايندڙ;
     VkMacOSSurfaceCreateFlagsMVK    flags;
-    const void*                     pView;
+    ثابت فراغ*                     pView;
 } VkMacOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتيجو (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, ثابت VkMacOSSurfaceCreateInfoMVK* pCreateInfo, ثابت Vk_ورهاست_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جيڪڏهن_وصف_نه_ٿيل VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
+#جيڪڏهن_وصف_نه_ٿيل VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتيجو VKAPI_CALL vkCreateMacOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
+    ثابت Vk_ورهاست_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
 }
-#endif
+#جيڪڏهن_پورو
 
-#endif
+#جيڪڏهن_پورو

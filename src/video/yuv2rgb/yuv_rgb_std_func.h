@@ -7,26 +7,26 @@
 	RGB_FORMAT
 */
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#إذا RGB_FORMAT == RGB_FORMAT_RGB565
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = \
 		((((Uint16)clampU8(y_tmp+r_tmp)) << 8 ) & 0xF800) | \
 		((((Uint16)clampU8(y_tmp+g_tmp)) << 3) & 0x07E0) | \
 		(((Uint16)clampU8(y_tmp+b_tmp)) >> 3); \
 	rgb_ptr += 2
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB24
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_RGB24
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	rgb_ptr[0] = clampU8(y_tmp+r_tmp); \
 	rgb_ptr[1] = clampU8(y_tmp+g_tmp); \
 	rgb_ptr[2] = clampU8(y_tmp+b_tmp); \
 	rgb_ptr += 3
 
-#elif RGB_FORMAT == RGB_FORMAT_RGBA
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_RGBA
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -34,9 +34,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_BGRA
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_BGRA
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -44,9 +44,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ARGB
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_ARGB
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 16) | \
@@ -54,9 +54,9 @@
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ABGR
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_ABGR
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 16) | \
@@ -64,9 +64,9 @@
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_XBGR2101010
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_XBGR2101010
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xC0000000 | \
 		(((Uint32)clamp10(y_tmp+b_tmp)) << 20) | \
@@ -74,190 +74,190 @@
 		(((Uint32)clamp10(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB48
+#وإلاإذا RGB_FORMAT == RGB_FORMAT_RGB48
 
-#define PACK_PIXEL(rgb_ptr) \
+#وصف_ڪريو PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + r_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += حجم(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + g_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += حجم(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + b_tmp); \
-	rgb_ptr += sizeof(Uint16)
+	rgb_ptr += حجم(Uint16)
 
-#else
-#error PACK_PIXEL unimplemented
-#endif
+#وإلا
+#غلطي PACK_PIXEL unimplemented
+#جيڪڏهن_پورو
 
 
-#ifdef _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
-#pragma warning(push)
-#pragma warning(disable : 6239)
-#endif
+#جيڪڏهن_وصف_ٿيل _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
+#هدايت warning(ڌڪو)
+#هدايت warning(disable : 6239)
+#جيڪڏهن_پورو
 
-#undef YUV_TYPE
-#if YUV_BITS > 8
-#define YUV_TYPE	uint16_t
-#else
-#define YUV_TYPE	uint8_t
-#endif
-#undef UV_OFFSET
-#define UV_OFFSET	(1 << ((YUV_BITS)-1))
+#وصف_رد YUV_TYPE
+#إذا YUV_بٽ > 8
+#وصف_ڪريو YUV_TYPE	uint16_t
+#وإلا
+#وصف_ڪريو YUV_TYPE	uint8_t
+#جيڪڏهن_پورو
+#وصف_رد UV_وٿي
+#وصف_ڪريو UV_وٿي	(1 << ((YUV_بٽ)-1))
 
-#undef GET
-#if YUV_BITS == 10
-#define GET(X)	((X) >> 6)
-#else
-#define GET(X)	(X)
-#endif
+#وصف_رد GET
+#إذا YUV_بٽ == 10
+#وصف_ڪريو GET(X)	((X) >> 6)
+#وإلا
+#وصف_ڪريو GET(X)	(X)
+#جيڪڏهن_پورو
 
-void STD_FUNCTION_NAME(
-	uint32_t width, uint32_t height,
-	const YUV_TYPE *Y, const YUV_TYPE *U, const YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
+فراغ STD_FUNCTION_NAME(
+	uint32_t ويڪر, uint32_t اوچائي,
+	ثابت YUV_TYPE *Y, ثابت YUV_TYPE *U, ثابت YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
 	uint8_t *RGB, uint32_t RGB_stride,
 	YCbCrType yuv_type)
 {
-	const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#elif YUV_FORMAT == YUV_FORMAT_422
-	#define y_pixel_stride 2
-	#define uv_pixel_stride 4
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_444
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 1
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_NV12
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 2
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#endif
+	ثابت YUV2RGBParam *ثابت param = &(YUV2RGB[yuv_type]);
+#إذا YUV_FORMAT == YUV_FORMAT_420
+	#وصف_ڪريو y_pixel_stride 1
+	#وصف_ڪريو uv_pixel_stride 1
+	#وصف_ڪريو uv_x_sample_interval 2
+	#وصف_ڪريو uv_y_sample_interval 2
+#وإلاإذا YUV_FORMAT == YUV_FORMAT_422
+	#وصف_ڪريو y_pixel_stride 2
+	#وصف_ڪريو uv_pixel_stride 4
+	#وصف_ڪريو uv_x_sample_interval 2
+	#وصف_ڪريو uv_y_sample_interval 1
+#وإلاإذا YUV_FORMAT == YUV_FORMAT_444
+	#وصف_ڪريو y_pixel_stride 1
+	#وصف_ڪريو uv_pixel_stride 1
+	#وصف_ڪريو uv_x_sample_interval 1
+	#وصف_ڪريو uv_y_sample_interval 1
+#وإلاإذا YUV_FORMAT == YUV_FORMAT_NV12
+	#وصف_ڪريو y_pixel_stride 1
+	#وصف_ڪريو uv_pixel_stride 2
+	#وصف_ڪريو uv_x_sample_interval 2
+	#وصف_ڪريو uv_y_sample_interval 2
+#جيڪڏهن_پورو
 
-	Y_stride /= sizeof(YUV_TYPE);
-	UV_stride /= sizeof(YUV_TYPE);
+	Y_stride /= حجم(YUV_TYPE);
+	UV_stride /= حجم(YUV_TYPE);
 
 	uint32_t x, y;
-	for(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
+	لكل(y=0; y<(اوچائي-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		ثابت YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
-		#if uv_y_sample_interval > 1
-		const YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
-		#endif
+		#إذا uv_y_sample_interval > 1
+		ثابت YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
+		#جيڪڏهن_پورو
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		#if uv_y_sample_interval > 1
+		#إذا uv_y_sample_interval > 1
 		uint8_t *rgb_ptr2=RGB+(y+1)*RGB_stride;
-		#endif
+		#جيڪڏهن_پورو
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		لكل(x=0; x<(ويڪر-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_وٿي);
+			int32_t v_tmp = (GET(*v_ptr)-UV_وٿي);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_ضرب_ڪندڙ);
+			int32_t g_tmp = (u_tmp*param->u_g_ضرب_ڪندڙ + v_tmp*param->v_g_ضرب_ڪندڙ);
+			int32_t b_tmp = (u_tmp*param->u_b_ضرب_ڪندڙ);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_x_sample_interval > 1
-			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
+			#إذا uv_x_sample_interval > 1
+			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
-			#endif
+			#جيڪڏهن_پورو
 
-			#if uv_y_sample_interval > 1
-			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
+			#إذا uv_y_sample_interval > 1
+			y_tmp = (GET(y_ptr2[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr2);
 
-			y_tmp = (GET(y_ptr2[y_pixel_stride]-param->y_shift)*param->y_factor);
+			y_tmp = (GET(y_ptr2[y_pixel_stride]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#جيڪڏهن_پورو
 
-			#if uv_x_sample_interval > 1
+			#إذا uv_x_sample_interval > 1
 			y_ptr1+=2*y_pixel_stride;
-			#else
+			#وإلا
 			y_ptr1+=y_pixel_stride;
-			#endif
-			#if uv_y_sample_interval > 1
+			#جيڪڏهن_پورو
+			#إذا uv_y_sample_interval > 1
 			y_ptr2+=2*y_pixel_stride;
-			#endif
-			#if uv_x_sample_interval > 1
+			#جيڪڏهن_پورو
+			#إذا uv_x_sample_interval > 1
 			u_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
-			#else
+			#وإلا
 			u_ptr+=uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=uv_pixel_stride/uv_x_sample_interval;
-			#endif
+			#جيڪڏهن_پورو
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#إذا uv_x_sample_interval == 2
+		إذا (x == (ويڪر-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_وٿي);
+			int32_t v_tmp = (GET(*v_ptr)-UV_وٿي);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_ضرب_ڪندڙ);
+			int32_t g_tmp = (u_tmp*param->u_g_ضرب_ڪندڙ + v_tmp*param->v_g_ضرب_ڪندڙ);
+			int32_t b_tmp = (u_tmp*param->u_b_ضرب_ڪندڙ);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_y_sample_interval > 1
-			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
+			#إذا uv_y_sample_interval > 1
+			y_tmp = (GET(y_ptr2[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#جيڪڏهن_پورو
 		}
-#endif
+#جيڪڏهن_پورو
 	}
 
 	/* Catch the last line, if needed */
-#if uv_y_sample_interval == 2
-	if (y == (height-1))
+#إذا uv_y_sample_interval == 2
+	إذا (y == (اوچائي-1))
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		ثابت YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		لكل(x=0; x<(ويڪر-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_وٿي);
+			int32_t v_tmp = (GET(*v_ptr)-UV_وٿي);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_ضرب_ڪندڙ);
+			int32_t g_tmp = (u_tmp*param->u_g_ضرب_ڪندڙ + v_tmp*param->v_g_ضرب_ڪندڙ);
+			int32_t b_tmp = (u_tmp*param->u_b_ضرب_ڪندڙ);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
 
-			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
+			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
 
 			y_ptr1+=2*y_pixel_stride;
@@ -266,38 +266,38 @@ void STD_FUNCTION_NAME(
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#إذا uv_x_sample_interval == 2
+		إذا (x == (ويڪر-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_وٿي);
+			int32_t v_tmp = (GET(*v_ptr)-UV_وٿي);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_ضرب_ڪندڙ);
+			int32_t g_tmp = (u_tmp*param->u_g_ضرب_ڪندڙ + v_tmp*param->v_g_ضرب_ڪندڙ);
+			int32_t b_tmp = (u_tmp*param->u_b_ضرب_ڪندڙ);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_سرڪايو)*param->y_ضرب_ڪندڙ);
 			PACK_PIXEL(rgb_ptr1);
 		}
-#endif
+#جيڪڏهن_پورو
 	}
-#endif
+#جيڪڏهن_پورو
 
-	#undef y_pixel_stride
-	#undef uv_pixel_stride
-	#undef uv_x_sample_interval
-	#undef uv_y_sample_interval
+	#وصف_رد y_pixel_stride
+	#وصف_رد uv_pixel_stride
+	#وصف_رد uv_x_sample_interval
+	#وصف_رد uv_y_sample_interval
 }
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#جيڪڏهن_وصف_ٿيل _MSC_VER
+#هدايت warning(ڪڍو)
+#جيڪڏهن_پورو
 
-#undef STD_FUNCTION_NAME
-#undef YUV_FORMAT
-#undef RGB_FORMAT
-#undef PACK_PIXEL
+#وصف_رد STD_FUNCTION_NAME
+#وصف_رد YUV_FORMAT
+#وصف_رد RGB_FORMAT
+#وصف_رد PACK_PIXEL

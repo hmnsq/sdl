@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_kmsdrmopengles_h_
-#define SDL_kmsdrmopengles_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_kmsdrmopengles_h_
+#وصف_ڪريو SDL_kmsdrmopengles_h_
 
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define KMSDRM_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
-#define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#وصف_ڪريو KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
+#وصف_ڪريو KMSDRM_GLES_Get_Proc_پتو  SDL_EGL_Get_Proc_پتو_اندروني
+#وصف_ڪريو KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
+#وصف_ڪريو KMSDRM_GLES_Get_مٽا_سٽا_Interval SDL_EGL_Get_مٽا_سٽا_Interval
 
-extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+خارجي فراغ KMSDRM_GLES_سيٽ_Default_Profile_Config(SDL_VideoDevice *_this);
+خارجي bool KMSDRM_GLES_سيٽ_مٽا_سٽا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool KMSDRM_GLES_ڀريو_Library(SDL_VideoDevice *_this, ثابت حرف *رستو);
+خارجي فراغ KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool KMSDRM_GLES_مٽا_سٽا_دري(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_دري *دري, SDL_GLContext context);
 
-#endif // SDL_kmsdrmopengles_h_
+#جيڪڏهن_پورو // SDL_kmsdrmopengles_h_

@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11events_h_
-#define SDL_x11events_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_x11events_h_
+#وصف_ڪريو SDL_x11events_h_
 
-extern void X11_PumpEvents(SDL_VideoDevice *_this);
-extern int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
-extern void X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern void X11_ReconcileKeyboardState(SDL_VideoDevice *_this);
-extern void X11_GetBorderValues(SDL_WindowData *data);
-extern Uint64 X11_GetEventTimestamp(unsigned long time);
-extern void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent);
-extern void X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, float x, float y, unsigned long time, unsigned long serial);
-extern void X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, unsigned long time);
-extern SDL_WindowData *X11_FindWindow(SDL_VideoData *videodata, Window window);
-extern bool X11_ProcessHitTest(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y, bool force_new_result);
-extern bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y);
-extern bool X11_IsWheelEvent(int button, int *xticks, int *yticks);
+خارجي فراغ X11_PumpEvents(SDL_VideoDevice *_this);
+خارجي صحيح X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+خارجي فراغ X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_دري *دري);
+خارجي bool X11_SuspendScreenSaver(SDL_VideoDevice *_this);
+خارجي فراغ X11_ReconcileKeyboardState(SDL_VideoDevice *_this);
+خارجي فراغ X11_Get_Border_قدرون(SDL_دري_معلومات *معلومات);
+خارجي Uint64 X11_GetEventTimestamp(بنانشان ڊگهو وقت);
+خارجي فراغ X11_Handle_ڪنجي_Event(SDL_VideoDevice *_this, SDL_دري_معلومات *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent);
+خارجي فراغ X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_دري_معلومات *windowdata, SDL_MouseID mouseID, صحيح button, عائم x, عائم y, بنانشان ڊگهو وقت, بنانشان ڊگهو serial);
+خارجي فراغ X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_دري_معلومات *windowdata, SDL_MouseID mouseID, صحيح button, بنانشان ڊگهو وقت);
+خارجي SDL_دري_معلومات *X11_ڳوليو_دري(SDL_Video_معلومات *videodata, دري_2 دري);
+خارجي bool X11_Process_ڪاميابي_Test(SDL_VideoDevice *_this, SDL_دري_معلومات *معلومات, ثابت عائم x, ثابت عائم y, bool force_new_نتيجو);
+خارجي bool X11_Trigger_ڪاميابي_Test_Action(SDL_VideoDevice *_this, SDL_دري_معلومات *معلومات, ثابت عائم x, ثابت عائم y);
+خارجي bool X11_IsWheelEvent(صحيح button, صحيح *xticks, صحيح *yticks);
 
-#endif // SDL_x11events_h_
+#جيڪڏهن_پورو // SDL_x11events_h_

@@ -1,5 +1,5 @@
-#ifndef __khrplatform_h_
-#define __khrplatform_h_
+#جيڪڏهن_وصف_نه_ٿيل __khrplatform_h_
+#وصف_ڪريو __khrplatform_h_
 
 /*
 ** Copyright (c) 2008-2018 The Khronos Group Inc.
@@ -90,28 +90,28 @@
  *                                  int arg2) KHRONOS_APIATTRIBUTES;
  */
 
-#if defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
+#إذا defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
 #   define KHRONOS_STATIC 1
-#endif
+#جيڪڏهن_پورو
 
 /*-------------------------------------------------------------------------
  * Definition of KHRONOS_APICALL
  *-------------------------------------------------------------------------
  * This precedes the return type of the function in the function prototype.
  */
-#if defined(KHRONOS_STATIC)
+#إذا defined(KHRONOS_STATIC)
     /* If the preprocessor constant KHRONOS_STATIC is defined, make the
      * header compatible with static linking. */
 #   define KHRONOS_APICALL
-#elif defined(_WIN32)
+#وإلاإذا defined(_WIN32)
 #   define KHRONOS_APICALL __declspec(dllimport)
-#elif defined (__SYMBIAN32__)
+#وإلاإذا defined (__SYMBIAN32__)
 #   define KHRONOS_APICALL IMPORT_C
-#elif defined(__ANDROID__)
+#وإلاإذا defined(__ANDROID__)
 #   define KHRONOS_APICALL __attribute__((visibility("default")))
-#else
+#وإلا
 #   define KHRONOS_APICALL
-#endif
+#جيڪڏهن_پورو
 
 /*-------------------------------------------------------------------------
  * Definition of KHRONOS_APIENTRY
@@ -119,42 +119,42 @@
  * This follows the return type of the function  and precedes the function
  * name in the function prototype.
  */
-#if defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
+#إذا defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
     /* Win32 but not WinCE */
 #   define KHRONOS_APIENTRY __stdcall
-#elif defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#وإلاإذا defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
 #   define KHRONOS_APIENTRY __stdcall
-#else
+#وإلا
 #   define KHRONOS_APIENTRY
-#endif
+#جيڪڏهن_پورو
 
 /*-------------------------------------------------------------------------
  * Definition of KHRONOS_APIATTRIBUTES
  *-------------------------------------------------------------------------
  * This follows the closing parenthesis of the function prototype arguments.
  */
-#if defined (__ARMCC_2__)
-#define KHRONOS_APIATTRIBUTES __softfp
-#else
-#define KHRONOS_APIATTRIBUTES
-#endif
+#إذا defined (__ARMCC_2__)
+#وصف_ڪريو KHRONOS_APIATTRIBUTES __softfp
+#وإلا
+#وصف_ڪريو KHRONOS_APIATTRIBUTES
+#جيڪڏهن_پورو
 
 /*-------------------------------------------------------------------------
  * basic type definitions
  *-----------------------------------------------------------------------*/
-#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
+#إذا (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 
 
 /*
  * Using <stdint.h>
  */
-#include <stdint.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
+#ضمن <stdint.h>
+تعريفنوع int32_t                 khronos_int32_t;
+تعريفنوع uint32_t                khronos_uint32_t;
+تعريفنوع int64_t                 khronos_int64_t;
+تعريفنوع uint64_t                khronos_uint64_t;
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   1
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   1
 /*
  * To support platform where unsigned long cannot be used interchangeably with
  * inptr_t (e.g. CHERI-extended ISAs), we can use the stdint.h intptr_t.
@@ -164,120 +164,120 @@ typedef uint64_t                khronos_uint64_t;
  * To avoid changes for existing platforms, we restrict usage of intptr_t to
  * platforms where the size of a pointer is larger than the size of long.
  */
-#if defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
-#if __SIZEOF_POINTER__ > __SIZEOF_LONG__
-#define KHRONOS_USE_INTPTR_T
-#endif
-#endif
+#إذا defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
+#إذا __SIZEOF_POINTER__ > __SIZEOF_LONG__
+#وصف_ڪريو KHRONOS_USE_INTPTR_T
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
-#elif defined(__VMS ) || defined(__sgi)
+#وإلاإذا defined(__VMS ) || defined(__sgi)
 
 /*
  * Using <inttypes.h>
  */
-#include <inttypes.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
+#ضمن <inttypes.h>
+تعريفنوع int32_t                 khronos_int32_t;
+تعريفنوع uint32_t                khronos_uint32_t;
+تعريفنوع int64_t                 khronos_int64_t;
+تعريفنوع uint64_t                khronos_uint64_t;
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   1
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   1
 
-#elif defined(_WIN32) && !defined(__SCITECH_SNAP__)
+#وإلاإذا defined(_WIN32) && !defined(__SCITECH_SNAP__)
 
 /*
  * Win32
  */
-typedef __int32                 khronos_int32_t;
-typedef unsigned __int32        khronos_uint32_t;
-typedef __int64                 khronos_int64_t;
-typedef unsigned __int64        khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
+تعريفنوع __int32                 khronos_int32_t;
+تعريفنوع بنانشان __int32        khronos_uint32_t;
+تعريفنوع __int64                 khronos_int64_t;
+تعريفنوع بنانشان __int64        khronos_uint64_t;
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   1
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   1
 
-#elif defined(__sun__) || defined(__digital__)
+#وإلاإذا defined(__sun__) || defined(__digital__)
 
 /*
  * Sun or Digital
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
-#if defined(__arch64__) || defined(_LP64)
-typedef long int                khronos_int64_t;
-typedef unsigned long int       khronos_uint64_t;
-#else
-typedef long long int           khronos_int64_t;
-typedef unsigned long long int  khronos_uint64_t;
-#endif /* __arch64__ */
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
+تعريفنوع صحيح                     khronos_int32_t;
+تعريفنوع بنانشان صحيح            khronos_uint32_t;
+#إذا defined(__arch64__) || defined(_LP64)
+تعريفنوع ڊگهو صحيح                khronos_int64_t;
+تعريفنوع بنانشان ڊگهو صحيح       khronos_uint64_t;
+#وإلا
+تعريفنوع ڊگهو ڊگهو صحيح           khronos_int64_t;
+تعريفنوع بنانشان ڊگهو ڊگهو صحيح  khronos_uint64_t;
+#جيڪڏهن_پورو /* __arch64__ */
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   1
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   1
 
-#elif 0
+#وإلاإذا 0
 
 /*
  * Hypothetical platform with no float or int64 support
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
-#define KHRONOS_SUPPORT_INT64   0
-#define KHRONOS_SUPPORT_FLOAT   0
+تعريفنوع صحيح                     khronos_int32_t;
+تعريفنوع بنانشان صحيح            khronos_uint32_t;
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   0
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   0
 
-#else
+#وإلا
 
 /*
  * Generic fallback
  */
-#include <stdint.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
+#ضمن <stdint.h>
+تعريفنوع int32_t                 khronos_int32_t;
+تعريفنوع uint32_t                khronos_uint32_t;
+تعريفنوع int64_t                 khronos_int64_t;
+تعريفنوع uint64_t                khronos_uint64_t;
+#وصف_ڪريو KHRONOS_SUPPORT_INT64   1
+#وصف_ڪريو KHRONOS_SUPPORT_FLOAT   1
 
-#endif
+#جيڪڏهن_پورو
 
 
 /*
  * Types that are (so far) the same on all platforms
  */
-typedef signed   char          khronos_int8_t;
-typedef unsigned char          khronos_uint8_t;
-typedef signed   short int     khronos_int16_t;
-typedef unsigned short int     khronos_uint16_t;
+تعريفنوع نشانوارو   حرف          khronos_int8_t;
+تعريفنوع بنانشان حرف          khronos_uint8_t;
+تعريفنوع نشانوارو   ننڍو صحيح     khronos_int16_t;
+تعريفنوع بنانشان ننڍو صحيح     khronos_uint16_t;
 
 /*
  * Types that differ between LLP64 and LP64 architectures - in LLP64,
  * pointers are 64 bits, but 'long' is still 32 bits. Win64 appears
  * to be the only LLP64 architecture in current use.
  */
-#ifdef KHRONOS_USE_INTPTR_T
-typedef intptr_t               khronos_intptr_t;
-typedef uintptr_t              khronos_uintptr_t;
-#elif defined(_WIN64)
-typedef signed   long long int khronos_intptr_t;
-typedef unsigned long long int khronos_uintptr_t;
-#else
-typedef signed   long  int     khronos_intptr_t;
-typedef unsigned long  int     khronos_uintptr_t;
-#endif
+#جيڪڏهن_وصف_ٿيل KHRONOS_USE_INTPTR_T
+تعريفنوع intptr_t               khronos_intptr_t;
+تعريفنوع uintptr_t              khronos_uintptr_t;
+#وإلاإذا defined(_WIN64)
+تعريفنوع نشانوارو   ڊگهو ڊگهو صحيح khronos_intptr_t;
+تعريفنوع بنانشان ڊگهو ڊگهو صحيح khronos_uintptr_t;
+#وإلا
+تعريفنوع نشانوارو   ڊگهو  صحيح     khronos_intptr_t;
+تعريفنوع بنانشان ڊگهو  صحيح     khronos_uintptr_t;
+#جيڪڏهن_پورو
 
-#if defined(_WIN64)
-typedef signed   long long int khronos_ssize_t;
-typedef unsigned long long int khronos_usize_t;
-#else
-typedef signed   long  int     khronos_ssize_t;
-typedef unsigned long  int     khronos_usize_t;
-#endif
+#إذا defined(_WIN64)
+تعريفنوع نشانوارو   ڊگهو ڊگهو صحيح khronos_ssize_t;
+تعريفنوع بنانشان ڊگهو ڊگهو صحيح khronos_usize_t;
+#وإلا
+تعريفنوع نشانوارو   ڊگهو  صحيح     khronos_ssize_t;
+تعريفنوع بنانشان ڊگهو  صحيح     khronos_usize_t;
+#جيڪڏهن_پورو
 
-#if KHRONOS_SUPPORT_FLOAT
+#إذا KHRONOS_SUPPORT_FLOAT
 /*
  * Float type
  */
-typedef          float         khronos_float_t;
-#endif
+تعريفنوع          عائم         khronos_float_t;
+#جيڪڏهن_پورو
 
-#if KHRONOS_SUPPORT_INT64
+#إذا KHRONOS_SUPPORT_INT64
 /* Time types
  *
  * These types can be used to represent a time interval in nanoseconds or
@@ -287,16 +287,16 @@ typedef          float         khronos_float_t;
  * 64 bit value that wraps back to 0 every 584 years.  Time intervals
  * may be either signed or unsigned.
  */
-typedef khronos_uint64_t       khronos_utime_nanoseconds_t;
-typedef khronos_int64_t        khronos_stime_nanoseconds_t;
-#endif
+تعريفنوع khronos_uint64_t       khronos_utime_nanoseconds_t;
+تعريفنوع khronos_int64_t        khronos_stime_nanoseconds_t;
+#جيڪڏهن_پورو
 
 /*
  * Dummy value used to pad enum types to 32 bits.
  */
-#ifndef KHRONOS_MAX_ENUM
-#define KHRONOS_MAX_ENUM 0x7FFFFFFF
-#endif
+#جيڪڏهن_وصف_نه_ٿيل KHRONOS_MAX_ENUM
+#وصف_ڪريو KHRONOS_MAX_ENUM 0x7FFFFFFF
+#جيڪڏهن_پورو
 
 /*
  * Enumerated boolean type
@@ -304,10 +304,10 @@ typedef khronos_int64_t        khronos_stime_nanoseconds_t;
  * Values other than zero should be considered to be true.  Therefore
  * comparisons should not be made against KHRONOS_TRUE.
  */
-typedef enum {
+تعريفنوع تعداد {
     KHRONOS_FALSE = 0,
     KHRONOS_TRUE  = 1,
-    KHRONOS_BOOLEAN_ENUM_FORCE_SIZE = KHRONOS_MAX_ENUM
+    KHRONOS_BOOLEAN_ENUM_FORCE_سائيز = KHRONOS_MAX_ENUM
 } khronos_boolean_enum_t;
 
-#endif /* __khrplatform_h_ */
+#جيڪڏهن_پورو /* __khrplatform_h_ */

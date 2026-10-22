@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_sve2_blit_A_h_
-#define SDL_sve2_blit_A_h_
+#جيڪڏهن_وصف_نه_ٿيل SDL_sve2_blit_A_h_
+#وصف_ڪريو SDL_sve2_blit_A_h_
 
-#include "../../SDL_internal.h"
-#include "../SDL_blit.h"
+#ضمن "../../SDL_internal.h"
+#ضمن "../SDL_blit.h"
 
-#ifdef SDL_SVE2_INTRINSICS
+#جيڪڏهن_وصف_ٿيل SDL_SVE2_INTRINSICS
 
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+فراغ Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+فراغ Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
 
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
+فراغ Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
 
-size_t SDL_GetSVEVectorSize(void);
+size_t SDL_Get_SVEVector_سائيز(فراغ);
 
-#endif /* SDL_SVE2_INTRINSICS */
+#جيڪڏهن_پورو /* SDL_SVE2_INTRINSICS */
 
-#endif /* SDL_sve2_blitters_h_ */
+#جيڪڏهن_پورو /* SDL_sve2_blitters_h_ */
