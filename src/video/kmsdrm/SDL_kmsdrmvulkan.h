@@ -24,28 +24,28 @@
  * Based on Jacob Lifshay's SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_kmsdrm_vulkan_h_
-#define SDL_kmsdrm_vulkan_h_
+#اگر_غیر_تعریف_شدہ SDL_kmsdrm_vulkan_h_
+#تعریف_کرو SDL_kmsdrm_vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#شامل <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
+#اگر defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
 
-extern bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                SDL_Window *window,
+خارجی bool KMSDRM_Vulkan_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی خالی KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی حرف ثابت * ثابت *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *گنتی);
+خارجی bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                SDL_کھڑکی *کھڑکی,
                                 VkInstance instance,
-                                const struct VkAllocationCallbacks *allocator,
+                                ثابت ساخت Vk_تخصیص_Callbacks *allocator,
                                 VkSurfaceKHR *surface);
-extern void KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجی خالی KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                   VkInstance instance,
                                   VkSurfaceKHR surface,
-                                  const struct VkAllocationCallbacks *allocator);
+                                  ثابت ساخت Vk_تخصیص_Callbacks *allocator);
 
-#endif
+#اگر_ختم
 
-#endif // SDL_kmsdrm_vulkan_h_
+#اگر_ختم // SDL_kmsdrm_vulkan_h_

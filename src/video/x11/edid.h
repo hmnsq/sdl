@@ -22,22 +22,22 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+قسمتعریف غیرعلامتی حرف uchar;
+قسمتعریف ساخت MonitorInfo MonitorInfo;
+قسمتعریف ساخت Timing Timing;
+قسمتعریف ساخت DetailedTiming DetailedTiming;
 
-typedef enum
+قسمتعریف شمار
 {
     UNDEFINED,
     DVI,
     HDMI_A,
     HDMI_B,
     MDDI,
-    DISPLAY_PORT
+    DISPLAY_پورٹ
 } Interface;
 
-typedef enum
+قسمتعریف شمار
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,136 +45,136 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+قسمتعریف شمار
 {
     NO_STEREO,
-    FIELD_RIGHT,
-    FIELD_LEFT,
-    TWO_WAY_RIGHT_ON_EVEN,
-    TWO_WAY_LEFT_ON_EVEN,
+    میدان_دایاں,
+    میدان_بایاں,
+    TWO_WAY_دایاں_ON_EVEN,
+    TWO_WAY_بایاں_ON_EVEN,
     FOUR_WAY_INTERLEAVED,
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+ساخت Timing
 {
-    int width;
-    int height;
-    int frequency;
+    صحیح چوڑائی;
+    صحیح اونچائی;
+    صحیح frequency;
 };
 
-struct DetailedTiming
+ساخت DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    صحیح pixel_clock;
+    صحیح h_addr;
+    صحیح h_blank;
+    صحیح h_sync;
+    صحیح h_front_porch;
+    صحیح v_addr;
+    صحیح v_blank;
+    صحیح v_sync;
+    صحیح v_front_porch;
+    صحیح چوڑائی_mm;
+    صحیح اونچائی_mm;
+    صحیح دایاں_border;
+    صحیح چوٹی_border;
+    صحیح interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    صحیح digital_sync;
+    اتحاد
     {
-        struct
+        ساخت
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            صحیح bipolar;
+            صحیح serrations;
+            صحیح sync_on_green;
         } analog;
 
-        struct
+        ساخت
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            صحیح مرکب;
+            صحیح serrations;
+            صحیح negative_vsync;
+            صحیح negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+ساخت MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    صحیح checksum;
+    حرف manufacturer_رمز[4];
+    صحیح حاصل_ضرب_رمز;
+    غیرعلامتی صحیح serial_نمبر;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    صحیح production_week; // -1 if not specified
+    صحیح production_year; // -1 if not specified
+    صحیح model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    صحیح major_نسخہ;
+    صحیح minor_نسخہ;
 
-    int is_digital;
+    صحیح is_digital;
 
-    union
+    اتحاد
     {
-        struct
+        ساخت
         {
-            int bits_per_primary;
+            صحیح بٹ_فی_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            صحیح rgb444;
+            صحیح ycrcb444;
+            صحیح ycrcb422;
         } digital;
 
-        struct
+        ساخت
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            دوہرا video_signal_level;
+            دوہرا sync_signal_level;
+            دوہرا کل_signal_level;
 
-            int blank_to_black;
+            صحیح blank_مقصد_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            صحیح separate_hv_sync;
+            صحیح مرکب_sync_on_h;
+            صحیح مرکب_sync_on_green;
+            صحیح serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    صحیح چوڑائی_mm;        // -1 if not specified
+    صحیح اونچائی_mm;       // -1 if not specified
+    دوہرا aspect_تناسب; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    دوہرا gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    صحیح standby;
+    صحیح suspend;
+    صحیح فعال_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    صحیح srgb_is_standard;
+    صحیح preferred_timing_includes_native;
+    صحیح continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    دوہرا red_x;
+    دوہرا red_y;
+    دوہرا green_x;
+    دوہرا green_y;
+    دوہرا blue_x;
+    دوہرا blue_y;
+    دوہرا white_x;
+    دوہرا white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    دوہرا min_luminance;
+    دوہرا max_luminance;
+    دوہرا max_چوکھٹا_اوسط_قدر_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    صحیح n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    حرف dsc_serial_نمبر[14];
+    حرف dsc_حاصل_ضرب_name[14];
+    حرف dsc_string[14]; // Unspecified ASCII data
 };
 
-MonitorInfo *decode_edid(const uchar *data, size_t size);
-void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
-                        const MonitorInfo *info);
+MonitorInfo *decode_edid(ثابت uchar *ڈیٹا, size_t سائز);
+خالی dump_monitor_info(MonitorInfo *info);
+حرف *make_display_name(ثابت حرف *output_name,
+                        ثابت MonitorInfo *info);

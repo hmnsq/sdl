@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_offscreenwindow_h
-#define SDL_offscreenwindow_h
+#اگر_غیر_تعریف_شدہ SDL_offscreenwindow_h
+#تعریف_کرو SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#شامل "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-    SDL_Window *sdl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    SDL_کھڑکی *sdl_کھڑکی;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#اگر_ختم
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool OFFSCREEN_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجی خالی OFFSCREEN_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی OFFSCREEN_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_offscreenwindow_h
+#اگر_ختم // SDL_offscreenwindow_h

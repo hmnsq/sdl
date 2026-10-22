@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_x11keyboard_h_
-#define SDL_x11keyboard_h_
+#اگر_غیر_تعریف_شدہ SDL_x11keyboard_h_
+#تعریف_کرو SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool X11_InitKeyboard(SDL_VideoDevice *_this);
+خارجی خالی X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+خارجی خالی X11_QuitKeyboard(SDL_VideoDevice *_this);
+خارجی خالی X11_Create_داخلہ_Context(SDL_کھڑکی_ڈیٹا *ڈیٹا);
+خارجی خالی X11_Destroy_داخلہ_Context(SDL_کھڑکی_ڈیٹا *ڈیٹا);
+خارجی خالی X11_ClearComposition(SDL_کھڑکی_ڈیٹا *ڈیٹا);
+خارجی bool X11_آغاز_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+خارجی bool X11_Stop_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool X11_Update_متن_داخلہ_Area(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+خارجی خالی X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+خارجی خالی X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_x11keyboard_h_
+#اگر_ختم // SDL_x11keyboard_h_

@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OFFSCREEN
 
 /* Being a offscreen driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
+#شامل "../../events/SDL_events_c.h"
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
+#شامل "SDL_offscreenvideo.h"
+#شامل "SDL_offscreenevents_c.h"
 
-void OFFSCREEN_PumpEvents(SDL_VideoDevice *_this)
+خالی OFFSCREEN_PumpEvents(SDL_VideoDevice *_this)
 {
     // do nothing.
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_ختم // SDL_VIDEO_DRIVER_OFFSCREEN

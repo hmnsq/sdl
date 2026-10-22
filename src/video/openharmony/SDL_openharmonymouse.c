@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "SDL_openharmonymouse.h"
+#شامل "SDL_openharmonymouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#شامل "../../core/openharmony/SDL_openharmony.h"
 
-static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
+ساکن bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
-        cursor = OPENHARMONY_CreateEmptyCursor();
+واپس false;
+#اگر 0
+    اگر (!cursor) {
+        cursor = OPENHARMONY_Create_خالی_خانے_Cursor();
     }
-    if (cursor) {
-        SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+    اگر (cursor) {
+        SDL_Cursor_ڈیٹا *ڈیٹا = cursor->اندرونی_2;
+        اگر (ڈیٹا->custom_cursor) {
+            اگر (!OPENHARMONY_JNI_سیٹ_Custom_Cursor(ڈیٹا->custom_cursor)) {
+                واپس SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } ورنہ {
+            اگر (!OPENHARMONY_JNI_سیٹ_System_Cursor(ڈیٹا->system_cursor)) {
+                واپس SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        واپس true;
+    } ورنہ {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        واپس false;
     }
-#endif
+#اگر_ختم
 }
 
-void OPENHARMONY_InitMouse(void)
+خالی OPENHARMONY_InitMouse(خالی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 //!!! FIXME:    mouse->CreateCursor = OPENHARMONY_CreateCursor;
@@ -67,10 +67,10 @@ void OPENHARMONY_InitMouse(void)
 //!!! FIXME:    SDL_SetDefaultCursor(OPENHARMONY_CreateDefaultCursor());
 }
 
-void OPENHARMONY_QuitMouse(void)
+خالی OPENHARMONY_QuitMouse(خالی)
 {
 //!!! FIXME:    OPENHARMONY_DestroyEmptyCursor();
 }
 
-#endif
+#اگر_ختم
 

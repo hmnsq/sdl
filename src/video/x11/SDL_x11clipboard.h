@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_x11clipboard_h_
-#define SDL_x11clipboard_h_
+#اگر_غیر_تعریف_شدہ SDL_x11clipboard_h_
+#تعریف_کرو SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#شامل <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
-    SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+قسمتعریف ساخت X11_Clipboard_ڈیٹا {
+    SDL_Clipboard_ڈیٹا_Callback callback;
+    خالی *userdata;
+    ثابت حرف *ثابت *mime_types;
+    size_t mime_گنتی;
     Uint32 sequence;
-} SDLX11_ClipboardData;
+} SDLX11_Clipboard_ڈیٹا;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
-Window GetWindow(SDL_VideoDevice *_this);
+خارجی ثابت حرف *ثابت *X11_Get_متن_Mime_Types(SDL_VideoDevice *_this, size_t *عدد_mime_types);
+خارجی bool X11_سیٹ_Clipboard_ڈیٹا(SDL_VideoDevice *_this);
+خارجی خالی *X11_Get_Clipboard_ڈیٹا(SDL_VideoDevice *_this, ثابت حرف *mime_type, size_t *لمبائی);
+خارجی bool X11_Has_Clipboard_ڈیٹا(SDL_VideoDevice *_this, ثابت حرف *mime_type);
+خارجی bool X11_سیٹ_Primary_Selection_متن(SDL_VideoDevice *_this, ثابت حرف *متن);
+خارجی حرف *X11_Get_Primary_Selection_متن(SDL_VideoDevice *_this);
+خارجی bool X11_Has_Primary_Selection_متن(SDL_VideoDevice *_this);
+خارجی خالی X11_QuitClipboard(SDL_VideoDevice *_this);
+کھڑکی_2 Get_کھڑکی(SDL_VideoDevice *_this);
 
-#endif // SDL_x11clipboard_h_
+#اگر_ختم // SDL_x11clipboard_h_

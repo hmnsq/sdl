@@ -19,25 +19,25 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BMODES_H
-#define SDL_BMODES_H
+#اگر_غیر_تعریف_شدہ SDL_BMODES_H
+#تعریف_کرو SDL_BMODES_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-extern SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
+خارجی SDL_PixelFormat HAIKU_Color_Space_مقصد_SDLPx_Format(uint32 colorspace);
 
-extern bool HAIKU_InitModes(SDL_VideoDevice *_this);
-extern void HAIKU_QuitModes(SDL_VideoDevice *_this);
-extern bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+خارجی bool HAIKU_InitModes(SDL_VideoDevice *_this);
+خارجی خالی HAIKU_QuitModes(SDL_VideoDevice *_this);
+خارجی bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجی bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجی bool HAIKU_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif
+#اگر_ختم

@@ -19,66 +19,66 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#اگر defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#شامل "SDL_x11video.h"
+#شامل "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+ساکن bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+خالی X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
-    Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+#اگر 0//def SDL_VIDEO_DRIVER_X11_XTEST
+    Display *display = _this->اندرونی_2->display;
+    صحیح event, error;
+    صحیح opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    اگر (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        واپس;
     }
 
     xtest_initialized = true;
-#endif
+#اگر_ختم
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(خالی)
 {
-    return xtest_initialized;
+    واپس xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, اعشاری x, اعشاری y)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XTEST
+    اگر (!X11_XTestIsInitialized()) {
+        واپس false;
     }
 
-    Display *display = _this->internal->display;
-    SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    Display *display = _this->اندرونی_2->display;
+    SDL_Display_ڈیٹا *displaydata = کھڑکی ? SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی) : SDL_Get_Display_Driver_ڈیٹا(SDL_GetPrimaryDisplay());
+    اگر (!displaydata) {
+        واپس false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
-        motion_x += window->x;
-        motion_y += window->y;
+    صحیح motion_x = (صحیح)SDL_roundf(x);
+    صحیح motion_y = (صحیح)SDL_roundf(y);
+    اگر (کھڑکی) {
+        motion_x += کھڑکی->x;
+        motion_y += کھڑکی->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    اگر (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, Current_وقت)) {
+        واپس false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
-#endif
+    واپس true;
+#ورنہ
+    واپس false;
+#اگر_ختم
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#اگر_ختم // SDL_VIDEO_DRIVER_X11

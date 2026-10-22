@@ -22,31 +22,31 @@
  * Author:  Owen Taylor, Red Hat, Inc.
  */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#شامل "SDL_x11video.h"
 
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#شامل <limits.h>
+#شامل <stdio.h>
+#شامل <stdlib.h>
+#شامل <string.h>
 
-#include "xsettings-client.h"
+#شامل "xsettings-client.h"
 
-struct _XSettingsClient
+ساخت _XSettingsClient
 {
   Display *display;
-  int screen;
+  صحیح screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
-  void *cb_data;
+  خالی *cb_ڈیٹا;
 
   XSettingsGrabFunc grab;
   XSettingsGrabFunc ungrab;
 
-  Window manager_window;
+  کھڑکی_2 manager_کھڑکی;
   Atom manager_atom;
   Atom selection_atom;
   Atom xsettings_atom;
@@ -54,360 +54,360 @@ struct _XSettingsClient
   XSettingsList *settings;
 };
 
-static void
+ساکن خالی
 notify_changes (XSettingsClient *client,
                 XSettingsList   *old_list)
 {
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  اگر (!client->notify)
+    واپس;
 
-  while (old_iter || new_iter)
+  جب (old_iter || new_iter)
     {
-      int cmp;
+      صحیح cmp;
 
-      if (old_iter && new_iter)
+      اگر (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      ورنہ اگر (old_iter)
         cmp = -1;
-      else
+      ورنہ
         cmp = 1;
 
-      if (cmp < 0)
+      اگر (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
-                          NULL,
-                          client->cb_data);
+                          تہی,
+                          client->cb_ڈیٹا);
         }
-      else if (cmp == 0)
+      ورنہ اگر (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          اگر (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
-                            XSETTINGS_ACTION_CHANGED,
+                            XSETTINGS_ACTION_بدلا,
                             new_iter->setting,
-                            client->cb_data);
+                            client->cb_ڈیٹا);
         }
-      else
+      ورنہ
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
                           new_iter->setting,
-                          client->cb_data);
+                          client->cb_ڈیٹا);
         }
 
-      if (old_iter)
-        old_iter = old_iter->next;
-      if (new_iter)
-        new_iter = new_iter->next;
+      اگر (old_iter)
+        old_iter = old_iter->اگلا;
+      اگر (new_iter)
+        new_iter = new_iter->اگلا;
     }
 }
 
-static int
+ساکن صحیح
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  واپس True;
 }
 
-static char local_byte_order = '\0';
+ساکن حرف local_byte_ترتیب = '\0';
 
-#define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
+#تعریف_کرو بائٹیں_بایاں_2(بفر_2) ((بفر_2)->ڈیٹا + (بفر_2)->len - (بفر_2)->pos)
 
-static XSettingsResult
-fetch_card16 (XSettingsBuffer *buffer,
-              CARD16          *result)
+ساکن XSettings_نتیجہ
+fetch_card16 (XSettings_بفر *بفر_2,
+              CARD16          *نتیجہ)
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  اگر (بائٹیں_بایاں_2 (بفر_2) < 2)
+    واپس XSETTINGS_ACCESS;
 
-  x = *(CARD16 *)buffer->pos;
-  buffer->pos += 2;
+  x = *(CARD16 *)بفر_2->pos;
+  بفر_2->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
-    *result = x;
-  else
-    *result = (x << 8) | (x >> 8);
+  اگر (بفر_2->byte_ترتیب == local_byte_ترتیب)
+    *نتیجہ = x;
+  ورنہ
+    *نتیجہ = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  واپس XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
-fetch_ushort (XSettingsBuffer *buffer,
-              unsigned short  *result)
+ساکن XSettings_نتیجہ
+fetch_ushort (XSettings_بفر *بفر_2,
+              غیرعلامتی مختصر  *نتیجہ)
 {
   CARD16 x;
-  XSettingsResult r;
+  XSettings_نتیجہ r;
 
-  r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
-    *result = x;
+  r = fetch_card16 (بفر_2, &x);
+  اگر (r == XSETTINGS_SUCCESS)
+    *نتیجہ = x;
 
-  return r;
+  واپس r;
 }
 
-static XSettingsResult
-fetch_card32 (XSettingsBuffer *buffer,
-              CARD32          *result)
+ساکن XSettings_نتیجہ
+fetch_card32 (XSettings_بفر *بفر_2,
+              CARD32          *نتیجہ)
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  اگر (بائٹیں_بایاں_2 (بفر_2) < 4)
+    واپس XSETTINGS_ACCESS;
 
-  x = *(CARD32 *)buffer->pos;
-  buffer->pos += 4;
+  x = *(CARD32 *)بفر_2->pos;
+  بفر_2->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
-    *result = x;
-  else
-    *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
+  اگر (بفر_2->byte_ترتیب == local_byte_ترتیب)
+    *نتیجہ = x;
+  ورنہ
+    *نتیجہ = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  واپس XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
-fetch_card8 (XSettingsBuffer *buffer,
-             CARD8           *result)
+ساکن XSettings_نتیجہ
+fetch_card8 (XSettings_بفر *بفر_2,
+             CARD8           *نتیجہ)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  اگر (بائٹیں_بایاں_2 (بفر_2) < 1)
+    واپس XSETTINGS_ACCESS;
 
-  *result = *(CARD8 *)buffer->pos;
-  buffer->pos += 1;
+  *نتیجہ = *(CARD8 *)بفر_2->pos;
+  بفر_2->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  واپس XSETTINGS_SUCCESS;
 }
 
-#define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
+#تعریف_کرو XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-static XSettingsList *
-parse_settings (unsigned char *data,
+ساکن XSettingsList *
+parse_settings (غیرعلامتی حرف *ڈیٹا,
                 size_t         len)
 {
-  XSettingsBuffer buffer;
-  XSettingsResult result = XSETTINGS_SUCCESS;
-  XSettingsList *settings = NULL;
+  XSettings_بفر بفر_2;
+  XSettings_نتیجہ نتیجہ = XSETTINGS_SUCCESS;
+  XSettingsList *settings = تہی;
   CARD32 serial;
   CARD32 n_entries;
   CARD32 i;
-  XSettingsSetting *setting = NULL;
-  char buffer_byte_order = '\0';
+  XSettingsSetting *setting = تہی;
+  حرف بفر_byte_ترتیب = '\0';
 
-  local_byte_order = xsettings_byte_order ();
+  local_byte_ترتیب = xsettings_byte_ترتیب ();
 
-  buffer.pos = buffer.data = data;
-  buffer.len = len;
-  buffer.byte_order = '\0';
+  بفر_2.pos = بفر_2.ڈیٹا = ڈیٹا;
+  بفر_2.len = len;
+  بفر_2.byte_ترتیب = '\0';
 
-  result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
-      buffer_byte_order != LSBFirst)
+  نتیجہ = fetch_card8 (&بفر_2, (غیرعلامتی حرف *) &بفر_byte_ترتیب);
+  اگر (بفر_byte_ترتیب != MSBFirst &&
+      بفر_byte_ترتیب != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
-      result = XSETTINGS_FAILED;
-      goto out;
+      نتیجہ = XSETTINGS_FAILED;
+      جاؤ برآمد;
     }
 
-  buffer.byte_order = buffer_byte_order;
-  buffer.pos += 3;
+  بفر_2.byte_ترتیب = بفر_byte_ترتیب;
+  بفر_2.pos += 3;
 
-  result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  نتیجہ = fetch_card32 (&بفر_2, &serial);
+  اگر (نتیجہ != XSETTINGS_SUCCESS)
+    جاؤ برآمد;
 
-  result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  نتیجہ = fetch_card32 (&بفر_2, &n_entries);
+  اگر (نتیجہ != XSETTINGS_SUCCESS)
+    جاؤ برآمد;
 
-  for (i = 0; i < n_entries; i++)
+  برائے (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
       CARD32 v_int;
       size_t pad_len;
 
-      result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      نتیجہ = fetch_card8 (&بفر_2, &type);
+      اگر (نتیجہ != XSETTINGS_SUCCESS)
+        جاؤ برآمد;
 
-      buffer.pos += 1;
+      بفر_2.pos += 1;
 
-      result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      نتیجہ = fetch_card16 (&بفر_2, &name_len);
+      اگر (نتیجہ != XSETTINGS_SUCCESS)
+        جاؤ برآمد;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      اگر (بائٹیں_بایاں_2 (&بفر_2) < pad_len)
         {
-          result = XSETTINGS_ACCESS;
-          goto out;
+          نتیجہ = XSETTINGS_ACCESS;
+          جاؤ برآمد;
         }
 
-      setting = malloc (sizeof *setting);
-      if (!setting)
+      setting = حافظہ_دو (حجم *setting);
+      اگر (!setting)
         {
-          result = XSETTINGS_NO_MEM;
-          goto out;
+          نتیجہ = XSETTINGS_NO_MEM;
+          جاؤ برآمد;
         }
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
-      setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      setting->name = حافظہ_دو (name_len + 1);
+      اگر (!setting->name)
         {
-          result = XSETTINGS_NO_MEM;
-          goto out;
+          نتیجہ = XSETTINGS_NO_MEM;
+          جاؤ برآمد;
         }
 
-      memcpy (setting->name, buffer.pos, name_len);
+      حافظہ_نقل (setting->name, بفر_2.pos, name_len);
       setting->name[name_len] = '\0';
-      buffer.pos += pad_len;
+      بفر_2.pos += pad_len;
 
-      result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
-      setting->last_change_serial = v_int;
+      نتیجہ = fetch_card32 (&بفر_2, &v_int);
+      اگر (نتیجہ != XSETTINGS_SUCCESS)
+        جاؤ برآمد;
+      setting->آخری_change_serial = v_int;
 
-      switch (type)
+      انتخاب (type)
         {
-        case XSETTINGS_TYPE_INT:
-          result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+        حالت XSETTINGS_TYPE_INT:
+          نتیجہ = fetch_card32 (&بفر_2, &v_int);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
 
-          setting->data.v_int = (INT32)v_int;
-          break;
-        case XSETTINGS_TYPE_STRING:
-          result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          setting->ڈیٹا.v_int = (INT32)v_int;
+          توڑو;
+        حالت XSETTINGS_TYPE_STRING:
+          نتیجہ = fetch_card32 (&بفر_2, &v_int);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
-              BYTES_LEFT (&buffer) < pad_len)
+          اگر (v_int + 1 == 0 || /* Guard against wrap-around */
+              بائٹیں_بایاں_2 (&بفر_2) < pad_len)
             {
-              result = XSETTINGS_ACCESS;
-              goto out;
+              نتیجہ = XSETTINGS_ACCESS;
+              جاؤ برآمد;
             }
 
-          setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          setting->ڈیٹا.v_string = حافظہ_دو (v_int + 1);
+          اگر (!setting->ڈیٹا.v_string)
             {
-              result = XSETTINGS_NO_MEM;
-              goto out;
+              نتیجہ = XSETTINGS_NO_MEM;
+              جاؤ برآمد;
             }
 
-          memcpy (setting->data.v_string, buffer.pos, v_int);
-          setting->data.v_string[v_int] = '\0';
-          buffer.pos += pad_len;
+          حافظہ_نقل (setting->ڈیٹا.v_string, بفر_2.pos, v_int);
+          setting->ڈیٹا.v_string[v_int] = '\0';
+          بفر_2.pos += pad_len;
 
-          break;
-        case XSETTINGS_TYPE_COLOR:
-          result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          توڑو;
+        حالت XSETTINGS_TYPE_COLOR:
+          نتیجہ = fetch_ushort (&بفر_2, &setting->ڈیٹا.v_color.red);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
+          نتیجہ = fetch_ushort (&بفر_2, &setting->ڈیٹا.v_color.green);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
+          نتیجہ = fetch_ushort (&بفر_2, &setting->ڈیٹا.v_color.blue);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
+          نتیجہ = fetch_ushort (&بفر_2, &setting->ڈیٹا.v_color.alpha);
+          اگر (نتیجہ != XSETTINGS_SUCCESS)
+            جاؤ برآمد;
 
-          break;
-        default:
+          توڑو;
+        طےشدہ:
           /* Quietly ignore unknown types */
-          break;
+          توڑو;
         }
 
       setting->type = type;
 
-      result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      نتیجہ = xsettings_list_داخل_کرو (&settings, setting);
+      اگر (نتیجہ != XSETTINGS_SUCCESS)
+        جاؤ برآمد;
 
-      setting = NULL;
+      setting = تہی;
     }
 
- out:
+ برآمد:
 
-  if (result != XSETTINGS_SUCCESS)
+  اگر (نتیجہ != XSETTINGS_SUCCESS)
     {
-      switch (result)
+      انتخاب (نتیجہ)
         {
-        case XSETTINGS_NO_MEM:
+        حالت XSETTINGS_NO_MEM:
           fprintf(stderr, "Out of memory reading XSETTINGS property\n");
-          break;
-        case XSETTINGS_ACCESS:
+          توڑو;
+        حالت XSETTINGS_ACCESS:
           fprintf(stderr, "Invalid XSETTINGS property (read off end)\n");
-          break;
-        case XSETTINGS_DUPLICATE_ENTRY:
+          توڑو;
+        حالت XSETTINGS_DUPLICATE_اندراج:
           fprintf (stderr, "Duplicate XSETTINGS entry for '%s'\n", setting->name);
           SDL_FALLTHROUGH;
-        case XSETTINGS_FAILED:
+        حالت XSETTINGS_FAILED:
           SDL_FALLTHROUGH;
-        case XSETTINGS_SUCCESS:
+        حالت XSETTINGS_SUCCESS:
           SDL_FALLTHROUGH;
-        case XSETTINGS_NO_ENTRY:
-          break;
+        حالت XSETTINGS_NO_اندراج:
+          توڑو;
         }
 
-      if (setting)
+      اگر (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
-      settings = NULL;
+      settings = تہی;
 
     }
 
-  return settings;
+  واپس settings;
 }
 
-static void
+ساکن خالی
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
-  unsigned long n_items;
-  unsigned long bytes_after;
-  unsigned char *data;
-  int result;
+  صحیح format;
+  غیرعلامتی طویل n_اشیاء;
+  غیرعلامتی طویل بائٹیں_after;
+  غیرعلامتی حرف *ڈیٹا;
+  صحیح نتیجہ;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  صحیح (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
-  client->settings = NULL;
+  client->settings = تہی;
 
-  if (client->manager_window)
+  اگر (client->manager_کھڑکی)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
-      result = X11_XGetWindowProperty (client->display, client->manager_window,
+      نتیجہ = X11_XGet_کھڑکی_Property (client->display, client->manager_کھڑکی,
                                        client->xsettings_atom, 0, LONG_MAX,
                                        False, client->xsettings_atom,
-                                       &type, &format, &n_items, &bytes_after, &data);
+                                       &type, &format, &n_اشیاء, &بائٹیں_after, &ڈیٹا);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      اگر (نتیجہ == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          اگر (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          ورنہ اگر (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
-            client->settings = parse_settings (data, n_items);
+          ورنہ
+            client->settings = parse_settings (ڈیٹا, n_اشیاء);
 
-          X11_XFree (data);
+          X11_XFree (ڈیٹا);
         }
     }
 
@@ -415,52 +415,52 @@ read_settings (XSettingsClient *client)
   xsettings_list_free (old_list);
 }
 
-static void
-add_events (Display *display,
-            Window   window,
-            long     mask)
+ساکن خالی
+جوڑو_events (Display *display,
+            کھڑکی_2   کھڑکی,
+            طویل     نقاب)
 {
-  XWindowAttributes attr;
+  XWindow_اوصاف attr;
 
-  X11_XGetWindowAttributes (display, window, &attr);
-  X11_XSelectInput (display, window, attr.your_event_mask | mask);
+  X11_XGet_کھڑکی_اوصاف (display, کھڑکی, &attr);
+  X11_XSelect_داخلہ (display, کھڑکی, attr.your_event_نقاب | نقاب);
 }
 
-static void
-check_manager_window (XSettingsClient *client)
+ساکن خالی
+check_manager_کھڑکی (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
-    client->watch (client->manager_window, False, 0, client->cb_data);
+  اگر (client->manager_کھڑکی && client->watch)
+    client->watch (client->manager_کھڑکی, False, 0, client->cb_ڈیٹا);
 
-  if (client->grab)
+  اگر (client->grab)
     client->grab (client->display);
-  else
+  ورنہ
     X11_XGrabServer (client->display);
 
-  client->manager_window = X11_XGetSelectionOwner (client->display,
+  client->manager_کھڑکی = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
-    X11_XSelectInput (client->display, client->manager_window,
-                      PropertyChangeMask | StructureNotifyMask);
+  اگر (client->manager_کھڑکی)
+    X11_XSelect_داخلہ (client->display, client->manager_کھڑکی,
+                      Property_Change_نقاب | Structure_Notify_نقاب);
 
-  if (client->ungrab)
+  اگر (client->ungrab)
     client->ungrab (client->display);
-  else
+  ورنہ
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  اگر (client->manager_کھڑکی && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
-                          PropertyChangeMask | StructureNotifyMask,
-                          client->cb_data))
+      اگر (!client->watch (client->manager_کھڑکی, True,
+                          Property_Change_نقاب | Structure_Notify_نقاب,
+                          client->cb_ڈیٹا))
         {
           /* Inability to watch the window probably means that it was destroyed
            * after we ungrabbed
            */
-          client->manager_window = None;
-          return;
+          client->manager_کھڑکی = None;
+          واپس;
         }
     }
 
@@ -470,56 +470,56 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      صحیح                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
-                      void                *cb_data)
+                      خالی                *cb_ڈیٹا)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
-                                               NULL, NULL);
+  واپس xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_ڈیٹا,
+                                               تہی, تہی);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      صحیح                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
-                                      void                *cb_data,
+                                      خالی                *cb_ڈیٹا,
                                       XSettingsGrabFunc    grab,
                                       XSettingsGrabFunc    ungrab)
 {
   XSettingsClient *client;
-  char buffer[256];
-  char *atom_names[3];
+  حرف بفر_2[256];
+  حرف *atom_نام[3];
   Atom atoms[3];
 
-  client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  client = حافظہ_دو (حجم *client);
+  اگر (!client)
+    واپس تہی;
 
   client->display = display;
   client->screen = screen;
   client->notify = notify;
   client->watch = watch;
-  client->cb_data = cb_data;
+  client->cb_ڈیٹا = cb_ڈیٹا;
   client->grab = grab;
   client->ungrab = ungrab;
 
-  client->manager_window = None;
-  client->settings = NULL;
+  client->manager_کھڑکی = None;
+  client->settings = تہی;
 
-  SDL_snprintf(buffer, sizeof(buffer), "_XSETTINGS_S%d", screen);
-  atom_names[0] = buffer;
-  atom_names[1] = "_XSETTINGS_SETTINGS";
-  atom_names[2] = "MANAGER";
+  SDL_snprintf(بفر_2, حجم(بفر_2), "_XSETTINGS_S%d", screen);
+  atom_نام[0] = بفر_2;
+  atom_نام[1] = "_XSETTINGS_SETTINGS";
+  atom_نام[2] = "MANAGER";
 
-#ifdef HAVE_XINTERNATOMS
-  XInternAtoms (display, atom_names, 3, False, atoms);
-#else
-  atoms[0] = X11_XInternAtom (display, atom_names[0], False);
-  atoms[1] = X11_XInternAtom (display, atom_names[1], False);
-  atoms[2] = X11_XInternAtom (display, atom_names[2], False);
-#endif
+#اگر_تعریف_شدہ HAVE_XINTERNATOMS
+  XInternAtoms (display, atom_نام, 3, False, atoms);
+#ورنہ
+  atoms[0] = X11_XInternAtom (display, atom_نام[0], False);
+  atoms[1] = X11_XInternAtom (display, atom_نام[1], False);
+  atoms[2] = X11_XInternAtom (display, atom_نام[2], False);
+#اگر_ختم
 
   client->selection_atom = atoms[0];
   client->xsettings_atom = atoms[1];
@@ -527,330 +527,330 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
   /* Select on StructureNotify so we get MANAGER events
    */
-  add_events (display, RootWindow (display, screen), StructureNotifyMask);
+  جوڑو_events (display, جڑ_کھڑکی (display, screen), Structure_Notify_نقاب);
 
-  if (client->watch)
-    client->watch (RootWindow (display, screen), True, StructureNotifyMask,
-                   client->cb_data);
+  اگر (client->watch)
+    client->watch (جڑ_کھڑکی (display, screen), True, Structure_Notify_نقاب,
+                   client->cb_ڈیٹا);
 
-  check_manager_window (client);
+  check_manager_کھڑکی (client);
 
-  return client;
+  واپس client;
 }
 
 
-void
-xsettings_client_set_grab_func   (XSettingsClient      *client,
+خالی
+xsettings_client_سیٹ_grab_func   (XSettingsClient      *client,
                                   XSettingsGrabFunc     grab)
 {
   client->grab = grab;
 }
 
-void
-xsettings_client_set_ungrab_func (XSettingsClient      *client,
+خالی
+xsettings_client_سیٹ_ungrab_func (XSettingsClient      *client,
                                   XSettingsGrabFunc     ungrab)
 {
   client->ungrab = ungrab;
 }
 
-void
+خالی
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
-    client->watch (RootWindow (client->display, client->screen),
-                   False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
-    client->watch (client->manager_window, False, 0, client->cb_data);
+  اگر (client->watch)
+    client->watch (جڑ_کھڑکی (client->display, client->screen),
+                   False, 0, client->cb_ڈیٹا);
+  اگر (client->manager_کھڑکی && client->watch)
+    client->watch (client->manager_کھڑکی, False, 0, client->cb_ڈیٹا);
 
   xsettings_list_free (client->settings);
-  free (client);
+  آزاد (client);
 }
 
-XSettingsResult
+XSettings_نتیجہ
 xsettings_client_get_setting (XSettingsClient   *client,
-                              const char        *name,
+                              ثابت حرف        *name,
                               XSettingsSetting **setting)
 {
-  XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  XSettingsSetting *تلاش = xsettings_list_lookup (client->settings, name);
+  اگر (تلاش)
     {
-      *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      *setting = xsettings_setting_copy (تلاش);
+      واپس *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  ورنہ
+    واپس XSETTINGS_NO_اندراج;
 }
 
 Bool
 xsettings_client_process_event (XSettingsClient *client,
-                                const XEvent    *xev)
+                                ثابت XEvent    *xev)
 {
   /* The checks here will not unlikely cause us to reread
    * the properties from the manager window a number of
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  اگر (xev->xany.کھڑکی == جڑ_کھڑکی (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
-          xev->xclient.message_type == client->manager_atom &&
-          xev->xclient.data.l[1] == client->selection_atom)
+      اگر (xev->xany.type == Client_پیغام &&
+          xev->xclient.پیغام_type == client->manager_atom &&
+          xev->xclient.ڈیٹا.l[1] == client->selection_atom)
         {
-          check_manager_window (client);
-          return True;
+          check_manager_کھڑکی (client);
+          واپس True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  ورنہ اگر (xev->xany.کھڑکی == client->manager_کھڑکی)
     {
-      if (xev->xany.type == DestroyNotify)
+      اگر (xev->xany.type == DestroyNotify)
         {
-          check_manager_window (client);
-          return False;
+          check_manager_کھڑکی (client);
+          واپس False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      ورنہ اگر (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          واپس True;
         }
     }
 
-  return False;
+  واپس False;
 }
 
 XSettingsSetting *
 xsettings_setting_copy (XSettingsSetting *setting)
 {
-  XSettingsSetting *result;
+  XSettingsSetting *نتیجہ;
   size_t str_len;
 
-  result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  نتیجہ = حافظہ_دو (حجم *نتیجہ);
+  اگر (!نتیجہ)
+    واپس تہی;
 
-  str_len = strlen (setting->name);
-  result->name = malloc (str_len + 1);
-  if (!result->name)
-    goto err;
+  str_len = لڑی_لمبائی (setting->name);
+  نتیجہ->name = حافظہ_دو (str_len + 1);
+  اگر (!نتیجہ->name)
+    جاؤ err;
 
-  memcpy (result->name, setting->name, str_len + 1);
+  حافظہ_نقل (نتیجہ->name, setting->name, str_len + 1);
 
-  result->type = setting->type;
+  نتیجہ->type = setting->type;
 
-  switch (setting->type)
+  انتخاب (setting->type)
     {
-    case XSETTINGS_TYPE_INT:
-      result->data.v_int = setting->data.v_int;
-      break;
-    case XSETTINGS_TYPE_COLOR:
-      result->data.v_color = setting->data.v_color;
-      break;
-    case XSETTINGS_TYPE_STRING:
-      str_len = strlen (setting->data.v_string);
-      result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
-        goto err;
+    حالت XSETTINGS_TYPE_INT:
+      نتیجہ->ڈیٹا.v_int = setting->ڈیٹا.v_int;
+      توڑو;
+    حالت XSETTINGS_TYPE_COLOR:
+      نتیجہ->ڈیٹا.v_color = setting->ڈیٹا.v_color;
+      توڑو;
+    حالت XSETTINGS_TYPE_STRING:
+      str_len = لڑی_لمبائی (setting->ڈیٹا.v_string);
+      نتیجہ->ڈیٹا.v_string = حافظہ_دو (str_len + 1);
+      اگر (!نتیجہ->ڈیٹا.v_string)
+        جاؤ err;
 
-      memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
-      break;
+      حافظہ_نقل (نتیجہ->ڈیٹا.v_string, setting->ڈیٹا.v_string, str_len + 1);
+      توڑو;
     }
 
-  result->last_change_serial = setting->last_change_serial;
+  نتیجہ->آخری_change_serial = setting->آخری_change_serial;
 
-  return result;
+  واپس نتیجہ;
 
  err:
-  free(result->name); // This should NOT be SDL_free()
-  free(result); // This should NOT be SDL_free()
+  آزاد(نتیجہ->name); // This should NOT be SDL_free()
+  آزاد(نتیجہ); // This should NOT be SDL_free()
 
-  return NULL;
+  واپس تہی;
 }
 
 XSettingsList *
 xsettings_list_copy (XSettingsList *list)
 {
-  XSettingsList *new = NULL;
+  XSettingsList *new = تہی;
   XSettingsList *old_iter = list;
-  XSettingsList *new_iter = NULL;
+  XSettingsList *new_iter = تہی;
 
-  while (old_iter)
+  جب (old_iter)
     {
-      XSettingsList *new_node;
+      XSettingsList *new_گرہ;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
-        goto error;
+      new_گرہ = حافظہ_دو (حجم *new_گرہ);
+      اگر (!new_گرہ)
+        جاؤ error;
 
-      new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      new_گرہ->setting = xsettings_setting_copy (old_iter->setting);
+      اگر (!new_گرہ->setting)
         {
-          free (new_node);
-          goto error;
+          آزاد (new_گرہ);
+          جاؤ error;
         }
 
-      if (new_iter)
-        new_iter->next = new_node;
-      else
+      اگر (new_iter)
+        new_iter->اگلا = new_گرہ;
+      ورنہ
         {
-          new = new_node;
-          new->next = NULL;
+          new = new_گرہ;
+          new->اگلا = تہی;
         }
 
 
-      new_iter = new_node;
+      new_iter = new_گرہ;
 
-      old_iter = old_iter->next;
+      old_iter = old_iter->اگلا;
     }
 
-  return new;
+  واپس new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  واپس تہی;
 }
 
-int
+صحیح
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  اگر (setting_a->type != setting_b->type)
+    واپس 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  اگر (strcmp (setting_a->name, setting_b->name) != 0)
+    واپس 0;
 
-  switch (setting_a->type)
+  انتخاب (setting_a->type)
     {
-    case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
-    case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
-              setting_a->data.v_color.green == setting_b->data.v_color.green &&
-              setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
-              setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
-    case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+    حالت XSETTINGS_TYPE_INT:
+      واپس setting_a->ڈیٹا.v_int == setting_b->ڈیٹا.v_int;
+    حالت XSETTINGS_TYPE_COLOR:
+      واپس (setting_a->ڈیٹا.v_color.red == setting_b->ڈیٹا.v_color.red &&
+              setting_a->ڈیٹا.v_color.green == setting_b->ڈیٹا.v_color.green &&
+              setting_a->ڈیٹا.v_color.blue == setting_b->ڈیٹا.v_color.blue &&
+              setting_a->ڈیٹا.v_color.alpha == setting_b->ڈیٹا.v_color.alpha);
+    حالت XSETTINGS_TYPE_STRING:
+      واپس strcmp (setting_a->ڈیٹا.v_string, setting_b->ڈیٹا.v_string) == 0;
     }
 
-  return 0;
+  واپس 0;
 }
 
-void
+خالی
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
-    free (setting->data.v_string);
+  اگر (setting->type == XSETTINGS_TYPE_STRING)
+    آزاد (setting->ڈیٹا.v_string);
 
-  free(setting->name); // This should NOT be SDL_free()
-  free(setting); // This should NOT be SDL_free()
+  آزاد(setting->name); // This should NOT be SDL_free()
+  آزاد(setting); // This should NOT be SDL_free()
 }
 
-void
+خالی
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  جب (list)
     {
-      XSettingsList *next = list->next;
+      XSettingsList *اگلا = list->اگلا;
 
       xsettings_setting_free (list->setting);
-      free (list);
+      آزاد (list);
 
-      list = next;
+      list = اگلا;
     }
 }
 
-XSettingsResult
-xsettings_list_insert (XSettingsList    **list,
+XSettings_نتیجہ
+xsettings_list_داخل_کرو (XSettingsList    **list,
                        XSettingsSetting  *setting)
 {
-  XSettingsList *node;
+  XSettingsList *گرہ;
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *آخری = تہی;
 
-  node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
-  node->setting = setting;
+  گرہ = حافظہ_دو (حجم *گرہ);
+  اگر (!گرہ)
+    واپس XSETTINGS_NO_MEM;
+  گرہ->setting = setting;
 
   iter = *list;
-  while (iter)
+  جب (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      صحیح cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
-        break;
-      else if (cmp == 0)
+      اگر (cmp < 0)
+        توڑو;
+      ورنہ اگر (cmp == 0)
         {
-          free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          آزاد (گرہ);
+          واپس XSETTINGS_DUPLICATE_اندراج;
         }
 
-      last = iter;
-      iter = iter->next;
+      آخری = iter;
+      iter = iter->اگلا;
     }
 
-  if (last)
-    last->next = node;
-  else
-    *list = node;
+  اگر (آخری)
+    آخری->اگلا = گرہ;
+  ورنہ
+    *list = گرہ;
 
-  node->next = iter;
+  گرہ->اگلا = iter;
 
-  return XSETTINGS_SUCCESS;
+  واپس XSETTINGS_SUCCESS;
 }
 
-XSettingsResult
+XSettings_نتیجہ
 xsettings_list_delete (XSettingsList **list,
-                       const char     *name)
+                       ثابت حرف     *name)
 {
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *آخری = تہی;
 
   iter = *list;
-  while (iter)
+  جب (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      اگر (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
-            last->next = iter->next;
-          else
-            *list = iter->next;
+          اگر (آخری)
+            آخری->اگلا = iter->اگلا;
+          ورنہ
+            *list = iter->اگلا;
 
           xsettings_setting_free (iter->setting);
-          free (iter);
+          آزاد (iter);
 
-          return XSETTINGS_SUCCESS;
+          واپس XSETTINGS_SUCCESS;
         }
 
-      last = iter;
-      iter = iter->next;
+      آخری = iter;
+      iter = iter->اگلا;
     }
 
-  return XSETTINGS_FAILED;
+  واپس XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
 xsettings_list_lookup (XSettingsList *list,
-                       const char    *name)
+                       ثابت حرف    *name)
 {
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  جب (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      اگر (strcmp (name, iter->setting->name) == 0)
+        واپس iter->setting;
 
-      iter = iter->next;
+      iter = iter->اگلا;
     }
 
-  return NULL;
+  واپس تہی;
 }
 
-char
-xsettings_byte_order (void)
+حرف
+xsettings_byte_ترتیب (خالی)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  واپس (*(حرف *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
-#endif /* SDL_VIDEO_DRIVER_X11 */
+#اگر_ختم /* SDL_VIDEO_DRIVER_X11 */

@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#اگر_غیر_تعریف_شدہ _SDL_OPENVRVIDEO_H
+#تعریف_کرو _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
+#اگر_تعریف_شدہ EXTERN_C
+#تعریف_منسوخ EXTERN_C
+#اگر_ختم
+#اگر_ختم
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#اگر_تعریف_شدہ __GNUC__
+#ہدایت GCC diagnostic ڈالو
+#ہدایت GCC diagnostic ignored "-Wunused-variable"
+#اگر_ختم
 
-#define USE_SDL
-#include "openvr_capi.h"
+#تعریف_کرو USE_SDL
+#شامل "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#اگر_تعریف_شدہ __GNUC__
+#ہدایت GCC diagnostic نکالو
+#اگر_ختم
 
-#include <stdint.h>
+#شامل <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_غیر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#شامل <GLES3/gl3.h>
+#شامل <GLES3/gl32.h>
+#شامل <EGL/egl.h>
+#شامل <GLES2/gl2.h>
+#شامل <GLES2/gl2ext.h>
+#شامل <GLES2/gl2ext.h>
 
-#endif
+#اگر_ختم
 
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
+    SDL_کھڑکی *کھڑکی;
     HWND hwnd;
-    HWND parent;
+    HWND والد;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#ورنہ
+    صحیح dummy;
+#اگر_ختم
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+ساخت SDL_Video_ڈیٹا {
+    خالی * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_اندرونی)( EVRInitError *peError, EVRApplicationType eType );
+    ثابت حرف *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ثابت حرف *pch_Interface_نسخہ, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    صحیح is_بفر_rendering;
 
-    unsigned int overlaytexture;
+    غیرعلامتی صحیح overlaytexture;
 
-    unsigned int fbo, rbo;
+    غیرعلامتی صحیح fbo, rbo;
 
-    int saved_texture_state;
+    صحیح saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    ساخت VR_IVRSystem_Fn_جدول *oSystem;
+    ساخت VR_IVROverlay_Fn_جدول *oOverlay;
+	ساخت VR_IVRInput_Fn_جدول * o_داخلہ;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	حرف * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_سیٹ_Handle_t داخلہ_action_سیٹ;
+	VRActionHandle_t * داخلہ_action_handles_buttons;
+	صحیح داخلہ_action_handles_buttons_گنتی;
+	VRActionHandle_t * داخلہ_action_handles_axes;
+	صحیح داخلہ_action_handles_axes_گنتی;
+	VRActionHandle_t داخلہ_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    صحیح targw, targh;
+    صحیح آخری_targw, آخری_targh;
+    صحیح تبادلہ_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_چوکھٹا_انتہا;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_کھڑکی * کھڑکی;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#ورنہ
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#اگر_ختم
 };
 
-struct SDL_DisplayData
+ساخت SDL_Display_ڈیٹا
 {
-    int dummy;
+    صحیح dummy;
 };
 
-#endif
+#اگر_ختم

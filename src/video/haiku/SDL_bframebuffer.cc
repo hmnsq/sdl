@@ -18,111 +18,111 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_bframebuffer.h"
+#شامل "SDL_bframebuffer.h"
 
-#include <AppKit.h>
-#include <InterfaceKit.h>
-#include "SDL_bmodes.h"
-#include "SDL_BWin.h"
+#شامل <AppKit.h>
+#شامل <InterfaceKit.h>
+#شامل "SDL_bmodes.h"
+#شامل "SDL_BWin.h"
 
-#include "../../core/haiku/SDL_BApp.h"
+#شامل "../../core/haiku/SDL_BApp.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+ساکن SDL_INLINE SDL_BWin *مقصد_Be_Win(SDL_کھڑکی *کھڑکی)
 {
-    return (SDL_BWin *)(window->internal);
+    واپس (SDL_BWin *)(کھڑکی->اندرونی_2);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+ساکن SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    واپس SDL_Looper;
 }
 
-bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, void ** pixels, int *pitch)
+منطقی HAIKU_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, SDL_PixelFormat * format, خالی ** pixels, صحیح *pitch)
 {
-    SDL_BWin *bwin = _ToBeWin(window);
+    SDL_BWin *bwin = مقصد_Be_Win(کھڑکی);
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return false;
+    اگر (!bscreen.IsValid()) {
+        واپس جھوٹ;
     }
 
     // Make sure we have exclusive access to frame buffer data
-    bwin->LockBuffer();
+    bwin->تالا_بفر();
 
     bwin->CreateView();
 
     // format
-    display_mode bmode;
-    bscreen.GetMode(&bmode);
-    *format = HAIKU_ColorSpaceToSDLPxFormat(bmode.space);
+    display_منوال_2 bmode;
+    bscreen.Get_منوال(&bmode);
+    *format = HAIKU_Color_Space_مقصد_SDLPx_Format(bmode.space);
 
     // Create the new bitmap object
     BBitmap *bitmap = bwin->GetBitmap();
 
-    if (bitmap) {
-        delete bitmap;
+    اگر (bitmap) {
+        حذف bitmap;
     }
-    bitmap = new BBitmap(bwin->Bounds(), (color_space)bmode.space,
-            false,    // Views not accepted
-            true);    // Contiguous memory required
+    bitmap = نیا BBitmap(bwin->Bounds(), (color_space)bmode.space,
+            جھوٹ,    // Views not accepted
+            سچ);    // Contiguous memory required
 
-    if (bitmap->InitCheck() != B_OK) {
-        delete bitmap;
-        return SDL_SetError("Could not initialize back buffer!");
+    اگر (bitmap->InitCheck() != B_OK) {
+        حذف bitmap;
+        واپس SDL_سیٹ_Error("Could not initialize back buffer!");
     }
 
 
-    bwin->SetBitmap(bitmap);
+    bwin->سیٹ_Bitmap(bitmap);
 
     // Set the pixel pointer
-    *pixels = bitmap->Bits();
+    *pixels = bitmap->بٹ_2();
 
     // pitch = width of window, in bytes
-    *pitch = bitmap->BytesPerRow();
+    *pitch = bitmap->بائٹیں_فی_صف();
 
-    bwin->UnlockBuffer();
-    return true;
+    bwin->Unlock_بفر();
+    واپس سچ;
 }
 
 
 
-bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window,
-                                      const SDL_Rect * rects, int numrects) {
-    if (!window) {
-        return true;
+منطقی HAIKU_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی,
+                                      ثابت SDL_Rect * rects, صحیح numrects) {
+    اگر (!کھڑکی) {
+        واپس سچ;
     }
 
-    SDL_BWin *bwin = _ToBeWin(window);
+    SDL_BWin *bwin = مقصد_Be_Win(کھڑکی);
 
-    bwin->PostMessage(BWIN_UPDATE_FRAMEBUFFER);
+    bwin->Post_پیغام(BWIN_UPDATE_FRAMEBUFFER);
 
-    return true;
+    واپس سچ;
 }
 
-void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window) {
-    SDL_BWin *bwin = _ToBeWin(window);
+خالی HAIKU_Destroy_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی) {
+    SDL_BWin *bwin = مقصد_Be_Win(کھڑکی);
 
-    bwin->LockBuffer();
+    bwin->تالا_بفر();
 
     // Free and clear the window buffer
     BBitmap *bitmap = bwin->GetBitmap();
-    delete bitmap;
-    bwin->SetBitmap(NULL);
+    حذف bitmap;
+    bwin->سیٹ_Bitmap(تہی);
 
     bwin->RemoveView();
 
-    bwin->UnlockBuffer();
+    bwin->Unlock_بفر();
 }
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#اگر_ختم // SDL_VIDEO_DRIVER_HAIKU

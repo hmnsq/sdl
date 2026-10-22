@@ -18,737 +18,737 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsevents.h"
-#include "SDL_windowsrawinput.h"
+#شامل "SDL_windowsvideo.h"
+#شامل "SDL_windowsevents.h"
+#شامل "SDL_windowsrawinput.h"
 
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../joystick/usb_ids.h"
-#include "../../core/windows/SDL_windows.h" // for checking windows version
+#شامل "../SDL_video_c.h"
+#شامل "../../events/SDL_mouse_c.h"
+#شامل "../../joystick/usb_ids.h"
+#شامل "../../core/windows/SDL_windows.h" // for checking windows version
 
-#define RIFF_FOURCC(c0, c1, c2, c3)                 \
+#تعریف_کرو RIFF_FOURCC(c0, c1, c2, c3)                 \
     ((DWORD)(BYTE)(c0) | ((DWORD)(BYTE)(c1) << 8) | \
      ((DWORD)(BYTE)(c2) << 16) | ((DWORD)(BYTE)(c3) << 24))
 
-#define ANI_FLAG_ICON 0x1
+#تعریف_کرو ANI_FLAG_ICON 0x1
 
-#pragma pack(push, 1)
+#ہدایت pack(ڈالو, 1)
 
-typedef struct
+قسمتعریف ساخت
 {
-    BYTE bWidth;
-    BYTE bHeight;
-    BYTE bColorCount;
+    BYTE b_چوڑائی;
+    BYTE b_اونچائی;
+    BYTE b_Color_گنتی;
     BYTE bReserved;
-    WORD xHotspot;
-    WORD yHotspot;
-    DWORD dwImageSize;
-    DWORD dwImageOffset;
+    لفظ xHotspot;
+    لفظ yHotspot;
+    DWORD dw_Image_سائز;
+    DWORD dw_Image_انحراف;
 } CURSORICONFILEDIRENTRY;
 
-typedef struct
+قسمتعریف ساخت
 {
-    WORD idReserved;
-    WORD idType;
-    WORD idCount;
+    لفظ idReserved;
+    لفظ idType;
+    لفظ id_گنتی;
 } CURSORICONFILEDIR;
 
-typedef struct
+قسمتعریف ساخت
 {
     DWORD cbSizeof; // sizeof(ANIHEADER) = 36 bytes.
-    DWORD frames;   // Number of frames in the frame list.
-    DWORD steps;    // Number of steps in the animation loop.
-    DWORD width;    // Width
-    DWORD height;   // Height
+    DWORD چوکھٹے;   // Number of frames in the frame list.
+    DWORD اقدام;    // Number of steps in the animation loop.
+    DWORD چوڑائی;    //چوڑائی
+    DWORD اونچائی;   //اونچائی
     DWORD bpp;      // bpp
     DWORD planes;   // Not used
-    DWORD jifRate;  // Default display rate, in jiffies (1/60s)
+    DWORD jif_شرح;  // Default display rate, in jiffies (1/60s)
     DWORD fl;       // AF_ICON should be set. AF_SEQUENCE is optional
 } ANIHEADER;
 
-#pragma pack(pop)
+#ہدایت pack(نکالو)
 
-typedef struct CachedCursor
+قسمتعریف ساخت CachedCursor
 {
-    float scale;
+    اعشاری scale;
     HCURSOR cursor;
-    struct CachedCursor *next;
+    ساخت CachedCursor *اگلا;
 } CachedCursor;
 
-struct SDL_CursorData
+ساخت SDL_Cursor_ڈیٹا
 {
     HCURSOR cursor;
 
     CachedCursor *cache;
-    int hot_x;
-    int hot_y;
-    int num_frames;
-    SDL_CursorFrameInfo frames[1];
+    صحیح hot_x;
+    صحیح hot_y;
+    صحیح عدد_چوکھٹے;
+    SDL_Cursor_چوکھٹا_Info چوکھٹے[1];
 };
 
-typedef struct
+قسمتعریف ساخت
 {
     Uint64 xs[5];
     Uint64 ys[5];
     Sint64 residual[2];
     Uint32 dpiscale;
     Uint32 dpidenom;
-    int last_node;
+    صحیح آخری_گرہ;
     bool enhanced;
     bool dpiaware;
-} WIN_MouseData;
+} WIN_Mouse_ڈیٹا;
 
-DWORD SDL_last_warp_time = 0;
-HCURSOR SDL_cursor = NULL;
-static SDL_Cursor *SDL_blank_cursor = NULL;
-static WIN_MouseData WIN_system_scale_data;
+DWORD SDL_آخری_warp_وقت = 0;
+HCURSOR SDL_cursor = تہی;
+ساکن SDL_Cursor *SDL_blank_cursor = تہی;
+ساکن WIN_Mouse_ڈیٹا WIN_system_scale_ڈیٹا;
 
-static SDL_Cursor *WIN_CreateCursorAndData(HCURSOR hcursor)
+ساکن SDL_Cursor *WIN_Create_Cursor_And_ڈیٹا(HCURSOR hcursor)
 {
-    if (!hcursor) {
-        return NULL;
+    اگر (!hcursor) {
+        واپس تہی;
     }
 
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, حجم(*cursor));
+    اگر (!cursor) {
+        واپس تہی;
     }
 
-    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    SDL_Cursor_ڈیٹا *ڈیٹا = (SDL_Cursor_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
         SDL_free(cursor);
-        return NULL;
+        واپس تہی;
     }
 
-    data->cursor = hcursor;
-    cursor->internal = data;
-    return cursor;
+    ڈیٹا->cursor = hcursor;
+    cursor->اندرونی_2 = ڈیٹا;
+    واپس cursor;
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+ساکن SDL_Cursor *WIN_Create_Animated_Cursor_And_ڈیٹا(SDL_Cursor_چوکھٹا_Info *چوکھٹے, صحیح چوکھٹا_گنتی, صحیح hot_x, صحیح hot_y)
 {
     // Dynamically generate cursors at the appropriate DPI
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, حجم(*cursor));
+    اگر (!cursor) {
+        واپس تہی;
     }
 
-    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data) + (sizeof(SDL_CursorFrameInfo) * (frame_count - 1)));
-    if (!data) {
+    SDL_Cursor_ڈیٹا *ڈیٹا = (SDL_Cursor_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا) + (حجم(SDL_Cursor_چوکھٹا_Info) * (چوکھٹا_گنتی - 1)));
+    اگر (!ڈیٹا) {
         SDL_free(cursor);
-        return NULL;
+        واپس تہی;
     }
 
-    data->hot_x = hot_x;
-    data->hot_y = hot_y;
-    data->num_frames = frame_count;
-    for (int i = 0; i < frame_count; ++i) {
-        SDL_Surface *surface = frames[i].surface;
-        if (surface->flags & SDL_SURFACE_PREALLOCATED) {
+    ڈیٹا->hot_x = hot_x;
+    ڈیٹا->hot_y = hot_y;
+    ڈیٹا->عدد_چوکھٹے = چوکھٹا_گنتی;
+    برائے (صحیح i = 0; i < چوکھٹا_گنتی; ++i) {
+        SDL_Surface *surface = چوکھٹے[i].surface;
+        اگر (surface->flags & SDL_SURFACE_PREALLOCATED) {
             surface = SDL_DuplicateSurface(surface);
-            if (!surface) {
-                while (i > 0) {
+            اگر (!surface) {
+                جب (i > 0) {
                     --i;
-                    SDL_DestroySurface(data->frames[i].surface);
+                    SDL_DestroySurface(ڈیٹا->چوکھٹے[i].surface);
                 }
-                SDL_free(data);
+                SDL_free(ڈیٹا);
                 SDL_free(cursor);
-                return NULL;
+                واپس تہی;
             }
-        } else {
+        } ورنہ {
             ++surface->refcount;
         }
-        data->frames[i].surface = surface;
-        data->frames[i].duration = frames[i].duration;
+        ڈیٹا->چوکھٹے[i].surface = surface;
+        ڈیٹا->چوکھٹے[i].duration = چوکھٹے[i].duration;
     }
-    cursor->internal = data;
-    return cursor;
+    cursor->اندرونی_2 = ڈیٹا;
+    واپس cursor;
 }
 
-static bool SaveChunkSize(SDL_IOStream* dst, Sint64 offset)
+ساکن bool Save_Chunk_سائز(SDL_IOStream* dst, Sint64 انحراف_2)
 {
-    Sint64 here = SDL_TellIO(dst);
-    if (here < 0) {
-        return false;
+    Sint64 یہاں = SDL_TellIO(dst);
+    اگر (یہاں < 0) {
+        واپس false;
     }
-    if (SDL_SeekIO(dst, offset, SDL_IO_SEEK_SET) < 0) {
-        return false;
+    اگر (SDL_SeekIO(dst, انحراف_2, SDL_IO_SEEK_سیٹ) < 0) {
+        واپس false;
     }
 
-    DWORD size = (DWORD)(here - (offset + sizeof(DWORD)));
-    if (!SDL_WriteU32LE(dst, size)) {
-        return false;
+    DWORD سائز = (DWORD)(یہاں - (انحراف_2 + حجم(DWORD)));
+    اگر (!SDL_WriteU32LE(dst, سائز)) {
+        واپس false;
     }
-    return SDL_SeekIO(dst, here, SDL_IO_SEEK_SET);
+    واپس SDL_SeekIO(dst, یہاں, SDL_IO_SEEK_سیٹ);
 }
 
-static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, int hot_x, int hot_y, DWORD dwImageSize, DWORD dwImageOffset)
+ساکن bool Fill_Icon_اندراج(CURSORICONFILEDIRENTRY *اندراج_2, SDL_Surface *surface, صحیح hot_x, صحیح hot_y, DWORD dw_Image_سائز, DWORD dw_Image_انحراف)
 {
-    if (surface->props) {
-        hot_x = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
-        hot_y = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
+    اگر (surface->props) {
+        hot_x = (صحیح)SDL_Get_نمبر_Property(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_نمبر, hot_x);
+        hot_y = (صحیح)SDL_Get_نمبر_Property(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_نمبر, hot_y);
     }
     hot_x = SDL_clamp(hot_x, 0, surface->w - 1);
     hot_y = SDL_clamp(hot_y, 0, surface->h - 1);
 
-    SDL_zerop(entry);
-    entry->bWidth = surface->w < 256 ? surface->w : 0;  // 0 means a width of 256
-    entry->bHeight = surface->h < 256 ? surface->h : 0; // 0 means a height of 256
-    entry->xHotspot = hot_x;
-    entry->yHotspot = hot_y;
-    entry->dwImageSize = dwImageSize;
-    entry->dwImageOffset = dwImageOffset;
-    return true;
+    SDL_zerop(اندراج_2);
+    اندراج_2->b_چوڑائی = surface->w < 256 ? surface->w : 0;  // 0 means a width of 256
+    اندراج_2->b_اونچائی = surface->h < 256 ? surface->h : 0; // 0 means a height of 256
+    اندراج_2->xHotspot = hot_x;
+    اندراج_2->yHotspot = hot_y;
+    اندراج_2->dw_Image_سائز = dw_Image_سائز;
+    اندراج_2->dw_Image_انحراف = dw_Image_انحراف;
+    واپس true;
 }
 
-#ifdef SAVE_ICON_PNG
+#اگر_تعریف_شدہ SAVE_ICON_PNG
 
-static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
+ساکن bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
-    if (!SDL_SavePNG_IO(surface, dst, false)) {
-        return false;
+    اگر (!SDL_SavePNG_IO(surface, dst, false)) {
+        واپس false;
     }
 
     // Image data offsets must be WORD aligned
-    Sint64 offset = SDL_TellIO(dst);
-    if (offset & 1) {
-        if (!SDL_WriteU8(dst, 0)) {
-            return false;
+    Sint64 انحراف_2 = SDL_TellIO(dst);
+    اگر (انحراف_2 & 1) {
+        اگر (!SDL_WriteU8(dst, 0)) {
+            واپس false;
         }
     }
-    return true;
+    واپس true;
 }
 
-#else
+#ورنہ
 
 /* For info on the expected mask format see:
  * https://devblogs.microsoft.com/oldnewthing/20101018-00/?p=12513
  */
-static void *CreateIconMask(SDL_Surface *surface, size_t *mask_size)
+ساکن خالی *Create_Icon_نقاب(SDL_Surface *surface, size_t *نقاب_سائز)
 {
     Uint8 *dst;
-    const int w = (surface->w + 7) / 8;
-    const int pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
-    const int pitch = (w + pad);
-    const size_t size = pitch * surface->h;
-    static const unsigned char masks[] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
+    ثابت صحیح w = (surface->w + 7) / 8;
+    ثابت صحیح pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
+    ثابت صحیح pitch = (w + pad);
+    ثابت size_t سائز = pitch * surface->h;
+    ساکن ثابت غیرعلامتی حرف masks[] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
 
-    void *mask = SDL_malloc(size);
-    if (!mask) {
-        return NULL;
+    خالی *نقاب = SDL_malloc(سائز);
+    اگر (!نقاب) {
+        واپس تہی;
     }
 
-    dst = (Uint8 *)mask;
+    dst = (Uint8 *)نقاب;
 
     // Make the mask completely transparent.
-    SDL_memset(dst, 0xff, size);
-    for (int y = surface->h - 1; y >= 0; --y, dst += pitch) {
-        for (int x = 0; x < surface->w; ++x) {
+    SDL_memset(dst, 0xff, سائز);
+    برائے (صحیح y = surface->h - 1; y >= 0; --y, dst += pitch) {
+        برائے (صحیح x = 0; x < surface->w; ++x) {
             Uint8 r, g, b, a;
             SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
 
-            if (a != 0) {
+            اگر (a != 0) {
                 // Reset bit of an opaque pixel.
                 dst[x >> 3] &= ~masks[x & 7];
             }
         }
     }
-    *mask_size = size;
-    return mask;
+    *نقاب_سائز = سائز;
+    واپس نقاب;
 }
 
-static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
+ساکن bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
-    SDL_Surface *temp = NULL;
+    SDL_Surface *عارضی = تہی;
 
-    if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
-        temp = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (!temp) {
-            return false;
+    اگر (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+        عارضی = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
+        اگر (!عارضی) {
+            واپس false;
         }
-        surface = temp;
+        surface = عارضی;
     }
 
     // Cursor data is double height (DIB and mask), stored bottom-up
     bool ok = true;
-    size_t mask_size = 0;
-    void *mask = CreateIconMask(surface, &mask_size);
-    if (!mask) {
+    size_t نقاب_سائز = 0;
+    خالی *نقاب = Create_Icon_نقاب(surface, &نقاب_سائز);
+    اگر (!نقاب) {
         ok = false;
-        goto done;
+        جاؤ مکمل;
     }
 
     BITMAPINFOHEADER bmih;
     SDL_zero(bmih);
-    DWORD row_size = surface->w * 4;
-    bmih.biSize = sizeof(BITMAPINFOHEADER);
-    bmih.biWidth = surface->w;
-    bmih.biHeight = surface->h * 2;
+    DWORD صف_سائز = surface->w * 4;
+    bmih.bi_سائز = حجم(BITMAPINFOHEADER);
+    bmih.bi_چوڑائی = surface->w;
+    bmih.bi_اونچائی = surface->h * 2;
     bmih.biPlanes = 1;
-    bmih.biBitCount = 32;
+    bmih.bi_ثنائی_ہندسہ_گنتی = 32;
     bmih.biCompression = BI_RGB;
-    bmih.biSizeImage = (DWORD)(surface->h * row_size + mask_size);
-    ok &= (SDL_WriteIO(dst, &bmih, sizeof(bmih)) == sizeof(bmih));
+    bmih.bi_سائز_Image = (DWORD)(surface->h * صف_سائز + نقاب_سائز);
+    ok &= (SDL_WriteIO(dst, &bmih, حجم(bmih)) == حجم(bmih));
 
-    const Uint8 *pix = surface->pixels;
+    ثابت Uint8 *pix = surface->pixels;
     pix += (surface->h - 1) * surface->pitch;
-    for (int i = 0; i < surface->h; ++i) {
-        ok &= (SDL_WriteIO(dst, pix, row_size) == row_size);
+    برائے (صحیح i = 0; i < surface->h; ++i) {
+        ok &= (SDL_WriteIO(dst, pix, صف_سائز) == صف_سائز);
         pix -= surface->pitch;
     }
-    ok &= (SDL_WriteIO(dst, mask, mask_size) == mask_size);
+    ok &= (SDL_WriteIO(dst, نقاب, نقاب_سائز) == نقاب_سائز);
 
-done:
-    SDL_free(mask);
-    SDL_DestroySurface(temp);
-    return ok;
+مکمل:
+    SDL_free(نقاب);
+    SDL_DestroySurface(عارضی);
+    واپس ok;
 }
 
-#endif // SAVE_ICON_PNG
+#اگر_ختم // SAVE_ICON_PNG
 
-static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, int hot_y, float scale)
+ساکن bool Write_Icon_چوکھٹا(SDL_IOStream *dst, SDL_Surface *surface, صحیح hot_x, صحیح hot_y, اعشاری scale)
 {
-#ifdef SAVE_MULTIPLE_ICONS
-    int count = 0;
-    SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &count);
-    if (!surfaces) {
-        return false;
+#اگر_تعریف_شدہ SAVE_مضرب_ICONS
+    صحیح گنتی = 0;
+    SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &گنتی);
+    اگر (!surfaces) {
+        واپس false;
     }
-#else
+#ورنہ
     surface = SDL_GetSurfaceImage(surface, scale);
-    if (!surface) {
-        return false;
+    اگر (!surface) {
+        واپس false;
     }
 
-    int count = 1;
+    صحیح گنتی = 1;
     SDL_Surface **surfaces = &surface;
-#endif
+#اگر_ختم
 
     // Raymond Chen has more insight into this format at:
     // https://devblogs.microsoft.com/oldnewthing/20101018-00/?p=12513
     bool ok = true;
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('i', 'c', 'o', 'n'));
-    Sint64 icon_size_offset = SDL_TellIO(dst);
+    Sint64 icon_سائز_انحراف = SDL_TellIO(dst);
     ok &= SDL_WriteU32LE(dst, 0);
-    Sint64 base_offset = icon_size_offset + sizeof(DWORD);
+    Sint64 بنیاد_انحراف_2 = icon_سائز_انحراف + حجم(DWORD);
 
     CURSORICONFILEDIR dir;
     dir.idReserved = 0;
     dir.idType = 2; // Cursor
-    dir.idCount = count;
-    ok &= (SDL_WriteIO(dst, &dir, sizeof(dir)) == sizeof(dir));
+    dir.id_گنتی = گنتی;
+    ok &= (SDL_WriteIO(dst, &dir, حجم(dir)) == حجم(dir));
 
-    DWORD entries_size = count * sizeof(CURSORICONFILEDIRENTRY);
-    CURSORICONFILEDIRENTRY *entries = (CURSORICONFILEDIRENTRY *)SDL_malloc(entries_size);
-    if (!entries) {
+    DWORD entries_سائز = گنتی * حجم(CURSORICONFILEDIRENTRY);
+    CURSORICONFILEDIRENTRY *entries = (CURSORICONFILEDIRENTRY *)SDL_malloc(entries_سائز);
+    اگر (!entries) {
         ok = false;
-        goto done;
+        جاؤ مکمل;
     }
-    ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
+    ok &= (SDL_WriteIO(dst, entries, entries_سائز) == entries_سائز);
 
-    Sint64 image_offset = SDL_TellIO(dst);
-    for (int i = 0; i < count; ++i) {
+    Sint64 image_انحراف_2 = SDL_TellIO(dst);
+    برائے (صحیح i = 0; i < گنتی; ++i) {
         ok &= WriteIconSurface(dst, surfaces[i]);
 
-        Sint64 next_offset = SDL_TellIO(dst);
-        DWORD dwImageSize = (DWORD)(next_offset - image_offset);
-        DWORD dwImageOffset = (DWORD)(image_offset - base_offset);
+        Sint64 اگلا_انحراف = SDL_TellIO(dst);
+        DWORD dw_Image_سائز = (DWORD)(اگلا_انحراف - image_انحراف_2);
+        DWORD dw_Image_انحراف = (DWORD)(image_انحراف_2 - بنیاد_انحراف_2);
 
-        ok &= FillIconEntry(&entries[i], surfaces[i], hot_x, hot_y, dwImageSize, dwImageOffset);
+        ok &= Fill_Icon_اندراج(&entries[i], surfaces[i], hot_x, hot_y, dw_Image_سائز, dw_Image_انحراف);
 
-        image_offset = next_offset;
+        image_انحراف_2 = اگلا_انحراف;
     }
 
     // Now that we have the icon entries filled out, rewrite them
-    ok &= (SDL_SeekIO(dst, base_offset + sizeof(dir), SDL_IO_SEEK_SET) >= 0);
-    ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
-    ok &= (SDL_SeekIO(dst, image_offset, SDL_IO_SEEK_SET) >= 0);
+    ok &= (SDL_SeekIO(dst, بنیاد_انحراف_2 + حجم(dir), SDL_IO_SEEK_سیٹ) >= 0);
+    ok &= (SDL_WriteIO(dst, entries, entries_سائز) == entries_سائز);
+    ok &= (SDL_SeekIO(dst, image_انحراف_2, SDL_IO_SEEK_سیٹ) >= 0);
     SDL_free(entries);
 
-    ok &= SaveChunkSize(dst, icon_size_offset);
+    ok &= Save_Chunk_سائز(dst, icon_سائز_انحراف);
 
-done:
-#ifdef SAVE_MULTIPLE_ICONS
+مکمل:
+#اگر_تعریف_شدہ SAVE_مضرب_ICONS
     SDL_free(surfaces);
-#else
+#ورنہ
     SDL_DestroySurface(surface);
-#endif
-    return ok;
+#اگر_ختم
+    واپس ok;
 }
 
 /* Windows doesn't have an API to easily create animated cursors from a sequence of images,
  * so we have to build an animated cursor resource file in memory and load it.
  */
-static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y, float scale)
+ساکن HCURSOR WIN_Create_Animated_Cursor_اندرونی(SDL_Cursor_چوکھٹا_Info *چوکھٹے, صحیح چوکھٹا_گنتی, صحیح hot_x, صحیح hot_y, اعشاری scale)
 {
-    HCURSOR hcursor = NULL;
+    HCURSOR hcursor = تہی;
     SDL_IOStream *dst = SDL_IOFromDynamicMem();
-    if (!dst) {
-        return NULL;
+    اگر (!dst) {
+        واپس تہی;
     }
 
-    int w = (int)SDL_roundf(frames[0].surface->w * scale);
-    int h = (int)SDL_roundf(frames[0].surface->h * scale);
+    صحیح w = (صحیح)SDL_roundf(چوکھٹے[0].surface->w * scale);
+    صحیح h = (صحیح)SDL_roundf(چوکھٹے[0].surface->h * scale);
 
     bool ok = true;
     // RIFF header
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('R', 'I', 'F', 'F'));
-    Sint64 riff_size_offset = SDL_TellIO(dst);
+    Sint64 riff_سائز_انحراف = SDL_TellIO(dst);
     ok &= SDL_WriteU32LE(dst, 0);
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('A', 'C', 'O', 'N'));
 
     // anih header chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('a', 'n', 'i', 'h'));
-    ok &= SDL_WriteU32LE(dst, sizeof(ANIHEADER));
+    ok &= SDL_WriteU32LE(dst, حجم(ANIHEADER));
 
     ANIHEADER anih;
     SDL_zero(anih);
-    anih.cbSizeof = sizeof(anih);
-    anih.frames = frame_count;
-    anih.steps = frame_count;
-    anih.jifRate = 1;
+    anih.cbSizeof = حجم(anih);
+    anih.چوکھٹے = چوکھٹا_گنتی;
+    anih.اقدام = چوکھٹا_گنتی;
+    anih.jif_شرح = 1;
     anih.fl = ANI_FLAG_ICON;
-    ok &= (SDL_WriteIO(dst, &anih, sizeof(anih)) == sizeof(anih));
+    ok &= (SDL_WriteIO(dst, &anih, حجم(anih)) == حجم(anih));
 
     // Rate chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('r', 'a', 't', 'e'));
-    ok &= SDL_WriteU32LE(dst, sizeof(DWORD) * frame_count);
-    for (int i = 0; i < frame_count; ++i) {
+    ok &= SDL_WriteU32LE(dst, حجم(DWORD) * چوکھٹا_گنتی);
+    برائے (صحیح i = 0; i < چوکھٹا_گنتی; ++i) {
         // Animated Win32 cursors are in jiffy units, and one jiffy is 1/60 of a second.
-        const double WIN32_JIFFY = 1000.0 / 60.0;
-        DWORD duration = (frames[i].duration ? SDL_lround(frames[i].duration / WIN32_JIFFY) : 0xFFFFFFFF);
+        ثابت دوہرا WIN32_JIFFY = 1000.0 / 60.0;
+        DWORD duration = (چوکھٹے[i].duration ? SDL_lround(چوکھٹے[i].duration / WIN32_JIFFY) : 0xFFFFFFFF);
         ok &= SDL_WriteU32LE(dst, duration);
     }
 
     // Frame list
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('L', 'I', 'S', 'T'));
-    Sint64 frame_list_size_offset = SDL_TellIO(dst);
+    Sint64 چوکھٹا_list_سائز_انحراف = SDL_TellIO(dst);
     ok &= SDL_WriteU32LE(dst, 0);
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('f', 'r', 'a', 'm'));
 
-    for (int i = 0; i < frame_count; ++i) {
-        ok &= WriteIconFrame(dst, frames[i].surface, hot_x, hot_y, scale);
+    برائے (صحیح i = 0; i < چوکھٹا_گنتی; ++i) {
+        ok &= Write_Icon_چوکھٹا(dst, چوکھٹے[i].surface, hot_x, hot_y, scale);
     }
-    ok &= SaveChunkSize(dst, frame_list_size_offset);
+    ok &= Save_Chunk_سائز(dst, چوکھٹا_list_سائز_انحراف);
 
     // All done!
-    ok &= SaveChunkSize(dst, riff_size_offset);
-    if (!ok) {
+    ok &= Save_Chunk_سائز(dst, riff_سائز_انحراف);
+    اگر (!ok) {
         // The error has been set above
-        goto done;
+        جاؤ مکمل;
     }
 
-    BYTE *mem = (BYTE *)SDL_GetPointerProperty(SDL_GetIOProperties(dst), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, NULL);
-    DWORD size = (DWORD)SDL_GetIOSize(dst);
-    hcursor = (HCURSOR)CreateIconFromResourceEx(mem, size, FALSE, 0x00030000, w, h, 0);
-    if (!hcursor) {
-        SDL_SetError("CreateIconFromResource failed");
+    BYTE *mem = (BYTE *)SDL_Get_اشارہ_گر_Property(SDL_GetIOProperties(dst), SDL_PROP_IOSTREAM_DYNAMIC_حافظہ_اشارہ_گر, تہی);
+    DWORD سائز = (DWORD)SDL_GetIOSize(dst);
+    hcursor = (HCURSOR)CreateIconFromResourceEx(mem, سائز, FALSE, 0x00030000, w, h, 0);
+    اگر (!hcursor) {
+        SDL_سیٹ_Error("CreateIconFromResource failed");
     }
 
-done:
+مکمل:
     SDL_CloseIO(dst);
 
-    return hcursor;
+    واپس hcursor;
 }
 
-static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+ساکن SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, صحیح hot_x, صحیح hot_y)
 {
-    SDL_CursorFrameInfo frame = { surface, 0 };
-    return WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
+    SDL_Cursor_چوکھٹا_Info چوکھٹا = { surface, 0 };
+    واپس WIN_Create_Animated_Cursor_And_ڈیٹا(&چوکھٹا, 1, hot_x, hot_y);
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+ساکن SDL_Cursor *WIN_CreateAnimatedCursor(SDL_Cursor_چوکھٹا_Info *چوکھٹے, صحیح چوکھٹا_گنتی, صحیح hot_x, صحیح hot_y)
 {
-    return WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
+    واپس WIN_Create_Animated_Cursor_And_ڈیٹا(چوکھٹے, چوکھٹا_گنتی, hot_x, hot_y);
 }
 
-static SDL_Cursor *WIN_CreateBlankCursor(void)
+ساکن SDL_Cursor *WIN_CreateBlankCursor(خالی)
 {
-    SDL_Cursor *cursor = NULL;
+    SDL_Cursor *cursor = تہی;
     SDL_Surface *surface = SDL_CreateSurfaceZeroed(32, 32, SDL_PIXELFORMAT_ARGB8888);
-    if (surface) {
+    اگر (surface) {
         cursor = WIN_CreateCursor(surface, 0, 0);
         SDL_DestroySurface(surface);
     }
-    return cursor;
+    واپس cursor;
 }
 
-static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
+ساکن SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
 {
     LPCTSTR name;
 
-    switch (id) {
-    default:
+    انتخاب (id) {
+    طےشدہ:
         SDL_assert(!"Unknown system cursor ID");
-        return NULL;
-    case SDL_SYSTEM_CURSOR_DEFAULT:
+        واپس تہی;
+    حالت SDL_SYSTEM_CURSOR_DEFAULT:
         name = IDC_ARROW;
-        break;
-    case SDL_SYSTEM_CURSOR_TEXT:
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_متن:
+    حالت SDL_SYSTEM_CURSOR_VERTICAL_متن:
         name = IDC_IBEAM;
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_WAIT:
         name = IDC_WAIT;
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-    case SDL_SYSTEM_CURSOR_CELL:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_CROSSHAIR:
+    حالت SDL_SYSTEM_CURSOR_CELL:
         name = IDC_CROSS;
-        break;
-    case SDL_SYSTEM_CURSOR_PROGRESS:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_پیش_رفت:
         name = IDC_APPSTARTING;
-        break;
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_NW_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_SE_RESIZE:
         name = IDC_SIZENWSE;
-        break;
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_NESW_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_NE_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_SW_RESIZE:
         name = IDC_SIZENESW;
-        break;
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_EW_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_E_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_W_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_ستون_RESIZE:
         name = IDC_SIZEWE;
-        break;
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_NS_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_N_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_S_RESIZE:
+    حالت SDL_SYSTEM_CURSOR_صف_RESIZE:
         name = IDC_SIZENS;
-        break;
-    case SDL_SYSTEM_CURSOR_MOVE:
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_MOVE:
+    حالت SDL_SYSTEM_CURSOR_ALL_SCROLL:
         name = IDC_SIZEALL;
-        break;
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-    case SDL_SYSTEM_CURSOR_NO_DROP:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+    حالت SDL_SYSTEM_CURSOR_NO_DROP:
         name = IDC_NO;
-        break;
-    case SDL_SYSTEM_CURSOR_POINTER:
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
-    case SDL_SYSTEM_CURSOR_ALIAS:
-    case SDL_SYSTEM_CURSOR_COPY:
-    case SDL_SYSTEM_CURSOR_GRAB:
-    case SDL_SYSTEM_CURSOR_GRABBING:
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_اشارہ_گر:
+    حالت SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+    حالت SDL_SYSTEM_CURSOR_ALIAS:
+    حالت SDL_SYSTEM_CURSOR_COPY:
+    حالت SDL_SYSTEM_CURSOR_GRAB:
+    حالت SDL_SYSTEM_CURSOR_GRABBING:
+    حالت SDL_SYSTEM_CURSOR_ZOOM_اندر:
+    حالت SDL_SYSTEM_CURSOR_ZOOM_برآمد:
         name = IDC_HAND;
-        break;
-    case SDL_SYSTEM_CURSOR_HELP:
+        توڑو;
+    حالت SDL_SYSTEM_CURSOR_HELP:
         name = IDC_HELP;
-        break;
+        توڑو;
     }
-    return WIN_CreateCursorAndData(LoadCursor(NULL, name));
+    واپس WIN_Create_Cursor_And_ڈیٹا(بھرو_Cursor(تہی, name));
 }
 
-static SDL_Cursor *WIN_CreateDefaultCursor(void)
+ساکن SDL_Cursor *WIN_CreateDefaultCursor(خالی)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return WIN_CreateSystemCursor(id);
+    واپس WIN_CreateSystemCursor(id);
 }
 
-static void WIN_FreeCursor(SDL_Cursor *cursor)
+ساکن خالی WIN_FreeCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *data = cursor->internal;
+    SDL_Cursor_ڈیٹا *ڈیٹا = cursor->اندرونی_2;
 
-    for (int i = 0; i < data->num_frames; ++i) {
-        SDL_DestroySurface(data->frames[i].surface);
+    برائے (صحیح i = 0; i < ڈیٹا->عدد_چوکھٹے; ++i) {
+        SDL_DestroySurface(ڈیٹا->چوکھٹے[i].surface);
     }
-    while (data->cache) {
-        CachedCursor *entry = data->cache;
-        data->cache = entry->next;
-        if (entry->cursor) {
-            DestroyCursor(entry->cursor);
+    جب (ڈیٹا->cache) {
+        CachedCursor *اندراج_2 = ڈیٹا->cache;
+        ڈیٹا->cache = اندراج_2->اگلا;
+        اگر (اندراج_2->cursor) {
+            DestroyCursor(اندراج_2->cursor);
         }
-        SDL_free(entry);
+        SDL_free(اندراج_2);
     }
-    if (data->cursor) {
-        DestroyCursor(data->cursor);
+    اگر (ڈیٹا->cursor) {
+        DestroyCursor(ڈیٹا->cursor);
     }
-    SDL_free(data);
+    SDL_free(ڈیٹا);
     SDL_free(cursor);
 }
 
-static HCURSOR GetCachedCursor(SDL_Cursor *cursor)
+ساکن HCURSOR GetCachedCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *data = cursor->internal;
+    SDL_Cursor_ڈیٹا *ڈیٹا = cursor->اندرونی_2;
 
-    float scale = 1.0f;
-    if (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
-        scale = SDL_GetDisplayContentScale(SDL_GetDisplayForWindow(SDL_GetMouseFocus()));
-        if (scale == 0.0f) {
+    اعشاری scale = 1.0f;
+    اگر (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
+        scale = SDL_GetDisplayContentScale(SDL_Get_Display_For_کھڑکی(SDL_GetMouseFocus()));
+        اگر (scale == 0.0f) {
             scale = 1.0f;
         }
     }
-    for (CachedCursor *entry = data->cache; entry; entry = entry->next) {
-        if (scale == entry->scale) {
-            return entry->cursor;
+    برائے (CachedCursor *اندراج_2 = ڈیٹا->cache; اندراج_2; اندراج_2 = اندراج_2->اگلا) {
+        اگر (scale == اندراج_2->scale) {
+            واپس اندراج_2->cursor;
         }
     }
 
     // Need to create a cursor for this content scale
-    HCURSOR hcursor = WIN_CreateAnimatedCursorInternal(data->frames, data->num_frames, data->hot_x, data->hot_y, scale);
-    if (!hcursor) {
-        return NULL;
+    HCURSOR hcursor = WIN_Create_Animated_Cursor_اندرونی(ڈیٹا->چوکھٹے, ڈیٹا->عدد_چوکھٹے, ڈیٹا->hot_x, ڈیٹا->hot_y, scale);
+    اگر (!hcursor) {
+        واپس تہی;
     }
 
-    CachedCursor *entry = (CachedCursor *)SDL_calloc(1, sizeof(*entry));
-    if (!entry) {
+    CachedCursor *اندراج_2 = (CachedCursor *)SDL_calloc(1, حجم(*اندراج_2));
+    اگر (!اندراج_2) {
         DestroyCursor(hcursor);
-        return NULL;
+        واپس تہی;
     }
-    entry->cursor = hcursor;
-    entry->scale = scale;
-    entry->next = data->cache;
-    data->cache = entry;
+    اندراج_2->cursor = hcursor;
+    اندراج_2->scale = scale;
+    اندراج_2->اگلا = ڈیٹا->cache;
+    ڈیٹا->cache = اندراج_2;
 
-    return hcursor;
+    واپس hcursor;
 }
 
-static bool WIN_ShowCursor(SDL_Cursor *cursor)
+ساکن bool WIN_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
-        if (GetSystemMetrics(SM_REMOTESESSION)) {
+    اگر (!cursor) {
+        اگر (GetSystemMetrics(SM_REMOTESESSION)) {
             // Use a blank cursor so we continue to get relative motion over RDP
             cursor = SDL_blank_cursor;
         }
     }
-    if (cursor) {
-        SDL_CursorData *data = cursor->internal;
-        if (data->num_frames > 0) {
+    اگر (cursor) {
+        SDL_Cursor_ڈیٹا *ڈیٹا = cursor->اندرونی_2;
+        اگر (ڈیٹا->عدد_چوکھٹے > 0) {
             SDL_cursor = GetCachedCursor(cursor);
-        } else {
-            SDL_cursor = data->cursor;
+        } ورنہ {
+            SDL_cursor = ڈیٹا->cursor;
         }
-    } else {
-        SDL_cursor = NULL;
+    } ورنہ {
+        SDL_cursor = تہی;
     }
-    if (SDL_GetMouseFocus() != NULL) {
-        SetCursor(SDL_cursor);
+    اگر (SDL_GetMouseFocus() != تہی) {
+        سیٹ_Cursor(SDL_cursor);
     }
-    return true;
+    واپس true;
 }
 
-void WIN_SetCursorPos(int x, int y)
+خالی WIN_سیٹ_Cursor_Pos(صحیح x, صحیح y)
 {
     // We need to jitter the value because otherwise Windows will occasionally inexplicably ignore the SetCursorPos() or SendInput()
-    SetCursorPos(x, y);
-    SetCursorPos(x + 1, y);
-    SetCursorPos(x, y);
+    سیٹ_Cursor_Pos(x, y);
+    سیٹ_Cursor_Pos(x + 1, y);
+    سیٹ_Cursor_Pos(x, y);
 
     // Flush any mouse motion prior to or associated with this warp
-#ifdef _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
-#pragma warning(push)
-#pragma warning(disable : 28159)
-#endif
-    SDL_last_warp_time = GetTickCount();
-    if (!SDL_last_warp_time) {
-        SDL_last_warp_time = 1;
+#اگر_تعریف_شدہ _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
+#ہدایت warning(ڈالو)
+#ہدایت warning(disable : 28159)
+#اگر_ختم
+    SDL_آخری_warp_وقت = Get_Tick_گنتی();
+    اگر (!SDL_آخری_warp_وقت) {
+        SDL_آخری_warp_وقت = 1;
     }
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#اگر_تعریف_شدہ _MSC_VER
+#ہدایت warning(نکالو)
+#اگر_ختم
 }
 
-static bool WIN_WarpMouse(SDL_Window *window, float x, float y)
+ساکن bool WIN_WarpMouse(SDL_کھڑکی *کھڑکی, اعشاری x, اعشاری y)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    POINT pt;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    HWND hwnd = ڈیٹا->hwnd;
+    نقطہ_2 pt;
 
     // Don't warp the mouse while we're doing a modal interaction
-    if (data->in_title_click || data->focus_click_pending) {
-        return true;
+    اگر (ڈیٹا->اندر_title_click || ڈیٹا->focus_click_pending) {
+        واپس true;
     }
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
-    ClientToScreen(hwnd, &pt);
-    WIN_SetCursorPos(pt.x, pt.y);
+    pt.x = (صحیح)SDL_roundf(x);
+    pt.y = (صحیح)SDL_roundf(y);
+    Client_مقصد_Screen(hwnd, &pt);
+    WIN_سیٹ_Cursor_Pos(pt.x, pt.y);
 
     // Send the exact mouse motion associated with this warp
-    SDL_SendMouseMotion(0, window, SDL_GLOBAL_MOUSE_ID, false, x, y);
-    return true;
+    SDL_SendMouseMotion(0, کھڑکی, SDL_GLOBAL_MOUSE_ID, false, x, y);
+    واپس true;
 }
 
-static bool WIN_WarpMouseGlobal(float x, float y)
+ساکن bool WIN_WarpMouseGlobal(اعشاری x, اعشاری y)
 {
-    POINT pt;
+    نقطہ_2 pt;
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
-    SetCursorPos(pt.x, pt.y);
-    return true;
+    pt.x = (صحیح)SDL_roundf(x);
+    pt.y = (صحیح)SDL_roundf(y);
+    سیٹ_Cursor_Pos(pt.x, pt.y);
+    واپس true;
 }
 
-static bool WIN_SetRelativeMouseMode(bool enabled)
+ساکن bool WIN_سیٹ_Relative_Mouse_منوال(bool enabled)
 {
-    return WIN_SetRawMouseEnabled(SDL_GetVideoDevice(), enabled);
+    واپس WIN_سیٹ_Raw_Mouse_Enabled(SDL_GetVideoDevice(), enabled);
 }
 
-static bool WIN_CaptureMouse(SDL_Window *window)
+ساکن bool WIN_CaptureMouse(SDL_کھڑکی *کھڑکی)
 {
-    if (window) {
-        SDL_WindowData *data = window->internal;
-        SetCapture(data->hwnd);
-    } else {
-        SDL_Window *focus_window = SDL_GetMouseFocus();
+    اگر (کھڑکی) {
+        SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+        سیٹ_Capture(ڈیٹا->hwnd);
+    } ورنہ {
+        SDL_کھڑکی *focus_کھڑکی_2 = SDL_GetMouseFocus();
 
-        if (focus_window) {
-            SDL_WindowData *data = focus_window->internal;
-            if (!data->mouse_tracked) {
-                SDL_SetMouseFocus(NULL);
+        اگر (focus_کھڑکی_2) {
+            SDL_کھڑکی_ڈیٹا *ڈیٹا = focus_کھڑکی_2->اندرونی_2;
+            اگر (!ڈیٹا->mouse_tracked) {
+                SDL_سیٹ_Mouse_Focus(تہی);
             }
         }
         ReleaseCapture();
     }
 
-    return true;
+    واپس true;
 }
 
-static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
+ساکن SDL_MouseButtonFlags WIN_GetGlobalMouseState(اعشاری *x, اعشاری *y)
 {
-    SDL_MouseButtonFlags result = 0;
-    POINT pt = { 0, 0 };
-    bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    SDL_MouseButtonFlags نتیجہ = 0;
+    نقطہ_2 pt = { 0, 0 };
+    bool تبادلہ_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
 
     GetCursorPos(&pt);
-    *x = (float)pt.x;
-    *y = (float)pt.y;
+    *x = (اعشاری)pt.x;
+    *y = (اعشاری)pt.y;
 
-    result |= GetAsyncKeyState(!swapButtons ? VK_LBUTTON : VK_RBUTTON) & 0x8000 ? SDL_BUTTON_LMASK : 0;
-    result |= GetAsyncKeyState(!swapButtons ? VK_RBUTTON : VK_LBUTTON) & 0x8000 ? SDL_BUTTON_RMASK : 0;
-    result |= GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? SDL_BUTTON_MMASK : 0;
-    result |= GetAsyncKeyState(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1MASK : 0;
-    result |= GetAsyncKeyState(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2MASK : 0;
+    نتیجہ |= Get_Async_کلید_State(!تبادلہ_Buttons ? VK_LBUTTON : VK_RBUTTON) & 0x8000 ? SDL_BUTTON_LMASK : 0;
+    نتیجہ |= Get_Async_کلید_State(!تبادلہ_Buttons ? VK_RBUTTON : VK_LBUTTON) & 0x8000 ? SDL_BUTTON_RMASK : 0;
+    نتیجہ |= Get_Async_کلید_State(VK_MBUTTON) & 0x8000 ? SDL_BUTTON_MMASK : 0;
+    نتیجہ |= Get_Async_کلید_State(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1_نقاب : 0;
+    نتیجہ |= Get_Async_کلید_State(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2_نقاب : 0;
 
-    return result;
+    واپس نتیجہ;
 }
 
-static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *window, SDL_MouseID mouseID, float *x, float *y)
+ساکن خالی WIN_ApplySystemScale(خالی *اندرونی_2, Uint64 timestamp, SDL_کھڑکی *کھڑکی, SDL_MouseID mouseID, اعشاری *x, اعشاری *y)
 {
-    if (!internal) {
-        return;
+    اگر (!اندرونی_2) {
+        واپس;
     }
-    WIN_MouseData *data = (WIN_MouseData *)internal;
+    WIN_Mouse_ڈیٹا *ڈیٹا = (WIN_Mouse_ڈیٹا *)اندرونی_2;
 
-    SDL_VideoDisplay *display = window ? SDL_GetVideoDisplayForWindow(window) : SDL_GetVideoDisplay(SDL_GetPrimaryDisplay());
+    SDL_VideoDisplay *display = کھڑکی ? SDL_Get_Video_Display_For_کھڑکی(کھڑکی) : SDL_GetVideoDisplay(SDL_GetPrimaryDisplay());
 
     Sint64 ix = (Sint64)*x * 65536;
     Sint64 iy = (Sint64)*y * 65536;
     Uint32 dpi = display ? (Uint32)(display->content_scale * USER_DEFAULT_SCREEN_DPI) : USER_DEFAULT_SCREEN_DPI;
 
-    if (!data->enhanced) { // early return if flat scale
-        dpi = data->dpiscale * (data->dpiaware ? dpi : USER_DEFAULT_SCREEN_DPI);
+    اگر (!ڈیٹا->enhanced) { // early return if flat scale
+        dpi = ڈیٹا->dpiscale * (ڈیٹا->dpiaware ? dpi : USER_DEFAULT_SCREEN_DPI);
         ix *= dpi;
         iy *= dpi;
         ix /= USER_DEFAULT_SCREEN_DPI;
@@ -761,50 +761,50 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
         // iy = 65536 * (data->residual[1] / 65536);
         // data->residual[0] -= ix;
         // data->residual[1] -= iy;
-        *x = (float)ix / 65536.0f;
-        *y = (float)iy / 65536.0f;
-        return;
+        *x = (اعشاری)ix / 65536.0f;
+        *y = (اعشاری)iy / 65536.0f;
+        واپس;
     }
 
-    Uint64 *xs = data->xs;
-    Uint64 *ys = data->ys;
+    Uint64 *xs = ڈیٹا->xs;
+    Uint64 *ys = ڈیٹا->ys;
     Uint64 absx = SDL_abs(ix);
     Uint64 absy = SDL_abs(iy);
-    Uint64 speed = SDL_min(absx, absy) + (SDL_max(absx, absy) << 1); // super cursed approximation used by Windows
-    if (speed == 0) {
-        return;
+    Uint64 رفتار = SDL_min(absx, absy) + (SDL_max(absx, absy) << 1); // super cursed approximation used by Windows
+    اگر (رفتار == 0) {
+        واپس;
     }
 
-    int i, j, k;
-    for (i = 1; i < 5; i++) {
+    صحیح i, j, k;
+    برائے (i = 1; i < 5; i++) {
         j = i;
-        if (speed < xs[j]) {
-            break;
+        اگر (رفتار < xs[j]) {
+            توڑو;
         }
     }
     i -= 1;
     j -= 1;
-    k = data->last_node;
-    data->last_node = j;
+    k = ڈیٹا->آخری_گرہ;
+    ڈیٹا->آخری_گرہ = j;
 
-    Uint32 denom = data->dpidenom;
+    Uint32 denom = ڈیٹا->dpidenom;
     Sint64 scale = 0;
     Sint64 xdiff = xs[j+1] - xs[j];
     Sint64 ydiff = ys[j+1] - ys[j];
-    if (xdiff != 0) {
-        Sint64 slope = ydiff / xdiff;
-        Sint64 inter = slope * xs[i] - ys[i];
-        scale += slope - inter / speed;
+    اگر (xdiff != 0) {
+        Sint64 ڈھلان = ydiff / xdiff;
+        Sint64 inter = ڈھلان * xs[i] - ys[i];
+        scale += ڈھلان - inter / رفتار;
     }
 
-    if (j > k) {
+    اگر (j > k) {
         denom <<= 1;
         xdiff = xs[k+1] - xs[k];
         ydiff = ys[k+1] - ys[k];
-        if (xdiff != 0) {
-            Sint64 slope = ydiff / xdiff;
-            Sint64 inter = slope * xs[k] - ys[k];
-            scale += slope - inter / speed;
+        اگر (xdiff != 0) {
+            Sint64 ڈھلان = ydiff / xdiff;
+            Sint64 inter = ڈھلان * xs[k] - ys[k];
+            scale += ڈھلان - inter / رفتار;
         }
     }
 
@@ -819,11 +819,11 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     // iy = 65536 * (data->residual[1] / 65536);
     // data->residual[0] -= ix;
     // data->residual[1] -= iy;
-    *x = (float)ix / 65536.0f;
-    *y = (float)iy / 65536.0f;
+    *x = (اعشاری)ix / 65536.0f;
+    *y = (اعشاری)iy / 65536.0f;
 }
 
-void WIN_InitMouse(SDL_VideoDevice *_this)
+خالی WIN_InitMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -834,28 +834,28 @@ void WIN_InitMouse(SDL_VideoDevice *_this)
     mouse->FreeCursor = WIN_FreeCursor;
     mouse->WarpMouse = WIN_WarpMouse;
     mouse->WarpMouseGlobal = WIN_WarpMouseGlobal;
-    mouse->SetRelativeMouseMode = WIN_SetRelativeMouseMode;
+    mouse->سیٹ_Relative_Mouse_منوال = WIN_سیٹ_Relative_Mouse_منوال;
     mouse->CaptureMouse = WIN_CaptureMouse;
     mouse->GetGlobalMouseState = WIN_GetGlobalMouseState;
     mouse->ApplySystemScale = WIN_ApplySystemScale;
-    mouse->system_scale_data = &WIN_system_scale_data;
+    mouse->system_scale_ڈیٹا = &WIN_system_scale_ڈیٹا;
 
-    SDL_SetDefaultCursor(WIN_CreateDefaultCursor());
+    SDL_سیٹ_Default_Cursor(WIN_CreateDefaultCursor());
 
     SDL_blank_cursor = WIN_CreateBlankCursor();
 
     WIN_UpdateMouseSystemScale();
 }
 
-void WIN_QuitMouse(SDL_VideoDevice *_this)
+خالی WIN_QuitMouse(SDL_VideoDevice *_this)
 {
-    if (SDL_blank_cursor) {
+    اگر (SDL_blank_cursor) {
         WIN_FreeCursor(SDL_blank_cursor);
-        SDL_blank_cursor = NULL;
+        SDL_blank_cursor = تہی;
     }
 }
 
-static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
+ساکن خالی Read_Mouse_خم(صحیح v, Uint64 xs[5], Uint64 ys[5])
 {
     bool win8 = WIN_IsWindows8OrGreater();
     DWORD xbuff[10] = {
@@ -872,53 +872,53 @@ static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
         win8 ? 0x0012fc00 : 0x00184ccd, 0,
         win8 ? 0x01bbc000 : 0x02380000, 0
     };
-    DWORD xsize = sizeof(xbuff);
-    DWORD ysize = sizeof(ybuff);
+    DWORD xsize = حجم(xbuff);
+    DWORD ysize = حجم(ybuff);
     HKEY open_handle;
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
-        RegQueryValueExW(open_handle, L"SmoothMouseXCurve", NULL, NULL, (BYTE*)xbuff, &xsize);
-        RegQueryValueExW(open_handle, L"SmoothMouseYCurve", NULL, NULL, (BYTE*)ybuff, &ysize);
-        RegCloseKey(open_handle);
+    اگر (Reg_Open_کلید_Ex_W(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, کلید_READ, &open_handle) == ERROR_SUCCESS) {
+        Reg_Query_قدر_Ex_W(open_handle, L"SmoothMouseXCurve", تہی, تہی, (BYTE*)xbuff, &xsize);
+        Reg_Query_قدر_Ex_W(open_handle, L"SmoothMouseYCurve", تہی, تہی, (BYTE*)ybuff, &ysize);
+        Reg_Close_کلید(open_handle);
     }
     xs[0] = 0; // first node must always be origin
     ys[0] = 0; // first node must always be origin
-    int i;
-    for (i = 1; i < 5; i++) {
+    صحیح i;
+    برائے (i = 1; i < 5; i++) {
         xs[i] = (7 * (Uint64)xbuff[i * 2]);
         ys[i] = (v * (Uint64)ybuff[i * 2]) << 17;
     }
 }
 
-void WIN_UpdateMouseSystemScale(void)
+خالی WIN_UpdateMouseSystemScale(خالی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse->ApplySystemScale == WIN_ApplySystemScale) {
-        mouse->system_scale_data = &WIN_system_scale_data;
+    اگر (mouse->ApplySystemScale == WIN_ApplySystemScale) {
+        mouse->system_scale_ڈیٹا = &WIN_system_scale_ڈیٹا;
     }
 
     // always reinitialize to valid defaults, whether fetch was successful or not.
-    WIN_MouseData *data = &WIN_system_scale_data;
-    data->residual[0] = 0;
-    data->residual[1] = 0;
-    data->dpiscale = 32;
-    data->dpidenom = (10 * (WIN_IsWindows8OrGreater() ? 120 : 150)) << 16;
-    data->dpiaware = WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice());
-    data->enhanced = false;
+    WIN_Mouse_ڈیٹا *ڈیٹا = &WIN_system_scale_ڈیٹا;
+    ڈیٹا->residual[0] = 0;
+    ڈیٹا->residual[1] = 0;
+    ڈیٹا->dpiscale = 32;
+    ڈیٹا->dpidenom = (10 * (WIN_IsWindows8OrGreater() ? 120 : 150)) << 16;
+    ڈیٹا->dpiaware = WIN_Is_فی_Monitor_V2_DPIAware(SDL_GetVideoDevice());
+    ڈیٹا->enhanced = false;
 
-    int v = 10;
-    if (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
+    صحیح v = 10;
+    اگر (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
         v = SDL_max(1, SDL_min(v, 20));
-        data->dpiscale = SDL_max(SDL_max(v, (v - 2) * 4), (v - 6) * 8);
+        ڈیٹا->dpiscale = SDL_max(SDL_max(v, (v - 2) * 4), (v - 6) * 8);
     }
 
-    int params[3];
-    if (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
-        data->enhanced = params[2] ? true : false;
-        if (params[2]) {
-            ReadMouseCurve(v, data->xs, data->ys);
+    صحیح params[3];
+    اگر (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
+        ڈیٹا->enhanced = params[2] ? true : false;
+        اگر (params[2]) {
+            Read_Mouse_خم(v, ڈیٹا->xs, ڈیٹا->ys);
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#اگر_ختم // SDL_VIDEO_DRIVER_WINDOWS

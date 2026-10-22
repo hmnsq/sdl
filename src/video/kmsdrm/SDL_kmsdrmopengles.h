@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_kmsdrmopengles_h_
-#define SDL_kmsdrmopengles_h_
+#اگر_غیر_تعریف_شدہ SDL_kmsdrmopengles_h_
+#تعریف_کرو SDL_kmsdrmopengles_h_
 
-#include "../SDL_egl_c.h"
+#شامل "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define KMSDRM_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
-#define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#تعریف_کرو KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
+#تعریف_کرو KMSDRM_GLES_Get_Proc_پتہ  SDL_EGL_Get_Proc_پتہ_اندرونی
+#تعریف_کرو KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
+#تعریف_کرو KMSDRM_GLES_Get_تبادلہ_Interval SDL_EGL_Get_تبادلہ_Interval
 
-extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+خارجی خالی KMSDRM_GLES_سیٹ_Default_Profile_Config(SDL_VideoDevice *_this);
+خارجی bool KMSDRM_GLES_سیٹ_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح interval);
+خارجی bool KMSDRM_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی خالی KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool KMSDRM_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
 
-#endif // SDL_kmsdrmopengles_h_
+#اگر_ختم // SDL_kmsdrmopengles_h_

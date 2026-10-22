@@ -18,35 +18,35 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_x11vulkan_h_
-#define SDL_x11vulkan_h_
+#اگر_غیر_تعریف_شدہ SDL_x11vulkan_h_
+#تعریف_کرو SDL_x11vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#شامل <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#اگر defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
-typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
+قسمتعریف ساخت xcb_connection_t xcb_connection_t;
+قسمتعریف xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+خارجی bool X11_Vulkan_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی خالی X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی حرف ثابت * ثابت *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *گنتی);
+خارجی bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                             SDL_کھڑکی *کھڑکی,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ثابت ساخت Vk_تخصیص_Callbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجی خالی X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
-extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                               ثابت ساخت Vk_تخصیص_Callbacks *allocator);
+خارجی bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex);
+                                           Uint32 قطار_Family_اشاریہ);
 
-#endif
+#اگر_ختم
 
-#endif // SDL_x11vulkan_h_
+#اگر_ختم // SDL_x11vulkan_h_

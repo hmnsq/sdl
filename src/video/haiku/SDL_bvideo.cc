@@ -19,42 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../../core/haiku/SDL_BApp.h"
+#شامل "SDL_internal.h"
+#شامل "../../core/haiku/SDL_BApp.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_BWin.h"
-#include <Url.h>
+#شامل "SDL_BWin.h"
+#شامل <Url.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-#include "SDL_bkeyboard.h"
-#include "SDL_bwindow.h"
-#include "SDL_bclipboard.h"
-#include "SDL_bvideo.h"
-#include "SDL_bopengl.h"
-#include "SDL_bmodes.h"
-#include "SDL_bframebuffer.h"
-#include "SDL_bevents.h"
-#include "SDL_bmessagebox.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "SDL_bkeyboard.h"
+#شامل "SDL_bwindow.h"
+#شامل "SDL_bclipboard.h"
+#شامل "SDL_bvideo.h"
+#شامل "SDL_bopengl.h"
+#شامل "SDL_bmodes.h"
+#شامل "SDL_bframebuffer.h"
+#شامل "SDL_bevents.h"
+#شامل "SDL_bmessagebox.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
-    return (SDL_BWin *)(window->internal);
+ساکن SDL_INLINE SDL_BWin *مقصد_Be_Win(SDL_کھڑکی *کھڑکی) {
+    واپس (SDL_BWin *)(کھڑکی->اندرونی_2);
 }
 
-static SDL_VideoDevice * HAIKU_CreateDevice(void)
+ساکن SDL_VideoDevice * HAIKU_CreateDevice(خالی)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *) SDL_calloc(1, sizeof(SDL_VideoDevice));
+    device = (SDL_VideoDevice *) SDL_calloc(1, حجم(SDL_VideoDevice));
 
-    device->internal = NULL; /* FIXME: Is this the cause of some of the
+    device->اندرونی_2 = تہی; /* FIXME: Is this the cause of some of the
                                   SDL_Quit() errors? */
 
 // TODO: Figure out if any initialization needs to go here
@@ -64,107 +64,107 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     device->VideoQuit = HAIKU_VideoQuit;
     device->GetDisplayBounds = HAIKU_GetDisplayBounds;
     device->GetDisplayModes = HAIKU_GetDisplayModes;
-    device->SetDisplayMode = HAIKU_SetDisplayMode;
+    device->سیٹ_Display_منوال = HAIKU_سیٹ_Display_منوال;
     device->PumpEvents = HAIKU_PumpEvents;
 
-    device->CreateSDLWindow = HAIKU_CreateWindow;
-    device->SetWindowTitle = HAIKU_SetWindowTitle;
-    device->SetWindowPosition = HAIKU_SetWindowPosition;
-    device->SetWindowSize = HAIKU_SetWindowSize;
-    device->ShowWindow = HAIKU_ShowWindow;
-    device->HideWindow = HAIKU_HideWindow;
-    device->RaiseWindow = HAIKU_RaiseWindow;
-    device->MaximizeWindow = HAIKU_MaximizeWindow;
-    device->MinimizeWindow = HAIKU_MinimizeWindow;
-    device->RestoreWindow = HAIKU_RestoreWindow;
-    device->SetWindowBordered = HAIKU_SetWindowBordered;
-    device->SetWindowResizable = HAIKU_SetWindowResizable;
-    device->SetWindowFullscreen = HAIKU_SetWindowFullscreen;
-    device->SetWindowMouseGrab = HAIKU_SetWindowMouseGrab;
-    device->SetWindowMinimumSize = HAIKU_SetWindowMinimumSize;
-    device->SetWindowParent = HAIKU_SetWindowParent;
-    device->SetWindowModal = HAIKU_SetWindowModal;
-    device->DestroyWindow = HAIKU_DestroyWindow;
-    device->CreateWindowFramebuffer = HAIKU_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = HAIKU_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = HAIKU_DestroyWindowFramebuffer;
+    device->CreateSDLWindow = HAIKU_Create_کھڑکی;
+    device->سیٹ_کھڑکی_Title = HAIKU_سیٹ_کھڑکی_Title;
+    device->سیٹ_کھڑکی_Position = HAIKU_سیٹ_کھڑکی_Position;
+    device->سیٹ_کھڑکی_سائز = HAIKU_سیٹ_کھڑکی_سائز;
+    device->Show_کھڑکی = HAIKU_Show_کھڑکی;
+    device->Hide_کھڑکی = HAIKU_Hide_کھڑکی;
+    device->Raise_کھڑکی = HAIKU_Raise_کھڑکی;
+    device->Maximize_کھڑکی = HAIKU_Maximize_کھڑکی;
+    device->Minimize_کھڑکی = HAIKU_Minimize_کھڑکی;
+    device->Restore_کھڑکی = HAIKU_Restore_کھڑکی;
+    device->سیٹ_کھڑکی_Bordered = HAIKU_سیٹ_کھڑکی_Bordered;
+    device->سیٹ_کھڑکی_Resizable = HAIKU_سیٹ_کھڑکی_Resizable;
+    device->سیٹ_کھڑکی_Fullscreen = HAIKU_سیٹ_کھڑکی_Fullscreen;
+    device->سیٹ_کھڑکی_Mouse_Grab = HAIKU_سیٹ_کھڑکی_Mouse_Grab;
+    device->سیٹ_کھڑکی_Minimum_سائز = HAIKU_سیٹ_کھڑکی_Minimum_سائز;
+    device->سیٹ_کھڑکی_والد = HAIKU_سیٹ_کھڑکی_والد;
+    device->سیٹ_کھڑکی_Modal = HAIKU_سیٹ_کھڑکی_Modal;
+    device->Destroy_کھڑکی = HAIKU_Destroy_کھڑکی;
+    device->Create_کھڑکی_Framebuffer = HAIKU_Create_کھڑکی_Framebuffer;
+    device->Update_کھڑکی_Framebuffer = HAIKU_Update_کھڑکی_Framebuffer;
+    device->Destroy_کھڑکی_Framebuffer = HAIKU_Destroy_کھڑکی_Framebuffer;
 
-#ifdef SDL_VIDEO_OPENGL
-    device->GL_LoadLibrary = HAIKU_GL_LoadLibrary;
-    device->GL_GetProcAddress = HAIKU_GL_GetProcAddress;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+    device->GL_بھرو_Library = HAIKU_GL_بھرو_Library;
+    device->GL_Get_Proc_پتہ = HAIKU_GL_Get_Proc_پتہ;
     device->GL_UnloadLibrary = HAIKU_GL_UnloadLibrary;
     device->GL_CreateContext = HAIKU_GL_CreateContext;
     device->GL_MakeCurrent = HAIKU_GL_MakeCurrent;
-    device->GL_SetSwapInterval = HAIKU_GL_SetSwapInterval;
-    device->GL_GetSwapInterval = HAIKU_GL_GetSwapInterval;
-    device->GL_SwapWindow = HAIKU_GL_SwapWindow;
+    device->GL_سیٹ_تبادلہ_Interval = HAIKU_GL_سیٹ_تبادلہ_Interval;
+    device->GL_Get_تبادلہ_Interval = HAIKU_GL_Get_تبادلہ_Interval;
+    device->GL_تبادلہ_کھڑکی = HAIKU_GL_تبادلہ_کھڑکی;
     device->GL_DestroyContext = HAIKU_GL_DestroyContext;
-#endif
+#اگر_ختم
 
-    device->SetClipboardText = HAIKU_SetClipboardText;
-    device->GetClipboardText = HAIKU_GetClipboardText;
-    device->HasClipboardText = HAIKU_HasClipboardText;
+    device->سیٹ_Clipboard_متن = HAIKU_سیٹ_Clipboard_متن;
+    device->Get_Clipboard_متن = HAIKU_Get_Clipboard_متن;
+    device->Has_Clipboard_متن = HAIKU_Has_Clipboard_متن;
 
-    device->free = HAIKU_DeleteDevice;
+    device->آزاد = HAIKU_DeleteDevice;
 
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    واپس device;
 }
 
 VideoBootStrap HAIKU_bootstrap = {
     "haiku", "Haiku graphics",
     HAIKU_CreateDevice,
-    HAIKU_ShowMessageBox,
-    false
+    HAIKU_Show_پیغام_Box,
+    جھوٹ
 };
 
-void HAIKU_DeleteDevice(SDL_VideoDevice * device)
+خالی HAIKU_DeleteDevice(SDL_VideoDevice * device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->اندرونی_2);
     SDL_free(device);
 }
 
-struct SDL_CursorData
+ساخت SDL_Cursor_ڈیٹا
 {
     BCursor *cursor;
 };
 
-static SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
+ساکن SDL_Cursor *HAIKU_Create_Cursor_And_ڈیٹا(BCursor *bcursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, حجم(*cursor));
+    اگر (cursor) {
+        SDL_Cursor_ڈیٹا *ڈیٹا = (SDL_Cursor_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+        اگر (!ڈیٹا) {
             SDL_free(cursor);
-            return NULL;
+            واپس تہی;
         }
-        data->cursor = bcursor;
-        cursor->internal = data;
+        ڈیٹا->cursor = bcursor;
+        cursor->اندرونی_2 = ڈیٹا;
     }
-    return cursor;
+    واپس cursor;
 }
 
-static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
+ساکن SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
 {
     BCursorID cursorId = B_CURSOR_ID_SYSTEM_DEFAULT;
 
-    switch(id)
+    انتخاب(id)
     {
-        #define CURSORCASE(sdlname, bname) case SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; break
+        #تعریف_کرو CURSORCASE(sdlname, bname) حالت SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; توڑو
         CURSORCASE(DEFAULT, SYSTEM_DEFAULT);
-        CURSORCASE(TEXT, I_BEAM);
-        CURSORCASE(WAIT, PROGRESS);
+        CURSORCASE(متن_2, I_BEAM);
+        CURSORCASE(WAIT, پیش_رفت);
         CURSORCASE(CROSSHAIR, CROSS_HAIR);
-        CURSORCASE(PROGRESS, PROGRESS);
+        CURSORCASE(پیش_رفت, پیش_رفت);
         CURSORCASE(NWSE_RESIZE, RESIZE_NORTH_WEST_SOUTH_EAST);
         CURSORCASE(NESW_RESIZE, RESIZE_NORTH_EAST_SOUTH_WEST);
         CURSORCASE(EW_RESIZE, RESIZE_EAST_WEST);
         CURSORCASE(NS_RESIZE, RESIZE_NORTH_SOUTH);
         CURSORCASE(MOVE, MOVE);
         CURSORCASE(NOT_ALLOWED, NOT_ALLOWED);
-        CURSORCASE(POINTER, FOLLOW_LINK);
+        CURSORCASE(اشارہ_گر, FOLLOW_LINK);
         CURSORCASE(NW_RESIZE, RESIZE_NORTH_WEST_SOUTH_EAST);
         CURSORCASE(N_RESIZE, RESIZE_NORTH_SOUTH);
         CURSORCASE(NE_RESIZE, RESIZE_NORTH_EAST_SOUTH_WEST);
@@ -176,124 +176,124 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
         CURSORCASE(CONTEXT_MENU, CONTEXT_MENU);
         CURSORCASE(HELP, HELP);
         CURSORCASE(CELL, CROSS_HAIR);
-        CURSORCASE(VERTICAL_TEXT, I_BEAM_HORIZONTAL);
+        CURSORCASE(VERTICAL_متن, I_BEAM_HORIZONTAL);
         CURSORCASE(ALIAS, CREATE_LINK);
         CURSORCASE(COPY, COPY);
         CURSORCASE(NO_DROP, NOT_ALLOWED);
         CURSORCASE(GRAB, GRAB);
         CURSORCASE(GRABBING, GRABBING);
-        CURSORCASE(COL_RESIZE, RESIZE_EAST_WEST);
-        CURSORCASE(ROW_RESIZE, RESIZE_NORTH_SOUTH);
+        CURSORCASE(ستون_RESIZE, RESIZE_EAST_WEST);
+        CURSORCASE(صف_RESIZE, RESIZE_NORTH_SOUTH);
         CURSORCASE(ALL_SCROLL, MOVE);
-        CURSORCASE(ZOOM_IN, ZOOM_IN);
-        CURSORCASE(ZOOM_OUT, ZOOM_OUT);
-        #undef CURSORCASE
-        default:
+        CURSORCASE(ZOOM_اندر, ZOOM_اندر);
+        CURSORCASE(ZOOM_برآمد, ZOOM_برآمد);
+        #تعریف_منسوخ CURSORCASE
+        طےشدہ:
             SDL_assert(0);
-            return NULL;
+            واپس تہی;
     }
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorId));
+    واپس HAIKU_Create_Cursor_And_ڈیٹا(نیا BCursor(cursorId));
 }
 
-static SDL_Cursor * HAIKU_CreateDefaultCursor()
+ساکن SDL_Cursor * HAIKU_CreateDefaultCursor()
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return HAIKU_CreateSystemCursor(id);
+    واپس HAIKU_CreateSystemCursor(id);
 }
 
-static void HAIKU_FreeCursor(SDL_Cursor * cursor)
+ساکن خالی HAIKU_FreeCursor(SDL_Cursor * cursor)
 {
-    SDL_CursorData *data = cursor->internal;
+    SDL_Cursor_ڈیٹا *ڈیٹا = cursor->اندرونی_2;
 
-    if (data) {
-        delete data->cursor;
+    اگر (ڈیٹا) {
+        حذف ڈیٹا->cursor;
     }
-    SDL_free(data);
+    SDL_free(ڈیٹا);
     SDL_free(cursor);
 }
 
-static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+ساکن SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, صحیح hot_x, صحیح hot_y)
 {
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    اگر (!converted) {
+        واپس تہی;
     }
 
-	BBitmap *cursorBitmap = new BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
-	cursorBitmap->SetBits(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
+	BBitmap *cursorBitmap = نیا BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
+	cursorBitmap->سیٹ_بٹ(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
     SDL_DestroySurface(converted);
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
+    واپس HAIKU_Create_Cursor_And_ڈیٹا(نیا BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
 }
 
-static bool HAIKU_ShowCursor(SDL_Cursor *cursor)
+ساکن منطقی HAIKU_ShowCursor(SDL_Cursor *cursor)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
 
-	if (!mouse) {
-		return true;
+	اگر (!mouse) {
+		واپس سچ;
 	}
 
-	if (cursor) {
-		BCursor *hCursor = cursor->internal->cursor;
-		be_app->SetCursor(hCursor);
-	} else {
-		BCursor *hCursor = new BCursor(B_CURSOR_ID_NO_CURSOR);
-		be_app->SetCursor(hCursor);
-		delete hCursor;
+	اگر (cursor) {
+		BCursor *hCursor = cursor->اندرونی_2->cursor;
+		be_app->سیٹ_Cursor(hCursor);
+	} ورنہ {
+		BCursor *hCursor = نیا BCursor(B_CURSOR_ID_NO_CURSOR);
+		be_app->سیٹ_Cursor(hCursor);
+		حذف hCursor;
 	}
 
-	return true;
+	واپس سچ;
 }
 
-static bool HAIKU_SetRelativeMouseMode(bool enabled)
+ساکن منطقی HAIKU_سیٹ_Relative_Mouse_منوال(منطقی enabled)
 {
-    SDL_Window *window = SDL_GetMouseFocus();
-    if (!window) {
-      return true;
+    SDL_کھڑکی *کھڑکی = SDL_GetMouseFocus();
+    اگر (!کھڑکی) {
+      واپس سچ;
     }
 
-	SDL_BWin *bewin = _ToBeWin(window);
+	SDL_BWin *bewin = مقصد_Be_Win(کھڑکی);
 	BView *_SDL_View = bewin->GetGLView();
-	if (!_SDL_View) {
+	اگر (!_SDL_View) {
 		_SDL_View = bewin->GetView();
-		if (!_SDL_View)
-			return false;
+		اگر (!_SDL_View)
+			واپس جھوٹ;
 	}
 
-	bewin->Lock();
-	if (enabled)
-		_SDL_View->SetEventMask(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
-	else
-		_SDL_View->SetEventMask(0, 0);
+	bewin->تالا();
+	اگر (enabled)
+		_SDL_View->سیٹ_Event_نقاب(B_اشارہ_گر_EVENTS, B_NO_اشارہ_گر_HISTORY);
+	ورنہ
+		_SDL_View->سیٹ_Event_نقاب(0, 0);
 	bewin->Unlock();
 
-    return true;
+    واپس سچ;
 }
 
-static void HAIKU_MouseInit(SDL_VideoDevice *_this)
+ساکن خالی HAIKU_MouseInit(SDL_VideoDevice *_this)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
-	if (!mouse) {
-		return;
+	اگر (!mouse) {
+		واپس;
 	}
 	mouse->CreateCursor = HAIKU_CreateCursor;
 	mouse->CreateSystemCursor = HAIKU_CreateSystemCursor;
 	mouse->ShowCursor = HAIKU_ShowCursor;
 	mouse->FreeCursor = HAIKU_FreeCursor;
-	mouse->SetRelativeMouseMode = HAIKU_SetRelativeMouseMode;
+	mouse->سیٹ_Relative_Mouse_منوال = HAIKU_سیٹ_Relative_Mouse_منوال;
 
-	SDL_SetDefaultCursor(HAIKU_CreateDefaultCursor());
+	SDL_سیٹ_Default_Cursor(HAIKU_CreateDefaultCursor());
 }
 
-bool HAIKU_VideoInit(SDL_VideoDevice *_this)
+منطقی HAIKU_VideoInit(SDL_VideoDevice *_this)
 {
     // Initialize the Be Application for appserver interaction
-    if (!SDL_InitBeApp()) {
-        return false;
+    اگر (!SDL_InitBeApp()) {
+        واپس جھوٹ;
     }
 
     // Initialize video modes
@@ -305,20 +305,20 @@ bool HAIKU_VideoInit(SDL_VideoDevice *_this)
     HAIKU_MouseInit(_this);
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_جوڑو_Keyboard(SDL_DEFAULT_KEYBOARD_ID, تہی);
+    SDL_جوڑو_Mouse(SDL_DEFAULT_MOUSE_ID, تہی);
 
-#ifdef SDL_VIDEO_OPENGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
         // testgl application doesn't load library, just tries to load symbols
         // is it correct? if so we have to load library here
-    HAIKU_GL_LoadLibrary(_this, NULL);
-#endif
+    HAIKU_GL_بھرو_Library(_this, تہی);
+#اگر_ختم
 
     // We're done!
-    return true;
+    واپس سچ;
 }
 
-void HAIKU_VideoQuit(SDL_VideoDevice *_this)
+خالی HAIKU_VideoQuit(SDL_VideoDevice *_this)
 {
 
     HAIKU_QuitModes(_this);
@@ -327,23 +327,23 @@ void HAIKU_VideoQuit(SDL_VideoDevice *_this)
 }
 
 // just sticking this function in here so it's in a C++ source file.
-extern "C"
-bool HAIKU_OpenURL(const char *url)
+خارجی "C"
+منطقی HAIKU_OpenURL(ثابت حرف *url)
 {
-#if B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
+#اگر B_HAIKU_نسخہ <= B_HAIKU_نسخہ_1_BETA_5
     BUrl burl(url);
-#else
-    BUrl burl(url, true);
-#endif
-    const status_t rc = burl.OpenWithPreferredApplication(false);
-    if (rc != B_NO_ERROR) {
-        return SDL_SetError("URL open failed (err=%d)", (int)rc);
+#ورنہ
+    BUrl burl(url, سچ);
+#اگر_ختم
+    ثابت حالت_t rc = burl.OpenWithPreferredApplication(جھوٹ);
+    اگر (rc != B_NO_ERROR) {
+        واپس SDL_سیٹ_Error("URL open failed (err=%d)", (صحیح)rc);
     }
-    return true;
+    واپس سچ;
 }
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#اگر_ختم // SDL_VIDEO_DRIVER_HAIKU

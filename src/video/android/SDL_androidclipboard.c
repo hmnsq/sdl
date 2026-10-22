@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidclipboard.h"
-#include "../../core/android/SDL_android.h"
+#شامل "SDL_androidvideo.h"
+#شامل "SDL_androidclipboard.h"
+#شامل "../../core/android/SDL_android.h"
 
-bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool Android_سیٹ_Clipboard_متن(SDL_VideoDevice *_this, ثابت حرف *متن)
 {
-    return Android_JNI_SetClipboardText(text);
+    واپس Android_JNI_سیٹ_Clipboard_متن(متن);
 }
 
-char *Android_GetClipboardText(SDL_VideoDevice *_this)
+حرف *Android_Get_Clipboard_متن(SDL_VideoDevice *_this)
 {
-    return Android_JNI_GetClipboardText();
+    واپس Android_JNI_Get_Clipboard_متن();
 }
 
-bool Android_HasClipboardText(SDL_VideoDevice *_this)
+bool Android_Has_Clipboard_متن(SDL_VideoDevice *_this)
 {
-    return Android_JNI_HasClipboardText();
+    واپس Android_JNI_Has_Clipboard_متن();
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#اگر_ختم // SDL_VIDEO_DRIVER_ANDROID

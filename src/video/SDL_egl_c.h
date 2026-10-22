@@ -18,59 +18,59 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_egl_h_
-#define SDL_egl_h_
+#اگر_غیر_تعریف_شدہ SDL_egl_h_
+#تعریف_کرو SDL_egl_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
 
-#include <SDL3/SDL_egl.h>
+#شامل <SDL3/SDL_egl.h>
 
-#include "SDL_sysvideo.h"
+#شامل "SDL_sysvideo.h"
 
-#define SDL_EGL_MAX_DEVICES 8
+#تعریف_کرو SDL_EGL_MAX_DEVICES 8
 
 // For systems that don't define these
-typedef intptr_t EGLAttrib;
-typedef void *EGLDeviceEXT;
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
-typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const char *procname);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-typedef EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
-typedef const char *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
-typedef EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYDEVICESEXTPROC) (EGLint max_devices, EGLDeviceEXT *devices, EGLint *num_devices);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYEXTPROC) (EGLenum platform, void *native_display, const EGLint *attrib_list);
-typedef EGLSyncKHR (EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC) (EGLDisplay dpy, EGLenum type, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync);
-typedef EGLint (EGLAPIENTRYP PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (EGLDisplay dpy, EGLSyncKHR sync);
-typedef EGLint (EGLAPIENTRYP PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
-typedef EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
+قسمتعریف intptr_t EGLAttrib;
+قسمتعریف خالی *EGLDeviceEXT;
+قسمتعریف EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
+قسمتعریف __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (ثابت حرف *procname);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, ثابت EGLint *attrib_list, EGLConfig *configs, EGLint config_سائز, EGLint *عدد_config);
+قسمتعریف EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, ثابت EGLint *attrib_list);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
+قسمتعریف EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, ثابت EGLint *attrib_list);
+قسمتعریف EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNative_کھڑکی_Type win, ثابت EGLint *attrib_list);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface اقرأ, EGLContext ctx);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
+قسمتعریف ثابت حرف *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *قدر);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (خالی);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
+قسمتعریف EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (خالی);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLQUERYDEVICESEXTPROC) (EGLint max_devices, EGLDeviceEXT *devices, EGLint *عدد_devices);
+قسمتعریف EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, خالی *native_display, ثابت EGLAttrib *attrib_list);
+قسمتعریف EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYEXTPROC) (EGLenum platform, خالی *native_display, ثابت EGLint *attrib_list);
+قسمتعریف EGLSyncKHR (EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC) (EGLDisplay dpy, EGLenum type, ثابت EGLint *attrib_list);
+قسمتعریف EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync);
+قسمتعریف EGLint (EGLAPIENTRYP PFNEGLDUPNATIVEFENCEFDANDROIDPROC) (EGLDisplay dpy, EGLSyncKHR sync);
+قسمتعریف EGLint (EGLAPIENTRYP PFNEGLWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
+قسمتعریف EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCKHRPROC) (EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
 
-typedef struct SDL_EGL_VideoData
+قسمتعریف ساخت SDL_EGL_Video_ڈیٹا
 {
     SDL_SharedObject *opengl_dll_handle;
     SDL_SharedObject *egl_dll_handle;
     EGLDisplay egl_display;
     EGLConfig egl_config;
-    int egl_swapinterval;
-    int egl_surfacetype;
-    int egl_version_major, egl_version_minor;
+    صحیح egl_swapinterval;
+    صحیح egl_surfacetype;
+    صحیح egl_نسخہ_major, egl_نسخہ_minor;
     EGLint egl_required_visual_id;
     bool is_offscreen; // whether EGL display was offscreen
     EGLenum apitype;       // EGL_OPENGL_ES_API, EGL_OPENGL_API, etc
@@ -78,16 +78,16 @@ typedef struct SDL_EGL_VideoData
     PFNEGLGETDISPLAYPROC eglGetDisplay;
     PFNEGLINITIALIZEPROC eglInitialize;
     PFNEGLTERMINATEPROC eglTerminate;
-    PFNEGLGETPROCADDRESSPROC eglGetProcAddress;
-    PFNEGLCHOOSECONFIGPROC eglChooseConfig;
+    PFNEGLGETPROCADDRESSPROC egl_Get_Proc_پتہ;
+    PFNEGLCHOOSECONFIGPROC egl_انتخاب_Config;
     PFNEGLCREATECONTEXTPROC eglCreateContext;
     PFNEGLDESTROYCONTEXTPROC eglDestroyContext;
     PFNEGLCREATEPBUFFERSURFACEPROC eglCreatePbufferSurface;
-    PFNEGLCREATEWINDOWSURFACEPROC eglCreateWindowSurface;
+    PFNEGLCREATEWINDOWSURFACEPROC egl_Create_کھڑکی_Surface;
     PFNEGLDESTROYSURFACEPROC eglDestroySurface;
     PFNEGLMAKECURRENTPROC eglMakeCurrent;
-    PFNEGLSWAPBUFFERSPROC eglSwapBuffers;
-    PFNEGLSWAPINTERVALPROC eglSwapInterval;
+    PFNEGLSWAPBUFFERSPROC egl_تبادلہ_Buffers;
+    PFNEGLSWAPINTERVALPROC egl_تبادلہ_Interval;
     PFNEGLQUERYSTRINGPROC eglQueryString;
     PFNEGLGETCONFIGATTRIBPROC eglGetConfigAttrib;
     PFNEGLWAITNATIVEPROC eglWaitNative;
@@ -106,63 +106,63 @@ typedef struct SDL_EGL_VideoData
     PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR;
 
     // Atomic functions end
-} SDL_EGL_VideoData;
+} SDL_EGL_Video_ڈیٹا;
 
 // OpenGLES functions
-typedef enum SDL_EGL_ExtensionType
+قسمتعریف شمار SDL_EGL_ExtensionType
 {
     SDL_EGL_DISPLAY_EXTENSION,
     SDL_EGL_CLIENT_EXTENSION
 } SDL_EGL_ExtensionType;
 
-extern bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, const char *ext);
+خارجی bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, ثابت حرف *ext);
 
-extern bool SDL_EGL_GetAttribute(SDL_VideoDevice *_this, SDL_GLAttr attrib, int *value);
-extern bool SDL_EGL_LoadLibraryOnly(SDL_VideoDevice *_this, const char *path);
-extern bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *path, NativeDisplayType native_display);
-extern SDL_FunctionPointer SDL_EGL_GetProcAddressInternal(SDL_VideoDevice *_this, const char *proc);
-extern void SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this);
-extern void SDL_EGL_SetRequiredVisualId(SDL_VideoDevice *_this, int visual_id);
-extern bool SDL_EGL_ChooseConfig(SDL_VideoDevice *_this);
-extern bool SDL_EGL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool SDL_EGL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, NativeWindowType nw);
-extern void SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface);
+خارجی bool SDL_EGL_GetAttribute(SDL_VideoDevice *_this, SDL_GLAttr attrib, صحیح *قدر);
+خارجی bool SDL_EGL_بھرو_Library_Only(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی bool SDL_EGL_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ, NativeDisplayType native_display);
+خارجی SDL_Function_اشارہ_گر SDL_EGL_Get_Proc_پتہ_اندرونی(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجی خالی SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی خالی SDL_EGL_سیٹ_Required_Visual_Id(SDL_VideoDevice *_this, صحیح visual_id);
+خارجی bool SDL_EGL_انتخاب_Config(SDL_VideoDevice *_this);
+خارجی bool SDL_EGL_سیٹ_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح interval);
+خارجی bool SDL_EGL_Get_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح *interval);
+خارجی bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجی EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, Native_کھڑکی_Type nw);
+خارجی خالی SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface);
 
-extern EGLSurface SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, int width, int height);
+خارجی EGLSurface SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, صحیح چوڑائی, صحیح اونچائی);
 // Assumes that LoadLibraryOnly() has succeeded
-extern bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device);
+خارجی bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, صحیح device);
 
 // These need to be wrapped to get the surface for the window by the platform GLES implementation
-extern SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surface);
-extern bool SDL_EGL_MakeCurrent(SDL_VideoDevice *_this, EGLSurface egl_surface, SDL_GLContext context);
-extern bool SDL_EGL_SwapBuffers(SDL_VideoDevice *_this, EGLSurface egl_surface);
+خارجی SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surface);
+خارجی bool SDL_EGL_MakeCurrent(SDL_VideoDevice *_this, EGLSurface egl_surface, SDL_GLContext context);
+خارجی bool SDL_EGL_تبادلہ_Buffers(SDL_VideoDevice *_this, EGLSurface egl_surface);
 
 // SDL Error-reporting
-extern bool SDL_EGL_SetErrorEx(const char *message, const char *eglFunctionName, EGLint eglErrorCode);
-#define SDL_EGL_SetError(message, eglFunctionName) SDL_EGL_SetErrorEx(message, eglFunctionName, _this->egl_data->eglGetError())
+خارجی bool SDL_EGL_سیٹ_Error_Ex(ثابت حرف *پیغام, ثابت حرف *eglFunctionName, EGLint egl_Error_رمز);
+#تعریف_کرو SDL_EGL_سیٹ_Error(پیغام, eglFunctionName) SDL_EGL_سیٹ_Error_Ex(پیغام, eglFunctionName, _this->egl_ڈیٹا->eglGetError())
 
 // A few of useful macros
 
-#define SDL_EGL_SwapWindow_impl(BACKEND)                                                        \
-    bool BACKEND##_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)                  \
+#تعریف_کرو SDL_EGL_تبادلہ_کھڑکی_impl(BACKEND)                                                        \
+    bool BACKEND##_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)                  \
     {                                                                                           \
-        return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);                       \
+        واپس SDL_EGL_تبادلہ_Buffers(_this, کھڑکی->اندرونی_2->egl_surface);                       \
     }
 
-#define SDL_EGL_MakeCurrent_impl(BACKEND)                                                                    \
-    bool BACKEND##_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)       \
+#تعریف_کرو SDL_EGL_MakeCurrent_impl(BACKEND)                                                                    \
+    bool BACKEND##_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context)       \
     {                                                                                                        \
-        return SDL_EGL_MakeCurrent(_this, window ? window->internal->egl_surface : EGL_NO_SURFACE, context); \
+        واپس SDL_EGL_MakeCurrent(_this, کھڑکی ? کھڑکی->اندرونی_2->egl_surface : EGL_NO_SURFACE, context); \
     }
 
-#define SDL_EGL_CreateContext_impl(BACKEND)                                                     \
-    SDL_GLContext BACKEND##_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)      \
+#تعریف_کرو SDL_EGL_CreateContext_impl(BACKEND)                                                     \
+    SDL_GLContext BACKEND##_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)      \
     {                                                                                           \
-        return SDL_EGL_CreateContext(_this, window->internal->egl_surface);                     \
+        واپس SDL_EGL_CreateContext(_this, کھڑکی->اندرونی_2->egl_surface);                     \
     }
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#اگر_ختم // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_egl_h_
+#اگر_ختم // SDL_egl_h_

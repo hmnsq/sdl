@@ -21,96 +21,96 @@
 
 // Atomic KMSDRM backend originally written by Manuel Alfayate Corchete <redwindwanderer@gmail.com>
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_kmsdrmvideo_h
-#define SDL_kmsdrmvideo_h
+#اگر_غیر_تعریف_شدہ SDL_kmsdrmvideo_h
+#تعریف_کرو SDL_kmsdrmvideo_h
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
+#شامل <fcntl.h>
+#شامل <unistd.h>
+#شامل <xf86drm.h>
+#شامل <xf86drmMode.h>
+#شامل <gbm.h>
+#شامل <EGL/egl.h>
+#شامل <EGL/eglext.h>
 
-#ifndef DRM_FORMAT_MOD_INVALID
-#define DRM_FORMAT_MOD_INVALID 0x00ffffffffffffffULL
-#endif
+#اگر_غیر_تعریف_شدہ DRM_FORMAT_MOD_INVALID
+#تعریف_کرو DRM_FORMAT_MOD_INVALID 0x00ffffffffffffffULL
+#اگر_ختم
 
-#ifndef DRM_MODE_FB_MODIFIERS
-#define DRM_MODE_FB_MODIFIERS	2
-#endif
+#اگر_غیر_تعریف_شدہ DRM_منوال_FB_MODIFIERS
+#تعریف_کرو DRM_منوال_FB_MODIFIERS	2
+#اگر_ختم
 
-#ifndef DRM_MODE_PAGE_FLIP_ASYNC
-#define DRM_MODE_PAGE_FLIP_ASYNC    2
-#endif
+#اگر_غیر_تعریف_شدہ DRM_منوال_صفحہ_FLIP_ASYNC
+#تعریف_کرو DRM_منوال_صفحہ_FLIP_ASYNC    2
+#اگر_ختم
 
-#ifndef DRM_MODE_OBJECT_CONNECTOR
-#define DRM_MODE_OBJECT_CONNECTOR   0xc0c0c0c0
-#endif
+#اگر_غیر_تعریف_شدہ DRM_منوال_OBJECT_CONNECTOR
+#تعریف_کرو DRM_منوال_OBJECT_CONNECTOR   0xc0c0c0c0
+#اگر_ختم
 
-#ifndef DRM_MODE_OBJECT_CRTC
-#define DRM_MODE_OBJECT_CRTC        0xcccccccc
-#endif
+#اگر_غیر_تعریف_شدہ DRM_منوال_OBJECT_CRTC
+#تعریف_کرو DRM_منوال_OBJECT_CRTC        0xcccccccc
+#اگر_ختم
 
-#ifndef DRM_CAP_ASYNC_PAGE_FLIP
-#define DRM_CAP_ASYNC_PAGE_FLIP 7
-#endif
+#اگر_غیر_تعریف_شدہ DRM_CAP_ASYNC_صفحہ_FLIP
+#تعریف_کرو DRM_CAP_ASYNC_صفحہ_FLIP 7
+#اگر_ختم
 
-#ifndef DRM_CAP_CURSOR_WIDTH
-#define DRM_CAP_CURSOR_WIDTH    8
-#endif
+#اگر_غیر_تعریف_شدہ DRM_CAP_CURSOR_چوڑائی
+#تعریف_کرو DRM_CAP_CURSOR_چوڑائی    8
+#اگر_ختم
 
-#ifndef DRM_CAP_CURSOR_HEIGHT
-#define DRM_CAP_CURSOR_HEIGHT   9
-#endif
+#اگر_غیر_تعریف_شدہ DRM_CAP_CURSOR_اونچائی
+#تعریف_کرو DRM_CAP_CURSOR_اونچائی   9
+#اگر_ختم
 
-#ifndef GBM_FORMAT_ARGB8888
-#define GBM_FORMAT_ARGB8888  ((uint32_t)('A') | ((uint32_t)('R') << 8) | ((uint32_t)('2') << 16) | ((uint32_t)('4') << 24))
-#define GBM_BO_USE_CURSOR   (1 << 1)
-#define GBM_BO_USE_WRITE    (1 << 3)
-#define GBM_BO_USE_LINEAR   (1 << 4)
-#endif
+#اگر_غیر_تعریف_شدہ GBM_FORMAT_ARGB8888
+#تعریف_کرو GBM_FORMAT_ARGB8888  ((uint32_t)('A') | ((uint32_t)('R') << 8) | ((uint32_t)('2') << 16) | ((uint32_t)('4') << 24))
+#تعریف_کرو GBM_BO_USE_CURSOR   (1 << 1)
+#تعریف_کرو GBM_BO_USE_WRITE    (1 << 3)
+#تعریف_کرو GBM_BO_USE_خطی   (1 << 4)
+#اگر_ختم
 
-typedef struct KMSDRM_plane
+قسمتعریف ساخت KMSDRM_plane
 {
-    drmModePlane *plane;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_منوال_Plane *plane;
+    drm_منوال_Object_Properties *props;
+    drm_منوال_Property_Res **props_info;
 } KMSDRM_plane;
  
-typedef struct KMSDRM_crtc
+قسمتعریف ساخت KMSDRM_crtc
 {
-    drmModeCrtc *crtc;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_منوال_Crtc *crtc;
+    drm_منوال_Object_Properties *props;
+    drm_منوال_Property_Res **props_info;
 } KMSDRM_crtc;
 
-typedef struct KMSDRM_connector
+قسمتعریف ساخت KMSDRM_connector
 {
-    drmModeConnector *connector;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_منوال_Connector *connector;
+    drm_منوال_Object_Properties *props;
+    drm_منوال_Property_Res **props_info;
 } KMSDRM_connector;
 
-struct SDL_VideoData
+ساخت SDL_Video_ڈیٹا
 {
-    int devindex;     // device index that was passed on creation
-    int drm_fd;       // DRM file desc
-    char devpath[32]; // DRM dev path.
+    صحیح devindex;     // device index that was passed on creation
+    صحیح drm_fd;       // DRM file desc
+    حرف devpath[32]; // DRM dev path.
 
-    struct gbm_device *gbm_dev;
+    ساخت gbm_device *gbm_dev;
 
     bool video_init;             // Has VideoInit succeeded?
-    bool vulkan_mode;            // Are we in Vulkan mode? One VK window is enough to be.
+    bool vulkan_منوال;            // Are we in Vulkan mode? One VK window is enough to be.
     bool async_pageflip_support; // Does the hardware support async. pageflips?
 
-    SDL_Window **windows;
-    int max_windows;
-    int num_windows;
+    SDL_کھڑکی **windows;
+    صحیح max_windows;
+    صحیح عدد_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -119,75 +119,75 @@ struct SDL_VideoData
     bool is_atomic;  // true if atomic interfaces are supported.
 };
 
-struct SDL_DisplayModeData
+ساخت SDL_Display_منوال_ڈیٹا
 {
-    int mode_index;
+    صحیح منوال_اشاریہ;
 };
 
-struct SDL_DisplayData
+ساخت SDL_Display_ڈیٹا
 {
     KMSDRM_plane *display_plane;
     KMSDRM_plane *cursor_plane;
     KMSDRM_crtc crtc;
     KMSDRM_connector connector;
 
-    drmModeModeInfo mode;
-    drmModeModeInfo original_mode;
-    drmModeModeInfo fullscreen_mode;
+    drm_منوال_منوال_Info منوال;
+    drm_منوال_منوال_Info original_منوال;
+    drm_منوال_منوال_Info fullscreen_منوال;
 
-    drmModeCrtc *saved_crtc; // CRTC to restore on quit
+    drm_منوال_Crtc *saved_crtc; // CRTC to restore on quit
     bool saved_vrr;
 
     /* DRM & GBM cursor stuff lives here, not in an SDL_Cursor's internal struct,
        because setting/unsetting up these is done on window creation/destruction,
        where we may not have an SDL_Cursor at all (so no SDL_Cursor internal).
        There's only one cursor GBM BO because we only support one cursor. */
-    struct gbm_bo *cursor_bo;
-    int cursor_bo_drm_fd;
+    ساخت gbm_bo *cursor_bo;
+    صحیح cursor_bo_drm_fd;
     uint64_t cursor_w, cursor_h;
 
     /* Central atomic request list, used for the prop
        changeset related to pageflip in SwapWindow. */
-    drmModeAtomicReq *atomic_req;
+    drm_منوال_Atomic_Req *atomic_req;
 
-    int kms_in_fence_fd;
-    int kms_out_fence_fd;
+    صحیح kms_اندر_fence_fd;
+    صحیح kms_برآمد_fence_fd;
     EGLSyncKHR kms_fence;
     EGLSyncKHR gpu_fence;
 
     bool default_cursor_init;
 };
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-    SDL_VideoData *viddata;
+    SDL_Video_ڈیٹا *viddata;
     /* SDL internals expect EGL surface to be here, and in KMSDRM the GBM surface is
        what supports the EGL surface on the driver side, so all these surfaces and buffers
        are expected to be here, in the struct pointed by SDL_Window internal pointer:
        this one. So don't try to move these to dispdata!  */
-    struct gbm_surface *gs;
-    struct gbm_bo *bo;
-    struct gbm_bo *next_bo;
+    ساخت gbm_surface *gs;
+    ساخت gbm_bo *bo;
+    ساخت gbm_bo *اگلا_bo;
 
-    bool waiting_for_flip;
-    bool double_buffer;
+    bool انتظار_for_flip;
+    bool double_بفر;
 
     EGLSurface egl_surface;
     bool egl_surface_dirty;
 
     /* This dictates what approach we'll use for SwapBuffers. */
-    bool (*swap_window)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*تبادلہ_کھڑکی)(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 };
 
-typedef struct KMSDRM_FBInfo
+قسمتعریف ساخت KMSDRM_FBInfo
 {
-    int drm_fd;     // DRM file desc
+    صحیح drm_fd;     // DRM file desc
     uint32_t fb_id; // DRM framebuffer ID
 } KMSDRM_FBInfo;
 
-typedef struct KMSDRM_PlaneInfo
+قسمتعریف ساخت KMSDRM_PlaneInfo
 {
-    struct KMSDRM_plane *plane;
+    ساخت KMSDRM_plane *plane;
     uint32_t fb_id;
     uint32_t crtc_id;
     int32_t src_x;
@@ -201,42 +201,42 @@ typedef struct KMSDRM_PlaneInfo
 } KMSDRM_PlaneInfo;
 
 // Helper functions
-extern bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, int w, int h);
-extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
+خارجی bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, ساخت gbm_bo *bo);
+خارجی KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, ساخت gbm_bo *bo, صحیح w, صحیح h);
+خارجی bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_کھڑکی_ڈیٹا *windata);
 
 // Atomic functions that are used from SDL_kmsdrmopengles.c and SDL_kmsdrmmouse.c
-void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
-void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
-bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
-void free_plane(struct KMSDRM_plane **plane);
+خالی drm_atomic_سیٹ_plane_props(SDL_Display_ڈیٹا *dispdata, ساخت KMSDRM_PlaneInfo *info);
+خالی drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_Display_ڈیٹا *dispdata);
+صحیح drm_atomic_commit(SDL_VideoDevice *_this, SDL_Display_ڈیٹا *dispdata, bool blocking, bool allow_modeset);
+صحیح جوڑو_plane_property(drm_منوال_Atomic_Req *req, ساخت KMSDRM_plane *plane, ثابت حرف *name, uint64_t قدر);
+صحیح جوڑو_crtc_property(drm_منوال_Atomic_Req *req, ساخت KMSDRM_crtc *crtc, ثابت حرف *name, uint64_t قدر);
+صحیح جوڑو_connector_property(drm_منوال_Atomic_Req *req, ساخت KMSDRM_connector *connector, ثابت حرف *name, uint64_t قدر);
+bool تیاری_plane(SDL_VideoDevice *_this, SDL_Display_ڈیٹا *dispdata, ساخت KMSDRM_plane **plane, uint32_t plane_type);
+خالی free_plane(ساخت KMSDRM_plane **plane);
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
-extern void KMSDRM_VideoQuit(SDL_VideoDevice *_this);
-extern bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+خارجی bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
+خارجی خالی KMSDRM_VideoQuit(SDL_VideoDevice *_this);
+خارجی bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجی bool KMSDRM_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
+خارجی bool KMSDRM_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجی خالی KMSDRM_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool KMSDRM_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی SDL_Fullscreen_نتیجہ KMSDRM_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+خارجی خالی KMSDRM_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Raise_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Maximize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Restore_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی KMSDRM_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool KMSDRM_سیٹ_کھڑکی_Focusable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool focusable);
 
-#endif // SDL_kmsdrmvideo_h
+#اگر_ختم // SDL_kmsdrmvideo_h

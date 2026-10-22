@@ -18,128 +18,128 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "../../events/SDL_displayevents_c.h"
-#include "../SDL_pixels_c.h"
+#شامل "SDL_windowsvideo.h"
+#شامل "../../events/SDL_displayevents_c.h"
+#شامل "../SDL_pixels_c.h"
 
-#ifdef HAVE_DXGI1_6_H
-#define COBJMACROS
-#include <dxgi1_6.h>
-#endif
+#اگر_تعریف_شدہ HAVE_DXGI1_6_H
+#تعریف_کرو COBJMACROS
+#شامل <dxgi1_6.h>
+#اگر_ختم
 
 // Windows CE compatibility
-#ifndef CDS_FULLSCREEN
-#define CDS_FULLSCREEN 0
-#endif
-#ifndef USER_DEFAULT_SCREEN_DPI
-#define USER_DEFAULT_SCREEN_DPI 96
-#endif
+#اگر_غیر_تعریف_شدہ CDS_FULLSCREEN
+#تعریف_کرو CDS_FULLSCREEN 0
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ USER_DEFAULT_SCREEN_DPI
+#تعریف_کرو USER_DEFAULT_SCREEN_DPI 96
+#اگر_ختم
 
 // #define DEBUG_MODES
 // #define HIGHDPI_DEBUG_VERBOSE
 
-static void WIN_UpdateDisplayMode(SDL_VideoDevice *_this, LPCWSTR deviceName, DWORD index, SDL_DisplayMode *mode)
+ساکن خالی WIN_Update_Display_منوال(SDL_VideoDevice *_this, LPCWSTR deviceName, DWORD اشاریہ, SDL_Display_منوال *منوال)
 {
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)mode->internal;
+    SDL_Display_منوال_ڈیٹا *ڈیٹا = (SDL_Display_منوال_ڈیٹا *)منوال->اندرونی_2;
     HDC hdc;
 
-    data->DeviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_DISPLAYFLAGS);
+    ڈیٹا->Device_منوال.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_DISPLAYFLAGS);
 
     // NOLINTNEXTLINE(bugprone-assignment-in-if-condition): No simple way to extract the assignment
-    if (index == ENUM_CURRENT_SETTINGS && (hdc = CreateDCW(deviceName, NULL, NULL, NULL)) != NULL) {
-        char bmi_data[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)];
+    اگر (اشاریہ == ENUM_CURRENT_SETTINGS && (hdc = CreateDCW(deviceName, تہی, تہی, تہی)) != تہی) {
+        حرف bmi_ڈیٹا[حجم(BITMAPINFOHEADER) + 256 * حجم(RGBQUAD)];
         LPBITMAPINFO bmi;
         HBITMAP hbm;
 
-        SDL_zeroa(bmi_data);
-        bmi = (LPBITMAPINFO)bmi_data;
-        bmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        SDL_zeroa(bmi_ڈیٹا);
+        bmi = (LPBITMAPINFO)bmi_ڈیٹا;
+        bmi->bmi_سرخی.bi_سائز = حجم(BITMAPINFOHEADER);
 
         hbm = CreateCompatibleBitmap(hdc, 1, 1);
-        GetDIBits(hdc, hbm, 0, 1, NULL, bmi, DIB_RGB_COLORS);
-        GetDIBits(hdc, hbm, 0, 1, NULL, bmi, DIB_RGB_COLORS);
+        GetDIBits(hdc, hbm, 0, 1, تہی, bmi, DIB_RGB_COLORS);
+        GetDIBits(hdc, hbm, 0, 1, تہی, bmi, DIB_RGB_COLORS);
         DeleteObject(hbm);
         DeleteDC(hdc);
-        if (bmi->bmiHeader.biCompression == BI_BITFIELDS) {
-            switch (*(Uint32 *)bmi->bmiColors) {
-            case 0x00FF0000:
-                mode->format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            case 0x000000FF:
-                mode->format = SDL_PIXELFORMAT_XBGR8888;
-                break;
-            case 0xF800:
-                mode->format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 0x7C00:
-                mode->format = SDL_PIXELFORMAT_XRGB1555;
-                break;
+        اگر (bmi->bmi_سرخی.biCompression == BI_BITFIELDS) {
+            انتخاب (*(Uint32 *)bmi->bmiColors) {
+            حالت 0x00FF0000:
+                منوال->format = SDL_PIXELFORMAT_XRGB8888;
+                توڑو;
+            حالت 0x000000FF:
+                منوال->format = SDL_PIXELFORMAT_XBGR8888;
+                توڑو;
+            حالت 0xF800:
+                منوال->format = SDL_PIXELFORMAT_RGB565;
+                توڑو;
+            حالت 0x7C00:
+                منوال->format = SDL_PIXELFORMAT_XRGB1555;
+                توڑو;
             }
-        } else if (bmi->bmiHeader.biCompression == BI_RGB) {
-            if (bmi->bmiHeader.biBitCount == 24) {
-                mode->format = SDL_PIXELFORMAT_RGB24;
-            } else if (bmi->bmiHeader.biBitCount == 8) {
-                mode->format = SDL_PIXELFORMAT_INDEX8;
-            } else if (bmi->bmiHeader.biBitCount == 4) {
-                mode->format = SDL_PIXELFORMAT_INDEX4LSB;
+        } ورنہ اگر (bmi->bmi_سرخی.biCompression == BI_RGB) {
+            اگر (bmi->bmi_سرخی.bi_ثنائی_ہندسہ_گنتی == 24) {
+                منوال->format = SDL_PIXELFORMAT_RGB24;
+            } ورنہ اگر (bmi->bmi_سرخی.bi_ثنائی_ہندسہ_گنتی == 8) {
+                منوال->format = SDL_PIXELFORMAT_INDEX8;
+            } ورنہ اگر (bmi->bmi_سرخی.bi_ثنائی_ہندسہ_گنتی == 4) {
+                منوال->format = SDL_PIXELFORMAT_INDEX4LSB;
             }
         }
-    } else if (mode->format == SDL_PIXELFORMAT_UNKNOWN) {
+    } ورنہ اگر (منوال->format == SDL_PIXELFORMAT_UNKNOWN) {
         // FIXME: Can we tell what this will be?
-        if ((data->DeviceMode.dmFields & DM_BITSPERPEL) == DM_BITSPERPEL) {
-            switch (data->DeviceMode.dmBitsPerPel) {
-            case 32:
-                mode->format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            case 24:
-                mode->format = SDL_PIXELFORMAT_RGB24;
-                break;
-            case 16:
-                mode->format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 15:
-                mode->format = SDL_PIXELFORMAT_XRGB1555;
-                break;
-            case 8:
-                mode->format = SDL_PIXELFORMAT_INDEX8;
-                break;
-            case 4:
-                mode->format = SDL_PIXELFORMAT_INDEX4LSB;
-                break;
+        اگر ((ڈیٹا->Device_منوال.dmFields & DM_BITSPERPEL) == DM_BITSPERPEL) {
+            انتخاب (ڈیٹا->Device_منوال.dm_بٹ_فی_Pel) {
+            حالت 32:
+                منوال->format = SDL_PIXELFORMAT_XRGB8888;
+                توڑو;
+            حالت 24:
+                منوال->format = SDL_PIXELFORMAT_RGB24;
+                توڑو;
+            حالت 16:
+                منوال->format = SDL_PIXELFORMAT_RGB565;
+                توڑو;
+            حالت 15:
+                منوال->format = SDL_PIXELFORMAT_XRGB1555;
+                توڑو;
+            حالت 8:
+                منوال->format = SDL_PIXELFORMAT_INDEX8;
+                توڑو;
+            حالت 4:
+                منوال->format = SDL_PIXELFORMAT_INDEX4LSB;
+                توڑو;
             }
         }
     }
 }
 
-static void *WIN_GetDXGIOutput(SDL_VideoDevice *_this, const WCHAR *DeviceName)
+ساکن خالی *WIN_GetDXGIOutput(SDL_VideoDevice *_this, ثابت WCHAR *DeviceName)
 {
-    void *result = NULL;
+    خالی *نتیجہ = تہی;
 
-#ifdef HAVE_DXGI_H
-    const SDL_VideoData *videodata = (const SDL_VideoData *)_this->internal;
-    int nAdapter, nOutput;
+#اگر_تعریف_شدہ HAVE_DXGI_H
+    ثابت SDL_Video_ڈیٹا *videodata = (ثابت SDL_Video_ڈیٹا *)_this->اندرونی_2;
+    صحیح nAdapter, nOutput;
     IDXGIAdapter *pDXGIAdapter;
     IDXGIOutput *pDXGIOutput;
 
-    if (!videodata->pDXGIFactory) {
-        return NULL;
+    اگر (!videodata->pDXGIFactory) {
+        واپس تہی;
     }
 
     nAdapter = 0;
-    while (!result && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
+    جب (!نتیجہ && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
         nOutput = 0;
-        while (!result && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
+        جب (!نتیجہ && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
             DXGI_OUTPUT_DESC outputDesc;
-            if (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
-                if (SDL_wcscmp(outputDesc.DeviceName, DeviceName) == 0) {
-                    result = pDXGIOutput;
+            اگر (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
+                اگر (SDL_wcscmp(outputDesc.DeviceName, DeviceName) == 0) {
+                    نتیجہ = pDXGIOutput;
                 }
             }
-            if (pDXGIOutput != result) {
+            اگر (pDXGIOutput != نتیجہ) {
                 IDXGIOutput_Release(pDXGIOutput);
             }
             nOutput++;
@@ -147,280 +147,280 @@ static void *WIN_GetDXGIOutput(SDL_VideoDevice *_this, const WCHAR *DeviceName)
         IDXGIAdapter_Release(pDXGIAdapter);
         nAdapter++;
     }
-#endif
-    return result;
+#اگر_ختم
+    واپس نتیجہ;
 }
 
-static void WIN_ReleaseDXGIOutput(void *dxgi_output)
+ساکن خالی WIN_ReleaseDXGIOutput(خالی *dxgi_output)
 {
-#ifdef HAVE_DXGI_H
+#اگر_تعریف_شدہ HAVE_DXGI_H
     IDXGIOutput *pDXGIOutput = (IDXGIOutput *)dxgi_output;
 
-    if (pDXGIOutput) {
+    اگر (pDXGIOutput) {
         IDXGIOutput_Release(pDXGIOutput);
     }
-#endif
+#اگر_ختم
 }
 
-static SDL_DisplayOrientation WIN_GetNaturalOrientation(DEVMODEW *mode)
+ساکن SDL_DisplayOrientation WIN_GetNaturalOrientation(DEVMODEW *منوال)
 {
-    int width = mode->dmPelsWidth;
-    int height = mode->dmPelsHeight;
+    صحیح چوڑائی = منوال->dm_Pels_چوڑائی;
+    صحیح اونچائی = منوال->dm_Pels_اونچائی;
 
     // Use unrotated width/height to guess orientation
-    if (mode->dmDisplayOrientation == DMDO_90 || mode->dmDisplayOrientation == DMDO_270) {
-        int temp = width;
-        width = height;
-        height = temp;
+    اگر (منوال->dmDisplayOrientation == DMDO_90 || منوال->dmDisplayOrientation == DMDO_270) {
+        صحیح عارضی = چوڑائی;
+        چوڑائی = اونچائی;
+        اونچائی = عارضی;
     }
 
-    if (width >= height) {
-        return SDL_ORIENTATION_LANDSCAPE;
-    } else {
-        return SDL_ORIENTATION_PORTRAIT;
+    اگر (چوڑائی >= اونچائی) {
+        واپس SDL_ORIENTATION_LANDSCAPE;
+    } ورنہ {
+        واپس SDL_ORIENTATION_PORTRAIT;
     }
 }
 
-static SDL_DisplayOrientation WIN_GetDisplayOrientation(DEVMODEW *mode)
+ساکن SDL_DisplayOrientation WIN_GetDisplayOrientation(DEVMODEW *منوال)
 {
-    if (WIN_GetNaturalOrientation(mode) == SDL_ORIENTATION_LANDSCAPE) {
-        switch (mode->dmDisplayOrientation) {
-        case DMDO_DEFAULT:
-            return SDL_ORIENTATION_LANDSCAPE;
-        case DMDO_90:
-            return SDL_ORIENTATION_PORTRAIT;
-        case DMDO_180:
-            return SDL_ORIENTATION_LANDSCAPE_FLIPPED;
-        case DMDO_270:
-            return SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        default:
-            return SDL_ORIENTATION_UNKNOWN;
+    اگر (WIN_GetNaturalOrientation(منوال) == SDL_ORIENTATION_LANDSCAPE) {
+        انتخاب (منوال->dmDisplayOrientation) {
+        حالت DMDO_DEFAULT:
+            واپس SDL_ORIENTATION_LANDSCAPE;
+        حالت DMDO_90:
+            واپس SDL_ORIENTATION_PORTRAIT;
+        حالت DMDO_180:
+            واپس SDL_ORIENTATION_LANDSCAPE_FLIPPED;
+        حالت DMDO_270:
+            واپس SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        طےشدہ:
+            واپس SDL_ORIENTATION_UNKNOWN;
         }
-    } else {
-        switch (mode->dmDisplayOrientation) {
-        case DMDO_DEFAULT:
-            return SDL_ORIENTATION_PORTRAIT;
-        case DMDO_90:
-            return SDL_ORIENTATION_LANDSCAPE_FLIPPED;
-        case DMDO_180:
-            return SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        case DMDO_270:
-            return SDL_ORIENTATION_LANDSCAPE;
-        default:
-            return SDL_ORIENTATION_UNKNOWN;
+    } ورنہ {
+        انتخاب (منوال->dmDisplayOrientation) {
+        حالت DMDO_DEFAULT:
+            واپس SDL_ORIENTATION_PORTRAIT;
+        حالت DMDO_90:
+            واپس SDL_ORIENTATION_LANDSCAPE_FLIPPED;
+        حالت DMDO_180:
+            واپس SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        حالت DMDO_270:
+            واپس SDL_ORIENTATION_LANDSCAPE;
+        طےشدہ:
+            واپس SDL_ORIENTATION_UNKNOWN;
         }
     }
 }
 
-static void WIN_GetRefreshRate(void *dxgi_output, DEVMODEW *mode, int *numerator, int *denominator)
+ساکن خالی WIN_Get_Refresh_شرح(خالی *dxgi_output, DEVMODEW *منوال, صحیح *numerator, صحیح *denominator)
 {
     // We're not currently using DXGI to query display modes, so fake NTSC timings
-    switch (mode->dmDisplayFrequency) {
-    case 119:
-    case 59:
-    case 29:
-        *numerator = (mode->dmDisplayFrequency + 1) * 1000;
+    انتخاب (منوال->dmDisplayFrequency) {
+    حالت 119:
+    حالت 59:
+    حالت 29:
+        *numerator = (منوال->dmDisplayFrequency + 1) * 1000;
         *denominator = 1001;
-        break;
-    default:
-        *numerator = mode->dmDisplayFrequency;
+        توڑو;
+    طےشدہ:
+        *numerator = منوال->dmDisplayFrequency;
         *denominator = 1;
-        break;
+        توڑو;
     }
 
-#ifdef HAVE_DXGI_H
-    if (dxgi_output) {
+#اگر_تعریف_شدہ HAVE_DXGI_H
+    اگر (dxgi_output) {
         IDXGIOutput *pDXGIOutput = (IDXGIOutput *)dxgi_output;
-        DXGI_MODE_DESC modeToMatch;
-        DXGI_MODE_DESC closestMatch;
+        DXGI_منوال_DESC منوال_مقصد_مطابقت;
+        DXGI_منوال_DESC closest_مطابقت;
 
-        SDL_zero(modeToMatch);
-        modeToMatch.Width = mode->dmPelsWidth;
-        modeToMatch.Height = mode->dmPelsHeight;
-        modeToMatch.RefreshRate.Numerator = *numerator;
-        modeToMatch.RefreshRate.Denominator = *denominator;
-        modeToMatch.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        SDL_zero(منوال_مقصد_مطابقت);
+        منوال_مقصد_مطابقت.چوڑائی_2 = منوال->dm_Pels_چوڑائی;
+        منوال_مقصد_مطابقت.اونچائی_2 = منوال->dm_Pels_اونچائی;
+        منوال_مقصد_مطابقت.Refresh_شرح.Numerator = *numerator;
+        منوال_مقصد_مطابقت.Refresh_شرح.Denominator = *denominator;
+        منوال_مقصد_مطابقت.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-        if (SUCCEEDED(IDXGIOutput_FindClosestMatchingMode(pDXGIOutput, &modeToMatch, &closestMatch, NULL))) {
-            *numerator = closestMatch.RefreshRate.Numerator;
-            *denominator = closestMatch.RefreshRate.Denominator;
+        اگر (SUCCEEDED(IDXGIOutput_ڈھونڈو_Closest_Matching_منوال(pDXGIOutput, &منوال_مقصد_مطابقت, &closest_مطابقت, تہی))) {
+            *numerator = closest_مطابقت.Refresh_شرح.Numerator;
+            *denominator = closest_مطابقت.Refresh_شرح.Denominator;
         }
     }
-#endif // HAVE_DXGI_H
+#اگر_ختم // HAVE_DXGI_H
 }
 
-static float WIN_GetContentScale(SDL_VideoDevice *_this, HMONITOR hMonitor)
+ساکن اعشاری WIN_GetContentScale(SDL_VideoDevice *_this, HMONITOR hMonitor)
 {
-    int dpi = 0;
+    صحیح dpi = 0;
 
-    const SDL_VideoData *videodata = (const SDL_VideoData *)_this->internal;
-    if (videodata->GetDpiForMonitor) {
+    ثابت SDL_Video_ڈیٹا *videodata = (ثابت SDL_Video_ڈیٹا *)_this->اندرونی_2;
+    اگر (videodata->GetDpiForMonitor) {
         UINT hdpi_uint, vdpi_uint;
-        if (videodata->GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-            dpi = (int)hdpi_uint;
+        اگر (videodata->GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+            dpi = (صحیح)hdpi_uint;
         }
     }
-    if (dpi == 0) {
+    اگر (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(تہی);
+        اگر (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(تہی, hdc);
         }
     }
-    if (dpi == 0) {
+    اگر (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    واپس dpi / (اعشاری)USER_DEFAULT_SCREEN_DPI;
 }
 
-static bool WIN_GetDisplayMode(SDL_VideoDevice *_this, void *dxgi_output, HMONITOR hMonitor, LPCWSTR deviceName, DWORD index, SDL_DisplayMode *mode, SDL_DisplayOrientation *natural_orientation, SDL_DisplayOrientation *current_orientation)
+ساکن bool WIN_Get_Display_منوال(SDL_VideoDevice *_this, خالی *dxgi_output, HMONITOR hMonitor, LPCWSTR deviceName, DWORD اشاریہ, SDL_Display_منوال *منوال, SDL_DisplayOrientation *natural_orientation, SDL_DisplayOrientation *current_orientation)
 {
-    SDL_DisplayModeData *data;
+    SDL_Display_منوال_ڈیٹا *ڈیٹا;
     DEVMODEW devmode;
 
-    devmode.dmSize = sizeof(devmode);
+    devmode.dm_سائز = حجم(devmode);
     devmode.dmDriverExtra = 0;
-    if (!EnumDisplaySettingsW(deviceName, index, &devmode)) {
-        return false;
+    اگر (!EnumDisplaySettingsW(deviceName, اشاریہ, &devmode)) {
+        واپس false;
     }
 
-    data = (SDL_DisplayModeData *)SDL_malloc(sizeof(*data));
-    if (!data) {
-        return false;
+    ڈیٹا = (SDL_Display_منوال_ڈیٹا *)SDL_malloc(حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
+        واپس false;
     }
 
-    SDL_zerop(mode);
-    mode->internal = data;
-    data->DeviceMode = devmode;
+    SDL_zerop(منوال);
+    منوال->اندرونی_2 = ڈیٹا;
+    ڈیٹا->Device_منوال = devmode;
 
-    mode->format = SDL_PIXELFORMAT_UNKNOWN;
-    mode->w = data->DeviceMode.dmPelsWidth;
-    mode->h = data->DeviceMode.dmPelsHeight;
-    WIN_GetRefreshRate(dxgi_output, &data->DeviceMode, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+    منوال->format = SDL_PIXELFORMAT_UNKNOWN;
+    منوال->w = ڈیٹا->Device_منوال.dm_Pels_چوڑائی;
+    منوال->h = ڈیٹا->Device_منوال.dm_Pels_اونچائی;
+    WIN_Get_Refresh_شرح(dxgi_output, &ڈیٹا->Device_منوال, &منوال->refresh_شرح_numerator, &منوال->refresh_شرح_denominator);
 
     // Fill in the mode information
-    WIN_UpdateDisplayMode(_this, deviceName, index, mode);
+    WIN_Update_Display_منوال(_this, deviceName, اشاریہ, منوال);
 
-    if (natural_orientation) {
+    اگر (natural_orientation) {
         *natural_orientation = WIN_GetNaturalOrientation(&devmode);
     }
-    if (current_orientation) {
+    اگر (current_orientation) {
         *current_orientation = WIN_GetDisplayOrientation(&devmode);
     }
 
-    return true;
+    واپس true;
 }
 
-static char *WIN_GetDisplayNameVista(SDL_VideoData *videodata, const WCHAR *deviceName)
+ساکن حرف *WIN_GetDisplayNameVista(SDL_Video_ڈیٹا *videodata, ثابت WCHAR *deviceName)
 {
-    DISPLAYCONFIG_PATH_INFO *paths = NULL;
-    DISPLAYCONFIG_MODE_INFO *modes = NULL;
-    char *result = NULL;
-    UINT32 pathCount = 0;
-    UINT32 modeCount = 0;
+    DISPLAYCONFIG_راستہ_INFO *paths = تہی;
+    DISPLAYCONFIG_منوال_INFO *modes = تہی;
+    حرف *نتیجہ = تہی;
+    UINT32 راستہ_گنتی_2 = 0;
+    UINT32 منوال_گنتی_2 = 0;
     UINT32 i;
     LONG rc;
 
-    if (!videodata->GetDisplayConfigBufferSizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
-        return NULL;
+    اگر (!videodata->Get_Display_Config_بفر_Sizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
+        واپس تہی;
     }
 
-    do {
-        rc = videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &pathCount, &modeCount);
-        if (rc != ERROR_SUCCESS) {
-            goto WIN_GetDisplayNameVista_failed;
+    کرو {
+        rc = videodata->Get_Display_Config_بفر_Sizes(QDC_ONLY_فعال_PATHS, &راستہ_گنتی_2, &منوال_گنتی_2);
+        اگر (rc != ERROR_SUCCESS) {
+            جاؤ WIN_GetDisplayNameVista_failed;
         }
 
         SDL_free(paths);
         SDL_free(modes);
 
-        paths = (DISPLAYCONFIG_PATH_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_PATH_INFO) * pathCount);
-        modes = (DISPLAYCONFIG_MODE_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_MODE_INFO) * modeCount);
-        if ((!paths) || (!modes)) {
-            goto WIN_GetDisplayNameVista_failed;
+        paths = (DISPLAYCONFIG_راستہ_INFO *)SDL_malloc(حجم(DISPLAYCONFIG_راستہ_INFO) * راستہ_گنتی_2);
+        modes = (DISPLAYCONFIG_منوال_INFO *)SDL_malloc(حجم(DISPLAYCONFIG_منوال_INFO) * منوال_گنتی_2);
+        اگر ((!paths) || (!modes)) {
+            جاؤ WIN_GetDisplayNameVista_failed;
         }
 
-        rc = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &pathCount, paths, &modeCount, modes, 0);
-    } while (rc == ERROR_INSUFFICIENT_BUFFER);
+        rc = videodata->QueryDisplayConfig(QDC_ONLY_فعال_PATHS, &راستہ_گنتی_2, paths, &منوال_گنتی_2, modes, 0);
+    } جب (rc == ERROR_INSUFFICIENT_بفر);
 
-    if (rc == ERROR_SUCCESS) {
-        for (i = 0; i < pathCount; i++) {
-            DISPLAYCONFIG_SOURCE_DEVICE_NAME sourceName;
-            DISPLAYCONFIG_TARGET_DEVICE_NAME targetName;
+    اگر (rc == ERROR_SUCCESS) {
+        برائے (i = 0; i < راستہ_گنتی_2; i++) {
+            DISPLAYCONFIG_ماخذ_DEVICE_NAME ماخذ_Name;
+            DISPLAYCONFIG_ہدف_DEVICE_NAME ہدف_Name;
 
-            SDL_zero(sourceName);
-            sourceName.header.adapterId = paths[i].targetInfo.adapterId;
-            sourceName.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
-            sourceName.header.size = sizeof(sourceName);
-            sourceName.header.id = paths[i].sourceInfo.id;
-            rc = videodata->DisplayConfigGetDeviceInfo(&sourceName.header);
-            if (rc != ERROR_SUCCESS) {
-                break;
-            } else if (SDL_wcscmp(deviceName, sourceName.viewGdiDeviceName) != 0) {
-                continue;
+            SDL_zero(ماخذ_Name);
+            ماخذ_Name.سرخی.adapterId = paths[i].ہدف_Info.adapterId;
+            ماخذ_Name.سرخی.type = DISPLAYCONFIG_DEVICE_INFO_GET_ماخذ_NAME;
+            ماخذ_Name.سرخی.سائز = حجم(ماخذ_Name);
+            ماخذ_Name.سرخی.id = paths[i].ماخذ_Info.id;
+            rc = videodata->DisplayConfigGetDeviceInfo(&ماخذ_Name.سرخی);
+            اگر (rc != ERROR_SUCCESS) {
+                توڑو;
+            } ورنہ اگر (SDL_wcscmp(deviceName, ماخذ_Name.viewGdiDeviceName) != 0) {
+                جاری;
             }
 
-            SDL_zero(targetName);
-            targetName.header.adapterId = paths[i].targetInfo.adapterId;
-            targetName.header.id = paths[i].targetInfo.id;
-            targetName.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
-            targetName.header.size = sizeof(targetName);
-            rc = videodata->DisplayConfigGetDeviceInfo(&targetName.header);
-            if (rc == ERROR_SUCCESS) {
-                result = WIN_StringToUTF8W(targetName.monitorFriendlyDeviceName);
+            SDL_zero(ہدف_Name);
+            ہدف_Name.سرخی.adapterId = paths[i].ہدف_Info.adapterId;
+            ہدف_Name.سرخی.id = paths[i].ہدف_Info.id;
+            ہدف_Name.سرخی.type = DISPLAYCONFIG_DEVICE_INFO_GET_ہدف_NAME;
+            ہدف_Name.سرخی.سائز = حجم(ہدف_Name);
+            rc = videodata->DisplayConfigGetDeviceInfo(&ہدف_Name.سرخی);
+            اگر (rc == ERROR_SUCCESS) {
+                نتیجہ = WIN_String_مقصد_UTF8_W(ہدف_Name.monitorFriendlyDeviceName);
                 /* if we got an empty string, treat it as failure so we'll fallback
                    to getting the generic name. */
-                if (result && (*result == '\0')) {
-                    SDL_free(result);
-                    result = NULL;
+                اگر (نتیجہ && (*نتیجہ == '\0')) {
+                    SDL_free(نتیجہ);
+                    نتیجہ = تہی;
                 }
             }
-            break;
+            توڑو;
         }
     }
 
     SDL_free(paths);
     SDL_free(modes);
-    return result;
+    واپس نتیجہ;
 
 WIN_GetDisplayNameVista_failed:
-    SDL_free(result);
+    SDL_free(نتیجہ);
     SDL_free(paths);
     SDL_free(modes);
-    return NULL;
+    واپس تہی;
 }
 
-#ifdef HAVE_DXGI1_6_H
-static bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
+#اگر_تعریف_شدہ HAVE_DXGI1_6_H
+ساکن bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
 {
-    typedef HRESULT (WINAPI *pfnCreateDXGIFactory1)(REFIID riid, void **ppFactory);
-    pfnCreateDXGIFactory1 pCreateDXGIFactory1 = NULL;
-    SDL_SharedObject *hDXGIMod = NULL;
-    bool found = false;
+    قسمتعریف HRESULT (WINAPI *pfnCreateDXGIFactory1)(REFIID riid, خالی **ppFactory);
+    pfnCreateDXGIFactory1 pCreateDXGIFactory1 = تہی;
+    SDL_SharedObject *hDXGIMod = تہی;
+    bool ملا = false;
 
-    hDXGIMod = SDL_LoadObject("dxgi.dll");
-    if (hDXGIMod) {
-        pCreateDXGIFactory1 = (pfnCreateDXGIFactory1)SDL_LoadFunction(hDXGIMod, "CreateDXGIFactory1");
+    hDXGIMod = SDL_بھرو_Object("dxgi.dll");
+    اگر (hDXGIMod) {
+        pCreateDXGIFactory1 = (pfnCreateDXGIFactory1)SDL_بھرو_Function(hDXGIMod, "CreateDXGIFactory1");
     }
-    if (pCreateDXGIFactory1) {
-        static const GUID SDL_IID_IDXGIFactory1 = { 0x770aae78, 0xf26f, 0x4dba, { 0xa8, 0x29, 0x25, 0x3c, 0x83, 0xd1, 0xb3, 0x87 } };
-        static const GUID SDL_IID_IDXGIOutput6 = { 0x068346e8, 0xaaec, 0x4b84, { 0xad, 0xd7, 0x13, 0x7f, 0x51, 0x3f, 0x77, 0xa1 } };
+    اگر (pCreateDXGIFactory1) {
+        ساکن ثابت GUID SDL_IID_IDXGIFactory1 = { 0x770aae78, 0xf26f, 0x4dba, { 0xa8, 0x29, 0x25, 0x3c, 0x83, 0xd1, 0xb3, 0x87 } };
+        ساکن ثابت GUID SDL_IID_IDXGIOutput6 = { 0x068346e8, 0xaaec, 0x4b84, { 0xad, 0xd7, 0x13, 0x7f, 0x51, 0x3f, 0x77, 0xa1 } };
         IDXGIFactory1 *dxgiFactory;
 
-        if (SUCCEEDED(pCreateDXGIFactory1(&SDL_IID_IDXGIFactory1, (void **)&dxgiFactory))) {
+        اگر (SUCCEEDED(pCreateDXGIFactory1(&SDL_IID_IDXGIFactory1, (خالی **)&dxgiFactory))) {
             IDXGIAdapter1 *dxgiAdapter;
             UINT adapter = 0;
-            while (!found && SUCCEEDED(IDXGIFactory1_EnumAdapters1(dxgiFactory, adapter, &dxgiAdapter))) {
+            جب (!ملا && SUCCEEDED(IDXGIFactory1_EnumAdapters1(dxgiFactory, adapter, &dxgiAdapter))) {
                 IDXGIOutput *dxgiOutput;
                 UINT output = 0;
-                while (!found && SUCCEEDED(IDXGIAdapter1_EnumOutputs(dxgiAdapter, output, &dxgiOutput))) {
+                جب (!ملا && SUCCEEDED(IDXGIAdapter1_EnumOutputs(dxgiAdapter, output, &dxgiOutput))) {
                     IDXGIOutput6 *dxgiOutput6;
-                    if (SUCCEEDED(IDXGIOutput_QueryInterface(dxgiOutput, &SDL_IID_IDXGIOutput6, (void **)&dxgiOutput6))) {
-                        if (SUCCEEDED(IDXGIOutput6_GetDesc1(dxgiOutput6, desc))) {
-                            if (desc->Monitor == hMonitor) {
-                                found = true;
+                    اگر (SUCCEEDED(IDXGIOutput_QueryInterface(dxgiOutput, &SDL_IID_IDXGIOutput6, (خالی **)&dxgiOutput6))) {
+                        اگر (SUCCEEDED(IDXGIOutput6_GetDesc1(dxgiOutput6, desc))) {
+                            اگر (desc->Monitor == hMonitor) {
+                                ملا = true;
                             }
                         }
                         IDXGIOutput6_Release(dxgiOutput6);
@@ -434,427 +434,427 @@ static bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
             IDXGIFactory2_Release(dxgiFactory);
         }
     }
-    if (hDXGIMod) {
+    اگر (hDXGIMod) {
         SDL_UnloadObject(hDXGIMod);
     }
-    return found;
+    واپس ملا;
 }
 
-static bool WIN_GetMonitorPathInfo(SDL_VideoData *videodata, HMONITOR hMonitor, DISPLAYCONFIG_PATH_INFO *path_info)
+ساکن bool WIN_Get_Monitor_راستہ_Info(SDL_Video_ڈیٹا *videodata, HMONITOR hMonitor, DISPLAYCONFIG_راستہ_INFO *راستہ_info)
 {
-    LONG result;
+    LONG نتیجہ;
     MONITORINFOEXW view_info;
     UINT32 i;
-    UINT32 num_path_array_elements = 0;
-    UINT32 num_mode_info_array_elements = 0;
-    DISPLAYCONFIG_PATH_INFO *path_infos = NULL, *new_path_infos;
-    DISPLAYCONFIG_MODE_INFO *mode_infos = NULL, *new_mode_infos;
-    bool found = false;
+    UINT32 عدد_راستہ_array_elements = 0;
+    UINT32 عدد_منوال_info_array_elements = 0;
+    DISPLAYCONFIG_راستہ_INFO *راستہ_infos = تہی, *new_راستہ_infos;
+    DISPLAYCONFIG_منوال_INFO *منوال_infos = تہی, *new_منوال_infos;
+    bool ملا = false;
 
-    if (!videodata->GetDisplayConfigBufferSizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
-        return false;
+    اگر (!videodata->Get_Display_Config_بفر_Sizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
+        واپس false;
     }
 
     SDL_zero(view_info);
-    view_info.cbSize = sizeof(view_info);
-    if (!GetMonitorInfoW(hMonitor, (MONITORINFO *)&view_info)) {
-        goto done;
+    view_info.cb_سائز = حجم(view_info);
+    اگر (!GetMonitorInfoW(hMonitor, (MONITORINFO *)&view_info)) {
+        جاؤ مکمل;
     }
 
-    do {
-        if (videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, &num_mode_info_array_elements) != ERROR_SUCCESS) {
-            SDL_free(path_infos);
-            SDL_free(mode_infos);
-            return false;
+    کرو {
+        اگر (videodata->Get_Display_Config_بفر_Sizes(QDC_ONLY_فعال_PATHS, &عدد_راستہ_array_elements, &عدد_منوال_info_array_elements) != ERROR_SUCCESS) {
+            SDL_free(راستہ_infos);
+            SDL_free(منوال_infos);
+            واپس false;
         }
 
-        new_path_infos = (DISPLAYCONFIG_PATH_INFO *)SDL_realloc(path_infos, num_path_array_elements * sizeof(*path_infos));
-        if (!new_path_infos) {
-            goto done;
+        new_راستہ_infos = (DISPLAYCONFIG_راستہ_INFO *)SDL_realloc(راستہ_infos, عدد_راستہ_array_elements * حجم(*راستہ_infos));
+        اگر (!new_راستہ_infos) {
+            جاؤ مکمل;
         }
-        path_infos = new_path_infos;
+        راستہ_infos = new_راستہ_infos;
 
-        new_mode_infos = (DISPLAYCONFIG_MODE_INFO *)SDL_realloc(mode_infos, num_mode_info_array_elements * sizeof(*mode_infos));
-        if (!new_mode_infos) {
-            goto done;
+        new_منوال_infos = (DISPLAYCONFIG_منوال_INFO *)SDL_realloc(منوال_infos, عدد_منوال_info_array_elements * حجم(*منوال_infos));
+        اگر (!new_منوال_infos) {
+            جاؤ مکمل;
         }
-        mode_infos = new_mode_infos;
+        منوال_infos = new_منوال_infos;
 
-        result = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, path_infos, &num_mode_info_array_elements, mode_infos, NULL);
+        نتیجہ = videodata->QueryDisplayConfig(QDC_ONLY_فعال_PATHS, &عدد_راستہ_array_elements, راستہ_infos, &عدد_منوال_info_array_elements, منوال_infos, تہی);
 
-    } while (result == ERROR_INSUFFICIENT_BUFFER);
+    } جب (نتیجہ == ERROR_INSUFFICIENT_بفر);
 
-    if (result == ERROR_SUCCESS) {
-        for (i = 0; i < num_path_array_elements; ++i) {
-            DISPLAYCONFIG_SOURCE_DEVICE_NAME device_name;
+    اگر (نتیجہ == ERROR_SUCCESS) {
+        برائے (i = 0; i < عدد_راستہ_array_elements; ++i) {
+            DISPLAYCONFIG_ماخذ_DEVICE_NAME device_name;
 
             SDL_zero(device_name);
-            device_name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
-            device_name.header.size = sizeof(device_name);
-            device_name.header.adapterId = path_infos[i].sourceInfo.adapterId;
-            device_name.header.id = path_infos[i].sourceInfo.id;
-            if (videodata->DisplayConfigGetDeviceInfo(&device_name.header) == ERROR_SUCCESS) {
-                if (SDL_wcscmp(view_info.szDevice, device_name.viewGdiDeviceName) == 0) {
-                    SDL_copyp(path_info, &path_infos[i]);
-                    found = true;
-                    break;
+            device_name.سرخی.type = DISPLAYCONFIG_DEVICE_INFO_GET_ماخذ_NAME;
+            device_name.سرخی.سائز = حجم(device_name);
+            device_name.سرخی.adapterId = راستہ_infos[i].ماخذ_Info.adapterId;
+            device_name.سرخی.id = راستہ_infos[i].ماخذ_Info.id;
+            اگر (videodata->DisplayConfigGetDeviceInfo(&device_name.سرخی) == ERROR_SUCCESS) {
+                اگر (SDL_wcscmp(view_info.szDevice, device_name.viewGdiDeviceName) == 0) {
+                    SDL_copyp(راستہ_info, &راستہ_infos[i]);
+                    ملا = true;
+                    توڑو;
                 }
             }
         }
     }
 
-done:
-    SDL_free(path_infos);
-    SDL_free(mode_infos);
+مکمل:
+    SDL_free(راستہ_infos);
+    SDL_free(منوال_infos);
 
-    return found;
+    واپس ملا;
 }
 
-static float WIN_GetSDRWhitePoint(SDL_VideoDevice *_this, HMONITOR hMonitor)
+ساکن اعشاری WIN_Get_SDRWhite_نقطہ(SDL_VideoDevice *_this, HMONITOR hMonitor)
 {
-    DISPLAYCONFIG_PATH_INFO path_info;
-    SDL_VideoData *videodata = _this->internal;
-    float SDR_white_level = 1.0f;
+    DISPLAYCONFIG_راستہ_INFO راستہ_info;
+    SDL_Video_ڈیٹا *videodata = _this->اندرونی_2;
+    اعشاری SDR_white_level = 1.0f;
 
-    if (WIN_GetMonitorPathInfo(videodata, hMonitor, &path_info)) {
+    اگر (WIN_Get_Monitor_راستہ_Info(videodata, hMonitor, &راستہ_info)) {
         /* workarounds for https://github.com/libsdl-org/SDL/issues/11193 */
-        struct SDL_DISPLAYCONFIG_SDR_WHITE_LEVEL {
-          DISPLAYCONFIG_DEVICE_INFO_HEADER header;
+        ساخت SDL_DISPLAYCONFIG_SDR_WHITE_LEVEL {
+          DISPLAYCONFIG_DEVICE_INFO_سرخی سرخی;
           ULONG SDRWhiteLevel;
         } white_level;
-        #define DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL 11
+        #تعریف_کرو DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL 11
 
         SDL_zero(white_level);
-        white_level.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL;
-        white_level.header.size = sizeof(white_level);
-        white_level.header.adapterId = path_info.targetInfo.adapterId;
-        white_level.header.id = path_info.targetInfo.id;
+        white_level.سرخی.type = DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL;
+        white_level.سرخی.سائز = حجم(white_level);
+        white_level.سرخی.adapterId = راستہ_info.ہدف_Info.adapterId;
+        white_level.سرخی.id = راستہ_info.ہدف_Info.id;
         // WIN_GetMonitorPathInfo() succeeded: DisplayConfigGetDeviceInfo is not NULL
-        if (videodata->DisplayConfigGetDeviceInfo(&white_level.header) == ERROR_SUCCESS &&
+        اگر (videodata->DisplayConfigGetDeviceInfo(&white_level.سرخی) == ERROR_SUCCESS &&
             white_level.SDRWhiteLevel > 0) {
             SDR_white_level = (white_level.SDRWhiteLevel / 1000.0f);
         }
     }
-    return SDR_white_level;
+    واپس SDR_white_level;
 }
 
-static void WIN_GetHDRProperties(SDL_VideoDevice *_this, HMONITOR hMonitor, SDL_HDROutputProperties *HDR)
+ساکن خالی WIN_GetHDRProperties(SDL_VideoDevice *_this, HMONITOR hMonitor, SDL_HDROutputProperties *HDR)
 {
     DXGI_OUTPUT_DESC1 desc;
 
     SDL_zerop(HDR);
 
-    if (WIN_GetMonitorDESC1(hMonitor, &desc)) {
-        if (desc.ColorSpace == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020) {
-            HDR->SDR_white_level = WIN_GetSDRWhitePoint(_this, hMonitor);
+    اگر (WIN_GetMonitorDESC1(hMonitor, &desc)) {
+        اگر (desc.ColorSpace == DXGI_COLOR_SPACE_RGB_بھرا_G2084_NONE_P2020) {
+            HDR->SDR_white_level = WIN_Get_SDRWhite_نقطہ(_this, hMonitor);
             HDR->HDR_headroom = (desc.MaxLuminance / SCRGB_NITS) / HDR->SDR_white_level;
         }
     }
 }
-#endif // HAVE_DXGI1_6_H
+#اگر_ختم // HAVE_DXGI1_6_H
 
-static void WIN_AddDisplay(SDL_VideoDevice *_this, HMONITOR hMonitor, const MONITORINFOEXW *info, int *display_index)
+ساکن خالی WIN_جوڑو_Display(SDL_VideoDevice *_this, HMONITOR hMonitor, ثابت MONITORINFOEXW *info, صحیح *display_اشاریہ)
 {
-    int i, index = *display_index;
+    صحیح i, اشاریہ = *display_اشاریہ;
     SDL_VideoDisplay display;
-    SDL_DisplayData *displaydata;
-    void *dxgi_output = NULL;
-    SDL_DisplayMode mode;
+    SDL_Display_ڈیٹا *displaydata;
+    خالی *dxgi_output = تہی;
+    SDL_Display_منوال منوال;
     SDL_DisplayOrientation natural_orientation;
     SDL_DisplayOrientation current_orientation;
-    float content_scale = WIN_GetContentScale(_this, hMonitor);
+    اعشاری content_scale = WIN_GetContentScale(_this, hMonitor);
 
-#ifdef DEBUG_MODES
-    SDL_Log("Display: %s", WIN_StringToUTF8W(info->szDevice));
-#endif
+#اگر_تعریف_شدہ DEBUG_MODES
+    SDL_Log("Display: %s", WIN_String_مقصد_UTF8_W(info->szDevice));
+#اگر_ختم
 
     dxgi_output = WIN_GetDXGIOutput(_this, info->szDevice);
-    bool found = WIN_GetDisplayMode(_this, dxgi_output, hMonitor, info->szDevice, ENUM_CURRENT_SETTINGS, &mode, &natural_orientation, &current_orientation);
+    bool ملا = WIN_Get_Display_منوال(_this, dxgi_output, hMonitor, info->szDevice, ENUM_CURRENT_SETTINGS, &منوال, &natural_orientation, &current_orientation);
     WIN_ReleaseDXGIOutput(dxgi_output);
-    if (!found) {
-        return;
+    اگر (!ملا) {
+        واپس;
     }
 
     // Prevent adding duplicate displays. Do this after we know the display is
     // ready to be added to allow any displays that we can't fully query to be
     // removed
-    for (i = 0; i < _this->num_displays; ++i) {
-        SDL_DisplayData *internal = _this->displays[i]->internal;
-        if (SDL_wcscmp(internal->DeviceName, info->szDevice) == 0) {
-            bool moved = (index != i);
-            bool changed_bounds = false;
+    برائے (i = 0; i < _this->عدد_displays; ++i) {
+        SDL_Display_ڈیٹا *اندرونی_2 = _this->displays[i]->اندرونی_2;
+        اگر (SDL_wcscmp(اندرونی_2->DeviceName, info->szDevice) == 0) {
+            bool moved = (اشاریہ != i);
+            bool بدلا_bounds = false;
 
-            if (internal->state != DisplayRemoved) {
+            اگر (اندرونی_2->state != DisplayRemoved) {
                 // We've already enumerated this display, don't move it
-                goto cleanup;
+                جاؤ cleanup;
             }
 
-            if (index >= _this->num_displays) {
+            اگر (اشاریہ >= _this->عدد_displays) {
                 // This should never happen due to the check above, but just in case...
-                goto cleanup;
+                جاؤ cleanup;
             }
 
-            if (moved) {
+            اگر (moved) {
                 SDL_VideoDisplay *tmp;
 
-                tmp = _this->displays[index];
-                _this->displays[index] = _this->displays[i];
+                tmp = _this->displays[اشاریہ];
+                _this->displays[اشاریہ] = _this->displays[i];
                 _this->displays[i] = tmp;
-                i = index;
+                i = اشاریہ;
             }
 
-            internal->MonitorHandle = hMonitor;
-            internal->state = DisplayUnchanged;
+            اندرونی_2->MonitorHandle = hMonitor;
+            اندرونی_2->state = DisplayUnchanged;
 
             SDL_PropertiesID props = SDL_GetDisplayProperties(_this->displays[i]->id);
-            SDL_SetPointerProperty(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER, hMonitor);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_اشارہ_گر, hMonitor);
 
-            if (!_this->setting_display_mode) {
+            اگر (!_this->setting_display_منوال) {
                 SDL_VideoDisplay *existing_display = _this->displays[i];
                 SDL_Rect bounds;
 
                 SDL_ResetFullscreenDisplayModes(existing_display);
-                SDL_SetDesktopDisplayMode(existing_display, &mode);
+                SDL_سیٹ_Desktop_Display_منوال(existing_display, &منوال);
                 // The mode is owned by the video subsystem
-                mode.internal = NULL;
-                if (WIN_GetDisplayBounds(_this, existing_display, &bounds) &&
-                    SDL_memcmp(&internal->bounds, &bounds, sizeof(bounds)) != 0) {
-                    changed_bounds = true;
-                    SDL_copyp(&internal->bounds, &bounds);
+                منوال.اندرونی_2 = تہی;
+                اگر (WIN_GetDisplayBounds(_this, existing_display, &bounds) &&
+                    SDL_memcmp(&اندرونی_2->bounds, &bounds, حجم(bounds)) != 0) {
+                    بدلا_bounds = true;
+                    SDL_copyp(&اندرونی_2->bounds, &bounds);
                 }
-                if (moved || changed_bounds) {
+                اگر (moved || بدلا_bounds) {
                     SDL_SendDisplayEvent(existing_display, SDL_EVENT_DISPLAY_MOVED, 0, 0);
                 }
                 SDL_SendDisplayEvent(existing_display, SDL_EVENT_DISPLAY_ORIENTATION, current_orientation, 0);
-                SDL_SetDisplayContentScale(existing_display, content_scale);
-#ifdef HAVE_DXGI1_6_H
+                SDL_سیٹ_Display_Content_Scale(existing_display, content_scale);
+#اگر_تعریف_شدہ HAVE_DXGI1_6_H
                 SDL_HDROutputProperties HDR;
                 WIN_GetHDRProperties(_this, hMonitor, &HDR);
-                SDL_SetDisplayHDRProperties(existing_display, &HDR);
-#endif
+                SDL_سیٹ_Display_HDRProperties(existing_display, &HDR);
+#اگر_ختم
             }
-            goto done;
+            جاؤ مکمل;
         }
     }
 
-    displaydata = (SDL_DisplayData *)SDL_calloc(1, sizeof(*displaydata));
-    if (!displaydata) {
-        goto cleanup;
+    displaydata = (SDL_Display_ڈیٹا *)SDL_calloc(1, حجم(*displaydata));
+    اگر (!displaydata) {
+        جاؤ cleanup;
     }
-    SDL_memcpy(displaydata->DeviceName, info->szDevice, sizeof(displaydata->DeviceName));
+    SDL_memcpy(displaydata->DeviceName, info->szDevice, حجم(displaydata->DeviceName));
     displaydata->MonitorHandle = hMonitor;
     displaydata->state = DisplayAdded;
 
     SDL_zero(display);
-    display.name = WIN_GetDisplayNameVista(_this->internal, info->szDevice);
-    if (!display.name) {
+    display.name = WIN_GetDisplayNameVista(_this->اندرونی_2, info->szDevice);
+    اگر (!display.name) {
         DISPLAY_DEVICEW device;
         SDL_zero(device);
-        device.cb = sizeof(device);
-        if (EnumDisplayDevicesW(info->szDevice, 0, &device, 0)) {
-            display.name = WIN_StringToUTF8W(device.DeviceString);
+        device.cb = حجم(device);
+        اگر (EnumDisplayDevicesW(info->szDevice, 0, &device, 0)) {
+            display.name = WIN_String_مقصد_UTF8_W(device.DeviceString);
         }
     }
 
-    display.desktop_mode = mode;
+    display.desktop_منوال = منوال;
     display.natural_orientation = natural_orientation;
     display.current_orientation = current_orientation;
     display.content_scale = content_scale;
     display.device = _this;
-    display.internal = displaydata;
+    display.اندرونی_2 = displaydata;
     WIN_GetDisplayBounds(_this, &display, &displaydata->bounds);
-#ifdef HAVE_DXGI1_6_H
+#اگر_تعریف_شدہ HAVE_DXGI1_6_H
     WIN_GetHDRProperties(_this, hMonitor, &display.HDR);
-#endif
-    SDL_DisplayID displayID = SDL_AddVideoDisplay(&display, false);
-    if (displayID) {
+#اگر_ختم
+    SDL_DisplayID displayID = SDL_جوڑو_Video_Display(&display, false);
+    اگر (displayID) {
         // The mode is owned by the video subsystem
-        mode.internal = NULL;
+        منوال.اندرونی_2 = تہی;
 
         SDL_PropertiesID props = SDL_GetDisplayProperties(displayID);
-        SDL_SetPointerProperty(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER, hMonitor);
-    } else {
+        SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_اشارہ_گر, hMonitor);
+    } ورنہ {
         SDL_free(displaydata);
     }
     SDL_free(display.name);
 
-done:
-    *display_index += 1;
+مکمل:
+    *display_اشاریہ += 1;
 
 cleanup:
-    SDL_free(mode.internal);
+    SDL_free(منوال.اندرونی_2);
 }
 
-typedef struct _WIN_AddDisplaysData
+قسمتعریف ساخت WIN_جوڑو_Displays_ڈیٹا
 {
     SDL_VideoDevice *video_device;
-    int display_index;
+    صحیح display_اشاریہ;
     bool want_primary;
-} WIN_AddDisplaysData;
+} WIN_جوڑو_Displays_ڈیٹا_2;
 
-static BOOL CALLBACK WIN_AddDisplaysCallback(HMONITOR hMonitor,
+ساکن BOOL CALLBACK WIN_جوڑو_Displays_Callback(HMONITOR hMonitor,
                                              HDC hdcMonitor,
                                              LPRECT lprcMonitor,
-                                             LPARAM dwData)
+                                             LPARAM dw_ڈیٹا)
 {
-    WIN_AddDisplaysData *data = (WIN_AddDisplaysData *)dwData;
+    WIN_جوڑو_Displays_ڈیٹا_2 *ڈیٹا = (WIN_جوڑو_Displays_ڈیٹا_2 *)dw_ڈیٹا;
     MONITORINFOEXW info;
 
     SDL_zero(info);
-    info.cbSize = sizeof(info);
+    info.cb_سائز = حجم(info);
 
-    if (GetMonitorInfoW(hMonitor, (LPMONITORINFO)&info) != 0) {
-        const bool is_primary = ((info.dwFlags & MONITORINFOF_PRIMARY) == MONITORINFOF_PRIMARY);
+    اگر (GetMonitorInfoW(hMonitor, (LPMONITORINFO)&info) != 0) {
+        ثابت bool is_primary = ((info.dwFlags & MONITORINFOF_PRIMARY) == MONITORINFOF_PRIMARY);
 
-        if (is_primary == data->want_primary) {
-            WIN_AddDisplay(data->video_device, hMonitor, &info, &data->display_index);
+        اگر (is_primary == ڈیٹا->want_primary) {
+            WIN_جوڑو_Display(ڈیٹا->video_device, hMonitor, &info, &ڈیٹا->display_اشاریہ);
         }
     }
 
     // continue enumeration
-    return TRUE;
+    واپس TRUE;
 }
 
-static void WIN_AddDisplays(SDL_VideoDevice *_this)
+ساکن خالی WIN_جوڑو_Displays(SDL_VideoDevice *_this)
 {
-    WIN_AddDisplaysData callback_data;
-    callback_data.video_device = _this;
-    callback_data.display_index = 0;
+    WIN_جوڑو_Displays_ڈیٹا_2 callback_ڈیٹا;
+    callback_ڈیٹا.video_device = _this;
+    callback_ڈیٹا.display_اشاریہ = 0;
 
-    callback_data.want_primary = true;
-    EnumDisplayMonitors(NULL, NULL, WIN_AddDisplaysCallback, (LPARAM)&callback_data);
+    callback_ڈیٹا.want_primary = true;
+    EnumDisplayMonitors(تہی, تہی, WIN_جوڑو_Displays_Callback, (LPARAM)&callback_ڈیٹا);
 
-    callback_data.want_primary = false;
-    EnumDisplayMonitors(NULL, NULL, WIN_AddDisplaysCallback, (LPARAM)&callback_data);
+    callback_ڈیٹا.want_primary = false;
+    EnumDisplayMonitors(تہی, تہی, WIN_جوڑو_Displays_Callback, (LPARAM)&callback_ڈیٹا);
 }
 
 bool WIN_InitModes(SDL_VideoDevice *_this)
 {
-    WIN_AddDisplays(_this);
+    WIN_جوڑو_Displays(_this);
 
-    if (_this->num_displays == 0) {
-        return SDL_SetError("No displays available");
+    اگر (_this->عدد_displays == 0) {
+        واپس SDL_سیٹ_Error("No displays available");
     }
-    return true;
+    واپس true;
 }
 
 bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    const SDL_DisplayData *data = display->internal;
+    ثابت SDL_Display_ڈیٹا *ڈیٹا = display->اندرونی_2;
     MONITORINFO minfo;
     BOOL rc;
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    rc = GetMonitorInfo(data->MonitorHandle, &minfo);
+    minfo.cb_سائز = حجم(MONITORINFO);
+    rc = GetMonitorInfo(ڈیٹا->MonitorHandle, &minfo);
 
-    if (!rc) {
-        return SDL_SetError("Couldn't find monitor data");
+    اگر (!rc) {
+        واپس SDL_سیٹ_Error("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcMonitor.left;
-    rect->y = minfo.rcMonitor.top;
-    rect->w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    rect->x = minfo.rcMonitor.بایاں;
+    rect->y = minfo.rcMonitor.چوٹی;
+    rect->w = minfo.rcMonitor.دایاں - minfo.rcMonitor.بایاں;
+    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.چوٹی;
 
-    return true;
+    واپس true;
 }
 
 bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    const SDL_DisplayData *data = display->internal;
+    ثابت SDL_Display_ڈیٹا *ڈیٹا = display->اندرونی_2;
     MONITORINFO minfo;
     BOOL rc;
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    rc = GetMonitorInfo(data->MonitorHandle, &minfo);
+    minfo.cb_سائز = حجم(MONITORINFO);
+    rc = GetMonitorInfo(ڈیٹا->MonitorHandle, &minfo);
 
-    if (!rc) {
-        return SDL_SetError("Couldn't find monitor data");
+    اگر (!rc) {
+        واپس SDL_سیٹ_Error("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcWork.left;
-    rect->y = minfo.rcWork.top;
-    rect->w = minfo.rcWork.right - minfo.rcWork.left;
-    rect->h = minfo.rcWork.bottom - minfo.rcWork.top;
+    rect->x = minfo.rcWork.بایاں;
+    rect->y = minfo.rcWork.چوٹی;
+    rect->w = minfo.rcWork.دایاں - minfo.rcWork.بایاں;
+    rect->h = minfo.rcWork.bottom - minfo.rcWork.چوٹی;
 
-    return true;
+    واپس true;
 }
 
 bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *data = display->internal;
-    void *dxgi_output;
+    SDL_Display_ڈیٹا *ڈیٹا = display->اندرونی_2;
+    خالی *dxgi_output;
     DWORD i;
-    SDL_DisplayMode mode;
+    SDL_Display_منوال منوال;
 
-    dxgi_output = WIN_GetDXGIOutput(_this, data->DeviceName);
+    dxgi_output = WIN_GetDXGIOutput(_this, ڈیٹا->DeviceName);
 
     // Make sure we add the current mode to the list in case it's a custom mode that doesn't enumerate
-    for (i = ENUM_CURRENT_SETTINGS; ; ++i) {
-        if (!WIN_GetDisplayMode(_this, dxgi_output, data->MonitorHandle, data->DeviceName, i, &mode, NULL, NULL)) {
-            break;
+    برائے (i = ENUM_CURRENT_SETTINGS; ; ++i) {
+        اگر (!WIN_Get_Display_منوال(_this, dxgi_output, ڈیٹا->MonitorHandle, ڈیٹا->DeviceName, i, &منوال, تہی, تہی)) {
+            توڑو;
         }
-        if (SDL_ISPIXELFORMAT_INDEXED(mode.format)) {
+        اگر (SDL_ISPIXELFORMAT_اشاریہ_دار(منوال.format)) {
             // We don't support palettized modes now
-            SDL_free(mode.internal);
-            continue;
+            SDL_free(منوال.اندرونی_2);
+            جاری;
         }
-        if (mode.format != SDL_PIXELFORMAT_UNKNOWN) {
-            if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-                SDL_free(mode.internal);
+        اگر (منوال.format != SDL_PIXELFORMAT_UNKNOWN) {
+            اگر (!SDL_جوڑو_Fullscreen_Display_منوال(display, &منوال)) {
+                SDL_free(منوال.اندرونی_2);
             }
-        } else {
-            SDL_free(mode.internal);
+        } ورنہ {
+            SDL_free(منوال.اندرونی_2);
         }
     }
 
     WIN_ReleaseDXGIOutput(dxgi_output);
 
-    return true;
+    واپس true;
 }
 
-#ifdef DEBUG_MODES
-static void WIN_LogMonitor(SDL_VideoDevice *_this, HMONITOR mon)
+#اگر_تعریف_شدہ DEBUG_MODES
+ساکن خالی WIN_LogMonitor(SDL_VideoDevice *_this, HMONITOR mon)
 {
-    const SDL_VideoData *vid_data = (const SDL_VideoData *)_this->internal;
+    ثابت SDL_Video_ڈیٹا *vid_ڈیٹا = (ثابت SDL_Video_ڈیٹا *)_this->اندرونی_2;
     MONITORINFOEX minfo;
     UINT xdpi = 0, ydpi = 0;
-    char *name_utf8;
+    حرف *name_utf8;
 
-    if (vid_data->GetDpiForMonitor) {
-        vid_data->GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, &xdpi, &ydpi);
+    اگر (vid_ڈیٹا->GetDpiForMonitor) {
+        vid_ڈیٹا->GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, &xdpi, &ydpi);
     }
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(minfo);
+    minfo.cb_سائز = حجم(minfo);
     GetMonitorInfo(mon, (LPMONITORINFO)&minfo);
 
-    name_utf8 = WIN_StringToUTF8(minfo.szDevice);
+    name_utf8 = WIN_String_مقصد_UTF8(minfo.szDevice);
 
     SDL_Log("WIN_LogMonitor: monitor \"%s\": dpi: %d windows screen coordinates: %d, %d, %dx%d",
             name_utf8,
             xdpi,
-            minfo.rcMonitor.left,
-            minfo.rcMonitor.top,
-            minfo.rcMonitor.right - minfo.rcMonitor.left,
-            minfo.rcMonitor.bottom - minfo.rcMonitor.top);
+            minfo.rcMonitor.بایاں,
+            minfo.rcMonitor.چوٹی,
+            minfo.rcMonitor.دایاں - minfo.rcMonitor.بایاں,
+            minfo.rcMonitor.bottom - minfo.rcMonitor.چوٹی);
 
     SDL_free(name_utf8);
 }
-#endif
+#اگر_ختم
 
-bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool WIN_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)mode->internal;
-    LONG status;
+    SDL_Display_ڈیٹا *displaydata = display->اندرونی_2;
+    SDL_Display_منوال_ڈیٹا *ڈیٹا = (SDL_Display_منوال_ڈیٹا *)منوال->اندرونی_2;
+    LONG حالت_2;
 
-#ifdef DEBUG_MODES
+#اگر_تعریف_شدہ DEBUG_MODES
     SDL_Log("WIN_SetDisplayMode: monitor state before mode change:");
     WIN_LogMonitor(_this, displaydata->MonitorHandle);
-#endif
+#اگر_ختم
 
     /* High-DPI notes:
 
@@ -866,92 +866,92 @@ bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_D
            reset the monitor DPI to 192. (200% scaling)
 
        NOTE: these are temporary changes in DPI, not modifications to the Control Panel setting. */
-    if (mode->internal == display->desktop_mode.internal) {
-#ifdef DEBUG_MODES
+    اگر (منوال->اندرونی_2 == display->desktop_منوال.اندرونی_2) {
+#اگر_تعریف_شدہ DEBUG_MODES
         SDL_Log("WIN_SetDisplayMode: resetting to original resolution");
-#endif
-        status = ChangeDisplaySettingsExW(displaydata->DeviceName, NULL, NULL, CDS_FULLSCREEN, NULL);
-    } else {
-#ifdef DEBUG_MODES
-        SDL_Log("WIN_SetDisplayMode: changing to %dx%d pixels", data->DeviceMode.dmPelsWidth, data->DeviceMode.dmPelsHeight);
-#endif
-        status = ChangeDisplaySettingsExW(displaydata->DeviceName, &data->DeviceMode, NULL, CDS_FULLSCREEN, NULL);
+#اگر_ختم
+        حالت_2 = ChangeDisplaySettingsExW(displaydata->DeviceName, تہی, تہی, CDS_FULLSCREEN, تہی);
+    } ورنہ {
+#اگر_تعریف_شدہ DEBUG_MODES
+        SDL_Log("WIN_SetDisplayMode: changing to %dx%d pixels", ڈیٹا->Device_منوال.dm_Pels_چوڑائی, ڈیٹا->Device_منوال.dm_Pels_اونچائی);
+#اگر_ختم
+        حالت_2 = ChangeDisplaySettingsExW(displaydata->DeviceName, &ڈیٹا->Device_منوال, تہی, CDS_FULLSCREEN, تہی);
     }
-    if (status != DISP_CHANGE_SUCCESSFUL) {
-        const char *reason = "Unknown reason";
-        switch (status) {
-        case DISP_CHANGE_BADFLAGS:
+    اگر (حالت_2 != DISP_CHANGE_SUCCESSFUL) {
+        ثابت حرف *reason = "Unknown reason";
+        انتخاب (حالت_2) {
+        حالت DISP_CHANGE_BADFLAGS:
             reason = "DISP_CHANGE_BADFLAGS";
-            break;
-        case DISP_CHANGE_BADMODE:
+            توڑو;
+        حالت DISP_CHANGE_BADMODE:
             reason = "DISP_CHANGE_BADMODE";
-            break;
-        case DISP_CHANGE_BADPARAM:
+            توڑو;
+        حالت DISP_CHANGE_BADPARAM:
             reason = "DISP_CHANGE_BADPARAM";
-            break;
-        case DISP_CHANGE_FAILED:
+            توڑو;
+        حالت DISP_CHANGE_FAILED:
             reason = "DISP_CHANGE_FAILED";
-            break;
+            توڑو;
         }
-        return SDL_SetError("ChangeDisplaySettingsEx() failed: %s", reason);
+        واپس SDL_سیٹ_Error("ChangeDisplaySettingsEx() failed: %s", reason);
     }
 
-#ifdef DEBUG_MODES
+#اگر_تعریف_شدہ DEBUG_MODES
     SDL_Log("WIN_SetDisplayMode: monitor state after mode change:");
     WIN_LogMonitor(_this, displaydata->MonitorHandle);
-#endif
+#اگر_ختم
 
-    EnumDisplaySettingsW(displaydata->DeviceName, ENUM_CURRENT_SETTINGS, &data->DeviceMode);
-    WIN_UpdateDisplayMode(_this, displaydata->DeviceName, ENUM_CURRENT_SETTINGS, mode);
-    return true;
+    EnumDisplaySettingsW(displaydata->DeviceName, ENUM_CURRENT_SETTINGS, &ڈیٹا->Device_منوال);
+    WIN_Update_Display_منوال(_this, displaydata->DeviceName, ENUM_CURRENT_SETTINGS, منوال);
+    واپس true;
 }
 
-void WIN_RefreshDisplays(SDL_VideoDevice *_this)
+خالی WIN_RefreshDisplays(SDL_VideoDevice *_this)
 {
-    int i;
+    صحیح i;
 
     // Mark all displays as potentially invalid to detect
     // entries that have actually been removed
-    for (i = 0; i < _this->num_displays; ++i) {
-        SDL_DisplayData *internal = _this->displays[i]->internal;
-        internal->state = DisplayRemoved;
+    برائے (i = 0; i < _this->عدد_displays; ++i) {
+        SDL_Display_ڈیٹا *اندرونی_2 = _this->displays[i]->اندرونی_2;
+        اندرونی_2->state = DisplayRemoved;
     }
 
     // Enumerate displays to add any new ones and mark still
     // connected entries as valid
-    WIN_AddDisplays(_this);
+    WIN_جوڑو_Displays(_this);
 
     // Delete any entries still marked as invalid, iterate
     // in reverse as each delete takes effect immediately
-    for (i = _this->num_displays - 1; i >= 0; --i) {
+    برائے (i = _this->عدد_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
-        SDL_DisplayData *internal = display->internal;
-        if (internal->state == DisplayRemoved) {
+        SDL_Display_ڈیٹا *اندرونی_2 = display->اندرونی_2;
+        اگر (اندرونی_2->state == DisplayRemoved) {
             SDL_DelVideoDisplay(display->id, true);
         }
     }
 
     // Send events for any newly added displays
-    for (i = 0; i < _this->num_displays; ++i) {
+    برائے (i = 0; i < _this->عدد_displays; ++i) {
         SDL_VideoDisplay *display = _this->displays[i];
-        SDL_DisplayData *internal = display->internal;
-        if (internal->state == DisplayAdded) {
+        SDL_Display_ڈیٹا *اندرونی_2 = display->اندرونی_2;
+        اگر (اندرونی_2->state == DisplayAdded) {
             SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_ADDED, 0, 0);
         }
     }
 }
 
-void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this)
+خالی WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this)
 {
     // This almost never happens, so just go ahead and send update events for all displays
-    for (int i = 0; i < _this->num_displays; ++i) {
-        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
+    برائے (صحیح i = 0; i < _this->عدد_displays; ++i) {
+        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_بدلا, 0, 0);
     }
 }
 
-void WIN_QuitModes(SDL_VideoDevice *_this)
+خالی WIN_QuitModes(SDL_VideoDevice *_this)
 {
     // All fullscreen windows should have restored modes by now
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#اگر_ختم // SDL_VIDEO_DRIVER_WINDOWS

@@ -25,13 +25,13 @@
  * backed view.
  */
 
-#ifndef SDL_uikitmetalview_h_
-#define SDL_uikitmetalview_h_
+#اگر_غیر_تعریف_شدہ SDL_uikitmetalview_h_
+#تعریف_کرو SDL_uikitmetalview_h_
 
-#include "../SDL_sysvideo.h"
-#include "SDL_uikitwindow.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "SDL_uikitwindow.h"
 
-#if defined(SDL_VIDEO_DRIVER_UIKIT) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#اگر defined(SDL_VIDEO_DRIVER_UIKIT) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import <UIKit/UIKit.h>
 #import <Metal/Metal.h>
@@ -39,17 +39,17 @@
 
 @interface SDL_uikitmetalview : SDL_uikitview
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)init_With_چوکھٹا:(CGRect)چوکھٹا
                         scale:(CGFloat)scale;
 
-- (void)updateDrawableSize;
+- (خالی)update_Drawable_سائز;
 
-@end
+@انتہا
 
-SDL_MetalView UIKit_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *UIKit_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView UIKit_Metal_CreateView(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی UIKit_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+خالی *UIKit_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#اگر_ختم // SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_uikitmetalview_h_
+#اگر_ختم // SDL_uikitmetalview_h_

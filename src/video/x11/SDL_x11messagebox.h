@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_x11messagebox_h_
-#define SDL_x11messagebox_h_
+#اگر_غیر_تعریف_شدہ SDL_x11messagebox_h_
+#تعریف_کرو SDL_x11messagebox_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11
 
-extern bool X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+خارجی bool X11_Show_پیغام_Box(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_X11
+#اگر_ختم // SDL_VIDEO_DRIVER_X11
 
-#endif // SDL_x11messagebox_h_
+#اگر_ختم // SDL_x11messagebox_h_

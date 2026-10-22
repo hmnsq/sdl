@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_waylandclipboard_h_
-#define SDL_waylandclipboard_h_
+#اگر_غیر_تعریف_شدہ SDL_waylandclipboard_h_
+#تعریف_کرو SDL_waylandclipboard_h_
 
-extern const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
+خارجی ثابت حرف *ثابت *Wayland_Get_متن_Mime_Types(SDL_VideoDevice *_this, size_t *عدد_mime_types);
+خارجی bool Wayland_سیٹ_Clipboard_ڈیٹا(SDL_VideoDevice *_this);
+خارجی خالی *Wayland_Get_Clipboard_ڈیٹا(SDL_VideoDevice *_this, ثابت حرف *mime_type, size_t *لمبائی);
+خارجی bool Wayland_Has_Clipboard_ڈیٹا(SDL_VideoDevice *_this, ثابت حرف *mime_type);
+خارجی bool Wayland_سیٹ_Primary_Selection_متن(SDL_VideoDevice *_this, ثابت حرف *متن);
+خارجی حرف *Wayland_Get_Primary_Selection_متن(SDL_VideoDevice *_this);
+خارجی bool Wayland_Has_Primary_Selection_متن(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandclipboard_h_
+#اگر_ختم // SDL_waylandclipboard_h_

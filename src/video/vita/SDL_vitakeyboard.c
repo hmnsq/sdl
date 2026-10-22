@@ -18,173 +18,173 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#شامل <psp2/kernel/processmgr.h>
+#شامل <psp2/ctrl.h>
+#شامل <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitakeyboard.h"
-#include "../../events/SDL_keyboard_c.h"
+#شامل "SDL_vitavideo.h"
+#شامل "SDL_vitakeyboard.h"
+#شامل "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
-Uint8 prev_keys[6] = { 0 };
-Uint8 prev_modifiers = 0;
+صحیح keyboard_hid_handle = 0;
+Uint8 پچھلا_کلیدیں[6] = { 0 };
+Uint8 پچھلا_modifiers = 0;
 Uint8 locks = 0;
-Uint8 lock_key_down = 0;
+Uint8 تالا_کلید_نیچے_کو = 0;
 
-void VITA_InitKeyboard(void)
+خالی VITA_InitKeyboard(خالی)
 {
-#ifdef SDL_VIDEO_VITA_PVR
-    sceSysmoduleLoadModule(SCE_SYSMODULE_IME); /** For PVR OSK Support **/
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_VITA_PVR
+    sce_Sysmodule_بھرو_Module(SCE_SYSMODULE_IME); /** For PVR OSK Support **/
+#اگر_ختم
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
-        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
+    اگر (keyboard_hid_handle > 0) {
+        SDL_جوڑو_Keyboard((SDL_KeyboardID)keyboard_hid_handle, تہی);
     }
 }
 
-void VITA_PollKeyboard(void)
+خالی VITA_PollKeyboard(خالی)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    اگر (!Vita_کھڑکی) {
+        واپس;
     }
 
-    if (keyboard_hid_handle > 0) {
+    اگر (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        صحیح عدد_Reports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        اگر (عدد_Reports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } ورنہ اگر (عدد_Reports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+            اگر (k_reports[عدد_Reports - 1].modifiers[1] & 0x1) {
+                اگر (!(locks & 0x1)) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+            } ورنہ {
+                اگر (locks & 0x1) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     locks &= ~0x1;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+            اگر (k_reports[عدد_Reports - 1].modifiers[1] & 0x2) {
+                اگر (!(locks & 0x2)) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+            } ورنہ {
+                اگر (locks & 0x2) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     locks &= ~0x2;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
+            اگر (k_reports[عدد_Reports - 1].modifiers[1] & 0x4) {
+                اگر (!(locks & 0x4)) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
+            } ورنہ {
+                اگر (locks & 0x4) {
+                    SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
             }
 
             {
-                Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
+                Uint8 بدلا_modifiers = k_reports[عدد_Reports - 1].modifiers[0] ^ پچھلا_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
+                اگر (بدلا_modifiers & 0x01) {
+                    اگر (پچھلا_modifiers & 0x01) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
+                اگر (بدلا_modifiers & 0x02) {
+                    اگر (پچھلا_modifiers & 0x02) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
+                اگر (بدلا_modifiers & 0x04) {
+                    اگر (پچھلا_modifiers & 0x04) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
+                اگر (بدلا_modifiers & 0x08) {
+                    اگر (پچھلا_modifiers & 0x08) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
+                اگر (بدلا_modifiers & 0x10) {
+                    اگر (پچھلا_modifiers & 0x10) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
+                اگر (بدلا_modifiers & 0x20) {
+                    اگر (پچھلا_modifiers & 0x20) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
+                اگر (بدلا_modifiers & 0x40) {
+                    اگر (پچھلا_modifiers & 0x40) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
+                اگر (بدلا_modifiers & 0x80) {
+                    اگر (پچھلا_modifiers & 0x80) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
+                    } ورنہ {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
             }
 
-            prev_modifiers = k_reports[numReports - 1].modifiers[0];
+            پچھلا_modifiers = k_reports[عدد_Reports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            برائے (صحیح i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                صحیح کلید_رمز = k_reports[عدد_Reports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                اگر (کلید_رمز != پچھلا_کلیدیں[i]) {
 
-                    if (prev_keys[i]) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
+                    اگر (پچھلا_کلیدیں[i]) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, پچھلا_کلیدیں[i], false);
                     }
-                    if (keyCode) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
+                    اگر (کلید_رمز) {
+                        SDL_Send_Keyboard_کلید(0, keyboardID, 0, کلید_رمز, true);
                     }
-                    prev_keys[i] = keyCode;
+                    پچھلا_کلیدیں[i] = کلید_رمز;
                 }
             }
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#اگر_ختم // SDL_VIDEO_DRIVER_VITA

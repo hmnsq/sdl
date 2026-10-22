@@ -18,70 +18,70 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
-#include <emscripten/threading.h>
+#شامل <emscripten/emscripten.h>
+#شامل <emscripten/html5.h>
+#شامل <emscripten/threading.h>
 
-#include "SDL_emscriptenmouse.h"
-#include "SDL_emscriptenvideo.h"
+#شامل "SDL_emscriptenmouse.h"
+#شامل "SDL_emscriptenvideo.h"
 
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "../SDL_video_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
 // older Emscriptens don't have this, but we need to for wasm64 compatibility.
-#ifndef MAIN_THREAD_EM_ASM_PTR
-    #ifdef __wasm64__
-        #error You need to upgrade your Emscripten compiler to support wasm64
-    #else
-        #define MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
-    #endif
-#endif
+#اگر_غیر_تعریف_شدہ MAIN_THREAD_EM_ASM_PTR
+    #اگر_تعریف_شدہ __wasm64__
+        #غلطی You need مقصد upgrade your Emscripten compiler مقصد support wasm64
+    #ورنہ
+        #تعریف_کرو MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
+    #اگر_ختم
+#اگر_ختم
 
-static SDL_Cursor *Emscripten_CreateCursorFromString(const char *cursor_str, bool is_custom)
+ساکن SDL_Cursor *Emscripten_CreateCursorFromString(ثابت حرف *cursor_str, bool is_custom)
 {
-    SDL_CursorData *curdata;
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
-        curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-        if (!curdata) {
+    SDL_Cursor_ڈیٹا *curdata;
+    SDL_Cursor *cursor = SDL_calloc(1, حجم(SDL_Cursor));
+    اگر (cursor) {
+        curdata = (SDL_Cursor_ڈیٹا *)SDL_calloc(1, حجم(*curdata));
+        اگر (!curdata) {
             SDL_free(cursor);
-            return NULL;
+            واپس تہی;
         }
 
         curdata->system_cursor = cursor_str;
         curdata->is_custom = is_custom;
-        cursor->internal = curdata;
+        cursor->اندرونی_2 = curdata;
     }
 
-    return cursor;
+    واپس cursor;
 }
 
-static SDL_Cursor *Emscripten_CreateDefaultCursor(void)
+ساکن SDL_Cursor *Emscripten_CreateDefaultCursor(خالی)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    ثابت حرف *cursor_name = SDL_GetCSSCursorName(id, تہی);
+    واپس Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
 EM_JS_DEPS(sdlmouse, "$stringToUTF8,$UTF8ToString");
 
-static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+ساکن SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, صحیح hot_x, صحیح hot_y)
 {
-    const char *cursor_url = NULL;
+    ثابت حرف *cursor_url = تہی;
     SDL_Surface *conv_surf;
 
     conv_surf = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
 
-    if (!conv_surf) {
-        return NULL;
+    اگر (!conv_surf) {
+        واپس تہی;
     }
 
     /* *INDENT-OFF* */ // clang-format off
-    cursor_url = (const char *)MAIN_THREAD_EM_ASM_PTR({
+    cursor_url = (ثابت حرف *)MAIN_THREAD_EM_ASM_PTR({
         var w = $0;
         var h = $1;
         var hot_x = $2;
@@ -89,134 +89,134 @@ static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int 
         var pixels = $4;
 
         var canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
+        canvas.چوڑائی = w;
+        canvas.اونچائی = h;
 
         var ctx = canvas.getContext("2d");
 
-        var image = ctx.createImageData(w, h);
-        var data = image.data;
+        var image = ctx.create_Image_ڈیٹا(w, h);
+        var ڈیٹا = image.ڈیٹا;
         var src = pixels / 4;
 
-        var data32 = new Int32Array(data.buffer);
-        data32.set(HEAP32.subarray(src, src + data32.length));
+        var data32 = new Int32Array(ڈیٹا.بفر_2);
+        data32.سیٹ(HEAP32.subarray(src, src + data32.لمبائی));
 
-        ctx.putImageData(image, 0, 0);
+        ctx.put_Image_ڈیٹا(image, 0, 0);
         var url = hot_x === 0 && hot_y === 0
-            ? "url(" + canvas.toDataURL() + "), auto"
-            : "url(" + canvas.toDataURL() + ") " + hot_x + " " + hot_y + ", auto";
+            ? "url(" + canvas.مقصد_ڈیٹا_URL() + "), auto"
+            : "url(" + canvas.مقصد_ڈیٹا_URL() + ") " + hot_x + " " + hot_y + ", auto";
 
-        var urlBuf = _SDL_malloc(url.length + 1);
-        stringToUTF8(url, urlBuf, url.length + 1);
+        var urlBuf = _SDL_malloc(url.لمبائی + 1);
+        string_مقصد_UTF8(url, urlBuf, url.لمبائی + 1);
 
-        return urlBuf;
+        واپس urlBuf;
     }, surface->w, surface->h, hot_x, hot_y, conv_surf->pixels);
     /* *INDENT-ON* */ // clang-format on
 
     SDL_DestroySurface(conv_surf);
 
-    return Emscripten_CreateCursorFromString(cursor_url, true);
+    واپس Emscripten_CreateCursorFromString(cursor_url, true);
 }
 
-static SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
+ساکن SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
 {
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
+    ثابت حرف *cursor_name = SDL_GetCSSCursorName(id, تہی);
 
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    واپس Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
-static void Emscripten_FreeCursor(SDL_Cursor *cursor)
+ساکن خالی Emscripten_FreeCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
-    if (cursor) {
-        curdata = cursor->internal;
+    SDL_Cursor_ڈیٹا *curdata;
+    اگر (cursor) {
+        curdata = cursor->اندرونی_2;
 
-        if (curdata) {
-            if (curdata->is_custom) {
-                SDL_free((char *)curdata->system_cursor);
+        اگر (curdata) {
+            اگر (curdata->is_custom) {
+                SDL_free((حرف *)curdata->system_cursor);
             }
-            SDL_free(cursor->internal);
+            SDL_free(cursor->اندرونی_2);
         }
 
         SDL_free(cursor);
     }
 }
 
-static bool Emscripten_ShowCursor(SDL_Cursor *cursor)
+ساکن bool Emscripten_ShowCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
-    if (SDL_GetMouseFocus() != NULL) {
-        if (cursor && cursor->internal) {
-            curdata = cursor->internal;
+    SDL_Cursor_ڈیٹا *curdata;
+    اگر (SDL_GetMouseFocus() != تہی) {
+        اگر (cursor && cursor->اندرونی_2) {
+            curdata = cursor->اندرونی_2;
 
-            if (curdata->system_cursor) {
+            اگر (curdata->system_cursor) {
                 /* *INDENT-OFF* */ // clang-format off
                 MAIN_THREAD_EM_ASM({
-                    if (Module['canvas']) {
-                        Module['canvas'].style['cursor'] = UTF8ToString($0);
+                    اگر (Module['canvas']) {
+                        Module['canvas'].style['cursor'] = UTF8_مقصد_String($0);
                     }
                 }, curdata->system_cursor);
                 /* *INDENT-ON* */ // clang-format on
             }
-        } else {
+        } ورنہ {
             /* *INDENT-OFF* */ // clang-format off
             MAIN_THREAD_EM_ASM(
-                if (Module['canvas']) {
+                اگر (Module['canvas']) {
                     Module['canvas'].style['cursor'] = 'none';
                 }
             );
             /* *INDENT-ON* */ // clang-format on
         }
     }
-    return true;
+    واپس true;
 }
 
-static bool Emscripten_SetRelativeMouseMode(bool enabled)
+ساکن bool Emscripten_سیٹ_Relative_Mouse_منوال(bool enabled)
 {
-    SDL_Window *window;
-    SDL_WindowData *window_data;
+    SDL_کھڑکی *کھڑکی;
+    SDL_کھڑکی_ڈیٹا *کھڑکی_ڈیٹا_2;
 
     // TODO: pointer lock isn't actually enabled yet
-    if (enabled) {
-        window = SDL_GetMouseFocus();
-        if (!window) {
-            return false;
+    اگر (enabled) {
+        کھڑکی = SDL_GetMouseFocus();
+        اگر (!کھڑکی) {
+            واپس false;
         }
 
-        window_data = window->internal;
+        کھڑکی_ڈیٹا_2 = کھڑکی->اندرونی_2;
 
-        if (emscripten_request_pointerlock(window_data->canvas_id, 1) >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+        اگر (emscripten_request_pointerlock(کھڑکی_ڈیٹا_2->canvas_id, 1) >= EMSCRIPTEN_نتیجہ_SUCCESS) {
+            واپس true;
         }
-    } else {
-        if (emscripten_exit_pointerlock() >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+    } ورنہ {
+        اگر (emscripten_exit_pointerlock() >= EMSCRIPTEN_نتیجہ_SUCCESS) {
+            واپس true;
         }
     }
-    return false;
+    واپس false;
 }
 
-static SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(float *x, float *y)
+ساکن SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(اعشاری *x, اعشاری *y)
 {
     *x = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_x'];
+        واپس Module['SDL3']['mouse_x'];
     });
     *y = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_y'];
+        واپس Module['SDL3']['mouse_y'];
     });
     SDL_MouseButtonFlags flags = 0;
-    for (int i = 0; i < 5; ++i) {
-        const bool button_down = MAIN_THREAD_EM_ASM_INT({
-            return Module['SDL3']['mouse_buttons'][$0];
+    برائے (صحیح i = 0; i < 5; ++i) {
+        ثابت bool button_نیچے_کو = MAIN_THREAD_EM_ASM_INT({
+            واپس Module['SDL3']['mouse_buttons'][$0];
         }, i);
-        if (button_down) {
+        اگر (button_نیچے_کو) {
             flags |= 1 << i;
         }
     }
-    return flags;
+    واپس flags;
 }
 
-void Emscripten_InitMouse(void)
+خالی Emscripten_InitMouse(خالی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -224,7 +224,7 @@ void Emscripten_InitMouse(void)
     mouse->ShowCursor = Emscripten_ShowCursor;
     mouse->FreeCursor = Emscripten_FreeCursor;
     mouse->CreateSystemCursor = Emscripten_CreateSystemCursor;
-    mouse->SetRelativeMouseMode = Emscripten_SetRelativeMouseMode;
+    mouse->سیٹ_Relative_Mouse_منوال = Emscripten_سیٹ_Relative_Mouse_منوال;
 
     // Add event listeners to track mouse events on the document
     MAIN_THREAD_EM_ASM({
@@ -237,37 +237,37 @@ void Emscripten_InitMouse(void)
             NOTE: Some browsers do not allow handling the forwards and backwards buttons
         */
         SDL3['mouse_buttons'] = [];
-        for (var i = 0; i < 5; ++i) {
+        برائے (var i = 0; i < 5; ++i) {
             SDL3['mouse_buttons'][i] = false;
         }
-        document.addEventListener('mousemove', function(e) {
+        document.جوڑو_Event_Listener('mousemove', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
             SDL3['mouse_x'] = e.clientX;
             SDL3['mouse_y'] = e.clientY;
         });
-        document.addEventListener('mousedown', function(e) {
+        document.جوڑو_Event_Listener('mousedown', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            اگر (0 <= e.button && e.button < SDL3['mouse_buttons'].لمبائی) {
                 SDL3['mouse_buttons'][e.button] = true;
             }
         });
-        document.addEventListener('mouseup', function(e) {
+        document.جوڑو_Event_Listener('mouseup', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            اگر (0 <= e.button && e.button < SDL3['mouse_buttons'].لمبائی) {
                 SDL3['mouse_buttons'][e.button] = false;
             }
         });
     });
     mouse->GetGlobalMouseState = Emscripten_GetGlobalMouseState;
 
-    SDL_SetDefaultCursor(Emscripten_CreateDefaultCursor());
+    SDL_سیٹ_Default_Cursor(Emscripten_CreateDefaultCursor());
 }
 
-void Emscripten_QuitMouse(void)
+خالی Emscripten_QuitMouse(خالی)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#اگر_ختم // SDL_VIDEO_DRIVER_EMSCRIPTEN

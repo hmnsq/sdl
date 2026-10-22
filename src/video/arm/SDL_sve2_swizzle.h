@@ -25,191 +25,191 @@
  *
  */
 
-#if !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
-#define SD_SVE2_SWIZZLE_H
+#اگر !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
+#تعریف_کرو SD_SVE2_SWIZZLE_H
 
-#include "SDL_sve2_extension.h"
+#شامل "SDL_sve2_extension.h"
 
-#define sdl_sve_rgb32_stride_impl(ma_sve_chn_iterator, ...)   \
-    sdl_sve_stride_loop_pixel(uStride, vTailPred)             \
+#تعریف_کرو sdl_sve_rgb32_stride_impl(ma_sve_chn_iterator, ...)   \
+    sdl_sve_stride_loop_pixel(uStride, v_دم_Pred)             \
     {                                                         \
                                                               \
-        svuint16x4_t vSourceLow16x4 = svundef4_u16();         \
-        svuint16x4_t vSourceHigh16x4 = svundef4_u16();        \
+        svuint16x4_t v_ماخذ_Low16x4 = svundef4_u16();         \
+        svuint16x4_t v_ماخذ_High16x4 = svundef4_u16();        \
                                                               \
-        svuint16x4_t vTargetLow16x4 = svundef4_u16();         \
-        svuint16x4_t vTargetHigh16x4 = svundef4_u16();        \
+        svuint16x4_t v_ہدف_Low16x4 = svundef4_u16();         \
+        svuint16x4_t v_ہدف_High16x4 = svundef4_u16();        \
                                                               \
-        svld4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwSource,                      \
-                    &vSourceLow16x4,                          \
-                    &vSourceHigh16x4);                        \
+        svld4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ماخذ,                      \
+                    &v_ماخذ_Low16x4,                          \
+                    &v_ماخذ_High16x4);                        \
                                                               \
-        svld4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwTarget,                      \
-                    &vTargetLow16x4,                          \
-                    &vTargetHigh16x4);                        \
+        svld4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ہدف,                      \
+                    &v_ہدف_Low16x4,                          \
+                    &v_ہدف_High16x4);                        \
                                                               \
         /* process low half */                                \
-        ma_sve_chn_iterator(vSourceLow16x4, vTargetLow16x4,   \
+        ma_sve_chn_iterator(v_ماخذ_Low16x4, v_ہدف_Low16x4,   \
                             __VA_ARGS__);                     \
                                                               \
         /* process high half */                               \
-        ma_sve_chn_iterator(vSourceHigh16x4, vTargetHigh16x4, \
+        ma_sve_chn_iterator(v_ماخذ_High16x4, v_ہدف_High16x4, \
                             __VA_ARGS__);                     \
                                                               \
-        svst4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwTarget,                      \
-                    vTargetLow16x4,                           \
-                    vTargetHigh16x4);                         \
+        svst4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ہدف,                      \
+                    v_ہدف_Low16x4,                           \
+                    v_ہدف_High16x4);                         \
                                                               \
-        pwSource += sve_iteration_advance;                    \
-        pwTarget += sve_iteration_advance;                    \
+        pw_ماخذ += sve_iteration_advance;                    \
+        pw_ہدف += sve_iteration_advance;                    \
     }
 
-#define sdl_sve_rgb32_no_alpha_stride_impl(                   \
+#تعریف_کرو sdl_sve_rgb32_no_alpha_stride_impl(                   \
     ma_alpha_idx,                                             \
     ma_sve_chn_iterator,                                      \
     ...)                                                      \
-    sdl_sve_stride_loop_pixel(uStride, vTailPred)             \
+    sdl_sve_stride_loop_pixel(uStride, v_دم_Pred)             \
     {                                                         \
                                                               \
-        svuint16x4_t vSourceLow16x4 = svundef4_u16();         \
-        svuint16x4_t vSourceHigh16x4 = svundef4_u16();        \
+        svuint16x4_t v_ماخذ_Low16x4 = svundef4_u16();         \
+        svuint16x4_t v_ماخذ_High16x4 = svundef4_u16();        \
                                                               \
-        svuint16x4_t vTargetLow16x4 = svundef4_u16();         \
-        svuint16x4_t vTargetHigh16x4 = svundef4_u16();        \
+        svuint16x4_t v_ہدف_Low16x4 = svundef4_u16();         \
+        svuint16x4_t v_ہدف_High16x4 = svundef4_u16();        \
                                                               \
-        svld4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwSource,                      \
-                    &vSourceLow16x4,                          \
-                    &vSourceHigh16x4);                        \
+        svld4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ماخذ,                      \
+                    &v_ماخذ_Low16x4,                          \
+                    &v_ماخذ_High16x4);                        \
                                                               \
-        svld4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwTarget,                      \
-                    &vTargetLow16x4,                          \
-                    &vTargetHigh16x4);                        \
+        svld4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ہدف,                      \
+                    &v_ہدف_Low16x4,                          \
+                    &v_ہدف_High16x4);                        \
                                                               \
-        vSourceLow16x4 = svset4(vSourceLow16x4,               \
+        v_ماخذ_Low16x4 = svset4(v_ماخذ_Low16x4,               \
                                 (ma_alpha_idx),               \
                                 svdup_u16(0xFF));             \
-        vSourceHigh16x4 = svset4(vSourceHigh16x4,             \
+        v_ماخذ_High16x4 = svset4(v_ماخذ_High16x4,             \
                                  (ma_alpha_idx),              \
                                  svdup_u16(0xFF));            \
                                                               \
         /* process low half */                                \
-        ma_sve_chn_iterator(vSourceLow16x4, vTargetLow16x4,   \
+        ma_sve_chn_iterator(v_ماخذ_Low16x4, v_ہدف_Low16x4,   \
                             __VA_ARGS__);                     \
                                                               \
         /* process high half */                               \
-        ma_sve_chn_iterator(vSourceHigh16x4, vTargetHigh16x4, \
+        ma_sve_chn_iterator(v_ماخذ_High16x4, v_ہدف_High16x4, \
                             __VA_ARGS__);                     \
                                                               \
-        svst4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwTarget,                      \
-                    vTargetLow16x4,                           \
-                    vTargetHigh16x4);                         \
+        svst4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ہدف,                      \
+                    v_ہدف_Low16x4,                           \
+                    v_ہدف_High16x4);                         \
                                                               \
-        pwSource += sve_iteration_advance;                    \
-        pwTarget += sve_iteration_advance;                    \
+        pw_ماخذ += sve_iteration_advance;                    \
+        pw_ہدف += sve_iteration_advance;                    \
     }
 
-#define sdl_sve_rgb32_to_rgb565_stride_impl(ma_sve_chn_iterator, ...) \
-    sdl_sve_stride_loop_pixel(uStride, vTailPred)                     \
+#تعریف_کرو sdl_sve_rgb32_مقصد_rgb565_stride_impl(ma_sve_chn_iterator, ...) \
+    sdl_sve_stride_loop_pixel(uStride, v_دم_Pred)                     \
     {                                                                 \
                                                                       \
-        svuint16x4_t vSourceLow16x4 = svundef4_u16();                 \
-        svuint16x4_t vSourceHigh16x4 = svundef4_u16();                \
+        svuint16x4_t v_ماخذ_Low16x4 = svundef4_u16();                 \
+        svuint16x4_t v_ماخذ_High16x4 = svundef4_u16();                \
                                                                       \
-        svuint16x3_t vTargetLow16x3 = svundef3_u16();                 \
-        svuint16x3_t vTargetHigh16x3 = svundef3_u16();                \
+        svuint16x3_t v_ہدف_Low16x3 = svundef3_u16();                 \
+        svuint16x3_t v_ہدف_High16x3 = svundef3_u16();                \
                                                                       \
-        svld4ub_u16(vTailPred,                                        \
-                    (uint8_t *)pwSource,                              \
-                    &vSourceLow16x4,                                  \
-                    &vSourceHigh16x4);                                \
+        svld4ub_u16(v_دم_Pred,                                        \
+                    (uint8_t *)pw_ماخذ,                              \
+                    &v_ماخذ_Low16x4,                                  \
+                    &v_ماخذ_High16x4);                                \
                                                                       \
-        svld3rgb565_u16(vTailPred,                                    \
-                        phwTarget,                                    \
-                        &vTargetLow16x3,                              \
-                        &vTargetHigh16x3);                            \
+        svld3rgb565_u16(v_دم_Pred,                                    \
+                        phw_ہدف,                                    \
+                        &v_ہدف_Low16x3,                              \
+                        &v_ہدف_High16x3);                            \
                                                                       \
-        ma_sve_chn_iterator(vSourceLow16x4, vTargetLow16x3,           \
+        ma_sve_chn_iterator(v_ماخذ_Low16x4, v_ہدف_Low16x3,           \
                             __VA_ARGS__);                             \
                                                                       \
-        ma_sve_chn_iterator(vSourceHigh16x4, vTargetHigh16x3,         \
+        ma_sve_chn_iterator(v_ماخذ_High16x4, v_ہدف_High16x3,         \
                             __VA_ARGS__);                             \
                                                                       \
-        svst3rgb565_u16(vTailPred,                                    \
-                        phwTarget,                                    \
-                        vTargetLow16x3,                               \
-                        vTargetHigh16x3);                             \
+        svst3rgb565_u16(v_دم_Pred,                                    \
+                        phw_ہدف,                                    \
+                        v_ہدف_Low16x3,                               \
+                        v_ہدف_High16x3);                             \
                                                                       \
-        pwSource += sve_iteration_advance;                            \
-        phwTarget += sve_iteration_advance;                           \
+        pw_ماخذ += sve_iteration_advance;                            \
+        phw_ہدف += sve_iteration_advance;                           \
     }
 
-#define sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(         \
+#تعریف_کرو sdl_sve_rgb32_no_alpha_مقصد_rgb565_stride_impl(         \
     ma_alpha_idx,                                             \
     ma_sve_chn_iterator,                                      \
     ...)                                                      \
-    sdl_sve_stride_loop_pixel(uStride, vTailPred)             \
+    sdl_sve_stride_loop_pixel(uStride, v_دم_Pred)             \
     {                                                         \
                                                               \
-        svuint16x4_t vSourceLow16x4 = svundef4_u16();         \
-        svuint16x4_t vSourceHigh16x4 = svundef4_u16();        \
+        svuint16x4_t v_ماخذ_Low16x4 = svundef4_u16();         \
+        svuint16x4_t v_ماخذ_High16x4 = svundef4_u16();        \
                                                               \
-        svuint16x3_t vTargetLow16x3 = svundef3_u16();         \
-        svuint16x3_t vTargetHigh16x3 = svundef3_u16();        \
+        svuint16x3_t v_ہدف_Low16x3 = svundef3_u16();         \
+        svuint16x3_t v_ہدف_High16x3 = svundef3_u16();        \
                                                               \
-        svld4ub_u16(vTailPred,                                \
-                    (uint8_t *)pwSource,                      \
-                    &vSourceLow16x4,                          \
-                    &vSourceHigh16x4);                        \
+        svld4ub_u16(v_دم_Pred,                                \
+                    (uint8_t *)pw_ماخذ,                      \
+                    &v_ماخذ_Low16x4,                          \
+                    &v_ماخذ_High16x4);                        \
                                                               \
-        vSourceLow16x4 = svset4(vSourceLow16x4,               \
+        v_ماخذ_Low16x4 = svset4(v_ماخذ_Low16x4,               \
                                 (ma_alpha_idx),               \
                                 svdup_u16(0xFF));             \
-        vSourceHigh16x4 = svset4(vSourceHigh16x4,             \
+        v_ماخذ_High16x4 = svset4(v_ماخذ_High16x4,             \
                                  (ma_alpha_idx),              \
                                  svdup_u16(0xFF));            \
                                                               \
-        svld3rgb565_u16(vTailPred,                            \
-                        phwTarget,                            \
-                        &vTargetLow16x3,                      \
-                        &vTargetHigh16x3);                    \
+        svld3rgb565_u16(v_دم_Pred,                            \
+                        phw_ہدف,                            \
+                        &v_ہدف_Low16x3,                      \
+                        &v_ہدف_High16x3);                    \
                                                               \
-        ma_sve_chn_iterator(vSourceLow16x4, vTargetLow16x3,   \
+        ma_sve_chn_iterator(v_ماخذ_Low16x4, v_ہدف_Low16x3,   \
                             __VA_ARGS__);                     \
                                                               \
-        ma_sve_chn_iterator(vSourceHigh16x4, vTargetHigh16x3, \
+        ma_sve_chn_iterator(v_ماخذ_High16x4, v_ہدف_High16x3, \
                             __VA_ARGS__);                     \
                                                               \
-        svst3rgb565_u16(vTailPred,                            \
-                        phwTarget,                            \
-                        vTargetLow16x3,                       \
-                        vTargetHigh16x3);                     \
+        svst3rgb565_u16(v_دم_Pred,                            \
+                        phw_ہدف,                            \
+                        v_ہدف_Low16x3,                       \
+                        v_ہدف_High16x3);                     \
                                                               \
-        pwSource += sve_iteration_advance;                    \
-        phwTarget += sve_iteration_advance;                   \
+        pw_ماخذ += sve_iteration_advance;                    \
+        phw_ہدف += sve_iteration_advance;                   \
     }
 
-#ifndef sdl_sve_rgb32_blend_op_fill_alpha
-#define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)
-#endif
+#اگر_غیر_تعریف_شدہ sdl_sve_rgb32_blend_op_fill_alpha
+#تعریف_کرو sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)
+#اگر_ختم
 
-#ifndef sdl_sve_rgb32_blend_op_copy_alpha
-#define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)
-#endif
+#اگر_غیر_تعریف_شدہ sdl_sve_rgb32_blend_op_copy_alpha
+#تعریف_کرو sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)
+#اگر_ختم
 
 /*
  * Source: ACCC and CCCA
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_accc_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_accc_stride_blend_مقصد_accc_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -222,9 +222,9 @@ static inline void sdl_sve_accc_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_accc_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_accc_stride_blend_مقصد_accc_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -234,9 +234,9 @@ static inline void sdl_sve_accc_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_ccca_stride_blend_مقصد_ccca_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -246,9 +246,9 @@ static inline void sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_ccca_stride_blend_مقصد_ccca_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -261,97 +261,97 @@ static inline void sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_accc_fill_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_accc_blend_مقصد_accc_fill_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_accc_stride_blend_to_accc_fill_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_accc_stride_blend_مقصد_accc_fill_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_accc_copy_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_accc_blend_مقصد_accc_copy_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_accc_stride_blend_to_accc_copy_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_accc_stride_blend_مقصد_accc_copy_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_ccca_fill_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_ccca_blend_مقصد_ccca_fill_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_ccca_stride_blend_مقصد_ccca_fill_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_ccca_copy_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_ccca_blend_مقصد_ccca_copy_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_ccca_stride_blend_مقصد_ccca_copy_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_321a_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_a123_stride_blend_مقصد_321a_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -363,9 +363,9 @@ static inline void sdl_sve_a123_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_321a_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_a123_stride_blend_مقصد_321a_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -377,49 +377,49 @@ static inline void sdl_sve_a123_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_a123_blend_مقصد_321a_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_a123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_a123_stride_blend_مقصد_321a_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_a123_blend_مقصد_321a_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_a123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_a123_stride_blend_مقصد_321a_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_a321_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123a_stride_blend_مقصد_a321_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -431,9 +431,9 @@ static inline void sdl_sve_123a_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_a321_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123a_stride_blend_مقصد_a321_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -445,49 +445,49 @@ static inline void sdl_sve_123a_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123a_blend_مقصد_a321_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123a_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123a_stride_blend_مقصد_a321_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123a_blend_مقصد_a321_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123a_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123a_stride_blend_مقصد_a321_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_ccca_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_accc_stride_blend_مقصد_ccca_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -499,9 +499,9 @@ static inline void sdl_sve_accc_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_ccca_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_accc_stride_blend_مقصد_ccca_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -513,49 +513,49 @@ static inline void sdl_sve_accc_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_accc_blend_مقصد_ccca_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_accc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_accc_stride_blend_مقصد_ccca_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_accc_blend_مقصد_ccca_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_accc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_accc_stride_blend_مقصد_ccca_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_accc_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_ccca_stride_blend_مقصد_accc_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -567,9 +567,9 @@ static inline void sdl_sve_ccca_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_accc_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_ccca_stride_blend_مقصد_accc_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -579,49 +579,49 @@ static inline void sdl_sve_ccca_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_ccca_blend_مقصد_accc_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_ccca_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_ccca_stride_blend_مقصد_accc_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_ccca_blend_مقصد_accc_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_ccca_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_ccca_stride_blend_مقصد_accc_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_a321_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_a123_stride_blend_مقصد_a321_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -631,9 +631,9 @@ static inline void sdl_sve_a123_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_a321_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_a123_stride_blend_مقصد_a321_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -643,49 +643,49 @@ static inline void sdl_sve_a123_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_a123_blend_مقصد_a321_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_a123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_a123_stride_blend_مقصد_a321_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_a123_blend_مقصد_a321_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_a123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_a123_stride_blend_مقصد_a321_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_321a_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123a_stride_blend_مقصد_321a_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -695,9 +695,9 @@ static inline void sdl_sve_123a_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_321a_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123a_stride_blend_مقصد_321a_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_123a_321a,
@@ -706,41 +706,41 @@ static inline void sdl_sve_123a_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123a_blend_مقصد_321a_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123a_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123a_stride_blend_مقصد_321a_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123a_blend_مقصد_321a_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123a_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123a_stride_blend_مقصد_321a_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
@@ -750,9 +750,9 @@ static inline void sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_xccc_stride_blend_مقصد_accc_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -763,9 +763,9 @@ static inline void sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_xccc_stride_blend_مقصد_accc_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -776,9 +776,9 @@ static inline void sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_cccx_stride_blend_مقصد_ccca_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -791,9 +791,9 @@ static inline void sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_cccx_stride_blend_مقصد_ccca_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -804,97 +804,97 @@ static inline void sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_accc_fill_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_xccc_blend_مقصد_accc_fill_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_xccc_stride_blend_مقصد_accc_fill_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_accc_copy_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_xccc_blend_مقصد_accc_copy_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_xccc_stride_blend_مقصد_accc_copy_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_ccca_fill_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_cccx_blend_مقصد_ccca_fill_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_cccx_stride_blend_مقصد_ccca_fill_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_ccca_copy_alpha(
-    uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
-    uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+ساکن اندرونی خالی sdl_sve_cccx_blend_مقصد_ccca_copy_alpha(
+    uint8_t *SDL_RESTRICT pch_ماخذ,
+    size_t u_ماخذ_Stride,
+    uint8_t *SDL_RESTRICT pch_ہدف,
+    size_t u_ہدف_Stride,
+    صحیح n_چوڑائی,
+    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
-            (uint32_t *)pchSource,
-            (uint32_t *)pchTarget,
-            nWidth);
+        sdl_sve_cccx_stride_blend_مقصد_ccca_copy_alpha(
+            (uint32_t *)pch_ماخذ,
+            (uint32_t *)pch_ہدف,
+            n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_321a_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_x123_stride_blend_مقصد_321a_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -905,9 +905,9 @@ static inline void sdl_sve_x123_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_321a_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_x123_stride_blend_مقصد_321a_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -918,49 +918,49 @@ static inline void sdl_sve_x123_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_x123_blend_مقصد_321a_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_x123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_x123_stride_blend_مقصد_321a_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_x123_blend_مقصد_321a_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_x123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_x123_stride_blend_مقصد_321a_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_a321_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123x_stride_blend_مقصد_a321_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -971,9 +971,9 @@ static inline void sdl_sve_123x_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_a321_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123x_stride_blend_مقصد_a321_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -984,49 +984,49 @@ static inline void sdl_sve_123x_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123x_blend_مقصد_a321_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123x_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123x_stride_blend_مقصد_a321_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123x_blend_مقصد_a321_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123x_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123x_stride_blend_مقصد_a321_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_ccca_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_xccc_stride_blend_مقصد_ccca_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1037,9 +1037,9 @@ static inline void sdl_sve_xccc_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_ccca_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_xccc_stride_blend_مقصد_ccca_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1050,49 +1050,49 @@ static inline void sdl_sve_xccc_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_xccc_blend_مقصد_ccca_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xccc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_xccc_stride_blend_مقصد_ccca_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_xccc_blend_مقصد_ccca_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xccc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_xccc_stride_blend_مقصد_ccca_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_accc_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_cccx_stride_blend_مقصد_accc_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1103,9 +1103,9 @@ static inline void sdl_sve_cccx_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_accc_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_cccx_stride_blend_مقصد_accc_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1116,49 +1116,49 @@ static inline void sdl_sve_cccx_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_cccx_blend_مقصد_accc_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_cccx_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_cccx_stride_blend_مقصد_accc_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_cccx_blend_مقصد_accc_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_cccx_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_cccx_stride_blend_مقصد_accc_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_a321_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_x123_stride_blend_مقصد_a321_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1169,9 +1169,9 @@ static inline void sdl_sve_x123_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_a321_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_x123_stride_blend_مقصد_a321_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1182,49 +1182,49 @@ static inline void sdl_sve_x123_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_x123_blend_مقصد_a321_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_x123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_x123_stride_blend_مقصد_a321_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_x123_blend_مقصد_a321_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_x123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_x123_stride_blend_مقصد_a321_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_321a_fill_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123x_stride_blend_مقصد_321a_fill_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
 
@@ -1235,9 +1235,9 @@ static inline void sdl_sve_123x_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_321a_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ساکن اندرونی خالی sdl_sve_123x_stride_blend_مقصد_321a_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ماخذ,
+    uint32_t *SDL_RESTRICT pw_ہدف,
     size_t uStride)
 {
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -1247,892 +1247,892 @@ static inline void sdl_sve_123x_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123x_blend_مقصد_321a_fill_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123x_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123x_stride_blend_مقصد_321a_fill_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
-                                                         uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+ساکن اندرونی خالی sdl_sve_123x_blend_مقصد_321a_copy_alpha(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                         size_t u_ماخذ_Stride,
+                                                         uint8_t *SDL_RESTRICT pch_ہدف,
+                                                         size_t u_ہدف_Stride,
+                                                         صحیح n_چوڑائی,
+                                                         صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_123x_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
-                                                     (uint32_t *)pchTarget,
-                                                     nWidth);
+        sdl_sve_123x_stride_blend_مقصد_321a_copy_alpha((uint32_t *)pch_ماخذ,
+                                                     (uint32_t *)pch_ہدف,
+                                                     n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
-static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
+ساکن اندرونی خالی sdl_sve_8888_مقصد_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحیح چوڑائی = info->dst_w;
+    صحیح اونچائی = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    صحیح srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    صحیح dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ثابت SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ثابت SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    صحیح srcbpp = srcfmt->بائٹیں_فی_pixel;
+    صحیح dstbpp = dstfmt->بائٹیں_فی_pixel;
 
-    assert((srcbpp == 4) && (dstbpp == 4));
+    أكد((srcbpp == 4) && (dstbpp == 4));
 
     bool fill_alpha = (!dstfmt->Amask);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    صحیح srcstride = srcskip + srcbpp * چوڑائی;
+    صحیح dststride = dstskip + dstbpp * چوڑائی;
 
-    switch (srcfmt->format) {
-    case SDL_PIXELFORMAT_XRGB8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_xccc_blend_to_accc_fill_alpha(
+    انتخاب (srcfmt->format) {
+    حالت SDL_PIXELFORMAT_XRGB8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_xccc_blend_مقصد_accc_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_xccc_blend_to_accc_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_xccc_blend_مقصد_accc_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_xccc_blend_مقصد_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_xccc_blend_مقصد_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_x123_blend_to_a321_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_x123_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_x123_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_x123_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_x123_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_x123_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_x123_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_x123_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_ARGB8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_accc_blend_to_accc_fill_alpha(
+    حالت SDL_PIXELFORMAT_ARGB8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_accc_blend_مقصد_accc_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_accc_blend_to_accc_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_accc_blend_مقصد_accc_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_accc_blend_to_ccca_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_accc_blend_مقصد_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_accc_blend_to_ccca_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_accc_blend_مقصد_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_a123_blend_to_a321_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_a123_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_a123_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_a123_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_a123_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_a123_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_a123_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_a123_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_RGBX8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_cccx_blend_to_accc_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_RGBX8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_cccx_blend_مقصد_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_cccx_blend_to_accc_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_cccx_blend_مقصد_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_cccx_blend_to_ccca_fill_alpha(
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_cccx_blend_مقصد_ccca_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_cccx_blend_to_ccca_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_cccx_blend_مقصد_ccca_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_123x_blend_to_a321_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_123x_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123x_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123x_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_123x_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_123x_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123x_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123x_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_RGBA8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_ccca_blend_to_accc_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_RGBA8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_ccca_blend_مقصد_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_ccca_blend_to_accc_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_ccca_blend_مقصد_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_ccca_blend_to_ccca_fill_alpha(
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_ccca_blend_مقصد_ccca_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_ccca_blend_to_ccca_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_ccca_blend_مقصد_ccca_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_123a_blend_to_a321_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_123a_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123a_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123a_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_123a_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_123a_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123a_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123a_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_XBGR8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_x123_blend_to_a321_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_XBGR8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_x123_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_x123_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_x123_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_x123_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_x123_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_x123_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_x123_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_xccc_blend_to_accc_fill_alpha(
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_xccc_blend_مقصد_accc_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_xccc_blend_to_accc_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_xccc_blend_مقصد_accc_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_xccc_blend_مقصد_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_xccc_blend_مقصد_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_ABGR8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_a123_blend_to_a321_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_ABGR8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_a123_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_a123_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_a123_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_a123_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_a123_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_a123_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_a123_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_accc_blend_to_accc_fill_alpha(
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_accc_blend_مقصد_accc_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_accc_blend_to_accc_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_accc_blend_مقصد_accc_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_accc_blend_to_ccca_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_accc_blend_مقصد_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_accc_blend_to_ccca_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_accc_blend_مقصد_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_BGRX8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_123x_blend_to_a321_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_BGRX8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_123x_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123x_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123x_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_123x_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_123x_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123x_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123x_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_cccx_blend_to_accc_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_cccx_blend_مقصد_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_cccx_blend_to_accc_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_cccx_blend_مقصد_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_cccx_blend_to_ccca_fill_alpha(
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_cccx_blend_مقصد_ccca_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_cccx_blend_to_ccca_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_cccx_blend_مقصد_ccca_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    case SDL_PIXELFORMAT_BGRA8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
-                sdl_sve_123a_blend_to_a321_fill_alpha(src,
+    حالت SDL_PIXELFORMAT_BGRA8888:
+        انتخاب (dstfmt->format) {
+        حالت SDL_PIXELFORMAT_ARGB8888:
+        حالت SDL_PIXELFORMAT_XRGB8888:
+            اگر (fill_alpha) {
+                sdl_sve_123a_blend_مقصد_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123a_blend_to_a321_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123a_blend_مقصد_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
-                sdl_sve_123a_blend_to_321a_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_RGBA8888:
+        حالت SDL_PIXELFORMAT_RGBX8888:
+            اگر (fill_alpha) {
+                sdl_sve_123a_blend_مقصد_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_123a_blend_to_321a_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_123a_blend_مقصد_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
-                sdl_sve_ccca_blend_to_accc_fill_alpha(src,
+        حالت SDL_PIXELFORMAT_ABGR8888:
+        حالت SDL_PIXELFORMAT_XBGR8888:
+            اگر (fill_alpha) {
+                sdl_sve_ccca_blend_مقصد_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
-            } else {
-                sdl_sve_ccca_blend_to_accc_copy_alpha(src,
+                                                      چوڑائی,
+                                                      اونچائی);
+            } ورنہ {
+                sdl_sve_ccca_blend_مقصد_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
-                                                      width,
-                                                      height);
+                                                      چوڑائی,
+                                                      اونچائی);
             }
-            break;
+            توڑو;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
-                sdl_sve_ccca_blend_to_ccca_fill_alpha(
+        حالت SDL_PIXELFORMAT_BGRA8888:
+        حالت SDL_PIXELFORMAT_BGRX8888:
+            اگر (fill_alpha) {
+                sdl_sve_ccca_blend_مقصد_ccca_fill_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
-            } else {
-                sdl_sve_ccca_blend_to_ccca_copy_alpha(
+                    چوڑائی,
+                    اونچائی);
+            } ورنہ {
+                sdl_sve_ccca_blend_مقصد_ccca_copy_alpha(
                     src,
                     srcstride,
                     dst,
                     dststride,
-                    width,
-                    height);
+                    چوڑائی,
+                    اونچائی);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            توڑو;
+        طےشدہ:
+            أكد(false);
+            توڑو;
         }
-        break;
+        توڑو;
 
-    default:
-        assert(false);
-        break;
+    طےشدہ:
+        أكد(false);
+        توڑو;
     }
 }
 
-#ifndef sdl_sve_rgb32_blend_to_rgb565_op
-#define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx)
-#endif
+#اگر_غیر_تعریف_شدہ sdl_sve_rgb32_blend_مقصد_rgb565_op
+#تعریف_کرو sdl_sve_rgb32_blend_مقصد_rgb565_op(ma_alpha_chn_idx)
+#اگر_ختم
 
 /*
  * ACCC or CCCA
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_argb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_argb8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_to_rgb565_stride_impl(
+    sdl_sve_rgb32_مقصد_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_argb_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(3);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(3);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_argb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_argb8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_argb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_argb8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgba8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_rgba8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_to_rgb565_stride_impl(
+    sdl_sve_rgb32_مقصد_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_rgba_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(0);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(0);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgba8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_rgba8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_rgba8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_rgba8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_bgra8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_bgra8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_to_rgb565_stride_impl(
+    sdl_sve_rgb32_مقصد_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_bgra_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(0);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(0);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_bgra8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_bgra8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_bgra8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_bgra8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_abgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_abgr8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_to_rgb565_stride_impl(
+    sdl_sve_rgb32_مقصد_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_abgr_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(3);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(3);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_abgr8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_abgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_abgr8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
@@ -2141,241 +2141,241 @@ static inline void sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xrgb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_xrgb8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
+    sdl_sve_rgb32_no_alpha_مقصد_rgb565_stride_impl(
         3,
         sdl_sve_pixel_u16x4_foreach_chn_argb_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(3);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(3);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xrgb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_xrgb8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xrgb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_xrgb8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgbx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_rgbx8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
+    sdl_sve_rgb32_no_alpha_مقصد_rgb565_stride_impl(
         0,
         sdl_sve_pixel_u16x4_foreach_chn_rgba_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(0);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(0);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgbx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_rgbx8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_rgbx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_rgbx8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_bgrx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_bgrx8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
+    sdl_sve_rgb32_no_alpha_مقصد_rgb565_stride_impl(
         0,
         sdl_sve_pixel_u16x4_foreach_chn_bgra_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(0);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(0);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_bgrx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_bgrx8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_bgrx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_bgrx8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xbgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
-                                                           uint16_t *SDL_RESTRICT phwTarget,
+ساکن اندرونی خالی sdl_sve_xbgr8888_stride_blend_مقصد_rgb565(uint32_t *SDL_RESTRICT pw_ماخذ,
+                                                           uint16_t *SDL_RESTRICT phw_ہدف,
                                                            size_t uStride)
 {
-    sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
+    sdl_sve_rgb32_no_alpha_مقصد_rgb565_stride_impl(
         3,
         sdl_sve_pixel_u16x4_foreach_chn_abgr_rgb565,
         {
-            sdl_sve_rgb32_blend_to_rgb565_op(3);
+            sdl_sve_rgb32_blend_مقصد_rgb565_op(3);
         });
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xbgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
-                                                    uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+ساکن اندرونی خالی sdl_sve_xbgr8888_blend_مقصد_rgb565(uint8_t *SDL_RESTRICT pch_ماخذ,
+                                                    size_t u_ماخذ_Stride,
+                                                    uint8_t *SDL_RESTRICT pch_ہدف,
+                                                    size_t u_ہدف_Stride,
+                                                    صحیح n_چوڑائی,
+                                                    صحیح n_اونچائی)
 {
-    while (nHeight--) {
+    جب (n_اونچائی--) {
 
-        sdl_sve_xbgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
-                                                (uint16_t *)pchTarget,
-                                                nWidth);
+        sdl_sve_xbgr8888_stride_blend_مقصد_rgb565((uint32_t *)pch_ماخذ,
+                                                (uint16_t *)pch_ہدف,
+                                                n_چوڑائی);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ماخذ += u_ماخذ_Stride;
+        pch_ہدف += u_ہدف_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
-static inline void sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(SDL_BlitInfo *info)
+ساکن اندرونی خالی sdl_sve_rgb32_مقصد_rgb565_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحیح چوڑائی = info->dst_w;
+    صحیح اونچائی = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    صحیح srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    صحیح dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ثابت SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ثابت SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    صحیح srcbpp = srcfmt->بائٹیں_فی_pixel;
+    صحیح dstbpp = dstfmt->بائٹیں_فی_pixel;
 
-    assert(srcbpp == 4);
-    assert(dstbpp == 2);
+    أكد(srcbpp == 4);
+    أكد(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    صحیح srcstride = srcskip + srcbpp * چوڑائی;
+    صحیح dststride = dstskip + dstbpp * چوڑائی;
 
-    switch (srcfmt->format) {
-    case SDL_PIXELFORMAT_XRGB8888:
-        sdl_sve_xrgb8888_blend_to_rgb565(src,
+    انتخاب (srcfmt->format) {
+    حالت SDL_PIXELFORMAT_XRGB8888:
+        sdl_sve_xrgb8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_ARGB8888:
-        sdl_sve_argb8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_ARGB8888:
+        sdl_sve_argb8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_RGBX8888:
-        sdl_sve_rgbx8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_RGBX8888:
+        sdl_sve_rgbx8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_RGBA8888:
-        sdl_sve_rgba8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_RGBA8888:
+        sdl_sve_rgba8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_XBGR8888:
-        sdl_sve_xbgr8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_XBGR8888:
+        sdl_sve_xbgr8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_ABGR8888:
-        sdl_sve_abgr8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_ABGR8888:
+        sdl_sve_abgr8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_BGRX8888:
-        sdl_sve_bgrx8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_BGRX8888:
+        sdl_sve_bgrx8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    case SDL_PIXELFORMAT_BGRA8888:
-        sdl_sve_bgra8888_blend_to_rgb565(src,
+    حالت SDL_PIXELFORMAT_BGRA8888:
+        sdl_sve_bgra8888_blend_مقصد_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
-                                         width,
-                                         height);
-        break;
+                                         چوڑائی,
+                                         اونچائی);
+        توڑو;
 
-    default:
-        assert(false);
-        break;
+    طےشدہ:
+        أكد(false);
+        توڑو;
     }
 }
 
-#endif /* SD_SVE2_SWIZZLE_H */
+#اگر_ختم /* SD_SVE2_SWIZZLE_H */

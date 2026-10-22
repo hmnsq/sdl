@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_yuv_c_h_
-#define SDL_yuv_c_h_
+#اگر_غیر_تعریف_شدہ SDL_yuv_c_h_
+#تعریف_کرو SDL_yuv_c_h_
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 // YUV conversion functions
 
-extern bool SDL_ConvertPixels_YUV_to_RGB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_RGB_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_YUV_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+خارجی bool SDL_Convert_Pixels_YUV_مقصد_RGB(صحیح چوڑائی, صحیح اونچائی, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت خالی *src, صحیح src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, خالی *dst, صحیح dst_pitch);
+خارجی bool SDL_Convert_Pixels_RGB_مقصد_YUV(صحیح چوڑائی, صحیح اونچائی, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت خالی *src, صحیح src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, خالی *dst, صحیح dst_pitch);
+خارجی bool SDL_Convert_Pixels_YUV_مقصد_YUV(صحیح چوڑائی, صحیح اونچائی, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت خالی *src, صحیح src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, خالی *dst, صحیح dst_pitch);
 
 
-extern bool SDL_CalculateYUVSize(SDL_PixelFormat format, int w, int h, size_t *size, size_t *pitch);
+خارجی bool SDL_CalculateYUVSize(SDL_PixelFormat format, صحیح w, صحیح h, size_t *سائز, size_t *pitch);
 
-#endif // SDL_yuv_c_h_
+#اگر_ختم // SDL_yuv_c_h_

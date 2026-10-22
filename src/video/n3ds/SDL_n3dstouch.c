@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#شامل <3ds.h>
 
-#include "../../events/SDL_touch_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#شامل "../../events/SDL_touch_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "SDL_n3dstouch.h"
+#شامل "SDL_n3dsvideo.h"
 
-#define N3DS_TOUCH_ID 1
-#define N3DS_TOUCH_FINGER 1
+#تعریف_کرو N3DS_TOUCH_ID 1
+#تعریف_کرو N3DS_TOUCH_FINGER 1
 
 /*
   Factors used to convert touchscreen coordinates to
@@ -39,48 +39,48 @@
   internally in a portrait disposition so the
   GSP_SCREEN constants are flipped.
 */
-#define TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
-#define TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_WIDTH - 1)
+#تعریف_کرو TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_اونچائی_BOTTOM - 1)
+#تعریف_کرو TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_چوڑائی - 1)
 
-void N3DS_InitTouch(void)
+خالی N3DS_InitTouch(خالی)
 {
-    SDL_AddTouch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_DIRECT, "Touchscreen");
+    SDL_جوڑو_Touch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_براہ_راست, "Touchscreen");
 }
 
-void N3DS_QuitTouch(void)
+خالی N3DS_QuitTouch(خالی)
 {
     SDL_DelTouch(N3DS_TOUCH_ID);
 }
 
-void N3DS_PollTouch(SDL_VideoDevice *_this)
+خالی N3DS_PollTouch(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_ڈیٹا *اندرونی_2 = (SDL_Video_ڈیٹا *)_this->اندرونی_2;
     touchPosition touch;
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     SDL_VideoDisplay *display;
-    static bool was_pressed = false;
+    ساکن bool was_pressed = false;
     bool pressed;
     hidTouchRead(&touch);
     pressed = (touch.px != 0 || touch.py != 0);
 
-    display = SDL_GetVideoDisplay(internal->touch_display);
-    window = display ? display->fullscreen_window : NULL;
+    display = SDL_GetVideoDisplay(اندرونی_2->touch_display);
+    کھڑکی = display ? display->fullscreen_کھڑکی : تہی;
 
-    if (pressed != was_pressed) {
+    اگر (pressed != was_pressed) {
         was_pressed = pressed;
         SDL_SendTouch(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                      window,
-                      pressed ? SDL_EVENT_FINGER_DOWN : SDL_EVENT_FINGER_UP,
+                      کھڑکی,
+                      pressed ? SDL_EVENT_FINGER_نیچے_کو : SDL_EVENT_FINGER_اوپر,
                       touch.px * TOUCHSCREEN_SCALE_X,
                       touch.py * TOUCHSCREEN_SCALE_Y,
                       pressed ? 1.0f : 0.0f);
-    } else if (pressed) {
+    } ورنہ اگر (pressed) {
         SDL_SendTouchMotion(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                            window,
+                            کھڑکی,
                             touch.px * TOUCHSCREEN_SCALE_X,
                             touch.py * TOUCHSCREEN_SCALE_Y,
                             1.0f);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#اگر_ختم // SDL_VIDEO_DRIVER_N3DS

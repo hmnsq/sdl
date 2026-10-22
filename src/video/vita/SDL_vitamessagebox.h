@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitamessagebox_h_
-#define SDL_vitamessagebox_h_
+#اگر_غیر_تعریف_شدہ SDL_vitamessagebox_h_
+#تعریف_کرو SDL_vitamessagebox_h_
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VITA
 
-extern bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+خارجی bool VITA_Show_پیغام_Box(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#اگر_ختم // SDL_VIDEO_DRIVER_VITA
 
-#endif // SDL_vitamessagebox_h_
+#اگر_ختم // SDL_vitamessagebox_h_

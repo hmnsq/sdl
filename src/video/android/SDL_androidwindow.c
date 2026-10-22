@@ -18,109 +18,109 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_ANDROID
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/android/SDL_android.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_windowevents_c.h"
+#شامل "../../core/android/SDL_android.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidwindow.h"
+#شامل "SDL_androidvideo.h"
+#شامل "SDL_androidevents.h"
+#شامل "SDL_androidwindow.h"
 
 
 // Currently only one window
-SDL_Window *Android_Window = NULL;
+SDL_کھڑکی *Android_کھڑکی = تہی;
 
-bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool Android_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    bool result = true;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
+    bool نتیجہ = true;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return false;
+    اگر (!Android_Wait_فعال_And_تالا_Activity()) {
+        واپس false;
     }
 
-    if (Android_Window) {
-        result = SDL_SetError("Android only supports one window");
-        goto endfunction;
+    اگر (Android_کھڑکی) {
+        نتیجہ = SDL_سیٹ_Error("Android only supports one window");
+        جاؤ endfunction;
     }
 
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+    Android_JNI_سیٹ_Orientation(کھڑکی->w, کھڑکی->h, کھڑکی->flags & SDL_کھڑکی_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 
     // Adjust the window data to match the screen
-    window->x = 0;
-    window->y = 0;
-    window->w = Android_SurfaceWidth;
-    window->h = Android_SurfaceHeight;
+    کھڑکی->x = 0;
+    کھڑکی->y = 0;
+    کھڑکی->w = Android_Surface_چوڑائی;
+    کھڑکی->h = Android_Surface_اونچائی;
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_سیٹ_Mouse_Focus(کھڑکی);
+    SDL_سیٹ_Keyboard_Focus(کھڑکی);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        result = false;
-        goto endfunction;
+    ڈیٹا = (SDL_کھڑکی_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
+        نتیجہ = false;
+        جاؤ endfunction;
     }
 
-    data->native_window = Android_JNI_GetNativeWindow();
-    if (!data->native_window) {
-        SDL_free(data);
-        result = SDL_SetError("Could not fetch native window");
-        goto endfunction;
+    ڈیٹا->native_کھڑکی = Android_JNI_Get_Native_کھڑکی();
+    اگر (!ڈیٹا->native_کھڑکی) {
+        SDL_free(ڈیٹا);
+        نتیجہ = SDL_سیٹ_Error("Could not fetch native window");
+        جاؤ endfunction;
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, data->native_window);
+    SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_ANDROID_کھڑکی_اشارہ_گر, ڈیٹا->native_کھڑکی);
 
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+        ڈیٹا->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)ڈیٹا->native_کھڑکی);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            ANativeWindow_release(data->native_window);
-            SDL_free(data);
-            result = false;
-            goto endfunction;
+        اگر (ڈیٹا->egl_surface == EGL_NO_SURFACE) {
+            ANative_کھڑکی_release(ڈیٹا->native_کھڑکی);
+            SDL_free(ڈیٹا);
+            نتیجہ = false;
+            جاؤ endfunction;
         }
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER, data->egl_surface);
-#endif
+    SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_ANDROID_SURFACE_اشارہ_گر, ڈیٹا->egl_surface);
+#اگر_ختم
 
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
+    SDL_سیٹ_کھڑکی_محفوظ_Area_Insets(کھڑکی, Android_محفوظ_Inset_بایاں, Android_محفوظ_Inset_دایاں, Android_محفوظ_Inset_چوٹی, Android_محفوظ_Inset_Bottom);
 
-    window->internal = data;
-    Android_Window = window;
+    کھڑکی->اندرونی_2 = ڈیٹا;
+    Android_کھڑکی = کھڑکی;
 
 endfunction:
 
     Android_UnlockActivityMutex();
 
-    return result;
+    واپس نتیجہ;
 }
 
-void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Android_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    Android_JNI_SetActivityTitle(window->title);
+    Android_JNI_سیٹ_Activity_Title(کھڑکی->title);
 }
 
-SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_نتیجہ Android_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    Android_LockActivityMutex();
+    Android_تالا_Activity_Mutex();
 
-    if (window == Android_Window) {
-        SDL_WindowData *data;
-        int old_w, old_h, new_w, new_h;
+    اگر (کھڑکی == Android_کھڑکی) {
+        SDL_کھڑکی_ڈیٹا *ڈیٹا;
+        صحیح old_w, old_h, new_w, new_h;
 
         // If the window is being destroyed don't change visible state
-        if (!window->is_destroying) {
-            Android_JNI_SetWindowStyle(fullscreen);
+        اگر (!کھڑکی->is_destroying) {
+            Android_JNI_سیٹ_کھڑکی_Style(fullscreen);
         }
 
         /* Ensure our size matches reality after we've executed the window style change.
@@ -129,30 +129,30 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * Samsung DeX or Chromebooks or other windowed Android environments, our window may
          * still not be the full display size.
          */
-        if (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
-            goto endfunction;
+        اگر (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
+            جاؤ endfunction;
         }
 
-        data = window->internal;
-        if (!data || !data->native_window) {
-            if (data && !data->native_window) {
-                SDL_SetError("Missing native window");
+        ڈیٹا = کھڑکی->اندرونی_2;
+        اگر (!ڈیٹا || !ڈیٹا->native_کھڑکی) {
+            اگر (ڈیٹا && !ڈیٹا->native_کھڑکی) {
+                SDL_سیٹ_Error("Missing native window");
             }
-            goto endfunction;
+            جاؤ endfunction;
         }
 
-        old_w = window->w;
-        old_h = window->h;
+        old_w = کھڑکی->w;
+        old_h = کھڑکی->h;
 
-        new_w = ANativeWindow_getWidth(data->native_window);
-        new_h = ANativeWindow_getHeight(data->native_window);
+        new_w = ANative_کھڑکی_get_چوڑائی(ڈیٹا->native_کھڑکی);
+        new_h = ANative_کھڑکی_get_اونچائی(ڈیٹا->native_کھڑکی);
 
-        if (new_w < 0 || new_h < 0) {
-            SDL_SetError("ANativeWindow_getWidth/Height() fails");
+        اگر (new_w < 0 || new_h < 0) {
+            SDL_سیٹ_Error("ANativeWindow_getWidth/Height() fails");
         }
 
-        if (old_w != new_w || old_h != new_h) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, new_w, new_h);
+        اگر (old_w != new_w || old_h != new_h) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, new_w, new_h);
         }
     }
 
@@ -160,45 +160,45 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    واپس SDL_FULLSCREEN_SUCCEEDED;
 }
 
-void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Android_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    Android_JNI_MinimizeWindow();
+    Android_JNI_Minimize_کھڑکی();
 }
 
-void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+خالی Android_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable)
 {
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+    Android_JNI_سیٹ_Orientation(کھڑکی->w, کھڑکی->h, کھڑکی->flags & SDL_کھڑکی_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 }
 
-void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Android_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    Android_LockActivityMutex();
+    Android_تالا_Activity_Mutex();
 
-    if (window == Android_Window) {
-        Android_Window = NULL;
+    اگر (کھڑکی == Android_کھڑکی) {
+        Android_کھڑکی = تہی;
 
-        if (window->internal) {
-            SDL_WindowData *data = window->internal;
+        اگر (کھڑکی->اندرونی_2) {
+            SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
-                SDL_EGL_DestroySurface(_this, data->egl_surface);
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+            اگر (ڈیٹا->egl_surface != EGL_NO_SURFACE) {
+                SDL_EGL_DestroySurface(_this, ڈیٹا->egl_surface);
             }
-#endif
+#اگر_ختم
 
-            if (data->native_window) {
-                ANativeWindow_release(data->native_window);
+            اگر (ڈیٹا->native_کھڑکی) {
+                ANative_کھڑکی_release(ڈیٹا->native_کھڑکی);
             }
-            SDL_free(window->internal);
-            window->internal = NULL;
+            SDL_free(کھڑکی->اندرونی_2);
+            کھڑکی->اندرونی_2 = تہی;
         }
     }
 
     Android_UnlockActivityMutex();
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#اگر_ختم // SDL_VIDEO_DRIVER_ANDROID

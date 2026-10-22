@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_waylandeventthread_h_
-#define SDL_waylandeventthread_h_
+#اگر_غیر_تعریف_شدہ SDL_waylandeventthread_h_
+#تعریف_کرو SDL_waylandeventthread_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-typedef struct Wayland_EventThreadContext Wayland_EventThreadContext;
-typedef struct Wayland_JobThreadContext Wayland_JobThreadContext;
-typedef void (*Wayland_JobThreadCallback)(void *userdata);
-typedef Uint32 Wayland_JobID;
+قسمتعریف ساخت Wayland_EventThreadContext Wayland_EventThreadContext;
+قسمتعریف ساخت Wayland_کام_Thread_Context Wayland_کام_Thread_Context;
+قسمتعریف خالی (*Wayland_کام_Thread_Callback)(خالی *userdata);
+قسمتعریف Uint32 Wayland_کام_ID;
 
-extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name);
-extern void Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
-extern void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj);
-extern void Wayland_LockEventThread(Wayland_EventThreadContext *context);
-extern void Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
+خارجی Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_Video_ڈیٹا *ڈیٹا, ثابت حرف *قطار_name);
+خارجی خالی Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
+خارجی خالی *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, خالی *obj);
+خارجی خالی Wayland_تالا_Event_Thread(Wayland_EventThreadContext *context);
+خارجی خالی Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
 
-extern Wayland_JobThreadContext *Wayland_CreateJobThread();
-extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
-extern bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, void *userdata, Wayland_JobID *id);
-extern void Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
+خارجی Wayland_کام_Thread_Context *Wayland_Create_کام_Thread();
+خارجی خالی Wayland_Destroy_کام_Thread(Wayland_کام_Thread_Context *context);
+خارجی bool Wayland_کام_Thread_جوڑو_کام(Wayland_کام_Thread_Context *context, Wayland_کام_Thread_Callback callback, خالی *userdata, Wayland_کام_ID *id);
+خارجی خالی Wayland_کام_Thread_Cancel_کام(Wayland_کام_Thread_Context *context, Wayland_کام_ID id);
 
-#endif // SDL_waylandeventthread_h_
+#اگر_ختم // SDL_waylandeventthread_h_

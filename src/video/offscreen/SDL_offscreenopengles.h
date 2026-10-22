@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_offscreenopengles_h
-#define SDL_offscreenopengles_h
+#اگر_غیر_تعریف_شدہ SDL_offscreenopengles_h
+#تعریف_کرو SDL_offscreenopengles_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#اگر defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_egl_c.h"
 
-#define OFFSCREEN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define OFFSCREEN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define OFFSCREEN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
+#تعریف_کرو OFFSCREEN_GLES_Get_Proc_پتہ  SDL_EGL_Get_Proc_پتہ_اندرونی
+#تعریف_کرو OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#تعریف_کرو OFFSCREEN_GLES_Get_تبادلہ_Interval SDL_EGL_Get_تبادلہ_Interval
+#تعریف_کرو OFFSCREEN_GLES_سیٹ_تبادلہ_Interval SDL_EGL_سیٹ_تبادلہ_Interval
+#تعریف_کرو OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool OFFSCREEN_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجی bool OFFSCREEN_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
+#اگر_ختم // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_offscreenopengles_h
+#اگر_ختم // SDL_offscreenopengles_h

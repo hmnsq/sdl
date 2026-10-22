@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_waylandutil_h_
-#define SDL_waylandutil_h_
+#اگر_غیر_تعریف_شدہ SDL_waylandutil_h_
+#تعریف_کرو SDL_waylandutil_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
 /**
  * Generates an activation token that can be passed to external clients.
  * The token and window_id parameters must be freed with SDL_free() when done.
  */
-extern bool Wayland_GetActivationTokenForExport(SDL_VideoDevice *_this, char **token, char **window_id);
+خارجی bool Wayland_GetActivationTokenForExport(SDL_VideoDevice *_this, حرف **token, حرف **کھڑکی_id);
 
-#endif // SDL_waylandutil_h_
+#اگر_ختم // SDL_waylandutil_h_

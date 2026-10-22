@@ -18,52 +18,52 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_windowswindow_h_
-#define SDL_windowswindow_h_
+#اگر_غیر_تعریف_شدہ SDL_windowswindow_h_
+#تعریف_کرو SDL_windowswindow_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#else
-#include "../SDL_sysvideo.h"
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+#شامل "../SDL_egl_c.h"
+#ورنہ
+#شامل "../SDL_sysvideo.h"
+#اگر_ختم
 
 // Set up for C function definitions, even when using C++
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-typedef enum SDL_WindowRect
+قسمتعریف شمار SDL_کھڑکی_Rect
 {
     SDL_WINDOWRECT_CURRENT,
     SDL_WINDOWRECT_WINDOWED,
     SDL_WINDOWRECT_FLOATING,
     SDL_WINDOWRECT_PENDING
-} SDL_WindowRect;
+} SDL_کھڑکی_Rect;
 
-typedef enum SDL_WindowEraseBackgroundMode
+قسمتعریف شمار SDL_کھڑکی_Erase_Background_منوال
 {
     SDL_ERASEBACKGROUNDMODE_NEVER,
     SDL_ERASEBACKGROUNDMODE_INITIAL,
     SDL_ERASEBACKGROUNDMODE_ALWAYS,
-} SDL_WindowEraseBackgroundMode;
+} SDL_کھڑکی_Erase_Background_منوال;
 
-typedef struct
+قسمتعریف ساخت
 {
-    void **lpVtbl;
-    int refcount;
-    SDL_Window *window;
+    خالی **lpVtbl;
+    صحیح refcount;
+    SDL_کھڑکی *کھڑکی;
     HWND hwnd;
-    UINT format_text;
+    UINT format_متن;
     UINT format_file;
-} SDLDropTarget;
+} SDLDrop_ہدف;
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     HWND hwnd;
-    HWND parent;
+    HWND والد;
     HDC hdc;
     HDC mdc;
     HINSTANCE hinstance;
@@ -72,83 +72,83 @@ struct SDL_WindowData
     WNDPROC wndproc;
     HHOOK keyboard_hook;
     WPARAM mouse_button_flags;
-    LPARAM last_pointer_update;
-    WCHAR high_surrogate;
+    LPARAM آخری_اشارہ_گر_update;
+    WCHAR بلند_surrogate;
     bool initializing;
     bool expected_resize;
-    bool in_border_change;
-    bool in_title_click;
+    bool اندر_border_change;
+    bool اندر_title_click;
     Uint8 focus_click_pending;
     bool postpone_clipcursor;
     bool clipcursor_queued;
-    bool windowed_mode_was_maximized;
-    bool in_window_deactivation;
+    bool windowed_منوال_was_maximized;
+    bool اندر_کھڑکی_deactivation;
     bool force_ws_maximizebox;
-    bool disable_move_size_events;
-    bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
-    RECT initial_size_rect;
+    bool disable_move_سائز_events;
+    bool showing_کھڑکی;
+    صحیح اندر_modal_loop;
+    صحیح آخری_modal_چوڑائی;
+    صحیح آخری_modal_اونچائی;
+    RECT initial_سائز_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
     bool mouse_tracked;
-    bool destroy_parent_with_window;
+    bool destroy_والد_with_کھڑکی;
     WCHAR *ICMFileName;
-    SDL_WindowEraseBackgroundMode hint_erase_background_mode;
+    SDL_کھڑکی_Erase_Background_منوال hint_erase_background_منوال;
     bool taskbar_button_created;
-    struct SDL_VideoData *videodata;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    ساخت SDL_Video_ڈیٹا *videodata;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#اگر_ختم
 
     // Whether we retain the content of the window when changing state
     UINT copybits_flag;
-    SDLDropTarget *drop_target;
+    SDLDrop_ہدف *drop_ہدف;
 };
 
-extern bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
-extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event);
-extern void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_UpdateClipCursor(SDL_Window *window);
-extern void WIN_UnclipCursorForWindow(SDL_Window *window);
-extern bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
-extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
-extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+خارجی bool WIN_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجی خالی WIN_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool WIN_سیٹ_کھڑکی_Icon(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_Surface *icon);
+خارجی bool WIN_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool WIN_Get_کھڑکی_Borders_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *چوٹی, صحیح *بایاں, صحیح *bottom, صحیح *دایاں);
+خارجی خالی WIN_Get_کھڑکی_سائز_اندر_Pixels(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *چوڑائی, صحیح *اونچائی);
+خارجی bool WIN_سیٹ_کھڑکی_Opacity(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, اعشاری opacity);
+خارجی خالی WIN_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Raise_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Maximize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Restore_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_سیٹ_کھڑکی_Bordered(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool bordered);
+خارجی خالی WIN_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable);
+خارجی خالی WIN_سیٹ_کھڑکی_Always_On_چوٹی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool on_چوٹی);
+خارجی SDL_Fullscreen_نتیجہ WIN_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجی خالی WIN_Update_کھڑکی_ICCProfile(SDL_کھڑکی *کھڑکی, bool send_event);
+خارجی خالی *WIN_Get_کھڑکی_ICCProfile(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, size_t *سائز);
+خارجی bool WIN_سیٹ_کھڑکی_Mouse_Rect(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool WIN_سیٹ_کھڑکی_Mouse_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed);
+خارجی bool WIN_سیٹ_کھڑکی_Keyboard_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed);
+خارجی خالی WIN_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_On_کھڑکی_Enter(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_UpdateClipCursor(SDL_کھڑکی *کھڑکی);
+خارجی خالی WIN_Unclip_Cursor_For_کھڑکی(SDL_کھڑکی *کھڑکی);
+خارجی bool WIN_سیٹ_کھڑکی_کامیابی_Test(SDL_کھڑکی *کھڑکی, bool enabled);
+خارجی خالی WIN_AcceptDragAndDrop(SDL_کھڑکی *کھڑکی, bool accept);
+خارجی bool WIN_Flash_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_FlashOperation operation);
+خارجی bool WIN_Apply_کھڑکی_پیش_رفت(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool WIN_سیٹ_کھڑکی_Position_اندرونی(SDL_کھڑکی *کھڑکی, UINT flags, SDL_کھڑکی_Rect rect_type);
+خارجی خالی WIN_Show_کھڑکی_System_Menu(SDL_کھڑکی *کھڑکی, صحیح x, صحیح y);
+خارجی bool WIN_سیٹ_کھڑکی_Focusable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool focusable);
+خارجی bool WIN_Adjust_کھڑکی_Rect(SDL_کھڑکی *کھڑکی, صحیح *x, صحیح *y, صحیح *چوڑائی, صحیح *اونچائی, SDL_کھڑکی_Rect rect_type);
+خارجی bool WIN_Adjust_کھڑکی_Rect_For_HWND(HWND hwnd, LPRECT lpRect, UINT چوکھٹا_dpi);
+خارجی bool WIN_سیٹ_کھڑکی_والد(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_کھڑکی *والد);
+خارجی bool WIN_سیٹ_کھڑکی_Modal(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool modal);
 
 // Ends C function definitions when using C++
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif // SDL_windowswindow_h_
+#اگر_ختم // SDL_windowswindow_h_

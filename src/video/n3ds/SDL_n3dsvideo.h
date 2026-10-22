@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_n3dsvideo_h_
-#define SDL_n3dsvideo_h_
+#اگر_غیر_تعریف_شدہ SDL_n3dsvideo_h_
+#تعریف_کرو SDL_n3dsvideo_h_
 
-#include <3ds.h>
+#شامل <3ds.h>
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-struct SDL_VideoData
+ساخت SDL_Video_ڈیٹا
 {
-    SDL_DisplayID top_display;
+    SDL_DisplayID چوٹی_display;
     SDL_DisplayID touch_display;
 };
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
     gfxScreen_t screen; /**< Keeps track of which N3DS screen is targeted */
 };
 
-#endif // SDL_n3dsvideo_h_
+#اگر_ختم // SDL_n3dsvideo_h_

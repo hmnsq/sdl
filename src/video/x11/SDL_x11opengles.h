@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_x11opengles_h_
-#define SDL_x11opengles_h_
+#اگر_غیر_تعریف_شدہ SDL_x11opengles_h_
+#تعریف_کرو SDL_x11opengles_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+قسمتعریف ساخت SDL_نجی_GLESData
 {
     // 1401 If the struct-declaration-list contains no named members, the behavior is undefined.
     // warning: empty struct has size 0 in C, size 1 in C++ [-Wc++-compat]
-    int dummy;
-} SDL_PrivateGLESData;
+    صحیح dummy;
+} SDL_نجی_GLESData;
 
 // OpenGLES functions
-#define X11_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define X11_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define X11_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define X11_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define X11_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define X11_GLES_DestroyContext   SDL_EGL_DestroyContext
+#تعریف_کرو X11_GLES_GetAttribute    SDL_EGL_GetAttribute
+#تعریف_کرو X11_GLES_Get_Proc_پتہ  SDL_EGL_Get_Proc_پتہ_اندرونی
+#تعریف_کرو X11_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#تعریف_کرو X11_GLES_سیٹ_تبادلہ_Interval SDL_EGL_سیٹ_تبادلہ_Interval
+#تعریف_کرو X11_GLES_Get_تبادلہ_Interval SDL_EGL_Get_تبادلہ_Interval
+#تعریف_کرو X11_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
-extern SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+خارجی bool X11_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, صحیح screen, bool transparent);
+خارجی SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool X11_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجی SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی X11_GLES_سیٹ_Default_Profile_Config(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#اگر_ختم // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_x11opengles_h_
+#اگر_ختم // SDL_x11opengles_h_

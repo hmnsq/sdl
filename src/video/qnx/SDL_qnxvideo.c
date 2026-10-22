@@ -19,28 +19,28 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "SDL_qnx.h"
+#شامل "SDL_internal.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_egl_c.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_windowevents_c.h"
+#شامل "SDL_qnx.h"
 
-#include <errno.h>
+#شامل <errno.h>
 
-static screen_context_t context;
-static screen_event_t   event;
-static bool video_initialized = false;
+ساکن screen_context_t context;
+ساکن screen_event_t   event;
+ساکن bool video_initialized = false;
 
 screen_context_t * getContext()
 {
-    return &context;
+    واپس &context;
 }
 
 screen_event_t * getEvent()
 {
-    return &event;
+    واپس &event;
 }
 
 /**
@@ -48,103 +48,103 @@ screen_event_t * getEvent()
  * Creates the Screen context and event handles used for all window operations
  * by the plugin.
  */
-static bool QNX_VideoInit(SDL_VideoDevice *_this)
+ساکن bool QNX_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoDisplay     display;
-    SDL_DisplayData      *display_data;
-    SDL_DisplayMode      display_mode;
-    SDL_DisplayModeData  *display_mode_data;
+    SDL_Display_ڈیٹا      *display_ڈیٹا;
+    SDL_Display_منوال      display_منوال_2;
+    SDL_Display_منوال_ڈیٹا  *display_منوال_ڈیٹا;
 
-    int size[2];
-    int index;
-    int display_count;
-    int active;
+    صحیح سائز[2];
+    صحیح اشاریہ;
+    صحیح display_گنتی;
+    صحیح فعال;
 
     screen_display_t *screen_display;
 
-    if (video_initialized) {
-        return true;
+    اگر (video_initialized) {
+        واپس true;
     }
 
-    if (screen_create_context(&context, 0) < 0) {
-        return false;
+    اگر (screen_create_context(&context, 0) < 0) {
+        واپس false;
     }
 
-    if (screen_create_event(&event) < 0) {
-        return false;
+    اگر (screen_create_event(&event) < 0) {
+        واپس false;
     }
 
     /* start with no displays and increment as attached displays are found */
-    if (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_COUNT, &display_count) < 0) {
-        return false;
+    اگر (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_گنتی, &display_گنتی) < 0) {
+        واپس false;
     }
 
-    screen_display = SDL_calloc(display_count, sizeof(screen_display_t));
-    if (screen_display == NULL) {
-        return false;
+    screen_display = SDL_calloc(display_گنتی, حجم(screen_display_t));
+    اگر (screen_display == تہی) {
+        واپس false;
     }
 
-    if (screen_get_context_property_pv(context, SCREEN_PROPERTY_DISPLAYS, (void **)screen_display) < 0) {
-        return false;
+    اگر (screen_get_context_property_pv(context, SCREEN_PROPERTY_DISPLAYS, (خالی **)screen_display) < 0) {
+        واپس false;
     }
 
     /* create SDL displays based on display info from the screen API */
-    for (index = 0; index < display_count; index++) {
-        active = 0;
-        if (screen_get_display_property_iv(screen_display[index], SCREEN_PROPERTY_ATTACHED, &active) < 0) {
+    برائے (اشاریہ = 0; اشاریہ < display_گنتی; اشاریہ++) {
+        فعال = 0;
+        اگر (screen_get_display_property_iv(screen_display[اشاریہ], SCREEN_PROPERTY_ATTACHED, &فعال) < 0) {
             SDL_free(screen_display);
-            return false;
+            واپس false;
         }
 
-        if (active) {
-            display_data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-            if (display_data == NULL) {
+        اگر (فعال) {
+            display_ڈیٹا = (SDL_Display_ڈیٹا *)SDL_calloc(1, حجم(SDL_Display_ڈیٹا));
+            اگر (display_ڈیٹا == تہی) {
                 SDL_free(screen_display);
-                return false;
+                واپس false;
             }
-            SDL_zerop(display_data);
+            SDL_zerop(display_ڈیٹا);
 
-            if (screen_get_display_property_iv(screen_display[index], SCREEN_PROPERTY_SIZE, size) < 0) {
+            اگر (screen_get_display_property_iv(screen_display[اشاریہ], SCREEN_PROPERTY_سائز, سائز) < 0) {
                 SDL_free(screen_display);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_ڈیٹا);
+                واپس false;
             }
 
-            display_mode_data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-            if (display_mode_data == NULL) {
+            display_منوال_ڈیٹا = (SDL_Display_منوال_ڈیٹا *)SDL_calloc(1, حجم(SDL_Display_منوال_ڈیٹا));
+            اگر (display_منوال_ڈیٹا == تہی) {
                 SDL_free(screen_display);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_ڈیٹا);
+                واپس false;
             }
-            SDL_zerop(display_mode_data);
+            SDL_zerop(display_منوال_ڈیٹا);
 
             SDL_zero(display);
-            SDL_zero(display_mode);
+            SDL_zero(display_منوال_2);
 
-            display_data->screen_display = screen_display[index];
-            display.internal = (void *)display_data;
+            display_ڈیٹا->screen_display = screen_display[اشاریہ];
+            display.اندرونی_2 = (خالی *)display_ڈیٹا;
 
-            display_mode.w = size[0];
-            display_mode.h = size[1];
-            display_mode.refresh_rate = 60;
-            display_mode.pixel_density = 1.0;
-            display_mode.internal = display_mode_data;
+            display_منوال_2.w = سائز[0];
+            display_منوال_2.h = سائز[1];
+            display_منوال_2.refresh_شرح = 60;
+            display_منوال_2.pixel_density = 1.0;
+            display_منوال_2.اندرونی_2 = display_منوال_ڈیٹا;
             // This is assigned later when the window is created. For now, use a
             // safe guess.
-            display_mode.format = SDL_PIXELFORMAT_RGBX8888;
-            display_mode_data->screen_format = SCREEN_FORMAT_RGBX8888;
+            display_منوال_2.format = SDL_PIXELFORMAT_RGBX8888;
+            display_منوال_ڈیٹا->screen_format = SCREEN_FORMAT_RGBX8888;
             // Be able to revert to the default display mode despite not having
             // the actual object to refer to.
-            display_mode_data->screen_display_mode.index = SCREEN_DISPLAY_MODE_PREFERRED_INDEX;
+            display_منوال_ڈیٹا->screen_display_منوال.اشاریہ = SCREEN_DISPLAY_منوال_PREFERRED_اشاریہ;
 
             // Added to current_mode when the display is added.
-            display.desktop_mode = display_mode;
+            display.desktop_منوال = display_منوال_2;
 
-            if (!SDL_AddVideoDisplay(&display, false)) {
+            اگر (!SDL_جوڑو_Video_Display(&display, false)) {
                 SDL_free(screen_display);
-                SDL_free(display_mode_data);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_منوال_ڈیٹا);
+                SDL_free(display_ڈیٹا);
+                واپس false;
             }
         }
     }
@@ -152,19 +152,19 @@ static bool QNX_VideoInit(SDL_VideoDevice *_this)
     initMouse(_this);
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_جوڑو_Keyboard(SDL_DEFAULT_KEYBOARD_ID, تہی);
+    SDL_جوڑو_Mouse(SDL_DEFAULT_MOUSE_ID, تہی);
 
     video_initialized = true;
 
     SDL_free(screen_display);
 
-    return true;
+    واپس true;
 }
 
-static void QNX_VideoQuit(SDL_VideoDevice *_this)
+ساکن خالی QNX_VideoQuit(SDL_VideoDevice *_this)
 {
-    if (video_initialized) {
+    اگر (video_initialized) {
         screen_destroy_event(event);
         screen_destroy_context(context);
         video_initialized = false;
@@ -175,318 +175,318 @@ static void QNX_VideoQuit(SDL_VideoDevice *_this)
  * Creates a new native Screen window and associates it with the given SDL
  * window.
  */
-static bool QNX_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ساکن bool QNX_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    SDL_WindowData       *impl;
-    SDL_VideoDisplay     *display = NULL;
-    SDL_DisplayData      *display_data = NULL;
-    SDL_DisplayModeData  *display_mode_data = NULL;
+    SDL_کھڑکی_ڈیٹا       *impl;
+    SDL_VideoDisplay     *display = تہی;
+    SDL_Display_ڈیٹا      *display_ڈیٹا = تہی;
+    SDL_Display_منوال_ڈیٹا  *display_منوال_ڈیٹا = تہی;
 
-    int             size[2];
-    int             position[2];
-    int             numbufs;
-    int             format;
-    int             usage;
-    int             has_focus_i;
+    صحیح             سائز[2];
+    صحیح             position[2];
+    صحیح             numbufs;
+    صحیح             format;
+    صحیح             usage;
+    صحیح             has_focus_i;
 
-    impl = SDL_calloc(1, sizeof(*impl));
-    if (!impl) {
-        return false;
+    impl = SDL_calloc(1, حجم(*impl));
+    اگر (!impl) {
+        واپس false;
     }
-    window->internal = impl;
+    کھڑکی->اندرونی_2 = impl;
 
     // Create a native window.
-    if (screen_create_window(&impl->window, context) < 0) {
-        goto fail;
+    اگر (screen_create_کھڑکی(&impl->کھڑکی, context) < 0) {
+        جاؤ fail;
     }
 
     // Set the native window's size to match the SDL window.
-    size[0] = window->w;
-    size[1] = window->h;
-    position[0] = window->x;
-    position[1] = window->y;
+    سائز[0] = کھڑکی->w;
+    سائز[1] = کھڑکی->h;
+    position[0] = کھڑکی->x;
+    position[1] = کھڑکی->y;
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SIZE, size) < 0) {
-        goto fail;
+    اگر (screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_سائز, سائز) < 0) {
+        جاؤ fail;
     }
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SOURCE_SIZE, size) < 0) {
-        goto fail;
+    اگر (screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_ماخذ_سائز, سائز) < 0) {
+        جاؤ fail;
     }
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_POSITION, position) < 0) {
-        goto fail;
+    اگر (screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_POSITION, position) < 0) {
+        جاؤ fail;
     }
 
-    display = SDL_GetVideoDisplayForWindow(window);
-    SDL_assert(display != NULL);
-    SDL_assert(display->desktop_mode.internal != NULL);
-    display_mode_data = display->desktop_mode.internal;
+    display = SDL_Get_Video_Display_For_کھڑکی(کھڑکی);
+    SDL_assert(display != تہی);
+    SDL_assert(display->desktop_منوال.اندرونی_2 != تہی);
+    display_منوال_ڈیٹا = display->desktop_منوال.اندرونی_2;
 
     // Create window buffer(s).
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         numbufs = 2;
 
         usage = SCREEN_USAGE_OPENGL_ES2 | SCREEN_USAGE_OPENGL_ES3;
-        if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_USAGE, &usage) < 0) {
-            goto fail;
+        اگر (screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_USAGE, &usage) < 0) {
+            جاؤ fail;
         }
-    } else {
+    } ورنہ {
         numbufs = 1;
     }
 
     // Create buffer(s).
-    if (screen_create_window_buffers(impl->window, numbufs>0?numbufs:1) < 0) {
-        goto fail;
+    اگر (screen_create_کھڑکی_buffers(impl->کھڑکی, numbufs>0?numbufs:1) < 0) {
+        جاؤ fail;
     }
 
     // Initialize EGL surface.
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         // The SDL_EGL_CreateSurface() function chooses the EGL config and
         // assigns the window the corresponding format.
-        impl->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-        if (impl->egl_surface == EGL_NO_SURFACE) {
-            goto fail;
+        impl->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)impl->کھڑکی);
+        اگر (impl->egl_surface == EGL_NO_SURFACE) {
+            جاؤ fail;
         }
-        SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, impl->egl_surface);
+        SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_QNX_SURFACE_اشارہ_گر, impl->egl_surface);
     }
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FORMAT, &format) < 0) {
-        format = display_mode_data->screen_format;
+    اگر (screen_get_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_FORMAT, &format) < 0) {
+        format = display_منوال_ڈیٹا->screen_format;
     }
 
     // We now know what the pixel format is, so we need to provide it to the
     // right SDL APIs.
-    display->desktop_mode.format = screenToPixelFormat(format);
-    display_mode_data->screen_format = format;
+    display->desktop_منوال.format = screen_مقصد_Pixel_Format(format);
+    display_منوال_ڈیٹا->screen_format = format;
 
-    display_data = display->internal;
+    display_ڈیٹا = display->اندرونی_2;
     // Initialized in QNX_VideoInit()
-    SDL_assert(display_data != NULL);
+    SDL_assert(display_ڈیٹا != تہی);
 
     // Get initial focus state. Fallback to true.
-    if(screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
+    اگر(screen_get_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
         impl->has_focus = true;
-    } else {
+    } ورنہ {
         impl->has_focus = (bool)has_focus_i;
     }
 
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_WINDOW_POINTER, impl->window);
+    SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_QNX_کھڑکی_اشارہ_گر, impl->کھڑکی);
 
-    return true;
+    واپس true;
 
 fail:
-    if (impl->window) {
-        screen_destroy_window(impl->window);
+    اگر (impl->کھڑکی) {
+        screen_destroy_کھڑکی(impl->کھڑکی);
     }
-    if (display_data) {
-        SDL_free(display_data);
-        display->internal = NULL;
+    اگر (display_ڈیٹا) {
+        SDL_free(display_ڈیٹا);
+        display->اندرونی_2 = تہی;
     }
 
     SDL_free(impl);
-    window->internal = NULL;
-    return false;
+    کھڑکی->اندرونی_2 = تہی;
+    واپس false;
 }
 
 /**
  * Gets a pointer to the Screen buffer associated with the given window. Note
  * that the buffer is actually created in QNX_CreateWindow().
  */
-static bool QNX_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format,
-                        void ** pixels, int *pitch)
+ساکن bool QNX_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, SDL_PixelFormat * format,
+                        خالی ** pixels, صحیح *pitch)
 {
-    int              buffer_count;
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    screen_buffer_t  *buffer;
-    SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
+    صحیح              بفر_گنتی_2;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    screen_بفر_t  *بفر_2;
+    SDL_VideoDisplay *display = SDL_Get_Video_Display_For_کھڑکی(کھڑکی);
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
-        return false;
+    اگر (screen_get_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_بفر_گنتی, &بفر_گنتی_2) < 0) {
+        واپس false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    بفر_2 = SDL_calloc(بفر_گنتی_2, حجم(screen_بفر_t));
 
     // Get a pointer to the buffer's memory.
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
-        return false;
+    اگر (screen_get_کھڑکی_property_pv(impl->کھڑکی, SCREEN_PROPERTY_BUFFERS, (خالی **)بفر_2) < 0) {
+        واپس false;
     }
 
-    if (screen_get_buffer_property_pv(*buffer, SCREEN_PROPERTY_POINTER, pixels) < 0) {
-        return false;
+    اگر (screen_get_بفر_property_pv(*بفر_2, SCREEN_PROPERTY_اشارہ_گر, pixels) < 0) {
+        واپس false;
     }
 
     // Set format and pitch.
-    if (screen_get_buffer_property_iv(*buffer, SCREEN_PROPERTY_STRIDE, pitch) < 0) {
-        return false;
+    اگر (screen_get_بفر_property_iv(*بفر_2, SCREEN_PROPERTY_STRIDE, pitch) < 0) {
+        واپس false;
     }
 
-    *format = display->desktop_mode.format;
-    return true;
+    *format = display->desktop_منوال.format;
+    واپس true;
 }
 
 /**
  * Informs the window manager that the window needs to be updated.
  */
-static bool QNX_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
-                        int numrects)
+ساکن bool QNX_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects,
+                        صحیح numrects)
 {
-    int buffer_count, *rects_int;
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    screen_buffer_t *buffer;
+    صحیح بفر_گنتی_2, *rects_int;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    screen_بفر_t *بفر_2;
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
-        return false;
+    اگر (screen_get_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_بفر_گنتی, &بفر_گنتی_2) < 0) {
+        واپس false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    بفر_2 = SDL_calloc(بفر_گنتی_2, حجم(screen_بفر_t));
 
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
-        return false;
+    اگر (screen_get_کھڑکی_property_pv(impl->کھڑکی, SCREEN_PROPERTY_BUFFERS, (خالی **)بفر_2) < 0) {
+        واپس false;
     }
 
-    if(numrects>0){
-        rects_int = SDL_calloc(4*numrects, sizeof(int));
+    اگر(numrects>0){
+        rects_int = SDL_calloc(4*numrects, حجم(صحیح));
 
-        for(int i = 0; i < numrects; i++){
+        برائے(صحیح i = 0; i < numrects; i++){
             rects_int[4*i]   = rects[i].x;
             rects_int[4*i+1] = rects[i].y;
             rects_int[4*i+2] = rects[i].w;
             rects_int[4*i+3] = rects[i].h;
         }
 
-        if(screen_post_window(impl->window, buffer[0], numrects, rects_int, 0)) {
-            return false;
+        اگر(screen_post_کھڑکی(impl->کھڑکی, بفر_2[0], numrects, rects_int, 0)) {
+            واپس false;
         }
-        if(screen_flush_context(context, 0)) {
-            return false;
+        اگر(screen_flush_context(context, 0)) {
+            واپس false;
         }
     }
-    return true;
+    واپس true;
 }
 
-static SDL_FullscreenResult QNX_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+ساکن SDL_Fullscreen_نتیجہ QNX_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *window_data = window->internal;
-    int size[2] = { 0, 0 };
-    int position[2] = { 0, 0 };
+    SDL_کھڑکی_ڈیٹا *کھڑکی_ڈیٹا_2 = کھڑکی->اندرونی_2;
+    صحیح سائز[2] = { 0, 0 };
+    صحیح position[2] = { 0, 0 };
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && !fullscreen) {
+        واپس SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (fullscreen) {
+    اگر (fullscreen) {
         SDL_Rect bounds;
 
-        if (!QNX_GetDisplayBounds(_this, display, &bounds)) {
-            return SDL_FULLSCREEN_FAILED;
+        اگر (!QNX_GetDisplayBounds(_this, display, &bounds)) {
+            واپس SDL_FULLSCREEN_FAILED;
         }
         position[0] = bounds.x;
         position[1] = bounds.y;
-        size[0] = bounds.w;
-        size[1] = bounds.h;
-    } else {
-        position[0] = window->x;
-        position[1] = window->y;
-        size[0] = window->w;
-        size[1] = window->h;
+        سائز[0] = bounds.w;
+        سائز[1] = bounds.h;
+    } ورنہ {
+        position[0] = کھڑکی->x;
+        position[1] = کھڑکی->y;
+        سائز[0] = کھڑکی->w;
+        سائز[1] = کھڑکی->h;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_SIZE, size) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    اگر (screen_سیٹ_کھڑکی_property_iv(کھڑکی_ڈیٹا_2->کھڑکی, SCREEN_PROPERTY_سائز, سائز) < 0) {
+        واپس SDL_FULLSCREEN_FAILED;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_SOURCE_SIZE, size) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    اگر (screen_سیٹ_کھڑکی_property_iv(کھڑکی_ڈیٹا_2->کھڑکی, SCREEN_PROPERTY_ماخذ_سائز, سائز) < 0) {
+        واپس SDL_FULLSCREEN_FAILED;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_POSITION, position) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    اگر (screen_سیٹ_کھڑکی_property_iv(کھڑکی_ڈیٹا_2->کھڑکی, SCREEN_PROPERTY_POSITION, position) < 0) {
+        واپس SDL_FULLSCREEN_FAILED;
     }
 
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+    SDL_Send_کھڑکی_Event(کھڑکی, fullscreen ? SDL_EVENT_کھڑکی_ENTER_FULLSCREEN : SDL_EVENT_کھڑکی_LEAVE_FULLSCREEN, 0, 0);
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    واپس SDL_FULLSCREEN_SUCCEEDED;
 }
 
-static SDL_DisplayID QNX_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن SDL_DisplayID QNX_Get_Display_For_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // We need this, otherwise SDL will fallback to the primary display, meaning
     // any data we store about the display will be inconveniently overwritten.
-    SDL_WindowData  *impl = (SDL_WindowData *)window->internal;
-    SDL_DisplayData *display_data;
+    SDL_کھڑکی_ڈیٹا  *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *display_ڈیٹا;
 
     screen_display_t screen_display;
 
-    if (impl == NULL) {
-        return 0;
+    اگر (impl == تہی) {
+        واپس 0;
     }
 
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_DISPLAY, (void **)&screen_display) < 0) {
-        return 0;
+    اگر (screen_get_کھڑکی_property_pv(impl->کھڑکی, SCREEN_PROPERTY_DISPLAY, (خالی **)&screen_display) < 0) {
+        واپس 0;
     }
 
-    for (int i = 0; i < _this->num_displays; i++) {
-        display_data = _this->displays[i]->internal;
-        if (display_data && (display_data->screen_display == screen_display)) {
-            return _this->displays[i]->id;
+    برائے (صحیح i = 0; i < _this->عدد_displays; i++) {
+        display_ڈیٹا = _this->displays[i]->اندرونی_2;
+        اگر (display_ڈیٹا && (display_ڈیٹا->screen_display == screen_display)) {
+            واپس _this->displays[i]->id;
         }
     }
 
-    return 0;
+    واپس 0;
 }
 
 /**
  * Runs the main event loop.
  */
-static void QNX_PumpEvents(SDL_VideoDevice *_this)
+ساکن خالی QNX_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_Window      *window;
-    SDL_WindowData   *impl;
-    int             type;
-    int             has_focus_i;
+    SDL_کھڑکی      *کھڑکی;
+    SDL_کھڑکی_ڈیٹا   *impl;
+    صحیح             type;
+    صحیح             has_focus_i;
     bool            has_focus;
 
     // Let apps know the state of focus.
-    for (window = _this->windows; window; window = window->next) {
-        impl = (SDL_WindowData *)window->internal;
-        if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
-            continue;
+    برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+        impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+        اگر (screen_get_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
+            جاری;
         }
         has_focus = (bool)has_focus_i;
 
-        if (impl->has_focus != has_focus) {
-            SDL_SendWindowEvent(window, (has_focus ? SDL_EVENT_WINDOW_FOCUS_GAINED : SDL_EVENT_WINDOW_FOCUS_LOST), 0, 0);
-            SDL_SendWindowEvent(window, (has_focus ? SDL_EVENT_WINDOW_MOUSE_ENTER : SDL_EVENT_WINDOW_MOUSE_LEAVE), 0, 0);
+        اگر (impl->has_focus != has_focus) {
+            SDL_Send_کھڑکی_Event(کھڑکی, (has_focus ? SDL_EVENT_کھڑکی_FOCUS_GAINED : SDL_EVENT_کھڑکی_FOCUS_گمشدہ), 0, 0);
+            SDL_Send_کھڑکی_Event(کھڑکی, (has_focus ? SDL_EVENT_کھڑکی_MOUSE_ENTER : SDL_EVENT_کھڑکی_MOUSE_LEAVE), 0, 0);
             // Update the SDL mouse to track the window it's focused on.
-            SDL_SetMouseFocus(window);
-            SDL_SetKeyboardFocus(window);
+            SDL_سیٹ_Mouse_Focus(کھڑکی);
+            SDL_سیٹ_Keyboard_Focus(کھڑکی);
         }
     }
 
-    for (;;) {
-        if (screen_get_event(context, event, 0) < 0) {
-            break;
+    برائے (;;) {
+        اگر (screen_get_event(context, event, 0) < 0) {
+            توڑو;
         }
 
-        if (screen_get_event_property_iv(event, SCREEN_PROPERTY_TYPE, &type)
+        اگر (screen_get_event_property_iv(event, SCREEN_PROPERTY_TYPE, &type)
             < 0) {
-            break;
+            توڑو;
         }
 
-        if (type == SCREEN_EVENT_NONE) {
-            break;
+        اگر (type == SCREEN_EVENT_NONE) {
+            توڑو;
         }
 
-        switch (type) {
-        case SCREEN_EVENT_KEYBOARD:
+        انتخاب (type) {
+        حالت SCREEN_EVENT_KEYBOARD:
             handleKeyboardEvent(event);
-            break;
+            توڑو;
 
-        case SCREEN_EVENT_POINTER:
-            handlePointerEvent(event);
-            break;
+        حالت SCREEN_EVENT_اشارہ_گر:
+            handle_اشارہ_گر_Event(event);
+            توڑو;
 
-        default:
-            break;
+        طےشدہ:
+            توڑو;
         }
     }
 }
@@ -494,69 +494,69 @@ static void QNX_PumpEvents(SDL_VideoDevice *_this)
 /**
  * Updates the size of the native window using the geometry of the SDL window.
  */
-static void QNX_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی QNX_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    int             size[2];
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    صحیح             سائز[2];
 
-    size[0] = window->pending.w;
-    size[1] = window->pending.h;
+    سائز[0] = کھڑکی->pending.w;
+    سائز[1] = کھڑکی->pending.h;
 
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
-        if (screen_destroy_window_buffers(impl->window) < 0) {
-            return;
+    اگر (!(کھڑکی->flags & (SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_MAXIMIZED))) {
+        اگر (screen_destroy_کھڑکی_buffers(impl->کھڑکی) < 0) {
+            واپس;
         }
         impl->resize = true;
 
-        screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SIZE, size);
-        screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SOURCE_SIZE, size);
+        screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_سائز, سائز);
+        screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_ماخذ_سائز, سائز);
 
-        screen_create_window_buffers(impl->window, (window->flags & SDL_WINDOW_OPENGL) ? 2 : 1);
-    } else {
-        window->last_size_pending = false;
+        screen_create_کھڑکی_buffers(impl->کھڑکی, (کھڑکی->flags & SDL_کھڑکی_OPENGL) ? 2 : 1);
+    } ورنہ {
+        کھڑکی->آخری_سائز_pending = false;
     }
 }
 
 /**
  * Makes the native window associated with the given SDL window visible.
  */
-static void QNX_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی QNX_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    const int       visible = 1;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    ثابت صحیح       visible = 1;
 
-    screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_VISIBLE, &visible);
+    screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_VISIBLE, &visible);
 }
 
 /**
  * Makes the native window associated with the given SDL window invisible.
  */
-static void QNX_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی QNX_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    const int       visible = 0;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
+    ثابت صحیح       visible = 0;
 
-    screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_VISIBLE, &visible);
+    screen_سیٹ_کھڑکی_property_iv(impl->کھڑکی, SCREEN_PROPERTY_VISIBLE, &visible);
 }
 
 /**
  * Destroys the native window associated with the given SDL window.
  */
-static void QNX_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی QNX_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
 
-    if (impl) {
+    اگر (impl) {
         SDL_EGL_DestroySurface(_this, impl->egl_surface);
-        screen_destroy_window(impl->window);
-        window->internal = NULL;
+        screen_destroy_کھڑکی(impl->کھڑکی);
+        کھڑکی->اندرونی_2 = تہی;
     }
 }
 
 /**
  * Frees the plugin object created by createDevice().
  */
-static void QNX_DeleteDevice(SDL_VideoDevice *device)
+ساکن خالی QNX_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
@@ -564,52 +564,52 @@ static void QNX_DeleteDevice(SDL_VideoDevice *device)
 /**
  * Creates the QNX video plugin used by SDL.
  */
-static SDL_VideoDevice *createDevice(void)
+ساکن SDL_VideoDevice *createDevice(خالی)
 {
     SDL_VideoDevice *device;
 
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    اگر (!device) {
+        واپس تہی;
     }
 
-    device->internal = NULL;
+    device->اندرونی_2 = تہی;
     device->VideoInit = QNX_VideoInit;
     device->VideoQuit = QNX_VideoQuit;
-    device->CreateSDLWindow = QNX_CreateWindow;
-    device->CreateWindowFramebuffer = QNX_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = QNX_UpdateWindowFramebuffer;
-    device->SetWindowSize = QNX_SetWindowSize;
-    device->SetWindowFullscreen = QNX_SetWindowFullscreen;
-    device->ShowWindow = QNX_ShowWindow;
-    device->HideWindow = QNX_HideWindow;
-    device->GetDisplayForWindow = QNX_GetDisplayForWindow;
+    device->CreateSDLWindow = QNX_Create_کھڑکی;
+    device->Create_کھڑکی_Framebuffer = QNX_Create_کھڑکی_Framebuffer;
+    device->Update_کھڑکی_Framebuffer = QNX_Update_کھڑکی_Framebuffer;
+    device->سیٹ_کھڑکی_سائز = QNX_سیٹ_کھڑکی_سائز;
+    device->سیٹ_کھڑکی_Fullscreen = QNX_سیٹ_کھڑکی_Fullscreen;
+    device->Show_کھڑکی = QNX_Show_کھڑکی;
+    device->Hide_کھڑکی = QNX_Hide_کھڑکی;
+    device->Get_Display_For_کھڑکی = QNX_Get_Display_For_کھڑکی;
     device->GetDisplayBounds = QNX_GetDisplayBounds;
     device->GetDisplayModes = QNX_GetDisplayModes;
-#if 0
-    device->SetDisplayMode = QNX_SetDisplayMode;
-#endif
+#اگر 0
+    device->سیٹ_Display_منوال = QNX_سیٹ_Display_منوال;
+#اگر_ختم
     device->PumpEvents = QNX_PumpEvents;
-    device->DestroyWindow = QNX_DestroyWindow;
+    device->Destroy_کھڑکی = QNX_Destroy_کھڑکی;
 
-    device->GL_LoadLibrary = QNX_GLES_LoadLibrary;
-    device->GL_GetProcAddress = QNX_GLES_GetProcAddress;
+    device->GL_بھرو_Library = QNX_GLES_بھرو_Library;
+    device->GL_Get_Proc_پتہ = QNX_GLES_Get_Proc_پتہ;
     device->GL_CreateContext = QNX_GLES_CreateContext;
-    device->GL_SetSwapInterval = QNX_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = QNX_GLES_GetSwapInterval;
-    device->GL_SwapWindow = QNX_GLES_SwapWindow;
+    device->GL_سیٹ_تبادلہ_Interval = QNX_GLES_سیٹ_تبادلہ_Interval;
+    device->GL_Get_تبادلہ_Interval = QNX_GLES_Get_تبادلہ_Interval;
+    device->GL_تبادلہ_کھڑکی = QNX_GLES_تبادلہ_کھڑکی;
     device->GL_MakeCurrent = QNX_GLES_MakeCurrent;
     device->GL_DestroyContext = QNX_GLES_DeleteContext;
     device->GL_UnloadLibrary = QNX_GLES_UnloadLibrary;
 
-    device->free = QNX_DeleteDevice;
+    device->آزاد = QNX_DeleteDevice;
 
-    return device;
+    واپس device;
 }
 
 VideoBootStrap QNX_bootstrap = {
     "qnx", "QNX Screen",
     createDevice,
-    NULL, // no ShowMessageBox implementation
+    تہی, // no ShowMessageBox implementation
     false
 };

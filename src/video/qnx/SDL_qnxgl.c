@@ -19,112 +19,112 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "SDL_qnx.h"
+#شامل "SDL_internal.h"
+#شامل "SDL_qnx.h"
 
-#include "../SDL_egl_c.h"
+#شامل "../SDL_egl_c.h"
 
 /**
  * Detertmines the pixel format to use based on the current display and EGL
  * configuration.
  */
-int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
+صحیح QNX_انتخاب_Format(SDL_VideoDevice *_this, EGLConfig egl_conf)
 {
-    EGLint buffer_bit_depth;
-    EGLint alpha_bit_depth;
+    EGLint بفر_ثنائی_ہندسہ_گہرائی;
+    EGLint alpha_ثنائی_ہندسہ_گہرائی;
 
-    _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_BUFFER_SIZE, &buffer_bit_depth);
-    _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_ALPHA_SIZE, &alpha_bit_depth);
+    _this->egl_ڈیٹا->eglGetConfigAttrib(_this->egl_ڈیٹا->egl_display, egl_conf, EGL_بفر_سائز, &بفر_ثنائی_ہندسہ_گہرائی);
+    _this->egl_ڈیٹا->eglGetConfigAttrib(_this->egl_ڈیٹا->egl_display, egl_conf, EGL_ALPHA_سائز, &alpha_ثنائی_ہندسہ_گہرائی);
 
-    switch (buffer_bit_depth) {
-        case 32:
-            return SCREEN_FORMAT_RGBX8888;
-        case 24:
-            return SCREEN_FORMAT_RGB888;
-        case 16:
-            switch (alpha_bit_depth) {
-                case 4:
-                    return SCREEN_FORMAT_RGBX4444;
-                case 1:
-                    return SCREEN_FORMAT_RGBA5551;
-                default:
-                    return SCREEN_FORMAT_RGB565;
+    انتخاب (بفر_ثنائی_ہندسہ_گہرائی) {
+        حالت 32:
+            واپس SCREEN_FORMAT_RGBX8888;
+        حالت 24:
+            واپس SCREEN_FORMAT_RGB888;
+        حالت 16:
+            انتخاب (alpha_ثنائی_ہندسہ_گہرائی) {
+                حالت 4:
+                    واپس SCREEN_FORMAT_RGBX4444;
+                حالت 1:
+                    واپس SCREEN_FORMAT_RGBA5551;
+                طےشدہ:
+                    واپس SCREEN_FORMAT_RGB565;
             }
-        default:
-            return 0;
+        طےشدہ:
+            واپس 0;
     }
 }
 
 /**
  * Initializes the EGL library.
  */
-bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path)
+bool QNX_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *egl_راستہ)
 {
-    return SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
+    واپس SDL_EGL_بھرو_Library(_this, egl_راستہ, EGL_DEFAULT_DISPLAY);
 }
 
 /**
  * Finds the address of an EGL extension function.
  */
-SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_اشارہ_گر QNX_GLES_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc)
 {
-    return SDL_EGL_GetProcAddressInternal(_this, proc);
+    واپس SDL_EGL_Get_Proc_پتہ_اندرونی(_this, proc);
 }
 
 /**
  * Associates the given window with the necessary EGL structures for drawing and
  * displaying content.
  */
-SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
     EGLContext      context;
 
     context = SDL_EGL_CreateContext(_this, impl->egl_surface);
     impl->context = context;
 
-    return context;
+    واپس context;
 }
 
 /**
  * Sets a new value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool QNX_GLES_سیٹ_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح interval)
 {
-    return SDL_EGL_SetSwapInterval(_this, interval);
+    واپس SDL_EGL_سیٹ_تبادلہ_Interval(_this, interval);
 }
 
 /**
  * Gets the value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool QNX_GLES_Get_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح *interval)
 {
-    return SDL_EGL_GetSwapInterval(_this, interval);
+    واپس SDL_EGL_Get_تبادلہ_Interval(_this, interval);
 }
 
 /**
  * Swaps the EGL buffers associated with the given window
  */
-bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool QNX_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_کھڑکی_ڈیٹا   *impl = (SDL_کھڑکی_ڈیٹا *)کھڑکی->اندرونی_2;
     {
-        if (impl->resize) {
+        اگر (impl->resize) {
             EGLSurface surface;
 
-            if (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
-                return false;
+            اگر (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
+                واپس false;
             }
             SDL_EGL_DestroySurface(_this, impl->egl_surface);
 
-            surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-            if (surface == EGL_NO_SURFACE) {
-                return false;
+            surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)impl->کھڑکی);
+            اگر (surface == EGL_NO_SURFACE) {
+                واپس false;
             }
-            SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, surface);
+            SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_QNX_SURFACE_اشارہ_گر, surface);
 
-            if (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
-                return false;
+            اگر (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
+                واپس false;
             }
 
             impl->egl_surface = surface;
@@ -132,7 +132,7 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 
-    return SDL_EGL_SwapBuffers(_this, impl->egl_surface);
+    واپس SDL_EGL_تبادلہ_Buffers(_this, impl->egl_surface);
 }
 
 /**
@@ -140,13 +140,13 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
  */
 bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    واپس SDL_EGL_DestroyContext(_this, context);
 }
 
 /**
  * Terminates access to the EGL library.
  */
-void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+خالی QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_EGL_UnloadLibrary(_this);
 }

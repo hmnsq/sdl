@@ -18,149 +18,149 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../SDL_hints_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_pixels_c.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../SDL_hints_c.h"
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "SDL_emscriptenframebuffer.h"
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenmouse.h"
+#شامل "SDL_emscriptenvideo.h"
+#شامل "SDL_emscriptenopengles.h"
+#شامل "SDL_emscriptenframebuffer.h"
+#شامل "SDL_emscriptenevents.h"
+#شامل "SDL_emscriptenmouse.h"
 
-#define EMSCRIPTENVID_DRIVER_NAME "emscripten"
+#تعریف_کرو EMSCRIPTENVID_DRIVER_NAME "emscripten"
 
 // Initialization/Query functions
-static bool Emscripten_VideoInit(SDL_VideoDevice *_this);
-static bool Emscripten_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void Emscripten_VideoQuit(SDL_VideoDevice *_this);
-static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ساکن bool Emscripten_VideoInit(SDL_VideoDevice *_this);
+ساکن bool Emscripten_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
+ساکن خالی Emscripten_VideoQuit(SDL_VideoDevice *_this);
+ساکن bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 
-static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable);
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-static void Emscripten_PumpEvents(SDL_VideoDevice *_this);
-static void Emscripten_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window *window, bool fill);
+ساکن bool Emscripten_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+ساکن خالی Emscripten_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+ساکن خالی Emscripten_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, bool resizable);
+ساکن خالی Emscripten_Get_کھڑکی_سائز_اندر_Pixels(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *w, صحیح *h);
+ساکن خالی Emscripten_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+ساکن SDL_Fullscreen_نتیجہ Emscripten_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ساکن خالی Emscripten_PumpEvents(SDL_VideoDevice *_this);
+ساکن خالی Emscripten_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+ساکن bool Emscripten_سیٹ_کھڑکی_Icon(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_Surface *icon);
+ساکن bool Emscripten_سیٹ_کھڑکی_Fill_Document(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool fill);
 
-SDL_Window *Emscripten_fill_document_window = NULL;
+SDL_کھڑکی *Emscripten_fill_document_کھڑکی = تہی;
 
-static bool pumpevents_has_run = false;
-static int pending_swap_interval = -1;
+ساکن bool pumpevents_has_تسلسل = false;
+ساکن صحیح pending_تبادلہ_interval = -1;
 
 // Emscripten driver bootstrap functions
 
-static void Emscripten_DeleteDevice(SDL_VideoDevice *device)
+ساکن خالی Emscripten_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static SDL_SystemTheme Emscripten_GetSystemTheme(void)
+ساکن SDL_SystemTheme Emscripten_GetSystemTheme(خالی)
 {
     /* Technically, light theme can mean explicit light theme or no preference.
        https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme#syntax */
 
-    int theme_code = MAIN_THREAD_EM_ASM_INT({
-        if (!window.matchMedia) {
-            return -1;
+    صحیح theme_رمز = MAIN_THREAD_EM_ASM_INT({
+        اگر (!کھڑکی.مطابقت_Media) {
+            واپس -1;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            return 0;
+        اگر (کھڑکی.مطابقت_Media('(prefers-color-scheme: light)').matches) {
+            واپس 0;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 1;
+        اگر (کھڑکی.مطابقت_Media('(prefers-color-scheme: dark)').matches) {
+            واپس 1;
         }
 
-        return -1;
+        واپس -1;
     });
 
-    switch (theme_code) {
-    case 0:
-        return SDL_SYSTEM_THEME_LIGHT;
+    انتخاب (theme_رمز) {
+    حالت 0:
+        واپس SDL_SYSTEM_THEME_LIGHT;
 
-    case 1:
-        return SDL_SYSTEM_THEME_DARK;
+    حالت 1:
+        واپس SDL_SYSTEM_THEME_DARK;
 
-    default:
-        return SDL_SYSTEM_THEME_UNKNOWN;
+    طےشدہ:
+        واپس SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
-static void Emscripten_ListenSystemTheme(void)
+ساکن خالی Emscripten_ListenSystemTheme(خالی)
 {
     MAIN_THREAD_EM_ASM({
-        if (window.matchMedia) {
+        اگر (کھڑکی.مطابقت_Media) {
             var SDL3 = Module['SDL3'];
 
-            SDL3.eventHandlerThemeChanged = function(event) {
-                _Emscripten_SendSystemThemeChangedEvent();
+            SDL3.event_Handler_Theme_بدلا = function(event) {
+                Emscripten_Send_System_Theme_بدلا_Event();
             };
 
-            SDL3.themeChangedMatchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-            SDL3.themeChangedMatchMedia.addEventListener('change', SDL3.eventHandlerThemeChanged);
+            SDL3.theme_بدلا_مطابقت_Media = کھڑکی.مطابقت_Media('(prefers-color-scheme: dark)');
+            SDL3.theme_بدلا_مطابقت_Media.جوڑو_Event_Listener('change', SDL3.event_Handler_Theme_بدلا);
         }
     });
 }
 
-static void Emscripten_UnlistenSystemTheme(void)
+ساکن خالی Emscripten_UnlistenSystemTheme(خالی)
 {
     MAIN_THREAD_EM_ASM({
-        if (typeof(Module['SDL3']) !== 'undefined') {
+        اگر (typeof(Module['SDL3']) !== 'undefined') {
             var SDL3 = Module['SDL3'];
 
-            SDL3.themeChangedMatchMedia.removeEventListener('change', SDL3.eventHandlerThemeChanged);
-            SDL3.themeChangedMatchMedia = undefined;
-            SDL3.eventHandlerThemeChanged = undefined;
+            SDL3.theme_بدلا_مطابقت_Media.removeEventListener('change', SDL3.event_Handler_Theme_بدلا);
+            SDL3.theme_بدلا_مطابقت_Media = undefined;
+            SDL3.event_Handler_Theme_بدلا = undefined;
         }
     });
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendSystemThemeChangedEvent(void)
+EMSCRIPTEN_KEEPALIVE خالی Emscripten_Send_System_Theme_بدلا_Event_2(خالی)
 {
-    SDL_SetSystemTheme(Emscripten_GetSystemTheme());
+    SDL_سیٹ_System_Theme(Emscripten_GetSystemTheme());
 }
 
-static SDL_VideoDevice *Emscripten_CreateDevice(void)
+ساکن SDL_VideoDevice *Emscripten_CreateDevice(خالی)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    اگر (!device) {
+        واپس تہی;
     }
 
     /* Firefox sends blur event which would otherwise prevent full screen
      * when the user clicks to allow full screen.
      * See https://bugzilla.mozilla.org/show_bug.cgi?id=1144964
      */
-    SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+    SDL_سیٹ_Hint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
     // Set the function pointers
     device->VideoInit = Emscripten_VideoInit;
     device->VideoQuit = Emscripten_VideoQuit;
     device->GetDisplayUsableBounds = Emscripten_GetDisplayUsableBounds;
-    device->SetDisplayMode = Emscripten_SetDisplayMode;
+    device->سیٹ_Display_منوال = Emscripten_سیٹ_Display_منوال;
 
     device->PumpEvents = Emscripten_PumpEvents;
 
-    device->CreateSDLWindow = Emscripten_CreateWindow;
-    device->SetWindowTitle = Emscripten_SetWindowTitle;
-    device->SetWindowIcon = Emscripten_SetWindowIcon;
+    device->CreateSDLWindow = Emscripten_Create_کھڑکی;
+    device->سیٹ_کھڑکی_Title = Emscripten_سیٹ_کھڑکی_Title;
+    device->سیٹ_کھڑکی_Icon = Emscripten_سیٹ_کھڑکی_Icon;
     /*device->SetWindowPosition = Emscripten_SetWindowPosition;*/
-    device->SetWindowSize = Emscripten_SetWindowSize;
-    device->SetWindowResizable = Emscripten_SetWindowResizable;
+    device->سیٹ_کھڑکی_سائز = Emscripten_سیٹ_کھڑکی_سائز;
+    device->سیٹ_کھڑکی_Resizable = Emscripten_سیٹ_کھڑکی_Resizable;
     /*device->ShowWindow = Emscripten_ShowWindow;
     device->HideWindow = Emscripten_HideWindow;
     device->RaiseWindow = Emscripten_RaiseWindow;
@@ -168,57 +168,57 @@ static SDL_VideoDevice *Emscripten_CreateDevice(void)
     device->MinimizeWindow = Emscripten_MinimizeWindow;
     device->RestoreWindow = Emscripten_RestoreWindow;
     device->SetWindowMouseGrab = Emscripten_SetWindowMouseGrab;*/
-    device->GetWindowSizeInPixels = Emscripten_GetWindowSizeInPixels;
-    device->DestroyWindow = Emscripten_DestroyWindow;
-    device->SetWindowFullscreen = Emscripten_SetWindowFullscreen;
-    device->SetWindowFillDocument = Emscripten_SetWindowFillDocument;
+    device->Get_کھڑکی_سائز_اندر_Pixels = Emscripten_Get_کھڑکی_سائز_اندر_Pixels;
+    device->Destroy_کھڑکی = Emscripten_Destroy_کھڑکی;
+    device->سیٹ_کھڑکی_Fullscreen = Emscripten_سیٹ_کھڑکی_Fullscreen;
+    device->سیٹ_کھڑکی_Fill_Document = Emscripten_سیٹ_کھڑکی_Fill_Document;
 
-    device->CreateWindowFramebuffer = Emscripten_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = Emscripten_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = Emscripten_DestroyWindowFramebuffer;
+    device->Create_کھڑکی_Framebuffer = Emscripten_Create_کھڑکی_Framebuffer;
+    device->Update_کھڑکی_Framebuffer = Emscripten_Update_کھڑکی_Framebuffer;
+    device->Destroy_کھڑکی_Framebuffer = Emscripten_Destroy_کھڑکی_Framebuffer;
 
-    device->GL_LoadLibrary = Emscripten_GLES_LoadLibrary;
-    device->GL_GetProcAddress = Emscripten_GLES_GetProcAddress;
+    device->GL_بھرو_Library = Emscripten_GLES_بھرو_Library;
+    device->GL_Get_Proc_پتہ = Emscripten_GLES_Get_Proc_پتہ;
     device->GL_UnloadLibrary = Emscripten_GLES_UnloadLibrary;
     device->GL_CreateContext = Emscripten_GLES_CreateContext;
     device->GL_MakeCurrent = Emscripten_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = Emscripten_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = Emscripten_GLES_GetSwapInterval;
-    device->GL_SwapWindow = Emscripten_GLES_SwapWindow;
+    device->GL_سیٹ_تبادلہ_Interval = Emscripten_GLES_سیٹ_تبادلہ_Interval;
+    device->GL_Get_تبادلہ_Interval = Emscripten_GLES_Get_تبادلہ_Interval;
+    device->GL_تبادلہ_کھڑکی = Emscripten_GLES_تبادلہ_کھڑکی;
     device->GL_DestroyContext = Emscripten_GLES_DestroyContext;
 
-    device->free = Emscripten_DeleteDevice;
+    device->آزاد = Emscripten_DeleteDevice;
 
     Emscripten_ListenSystemTheme();
     device->system_theme = Emscripten_GetSystemTheme();
 
-    return device;
+    واپس device;
 }
 
-static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, int *buttonID) {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
-        char dialog_background[32];
-        char dialog_color[32];
-        char button_border[32];
-        char button_background[32];
-        char button_hovered[32];
+ساکن bool Emscripten_ShowMessagebox(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID) {
+    اگر (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+        حرف dialog_background[32];
+        حرف dialog_color[32];
+        حرف button_border[32];
+        حرف button_background[32];
+        حرف button_hovered[32];
 
-        if (messageboxdata->colorScheme) {
-            SDL_MessageBoxColor color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND];
-            SDL_snprintf(dialog_background, sizeof(dialog_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+        اگر (messageboxdata->colorScheme) {
+            SDL_پیغام_Box_Color color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND];
+            SDL_snprintf(dialog_background, حجم(dialog_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
-            color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_TEXT];
-            SDL_snprintf(dialog_color, sizeof(dialog_color), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_متن];
+            SDL_snprintf(dialog_color, حجم(dialog_color), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BORDER];
-            SDL_snprintf(button_border, sizeof(button_border), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            SDL_snprintf(button_border, حجم(button_border), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND];
-            SDL_snprintf(button_background, sizeof(button_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            SDL_snprintf(button_background, حجم(button_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED];
-            SDL_snprintf(button_hovered, sizeof(button_hovered), "rgb(%u, %u, %u)", color.r, color.g, color.b);
-        } else {
+            SDL_snprintf(button_hovered, حجم(button_hovered), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+        } ورنہ {
             SDL_zero(dialog_background);
             SDL_zero(dialog_color);
             SDL_zero(button_border);
@@ -227,69 +227,69 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
         }
 
         // TODO: Handle parent window when multiple windows can be added in Emscripten builds
-        char dialog_id[64];
-        SDL_snprintf(dialog_id, sizeof(dialog_id), "SDL3_messagebox_%u", SDL_rand_bits());
+        حرف dialog_id[64];
+        SDL_snprintf(dialog_id, حجم(dialog_id), "SDL3_messagebox_%u", SDL_rand_بٹ());
         EM_ASM({
-            var title = UTF8ToString($0);
-            var message = UTF8ToString($1);
-            var background = UTF8ToString($2);
-            var color = UTF8ToString($3);
-            var id = UTF8ToString($4);
+            var title = UTF8_مقصد_String($0);
+            var پیغام = UTF8_مقصد_String($1);
+            var background = UTF8_مقصد_String($2);
+            var color = UTF8_مقصد_String($3);
+            var id = UTF8_مقصد_String($4);
 
             // Dialogs are always put in the front of the DOM
             var dialog = document.createElement("dialog");
             // Set class to allow for CSS selectors
-            dialog.classList.add("SDL3_messagebox");
+            dialog.classList.جوڑو("SDL3_messagebox");
             dialog.id = id;
             dialog.style.color = color;
             dialog.style.backgroundColor = background;
             document.body.append(dialog);
 
             var h1 = document.createElement("h1");
-            h1.innerText = title;
+            h1.inner_متن = title;
             dialog.append(h1);
 
             var p = document.createElement("p");
-            p.innerText = message;
+            p.inner_متن = پیغام;
             dialog.append(p);
 
             dialog.showModal();
-        }, messageboxdata->title, messageboxdata->message, dialog_background, dialog_color, dialog_id);
+        }, messageboxdata->title, messageboxdata->پیغام, dialog_background, dialog_color, dialog_id);
 
-        int i;
-        for (i = 0; i < messageboxdata->numbuttons; ++i) {
-            SDL_MessageBoxButtonData button = messageboxdata->buttons[i];
+        صحیح i;
+        برائے (i = 0; i < messageboxdata->numbuttons; ++i) {
+            SDL_پیغام_Box_Button_ڈیٹا button = messageboxdata->buttons[i];
 
-            const int created = EM_ASM_INT({
-                    var dialog_id = UTF8ToString($0);
-                    var text = UTF8ToString($1);
+            ثابت صحیح created = EM_ASM_INT({
+                    var dialog_id = UTF8_مقصد_String($0);
+                    var متن = UTF8_مقصد_String($1);
                     var responseId = $2;
                     var clickOnReturn = $3;
                     var clickOnEscape = $4;
-                    var border = UTF8ToString($5);
-                    var background = UTF8ToString($6);
-                    var hovered = UTF8ToString($7);
+                    var border = UTF8_مقصد_String($5);
+                    var background = UTF8_مقصد_String($6);
+                    var hovered = UTF8_مقصد_String($7);
 
                     var dialog = document.getElementById(dialog_id);
-                    if (!dialog) {
-                        return false;
+                    اگر (!dialog) {
+                        واپس false;
                     }
 
                     var button = document.createElement("button");
-                    button.innerText = text;
+                    button.inner_متن = متن;
                     button.style.borderColor = border;
                     button.style.backgroundColor = background;
 
-                    dialog.addEventListener('keydown', function(e) {
-                        if (clickOnReturn && e.key === "Enter") {
+                    dialog.جوڑو_Event_Listener('keydown', function(e) {
+                        اگر (clickOnReturn && e.کلید === "Enter") {
                             e.preventDefault();
                             button.click();
-                        } else if (clickOnEscape && e.key === "Escape") {
+                        } ورنہ اگر (clickOnEscape && e.کلید === "Escape") {
                             e.preventDefault();
                             button.click();
                         }
                     });
-                    dialog.addEventListener('cancel', function(e){
+                    dialog.جوڑو_Event_Listener('cancel', function(e){
                         e.preventDefault();
                     });
 
@@ -304,10 +304,10 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     };
 
                     dialog.append(button);
-                    return true;
+                    واپس true;
                 },
                 dialog_id,
-                button.text,
+                button.متن,
                 button.buttonID,
                 button.flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT,
                 button.flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT,
@@ -316,54 +316,54 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                 button_hovered
             );
 
-            if (!created) {
-                return false;
+            اگر (!created) {
+                واپس false;
             }
         }
 
-        while (true) {
+        جب (true) {
             // give back control to browser for screen refresh
             emscripten_sleep(0);
 
-            const int dialog_open = EM_ASM_INT({
-                var dialog_id = UTF8ToString($0);
+            ثابت صحیح dialog_open = EM_ASM_INT({
+                var dialog_id = UTF8_مقصد_String($0);
 
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return false;
+                اگر (!dialog) {
+                    واپس false;
                 }
-                return dialog.open;
+                واپس dialog.open;
             }, dialog_id);
 
-            if (dialog_open) {
-                continue;
+            اگر (dialog_open) {
+                جاری;
             }
 
             *buttonID = EM_ASM_INT({
-                var dialog_id = UTF8ToString($0);
+                var dialog_id = UTF8_مقصد_String($0);
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return 0;
+                اگر (!dialog) {
+                    واپس 0;
                 }
                 try
                 {
-                    return parseInt(dialog.returnValue);
+                    واپس parseInt(dialog.return_قدر);
                 }
                 catch(e)
                 {
-                    return 0;
+                    واپس 0;
                 }
             }, dialog_id);
-            break;
+            توڑو;
         }
 
-    } else {
+    } ورنہ {
         // Cannot add elements to DOM and block without Asyncify. So, fall back to the alert function.
         EM_ASM({
-            alert(UTF8ToString($0) + "\n\n" + UTF8ToString($1));
-        }, messageboxdata->title, messageboxdata->message);
+            alert(UTF8_مقصد_String($0) + "\n\n" + UTF8_مقصد_String($1));
+        }, messageboxdata->title, messageboxdata->پیغام);
     }
-    return true;
+    واپس true;
 }
 
 VideoBootStrap Emscripten_bootstrap = {
@@ -375,452 +375,452 @@ VideoBootStrap Emscripten_bootstrap = {
 
 bool Emscripten_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_منوال منوال;
 
     // Use a fake 32-bpp desktop mode
-    SDL_zero(mode);
-    mode.format = SDL_PIXELFORMAT_RGBA32;
-    emscripten_get_screen_size(&mode.w, &mode.h);
-    mode.pixel_density = emscripten_get_device_pixel_ratio();
+    SDL_zero(منوال);
+    منوال.format = SDL_PIXELFORMAT_RGBA32;
+    emscripten_get_screen_سائز(&منوال.w, &منوال.h);
+    منوال.pixel_density = emscripten_get_device_pixel_تناسب();
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    اگر (SDL_جوڑو_Basic_Video_Display(&منوال) == 0) {
+        واپس false;
     }
 
     Emscripten_InitMouse();
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_جوڑو_Keyboard(SDL_DEFAULT_KEYBOARD_ID, تہی);
+    SDL_جوڑو_Mouse(SDL_DEFAULT_MOUSE_ID, تہی);
 
-    Emscripten_RegisterGlobalEventHandlers(_this);
+    Emscripten_رجسٹر_Global_Event_Handlers(_this);
 
     // We're done!
-    return true;
+    واپس true;
 }
 
-static bool Emscripten_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+ساکن bool Emscripten_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال)
 {
     // can't do this
-    return true;
+    واپس true;
 }
 
-static void Emscripten_VideoQuit(SDL_VideoDevice *_this)
+ساکن خالی Emscripten_VideoQuit(SDL_VideoDevice *_this)
 {
     Emscripten_UnregisterGlobalEventHandlers(_this);
     Emscripten_QuitMouse();
     Emscripten_UnlistenSystemTheme();
-    pumpevents_has_run = false;
-    pending_swap_interval = -1;
+    pumpevents_has_تسلسل = false;
+    pending_تبادلہ_interval = -1;
 }
 
-static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+ساکن bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (rect) {
+    اگر (rect) {
         rect->x = 0;
         rect->y = 0;
         rect->w = MAIN_THREAD_EM_ASM_INT({
-            return window.innerWidth;
+            واپس کھڑکی.inner_چوڑائی;
         });
         rect->h = MAIN_THREAD_EM_ASM_INT({
-            return window.innerHeight;
+            واپس کھڑکی.inner_اونچائی;
         });
     }
-    return true;
+    واپس true;
 }
 
-bool Emscripten_ShouldSetSwapInterval(int interval)
+bool Emscripten_Should_سیٹ_تبادلہ_Interval(صحیح interval)
 {
-    if (!pumpevents_has_run) {
-        pending_swap_interval = interval;
-        return false;
+    اگر (!pumpevents_has_تسلسل) {
+        pending_تبادلہ_interval = interval;
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
-int Emscripten_GetPendingSwapInterval(void)
+صحیح Emscripten_Get_Pending_تبادلہ_Interval(خالی)
 {
-    return pending_swap_interval;
+    واپس pending_تبادلہ_interval;
 }
 
-static void Emscripten_PumpEvents(SDL_VideoDevice *_this)
+ساکن خالی Emscripten_PumpEvents(SDL_VideoDevice *_this)
 {
-    if (!pumpevents_has_run) {
+    اگر (!pumpevents_has_تسلسل) {
         // we assume you've set a mainloop by the time you've called pumpevents, so we delay initial SetInterval changes until then.
         // otherwise you'll get a warning on the javascript console.
-        pumpevents_has_run = true;
-        if (pending_swap_interval >= 0) {
-            Emscripten_GLES_SetSwapInterval(_this, pending_swap_interval);
-            pending_swap_interval = -1;
+        pumpevents_has_تسلسل = true;
+        اگر (pending_تبادلہ_interval >= 0) {
+            Emscripten_GLES_سیٹ_تبادلہ_Interval(_this, pending_تبادلہ_interval);
+            pending_تبادلہ_interval = -1;
         }
     }
 }
 
-EMSCRIPTEN_KEEPALIVE void requestFullscreenThroughSDL(SDL_Window *window)
+EMSCRIPTEN_KEEPALIVE خالی requestFullscreenThroughSDL(SDL_کھڑکی *کھڑکی)
 {
-    SDL_SetWindowFullscreen(window, true);
+    SDL_سیٹ_کھڑکی_Fullscreen(کھڑکی, true);
 }
 
-static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window *window, bool fill)
+ساکن bool Emscripten_سیٹ_کھڑکی_Fill_Document(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool fill)
 {
-    SDL_WindowData *wdata = window->internal;
+    SDL_کھڑکی_ڈیٹا *wdata = کھڑکی->اندرونی_2;
 
-    if (fill && Emscripten_fill_document_window && (Emscripten_fill_document_window != window)) {
-        return SDL_SetError("Only one fill-document window allowed at a time.");
+    اگر (fill && Emscripten_fill_document_کھڑکی && (Emscripten_fill_document_کھڑکی != کھڑکی)) {
+        واپس SDL_سیٹ_Error("Only one fill-document window allowed at a time.");
     }
 
     // fill_document takes up the entire page and resizes as the browser window resizes.
-    if (fill) {
-        Emscripten_fill_document_window = window;
+    اگر (fill) {
+        Emscripten_fill_document_کھڑکی = کھڑکی;
 
-        const int w = MAIN_THREAD_EM_ASM_INT({ return window.innerWidth; });
-        const int h = MAIN_THREAD_EM_ASM_INT({ return window.innerHeight; });
-        const double scaled_w = w * wdata->pixel_ratio;
-        const double scaled_h = h * wdata->pixel_ratio;
+        ثابت صحیح w = MAIN_THREAD_EM_ASM_INT({ واپس کھڑکی.inner_چوڑائی; });
+        ثابت صحیح h = MAIN_THREAD_EM_ASM_INT({ واپس کھڑکی.inner_اونچائی; });
+        ثابت دوہرا scaled_w = w * wdata->pixel_تناسب;
+        ثابت دوہرا scaled_h = h * wdata->pixel_تناسب;
 
-        wdata->non_fill_document_width = window->w;
-        wdata->non_fill_document_height = window->h;
+        wdata->non_fill_document_چوڑائی = کھڑکی->w;
+        wdata->non_fill_document_اونچائی = کھڑکی->h;
 
         MAIN_THREAD_EM_ASM({
-            var canvas = document.querySelector(UTF8ToString($0));
+            var canvas = document.querySelector(UTF8_مقصد_String($0));
             canvas.SDL3_original_position = canvas.style.position;
-            canvas.SDL3_original_top = canvas.style.top;
-            canvas.SDL3_original_left = canvas.style.left;
+            canvas.SDL3_original_چوٹی = canvas.style.چوٹی;
+            canvas.SDL3_original_بایاں = canvas.style.بایاں;
 
             // hide everything on the page that isn't the canvas.
             var div = document.createElement('div');
             div.id = 'SDL3_fill_document_background_elements';
 
             div.SDL3_canvas = canvas;
-            div.SDL3_canvas_parent = canvas.parentNode;
-            div.SDL3_canvas_nextsib = canvas.nextSibling;
+            div.SDL3_canvas_والد = canvas.والد_گرہ;
+            div.SDL3_canvas_nextsib = canvas.اگلا_Sibling;
 
             var children = Array.from(document.body.children);
-            for (var child of children) {
-                div.appendChild(child);
+            برائے (var بچہ کا children) {
+                div.append_بچہ(بچہ);
             }
-            document.body.appendChild(div);
+            document.body.append_بچہ(div);
             div.style.display = 'none';
-            document.body.appendChild(canvas);
+            document.body.append_بچہ(canvas);
             canvas.style.position = 'fixed';
-            canvas.style.top = '0';
-            canvas.style.left = '0';
+            canvas.style.چوٹی = '0';
+            canvas.style.بایاں = '0';
         }, wdata->canvas_id);
 
-        emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
+        emscripten_سیٹ_canvas_element_سائز(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // set_canvas_size unsets this
-        if (wdata->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(wdata->canvas_id, w, h);
+        اگر (wdata->pixel_تناسب != 1.0f) {
+            emscripten_سیٹ_element_css_سائز(wdata->canvas_id, w, h);
         }
 
         // force the event to trigger, so pixel ratio changes can be handled
-        window->w = window->h = 0;
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
-    } else {
-        const bool transitioning = (Emscripten_fill_document_window == window);
-        if (transitioning) {
+        کھڑکی->w = کھڑکی->h = 0;
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
+    } ورنہ {
+        ثابت bool transitioning = (Emscripten_fill_document_کھڑکی == کھڑکی);
+        اگر (transitioning) {
             MAIN_THREAD_EM_ASM({
                 // if we had previously hidden everything behind a fill_document window, put it back.
                 var div = document.getElementById('SDL3_fill_document_background_elements');
-                if (div) {
-                    if (div.SDL3_canvas_nextsib) {
-                        div.SDL3_canvas_parent.insertBefore(div.SDL3_canvas, div.SDL3_canvas_nextsib);
-                    } else {
-                        div.SDL3_canvas_parent.appendChild(div.SDL3_canvas);
+                اگر (div) {
+                    اگر (div.SDL3_canvas_nextsib) {
+                        div.SDL3_canvas_والد.داخل_کرو_Before(div.SDL3_canvas, div.SDL3_canvas_nextsib);
+                    } ورنہ {
+                        div.SDL3_canvas_والد.append_بچہ(div.SDL3_canvas);
                     }
-                    while (div.firstChild) {
-                        document.body.insertBefore(div.firstChild, div);
+                    جب (div.پہلا_بچہ_2) {
+                        document.body.داخل_کرو_Before(div.پہلا_بچہ_2, div);
                     }
                     div.SDL3_canvas.style.position = div.SDL3_canvas.SDL3_original_position;
-                    div.SDL3_canvas.style.top = div.SDL3_canvas.SDL3_original_top;
-                    div.SDL3_canvas.style.left = div.SDL3_canvas.SDL3_original_left;
+                    div.SDL3_canvas.style.چوٹی = div.SDL3_canvas.SDL3_original_چوٹی;
+                    div.SDL3_canvas.style.بایاں = div.SDL3_canvas.SDL3_original_بایاں;
                     div.remove();
                 }
             });
-            Emscripten_fill_document_window = NULL;
+            Emscripten_fill_document_کھڑکی = تہی;
         }
 
-        window->w = wdata->non_fill_document_width;
-        window->h = wdata->non_fill_document_height;
-        const double scaled_w = SDL_floor(window->w * wdata->pixel_ratio);
-        const double scaled_h = SDL_floor(window->h * wdata->pixel_ratio);
-        emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
+        کھڑکی->w = wdata->non_fill_document_چوڑائی;
+        کھڑکی->h = wdata->non_fill_document_اونچائی;
+        ثابت دوہرا scaled_w = SDL_floor(کھڑکی->w * wdata->pixel_تناسب);
+        ثابت دوہرا scaled_h = SDL_floor(کھڑکی->h * wdata->pixel_تناسب);
+        emscripten_سیٹ_canvas_element_سائز(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // if the size is not being controlled by css, we need to scale down for hidpi
-        if (!wdata->external_size && (wdata->pixel_ratio != 1.0f)) {
+        اگر (!wdata->external_سائز && (wdata->pixel_تناسب != 1.0f)) {
             // scale canvas down
-            emscripten_set_element_css_size(wdata->canvas_id, window->w, window->h);
+            emscripten_سیٹ_element_css_سائز(wdata->canvas_id, کھڑکی->w, کھڑکی->h);
         }
 
-        if (transitioning) {
-            window->w = window->h = 0;
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, wdata->non_fill_document_width, wdata->non_fill_document_height);
+        اگر (transitioning) {
+            کھڑکی->w = کھڑکی->h = 0;
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, wdata->non_fill_document_چوڑائی, wdata->non_fill_document_اونچائی);
         }
     }
 
-    return true;
+    واپس true;
 }
 
-static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+ساکن bool Emscripten_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props)
 {
-    SDL_WindowData *wdata;
-    double css_w, css_h;
-    const char *selector;
+    SDL_کھڑکی_ڈیٹا *wdata;
+    دوہرا css_w, css_h;
+    ثابت حرف *selector;
 
-    bool fill_document = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if (fill_document && Emscripten_fill_document_window) {
+    bool fill_document = ((کھڑکی->flags & SDL_کھڑکی_FILL_DOCUMENT) != 0);
+    اگر (fill_document && Emscripten_fill_document_کھڑکی) {
         fill_document = false;  // only one allowed at a time.
-        window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;   // !!! FIXME: should this fail instead?
+        کھڑکی->flags &= ~SDL_کھڑکی_FILL_DOCUMENT;   // !!! FIXME: should this fail instead?
     }
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_کھڑکی_ڈیٹا *)SDL_calloc(1, حجم(SDL_کھڑکی_ڈیٹا));
+    اگر (!wdata) {
+        واپس false;
     }
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR);
-    if (!selector || !*selector) {
-        selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING, "#canvas");
+    اگر (!selector || !*selector) {
+        selector = SDL_GetStringProperty(props, SDL_PROP_کھڑکی_CREATE_EMSCRIPTEN_CANVAS_ID_STRING, "#canvas");
     }
     wdata->canvas_id = SDL_strdup(selector);
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT);
-    if (!selector || !*selector) {
-        selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, "#window");
+    اگر (!selector || !*selector) {
+        selector = SDL_GetStringProperty(props, SDL_PROP_کھڑکی_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, "#window");
     }
     wdata->keyboard_element = SDL_strdup(selector);
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-        wdata->pixel_ratio = emscripten_get_device_pixel_ratio();
-    } else {
-        wdata->pixel_ratio = 1.0f;
+    اگر (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY) {
+        wdata->pixel_تناسب = emscripten_get_device_pixel_تناسب();
+    } ورنہ {
+        wdata->pixel_تناسب = 1.0f;
     }
 
     // set a fake size to check if there is any CSS sizing the canvas
-    emscripten_set_canvas_element_size(wdata->canvas_id, 1, 1);
-    emscripten_get_element_css_size(wdata->canvas_id, &css_w, &css_h);
+    emscripten_سیٹ_canvas_element_سائز(wdata->canvas_id, 1, 1);
+    emscripten_get_element_css_سائز(wdata->canvas_id, &css_w, &css_h);
 
-    wdata->external_size = SDL_floor(css_w) != 1 || SDL_floor(css_h) != 1;
-    if (wdata->external_size) {
+    wdata->external_سائز = SDL_floor(css_w) != 1 || SDL_floor(css_h) != 1;
+    اگر (wdata->external_سائز) {
         fill_document = false;  // can't be resizable if something else is controlling it.
-        window->w = (int) css_w;
-        window->h = (int) css_h;
+        کھڑکی->w = (صحیح) css_w;
+        کھڑکی->h = (صحیح) css_h;
     }
 
-    wdata->window = window;
+    wdata->کھڑکی = کھڑکی;
 
     // Setup driver data for this window
-    window->internal = wdata;
+    کھڑکی->اندرونی_2 = wdata;
 
-    wdata->non_fill_document_width = window->w;
-    wdata->non_fill_document_height = window->h;
-    Emscripten_SetWindowFillDocument(_this, window, fill_document);
+    wdata->non_fill_document_چوڑائی = کھڑکی->w;
+    wdata->non_fill_document_اونچائی = کھڑکی->h;
+    Emscripten_سیٹ_کھڑکی_Fill_Document(_this, کھڑکی, fill_document);
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_سیٹ_Mouse_Focus(کھڑکی);
+    SDL_سیٹ_Keyboard_Focus(کھڑکی);
 
-    Emscripten_RegisterEventHandlers(wdata);
+    Emscripten_رجسٹر_Event_Handlers(wdata);
 
     // Make the emscripten "fullscreen" button go through SDL.
     MAIN_THREAD_EM_ASM({
-        Module['requestFullscreen'] = function(lockPointer, resizeCanvas) {
+        Module['requestFullscreen'] = function(تالا_اشارہ_گر, resizeCanvas) {
             _requestFullscreenThroughSDL($0);
         };
-    }, window);
+    }, کھڑکی);
 
     // Ensure various things are added to the window's properties
-    SDL_SetStringProperty(window->props, SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING, wdata->canvas_id);
-    SDL_SetStringProperty(window->props, SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, wdata->keyboard_element);
+    SDL_سیٹ_String_Property(کھڑکی->props, SDL_PROP_کھڑکی_EMSCRIPTEN_CANVAS_ID_STRING, wdata->canvas_id);
+    SDL_سیٹ_String_Property(کھڑکی->props, SDL_PROP_کھڑکی_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, wdata->keyboard_element);
 
     // Window has been successfully created
-    return true;
+    واپس true;
 }
 
-static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
+ساکن خالی Emscripten_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, bool resizable)
 {
     // this function just has to exist or the higher level won't let the window change its SDL_WINDOW_RESIZABLE flag.
 }
 
-static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی Emscripten_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal) {
-        SDL_WindowData *data = window->internal;
-        if (window == Emscripten_fill_document_window) {
-            return;  // canvas size is being dictated by the browser window size, refuse request.
+    اگر (کھڑکی->اندرونی_2) {
+        SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+        اگر (کھڑکی == Emscripten_fill_document_کھڑکی) {
+            واپس;  // canvas size is being dictated by the browser window size, refuse request.
         }
 
         // update pixel ratio
-        if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-            data->pixel_ratio = emscripten_get_device_pixel_ratio();
+        اگر (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY) {
+            ڈیٹا->pixel_تناسب = emscripten_get_device_pixel_تناسب();
         }
-        emscripten_set_canvas_element_size(data->canvas_id, SDL_lroundf(window->pending.w * data->pixel_ratio), SDL_lroundf(window->pending.h * data->pixel_ratio));
+        emscripten_سیٹ_canvas_element_سائز(ڈیٹا->canvas_id, SDL_lroundf(کھڑکی->pending.w * ڈیٹا->pixel_تناسب), SDL_lroundf(کھڑکی->pending.h * ڈیٹا->pixel_تناسب));
 
         // scale canvas down
-        if (!data->external_size && data->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(data->canvas_id, window->pending.w, window->pending.h);
+        اگر (!ڈیٹا->external_سائز && ڈیٹا->pixel_تناسب != 1.0f) {
+            emscripten_سیٹ_element_css_سائز(ڈیٹا->canvas_id, کھڑکی->pending.w, کھڑکی->pending.h);
         }
 
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, کھڑکی->pending.w, کھڑکی->pending.h);
     }
 }
 
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+ساکن خالی Emscripten_Get_کھڑکی_سائز_اندر_Pixels(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *w, صحیح *h)
 {
-    SDL_WindowData *data;
-    if (window->internal) {
-        data = window->internal;
-        *w = SDL_lroundf(window->w * data->pixel_ratio);
-        *h = SDL_lroundf(window->h * data->pixel_ratio);
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
+    اگر (کھڑکی->اندرونی_2) {
+        ڈیٹا = کھڑکی->اندرونی_2;
+        *w = SDL_lroundf(کھڑکی->w * ڈیٹا->pixel_تناسب);
+        *h = SDL_lroundf(کھڑکی->h * ڈیٹا->pixel_تناسب);
     }
 }
 
-static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی Emscripten_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
 
-    Emscripten_SetWindowFillDocument(_this, window, false);
+    Emscripten_سیٹ_کھڑکی_Fill_Document(_this, کھڑکی, false);
 
-    if (window->internal) {
-        data = window->internal;
+    اگر (کھڑکی->اندرونی_2) {
+        ڈیٹا = کھڑکی->اندرونی_2;
 
-        Emscripten_UnregisterEventHandlers(data);
+        Emscripten_UnregisterEventHandlers(ڈیٹا);
 
         // We can't destroy the canvas, so resize it to zero instead
-        emscripten_set_canvas_element_size(data->canvas_id, 0, 0);
-        if (data->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(data->canvas_id, 1, 1);
+        emscripten_سیٹ_canvas_element_سائز(ڈیٹا->canvas_id, 0, 0);
+        اگر (ڈیٹا->pixel_تناسب != 1.0f) {
+            emscripten_سیٹ_element_css_سائز(ڈیٹا->canvas_id, 1, 1);
         }
-        SDL_free(data->canvas_id);
+        SDL_free(ڈیٹا->canvas_id);
 
-        SDL_free(data->keyboard_element);
+        SDL_free(ڈیٹا->keyboard_element);
 
-        SDL_free(window->internal);
-        window->internal = NULL;
+        SDL_free(کھڑکی->اندرونی_2);
+        کھڑکی->اندرونی_2 = تہی;
     }
 
     MAIN_THREAD_EM_ASM({
         // just ignore clicks on the fullscreen button while there's no SDL window.
-        Module['requestFullscreen'] = function(lockPointer, resizeCanvas) {};
+        Module['requestFullscreen'] = function(تالا_اشارہ_گر, resizeCanvas) {};
     });
 }
 
-static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+ساکن SDL_Fullscreen_نتیجہ Emscripten_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *data;
-    int res = -1;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
+    صحیح res = -1;
 
-    if (window->internal) {
-        data = window->internal;
+    اگر (کھڑکی->اندرونی_2) {
+        ڈیٹا = کھڑکی->اندرونی_2;
 
-        if (data->fullscreen_change_in_progress) {
-            return SDL_FULLSCREEN_FAILED;;
+        اگر (ڈیٹا->fullscreen_change_اندر_پیش_رفت) {
+            واپس SDL_FULLSCREEN_FAILED;;
         }
 
         EmscriptenFullscreenChangeEvent fsevent;
-        if (emscripten_get_fullscreen_status(&fsevent) == EMSCRIPTEN_RESULT_SUCCESS) {
-            if ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
-                return SDL_FULLSCREEN_SUCCEEDED;  // already there.
+        اگر (emscripten_get_fullscreen_حالت(&fsevent) == EMSCRIPTEN_نتیجہ_SUCCESS) {
+            اگر ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
+                واپس SDL_FULLSCREEN_SUCCEEDED;  // already there.
             }
         }
 
-        if (fullscreen) {
+        اگر (fullscreen) {
             EmscriptenFullscreenStrategy strategy;
-            bool is_fullscreen_desktop = !window->fullscreen_exclusive;
+            bool is_fullscreen_desktop = !کھڑکی->fullscreen_exclusive;
 
             SDL_zero(strategy);
-            strategy.scaleMode = is_fullscreen_desktop ? EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH : EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
+            strategy.scale_منوال = is_fullscreen_desktop ? EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH : EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
 
-            if (!is_fullscreen_desktop) {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
-            } else {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
+            اگر (!is_fullscreen_desktop) {
+                strategy.canvas_Resolution_Scale_منوال = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY) {
+                strategy.canvas_Resolution_Scale_منوال = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
+            } ورنہ {
+                strategy.canvas_Resolution_Scale_منوال = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             }
 
-            strategy.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
+            strategy.filtering_منوال = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
 
             strategy.canvasResizedCallback = Emscripten_HandleCanvasResize;
-            strategy.canvasResizedCallbackUserData = data;
+            strategy.canvas_Resized_Callback_User_ڈیٹا = ڈیٹا;
 
-            data->fullscreen_mode_flags = (window->flags & SDL_WINDOW_FULLSCREEN);
-            data->fullscreen_resize = is_fullscreen_desktop;
+            ڈیٹا->fullscreen_منوال_flags = (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN);
+            ڈیٹا->fullscreen_resize = is_fullscreen_desktop;
 
-            res = emscripten_request_fullscreen_strategy(data->canvas_id, 1, &strategy);
-        } else {
+            res = emscripten_request_fullscreen_strategy(ڈیٹا->canvas_id, 1, &strategy);
+        } ورنہ {
             res = emscripten_exit_fullscreen();
         }
     }
 
-    if (res == EMSCRIPTEN_RESULT_SUCCESS) {
-        data->fullscreen_change_in_progress = true;   // even on success, this might animate to the new state.
-        return SDL_FULLSCREEN_SUCCEEDED;
-    } else if (res == EMSCRIPTEN_RESULT_DEFERRED) {
-        data->fullscreen_change_in_progress = true;
-        return SDL_FULLSCREEN_PENDING;
-    } else {
-        return SDL_FULLSCREEN_FAILED;
+    اگر (res == EMSCRIPTEN_نتیجہ_SUCCESS) {
+        ڈیٹا->fullscreen_change_اندر_پیش_رفت = true;   // even on success, this might animate to the new state.
+        واپس SDL_FULLSCREEN_SUCCEEDED;
+    } ورنہ اگر (res == EMSCRIPTEN_نتیجہ_DEFERRED) {
+        ڈیٹا->fullscreen_change_اندر_پیش_رفت = true;
+        واپس SDL_FULLSCREEN_PENDING;
+    } ورنہ {
+        واپس SDL_FULLSCREEN_FAILED;
     }
 }
 
-static void Emscripten_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی Emscripten_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    emscripten_set_window_title(window->title);
+    emscripten_سیٹ_کھڑکی_title(کھڑکی->title);
 }
 
-static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+ساکن bool Emscripten_سیٹ_کھڑکی_Icon(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_Surface *icon)
 {
     // Create dynamic memory stream for PNG encoding
-    SDL_IOStream *stream = SDL_IOFromDynamicMem();
-    if (!stream) {
-        return false;
+    SDL_IOStream *دھارا = SDL_IOFromDynamicMem();
+    اگر (!دھارا) {
+        واپس false;
     }
 
     // Encode icon to PNG using SDL's native PNG encoder
-    if (!SDL_SavePNG_IO(icon, stream, false)) {
-        SDL_CloseIO(stream);
-        return false;
+    اگر (!SDL_SavePNG_IO(icon, دھارا, false)) {
+        SDL_CloseIO(دھارا);
+        واپس false;
     }
 
     // Get the PNG data from the stream
-    void *png_data = SDL_GetPointerProperty(
-        SDL_GetIOProperties(stream),
-        SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER,
-        NULL
+    خالی *png_ڈیٹا = SDL_Get_اشارہ_گر_Property(
+        SDL_GetIOProperties(دھارا),
+        SDL_PROP_IOSTREAM_DYNAMIC_حافظہ_اشارہ_گر,
+        تہی
     );
-    size_t png_size = (size_t)SDL_GetIOSize(stream);
+    size_t png_سائز = (size_t)SDL_GetIOSize(دھارا);
 
     // Pass PNG data to JavaScript
     MAIN_THREAD_EM_ASM({
         // Use `.slice` to make a copy of the data if we are dealing with a SharedArrayBuffer, or `.subarray` to create a
         // view into the existing buffer if its non-shared.
-        var pngData = HEAPU8.buffer instanceof ArrayBuffer ? HEAPU8.subarray($0, $0 + $1) : HEAPU8.slice($0, $0 + $1);
+        var png_ڈیٹا_2 = HEAPU8.بفر_2 instanceof Array_بفر ? HEAPU8.subarray($0, $0 + $1) : HEAPU8.قاش($0, $0 + $1);
 
-        var blob = new Blob([pngData], {type: 'image/png'});
+        var blob = new Blob([png_ڈیٹا_2], {type: 'image/png'});
         var url = URL.createObjectURL(blob);
 
         // Set as favicon (create link element if it doesn't exist)
         var link = document.querySelector("link[rel~='icon']");
-        if (!link) {
+        اگر (!link) {
             link = document.createElement('link');
             link.rel = 'icon';
             link.type = 'image/png';
-            document.head.appendChild(link);
+            document.سر.append_بچہ(link);
         }
 
         // Revoke old URL if it exists to prevent memory leaks
-        if (link.href && link.href.startsWith('blob:')) {
+        اگر (link.href && link.href.startsWith('blob:')) {
             URL.revokeObjectURL(link.href);
         }
 
         link.href = url;
-    }, png_data, png_size);
+    }, png_ڈیٹا, png_سائز);
 
-    SDL_CloseIO(stream);
-    return true;
+    SDL_CloseIO(دھارا);
+    واپس true;
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#اگر_ختم // SDL_VIDEO_DRIVER_EMSCRIPTEN

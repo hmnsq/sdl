@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_openharmonyopengl_h_
-#define SDL_openharmonyopengl_h_
+#اگر_غیر_تعریف_شدہ SDL_openharmonyopengl_h_
+#تعریف_کرو SDL_openharmonyopengl_h_
 
-extern SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+خارجی SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجی bool OPENHARMONY_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool OPENHARMONY_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
 
-#endif // SDL_openharmonyopengl_h_
+#اگر_ختم // SDL_openharmonyopengl_h_

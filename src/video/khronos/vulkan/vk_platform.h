@@ -7,13 +7,13 @@
 */
 
 
-#ifndef VK_PLATFORM_H_
-#define VK_PLATFORM_H_
+#اگر_غیر_تعریف_شدہ VK_PLATFORM_H_
+#تعریف_کرو VK_PLATFORM_H_
 
-#ifdef __cplusplus
-extern "C"
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C"
 {
-#endif // __cplusplus
+#اگر_ختم // __cplusplus
 
 /*
 ***************************************************************************************************
@@ -35,49 +35,49 @@ extern "C"
  * Function declaration:  VKAPI_ATTR void VKAPI_CALL vkCommand(void);
  * Function pointer type: typedef void (VKAPI_PTR *PFN_vkCommand)(void);
  */
-#if defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#اگر defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
     // On Windows, Vulkan commands use the stdcall convention
-    #define VKAPI_ATTR
-    #define VKAPI_CALL __stdcall
-    #define VKAPI_PTR  VKAPI_CALL
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
-    #error "Vulkan is not supported for the 'armeabi' NDK ABI"
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
+    #تعریف_کرو VKAPI_ATTR
+    #تعریف_کرو VKAPI_CALL __stdcall
+    #تعریف_کرو VKAPI_PTR  VKAPI_CALL
+#وگرنہ_اگر defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
+    #غلطی "Vulkan is not supported for the 'armeabi' NDK ABI"
+#وگرنہ_اگر defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
     // On Android 32-bit ARM targets, Vulkan functions use the "hardfloat"
     // calling convention, i.e. float parameters are passed in registers. This
     // is true even if the rest of the application passes floats on the stack,
     // as it does by default when compiling for the armeabi-v7a NDK ABI.
-    #define VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
-    #define VKAPI_CALL
-    #define VKAPI_PTR  VKAPI_ATTR
-#else
+    #تعریف_کرو VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
+    #تعریف_کرو VKAPI_CALL
+    #تعریف_کرو VKAPI_PTR  VKAPI_ATTR
+#ورنہ
     // On other platforms, use the default calling convention
-    #define VKAPI_ATTR
-    #define VKAPI_CALL
-    #define VKAPI_PTR
-#endif
+    #تعریف_کرو VKAPI_ATTR
+    #تعریف_کرو VKAPI_CALL
+    #تعریف_کرو VKAPI_PTR
+#اگر_ختم
 
-#if !defined(VK_NO_STDDEF_H)
-    #include <stddef.h>
-#endif // !defined(VK_NO_STDDEF_H)
+#اگر !defined(VK_NO_STDDEF_H)
+    #شامل <stddef.h>
+#اگر_ختم // !defined(VK_NO_STDDEF_H)
 
-#if !defined(VK_NO_STDINT_H)
-    #if defined(_MSC_VER) && (_MSC_VER < 1600)
-        typedef signed   __int8  int8_t;
-        typedef unsigned __int8  uint8_t;
-        typedef signed   __int16 int16_t;
-        typedef unsigned __int16 uint16_t;
-        typedef signed   __int32 int32_t;
-        typedef unsigned __int32 uint32_t;
-        typedef signed   __int64 int64_t;
-        typedef unsigned __int64 uint64_t;
-    #else
-        #include <stdint.h>
-    #endif
-#endif // !defined(VK_NO_STDINT_H)
+#اگر !defined(VK_NO_STDINT_H)
+    #اگر defined(_MSC_VER) && (_MSC_VER < 1600)
+        قسمتعریف علامتی   __int8  int8_t;
+        قسمتعریف غیرعلامتی __int8  uint8_t;
+        قسمتعریف علامتی   __int16 int16_t;
+        قسمتعریف غیرعلامتی __int16 uint16_t;
+        قسمتعریف علامتی   __int32 int32_t;
+        قسمتعریف غیرعلامتی __int32 uint32_t;
+        قسمتعریف علامتی   __int64 int64_t;
+        قسمتعریف غیرعلامتی __int64 uint64_t;
+    #ورنہ
+        #شامل <stdint.h>
+    #اگر_ختم
+#اگر_ختم // !defined(VK_NO_STDINT_H)
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 } // extern "C"
-#endif // __cplusplus
+#اگر_ختم // __cplusplus
 
-#endif
+#اگر_ختم

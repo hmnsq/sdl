@@ -18,92 +18,92 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#include "SDL_video_unsupported.h"
+#شامل "SDL_video_unsupported.h"
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_غیر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#اگر defined(SDL_PLATFORM_WINDOWS)
 
-bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
+bool SDL_رجسٹر_App(ثابت حرف *name, Uint32 style, خالی *hInst)
 {
-    (void)name;
-    (void)style;
-    (void)hInst;
-    return true;
+    (خالی)name;
+    (خالی)style;
+    (خالی)hInst;
+    واپس true;
 }
 
-void SDL_UnregisterApp(void)
-{
-}
-
-void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
+خالی SDL_UnregisterApp(خالی)
 {
 }
 
-#endif // defined(SDL_PLATFORM_WINDOWS)
-
-bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex)
+خالی SDL_سیٹ_Windows_پیغام_Hook(SDL_Windows_پیغام_Hook callback, خالی *userdata)
 {
-    (void)displayID;
-    (void)adapterIndex;
-    (void)outputIndex;
-    return SDL_Unsupported();
 }
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+#اگر_ختم // defined(SDL_PLATFORM_WINDOWS)
+
+bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, صحیح *adapter_اشاریہ, صحیح *output_اشاریہ)
 {
-    (void)displayID;
+    (خالی)displayID;
+    (خالی)adapter_اشاریہ;
+    (خالی)output_اشاریہ;
+    واپس SDL_Unsupported();
+}
+
+صحیح SDL_Get_Direct3_D9_Adapter_اشاریہ(SDL_DisplayID displayID)
+{
+    (خالی)displayID;
     SDL_Unsupported();
-    return -1;
+    واپس -1;
 }
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#وگرنہ_اگر defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+صحیح SDL_Get_Direct3_D9_Adapter_اشاریہ(SDL_DisplayID displayID)
 {
-    (void)displayID;
+    (خالی)displayID;
     SDL_Unsupported();
-    return -1;
+    واپس -1;
 }
 
-#endif // !SDL_VIDEO_DRIVER_WINDOWS
+#اگر_ختم // !SDL_VIDEO_DRIVER_WINDOWS
 
-#ifndef SDL_PLATFORM_GDK
+#اگر_غیر_تعریف_شدہ SDL_PLATFORM_GDK
 
-bool SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue)
+bool SDL_Get_GDKTask_قطار(XTask_قطار_Handle *برآمد_Task_قطار)
 {
-    (void)outTaskQueue;
-    return SDL_Unsupported();
+    (خالی)برآمد_Task_قطار;
+    واپس SDL_Unsupported();
 }
 
-#endif
+#اگر_ختم
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#اگر !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-void SDL_OnApplicationDidChangeStatusBarOrientation(void)
+خالی SDL_On_Application_Did_Change_حالت_Bar_Orientation(خالی)
 {
-    SDL_Unsupported();
-}
-
-#endif
-
-#ifndef SDL_VIDEO_DRIVER_UIKIT
-
-bool SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam)
-{
-    (void)window;
-    (void)interval;
-    (void)callback;
-    (void)callbackParam;
-    return SDL_Unsupported();
-}
-
-void SDL_SetiOSEventPump(bool enabled)
-{
-    (void)enabled;
     SDL_Unsupported();
 }
-#endif
+
+#اگر_ختم
+
+#اگر_غیر_تعریف_شدہ SDL_VIDEO_DRIVER_UIKIT
+
+bool SDL_SetiOSAnimationCallback(SDL_کھڑکی *کھڑکی, صحیح interval, SDL_iOSAnimationCallback callback, خالی *callbackParam)
+{
+    (خالی)کھڑکی;
+    (خالی)interval;
+    (خالی)callback;
+    (خالی)callbackParam;
+    واپس SDL_Unsupported();
+}
+
+خالی SDL_SetiOSEventPump(bool enabled)
+{
+    (خالی)enabled;
+    SDL_Unsupported();
+}
+#اگر_ختم
 

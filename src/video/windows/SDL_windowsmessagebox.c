@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
+#اگر_تعریف_شدہ HAVE_LIMITS_H
+#شامل <limits.h>
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ SIZE_MAX
+#تعریف_کرو SIZE_MAX ((size_t)-1)
+#اگر_ختم
 
-#include "../../core/windows/SDL_windows.h"
+#شامل "../../core/windows/SDL_windows.h"
 
-#include "SDL_windowsvideo.h"
+#شامل "SDL_windowsvideo.h"
 
-#ifndef SS_EDITCONTROL
-#define SS_EDITCONTROL 0x2000
-#endif
+#اگر_غیر_تعریف_شدہ SS_EDITCONTROL
+#تعریف_کرو SS_EDITCONTROL 0x2000
+#اگر_ختم
 
-#ifndef IDOK
-#define IDOK 1
-#endif
+#اگر_غیر_تعریف_شدہ IDOK
+#تعریف_کرو IDOK 1
+#اگر_ختم
 
-#ifndef IDCANCEL
-#define IDCANCEL 2
-#endif
+#اگر_غیر_تعریف_شدہ IDCANCEL
+#تعریف_کرو IDCANCEL 2
+#اگر_ختم
 
 // Custom dialog return codes
-#define IDCLOSED           20
-#define IDINVALPTRINIT     50
-#define IDINVALPTRCOMMAND  51
-#define IDINVALPTRSETFOCUS 52
-#define IDINVALPTRDLGITEM  53
+#تعریف_کرو IDCLOSED           20
+#تعریف_کرو IDINVALPTRINIT     50
+#تعریف_کرو IDINVALPTRCOMMAND  51
+#تعریف_کرو IDINVALPTRSETFOCUS 52
+#تعریف_کرو IDINVALPTRDLGITEM  53
 // First button ID
-#define IDBUTTONINDEX0 100
+#تعریف_کرو IDBUTTONINDEX0 100
 
-#define DLGITEMTYPEBUTTON 0x0080
-#define DLGITEMTYPESTATIC 0x0082
+#تعریف_کرو DLGITEMTYPEBUTTON 0x0080
+#تعریف_کرو DLGITEMTYPESTATIC 0x0082
 
 /* Windows only sends the lower 16 bits of the control ID when a button
  * gets clicked. There are also some predefined and custom IDs that lower
  * the available number further. 2^16 - 101 buttons should be enough for
  * everyone, no need to make the code more complex.
  */
-#define MAX_BUTTONS (0xffff - 100)
+#تعریف_کرو MAX_BUTTONS (0xffff - 100)
 
 // Display a Windows message box
 
-typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
+قسمتعریف HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT پیغام_2, WPARAM wParam, LPARAM lParam, LONG_PTR lp_Ref_ڈیٹا);
 
-enum _TASKDIALOG_FLAGS
+شمار _TASKDIALOG_FLAGS
 {
     TDF_ENABLE_HYPERLINKS = 0x0001,
     TDF_USE_HICON_MAIN = 0x0002,
@@ -79,40 +79,40 @@ enum _TASKDIALOG_FLAGS
     TDF_EXPAND_FOOTER_AREA = 0x0040,
     TDF_EXPANDED_BY_DEFAULT = 0x0080,
     TDF_VERIFICATION_FLAG_CHECKED = 0x0100,
-    TDF_SHOW_PROGRESS_BAR = 0x0200,
-    TDF_SHOW_MARQUEE_PROGRESS_BAR = 0x0400,
+    TDF_SHOW_پیش_رفت_BAR = 0x0200,
+    TDF_SHOW_MARQUEE_پیش_رفت_BAR = 0x0400,
     TDF_CALLBACK_TIMER = 0x0800,
-    TDF_POSITION_RELATIVE_TO_WINDOW = 0x1000,
+    TDF_POSITION_RELATIVE_مقصد_کھڑکی = 0x1000,
     TDF_RTL_LAYOUT = 0x2000,
     TDF_NO_DEFAULT_RADIO_BUTTON = 0x4000,
     TDF_CAN_BE_MINIMIZED = 0x8000,
     // #if (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_NO_SET_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
+    TDF_NO_سیٹ_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
                                         // #endif // (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_SIZE_TO_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
+    TDF_سائز_مقصد_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
 };
-typedef int TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
+قسمتعریف صحیح TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
 
-typedef enum _TASKDIALOG_MESSAGES
+قسمتعریف شمار _TASKDIALOG_MESSAGES
 {
-    TDM_NAVIGATE_PAGE = WM_USER + 101,
+    TDM_NAVIGATE_صفحہ = WM_USER + 101,
     TDM_CLICK_BUTTON = WM_USER + 102,                        // wParam = Button ID
-    TDM_SET_MARQUEE_PROGRESS_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
-    TDM_SET_PROGRESS_BAR_STATE = WM_USER + 104,              // wParam = new progress state
-    TDM_SET_PROGRESS_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
-    TDM_SET_PROGRESS_BAR_POS = WM_USER + 106,                // wParam = new position
-    TDM_SET_PROGRESS_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
-    TDM_SET_ELEMENT_TEXT = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
+    TDM_سیٹ_MARQUEE_پیش_رفت_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
+    TDM_سیٹ_پیش_رفت_BAR_STATE = WM_USER + 104,              // wParam = new progress state
+    TDM_سیٹ_پیش_رفت_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
+    TDM_سیٹ_پیش_رفت_BAR_POS = WM_USER + 106,                // wParam = new position
+    TDM_سیٹ_پیش_رفت_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
+    TDM_سیٹ_ELEMENT_متن = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
     TDM_CLICK_RADIO_BUTTON = WM_USER + 110,                  // wParam = Radio Button ID
     TDM_ENABLE_BUTTON = WM_USER + 111,                       // lParam = 0 (disable), lParam != 0 (enable), wParam = Button ID
     TDM_ENABLE_RADIO_BUTTON = WM_USER + 112,                 // lParam = 0 (disable), lParam != 0 (enable), wParam = Radio Button ID
     TDM_CLICK_VERIFICATION = WM_USER + 113,                  // wParam = 0 (unchecked), 1 (checked), lParam = 1 (set key focus)
-    TDM_UPDATE_ELEMENT_TEXT = WM_USER + 114,                 // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
-    TDM_SET_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
+    TDM_UPDATE_ELEMENT_متن = WM_USER + 114,                 // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
+    TDM_سیٹ_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
     TDM_UPDATE_ICON = WM_USER + 116                          // wParam = icon element (TASKDIALOG_ICON_ELEMENTS), lParam = new icon (hIcon if TDF_USE_HICON_* was set, PCWSTR otherwise)
 } TASKDIALOG_MESSAGES;
 
-typedef enum _TASKDIALOG_NOTIFICATIONS
+قسمتعریف شمار _TASKDIALOG_NOTIFICATIONS
 {
     TDN_CREATED = 0,
     TDN_NAVIGATED = 1,
@@ -127,7 +127,7 @@ typedef enum _TASKDIALOG_NOTIFICATIONS
     TDN_EXPANDO_BUTTON_CLICKED = 10 // wParam = 0 (dialog is now collapsed), wParam != 0 (dialog is now expanded)
 } TASKDIALOG_NOTIFICATIONS;
 
-typedef enum _TASKDIALOG_ELEMENTS
+قسمتعریف شمار _TASKDIALOG_ELEMENTS
 {
     TDE_CONTENT,
     TDE_EXPANDED_INFORMATION,
@@ -135,18 +135,18 @@ typedef enum _TASKDIALOG_ELEMENTS
     TDE_MAIN_INSTRUCTION
 } TASKDIALOG_ELEMENTS;
 
-typedef enum _TASKDIALOG_ICON_ELEMENTS
+قسمتعریف شمار _TASKDIALOG_ICON_ELEMENTS
 {
     TDIE_ICON_MAIN,
     TDIE_ICON_FOOTER
 } TASKDIALOG_ICON_ELEMENTS;
 
-#define TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
-#define TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
-#define TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
-#define TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
+#تعریف_کرو TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
+#تعریف_کرو TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
+#تعریف_کرو TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
+#تعریف_کرو TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
 
-enum _TASKDIALOG_COMMON_BUTTON_FLAGS
+شمار _TASKDIALOG_COMMON_BUTTON_FLAGS
 {
     TDCBF_OK_BUTTON = 0x0001,     // selected control return value IDOK
     TDCBF_YES_BUTTON = 0x0002,    // selected control return value IDYES
@@ -155,25 +155,25 @@ enum _TASKDIALOG_COMMON_BUTTON_FLAGS
     TDCBF_RETRY_BUTTON = 0x0010,  // selected control return value IDRETRY
     TDCBF_CLOSE_BUTTON = 0x0020   // selected control return value IDCLOSE
 };
-typedef int TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
+قسمتعریف صحیح TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
 
-#pragma pack(push, 1)
+#ہدایت pack(ڈالو, 1)
 
-typedef struct _TASKDIALOG_BUTTON
+قسمتعریف ساخت _TASKDIALOG_BUTTON
 {
-    int nButtonID;
-    PCWSTR pszButtonText;
+    صحیح nButtonID;
+    PCWSTR psz_Button_متن;
 } TASKDIALOG_BUTTON;
 
-typedef struct _TASKDIALOGCONFIG
+قسمتعریف ساخت _TASKDIALOGCONFIG
 {
-    UINT cbSize;
-    HWND hwndParent;                                // incorrectly named, this is the owner window, not a parent.
+    UINT cb_سائز;
+    HWND hwnd_والد;                                // incorrectly named, this is the owner window, not a parent.
     HINSTANCE hInstance;                            // used for MAKEINTRESOURCE() strings
     TASKDIALOG_FLAGS dwFlags;                       // TASKDIALOG_FLAGS (TDF_XXX) flags
     TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons; // TASKDIALOG_COMMON_BUTTON (TDCBF_XXX) flags
-    PCWSTR pszWindowTitle;                          // string or MAKEINTRESOURCE()
-    union
+    PCWSTR psz_کھڑکی_Title;                          // string or MAKEINTRESOURCE()
+    اتحاد
     {
         HICON hMainIcon;
         PCWSTR pszMainIcon;
@@ -181,333 +181,333 @@ typedef struct _TASKDIALOGCONFIG
     PCWSTR pszMainInstruction;
     PCWSTR pszContent;
     UINT cButtons;
-    const TASKDIALOG_BUTTON *pButtons;
-    int nDefaultButton;
+    ثابت TASKDIALOG_BUTTON *pButtons;
+    صحیح nDefaultButton;
     UINT cRadioButtons;
-    const TASKDIALOG_BUTTON *pRadioButtons;
-    int nDefaultRadioButton;
-    PCWSTR pszVerificationText;
+    ثابت TASKDIALOG_BUTTON *pRadioButtons;
+    صحیح nDefaultRadioButton;
+    PCWSTR psz_Verification_متن;
     PCWSTR pszExpandedInformation;
-    PCWSTR pszExpandedControlText;
-    PCWSTR pszCollapsedControlText;
-    union
+    PCWSTR psz_Expanded_Control_متن;
+    PCWSTR psz_Collapsed_Control_متن;
+    اتحاد
     {
         HICON hFooterIcon;
         PCWSTR pszFooterIcon;
     } /*DUMMYUNIONNAME2*/;
     PCWSTR pszFooter;
     PFTASKDIALOGCALLBACK pfCallback;
-    LONG_PTR lpCallbackData;
-    UINT cxWidth; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
+    LONG_PTR lp_Callback_ڈیٹا;
+    UINT cx_چوڑائی; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
 } TASKDIALOGCONFIG;
 
-typedef struct
+قسمتعریف ساخت
 {
-    WORD dlgVer;
-    WORD signature;
+    لفظ dlgVer;
+    لفظ signature;
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    WORD cDlgItems;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    لفظ c_Dlg_اشیاء;
+    مختصر x;
+    مختصر y;
+    مختصر cx;
+    مختصر cy;
 } DLGTEMPLATEEX;
 
-typedef struct
+قسمتعریف ساخت
 {
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    مختصر x;
+    مختصر y;
+    مختصر cx;
+    مختصر cy;
     DWORD id;
 } DLGITEMTEMPLATEEX;
 
-#pragma pack(pop)
+#ہدایت pack(نکالو)
 
-typedef struct
+قسمتعریف ساخت
 {
     DLGTEMPLATEEX *lpDialog;
-    void *data;
-    size_t size;
-    size_t used;
-    WORD numbuttons;
-} WIN_DialogData;
+    خالی *ڈیٹا;
+    size_t سائز;
+    size_t مستعمل;
+    لفظ numbuttons;
+} WIN_Dialog_ڈیٹا;
 
-static bool GetButtonIndex(const SDL_MessageBoxData *messageboxdata, SDL_MessageBoxButtonFlags flags, size_t *i)
+ساکن bool Get_Button_اشاریہ(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, SDL_پیغام_Box_Button_Flags flags, size_t *i)
 {
-    for (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
-        if (messageboxdata->buttons[*i].flags & flags) {
-            return true;
+    برائے (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
+        اگر (messageboxdata->buttons[*i].flags & flags) {
+            واپس true;
         }
     }
-    return false;
+    واپس false;
 }
 
-static INT_PTR CALLBACK MessageBoxDialogProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+ساکن INT_PTR CALLBACK پیغام_Box_Dialog_Proc(HWND hDlg, UINT i_پیغام, WPARAM wParam, LPARAM lParam)
 {
-    const SDL_MessageBoxData *messageboxdata;
+    ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata;
     size_t buttonindex;
 
-    switch (iMessage) {
-    case WM_INITDIALOG:
-        if (lParam == 0) {
-            EndDialog(hDlg, IDINVALPTRINIT);
-            return TRUE;
+    انتخاب (i_پیغام) {
+    حالت WM_INITDIALOG:
+        اگر (lParam == 0) {
+            انتہا_Dialog(hDlg, IDINVALPTRINIT);
+            واپس TRUE;
         }
-        messageboxdata = (const SDL_MessageBoxData *)lParam;
-        SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
+        messageboxdata = (ثابت SDL_پیغام_Box_ڈیٹا *)lParam;
+        سیٹ_کھڑکی_Long_Ptr(hDlg, GWLP_USERDATA, lParam);
 
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+        اگر (Get_Button_اشاریہ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
             // Focus on the first default return-key button
-            HWND buttonctl = GetDlgItem(hDlg, (int)(IDBUTTONINDEX0 + buttonindex));
-            if (!buttonctl) {
-                EndDialog(hDlg, IDINVALPTRDLGITEM);
+            HWND buttonctl = Get_Dlg_شے(hDlg, (صحیح)(IDBUTTONINDEX0 + buttonindex));
+            اگر (!buttonctl) {
+                انتہا_Dialog(hDlg, IDINVALPTRDLGITEM);
             }
-            PostMessage(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
-        } else {
+            Post_پیغام(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
+        } ورنہ {
             // Give the focus to the dialog window instead
-            SetFocus(hDlg);
+            سیٹ_Focus(hDlg);
         }
-        return FALSE;
-    case WM_SETFOCUS:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRSETFOCUS);
-            return TRUE;
+        واپس FALSE;
+    حالت WM_SETFOCUS:
+        messageboxdata = (ثابت SDL_پیغام_Box_ڈیٹا *)Get_کھڑکی_Long_Ptr(hDlg, GWLP_USERDATA);
+        اگر (!messageboxdata) {
+            انتہا_Dialog(hDlg, IDINVALPTRSETFOCUS);
+            واپس TRUE;
         }
 
         // Let the default button be focused if there is one. Otherwise, prevent any initial focus.
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-            return FALSE;
+        اگر (Get_Button_اشاریہ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+            واپس FALSE;
         }
-        return TRUE;
-    case WM_COMMAND:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRCOMMAND);
-            return TRUE;
+        واپس TRUE;
+    حالت WM_COMMAND:
+        messageboxdata = (ثابت SDL_پیغام_Box_ڈیٹا *)Get_کھڑکی_Long_Ptr(hDlg, GWLP_USERDATA);
+        اگر (!messageboxdata) {
+            انتہا_Dialog(hDlg, IDINVALPTRCOMMAND);
+            واپس TRUE;
         }
 
         // Return the ID of the button that was pushed
-        if (wParam == IDOK) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+        اگر (wParam == IDOK) {
+            اگر (Get_Button_اشاریہ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+                انتہا_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
             }
-        } else if (wParam == IDCANCEL) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
-            } else {
+        } ورنہ اگر (wParam == IDCANCEL) {
+            اگر (Get_Button_اشاریہ(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
+                انتہا_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+            } ورنہ {
                 // Closing of window was requested by user or system. It would be rude not to comply.
-                EndDialog(hDlg, IDCLOSED);
+                انتہا_Dialog(hDlg, IDCLOSED);
             }
-        } else if (wParam >= IDBUTTONINDEX0 && (int)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
-            EndDialog(hDlg, wParam);
+        } ورنہ اگر (wParam >= IDBUTTONINDEX0 && (صحیح)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+            انتہا_Dialog(hDlg, wParam);
         }
-        return TRUE;
+        واپس TRUE;
 
-    default:
-        break;
+    طےشدہ:
+        توڑو;
     }
-    return FALSE;
+    واپس FALSE;
 }
 
-static bool ExpandDialogSpace(WIN_DialogData *dialog, size_t space)
+ساکن bool ExpandDialogSpace(WIN_Dialog_ڈیٹا *dialog, size_t space)
 {
     // Growing memory in 64 KiB steps.
-    const size_t sizestep = 0x10000;
-    size_t size = dialog->size;
+    ثابت size_t sizestep = 0x10000;
+    size_t سائز = dialog->سائز;
 
-    if (size == 0) {
+    اگر (سائز == 0) {
         // Start with 4 KiB or a multiple of 64 KiB to fit the data.
-        size = 0x1000;
-        if (SIZE_MAX - sizestep < space) {
-            size = space;
-        } else if (space > size) {
-            size = (space + sizestep) & ~(sizestep - 1);
+        سائز = 0x1000;
+        اگر (SIZE_MAX - sizestep < space) {
+            سائز = space;
+        } ورنہ اگر (space > سائز) {
+            سائز = (space + sizestep) & ~(sizestep - 1);
         }
-    } else if (SIZE_MAX - dialog->used < space) {
-        SDL_OutOfMemory();
-        return false;
-    } else if (SIZE_MAX - (dialog->used + space) < sizestep) {
+    } ورنہ اگر (SIZE_MAX - dialog->مستعمل < space) {
+        SDL_برآمد_کا_حافظہ();
+        واپس false;
+    } ورنہ اگر (SIZE_MAX - (dialog->مستعمل + space) < sizestep) {
         // Close to the maximum.
-        size = dialog->used + space;
-    } else if (size < dialog->used + space) {
+        سائز = dialog->مستعمل + space;
+    } ورنہ اگر (سائز < dialog->مستعمل + space) {
         // Round up to the next 64 KiB block.
-        size = dialog->used + space;
-        size += sizestep - size % sizestep;
+        سائز = dialog->مستعمل + space;
+        سائز += sizestep - سائز % sizestep;
     }
 
-    if (size > dialog->size) {
-        void *data = SDL_realloc(dialog->data, size);
-        if (!data) {
-            return false;
+    اگر (سائز > dialog->سائز) {
+        خالی *ڈیٹا = SDL_realloc(dialog->ڈیٹا, سائز);
+        اگر (!ڈیٹا) {
+            واپس false;
         }
-        dialog->data = data;
-        dialog->size = size;
-        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->data;
+        dialog->ڈیٹا = ڈیٹا;
+        dialog->سائز = سائز;
+        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->ڈیٹا;
     }
-    return true;
+    واپس true;
 }
 
-static bool AlignDialogData(WIN_DialogData *dialog, size_t size)
+ساکن bool Align_Dialog_ڈیٹا(WIN_Dialog_ڈیٹا *dialog, size_t سائز)
 {
-    size_t padding = (dialog->used % size);
+    size_t padding = (dialog->مستعمل % سائز);
 
-    if (!ExpandDialogSpace(dialog, padding)) {
-        return false;
+    اگر (!ExpandDialogSpace(dialog, padding)) {
+        واپس false;
     }
 
-    dialog->used += padding;
+    dialog->مستعمل += padding;
 
-    return true;
+    واپس true;
 }
 
-static bool AddDialogData(WIN_DialogData *dialog, const void *data, size_t size)
+ساکن bool جوڑو_Dialog_ڈیٹا(WIN_Dialog_ڈیٹا *dialog, ثابت خالی *ڈیٹا, size_t سائز)
 {
-    if (!ExpandDialogSpace(dialog, size)) {
-        return false;
+    اگر (!ExpandDialogSpace(dialog, سائز)) {
+        واپس false;
     }
 
-    SDL_memcpy((Uint8 *)dialog->data + dialog->used, data, size);
-    dialog->used += size;
+    SDL_memcpy((Uint8 *)dialog->ڈیٹا + dialog->مستعمل, ڈیٹا, سائز);
+    dialog->مستعمل += سائز;
 
-    return true;
+    واپس true;
 }
 
-static bool AddDialogString(WIN_DialogData *dialog, const char *string)
+ساکن bool جوڑو_Dialog_String(WIN_Dialog_ڈیٹا *dialog, ثابت حرف *string)
 {
     WCHAR *wstring;
     WCHAR *p;
-    size_t count;
-    bool status;
+    size_t گنتی;
+    bool حالت_2;
 
-    if (!string) {
+    اگر (!string) {
         string = "";
     }
 
-    wstring = WIN_UTF8ToStringW(string);
-    if (!wstring) {
-        return false;
+    wstring = WIN_UTF8_مقصد_String_W(string);
+    اگر (!wstring) {
+        واپس false;
     }
 
     // Find out how many characters we have, including null terminator
-    count = 0;
-    for (p = wstring; *p; ++p) {
-        ++count;
+    گنتی = 0;
+    برائے (p = wstring; *p; ++p) {
+        ++گنتی;
     }
-    ++count;
+    ++گنتی;
 
-    status = AddDialogData(dialog, wstring, count * sizeof(WCHAR));
+    حالت_2 = جوڑو_Dialog_ڈیٹا(dialog, wstring, گنتی * حجم(WCHAR));
     SDL_free(wstring);
-    return status;
+    واپس حالت_2;
 }
 
-static int s_BaseUnitsX;
-static int s_BaseUnitsY;
-static void Vec2ToDLU(short *x, short *y)
+ساکن صحیح s_بنیاد_Units_X;
+ساکن صحیح s_بنیاد_Units_Y;
+ساکن خالی Vec2_مقصد_DLU(مختصر *x, مختصر *y)
 {
-    SDL_assert(s_BaseUnitsX != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
+    SDL_assert(s_بنیاد_Units_X != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
 
-    *x = (short)MulDiv(*x, 4, s_BaseUnitsX);
-    *y = (short)MulDiv(*y, 8, s_BaseUnitsY);
+    *x = (مختصر)MulDiv(*x, 4, s_بنیاد_Units_X);
+    *y = (مختصر)MulDiv(*y, 8, s_بنیاد_Units_Y);
 }
 
-static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWORD exStyle, int x, int y, int w, int h, int id, const char *caption, WORD ordinal)
+ساکن bool جوڑو_Dialog_Control(WIN_Dialog_ڈیٹا *dialog, لفظ type, DWORD style, DWORD exStyle, صحیح x, صحیح y, صحیح w, صحیح h, صحیح id, ثابت حرف *caption, لفظ ordinal)
 {
-    DLGITEMTEMPLATEEX item;
-    WORD marker = 0xFFFF;
-    WORD extraData = 0;
+    DLGITEMTEMPLATEEX شے;
+    لفظ marker = 0xFFFF;
+    لفظ extra_ڈیٹا = 0;
 
-    SDL_zero(item);
-    item.style = style;
-    item.exStyle = exStyle;
-    item.x = (short)x;
-    item.y = (short)y;
-    item.cx = (short)w;
-    item.cy = (short)h;
-    item.id = id;
+    SDL_zero(شے);
+    شے.style = style;
+    شے.exStyle = exStyle;
+    شے.x = (مختصر)x;
+    شے.y = (مختصر)y;
+    شے.cx = (مختصر)w;
+    شے.cy = (مختصر)h;
+    شے.id = id;
 
-    Vec2ToDLU(&item.x, &item.y);
-    Vec2ToDLU(&item.cx, &item.cy);
+    Vec2_مقصد_DLU(&شے.x, &شے.y);
+    Vec2_مقصد_DLU(&شے.cx, &شے.cy);
 
-    if (!AlignDialogData(dialog, sizeof(DWORD))) {
-        return false;
+    اگر (!Align_Dialog_ڈیٹا(dialog, حجم(DWORD))) {
+        واپس false;
     }
-    if (!AddDialogData(dialog, &item, sizeof(item))) {
-        return false;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &شے, حجم(شے))) {
+        واپس false;
     }
-    if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-        return false;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &marker, حجم(marker))) {
+        واپس false;
     }
-    if (!AddDialogData(dialog, &type, sizeof(type))) {
-        return false;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &type, حجم(type))) {
+        واپس false;
     }
-    if (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
-        if (!AddDialogString(dialog, caption)) {
-            return false;
+    اگر (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
+        اگر (!جوڑو_Dialog_String(dialog, caption)) {
+            واپس false;
         }
-    } else {
-        if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-            return false;
+    } ورنہ {
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &marker, حجم(marker))) {
+            واپس false;
         }
-        if (!AddDialogData(dialog, &ordinal, sizeof(ordinal))) {
-            return false;
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &ordinal, حجم(ordinal))) {
+            واپس false;
         }
     }
-    if (!AddDialogData(dialog, &extraData, sizeof(extraData))) {
-        return false;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &extra_ڈیٹا, حجم(extra_ڈیٹا))) {
+        واپس false;
     }
-    if (type == DLGITEMTYPEBUTTON) {
+    اگر (type == DLGITEMTYPEBUTTON) {
         dialog->numbuttons++;
     }
-    ++dialog->lpDialog->cDlgItems;
+    ++dialog->lpDialog->c_Dlg_اشیاء;
 
-    return true;
+    واپس true;
 }
 
-static bool AddDialogStaticText(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text)
+ساکن bool جوڑو_Dialog_Static_متن(WIN_Dialog_ڈیٹا *dialog, صحیح x, صحیح y, صحیح w, صحیح h, ثابت حرف *متن)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_LEFT | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
+    DWORD style = WS_VISIBLE | WS_بچہ | SS_بایاں | SS_NOPREFIX | SS_EDITCONTROL | WS_گروہ;
+    واپس جوڑو_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, متن, 0);
 }
 
-static bool AddDialogStaticIcon(WIN_DialogData *dialog, int x, int y, int w, int h, Uint16 ordinal)
+ساکن bool جوڑو_Dialog_Static_Icon(WIN_Dialog_ڈیٹا *dialog, صحیح x, صحیح y, صحیح w, صحیح h, Uint16 ordinal)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_ICON | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, NULL, ordinal);
+    DWORD style = WS_VISIBLE | WS_بچہ | SS_ICON | WS_گروہ;
+    واپس جوڑو_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, تہی, ordinal);
 }
 
-static bool AddDialogButton(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text, int id, bool isDefault)
+ساکن bool جوڑو_Dialog_Button(WIN_Dialog_ڈیٹا *dialog, صحیح x, صحیح y, صحیح w, صحیح h, ثابت حرف *متن, صحیح id, bool isDefault)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-    if (isDefault) {
+    DWORD style = WS_VISIBLE | WS_بچہ | WS_TABSTOP;
+    اگر (isDefault) {
         style |= BS_DEFPUSHBUTTON;
-    } else {
+    } ورنہ {
         style |= BS_PUSHBUTTON;
     }
     // The first button marks the start of the group.
-    if (dialog->numbuttons == 0) {
-        style |= WS_GROUP;
+    اگر (dialog->numbuttons == 0) {
+        style |= WS_گروہ;
     }
-    return AddDialogControl(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
+    واپس جوڑو_Dialog_Control(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, متن, 0);
 }
 
-static void FreeDialogData(WIN_DialogData *dialog)
+ساکن خالی Free_Dialog_ڈیٹا(WIN_Dialog_ڈیٹا *dialog)
 {
-    SDL_free(dialog->data);
+    SDL_free(dialog->ڈیٹا);
     SDL_free(dialog);
 }
 
-static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
+ساکن WIN_Dialog_ڈیٹا *Create_Dialog_ڈیٹا(صحیح w, صحیح h, ثابت حرف *caption)
 {
-    WIN_DialogData *dialog;
+    WIN_Dialog_ڈیٹا *dialog;
     DLGTEMPLATEEX dialogTemplate;
-    WORD WordToPass;
+    لفظ لفظ_مقصد_Pass;
 
     SDL_zero(dialogTemplate);
     dialogTemplate.dlgVer = 1;
@@ -515,37 +515,37 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
     dialogTemplate.style = (WS_CAPTION | DS_CENTER | DS_SHELLFONT);
     dialogTemplate.x = 0;
     dialogTemplate.y = 0;
-    dialogTemplate.cx = (short)w;
-    dialogTemplate.cy = (short)h;
-    Vec2ToDLU(&dialogTemplate.cx, &dialogTemplate.cy);
+    dialogTemplate.cx = (مختصر)w;
+    dialogTemplate.cy = (مختصر)h;
+    Vec2_مقصد_DLU(&dialogTemplate.cx, &dialogTemplate.cy);
 
-    dialog = (WIN_DialogData *)SDL_calloc(1, sizeof(*dialog));
-    if (!dialog) {
-        return NULL;
+    dialog = (WIN_Dialog_ڈیٹا *)SDL_calloc(1, حجم(*dialog));
+    اگر (!dialog) {
+        واپس تہی;
     }
 
-    if (!AddDialogData(dialog, &dialogTemplate, sizeof(dialogTemplate))) {
-        FreeDialogData(dialog);
-        return NULL;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &dialogTemplate, حجم(dialogTemplate))) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس تہی;
     }
 
     // No menu
-    WordToPass = 0;
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    لفظ_مقصد_Pass = 0;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &لفظ_مقصد_Pass, 2)) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس تہی;
     }
 
     // No custom class
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    اگر (!جوڑو_Dialog_ڈیٹا(dialog, &لفظ_مقصد_Pass, 2)) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس تہی;
     }
 
     // title
-    if (!AddDialogString(dialog, caption)) {
-        FreeDialogData(dialog);
-        return NULL;
+    اگر (!جوڑو_Dialog_String(dialog, caption)) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس تہی;
     }
 
     // Font stuff
@@ -553,58 +553,58 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
         /*
          * We want to use the system messagebox font.
          */
-        BYTE ToPass;
+        BYTE مقصد_Pass;
 
         NONCLIENTMETRICSA NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_سائز = حجم(NCM);
         SystemParametersInfoA(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
 
         // Font size - convert to logical font size for dialog parameter.
         {
-            HDC ScreenDC = GetDC(NULL);
-            int LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
-            if (!LogicalPixelsY) {
+            HDC ScreenDC = GetDC(تہی);
+            صحیح LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
+            اگر (!LogicalPixelsY) {
                 LogicalPixelsY = 72; // This can happen if the application runs out of GDI handles
             }
 
-            WordToPass = (WORD)(-72 * NCM.lfMessageFont.lfHeight / LogicalPixelsY);
-            ReleaseDC(NULL, ScreenDC);
+            لفظ_مقصد_Pass = (لفظ)(-72 * NCM.lf_پیغام_Font.lf_اونچائی / LogicalPixelsY);
+            ReleaseDC(تہی, ScreenDC);
         }
 
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &لفظ_مقصد_Pass, 2)) {
+            Free_Dialog_ڈیٹا(dialog);
+            واپس تہی;
         }
 
         // Font weight
-        WordToPass = (WORD)NCM.lfMessageFont.lfWeight;
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        لفظ_مقصد_Pass = (لفظ)NCM.lf_پیغام_Font.lf_وزن;
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &لفظ_مقصد_Pass, 2)) {
+            Free_Dialog_ڈیٹا(dialog);
+            واپس تہی;
         }
 
         // italic?
-        ToPass = NCM.lfMessageFont.lfItalic;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        مقصد_Pass = NCM.lf_پیغام_Font.lfItalic;
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &مقصد_Pass, 1)) {
+            Free_Dialog_ڈیٹا(dialog);
+            واپس تہی;
         }
 
         // charset?
-        ToPass = NCM.lfMessageFont.lfCharSet;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        مقصد_Pass = NCM.lf_پیغام_Font.lf_Char_سیٹ;
+        اگر (!جوڑو_Dialog_ڈیٹا(dialog, &مقصد_Pass, 1)) {
+            Free_Dialog_ڈیٹا(dialog);
+            واپس تہی;
         }
 
         // font typeface.
-        if (!AddDialogString(dialog, NCM.lfMessageFont.lfFaceName)) {
-            FreeDialogData(dialog);
-            return NULL;
+        اگر (!جوڑو_Dialog_String(dialog, NCM.lf_پیغام_Font.lfFaceName)) {
+            Free_Dialog_ڈیٹا(dialog);
+            واپس تہی;
         }
     }
 
-    return dialog;
+    واپس dialog;
 }
 
 /* Escaping ampersands is necessary to disable mnemonics in dialog controls.
@@ -616,128 +616,128 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
  * work buffer is freed. Once all strings have been processed, it's the caller's
  * responsibility to free the work buffer with SDL_free, even on errors.
  */
-static const char *EscapeAmpersands(char **dst, size_t *dstlen, const char *src)
+ساکن ثابت حرف *EscapeAmpersands(حرف **dst, size_t *dstlen, ثابت حرف *src)
 {
-    char *newdst;
+    حرف *newdst;
     size_t ampcount = 0;
     size_t srclen = 0;
 
-    if (!src) {
-        return NULL;
+    اگر (!src) {
+        واپس تہی;
     }
 
-    while (src[srclen]) {
-        if (src[srclen] == '&') {
+    جب (src[srclen]) {
+        اگر (src[srclen] == '&') {
             ampcount++;
         }
         srclen++;
     }
     srclen++;
 
-    if (ampcount == 0) {
+    اگر (ampcount == 0) {
         // Nothing to do.
-        return src;
+        واپس src;
     }
-    if (SIZE_MAX - srclen < ampcount) {
-        return NULL;
+    اگر (SIZE_MAX - srclen < ampcount) {
+        واپس تہی;
     }
-    if (!*dst || *dstlen < srclen + ampcount) {
+    اگر (!*dst || *dstlen < srclen + ampcount) {
         // Allocating extra space in case the next strings are a bit longer.
         size_t extraspace = SIZE_MAX - (srclen + ampcount);
-        if (extraspace > 512) {
+        اگر (extraspace > 512) {
             extraspace = 512;
         }
         *dstlen = srclen + ampcount + extraspace;
         SDL_free(*dst);
-        *dst = NULL;
-        newdst = (char *)SDL_malloc(*dstlen);
-        if (!newdst) {
-            return NULL;
+        *dst = تہی;
+        newdst = (حرف *)SDL_malloc(*dstlen);
+        اگر (!newdst) {
+            واپس تہی;
         }
         *dst = newdst;
-    } else {
+    } ورنہ {
         newdst = *dst;
     }
 
     // The escape character is the ampersand itself.
-    while (srclen--) {
-        if (*src == '&') {
+    جب (srclen--) {
+        اگر (*src == '&') {
             *newdst++ = '&';
         }
         *newdst++ = *src++;
     }
 
-    return *dst;
+    واپس *dst;
 }
 
-static float WIN_GetContentScale(void)
+ساکن اعشاری WIN_GetContentScale(خالی)
 {
-    int dpi = 0;
+    صحیح dpi = 0;
 
-#if 0 // We don't know what monitor the dialog will be shown on
+#اگر 0 // We don't know what monitor the dialog will be shown on
     UINT hdpi_uint, vdpi_uint;
-    if (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-        dpi = (int)hdpi_uint;
+    اگر (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+        dpi = (صحیح)hdpi_uint;
     }
-#endif
-    if (dpi == 0) {
+#اگر_ختم
+    اگر (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(تہی);
+        اگر (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(تہی, hdc);
         }
     }
-    if (dpi == 0) {
+    اگر (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    واپس dpi / (اعشاری)USER_DEFAULT_SCREEN_DPI;
 }
 
 // This function is called if a Task Dialog is unsupported.
-static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+ساکن bool WIN_Show_Old_پیغام_Box(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID)
 {
-    WIN_DialogData *dialog;
-    int i, x, y;
+    WIN_Dialog_ڈیٹا *dialog;
+    صحیح i, x, y;
     HFONT DialogFont;
-    SIZE Size;
-    RECT TextSize;
+    سائز_3 سائز_2;
+    RECT متن_سائز;
     wchar_t *wmessage;
     TEXTMETRIC TM;
     HDC FontDC;
     INT_PTR rc;
-    char *ampescape = NULL;
+    حرف *ampescape = تہی;
     size_t ampescapesize = 0;
     Uint16 defbuttoncount = 0;
     Uint16 icon = 0;
-    bool result;
+    bool نتیجہ;
 
-    HWND ParentWindow = NULL;
+    HWND والد_کھڑکی_2 = تہی;
 
-    const float scale = WIN_GetContentScale();
-    const int ButtonWidth = (int)SDL_roundf(88 * scale);
-    const int ButtonHeight = (int)SDL_roundf(26 * scale);
-    const int TextMargin = (int)SDL_roundf(16 * scale);
-    const int ButtonMargin = (int)SDL_roundf(12 * scale);
-    const int IconWidth = GetSystemMetrics(SM_CXICON);
-    const int IconHeight = GetSystemMetrics(SM_CYICON);
-    const int IconMargin = (int)SDL_roundf(20 * scale);
+    ثابت اعشاری scale = WIN_GetContentScale();
+    ثابت صحیح Button_چوڑائی = (صحیح)SDL_roundf(88 * scale);
+    ثابت صحیح Button_اونچائی = (صحیح)SDL_roundf(26 * scale);
+    ثابت صحیح متن_Margin = (صحیح)SDL_roundf(16 * scale);
+    ثابت صحیح ButtonMargin = (صحیح)SDL_roundf(12 * scale);
+    ثابت صحیح Icon_چوڑائی = GetSystemMetrics(SM_CXICON);
+    ثابت صحیح Icon_اونچائی = GetSystemMetrics(SM_CYICON);
+    ثابت صحیح IconMargin = (صحیح)SDL_roundf(20 * scale);
 
-    if (messageboxdata->numbuttons > MAX_BUTTONS) {
-        return SDL_SetError("Number of buttons exceeds limit of %d", MAX_BUTTONS);
+    اگر (messageboxdata->numbuttons > MAX_BUTTONS) {
+        واپس SDL_سیٹ_Error("Number of buttons exceeds limit of %d", MAX_BUTTONS);
     }
 
-    switch (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-    case SDL_MESSAGEBOX_ERROR:
+    انتخاب (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+    حالت SDL_MESSAGEBOX_ERROR:
         icon = (Uint16)(size_t)IDI_ERROR;
-        break;
-    case SDL_MESSAGEBOX_WARNING:
+        توڑو;
+    حالت SDL_MESSAGEBOX_WARNING:
         icon = (Uint16)(size_t)IDI_WARNING;
-        break;
-    case SDL_MESSAGEBOX_INFORMATION:
+        توڑو;
+    حالت SDL_MESSAGEBOX_INFORMATION:
         icon = (Uint16)(size_t)IDI_INFORMATION;
-        break;
+        توڑو;
     }
 
     /* Jan 25th, 2013 - dant@fleetsa.com
@@ -775,10 +775,10 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         // Create a duplicate of the font used in system message boxes.
         LOGFONT lf;
         NONCLIENTMETRICS NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_سائز = حجم(NCM);
         SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
-        lf = NCM.lfMessageFont;
-        DialogFont = CreateFontIndirect(&lf);
+        lf = NCM.lf_پیغام_Font;
+        DialogFont = Create_Font_بالواسطہ(&lf);
     }
 
     // Select the font in to our DC
@@ -786,190 +786,190 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
 
     {
         // Get the metrics to try and figure our DLU conversion.
-        GetTextMetrics(FontDC, &TM);
+        Get_متن_Metrics(FontDC, &TM);
 
         /* Calculation from the following documentation:
          * https://support.microsoft.com/en-gb/help/125681/how-to-calculate-dialog-base-units-with-non-system-based-font
          * This fixes bug 2137, dialog box calculation with a fixed-width system font
          */
         {
-            SIZE extent;
-            GetTextExtentPoint32A(FontDC, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &extent);
-            s_BaseUnitsX = (extent.cx / 26 + 1) / 2;
+            سائز_3 extent;
+            Get_متن_Extent_Point32_A(FontDC, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &extent);
+            s_بنیاد_Units_X = (extent.cx / 26 + 1) / 2;
         }
         // s_BaseUnitsX = TM.tmAveCharWidth + 1;
-        s_BaseUnitsY = TM.tmHeight;
+        s_بنیاد_Units_Y = TM.tm_اونچائی;
     }
 
     /* Measure the *pixel* size of the string. */
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    SDL_zero(TextSize);
-    DrawTextW(FontDC, wmessage, -1, &TextSize, DT_CALCRECT | DT_LEFT | DT_NOPREFIX | DT_EDITCONTROL);
+    wmessage = WIN_UTF8_مقصد_String_W(messageboxdata->پیغام);
+    SDL_zero(متن_سائز);
+    Draw_متن_W(FontDC, wmessage, -1, &متن_سائز, DT_CALCRECT | DT_بایاں | DT_NOPREFIX | DT_EDITCONTROL);
 
     // Add margins and some padding for hangs, etc.
-    TextSize.left += TextMargin;
-    TextSize.right += TextMargin + 2;
-    TextSize.top += TextMargin;
-    TextSize.bottom += TextMargin + 2;
+    متن_سائز.بایاں += متن_Margin;
+    متن_سائز.دایاں += متن_Margin + 2;
+    متن_سائز.چوٹی += متن_Margin;
+    متن_سائز.bottom += متن_Margin + 2;
 
     // Done with the DC, and the string
     DeleteDC(FontDC);
     SDL_free(wmessage);
 
     // Increase the size of the dialog by some border spacing around the text.
-    Size.cx = TextSize.right - TextSize.left;
-    Size.cy = TextSize.bottom - TextSize.top;
-    Size.cx += TextMargin * 2;
-    Size.cy += TextMargin * 2;
+    سائز_2.cx = متن_سائز.دایاں - متن_سائز.بایاں;
+    سائز_2.cy = متن_سائز.bottom - متن_سائز.چوٹی;
+    سائز_2.cx += متن_Margin * 2;
+    سائز_2.cy += متن_Margin * 2;
 
     // Make dialog wider and shift text over for the icon.
-    if (icon) {
-        Size.cx += IconMargin + IconWidth;
-        TextSize.left += IconMargin + IconWidth;
-        TextSize.right += IconMargin + IconWidth;
+    اگر (icon) {
+        سائز_2.cx += IconMargin + Icon_چوڑائی;
+        متن_سائز.بایاں += IconMargin + Icon_چوڑائی;
+        متن_سائز.دایاں += IconMargin + Icon_چوڑائی;
     }
 
     // Ensure the size is wide enough for all of the buttons.
-    if (Size.cx < (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin) {
-        Size.cx = (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin;
+    اگر (سائز_2.cx < (LONG)messageboxdata->numbuttons * (Button_چوڑائی + ButtonMargin) + ButtonMargin) {
+        سائز_2.cx = (LONG)messageboxdata->numbuttons * (Button_چوڑائی + ButtonMargin) + ButtonMargin;
     }
 
     // Reset the height to the icon size if it is actually bigger than the text.
-    if (icon && Size.cy < (LONG)IconMargin * 2 + IconHeight) {
-        Size.cy = (LONG)IconMargin * 2 + IconHeight;
+    اگر (icon && سائز_2.cy < (LONG)IconMargin * 2 + Icon_اونچائی) {
+        سائز_2.cy = (LONG)IconMargin * 2 + Icon_اونچائی;
     }
 
     // Add vertical space for the buttons and border.
-    Size.cy += ButtonHeight + TextMargin;
+    سائز_2.cy += Button_اونچائی + متن_Margin;
 
-    dialog = CreateDialogData(Size.cx, Size.cy, messageboxdata->title);
-    if (!dialog) {
-        return false;
+    dialog = Create_Dialog_ڈیٹا(سائز_2.cx, سائز_2.cy, messageboxdata->title);
+    اگر (!dialog) {
+        واپس false;
     }
 
-    if (icon && !AddDialogStaticIcon(dialog, IconMargin, IconMargin, IconWidth, IconHeight, icon)) {
-        FreeDialogData(dialog);
-        return false;
+    اگر (icon && !جوڑو_Dialog_Static_Icon(dialog, IconMargin, IconMargin, Icon_چوڑائی, Icon_اونچائی, icon)) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس false;
     }
 
-    if (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
-        FreeDialogData(dialog);
-        return false;
+    اگر (!جوڑو_Dialog_Static_متن(dialog, متن_سائز.بایاں, متن_سائز.چوٹی, متن_سائز.دایاں - متن_سائز.بایاں, متن_سائز.bottom - متن_سائز.چوٹی, messageboxdata->پیغام)) {
+        Free_Dialog_ڈیٹا(dialog);
+        واپس false;
     }
 
     // Align the buttons to the right/bottom.
-    x = Size.cx - (ButtonWidth + ButtonMargin) * messageboxdata->numbuttons;
-    y = Size.cy - ButtonHeight - ButtonMargin;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    x = سائز_2.cx - (Button_چوڑائی + ButtonMargin) * messageboxdata->numbuttons;
+    y = سائز_2.cy - Button_اونچائی - ButtonMargin;
+    برائے (i = 0; i < messageboxdata->numbuttons; i++) {
         bool isdefault = false;
-        const char *buttontext;
-        const SDL_MessageBoxButtonData *sdlButton;
+        ثابت حرف *buttontext;
+        ثابت SDL_پیغام_Box_Button_ڈیٹا *sdlButton;
 
         /* We always have to create the dialog buttons from left to right
          * so that the tab order is correct.  Select the info to use
          * depending on which order was requested. */
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        اگر (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_بایاں_مقصد_دایاں) {
             sdlButton = &messageboxdata->buttons[i];
-        } else {
+        } ورنہ {
             sdlButton = &messageboxdata->buttons[messageboxdata->numbuttons - 1 - i];
         }
 
-        if (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        اگر (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             defbuttoncount++;
-            if (defbuttoncount == 1) {
+            اگر (defbuttoncount == 1) {
                 isdefault = true;
             }
         }
 
-        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->text);
+        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->متن);
         /* Make sure to provide the correct ID to keep buttons indexed in the
          * same order as how they are in messageboxdata. */
-        if (!buttontext || !AddDialogButton(dialog, x, y, ButtonWidth, ButtonHeight, buttontext, IDBUTTONINDEX0 + (int)(sdlButton - messageboxdata->buttons), isdefault)) {
-            FreeDialogData(dialog);
+        اگر (!buttontext || !جوڑو_Dialog_Button(dialog, x, y, Button_چوڑائی, Button_اونچائی, buttontext, IDBUTTONINDEX0 + (صحیح)(sdlButton - messageboxdata->buttons), isdefault)) {
+            Free_Dialog_ڈیٹا(dialog);
             SDL_free(ampescape);
-            return false;
+            واپس false;
         }
 
-        x += ButtonWidth + ButtonMargin;
+        x += Button_چوڑائی + ButtonMargin;
     }
     SDL_free(ampescape);
 
     /* If we have a parent window, get the Instance and HWND for them
      * so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    اگر (messageboxdata->کھڑکی) {
+        والد_کھڑکی_2 = messageboxdata->کھڑکی->اندرونی_2->hwnd;
     }
 
-    rc = DialogBoxIndirectParam(NULL, (DLGTEMPLATE *)dialog->lpDialog, ParentWindow, MessageBoxDialogProc, (LPARAM)messageboxdata);
-    if (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+    rc = Dialog_Box_بالواسطہ_Param(تہی, (DLGTEMPLATE *)dialog->lpDialog, والد_کھڑکی_2, پیغام_Box_Dialog_Proc, (LPARAM)messageboxdata);
+    اگر (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
         *buttonID = messageboxdata->buttons[rc - IDBUTTONINDEX0].buttonID;
-        result = true;
-    } else if (rc == IDCLOSED) {
+        نتیجہ = true;
+    } ورنہ اگر (rc == IDCLOSED) {
         // Dialog window closed by user or system.
         // This could use a special return code.
-        result = true;
+        نتیجہ = true;
         *buttonID = -1;
-    } else {
-        if (rc == 0) {
-            SDL_SetError("Invalid parent window handle");
-        } else if (rc == -1) {
-            SDL_SetError("The message box encountered an error.");
-        } else if (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
-            SDL_SetError("Invalid message box pointer in dialog procedure");
-        } else if (rc == IDINVALPTRDLGITEM) {
-            SDL_SetError("Couldn't find dialog control of the default enter-key button");
-        } else {
-            SDL_SetError("An unknown error occurred");
+    } ورنہ {
+        اگر (rc == 0) {
+            SDL_سیٹ_Error("Invalid parent window handle");
+        } ورنہ اگر (rc == -1) {
+            SDL_سیٹ_Error("The message box encountered an error.");
+        } ورنہ اگر (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
+            SDL_سیٹ_Error("Invalid message box pointer in dialog procedure");
+        } ورنہ اگر (rc == IDINVALPTRDLGITEM) {
+            SDL_سیٹ_Error("Couldn't find dialog control of the default enter-key button");
+        } ورنہ {
+            SDL_سیٹ_Error("An unknown error occurred");
         }
-        result = false;
+        نتیجہ = false;
     }
 
-    FreeDialogData(dialog);
-    return result;
+    Free_Dialog_ڈیٹا(dialog);
+    واپس نتیجہ;
 }
 
 /* TaskDialogIndirect procedure
  * This is because SDL targets Windows XP (0x501), so this is not defined in the platform SDK.
  */
 /* *INDENT-OFF* */ // clang-format off
-typedef HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(const TASKDIALOGCONFIG *pTaskConfig, int *pnButton, int *pnRadioButton, BOOL *pfVerificationFlagChecked);
+قسمتعریف HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(ثابت TASKDIALOGCONFIG *pTaskConfig, صحیح *pnButton, صحیح *pnRadioButton, BOOL *pfVerificationFlagChecked);
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool WIN_Show_پیغام_Box(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID)
 {
-    HWND ParentWindow = NULL;
+    HWND والد_کھڑکی_2 = تہی;
     wchar_t *wmessage;
     wchar_t *wtitle;
     TASKDIALOGCONFIG TaskConfig;
     TASKDIALOG_BUTTON *pButtons;
     TASKDIALOG_BUTTON *pButton;
     HMODULE hComctl32;
-    TASKDIALOGINDIRECTPROC pTaskDialogIndirect;
+    TASKDIALOGINDIRECTPROC p_Task_Dialog_بالواسطہ;
     HRESULT hr;
-    char *ampescape = NULL;
+    حرف *ampescape = تہی;
     size_t ampescapesize = 0;
-    int nButton;
-    int nCancelButton;
-    int i;
-    bool result = false;
+    صحیح nButton;
+    صحیح nCancelButton;
+    صحیح i;
+    bool نتیجہ = false;
 
-    if (SIZE_MAX / sizeof(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
-        return SDL_OutOfMemory();
+    اگر (SIZE_MAX / حجم(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
+        واپس SDL_برآمد_کا_حافظہ();
     }
 
-    HMODULE hUser32 = GetModuleHandle(TEXT("user32.dll"));
-    typedef DPI_AWARENESS_CONTEXT (WINAPI *pfnSetThreadDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
-    pfnSetThreadDpiAwarenessContext pSetThreadDpiAwarenessContext = (pfnSetThreadDpiAwarenessContext)GetProcAddress(hUser32, "SetThreadDpiAwarenessContext");
-    DPI_AWARENESS_CONTEXT previous_context = DPI_AWARENESS_CONTEXT_UNAWARE;
-    if (pSetThreadDpiAwarenessContext) {
-        previous_context = pSetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+    HMODULE hUser32 = GetModuleHandle(متن_2("user32.dll"));
+    قسمتعریف DPI_AWARENESS_CONTEXT (WINAPI *pfn_سیٹ_Thread_Dpi_Awareness_Context)(DPI_AWARENESS_CONTEXT);
+    pfn_سیٹ_Thread_Dpi_Awareness_Context p_سیٹ_Thread_Dpi_Awareness_Context = (pfn_سیٹ_Thread_Dpi_Awareness_Context)Get_Proc_پتہ(hUser32, "SetThreadDpiAwarenessContext");
+    DPI_AWARENESS_CONTEXT پچھلا_context = DPI_AWARENESS_CONTEXT_UNAWARE;
+    اگر (p_سیٹ_Thread_Dpi_Awareness_Context) {
+        پچھلا_context = p_سیٹ_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_فی_MONITOR_AWARE_V2);
     }
 
     // If we cannot load comctl32.dll use the old messagebox!
-    hComctl32 = LoadLibrary(TEXT("comctl32.dll"));
-    if (!hComctl32) {
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+    hComctl32 = بھرو_Library(متن_2("comctl32.dll"));
+    اگر (!hComctl32) {
+        نتیجہ = WIN_Show_Old_پیغام_Box(messageboxdata, buttonID);
+        جاؤ مکمل;
     }
 
     /* If TaskDialogIndirect doesn't exist use the old messagebox!
@@ -979,108 +979,108 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
        If you don't want to bother with manifests, put this #pragma in your app's source code somewhere:
        #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0'  processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
      */
-    pTaskDialogIndirect = (TASKDIALOGINDIRECTPROC)GetProcAddress(hComctl32, "TaskDialogIndirect");
-    if (!pTaskDialogIndirect) {
+    p_Task_Dialog_بالواسطہ = (TASKDIALOGINDIRECTPROC)Get_Proc_پتہ(hComctl32, "TaskDialogIndirect");
+    اگر (!p_Task_Dialog_بالواسطہ) {
         FreeLibrary(hComctl32);
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+        نتیجہ = WIN_Show_Old_پیغام_Box(messageboxdata, buttonID);
+        جاؤ مکمل;
     }
 
     /* If we have a parent window, get the Instance and HWND for them
        so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    اگر (messageboxdata->کھڑکی) {
+        والد_کھڑکی_2 = messageboxdata->کھڑکی->اندرونی_2->hwnd;
     }
 
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    wtitle = WIN_UTF8ToStringW(messageboxdata->title);
+    wmessage = WIN_UTF8_مقصد_String_W(messageboxdata->پیغام);
+    wtitle = WIN_UTF8_مقصد_String_W(messageboxdata->title);
 
     SDL_zero(TaskConfig);
-    TaskConfig.cbSize = sizeof(TASKDIALOGCONFIG);
-    TaskConfig.hwndParent = ParentWindow;
-    TaskConfig.dwFlags = TDF_SIZE_TO_CONTENT;
-    TaskConfig.pszWindowTitle = wtitle;
-    if (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
+    TaskConfig.cb_سائز = حجم(TASKDIALOGCONFIG);
+    TaskConfig.hwnd_والد = والد_کھڑکی_2;
+    TaskConfig.dwFlags = TDF_سائز_مقصد_CONTENT;
+    TaskConfig.psz_کھڑکی_Title = wtitle;
+    اگر (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
         TaskConfig.pszMainIcon = TD_ERROR_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } ورنہ اگر (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         TaskConfig.pszMainIcon = TD_WARNING_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    } ورنہ اگر (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         TaskConfig.pszMainIcon = TD_INFORMATION_ICON;
-    } else {
-        TaskConfig.pszMainIcon = NULL;
+    } ورنہ {
+        TaskConfig.pszMainIcon = تہی;
     }
 
     TaskConfig.pszContent = wmessage;
     TaskConfig.cButtons = messageboxdata->numbuttons;
-    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(sizeof(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
+    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(حجم(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
     TaskConfig.nDefaultButton = 0;
     nCancelButton = 0;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        const char *buttontext;
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    برائے (i = 0; i < messageboxdata->numbuttons; i++) {
+        ثابت حرف *buttontext;
+        اگر (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_بایاں_مقصد_دایاں) {
             pButton = &pButtons[i];
-        } else {
+        } ورنہ {
             pButton = &pButtons[messageboxdata->numbuttons - 1 - i];
         }
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+        اگر (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
             nCancelButton = messageboxdata->buttons[i].buttonID;
             pButton->nButtonID = IDCANCEL;
-        } else {
+        } ورنہ {
             pButton->nButtonID = IDBUTTONINDEX0 + i;
         }
-        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].text);
-        if (!buttontext) {
-            int j;
+        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].متن);
+        اگر (!buttontext) {
+            صحیح j;
             FreeLibrary(hComctl32);
             SDL_free(ampescape);
             SDL_free(wmessage);
             SDL_free(wtitle);
-            for (j = 0; j < i; j++) {
-                SDL_free((wchar_t *)pButtons[j].pszButtonText);
+            برائے (j = 0; j < i; j++) {
+                SDL_free((wchar_t *)pButtons[j].psz_Button_متن);
             }
             SDL_free(pButtons);
-            return false;
+            واپس false;
         }
-        pButton->pszButtonText = WIN_UTF8ToStringW(buttontext);
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        pButton->psz_Button_متن = WIN_UTF8_مقصد_String_W(buttontext);
+        اگر (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             TaskConfig.nDefaultButton = pButton->nButtonID;
         }
     }
     TaskConfig.pButtons = pButtons;
 
     // Show the Task Dialog
-    hr = pTaskDialogIndirect(&TaskConfig, &nButton, NULL, NULL);
+    hr = p_Task_Dialog_بالواسطہ(&TaskConfig, &nButton, تہی, تہی);
 
     // Free everything
     FreeLibrary(hComctl32);
     SDL_free(ampescape);
     SDL_free(wmessage);
     SDL_free(wtitle);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        SDL_free((wchar_t *)pButtons[i].pszButtonText);
+    برائے (i = 0; i < messageboxdata->numbuttons; i++) {
+        SDL_free((wchar_t *)pButtons[i].psz_Button_متن);
     }
     SDL_free(pButtons);
 
     // Check the Task Dialog was successful and give the result
-    if (SUCCEEDED(hr)) {
-        if (nButton == IDCANCEL) {
+    اگر (SUCCEEDED(hr)) {
+        اگر (nButton == IDCANCEL) {
             *buttonID = nCancelButton;
-        } else if (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
+        } ورنہ اگر (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
             *buttonID = messageboxdata->buttons[nButton - IDBUTTONINDEX0].buttonID;
-        } else {
+        } ورنہ {
             *buttonID = -1;
         }
-        result = true;
-    } else {
+        نتیجہ = true;
+    } ورنہ {
         // We failed showing the Task Dialog, use the old message box!
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
+        نتیجہ = WIN_Show_Old_پیغام_Box(messageboxdata, buttonID);
     }
 
-done:
-    if (pSetThreadDpiAwarenessContext) {
-        pSetThreadDpiAwarenessContext(previous_context);
+مکمل:
+    اگر (p_سیٹ_Thread_Dpi_Awareness_Context) {
+        p_سیٹ_Thread_Dpi_Awareness_Context(پچھلا_context);
     }
-    return result;
+    واپس نتیجہ;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#اگر_ختم // SDL_VIDEO_DRIVER_WINDOWS

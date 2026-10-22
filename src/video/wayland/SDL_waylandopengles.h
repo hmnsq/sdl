@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_waylandopengles_h_
-#define SDL_waylandopengles_h_
+#اگر_غیر_تعریف_شدہ SDL_waylandopengles_h_
+#تعریف_کرو SDL_waylandopengles_h_
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+قسمتعریف ساخت SDL_نجی_GLESData
 {
-    int dummy;
-} SDL_PrivateGLESData;
+    صحیح dummy;
+} SDL_نجی_GLESData;
 
 // OpenGLES functions
-#define Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
-#define Wayland_GLES_GetProcAddress SDL_EGL_GetProcAddressInternal
-#define Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
+#تعریف_کرو Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
+#تعریف_کرو Wayland_GLES_Get_Proc_پتہ SDL_EGL_Get_Proc_پتہ_اندرونی
+#تعریف_کرو Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
 
-extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool Wayland_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool Wayland_GLES_سیٹ_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح interval);
+خارجی bool Wayland_GLES_Get_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح *interval);
+خارجی bool Wayland_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجی bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجی خالی Wayland_GLES_سیٹ_Default_Profile_Config(SDL_VideoDevice *_this);
+خارجی SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_waylandopengles_h_
+#اگر_ختم // SDL_waylandopengles_h_

@@ -19,25 +19,25 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RPI
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_rpivideo.h"
-#include "SDL_rpievents_c.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "SDL_rpivideo.h"
+#شامل "SDL_rpievents_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#endif
+#اگر_تعریف_شدہ SDL_داخلہ_LINUXEV
+#شامل "../../core/linux/SDL_evdev.h"
+#اگر_ختم
 
-void RPI_PumpEvents(SDL_VideoDevice *_this)
+خالی RPI_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#اگر_تعریف_شدہ SDL_داخلہ_LINUXEV
     SDL_EVDEV_Poll();
-#endif
+#اگر_ختم
 }
 
-#endif // SDL_VIDEO_DRIVER_RPI
+#اگر_ختم // SDL_VIDEO_DRIVER_RPI

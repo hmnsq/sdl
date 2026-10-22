@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BEVENTS_H
-#define SDL_BEVENTS_H
+#اگر_غیر_تعریف_شدہ SDL_BEVENTS_H
+#تعریف_کرو SDL_BEVENTS_H
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-extern void HAIKU_PumpEvents(SDL_VideoDevice *_this);
+خارجی خالی HAIKU_PumpEvents(SDL_VideoDevice *_this);
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif
+#اگر_ختم

@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#شامل "SDL_riscosvideo.h"
+#شامل "SDL_riscoswindow.h"
 
-bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RISCOS_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    ڈیٹا = (SDL_کھڑکی_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
+        واپس false;
     }
-    data->window = window;
+    ڈیٹا->کھڑکی = کھڑکی;
 
-    SDL_SetMouseFocus(window);
+    SDL_سیٹ_Mouse_Focus(کھڑکی);
 
     // All done!
-    window->internal = data;
-    return true;
+    کھڑکی->اندرونی_2 = ڈیٹا;
+    واپس true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی RISCOS_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal) {
-        SDL_free(window->internal);
-        window->internal = NULL;
+    اگر (کھڑکی->اندرونی_2) {
+        SDL_free(کھڑکی->اندرونی_2);
+        کھڑکی->اندرونی_2 = تہی;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#اگر_ختم // SDL_VIDEO_DRIVER_RISCOS

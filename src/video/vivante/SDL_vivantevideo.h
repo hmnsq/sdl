@@ -18,48 +18,48 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_vivantevideo_h_
-#define SDL_vivantevideo_h_
+#اگر_غیر_تعریف_شدہ SDL_vivantevideo_h_
+#تعریف_کرو SDL_vivantevideo_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
 // Set up definitions for Vivante EGL
-#include <SDL3/SDL_egl.h>
+#شامل <SDL3/SDL_egl.h>
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-#include <gc_vdk.h>
-#else
-#include <EGL/egl.h>
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+#شامل <gc_vdk.h>
+#ورنہ
+#شامل <EGL/egl.h>
+#اگر_ختم
 
-struct SDL_VideoData
+ساخت SDL_Video_ڈیٹا
 {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    vdkPrivate vdk_private;
-#else
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    vdk_نجی_2 vdk_نجی;
+#ورنہ
     SDL_SharedObject *egl_handle; // EGL shared library handle
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
-    void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
-    void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
-#endif
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(خالی *context);
+    EGLNativeDisplayType(EGLAPIENTRY *fb_Get_Display_By_اشاریہ)(صحیح Display_اشاریہ);
+    خالی(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, صحیح *چوڑائی_2, صحیح *اونچائی_2);
+    خالی(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, صحیح *چوڑائی_2, صحیح *اونچائی_2, غیرعلامتی طویل *Physical, صحیح *Stride, صحیح *بٹ_فی_pixel);
+    خالی(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
+    EGLNative_کھڑکی_Type(EGLAPIENTRY *fb_Create_کھڑکی)(EGLNativeDisplayType Display, صحیح X, صحیح Y, صحیح چوڑائی_2, صحیح اونچائی_2);
+    خالی(EGLAPIENTRY *fb_Get_کھڑکی_Geometry)(EGLNative_کھڑکی_Type کھڑکی_2, صحیح *X, صحیح *Y, صحیح *چوڑائی_2, صحیح *اونچائی_2);
+    خالی(EGLAPIENTRY *fb_Get_کھڑکی_Info)(EGLNative_کھڑکی_Type کھڑکی_2, صحیح *X, صحیح *Y, صحیح *چوڑائی_2, صحیح *اونچائی_2, صحیح *بٹ_فی_pixel, غیرعلامتی صحیح *انحراف);
+    خالی(EGLAPIENTRY *fb_Destroy_کھڑکی)(EGLNative_کھڑکی_Type کھڑکی_2);
+#اگر_ختم
 };
 
-struct SDL_DisplayData
+ساخت SDL_Display_ڈیٹا
 {
     EGLNativeDisplayType native_display;
 };
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-    EGLNativeWindowType native_window;
+    EGLNative_کھڑکی_Type native_کھڑکی;
     EGLSurface egl_surface;
 };
 
@@ -69,18 +69,18 @@ struct SDL_WindowData
 
 // Display and window functions
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this);
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this);
+خالی VIVANTE_VideoQuit(SDL_VideoDevice *_this);
 bool VIVANTE_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-bool VIVANTE_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+bool VIVANTE_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
+bool VIVANTE_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خالی VIVANTE_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+bool VIVANTE_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی VIVANTE_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی VIVANTE_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی VIVANTE_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی VIVANTE_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
 // Event functions
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this);
+خالی VIVANTE_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_vivantevideo_h_
+#اگر_ختم // SDL_vivantevideo_h_

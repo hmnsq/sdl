@@ -4,54 +4,54 @@
  * Copyright 2015-2023 LunarG, Inc.
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  */
-#pragma once
+#ہدایت once
 
 /* Need to define dispatch table
  * Core struct can then have ptr to dispatch table at the top
  * Along with object ptrs for current and next OBJ
  */
 
-#include "vulkan_core.h"
+#شامل "vulkan_core.h"
 
-#define MAX_NUM_UNKNOWN_EXTS 250
+#تعریف_کرو MAX_عدد_UNKNOWN_EXTS 250
 
  // Loader-Layer version negotiation API.  Versions add the following features:
  //   Versions 0/1 - Initial.  Doesn't support vk_layerGetPhysicalDeviceProcAddr
  //                  or vk_icdNegotiateLoaderLayerInterfaceVersion.
  //   Version 2    - Add support for vk_layerGetPhysicalDeviceProcAddr and
  //                  vk_icdNegotiateLoaderLayerInterfaceVersion.
-#define CURRENT_LOADER_LAYER_INTERFACE_VERSION 2
-#define MIN_SUPPORTED_LOADER_LAYER_INTERFACE_VERSION 1
+#تعریف_کرو CURRENT_LOADER_LAYER_INTERFACE_نسخہ 2
+#تعریف_کرو MIN_SUPPORTED_LOADER_LAYER_INTERFACE_نسخہ 1
 
-#define VK_CURRENT_CHAIN_VERSION 1
+#تعریف_کرو VK_CURRENT_CHAIN_نسخہ 1
 
 // Typedef for use in the interfaces below
-#ifndef IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
-#define IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-#endif
+#اگر_غیر_تعریف_شدہ IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+قسمتعریف PFN_vkVoidFunction (VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, ثابت حرف* pName);
+#تعریف_کرو IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+#اگر_ختم
 
 // Version negotiation values
-typedef enum VkNegotiateLayerStructType {
+قسمتعریف شمار VkNegotiateLayerStructType {
     LAYER_NEGOTIATE_UNINTIALIZED = 0,
     LAYER_NEGOTIATE_INTERFACE_STRUCT = 1,
 } VkNegotiateLayerStructType;
 
 // Version negotiation structures
-typedef struct VkNegotiateLayerInterface {
+قسمتعریف ساخت VkNegotiateLayerInterface {
     VkNegotiateLayerStructType sType;
-    void *pNext;
-    uint32_t loaderLayerInterfaceVersion;
+    خالی *p_اگلا;
+    uint32_t loader_Layer_Interface_نسخہ;
     PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
     PFN_vkGetDeviceProcAddr pfnGetDeviceProcAddr;
     PFN_GetPhysicalDeviceProcAddr pfnGetPhysicalDeviceProcAddr;
 } VkNegotiateLayerInterface;
 
 // Version negotiation functions
-typedef VkResult (VKAPI_PTR *PFN_vkNegotiateLoaderLayerInterfaceVersion)(VkNegotiateLayerInterface *pVersionStruct);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vk_Negotiate_Loader_Layer_Interface_نسخہ)(VkNegotiateLayerInterface *p_نسخہ_Struct);
 
 // Function prototype for unknown physical device extension command
-typedef VkResult(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
+قسمتعریف Vk_نتیجہ(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
 
 // ------------------------------------------------------------------------------------------------
 // CreateInstance and CreateDevice support structures
@@ -61,17 +61,17 @@ typedef VkResult(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
  * or sType == VK_STRUCTURE_TYPE_LOADER_DEVICE_CREATE_INFO
  * then VkLayerFunction indicates struct type pointed to by pNext
  */
-typedef enum VkLayerFunction_ {
+قسمتعریف شمار VkLayerFunction_ {
     VK_LAYER_LINK_INFO = 0,
-    VK_LOADER_DATA_CALLBACK = 1,
+    VK_LOADER_ڈیٹا_CALLBACK = 1,
     VK_LOADER_LAYER_CREATE_DEVICE_CALLBACK = 2,
     VK_LOADER_FEATURES = 3,
 } VkLayerFunction;
 
-typedef struct VkLayerInstanceLink_ {
-    struct VkLayerInstanceLink_ *pNext;
-    PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
-    PFN_GetPhysicalDeviceProcAddr pfnNextGetPhysicalDeviceProcAddr;
+قسمتعریف ساخت VkLayerInstanceLink_ {
+    ساخت VkLayerInstanceLink_ *p_اگلا;
+    PFN_vkGetInstanceProcAddr pfn_اگلا_Get_Instance_Proc_Addr;
+    PFN_GetPhysicalDeviceProcAddr pfn_اگلا_Get_Physical_Device_Proc_Addr;
 } VkLayerInstanceLink;
 
 /*
@@ -81,32 +81,32 @@ typedef struct VkLayerInstanceLink_ {
  * VkLayerDeviceInfo avoids issues with finding the
  * exact instance being used.
  */
-typedef struct VkLayerDeviceInfo_ {
-    void *device_info;
-    PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
+قسمتعریف ساخت VkLayerDeviceInfo_ {
+    خالی *device_info;
+    PFN_vkGetInstanceProcAddr pfn_اگلا_Get_Instance_Proc_Addr;
 } VkLayerDeviceInfo;
 
-typedef VkResult (VKAPI_PTR *PFN_vkSetInstanceLoaderData)(VkInstance instance,
-        void *object);
-typedef VkResult (VKAPI_PTR *PFN_vkSetDeviceLoaderData)(VkDevice device,
-        void *object);
-typedef VkResult (VKAPI_PTR *PFN_vkLayerCreateDevice)(VkInstance instance, VkPhysicalDevice physicalDevice, const VkDeviceCreateInfo *pCreateInfo,
-						      const VkAllocationCallbacks *pAllocator, VkDevice *pDevice, PFN_vkGetInstanceProcAddr layerGIPA, PFN_vkGetDeviceProcAddr *nextGDPA);
-typedef void (VKAPI_PTR *PFN_vkLayerDestroyDevice)(VkDevice physicalDevice, const VkAllocationCallbacks *pAllocator, PFN_vkDestroyDevice destroyFunction);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vk_سیٹ_Instance_Loader_ڈیٹا)(VkInstance instance,
+        خالی *object);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vk_سیٹ_Device_Loader_ڈیٹا)(VkDevice device,
+        خالی *object);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vkLayerCreateDevice)(VkInstance instance, VkPhysicalDevice physicalDevice, ثابت VkDeviceCreateInfo *pCreateInfo,
+						      ثابت Vk_تخصیص_Callbacks *pAllocator, VkDevice *pDevice, PFN_vkGetInstanceProcAddr layerGIPA, PFN_vkGetDeviceProcAddr *اگلا_GDPA);
+قسمتعریف خالی (VKAPI_PTR *PFN_vkLayerDestroyDevice)(VkDevice physicalDevice, ثابت Vk_تخصیص_Callbacks *pAllocator, PFN_vkDestroyDevice destroyFunction);
 
-typedef enum VkLoaderFeastureFlagBits {
-    VK_LOADER_FEATURE_PHYSICAL_DEVICE_SORTING = 0x00000001,
-} VkLoaderFlagBits;
-typedef VkFlags VkLoaderFeatureFlags;
+قسمتعریف شمار Vk_Loader_Feasture_Flag_بٹ {
+    VK_LOADER_FEATURE_PHYSICAL_DEVICE_ترتیب_کاری = 0x00000001,
+} Vk_Loader_Flag_بٹ;
+قسمتعریف VkFlags VkLoaderFeatureFlags;
 
-typedef struct {
+قسمتعریف ساخت {
     VkStructureType sType; // VK_STRUCTURE_TYPE_LOADER_INSTANCE_CREATE_INFO
-    const void *pNext;
+    ثابت خالی *p_اگلا;
     VkLayerFunction function;
-    union {
+    اتحاد {
         VkLayerInstanceLink *pLayerInfo;
-        PFN_vkSetInstanceLoaderData pfnSetInstanceLoaderData;
-        struct {
+        PFN_vk_سیٹ_Instance_Loader_ڈیٹا pfn_سیٹ_Instance_Loader_ڈیٹا;
+        ساخت {
 	        PFN_vkLayerCreateDevice pfnLayerCreateDevice;
 	        PFN_vkLayerDestroyDevice pfnLayerDestroyDevice;
 	    } layerDevice;
@@ -114,78 +114,78 @@ typedef struct {
     } u;
 } VkLayerInstanceCreateInfo;
 
-typedef struct VkLayerDeviceLink_ {
-    struct VkLayerDeviceLink_ *pNext;
-    PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
-    PFN_vkGetDeviceProcAddr pfnNextGetDeviceProcAddr;
+قسمتعریف ساخت VkLayerDeviceLink_ {
+    ساخت VkLayerDeviceLink_ *p_اگلا;
+    PFN_vkGetInstanceProcAddr pfn_اگلا_Get_Instance_Proc_Addr;
+    PFN_vkGetDeviceProcAddr pfn_اگلا_Get_Device_Proc_Addr;
 } VkLayerDeviceLink;
 
-typedef struct {
+قسمتعریف ساخت {
     VkStructureType sType; // VK_STRUCTURE_TYPE_LOADER_DEVICE_CREATE_INFO
-    const void *pNext;
+    ثابت خالی *p_اگلا;
     VkLayerFunction function;
-    union {
+    اتحاد {
         VkLayerDeviceLink *pLayerInfo;
-        PFN_vkSetDeviceLoaderData pfnSetDeviceLoaderData;
+        PFN_vk_سیٹ_Device_Loader_ڈیٹا pfn_سیٹ_Device_Loader_ڈیٹا;
     } u;
 } VkLayerDeviceCreateInfo;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-VKAPI_ATTR VkResult VKAPI_CALL vkNegotiateLoaderLayerInterfaceVersion(VkNegotiateLayerInterface *pVersionStruct);
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Negotiate_Loader_Layer_Interface_نسخہ(VkNegotiateLayerInterface *p_نسخہ_Struct);
 
-typedef enum VkChainType {
+قسمتعریف شمار VkChainType {
     VK_CHAIN_TYPE_UNKNOWN = 0,
     VK_CHAIN_TYPE_ENUMERATE_INSTANCE_EXTENSION_PROPERTIES = 1,
     VK_CHAIN_TYPE_ENUMERATE_INSTANCE_LAYER_PROPERTIES = 2,
-    VK_CHAIN_TYPE_ENUMERATE_INSTANCE_VERSION = 3,
+    VK_CHAIN_TYPE_ENUMERATE_INSTANCE_نسخہ = 3,
 } VkChainType;
 
-typedef struct VkChainHeader {
+قسمتعریف ساخت Vk_Chain_سرخی {
     VkChainType type;
-    uint32_t version;
-    uint32_t size;
-} VkChainHeader;
+    uint32_t نسخہ;
+    uint32_t سائز;
+} Vk_Chain_سرخی;
 
-typedef struct VkEnumerateInstanceExtensionPropertiesChain {
-    VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceExtensionPropertiesChain *, const char *, uint32_t *,
+قسمتعریف ساخت VkEnumerateInstanceExtensionPropertiesChain {
+    Vk_Chain_سرخی سرخی;
+    Vk_نتیجہ(VKAPI_PTR *pfn_اگلا_Layer)(ثابت ساخت VkEnumerateInstanceExtensionPropertiesChain *, ثابت حرف *, uint32_t *,
                                       VkExtensionProperties *);
-    const struct VkEnumerateInstanceExtensionPropertiesChain *pNextLink;
+    ثابت ساخت VkEnumerateInstanceExtensionPropertiesChain *p_اگلا_Link;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(const char *pLayerName, uint32_t *pPropertyCount, VkExtensionProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pLayerName, pPropertyCount, pProperties);
+#اگر defined(__cplusplus)
+    اندرونی Vk_نتیجہ Call_نیچے_کو(ثابت حرف *pLayerName, uint32_t *p_Property_گنتی, VkExtensionProperties *pProperties) ثابت {
+        واپس pfn_اگلا_Layer(p_اگلا_Link, pLayerName, p_Property_گنتی, pProperties);
     }
-#endif
+#اگر_ختم
 } VkEnumerateInstanceExtensionPropertiesChain;
 
-typedef struct VkEnumerateInstanceLayerPropertiesChain {
-    VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceLayerPropertiesChain *, uint32_t *, VkLayerProperties *);
-    const struct VkEnumerateInstanceLayerPropertiesChain *pNextLink;
+قسمتعریف ساخت VkEnumerateInstanceLayerPropertiesChain {
+    Vk_Chain_سرخی سرخی;
+    Vk_نتیجہ(VKAPI_PTR *pfn_اگلا_Layer)(ثابت ساخت VkEnumerateInstanceLayerPropertiesChain *, uint32_t *, VkLayerProperties *);
+    ثابت ساخت VkEnumerateInstanceLayerPropertiesChain *p_اگلا_Link;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(uint32_t *pPropertyCount, VkLayerProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pPropertyCount, pProperties);
+#اگر defined(__cplusplus)
+    اندرونی Vk_نتیجہ Call_نیچے_کو(uint32_t *p_Property_گنتی, VkLayerProperties *pProperties) ثابت {
+        واپس pfn_اگلا_Layer(p_اگلا_Link, p_Property_گنتی, pProperties);
     }
-#endif
+#اگر_ختم
 } VkEnumerateInstanceLayerPropertiesChain;
 
-typedef struct VkEnumerateInstanceVersionChain {
-    VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceVersionChain *, uint32_t *);
-    const struct VkEnumerateInstanceVersionChain *pNextLink;
+قسمتعریف ساخت Vk_Enumerate_Instance_نسخہ_Chain {
+    Vk_Chain_سرخی سرخی;
+    Vk_نتیجہ(VKAPI_PTR *pfn_اگلا_Layer)(ثابت ساخت Vk_Enumerate_Instance_نسخہ_Chain *, uint32_t *);
+    ثابت ساخت Vk_Enumerate_Instance_نسخہ_Chain *p_اگلا_Link;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(uint32_t *pApiVersion) const {
-        return pfnNextLayer(pNextLink, pApiVersion);
+#اگر defined(__cplusplus)
+    اندرونی Vk_نتیجہ Call_نیچے_کو(uint32_t *p_Api_نسخہ) ثابت {
+        واپس pfn_اگلا_Layer(p_اگلا_Link, p_Api_نسخہ);
     }
-#endif
-} VkEnumerateInstanceVersionChain;
+#اگر_ختم
+} Vk_Enumerate_Instance_نسخہ_Chain;
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم

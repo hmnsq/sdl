@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_pspgl_c_h_
-#define SDL_pspgl_c_h_
+#اگر_غیر_تعریف_شدہ SDL_pspgl_c_h_
+#تعریف_کرو SDL_pspgl_c_h_
 
-#include <GLES/egl.h>
-#include <GLES/gl.h>
+#شامل <GLES/egl.h>
+#شامل <GLES/gl.h>
 
-#include "SDL_pspvideo.h"
+#شامل "SDL_pspvideo.h"
 
-typedef struct SDL_GLDriverData
+قسمتعریف ساخت SDL_GLDriver_ڈیٹا
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
+} SDL_GLDriver_ڈیٹا;
 
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
+خارجی SDL_Function_اشارہ_گر PSP_GL_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجی bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجی خالی PSP_GL_تبادلہ_Buffers(SDL_VideoDevice *_this);
 
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool PSP_GL_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+خارجی bool PSP_GL_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی خالی PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی bool PSP_GL_سیٹ_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح interval);
+خارجی bool PSP_GL_Get_تبادلہ_Interval(SDL_VideoDevice *_this, صحیح *interval);
 
-#endif // SDL_pspgl_c_h_
+#اگر_ختم // SDL_pspgl_c_h_

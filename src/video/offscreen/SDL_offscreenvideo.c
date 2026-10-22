@@ -18,9 +18,9 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OFFSCREEN
 
 /* Offscreen video driver is similar to dummy driver, however its purpose
  * is enabling applications to use some of the SDL video functionality
@@ -30,123 +30,123 @@
  * for automated testing.
  */
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
-#include "SDL_offscreenframebuffer_c.h"
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvulkan.h"
-#include "SDL_offscreenwindow.h"
+#شامل "SDL_offscreenvideo.h"
+#شامل "SDL_offscreenevents_c.h"
+#شامل "SDL_offscreenframebuffer_c.h"
+#شامل "SDL_offscreenopengles.h"
+#شامل "SDL_offscreenvulkan.h"
+#شامل "SDL_offscreenwindow.h"
 
-#define OFFSCREENVID_DRIVER_NAME "offscreen"
+#تعریف_کرو OFFSCREENVID_DRIVER_NAME "offscreen"
 
 // Initialization/Query functions
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
+ساکن bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
+ساکن bool OFFSCREEN_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
+ساکن خالی OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
 
 // OFFSCREEN driver bootstrap functions
 
-static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
+ساکن خالی OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static bool OFFSCREEN_Available(const char *drivername)
+ساکن bool OFFSCREEN_دستیاب(ثابت حرف *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    ثابت حرف *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    اگر (hint && SDL_strstr(hint, drivername) != تہی) {
+        واپس true;
     }
-    return false;
+    واپس false;
 }
 
-static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
+ساکن SDL_VideoDevice *OFFSCREEN_CreateDevice(خالی)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    اگر (!OFFSCREEN_دستیاب(OFFSCREENVID_DRIVER_NAME)) {
+        واپس تہی;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    اگر (!device) {
+        واپس تہی;
     }
 
     // General video
     device->VideoInit = OFFSCREEN_VideoInit;
     device->VideoQuit = OFFSCREEN_VideoQuit;
-    device->SetDisplayMode = OFFSCREEN_SetDisplayMode;
+    device->سیٹ_Display_منوال = OFFSCREEN_سیٹ_Display_منوال;
     device->PumpEvents = OFFSCREEN_PumpEvents;
-    device->CreateWindowFramebuffer = SDL_OFFSCREEN_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = SDL_OFFSCREEN_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = SDL_OFFSCREEN_DestroyWindowFramebuffer;
-    device->free = OFFSCREEN_DeleteDevice;
+    device->Create_کھڑکی_Framebuffer = SDL_OFFSCREEN_Create_کھڑکی_Framebuffer;
+    device->Update_کھڑکی_Framebuffer = SDL_OFFSCREEN_Update_کھڑکی_Framebuffer;
+    device->Destroy_کھڑکی_Framebuffer = SDL_OFFSCREEN_Destroy_کھڑکی_Framebuffer;
+    device->آزاد = OFFSCREEN_DeleteDevice;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     // GL context
-    device->GL_SwapWindow = OFFSCREEN_GLES_SwapWindow;
+    device->GL_تبادلہ_کھڑکی = OFFSCREEN_GLES_تبادلہ_کھڑکی;
     device->GL_MakeCurrent = OFFSCREEN_GLES_MakeCurrent;
     device->GL_CreateContext = OFFSCREEN_GLES_CreateContext;
     device->GL_DestroyContext = OFFSCREEN_GLES_DestroyContext;
-    device->GL_LoadLibrary = OFFSCREEN_GLES_LoadLibrary;
+    device->GL_بھرو_Library = OFFSCREEN_GLES_بھرو_Library;
     device->GL_UnloadLibrary = OFFSCREEN_GLES_UnloadLibrary;
-    device->GL_GetProcAddress = OFFSCREEN_GLES_GetProcAddress;
-    device->GL_GetSwapInterval = OFFSCREEN_GLES_GetSwapInterval;
-    device->GL_SetSwapInterval = OFFSCREEN_GLES_SetSwapInterval;
-#endif
+    device->GL_Get_Proc_پتہ = OFFSCREEN_GLES_Get_Proc_پتہ;
+    device->GL_Get_تبادلہ_Interval = OFFSCREEN_GLES_Get_تبادلہ_Interval;
+    device->GL_سیٹ_تبادلہ_Interval = OFFSCREEN_GLES_سیٹ_تبادلہ_Interval;
+#اگر_ختم
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = OFFSCREEN_Vulkan_LoadLibrary;
+#اگر_تعریف_شدہ SDL_VIDEO_VULKAN
+    device->Vulkan_بھرو_Library = OFFSCREEN_Vulkan_بھرو_Library;
     device->Vulkan_UnloadLibrary = OFFSCREEN_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = OFFSCREEN_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = OFFSCREEN_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = OFFSCREEN_Vulkan_DestroySurface;
-#endif
+#اگر_ختم
 
     // "Window"
-    device->CreateSDLWindow = OFFSCREEN_CreateWindow;
-    device->DestroyWindow = OFFSCREEN_DestroyWindow;
-    device->SetWindowSize = OFFSCREEN_SetWindowSize;
+    device->CreateSDLWindow = OFFSCREEN_Create_کھڑکی;
+    device->Destroy_کھڑکی = OFFSCREEN_Destroy_کھڑکی;
+    device->سیٹ_کھڑکی_سائز = OFFSCREEN_سیٹ_کھڑکی_سائز;
 
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    واپس device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
     OFFSCREENVID_DRIVER_NAME, "SDL offscreen video driver",
     OFFSCREEN_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    تہی, // no ShowMessageBox implementation
     false
 };
 
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
+ساکن bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_منوال منوال;
 
     // Use a fake 32-bpp desktop mode
-    SDL_zero(mode);
-    mode.format = SDL_PIXELFORMAT_XRGB8888;
-    mode.w = 1024;
-    mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    SDL_zero(منوال);
+    منوال.format = SDL_PIXELFORMAT_XRGB8888;
+    منوال.w = 1024;
+    منوال.h = 768;
+    اگر (SDL_جوڑو_Basic_Video_Display(&منوال) == 0) {
+        واپس false;
     }
 
     // We're done!
-    return true;
+    واپس true;
 }
 
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+ساکن bool OFFSCREEN_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال)
 {
-    return true;
+    واپس true;
 }
 
-void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
+خالی OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_ختم // SDL_VIDEO_DRIVER_OFFSCREEN

@@ -18,42 +18,42 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_x11toolkit_h_
-#define SDL_x11toolkit_h_
+#اگر_غیر_تعریف_شدہ SDL_x11toolkit_h_
+#تعریف_کرو SDL_x11toolkit_h_
 
-#include "../../SDL_list.h"
-#include "SDL_x11video.h"
-#include "SDL_x11dyn.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11toolkit.h"
-#include "xsettings-client.h"
-#ifdef HAVE_FRIBIDI_H
-#include "../../core/unix/SDL_fribidi.h"
-#endif
-#ifdef HAVE_LIBTHAI_H
-#include "../../core/unix/SDL_libthai.h"
-#endif
+#شامل "../../SDL_list.h"
+#شامل "SDL_x11video.h"
+#شامل "SDL_x11dyn.h"
+#شامل "SDL_x11settings.h"
+#شامل "SDL_x11toolkit.h"
+#شامل "xsettings-client.h"
+#اگر_تعریف_شدہ HAVE_FRIBIDI_H
+#شامل "../../core/unix/SDL_fribidi.h"
+#اگر_ختم
+#اگر_تعریف_شدہ HAVE_LIBTHAI_H
+#شامل "../../core/unix/SDL_libthai.h"
+#اگر_ختم
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11
 
 /* Various predefined paddings */
-#define SDL_TOOLKIT_X11_ELEMENT_PADDING 4
-#define SDL_TOOLKIT_X11_ELEMENT_PADDING_2 12
-#define SDL_TOOLKIT_X11_ELEMENT_PADDING_3 8
-#define SDL_TOOLKIT_X11_ELEMENT_PADDING_4 16
-#define SDL_TOOLKIT_X11_ELEMENT_PADDING_5 3
+#تعریف_کرو SDL_TOOLKIT_X11_ELEMENT_PADDING 4
+#تعریف_کرو SDL_TOOLKIT_X11_ELEMENT_PADDING_2 12
+#تعریف_کرو SDL_TOOLKIT_X11_ELEMENT_PADDING_3 8
+#تعریف_کرو SDL_TOOLKIT_X11_ELEMENT_PADDING_4 16
+#تعریف_کرو SDL_TOOLKIT_X11_ELEMENT_PADDING_5 3
 
-typedef enum SDL_ToolkitChildModeX11
+قسمتعریف شمار SDL_Toolkit_بچہ_منوال_X11
 {
-    SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG,
-    SDL_TOOLKIT_WINDOW_MODE_X11_CHILD, /* For embedding into a normal SDL_Window */
-    SDL_TOOLKIT_WINDOW_MODE_X11_MENU,
-    SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP
-} SDL_ToolkitWindowModeX11;
+    SDL_TOOLKIT_کھڑکی_منوال_X11_DIALOG,
+    SDL_TOOLKIT_کھڑکی_منوال_X11_بچہ, /* For embedding into a normal SDL_Window */
+    SDL_TOOLKIT_کھڑکی_منوال_X11_MENU,
+    SDL_TOOLKIT_کھڑکی_منوال_X11_TOOLTIP
+} SDL_Toolkit_کھڑکی_منوال_X11;
 
-typedef enum SDL_ToolkitThaiEncodingX11
+قسمتعریف شمار SDL_ToolkitThaiEncodingX11
 {
     SDL_TOOLKIT_THAI_ENCODING_X11_NONE,
     SDL_TOOLKIT_THAI_ENCODING_X11_TIS, /* -0 */
@@ -63,209 +63,209 @@ typedef enum SDL_ToolkitThaiEncodingX11
     SDL_TOOLKIT_THAI_ENCODING_X11_UNICODE
 } SDL_ToolkitThaiEncodingX11;
 
-typedef enum SDL_ToolkitThaiFontX11
+قسمتعریف شمار SDL_ToolkitThaiFontX11
 {
-    SDL_TOOLKIT_THAI_FONT_X11_OFFSET,
+    SDL_TOOLKIT_THAI_FONT_X11_انحراف,
     SDL_TOOLKIT_THAI_FONT_X11_CELL
 } SDL_ToolkitThaiFontX11;
 
-typedef struct SDL_ToolkitWindowX11
+قسمتعریف ساخت SDL_Toolkit_کھڑکی_X11
 {
     /* Locale */
-    char *origlocale;
+    حرف *origlocale;
 
-    /* Mode */
-    SDL_ToolkitWindowModeX11 mode;
+    /*منوال*/
+    SDL_Toolkit_کھڑکی_منوال_X11 منوال;
 
     /* Display */
     Display *display;
-    int screen;
+    صحیح screen;
     bool display_close;
 
-    /* Parent */
-    SDL_VideoDevice *parent_device;
-    SDL_Window *parent;
-    struct SDL_ToolkitWindowX11 *tk_parent;
+    /*والد*/
+    SDL_VideoDevice *والد_device;
+    SDL_کھڑکی *والد;
+    ساخت SDL_Toolkit_کھڑکی_X11 *tk_والد;
 
-    /* Window */
-    Window window;
+    /*کھڑکی*/
+    کھڑکی_2 کھڑکی;
     Drawable drawable;
-#ifndef NO_SHARED_MEMORY
+#اگر_غیر_تعریف_شدہ NO_SHARED_حافظہ
     XImage *image;
     XShmSegmentInfo shm_info;
-    int shm_bytes_per_line;
-#endif
+    صحیح shm_بائٹیں_فی_سطر;
+#اگر_ختم
 
     /* Visuals and drawing */
     Visual *visual;
     XVisualInfo vi;
     Colormap cmap;
     GC ctx;
-    int depth;
+    صحیح گہرائی_2;
     bool pixmap;
 
     /* X11 extensions */
-#ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    XdbeBackBuffer buf;
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XDBE
+    Xdbe_عقب_بفر buf;
     bool xdbe; // Whether Xdbe is present or not
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XRANDR
     bool xrandr; // Whether Xrandr is present or not
-#endif
-#ifndef NO_SHARED_MEMORY
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ NO_SHARED_حافظہ
     bool shm;
     Bool shm_pixmap;
-#endif
+#اگر_ختم
     bool utf8;
     /* Atoms */
     Atom wm_protocols;
-    Atom wm_delete_message;
+    Atom wm_delete_پیغام;
 
     /* Window and pixmap sizes */
-    int window_width;  // Window width.
-    int window_height; // Window height.
-    int pixmap_width;
-    int pixmap_height;
-    int window_x;
-    int window_y;
+    صحیح کھڑکی_چوڑائی;  // Window width.
+    صحیح کھڑکی_اونچائی; // Window height.
+    صحیح pixmap_چوڑائی;
+    صحیح pixmap_اونچائی;
+    صحیح کھڑکی_x;
+    صحیح کھڑکی_y;
 
     /* XSettings and scaling */
     XSettingsClient *xsettings;
-    bool xsettings_first_time;
-    int iscale;
-    float scale;
+    bool xsettings_پہلا_وقت;
+    صحیح iscale;
+    اعشاری scale;
 
     /* Font */
-    XFontSet font_set;        // for UTF-8 systems
+    XFont_سیٹ font_سیٹ;        // for UTF-8 systems
     XFontStruct *font_struct; // Latin1 (ASCII) fallback.
     SDL_ToolkitThaiEncodingX11 thai_encoding;
     SDL_ToolkitThaiFontX11 thai_font;
     
     /* Control colors */
-    const SDL_MessageBoxColor *color_hints;
-    XColor xcolor[SDL_MESSAGEBOX_COLOR_COUNT];
+    ثابت SDL_پیغام_Box_Color *color_hints;
+    XColor xcolor[SDL_MESSAGEBOX_COLOR_گنتی];
     XColor xcolor_bevel_l1;
     XColor xcolor_bevel_l2;
     XColor xcolor_bevel_d;
     XColor xcolor_pressed;
-    XColor xcolor_disabled_text;
+    XColor xcolor_disabled_متن;
 
     /* Control list */
     bool has_focus;
-    struct SDL_ToolkitControlX11 *focused_control;
-    struct SDL_ToolkitControlX11 *fiddled_control;
-    struct SDL_ToolkitControlX11 **controls;
+    ساخت SDL_ToolkitControlX11 *focused_control;
+    ساخت SDL_ToolkitControlX11 *fiddled_control;
+    ساخت SDL_ToolkitControlX11 **controls;
     size_t controls_sz;
-    struct SDL_ToolkitControlX11 **dyn_controls;
+    ساخت SDL_ToolkitControlX11 **dyn_controls;
     size_t dyn_controls_sz;
 
     /* User callbacks */
-    void *cb_data;
-    void (*cb_on_scale_change)(struct SDL_ToolkitWindowX11 *, void *);
+    خالی *cb_ڈیٹا;
+    خالی (*cb_on_scale_change)(ساخت SDL_Toolkit_کھڑکی_X11 *, خالی *);
 
     /* Popup windows */
-    SDL_ListNode *popup_windows;
+    SDL_List_گرہ *popup_windows;
 
     /* Event loop */
     XEvent *e;
-    struct SDL_ToolkitControlX11 *previous_control;
-    struct SDL_ToolkitControlX11 *key_control_esc;
-    struct SDL_ToolkitControlX11 *key_control_enter;
-    KeySym last_key_pressed;
-    int ev_i;
-    float ev_scale;
-    float ev_iscale;
+    ساخت SDL_ToolkitControlX11 *پچھلا_control;
+    ساخت SDL_ToolkitControlX11 *کلید_control_esc;
+    ساخت SDL_ToolkitControlX11 *کلید_control_enter;
+    کلید_Sym آخری_کلید_pressed;
+    صحیح ev_i;
+    اعشاری ev_scale;
+    اعشاری ev_iscale;
     bool draw;
     bool close;
-    long event_mask;
+    طویل event_نقاب;
 
-#ifdef HAVE_FRIBIDI_H
+#اگر_تعریف_شدہ HAVE_FRIBIDI_H
     /* BIDI engine */
     SDL_FriBidi *fribidi;
     bool do_shaping;
-#endif
+#اگر_ختم
 
-#ifdef HAVE_LIBTHAI_H
+#اگر_تعریف_شدہ HAVE_LIBTHAI_H
     SDL_LibThai *th;
-#endif
+#اگر_ختم
 
     bool flip_interface;
-} SDL_ToolkitWindowX11;
+} SDL_Toolkit_کھڑکی_X11;
 
-typedef enum SDL_ToolkitControlStateX11
+قسمتعریف شمار SDL_ToolkitControlStateX11
 {
-    SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL,
+    SDL_TOOLKIT_CONTROL_STATE_X11_معمول,
     SDL_TOOLKIT_CONTROL_STATE_X11_HOVER,
     SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED, /* Key/Button Up */
     SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD, /* Key/Button Down */
     SDL_TOOLKIT_CONTROL_STATE_X11_DISABLED
 } SDL_ToolkitControlStateX11;
 
-typedef struct SDL_ToolkitControlX11
+قسمتعریف ساخت SDL_ToolkitControlX11
 {
-    SDL_ToolkitWindowX11 *window;
+    SDL_Toolkit_کھڑکی_X11 *کھڑکی;
     SDL_ToolkitControlStateX11 state;
     SDL_Rect rect;
     bool selected;
     bool dynamic;
     bool is_default_enter;
     bool is_default_esc;
-    bool do_size;
+    bool do_سائز;
 
     /* User data */
-    void *data;
+    خالی *ڈیٹا;
 
     /* Virtual functions */
-    void (*func_draw)(struct SDL_ToolkitControlX11 *);
-    void (*func_calc_size)(struct SDL_ToolkitControlX11 *);
-    void (*func_on_scale_change)(struct SDL_ToolkitControlX11 *);
-    void (*func_on_state_change)(struct SDL_ToolkitControlX11 *);
-    void (*func_free)(struct SDL_ToolkitControlX11 *);
+    خالی (*func_draw)(ساخت SDL_ToolkitControlX11 *);
+    خالی (*func_calc_سائز)(ساخت SDL_ToolkitControlX11 *);
+    خالی (*func_on_scale_change)(ساخت SDL_ToolkitControlX11 *);
+    خالی (*func_on_state_change)(ساخت SDL_ToolkitControlX11 *);
+    خالی (*func_free)(ساخت SDL_ToolkitControlX11 *);
 } SDL_ToolkitControlX11;
 
-typedef struct SDL_ToolkitMenuItemX11
+قسمتعریف ساخت SDL_Toolkit_Menu_شے_X11
 {
-    const char *utf8;
+    ثابت حرف *utf8;
     bool checkbox;
     bool checked;
     bool disabled;
-    void *cb_data;
-    void (*cb)(struct SDL_ToolkitMenuItemX11 *, void *);
-    SDL_ListNode *sub_menu;
+    خالی *cb_ڈیٹا;
+    خالی (*cb)(ساخت SDL_Toolkit_Menu_شے_X11 *, خالی *);
+    SDL_List_گرہ *sub_menu;
 
     /* Internal use */
     SDL_Rect utf8_rect;
     SDL_Rect hover_rect;
     SDL_Rect check_rect;
     SDL_ToolkitControlStateX11 state;
-    int arrow_x;
-    int arrow_y;
-    bool reverse_arrows;
-} SDL_ToolkitMenuItemX11;
+    صحیح arrow_x;
+    صحیح arrow_y;
+    bool الٹ_arrows;
+} SDL_Toolkit_Menu_شے_X11;
 
 /* WINDOW FUNCTIONS */
-extern SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, const SDL_MessageBoxColor *colorhints, bool create_new_display);
-extern bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx, int cy, char *title);
-extern void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data);
-extern void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, int w, int h);
-extern void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data);
-extern void X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data);
+خارجی SDL_Toolkit_کھڑکی_X11 *X11_Toolkit_Create_کھڑکی_Struct(SDL_کھڑکی *والد, SDL_Toolkit_کھڑکی_X11 *tkparent, SDL_Toolkit_کھڑکی_منوال_X11 منوال, ثابت SDL_پیغام_Box_Color *colorhints, bool create_new_display);
+خارجی bool X11_Toolkit_Create_کھڑکی_Res(SDL_Toolkit_کھڑکی_X11 *ڈیٹا, صحیح w, صحیح h, صحیح cx, صحیح cy, حرف *title);
+خارجی خالی X11_Toolkit_Do_کھڑکی_Event_Loop(SDL_Toolkit_کھڑکی_X11 *ڈیٹا);
+خارجی خالی X11_Toolkit_Resize_کھڑکی(SDL_Toolkit_کھڑکی_X11 *ڈیٹا, صحیح w, صحیح h);
+خارجی خالی X11_Toolkit_Destroy_کھڑکی(SDL_Toolkit_کھڑکی_X11 *ڈیٹا);
+خارجی خالی X11_Toolkit_Signal_کھڑکی_Close(SDL_Toolkit_کھڑکی_X11 *ڈیٹا);
 
 /* GENERIC CONTROL FUNCTIONS */
-extern bool X11Toolkit_NotifyControlOfSizeChange(SDL_ToolkitControlX11 *control);
+خارجی bool X11_Toolkit_Notify_Control_کا_سائز_Change(SDL_ToolkitControlX11 *control);
 
 /* ICON CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window, SDL_MessageBoxFlags flags);
+خارجی SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_Toolkit_کھڑکی_X11 *کھڑکی, SDL_پیغام_Box_Flags flags);
 
 /* LABEL CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8);
-extern int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control);
+خارجی SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_Toolkit_کھڑکی_X11 *کھڑکی, حرف *utf8);
+خارجی صحیح X11_Toolkit_Get_Label_Control_پہلا_سطر_اونچائی(SDL_ToolkitControlX11 *control);
 
 /* BUTTON CONTROL FUNCTIONS */
-extern SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, const SDL_MessageBoxButtonData *data);
-extern void X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, void *data, void (*cb)(struct SDL_ToolkitControlX11 *, void *));
-extern const SDL_MessageBoxButtonData *X11Toolkit_GetButtonControlData(SDL_ToolkitControlX11 *control);
+خارجی SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_Toolkit_کھڑکی_X11 *کھڑکی, ثابت SDL_پیغام_Box_Button_ڈیٹا *ڈیٹا);
+خارجی خالی X11_Toolkit_رجسٹر_Callback_For_Button_Control(SDL_ToolkitControlX11 *control, خالی *ڈیٹا, خالی (*cb)(ساخت SDL_ToolkitControlX11 *, خالی *));
+خارجی ثابت SDL_پیغام_Box_Button_ڈیٹا *X11_Toolkit_Get_Button_Control_ڈیٹا(SDL_ToolkitControlX11 *control);
 
-#endif // SDL_VIDEO_DRIVER_X11
+#اگر_ختم // SDL_VIDEO_DRIVER_X11
 
-#endif // SDL_x11toolkit_h_
+#اگر_ختم // SDL_x11toolkit_h_

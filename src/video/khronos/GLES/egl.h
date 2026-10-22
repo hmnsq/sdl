@@ -9,10 +9,10 @@
  * in egl.h leading applications to include only egl.h
  */
 
-#ifndef __legacy_egl_h_
-#define __legacy_egl_h_
+#اگر_غیر_تعریف_شدہ __legacy_egl_h_
+#تعریف_کرو __legacy_egl_h_
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
+#شامل <EGL/egl.h>
+#شامل <GLES/gl.h>
 
-#endif /* __legacy_egl_h_ */
+#اگر_ختم /* __legacy_egl_h_ */

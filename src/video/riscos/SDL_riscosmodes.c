@@ -18,293 +18,293 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosmodes.h"
+#شامل "SDL_riscosvideo.h"
+#شامل "SDL_riscosmodes.h"
 
-#include <kernel.h>
-#include <swis.h>
+#شامل <kernel.h>
+#شامل <swis.h>
 
-enum
+شمار
 {
-    MODE_FLAG_565 = 1 << 7,
+    منوال_FLAG_565 = 1 << 7,
 
-    MODE_FLAG_COLOUR_SPACE = 0xF << 12,
+    منوال_FLAG_رنگ_SPACE = 0xF << 12,
 
-    MODE_FLAG_TBGR = 0,
-    MODE_FLAG_TRGB = 1 << 14,
-    MODE_FLAG_ABGR = 1 << 15,
-    MODE_FLAG_ARGB = MODE_FLAG_TRGB | MODE_FLAG_ABGR
+    منوال_FLAG_TBGR = 0,
+    منوال_FLAG_TRGB = 1 << 14,
+    منوال_FLAG_ABGR = 1 << 15,
+    منوال_FLAG_ARGB = منوال_FLAG_TRGB | منوال_FLAG_ABGR
 };
 
-static const struct
+ساکن ثابت ساخت
 {
     SDL_PixelFormat pixel_format;
-    int modeflags, ncolour, log2bpp;
-} mode_to_pixelformat[] = {
+    صحیح modeflags, ncolour, log2bpp;
+} منوال_مقصد_pixelformat[] = {
     // { SDL_PIXELFORMAT_INDEX1LSB, 0, 1, 0 },
     // { SDL_PIXELFORMAT_INDEX2LSB, 0, 3, 1 },
     // { SDL_PIXELFORMAT_INDEX4LSB, 0, 15, 2 },
     // { SDL_PIXELFORMAT_INDEX8,    MODE_FLAG_565, 255, 3 },
-    { SDL_PIXELFORMAT_XBGR1555, MODE_FLAG_TBGR, 65535, 4 },
-    { SDL_PIXELFORMAT_XRGB1555, MODE_FLAG_TRGB, 65535, 4 },
-    { SDL_PIXELFORMAT_ABGR1555, MODE_FLAG_ABGR, 65535, 4 },
-    { SDL_PIXELFORMAT_ARGB1555, MODE_FLAG_ARGB, 65535, 4 },
-    { SDL_PIXELFORMAT_XBGR4444, MODE_FLAG_TBGR, 4095, 4 },
-    { SDL_PIXELFORMAT_XRGB4444, MODE_FLAG_TRGB, 4095, 4 },
-    { SDL_PIXELFORMAT_ABGR4444, MODE_FLAG_ABGR, 4095, 4 },
-    { SDL_PIXELFORMAT_ARGB4444, MODE_FLAG_ARGB, 4095, 4 },
-    { SDL_PIXELFORMAT_BGR565, MODE_FLAG_TBGR | MODE_FLAG_565, 65535, 4 },
-    { SDL_PIXELFORMAT_RGB565, MODE_FLAG_TRGB | MODE_FLAG_565, 65535, 4 },
-    { SDL_PIXELFORMAT_BGR24, MODE_FLAG_TBGR, 16777215, 6 },
-    { SDL_PIXELFORMAT_RGB24, MODE_FLAG_TRGB, 16777215, 6 },
-    { SDL_PIXELFORMAT_XBGR8888, MODE_FLAG_TBGR, -1, 5 },
-    { SDL_PIXELFORMAT_XRGB8888, MODE_FLAG_TRGB, -1, 5 },
-    { SDL_PIXELFORMAT_ABGR8888, MODE_FLAG_ABGR, -1, 5 },
-    { SDL_PIXELFORMAT_ARGB8888, MODE_FLAG_ARGB, -1, 5 }
+    { SDL_PIXELFORMAT_XBGR1555, منوال_FLAG_TBGR, 65535, 4 },
+    { SDL_PIXELFORMAT_XRGB1555, منوال_FLAG_TRGB, 65535, 4 },
+    { SDL_PIXELFORMAT_ABGR1555, منوال_FLAG_ABGR, 65535, 4 },
+    { SDL_PIXELFORMAT_ARGB1555, منوال_FLAG_ARGB, 65535, 4 },
+    { SDL_PIXELFORMAT_XBGR4444, منوال_FLAG_TBGR, 4095, 4 },
+    { SDL_PIXELFORMAT_XRGB4444, منوال_FLAG_TRGB, 4095, 4 },
+    { SDL_PIXELFORMAT_ABGR4444, منوال_FLAG_ABGR, 4095, 4 },
+    { SDL_PIXELFORMAT_ARGB4444, منوال_FLAG_ARGB, 4095, 4 },
+    { SDL_PIXELFORMAT_BGR565, منوال_FLAG_TBGR | منوال_FLAG_565, 65535, 4 },
+    { SDL_PIXELFORMAT_RGB565, منوال_FLAG_TRGB | منوال_FLAG_565, 65535, 4 },
+    { SDL_PIXELFORMAT_BGR24, منوال_FLAG_TBGR, 16777215, 6 },
+    { SDL_PIXELFORMAT_RGB24, منوال_FLAG_TRGB, 16777215, 6 },
+    { SDL_PIXELFORMAT_XBGR8888, منوال_FLAG_TBGR, -1, 5 },
+    { SDL_PIXELFORMAT_XRGB8888, منوال_FLAG_TRGB, -1, 5 },
+    { SDL_PIXELFORMAT_ABGR8888, منوال_FLAG_ABGR, -1, 5 },
+    { SDL_PIXELFORMAT_ARGB8888, منوال_FLAG_ARGB, -1, 5 }
 };
 
-static SDL_PixelFormat RISCOS_ModeToPixelFormat(int ncolour, int modeflags, int log2bpp)
+ساکن SDL_PixelFormat RISCOS_منوال_مقصد_Pixel_Format(صحیح ncolour, صحیح modeflags, صحیح log2bpp)
 {
-    int i;
+    صحیح i;
 
-    for (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
-        if (log2bpp == mode_to_pixelformat[i].log2bpp &&
-            (ncolour == mode_to_pixelformat[i].ncolour || ncolour == 0) &&
-            (modeflags & (MODE_FLAG_565 | MODE_FLAG_COLOUR_SPACE)) == mode_to_pixelformat[i].modeflags) {
-            return mode_to_pixelformat[i].pixel_format;
+    برائے (i = 0; i < SDL_arraysize(منوال_مقصد_pixelformat); i++) {
+        اگر (log2bpp == منوال_مقصد_pixelformat[i].log2bpp &&
+            (ncolour == منوال_مقصد_pixelformat[i].ncolour || ncolour == 0) &&
+            (modeflags & (منوال_FLAG_565 | منوال_FLAG_رنگ_SPACE)) == منوال_مقصد_pixelformat[i].modeflags) {
+            واپس منوال_مقصد_pixelformat[i].pixel_format;
         }
     }
 
-    return SDL_PIXELFORMAT_UNKNOWN;
+    واپس SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static size_t measure_mode_block(const int *block)
+ساکن size_t measure_منوال_بلاک(ثابت صحیح *بلاک)
 {
-    size_t blockSize = ((block[0] & 0xFF) == 3) ? 7 : 5;
-    while (block[blockSize] != -1) {
-        blockSize += 2;
+    size_t بلاک_سائز = ((بلاک[0] & 0xFF) == 3) ? 7 : 5;
+    جب (بلاک[بلاک_سائز] != -1) {
+        بلاک_سائز += 2;
     }
-    blockSize++;
+    بلاک_سائز++;
 
-    return blockSize * 4;
+    واپس بلاک_سائز * 4;
 }
 
-static int read_mode_variable(int *block, int var)
+ساکن صحیح read_منوال_variable(صحیح *بلاک, صحیح var)
 {
     _kernel_swi_regs regs;
-    regs.r[0] = (int)block;
+    regs.r[0] = (صحیح)بلاک;
     regs.r[1] = var;
-    _kernel_swi(OS_ReadModeVariable, &regs, &regs);
-    return regs.r[2];
+    _kernel_swi(OS_Read_منوال_Variable, &regs, &regs);
+    واپس regs.r[2];
 }
 
-static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
+ساکن bool read_منوال_بلاک(صحیح *بلاک, SDL_Display_منوال *منوال, bool extended)
 {
-    int xres, yres, ncolour, modeflags, log2bpp, rate;
+    صحیح xres, yres, ncolour, modeflags, log2bpp, شرح;
 
-    if ((block[0] & 0xFF) == 1) {
-        xres = block[1];
-        yres = block[2];
-        log2bpp = block[3];
-        rate = block[4];
+    اگر ((بلاک[0] & 0xFF) == 1) {
+        xres = بلاک[1];
+        yres = بلاک[2];
+        log2bpp = بلاک[3];
+        شرح = بلاک[4];
         ncolour = (1 << (1 << log2bpp)) - 1;
-        modeflags = MODE_FLAG_TBGR;
-    } else if ((block[0] & 0xFF) == 3) {
-        xres = block[1];
-        yres = block[2];
-        ncolour = block[3];
-        modeflags = block[4];
-        log2bpp = block[5];
-        rate = block[6];
-    } else {
-        return false;
+        modeflags = منوال_FLAG_TBGR;
+    } ورنہ اگر ((بلاک[0] & 0xFF) == 3) {
+        xres = بلاک[1];
+        yres = بلاک[2];
+        ncolour = بلاک[3];
+        modeflags = بلاک[4];
+        log2bpp = بلاک[5];
+        شرح = بلاک[6];
+    } ورنہ {
+        واپس false;
     }
 
-    if (extended) {
-        xres = read_mode_variable(block, 11) + 1;
-        yres = read_mode_variable(block, 12) + 1;
-        log2bpp = read_mode_variable(block, 9);
-        ncolour = read_mode_variable(block, 3);
-        modeflags = read_mode_variable(block, 0);
+    اگر (extended) {
+        xres = read_منوال_variable(بلاک, 11) + 1;
+        yres = read_منوال_variable(بلاک, 12) + 1;
+        log2bpp = read_منوال_variable(بلاک, 9);
+        ncolour = read_منوال_variable(بلاک, 3);
+        modeflags = read_منوال_variable(بلاک, 0);
     }
 
-    SDL_zerop(mode);
-    mode->w = xres;
-    mode->h = yres;
-    mode->format = RISCOS_ModeToPixelFormat(ncolour, modeflags, log2bpp);
-    mode->refresh_rate = (float)rate;
+    SDL_zerop(منوال);
+    منوال->w = xres;
+    منوال->h = yres;
+    منوال->format = RISCOS_منوال_مقصد_Pixel_Format(ncolour, modeflags, log2bpp);
+    منوال->refresh_شرح = (اعشاری)شرح;
 
-    return true;
+    واپس true;
 }
 
-static void *convert_mode_block(const int *block)
+ساکن خالی *convert_منوال_بلاک(ثابت صحیح *بلاک)
 {
-    int xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
+    صحیح xres, yres, log2bpp, شرح, ncolour = 0, modeflags = 0;
     size_t pos = 0;
-    int *dst;
+    صحیح *dst;
 
-    if ((block[0] & 0xFF) == 1) {
-        xres = block[1];
-        yres = block[2];
-        log2bpp = block[3];
-        rate = block[4];
-    } else if ((block[0] & 0xFF) == 3) {
-        xres = block[1];
-        yres = block[2];
-        ncolour = block[3];
-        modeflags = block[4];
-        log2bpp = block[5];
-        rate = block[6];
-    } else {
-        return NULL;
+    اگر ((بلاک[0] & 0xFF) == 1) {
+        xres = بلاک[1];
+        yres = بلاک[2];
+        log2bpp = بلاک[3];
+        شرح = بلاک[4];
+    } ورنہ اگر ((بلاک[0] & 0xFF) == 3) {
+        xres = بلاک[1];
+        yres = بلاک[2];
+        ncolour = بلاک[3];
+        modeflags = بلاک[4];
+        log2bpp = بلاک[5];
+        شرح = بلاک[6];
+    } ورنہ {
+        واپس تہی;
     }
 
     dst = SDL_malloc(40);
-    if (!dst) {
-        return NULL;
+    اگر (!dst) {
+        واپس تہی;
     }
 
     dst[pos++] = 1;
     dst[pos++] = xres;
     dst[pos++] = yres;
     dst[pos++] = log2bpp;
-    dst[pos++] = rate;
-    if (ncolour != 0) {
+    dst[pos++] = شرح;
+    اگر (ncolour != 0) {
         dst[pos++] = 3;
         dst[pos++] = ncolour;
     }
-    if (modeflags != 0) {
+    اگر (modeflags != 0) {
         dst[pos++] = 0;
         dst[pos++] = modeflags;
     }
     dst[pos++] = -1;
 
-    return dst;
+    واپس dst;
 }
 
-static void *copy_memory(const void *src, size_t size, size_t alloc)
+ساکن خالی *copy_حافظہ(ثابت خالی *src, size_t سائز, size_t alloc)
 {
-    void *dst = SDL_malloc(alloc);
-    if (dst) {
-        SDL_memcpy(dst, src, size);
+    خالی *dst = SDL_malloc(alloc);
+    اگر (dst) {
+        SDL_memcpy(dst, src, سائز);
     }
-    return dst;
+    واپس dst;
 }
 
 bool RISCOS_InitModes(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
-    int *current_mode;
+    SDL_Display_منوال منوال;
+    صحیح *current_منوال;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    size_t size;
+    size_t سائز;
 
     regs.r[0] = 1;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_منوال, &regs, &regs);
+    اگر (error) {
+        واپس SDL_سیٹ_Error("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
-    current_mode = (int *)regs.r[1];
-    if (!read_mode_block(current_mode, &mode, true)) {
-        return SDL_SetError("Unsupported mode block format %d", current_mode[0]);
+    current_منوال = (صحیح *)regs.r[1];
+    اگر (!read_منوال_بلاک(current_منوال, &منوال, true)) {
+        واپس SDL_سیٹ_Error("Unsupported mode block format %d", current_منوال[0]);
     }
 
-    size = measure_mode_block(current_mode);
-    mode.internal = copy_memory(current_mode, size, size);
-    if (!mode.internal) {
-        return false;
+    سائز = measure_منوال_بلاک(current_منوال);
+    منوال.اندرونی_2 = copy_حافظہ(current_منوال, سائز, سائز);
+    اگر (!منوال.اندرونی_2) {
+        واپس false;
     }
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    اگر (SDL_جوڑو_Basic_Video_Display(&منوال) == 0) {
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
 bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_منوال منوال;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    void *block, *pos;
+    خالی *بلاک, *pos;
 
     regs.r[0] = 2;
     regs.r[2] = 0;
     regs.r[6] = 0;
     regs.r[7] = 0;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_منوال, &regs, &regs);
+    اگر (error) {
+        واپس SDL_سیٹ_Error("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    block = SDL_malloc(-regs.r[7]);
-    if (!block) {
-        return false;
+    بلاک = SDL_malloc(-regs.r[7]);
+    اگر (!بلاک) {
+        واپس false;
     }
 
-    regs.r[6] = (int)block;
+    regs.r[6] = (صحیح)بلاک;
     regs.r[7] = -regs.r[7];
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        SDL_free(block);
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_منوال, &regs, &regs);
+    اگر (error) {
+        SDL_free(بلاک);
+        واپس SDL_سیٹ_Error("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    for (pos = block; pos < (void *)regs.r[6]; pos += *((int *)pos)) {
-        if (!read_mode_block(pos + 4, &mode, false)) {
-            continue;
+    برائے (pos = بلاک; pos < (خالی *)regs.r[6]; pos += *((صحیح *)pos)) {
+        اگر (!read_منوال_بلاک(pos + 4, &منوال, false)) {
+            جاری;
         }
 
-        if (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
-            continue;
+        اگر (منوال.format == SDL_PIXELFORMAT_UNKNOWN) {
+            جاری;
         }
 
-        mode.internal = convert_mode_block(pos + 4);
-        if (!mode.internal) {
-            SDL_free(block);
-            return false;
+        منوال.اندرونی_2 = convert_منوال_بلاک(pos + 4);
+        اگر (!منوال.اندرونی_2) {
+            SDL_free(بلاک);
+            واپس false;
         }
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-            SDL_free(mode.internal);
+        اگر (!SDL_جوڑو_Fullscreen_Display_منوال(display, &منوال)) {
+            SDL_free(منوال.اندرونی_2);
         }
     }
 
-    SDL_free(block);
-    return true;
+    SDL_free(بلاک);
+    واپس true;
 }
 
-bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool RISCOS_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال)
 {
-    const char disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    ثابت حرف disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    int i;
+    صحیح i;
 
     regs.r[0] = 0;
-    regs.r[1] = (int)mode->internal;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
+    regs.r[1] = (صحیح)منوال->اندرونی_2;
+    error = _kernel_swi(OS_Screen_منوال, &regs, &regs);
+    اگر (error) {
+        واپس SDL_سیٹ_Error("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
     // Turn the text cursor off
-    for (i = 0; i < SDL_arraysize(disable_cursor); i++) {
+    برائے (i = 0; i < SDL_arraysize(disable_cursor); i++) {
         _kernel_oswrch(disable_cursor[i]);
     }
 
     // Update cursor visibility, since it may have been disabled by the mode change.
     SDL_RedrawCursor();
 
-    return true;
+    واپس true;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#اگر_ختم // SDL_VIDEO_DRIVER_RISCOS

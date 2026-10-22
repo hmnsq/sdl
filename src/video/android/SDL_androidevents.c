@@ -18,99 +18,99 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidevents.h"
-#include "SDL_androidkeyboard.h"
-#include "SDL_androidwindow.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#شامل "SDL_androidevents.h"
+#شامل "SDL_androidkeyboard.h"
+#شامل "SDL_androidwindow.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../events/SDL_events_c.h"
 
-#include "../../audio/aaudio/SDL_aaudio.h"
-#include "../../audio/openslES/SDL_openslES.h"
+#شامل "../../audio/aaudio/SDL_aaudio.h"
+#شامل "../../audio/openslES/SDL_openslES.h"
 
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-static void android_egl_context_restore(SDL_Window *window)
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+ساکن خالی android_egl_context_restore(SDL_کھڑکی *کھڑکی)
 {
-    if (window && (window->flags & SDL_WINDOW_OPENGL)) {
-        SDL_WindowData *data = window->internal;
-        SDL_GL_MakeCurrent(window, NULL);
-        if (!SDL_GL_MakeCurrent(window, (SDL_GLContext)data->egl_context)) {
+    اگر (کھڑکی && (کھڑکی->flags & SDL_کھڑکی_OPENGL)) {
+        SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+        SDL_GL_MakeCurrent(کھڑکی, تہی);
+        اگر (!SDL_GL_MakeCurrent(کھڑکی, (SDL_GLContext)ڈیٹا->egl_context)) {
             // The context is no longer valid, create a new one
-            data->egl_context = (EGLContext)SDL_GL_CreateContext(window);
-            SDL_GL_MakeCurrent(window, (SDL_GLContext)data->egl_context);
+            ڈیٹا->egl_context = (EGLContext)SDL_GL_CreateContext(کھڑکی);
+            SDL_GL_MakeCurrent(کھڑکی, (SDL_GLContext)ڈیٹا->egl_context);
             SDL_Event event;
             SDL_zero(event);
             event.type = SDL_EVENT_RENDER_DEVICE_RESET;
-            event.render.windowID = SDL_GetWindowID(window);
-            SDL_PushEvent(&event);
+            event.render.کھڑکی_ID = SDL_Get_کھڑکی_ID(کھڑکی);
+            SDL_ڈالو_Event(&event);
         }
-        data->backup_done = false;
+        ڈیٹا->backup_مکمل = false;
 
-        SDL_GL_SetSwapInterval(data->swap_interval);
+        SDL_GL_سیٹ_تبادلہ_Interval(ڈیٹا->تبادلہ_interval);
     }
 }
 
-static void android_egl_context_backup(SDL_Window *window)
+ساکن خالی android_egl_context_backup(SDL_کھڑکی *کھڑکی)
 {
-    if (window && (window->flags & SDL_WINDOW_OPENGL)) {
-        int interval = 0;
+    اگر (کھڑکی && (کھڑکی->flags & SDL_کھڑکی_OPENGL)) {
+        صحیح interval = 0;
         // Keep a copy of the EGL Context so we can try to restore it when we resume
-        SDL_WindowData *data = window->internal;
-        data->egl_context = SDL_GL_GetCurrentContext();
+        SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+        ڈیٹا->egl_context = SDL_GL_GetCurrentContext();
 
         // Save/Restore the swap interval / vsync
-        if (SDL_GL_GetSwapInterval(&interval)) {
-            data->has_swap_interval = 1;
-            data->swap_interval = interval;
+        اگر (SDL_GL_Get_تبادلہ_Interval(&interval)) {
+            ڈیٹا->has_تبادلہ_interval = 1;
+            ڈیٹا->تبادلہ_interval = interval;
         }
 
         // We need to do this so the EGLSurface can be freed
-        SDL_GL_MakeCurrent(window, NULL);
-        data->backup_done = true;
+        SDL_GL_MakeCurrent(کھڑکی, تہی);
+        ڈیٹا->backup_مکمل = true;
     }
 }
-#endif
+#اگر_ختم
 
 /*
  * Android_ResumeSem and Android_PauseSem are signaled from Java_org_libsdl_app_SDLActivity_nativePause and Java_org_libsdl_app_SDLActivity_nativeResume
  */
-static bool Android_EventsInitialized;
-static bool Android_BlockOnPause = true;
-static bool Android_Paused;
-static bool Android_PausedAudio;
-static bool Android_Destroyed;
+ساکن bool Android_EventsInitialized;
+ساکن bool Android_بلاک_On_Pause = true;
+ساکن bool Android_Paused;
+ساکن bool Android_PausedAudio;
+ساکن bool Android_Destroyed;
 
-void Android_InitEvents(void)
+خالی Android_InitEvents(خالی)
 {
-    if (!Android_EventsInitialized) {
-        Android_BlockOnPause = SDL_GetHintBoolean(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, true);
+    اگر (!Android_EventsInitialized) {
+        Android_بلاک_On_Pause = SDL_GetHintBoolean(SDL_HINT_ANDROID_بلاک_ON_PAUSE, true);
         Android_Paused = false;
         Android_Destroyed = false;
         Android_EventsInitialized = true;
     }
 }
 
-static void Android_PauseAudio(void)
+ساکن خالی Android_PauseAudio(خالی)
 {
     OPENSLES_PauseDevices();
     AAUDIO_PauseDevices();
     Android_PausedAudio = true;
 }
 
-static void Android_ResumeAudio(void)
+ساکن خالی Android_ResumeAudio(خالی)
 {
-    if (Android_PausedAudio) {
+    اگر (Android_PausedAudio) {
         OPENSLES_ResumeDevices();
         AAUDIO_ResumeDevices();
         Android_PausedAudio = false;
     }
 }
 
-static void Android_OnPause(void)
+ساکن خالی Android_OnPause(خالی)
 {
     SDL_OnApplicationWillEnterBackground();
     SDL_OnApplicationDidEnterBackground();
@@ -120,15 +120,15 @@ static void Android_OnPause(void)
      * do any life cycle handling in an event filter while the event
      * was being queued.
      */
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (Android_Window && !Android_Window->external_graphics_context) {
-        Android_LockActivityMutex();
-        android_egl_context_backup(Android_Window);
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (Android_کھڑکی && !Android_کھڑکی->external_graphics_context) {
+        Android_تالا_Activity_Mutex();
+        android_egl_context_backup(Android_کھڑکی);
         Android_UnlockActivityMutex();
     }
-#endif
+#اگر_ختم
 
-    if (Android_BlockOnPause) {
+    اگر (Android_بلاک_On_Pause) {
         // We're blocking, also pause audio
         Android_PauseAudio();
     }
@@ -136,7 +136,7 @@ static void Android_OnPause(void)
     Android_Paused = true;
 }
 
-static void Android_OnResume(void)
+ساکن خالی Android_OnResume(خالی)
 {
     Android_Paused = false;
 
@@ -144,24 +144,24 @@ static void Android_OnResume(void)
 
     Android_ResumeAudio();
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     // Restore the GL Context from here, as this operation is thread dependent
-    if (Android_Window && !Android_Window->external_graphics_context && !SDL_HasEvent(SDL_EVENT_QUIT)) {
-        Android_LockActivityMutex();
-        android_egl_context_restore(Android_Window);
+    اگر (Android_کھڑکی && !Android_کھڑکی->external_graphics_context && !SDL_HasEvent(SDL_EVENT_QUIT)) {
+        Android_تالا_Activity_Mutex();
+        android_egl_context_restore(Android_کھڑکی);
         Android_UnlockActivityMutex();
     }
-#endif
+#اگر_ختم
 
     SDL_OnApplicationDidEnterForeground();
 }
 
-static void Android_OnLowMemory(void)
+ساکن خالی Android_On_کم_حافظہ(خالی)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_کم_حافظہ);
 }
 
-static void Android_OnDestroy(void)
+ساکن خالی Android_OnDestroy(خالی)
 {
     // Make sure we unblock any audio processing before we quit
     Android_ResumeAudio();
@@ -169,122 +169,122 @@ static void Android_OnDestroy(void)
     /* Discard previous events. The user should have handled state storage
      * in SDL_EVENT_WILL_ENTER_BACKGROUND. After nativeSendQuit() is called, no
      * events other than SDL_EVENT_QUIT and SDL_EVENT_TERMINATING should fire */
-    SDL_FlushEvents(SDL_EVENT_FIRST, SDL_EVENT_LAST);
+    SDL_FlushEvents(SDL_EVENT_پہلا, SDL_EVENT_آخری);
     SDL_SendQuit();
     SDL_OnApplicationWillTerminate();
 
     Android_Destroyed = true;
 }
 
-static void Android_HandleLifecycleEvent(SDL_AndroidLifecycleEvent event)
+ساکن خالی Android_HandleLifecycleEvent(SDL_AndroidLifecycleEvent event)
 {
-    switch (event) {
-    case SDL_ANDROID_LIFECYCLE_WAKE:
+    انتخاب (event) {
+    حالت SDL_ANDROID_LIFECYCLE_WAKE:
         // Nothing to do, just return
-        break;
-    case SDL_ANDROID_LIFECYCLE_PAUSE:
+        توڑو;
+    حالت SDL_ANDROID_LIFECYCLE_PAUSE:
         Android_OnPause();
-        break;
-    case SDL_ANDROID_LIFECYCLE_RESUME:
+        توڑو;
+    حالت SDL_ANDROID_LIFECYCLE_RESUME:
         Android_OnResume();
-        break;
-    case SDL_ANDROID_LIFECYCLE_LOWMEMORY:
-        Android_OnLowMemory();
-        break;
-    case SDL_ANDROID_LIFECYCLE_DESTROY:
+        توڑو;
+    حالت SDL_ANDROID_LIFECYCLE_LOWMEMORY:
+        Android_On_کم_حافظہ();
+        توڑو;
+    حالت SDL_ANDROID_LIFECYCLE_DESTROY:
         Android_OnDestroy();
-        break;
-    default:
-        break;
+        توڑو;
+    طےشدہ:
+        توڑو;
     }
 }
 
-static Sint64 GetLifecycleEventTimeout(bool paused, Sint64 timeoutNS)
+ساکن Sint64 GetLifecycleEventTimeout(bool paused, Sint64 timeoutNS)
 {
-    if (Android_Paused) {
-        if (Android_BlockOnPause) {
+    اگر (Android_Paused) {
+        اگر (Android_بلاک_On_Pause) {
             timeoutNS = -1;
-        } else if (timeoutNS == 0) {
-            timeoutNS = SDL_MS_TO_NS(100);
+        } ورنہ اگر (timeoutNS == 0) {
+            timeoutNS = SDL_MS_مقصد_NS(100);
         }
     }
-    return timeoutNS;
+    واپس timeoutNS;
 }
 
-void Android_PumpEvents(Sint64 timeoutNS)
+خالی Android_PumpEvents(Sint64 timeoutNS)
 {
     SDL_AndroidLifecycleEvent event;
     bool paused = Android_Paused;
 
-    while (!Android_Destroyed &&
+    جب (!Android_Destroyed &&
            Android_WaitLifecycleEvent(&event, GetLifecycleEventTimeout(paused, timeoutNS))) {
         Android_HandleLifecycleEvent(event);
 
-        switch (event) {
-        case SDL_ANDROID_LIFECYCLE_WAKE:
+        انتخاب (event) {
+        حالت SDL_ANDROID_LIFECYCLE_WAKE:
             // Finish handling events quickly if we're not paused
             timeoutNS = 0;
-            break;
-        case SDL_ANDROID_LIFECYCLE_PAUSE:
+            توڑو;
+        حالت SDL_ANDROID_LIFECYCLE_PAUSE:
             // Finish handling events at the current timeout and return to process events one more time before blocking.
-            break;
-        case SDL_ANDROID_LIFECYCLE_RESUME:
+            توڑو;
+        حالت SDL_ANDROID_LIFECYCLE_RESUME:
             // Finish handling events at the resume state timeout
             paused = false;
-            break;
-        default:
-            break;
+            توڑو;
+        طےشدہ:
+            توڑو;
         }
     }
 }
 
-bool Android_WaitActiveAndLockActivity(void)
+bool Android_Wait_فعال_And_تالا_Activity(خالی)
 {
     /* Make sure we have pumped all events so that Android_Paused state is correct */
     SDL_AndroidLifecycleEvent event;
-    while (!Android_Destroyed && Android_WaitLifecycleEvent(&event, 0)) {
+    جب (!Android_Destroyed && Android_WaitLifecycleEvent(&event, 0)) {
         Android_HandleLifecycleEvent(event);
     }
 
-    while (Android_Paused && !Android_Destroyed) {
+    جب (Android_Paused && !Android_Destroyed) {
         Android_PumpEvents(-1);
     }
 
-    if (Android_Destroyed) {
-        SDL_SetError("Android activity has been destroyed");
-        return false;
+    اگر (Android_Destroyed) {
+        SDL_سیٹ_Error("Android activity has been destroyed");
+        واپس false;
     }
 
-    Android_LockActivityMutex();
-    return true;
+    Android_تالا_Activity_Mutex();
+    واپس true;
 }
 
-void Android_QuitEvents(void)
+خالی Android_QuitEvents(خالی)
 {
     Android_EventsInitialized = false;
 }
 
-#else
+#ورنہ
 
-#include "../../core/android/SDL_android.h"
+#شامل "../../core/android/SDL_android.h"
 
-void Android_InitEvents(void)
+خالی Android_InitEvents(خالی)
 {
 }
 
-void Android_PumpEvents(Sint64 timeoutNS)
+خالی Android_PumpEvents(Sint64 timeoutNS)
 {
-    (void)timeoutNS;
+    (خالی)timeoutNS;
 }
 
-bool Android_WaitActiveAndLockActivity(void)
+bool Android_Wait_فعال_And_تالا_Activity(خالی)
 {
-    Android_LockActivityMutex();
-    return true;
+    Android_تالا_Activity_Mutex();
+    واپس true;
 }
 
-void Android_QuitEvents(void)
+خالی Android_QuitEvents(خالی)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#اگر_ختم // SDL_VIDEO_DRIVER_ANDROID

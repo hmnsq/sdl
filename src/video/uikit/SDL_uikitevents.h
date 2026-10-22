@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitevents_h_
-#define SDL_uikitevents_h_
+#اگر_غیر_تعریف_شدہ SDL_uikitevents_h_
+#تعریف_کرو SDL_uikitevents_h_
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-extern void SDL_UpdateLifecycleObserver(void);
+خارجی خالی SDL_UpdateLifecycleObserver(خالی);
 
-extern Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
-extern void UIKit_PumpEvents(SDL_VideoDevice *_this);
+خارجی Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
+خارجی خالی UIKit_PumpEvents(SDL_VideoDevice *_this);
 
-extern void SDL_InitGCKeyboard(void);
-extern void SDL_QuitGCKeyboard(void);
+خارجی خالی SDL_InitGCKeyboard(خالی);
+خارجی خالی SDL_QuitGCKeyboard(خالی);
 
-extern void SDL_InitGCMouse(void);
-extern bool SDL_GCMouseRelativeMode(void);
-extern void SDL_QuitGCMouse(void);
+خارجی خالی SDL_InitGCMouse(خالی);
+خارجی bool SDL_GCMouse_Relative_منوال(خالی);
+خارجی خالی SDL_QuitGCMouse(خالی);
 
-#endif // SDL_uikitevents_h_
+#اگر_ختم // SDL_uikitevents_h_

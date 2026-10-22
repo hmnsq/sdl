@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../core/unix/SDL_appid.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_pixels_c.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../core/unix/SDL_appid.h"
 
-#include "SDL_x11video.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xfixes.h"
+#شامل "SDL_x11video.h"
+#شامل "SDL_x11mouse.h"
+#شامل "SDL_x11xinput2.h"
+#شامل "SDL_x11xfixes.h"
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "SDL_x11opengles.h"
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+#شامل "SDL_x11opengles.h"
+#اگر_ختم
 
-#include "SDL_x11xsync.h"
+#شامل "SDL_x11xsync.h"
 
-#define _NET_WM_STATE_REMOVE 0l
-#define _NET_WM_STATE_ADD    1l
+#تعریف_کرو _NET_WM_STATE_REMOVE 0l
+#تعریف_کرو NET_WM_STATE_جوڑو    1l
 
-#define CHECK_WINDOW_DATA(window)                                       \
-    if (!window) {                                                      \
-        return SDL_SetError("Invalid window");                          \
+#تعریف_کرو CHECK_کھڑکی_ڈیٹا(کھڑکی)                                       \
+    اگر (!کھڑکی) {                                                      \
+        واپس SDL_سیٹ_Error("Invalid window");                          \
     }                                                                   \
-    if (!window->internal) {                                          \
-        return SDL_SetError("Invalid window driver data");              \
+    اگر (!کھڑکی->اندرونی_2) {                                          \
+        واپس SDL_سیٹ_Error("Invalid window driver data");              \
     }
 
-#define CHECK_DISPLAY_DATA(display)                                     \
-    if (!_display) {                                                    \
-        return SDL_SetError("Invalid display");                         \
+#تعریف_کرو CHECK_DISPLAY_ڈیٹا(display)                                     \
+    اگر (!_display) {                                                    \
+        واپس SDL_سیٹ_Error("Invalid display");                         \
     }                                                                   \
-    if (!_display->internal) {                                        \
-        return SDL_SetError("Invalid display driver data");             \
+    اگر (!_display->اندرونی_2) {                                        \
+        واپس SDL_سیٹ_Error("Invalid display driver data");             \
     }
 
-static Bool isMapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
+ساکن Bool isMapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
 {
-    return ev->type == MapNotify && ev->xmap.window == *((Window *)win);
+    واپس ev->type == MapNotify && ev->xmap.کھڑکی == *((کھڑکی_2 *)win);
 }
-static Bool isUnmapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
+ساکن Bool isUnmapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
 {
-    return ev->type == UnmapNotify && ev->xunmap.window == *((Window *)win);
+    واپس ev->type == UnmapNotify && ev->xunmap.کھڑکی == *((کھڑکی_2 *)win);
 }
 
 /*
@@ -86,86 +86,86 @@ static Bool X11_XIfEventTimeout(Display *display, XEvent *event_return, Bool (*p
 }
 */
 
-static bool X11_CheckCurrentDesktop(const char *name)
+ساکن bool X11_CheckCurrentDesktop(ثابت حرف *name)
 {
     SDL_Environment *env = SDL_GetEnvironment();
-    const char *desktopVar = SDL_GetEnvironmentVariable(env, "DESKTOP_SESSION");
-    if (desktopVar && SDL_strcasecmp(desktopVar, name) == 0) {
-        return true;
+    ثابت حرف *desktopVar = SDL_GetEnvironmentVariable(env, "DESKTOP_SESSION");
+    اگر (desktopVar && SDL_strcasecmp(desktopVar, name) == 0) {
+        واپس true;
     }
 
     desktopVar = SDL_GetEnvironmentVariable(env, "XDG_CURRENT_DESKTOP");
 
-    if (desktopVar && SDL_strcasestr(desktopVar, name)) {
-        return true;
+    اگر (desktopVar && SDL_strcasestr(desktopVar, name)) {
+        واپس true;
     }
 
-    return false;
+    واپس false;
 }
 
-static bool X11_IsWindowMapped(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن bool X11_Is_کھڑکی_Mapped(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *videodata = _this->internal;
-    XWindowAttributes attr;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Video_ڈیٹا *videodata = _this->اندرونی_2;
+    XWindow_اوصاف attr;
 
-    X11_XGetWindowAttributes(videodata->display, data->xwindow, &attr);
-    if (attr.map_state != IsUnmapped) {
-        return true;
-    } else {
-        return false;
+    X11_XGet_کھڑکی_اوصاف(videodata->display, ڈیٹا->xwindow, &attr);
+    اگر (attr.map_state != IsUnmapped) {
+        واپس true;
+    } ورنہ {
+        واپس false;
     }
 }
 
-static bool X11_IsDisplayOk(Display *display)
+ساکن bool X11_IsDisplayOk(Display *display)
 {
-    if (display->flags & XlibDisplayIOError) {
-        return false;
+    اگر (display->flags & XlibDisplayIOError) {
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
-#if 0
-static bool X11_IsActionAllowed(SDL_Window *window, Atom action)
+#اگر 0
+ساکن bool X11_IsActionAllowed(SDL_کھڑکی *کھڑکی, Atom action)
 {
-    SDL_WindowData *data = window->internal;
-    Atom _NET_WM_ALLOWED_ACTIONS = data->videodata->_NET_WM_ALLOWED_ACTIONS;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Atom _NET_WM_ALLOWED_ACTIONS = ڈیٹا->videodata->_NET_WM_ALLOWED_ACTIONS;
     Atom type;
-    Display *display = data->videodata->display;
-    int form;
-    unsigned long remain;
-    unsigned long len, i;
+    Display *display = ڈیٹا->videodata->display;
+    صحیح form;
+    غیرعلامتی طویل remain;
+    غیرعلامتی طویل len, i;
     Atom *list;
     bool ret = false;
 
-    if (X11_XGetWindowProperty(display, data->xwindow, _NET_WM_ALLOWED_ACTIONS, 0, 1024, False, XA_ATOM, &type, &form, &len, &remain, (unsigned char **)&list) == Success) {
-        for (i=0; i<len; ++i) {
-            if (list[i] == action) {
+    اگر (X11_XGet_کھڑکی_Property(display, ڈیٹا->xwindow, _NET_WM_ALLOWED_ACTIONS, 0, 1024, False, XA_ATOM, &type, &form, &len, &remain, (غیرعلامتی حرف **)&list) == Success) {
+        برائے (i=0; i<len; ++i) {
+            اگر (list[i] == action) {
                 ret = true;
-                break;
+                توڑو;
             }
         }
         X11_XFree(list);
     }
-    return ret;
+    واپس ret;
 }
-#endif // 0
+#اگر_ختم // 0
 
-static void X11_FlushPendingEvents(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی X11_FlushPendingEvents(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Serialize and restore the pending flags, as they may be overwritten while flushing.
-    const bool last_position_pending = window->last_position_pending;
-    const bool last_size_pending = window->last_size_pending;
+    ثابت bool آخری_position_pending = کھڑکی->آخری_position_pending;
+    ثابت bool آخری_سائز_pending = کھڑکی->آخری_سائز_pending;
 
-    X11_SyncWindow(_this, window);
+    X11_Sync_کھڑکی(_this, کھڑکی);
 
-    window->last_position_pending = last_position_pending;
-    window->last_size_pending = last_size_pending;
+    کھڑکی->آخری_position_pending = آخری_position_pending;
+    کھڑکی->آخری_سائز_pending = آخری_سائز_pending;
 }
 
-void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags flags)
+خالی X11_سیٹ_Net_WMState(SDL_VideoDevice *_this, کھڑکی_2 xwindow, SDL_کھڑکی_Flags flags)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ڈیٹا *videodata = _this->اندرونی_2;
     Display *display = videodata->display;
     // !!! FIXME: just dereference videodata below instead of copying to locals.
     Atom _NET_WM_STATE = videodata->atoms._NET_WM_STATE;
@@ -179,7 +179,7 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     Atom _NET_WM_STATE_SKIP_PAGER = videodata->atoms._NET_WM_STATE_SKIP_PAGER;
     Atom _NET_WM_STATE_MODAL = videodata->atoms._NET_WM_STATE_MODAL;
     Atom atoms[16];
-    int count = 0;
+    صحیح گنتی = 0;
 
     /* The window manager sets this property, we shouldn't set it.
        If we did, this would indicate to the window manager that we don't
@@ -190,102 +190,102 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     }
     */
 
-    if (flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        atoms[count++] = _NET_WM_STATE_ABOVE;
+    اگر (flags & SDL_کھڑکی_ALWAYS_ON_چوٹی) {
+        atoms[گنتی++] = _NET_WM_STATE_ABOVE;
     }
-    if (flags & SDL_WINDOW_UTILITY) {
-        atoms[count++] = _NET_WM_STATE_SKIP_TASKBAR;
-        atoms[count++] = _NET_WM_STATE_SKIP_PAGER;
+    اگر (flags & SDL_کھڑکی_UTILITY) {
+        atoms[گنتی++] = _NET_WM_STATE_SKIP_TASKBAR;
+        atoms[گنتی++] = _NET_WM_STATE_SKIP_PAGER;
     }
-    if (flags & SDL_WINDOW_INPUT_FOCUS) {
-        atoms[count++] = _NET_WM_STATE_FOCUSED;
+    اگر (flags & SDL_کھڑکی_داخلہ_FOCUS) {
+        atoms[گنتی++] = _NET_WM_STATE_FOCUSED;
     }
-    if (flags & SDL_WINDOW_MAXIMIZED) {
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_VERT;
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_HORZ;
+    اگر (flags & SDL_کھڑکی_MAXIMIZED) {
+        atoms[گنتی++] = _NET_WM_STATE_MAXIMIZED_VERT;
+        atoms[گنتی++] = _NET_WM_STATE_MAXIMIZED_HORZ;
     }
-    if (flags & SDL_WINDOW_FULLSCREEN) {
-        atoms[count++] = _NET_WM_STATE_FULLSCREEN;
+    اگر (flags & SDL_کھڑکی_FULLSCREEN) {
+        atoms[گنتی++] = _NET_WM_STATE_FULLSCREEN;
     }
-    if (flags & SDL_WINDOW_MODAL) {
-        atoms[count++] = _NET_WM_STATE_MODAL;
+    اگر (flags & SDL_کھڑکی_MODAL) {
+        atoms[گنتی++] = _NET_WM_STATE_MODAL;
     }
 
-    SDL_assert(count <= SDL_arraysize(atoms));
+    SDL_assert(گنتی <= SDL_arraysize(atoms));
 
-    if (count > 0) {
+    اگر (گنتی > 0) {
         X11_XChangeProperty(display, xwindow, _NET_WM_STATE, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)atoms, count);
-    } else {
+                            Prop_منوال_Replace, (غیرعلامتی حرف *)atoms, گنتی);
+    } ورنہ {
         X11_XDeleteProperty(display, xwindow, _NET_WM_STATE);
     }
 }
 
-static void X11_ConstrainPopup(SDL_Window *window, bool output_to_pending)
+ساکن خالی X11_ConstrainPopup(SDL_کھڑکی *کھڑکی, bool output_مقصد_pending)
 {
     // Clamp popup windows to the output borders
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        SDL_Window *w;
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+        SDL_کھڑکی *w;
         SDL_DisplayID displayID;
         SDL_Rect rect;
-        int abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
-        int abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
-        int offset_x = 0, offset_y = 0;
+        صحیح abs_x = کھڑکی->آخری_position_pending ? کھڑکی->pending.x : کھڑکی->floating.x;
+        صحیح abs_y = کھڑکی->آخری_position_pending ? کھڑکی->pending.y : کھڑکی->floating.y;
+        صحیح انحراف_x = 0, انحراف_y = 0;
 
-        if (window->constrain_popup) {
+        اگر (کھڑکی->constrain_popup) {
             // Calculate the total offset from the parents
-            for (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
-                offset_x += w->x;
-                offset_y += w->y;
+            برائے (w = کھڑکی->والد; SDL_کھڑکی_IS_POPUP(w); w = w->والد) {
+                انحراف_x += w->x;
+                انحراف_y += w->y;
             }
 
-            offset_x += w->x;
-            offset_y += w->y;
-            abs_x += offset_x;
-            abs_y += offset_y;
+            انحراف_x += w->x;
+            انحراف_y += w->y;
+            abs_x += انحراف_x;
+            abs_y += انحراف_y;
 
-            displayID = SDL_GetDisplayForWindow(w);
+            displayID = SDL_Get_Display_For_کھڑکی(w);
 
             SDL_GetDisplayBounds(displayID, &rect);
-            if (abs_x + window->w > rect.x + rect.w) {
-                abs_x -= (abs_x + window->w) - (rect.x + rect.w);
+            اگر (abs_x + کھڑکی->w > rect.x + rect.w) {
+                abs_x -= (abs_x + کھڑکی->w) - (rect.x + rect.w);
             }
-            if (abs_y + window->h > rect.y + rect.h) {
-                abs_y -= (abs_y + window->h) - (rect.y + rect.h);
+            اگر (abs_y + کھڑکی->h > rect.y + rect.h) {
+                abs_y -= (abs_y + کھڑکی->h) - (rect.y + rect.h);
             }
             abs_x = SDL_max(abs_x, rect.x);
             abs_y = SDL_max(abs_y, rect.y);
         }
 
-        if (output_to_pending) {
-            window->pending.x = abs_x - offset_x;
-            window->pending.y = abs_y - offset_y;
-        } else {
-            window->floating.x = window->windowed.x = abs_x - offset_x;
-            window->floating.y = window->windowed.y = abs_y - offset_y;
+        اگر (output_مقصد_pending) {
+            کھڑکی->pending.x = abs_x - انحراف_x;
+            کھڑکی->pending.y = abs_y - انحراف_y;
+        } ورنہ {
+            کھڑکی->floating.x = کھڑکی->windowed.x = abs_x - انحراف_x;
+            کھڑکی->floating.y = کھڑکی->windowed.y = abs_y - انحراف_y;
         }
     }
 }
 
-static void X11_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
+ساکن خالی X11_سیٹ_Keyboard_Focus(SDL_کھڑکی *کھڑکی, bool سیٹ_فعال_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_کھڑکی *toplevel = کھڑکی;
 
     // Find the toplevel parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
-        toplevel = toplevel->parent;
+    جب (SDL_کھڑکی_IS_POPUP(toplevel)) {
+        toplevel = toplevel->والد;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = کھڑکی;
 
-    if (set_active_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    اگر (سیٹ_فعال_focus && !کھڑکی->is_hiding && !کھڑکی->is_destroying) {
+        SDL_سیٹ_Keyboard_Focus(کھڑکی);
     }
 }
 
-SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Window xwindow)
+SDL_کھڑکی_Flags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, کھڑکی_2 xwindow)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ڈیٹا *videodata = _this->اندرونی_2;
     Display *display = videodata->display;
     Atom _NET_WM_STATE = videodata->atoms._NET_WM_STATE;
     Atom _NET_WM_STATE_HIDDEN = videodata->atoms._NET_WM_STATE_HIDDEN;
@@ -294,42 +294,42 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
     Atom _NET_WM_STATE_MAXIMIZED_HORZ = videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
     Atom _NET_WM_STATE_FULLSCREEN = videodata->atoms._NET_WM_STATE_FULLSCREEN;
     Atom actualType;
-    int actualFormat;
-    unsigned long i, numItems, bytesAfter;
-    unsigned char *propertyValue = NULL;
-    long maxLength = 1024;
-    SDL_WindowFlags flags = 0;
+    صحیح actualFormat;
+    غیرعلامتی طویل i, عدد_اشیاء, بائٹیں_After;
+    غیرعلامتی حرف *property_قدر = تہی;
+    طویل max_لمبائی = 1024;
+    SDL_کھڑکی_Flags flags = 0;
 
-    if (X11_XGetWindowProperty(display, xwindow, _NET_WM_STATE,
-                               0l, maxLength, False, XA_ATOM, &actualType,
-                               &actualFormat, &numItems, &bytesAfter,
-                               &propertyValue) == Success) {
-        Atom *atoms = (Atom *)propertyValue;
-        int maximized = 0;
-        int fullscreen = 0;
+    اگر (X11_XGet_کھڑکی_Property(display, xwindow, _NET_WM_STATE,
+                               0l, max_لمبائی, False, XA_ATOM, &actualType,
+                               &actualFormat, &عدد_اشیاء, &بائٹیں_After,
+                               &property_قدر) == Success) {
+        Atom *atoms = (Atom *)property_قدر;
+        صحیح maximized = 0;
+        صحیح fullscreen = 0;
 
-        for (i = 0; i < numItems; ++i) {
-            if (atoms[i] == _NET_WM_STATE_HIDDEN) {
-                flags |= SDL_WINDOW_MINIMIZED | SDL_WINDOW_OCCLUDED;
-            } else if (atoms[i] == _NET_WM_STATE_FOCUSED) {
-                flags |= SDL_WINDOW_INPUT_FOCUS;
-            } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_VERT) {
+        برائے (i = 0; i < عدد_اشیاء; ++i) {
+            اگر (atoms[i] == _NET_WM_STATE_HIDDEN) {
+                flags |= SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_OCCLUDED;
+            } ورنہ اگر (atoms[i] == _NET_WM_STATE_FOCUSED) {
+                flags |= SDL_کھڑکی_داخلہ_FOCUS;
+            } ورنہ اگر (atoms[i] == _NET_WM_STATE_MAXIMIZED_VERT) {
                 maximized |= 1;
-            } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_HORZ) {
+            } ورنہ اگر (atoms[i] == _NET_WM_STATE_MAXIMIZED_HORZ) {
                 maximized |= 2;
-            } else if (atoms[i] == _NET_WM_STATE_FULLSCREEN) {
+            } ورنہ اگر (atoms[i] == _NET_WM_STATE_FULLSCREEN) {
                 fullscreen = 1;
             }
         }
 
-        if (fullscreen == 1) {
-            flags |= SDL_WINDOW_FULLSCREEN;
-        } else if (!videodata->net_wm) {
+        اگر (fullscreen == 1) {
+            flags |= SDL_کھڑکی_FULLSCREEN;
+        } ورنہ اگر (!videodata->net_wm) {
             // If there's no window manager, use whatever the window reports.
-            flags |= (window->flags & SDL_WINDOW_FULLSCREEN);
+            flags |= (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN);
         }
 
-        if (maximized == 3) {
+        اگر (maximized == 3) {
             /* Fullscreen windows are maximized on some window managers,
                and this is functional behavior - if maximized is removed,
                the windows remain floating centered and not covering the
@@ -338,10 +338,10 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
                we're always maximized when fullscreen and not restore the
                correct state when leaving fullscreen.
             */
-            if (fullscreen) {
-                flags |= (window->flags & SDL_WINDOW_MAXIMIZED);
-            } else {
-                flags |= SDL_WINDOW_MAXIMIZED;
+            اگر (fullscreen) {
+                flags |= (کھڑکی->flags & SDL_کھڑکی_MAXIMIZED);
+            } ورنہ {
+                flags |= SDL_کھڑکی_MAXIMIZED;
             }
         }
 
@@ -350,46 +350,46 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
          * and mark it as SDL_WINDOW_HIDDEN if it is.
          */
         {
-            XWindowAttributes attr;
+            XWindow_اوصاف attr;
             SDL_zero(attr);
-            X11_XGetWindowAttributes(videodata->display, xwindow, &attr);
-            if (attr.map_state == IsUnmapped) {
-                flags |= SDL_WINDOW_HIDDEN;
+            X11_XGet_کھڑکی_اوصاف(videodata->display, xwindow, &attr);
+            اگر (attr.map_state == IsUnmapped) {
+                flags |= SDL_کھڑکی_HIDDEN;
             }
         }
-        X11_XFree(propertyValue);
+        X11_XFree(property_قدر);
     }
 
     // FIXME, check the size hints for resizable
     // flags |= SDL_WINDOW_RESIZABLE;
 
-    return flags;
+    واپس flags;
 }
 
-static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w)
+ساکن bool تیاری_کھڑکی_ڈیٹا(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, کھڑکی_2 w)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    SDL_WindowData *data;
+    SDL_Video_ڈیٹا *videodata = _this->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
 
     // Allocate the window data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    ڈیٹا = (SDL_کھڑکی_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
+        واپس false;
     }
-    data->videodata = videodata;
-    data->window = window;
-    data->xwindow = w;
-    data->hit_test_result = SDL_HITTEST_NORMAL;
+    ڈیٹا->videodata = videodata;
+    ڈیٹا->کھڑکی = کھڑکی;
+    ڈیٹا->xwindow = w;
+    ڈیٹا->کامیابی_test_نتیجہ = SDL_HITTEST_معمول;
 
-    X11_CreateInputContext(data);
+    X11_Create_داخلہ_Context(ڈیٹا);
 
     // Associate the data with the window
 
-    if (videodata->numwindows >= videodata->windowlistlength) {
-        SDL_WindowData ** new_windowlist = (SDL_WindowData **)SDL_realloc(videodata->windowlist, (videodata->numwindows + 1) * sizeof(*videodata->windowlist));
-        if (!new_windowlist) {
-            goto error_cleanup;
+    اگر (videodata->numwindows >= videodata->windowlistlength) {
+        SDL_کھڑکی_ڈیٹا ** new_windowlist = (SDL_کھڑکی_ڈیٹا **)SDL_realloc(videodata->windowlist, (videodata->numwindows + 1) * حجم(*videodata->windowlist));
+        اگر (!new_windowlist) {
+            جاؤ error_cleanup;
         }
         videodata->windowlistlength++;
         videodata->windowlist = new_windowlist;
@@ -397,130 +397,130 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
 
     // Fill in the SDL window with the window data
     {
-        XWindowAttributes attrib;
+        XWindow_اوصاف attrib;
 
-        X11_XGetWindowAttributes(data->videodata->display, w, &attrib);
-        if (!SDL_WINDOW_IS_POPUP(window)) {
-            window->x = window->windowed.x = window->floating.x = attrib.x;
-            window->y = window->windowed.y = window->floating.y = attrib.y - data->border_top;
+        X11_XGet_کھڑکی_اوصاف(ڈیٹا->videodata->display, w, &attrib);
+        اگر (!SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+            کھڑکی->x = کھڑکی->windowed.x = کھڑکی->floating.x = attrib.x;
+            کھڑکی->y = کھڑکی->windowed.y = کھڑکی->floating.y = attrib.y - ڈیٹا->border_چوٹی;
         }
-        window->w = window->windowed.w = window->floating.w = attrib.width;
-        window->h = window->windowed.h = window->floating.h = attrib.height;
-        if (attrib.map_state != IsUnmapped) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-        } else {
-            window->flags |= SDL_WINDOW_HIDDEN;
+        کھڑکی->w = کھڑکی->windowed.w = کھڑکی->floating.w = attrib.چوڑائی;
+        کھڑکی->h = کھڑکی->windowed.h = کھڑکی->floating.h = attrib.اونچائی;
+        اگر (attrib.map_state != IsUnmapped) {
+            کھڑکی->flags &= ~SDL_کھڑکی_HIDDEN;
+        } ورنہ {
+            کھڑکی->flags |= SDL_کھڑکی_HIDDEN;
         }
-        data->visual = attrib.visual;
-        data->colormap = attrib.colormap;
+        ڈیٹا->visual = attrib.visual;
+        ڈیٹا->colormap = attrib.colormap;
     }
 
-    window->flags |= X11_GetNetWMState(_this, window, w);
+    کھڑکی->flags |= X11_GetNetWMState(_this, کھڑکی, w);
 
     {
-        Window FocalWindow;
-        int RevertTo = 0;
-        X11_XGetInputFocus(data->videodata->display, &FocalWindow, &RevertTo);
-        if (FocalWindow == w) {
-            window->flags |= SDL_WINDOW_INPUT_FOCUS;
+        کھڑکی_2 Focal_کھڑکی;
+        صحیح Revert_مقصد = 0;
+        X11_XGet_داخلہ_Focus(ڈیٹا->videodata->display, &Focal_کھڑکی, &Revert_مقصد);
+        اگر (Focal_کھڑکی == w) {
+            کھڑکی->flags |= SDL_کھڑکی_داخلہ_FOCUS;
         }
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-            SDL_SetKeyboardFocus(data->window);
+        اگر (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS) {
+            SDL_سیٹ_Keyboard_Focus(ڈیٹا->کھڑکی);
         }
 
-        if (window->flags & SDL_WINDOW_MOUSE_GRABBED) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_MOUSE_GRABBED) {
             // Tell x11 to clip mouse
         }
     }
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_EXTERNAL) {
         // Query the title from the existing window
-        window->title = X11_GetWindowTitle(_this, w);
+        کھڑکی->title = X11_Get_کھڑکی_Title(_this, w);
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    int screen = (displaydata ? displaydata->screen : 0);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_X11_DISPLAY_POINTER, data->videodata->display);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_SCREEN_NUMBER, screen);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_WINDOW_NUMBER, data->xwindow);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    صحیح screen = (displaydata ? displaydata->screen : 0);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_X11_DISPLAY_اشارہ_گر, ڈیٹا->videodata->display);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_X11_SCREEN_نمبر, screen);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_X11_کھڑکی_نمبر, ڈیٹا->xwindow);
 
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2) || defined(SDL_VIDEO_OPENGL_EGL)
-    if ((window->flags & SDL_WINDOW_OPENGL) &&
-        ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+#اگر defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2) || defined(SDL_VIDEO_OPENGL_EGL)
+    اگر ((کھڑکی->flags & SDL_کھڑکی_OPENGL) &&
+        ((_this->gl_config.profile_نقاب == SDL_GL_CONTEXT_PROFILE_ES) ||
          SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_GLX
-        && (!_this->gl_data || X11_GL_UseEGL(_this))
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_GLX
+        && (!_this->gl_ڈیٹا || X11_GL_UseEGL(_this))
+#اگر_ختم
     ) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (!_this->egl_data) {
-            goto error_cleanup;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        اگر (!_this->egl_ڈیٹا) {
+            جاؤ error_cleanup;
         }
 
         // Create the GLES window surface
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)w);
+        ڈیٹا->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)w);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            SDL_SetError("Could not create GLES window surface");
-            goto error_cleanup;
+        اگر (ڈیٹا->egl_surface == EGL_NO_SURFACE) {
+            SDL_سیٹ_Error("Could not create GLES window surface");
+            جاؤ error_cleanup;
         }
-#else
-        SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-        goto error_cleanup;
-#endif // SDL_VIDEO_OPENGL_EGL
+#ورنہ
+        SDL_سیٹ_Error("Could not create GLES window surface (EGL support not configured)");
+        جاؤ error_cleanup;
+#اگر_ختم // SDL_VIDEO_OPENGL_EGL
     }
-#endif
+#اگر_ختم
 
     // All done!
-    window->internal = data;
-    videodata->windowlist[videodata->numwindows++] = data;
-    return true;
+    کھڑکی->اندرونی_2 = ڈیٹا;
+    videodata->windowlist[videodata->numwindows++] = ڈیٹا;
+    واپس true;
 
 error_cleanup:
-    X11_DestroyInputContext(data);
-    SDL_free(data);
-    return false;
+    X11_Destroy_داخلہ_Context(ڈیٹا);
+    SDL_free(ڈیٹا);
+    واپس false;
 }
 
-static void SetupWindowInput(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی تیاری_کھڑکی_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    long fevent = 0;
-    SDL_WindowData *data = window->internal;
-    Window xwindow = data->xwindow;
+    طویل fevent = 0;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    کھڑکی_2 xwindow = ڈیٹا->xwindow;
 
-#ifdef X_HAVE_UTF8_STRING
-    if (SDL_X11_HAVE_UTF8 && data->ic) {
-        X11_XGetICValues(data->ic, XNFilterEvents, &fevent, NULL);
+#اگر_تعریف_شدہ X_HAVE_UTF8_STRING
+    اگر (SDL_X11_HAVE_UTF8 && ڈیٹا->ic) {
+        X11_XGetICValues(ڈیٹا->ic, XNFilterEvents, &fevent, تہی);
     }
-#endif
+#اگر_ختم
 
-    X11_Xinput2Select(_this, window);
+    X11_Xinput2Select(_this, کھڑکی);
 
     {
-        unsigned int x11_keyboard_events = KeyPressMask | KeyReleaseMask;
-        unsigned int x11_pointer_events = ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
+        غیرعلامتی صحیح x11_keyboard_events = کلید_Press_نقاب | کلید_Release_نقاب;
+        غیرعلامتی صحیح x11_اشارہ_گر_events = Button_Press_نقاب | Button_Release_نقاب | اشارہ_گر_Motion_نقاب;
 
-        X11_Xinput2SelectMouseAndKeyboard(_this, window);
+        X11_Xinput2SelectMouseAndKeyboard(_this, کھڑکی);
 
         // If XInput2 can handle pointer and keyboard events, we don't track them here
-        if (data->xinput2_keyboard_enabled) {
+        اگر (ڈیٹا->xinput2_keyboard_enabled) {
             x11_keyboard_events = 0;
         }
-        if (data->xinput2_mouse_enabled) {
-            x11_pointer_events = 0;
+        اگر (ڈیٹا->xinput2_mouse_enabled) {
+            x11_اشارہ_گر_events = 0;
         }
 
-        X11_XSelectInput(data->videodata->display, xwindow,
-                         (FocusChangeMask | EnterWindowMask | LeaveWindowMask | ExposureMask |
-                          x11_keyboard_events | x11_pointer_events |
-                          PropertyChangeMask | StructureNotifyMask |
-                          KeymapStateMask | fevent));
+        X11_XSelect_داخلہ(ڈیٹا->videodata->display, xwindow,
+                         (Focus_Change_نقاب | Enter_کھڑکی_نقاب | Leave_کھڑکی_نقاب | Exposure_نقاب |
+                          x11_keyboard_events | x11_اشارہ_گر_events |
+                          Property_Change_نقاب | Structure_Notify_نقاب |
+                          Keymap_State_نقاب | fevent));
     }
 }
 
-static void SetWindowBordered(Display *display, int screen, Window window, bool border)
+ساکن خالی سیٹ_کھڑکی_Bordered(Display *display, صحیح screen, کھڑکی_2 کھڑکی, bool border)
 {
     /*
      * this code used to check for KWM_WIN_DECORATION, but KDE hasn't
@@ -529,150 +529,150 @@ static void SetWindowBordered(Display *display, int screen, Window window, bool 
      */
 
     Atom WM_HINTS = X11_XInternAtom(display, "_MOTIF_WM_HINTS", True);
-    if (WM_HINTS != None) {
+    اگر (WM_HINTS != None) {
         // Hints used by Motif compliant window managers
-        struct
+        ساخت
         {
-            unsigned long flags;
-            unsigned long functions;
-            unsigned long decorations;
-            long input_mode;
-            unsigned long status;
+            غیرعلامتی طویل flags;
+            غیرعلامتی طویل functions;
+            غیرعلامتی طویل decorations;
+            طویل داخلہ_منوال;
+            غیرعلامتی طویل حالت_2;
         } MWMHints = {
             (1L << 1), 0, border ? 1 : 0, 0, 0
         };
 
-        X11_XChangeProperty(display, window, WM_HINTS, WM_HINTS, 32,
-                            PropModeReplace, (unsigned char *)&MWMHints,
-                            sizeof(MWMHints) / sizeof(long));
-    } else { // set the transient hints instead, if necessary
-        X11_XSetTransientForHint(display, window, RootWindow(display, screen));
+        X11_XChangeProperty(display, کھڑکی, WM_HINTS, WM_HINTS, 32,
+                            Prop_منوال_Replace, (غیرعلامتی حرف *)&MWMHints,
+                            حجم(MWMHints) / حجم(طویل));
+    } ورنہ { // set the transient hints instead, if necessary
+        X11_XSetTransientForHint(display, کھڑکی, جڑ_کھڑکی(display, screen));
     }
 }
 
-bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool X11_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    Window w = (Window)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER,
-                (Window)SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    if (w) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    کھڑکی_2 w = (کھڑکی_2)SDL_Get_نمبر_Property(create_props, SDL_PROP_کھڑکی_CREATE_X11_کھڑکی_نمبر,
+                (کھڑکی_2)SDL_Get_اشارہ_گر_Property(create_props, "sdl2-compat.external_window", تہی));
+    اگر (w) {
+        کھڑکی->flags |= SDL_کھڑکی_EXTERNAL;
 
-        if (!SetupWindowData(_this, window, w)) {
-            return false;
+        اگر (!تیاری_کھڑکی_ڈیٹا(_this, کھڑکی, w)) {
+            واپس false;
         }
 
-        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT, true)) {
-            SetupWindowInput(_this, window);
+        اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_کھڑکی_داخلہ, true)) {
+            تیاری_کھڑکی_داخلہ(_this, کھڑکی);
         }
-        return true;
+        واپس true;
     }
 
-    SDL_VideoData *data = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    if (!displaydata) {
-        return SDL_SetError("Could not find display info");
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    اگر (!displaydata) {
+        واپس SDL_سیٹ_Error("Could not find display info");
     }
 
-    const bool force_override_redirect = SDL_GetHintBoolean(SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT, false);
-    const bool use_resize_sync = SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT, false) &&
-                                 (window->flags & SDL_WINDOW_OPENGL) != 0; // Doesn't work well with Vulkan
-    SDL_WindowData *windowdata;
-    Display *display = data->display;
-    int screen = displaydata->screen;
+    ثابت bool force_override_redirect = SDL_GetHintBoolean(SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT, false);
+    ثابت bool use_resize_sync = SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT, false) &&
+                                 (کھڑکی->flags & SDL_کھڑکی_OPENGL) != 0; // Doesn't work well with Vulkan
+    SDL_کھڑکی_ڈیٹا *windowdata;
+    Display *display = ڈیٹا->display;
+    صحیح screen = displaydata->screen;
     Visual *visual;
-    int depth;
-    XSetWindowAttributes xattr;
+    صحیح گہرائی_2;
+    XSet_کھڑکی_اوصاف xattr;
     XSizeHints *sizehints;
     XWMHints *wmhints;
     XClassHint *classhints;
     Atom _NET_WM_BYPASS_COMPOSITOR;
-    Atom _NET_WM_WINDOW_TYPE;
+    Atom NET_WM_کھڑکی_TYPE;
     Atom wintype;
-    const char *wintype_name = NULL;
-    long compositor = 1;
+    ثابت حرف *wintype_name = تہی;
+    طویل compositor = 1;
     Atom _NET_WM_PID;
-    const char *hint = NULL;
-    int win_x, win_y;
+    ثابت حرف *hint = تہی;
+    صحیح win_x, win_y;
     bool undefined_position = false;
 
-#if defined(SDL_VIDEO_OPENGL_GLX) || defined(SDL_VIDEO_OPENGL_EGL)
-    const int transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
-    const char *forced_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_WINDOW_VISUALID);
-    const char *display_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
+#اگر defined(SDL_VIDEO_OPENGL_GLX) || defined(SDL_VIDEO_OPENGL_EGL)
+    ثابت صحیح transparent = (کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) ? true : false;
+    ثابت حرف *forced_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_کھڑکی_VISUALID);
+    ثابت حرف *display_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
 
-    if (forced_visual_id && *forced_visual_id) {
-        XVisualInfo *vi, template;
-        int nvis;
+    اگر (forced_visual_id && *forced_visual_id) {
+        XVisualInfo *vi, سانچہ;
+        صحیح nvis;
 
-        SDL_zero(template);
-        template.visualid = SDL_strtol(forced_visual_id, NULL, 0);
-        vi = X11_XGetVisualInfo(display, VisualIDMask, &template, &nvis);
-        if (vi) {
+        SDL_zero(سانچہ);
+        سانچہ.visualid = SDL_strtol(forced_visual_id, تہی, 0);
+        vi = X11_XGetVisualInfo(display, VisualIDMask, &سانچہ, &nvis);
+        اگر (vi) {
             visual = vi->visual;
-            depth = vi->depth;
+            گہرائی_2 = vi->گہرائی_2;
             X11_XFree(vi);
-        } else {
-            return false;
+        } ورنہ {
+            واپس false;
         }
-    } else if ((window->flags & SDL_WINDOW_OPENGL) &&
+    } ورنہ اگر ((کھڑکی->flags & SDL_کھڑکی_OPENGL) &&
                (!display_visual_id || !*display_visual_id)) {
-        XVisualInfo *vinfo = NULL;
+        XVisualInfo *vinfo = تہی;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        اگر (((_this->gl_config.profile_نقاب == SDL_GL_CONTEXT_PROFILE_ES) ||
              SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_GLX
-            && (!_this->gl_data || X11_GL_UseEGL(_this))
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_GLX
+            && (!_this->gl_ڈیٹا || X11_GL_UseEGL(_this))
+#اگر_ختم
         ) {
             vinfo = X11_GLES_GetVisual(_this, display, screen, transparent);
-        } else
-#endif
+        } ورنہ
+#اگر_ختم
         {
-#ifdef SDL_VIDEO_OPENGL_GLX
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_GLX
             vinfo = X11_GL_GetVisual(_this, display, screen, transparent);
-#endif
+#اگر_ختم
         }
 
-        if (!vinfo) {
-            return false;
+        اگر (!vinfo) {
+            واپس false;
         }
         visual = vinfo->visual;
-        depth = vinfo->depth;
+        گہرائی_2 = vinfo->گہرائی_2;
         X11_XFree(vinfo);
-    } else
-#endif
+    } ورنہ
+#اگر_ختم
     {
         visual = displaydata->visual;
-        depth = displaydata->depth;
+        گہرائی_2 = displaydata->گہرائی_2;
     }
 
-    xattr.override_redirect = ((window->flags & SDL_WINDOW_TOOLTIP) || (window->flags & SDL_WINDOW_POPUP_MENU) || force_override_redirect) ? True : False;
+    xattr.override_redirect = ((کھڑکی->flags & SDL_کھڑکی_TOOLTIP) || (کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) || force_override_redirect) ? True : False;
     xattr.backing_store = NotUseful;
     xattr.background_pixmap = None;
     xattr.border_pixel = 0;
 
-    if (visual->class == DirectColor) {
+    اگر (visual->class == براہ_راست_Color) {
         XColor *colorcells;
-        int i;
-        int ncolors;
-        int rmax, gmax, bmax;
-        int rmask, gmask, bmask;
-        int rshift, gshift, bshift;
+        صحیح i;
+        صحیح ncolors;
+        صحیح rmax, gmax, bmax;
+        صحیح rmask, gmask, bmask;
+        صحیح rshift, gshift, bshift;
 
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, جڑ_کھڑکی(display, screen),
                                 visual, AllocAll);
 
         // If we can't create a colormap, then we must die
-        if (!xattr.colormap) {
-            return SDL_SetError("Could not create writable colormap");
+        اگر (!xattr.colormap) {
+            واپس SDL_سیٹ_Error("Could not create writable colormap");
         }
 
         // OK, we got a colormap, now fill it in as best as we can
-        colorcells = SDL_malloc(visual->map_entries * sizeof(XColor));
-        if (!colorcells) {
-            return false;
+        colorcells = SDL_malloc(visual->map_entries * حجم(XColor));
+        اگر (!colorcells) {
+            واپس false;
         }
         ncolors = visual->map_entries;
         rmax = 0xffff;
@@ -680,28 +680,28 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         bmax = 0xffff;
 
         rshift = 0;
-        rmask = visual->red_mask;
-        while (0 == (rmask & 1)) {
+        rmask = visual->red_نقاب;
+        جب (0 == (rmask & 1)) {
             rshift++;
             rmask >>= 1;
         }
 
         gshift = 0;
-        gmask = visual->green_mask;
-        while (0 == (gmask & 1)) {
+        gmask = visual->green_نقاب;
+        جب (0 == (gmask & 1)) {
             gshift++;
             gmask >>= 1;
         }
 
         bshift = 0;
-        bmask = visual->blue_mask;
-        while (0 == (bmask & 1)) {
+        bmask = visual->blue_نقاب;
+        جب (0 == (bmask & 1)) {
             bshift++;
             bmask >>= 1;
         }
 
         // build the color table pixel values
-        for (i = 0; i < ncolors; i++) {
+        برائے (i = 0; i < ncolors; i++) {
             Uint32 red = (rmax * i) / (ncolors - 1);
             Uint32 green = (gmax * i) / (ncolors - 1);
             Uint32 blue = (bmax * i) / (ncolors - 1);
@@ -725,22 +725,22 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         X11_XStoreColors(display, xattr.colormap, colorcells, ncolors);
 
         SDL_free(colorcells);
-    } else {
+    } ورنہ {
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, جڑ_کھڑکی(display, screen),
                                 visual, AllocNone);
     }
 
-    if (window->undefined_x && window->undefined_y &&
-        window->displayID == SDL_GetPrimaryDisplay()) {
+    اگر (کھڑکی->undefined_x && کھڑکی->undefined_y &&
+        کھڑکی->displayID == SDL_GetPrimaryDisplay()) {
         undefined_position = true;
     }
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        X11_ConstrainPopup(window, false);
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+        X11_ConstrainPopup(کھڑکی, false);
     }
-    SDL_RelativeToGlobalForWindow(window,
-                                  window->floating.x, window->floating.y,
+    SDL_Relative_مقصد_Global_For_کھڑکی(کھڑکی,
+                                  کھڑکی->floating.x, کھڑکی->floating.y,
                                   &win_x, &win_y);
 
     /* Always create this with the window->floating.* fields; if we're creating a windowed mode window,
@@ -749,33 +749,33 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
      * migration to fullscreen after CreateSDLWindow returns, which will put all the SDL_Window fields and
      * system state as expected.
      */
-    w = X11_XCreateWindow(display, RootWindow(display, screen),
-                          win_x, win_y, window->floating.w, window->floating.h,
-                          0, depth, InputOutput, visual,
+    w = X11_XCreate_کھڑکی(display, جڑ_کھڑکی(display, screen),
+                          win_x, win_y, کھڑکی->floating.w, کھڑکی->floating.h,
+                          0, گہرائی_2, داخلہ_Output, visual,
                           (CWOverrideRedirect | CWBackPixmap | CWBorderPixel |
                            CWBackingStore | CWColormap),
                           &xattr);
-    if (!w) {
-        return SDL_SetError("Couldn't create window");
+    اگر (!w) {
+        واپس SDL_سیٹ_Error("Couldn't create window");
     }
 
     /* Don't set the borderless flag if we're about to go fullscreen.
      * This prevents the window manager from moving a full-screen borderless
      * window to a different display before we actually go fullscreen.
      */
-    if (!(window->pending_flags & SDL_WINDOW_FULLSCREEN)) {
-        SetWindowBordered(display, screen, w, !(window->flags & SDL_WINDOW_BORDERLESS));
+    اگر (!(کھڑکی->pending_flags & SDL_کھڑکی_FULLSCREEN)) {
+        سیٹ_کھڑکی_Bordered(display, screen, w, !(کھڑکی->flags & SDL_کھڑکی_BORDERLESS));
     }
 
-    sizehints = X11_XAllocSizeHints();
+    sizehints = X11_XAlloc_سائز_Hints();
     // Setup the normal size hints
     sizehints->flags = 0;
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        sizehints->min_width = sizehints->max_width = window->floating.w;
-        sizehints->min_height = sizehints->max_height = window->floating.h;
-        sizehints->flags |= (PMaxSize | PMinSize);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
+        sizehints->min_چوڑائی_2 = sizehints->max_چوڑائی_2 = کھڑکی->floating.w;
+        sizehints->min_اونچائی_2 = sizehints->max_اونچائی_2 = کھڑکی->floating.h;
+        sizehints->flags |= (PMax_سائز | PMin_سائز);
     }
-    if (!undefined_position) {
+    اگر (!undefined_position) {
         sizehints->x = win_x;
         sizehints->y = win_y;
         sizehints->flags |= USPosition;
@@ -783,276 +783,276 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     // Setup the input hints so we get keyboard input
     wmhints = X11_XAllocWMHints();
-    wmhints->input = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) ? True : False;
-    wmhints->window_group = data->window_group;
-    wmhints->flags = InputHint | WindowGroupHint;
+    wmhints->داخلہ = !(کھڑکی->flags & SDL_کھڑکی_NOT_FOCUSABLE) ? True : False;
+    wmhints->کھڑکی_گروہ = ڈیٹا->کھڑکی_گروہ;
+    wmhints->flags = داخلہ_Hint | کھڑکی_گروہ_Hint;
 
     // Setup the class hints so we can get an icon (AfterStep)
     classhints = X11_XAllocClassHint();
-    classhints->res_name = (char *)SDL_GetExeName();
-    classhints->res_class = (char *)SDL_GetAppID();
+    classhints->res_name = (حرف *)SDL_GetExeName();
+    classhints->res_class = (حرف *)SDL_GetAppID();
 
     // Set the size, input and class hints, and define WM_CLIENT_MACHINE and WM_LOCALE_NAME
-    X11_XSetWMProperties(display, w, NULL, NULL, NULL, 0, sizehints, wmhints, classhints);
+    X11_XSetWMProperties(display, w, تہی, تہی, تہی, 0, sizehints, wmhints, classhints);
 
     X11_XFree(sizehints);
     X11_XFree(wmhints);
     X11_XFree(classhints);
     // Set the PID related to the window for the given hostname, if possible
-    if (data->pid > 0) {
-        long pid = (long)data->pid;
+    اگر (ڈیٹا->pid > 0) {
+        طویل pid = (طویل)ڈیٹا->pid;
         _NET_WM_PID = X11_XInternAtom(display, "_NET_WM_PID", False);
-        X11_XChangeProperty(display, w, _NET_WM_PID, XA_CARDINAL, 32, PropModeReplace,
-                            (unsigned char *)&pid, 1);
+        X11_XChangeProperty(display, w, _NET_WM_PID, XA_CARDINAL, 32, Prop_منوال_Replace,
+                            (غیرعلامتی حرف *)&pid, 1);
     }
 
     // Set the window manager state
-    X11_SetNetWMState(_this, w, window->flags);
+    X11_سیٹ_Net_WMState(_this, w, کھڑکی->flags);
 
     compositor = 2; // don't disable compositing except for "normal" windows
-    hint = SDL_GetHint(SDL_HINT_X11_WINDOW_TYPE);
-    if (window->flags & SDL_WINDOW_UTILITY) {
+    hint = SDL_GetHint(SDL_HINT_X11_کھڑکی_TYPE);
+    اگر (کھڑکی->flags & SDL_کھڑکی_UTILITY) {
         wintype_name = "_NET_WM_WINDOW_TYPE_UTILITY";
-    } else if (window->flags & SDL_WINDOW_TOOLTIP) {
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_TOOLTIP) {
         wintype_name = "_NET_WM_WINDOW_TYPE_TOOLTIP";
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) {
         wintype_name = "_NET_WM_WINDOW_TYPE_POPUP_MENU";
-    } else if (hint && *hint) {
+    } ورنہ اگر (hint && *hint) {
         wintype_name = hint;
-    } else {
+    } ورنہ {
         wintype_name = "_NET_WM_WINDOW_TYPE_NORMAL";
         compositor = 1; // disable compositing for "normal" windows
     }
 
     // Let the window manager know what type of window we are.
-    _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
+    NET_WM_کھڑکی_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
     wintype = X11_XInternAtom(display, wintype_name, False);
-    X11_XChangeProperty(display, w, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
-                        PropModeReplace, (unsigned char *)&wintype, 1);
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, true)) {
+    X11_XChangeProperty(display, w, NET_WM_کھڑکی_TYPE, XA_ATOM, 32,
+                        Prop_منوال_Replace, (غیرعلامتی حرف *)&wintype, 1);
+    اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, true)) {
         _NET_WM_BYPASS_COMPOSITOR = X11_XInternAtom(display, "_NET_WM_BYPASS_COMPOSITOR", False);
         X11_XChangeProperty(display, w, _NET_WM_BYPASS_COMPOSITOR, XA_CARDINAL, 32,
-                            PropModeReplace,
-                            (unsigned char *)&compositor, 1);
+                            Prop_منوال_Replace,
+                            (غیرعلامتی حرف *)&compositor, 1);
     }
 
     {
         Atom protocols[4];
-        int proto_count = 0;
+        صحیح proto_گنتی = 0;
 
-        protocols[proto_count++] = data->atoms.WM_DELETE_WINDOW; // Allow window to be deleted by the WM
+        protocols[proto_گنتی++] = ڈیٹا->atoms.WM_DELETE_کھڑکی; // Allow window to be deleted by the WM
 
         // Default to using ping if there is no hint
-        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_PING, true)) {
-            protocols[proto_count++] = data->atoms._NET_WM_PING; // Respond so WM knows we're alive
+        اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_PING, true)) {
+            protocols[proto_گنتی++] = ڈیٹا->atoms._NET_WM_PING; // Respond so WM knows we're alive
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        if (use_resize_sync) {
-            protocols[proto_count++] = data->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XSYNC
+        اگر (use_resize_sync) {
+            protocols[proto_گنتی++] = ڈیٹا->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
         }
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#اگر_ختم /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-        SDL_assert(proto_count <= SDL_arraysize(protocols));
+        SDL_assert(proto_گنتی <= SDL_arraysize(protocols));
 
-        X11_XSetWMProtocols(display, w, protocols, proto_count);
+        X11_XSetWMProtocols(display, w, protocols, proto_گنتی);
     }
 
-    if (!SetupWindowData(_this, window, w)) {
-        X11_XDestroyWindow(display, w);
-        return false;
+    اگر (!تیاری_کھڑکی_ڈیٹا(_this, کھڑکی, w)) {
+        X11_XDestroy_کھڑکی(display, w);
+        واپس false;
     }
-    windowdata = window->internal;
+    windowdata = کھڑکی->اندرونی_2;
 
     // Set the parent if this is a non-popup window.
-    if (!SDL_WINDOW_IS_POPUP(window) && window->parent) {
-        X11_XSetTransientForHint(display, w, window->parent->internal->xwindow);
+    اگر (!SDL_کھڑکی_IS_POPUP(کھڑکی) && کھڑکی->والد) {
+        X11_XSetTransientForHint(display, w, کھڑکی->والد->اندرونی_2->xwindow);
     }
 
     // Set the flag if the borders were forced on when creating a fullscreen window for later removal.
-    windowdata->fullscreen_borders_forced_on = !!(window->pending_flags & SDL_WINDOW_FULLSCREEN) &&
-                                               !!(window->flags & SDL_WINDOW_BORDERLESS);
+    windowdata->fullscreen_borders_forced_on = !!(کھڑکی->pending_flags & SDL_کھڑکی_FULLSCREEN) &&
+                                               !!(کھڑکی->flags & SDL_کھڑکی_BORDERLESS);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    if (use_resize_sync) {
-        X11_InitResizeSync(window);
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XSYNC
+    اگر (use_resize_sync) {
+        X11_InitResizeSync(کھڑکی);
     }
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#اگر_ختم /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XSHAPE
     // Tooltips do not receive input
-    if (window->flags & SDL_WINDOW_TOOLTIP) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_TOOLTIP) {
         Region region = X11_XCreateRegion();
-        X11_XShapeCombineRegion(display, w, ShapeInput, 0, 0, region, ShapeSet);
+        X11_XShapeCombineRegion(display, w, Shape_داخلہ, 0, 0, region, Shape_سیٹ);
         X11_XDestroyRegion(region);
     }
-#endif
+#اگر_ختم
 
-    SetupWindowInput(_this, window);
+    تیاری_کھڑکی_داخلہ(_this, کھڑکی);
 
     // For _ICC_PROFILE.
-    X11_XSelectInput(display, RootWindow(display, screen), PropertyChangeMask);
+    X11_XSelect_داخلہ(display, جڑ_کھڑکی(display, screen), Property_Change_نقاب);
 
     X11_XFlush(display);
 
-    return true;
+    واپس true;
 }
 
-char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow)
+حرف *X11_Get_کھڑکی_Title(SDL_VideoDevice *_this, کھڑکی_2 xwindow)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *display = data->display;
-    int status, real_format;
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    Display *display = ڈیٹا->display;
+    صحیح حالت_2, real_format;
     Atom real_type;
-    unsigned long items_read, items_left;
-    unsigned char *propdata;
-    char *title = NULL;
+    غیرعلامتی طویل اشیاء_read, اشیاء_بایاں;
+    غیرعلامتی حرف *propdata;
+    حرف *title = تہی;
 
-    status = X11_XGetWindowProperty(display, xwindow, data->atoms._NET_WM_NAME,
-                                    0L, 8192L, False, data->atoms.UTF8_STRING, &real_type, &real_format,
-                                    &items_read, &items_left, &propdata);
-    if (status == Success && propdata) {
-        title = SDL_strdup(SDL_static_cast(char *, propdata));
+    حالت_2 = X11_XGet_کھڑکی_Property(display, xwindow, ڈیٹا->atoms._NET_WM_NAME,
+                                    0L, 8192L, False, ڈیٹا->atoms.UTF8_STRING, &real_type, &real_format,
+                                    &اشیاء_read, &اشیاء_بایاں, &propdata);
+    اگر (حالت_2 == Success && propdata) {
+        title = SDL_strdup(SDL_static_cast(حرف *, propdata));
         X11_XFree(propdata);
-    } else {
-        status = X11_XGetWindowProperty(display, xwindow, XA_WM_NAME,
+    } ورنہ {
+        حالت_2 = X11_XGet_کھڑکی_Property(display, xwindow, XA_WM_NAME,
                                         0L, 8192L, False, XA_STRING, &real_type, &real_format,
-                                        &items_read, &items_left, &propdata);
-        if (status == Success && propdata) {
-            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(char *, propdata), items_read + 1);
+                                        &اشیاء_read, &اشیاء_بایاں, &propdata);
+        اگر (حالت_2 == Success && propdata) {
+            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(حرف *, propdata), اشیاء_read + 1);
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to convert WM_NAME title expecting UTF8! Title: %s", title);
             X11_XFree(propdata);
-        } else {
+        } ورنہ {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Could not get any window title response from Xorg, returning empty string!");
             title = SDL_strdup("");
         }
     }
-    return title;
+    واپس title;
 }
 
-void X11_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    Window xwindow = data->xwindow;
-    Display *display = data->videodata->display;
-    char *title = window->title ? window->title : "";
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    کھڑکی_2 xwindow = ڈیٹا->xwindow;
+    Display *display = ڈیٹا->videodata->display;
+    حرف *title = کھڑکی->title ? کھڑکی->title : "";
 
-    SDL_X11_SetWindowTitle(display, xwindow, title);
+    SDL_X11_سیٹ_کھڑکی_Title(display, xwindow, title);
 }
 
-static bool caught_x11_error = false;
-static int X11_CatchAnyError(Display *d, XErrorEvent *e)
+ساکن bool caught_x11_error = false;
+ساکن صحیح X11_CatchAnyError(Display *d, XErrorEvent *e)
 {
     /* this may happen during tumultuous times when we are polling anyhow,
         so just note we had an error and return control. */
     caught_x11_error = true;
-    return 0;
+    واپس 0;
 }
 
-static void X11_ExternalResizeMoveSync(SDL_Window *window)
+ساکن خالی X11_ExternalResizeMoveSync(SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int (*prev_handler)(Display *, XErrorEvent *);
-    unsigned int childCount;
-    Window childReturn, root, parent;
-    Window *children;
-    XWindowAttributes attrs;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    صحیح (*پچھلا_handler)(Display *, XErrorEvent *);
+    غیرعلامتی صحیح بچہ_گنتی;
+    کھڑکی_2 بچہ_Return_2, جڑ, والد;
+    کھڑکی_2 *children;
+    XWindow_اوصاف attrs;
     Uint64 timeout = 0;
-    int x, y;
-    const bool send_move = !!(data->pending_operation & X11_PENDING_OP_MOVE);
-    const bool send_resize = !!(data->pending_operation & X11_PENDING_OP_RESIZE);
+    صحیح x, y;
+    ثابت bool send_move = !!(ڈیٹا->pending_operation & X11_PENDING_OP_MOVE);
+    ثابت bool send_resize = !!(ڈیٹا->pending_operation & X11_PENDING_OP_RESIZE);
 
     X11_XSync(display, False);
-    X11_XQueryTree(display, data->xwindow, &root, &parent, &children, &childCount);
-    prev_handler = X11_XSetErrorHandler(X11_CatchAnyError);
+    X11_XQuery_درخت(display, ڈیٹا->xwindow, &جڑ, &والد, &children, &بچہ_گنتی);
+    پچھلا_handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
     /* Wait a brief time to see if the window manager decided to let the move or resize happen.
      * If the window changes at all, even to an unexpected value, we break out.
      */
-    timeout = SDL_GetTicksNS() + SDL_MS_TO_NS(100);
-    while (true) {
+    timeout = SDL_GetTicksNS() + SDL_MS_مقصد_NS(100);
+    جب (true) {
         caught_x11_error = false;
         X11_XSync(display, False);
-        X11_XGetWindowAttributes(display, data->xwindow, &attrs);
-        X11_XTranslateCoordinates(display, parent, DefaultRootWindow(display),
-                                  attrs.x, attrs.y, &x, &y, &childReturn);
-        SDL_GlobalToRelativeForWindow(window, x, y, &x, &y);
+        X11_XGet_کھڑکی_اوصاف(display, ڈیٹا->xwindow, &attrs);
+        X11_XTranslateCoordinates(display, والد, Default_جڑ_کھڑکی(display),
+                                  attrs.x, attrs.y, &x, &y, &بچہ_Return_2);
+        SDL_Global_مقصد_Relative_For_کھڑکی(کھڑکی, x, y, &x, &y);
 
-        if (!caught_x11_error) {
-            if ((data->pending_operation & X11_PENDING_OP_MOVE) && (x == data->expected.x + data->border_left && y == data->expected.y + data->border_top)) {
-                data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        اگر (!caught_x11_error) {
+            اگر ((ڈیٹا->pending_operation & X11_PENDING_OP_MOVE) && (x == ڈیٹا->expected.x + ڈیٹا->border_بایاں && y == ڈیٹا->expected.y + ڈیٹا->border_چوٹی)) {
+                ڈیٹا->pending_operation &= ~X11_PENDING_OP_MOVE;
             }
-            if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (attrs.width == data->expected.w && attrs.height == data->expected.h)) {
-                data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+            اگر ((ڈیٹا->pending_operation & X11_PENDING_OP_RESIZE) && (attrs.چوڑائی == ڈیٹا->expected.w && attrs.اونچائی == ڈیٹا->expected.h)) {
+                ڈیٹا->pending_operation &= ~X11_PENDING_OP_RESIZE;
             }
 
-            if (data->pending_operation == X11_PENDING_OP_NONE) {
-                break;
+            اگر (ڈیٹا->pending_operation == X11_PENDING_OP_NONE) {
+                توڑو;
             }
         }
 
-        if (SDL_GetTicksNS() >= timeout) {
+        اگر (SDL_GetTicksNS() >= timeout) {
             // Timed out without the expected values. Update the requested data so future sync calls won't block.
-            data->pending_operation &= ~(X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE);
-            data->expected.x = x;
-            data->expected.y = y;
-            data->expected.w = attrs.width;
-            data->expected.h = attrs.height;
-            break;
+            ڈیٹا->pending_operation &= ~(X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE);
+            ڈیٹا->expected.x = x;
+            ڈیٹا->expected.y = y;
+            ڈیٹا->expected.w = attrs.چوڑائی;
+            ڈیٹا->expected.h = attrs.اونچائی;
+            توڑو;
         }
 
         SDL_Delay(10);
     }
 
-    if (!caught_x11_error) {
-        if (send_move) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, x, y);
+    اگر (!caught_x11_error) {
+        اگر (send_move) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, x, y);
         }
-        if (send_resize) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, attrs.width, attrs.height);
+        اگر (send_resize) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, attrs.چوڑائی, attrs.اونچائی);
         }
     }
 
-    X11_XSetErrorHandler(prev_handler);
+    X11_XSetErrorHandler(پچھلا_handler);
     caught_x11_error = false;
 }
 
 /* Wait a brief time, or not, to see if the window manager decided to move/resize the window.
  * Send MOVED and RESIZED window events */
-static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Uint64 param_timeout)
+ساکن bool X11_Sync_کھڑکی_Timeout(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, Uint64 param_timeout)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int (*prev_handler)(Display *, XErrorEvent *);
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    صحیح (*پچھلا_handler)(Display *, XErrorEvent *);
     Uint64 timeout = 0;
     bool force_exit = false;
-    bool result = true;
+    bool نتیجہ = true;
 
     X11_XSync(display, False);
-    prev_handler = X11_XSetErrorHandler(X11_CatchAnyError);
+    پچھلا_handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
-    if (param_timeout) {
+    اگر (param_timeout) {
         timeout = SDL_GetTicksNS() + param_timeout;
     }
 
-    while (true) {
+    جب (true) {
         X11_XSync(display, False);
         X11_PumpEvents(_this);
 
-        if ((data->pending_operation & X11_PENDING_OP_MOVE) && (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top)) {
-            data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        اگر ((ڈیٹا->pending_operation & X11_PENDING_OP_MOVE) && (کھڑکی->x == ڈیٹا->expected.x + ڈیٹا->border_بایاں && کھڑکی->y == ڈیٹا->expected.y + ڈیٹا->border_چوٹی)) {
+            ڈیٹا->pending_operation &= ~X11_PENDING_OP_MOVE;
         }
-        if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (window->w == data->expected.w && window->h == data->expected.h)) {
-            data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+        اگر ((ڈیٹا->pending_operation & X11_PENDING_OP_RESIZE) && (کھڑکی->w == ڈیٹا->expected.w && کھڑکی->h == ڈیٹا->expected.h)) {
+            ڈیٹا->pending_operation &= ~X11_PENDING_OP_RESIZE;
         }
 
-        if (data->pending_operation == X11_PENDING_OP_NONE) {
-            if (force_exit ||
-                (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top &&
-                 window->w == data->expected.w && window->h == data->expected.h)) {
+        اگر (ڈیٹا->pending_operation == X11_PENDING_OP_NONE) {
+            اگر (force_exit ||
+                (کھڑکی->x == ڈیٹا->expected.x + ڈیٹا->border_بایاں && کھڑکی->y == ڈیٹا->expected.y + ڈیٹا->border_چوٹی &&
+                 کھڑکی->w == ڈیٹا->expected.w && کھڑکی->h == ڈیٹا->expected.h)) {
                 // The window is in the expected state and nothing is pending. Done.
-                break;
+                توڑو;
             }
 
             /* No operations are pending, but the window still isn't in the expected state.
@@ -1061,255 +1061,255 @@ static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Ui
             force_exit = true;
         }
 
-        if (SDL_GetTicksNS() >= timeout) {
+        اگر (SDL_GetTicksNS() >= timeout) {
             // Timed out without the expected values. Update the requested data so future sync calls won't block.
-            data->expected.x = window->x;
-            data->expected.y = window->y;
-            data->expected.w = window->w;
-            data->expected.h = window->h;
+            ڈیٹا->expected.x = کھڑکی->x;
+            ڈیٹا->expected.y = کھڑکی->y;
+            ڈیٹا->expected.w = کھڑکی->w;
+            ڈیٹا->expected.h = کھڑکی->h;
 
-            result = false;
-            break;
+            نتیجہ = false;
+            توڑو;
         }
 
         SDL_Delay(10);
     }
 
-    data->pending_operation = X11_PENDING_OP_NONE;
+    ڈیٹا->pending_operation = X11_PENDING_OP_NONE;
 
-    if (!caught_x11_error) {
+    اگر (!caught_x11_error) {
         X11_PumpEvents(_this);
-    } else {
-        result = false;
+    } ورنہ {
+        نتیجہ = false;
     }
 
-    X11_XSetErrorHandler(prev_handler);
+    X11_XSetErrorHandler(پچھلا_handler);
     caught_x11_error = false;
 
-    return result;
+    واپس نتیجہ;
 }
 
-bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool X11_سیٹ_کھڑکی_Icon(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_Surface *icon)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_ICON = data->videodata->atoms._NET_WM_ICON;
-    int (*prevHandler)(Display *, XErrorEvent *) = NULL;
-    bool result = true;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    Atom _NET_WM_ICON = ڈیٹا->videodata->atoms._NET_WM_ICON;
+    صحیح (*پچھلا_Handler)(Display *, XErrorEvent *) = تہی;
+    bool نتیجہ = true;
 
-    if (icon) {
-        int x, y;
-        int propsize;
-        long *propdata;
+    اگر (icon) {
+        صحیح x, y;
+        صحیح propsize;
+        طویل *propdata;
         Uint32 *src;
-        long *dst;
+        طویل *dst;
 
         // Set the _NET_WM_ICON property
         SDL_assert(icon->format == SDL_PIXELFORMAT_ARGB8888);
         propsize = 2 + (icon->w * icon->h);
-        propdata = SDL_malloc(propsize * sizeof(long));
+        propdata = SDL_malloc(propsize * حجم(طویل));
 
-        if (!propdata) {
-            return false;
+        اگر (!propdata) {
+            واپس false;
         }
 
         X11_XSync(display, False);
-        prevHandler = X11_XSetErrorHandler(X11_CatchAnyError);
+        پچھلا_Handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
         propdata[0] = icon->w;
         propdata[1] = icon->h;
         dst = &propdata[2];
 
-        for (y = 0; y < icon->h; ++y) {
+        برائے (y = 0; y < icon->h; ++y) {
             src = (Uint32 *)((Uint8 *)icon->pixels + y * icon->pitch);
-            for (x = 0; x < icon->w; ++x) {
+            برائے (x = 0; x < icon->w; ++x) {
                 *dst++ = *src++;
             }
         }
 
-        X11_XChangeProperty(display, data->xwindow, _NET_WM_ICON, XA_CARDINAL,
-                            32, PropModeReplace, (unsigned char *)propdata,
+        X11_XChangeProperty(display, ڈیٹا->xwindow, _NET_WM_ICON, XA_CARDINAL,
+                            32, Prop_منوال_Replace, (غیرعلامتی حرف *)propdata,
                             propsize);
         SDL_free(propdata);
 
-        if (caught_x11_error) {
-            result = SDL_SetError("An error occurred while trying to set the window's icon");
+        اگر (caught_x11_error) {
+            نتیجہ = SDL_سیٹ_Error("An error occurred while trying to set the window's icon");
         }
     }
 
     X11_XFlush(display);
 
-    if (prevHandler) {
-        X11_XSetErrorHandler(prevHandler);
+    اگر (پچھلا_Handler) {
+        X11_XSetErrorHandler(پچھلا_Handler);
         caught_x11_error = false;
     }
 
-    return result;
+    واپس نتیجہ;
 }
 
-void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position)
+خالی X11_Update_کھڑکی_Position(SDL_کھڑکی *کھڑکی, bool use_current_position)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    const int rel_x = use_current_position ? window->x : window->pending.x;
-    const int rel_y = use_current_position ? window->y : window->pending.y;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    ثابت صحیح rel_x = use_current_position ? کھڑکی->x : کھڑکی->pending.x;
+    ثابت صحیح rel_y = use_current_position ? کھڑکی->y : کھڑکی->pending.y;
 
-    SDL_RelativeToGlobalForWindow(window,
-                                  rel_x - data->border_left, rel_y - data->border_top,
-                                  &data->expected.x, &data->expected.y);
+    SDL_Relative_مقصد_Global_For_کھڑکی(کھڑکی,
+                                  rel_x - ڈیٹا->border_بایاں, rel_y - ڈیٹا->border_چوٹی,
+                                  &ڈیٹا->expected.x, &ڈیٹا->expected.y);
 
     // Attempt to move the window
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->internal->pending_position = true;
-    } else {
-        data->pending_operation |= X11_PENDING_OP_MOVE;
-        X11_XMoveWindow(display, data->xwindow, data->expected.x, data->expected.y);
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        کھڑکی->اندرونی_2->pending_position = true;
+    } ورنہ {
+        ڈیٹا->pending_operation |= X11_PENDING_OP_MOVE;
+        X11_XMove_کھڑکی(display, ڈیٹا->xwindow, ڈیٹا->expected.x, ڈیٹا->expected.y);
     }
 }
 
-bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Sync any pending fullscreen or maximize events.
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE)) {
-        X11_FlushPendingEvents(_this, window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE)) {
+        X11_FlushPendingEvents(_this, کھڑکی);
     }
 
     // Set the position as pending if the window is maximized with a restore pending.
-    if (window->flags & SDL_WINDOW_MAXIMIZED) {
-        if (window->internal->pending_operation & X11_PENDING_OP_RESTORE) {
-            window->internal->pending_position = true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_MAXIMIZED) {
+        اگر (کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_RESTORE) {
+            کھڑکی->اندرونی_2->pending_position = true;
         }
-        return true;
+        واپس true;
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (SDL_WINDOW_IS_POPUP(window)) {
-            X11_ConstrainPopup(window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+            X11_ConstrainPopup(کھڑکی, true);
         }
-        X11_UpdateWindowPosition(window, false);
-    } else {
-        window->internal->fs_repositioned = true;
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
+        X11_Update_کھڑکی_Position(کھڑکی, false);
+    } ورنہ {
+        کھڑکی->اندرونی_2->fs_repositioned = true;
+        SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_UPDATE, true);
     }
-    return true;
+    واپس true;
 }
 
-void X11_SetWindowMinMax(SDL_Window *window, bool use_current)
+خالی X11_سیٹ_کھڑکی_Min_Max(SDL_کھڑکی *کھڑکی, bool use_current)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XSizeHints *sizehints = X11_XAllocSizeHints();
-    long hint_flags = 0;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    XSizeHints *sizehints = X11_XAlloc_سائز_Hints();
+    طویل hint_flags = 0;
 
-    X11_XGetWMNormalHints(display, data->xwindow, sizehints, &hint_flags);
-    sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
+    X11_XGetWMNormalHints(display, ڈیٹا->xwindow, sizehints, &hint_flags);
+    sizehints->flags &= ~(PMin_سائز | PMax_سائز | PAspect);
 
-    if (data->window->flags & SDL_WINDOW_RESIZABLE) {
-        if (data->window->min_w || data->window->min_h) {
-            sizehints->flags |= PMinSize;
-            sizehints->min_width = data->window->min_w;
-            sizehints->min_height = data->window->min_h;
+    اگر (ڈیٹا->کھڑکی->flags & SDL_کھڑکی_RESIZABLE) {
+        اگر (ڈیٹا->کھڑکی->min_w || ڈیٹا->کھڑکی->min_h) {
+            sizehints->flags |= PMin_سائز;
+            sizehints->min_چوڑائی_2 = ڈیٹا->کھڑکی->min_w;
+            sizehints->min_اونچائی_2 = ڈیٹا->کھڑکی->min_h;
         }
-        if (data->window->max_w || data->window->max_h) {
-            sizehints->flags |= PMaxSize;
-            sizehints->max_width = data->window->max_w;
-            sizehints->max_height = data->window->max_h;
+        اگر (ڈیٹا->کھڑکی->max_w || ڈیٹا->کھڑکی->max_h) {
+            sizehints->flags |= PMax_سائز;
+            sizehints->max_چوڑائی_2 = ڈیٹا->کھڑکی->max_w;
+            sizehints->max_اونچائی_2 = ڈیٹا->کھڑکی->max_h;
         }
-        if (data->window->min_aspect > 0.0f || data->window->max_aspect > 0.0f) {
+        اگر (ڈیٹا->کھڑکی->min_aspect > 0.0f || ڈیٹا->کھڑکی->max_aspect > 0.0f) {
             sizehints->flags |= PAspect;
-            SDL_CalculateFraction(data->window->min_aspect, &sizehints->min_aspect.x, &sizehints->min_aspect.y);
-            SDL_CalculateFraction(data->window->max_aspect, &sizehints->max_aspect.x, &sizehints->max_aspect.y);
+            SDL_CalculateFraction(ڈیٹا->کھڑکی->min_aspect, &sizehints->min_aspect.x, &sizehints->min_aspect.y);
+            SDL_CalculateFraction(ڈیٹا->کھڑکی->max_aspect, &sizehints->max_aspect.x, &sizehints->max_aspect.y);
         }
-    } else {
+    } ورنہ {
         // Set the min/max to the same values to make the window non-resizable
-        sizehints->flags |= PMinSize | PMaxSize;
-        if (use_current) {
-            sizehints->min_width = sizehints->max_width = window->last_size_pending ? window->pending.w : data->window->floating.w;
-            sizehints->min_height = sizehints->max_height = window->last_size_pending ? window->pending.h : data->window->floating.h;
-        } else {
-            sizehints->min_width = sizehints->max_width = window->last_size_pending ? window->pending.w : data->window->windowed.w;
-            sizehints->min_height = sizehints->max_height = window->last_size_pending ? window->pending.h : data->window->windowed.h;
+        sizehints->flags |= PMin_سائز | PMax_سائز;
+        اگر (use_current) {
+            sizehints->min_چوڑائی_2 = sizehints->max_چوڑائی_2 = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : ڈیٹا->کھڑکی->floating.w;
+            sizehints->min_اونچائی_2 = sizehints->max_اونچائی_2 = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : ڈیٹا->کھڑکی->floating.h;
+        } ورنہ {
+            sizehints->min_چوڑائی_2 = sizehints->max_چوڑائی_2 = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : ڈیٹا->کھڑکی->windowed.w;
+            sizehints->min_اونچائی_2 = sizehints->max_اونچائی_2 = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : ڈیٹا->کھڑکی->windowed.h;
         }
     }
 
-    X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+    X11_XSetWMNormalHints(display, ڈیٹا->xwindow, sizehints);
     X11_XFree(sizehints);
 }
 
-void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_سیٹ_کھڑکی_Minimum_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        X11_سیٹ_کھڑکی_Min_Max(کھڑکی, true);
     }
 }
 
-void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        X11_سیٹ_کھڑکی_Min_Max(کھڑکی, true);
     }
 }
 
-void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_سیٹ_کھڑکی_Aspect_تناسب(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        X11_سیٹ_کھڑکی_Min_Max(کھڑکی, true);
     }
 }
 
-void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
 
     /* Wait for pending maximize and fullscreen operations to complete, as these windows
      * don't get size changes.
      */
-    if (data->pending_operation & (X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_FULLSCREEN)) {
-        X11_FlushPendingEvents(_this, window);
+    اگر (ڈیٹا->pending_operation & (X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_FULLSCREEN)) {
+        X11_FlushPendingEvents(_this, کھڑکی);
     }
 
     // Set the size as pending if the window is being restored.
-    if (window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN)) {
+    اگر (کھڑکی->flags & (SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_FULLSCREEN)) {
         // New size will be set when the window is restored.
-        if (data->pending_operation & X11_PENDING_OP_RESTORE) {
-            data->pending_size = true;
-        } else {
+        اگر (ڈیٹا->pending_operation & X11_PENDING_OP_RESTORE) {
+            ڈیٹا->pending_سائز = true;
+        } ورنہ {
             // Can't resize the window.
-            window->last_size_pending = false;
+            کھڑکی->آخری_سائز_pending = false;
         }
-        return;
+        واپس;
     }
 
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
             /* Apparently, if the X11 Window is set to a 'non-resizable' window, you cannot resize it using the X11_XResizeWindow, thus
              * we must set the size hints to adjust the window size.
              */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long userhints;
-            int dest_x, dest_y;
+            XSizeHints *sizehints = X11_XAlloc_سائز_Hints();
+            طویل userhints;
+            صحیح dest_x, dest_y;
 
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &userhints);
+            X11_XGetWMNormalHints(display, ڈیٹا->xwindow, sizehints, &userhints);
 
-            data->expected.w = sizehints->min_width = sizehints->max_width = window->pending.w;
-            data->expected.h = sizehints->min_height = sizehints->max_height = window->pending.h;
-            sizehints->flags |= PMinSize | PMaxSize;
-            data->pending_operation |= X11_PENDING_OP_RESIZE;
+            ڈیٹا->expected.w = sizehints->min_چوڑائی_2 = sizehints->max_چوڑائی_2 = کھڑکی->pending.w;
+            ڈیٹا->expected.h = sizehints->min_اونچائی_2 = sizehints->max_اونچائی_2 = کھڑکی->pending.h;
+            sizehints->flags |= PMin_سائز | PMax_سائز;
+            ڈیٹا->pending_operation |= X11_PENDING_OP_RESIZE;
 
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            X11_XSetWMNormalHints(display, ڈیٹا->xwindow, sizehints);
 
             /* From Pierre-Loup:
                WMs each have their little quirks with that.  When you change the
@@ -1327,275 +1327,275 @@ void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
                hide/show, because there are supposedly subtle problems with doing so
                and transitioning from windowed to fullscreen in Unity.
              */
-            X11_XResizeWindow(display, data->xwindow, window->pending.w, window->pending.h);
-            const int x = window->last_position_pending ? window->pending.x : window->x;
-            const int y = window->last_position_pending ? window->pending.y : window->y;
-            SDL_RelativeToGlobalForWindow(window,
-                                          x - data->border_left,
-                                          y - data->border_top,
+            X11_XResize_کھڑکی(display, ڈیٹا->xwindow, کھڑکی->pending.w, کھڑکی->pending.h);
+            ثابت صحیح x = کھڑکی->آخری_position_pending ? کھڑکی->pending.x : کھڑکی->x;
+            ثابت صحیح y = کھڑکی->آخری_position_pending ? کھڑکی->pending.y : کھڑکی->y;
+            SDL_Relative_مقصد_Global_For_کھڑکی(کھڑکی,
+                                          x - ڈیٹا->border_بایاں,
+                                          y - ڈیٹا->border_چوٹی,
                                           &dest_x, &dest_y);
-            X11_XMoveWindow(display, data->xwindow, dest_x, dest_y);
-            X11_XRaiseWindow(display, data->xwindow);
+            X11_XMove_کھڑکی(display, ڈیٹا->xwindow, dest_x, dest_y);
+            X11_XRaise_کھڑکی(display, ڈیٹا->xwindow);
 
             X11_XFree(sizehints);
         }
-    } else {
-        data->expected.w = window->pending.w;
-        data->expected.h = window->pending.h;
-        data->pending_operation |= X11_PENDING_OP_RESIZE;
-        X11_XResizeWindow(display, data->xwindow, data->expected.w, data->expected.h);
+    } ورنہ {
+        ڈیٹا->expected.w = کھڑکی->pending.w;
+        ڈیٹا->expected.h = کھڑکی->pending.h;
+        ڈیٹا->pending_operation |= X11_PENDING_OP_RESIZE;
+        X11_XResize_کھڑکی(display, ڈیٹا->xwindow, ڈیٹا->expected.w, ڈیٹا->expected.h);
     }
 
     /* External windows may call this to update the renderer size, but not pump SDL events,
      * so the size event needs to be synthesized for external windows. If it is wrong, the
      * true size will be sent if/when events are processed.
      */
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    اگر (کھڑکی->flags & SDL_کھڑکی_EXTERNAL) {
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, کھڑکی->pending.w, کھڑکی->pending.h);
     }
 }
 
-bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool X11_Get_کھڑکی_Borders_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *چوٹی, صحیح *بایاں, صحیح *bottom, صحیح *دایاں)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-    *left = data->border_left;
-    *right = data->border_right;
-    *top = data->border_top;
-    *bottom = data->border_bottom;
+    *بایاں = ڈیٹا->border_بایاں;
+    *دایاں = ڈیٹا->border_دایاں;
+    *چوٹی = ڈیٹا->border_چوٹی;
+    *bottom = ڈیٹا->border_bottom;
 
-    return true;
+    واپس true;
 }
 
-bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool X11_سیٹ_کھڑکی_Opacity(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, اعشاری opacity)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_WINDOW_OPACITY = data->videodata->atoms._NET_WM_WINDOW_OPACITY;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    Atom NET_WM_کھڑکی_OPACITY = ڈیٹا->videodata->atoms.NET_WM_کھڑکی_OPACITY;
 
-    if (opacity == 1.0f) {
-        X11_XDeleteProperty(display, data->xwindow, _NET_WM_WINDOW_OPACITY);
-    } else {
-        const Uint32 FullyOpaque = 0xFFFFFFFF;
-        const long alpha = (long)((double)opacity * (double)FullyOpaque);
-        X11_XChangeProperty(display, data->xwindow, _NET_WM_WINDOW_OPACITY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&alpha, 1);
+    اگر (opacity == 1.0f) {
+        X11_XDeleteProperty(display, ڈیٹا->xwindow, NET_WM_کھڑکی_OPACITY);
+    } ورنہ {
+        ثابت Uint32 FullyOpaque = 0xFFFFFFFF;
+        ثابت طویل alpha = (طویل)((دوہرا)opacity * (دوہرا)FullyOpaque);
+        X11_XChangeProperty(display, ڈیٹا->xwindow, NET_WM_کھڑکی_OPACITY, XA_CARDINAL, 32,
+                            Prop_منوال_Replace, (غیرعلامتی حرف *)&alpha, 1);
     }
 
-    return true;
+    واپس true;
 }
 
-bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent)
+bool X11_سیٹ_کھڑکی_والد(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_کھڑکی *والد)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_WindowData *parent_data = parent ? parent->internal : NULL;
-    SDL_VideoData *video_data = _this->internal;
-    Display *display = video_data->display;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *والد_ڈیٹا = والد ? والد->اندرونی_2 : تہی;
+    SDL_Video_ڈیٹا *video_ڈیٹا = _this->اندرونی_2;
+    Display *display = video_ڈیٹا->display;
 
-    if (parent_data) {
-        X11_XSetTransientForHint(display, data->xwindow, parent_data->xwindow);
-    } else {
-        X11_XDeleteProperty(display, data->xwindow, video_data->atoms.WM_TRANSIENT_FOR);
+    اگر (والد_ڈیٹا) {
+        X11_XSetTransientForHint(display, ڈیٹا->xwindow, والد_ڈیٹا->xwindow);
+    } ورنہ {
+        X11_XDeleteProperty(display, ڈیٹا->xwindow, video_ڈیٹا->atoms.WM_TRANSIENT_FOR);
     }
 
-    return true;
+    واپس true;
 }
 
-bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool X11_سیٹ_کھڑکی_Modal(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool modal)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *video_data = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = video_data->display;
-    Uint32 flags = window->flags;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_MODAL = data->videodata->atoms._NET_WM_STATE_MODAL;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Video_ڈیٹا *video_ڈیٹا = _this->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = video_ڈیٹا->display;
+    Uint32 flags = کھڑکی->flags;
+    Atom _NET_WM_STATE = ڈیٹا->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_MODAL = ڈیٹا->videodata->atoms._NET_WM_STATE_MODAL;
 
-    if (modal) {
-        flags |= SDL_WINDOW_MODAL;
-    } else {
-        flags &= ~SDL_WINDOW_MODAL;
-        X11_XDeleteProperty(display, data->xwindow, video_data->atoms.WM_TRANSIENT_FOR);
+    اگر (modal) {
+        flags |= SDL_کھڑکی_MODAL;
+    } ورنہ {
+        flags &= ~SDL_کھڑکی_MODAL;
+        X11_XDeleteProperty(display, ڈیٹا->xwindow, video_ڈیٹا->atoms.WM_TRANSIENT_FOR);
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    اگر (X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_پیغام;
+        e.xclient.پیغام_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] = modal ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_MODAL;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.کھڑکی = ڈیٹا->xwindow;
+        e.xclient.ڈیٹا.l[0] = modal ? NET_WM_STATE_جوڑو : _NET_WM_STATE_REMOVE;
+        e.xclient.ڈیٹا.l[1] = _NET_WM_STATE_MODAL;
+        e.xclient.ڈیٹا.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, flags);
+        X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                       Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
+    } ورنہ {
+        X11_سیٹ_Net_WMState(_this, ڈیٹا->xwindow, flags);
     }
 
     X11_XFlush(display);
 
-    return true;
+    واپس true;
 }
 
-void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+خالی X11_سیٹ_کھڑکی_Bordered(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool bordered)
 {
-    const bool focused = (window->flags & SDL_WINDOW_INPUT_FOCUS) != 0;
-    const bool visible = !(window->flags & SDL_WINDOW_HIDDEN) && !window->is_hiding;
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
+    ثابت bool focused = (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS) != 0;
+    ثابت bool visible = !(کھڑکی->flags & SDL_کھڑکی_HIDDEN) && !کھڑکی->is_hiding;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
     XEvent event;
 
-    if (data->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    اگر (ڈیٹا->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
     // If the window is fullscreen, the resize capability will be set/cleared when it is returned to windowed mode.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        SetWindowBordered(display, displaydata->screen, data->xwindow, bordered);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        سیٹ_کھڑکی_Bordered(display, displaydata->screen, ڈیٹا->xwindow, bordered);
         X11_XFlush(display);
 
-        if (visible) {
-            XWindowAttributes attr;
-            do {
+        اگر (visible) {
+            XWindow_اوصاف attr;
+            کرو {
                 X11_XSync(display, False);
-                X11_XGetWindowAttributes(display, data->xwindow, &attr);
-            } while (attr.map_state != IsViewable);
+                X11_XGet_کھڑکی_اوصاف(display, ڈیٹا->xwindow, &attr);
+            } جب (attr.map_state != IsViewable);
 
-            if (focused) {
-                X11_XSetInputFocus(display, data->xwindow, RevertToParent, CurrentTime);
+            اگر (focused) {
+                X11_XSet_داخلہ_Focus(display, ڈیٹا->xwindow, Revert_مقصد_والد, Current_وقت);
             }
         }
 
         // make sure these don't make it to the real event queue if they fired here.
         X11_XSync(display, False);
-        X11_XCheckIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow);
-        X11_XCheckIfEvent(display, &event, &isMapNotify, (XPointer)&data->xwindow);
+        X11_XCheckIfEvent(display, &event, &isUnmapNotify, (XPointer)&ڈیٹا->xwindow);
+        X11_XCheckIfEvent(display, &event, &isMapNotify, (XPointer)&ڈیٹا->xwindow);
 
         // Turning the borders off doesn't send an extent event, so they must be cleared here.
-        X11_GetBorderValues(data);
+        X11_Get_Border_اقدار(ڈیٹا);
 
         // Make sure the window manager didn't resize our window for the difference.
-        X11_XResizeWindow(display, data->xwindow, window->floating.w, window->floating.h);
+        X11_XResize_کھڑکی(display, ڈیٹا->xwindow, کھڑکی->floating.w, کھڑکی->floating.h);
         X11_XSync(display, False);
-    } else {
+    } ورنہ {
         // If fullscreen, set a flag to toggle the borders when returning to windowed mode.
-        data->toggle_borders = true;
-        data->fullscreen_borders_forced_on = false;
+        ڈیٹا->toggle_borders = true;
+        ڈیٹا->fullscreen_borders_forced_on = false;
     }
 }
 
-void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+خالی X11_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-    if (data->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    اگر (ڈیٹا->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
     // If the window is fullscreen, the resize capability will be set/cleared when it is returned to windowed mode.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        X11_سیٹ_کھڑکی_Min_Max(کھڑکی, true);
     }
 }
 
-void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+خالی X11_سیٹ_کھڑکی_Always_On_چوٹی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool on_چوٹی)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_ABOVE = data->videodata->atoms._NET_WM_STATE_ABOVE;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
+    Atom _NET_WM_STATE = ڈیٹا->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_ABOVE = ڈیٹا->videodata->atoms._NET_WM_STATE_ABOVE;
 
-    if (X11_IsWindowMapped(_this, window)) {
+    اگر (X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_پیغام;
+        e.xclient.پیغام_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            on_top ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_ABOVE;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.کھڑکی = ڈیٹا->xwindow;
+        e.xclient.ڈیٹا.l[0] =
+            on_چوٹی ? NET_WM_STATE_جوڑو : _NET_WM_STATE_REMOVE;
+        e.xclient.ڈیٹا.l[1] = _NET_WM_STATE_ABOVE;
+        e.xclient.ڈیٹا.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, window->flags);
+        X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                       Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
+    } ورنہ {
+        X11_سیٹ_Net_WMState(_this, ڈیٹا->xwindow, کھڑکی->flags);
     }
     X11_XFlush(display);
 }
 
-void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true);
-    bool set_position = false;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_کھڑکی_ACTIVATE_WHEN_SHOWN, true);
+    bool سیٹ_position = false;
     XEvent event;
 
     // If the window was previously shown, pump events to avoid possible positioning issues.
-    if (data->was_shown) {
+    اگر (ڈیٹا->was_shown) {
         X11_PumpEvents(_this);
     }
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
         // Update the position in case the parent moved while we were hidden
-        X11_ConstrainPopup(window, true);
-        data->pending_position = true;
-        set_position = true;
+        X11_ConstrainPopup(کھڑکی, true);
+        ڈیٹا->pending_position = true;
+        سیٹ_position = true;
     }
 
     /* Whether XMapRaised focuses the window is based on the window type and it is
      * wm specific. There isn't much we can do here */
-    (void)bActivate;
+    (خالی)bActivate;
 
-    if (!X11_IsWindowMapped(_this, window)) {
-        X11_XMapRaised(display, data->xwindow);
+    اگر (!X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
+        X11_XMapRaised(display, ڈیٹا->xwindow);
         /* Blocking wait for "MapNotify" event.
          * We use X11_XIfEvent because pXWindowEvent takes a mask rather than a type,
          * and XCheckTypedWindowEvent doesn't block */
-        if (!(window->flags & SDL_WINDOW_EXTERNAL) && X11_IsDisplayOk(display)) {
-            X11_XIfEvent(display, &event, &isMapNotify, (XPointer)&data->xwindow);
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL) && X11_IsDisplayOk(display)) {
+            X11_XIfEvent(display, &event, &isMapNotify, (XPointer)&ڈیٹا->xwindow);
         }
         X11_XFlush(display);
-        set_position = data->pending_position ||
-                       (!(window->flags & SDL_WINDOW_BORDERLESS) && !window->undefined_x && !window->undefined_y);
+        سیٹ_position = ڈیٹا->pending_position ||
+                       (!(کھڑکی->flags & SDL_کھڑکی_BORDERLESS) && !کھڑکی->undefined_x && !کھڑکی->undefined_y);
     }
 
-    if (!data->videodata->net_wm) {
+    اگر (!ڈیٹا->videodata->net_wm) {
         // no WM means no FocusIn event, which confuses us. Force it.
         X11_XSync(display, False);
-        X11_XSetInputFocus(display, data->xwindow, RevertToNone, CurrentTime);
+        X11_XSet_داخلہ_Focus(display, ڈیٹا->xwindow, Revert_مقصد_None, Current_وقت);
         X11_XFlush(display);
     }
 
     // Grabbing popup menus get keyboard focus.
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        X11_SetKeyboardFocus(window, true);
+    اگر ((کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) && !(کھڑکی->flags & SDL_کھڑکی_NOT_FOCUSABLE)) {
+        X11_سیٹ_Keyboard_Focus(کھڑکی, true);
     }
 
     // Get some valid border values, if we haven't received them yet
-    if (data->border_left == 0 && data->border_right == 0 && data->border_top == 0 && data->border_bottom == 0) {
-        X11_GetBorderValues(data);
+    اگر (ڈیٹا->border_بایاں == 0 && ڈیٹا->border_دایاں == 0 && ڈیٹا->border_چوٹی == 0 && ڈیٹا->border_bottom == 0) {
+        X11_Get_Border_اقدار(ڈیٹا);
     }
 
-    if (set_position) {
+    اگر (سیٹ_position) {
         // Apply the window position, accounting for offsets due to the borders appearing, but only when initially mapping.
-        const int tx = (data->pending_position ? window->pending.x : window->x) - (data->was_shown ? 0 : data->border_left);
-        const int ty = (data->pending_position ? window->pending.y : window->y) - (data->was_shown ? 0 : data->border_top);
-        int x, y;
+        ثابت صحیح tx = (ڈیٹا->pending_position ? کھڑکی->pending.x : کھڑکی->x) - (ڈیٹا->was_shown ? 0 : ڈیٹا->border_بایاں);
+        ثابت صحیح ty = (ڈیٹا->pending_position ? کھڑکی->pending.y : کھڑکی->y) - (ڈیٹا->was_shown ? 0 : ڈیٹا->border_چوٹی);
+        صحیح x, y;
 
-        SDL_RelativeToGlobalForWindow(window, tx, ty, &x, &y);
+        SDL_Relative_مقصد_Global_For_کھڑکی(کھڑکی, tx, ty, &x, &y);
 
-        data->pending_position = false;
-        X11_XMoveWindow(display, data->xwindow, x, y);
+        ڈیٹا->pending_position = false;
+        X11_XMove_کھڑکی(display, ڈیٹا->xwindow, x, y);
     }
 
     /* XMonad ignores size hints and shrinks the client area to overlay borders on fixed-size windows,
@@ -1603,534 +1603,534 @@ void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * requested. Calling XResizeWindow after mapping seems to fix it, even though resizing fixed-size
      * windows in this manner doesn't work on any other window manager.
      */
-    if (!(window->flags & SDL_WINDOW_RESIZABLE) && X11_CheckCurrentDesktop("xmonad")) {
-        X11_XResizeWindow(display, data->xwindow, window->w, window->h);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE) && X11_CheckCurrentDesktop("xmonad")) {
+        X11_XResize_کھڑکی(display, ڈیٹا->xwindow, کھڑکی->w, کھڑکی->h);
     }
 
     /* Some window managers can send garbage coordinates while mapping the window, so don't emit size and position
      * events during the initial configure events.
      */
-    data->size_move_event_flags = X11_SIZE_MOVE_EVENTS_DISABLE;
+    ڈیٹا->سائز_move_event_flags = X11_سائز_MOVE_EVENTS_DISABLE;
     X11_XSync(display, False);
     X11_PumpEvents(_this);
-    data->size_move_event_flags = 0;
+    ڈیٹا->سائز_move_event_flags = 0;
 
     /* A MapNotify or PropertyNotify may not have arrived, so ensure that the shown event is dispatched
      * to apply pending state before clearing the flag.
      */
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->was_shown = true;
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_SHOWN, 0, 0);
+    ڈیٹا->was_shown = true;
 
     // If a configure event was received (type is non-zero), send the final window size and coordinates.
-    if (data->last_xconfigure.type) {
-        int x, y;
-        SDL_GlobalToRelativeForWindow(data->window, data->last_xconfigure.x, data->last_xconfigure.y, &x, &y);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, data->last_xconfigure.width, data->last_xconfigure.height);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, x, y);
+    اگر (ڈیٹا->آخری_xconfigure.type) {
+        صحیح x, y;
+        SDL_Global_مقصد_Relative_For_کھڑکی(ڈیٹا->کھڑکی, ڈیٹا->آخری_xconfigure.x, ڈیٹا->آخری_xconfigure.y, &x, &y);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, ڈیٹا->آخری_xconfigure.چوڑائی, ڈیٹا->آخری_xconfigure.اونچائی);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, x, y);
     }
 }
 
-void X11_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    int screen = (displaydata ? displaydata->screen : 0);
-    Display *display = data->videodata->display;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    صحیح screen = (displaydata ? displaydata->screen : 0);
+    Display *display = ڈیٹا->videodata->display;
     XEvent event;
 
     /* Some window managers will mark minimized or offscreen windows as unmapped, so we
      * must not block while waiting for an UnmapNotify event that will never arrive.
      */
-    const bool is_mapped = X11_IsWindowMapped(_this, window);
-    X11_XWithdrawWindow(display, data->xwindow, screen);
-    if (is_mapped && !(window->flags & SDL_WINDOW_EXTERNAL) && X11_IsDisplayOk(display)) {
+    ثابت bool is_mapped = X11_Is_کھڑکی_Mapped(_this, کھڑکی);
+    X11_XWithdraw_کھڑکی(display, ڈیٹا->xwindow, screen);
+    اگر (is_mapped && !(کھڑکی->flags & SDL_کھڑکی_EXTERNAL) && X11_IsDisplayOk(display)) {
         // Blocking wait for "UnmapNotify" event.
-        X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow);
+        X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&ڈیٹا->xwindow);
     }
     X11_XFlush(display);
 
     // Transfer keyboard focus back to the parent
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-        X11_SetKeyboardFocus(new_focus, set_focus);
+    اگر ((کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) && !(کھڑکی->flags & SDL_کھڑکی_NOT_FOCUSABLE)) {
+        SDL_کھڑکی *new_focus;
+        ثابت bool سیٹ_focus = SDL_ShouldRelinquishPopupFocus(کھڑکی, &new_focus);
+        X11_سیٹ_Keyboard_Focus(new_focus, سیٹ_focus);
     }
 
     X11_XSync(display, False);
     X11_PumpEvents(_this);
 }
 
-static bool X11_SetWindowActive(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن bool X11_سیٹ_کھڑکی_فعال(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_DATA(window);
+    CHECK_کھڑکی_ڈیٹا(کھڑکی);
 
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_ACTIVE_WINDOW = data->videodata->atoms._NET_ACTIVE_WINDOW;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
+    Atom NET_فعال_کھڑکی = ڈیٹا->videodata->atoms.NET_فعال_کھڑکی;
 
-    if (X11_IsWindowMapped(_this, window)) {
+    اگر (X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
         XEvent e;
 
         // printf("SDL Window %p: sending _NET_ACTIVE_WINDOW with timestamp %lu\n", window, data->user_time);
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_ACTIVE_WINDOW;
+        e.xany.type = Client_پیغام;
+        e.xclient.پیغام_type = NET_فعال_کھڑکی;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] = 1; // source indication. 1 = application
-        e.xclient.data.l[1] = data->user_time;
-        e.xclient.data.l[2] = 0;
+        e.xclient.کھڑکی = ڈیٹا->xwindow;
+        e.xclient.ڈیٹا.l[0] = 1; // source indication. 1 = application
+        e.xclient.ڈیٹا.l[1] = ڈیٹا->user_وقت;
+        e.xclient.ڈیٹا.l[2] = 0;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
+        X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                       Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
 
         X11_XFlush(display);
     }
-    return true;
+    واپس true;
 }
 
-void X11_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Raise_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED, true);
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_کھڑکی_ACTIVATE_WHEN_RAISED, true);
 
-    X11_XRaiseWindow(display, data->xwindow);
-    if (bActivate) {
-        X11_SetWindowActive(_this, window);
+    X11_XRaise_کھڑکی(display, ڈیٹا->xwindow);
+    اگر (bActivate) {
+        X11_سیٹ_کھڑکی_فعال(_this, کھڑکی);
     }
     X11_XFlush(display);
 }
 
-static bool X11_SetWindowMaximized(SDL_VideoDevice *_this, SDL_Window *window, bool maximized)
+ساکن bool X11_سیٹ_کھڑکی_Maximized(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool maximized)
 {
-    CHECK_WINDOW_DATA(window);
+    CHECK_کھڑکی_ڈیٹا(کھڑکی);
 
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_MAXIMIZED_VERT = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
-    Atom _NET_WM_STATE_MAXIMIZED_HORZ = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
+    Atom _NET_WM_STATE = ڈیٹا->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_MAXIMIZED_VERT = ڈیٹا->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
+    Atom _NET_WM_STATE_MAXIMIZED_HORZ = ڈیٹا->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
         /* Fullscreen windows are maximized on some window managers,
            and this is functional behavior, so don't remove that state
            now, we'll take care of it when we leave fullscreen mode.
          */
-        return true;
+        واپس true;
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    اگر (X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_پیغام;
+        e.xclient.پیغام_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            maximized ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
-        e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.کھڑکی = ڈیٹا->xwindow;
+        e.xclient.ڈیٹا.l[0] =
+            maximized ? NET_WM_STATE_جوڑو : _NET_WM_STATE_REMOVE;
+        e.xclient.ڈیٹا.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
+        e.xclient.ڈیٹا.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
+        e.xclient.ڈیٹا.l[3] = 0l;
 
-        if (maximized) {
-            SDL_DisplayID displayID = SDL_GetDisplayForWindow(window);
+        اگر (maximized) {
+            SDL_DisplayID displayID = SDL_Get_Display_For_کھڑکی(کھڑکی);
             SDL_Rect bounds;
 
             SDL_zero(bounds);
             SDL_GetDisplayUsableBounds(displayID, &bounds);
 
-            data->expected.x = bounds.x + data->border_left;
-            data->expected.y = bounds.y + data->border_top;
-            data->expected.w = bounds.w - (data->border_left + data->border_right);
-            data->expected.h = bounds.h - (data->border_top + data->border_bottom);
-        } else {
-            data->expected.x = window->floating.x;
-            data->expected.y = window->floating.y;
-            data->expected.w = window->floating.w;
-            data->expected.h = window->floating.h;
+            ڈیٹا->expected.x = bounds.x + ڈیٹا->border_بایاں;
+            ڈیٹا->expected.y = bounds.y + ڈیٹا->border_چوٹی;
+            ڈیٹا->expected.w = bounds.w - (ڈیٹا->border_بایاں + ڈیٹا->border_دایاں);
+            ڈیٹا->expected.h = bounds.h - (ڈیٹا->border_چوٹی + ڈیٹا->border_bottom);
+        } ورنہ {
+            ڈیٹا->expected.x = کھڑکی->floating.x;
+            ڈیٹا->expected.y = کھڑکی->floating.y;
+            ڈیٹا->expected.w = کھڑکی->floating.w;
+            ڈیٹا->expected.h = کھڑکی->floating.h;
         }
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, window->flags);
+        X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                       Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
+    } ورنہ {
+        X11_سیٹ_Net_WMState(_this, ڈیٹا->xwindow, کھڑکی->flags);
     }
     X11_XFlush(display);
 
-    return true;
+    واپس true;
 }
 
-void X11_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Maximize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MINIMIZE)) {
-        SDL_SyncWindow(window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MINIMIZE)) {
+        SDL_Sync_کھڑکی(کھڑکی);
     }
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
         // If fullscreen, just toggle the restored state.
-        window->internal->window_was_maximized = true;
-        return;
+        کھڑکی->اندرونی_2->کھڑکی_was_maximized = true;
+        واپس;
     }
 
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
-        window->internal->pending_operation |= X11_PENDING_OP_MAXIMIZE;
-        X11_SetWindowMaximized(_this, window, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_MINIMIZED)) {
+        کھڑکی->اندرونی_2->pending_operation |= X11_PENDING_OP_MAXIMIZE;
+        X11_سیٹ_کھڑکی_Maximized(_this, کھڑکی, true);
     }
 }
 
-void X11_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
 
-    if (data->pending_operation & SDL_WINDOW_FULLSCREEN) {
-        SDL_SyncWindow(window);
+    اگر (ڈیٹا->pending_operation & SDL_کھڑکی_FULLSCREEN) {
+        SDL_Sync_کھڑکی(کھڑکی);
     }
 
-    data->pending_operation |= X11_PENDING_OP_MINIMIZE;
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        data->window_was_maximized = !!(window->flags & SDL_WINDOW_MAXIMIZED);
+    ڈیٹا->pending_operation |= X11_PENDING_OP_MINIMIZE;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        ڈیٹا->کھڑکی_was_maximized = !!(کھڑکی->flags & SDL_کھڑکی_MAXIMIZED);
     }
-    X11_XIconifyWindow(display, data->xwindow, displaydata->screen);
+    X11_XIconify_کھڑکی(display, ڈیٹا->xwindow, displaydata->screen);
     X11_XFlush(display);
 }
 
-void X11_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Restore_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Don't restore the window the first time it is being shown.
-    if (!window->internal->was_shown) {
-        return;
+    اگر (!کھڑکی->اندرونی_2->was_shown) {
+        واپس;
     }
 
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MINIMIZE)) {
-        SDL_SyncWindow(window);
+    اگر (کھڑکی->اندرونی_2->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MINIMIZE)) {
+        SDL_Sync_کھڑکی(کھڑکی);
     }
 
-    if ((window->flags & SDL_WINDOW_FULLSCREEN) && !(window->flags & SDL_WINDOW_MINIMIZED)) {
+    اگر ((کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && !(کھڑکی->flags & SDL_کھڑکی_MINIMIZED)) {
         // If fullscreen and not minimized, just toggle the restored state.
-        window->internal->window_was_maximized = false;
-        return;
+        کھڑکی->اندرونی_2->کھڑکی_was_maximized = false;
+        واپس;
     }
 
-    if (window->flags & (SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED) ||
-        (window->internal->pending_operation & X11_PENDING_OP_MINIMIZE)) {
-        window->internal->pending_operation |= X11_PENDING_OP_RESTORE;
+    اگر (کھڑکی->flags & (SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_MAXIMIZED) ||
+        (کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_MINIMIZE)) {
+        کھڑکی->اندرونی_2->pending_operation |= X11_PENDING_OP_RESTORE;
     }
 
     // If the window was minimized while maximized, restore as maximized.
-    const bool maximize = !!(window->flags & SDL_WINDOW_MINIMIZED) && window->internal->window_was_maximized;
-    X11_SetWindowMaximized(_this, window, maximize);
-    X11_ShowWindow(_this, window);
-    X11_SetWindowActive(_this, window);
+    ثابت bool maximize = !!(کھڑکی->flags & SDL_کھڑکی_MINIMIZED) && کھڑکی->اندرونی_2->کھڑکی_was_maximized;
+    X11_سیٹ_کھڑکی_Maximized(_this, کھڑکی, maximize);
+    X11_Show_کھڑکی(_this, کھڑکی);
+    X11_سیٹ_کھڑکی_فعال(_this, کھڑکی);
 }
 
 // This asks the Window Manager to handle fullscreen for us. This is the modern way.
-static SDL_FullscreenResult X11_SetWindowFullscreenViaWM(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
+ساکن SDL_Fullscreen_نتیجہ X11_سیٹ_کھڑکی_Fullscreen_بذریعہ_WM(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = _display->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_FULLSCREEN = data->videodata->atoms._NET_WM_STATE_FULLSCREEN;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = _display->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    Atom _NET_WM_STATE = ڈیٹا->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_FULLSCREEN = ڈیٹا->videodata->atoms._NET_WM_STATE_FULLSCREEN;
 
-    if (!data->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    اگر (!ڈیٹا->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        واپس SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    اگر (X11_Is_کھڑکی_Mapped(_this, کھڑکی)) {
         XEvent e;
 
         // Flush any pending fullscreen events.
-        if (data->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MOVE)) {
-            X11_SyncWindow(_this, window);
+        اگر (ڈیٹا->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MOVE)) {
+            X11_Sync_کھڑکی(_this, کھڑکی);
         }
 
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            if (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+            اگر (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
                 // Request was out of date; set -1 to signal the video core to undo a mode switch.
-                return SDL_FULLSCREEN_FAILED;
-            } else if (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+                واپس SDL_FULLSCREEN_FAILED;
+            } ورنہ اگر (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
                 // Nothing to do.
-                return SDL_FULLSCREEN_SUCCEEDED;
+                واپس SDL_FULLSCREEN_SUCCEEDED;
             }
         }
 
-        if (fullscreen && !(window->flags & SDL_WINDOW_RESIZABLE)) {
+        اگر (fullscreen && !(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
             /* Compiz refuses fullscreen toggle if we're not resizable, so update the hints so we
                can be resized to the fullscreen resolution (or reset so we're not resizable again) */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long flags = 0;
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &flags);
+            XSizeHints *sizehints = X11_XAlloc_سائز_Hints();
+            طویل flags = 0;
+            X11_XGetWMNormalHints(display, ڈیٹا->xwindow, sizehints, &flags);
             // we are going fullscreen so turn the flags off
-            sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            sizehints->flags &= ~(PMin_سائز | PMax_سائز | PAspect);
+            X11_XSetWMNormalHints(display, ڈیٹا->xwindow, sizehints);
             X11_XFree(sizehints);
         }
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_پیغام;
+        e.xclient.پیغام_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            fullscreen ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_FULLSCREEN;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.کھڑکی = ڈیٹا->xwindow;
+        e.xclient.ڈیٹا.l[0] =
+            fullscreen ? NET_WM_STATE_جوڑو : _NET_WM_STATE_REMOVE;
+        e.xclient.ڈیٹا.l[1] = _NET_WM_STATE_FULLSCREEN;
+        e.xclient.ڈیٹا.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
+        X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                       Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
 
         // Only set the pending flag if the fullscreen state actually changed.
-        if (((window->flags & SDL_WINDOW_FULLSCREEN) != 0) != (fullscreen != 0)) {
-            data->pending_operation |= X11_PENDING_OP_FULLSCREEN;
+        اگر (((کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) != 0) != (fullscreen != 0)) {
+            ڈیٹا->pending_operation |= X11_PENDING_OP_FULLSCREEN;
         }
 
         // Set the position so the window will be on the target display
-        if (fullscreen) {
-            SDL_DisplayID current = SDL_GetDisplayForWindowPosition(window);
-            SDL_copyp(&data->requested_fullscreen_mode, &window->current_fullscreen_mode);
-            if (fullscreen != !!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-                data->window_was_maximized = !!(window->flags & SDL_WINDOW_MAXIMIZED);
+        اگر (fullscreen) {
+            SDL_DisplayID current = SDL_Get_Display_For_کھڑکی_Position(کھڑکی);
+            SDL_copyp(&ڈیٹا->requested_fullscreen_منوال, &کھڑکی->current_fullscreen_منوال);
+            اگر (fullscreen != !!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+                ڈیٹا->کھڑکی_was_maximized = !!(کھڑکی->flags & SDL_کھڑکی_MAXIMIZED);
             }
-            data->expected.x = displaydata->x;
-            data->expected.y = displaydata->y;
-            data->expected.w = _display->current_mode->w;
-            data->expected.h = _display->current_mode->h;
+            ڈیٹا->expected.x = displaydata->x;
+            ڈیٹا->expected.y = displaydata->y;
+            ڈیٹا->expected.w = _display->current_منوال->w;
+            ڈیٹا->expected.h = _display->current_منوال->h;
 
             // Only move the window if it isn't already on the target display.
-            if (!current || current != _display->id) {
-                X11_XMoveWindow(display, data->xwindow, displaydata->x, displaydata->y);
-                data->pending_operation |= X11_PENDING_OP_MOVE;
+            اگر (!current || current != _display->id) {
+                X11_XMove_کھڑکی(display, ڈیٹا->xwindow, displaydata->x, displaydata->y);
+                ڈیٹا->pending_operation |= X11_PENDING_OP_MOVE;
             }
-        } else {
-            SDL_zero(data->requested_fullscreen_mode);
-            data->pending_position = data->fs_repositioned;
-            data->fs_repositioned = false;
+        } ورنہ {
+            SDL_zero(ڈیٹا->requested_fullscreen_منوال);
+            ڈیٹا->pending_position = ڈیٹا->fs_repositioned;
+            ڈیٹا->fs_repositioned = false;
 
             /* Fullscreen windows sometimes end up being marked maximized by
              * window managers. Force it back to how we expect it to be.
              */
             SDL_zero(e);
-            e.xany.type = ClientMessage;
-            e.xclient.message_type = _NET_WM_STATE;
+            e.xany.type = Client_پیغام;
+            e.xclient.پیغام_type = _NET_WM_STATE;
             e.xclient.format = 32;
-            e.xclient.window = data->xwindow;
-            if (data->window_was_maximized) {
-                e.xclient.data.l[0] = _NET_WM_STATE_ADD;
-            } else {
-                e.xclient.data.l[0] = _NET_WM_STATE_REMOVE;
+            e.xclient.کھڑکی = ڈیٹا->xwindow;
+            اگر (ڈیٹا->کھڑکی_was_maximized) {
+                e.xclient.ڈیٹا.l[0] = NET_WM_STATE_جوڑو;
+            } ورنہ {
+                e.xclient.ڈیٹا.l[0] = _NET_WM_STATE_REMOVE;
             }
-            e.xclient.data.l[1] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
-            e.xclient.data.l[2] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
-            e.xclient.data.l[3] = 0l;
-            X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                           SubstructureNotifyMask | SubstructureRedirectMask, &e);
+            e.xclient.ڈیٹا.l[1] = ڈیٹا->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
+            e.xclient.ڈیٹا.l[2] = ڈیٹا->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
+            e.xclient.ڈیٹا.l[3] = 0l;
+            X11_XSendEvent(display, جڑ_کھڑکی(display, displaydata->screen), 0,
+                           Substructure_Notify_نقاب | Substructure_Redirect_نقاب, &e);
         }
-    } else {
-        SDL_WindowFlags flags;
+    } ورنہ {
+        SDL_کھڑکی_Flags flags;
 
-        flags = window->flags;
-        if (fullscreen) {
-            flags |= SDL_WINDOW_FULLSCREEN;
-        } else {
-            flags &= ~SDL_WINDOW_FULLSCREEN;
+        flags = کھڑکی->flags;
+        اگر (fullscreen) {
+            flags |= SDL_کھڑکی_FULLSCREEN;
+        } ورنہ {
+            flags &= ~SDL_کھڑکی_FULLSCREEN;
         }
-        X11_SetNetWMState(_this, data->xwindow, flags);
+        X11_سیٹ_Net_WMState(_this, ڈیٹا->xwindow, flags);
     }
 
-    if (data->visual->class == DirectColor) {
-        if (fullscreen) {
-            X11_XInstallColormap(display, data->colormap);
-        } else {
-            X11_XUninstallColormap(display, data->colormap);
+    اگر (ڈیٹا->visual->class == براہ_راست_Color) {
+        اگر (fullscreen) {
+            X11_XInstallColormap(display, ڈیٹا->colormap);
+        } ورنہ {
+            X11_XUninstallColormap(display, ڈیٹا->colormap);
         }
     }
 
-    return SDL_FULLSCREEN_PENDING;
+    واپس SDL_FULLSCREEN_PENDING;
 }
 
-static SDL_FullscreenResult X11_SetWindowFullscreenLegacy(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, bool fullscreen)
+ساکن SDL_Fullscreen_نتیجہ X11_سیٹ_کھڑکی_Fullscreen_Legacy(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *_display, bool fullscreen)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = _display->internal;
-    Display *display = data->videodata->display;
-    const int screen = displaydata->screen;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = _display->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    ثابت صحیح screen = displaydata->screen;
 
-    if (!data->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    اگر (!ڈیٹا->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        واپس SDL_FULLSCREEN_SUCCEEDED;
     }
 
     // Flush any pending fullscreen events.
-    if (data->pending_operation & (X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) {
-        X11_SyncWindow(_this, window);
+    اگر (ڈیٹا->pending_operation & (X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) {
+        X11_Sync_کھڑکی(_this, کھڑکی);
     }
 
     // No window manager? Just make the window the size of the display.
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-    if (fullscreen) {
-        if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    SDL_Send_کھڑکی_Event(کھڑکی, fullscreen ? SDL_EVENT_کھڑکی_ENTER_FULLSCREEN : SDL_EVENT_کھڑکی_LEAVE_FULLSCREEN, 0, 0);
+    اگر (fullscreen) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
             /* Compiz refuses fullscreen toggle if we're not resizable, so update the hints so we
              * can be resized to the fullscreen resolution (or reset so we're not resizable again).
              */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long flags = 0;
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &flags);
+            XSizeHints *sizehints = X11_XAlloc_سائز_Hints();
+            طویل flags = 0;
+            X11_XGetWMNormalHints(display, ڈیٹا->xwindow, sizehints, &flags);
             // we are going fullscreen so turn the flags off
-            sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            sizehints->flags &= ~(PMin_سائز | PMax_سائز | PAspect);
+            X11_XSetWMNormalHints(display, ڈیٹا->xwindow, sizehints);
             X11_XFree(sizehints);
         }
 
-        SetWindowBordered(display, screen, data->xwindow, false);
+        سیٹ_کھڑکی_Bordered(display, screen, ڈیٹا->xwindow, false);
 
         SDL_Rect rect;
         X11_GetDisplayBounds(_this, _display, &rect);
 
-        data->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
-        data->expected.x = rect.x;
-        data->expected.y = rect.y;
-        data->expected.w = rect.w;
-        data->expected.h = rect.h;
-        X11_XMoveWindow(display, data->xwindow, rect.x, rect.y);
-        X11_XResizeWindow(display, data->xwindow, rect.w, rect.h);
-        X11_XRaiseWindow(display, data->xwindow);
-    } else {
-        data->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
-        data->expected.x = window->windowed.x;
-        data->expected.y = window->windowed.y;
-        data->expected.w = window->windowed.w;
-        data->expected.h = window->windowed.h;
-        X11_XResizeWindow(display, data->xwindow, window->windowed.w, window->windowed.h);
-        X11_XMoveWindow(display, data->xwindow, window->windowed.x, window->windowed.y);
+        ڈیٹا->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
+        ڈیٹا->expected.x = rect.x;
+        ڈیٹا->expected.y = rect.y;
+        ڈیٹا->expected.w = rect.w;
+        ڈیٹا->expected.h = rect.h;
+        X11_XMove_کھڑکی(display, ڈیٹا->xwindow, rect.x, rect.y);
+        X11_XResize_کھڑکی(display, ڈیٹا->xwindow, rect.w, rect.h);
+        X11_XRaise_کھڑکی(display, ڈیٹا->xwindow);
+    } ورنہ {
+        ڈیٹا->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
+        ڈیٹا->expected.x = کھڑکی->windowed.x;
+        ڈیٹا->expected.y = کھڑکی->windowed.y;
+        ڈیٹا->expected.w = کھڑکی->windowed.w;
+        ڈیٹا->expected.h = کھڑکی->windowed.h;
+        X11_XResize_کھڑکی(display, ڈیٹا->xwindow, کھڑکی->windowed.w, کھڑکی->windowed.h);
+        X11_XMove_کھڑکی(display, ڈیٹا->xwindow, کھڑکی->windowed.x, کھڑکی->windowed.y);
 
-        SetWindowBordered(display, screen, data->xwindow, (window->flags & SDL_WINDOW_BORDERLESS) == 0);
-        X11_SetWindowMinMax(data->window, false);
+        سیٹ_کھڑکی_Bordered(display, screen, ڈیٹا->xwindow, (کھڑکی->flags & SDL_کھڑکی_BORDERLESS) == 0);
+        X11_سیٹ_کھڑکی_Min_Max(ڈیٹا->کھڑکی, false);
     }
 
     X11_XFlush(display);
 
-    return SDL_FULLSCREEN_PENDING;
+    واپس SDL_FULLSCREEN_PENDING;
 }
 
-SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_نتیجہ X11_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
 {
-    CHECK_WINDOW_DATA(window);
-    CHECK_DISPLAY_DATA(_display);
+    CHECK_کھڑکی_ڈیٹا(کھڑکی);
+    CHECK_DISPLAY_ڈیٹا(_display);
 
-    SDL_VideoData *data = _this->internal;
-    if (data->net_wm) {
-        return X11_SetWindowFullscreenViaWM(_this, window, _display, fullscreen);
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    اگر (ڈیٹا->net_wm) {
+        واپس X11_سیٹ_کھڑکی_Fullscreen_بذریعہ_WM(_this, کھڑکی, _display, fullscreen);
     }
 
-    return X11_SetWindowFullscreenLegacy(_this, window, _display, fullscreen != SDL_FULLSCREEN_OP_LEAVE);
+    واپس X11_سیٹ_کھڑکی_Fullscreen_Legacy(_this, کھڑکی, _display, fullscreen != SDL_FULLSCREEN_OP_LEAVE);
 }
 
-typedef struct
+قسمتعریف ساخت
 {
-    unsigned char *data;
-    int format, count;
+    غیرعلامتی حرف *ڈیٹا;
+    صحیح format, گنتی;
     Atom type;
 } SDL_x11Prop;
 
 /* Reads property
    Must call X11_XFree on results
  */
-static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
+ساکن خالی X11_ReadProperty(SDL_x11Prop *p, Display *disp, کھڑکی_2 w, Atom prop)
 {
-    unsigned char *ret = NULL;
+    غیرعلامتی حرف *ret = تہی;
     Atom type;
-    int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
-    int bytes_fetch = 0;
+    صحیح fmt;
+    غیرعلامتی طویل گنتی;
+    غیرعلامتی طویل بائٹیں_بایاں;
+    صحیح بائٹیں_fetch = 0;
 
-    do {
-        if (ret) {
+    کرو {
+        اگر (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGet_کھڑکی_Property(disp, w, prop, 0, بائٹیں_fetch, False, AnyPropertyType, &type, &fmt, &گنتی, &بائٹیں_بایاں, &ret);
+        بائٹیں_fetch += بائٹیں_بایاں;
+    } جب (بائٹیں_بایاں != 0);
 
-    p->data = ret;
+    p->ڈیٹا = ret;
     p->format = fmt;
-    p->count = count;
+    p->گنتی = گنتی;
     p->type = type;
 }
 
-void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+خالی *X11_Get_کھڑکی_ICCProfile(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, size_t *سائز)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XWindowAttributes attributes;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    XWindow_اوصاف اوصاف;
     Atom icc_profile_atom;
-    char icc_atom_string[sizeof("_ICC_PROFILE_") + 12];
-    void *ret_icc_profile_data = NULL;
-    CARD8 *icc_profile_data;
-    int real_format;
-    unsigned long real_nitems;
+    حرف icc_atom_string[حجم("_ICC_PROFILE_") + 12];
+    خالی *ret_icc_profile_ڈیٹا = تہی;
+    CARD8 *icc_profile_ڈیٹا;
+    صحیح real_format;
+    غیرعلامتی طویل real_nitems;
     SDL_x11Prop atomProp;
 
-    X11_XGetWindowAttributes(display, data->xwindow, &attributes);
-    if (X11_XScreenNumberOfScreen(attributes.screen) > 0) {
-        (void)SDL_snprintf(icc_atom_string, sizeof("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreenNumberOfScreen(attributes.screen));
-    } else {
-        SDL_strlcpy(icc_atom_string, "_ICC_PROFILE", sizeof("_ICC_PROFILE"));
+    X11_XGet_کھڑکی_اوصاف(display, ڈیٹا->xwindow, &اوصاف);
+    اگر (X11_XScreen_نمبر_کا_Screen(اوصاف.screen) > 0) {
+        (خالی)SDL_snprintf(icc_atom_string, حجم("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreen_نمبر_کا_Screen(اوصاف.screen));
+    } ورنہ {
+        SDL_strlcpy(icc_atom_string, "_ICC_PROFILE", حجم("_ICC_PROFILE"));
     }
-    X11_XGetWindowAttributes(display, RootWindowOfScreen(attributes.screen), &attributes);
+    X11_XGet_کھڑکی_اوصاف(display, جڑ_کھڑکی_کا_Screen(اوصاف.screen), &اوصاف);
 
     icc_profile_atom = X11_XInternAtom(display, icc_atom_string, True);
-    if (icc_profile_atom == None) {
-        SDL_SetError("Screen is not calibrated.");
-        return NULL;
+    اگر (icc_profile_atom == None) {
+        SDL_سیٹ_Error("Screen is not calibrated.");
+        واپس تہی;
     }
 
-    X11_ReadProperty(&atomProp, display, RootWindowOfScreen(attributes.screen), icc_profile_atom);
+    X11_ReadProperty(&atomProp, display, جڑ_کھڑکی_کا_Screen(اوصاف.screen), icc_profile_atom);
     real_format = atomProp.format;
-    real_nitems = atomProp.count;
-    icc_profile_data = atomProp.data;
-    if (real_format == None) {
-        SDL_SetError("Screen is not calibrated.");
-        return NULL;
+    real_nitems = atomProp.گنتی;
+    icc_profile_ڈیٹا = atomProp.ڈیٹا;
+    اگر (real_format == None) {
+        SDL_سیٹ_Error("Screen is not calibrated.");
+        واپس تہی;
     }
 
-    ret_icc_profile_data = SDL_malloc(real_nitems);
-    if (!ret_icc_profile_data) {
-        return NULL;
+    ret_icc_profile_ڈیٹا = SDL_malloc(real_nitems);
+    اگر (!ret_icc_profile_ڈیٹا) {
+        واپس تہی;
     }
 
-    SDL_memcpy(ret_icc_profile_data, icc_profile_data, real_nitems);
-    *size = real_nitems;
-    X11_XFree(icc_profile_data);
+    SDL_memcpy(ret_icc_profile_ڈیٹا, icc_profile_ڈیٹا, real_nitems);
+    *سائز = real_nitems;
+    X11_XFree(icc_profile_ڈیٹا);
 
-    return ret_icc_profile_data;
+    واپس ret_icc_profile_ڈیٹا;
 }
 
-bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool X11_سیٹ_کھڑکی_Mouse_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
     Display *display;
 
-    if (!data) {
-        return SDL_SetError("Invalid window data");
+    اگر (!ڈیٹا) {
+        واپس SDL_سیٹ_Error("Invalid window data");
     }
-    data->mouse_grabbed = false;
-    data->pending_grab = false;
+    ڈیٹا->mouse_grabbed = false;
+    ڈیٹا->pending_grab = false;
 
-    display = data->videodata->display;
+    display = ڈیٹا->videodata->display;
 
-    if (grabbed) {
+    اگر (grabbed) {
         /* If the window is unmapped, XGrab calls return GrabNotViewable,
            so when we get a MapNotify later, we'll try to update the grab as
            appropriate. */
-        if (window->flags & SDL_WINDOW_HIDDEN) {
-            return true;
+        اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+            واپس true;
         }
 
         /* If XInput2 is enabled, it will grab the pointer on button presses,
@@ -2138,68 +2138,68 @@ bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool gra
          * are currently pressed, clear any existing grabs before attempting
          * the confinement grab.
          */
-        if (data->xinput2_mouse_enabled && SDL_GetMouseState(NULL, NULL)) {
-            data->pending_grab = true;
-            return true;
+        اگر (ڈیٹا->xinput2_mouse_enabled && SDL_GetMouseState(تہی, تہی)) {
+            ڈیٹا->pending_grab = true;
+            واپس true;
         }
 
         // Try to grab the mouse
-        if (!data->videodata->broken_pointer_grab) {
-            const unsigned int mask = ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask;
-            int attempts;
-            int result = 0;
+        اگر (!ڈیٹا->videodata->broken_اشارہ_گر_grab) {
+            ثابت غیرعلامتی صحیح نقاب = Button_Press_نقاب | Button_Release_نقاب | اشارہ_گر_Motion_نقاب | Focus_Change_نقاب;
+            صحیح attempts;
+            صحیح نتیجہ = 0;
 
             // Try for up to 5000ms (5s) to grab. If it still fails, stop trying.
-            for (attempts = 0; attempts < 100; attempts++) {
-                result = X11_XGrabPointer(display, data->xwindow, False, mask, GrabModeAsync,
-                                          GrabModeAsync, data->xwindow, None, CurrentTime);
-                if (result == GrabSuccess) {
-                    data->mouse_grabbed = true;
-                    break;
+            برائے (attempts = 0; attempts < 100; attempts++) {
+                نتیجہ = X11_XGrab_اشارہ_گر(display, ڈیٹا->xwindow, False, نقاب, Grab_منوال_Async,
+                                          Grab_منوال_Async, ڈیٹا->xwindow, None, Current_وقت);
+                اگر (نتیجہ == GrabSuccess) {
+                    ڈیٹا->mouse_grabbed = true;
+                    توڑو;
                 }
                 SDL_Delay(50);
             }
 
-            if (result != GrabSuccess) {
-                data->videodata->broken_pointer_grab = true; // don't try again.
+            اگر (نتیجہ != GrabSuccess) {
+                ڈیٹا->videodata->broken_اشارہ_گر_grab = true; // don't try again.
             }
         }
 
-        X11_Xinput2GrabTouch(_this, window);
+        X11_Xinput2GrabTouch(_this, کھڑکی);
 
         // Raise the window if we grab the mouse
-        X11_XRaiseWindow(display, data->xwindow);
-    } else {
-        X11_XUngrabPointer(display, CurrentTime);
+        X11_XRaise_کھڑکی(display, ڈیٹا->xwindow);
+    } ورنہ {
+        X11_XUngrab_اشارہ_گر(display, Current_وقت);
 
-        X11_Xinput2UngrabTouch(_this, window);
+        X11_Xinput2UngrabTouch(_this, کھڑکی);
     }
     X11_XSync(display, False);
 
-    if (!data->videodata->broken_pointer_grab) {
-        return true;
-    } else {
-        return SDL_SetError("The X server refused to let us grab the mouse. You might experience input bugs.");
+    اگر (!ڈیٹا->videodata->broken_اشارہ_گر_grab) {
+        واپس true;
+    } ورنہ {
+        واپس SDL_سیٹ_Error("The X server refused to let us grab the mouse. You might experience input bugs.");
     }
 }
 
-bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool X11_سیٹ_کھڑکی_Keyboard_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
     Display *display;
 
-    if (!data) {
-        return SDL_SetError("Invalid window data");
+    اگر (!ڈیٹا) {
+        واپس SDL_سیٹ_Error("Invalid window data");
     }
 
-    display = data->videodata->display;
+    display = ڈیٹا->videodata->display;
 
-    if (grabbed) {
+    اگر (grabbed) {
         /* If the window is unmapped, XGrab calls return GrabNotViewable,
            so when we get a MapNotify later, we'll try to update the grab as
            appropriate. */
-        if (window->flags & SDL_WINDOW_HIDDEN) {
-            return true;
+        اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+            واپس true;
         }
 
         /* GNOME needs the _XWAYLAND_MAY_GRAB_KEYBOARD message on XWayland:
@@ -2212,264 +2212,264 @@ bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool 
          *
          * https://gitlab.gnome.org/GNOME/mutter/-/commit/5f132f39750f684c3732b4346dec810cd218d609
          */
-        if (_this->internal->is_xwayland) {
+        اگر (_this->اندرونی_2->is_xwayland) {
             Atom _XWAYLAND_MAY_GRAB_ATOM = X11_XInternAtom(display, "_XWAYLAND_MAY_GRAB_KEYBOARD", False);
 
-            if (_XWAYLAND_MAY_GRAB_ATOM != None) {
-                XClientMessageEvent client_message;
-                client_message.type = ClientMessage;
-                client_message.window = data->xwindow;
-                client_message.format = 32;
-                client_message.message_type = _XWAYLAND_MAY_GRAB_ATOM;
-                client_message.data.l[0] = 1;
-                client_message.data.l[1] = CurrentTime;
+            اگر (_XWAYLAND_MAY_GRAB_ATOM != None) {
+                XClient_پیغام_Event client_پیغام;
+                client_پیغام.type = Client_پیغام;
+                client_پیغام.کھڑکی = ڈیٹا->xwindow;
+                client_پیغام.format = 32;
+                client_پیغام.پیغام_type = _XWAYLAND_MAY_GRAB_ATOM;
+                client_پیغام.ڈیٹا.l[0] = 1;
+                client_پیغام.ڈیٹا.l[1] = Current_وقت;
 
-                X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask | SubstructureRedirectMask, (XEvent *)&client_message);
+                X11_XSendEvent(display, Default_جڑ_کھڑکی(display), False, Substructure_Notify_نقاب | Substructure_Redirect_نقاب, (XEvent *)&client_پیغام);
                 X11_XFlush(display);
             }
         }
 
-        X11_XGrabKeyboard(display, data->xwindow, True, GrabModeAsync,
-                          GrabModeAsync, CurrentTime);
-    } else {
-        X11_XUngrabKeyboard(display, CurrentTime);
+        X11_XGrabKeyboard(display, ڈیٹا->xwindow, True, Grab_منوال_Async,
+                          Grab_منوال_Async, Current_وقت);
+    } ورنہ {
+        X11_XUngrabKeyboard(display, Current_وقت);
     }
     X11_XSync(display, False);
 
-    return true;
+    واپس true;
 }
 
-void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی X11_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-    if (data) {
-        SDL_VideoData *videodata = data->videodata;
+    اگر (ڈیٹا) {
+        SDL_Video_ڈیٹا *videodata = ڈیٹا->videodata;
         Display *display = videodata->display;
-        int numwindows = videodata->numwindows;
-        SDL_WindowData **windowlist = videodata->windowlist;
-        int i;
+        صحیح numwindows = videodata->numwindows;
+        SDL_کھڑکی_ڈیٹا **windowlist = videodata->windowlist;
+        صحیح i;
 
-        if (windowlist) {
-            for (i = 0; i < numwindows; ++i) {
-                if (windowlist[i] && (windowlist[i]->window == window)) {
+        اگر (windowlist) {
+            برائے (i = 0; i < numwindows; ++i) {
+                اگر (windowlist[i] && (windowlist[i]->کھڑکی == کھڑکی)) {
                     windowlist[i] = windowlist[numwindows - 1];
-                    windowlist[numwindows - 1] = NULL;
+                    windowlist[numwindows - 1] = تہی;
                     videodata->numwindows--;
-                    break;
+                    توڑو;
                 }
             }
         }
 
-        X11_DestroyInputContext(data);
+        X11_Destroy_داخلہ_Context(ڈیٹا);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        X11_TermResizeSync(window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XSYNC
+        X11_رکن_Resize_Sync(کھڑکی);
+#اگر_ختم /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-            X11_XDestroyWindow(display, data->xwindow);
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
+            X11_XDestroy_کھڑکی(display, ڈیٹا->xwindow);
             X11_XFlush(display);
         }
-        SDL_free(data);
+        SDL_free(ڈیٹا);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XFIXES
         // If the pointer barriers are active for this, deactivate it.
-        if (videodata->active_cursor_confined_window == window) {
-            X11_DestroyPointerBarrier(_this, window);
+        اگر (videodata->فعال_cursor_confined_کھڑکی == کھڑکی) {
+            X11_Destroy_اشارہ_گر_Barrier(_this, کھڑکی);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#اگر_ختم // SDL_VIDEO_DRIVER_X11_XFIXES
     }
-    window->internal = NULL;
+    کھڑکی->اندرونی_2 = تہی;
 }
 
-bool X11_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool X11_سیٹ_کھڑکی_کامیابی_Test(SDL_کھڑکی *کھڑکی, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    واپس true; // just succeed, the real work is done elsewhere.
 }
 
-void X11_AcceptDragAndDrop(SDL_Window *window, bool accept)
+خالی X11_AcceptDragAndDrop(SDL_کھڑکی *کھڑکی, bool accept)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom XdndAware = data->videodata->atoms.XdndAware;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
+    Atom XdndAware = ڈیٹا->videodata->atoms.XdndAware;
 
-    if (accept) {
-        Atom xdnd_version = 5;
-        X11_XChangeProperty(display, data->xwindow, XdndAware, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)&xdnd_version, 1);
-    } else {
-        X11_XDeleteProperty(display, data->xwindow, XdndAware);
+    اگر (accept) {
+        Atom xdnd_نسخہ = 5;
+        X11_XChangeProperty(display, ڈیٹا->xwindow, XdndAware, XA_ATOM, 32,
+                            Prop_منوال_Replace, (غیرعلامتی حرف *)&xdnd_نسخہ, 1);
+    } ورنہ {
+        X11_XDeleteProperty(display, ڈیٹا->xwindow, XdndAware);
     }
 }
 
-bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool X11_Flash_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_FlashOperation operation)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Display *display = ڈیٹا->videodata->display;
     XWMHints *wmhints;
 
-    wmhints = X11_XGetWMHints(display, data->xwindow);
-    if (!wmhints) {
-        return SDL_SetError("Couldn't get WM hints");
+    wmhints = X11_XGetWMHints(display, ڈیٹا->xwindow);
+    اگر (!wmhints) {
+        واپس SDL_سیٹ_Error("Couldn't get WM hints");
     }
 
     wmhints->flags &= ~XUrgencyHint;
-    data->flashing_window = false;
-    data->flash_cancel_time = 0;
+    ڈیٹا->flashing_کھڑکی = false;
+    ڈیٹا->flash_cancel_وقت = 0;
 
-    switch (operation) {
-    case SDL_FLASH_CANCEL:
+    انتخاب (operation) {
+    حالت SDL_FLASH_CANCEL:
         // Taken care of above
-        break;
-    case SDL_FLASH_BRIEFLY:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        توڑو;
+    حالت SDL_FLASH_BRIEFLY:
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
-            data->flashing_window = true;
+            ڈیٹا->flashing_کھڑکی = true;
             // On Ubuntu 21.04 this causes a dialog to pop up, so leave it up for a full second so users can see it
-            data->flash_cancel_time = SDL_GetTicks() + 1000;
+            ڈیٹا->flash_cancel_وقت = SDL_GetTicks() + 1000;
         }
-        break;
-    case SDL_FLASH_UNTIL_FOCUSED:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        توڑو;
+    حالت SDL_FLASH_UNTIL_FOCUSED:
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
-            data->flashing_window = true;
+            ڈیٹا->flashing_کھڑکی = true;
         }
-        break;
-    default:
-        break;
+        توڑو;
+    طےشدہ:
+        توڑو;
     }
 
-    X11_XSetWMHints(display, data->xwindow, wmhints);
+    X11_XSetWMHints(display, ڈیٹا->xwindow, wmhints);
     X11_XFree(wmhints);
-    return true;
+    واپس true;
 }
 
-bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title)
+bool SDL_X11_سیٹ_کھڑکی_Title(Display *display, کھڑکی_2 xwindow, حرف *title)
 {
     Atom _NET_WM_NAME = X11_XInternAtom(display, "_NET_WM_NAME", False);
     XTextProperty titleprop;
-    int conv = X11_XmbTextListToTextProperty(display, &title, 1, XTextStyle, &titleprop);
-    Status status;
+    صحیح conv = X11_Xmb_متن_List_مقصد_متن_Property(display, &title, 1, XTextStyle, &titleprop);
+    حالت_3 حالت_2;
 
-    if (X11_XSupportsLocale() != True) {
-        return SDL_SetError("Current locale not supported by X server, cannot continue.");
+    اگر (X11_XSupportsLocale() != True) {
+        واپس SDL_سیٹ_Error("Current locale not supported by X server, cannot continue.");
     }
 
-    if (conv == 0) {
-        X11_XSetTextProperty(display, xwindow, &titleprop, XA_WM_NAME);
-        X11_XFree(titleprop.value);
+    اگر (conv == 0) {
+        X11_XSet_متن_Property(display, xwindow, &titleprop, XA_WM_NAME);
+        X11_XFree(titleprop.قدر);
         // we know this can't be a locale error as we checked X locale validity
-    } else if (conv < 0) {
-        return SDL_OutOfMemory();
-    } else { // conv > 0
+    } ورنہ اگر (conv < 0) {
+        واپس SDL_برآمد_کا_حافظہ();
+    } ورنہ { // conv > 0
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "%d characters were not convertible to the current locale!", conv);
-        return true;
+        واپس true;
     }
 
-#ifdef X_HAVE_UTF8_STRING
-    status = X11_Xutf8TextListToTextProperty(display, &title, 1, XUTF8StringStyle, &titleprop);
-    if (status == Success) {
-        X11_XSetTextProperty(display, xwindow, &titleprop, _NET_WM_NAME);
-        X11_XFree(titleprop.value);
-    } else {
-        return SDL_SetError("Failed to convert title to UTF8! Bad encoding, or bad Xorg encoding? Window title: «%s»", title);
+#اگر_تعریف_شدہ X_HAVE_UTF8_STRING
+    حالت_2 = X11_Xutf8_متن_List_مقصد_متن_Property(display, &title, 1, XUTF8StringStyle, &titleprop);
+    اگر (حالت_2 == Success) {
+        X11_XSet_متن_Property(display, xwindow, &titleprop, _NET_WM_NAME);
+        X11_XFree(titleprop.قدر);
+    } ورنہ {
+        واپس SDL_سیٹ_Error("Failed to convert title to UTF8! Bad encoding, or bad Xorg encoding? Window title: «%s»", title);
     }
-#endif
+#اگر_ختم
 
     X11_XFlush(display);
-    return true;
+    واپس true;
 }
 
-void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+خالی X11_Show_کھڑکی_System_Menu(SDL_کھڑکی *کھڑکی, صحیح x, صحیح y)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Window root = RootWindow(display, displaydata->screen);
-    XClientMessageEvent e;
-    Window childReturn;
-    int wx, wy;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *displaydata = SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(کھڑکی);
+    Display *display = ڈیٹا->videodata->display;
+    کھڑکی_2 جڑ = جڑ_کھڑکی(display, displaydata->screen);
+    XClient_پیغام_Event e;
+    کھڑکی_2 بچہ_Return_2;
+    صحیح wx, wy;
 
     SDL_zero(e);
-    X11_XTranslateCoordinates(display, data->xwindow, root, x, y, &wx, &wy, &childReturn);
+    X11_XTranslateCoordinates(display, ڈیٹا->xwindow, جڑ, x, y, &wx, &wy, &بچہ_Return_2);
 
-    e.type = ClientMessage;
-    e.window = data->xwindow;
-    e.message_type = X11_XInternAtom(display, "_GTK_SHOW_WINDOW_MENU", 0);
-    e.data.l[0] = 0;  // GTK device ID (unused)
-    e.data.l[1] = wx; // X coordinate relative to root
-    e.data.l[2] = wy; // Y coordinate relative to root
+    e.type = Client_پیغام;
+    e.کھڑکی = ڈیٹا->xwindow;
+    e.پیغام_type = X11_XInternAtom(display, "_GTK_SHOW_WINDOW_MENU", 0);
+    e.ڈیٹا.l[0] = 0;  // GTK device ID (unused)
+    e.ڈیٹا.l[1] = wx; // X coordinate relative to root
+    e.ڈیٹا.l[2] = wy; // Y coordinate relative to root
     e.format = 32;
 
-    X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, (XEvent *)&e);
+    X11_XSendEvent(display, جڑ, False, Substructure_Redirect_نقاب | Substructure_Notify_نقاب, (XEvent *)&e);
     X11_XFlush(display);
 }
 
-bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Sync_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
     // If the window is external and has only a pending resize or move event, use the special external sync path to avoid processing events.
-    if ((window->flags & SDL_WINDOW_EXTERNAL) &&
-        (data->pending_operation & ~(X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) == X11_PENDING_OP_NONE) {
-            X11_ExternalResizeMoveSync(window);
-            return true;
+    اگر ((کھڑکی->flags & SDL_کھڑکی_EXTERNAL) &&
+        (ڈیٹا->pending_operation & ~(X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) == X11_PENDING_OP_NONE) {
+            X11_ExternalResizeMoveSync(کھڑکی);
+            واپس true;
     }
 
-    const Uint64 current_time = SDL_GetTicksNS();
+    ثابت Uint64 current_وقت = SDL_GetTicksNS();
     Uint64 timeout = 0;
 
     // Allow time for any pending mode switches to complete.
-    for (int i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->internal->mode_switch_deadline_ns &&
-            current_time < _this->displays[i]->internal->mode_switch_deadline_ns) {
-            timeout = SDL_max(_this->displays[i]->internal->mode_switch_deadline_ns - current_time, timeout);
+    برائے (صحیح i = 0; i < _this->عدد_displays; ++i) {
+        اگر (_this->displays[i]->اندرونی_2->منوال_switch_deadline_ns &&
+            current_وقت < _this->displays[i]->اندرونی_2->منوال_switch_deadline_ns) {
+            timeout = SDL_max(_this->displays[i]->اندرونی_2->منوال_switch_deadline_ns - current_وقت, timeout);
         }
     }
 
     /* 100ms is fine for most cases, but, for some reason, maximizing
      * a window can take a very long time.
      */
-    timeout += window->internal->pending_operation & X11_PENDING_OP_MAXIMIZE ? SDL_MS_TO_NS(1000) : SDL_MS_TO_NS(100);
+    timeout += کھڑکی->اندرونی_2->pending_operation & X11_PENDING_OP_MAXIMIZE ? SDL_MS_مقصد_NS(1000) : SDL_MS_مقصد_NS(100);
 
-    return X11_SyncWindowTimeout(_this, window, timeout);
+    واپس X11_Sync_کھڑکی_Timeout(_this, کھڑکی, timeout);
 }
 
-bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool X11_سیٹ_کھڑکی_Focusable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool focusable)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        SDL_WindowData *data = window->internal;
-        Display *display = data->videodata->display;
+    اگر (!SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+        SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+        Display *display = ڈیٹا->videodata->display;
         XWMHints *wmhints;
 
-        wmhints = X11_XGetWMHints(display, data->xwindow);
-        if (!wmhints) {
-            return SDL_SetError("Couldn't get WM hints");
+        wmhints = X11_XGetWMHints(display, ڈیٹا->xwindow);
+        اگر (!wmhints) {
+            واپس SDL_سیٹ_Error("Couldn't get WM hints");
         }
 
-        wmhints->input = focusable ? True : False;
-        wmhints->flags |= InputHint;
+        wmhints->داخلہ = focusable ? True : False;
+        wmhints->flags |= داخلہ_Hint;
 
-        X11_XSetWMHints(display, data->xwindow, wmhints);
+        X11_XSetWMHints(display, ڈیٹا->xwindow, wmhints);
         X11_XFree(wmhints);
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                X11_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    X11_SetKeyboardFocus(window, true);
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_HIDDEN)) {
+            اگر (!focusable && (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS)) {
+                SDL_کھڑکی *new_focus;
+                ثابت bool سیٹ_focus = SDL_ShouldRelinquishPopupFocus(کھڑکی, &new_focus);
+                X11_سیٹ_Keyboard_Focus(new_focus, سیٹ_focus);
+            } ورنہ اگر (focusable) {
+                اگر (SDL_ShouldFocusPopup(کھڑکی)) {
+                    X11_سیٹ_Keyboard_Focus(کھڑکی, true);
                 }
             }
         }
 
-        return true;
+        واپس true;
     }
 
-    return true;
+    واپس true;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#اگر_ختم // SDL_VIDEO_DRIVER_X11

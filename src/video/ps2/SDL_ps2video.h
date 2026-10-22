@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_ps2video_h_
-#define SDL_ps2video_h_
+#اگر_غیر_تعریف_شدہ SDL_ps2video_h_
+#تعریف_کرو SDL_ps2video_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-#include <kernel.h>
+#شامل <kernel.h>
 
-#include <gsKit.h>
-#include <dmaKit.h>
+#شامل <gsKit.h>
+#شامل <dmaKit.h>
 
-#include <gsToolkit.h>
+#شامل <gsToolkit.h>
 
-#ifdef HAVE_GCC_DIAGNOSTIC_PRAGMA
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
-#endif
+#اگر_تعریف_شدہ HAVE_GCC_DIAGNOSTIC_PRAGMA
+#ہدایت GCC diagnostic ڈالو
+#ہدایت GCC diagnostic ignored "-Wdeclaration-after-statement"
+#اگر_ختم
 
-#include <gsInline.h>
+#شامل <gsInline.h>
 
-#ifdef HAVE_GCC_DIAGNOSTIC_PRAGMA
-#pragma GCC diagnostic pop
-#endif
+#اگر_تعریف_شدہ HAVE_GCC_DIAGNOSTIC_PRAGMA
+#ہدایت GCC diagnostic نکالو
+#اگر_ختم
 
-#endif // SDL_ps2video_h_
+#اگر_ختم // SDL_ps2video_h_

@@ -1,5 +1,5 @@
-#ifndef VULKAN_WAYLAND_H_
-#define VULKAN_WAYLAND_H_ 1
+#اگر_غیر_تعریف_شدہ VULKAN_WAYLAND_H_
+#تعریف_کرو VULKAN_WAYLAND_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
 
 
 // VK_KHR_wayland_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_wayland_surface 1
+#تعریف_کرو VK_KHR_wayland_surface 1
 
-#define VK_KHR_WAYLAND_SURFACE_SPEC_VERSION 6
-#define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
+#تعریف_کرو VK_KHR_WAYLAND_SURFACE_SPEC_نسخہ 6
+#تعریف_کرو VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
 
-typedef VkFlags VkWaylandSurfaceCreateFlagsKHR;
+قسمتعریف VkFlags VkWaylandSurfaceCreateFlagsKHR;
 
-typedef struct VkWaylandSurfaceCreateInfoKHR {
+قسمتعریف ساخت VkWaylandSurfaceCreateInfoKHR {
     VkStructureType                   sType;
-    const void*                       pNext;
+    ثابت خالی*                       p_اگلا;
     VkWaylandSurfaceCreateFlagsKHR    flags;
-    struct wl_display*                display;
-    struct wl_surface*                surface;
+    ساخت wl_display*                display;
+    ساخت wl_surface*                surface;
 } VkWaylandSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct wl_display* display);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, ثابت VkWaylandSurfaceCreateInfoKHR* pCreateInfo, ثابت Vk_تخصیص_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+قسمتعریف VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t قطار_Family_اشاریہ, ساخت wl_display* display);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_غیر_تعریف_شدہ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateWaylandSurfaceKHR(
+#اگر_غیر_تعریف_شدہ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateWaylandSurfaceKHR(
     VkInstance                                  instance,
-    const VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
+    ثابت Vk_تخصیص_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWaylandPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct wl_display*                          display);
-#endif
-#endif
+    uint32_t                                    قطار_Family_اشاریہ,
+    ساخت wl_display*                          display);
+#اگر_ختم
+#اگر_ختم
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif
+#اگر_ختم

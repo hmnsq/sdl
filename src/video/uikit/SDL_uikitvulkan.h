@@ -24,29 +24,29 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_uikitvulkan_h_
-#define SDL_uikitvulkan_h_
+#اگر_غیر_تعریف_شدہ SDL_uikitvulkan_h_
+#تعریف_کرو SDL_uikitvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_vulkan_internal.h"
+#شامل "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_UIKIT)
+#اگر defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_UIKIT)
 
-extern bool UIKit_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void UIKit_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *UIKit_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool UIKit_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                               SDL_Window *window,
+خارجی bool UIKit_Vulkan_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ);
+خارجی خالی UIKit_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجی حرف ثابت * ثابت *UIKit_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *گنتی);
+خارجی bool UIKit_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                               SDL_کھڑکی *کھڑکی,
                                VkInstance instance,
-                               const struct VkAllocationCallbacks *allocator,
+                               ثابت ساخت Vk_تخصیص_Callbacks *allocator,
                                VkSurfaceKHR *surface);
-extern void UIKit_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجی خالی UIKit_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                  VkInstance instance,
                                  VkSurfaceKHR surface,
-                                 const struct VkAllocationCallbacks *allocator);
+                                 ثابت ساخت Vk_تخصیص_Callbacks *allocator);
 
-#endif
+#اگر_ختم
 
-#endif // SDL_uikitvulkan_h_
+#اگر_ختم // SDL_uikitvulkan_h_

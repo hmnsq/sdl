@@ -19,607 +19,607 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 // The high-level video driver subsystem
 
-#include "SDL_sysvideo.h"
-#include "SDL_clipboard_c.h"
-#include "SDL_egl_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_pixels_c.h"
-#include "SDL_rect_c.h"
-#include "SDL_video_c.h"
-#include "../events/SDL_events_c.h"
-#include "../SDL_hints_c.h"
-#include "../SDL_properties_c.h"
-#include "../timer/SDL_timer_c.h"
-#include "../camera/SDL_camera_c.h"
-#include "../render/SDL_sysrender.h"
-#include "../main/SDL_main_callbacks.h"
+#شامل "SDL_sysvideo.h"
+#شامل "SDL_clipboard_c.h"
+#شامل "SDL_egl_c.h"
+#شامل "SDL_surface_c.h"
+#شامل "SDL_pixels_c.h"
+#شامل "SDL_rect_c.h"
+#شامل "SDL_video_c.h"
+#شامل "../events/SDL_events_c.h"
+#شامل "../SDL_hints_c.h"
+#شامل "../SDL_properties_c.h"
+#شامل "../timer/SDL_timer_c.h"
+#شامل "../camera/SDL_camera_c.h"
+#شامل "../render/SDL_sysrender.h"
+#شامل "../main/SDL_main_callbacks.h"
 
-#ifdef SDL_VIDEO_OPENGL
-#include <SDL3/SDL_opengl.h>
-#endif // SDL_VIDEO_OPENGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+#شامل <SDL3/SDL_opengl.h>
+#اگر_ختم // SDL_VIDEO_OPENGL
 
-#if defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles.h>
-#endif // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
+#اگر defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
+#شامل <SDL3/SDL_opengles.h>
+#اگر_ختم // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
 
 // GL and GLES2 headers conflict on Linux 32 bits
-#if defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles2.h>
-#endif // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
+#اگر defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
+#شامل <SDL3/SDL_opengles2.h>
+#اگر_ختم // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
 
 // GL_CONTEXT_RELEASE_BEHAVIOR and GL_CONTEXT_RELEASE_BEHAVIOR_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR
-#define GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
-#endif
+#اگر_غیر_تعریف_شدہ GL_CONTEXT_RELEASE_BEHAVIOR
+#تعریف_کرو GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
+#اگر_ختم
 
 // GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH and GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
-#define GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
-#endif
+#اگر_غیر_تعریف_شدہ GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+#تعریف_کرو GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
+#اگر_ختم
 
 // This is always the same number between the various EXT/ARB/GLES extensions.
-#ifndef GL_FRAMEBUFFER_SRGB
-#define GL_FRAMEBUFFER_SRGB 0x8DB9
-#endif
+#اگر_غیر_تعریف_شدہ GL_FRAMEBUFFER_SRGB
+#تعریف_کرو GL_FRAMEBUFFER_SRGB 0x8DB9
+#اگر_ختم
 
-#ifdef SDL_PLATFORM_EMSCRIPTEN
-#include <emscripten.h>
-#endif
+#اگر_تعریف_شدہ SDL_PLATFORM_EMSCRIPTEN
+#شامل <emscripten.h>
+#اگر_ختم
 
-#ifdef SDL_PLATFORM_3DS
-#include <3ds.h>
-#endif
+#اگر_تعریف_شدہ SDL_PLATFORM_3DS
+#شامل <3ds.h>
+#اگر_ختم
 
-#ifndef GL_RGBA_FLOAT_MODE_ARB
-#define GL_RGBA_FLOAT_MODE_ARB 0x8820
-#endif /* GL_RGBA_FLOAT_MODE_ARB */
+#اگر_غیر_تعریف_شدہ GL_RGBA_FLOAT_منوال_ARB
+#تعریف_کرو GL_RGBA_FLOAT_منوال_ARB 0x8820
+#اگر_ختم /* GL_RGBA_FLOAT_MODE_ARB */
 
 // Available video drivers
-static VideoBootStrap *bootstrap[] = {
-#ifdef SDL_VIDEO_DRIVER_PRIVATE
-    &PRIVATE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_COCOA
+ساکن VideoBootStrap *bootstrap[] = {
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_نجی
+    &نجی_bootstrap,
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_COCOA
     &COCOA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_X11
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_preferred_bootstrap,
-#endif
+#اگر_ختم
     &X11_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE
     &VIVANTE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
     &WINDOWS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_HAIKU
     &HAIKU_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_UIKIT
     &UIKIT_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_ANDROID
     &Android_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OPENHARMONY
     &OPENHARMONY_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PS2
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_PS2
     &PS2_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PSP
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_PSP
     &PSP_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VITA
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VITA
     &VITA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_N3DS
     &N3DS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_NGAGE
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_NGAGE
     &NGAGE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_KMSDRM
     &KMSDRM_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RISCOS
     &RISCOS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RPI
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RPI
     &RPI_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_EMSCRIPTEN
     &Emscripten_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_QNX
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_QNX
     &QNX_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OFFSCREEN
     &OFFSCREEN_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_DUMMY
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_DUMMY
     &DUMMY_bootstrap,
-#ifdef SDL_INPUT_LINUXEV
+#اگر_تعریف_شدہ SDL_داخلہ_LINUXEV
     &DUMMY_evdev_bootstrap,
-#endif
-#endif
-#ifdef SDL_VIDEO_DRIVER_DOSVESA
+#اگر_ختم
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_DOSVESA
     &DOSVESA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENVR
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_OPENVR
     &OPENVR_bootstrap,
-#endif
-    NULL
+#اگر_ختم
+    تہی
 };
 
-#define CHECK_WINDOW_MAGIC(window, result)                              \
+#تعریف_کرو CHECK_کھڑکی_MAGIC(کھڑکی, نتیجہ)                              \
     CHECK_PARAM(!_this) {                                               \
         SDL_UninitializedVideo();                                       \
-        return result;                                                  \
+        واپس نتیجہ;                                                  \
     }                                                                   \
-    CHECK_PARAM(!SDL_ObjectValid(window, SDL_OBJECT_TYPE_WINDOW)) {     \
-        SDL_SetError("Invalid window");                                 \
-        return result;                                                  \
+    CHECK_PARAM(!SDL_ObjectValid(کھڑکی, SDL_OBJECT_TYPE_کھڑکی)) {     \
+        SDL_سیٹ_Error("Invalid window");                                 \
+        واپس نتیجہ;                                                  \
     }
 
-#define CHECK_DISPLAY_MAGIC(display, result)                            \
+#تعریف_کرو CHECK_DISPLAY_MAGIC(display, نتیجہ)                            \
     CHECK_PARAM(!display) {                                             \
-        return result;                                                  \
+        واپس نتیجہ;                                                  \
     }                                                                   \
 
-#define CHECK_WINDOW_NOT_POPUP(window, result)                          \
-    CHECK_PARAM(SDL_WINDOW_IS_POPUP(window)) {                          \
-        SDL_SetError("Operation invalid on popup windows");             \
-        return result;                                                  \
+#تعریف_کرو CHECK_کھڑکی_NOT_POPUP(کھڑکی, نتیجہ)                          \
+    CHECK_PARAM(SDL_کھڑکی_IS_POPUP(کھڑکی)) {                          \
+        SDL_سیٹ_Error("Operation invalid on popup windows");             \
+        واپس نتیجہ;                                                  \
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#اگر defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
 // Support for macOS fullscreen spaces, etc.
-extern bool Cocoa_IsWindowInFullscreenSpace(SDL_Window *window);
-extern bool Cocoa_IsWindowInFullscreenSpaceTransition(SDL_Window *window);
-extern bool Cocoa_SetWindowFullscreenSpace(SDL_Window *window, bool state, bool blocking);
-extern bool Cocoa_IsShowingModalDialog(SDL_Window *window);
-#endif
+خارجی bool Cocoa_Is_کھڑکی_اندر_Fullscreen_Space(SDL_کھڑکی *کھڑکی);
+خارجی bool Cocoa_Is_کھڑکی_اندر_Fullscreen_Space_Transition(SDL_کھڑکی *کھڑکی);
+خارجی bool Cocoa_سیٹ_کھڑکی_Fullscreen_Space(SDL_کھڑکی *کھڑکی, bool state, bool blocking);
+خارجی bool Cocoa_IsShowingModalDialog(SDL_کھڑکی *کھڑکی);
+#اگر_ختم
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
-extern void SDL_UpdateLifecycleObserver(void);
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_UIKIT
+خارجی خالی SDL_UpdateLifecycleObserver(خالی);
+#اگر_ختم
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window);
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window);
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window);
+ساکن خالی SDL_Check_کھڑکی_Display_بدلا(SDL_کھڑکی *کھڑکی);
+ساکن خالی SDL_Check_کھڑکی_Display_Scale_بدلا(SDL_کھڑکی *کھڑکی);
+ساکن خالی SDL_Check_کھڑکی_محفوظ_Area_بدلا(SDL_کھڑکی *کھڑکی);
 
 // Convenience functions for reading driver flags
-static bool SDL_ModeSwitchingEmulated(SDL_VideoDevice *_this)
+ساکن bool SDL_منوال_Switching_Emulated(SDL_VideoDevice *_this)
 {
-    if (_this->device_caps & VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED) {
-        return true;
+    اگر (_this->device_caps & VIDEO_DEVICE_CAPS_منوال_SWITCHING_EMULATED) {
+        واپس true;
     }
-    return false;
+    واپس false;
 }
 
-static bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
+ساکن bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
+    واپس !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
 }
 
-static bool IsFullscreenOnly(SDL_VideoDevice *_this)
+ساکن bool IsFullscreenOnly(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
+    واپس !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
 }
 
-static bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
+ساکن bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
+    واپس !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
 }
 
-static bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
+ساکن bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
+    واپس !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
 }
 
-static bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
+ساکن bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
+    واپس !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
 }
 
 // Hint to treat all window ops as synchronous
-static bool syncHint;
+ساکن bool syncHint;
 
-static void SDL_SyncHintWatcher(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ساکن خالی SDL_SyncHintWatcher(خالی *userdata, ثابت حرف *name, ثابت حرف *old_قدر, ثابت حرف *new_قدر)
 {
-    syncHint = SDL_GetStringBoolean(newValue, false);
+    syncHint = SDL_GetStringBoolean(new_قدر, false);
 }
 
-static void SDL_SyncIfRequired(SDL_Window *window)
+ساکن خالی SDL_SyncIfRequired(SDL_کھڑکی *کھڑکی)
 {
-    if (syncHint) {
-        SDL_SyncWindow(window);
+    اگر (syncHint) {
+        SDL_Sync_کھڑکی(کھڑکی);
     }
 }
 
-static void SDL_UpdateWindowHierarchy(SDL_Window *window, SDL_Window *parent)
+ساکن خالی SDL_Update_کھڑکی_Hierarchy(SDL_کھڑکی *کھڑکی, SDL_کھڑکی *والد)
 {
     // Unlink the window from the existing parent.
-    if (window->parent) {
-        if (window->next_sibling) {
-            window->next_sibling->prev_sibling = window->prev_sibling;
+    اگر (کھڑکی->والد) {
+        اگر (کھڑکی->اگلا_sibling) {
+            کھڑکی->اگلا_sibling->پچھلا_sibling = کھڑکی->پچھلا_sibling;
         }
-        if (window->prev_sibling) {
-            window->prev_sibling->next_sibling = window->next_sibling;
-        } else {
-            window->parent->first_child = window->next_sibling;
+        اگر (کھڑکی->پچھلا_sibling) {
+            کھڑکی->پچھلا_sibling->اگلا_sibling = کھڑکی->اگلا_sibling;
+        } ورنہ {
+            کھڑکی->والد->پہلا_بچہ = کھڑکی->اگلا_sibling;
         }
 
-        window->parent = NULL;
+        کھڑکی->والد = تہی;
     }
 
-    if (parent) {
-        window->parent = parent;
+    اگر (والد) {
+        کھڑکی->والد = والد;
 
-        window->next_sibling = parent->first_child;
-        if (parent->first_child) {
-            parent->first_child->prev_sibling = window;
+        کھڑکی->اگلا_sibling = والد->پہلا_بچہ;
+        اگر (والد->پہلا_بچہ) {
+            والد->پہلا_بچہ->پچھلا_sibling = کھڑکی;
         }
-        parent->first_child = window;
+        والد->پہلا_بچہ = کھڑکی;
     }
 }
 
 // Support for framebuffer emulation using an accelerated renderer
 
-#define SDL_PROP_WINDOW_TEXTUREDATA_POINTER "SDL.internal.window.texturedata"
+#تعریف_کرو SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر "SDL.internal.window.texturedata"
 
-typedef struct
+قسمتعریف ساخت
 {
     SDL_Renderer *renderer;
     SDL_Texture *texture;
-    void *pixels;
-    int pitch;
-    int bytes_per_pixel;
-} SDL_WindowTextureData;
+    خالی *pixels;
+    صحیح pitch;
+    صحیح بائٹیں_فی_pixel;
+} SDL_کھڑکی_Texture_ڈیٹا;
 
-static Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
+ساکن Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
 {
-#if (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !TARGET_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
-    if (_this->GL_CreateContext) {
-        return SDL_WINDOW_OPENGL;
+#اگر (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !ہدف_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
+    اگر (_this->GL_CreateContext) {
+        واپس SDL_کھڑکی_OPENGL;
     }
-#endif
-#if defined(SDL_VIDEO_METAL) && (TARGET_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
-    if (_this->Metal_CreateView) {
-        return SDL_WINDOW_METAL;
+#اگر_ختم
+#اگر defined(SDL_VIDEO_METAL) && (ہدف_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
+    اگر (_this->Metal_CreateView) {
+        واپس SDL_کھڑکی_METAL;
     }
-#endif
-#if defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
-    if (SDL_strcmp(_this->name, "openvr") == 0) {
-        return SDL_WINDOW_OPENGL;
+#اگر_ختم
+#اگر defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
+    اگر (SDL_strcmp(_this->name, "openvr") == 0) {
+        واپس SDL_کھڑکی_OPENGL;
     }
-#endif
-    return 0;
+#اگر_ختم
+    واپس 0;
 }
 
-static bool SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+ساکن bool SDL_Create_کھڑکی_Texture(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PixelFormat *format, خالی **pixels, صحیح *pitch)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_WindowTextureData *data = (SDL_WindowTextureData *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    const bool transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
-    int i;
-    int w, h;
-    const SDL_PixelFormat *texture_formats;
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    SDL_کھڑکی_Texture_ڈیٹا *ڈیٹا = (SDL_کھڑکی_Texture_ڈیٹا *)SDL_Get_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, تہی);
+    ثابت bool transparent = (کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) ? true : false;
+    صحیح i;
+    صحیح w, h;
+    ثابت SDL_PixelFormat *texture_formats;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &w, &h);
 
-    if (!data) {
-        SDL_Renderer *renderer = NULL;
-        const char *render_driver = NULL;
+    اگر (!ڈیٹا) {
+        SDL_Renderer *renderer = تہی;
+        ثابت حرف *render_driver = تہی;
 
         // See if there's a render driver being requested
-        const char *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-        if (hint && *hint != '0' && *hint != '1' &&
+        ثابت حرف *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
+        اگر (hint && *hint != '0' && *hint != '1' &&
             SDL_strcasecmp(hint, "true") != 0 &&
             SDL_strcasecmp(hint, "false") != 0 &&
             SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) != 0) {
             render_driver = hint;
         }
 
-        if (!render_driver) {
+        اگر (!render_driver) {
             render_driver = SDL_GetHint(SDL_HINT_RENDER_DRIVER);
         }
-        if (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
-            render_driver = NULL;
+        اگر (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
+            render_driver = تہی;
         }
 
-        char *render_driver_copy = NULL;
-        if (render_driver && *render_driver) {
+        حرف *render_driver_copy = تہی;
+        اگر (render_driver && *render_driver) {
             render_driver_copy = SDL_strdup(render_driver);
             render_driver = render_driver_copy;
-            if (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
-                char *prev = render_driver_copy;
-                char *ptr = prev;
-                while ((ptr = SDL_strchr(ptr, ',')) != NULL) {
+            اگر (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
+                حرف *پچھلا = render_driver_copy;
+                حرف *ptr = پچھلا;
+                جب ((ptr = SDL_strchr(ptr, ',')) != تہی) {
                     *ptr = '\0';
-                    const bool is_sw = (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0);
+                    ثابت bool is_sw = (SDL_strcasecmp(پچھلا, SDL_SOFTWARE_RENDERER) == 0);
                     *ptr = ',';
-                    if (is_sw) {
-                        SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
-                        ptr = prev;
-                    } else {
+                    اگر (is_sw) {
+                        SDL_memset(پچھلا, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
+                        ptr = پچھلا;
+                    } ورنہ {
                         ptr++;
-                        prev = ptr;
+                        پچھلا = ptr;
                     }
                 }
 
-                if (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0) {
-                    SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
+                اگر (SDL_strcasecmp(پچھلا, SDL_SOFTWARE_RENDERER) == 0) {
+                    SDL_memset(پچھلا, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
                 }
             }
         }
 
         // Check to see if there's a specific driver requested
-        if (render_driver) {
-            renderer = SDL_CreateRenderer(window, render_driver);
+        اگر (render_driver) {
+            renderer = SDL_CreateRenderer(کھڑکی, render_driver);
             SDL_free(render_driver_copy);
-            if (!renderer) {
+            اگر (!renderer) {
                 // The error for this specific renderer has already been set
-                return false;
+                واپس false;
             }
-        } else {
-            SDL_assert(render_driver_copy == NULL);
-            const int total = SDL_GetNumRenderDrivers();
-            for (i = 0; i < total; ++i) {
-                const char *name = SDL_GetRenderDriver(i);
-                if (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
-                    renderer = SDL_CreateRenderer(window, name);
-                    if (renderer) {
-                        break; // this will work.
+        } ورنہ {
+            SDL_assert(render_driver_copy == تہی);
+            ثابت صحیح کل = SDL_Get_عدد_Render_Drivers();
+            برائے (i = 0; i < کل; ++i) {
+                ثابت حرف *name = SDL_GetRenderDriver(i);
+                اگر (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
+                    renderer = SDL_CreateRenderer(کھڑکی, name);
+                    اگر (renderer) {
+                        توڑو; // this will work.
                     }
                 }
             }
-            if (!renderer) {
-                return SDL_SetError("No hardware accelerated renderers available");
+            اگر (!renderer) {
+                واپس SDL_سیٹ_Error("No hardware accelerated renderers available");
             }
         }
 
-        SDL_assert(renderer != NULL); // should have explicitly checked this above.
+        SDL_assert(renderer != تہی); // should have explicitly checked this above.
 
         // Create the data after we successfully create the renderer (bug #1116)
-        data = (SDL_WindowTextureData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+        ڈیٹا = (SDL_کھڑکی_Texture_ڈیٹا *)SDL_calloc(1, حجم(*ڈیٹا));
+        اگر (!ڈیٹا) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            واپس false;
         }
-        if (!SDL_SetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, data)) {
+        اگر (!SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, ڈیٹا)) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            واپس false;
         }
 
-        data->renderer = renderer;
+        ڈیٹا->renderer = renderer;
     }
 
-    texture_formats = (const SDL_PixelFormat *)SDL_GetPointerProperty(SDL_GetRendererProperties(data->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER, NULL);
-    if (!texture_formats) {
-        return false;
+    texture_formats = (ثابت SDL_PixelFormat *)SDL_Get_اشارہ_گر_Property(SDL_GetRendererProperties(ڈیٹا->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_اشارہ_گر, تہی);
+    اگر (!texture_formats) {
+        واپس false;
     }
 
     // Free any old texture and pixel data
-    if (data->texture) {
-        SDL_DestroyTexture(data->texture);
-        data->texture = NULL;
+    اگر (ڈیٹا->texture) {
+        SDL_DestroyTexture(ڈیٹا->texture);
+        ڈیٹا->texture = تہی;
     }
-    SDL_free(data->pixels);
-    data->pixels = NULL;
+    SDL_free(ڈیٹا->pixels);
+    ڈیٹا->pixels = تہی;
 
     // Find the first format with or without an alpha channel
     *format = texture_formats[0];
 
-    for (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
+    برائے (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
         SDL_PixelFormat texture_format = texture_formats[i];
-        if (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
-            !SDL_ISPIXELFORMAT_10BIT(texture_format) &&
+        اگر (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
+            !SDL_ISPIXELFORMAT_10_ثنائی_ہندسہ(texture_format) &&
             !SDL_ISPIXELFORMAT_FLOAT(texture_format) &&
-            !SDL_ISPIXELFORMAT_INDEXED(texture_format) &&
+            !SDL_ISPIXELFORMAT_اشاریہ_دار(texture_format) &&
             (!transparent || SDL_ISPIXELFORMAT_ALPHA(texture_format))) {
             *format = texture_format;
-            break;
+            توڑو;
         }
     }
 
-    data->texture = SDL_CreateTexture(data->renderer, *format,
+    ڈیٹا->texture = SDL_CreateTexture(ڈیٹا->renderer, *format,
                                       SDL_TEXTUREACCESS_STREAMING,
                                       w, h);
-    if (!data->texture) {
+    اگر (!ڈیٹا->texture) {
         // codechecker_false_positive [Malloc] Static analyzer doesn't realize allocated `data` is saved to SDL_PROP_WINDOW_TEXTUREDATA_POINTER and not leaked here.
-        return false; // NOLINT(clang-analyzer-unix.Malloc)
+        واپس false; // NOLINT(clang-analyzer-unix.Malloc)
     }
-    SDL_SetTextureBlendMode(data->texture, SDL_BLENDMODE_NONE);
+    SDL_سیٹ_Texture_Blend_منوال(ڈیٹا->texture, SDL_BLENDMODE_NONE);
 
     // Create framebuffer data
-    data->bytes_per_pixel = SDL_BYTESPERPIXEL(*format);
-    data->pitch = (((w * data->bytes_per_pixel) + 3) & ~3);
+    ڈیٹا->بائٹیں_فی_pixel = SDL_BYTESPERPIXEL(*format);
+    ڈیٹا->pitch = (((w * ڈیٹا->بائٹیں_فی_pixel) + 3) & ~3);
 
     {
         // Make static analysis happy about potential SDL_malloc(0) calls.
-        const size_t allocsize = (size_t)h * data->pitch;
-        data->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
-        if (!data->pixels) {
-            return false;
+        ثابت size_t allocsize = (size_t)h * ڈیٹا->pitch;
+        ڈیٹا->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
+        اگر (!ڈیٹا->pixels) {
+            واپس false;
         }
     }
 
-    *pixels = data->pixels;
-    *pitch = data->pitch;
+    *pixels = ڈیٹا->pixels;
+    *pitch = ڈیٹا->pitch;
 
     // Make sure we're not double-scaling the viewport
-    SDL_SetRenderViewport(data->renderer, NULL);
+    SDL_سیٹ_Render_Viewport(ڈیٹا->renderer, تہی);
 
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int vsync)
+bool SDL_سیٹ_کھڑکی_Texture_VSync(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_کھڑکی_Texture_ڈیٹا *ڈیٹا;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    ڈیٹا = (SDL_کھڑکی_Texture_ڈیٹا *)SDL_Get_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, تہی);
+    اگر (!ڈیٹا) {
+        واپس false;
     }
-    if (!data->renderer) {
-        return false;
+    اگر (!ڈیٹا->renderer) {
+        واپس false;
     }
-    return SDL_SetRenderVSync(data->renderer, vsync);
+    واپس SDL_سیٹ_Render_VSync(ڈیٹا->renderer, vsync);
 }
 
-static bool SDL_GetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int *vsync)
+ساکن bool SDL_Get_کھڑکی_Texture_VSync(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_کھڑکی_Texture_ڈیٹا *ڈیٹا;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    ڈیٹا = (SDL_کھڑکی_Texture_ڈیٹا *)SDL_Get_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, تہی);
+    اگر (!ڈیٹا) {
+        واپس false;
     }
-    if (!data->renderer) {
-        return false;
+    اگر (!ڈیٹا->renderer) {
+        واپس false;
     }
-    return SDL_GetRenderVSync(data->renderer, vsync);
+    واپس SDL_GetRenderVSync(ڈیٹا->renderer, vsync);
 }
 
-static bool SDL_UpdateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+ساکن bool SDL_Update_کھڑکی_Texture(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects, صحیح numrects)
 {
-    SDL_WindowTextureData *data;
+    SDL_کھڑکی_Texture_ڈیٹا *ڈیٹا;
     SDL_Rect rect;
-    void *src;
-    int w, h;
+    خالی *src;
+    صحیح w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &w, &h);
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data || !data->texture) {
-        return SDL_SetError("No window texture data");
+    ڈیٹا = (SDL_کھڑکی_Texture_ڈیٹا *)SDL_Get_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, تہی);
+    اگر (!ڈیٹا || !ڈیٹا->texture) {
+        واپس SDL_سیٹ_Error("No window texture data");
     }
 
     // Update a single rect that contains subrects for best DMA performance
-    if (SDL_GetSpanEnclosingRect(w, h, numrects, rects, &rect)) {
-        src = (void *)((Uint8 *)data->pixels +
-                       rect.y * data->pitch +
-                       rect.x * data->bytes_per_pixel);
-        if (!SDL_UpdateTexture(data->texture, &rect, src, data->pitch)) {
-            return false;
+    اگر (SDL_Get_وسعت_Enclosing_Rect(w, h, numrects, rects, &rect)) {
+        src = (خالی *)((Uint8 *)ڈیٹا->pixels +
+                       rect.y * ڈیٹا->pitch +
+                       rect.x * ڈیٹا->بائٹیں_فی_pixel);
+        اگر (!SDL_UpdateTexture(ڈیٹا->texture, &rect, src, ڈیٹا->pitch)) {
+            واپس false;
         }
 
-        if (!SDL_RenderTexture(data->renderer, data->texture, NULL, NULL)) {
-            return false;
+        اگر (!SDL_RenderTexture(ڈیٹا->renderer, ڈیٹا->texture, تہی, تہی)) {
+            واپس false;
         }
 
-        SDL_RenderPresent(data->renderer);
+        SDL_RenderPresent(ڈیٹا->renderer);
     }
-    return true;
+    واپس true;
 }
 
-static void SDL_DestroyWindowTexture(SDL_VideoDevice *_this, SDL_Window *window)
+ساکن خالی SDL_Destroy_کھڑکی_Texture(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_HasProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER)) {
-        SDL_WindowTextureData *data = SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    اگر (SDL_HasProperty(props, SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر)) {
+        SDL_کھڑکی_Texture_ڈیٹا *ڈیٹا = SDL_Get_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر, تہی);
 
-        if (data->texture) {
-            SDL_DestroyTexture(data->texture);
+        اگر (ڈیٹا->texture) {
+            SDL_DestroyTexture(ڈیٹا->texture);
         }
-        if (data->renderer) {
-            SDL_DestroyRenderer(data->renderer);
+        اگر (ڈیٹا->renderer) {
+            SDL_DestroyRenderer(ڈیٹا->renderer);
         }
-        SDL_free(data->pixels);
-        SDL_free(data);
+        SDL_free(ڈیٹا->pixels);
+        SDL_free(ڈیٹا);
 
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER);
+        SDL_ClearProperty(props, SDL_PROP_کھڑکی_TEXTUREDATA_اشارہ_گر);
     }
 }
 
-static SDL_VideoDevice *_this = NULL;
-static SDL_AtomicInt SDL_messagebox_count;
+ساکن SDL_VideoDevice *_this = تہی;
+ساکن SDL_AtomicInt SDL_messagebox_گنتی;
 
-static int SDLCALL cmpmodes(const void *A, const void *B)
+ساکن صحیح SDLCALL cmpmodes(ثابت خالی *A, ثابت خالی *B)
 {
-    const SDL_DisplayMode *a = (const SDL_DisplayMode *)A;
-    const SDL_DisplayMode *b = (const SDL_DisplayMode *)B;
-    int a_refresh_rate = (int)(a->refresh_rate * 100);
-    int b_refresh_rate = (int)(b->refresh_rate * 100);
-    int a_pixel_density = (int)(a->pixel_density * 100);
-    int b_pixel_density = (int)(b->pixel_density * 100);
+    ثابت SDL_Display_منوال *a = (ثابت SDL_Display_منوال *)A;
+    ثابت SDL_Display_منوال *b = (ثابت SDL_Display_منوال *)B;
+    صحیح a_refresh_شرح = (صحیح)(a->refresh_شرح * 100);
+    صحیح b_refresh_شرح = (صحیح)(b->refresh_شرح * 100);
+    صحیح a_pixel_density = (صحیح)(a->pixel_density * 100);
+    صحیح b_pixel_density = (صحیح)(b->pixel_density * 100);
 
-    if (a->w != b->w) {
-        return b->w - a->w;
-    } else if (a->h != b->h) {
-        return b->h - a->h;
-    } else if (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
-        return SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
-    } else if (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
-        return SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
-    } else if (a_refresh_rate != b_refresh_rate) {
-        return b_refresh_rate - a_refresh_rate;
-    } else if (a_pixel_density != b_pixel_density) {
-        return a_pixel_density - b_pixel_density;
+    اگر (a->w != b->w) {
+        واپس b->w - a->w;
+    } ورنہ اگر (a->h != b->h) {
+        واپس b->h - a->h;
+    } ورنہ اگر (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
+        واپس SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
+    } ورنہ اگر (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
+        واپس SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
+    } ورنہ اگر (a_refresh_شرح != b_refresh_شرح) {
+        واپس b_refresh_شرح - a_refresh_شرح;
+    } ورنہ اگر (a_pixel_density != b_pixel_density) {
+        واپس a_pixel_density - b_pixel_density;
     }
-    return 0;
+    واپس 0;
 }
 
-bool SDL_UninitializedVideo(void)
+bool SDL_UninitializedVideo(خالی)
 {
-    return SDL_SetError("Video subsystem has not been initialized");
+    واپس SDL_سیٹ_Error("Video subsystem has not been initialized");
 }
 
 // Deduplicated list of video bootstrap drivers.
-static const VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
+ساکن ثابت VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
 
-int SDL_GetNumVideoDrivers(void)
+صحیح SDL_Get_عدد_Video_Drivers(خالی)
 {
-    static int num_drivers = -1;
+    ساکن صحیح عدد_drivers = -1;
 
-    if (num_drivers >= 0) {
-        return num_drivers;
+    اگر (عدد_drivers >= 0) {
+        واپس عدد_drivers;
     }
 
-    num_drivers = 0;
+    عدد_drivers = 0;
 
     // Build a list of unique video drivers.
-    for (int i = 0; bootstrap[i] != NULL; ++i) {
+    برائے (صحیح i = 0; bootstrap[i] != تہی; ++i) {
         bool duplicate = false;
-        for (int j = 0; j < i; ++j) {
-            if (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
+        برائے (صحیح j = 0; j < i; ++j) {
+            اگر (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
                 duplicate = true;
-                break;
+                توڑو;
             }
         }
 
-        if (!duplicate) {
-            deduped_bootstrap[num_drivers++] = bootstrap[i];
+        اگر (!duplicate) {
+            deduped_bootstrap[عدد_drivers++] = bootstrap[i];
         }
     }
 
-    return num_drivers;
+    واپس عدد_drivers;
 }
 
-const char *SDL_GetVideoDriver(int index)
+ثابت حرف *SDL_GetVideoDriver(صحیح اشاریہ)
 {
-    CHECK_PARAM(index < 0 || index >= SDL_GetNumVideoDrivers()) {
+    CHECK_PARAM(اشاریہ < 0 || اشاریہ >= SDL_Get_عدد_Video_Drivers()) {
         SDL_InvalidParamError("index");
-        return NULL;
+        واپس تہی;
     }
-    return deduped_bootstrap[index]->name;
+    واپس deduped_bootstrap[اشاریہ]->name;
 }
 
 /*
  * Initialize the video and event subsystems -- determine native pixel format
  */
-bool SDL_InitVideo(const char *driver_name)
+bool SDL_InitVideo(ثابت حرف *driver_name)
 {
     SDL_VideoDevice *video;
     bool init_events = false;
@@ -627,85 +627,85 @@ bool SDL_InitVideo(const char *driver_name)
     bool init_mouse = false;
     bool init_touch = false;
     bool init_pen = false;
-    int i = 0;
+    صحیح i = 0;
 
     // Check to make sure we don't overwrite '_this'
-    if (_this) {
+    اگر (_this) {
         SDL_QuitVideo();
     }
 
     SDL_InitTicks();
 
     // Start the event loop
-    if (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
-        goto pre_driver_error;
+    اگر (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
+        جاؤ pre_driver_error;
     }
     init_events = true;
-    if (!SDL_InitKeyboard()) {
-        goto pre_driver_error;
+    اگر (!SDL_InitKeyboard()) {
+        جاؤ pre_driver_error;
     }
     init_keyboard = true;
-    if (!SDL_PreInitMouse()) {
-        goto pre_driver_error;
+    اگر (!SDL_PreInitMouse()) {
+        جاؤ pre_driver_error;
     }
     init_mouse = true;
-    if (!SDL_InitTouch()) {
-        goto pre_driver_error;
+    اگر (!SDL_InitTouch()) {
+        جاؤ pre_driver_error;
     }
     init_touch = true;
-    if (!SDL_InitPen()) {
-        goto pre_driver_error;
+    اگر (!SDL_InitPen()) {
+        جاؤ pre_driver_error;
     }
     init_pen = true;
 
     // Select the proper video driver
-    video = NULL;
-#ifdef SDL_PLATFORM_LINUX
+    video = تہی;
+#اگر_تعریف_شدہ SDL_PLATFORM_LINUX
     // https://github.com/libsdl-org/SDL/issues/12247
-    if (SDL_IsUbuntuTouch()) {
+    اگر (SDL_IsUbuntuTouch()) {
         driver_name = "wayland";
     }
-#endif
-    if (!driver_name) {
+#اگر_ختم
+    اگر (!driver_name) {
         driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
     }
-    if (driver_name && *driver_name != 0) {
-        const char *driver_attempt = driver_name;
-        while (driver_attempt && *driver_attempt != 0 && !video) {
-            const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-            size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+    اگر (driver_name && *driver_name != 0) {
+        ثابت حرف *driver_attempt = driver_name;
+        جب (driver_attempt && *driver_attempt != 0 && !video) {
+            ثابت حرف *driver_attempt_انتہا = SDL_strchr(driver_attempt, ',');
+            size_t driver_attempt_len = (driver_attempt_انتہا) ? (driver_attempt_انتہا - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
 
-            for (i = 0; bootstrap[i]; ++i) {
-                if (!bootstrap[i]->is_preferred &&
+            برائے (i = 0; bootstrap[i]; ++i) {
+                اگر (!bootstrap[i]->is_preferred &&
                     (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                     (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
                     video = bootstrap[i]->create();
-                    if (video) {
-                        break;
+                    اگر (video) {
+                        توڑو;
                     }
                 }
             }
 
-            driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+            driver_attempt = (driver_attempt_انتہا) ? (driver_attempt_انتہا + 1) : تہی;
         }
-    } else {
-        for (i = 0; bootstrap[i]; ++i) {
+    } ورنہ {
+        برائے (i = 0; bootstrap[i]; ++i) {
             video = bootstrap[i]->create();
-            if (video) {
-                break;
+            اگر (video) {
+                توڑو;
             }
         }
     }
-    if (video) {
+    اگر (video) {
         SDL_DebugLogBackend("video", bootstrap[i]->name);
-    } else {
-        if (driver_name) {
-            SDL_SetError("%s not available", driver_name);
-            goto pre_driver_error;
+    } ورنہ {
+        اگر (driver_name) {
+            SDL_سیٹ_Error("%s not available", driver_name);
+            جاؤ pre_driver_error;
         }
-        SDL_SetError("No available video device");
-        goto pre_driver_error;
+        SDL_سیٹ_Error("No available video device");
+        جاؤ pre_driver_error;
     }
 
     /* From this point on, use SDL_QuitVideo to cleanup on error, rather than
@@ -716,22 +716,22 @@ bool SDL_InitVideo(const char *driver_name)
 
     // Set some very sane GL defaults
     _this->gl_config.driver_loaded = 0;
-    _this->gl_config.dll_handle = NULL;
-    SDL_GL_ResetAttributes();
+    _this->gl_config.dll_handle = تہی;
+    SDL_GL_Reset_اوصاف();
 
     // Initialize the video subsystem
-    if (!_this->VideoInit(_this)) {
+    اگر (!_this->VideoInit(_this)) {
         SDL_QuitVideo();
-        return false;
+        واپس false;
     }
 
     // Make sure some displays were added
-    if (_this->num_displays == 0) {
+    اگر (_this->عدد_displays == 0) {
         SDL_QuitVideo();
-        return SDL_SetError("The video driver did not add any displays");
+        واپس SDL_سیٹ_Error("The video driver did not add any displays");
     }
 
-    SDL_AddHintCallback(SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS, SDL_SyncHintWatcher, NULL);
+    SDL_جوڑو_Hint_Callback(SDL_HINT_VIDEO_SYNC_کھڑکی_OPERATIONS, SDL_SyncHintWatcher, تہی);
 
     /* Disable the screen saver by default. This is a change from <= 2.0.1,
        but most things using SDL are games or media players; you wouldn't
@@ -739,84 +739,84 @@ bool SDL_InitVideo(const char *driver_name)
        joystick, or passively watching a movie. Things that use SDL but
        function more like a normal desktop app should explicitly re-enable the
        screensaver. */
-    if (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
+    اگر (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
         SDL_DisableScreenSaver();
     }
 
     SDL_PostInitMouse();
 
     // We're ready to go!
-    return true;
+    واپس true;
 
 pre_driver_error:
-    SDL_assert(_this == NULL);
-    if (init_pen) {
+    SDL_assert(_this == تہی);
+    اگر (init_pen) {
         SDL_QuitPen();
     }
-    if (init_touch) {
+    اگر (init_touch) {
         SDL_QuitTouch();
     }
-    if (init_mouse) {
+    اگر (init_mouse) {
         SDL_QuitMouse();
     }
-    if (init_keyboard) {
+    اگر (init_keyboard) {
         SDL_QuitKeyboard();
     }
-    if (init_events) {
+    اگر (init_events) {
         SDL_QuitSubSystem(SDL_INIT_EVENTS);
     }
-    return false;
+    واپس false;
 }
 
-const char *SDL_GetCurrentVideoDriver(void)
+ثابت حرف *SDL_GetCurrentVideoDriver(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    return _this->name;
+    واپس _this->name;
 }
 
-SDL_VideoDevice *SDL_GetVideoDevice(void)
+SDL_VideoDevice *SDL_GetVideoDevice(خالی)
 {
-    return _this;
+    واپس _this;
 }
 
-bool SDL_OnVideoThread(void)
+bool SDL_OnVideoThread(خالی)
 {
-    return (_this && SDL_GetCurrentThreadID() == _this->thread);
+    واپس (_this && SDL_GetCurrentThreadID() == _this->thread);
 }
 
-void SDL_SetSystemTheme(SDL_SystemTheme theme)
+خالی SDL_سیٹ_System_Theme(SDL_SystemTheme theme)
 {
-    if (_this && theme != _this->system_theme) {
+    اگر (_this && theme != _this->system_theme) {
         _this->system_theme = theme;
-        SDL_SendSystemThemeChangedEvent();
+        SDL_Send_System_Theme_بدلا_Event();
     }
 }
 
-SDL_SystemTheme SDL_GetSystemTheme(void)
+SDL_SystemTheme SDL_GetSystemTheme(خالی)
 {
-    if (_this) {
-        return _this->system_theme;
-    } else {
-        return SDL_SYSTEM_THEME_UNKNOWN;
+    اگر (_this) {
+        واپس _this->system_theme;
+    } ورنہ {
+        واپس SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
-void SDL_UpdateDesktopBounds(void)
+خالی SDL_UpdateDesktopBounds(خالی)
 {
     SDL_Rect rect;
     SDL_zero(rect);
 
-    SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-    if (displays) {
-        for (int i = 0; displays[i]; ++i) {
+    SDL_DisplayID *displays = SDL_GetDisplays(تہی);
+    اگر (displays) {
+        برائے (صحیح i = 0; displays[i]; ++i) {
             SDL_Rect bounds;
-            if (SDL_GetDisplayBounds(displays[i], &bounds)) {
-                if (i == 0) {
+            اگر (SDL_GetDisplayBounds(displays[i], &bounds)) {
+                اگر (i == 0) {
                     SDL_copyp(&rect, &bounds);
-                } else {
+                } ورنہ {
                     SDL_GetRectUnion(&rect, &bounds, &rect);
                 }
             }
@@ -826,76 +826,76 @@ void SDL_UpdateDesktopBounds(void)
     SDL_copyp(&_this->desktop_bounds, &rect);
 }
 
-static void SDL_FinalizeDisplayMode(SDL_DisplayMode *mode)
+ساکن خالی SDL_Finalize_Display_منوال(SDL_Display_منوال *منوال)
 {
     // Make sure all the fields are set up correctly
-    if (mode->pixel_density <= 0.0f) {
-        mode->pixel_density = 1.0f;
+    اگر (منوال->pixel_density <= 0.0f) {
+        منوال->pixel_density = 1.0f;
     }
 
-    if (mode->refresh_rate_numerator > 0) {
-        if (mode->refresh_rate_denominator <= 0) {
-            mode->refresh_rate_denominator = 1;
+    اگر (منوال->refresh_شرح_numerator > 0) {
+        اگر (منوال->refresh_شرح_denominator <= 0) {
+            منوال->refresh_شرح_denominator = 1;
         }
-        mode->refresh_rate = (float)mode->refresh_rate_numerator / mode->refresh_rate_denominator;
-    } else {
-        SDL_CalculateFraction(mode->refresh_rate, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+        منوال->refresh_شرح = (اعشاری)منوال->refresh_شرح_numerator / منوال->refresh_شرح_denominator;
+    } ورنہ {
+        SDL_CalculateFraction(منوال->refresh_شرح, &منوال->refresh_شرح_numerator, &منوال->refresh_شرح_denominator);
     }
-    mode->refresh_rate = SDL_roundf(mode->refresh_rate * 100) / 100.0f;
+    منوال->refresh_شرح = SDL_roundf(منوال->refresh_شرح * 100) / 100.0f;
 }
 
-SDL_DisplayID SDL_AddBasicVideoDisplay(const SDL_DisplayMode *desktop_mode)
+SDL_DisplayID SDL_جوڑو_Basic_Video_Display(ثابت SDL_Display_منوال *desktop_منوال)
 {
     SDL_VideoDisplay display;
 
     SDL_zero(display);
-    if (desktop_mode) {
-        SDL_memcpy(&display.desktop_mode, desktop_mode, sizeof(display.desktop_mode));
+    اگر (desktop_منوال) {
+        SDL_memcpy(&display.desktop_منوال, desktop_منوال, حجم(display.desktop_منوال));
     }
-    return SDL_AddVideoDisplay(&display, false);
+    واپس SDL_جوڑو_Video_Display(&display, false);
 }
 
-SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_event)
+SDL_DisplayID SDL_جوڑو_Video_Display(ثابت SDL_VideoDisplay *display, bool send_event)
 {
     SDL_VideoDisplay **displays, *new_display;
     SDL_DisplayID id;
     SDL_PropertiesID props;
-    int i;
+    صحیح i;
 
-    new_display = (SDL_VideoDisplay *)SDL_malloc(sizeof(*new_display));
-    if (!new_display) {
-        return 0;
+    new_display = (SDL_VideoDisplay *)SDL_malloc(حجم(*new_display));
+    اگر (!new_display) {
+        واپس 0;
     }
 
-    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->num_displays + 1) * sizeof(*displays));
-    if (!displays) {
+    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->عدد_displays + 1) * حجم(*displays));
+    اگر (!displays) {
         SDL_free(new_display);
-        return 0;
+        واپس 0;
     }
     _this->displays = displays;
-    _this->displays[_this->num_displays++] = new_display;
+    _this->displays[_this->عدد_displays++] = new_display;
 
-    id = SDL_GetNextObjectID();
+    id = SDL_Get_اگلا_Object_ID();
     SDL_copyp(new_display, display);
     new_display->id = id;
     new_display->device = _this;
-    if (display->name) {
+    اگر (display->name) {
         new_display->name = SDL_strdup(display->name);
-    } else {
-        char name[32];
+    } ورنہ {
+        حرف name[32];
 
         SDL_itoa(id, name, 10);
         new_display->name = SDL_strdup(name);
     }
-    if (new_display->content_scale == 0.0f) {
+    اگر (new_display->content_scale == 0.0f) {
         new_display->content_scale = 1.0f;
     }
 
-    new_display->desktop_mode.displayID = id;
-    new_display->current_mode = &new_display->desktop_mode;
-    SDL_FinalizeDisplayMode(&new_display->desktop_mode);
+    new_display->desktop_منوال.displayID = id;
+    new_display->current_منوال = &new_display->desktop_منوال;
+    SDL_Finalize_Display_منوال(&new_display->desktop_منوال);
 
-    for (i = 0; i < new_display->num_fullscreen_modes; ++i) {
+    برائے (i = 0; i < new_display->عدد_fullscreen_modes; ++i) {
         new_display->fullscreen_modes[i].displayID = id;
     }
 
@@ -903,169 +903,169 @@ SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_eve
     new_display->HDR.SDR_white_level = SDL_max(display->HDR.SDR_white_level, 1.0f);
 
     props = SDL_GetDisplayProperties(id);
-    SDL_SetBooleanProperty(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
+    SDL_سیٹ_Boolean_Property(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
 
     SDL_UpdateDesktopBounds();
 
-    if (send_event) {
+    اگر (send_event) {
         SDL_SendDisplayEvent(new_display, SDL_EVENT_DISPLAY_ADDED, 0, 0);
     }
 
-    return id;
+    واپس id;
 }
 
-void SDL_OnDisplayAdded(SDL_VideoDisplay *display)
+خالی SDL_OnDisplayAdded(SDL_VideoDisplay *display)
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
 
     // See if any windows have changed to the new display
-    for (window = _this->windows; window; window = window->next) {
-        SDL_CheckWindowDisplayChanged(window);
+    برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+        SDL_Check_کھڑکی_Display_بدلا(کھڑکی);
     }
 }
 
-void SDL_OnDisplayMoved(SDL_VideoDisplay *display)
+خالی SDL_OnDisplayMoved(SDL_VideoDisplay *display)
 {
     SDL_UpdateDesktopBounds();
 }
 
-void SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
+خالی SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
 {
     SDL_VideoDisplay *display;
-    int display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return;
+    صحیح display_اشاریہ = SDL_Get_Display_اشاریہ(displayID);
+    اگر (display_اشاریہ < 0) {
+        واپس;
     }
 
-    display = _this->displays[display_index];
+    display = _this->displays[display_اشاریہ];
 
-    if (send_event) {
+    اگر (send_event) {
         SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_REMOVED, 0, 0);
     }
 
     SDL_DestroyProperties(display->props);
     SDL_free(display->name);
     SDL_ResetFullscreenDisplayModes(display);
-    SDL_free(display->desktop_mode.internal);
-    display->desktop_mode.internal = NULL;
-    SDL_free(display->internal);
-    display->internal = NULL;
+    SDL_free(display->desktop_منوال.اندرونی_2);
+    display->desktop_منوال.اندرونی_2 = تہی;
+    SDL_free(display->اندرونی_2);
+    display->اندرونی_2 = تہی;
     SDL_free(display);
 
-    if (display_index < (_this->num_displays - 1)) {
-        SDL_memmove(&_this->displays[display_index], &_this->displays[display_index + 1], (_this->num_displays - display_index - 1) * sizeof(_this->displays[display_index]));
+    اگر (display_اشاریہ < (_this->عدد_displays - 1)) {
+        SDL_memmove(&_this->displays[display_اشاریہ], &_this->displays[display_اشاریہ + 1], (_this->عدد_displays - display_اشاریہ - 1) * حجم(_this->displays[display_اشاریہ]));
     }
-    --_this->num_displays;
+    --_this->عدد_displays;
 
     SDL_UpdateDesktopBounds();
 }
 
-SDL_DisplayID *SDL_GetDisplays(int *count)
+SDL_DisplayID *SDL_GetDisplays(صحیح *گنتی)
 {
-    int i;
+    صحیح i;
     SDL_DisplayID *displays;
 
-    if (!_this) {
-        if (count) {
-            *count = 0;
+    اگر (!_this) {
+        اگر (گنتی) {
+            *گنتی = 0;
         }
 
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
 
-    displays = (SDL_DisplayID *)SDL_malloc((_this->num_displays + 1) * sizeof(*displays));
-    if (displays) {
-        if (count) {
-            *count = _this->num_displays;
+    displays = (SDL_DisplayID *)SDL_malloc((_this->عدد_displays + 1) * حجم(*displays));
+    اگر (displays) {
+        اگر (گنتی) {
+            *گنتی = _this->عدد_displays;
         }
 
-        for (i = 0; i < _this->num_displays; ++i) {
+        برائے (i = 0; i < _this->عدد_displays; ++i) {
             displays[i] = _this->displays[i]->id;
         }
         displays[i] = 0;
-    } else {
-        if (count) {
-            *count = 0;
+    } ورنہ {
+        اگر (گنتی) {
+            *گنتی = 0;
         }
     }
-    return displays;
+    واپس displays;
 }
 
 SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID displayID)
 {
-    int display_index;
+    صحیح display_اشاریہ;
 
-    display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return NULL;
+    display_اشاریہ = SDL_Get_Display_اشاریہ(displayID);
+    اگر (display_اشاریہ < 0) {
+        واپس تہی;
     }
-    return _this->displays[display_index];
+    واپس _this->displays[display_اشاریہ];
 }
 
-static SDL_DisplayID GetDisplayForWindow(SDL_Window *window)
+ساکن SDL_DisplayID Get_Display_For_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
     SDL_DisplayID displayID = 0;
 
     // An explicit fullscreen display overrides all
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        displayID = window->current_fullscreen_mode.displayID;
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+        displayID = کھڑکی->current_fullscreen_منوال.displayID;
     }
 
-    if (!displayID) {
-        displayID = SDL_GetDisplayForWindowPosition(window);
+    اگر (!displayID) {
+        displayID = SDL_Get_Display_For_کھڑکی_Position(کھڑکی);
     }
-    return displayID;
+    واپس displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    return SDL_GetVideoDisplay(GetDisplayForWindow(window));
+    واپس SDL_GetVideoDisplay(Get_Display_For_کھڑکی(کھڑکی));
 }
 
-SDL_DisplayID SDL_GetPrimaryDisplay(void)
+SDL_DisplayID SDL_GetPrimaryDisplay(خالی)
 {
-    if (!_this || _this->num_displays == 0) {
+    اگر (!_this || _this->عدد_displays == 0) {
         SDL_UninitializedVideo();
-        return 0;
+        واپس 0;
     }
-    return _this->displays[0]->id;
+    واپس _this->displays[0]->id;
 }
 
-int SDL_GetDisplayIndex(SDL_DisplayID displayID)
+صحیح SDL_Get_Display_اشاریہ(SDL_DisplayID displayID)
 {
-    int display_index;
+    صحیح display_اشاریہ;
 
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return -1;
+        واپس -1;
     }
 
-    for (display_index = 0; display_index < _this->num_displays; ++display_index) {
-        if (displayID == _this->displays[display_index]->id) {
-            return display_index;
+    برائے (display_اشاریہ = 0; display_اشاریہ < _this->عدد_displays; ++display_اشاریہ) {
+        اگر (displayID == _this->displays[display_اشاریہ]->id) {
+            واپس display_اشاریہ;
         }
     }
-    SDL_SetError("Invalid display");
-    return -1;
+    SDL_سیٹ_Error("Invalid display");
+    واپس -1;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID displayID)
+SDL_Display_ڈیٹا *SDL_Get_Display_Driver_ڈیٹا(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, تہی);
 
-    return display->internal;
+    واپس display->اندرونی_2;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window)
+SDL_Display_ڈیٹا *SDL_Get_Display_Driver_ڈیٹا_For_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    return SDL_GetDisplayDriverData(GetDisplayForWindow(window));
+    واپس SDL_Get_Display_Driver_ڈیٹا(Get_Display_For_کھڑکی(کھڑکی));
 }
 
 SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
@@ -1074,19 +1074,19 @@ SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, 0);
 
-    if (display->props == 0) {
+    اگر (display->props == 0) {
         display->props = SDL_CreateProperties();
     }
-    return display->props;
+    واپس display->props;
 }
 
-const char *SDL_GetDisplayName(SDL_DisplayID displayID)
+ثابت حرف *SDL_GetDisplayName(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, تہی);
 
-    return display->name;
+    واپس display->name;
 }
 
 bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1096,33 +1096,33 @@ bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        واپس SDL_InvalidParamError("rect");
     }
 
-    if (_this->GetDisplayBounds) {
+    اگر (_this->GetDisplayBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayBounds(_this, display, rect)) {
-            return true;
+        اگر (_this->GetDisplayBounds(_this, display, rect)) {
+            واپس true;
         }
     }
 
     // Assume that the displays are left to right
-    if (displayID == SDL_GetPrimaryDisplay()) {
+    اگر (displayID == SDL_GetPrimaryDisplay()) {
         rect->x = 0;
         rect->y = 0;
-    } else {
-        SDL_GetDisplayBounds(_this->displays[SDL_GetDisplayIndex(displayID) - 1]->id, rect);
+    } ورنہ {
+        SDL_GetDisplayBounds(_this->displays[SDL_Get_Display_اشاریہ(displayID) - 1]->id, rect);
         rect->x += rect->w;
     }
-    rect->w = display->current_mode->w;
-    rect->h = display->current_mode->h;
-    return true;
+    rect->w = display->current_منوال->w;
+    rect->h = display->current_منوال->h;
+    واپس true;
 }
 
-static int ParseDisplayUsableBoundsHint(SDL_Rect *rect)
+ساکن صحیح ParseDisplayUsableBoundsHint(SDL_Rect *rect)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
-    return hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
+    ثابت حرف *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
+    واپس hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
 }
 
 bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1132,22 +1132,22 @@ bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        واپس SDL_InvalidParamError("rect");
     }
 
-    if (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
-        return true;
+    اگر (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
+        واپس true;
     }
 
-    if (_this->GetDisplayUsableBounds) {
+    اگر (_this->GetDisplayUsableBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayUsableBounds(_this, display, rect)) {
-            return true;
+        اگر (_this->GetDisplayUsableBounds(_this, display, rect)) {
+            واپس true;
         }
     }
 
     // Oh well, just give the entire display bounds.
-    return SDL_GetDisplayBounds(displayID, rect);
+    واپس SDL_GetDisplayBounds(displayID, rect);
 }
 
 SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
@@ -1156,11 +1156,11 @@ SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->natural_orientation;
-    } else {
+    اگر (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
+        واپس display->natural_orientation;
+    } ورنہ {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        واپس SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
@@ -1170,171 +1170,171 @@ SDL_DisplayOrientation SDL_GetCurrentDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->current_orientation;
-    } else {
+    اگر (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
+        واپس display->current_orientation;
+    } ورنہ {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        واپس SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
-void SDL_SetDisplayContentScale(SDL_VideoDisplay *display, float scale)
+خالی SDL_سیٹ_Display_Content_Scale(SDL_VideoDisplay *display, اعشاری scale)
 {
-    if (scale != display->content_scale) {
-        SDL_Window *window;
+    اگر (scale != display->content_scale) {
+        SDL_کھڑکی *کھڑکی;
 
         display->content_scale = scale;
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED, 0, 0);
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_بدلا, 0, 0);
 
         // Check the windows on this display
-        for (window = _this->windows; window; window = window->next) {
-            if (display->id == window->displayID) {
-                SDL_CheckWindowDisplayScaleChanged(window);
+        برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            اگر (display->id == کھڑکی->displayID) {
+                SDL_Check_کھڑکی_Display_Scale_بدلا(کھڑکی);
             }
         }
     }
 }
 
-float SDL_GetDisplayContentScale(SDL_DisplayID displayID)
+اعشاری SDL_GetDisplayContentScale(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
     CHECK_DISPLAY_MAGIC(display, 0.0f);
 
-    return display->content_scale;
+    واپس display->content_scale;
 }
 
-void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event)
+خالی SDL_سیٹ_کھڑکی_HDRProperties(SDL_کھڑکی *کھڑکی, ثابت SDL_HDROutputProperties *HDR, bool send_event)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    ثابت SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
 
-    if (window->HDR.HDR_headroom != HDR_clamped.HDR_headroom || window->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
-        SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
+    اگر (کھڑکی->HDR.HDR_headroom != HDR_clamped.HDR_headroom || کھڑکی->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
+        SDL_PropertiesID کھڑکی_props = SDL_Get_کھڑکی_Properties(کھڑکی);
 
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
-        SDL_SetBooleanProperty(window_props, SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
-        SDL_copyp(&window->HDR, &HDR_clamped);
+        SDL_سیٹ_Float_Property(کھڑکی_props, SDL_PROP_کھڑکی_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
+        SDL_سیٹ_Float_Property(کھڑکی_props, SDL_PROP_کھڑکی_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
+        SDL_سیٹ_Boolean_Property(کھڑکی_props, SDL_PROP_کھڑکی_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
+        SDL_copyp(&کھڑکی->HDR, &HDR_clamped);
 
-        if (send_event) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HDR_STATE_CHANGED, HDR_clamped.HDR_headroom > 1.0f, 0);
+        اگر (send_event) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_HDR_STATE_بدلا, HDR_clamped.HDR_headroom > 1.0f, 0);
         }
     }
 }
 
-void SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, const SDL_HDROutputProperties *HDR)
+خالی SDL_سیٹ_Display_HDRProperties(SDL_VideoDisplay *display, ثابت SDL_HDROutputProperties *HDR)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    ثابت SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
-    const bool changed = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
+    ثابت bool بدلا = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
                          HDR_clamped.HDR_headroom != display->HDR.HDR_headroom;
 
     SDL_copyp(&display->HDR, &HDR_clamped);
 
-	if (changed) {
-		SDL_SetBooleanProperty(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
+	اگر (بدلا) {
+		SDL_سیٹ_Boolean_Property(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
 	}
 
-    if (changed && !SDL_DriverSendsHDRChanges(_this)) {
-        for (SDL_Window *w = display->device->windows; w; w = w->next) {
-            if (GetDisplayForWindow(w) == display->id) {
-                SDL_SetWindowHDRProperties(w, &display->HDR, true);
+    اگر (بدلا && !SDL_DriverSendsHDRChanges(_this)) {
+        برائے (SDL_کھڑکی *w = display->device->windows; w; w = w->اگلا) {
+            اگر (Get_Display_For_کھڑکی(w) == display->id) {
+                SDL_سیٹ_کھڑکی_HDRProperties(w, &display->HDR, true);
             }
         }
     }
 }
 
-static void SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
+ساکن خالی SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    if (display->num_fullscreen_modes == 0 && _this->GetDisplayModes) {
+    اگر (display->عدد_fullscreen_modes == 0 && _this->GetDisplayModes) {
         _this->GetDisplayModes(_this, display);
     }
 }
 
 // Return the matching mode as a pointer into our current mode list
-static const SDL_DisplayMode *SDL_GetFullscreenModeMatch(const SDL_DisplayMode *mode)
+ساکن ثابت SDL_Display_منوال *SDL_Get_Fullscreen_منوال_مطابقت(ثابت SDL_Display_منوال *منوال)
 {
     SDL_VideoDisplay *display;
-    SDL_DisplayMode fullscreen_mode;
+    SDL_Display_منوال fullscreen_منوال;
 
-    if (mode->w <= 0 || mode->h <= 0) {
+    اگر (منوال->w <= 0 || منوال->h <= 0) {
         // Use the desktop mode
-        return NULL;
+        واپس تہی;
     }
 
-    SDL_memcpy(&fullscreen_mode, mode, sizeof(fullscreen_mode));
-    if (fullscreen_mode.displayID == 0) {
-        fullscreen_mode.displayID = SDL_GetPrimaryDisplay();
+    SDL_memcpy(&fullscreen_منوال, منوال, حجم(fullscreen_منوال));
+    اگر (fullscreen_منوال.displayID == 0) {
+        fullscreen_منوال.displayID = SDL_GetPrimaryDisplay();
     }
-    SDL_FinalizeDisplayMode(&fullscreen_mode);
+    SDL_Finalize_Display_منوال(&fullscreen_منوال);
 
-    mode = NULL;
+    منوال = تہی;
 
-    display = SDL_GetVideoDisplay(fullscreen_mode.displayID);
-    if (display) {
+    display = SDL_GetVideoDisplay(fullscreen_منوال.displayID);
+    اگر (display) {
         SDL_UpdateFullscreenDisplayModes(display);
 
         // Search for an exact match
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (SDL_memcmp(&fullscreen_mode, &display->fullscreen_modes[i], sizeof(fullscreen_mode)) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        اگر (!منوال) {
+            برائے (صحیح i = 0; i < display->عدد_fullscreen_modes; ++i) {
+                اگر (SDL_memcmp(&fullscreen_منوال, &display->fullscreen_modes[i], حجم(fullscreen_منوال)) == 0) {
+                    منوال = &display->fullscreen_modes[i];
+                    توڑو;
                 }
             }
         }
 
         // Search for a mode with the same characteristics
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (cmpmodes(&fullscreen_mode, &display->fullscreen_modes[i]) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        اگر (!منوال) {
+            برائے (صحیح i = 0; i < display->عدد_fullscreen_modes; ++i) {
+                اگر (cmpmodes(&fullscreen_منوال, &display->fullscreen_modes[i]) == 0) {
+                    منوال = &display->fullscreen_modes[i];
+                    توڑو;
                 }
             }
         }
     }
-    return mode;
+    واپس منوال;
 }
 
-bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+bool SDL_جوڑو_Fullscreen_Display_منوال(SDL_VideoDisplay *display, ثابت SDL_Display_منوال *منوال)
 {
-    SDL_DisplayMode *modes;
-    SDL_DisplayMode new_mode;
-    int i, nmodes;
+    SDL_Display_منوال *modes;
+    SDL_Display_منوال new_منوال;
+    صحیح i, nmodes;
 
     // Finalize the mode for the display
-    SDL_memcpy(&new_mode, mode, sizeof(new_mode));
-    new_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&new_mode);
+    SDL_memcpy(&new_منوال, منوال, حجم(new_منوال));
+    new_منوال.displayID = display->id;
+    SDL_Finalize_Display_منوال(&new_منوال);
 
     // Make sure we don't already have the mode in the list
     modes = display->fullscreen_modes;
-    nmodes = display->num_fullscreen_modes;
-    for (i = 0; i < nmodes; ++i) {
-        if (cmpmodes(&new_mode, &modes[i]) == 0) {
-            return false;
+    nmodes = display->عدد_fullscreen_modes;
+    برائے (i = 0; i < nmodes; ++i) {
+        اگر (cmpmodes(&new_منوال, &modes[i]) == 0) {
+            واپس false;
         }
     }
 
     // Go ahead and add the new mode
-    if (nmodes == display->max_fullscreen_modes) {
-        modes = (SDL_DisplayMode *)SDL_malloc((display->max_fullscreen_modes + 32) * sizeof(*modes));
-        if (!modes) {
-            return false;
+    اگر (nmodes == display->max_fullscreen_modes) {
+        modes = (SDL_Display_منوال *)SDL_malloc((display->max_fullscreen_modes + 32) * حجم(*modes));
+        اگر (!modes) {
+            واپس false;
         }
 
-        if (display->fullscreen_modes) {
+        اگر (display->fullscreen_modes) {
             // Copy the list and update the current mode pointer, if necessary.
-            SDL_memcpy(modes, display->fullscreen_modes, nmodes * sizeof(*modes));
-            for (i = 0; i < nmodes; ++i) {
-                if (display->current_mode == &display->fullscreen_modes[i]) {
-                    display->current_mode = &modes[i];
+            SDL_memcpy(modes, display->fullscreen_modes, nmodes * حجم(*modes));
+            برائے (i = 0; i < nmodes; ++i) {
+                اگر (display->current_منوال == &display->fullscreen_modes[i]) {
+                    display->current_منوال = &modes[i];
                 }
             }
 
@@ -1344,441 +1344,441 @@ bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMo
         display->fullscreen_modes = modes;
         display->max_fullscreen_modes += 32;
     }
-    SDL_memcpy(&modes[display->num_fullscreen_modes++], &new_mode, sizeof(new_mode));
+    SDL_memcpy(&modes[display->عدد_fullscreen_modes++], &new_منوال, حجم(new_منوال));
 
     // Re-sort video modes
-    SDL_qsort(display->fullscreen_modes, display->num_fullscreen_modes,
-              sizeof(SDL_DisplayMode), cmpmodes);
+    SDL_qsort(display->fullscreen_modes, display->عدد_fullscreen_modes,
+              حجم(SDL_Display_منوال), cmpmodes);
 
-    return true;
+    واپس true;
 }
 
-void SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
+خالی SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    int i;
+    صحیح i;
 
-    for (i = display->num_fullscreen_modes; i--;) {
-        SDL_free(display->fullscreen_modes[i].internal);
-        display->fullscreen_modes[i].internal = NULL;
+    برائے (i = display->عدد_fullscreen_modes; i--;) {
+        SDL_free(display->fullscreen_modes[i].اندرونی_2);
+        display->fullscreen_modes[i].اندرونی_2 = تہی;
     }
     SDL_free(display->fullscreen_modes);
-    display->fullscreen_modes = NULL;
-    display->num_fullscreen_modes = 0;
+    display->fullscreen_modes = تہی;
+    display->عدد_fullscreen_modes = 0;
     display->max_fullscreen_modes = 0;
-    display->current_mode = &display->desktop_mode;
+    display->current_منوال = &display->desktop_منوال;
 }
 
-SDL_DisplayMode **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int *count)
+SDL_Display_منوال **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, صحیح *گنتی)
 {
-    int i;
-    int num_modes;
-    SDL_DisplayMode **result;
+    صحیح i;
+    صحیح عدد_modes;
+    SDL_Display_منوال **نتیجہ;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    if (count) {
-        *count = 0;
+    اگر (گنتی) {
+        *گنتی = 0;
     }
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, تہی);
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    num_modes = display->num_fullscreen_modes;
-    result = (SDL_DisplayMode **)SDL_malloc((num_modes + 1) * sizeof(*result) + num_modes * sizeof(**result));
-    if (result) {
-        SDL_DisplayMode *modes = (SDL_DisplayMode *)((Uint8 *)result + ((num_modes + 1) * sizeof(*result)));
-        if (num_modes) {
-            SDL_memcpy(modes, display->fullscreen_modes, num_modes * sizeof(*modes));
+    عدد_modes = display->عدد_fullscreen_modes;
+    نتیجہ = (SDL_Display_منوال **)SDL_malloc((عدد_modes + 1) * حجم(*نتیجہ) + عدد_modes * حجم(**نتیجہ));
+    اگر (نتیجہ) {
+        SDL_Display_منوال *modes = (SDL_Display_منوال *)((Uint8 *)نتیجہ + ((عدد_modes + 1) * حجم(*نتیجہ)));
+        اگر (عدد_modes) {
+            SDL_memcpy(modes, display->fullscreen_modes, عدد_modes * حجم(*modes));
         }
-        for (i = 0; i < num_modes; ++i) {
-            result[i] = modes++;
+        برائے (i = 0; i < عدد_modes; ++i) {
+            نتیجہ[i] = modes++;
         }
-        result[i] = NULL;
+        نتیجہ[i] = تہی;
 
-        if (count) {
-            *count = num_modes;
+        اگر (گنتی) {
+            *گنتی = عدد_modes;
         }
-    } else {
-        if (count) {
-            *count = 0;
+    } ورنہ {
+        اگر (گنتی) {
+            *گنتی = 0;
         }
     }
-    return result;
+    واپس نتیجہ;
 }
 
-bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, bool include_high_density_modes, SDL_DisplayMode *result)
+bool SDL_Get_Closest_Fullscreen_Display_منوال(SDL_DisplayID displayID, صحیح w, صحیح h, اعشاری refresh_شرح, bool include_بلند_density_modes, SDL_Display_منوال *نتیجہ)
 {
-    CHECK_PARAM(!result) {
-        return SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
+    CHECK_PARAM(!نتیجہ) {
+        واپس SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
     }
 
-    const SDL_DisplayMode *mode, *closest = NULL;
-    float aspect_ratio;
-    int i;
+    ثابت SDL_Display_منوال *منوال, *closest = تہی;
+    اعشاری aspect_تناسب;
+    صحیح i;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    SDL_zerop(result);
+    SDL_zerop(نتیجہ);
 
     CHECK_DISPLAY_MAGIC(display, false);
 
-    if (h > 0) {
-        aspect_ratio = (float)w / h;
-    } else {
-        aspect_ratio = 1.0f;
+    اگر (h > 0) {
+        aspect_تناسب = (اعشاری)w / h;
+    } ورنہ {
+        aspect_تناسب = 1.0f;
     }
 
-    if (refresh_rate == 0.0f) {
-        refresh_rate = display->desktop_mode.refresh_rate;
+    اگر (refresh_شرح == 0.0f) {
+        refresh_شرح = display->desktop_منوال.refresh_شرح;
     }
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    for (i = 0; i < display->num_fullscreen_modes; ++i) {
-        mode = &display->fullscreen_modes[i];
+    برائے (i = 0; i < display->عدد_fullscreen_modes; ++i) {
+        منوال = &display->fullscreen_modes[i];
 
-        if (w > mode->w) {
+        اگر (w > منوال->w) {
             // Out of sorted modes large enough here
-            break;
+            توڑو;
         }
-        if (h > mode->h) {
+        اگر (h > منوال->h) {
             /* Wider, but not tall enough, due to a different aspect ratio.
              * This mode must be skipped, but closer modes may still follow */
-            continue;
+            جاری;
         }
-        if (mode->pixel_density > 1.0f && !include_high_density_modes) {
-            continue;
+        اگر (منوال->pixel_density > 1.0f && !include_بلند_density_modes) {
+            جاری;
         }
-        if (closest) {
-            float current_aspect_ratio = (float)mode->w / mode->h;
-            float closest_aspect_ratio = (float)closest->w / closest->h;
-            if (SDL_fabsf(aspect_ratio - closest_aspect_ratio) < SDL_fabsf(aspect_ratio - current_aspect_ratio)) {
+        اگر (closest) {
+            اعشاری current_aspect_تناسب = (اعشاری)منوال->w / منوال->h;
+            اعشاری closest_aspect_تناسب = (اعشاری)closest->w / closest->h;
+            اگر (SDL_fabsf(aspect_تناسب - closest_aspect_تناسب) < SDL_fabsf(aspect_تناسب - current_aspect_تناسب)) {
                 // The mode we already found has a better aspect ratio match
-                continue;
+                جاری;
             }
 
-            if (mode->w == closest->w && mode->h == closest->h) {
-                if (SDL_fabsf(closest->refresh_rate - refresh_rate) < SDL_fabsf(mode->refresh_rate - refresh_rate)) {
+            اگر (منوال->w == closest->w && منوال->h == closest->h) {
+                اگر (SDL_fabsf(closest->refresh_شرح - refresh_شرح) < SDL_fabsf(منوال->refresh_شرح - refresh_شرح)) {
                     /* We already found a mode and the new mode is further from our
                      * refresh rate target */
-                    continue;
+                    جاری;
                 }
-                if (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(mode->format)) {
+                اگر (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(منوال->format)) {
                     // Prefer the highest color depth
-                    continue;
+                    جاری;
                 }
             }
         }
 
-        closest = mode;
+        closest = منوال;
     }
-    if (!closest) {
-        return SDL_SetError("Couldn't find any matching video modes");
+    اگر (!closest) {
+        واپس SDL_سیٹ_Error("Couldn't find any matching video modes");
     }
 
-    SDL_copyp(result, closest);
+    SDL_copyp(نتیجہ, closest);
 
-    return true;
+    واپس true;
 }
 
-static bool DisplayModeChanged(const SDL_DisplayMode *old_mode, const SDL_DisplayMode *new_mode)
+ساکن bool Display_منوال_بدلا(ثابت SDL_Display_منوال *old_منوال, ثابت SDL_Display_منوال *new_منوال)
 {
-    return ((old_mode->displayID && old_mode->displayID != new_mode->displayID) ||
-            (old_mode->format && old_mode->format != new_mode->format) ||
-            (old_mode->w && old_mode->h && (old_mode->w != new_mode->w ||old_mode->h != new_mode->h)) ||
-            (old_mode->pixel_density != 0.0f && old_mode->pixel_density != new_mode->pixel_density) ||
-            (old_mode->refresh_rate != 0.0f && old_mode->refresh_rate != new_mode->refresh_rate));
+    واپس ((old_منوال->displayID && old_منوال->displayID != new_منوال->displayID) ||
+            (old_منوال->format && old_منوال->format != new_منوال->format) ||
+            (old_منوال->w && old_منوال->h && (old_منوال->w != new_منوال->w ||old_منوال->h != new_منوال->h)) ||
+            (old_منوال->pixel_density != 0.0f && old_منوال->pixel_density != new_منوال->pixel_density) ||
+            (old_منوال->refresh_شرح != 0.0f && old_منوال->refresh_شرح != new_منوال->refresh_شرح));
 }
 
-void SDL_SetDesktopDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+خالی SDL_سیٹ_Desktop_Display_منوال(SDL_VideoDisplay *display, ثابت SDL_Display_منوال *منوال)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_منوال آخری_منوال;
 
-    if (display->fullscreen_active) {
+    اگر (display->fullscreen_فعال) {
         // This is a temporary mode change, don't save the desktop mode
-        return;
+        واپس;
     }
 
-    SDL_copyp(&last_mode, &display->desktop_mode);
+    SDL_copyp(&آخری_منوال, &display->desktop_منوال);
 
-    SDL_free(display->desktop_mode.internal);
-    SDL_copyp(&display->desktop_mode, mode);
-    display->desktop_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&display->desktop_mode);
+    SDL_free(display->desktop_منوال.اندرونی_2);
+    SDL_copyp(&display->desktop_منوال, منوال);
+    display->desktop_منوال.displayID = display->id;
+    SDL_Finalize_Display_منوال(&display->desktop_منوال);
 
-    if (DisplayModeChanged(&last_mode, &display->desktop_mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED, mode->w, mode->h);
-        if (display->current_mode == &display->desktop_mode) {
-            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    اگر (Display_منوال_بدلا(&آخری_منوال, &display->desktop_منوال)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_منوال_بدلا, منوال->w, منوال->h);
+        اگر (display->current_منوال == &display->desktop_منوال) {
+            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_منوال_بدلا, منوال->w, منوال->h);
         }
     }
 }
 
-const SDL_DisplayMode *SDL_GetDesktopDisplayMode(SDL_DisplayID displayID)
+ثابت SDL_Display_منوال *SDL_Get_Desktop_Display_منوال(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, تہی);
 
-    return &display->desktop_mode;
+    واپس &display->desktop_منوال;
 }
 
-void SDL_SetCurrentDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+خالی SDL_سیٹ_Current_Display_منوال(SDL_VideoDisplay *display, ثابت SDL_Display_منوال *منوال)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_منوال آخری_منوال;
 
-    if (display->current_mode) {
-        SDL_copyp(&last_mode, display->current_mode);
-    } else {
-        SDL_zero(last_mode);
+    اگر (display->current_منوال) {
+        SDL_copyp(&آخری_منوال, display->current_منوال);
+    } ورنہ {
+        SDL_zero(آخری_منوال);
     }
 
-    display->current_mode = mode;
+    display->current_منوال = منوال;
 
-    if (DisplayModeChanged(&last_mode, mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    اگر (Display_منوال_بدلا(&آخری_منوال, منوال)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_منوال_بدلا, منوال->w, منوال->h);
     }
 }
 
-const SDL_DisplayMode *SDL_GetCurrentDisplayMode(SDL_DisplayID displayID)
+ثابت SDL_Display_منوال *SDL_Get_Current_Display_منوال(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, تہی);
 
-    return display->current_mode;
+    واپس display->current_منوال;
 }
 
-bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool SDL_سیٹ_Display_منوال_For_Display(SDL_VideoDisplay *display, SDL_Display_منوال *منوال)
 {
     /* Mode switching is being emulated per-window; nothing to do and cannot fail,
      * except for XWayland, which still needs the actual mode setting call since
      * it's emulated via the XRandR interface.
      */
-    if (SDL_ModeSwitchingEmulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
-        return true;
+    اگر (SDL_منوال_Switching_Emulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
+        واپس true;
     }
 
-    if (!mode) {
-        mode = &display->desktop_mode;
+    اگر (!منوال) {
+        منوال = &display->desktop_منوال;
     }
 
     // On RISC OS, it's necessary to switch from the desktop to single-tasking
     // fullscreen so that it can handle switching back to the desktop correctly.
-#ifndef SDL_PLATFORM_RISCOS
-    if (mode == display->current_mode) {
-        return true;
+#اگر_غیر_تعریف_شدہ SDL_PLATFORM_RISCOS
+    اگر (منوال == display->current_منوال) {
+        واپس true;
     }
-#endif
+#اگر_ختم
 
     // Actually change the display mode
-    if (_this->SetDisplayMode) {
-        bool result;
+    اگر (_this->سیٹ_Display_منوال) {
+        bool نتیجہ;
 
-        _this->setting_display_mode = true;
-        result = _this->SetDisplayMode(_this, display, mode);
-        _this->setting_display_mode = false;
-        if (!result) {
-            return false;
+        _this->setting_display_منوال = true;
+        نتیجہ = _this->سیٹ_Display_منوال(_this, display, منوال);
+        _this->setting_display_منوال = false;
+        اگر (!نتیجہ) {
+            واپس false;
         }
     }
 
-    SDL_SetCurrentDisplayMode(display, mode);
+    SDL_سیٹ_Current_Display_منوال(display, منوال);
 
-    return true;
+    واپس true;
 }
 
 /**
  * If x, y are outside of rect, snaps them to the closest point inside rect
  * (between rect->x, rect->y, inclusive, and rect->x + w, rect->y + h, exclusive)
  */
-static void SDL_GetClosestPointOnRect(const SDL_Rect *rect, SDL_Point *point)
+ساکن خالی SDL_Get_Closest_نقطہ_On_Rect(ثابت SDL_Rect *rect, SDL_نقطہ *نقطہ)
 {
-    const int right = rect->x + rect->w - 1;
-    const int bottom = rect->y + rect->h - 1;
+    ثابت صحیح دایاں = rect->x + rect->w - 1;
+    ثابت صحیح bottom = rect->y + rect->h - 1;
 
-    if (point->x < rect->x) {
-        point->x = rect->x;
-    } else if (point->x > right) {
-        point->x = right;
+    اگر (نقطہ->x < rect->x) {
+        نقطہ->x = rect->x;
+    } ورنہ اگر (نقطہ->x > دایاں) {
+        نقطہ->x = دایاں;
     }
 
-    if (point->y < rect->y) {
-        point->y = rect->y;
-    } else if (point->y > bottom) {
-        point->y = bottom;
+    اگر (نقطہ->y < rect->y) {
+        نقطہ->y = rect->y;
+    } ورنہ اگر (نقطہ->y > bottom) {
+        نقطہ->y = bottom;
     }
 }
 
-static SDL_DisplayID GetDisplayForRect(int x, int y, int w, int h)
+ساکن SDL_DisplayID GetDisplayForRect(صحیح x, صحیح y, صحیح w, صحیح h)
 {
-    int i, dist;
+    صحیح i, dist;
     SDL_DisplayID closest = 0;
-    int closest_dist = 0x7FFFFFFF;
-    SDL_Point closest_point_on_display;
-    SDL_Point delta;
-    SDL_Point center;
+    صحیح closest_dist = 0x7FFFFFFF;
+    SDL_نقطہ closest_نقطہ_on_display;
+    SDL_نقطہ delta;
+    SDL_نقطہ center;
     center.x = x + w / 2;
     center.y = y + h / 2;
 
-    if (_this) {
-        for (i = 0; i < _this->num_displays; ++i) {
+    اگر (_this) {
+        برائے (i = 0; i < _this->عدد_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
             SDL_Rect display_rect;
             SDL_GetDisplayBounds(display->id, &display_rect);
 
             // Check if the window is fully enclosed
-            if (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, NULL)) {
-                return display->id;
+            اگر (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, تہی)) {
+                واپس display->id;
             }
 
             // Snap window center to the display rect
-            closest_point_on_display = center;
-            SDL_GetClosestPointOnRect(&display_rect, &closest_point_on_display);
+            closest_نقطہ_on_display = center;
+            SDL_Get_Closest_نقطہ_On_Rect(&display_rect, &closest_نقطہ_on_display);
 
-            delta.x = center.x - closest_point_on_display.x;
-            delta.y = center.y - closest_point_on_display.y;
+            delta.x = center.x - closest_نقطہ_on_display.x;
+            delta.y = center.y - closest_نقطہ_on_display.y;
             dist = (delta.x * delta.x + delta.y * delta.y);
-            if (dist < closest_dist) {
+            اگر (dist < closest_dist) {
                 closest = display->id;
                 closest_dist = dist;
             }
         }
     }
 
-    if (closest == 0) {
-        SDL_SetError("Couldn't find any displays");
+    اگر (closest == 0) {
+        SDL_سیٹ_Error("Couldn't find any displays");
     }
 
-    return closest;
+    واپس closest;
 }
 
-void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y)
+خالی SDL_Relative_مقصد_Global_For_کھڑکی(SDL_کھڑکی *کھڑکی, صحیح rel_x, صحیح rel_y, صحیح *abs_x, صحیح *abs_y)
 {
-    SDL_Window *w;
+    SDL_کھڑکی *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
         // Calculate the total offset of the popup from the parents
-        for (w = window->parent; w; w = w->parent) {
+        برائے (w = کھڑکی->والد; w; w = w->والد) {
             rel_x += w->x;
             rel_y += w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            اگر (!SDL_کھڑکی_IS_POPUP(w)) {
+                توڑو;
             }
         }
     }
 
-    if (abs_x) {
+    اگر (abs_x) {
         *abs_x = rel_x;
     }
-    if (abs_y) {
+    اگر (abs_y) {
         *abs_y = rel_y;
     }
 }
 
-void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y)
+خالی SDL_Global_مقصد_Relative_For_کھڑکی(SDL_کھڑکی *کھڑکی, صحیح abs_x, صحیح abs_y, صحیح *rel_x, صحیح *rel_y)
 {
-    SDL_Window *w;
+    SDL_کھڑکی *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
         // Convert absolute window coordinates to relative for a popup
-        for (w = window->parent; w; w = w->parent) {
+        برائے (w = کھڑکی->والد; w; w = w->والد) {
             abs_x -= w->x;
             abs_y -= w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            اگر (!SDL_کھڑکی_IS_POPUP(w)) {
+                توڑو;
             }
         }
     }
 
-    if (rel_x) {
+    اگر (rel_x) {
         *rel_x = abs_x;
     }
-    if (rel_y) {
+    اگر (rel_y) {
         *rel_y = abs_y;
     }
 }
 
-SDL_DisplayID SDL_GetDisplayForPoint(const SDL_Point *point)
+SDL_DisplayID SDL_Get_Display_For_نقطہ(ثابت SDL_نقطہ *نقطہ)
 {
-    CHECK_PARAM(!point) {
+    CHECK_PARAM(!نقطہ) {
         SDL_InvalidParamError("point");
-        return 0;
+        واپس 0;
     }
 
-    return GetDisplayForRect(point->x, point->y, 1, 1);
+    واپس GetDisplayForRect(نقطہ->x, نقطہ->y, 1, 1);
 }
 
-SDL_DisplayID SDL_GetDisplayForRect(const SDL_Rect *rect)
+SDL_DisplayID SDL_GetDisplayForRect(ثابت SDL_Rect *rect)
 {
     CHECK_PARAM(!rect) {
         SDL_InvalidParamError("rect");
-        return 0;
+        واپس 0;
     }
 
-    return GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
+    واپس GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
 }
 
-static SDL_DisplayID GetDisplayAtOrigin(int x, int y)
+ساکن SDL_DisplayID GetDisplayAtOrigin(صحیح x, صحیح y)
 {
-    for (int i = 0; i < _this->num_displays; ++i) {
+    برائے (صحیح i = 0; i < _this->عدد_displays; ++i) {
         SDL_Rect rect;
-        const SDL_DisplayID cur_id = _this->displays[i]->id;
-        if (SDL_GetDisplayBounds(cur_id, &rect)) {
-            if (x == rect.x && y == rect.y) {
-                return cur_id;
+        ثابت SDL_DisplayID cur_id = _this->displays[i]->id;
+        اگر (SDL_GetDisplayBounds(cur_id, &rect)) {
+            اگر (x == rect.x && y == rect.y) {
+                واپس cur_id;
             }
         }
     }
 
-    return 0;
+    واپس 0;
 }
 
-SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_کھڑکی_Position(SDL_کھڑکی *کھڑکی)
 {
-    int x, y;
+    صحیح x, y;
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    if (_this->GetDisplayForWindow) {
-        displayID = _this->GetDisplayForWindow(_this, window);
+    اگر (_this->Get_Display_For_کھڑکی) {
+        displayID = _this->Get_Display_For_کھڑکی(_this, کھڑکی);
     }
 
     /* A backend implementation may fail to get a display for the window
      * (for example if the window is off-screen), but other code may expect it
      * to succeed in that situation, so we fall back to a generic position-
      * based implementation in that case. */
-    SDL_RelativeToGlobalForWindow(window, window->x, window->y, &x, &y);
+    SDL_Relative_مقصد_Global_For_کھڑکی(کھڑکی, کھڑکی->x, کھڑکی->y, &x, &y);
 
-    if (!displayID) {
+    اگر (!displayID) {
         /* Fullscreen windows may be larger than the display if they were moved between differently sized
          * displays and the new position was received before the new size or vice versa. Using the center
          * of the window rect in this case can report the wrong display, so use the origin.
          */
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
             displayID = GetDisplayForRect(x, y, 1, 1);
-        } else {
-            displayID = GetDisplayForRect(x, y, window->w, window->h);
+        } ورنہ {
+            displayID = GetDisplayForRect(x, y, کھڑکی->w, کھڑکی->h);
         }
     }
-    if (!displayID) {
+    اگر (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return displayID;
+    واپس displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_Fullscreen_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
     // An explicit fullscreen display overrides all
-    if (window->current_fullscreen_mode.displayID) {
-        displayID = window->current_fullscreen_mode.displayID;
+    اگر (کھڑکی->current_fullscreen_منوال.displayID) {
+        displayID = کھڑکی->current_fullscreen_منوال.displayID;
     }
 
     /* This is used to handle the very common pattern of SDL_SetWindowPosition()
@@ -1787,287 +1787,287 @@ SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
      * window position, or an async window manager hasn't yet actually moved the window,
      * the current position won't be updated at the time of the fullscreen call.
      */
-    if (!displayID) {
-        displayID = window->pending_displayID;
+    اگر (!displayID) {
+        displayID = کھڑکی->pending_displayID;
     }
-    if (!displayID) {
+    اگر (!displayID) {
         // Use the pending position and dimensions, if available, otherwise, use the current.
-        const int x = window->last_position_pending ? window->pending.x : window->x;
-        const int y = window->last_position_pending ? window->pending.y : window->y;
-        const int w = window->last_size_pending ? window->pending.w : window->w;
-        const int h = window->last_size_pending ? window->pending.h : window->h;
+        ثابت صحیح x = کھڑکی->آخری_position_pending ? کھڑکی->pending.x : کھڑکی->x;
+        ثابت صحیح y = کھڑکی->آخری_position_pending ? کھڑکی->pending.y : کھڑکی->y;
+        ثابت صحیح w = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : کھڑکی->w;
+        ثابت صحیح h = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : کھڑکی->h;
 
         // Check if the window is exactly at the origin of a display. Otherwise, fall back to the generic check.
         displayID = GetDisplayAtOrigin(x, y);
-        if (!displayID) {
+        اگر (!displayID) {
             displayID = GetDisplayForRect(x, y, w, h);
         }
     }
-    if (!displayID) {
+    اگر (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return SDL_GetVideoDisplay(displayID);
+    واپس SDL_GetVideoDisplay(displayID);
 }
 
-#define SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
+#تعریف_کرو SDL_PROP_SDL2_COMPAT_کھڑکی_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
 
-SDL_DisplayID SDL_GetDisplayForWindow(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
     /* sdl2-compat calls this function to get a display on which to make the window fullscreen,
      * so pass it the preferred fullscreen display ID in a property.
      */
-    SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
-    SDL_VideoDisplay *fs_display = SDL_GetVideoDisplayForFullscreenWindow(window);
-    if (fs_display) {
-        SDL_SetNumberProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
-    } else {
-        SDL_ClearProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY);
+    SDL_PropertiesID کھڑکی_props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    SDL_VideoDisplay *fs_display = SDL_Get_Video_Display_For_Fullscreen_کھڑکی(کھڑکی);
+    اگر (fs_display) {
+        SDL_سیٹ_نمبر_Property(کھڑکی_props, SDL_PROP_SDL2_COMPAT_کھڑکی_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
+    } ورنہ {
+        SDL_ClearProperty(کھڑکی_props, SDL_PROP_SDL2_COMPAT_کھڑکی_PREFERRED_FULLSCREEN_DISPLAY);
     }
 
-    return GetDisplayForWindow(window);
+    واپس Get_Display_For_کھڑکی(کھڑکی);
 }
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window)
+ساکن خالی SDL_Check_کھڑکی_Display_بدلا(SDL_کھڑکی *کھڑکی)
 {
-    if (SDL_SendsDisplayChanges(_this)) {
-        return;
+    اگر (SDL_SendsDisplayChanges(_this)) {
+        واپس;
     }
 
-    SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
+    SDL_DisplayID displayID = SDL_Get_Display_For_کھڑکی_Position(کھڑکی);
 
-    if (displayID != window->displayID) {
+    اگر (displayID != کھڑکی->displayID) {
         // See if we are fully committed to the new display
         // 80% is about the right value, tested with 350% scale on the left monitor and 100% scale on the right
         SDL_Rect old_bounds, new_bounds;
-        SDL_Rect window_rect;
+        SDL_Rect کھڑکی_rect;
         SDL_Rect old_overlap, new_overlap;
 
-        if (SDL_GetDisplayBounds(window->displayID, &old_bounds) &&
+        اگر (SDL_GetDisplayBounds(کھڑکی->displayID, &old_bounds) &&
             SDL_GetDisplayBounds(displayID, &new_bounds)) {
-            window_rect.x = window->x;
-            window_rect.y = window->y;
-            window_rect.w = window->w;
-            window_rect.h = window->h;
+            کھڑکی_rect.x = کھڑکی->x;
+            کھڑکی_rect.y = کھڑکی->y;
+            کھڑکی_rect.w = کھڑکی->w;
+            کھڑکی_rect.h = کھڑکی->h;
 
-            if (SDL_GetRectIntersection(&old_bounds, &window_rect, &old_overlap) &&
-                SDL_GetRectIntersection(&new_bounds, &window_rect, &new_overlap)) {
-                int old_area = old_overlap.w * old_overlap.h;
-                int new_area = new_overlap.w * new_overlap.h;
-                float new_overlap_ratio = (new_area / ((float)old_area + new_area));
-                if (new_overlap_ratio < 0.80) {
-                    return;
+            اگر (SDL_GetRectIntersection(&old_bounds, &کھڑکی_rect, &old_overlap) &&
+                SDL_GetRectIntersection(&new_bounds, &کھڑکی_rect, &new_overlap)) {
+                صحیح old_area = old_overlap.w * old_overlap.h;
+                صحیح new_area = new_overlap.w * new_overlap.h;
+                اعشاری new_overlap_تناسب = (new_area / ((اعشاری)old_area + new_area));
+                اگر (new_overlap_تناسب < 0.80) {
+                    واپس;
                 }
             }
         }
     }
 
-    if (displayID != window->displayID) {
-        int i, display_index;
+    اگر (displayID != کھڑکی->displayID) {
+        صحیح i, display_اشاریہ;
 
         // Sanity check our fullscreen windows
-        display_index = SDL_GetDisplayIndex(displayID);
-        for (i = 0; i < _this->num_displays; ++i) {
+        display_اشاریہ = SDL_Get_Display_اشاریہ(displayID);
+        برائے (i = 0; i < _this->عدد_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
 
-            if (display->fullscreen_window == window) {
-                if (display_index != i) {
-                    if (display_index < 0) {
-                        display_index = i;
-                    } else {
-                        SDL_VideoDisplay *new_display = _this->displays[display_index];
+            اگر (display->fullscreen_کھڑکی == کھڑکی) {
+                اگر (display_اشاریہ != i) {
+                    اگر (display_اشاریہ < 0) {
+                        display_اشاریہ = i;
+                    } ورنہ {
+                        SDL_VideoDisplay *new_display = _this->displays[display_اشاریہ];
 
                         // The window was moved to a different display
-                        if (new_display->fullscreen_window &&
-                            new_display->fullscreen_window != window) {
+                        اگر (new_display->fullscreen_کھڑکی &&
+                            new_display->fullscreen_کھڑکی != کھڑکی) {
                             // Uh oh, there's already a fullscreen window here; minimize it
-                            SDL_MinimizeWindow(new_display->fullscreen_window);
+                            SDL_Minimize_کھڑکی(new_display->fullscreen_کھڑکی);
                         }
-                        new_display->fullscreen_window = window;
-                        display->fullscreen_window = NULL;
+                        new_display->fullscreen_کھڑکی = کھڑکی;
+                        display->fullscreen_کھڑکی = تہی;
                     }
                 }
-                break;
+                توڑو;
             }
         }
 
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_CHANGED, (int)displayID, 0);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_DISPLAY_بدلا, (صحیح)displayID, 0);
     }
 }
 
-float SDL_GetWindowPixelDensity(SDL_Window *window)
+اعشاری SDL_Get_کھڑکی_Pixel_Density(SDL_کھڑکی *کھڑکی)
 {
-    int window_w, window_h, pixel_w, pixel_h;
-    float pixel_density = 1.0f;
+    صحیح کھڑکی_w, کھڑکی_h, pixel_w, pixel_h;
+    اعشاری pixel_density = 1.0f;
 
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0.0f);
 
-    if (SDL_GetWindowSize(window, &window_w, &window_h) &&
-        SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h)) {
-        pixel_density = (float)pixel_w / window_w;
+    اگر (SDL_Get_کھڑکی_سائز(کھڑکی, &کھڑکی_w, &کھڑکی_h) &&
+        SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &pixel_w, &pixel_h)) {
+        pixel_density = (اعشاری)pixel_w / کھڑکی_w;
     }
-    return pixel_density;
+    واپس pixel_density;
 }
 
-float SDL_GetWindowDisplayScale(SDL_Window *window)
+اعشاری SDL_Get_کھڑکی_Display_Scale(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0.0f);
 
-    return window->display_scale;
+    واپس کھڑکی->display_scale;
 }
 
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window)
+ساکن خالی SDL_Check_کھڑکی_Display_Scale_بدلا(SDL_کھڑکی *کھڑکی)
 {
-    float display_scale;
+    اعشاری display_scale;
 
-    if (_this->GetWindowContentScale) {
-        display_scale = _this->GetWindowContentScale(_this, window);
-    } else {
-        const float pixel_density = SDL_GetWindowPixelDensity(window);
-        const float content_scale = SDL_GetDisplayContentScale(window->displayID);
+    اگر (_this->Get_کھڑکی_Content_Scale) {
+        display_scale = _this->Get_کھڑکی_Content_Scale(_this, کھڑکی);
+    } ورنہ {
+        ثابت اعشاری pixel_density = SDL_Get_کھڑکی_Pixel_Density(کھڑکی);
+        ثابت اعشاری content_scale = SDL_GetDisplayContentScale(کھڑکی->displayID);
 
         display_scale = pixel_density * content_scale;
     }
 
-    if (display_scale != window->display_scale) {
-        window->display_scale = display_scale;
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED, 0, 0);
+    اگر (display_scale != کھڑکی->display_scale) {
+        کھڑکی->display_scale = display_scale;
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_DISPLAY_SCALE_بدلا, 0, 0);
     }
 }
 
-bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, bool commit)
+bool SDL_Update_Fullscreen_منوال(SDL_کھڑکی *کھڑکی, SDL_FullscreenOp fullscreen, bool commit)
 {
-    SDL_VideoDisplay *display = NULL;
-    SDL_DisplayMode *mode = NULL;
-    int i;
+    SDL_VideoDisplay *display = تہی;
+    SDL_Display_منوال *منوال = تہی;
+    صحیح i;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    window->fullscreen_exclusive = false;
-    window->update_fullscreen_on_display_changed = false;
+    کھڑکی->fullscreen_exclusive = false;
+    کھڑکی->update_fullscreen_on_display_بدلا = false;
 
     // If we are in the process of hiding don't go back to fullscreen
-    if (window->is_destroying || window->is_hiding) {
+    اگر (کھڑکی->is_destroying || کھڑکی->is_hiding) {
         fullscreen = SDL_FULLSCREEN_OP_LEAVE;
     }
 
     // Get the correct display for this operation
-    if (fullscreen) {
-        display = SDL_GetVideoDisplayForFullscreenWindow(window);
-        if (!display) {
+    اگر (fullscreen) {
+        display = SDL_Get_Video_Display_For_Fullscreen_کھڑکی(کھڑکی);
+        اگر (!display) {
             // This should never happen, but it did...
-            goto done;
+            جاؤ مکمل;
         }
-    } else {
-        for (i = 0; i < _this->num_displays; ++i) {
+    } ورنہ {
+        برائے (i = 0; i < _this->عدد_displays; ++i) {
             display = _this->displays[i];
-            if (display->fullscreen_window == window) {
-                break;
+            اگر (display->fullscreen_کھڑکی == کھڑکی) {
+                توڑو;
             }
         }
-        if (!display || i == _this->num_displays) {
+        اگر (!display || i == _this->عدد_displays) {
             // Already not fullscreen on any display
-            display = NULL;
+            display = تہی;
         }
     }
 
-    if (fullscreen) {
-        mode = (SDL_DisplayMode *)SDL_GetWindowFullscreenMode(window);
-        if (mode) {
-            window->fullscreen_exclusive = true;
-        } else {
+    اگر (fullscreen) {
+        منوال = (SDL_Display_منوال *)SDL_Get_کھڑکی_Fullscreen_منوال(کھڑکی);
+        اگر (منوال) {
+            کھڑکی->fullscreen_exclusive = true;
+        } ورنہ {
             // Make sure the current mode is zeroed for fullscreen desktop.
-            SDL_zero(window->current_fullscreen_mode);
+            SDL_zero(کھڑکی->current_fullscreen_منوال);
         }
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#اگر defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* if the window is going away and no resolution change is necessary,
        do nothing, or else we may trigger an ugly double-transition
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (window->is_destroying && !window->last_fullscreen_exclusive_display) {
-            window->fullscreen_exclusive = false;
-            if (display) {
-                display->fullscreen_window = NULL;
+    اگر (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        اگر (کھڑکی->is_destroying && !کھڑکی->آخری_fullscreen_exclusive_display) {
+            کھڑکی->fullscreen_exclusive = false;
+            اگر (display) {
+                display->fullscreen_کھڑکی = تہی;
             }
-            goto done;
+            جاؤ مکمل;
         }
-        if (commit) {
+        اگر (commit) {
             // If we're switching between a fullscreen Space and exclusive fullscreen, we need to get back to normal first.
-            if (fullscreen && Cocoa_IsWindowInFullscreenSpace(window) && !window->last_fullscreen_exclusive_display && window->fullscreen_exclusive) {
-                if (!Cocoa_SetWindowFullscreenSpace(window, false, true)) {
-                    goto error;
+            اگر (fullscreen && Cocoa_Is_کھڑکی_اندر_Fullscreen_Space(کھڑکی) && !کھڑکی->آخری_fullscreen_exclusive_display && کھڑکی->fullscreen_exclusive) {
+                اگر (!Cocoa_سیٹ_کھڑکی_Fullscreen_Space(کھڑکی, false, true)) {
+                    جاؤ error;
                 }
-            } else if (fullscreen && window->last_fullscreen_exclusive_display && !window->fullscreen_exclusive) {
-                for (i = 0; i < _this->num_displays; ++i) {
-                    SDL_VideoDisplay *last_display = _this->displays[i];
-                    if (last_display->fullscreen_window == window) {
-                        SDL_SetDisplayModeForDisplay(last_display, NULL);
-                        if (_this->SetWindowFullscreen) {
-                            _this->SetWindowFullscreen(_this, window, last_display, false);
+            } ورنہ اگر (fullscreen && کھڑکی->آخری_fullscreen_exclusive_display && !کھڑکی->fullscreen_exclusive) {
+                برائے (i = 0; i < _this->عدد_displays; ++i) {
+                    SDL_VideoDisplay *آخری_display = _this->displays[i];
+                    اگر (آخری_display->fullscreen_کھڑکی == کھڑکی) {
+                        SDL_سیٹ_Display_منوال_For_Display(آخری_display, تہی);
+                        اگر (_this->سیٹ_کھڑکی_Fullscreen) {
+                            _this->سیٹ_کھڑکی_Fullscreen(_this, کھڑکی, آخری_display, false);
                         }
-                        last_display->fullscreen_window = NULL;
+                        آخری_display->fullscreen_کھڑکی = تہی;
                     }
                 }
             }
 
-            if (Cocoa_SetWindowFullscreenSpace(window, !!fullscreen, syncHint)) {
-                goto done;
+            اگر (Cocoa_سیٹ_کھڑکی_Fullscreen_Space(کھڑکی, !!fullscreen, syncHint)) {
+                جاؤ مکمل;
             }
         }
     }
-#endif
+#اگر_ختم
 
-    if (display) {
+    اگر (display) {
         // Restore the video mode on other displays if needed
-        for (i = 0; i < _this->num_displays; ++i) {
+        برائے (i = 0; i < _this->عدد_displays; ++i) {
             SDL_VideoDisplay *other = _this->displays[i];
-            if (other != display && other->fullscreen_window == window) {
-                SDL_SetDisplayModeForDisplay(other, NULL);
-                other->fullscreen_window = NULL;
+            اگر (other != display && other->fullscreen_کھڑکی == کھڑکی) {
+                SDL_سیٹ_Display_منوال_For_Display(other, تہی);
+                other->fullscreen_کھڑکی = تہی;
             }
         }
     }
 
-    if (fullscreen) {
-        int mode_w = 0, mode_h = 0;
+    اگر (fullscreen) {
+        صحیح منوال_w = 0, منوال_h = 0;
         bool resized = false;
 
         // Hide any other fullscreen window on this display
-        if (display->fullscreen_window &&
-            display->fullscreen_window != window) {
-            SDL_MinimizeWindow(display->fullscreen_window);
+        اگر (display->fullscreen_کھڑکی &&
+            display->fullscreen_کھڑکی != کھڑکی) {
+            SDL_Minimize_کھڑکی(display->fullscreen_کھڑکی);
         }
 
-        display->fullscreen_active = window->fullscreen_exclusive;
+        display->fullscreen_فعال = کھڑکی->fullscreen_exclusive;
 
-        if (!SDL_SetDisplayModeForDisplay(display, mode)) {
-            goto error;
+        اگر (!SDL_سیٹ_Display_منوال_For_Display(display, منوال)) {
+            جاؤ error;
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                ret = _this->SetWindowFullscreen(_this, window, display, fullscreen);
-            } else {
+        اگر (commit) {
+            SDL_Fullscreen_نتیجہ ret = SDL_FULLSCREEN_SUCCEEDED;
+            اگر (_this->سیٹ_کھڑکی_Fullscreen) {
+                ret = _this->سیٹ_کھڑکی_Fullscreen(_this, کھڑکی, display, fullscreen);
+            } ورنہ {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            اگر (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window is fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
+                اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+                    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_ENTER_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                display->fullscreen_active = false;
-                goto error;
+            } ورنہ اگر (ret == SDL_FULLSCREEN_FAILED) {
+                display->fullscreen_فعال = false;
+                جاؤ error;
             }
         }
 
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
-            display->fullscreen_window = window;
+        اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+            display->fullscreen_کھڑکی = کھڑکی;
 
             /* Android may not resize the window to exactly what our fullscreen mode is,
              * especially on windowed Android environments like the Chromebook or Samsung DeX.
@@ -2076,439 +2076,439 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
              *
              * This is also unnecessary on Cocoa, Wayland, Win32, and X11 (will send SDL_EVENT_WINDOW_RESIZED).
              */
-            if (!SDL_SendsFullscreenDimensions(_this)) {
+            اگر (!SDL_SendsFullscreenDimensions(_this)) {
                 SDL_Rect displayRect;
 
-                if (mode) {
-                    mode_w = mode->w;
-                    mode_h = mode->h;
-                    SDL_GetDisplayBounds(mode->displayID, &displayRect);
-                } else {
-                    mode_w = display->desktop_mode.w;
-                    mode_h = display->desktop_mode.h;
+                اگر (منوال) {
+                    منوال_w = منوال->w;
+                    منوال_h = منوال->h;
+                    SDL_GetDisplayBounds(منوال->displayID, &displayRect);
+                } ورنہ {
+                    منوال_w = display->desktop_منوال.w;
+                    منوال_h = display->desktop_منوال.h;
                     SDL_GetDisplayBounds(display->id, &displayRect);
                 }
 
-                if (window->w != mode_w || window->h != mode_h) {
+                اگر (کھڑکی->w != منوال_w || کھڑکی->h != منوال_h) {
                     resized = true;
                 }
 
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, displayRect.x, displayRect.y);
+                SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, displayRect.x, displayRect.y);
 
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, mode_w, mode_h);
-                } else {
-                    SDL_OnWindowResized(window);
+                اگر (resized) {
+                    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, منوال_w, منوال_h);
+                } ورنہ {
+                    SDL_On_کھڑکی_Resized(کھڑکی);
                 }
             }
         }
-    } else {
+    } ورنہ {
         bool resized = false;
 
         // Restore the desktop mode
-        if (display) {
-            display->fullscreen_active = false;
+        اگر (display) {
+            display->fullscreen_فعال = false;
 
-            SDL_SetDisplayModeForDisplay(display, NULL);
+            SDL_سیٹ_Display_منوال_For_Display(display, تہی);
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                SDL_VideoDisplay *full_screen_display = display ? display : SDL_GetVideoDisplayForFullscreenWindow(window);
-                if (full_screen_display) {
-                    ret = _this->SetWindowFullscreen(_this, window, full_screen_display, SDL_FULLSCREEN_OP_LEAVE);
+        اگر (commit) {
+            SDL_Fullscreen_نتیجہ ret = SDL_FULLSCREEN_SUCCEEDED;
+            اگر (_this->سیٹ_کھڑکی_Fullscreen) {
+                SDL_VideoDisplay *بھرا_screen_display = display ? display : SDL_Get_Video_Display_For_Fullscreen_کھڑکی(کھڑکی);
+                اگر (بھرا_screen_display) {
+                    ret = _this->سیٹ_کھڑکی_Fullscreen(_this, کھڑکی, بھرا_screen_display, SDL_FULLSCREEN_OP_LEAVE);
                 }
-            } else {
+            } ورنہ {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            اگر (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window left fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (window->flags & SDL_WINDOW_FULLSCREEN) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+                اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+                    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_LEAVE_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                goto error;
+            } ورنہ اگر (ret == SDL_FULLSCREEN_FAILED) {
+                جاؤ error;
             }
         }
 
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            if (display) {
-                display->fullscreen_window = NULL;
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+            اگر (display) {
+                display->fullscreen_کھڑکی = تہی;
             }
 
-            if (!SDL_SendsFullscreenDimensions(_this)) {
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->windowed.x, window->windowed.y);
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->windowed.w, window->windowed.h);
-                } else {
-                    SDL_OnWindowResized(window);
+            اگر (!SDL_SendsFullscreenDimensions(_this)) {
+                SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, کھڑکی->windowed.x, کھڑکی->windowed.y);
+                اگر (resized) {
+                    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, کھڑکی->windowed.w, کھڑکی->windowed.h);
+                } ورنہ {
+                    SDL_On_کھڑکی_Resized(کھڑکی);
                 }
             }
         }
     }
 
-done:
-    window->last_fullscreen_exclusive_display = display && (window->flags & SDL_WINDOW_FULLSCREEN) && window->fullscreen_exclusive ? display->id : 0;
-    return true;
+مکمل:
+    کھڑکی->آخری_fullscreen_exclusive_display = display && (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && کھڑکی->fullscreen_exclusive ? display->id : 0;
+    واپس true;
 
 error:
-    if (fullscreen) {
+    اگر (fullscreen) {
         // Something went wrong and the window is no longer fullscreen.
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, commit);
+        SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_LEAVE, commit);
     }
-    return false;
+    واپس false;
 }
 
-bool SDL_SetWindowFullscreenMode(SDL_Window *window, const SDL_DisplayMode *mode)
+bool SDL_سیٹ_کھڑکی_Fullscreen_منوال(SDL_کھڑکی *کھڑکی, ثابت SDL_Display_منوال *منوال)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (mode) {
-        if (!SDL_GetFullscreenModeMatch(mode)) {
-            return SDL_SetError("Invalid fullscreen display mode");
+    اگر (منوال) {
+        اگر (!SDL_Get_Fullscreen_منوال_مطابقت(منوال)) {
+            واپس SDL_سیٹ_Error("Invalid fullscreen display mode");
         }
 
         // Save the mode so we can look up the closest match later
-        SDL_copyp(&window->requested_fullscreen_mode, mode);
-    } else {
-        SDL_zero(window->requested_fullscreen_mode);
+        SDL_copyp(&کھڑکی->requested_fullscreen_منوال, منوال);
+    } ورنہ {
+        SDL_zero(کھڑکی->requested_fullscreen_منوال);
     }
 
     /* Copy to the current mode now, in case an asynchronous fullscreen window request
      * is in progress. It will be overwritten if a new request is made.
      */
-    SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+    SDL_copyp(&کھڑکی->current_fullscreen_منوال, &کھڑکی->requested_fullscreen_منوال);
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#اگر defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* If this is called while in the middle of a Cocoa fullscreen spaces transition,
      * wait until the transition has completed, or the window can wind up in a weird,
      * broken state if a mode switch occurs while in a fullscreen space.
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_IsWindowInFullscreenSpaceTransition(window)) {
-        SDL_SyncWindow(window);
+    اگر (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_Is_کھڑکی_اندر_Fullscreen_Space_Transition(کھڑکی)) {
+        SDL_Sync_کھڑکی(کھڑکی);
     }
-#endif
-    if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        SDL_SyncIfRequired(window);
+#اگر_ختم
+    اگر (SDL_کھڑکی_FULLSCREEN_VISIBLE(کھڑکی)) {
+        SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_UPDATE, true);
+        SDL_SyncIfRequired(کھڑکی);
     }
 
-    return true;
+    واپس true;
 }
 
-const SDL_DisplayMode *SDL_GetWindowFullscreenMode(SDL_Window *window)
+ثابت SDL_Display_منوال *SDL_Get_کھڑکی_Fullscreen_منوال(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
-    CHECK_WINDOW_NOT_POPUP(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, تہی);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        return SDL_GetFullscreenModeMatch(&window->current_fullscreen_mode);
-    } else {
-        return SDL_GetFullscreenModeMatch(&window->requested_fullscreen_mode);
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+        واپس SDL_Get_Fullscreen_منوال_مطابقت(&کھڑکی->current_fullscreen_منوال);
+    } ورنہ {
+        واپس SDL_Get_Fullscreen_منوال_مطابقت(&کھڑکی->requested_fullscreen_منوال);
     }
 }
 
-void *SDL_GetWindowICCProfile(SDL_Window *window, size_t *size)
+خالی *SDL_Get_کھڑکی_ICCProfile(SDL_کھڑکی *کھڑکی, size_t *سائز)
 {
-    if (!_this->GetWindowICCProfile) {
+    اگر (!_this->Get_کھڑکی_ICCProfile) {
         SDL_Unsupported();
-        return NULL;
+        واپس تہی;
     }
-    return _this->GetWindowICCProfile(_this, window, size);
+    واپس _this->Get_کھڑکی_ICCProfile(_this, کھڑکی, سائز);
 }
 
-SDL_PixelFormat SDL_GetWindowPixelFormat(SDL_Window *window)
+SDL_PixelFormat SDL_Get_کھڑکی_Pixel_Format(SDL_کھڑکی *کھڑکی)
 {
     SDL_DisplayID displayID;
-    const SDL_DisplayMode *mode;
+    ثابت SDL_Display_منوال *منوال;
 
-    CHECK_WINDOW_MAGIC(window, SDL_PIXELFORMAT_UNKNOWN);
+    CHECK_کھڑکی_MAGIC(کھڑکی, SDL_PIXELFORMAT_UNKNOWN);
 
-    displayID = GetDisplayForWindow(window);
-    mode = SDL_GetCurrentDisplayMode(displayID);
-    if (mode) {
-        return mode->format;
-    } else {
-        return SDL_PIXELFORMAT_UNKNOWN;
+    displayID = Get_Display_For_کھڑکی(کھڑکی);
+    منوال = SDL_Get_Current_Display_منوال(displayID);
+    اگر (منوال) {
+        واپس منوال->format;
+    } ورنہ {
+        واپس SDL_PIXELFORMAT_UNKNOWN;
     }
 }
 
-#define CREATE_FLAGS \
-    (SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_ALWAYS_ON_TOP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_VULKAN | SDL_WINDOW_MINIMIZED | SDL_WINDOW_METAL | SDL_WINDOW_TRANSPARENT | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_FILL_DOCUMENT)
+#تعریف_کرو CREATE_FLAGS \
+    (SDL_کھڑکی_OPENGL | SDL_کھڑکی_BORDERLESS | SDL_کھڑکی_RESIZABLE | SDL_کھڑکی_بلند_PIXEL_DENSITY | SDL_کھڑکی_ALWAYS_ON_چوٹی | SDL_کھڑکی_POPUP_MENU | SDL_کھڑکی_UTILITY | SDL_کھڑکی_TOOLTIP | SDL_کھڑکی_VULKAN | SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_METAL | SDL_کھڑکی_TRANSPARENT | SDL_کھڑکی_NOT_FOCUSABLE | SDL_کھڑکی_FILL_DOCUMENT)
 
-static SDL_INLINE bool IsAcceptingDragAndDrop(void)
+ساکن SDL_INLINE bool IsAcceptingDragAndDrop(خالی)
 {
-    if (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_TEXT)) {
-        return true;
+    اگر (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_متن)) {
+        واپس true;
     }
-    return false;
+    واپس false;
 }
 
 // prepare a newly-created window
-static SDL_INLINE void PrepareDragAndDropSupport(SDL_Window *window)
+ساکن SDL_INLINE خالی PrepareDragAndDropSupport(SDL_کھڑکی *کھڑکی)
 {
-    if (_this->AcceptDragAndDrop) {
-        _this->AcceptDragAndDrop(window, IsAcceptingDragAndDrop());
+    اگر (_this->AcceptDragAndDrop) {
+        _this->AcceptDragAndDrop(کھڑکی, IsAcceptingDragAndDrop());
     }
 }
 
 // toggle d'n'd for all existing windows.
-void SDL_ToggleDragAndDropSupport(void)
+خالی SDL_ToggleDragAndDropSupport(خالی)
 {
-    if (_this && _this->AcceptDragAndDrop) {
-        const bool enable = IsAcceptingDragAndDrop();
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            _this->AcceptDragAndDrop(window, enable);
+    اگر (_this && _this->AcceptDragAndDrop) {
+        ثابت bool enable = IsAcceptingDragAndDrop();
+        SDL_کھڑکی *کھڑکی;
+        برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            _this->AcceptDragAndDrop(کھڑکی, enable);
         }
     }
 }
 
-SDL_Window ** SDLCALL SDL_GetWindows(int *count)
+SDL_کھڑکی ** SDLCALL SDL_GetWindows(صحیح *گنتی)
 {
-    if (count) {
-        *count = 0;
+    اگر (گنتی) {
+        *گنتی = 0;
     }
 
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
 
-    SDL_Window *window;
-    int num_added = 0;
-    int num_windows = 0;
-    for (window = _this->windows; window; window = window->next) {
-        ++num_windows;
+    SDL_کھڑکی *کھڑکی;
+    صحیح عدد_added = 0;
+    صحیح عدد_windows = 0;
+    برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+        ++عدد_windows;
     }
 
-    SDL_Window **windows = (SDL_Window **)SDL_malloc((num_windows + 1) * sizeof(*windows));
-    if (!windows) {
-        return NULL;
+    SDL_کھڑکی **windows = (SDL_کھڑکی **)SDL_malloc((عدد_windows + 1) * حجم(*windows));
+    اگر (!windows) {
+        واپس تہی;
     }
 
-    for (window = _this->windows; window; window = window->next) {
-        windows[num_added++] = window;
-        if (num_added == num_windows) {
+    برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+        windows[عدد_added++] = کھڑکی;
+        اگر (عدد_added == عدد_windows) {
             // Race condition? Multi-threading not supported, ignore it
-            break;
+            توڑو;
         }
     }
-    windows[num_added] = NULL;
+    windows[عدد_added] = تہی;
 
-    if (count) {
-        *count = num_added;
+    اگر (گنتی) {
+        *گنتی = عدد_added;
     }
-    return windows;
+    واپس windows;
 }
 
-static void ApplyWindowFlags(SDL_Window *window, SDL_WindowFlags flags)
+ساکن خالی Apply_کھڑکی_Flags(SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        if (!(flags & (SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED))) {
-            SDL_RestoreWindow(window);
+    اگر (!SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+        اگر (!(flags & (SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_MAXIMIZED))) {
+            SDL_Restore_کھڑکی(کھڑکی);
         }
-        if (flags & SDL_WINDOW_MAXIMIZED) {
-            SDL_MaximizeWindow(window);
-        }
-
-        SDL_SetWindowFullscreen(window, (flags & SDL_WINDOW_FULLSCREEN) != 0);
-
-        if (flags & SDL_WINDOW_MINIMIZED) {
-            SDL_MinimizeWindow(window);
+        اگر (flags & SDL_کھڑکی_MAXIMIZED) {
+            SDL_Maximize_کھڑکی(کھڑکی);
         }
 
-        if (flags & SDL_WINDOW_MODAL) {
-            SDL_SetWindowModal(window, true);
+        SDL_سیٹ_کھڑکی_Fullscreen(کھڑکی, (flags & SDL_کھڑکی_FULLSCREEN) != 0);
+
+        اگر (flags & SDL_کھڑکی_MINIMIZED) {
+            SDL_Minimize_کھڑکی(کھڑکی);
         }
 
-        if (flags & SDL_WINDOW_MOUSE_GRABBED) {
-            SDL_SetWindowMouseGrab(window, true);
+        اگر (flags & SDL_کھڑکی_MODAL) {
+            SDL_سیٹ_کھڑکی_Modal(کھڑکی, true);
         }
-        if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-            SDL_SetWindowKeyboardGrab(window, true);
+
+        اگر (flags & SDL_کھڑکی_MOUSE_GRABBED) {
+            SDL_سیٹ_کھڑکی_Mouse_Grab(کھڑکی, true);
+        }
+        اگر (flags & SDL_کھڑکی_KEYBOARD_GRABBED) {
+            SDL_سیٹ_کھڑکی_Keyboard_Grab(کھڑکی, true);
         }
     }
 }
 
-static void SDL_FinishWindowCreation(SDL_Window *window, SDL_WindowFlags flags)
+ساکن خالی SDL_اختتام_کھڑکی_Creation(SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
-    PrepareDragAndDropSupport(window);
+    PrepareDragAndDropSupport(کھڑکی);
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_EXTERNAL) {
         // Whoever has created the window has already applied whatever flags are needed
-    } else {
-        ApplyWindowFlags(window, flags);
-        if (!(flags & SDL_WINDOW_HIDDEN)) {
-            SDL_ShowWindow(window);
+    } ورنہ {
+        Apply_کھڑکی_Flags(کھڑکی, flags);
+        اگر (!(flags & SDL_کھڑکی_HIDDEN)) {
+            SDL_Show_کھڑکی(کھڑکی);
         }
     }
 
-#if defined(SDL_PLATFORM_LINUX)
-    if (!SDL_WINDOW_IS_POPUP(window)) {
+#اگر defined(SDL_PLATFORM_LINUX)
+    اگر (!SDL_کھڑکی_IS_POPUP(کھڑکی)) {
         // On Linux the progress state is persisted throughout multiple program runs, so reset state on window creation
-        SDL_SetWindowProgressState(window, SDL_PROGRESS_STATE_NONE);
-        SDL_SetWindowProgressValue(window, 0.0f);
+        SDL_سیٹ_کھڑکی_پیش_رفت_State(کھڑکی, SDL_پیش_رفت_STATE_NONE);
+        SDL_سیٹ_کھڑکی_پیش_رفت_قدر(کھڑکی, 0.0f);
     }
-#endif
+#اگر_ختم
 }
 
-static bool SDL_ContextNotSupported(const char *name)
+ساکن bool SDL_ContextNotSupported(ثابت حرف *name)
 {
-    return SDL_SetError("%s support is either not configured in SDL "
+    واپس SDL_سیٹ_Error("%s support is either not configured in SDL "
                         "or not available in current SDL video driver "
                         "(%s) or platform",
                         name,
                         _this->name);
 }
 
-static bool SDL_DllNotSupported(const char *name)
+ساکن bool SDL_DllNotSupported(ثابت حرف *name)
 {
-    return SDL_SetError("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
+    واپس SDL_سیٹ_Error("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
 }
 
-static struct {
-    const char *property_name;
-    SDL_WindowFlags flag;
-    bool invert_value;
-} SDL_WindowFlagProperties[] = {
-    { SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN,      SDL_WINDOW_ALWAYS_ON_TOP,       false },
-    { SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN,         SDL_WINDOW_BORDERLESS,          false },
-    { SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN,          SDL_WINDOW_NOT_FOCUSABLE,       true },
-    { SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN,         SDL_WINDOW_FULLSCREEN,          false },
-    { SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN,             SDL_WINDOW_HIDDEN,              false },
-    { SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN, SDL_WINDOW_HIGH_PIXEL_DENSITY,  false },
-    { SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN,          SDL_WINDOW_MAXIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN,               SDL_WINDOW_POPUP_MENU,          false },
-    { SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN,              SDL_WINDOW_METAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN,          SDL_WINDOW_MINIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN,              SDL_WINDOW_MODAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_WINDOW_MOUSE_GRABBED,       false },
-    { SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN,             SDL_WINDOW_OPENGL,              false },
-    { SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN,          SDL_WINDOW_RESIZABLE,           false },
-    { SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN,        SDL_WINDOW_TRANSPARENT,         false },
-    { SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN,            SDL_WINDOW_TOOLTIP,             false },
-    { SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN,            SDL_WINDOW_UTILITY,             false },
-    { SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN,             SDL_WINDOW_VULKAN,              false }
+ساکن ساخت {
+    ثابت حرف *property_name;
+    SDL_کھڑکی_Flags flag;
+    bool invert_قدر;
+} SDL_کھڑکی_Flag_Properties[] = {
+    { SDL_PROP_کھڑکی_CREATE_ALWAYS_ON_چوٹی_BOOLEAN,      SDL_کھڑکی_ALWAYS_ON_چوٹی,       false },
+    { SDL_PROP_کھڑکی_CREATE_BORDERLESS_BOOLEAN,         SDL_کھڑکی_BORDERLESS,          false },
+    { SDL_PROP_کھڑکی_CREATE_FOCUSABLE_BOOLEAN,          SDL_کھڑکی_NOT_FOCUSABLE,       true },
+    { SDL_PROP_کھڑکی_CREATE_FULLSCREEN_BOOLEAN,         SDL_کھڑکی_FULLSCREEN,          false },
+    { SDL_PROP_کھڑکی_CREATE_HIDDEN_BOOLEAN,             SDL_کھڑکی_HIDDEN,              false },
+    { SDL_PROP_کھڑکی_CREATE_بلند_PIXEL_DENSITY_BOOLEAN, SDL_کھڑکی_بلند_PIXEL_DENSITY,  false },
+    { SDL_PROP_کھڑکی_CREATE_MAXIMIZED_BOOLEAN,          SDL_کھڑکی_MAXIMIZED,           false },
+    { SDL_PROP_کھڑکی_CREATE_MENU_BOOLEAN,               SDL_کھڑکی_POPUP_MENU,          false },
+    { SDL_PROP_کھڑکی_CREATE_METAL_BOOLEAN,              SDL_کھڑکی_METAL,               false },
+    { SDL_PROP_کھڑکی_CREATE_MINIMIZED_BOOLEAN,          SDL_کھڑکی_MINIMIZED,           false },
+    { SDL_PROP_کھڑکی_CREATE_MODAL_BOOLEAN,              SDL_کھڑکی_MODAL,               false },
+    { SDL_PROP_کھڑکی_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_کھڑکی_MOUSE_GRABBED,       false },
+    { SDL_PROP_کھڑکی_CREATE_OPENGL_BOOLEAN,             SDL_کھڑکی_OPENGL,              false },
+    { SDL_PROP_کھڑکی_CREATE_RESIZABLE_BOOLEAN,          SDL_کھڑکی_RESIZABLE,           false },
+    { SDL_PROP_کھڑکی_CREATE_TRANSPARENT_BOOLEAN,        SDL_کھڑکی_TRANSPARENT,         false },
+    { SDL_PROP_کھڑکی_CREATE_TOOLTIP_BOOLEAN,            SDL_کھڑکی_TOOLTIP,             false },
+    { SDL_PROP_کھڑکی_CREATE_UTILITY_BOOLEAN,            SDL_کھڑکی_UTILITY,             false },
+    { SDL_PROP_کھڑکی_CREATE_VULKAN_BOOLEAN,             SDL_کھڑکی_VULKAN,              false }
 };
 
-static SDL_WindowFlags SDL_GetWindowFlagProperties(SDL_PropertiesID props)
+ساکن SDL_کھڑکی_Flags SDL_Get_کھڑکی_Flag_Properties(SDL_PropertiesID props)
 {
-    unsigned i;
-    SDL_WindowFlags flags = (SDL_WindowFlags)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, 0);
+    غیرعلامتی i;
+    SDL_کھڑکی_Flags flags = (SDL_کھڑکی_Flags)SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_FLAGS_نمبر, 0);
 
-    for (i = 0; i < SDL_arraysize(SDL_WindowFlagProperties); ++i) {
-        if (SDL_WindowFlagProperties[i].invert_value) {
-            if (!SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, true)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+    برائے (i = 0; i < SDL_arraysize(SDL_کھڑکی_Flag_Properties); ++i) {
+        اگر (SDL_کھڑکی_Flag_Properties[i].invert_قدر) {
+            اگر (!SDL_GetBooleanProperty(props, SDL_کھڑکی_Flag_Properties[i].property_name, true)) {
+                flags |= SDL_کھڑکی_Flag_Properties[i].flag;
             }
-        } else {
-            if (SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, false)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+        } ورنہ {
+            اگر (SDL_GetBooleanProperty(props, SDL_کھڑکی_Flag_Properties[i].property_name, false)) {
+                flags |= SDL_کھڑکی_Flag_Properties[i].flag;
             }
         }
     }
-    return flags;
+    واپس flags;
 }
 
-SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
+SDL_کھڑکی *SDL_Create_کھڑکی_With_Properties(SDL_PropertiesID props)
 {
-    SDL_Window *window;
-    const char *title = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, NULL);
-    int x = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int y = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int w = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, 0);
-    int h = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, 0);
-    SDL_Window *parent = (SDL_Window *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, NULL);
-    SDL_WindowFlags flags = SDL_GetWindowFlagProperties(props);
-    SDL_WindowFlags type_flags, graphics_flags;
+    SDL_کھڑکی *کھڑکی;
+    ثابت حرف *title = SDL_GetStringProperty(props, SDL_PROP_کھڑکی_CREATE_TITLE_STRING, تہی);
+    صحیح x = (صحیح)SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_X_نمبر, SDL_WINDOWPOS_UNDEFINED);
+    صحیح y = (صحیح)SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_Y_نمبر, SDL_WINDOWPOS_UNDEFINED);
+    صحیح w = (صحیح)SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_چوڑائی_نمبر, 0);
+    صحیح h = (صحیح)SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_اونچائی_نمبر, 0);
+    SDL_کھڑکی *والد = (SDL_کھڑکی *)SDL_Get_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_CREATE_والد_اشارہ_گر, تہی);
+    SDL_کھڑکی_Flags flags = SDL_Get_کھڑکی_Flag_Properties(props);
+    SDL_کھڑکی_Flags type_flags, graphics_flags;
     SDL_DisplayID displayID = 0;
     bool undefined_x = false;
     bool undefined_y = false;
-    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
+    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_کھڑکی_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
 
-    if (!_this) {
+    اگر (!_this) {
         // Initialize the video system if needed
-        if (!SDL_Init(SDL_INIT_VIDEO)) {
-            return NULL;
+        اگر (!SDL_Init(SDL_INIT_VIDEO)) {
+            واپس تہی;
         }
 
         // Make clang-tidy happy
-        if (!_this) {
-            return NULL;
+        اگر (!_this) {
+            واپس تہی;
         }
     }
 
-    if ((flags & SDL_WINDOW_MODAL) && !SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-        SDL_SetError("Modal windows must specify a parent window");
-        return NULL;
+    اگر ((flags & SDL_کھڑکی_MODAL) && !SDL_ObjectValid(والد, SDL_OBJECT_TYPE_کھڑکی)) {
+        SDL_سیٹ_Error("Modal windows must specify a parent window");
+        واپس تہی;
     }
 
-    if ((flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU)) != 0) {
-        if (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT)) {
+    اگر ((flags & (SDL_کھڑکی_TOOLTIP | SDL_کھڑکی_POPUP_MENU)) != 0) {
+        اگر (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_کھڑکی_SUPPORT)) {
             SDL_Unsupported();
-            return NULL;
+            واپس تہی;
         }
 
         // Tooltip and popup menu window must specify a parent window
-        if (!SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-            SDL_SetError("Tooltip and popup menu windows must specify a parent window");
-            return NULL;
+        اگر (!SDL_ObjectValid(والد, SDL_OBJECT_TYPE_کھڑکی)) {
+            SDL_سیٹ_Error("Tooltip and popup menu windows must specify a parent window");
+            واپس تہی;
         }
 
         // Remove invalid flags
-        flags &= ~(SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
+        flags &= ~(SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_BORDERLESS);
     }
 
     // Ensure no more than one of these flags is set
-    type_flags = flags & (SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_MODAL);
-    if (type_flags & (type_flags - 1)) {
-        SDL_SetError("Conflicting window type flags specified: 0x%.8x", (unsigned int)type_flags);
-        return NULL;
+    type_flags = flags & (SDL_کھڑکی_UTILITY | SDL_کھڑکی_TOOLTIP | SDL_کھڑکی_POPUP_MENU | SDL_کھڑکی_MODAL);
+    اگر (type_flags & (type_flags - 1)) {
+        SDL_سیٹ_Error("Conflicting window type flags specified: 0x%.8x", (غیرعلامتی صحیح)type_flags);
+        واپس تہی;
     }
 
     // Make sure the display list is up to date for window placement
-    if (_this->RefreshDisplays) {
+    اگر (_this->RefreshDisplays) {
         _this->RefreshDisplays(_this);
     }
 
     // Some platforms can't create zero-sized windows
-    if (w < 1) {
+    اگر (w < 1) {
         w = 1;
     }
-    if (h < 1) {
+    اگر (h < 1) {
         h = 1;
     }
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
+    اگر (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
         SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_Rect bounds;
 
-        if ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
+        اگر ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
+        } ورنہ اگر ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        اگر (displayID == 0 || SDL_Get_Display_اشاریہ(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
         SDL_zero(bounds);
         SDL_GetDisplayUsableBounds(displayID, &bounds);
-        if (w > bounds.w || h > bounds.h) {
+        اگر (w > bounds.w || h > bounds.h) {
             // This window is larger than the usable bounds, just center on the display
             SDL_GetDisplayBounds(displayID, &bounds);
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        اگر (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
+            اگر (SDL_WINDOWPOS_ISUNDEFINED(x)) {
                 undefined_x = true;
             }
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        اگر (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
+            اگر (SDL_WINDOWPOS_ISUNDEFINED(y)) {
                 undefined_y = true;
             }
             y = bounds.y + (bounds.h - h) / 2;
@@ -2516,1194 +2516,1194 @@ SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
     }
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        SDL_SetError("Conflicting window graphics flags specified: 0x%.8x", (unsigned int)graphics_flags);
-        return NULL;
+    graphics_flags = flags & (SDL_کھڑکی_OPENGL | SDL_کھڑکی_METAL | SDL_کھڑکی_VULKAN);
+    اگر (graphics_flags & (graphics_flags - 1)) {
+        SDL_سیٹ_Error("Conflicting window graphics flags specified: 0x%.8x", (غیرعلامتی صحیح)graphics_flags);
+        واپس تہی;
     }
 
     // Some platforms have certain graphics backends enabled by default
-    if (!graphics_flags && !external_graphics_context) {
+    اگر (!graphics_flags && !external_graphics_context) {
         flags |= SDL_DefaultGraphicsBackends(_this);
     }
 
-    if (flags & SDL_WINDOW_OPENGL) {
-        if (!_this->GL_CreateContext) {
+    اگر (flags & SDL_کھڑکی_OPENGL) {
+        اگر (!_this->GL_CreateContext) {
             SDL_ContextNotSupported("OpenGL");
-            return NULL;
+            واپس تہی;
         }
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return NULL;
+        اگر (!SDL_GL_بھرو_Library(تہی)) {
+            واپس تہی;
         }
     }
 
-    if (flags & SDL_WINDOW_VULKAN) {
-        if (!_this->Vulkan_CreateSurface) {
+    اگر (flags & SDL_کھڑکی_VULKAN) {
+        اگر (!_this->Vulkan_CreateSurface) {
             SDL_ContextNotSupported("Vulkan");
-            return NULL;
+            واپس تہی;
         }
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return NULL;
+        اگر (!SDL_Vulkan_بھرو_Library(تہی)) {
+            واپس تہی;
         }
     }
 
-    if (flags & SDL_WINDOW_METAL) {
-        if (!_this->Metal_CreateView) {
+    اگر (flags & SDL_کھڑکی_METAL) {
+        اگر (!_this->Metal_CreateView) {
             SDL_ContextNotSupported("Metal");
-            return NULL;
+            واپس تہی;
         }
     }
 
-    window = (SDL_Window *)SDL_calloc(1, sizeof(*window));
-    if (!window) {
-        return NULL;
+    کھڑکی = (SDL_کھڑکی *)SDL_calloc(1, حجم(*کھڑکی));
+    اگر (!کھڑکی) {
+        واپس تہی;
     }
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, true);
-    window->id = SDL_GetNextObjectID();
-    window->floating.x = window->windowed.x = window->x = x;
-    window->floating.y = window->windowed.y = window->y = y;
-    window->floating.w = window->windowed.w = window->w = w;
-    window->floating.h = window->windowed.h = window->h = h;
-    window->undefined_x = undefined_x;
-    window->undefined_y = undefined_y;
-    window->pending_displayID = displayID;
+    SDL_سیٹ_Object_Valid(کھڑکی, SDL_OBJECT_TYPE_کھڑکی, true);
+    کھڑکی->id = SDL_Get_اگلا_Object_ID();
+    کھڑکی->floating.x = کھڑکی->windowed.x = کھڑکی->x = x;
+    کھڑکی->floating.y = کھڑکی->windowed.y = کھڑکی->y = y;
+    کھڑکی->floating.w = کھڑکی->windowed.w = کھڑکی->w = w;
+    کھڑکی->floating.h = کھڑکی->windowed.h = کھڑکی->h = h;
+    کھڑکی->undefined_x = undefined_x;
+    کھڑکی->undefined_y = undefined_y;
+    کھڑکی->pending_displayID = displayID;
 
-    SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    if (display) {
-        SDL_SetWindowHDRProperties(window, &display->HDR, false);
+    SDL_VideoDisplay *display = SDL_Get_Video_Display_For_کھڑکی(کھڑکی);
+    اگر (display) {
+        SDL_سیٹ_کھڑکی_HDRProperties(کھڑکی, &display->HDR, false);
     }
 
-    if (flags & SDL_WINDOW_FULLSCREEN || IsFullscreenOnly(_this)) {
+    اگر (flags & SDL_کھڑکی_FULLSCREEN || IsFullscreenOnly(_this)) {
         SDL_Rect bounds;
 
         SDL_GetDisplayBounds(display ? display->id : SDL_GetPrimaryDisplay(), &bounds);
-        window->x = bounds.x;
-        window->y = bounds.y;
-        window->w = bounds.w;
-        window->h = bounds.h;
-        window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        flags |= SDL_WINDOW_FULLSCREEN;
+        کھڑکی->x = bounds.x;
+        کھڑکی->y = bounds.y;
+        کھڑکی->w = bounds.w;
+        کھڑکی->h = bounds.h;
+        کھڑکی->pending_flags |= SDL_کھڑکی_FULLSCREEN;
+        flags |= SDL_کھڑکی_FULLSCREEN;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->display_scale = 1.0f;
-    window->opacity = 1.0f;
-    window->next = _this->windows;
-    window->is_destroying = false;
-    window->displayID = GetDisplayForWindow(window);
-    window->external_graphics_context = external_graphics_context;
-    window->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
+    کھڑکی->flags = ((flags & CREATE_FLAGS) | SDL_کھڑکی_HIDDEN);
+    کھڑکی->display_scale = 1.0f;
+    کھڑکی->opacity = 1.0f;
+    کھڑکی->اگلا = _this->windows;
+    کھڑکی->is_destroying = false;
+    کھڑکی->displayID = Get_Display_For_کھڑکی(کھڑکی);
+    کھڑکی->external_graphics_context = external_graphics_context;
+    کھڑکی->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_کھڑکی_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
 
-    if (!_this->SetWindowFillDocument) {
-        window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
+    اگر (!_this->سیٹ_کھڑکی_Fill_Document) {
+        کھڑکی->flags &= ~SDL_کھڑکی_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
     }
 
-    if (_this->windows) {
-        _this->windows->prev = window;
+    اگر (_this->windows) {
+        _this->windows->پچھلا = کھڑکی;
     }
-    _this->windows = window;
+    _this->windows = کھڑکی;
 
     // Set the parent before creation.
-    SDL_UpdateWindowHierarchy(window, parent);
+    SDL_Update_کھڑکی_Hierarchy(کھڑکی, والد);
 
-    if (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, window, props)) {
-        SDL_PushError();
-        SDL_DestroyWindow(window);
-        SDL_PopError();
-        return NULL;
+    اگر (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, کھڑکی, props)) {
+        SDL_ڈالو_Error();
+        SDL_Destroy_کھڑکی(کھڑکی);
+        SDL_نکالو_Error();
+        واپس تہی;
     }
 
     /* Clear minimized if not on windows, only windows handles it at create rather than FinishWindowCreation,
      * but it's important or window focus will get broken on windows!
      */
-#if !defined(SDL_PLATFORM_WINDOWS)
-    if (window->flags & SDL_WINDOW_MINIMIZED) {
-        window->flags &= ~SDL_WINDOW_MINIMIZED;
+#اگر !defined(SDL_PLATFORM_WINDOWS)
+    اگر (کھڑکی->flags & SDL_کھڑکی_MINIMIZED) {
+        کھڑکی->flags &= ~SDL_کھڑکی_MINIMIZED;
     }
-#endif
+#اگر_ختم
 
-    if (title) {
-        SDL_SetWindowTitle(window, title);
+    اگر (title) {
+        SDL_سیٹ_کھڑکی_Title(کھڑکی, title);
     }
-    SDL_FinishWindowCreation(window, flags);
+    SDL_اختتام_کھڑکی_Creation(کھڑکی, flags);
 
     // Make sure window pixel size is up to date
-    SDL_CheckWindowPixelSizeChanged(window);
+    SDL_Check_کھڑکی_Pixel_سائز_بدلا(کھڑکی);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#اگر_ختم
 
     SDL_ClearError();
 
-    return window;
+    واپس کھڑکی;
 }
 
-SDL_Window *SDL_CreateWindow(const char *title, int w, int h, SDL_WindowFlags flags)
+SDL_کھڑکی *SDL_Create_کھڑکی(ثابت حرف *title, صحیح w, صحیح h, SDL_کھڑکی_Flags flags)
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     SDL_PropertiesID props = SDL_CreateProperties();
-    if (title && *title) {
-        SDL_SetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, title);
+    اگر (title && *title) {
+        SDL_سیٹ_String_Property(props, SDL_PROP_کھڑکی_CREATE_TITLE_STRING, title);
     }
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_چوڑائی_نمبر, w);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_اونچائی_نمبر, h);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_FLAGS_نمبر, flags);
+    کھڑکی = SDL_Create_کھڑکی_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    واپس کھڑکی;
 }
 
-SDL_Window *SDL_CreatePopupWindow(SDL_Window *parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags)
+SDL_کھڑکی *SDL_Create_Popup_کھڑکی(SDL_کھڑکی *والد, صحیح انحراف_x, صحیح انحراف_y, صحیح w, صحیح h, SDL_کھڑکی_Flags flags)
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     SDL_PropertiesID props = SDL_CreateProperties();
 
     // Popups must specify either the tooltip or popup menu window flags
-    if (!(flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU))) {
-        SDL_SetError("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
-        return NULL;
+    اگر (!(flags & (SDL_کھڑکی_TOOLTIP | SDL_کھڑکی_POPUP_MENU))) {
+        SDL_سیٹ_Error("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
+        واپس تہی;
     }
 
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, parent);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, offset_x);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, offset_y);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_CREATE_والد_اشارہ_گر, والد);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_X_نمبر, انحراف_x);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_Y_نمبر, انحراف_y);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_چوڑائی_نمبر, w);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_اونچائی_نمبر, h);
+    SDL_سیٹ_نمبر_Property(props, SDL_PROP_کھڑکی_CREATE_FLAGS_نمبر, flags);
+    کھڑکی = SDL_Create_کھڑکی_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    واپس کھڑکی;
 }
 
-static bool SDL_ReconfigureWindowInternal(SDL_Window *window, SDL_WindowFlags flags)
+ساکن bool SDL_Reconfigure_کھڑکی_اندرونی(SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
     bool loaded_opengl = false;
     bool loaded_vulkan = false;
 
-    if (!_this->ReconfigureWindow) {
-        return false;
+    اگر (!_this->Reconfigure_کھڑکی) {
+        واپس false;
     }
 
-    const SDL_WindowFlags graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    ثابت SDL_کھڑکی_Flags graphics_flags = flags & (SDL_کھڑکی_OPENGL | SDL_کھڑکی_METAL | SDL_کھڑکی_VULKAN);
+    اگر (graphics_flags & (graphics_flags - 1)) {
+        واپس SDL_سیٹ_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    اگر ((flags & SDL_کھڑکی_OPENGL) && !_this->GL_CreateContext) {
+        واپس SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    اگر ((flags & SDL_کھڑکی_VULKAN) && !_this->Vulkan_CreateSurface) {
+        واپس SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    اگر ((flags & SDL_کھڑکی_METAL) && !_this->Metal_CreateView) {
+        واپس SDL_ContextNotSupported("Metal");
     }
 
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
         // Only attempt to reconfigure if the window has no existing graphics flags.
-        if (window->flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN)) {
-            return false;
+        اگر (کھڑکی->flags & (SDL_کھڑکی_OPENGL | SDL_کھڑکی_METAL | SDL_کھڑکی_VULKAN)) {
+            واپس false;
         }
-    } else {
+    } ورنہ {
         // Can't destroy and recreate an external window, so try our best to reconfigure it.
-        if (!_this->ReconfigureWindow(_this, window, 0)) {
-            return false;
+        اگر (!_this->Reconfigure_کھڑکی(_this, کھڑکی, 0)) {
+            واپس false;
         }
 
         // Reload the GL/Vulkan libraries in case the profile changed.
-        if (window->flags & SDL_WINDOW_OPENGL) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_VULKAN) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        window->flags &= ~(SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
+        کھڑکی->flags &= ~(SDL_کھڑکی_OPENGL | SDL_کھڑکی_METAL | SDL_کھڑکی_VULKAN);
     }
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_کھڑکی_Surface(کھڑکی);
 
-    if (graphics_flags & SDL_WINDOW_OPENGL) {
-        loaded_opengl = SDL_GL_LoadLibrary(NULL);
-        if (!loaded_opengl) {
-            return false;
+    اگر (graphics_flags & SDL_کھڑکی_OPENGL) {
+        loaded_opengl = SDL_GL_بھرو_Library(تہی);
+        اگر (!loaded_opengl) {
+            واپس false;
         }
-    } else if (graphics_flags & SDL_WINDOW_VULKAN) {
-        loaded_vulkan = SDL_Vulkan_LoadLibrary(NULL);
-        if (!loaded_vulkan) {
-            return false;
+    } ورنہ اگر (graphics_flags & SDL_کھڑکی_VULKAN) {
+        loaded_vulkan = SDL_Vulkan_بھرو_Library(تہی);
+        اگر (!loaded_vulkan) {
+            واپس false;
         }
     }
 
     // Try to reconfigure the window for the requested graphics flags.
-    if (!_this->ReconfigureWindow(_this, window, graphics_flags)) {
-        if (loaded_opengl) {
+    اگر (!_this->Reconfigure_کھڑکی(_this, کھڑکی, graphics_flags)) {
+        اگر (loaded_opengl) {
             SDL_GL_UnloadLibrary();
         }
-        if (loaded_vulkan) {
+        اگر (loaded_vulkan) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        return false;
+        واپس false;
     }
 
-    window->flags |= graphics_flags;
+    کھڑکی->flags |= graphics_flags;
 
-    return true;
+    واپس true;
 }
 
-bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Recreate_کھڑکی(SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
     bool loaded_opengl = false;
     bool need_gl_unload = false;
-    bool need_gl_load = false;
+    bool need_gl_بھرو = false;
     bool loaded_vulkan = false;
     bool need_vulkan_unload = false;
-    bool need_vulkan_load = false;
-    SDL_WindowFlags graphics_flags;
+    bool need_vulkan_بھرو = false;
+    SDL_کھڑکی_Flags graphics_flags;
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    graphics_flags = flags & (SDL_کھڑکی_OPENGL | SDL_کھڑکی_METAL | SDL_کھڑکی_VULKAN);
+    اگر (graphics_flags & (graphics_flags - 1)) {
+        واپس SDL_سیٹ_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    اگر ((flags & SDL_کھڑکی_OPENGL) && !_this->GL_CreateContext) {
+        واپس SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    اگر ((flags & SDL_کھڑکی_VULKAN) && !_this->Vulkan_CreateSurface) {
+        واپس SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    اگر ((flags & SDL_کھڑکی_METAL) && !_this->Metal_CreateView) {
+        واپس SDL_ContextNotSupported("Metal");
     }
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_EXTERNAL) {
         // Can't destroy and re-create external windows, hrm
-        flags |= SDL_WINDOW_EXTERNAL;
-    } else {
-        flags &= ~SDL_WINDOW_EXTERNAL;
+        flags |= SDL_کھڑکی_EXTERNAL;
+    } ورنہ {
+        flags &= ~SDL_کھڑکی_EXTERNAL;
     }
 
     // If this is a modal dialog, clear the modal status.
-    if (window->flags & SDL_WINDOW_MODAL) {
-        SDL_SetWindowModal(window, false);
+    اگر (کھڑکی->flags & SDL_کھڑکی_MODAL) {
+        SDL_سیٹ_کھڑکی_Modal(کھڑکی, false);
     }
 
     // Restore video mode, etc.
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        const bool restore_on_show = window->restore_on_show;
-        SDL_HideWindow(window);
-        window->restore_on_show = restore_on_show;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
+        ثابت bool restore_on_show = کھڑکی->restore_on_show;
+        SDL_Hide_کھڑکی(کھڑکی);
+        کھڑکی->restore_on_show = restore_on_show;
     }
 
     // Tear down the old native window
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_کھڑکی_Surface(کھڑکی);
 
-    if ((window->flags & SDL_WINDOW_OPENGL) != (flags & SDL_WINDOW_OPENGL)) {
-        if (flags & SDL_WINDOW_OPENGL) {
-            need_gl_load = true;
-        } else {
+    اگر ((کھڑکی->flags & SDL_کھڑکی_OPENGL) != (flags & SDL_کھڑکی_OPENGL)) {
+        اگر (flags & SDL_کھڑکی_OPENGL) {
+            need_gl_بھرو = true;
+        } ورنہ {
             need_gl_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_OPENGL) {
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         need_gl_unload = true;
-        need_gl_load = true;
+        need_gl_بھرو = true;
     }
 
-    if ((window->flags & SDL_WINDOW_VULKAN) != (flags & SDL_WINDOW_VULKAN)) {
-        if (flags & SDL_WINDOW_VULKAN) {
-            need_vulkan_load = true;
-        } else {
+    اگر ((کھڑکی->flags & SDL_کھڑکی_VULKAN) != (flags & SDL_کھڑکی_VULKAN)) {
+        اگر (flags & SDL_کھڑکی_VULKAN) {
+            need_vulkan_بھرو = true;
+        } ورنہ {
             need_vulkan_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_VULKAN) {
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_VULKAN) {
         need_vulkan_unload = true;
-        need_vulkan_load = true;
+        need_vulkan_بھرو = true;
     }
 
-    if (need_gl_unload) {
+    اگر (need_gl_unload) {
         SDL_GL_UnloadLibrary();
     }
 
-    if (need_vulkan_unload) {
+    اگر (need_vulkan_unload) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->DestroyWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
-        _this->DestroyWindow(_this, window);
+    اگر (_this->Destroy_کھڑکی && !(flags & SDL_کھڑکی_EXTERNAL)) {
+        _this->Destroy_کھڑکی(_this, کھڑکی);
     }
 
-    if (need_gl_load) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    اگر (need_gl_بھرو) {
+        اگر (!SDL_GL_بھرو_Library(تہی)) {
+            واپس false;
         }
         loaded_opengl = true;
     }
 
-    if (need_vulkan_load) {
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return false;
+    اگر (need_vulkan_بھرو) {
+        اگر (!SDL_Vulkan_بھرو_Library(تہی)) {
+            واپس false;
         }
         loaded_vulkan = true;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->is_destroying = false;
+    کھڑکی->flags = ((flags & CREATE_FLAGS) | SDL_کھڑکی_HIDDEN);
+    کھڑکی->is_destroying = false;
 
-    if (_this->CreateSDLWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
+    اگر (_this->CreateSDLWindow && !(flags & SDL_کھڑکی_EXTERNAL)) {
         /* Reset the window size to the original floating value, so the
          * recreated window has the proper base size.
          */
-        window->x = window->windowed.x = window->floating.x;
-        window->y = window->windowed.y = window->floating.y;
-        window->w = window->windowed.w = window->floating.w;
-        window->h = window->windowed.h = window->floating.h;
+        کھڑکی->x = کھڑکی->windowed.x = کھڑکی->floating.x;
+        کھڑکی->y = کھڑکی->windowed.y = کھڑکی->floating.y;
+        کھڑکی->w = کھڑکی->windowed.w = کھڑکی->floating.w;
+        کھڑکی->h = کھڑکی->windowed.h = کھڑکی->floating.h;
 
-        if (!_this->CreateSDLWindow(_this, window, 0)) {
-            if (loaded_opengl) {
+        اگر (!_this->CreateSDLWindow(_this, کھڑکی, 0)) {
+            اگر (loaded_opengl) {
                 SDL_GL_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_OPENGL;
+                کھڑکی->flags &= ~SDL_کھڑکی_OPENGL;
             }
-            if (loaded_vulkan) {
+            اگر (loaded_vulkan) {
                 SDL_Vulkan_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_VULKAN;
+                کھڑکی->flags &= ~SDL_کھڑکی_VULKAN;
             }
-            return false;
+            واپس false;
         }
     }
 
-    if (flags & SDL_WINDOW_EXTERNAL) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    اگر (flags & SDL_کھڑکی_EXTERNAL) {
+        کھڑکی->flags |= SDL_کھڑکی_EXTERNAL;
     }
 
-    if (_this->SetWindowTitle && window->title) {
-        _this->SetWindowTitle(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Title && کھڑکی->title) {
+        _this->سیٹ_کھڑکی_Title(_this, کھڑکی);
     }
 
-    if (_this->SetWindowIcon && window->icon) {
-        _this->SetWindowIcon(_this, window, window->icon);
+    اگر (_this->سیٹ_کھڑکی_Icon && کھڑکی->icon) {
+        _this->سیٹ_کھڑکی_Icon(_this, کھڑکی, کھڑکی->icon);
     }
 
-    if (_this->SetWindowMinimumSize && (window->min_w || window->min_h)) {
-        _this->SetWindowMinimumSize(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Minimum_سائز && (کھڑکی->min_w || کھڑکی->min_h)) {
+        _this->سیٹ_کھڑکی_Minimum_سائز(_this, کھڑکی);
     }
 
-    if (_this->SetWindowMaximumSize && (window->max_w || window->max_h)) {
-        _this->SetWindowMaximumSize(_this, window);
+    اگر (_this->سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز && (کھڑکی->max_w || کھڑکی->max_h)) {
+        _this->سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز(_this, کھڑکی);
     }
 
-    if (_this->SetWindowAspectRatio && (window->min_aspect > 0.0f || window->max_aspect > 0.0f)) {
-        _this->SetWindowAspectRatio(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Aspect_تناسب && (کھڑکی->min_aspect > 0.0f || کھڑکی->max_aspect > 0.0f)) {
+        _this->سیٹ_کھڑکی_Aspect_تناسب(_this, کھڑکی);
     }
 
-    if (window->hit_test) {
-        _this->SetWindowHitTest(window, true);
+    اگر (کھڑکی->کامیابی_test) {
+        _this->سیٹ_کھڑکی_کامیابی_Test(کھڑکی, true);
     }
 
-    SDL_FinishWindowCreation(window, flags);
+    SDL_اختتام_کھڑکی_Creation(کھڑکی, flags);
 
-    return true;
+    واپس true;
 }
 
-bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Reconfigure_کھڑکی(SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
     // Try to reconfigure the window for the desired flags first, before completely destroying and recreating it.
-    if (!SDL_ReconfigureWindowInternal(window, flags)) {
-        return SDL_RecreateWindow(window, flags);
+    اگر (!SDL_Reconfigure_کھڑکی_اندرونی(کھڑکی, flags)) {
+        واپس SDL_Recreate_کھڑکی(کھڑکی, flags);
     }
 
-    return true;
+    واپس true;
 }
 
-bool SDL_HasWindows(void)
+bool SDL_HasWindows(خالی)
 {
-    return _this && _this->windows;
+    واپس _this && _this->windows;
 }
 
-SDL_WindowID SDL_GetWindowID(SDL_Window *window)
+SDL_کھڑکی_ID SDL_Get_کھڑکی_ID(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    return window->id;
+    واپس کھڑکی->id;
 }
 
-SDL_Window *SDL_GetWindowFromID(SDL_WindowID id)
+SDL_کھڑکی *SDL_Get_کھڑکی_From_ID(SDL_کھڑکی_ID id)
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
 
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    if (id) {
-        for (window = _this->windows; window; window = window->next) {
-            if (window->id == id) {
-                return window;
+    اگر (id) {
+        برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            اگر (کھڑکی->id == id) {
+                واپس کھڑکی;
             }
         }
     }
-    SDL_SetError("Invalid window ID");
-    return NULL;
+    SDL_سیٹ_Error("Invalid window ID");
+    واپس تہی;
 }
 
-SDL_Window *SDL_GetWindowParent(SDL_Window *window)
+SDL_کھڑکی *SDL_Get_کھڑکی_والد(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
-    return window->parent;
+    واپس کھڑکی->والد;
 }
 
-SDL_PropertiesID SDL_GetWindowProperties(SDL_Window *window)
+SDL_PropertiesID SDL_Get_کھڑکی_Properties(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    if (window->props == 0) {
-        window->props = SDL_CreateProperties();
+    اگر (کھڑکی->props == 0) {
+        کھڑکی->props = SDL_CreateProperties();
     }
-    return window->props;
+    واپس کھڑکی->props;
 }
 
-SDL_WindowFlags SDL_GetWindowFlags(SDL_Window *window)
+SDL_کھڑکی_Flags SDL_Get_کھڑکی_Flags(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_کھڑکی_MAGIC(کھڑکی, 0);
 
-    return window->flags | window->pending_flags;
+    واپس کھڑکی->flags | کھڑکی->pending_flags;
 }
 
-bool SDL_SetWindowTitle(SDL_Window *window, const char *title)
+bool SDL_سیٹ_کھڑکی_Title(SDL_کھڑکی *کھڑکی, ثابت حرف *title)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (title == window->title) {
-        return true;
+    اگر (title == کھڑکی->title) {
+        واپس true;
     }
-    if (!title) {
+    اگر (!title) {
         title = "";
     }
-    if (window->title && SDL_strcmp(title, window->title) == 0) {
-        return true;
+    اگر (کھڑکی->title && SDL_strcmp(title, کھڑکی->title) == 0) {
+        واپس true;
     }
 
-    SDL_free(window->title);
+    SDL_free(کھڑکی->title);
 
-    window->title = SDL_strdup(title);
+    کھڑکی->title = SDL_strdup(title);
 
-    if (_this->SetWindowTitle) {
-        _this->SetWindowTitle(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Title) {
+        _this->سیٹ_کھڑکی_Title(_this, کھڑکی);
     }
-    return true;
+    واپس true;
 }
 
-const char *SDL_GetWindowTitle(SDL_Window *window)
+ثابت حرف *SDL_Get_کھڑکی_Title(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, "");
+    CHECK_کھڑکی_MAGIC(کھڑکی, "");
 
-    return window->title ? window->title : "";
+    واپس کھڑکی->title ? کھڑکی->title : "";
 }
 
-bool SDL_SetWindowIcon(SDL_Window *window, SDL_Surface *icon)
+bool SDL_سیٹ_کھڑکی_Icon(SDL_کھڑکی *کھڑکی, SDL_Surface *icon)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
     CHECK_PARAM(!icon) {
-        return SDL_InvalidParamError("icon");
+        واپس SDL_InvalidParamError("icon");
     }
 
-    SDL_DestroySurface(window->icon);
+    SDL_DestroySurface(کھڑکی->icon);
 
     // Convert the icon into ARGB8888
-    window->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
-    if (!window->icon) {
-        return false;
+    کھڑکی->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
+    اگر (!کھڑکی->icon) {
+        واپس false;
     }
 
-    if (!_this->SetWindowIcon) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Icon) {
+        واپس SDL_Unsupported();
     }
 
-    return _this->SetWindowIcon(_this, window, window->icon);
+    واپس _this->سیٹ_کھڑکی_Icon(_this, کھڑکی, کھڑکی->icon);
 }
 
-bool SDL_SetWindowPosition(SDL_Window *window, int x, int y)
+bool SDL_سیٹ_کھڑکی_Position(SDL_کھڑکی *کھڑکی, صحیح x, صحیح y)
 {
     SDL_DisplayID original_displayID;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    const int w = window->last_size_pending ? window->pending.w : window->windowed.w;
-    const int h = window->last_size_pending ? window->pending.h : window->windowed.h;
+    ثابت صحیح w = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : کھڑکی->windowed.w;
+    ثابت صحیح h = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : کھڑکی->windowed.h;
 
-    original_displayID = GetDisplayForWindow(window);
-    window->pending_displayID = 0;
+    original_displayID = Get_Display_For_کھڑکی(کھڑکی);
+    کھڑکی->pending_displayID = 0;
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
-        x = window->windowed.x;
+    اگر (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        x = کھڑکی->windowed.x;
     }
-    if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
-        y = window->windowed.y;
+    اگر (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        y = کھڑکی->windowed.y;
     }
-    if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
+    اگر (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_DisplayID displayID = original_displayID;
         SDL_Rect bounds;
 
-        if (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
+        اگر (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
+        } ورنہ اگر (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        اگر (displayID == 0 || SDL_Get_Display_اشاریہ(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
-        window->pending_displayID = displayID;
+        کھڑکی->pending_displayID = displayID;
 
         SDL_zero(bounds);
-        if (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
-            if (!SDL_GetDisplayBounds(displayID, &bounds)) {
-                return false;
+        اگر (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
+            اگر (!SDL_GetDisplayBounds(displayID, &bounds)) {
+                واپس false;
             }
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x)) {
+        اگر (SDL_WINDOWPOS_ISCENTERED(x)) {
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y)) {
+        اگر (SDL_WINDOWPOS_ISCENTERED(y)) {
             y = bounds.y + (bounds.h - h) / 2;
         }
-    } else {
+    } ورنہ {
         /* See if the requested window position matches the origin of any displays and set
          * the pending fullscreen display ID if it does. This needs to be set early in case
          * the window is prevented from moving to the exact origin due to struts.
          */
-        window->pending_displayID = GetDisplayAtOrigin(x, y);
+        کھڑکی->pending_displayID = GetDisplayAtOrigin(x, y);
     }
 
-    window->pending.x = x;
-    window->pending.y = y;
+    کھڑکی->pending.x = x;
+    کھڑکی->pending.y = y;
 
     /* Windows are placed at the coordinates received while in fullscreen after leaving fullscreen.
      * Asynchronous backends need special handling in this case.
      */
-    if (!_this->SyncWindow && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        window->floating.x = window->windowed.x = x;
-        window->floating.y = window->windowed.y = y;
+    اگر (!_this->Sync_کھڑکی && (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        کھڑکی->floating.x = کھڑکی->windowed.x = x;
+        کھڑکی->floating.y = کھڑکی->windowed.y = y;
     }
-    window->undefined_x = false;
-    window->undefined_y = false;
-    window->last_position_pending = true;
+    کھڑکی->undefined_x = false;
+    کھڑکی->undefined_y = false;
+    کھڑکی->آخری_position_pending = true;
 
-    if (_this->SetWindowPosition) {
-        const bool result = _this->SetWindowPosition(_this, window);
-        if (result) {
-            SDL_SyncIfRequired(window);
+    اگر (_this->سیٹ_کھڑکی_Position) {
+        ثابت bool نتیجہ = _this->سیٹ_کھڑکی_Position(_this, کھڑکی);
+        اگر (نتیجہ) {
+            SDL_SyncIfRequired(کھڑکی);
         }
-        return result;
+        واپس نتیجہ;
     }
 
-    return SDL_Unsupported();
+    واپس SDL_Unsupported();
 }
 
-bool SDL_GetWindowPosition(SDL_Window *window, int *x, int *y)
+bool SDL_Get_کھڑکی_Position(SDL_کھڑکی *کھڑکی, صحیح *x, صحیح *y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-#ifdef SDL_PLATFORM_MACOS
+#اگر_تعریف_شدہ SDL_PLATFORM_MACOS
     // On newer MacBooks, the fullscreen window might be placed below the camera notch, so use the actual window position
     bool use_display_origin = false;
-#else
+#ورنہ
     // Fullscreen windows are always at their display's origin
-    bool use_display_origin = ((window->flags & SDL_WINDOW_FULLSCREEN) != 0);
-#endif
-    if (use_display_origin) {
+    bool use_display_origin = ((کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) != 0);
+#اگر_ختم
+    اگر (use_display_origin) {
         SDL_DisplayID displayID;
 
-        if (x) {
+        اگر (x) {
             *x = 0;
         }
-        if (y) {
+        اگر (y) {
             *y = 0;
         }
 
         /* Find the window's monitor and update to the
            monitor offset. */
-        displayID = GetDisplayForWindow(window);
-        if (displayID != 0) {
+        displayID = Get_Display_For_کھڑکی(کھڑکی);
+        اگر (displayID != 0) {
             SDL_Rect bounds;
 
             SDL_zero(bounds);
 
             SDL_GetDisplayBounds(displayID, &bounds);
-            if (x) {
+            اگر (x) {
                 *x = bounds.x;
             }
-            if (y) {
+            اگر (y) {
                 *y = bounds.y;
             }
         }
-    } else {
-        const bool use_pending = (window->flags & SDL_WINDOW_HIDDEN) && window->last_position_pending;
-        if (x) {
-            *x = use_pending ? window->pending.x : window->x;
+    } ورنہ {
+        ثابت bool use_pending = (کھڑکی->flags & SDL_کھڑکی_HIDDEN) && کھڑکی->آخری_position_pending;
+        اگر (x) {
+            *x = use_pending ? کھڑکی->pending.x : کھڑکی->x;
         }
-        if (y) {
-            *y = use_pending ? window->pending.y : window->y;
+        اگر (y) {
+            *y = use_pending ? کھڑکی->pending.y : کھڑکی->y;
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowBordered(SDL_Window *window, bool bordered)
+bool SDL_سیٹ_کھڑکی_Bordered(SDL_کھڑکی *کھڑکی, bool bordered)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->SetWindowBordered) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Bordered) {
+        واپس SDL_Unsupported();
     }
 
-    const bool want = bordered;
-    const bool have = !(window->flags & SDL_WINDOW_BORDERLESS);
-    if (want != have) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
-        } else {
-            window->flags |= SDL_WINDOW_BORDERLESS;
+    ثابت bool want = bordered;
+    ثابت bool have = !(کھڑکی->flags & SDL_کھڑکی_BORDERLESS);
+    اگر (want != have) {
+        اگر (want) {
+            کھڑکی->flags &= ~SDL_کھڑکی_BORDERLESS;
+        } ورنہ {
+            کھڑکی->flags |= SDL_کھڑکی_BORDERLESS;
         }
-        _this->SetWindowBordered(_this, window, want);
+        _this->سیٹ_کھڑکی_Bordered(_this, کھڑکی, want);
     }
 
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowResizable(SDL_Window *window, bool resizable)
+bool SDL_سیٹ_کھڑکی_Resizable(SDL_کھڑکی *کھڑکی, bool resizable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->SetWindowResizable) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Resizable) {
+        واپس SDL_Unsupported();
     }
 
-    const bool want = resizable;
-    const bool have = ((window->flags & SDL_WINDOW_RESIZABLE) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_RESIZABLE;
-        } else {
-            window->flags &= ~SDL_WINDOW_RESIZABLE;
-            SDL_copyp(&window->windowed, &window->floating);
+    ثابت bool want = resizable;
+    ثابت bool have = ((کھڑکی->flags & SDL_کھڑکی_RESIZABLE) != 0);
+    اگر (want != have) {
+        اگر (want) {
+            کھڑکی->flags |= SDL_کھڑکی_RESIZABLE;
+        } ورنہ {
+            کھڑکی->flags &= ~SDL_کھڑکی_RESIZABLE;
+            SDL_copyp(&کھڑکی->windowed, &کھڑکی->floating);
         }
-        _this->SetWindowResizable(_this, window, want);
+        _this->سیٹ_کھڑکی_Resizable(_this, کھڑکی, want);
     }
 
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowAlwaysOnTop(SDL_Window *window, bool on_top)
+bool SDL_سیٹ_کھڑکی_Always_On_چوٹی(SDL_کھڑکی *کھڑکی, bool on_چوٹی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->SetWindowAlwaysOnTop) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Always_On_چوٹی) {
+        واپس SDL_Unsupported();
     }
 
-    const bool want = on_top;
-    const bool have = ((window->flags & SDL_WINDOW_ALWAYS_ON_TOP) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_ALWAYS_ON_TOP;
-        } else {
-            window->flags &= ~SDL_WINDOW_ALWAYS_ON_TOP;
+    ثابت bool want = on_چوٹی;
+    ثابت bool have = ((کھڑکی->flags & SDL_کھڑکی_ALWAYS_ON_چوٹی) != 0);
+    اگر (want != have) {
+        اگر (want) {
+            کھڑکی->flags |= SDL_کھڑکی_ALWAYS_ON_چوٹی;
+        } ورنہ {
+            کھڑکی->flags &= ~SDL_کھڑکی_ALWAYS_ON_چوٹی;
         }
-        _this->SetWindowAlwaysOnTop(_this, window, want);
+        _this->سیٹ_کھڑکی_Always_On_چوٹی(_this, کھڑکی, want);
     }
 
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowSize(SDL_Window *window, int w, int h)
+bool SDL_سیٹ_کھڑکی_سائز(SDL_کھڑکی *کھڑکی, صحیح w, صحیح h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
     CHECK_PARAM(w <= 0) {
-        return SDL_InvalidParamError("w");
+        واپس SDL_InvalidParamError("w");
     }
     CHECK_PARAM(h <= 0) {
-        return SDL_InvalidParamError("h");
+        واپس SDL_InvalidParamError("h");
     }
 
     // It is possible for the aspect ratio constraints to not satisfy the size constraints.
     // The size constraints will override the aspect ratio constraints so we will apply the
     // the aspect ratio constraints first
-    float new_aspect = w / (float)h;
-    if (window->max_aspect > 0.0f && new_aspect > window->max_aspect) {
-        w = (int)SDL_roundf(h * window->max_aspect);
-    } else if (window->min_aspect > 0.0f && new_aspect < window->min_aspect) {
-        h = (int)SDL_roundf(w / window->min_aspect);
+    اعشاری new_aspect = w / (اعشاری)h;
+    اگر (کھڑکی->max_aspect > 0.0f && new_aspect > کھڑکی->max_aspect) {
+        w = (صحیح)SDL_roundf(h * کھڑکی->max_aspect);
+    } ورنہ اگر (کھڑکی->min_aspect > 0.0f && new_aspect < کھڑکی->min_aspect) {
+        h = (صحیح)SDL_roundf(w / کھڑکی->min_aspect);
     }
 
     // Make sure we don't exceed any window size limits
-    if (window->min_w && w < window->min_w) {
-        w = window->min_w;
+    اگر (کھڑکی->min_w && w < کھڑکی->min_w) {
+        w = کھڑکی->min_w;
     }
-    if (window->max_w && w > window->max_w) {
-        w = window->max_w;
+    اگر (کھڑکی->max_w && w > کھڑکی->max_w) {
+        w = کھڑکی->max_w;
     }
-    if (window->min_h && h < window->min_h) {
-        h = window->min_h;
+    اگر (کھڑکی->min_h && h < کھڑکی->min_h) {
+        h = کھڑکی->min_h;
     }
-    if (window->max_h && h > window->max_h) {
-        h = window->max_h;
+    اگر (کھڑکی->max_h && h > کھڑکی->max_h) {
+        h = کھڑکی->max_h;
     }
 
-    window->last_size_pending = true;
-    window->pending.w = w;
-    window->pending.h = h;
+    کھڑکی->آخری_سائز_pending = true;
+    کھڑکی->pending.w = w;
+    کھڑکی->pending.h = h;
 
-    if (_this->SetWindowSize) {
-        _this->SetWindowSize(_this, window);
-        SDL_SyncIfRequired(window);
-    } else {
-        return SDL_Unsupported();
+    اگر (_this->سیٹ_کھڑکی_سائز) {
+        _this->سیٹ_کھڑکی_سائز(_this, کھڑکی);
+        SDL_SyncIfRequired(کھڑکی);
+    } ورنہ {
+        واپس SDL_Unsupported();
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_GetWindowSize(SDL_Window *window, int *w, int *h)
+bool SDL_Get_کھڑکی_سائز(SDL_کھڑکی *کھڑکی, صحیح *w, صحیح *h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (w) {
-        *w = window->w;
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    اگر (w) {
+        *w = کھڑکی->w;
     }
-    if (h) {
-        *h = window->h;
+    اگر (h) {
+        *h = کھڑکی->h;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowAspectRatio(SDL_Window *window, float min_aspect, float max_aspect)
+bool SDL_سیٹ_کھڑکی_Aspect_تناسب(SDL_کھڑکی *کھڑکی, اعشاری min_aspect, اعشاری max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    window->min_aspect = min_aspect;
-    window->max_aspect = max_aspect;
+    کھڑکی->min_aspect = min_aspect;
+    کھڑکی->max_aspect = max_aspect;
 
-    if (_this->SetWindowAspectRatio) {
-        _this->SetWindowAspectRatio(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Aspect_تناسب) {
+        _this->سیٹ_کھڑکی_Aspect_تناسب(_this, کھڑکی);
     }
 
     // Ensure that window has the correct aspect ratio
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    صحیح w = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : کھڑکی->floating.w;
+    صحیح h = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : کھڑکی->floating.h;
+    واپس SDL_سیٹ_کھڑکی_سائز(کھڑکی, w, h);
 }
 
-bool SDL_GetWindowAspectRatio(SDL_Window *window, float *min_aspect, float *max_aspect)
+bool SDL_Get_کھڑکی_Aspect_تناسب(SDL_کھڑکی *کھڑکی, اعشاری *min_aspect, اعشاری *max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (min_aspect) {
-        *min_aspect = window->min_aspect;
+    اگر (min_aspect) {
+        *min_aspect = کھڑکی->min_aspect;
     }
-    if (max_aspect) {
-        *max_aspect = window->max_aspect;
+    اگر (max_aspect) {
+        *max_aspect = کھڑکی->max_aspect;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_GetWindowBordersSize(SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool SDL_Get_کھڑکی_Borders_سائز(SDL_کھڑکی *کھڑکی, صحیح *چوٹی, صحیح *بایاں, صحیح *bottom, صحیح *دایاں)
 {
-    int dummy = 0;
+    صحیح dummy = 0;
 
-    if (!top) {
-        top = &dummy;
+    اگر (!چوٹی) {
+        چوٹی = &dummy;
     }
-    if (!left) {
-        left = &dummy;
+    اگر (!بایاں) {
+        بایاں = &dummy;
     }
-    if (!right) {
-        right = &dummy;
+    اگر (!دایاں) {
+        دایاں = &dummy;
     }
-    if (!bottom) {
+    اگر (!bottom) {
         bottom = &dummy;
     }
 
     // Always initialize, so applications don't have to care
-    *top = *left = *bottom = *right = 0;
+    *چوٹی = *بایاں = *bottom = *دایاں = 0;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->GetWindowBordersSize) {
-        return SDL_Unsupported();
+    اگر (!_this->Get_کھڑکی_Borders_سائز) {
+        واپس SDL_Unsupported();
     }
 
-    return _this->GetWindowBordersSize(_this, window, top, left, bottom, right);
+    واپس _this->Get_کھڑکی_Borders_سائز(_this, کھڑکی, چوٹی, بایاں, bottom, دایاں);
 }
 
-bool SDL_GetWindowSizeInPixels(SDL_Window *window, int *w, int *h)
+bool SDL_Get_کھڑکی_سائز_اندر_Pixels(SDL_کھڑکی *کھڑکی, صحیح *w, صحیح *h)
 {
-    int filter;
+    صحیح filter;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!w) {
+    اگر (!w) {
         w = &filter;
     }
 
-    if (!h) {
+    اگر (!h) {
         h = &filter;
     }
 
-    if (_this->GetWindowSizeInPixels) {
-        _this->GetWindowSizeInPixels(_this, window, w, h);
-    } else {
-        SDL_DisplayID displayID = GetDisplayForWindow(window);
-        const SDL_DisplayMode *mode;
+    اگر (_this->Get_کھڑکی_سائز_اندر_Pixels) {
+        _this->Get_کھڑکی_سائز_اندر_Pixels(_this, کھڑکی, w, h);
+    } ورنہ {
+        SDL_DisplayID displayID = Get_Display_For_کھڑکی(کھڑکی);
+        ثابت SDL_Display_منوال *منوال;
 
-        SDL_GetWindowSize(window, w, h);
+        SDL_Get_کھڑکی_سائز(کھڑکی, w, h);
 
-        if ((window->flags & SDL_WINDOW_FULLSCREEN) && SDL_GetWindowFullscreenMode(window)) {
-            mode = SDL_GetCurrentDisplayMode(displayID);
-        } else {
-            mode = SDL_GetDesktopDisplayMode(displayID);
+        اگر ((کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && SDL_Get_کھڑکی_Fullscreen_منوال(کھڑکی)) {
+            منوال = SDL_Get_Current_Display_منوال(displayID);
+        } ورنہ {
+            منوال = SDL_Get_Desktop_Display_منوال(displayID);
         }
-        if (mode) {
-            *w = (int)SDL_ceilf(*w * mode->pixel_density);
-            *h = (int)SDL_ceilf(*h * mode->pixel_density);
+        اگر (منوال) {
+            *w = (صحیح)SDL_ceilf(*w * منوال->pixel_density);
+            *h = (صحیح)SDL_ceilf(*h * منوال->pixel_density);
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowMinimumSize(SDL_Window *window, int min_w, int min_h)
+bool SDL_سیٹ_کھڑکی_Minimum_سائز(SDL_کھڑکی *کھڑکی, صحیح min_w, صحیح min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
     CHECK_PARAM(min_w < 0) {
-        return SDL_InvalidParamError("min_w");
+        واپس SDL_InvalidParamError("min_w");
     }
     CHECK_PARAM(min_h < 0) {
-        return SDL_InvalidParamError("min_h");
+        واپس SDL_InvalidParamError("min_h");
     }
 
-    CHECK_PARAM((window->max_w && min_w > window->max_w) || (window->max_h && min_h > window->max_h)) {
-        return SDL_SetError("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
+    CHECK_PARAM((کھڑکی->max_w && min_w > کھڑکی->max_w) || (کھڑکی->max_h && min_h > کھڑکی->max_h)) {
+        واپس SDL_سیٹ_Error("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
     }
 
-    window->min_w = min_w;
-    window->min_h = min_h;
+    کھڑکی->min_w = min_w;
+    کھڑکی->min_h = min_h;
 
-    if (_this->SetWindowMinimumSize) {
-        _this->SetWindowMinimumSize(_this, window);
+    اگر (_this->سیٹ_کھڑکی_Minimum_سائز) {
+        _this->سیٹ_کھڑکی_Minimum_سائز(_this, کھڑکی);
     }
 
     // Ensure that window is not smaller than minimal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    صحیح w = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : کھڑکی->floating.w;
+    صحیح h = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : کھڑکی->floating.h;
+    واپس SDL_سیٹ_کھڑکی_سائز(کھڑکی, w, h);
 }
 
-bool SDL_GetWindowMinimumSize(SDL_Window *window, int *min_w, int *min_h)
+bool SDL_Get_کھڑکی_Minimum_سائز(SDL_کھڑکی *کھڑکی, صحیح *min_w, صحیح *min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (min_w) {
-        *min_w = window->min_w;
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    اگر (min_w) {
+        *min_w = کھڑکی->min_w;
     }
-    if (min_h) {
-        *min_h = window->min_h;
+    اگر (min_h) {
+        *min_h = کھڑکی->min_h;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowMaximumSize(SDL_Window *window, int max_w, int max_h)
+bool SDL_سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز(SDL_کھڑکی *کھڑکی, صحیح max_w, صحیح max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
     CHECK_PARAM(max_w < 0) {
-        return SDL_InvalidParamError("max_w");
+        واپس SDL_InvalidParamError("max_w");
     }
     CHECK_PARAM(max_h < 0) {
-        return SDL_InvalidParamError("max_h");
+        واپس SDL_InvalidParamError("max_h");
     }
 
-    if ((max_w && max_w < window->min_w) ||
-        (max_h && max_h < window->min_h)) {
-        return SDL_SetError("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
+    اگر ((max_w && max_w < کھڑکی->min_w) ||
+        (max_h && max_h < کھڑکی->min_h)) {
+        واپس SDL_سیٹ_Error("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
     }
 
-    window->max_w = max_w;
-    window->max_h = max_h;
+    کھڑکی->max_w = max_w;
+    کھڑکی->max_h = max_h;
 
-    if (_this->SetWindowMaximumSize) {
-        _this->SetWindowMaximumSize(_this, window);
+    اگر (_this->سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز) {
+        _this->سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز(_this, کھڑکی);
     }
 
     // Ensure that window is not larger than maximal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    صحیح w = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.w : کھڑکی->floating.w;
+    صحیح h = کھڑکی->آخری_سائز_pending ? کھڑکی->pending.h : کھڑکی->floating.h;
+    واپس SDL_سیٹ_کھڑکی_سائز(کھڑکی, w, h);
 }
 
-bool SDL_GetWindowMaximumSize(SDL_Window *window, int *max_w, int *max_h)
+bool SDL_Get_کھڑکی_زیادہ_سے_زیادہ_سائز(SDL_کھڑکی *کھڑکی, صحیح *max_w, صحیح *max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (max_w) {
-        *max_w = window->max_w;
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    اگر (max_w) {
+        *max_w = کھڑکی->max_w;
     }
-    if (max_h) {
-        *max_h = window->max_h;
+    اگر (max_h) {
+        *max_h = کھڑکی->max_h;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_ShowWindow(SDL_Window *window)
+bool SDL_Show_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_کھڑکی *بچہ;
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-        return true;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_HIDDEN)) {
+        واپس true;
     }
 
     // If the parent is hidden, set the flag to restore this when the parent is shown
-    if (window->parent && (window->parent->flags & SDL_WINDOW_HIDDEN)) {
-        window->restore_on_show = true;
-        return true;
+    اگر (کھڑکی->والد && (کھڑکی->والد->flags & SDL_کھڑکی_HIDDEN)) {
+        کھڑکی->restore_on_show = true;
+        واپس true;
     }
 
-    if (_this->ShowWindow) {
-        _this->ShowWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(window);
-        SDL_SetKeyboardFocus(window);
+    اگر (_this->Show_کھڑکی) {
+        _this->Show_کھڑکی(_this, کھڑکی);
+    } ورنہ {
+        SDL_سیٹ_Mouse_Focus(کھڑکی);
+        SDL_سیٹ_Keyboard_Focus(کھڑکی);
     }
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_SHOWN, 0, 0);
 
     // Restore child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (!child->restore_on_show && (child->flags & SDL_WINDOW_HIDDEN)) {
-            break;
+    برائے (بچہ = کھڑکی->پہلا_بچہ; بچہ; بچہ = بچہ->اگلا_sibling) {
+        اگر (!بچہ->restore_on_show && (بچہ->flags & SDL_کھڑکی_HIDDEN)) {
+            توڑو;
         }
-        SDL_ShowWindow(child);
-        child->restore_on_show = false;
+        SDL_Show_کھڑکی(بچہ);
+        بچہ->restore_on_show = false;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_HideWindow(SDL_Window *window)
+bool SDL_Hide_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_کھڑکی *بچہ;
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->restore_on_show = false;
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        کھڑکی->restore_on_show = false;
+        واپس true;
     }
 
     // Hide all child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (child->flags & SDL_WINDOW_HIDDEN) {
-            break;
+    برائے (بچہ = کھڑکی->پہلا_بچہ; بچہ; بچہ = بچہ->اگلا_sibling) {
+        اگر (بچہ->flags & SDL_کھڑکی_HIDDEN) {
+            توڑو;
         }
-        SDL_HideWindow(child);
-        child->restore_on_show = true;
+        SDL_Hide_کھڑکی(بچہ);
+        بچہ->restore_on_show = true;
     }
 
     // Store the flags for restoration later.
-    const SDL_WindowFlags pending_mask = (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_KEYBOARD_GRABBED | SDL_WINDOW_MOUSE_GRABBED);
-    window->pending_flags = (window->flags & pending_mask);
+    ثابت SDL_کھڑکی_Flags pending_نقاب = (SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_MINIMIZED | SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_KEYBOARD_GRABBED | SDL_کھڑکی_MOUSE_GRABBED);
+    کھڑکی->pending_flags = (کھڑکی->flags & pending_نقاب);
 
-    window->is_hiding = true;
-    if (_this->HideWindow) {
-        _this->HideWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(NULL);
-        SDL_SetKeyboardFocus(NULL);
+    کھڑکی->is_hiding = true;
+    اگر (_this->Hide_کھڑکی) {
+        _this->Hide_کھڑکی(_this, کھڑکی);
+    } ورنہ {
+        SDL_سیٹ_Mouse_Focus(تہی);
+        SDL_سیٹ_Keyboard_Focus(تہی);
     }
-    window->is_hiding = false;
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
-    return true;
+    کھڑکی->is_hiding = false;
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_HIDDEN, 0, 0);
+    واپس true;
 }
 
-bool SDL_RaiseWindow(SDL_Window *window)
+bool SDL_Raise_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        واپس true;
     }
-    if (_this->RaiseWindow) {
-        _this->RaiseWindow(_this, window);
+    اگر (_this->Raise_کھڑکی) {
+        _this->Raise_کھڑکی(_this, کھڑکی);
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_MaximizeWindow(SDL_Window *window)
+bool SDL_Maximize_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->MaximizeWindow) {
-        return SDL_Unsupported();
+    اگر (!_this->Maximize_کھڑکی) {
+        واپس SDL_Unsupported();
     }
 
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        return SDL_SetError("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
+        واپس SDL_سیٹ_Error("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MAXIMIZED;
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        کھڑکی->pending_flags |= SDL_کھڑکی_MAXIMIZED;
+        واپس true;
     }
 
-    _this->MaximizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Maximize_کھڑکی(_this, کھڑکی);
+    SDL_SyncIfRequired(کھڑکی);
+    واپس true;
 }
 
-bool SDL_MinimizeWindow(SDL_Window *window)
+bool SDL_Minimize_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->MinimizeWindow) {
-        return SDL_Unsupported();
+    اگر (!_this->Minimize_کھڑکی) {
+        واپس SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MINIMIZED;
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        کھڑکی->pending_flags |= SDL_کھڑکی_MINIMIZED;
+        واپس true;
     }
 
-    _this->MinimizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Minimize_کھڑکی(_this, کھڑکی);
+    SDL_SyncIfRequired(کھڑکی);
+    واپس true;
 }
 
-bool SDL_RestoreWindow(SDL_Window *window)
+bool SDL_Restore_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->RestoreWindow) {
-        return SDL_Unsupported();
+    اگر (!_this->Restore_کھڑکی) {
+        واپس SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags &= ~(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED);
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        کھڑکی->pending_flags &= ~(SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_MINIMIZED);
+        واپس true;
     }
 
-    _this->RestoreWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Restore_کھڑکی(_this, کھڑکی);
+    SDL_SyncIfRequired(کھڑکی);
+    واپس true;
 }
 
-bool SDL_SetWindowFullscreen(SDL_Window *window, bool fullscreen)
+bool SDL_سیٹ_کھڑکی_Fullscreen(SDL_کھڑکی *کھڑکی, bool fullscreen)
 {
-    bool result;
+    bool نتیجہ;
 
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (fullscreen) {
-            window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_FULLSCREEN;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        اگر (fullscreen) {
+            کھڑکی->pending_flags |= SDL_کھڑکی_FULLSCREEN;
+        } ورنہ {
+            کھڑکی->pending_flags &= ~SDL_کھڑکی_FULLSCREEN;
         }
-        return true;
+        واپس true;
     }
 
-    if (fullscreen) {
+    اگر (fullscreen) {
         // Set the current fullscreen mode to the desired mode
-        SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+        SDL_copyp(&کھڑکی->current_fullscreen_منوال, &کھڑکی->requested_fullscreen_منوال);
     }
 
-    result = SDL_UpdateFullscreenMode(window, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
+    نتیجہ = SDL_Update_Fullscreen_منوال(کھڑکی, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
 
-    if (!fullscreen || !result) {
+    اگر (!fullscreen || !نتیجہ) {
         // Clear the current fullscreen mode.
-        SDL_zero(window->current_fullscreen_mode);
+        SDL_zero(کھڑکی->current_fullscreen_منوال);
     }
 
-    if (result) {
-        SDL_SyncIfRequired(window);
+    اگر (نتیجہ) {
+        SDL_SyncIfRequired(کھڑکی);
     }
 
-    return result;
+    واپس نتیجہ;
 }
 
-bool SDL_SyncWindow(SDL_Window *window)
+bool SDL_Sync_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (_this->SyncWindow) {
-        return _this->SyncWindow(_this, window);
-    } else {
-        return true;
+    اگر (_this->Sync_کھڑکی) {
+        واپس _this->Sync_کھڑکی(_this, کھڑکی);
+    } ورنہ {
+        واپس true;
     }
 }
 
-static bool ShouldAttemptTextureFramebuffer(void)
+ساکن bool ShouldAttemptTextureFramebuffer(خالی)
 {
-    const char *hint;
+    ثابت حرف *hint;
     bool attempt_texture_framebuffer;
 
     // If the driver doesn't support window framebuffers, always use the render API.
-    if (!_this->CreateWindowFramebuffer) {
-        return true;
+    اگر (!_this->Create_کھڑکی_Framebuffer) {
+        واپس true;
     }
 
     // See if there's a hint override
     hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-    if (hint && *hint) {
-        if (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
+    اگر (hint && *hint) {
+        اگر (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
             attempt_texture_framebuffer = false;
-        } else {
+        } ورنہ {
             attempt_texture_framebuffer = true;
         }
-    } else {
-        if (SDL_DriverHasSlowFramebuffer(_this)) {
+    } ورنہ {
+        اگر (SDL_DriverHasSlowFramebuffer(_this)) {
             attempt_texture_framebuffer = true;
-        } else {
+        } ورنہ {
             attempt_texture_framebuffer = false;
         }
     }
-    return attempt_texture_framebuffer;
+    واپس attempt_texture_framebuffer;
 }
 
-static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
+ساکن SDL_Surface *SDL_Create_کھڑکی_Framebuffer(SDL_کھڑکی *کھڑکی)
 {
     SDL_PixelFormat format = SDL_PIXELFORMAT_UNKNOWN;
-    void *pixels = NULL;
-    int pitch = 0;
+    خالی *pixels = تہی;
+    صحیح pitch = 0;
     bool created_framebuffer = false;
-    int w, h;
+    صحیح w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &w, &h);
 
     /* This will switch the video backend from using a software surface to
        using a GPU texture through the 2D render API, if we think this would
        be more efficient. This only checks once, on demand. */
-    if (!_this->checked_texture_framebuffer) {
-        if (ShouldAttemptTextureFramebuffer()) {
-            if (!SDL_CreateWindowTexture(_this, window, &format, &pixels, &pitch)) {
+    اگر (!_this->checked_texture_framebuffer) {
+        اگر (ShouldAttemptTextureFramebuffer()) {
+            اگر (!SDL_Create_کھڑکی_Texture(_this, کھڑکی, &format, &pixels, &pitch)) {
                 /* !!! FIXME: if this failed halfway (made renderer, failed to make texture, etc),
                    !!! FIXME:  we probably need to clean this up so it doesn't interfere with
                    !!! FIXME:  a software fallback at the system level (can we blit to an
                    !!! FIXME:  OpenGL window? etc). */
-            } else {
+            } ورنہ {
                 // future attempts will just try to use a texture framebuffer.
                 /* !!! FIXME:  maybe we shouldn't override these but check if we used a texture
                    !!! FIXME:  framebuffer at the right places; is it feasible we could have an
                    !!! FIXME:  accelerated OpenGL window and a second ends up in software? */
-                _this->CreateWindowFramebuffer = SDL_CreateWindowTexture;
-                _this->SetWindowFramebufferVSync = SDL_SetWindowTextureVSync;
-                _this->GetWindowFramebufferVSync = SDL_GetWindowTextureVSync;
-                _this->UpdateWindowFramebuffer = SDL_UpdateWindowTexture;
-                _this->DestroyWindowFramebuffer = SDL_DestroyWindowTexture;
+                _this->Create_کھڑکی_Framebuffer = SDL_Create_کھڑکی_Texture;
+                _this->سیٹ_کھڑکی_Framebuffer_VSync = SDL_سیٹ_کھڑکی_Texture_VSync;
+                _this->Get_کھڑکی_Framebuffer_VSync = SDL_Get_کھڑکی_Texture_VSync;
+                _this->Update_کھڑکی_Framebuffer = SDL_Update_کھڑکی_Texture;
+                _this->Destroy_کھڑکی_Framebuffer = SDL_Destroy_کھڑکی_Texture;
                 created_framebuffer = true;
             }
         }
@@ -3711,459 +3711,459 @@ static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
         _this->checked_texture_framebuffer = true; // don't check this again.
     }
 
-    if (!created_framebuffer) {
-        if (!_this->CreateWindowFramebuffer || !_this->UpdateWindowFramebuffer) {
-            SDL_SetError("Window framebuffer support not available");
-            return NULL;
+    اگر (!created_framebuffer) {
+        اگر (!_this->Create_کھڑکی_Framebuffer || !_this->Update_کھڑکی_Framebuffer) {
+            SDL_سیٹ_Error("Window framebuffer support not available");
+            واپس تہی;
         }
 
-        if (!_this->CreateWindowFramebuffer(_this, window, &format, &pixels, &pitch)) {
-            return NULL;
+        اگر (!_this->Create_کھڑکی_Framebuffer(_this, کھڑکی, &format, &pixels, &pitch)) {
+            واپس تہی;
         }
     }
 
-    if (window->surface) {
+    اگر (کھڑکی->surface) {
         // We may have gone recursive and already created the surface
-        return window->surface;
+        واپس کھڑکی->surface;
     }
 
-    return SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
+    واپس SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
 }
 
-bool SDL_WindowHasSurface(SDL_Window *window)
+bool SDL_کھڑکی_Has_Surface(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    return window->surface ? true : false;
+    واپس کھڑکی->surface ? true : false;
 }
 
-SDL_Surface *SDL_GetWindowSurface(SDL_Window *window)
+SDL_Surface *SDL_Get_کھڑکی_Surface(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
-    if (!window->surface_valid) {
-        if (window->surface) {
-            window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-            SDL_DestroySurface(window->surface);
-            window->surface = NULL;
+    اگر (!کھڑکی->surface_valid) {
+        اگر (کھڑکی->surface) {
+            کھڑکی->surface->اندرونی_flags &= ~SDL_اندرونی_SURFACE_DONTFREE;
+            SDL_DestroySurface(کھڑکی->surface);
+            کھڑکی->surface = تہی;
         }
 
-        window->surface = SDL_CreateWindowFramebuffer(window);
-        if (window->surface) {
-            window->surface_valid = true;
-            window->surface->internal_flags |= SDL_INTERNAL_SURFACE_DONTFREE;
+        کھڑکی->surface = SDL_Create_کھڑکی_Framebuffer(کھڑکی);
+        اگر (کھڑکی->surface) {
+            کھڑکی->surface_valid = true;
+            کھڑکی->surface->اندرونی_flags |= SDL_اندرونی_SURFACE_DONTFREE;
         }
     }
-    return window->surface;
+    واپس کھڑکی->surface;
 }
 
-bool SDL_SetWindowSurfaceVSync(SDL_Window *window, int vsync)
+bool SDL_سیٹ_کھڑکی_Surface_VSync(SDL_کھڑکی *کھڑکی, صحیح vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->SetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Framebuffer_VSync) {
+        واپس SDL_Unsupported();
     }
-    return _this->SetWindowFramebufferVSync(_this, window, vsync);
+    واپس _this->سیٹ_کھڑکی_Framebuffer_VSync(_this, کھڑکی, vsync);
 }
 
-bool SDL_GetWindowSurfaceVSync(SDL_Window *window, int *vsync)
+bool SDL_Get_کھڑکی_Surface_VSync(SDL_کھڑکی *کھڑکی, صحیح *vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->GetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    اگر (!_this->Get_کھڑکی_Framebuffer_VSync) {
+        واپس SDL_Unsupported();
     }
-    return _this->GetWindowFramebufferVSync(_this, window, vsync);
+    واپس _this->Get_کھڑکی_Framebuffer_VSync(_this, کھڑکی, vsync);
 }
 
-bool SDL_UpdateWindowSurface(SDL_Window *window)
+bool SDL_Update_کھڑکی_Surface(SDL_کھڑکی *کھڑکی)
 {
-    SDL_Rect full_rect;
+    SDL_Rect بھرا_rect;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    full_rect.x = 0;
-    full_rect.y = 0;
-    SDL_GetWindowSizeInPixels(window, &full_rect.w, &full_rect.h);
+    بھرا_rect.x = 0;
+    بھرا_rect.y = 0;
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &بھرا_rect.w, &بھرا_rect.h);
 
-    return SDL_UpdateWindowSurfaceRects(window, &full_rect, 1);
+    واپس SDL_Update_کھڑکی_Surface_Rects(کھڑکی, &بھرا_rect, 1);
 }
 
-bool SDL_UpdateWindowSurfaceRects(SDL_Window *window, const SDL_Rect *rects,
-                                 int numrects)
+bool SDL_Update_کھڑکی_Surface_Rects(SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects,
+                                 صحیح numrects)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!window->surface_valid) {
-        return SDL_SetError("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
+    اگر (!کھڑکی->surface_valid) {
+        واپس SDL_سیٹ_Error("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
     }
 
     SDL_assert(_this->checked_texture_framebuffer); // we should have done this before we had a valid surface.
 
-    return _this->UpdateWindowFramebuffer(_this, window, rects, numrects);
+    واپس _this->Update_کھڑکی_Framebuffer(_this, کھڑکی, rects, numrects);
 }
 
-bool SDL_DestroyWindowSurface(SDL_Window *window)
+bool SDL_Destroy_کھڑکی_Surface(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->surface) {
-        window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-        SDL_DestroySurface(window->surface);
-        window->surface = NULL;
-        window->surface_valid = false;
+    اگر (کھڑکی->surface) {
+        کھڑکی->surface->اندرونی_flags &= ~SDL_اندرونی_SURFACE_DONTFREE;
+        SDL_DestroySurface(کھڑکی->surface);
+        کھڑکی->surface = تہی;
+        کھڑکی->surface_valid = false;
     }
 
-    if (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
-        if (_this->DestroyWindowFramebuffer) {
-            _this->DestroyWindowFramebuffer(_this, window);
+    اگر (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
+        اگر (_this->Destroy_کھڑکی_Framebuffer) {
+            _this->Destroy_کھڑکی_Framebuffer(_this, کھڑکی);
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowOpacity(SDL_Window *window, float opacity)
+bool SDL_سیٹ_کھڑکی_Opacity(SDL_کھڑکی *کھڑکی, اعشاری opacity)
 {
-    bool result;
+    bool نتیجہ;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->SetWindowOpacity) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Opacity) {
+        واپس SDL_Unsupported();
     }
 
-    if (opacity < 0.0f) {
+    اگر (opacity < 0.0f) {
         opacity = 0.0f;
-    } else if (opacity > 1.0f) {
+    } ورنہ اگر (opacity > 1.0f) {
         opacity = 1.0f;
     }
 
-    result = _this->SetWindowOpacity(_this, window, opacity);
-    if (result) {
-        window->opacity = opacity;
+    نتیجہ = _this->سیٹ_کھڑکی_Opacity(_this, کھڑکی, opacity);
+    اگر (نتیجہ) {
+        کھڑکی->opacity = opacity;
     }
 
-    return result;
+    واپس نتیجہ;
 }
 
-float SDL_GetWindowOpacity(SDL_Window *window)
+اعشاری SDL_Get_کھڑکی_Opacity(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
+    CHECK_کھڑکی_MAGIC(کھڑکی, -1.0f);
 
-    return window->opacity;
+    واپس کھڑکی->opacity;
 }
 
-bool SDL_SetWindowParent(SDL_Window *window, SDL_Window *parent)
+bool SDL_سیٹ_کھڑکی_والد(SDL_کھڑکی *کھڑکی, SDL_کھڑکی *والد)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (parent) {
-        CHECK_WINDOW_MAGIC(parent, false);
-        CHECK_WINDOW_NOT_POPUP(parent, false);
+    اگر (والد) {
+        CHECK_کھڑکی_MAGIC(والد, false);
+        CHECK_کھڑکی_NOT_POPUP(والد, false);
     }
 
-    if (window == parent) {
-        return SDL_SetError("Cannot set the parent of a window to itself.");
+    اگر (کھڑکی == والد) {
+        واپس SDL_سیٹ_Error("Cannot set the parent of a window to itself.");
     }
 
-    if (!_this->SetWindowParent) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_والد) {
+        واپس SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        return SDL_SetError("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
+    اگر (کھڑکی->flags & SDL_کھڑکی_MODAL) {
+        واپس SDL_سیٹ_Error("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
     }
 
-    if (window->parent == parent) {
-        return true;
+    اگر (کھڑکی->والد == والد) {
+        واپس true;
     }
 
-    const bool ret = _this->SetWindowParent(_this, window, parent);
-    SDL_UpdateWindowHierarchy(window, ret ? parent : NULL);
+    ثابت bool ret = _this->سیٹ_کھڑکی_والد(_this, کھڑکی, والد);
+    SDL_Update_کھڑکی_Hierarchy(کھڑکی, ret ? والد : تہی);
 
-    return ret;
+    واپس ret;
 }
 
-bool SDL_SetWindowModal(SDL_Window *window, bool modal)
+bool SDL_سیٹ_کھڑکی_Modal(SDL_کھڑکی *کھڑکی, bool modal)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (!_this->SetWindowModal) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Modal) {
+        واپس SDL_Unsupported();
     }
 
-    if (modal) {
-        if (!window->parent) {
-            return SDL_SetError("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
+    اگر (modal) {
+        اگر (!کھڑکی->والد) {
+            واپس SDL_سیٹ_Error("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
         }
-        window->flags |= SDL_WINDOW_MODAL;
-    } else if (window->flags & SDL_WINDOW_MODAL) {
-        window->flags &= ~SDL_WINDOW_MODAL;
-    } else {
-        return true; // Already not modal, so nothing to do.
+        کھڑکی->flags |= SDL_کھڑکی_MODAL;
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_MODAL) {
+        کھڑکی->flags &= ~SDL_کھڑکی_MODAL;
+    } ورنہ {
+        واپس true; // Already not modal, so nothing to do.
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        واپس true;
     }
 
-    return _this->SetWindowModal(_this, window, modal);
+    واپس _this->سیٹ_کھڑکی_Modal(_this, کھڑکی, modal);
 }
 
-bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus)
+bool SDL_ShouldRelinquishPopupFocus(SDL_کھڑکی *کھڑکی, SDL_کھڑکی **new_focus)
 {
-    SDL_Window *focus = window->parent;
-    bool set_focus = !!(window->flags & SDL_WINDOW_INPUT_FOCUS);
+    SDL_کھڑکی *focus = کھڑکی->والد;
+    bool سیٹ_focus = !!(کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS);
 
     // Find the highest level window, up to the toplevel parent, that isn't being hidden or destroyed, and can grab the keyboard focus.
-    while (SDL_WINDOW_IS_POPUP(focus) && ((focus->flags & SDL_WINDOW_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
-        focus = focus->parent;
+    جب (SDL_کھڑکی_IS_POPUP(focus) && ((focus->flags & SDL_کھڑکی_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
+        focus = focus->والد;
 
         // If some window in the chain currently had focus, set it to the new lowest-level window.
-        if (!set_focus) {
-            set_focus = !!(focus->flags & SDL_WINDOW_INPUT_FOCUS);
+        اگر (!سیٹ_focus) {
+            سیٹ_focus = !!(focus->flags & SDL_کھڑکی_داخلہ_FOCUS);
         }
     }
 
     *new_focus = focus;
-    return set_focus;
+    واپس سیٹ_focus;
 }
 
-bool SDL_ShouldFocusPopup(SDL_Window *window)
+bool SDL_ShouldFocusPopup(SDL_کھڑکی *کھڑکی)
 {
-    SDL_Window *toplevel_parent;
-    for (toplevel_parent = window->parent; SDL_WINDOW_IS_POPUP(toplevel_parent); toplevel_parent = toplevel_parent->parent) {
+    SDL_کھڑکی *toplevel_والد;
+    برائے (toplevel_والد = کھڑکی->والد; SDL_کھڑکی_IS_POPUP(toplevel_والد); toplevel_والد = toplevel_والد->والد) {
     }
 
-    SDL_Window *current_focus = toplevel_parent->keyboard_focus;
-    bool found_higher_focus = false;
+    SDL_کھڑکی *current_focus = toplevel_والد->keyboard_focus;
+    bool ملا_higher_focus = false;
 
     /* Traverse the window tree from the currently focused window to the toplevel parent and see if we encounter
      * the new focus request. If the new window is found, a higher-level window already has focus.
      */
-    SDL_Window *w;
-    for (w = current_focus; w != toplevel_parent; w = w->parent) {
-        if (w == window) {
-            found_higher_focus = true;
-            break;
+    SDL_کھڑکی *w;
+    برائے (w = current_focus; w != toplevel_والد; w = w->والد) {
+        اگر (w == کھڑکی) {
+            ملا_higher_focus = true;
+            توڑو;
         }
     }
 
-    return !found_higher_focus || w == toplevel_parent;
+    واپس !ملا_higher_focus || w == toplevel_والد;
 }
 
-bool SDL_SetWindowFocusable(SDL_Window *window, bool focusable)
+bool SDL_سیٹ_کھڑکی_Focusable(SDL_کھڑکی *کھڑکی, bool focusable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    const bool want = (focusable != false); // normalize the flag.
-    const bool have = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE);
-    if ((want != have) && (_this->SetWindowFocusable)) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_NOT_FOCUSABLE;
-        } else {
-            window->flags |= SDL_WINDOW_NOT_FOCUSABLE;
+    ثابت bool want = (focusable != false); // normalize the flag.
+    ثابت bool have = !(کھڑکی->flags & SDL_کھڑکی_NOT_FOCUSABLE);
+    اگر ((want != have) && (_this->سیٹ_کھڑکی_Focusable)) {
+        اگر (want) {
+            کھڑکی->flags &= ~SDL_کھڑکی_NOT_FOCUSABLE;
+        } ورنہ {
+            کھڑکی->flags |= SDL_کھڑکی_NOT_FOCUSABLE;
         }
-        if (!_this->SetWindowFocusable(_this, window, want)) {
-            return false;
+        اگر (!_this->سیٹ_کھڑکی_Focusable(_this, کھڑکی, want)) {
+            واپس false;
         }
     }
 
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowFillDocument(SDL_Window *window, bool fill)
+bool SDL_سیٹ_کھڑکی_Fill_Document(SDL_کھڑکی *کھڑکی, bool fill)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    const bool want = (fill != false); // normalize the flag.
-    const bool have = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if ((want != have) && (_this->SetWindowFillDocument)) {
-        if (!_this->SetWindowFillDocument(_this, window, want)) {
-            return false;
-        } else if (want) {
-            window->flags |= SDL_WINDOW_FILL_DOCUMENT;
-        } else {
-            window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;
+    ثابت bool want = (fill != false); // normalize the flag.
+    ثابت bool have = ((کھڑکی->flags & SDL_کھڑکی_FILL_DOCUMENT) != 0);
+    اگر ((want != have) && (_this->سیٹ_کھڑکی_Fill_Document)) {
+        اگر (!_this->سیٹ_کھڑکی_Fill_Document(_this, کھڑکی, want)) {
+            واپس false;
+        } ورنہ اگر (want) {
+            کھڑکی->flags |= SDL_کھڑکی_FILL_DOCUMENT;
+        } ورنہ {
+            کھڑکی->flags &= ~SDL_کھڑکی_FILL_DOCUMENT;
         }
     }
 
-    return true;
+    واپس true;
 }
 
-void SDL_UpdateWindowGrab(SDL_Window *window)
+خالی SDL_Update_کھڑکی_Grab(SDL_کھڑکی *کھڑکی)
 {
     bool keyboard_grabbed, mouse_grabbed;
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        if (SDL_GetMouse()->relative_mode || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS) {
+        اگر (SDL_GetMouse()->relative_منوال || (کھڑکی->flags & SDL_کھڑکی_MOUSE_GRABBED)) {
             mouse_grabbed = true;
-        } else {
+        } ورنہ {
             mouse_grabbed = false;
         }
 
-        if (window->flags & SDL_WINDOW_KEYBOARD_GRABBED) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_KEYBOARD_GRABBED) {
             keyboard_grabbed = true;
-        } else {
+        } ورنہ {
             keyboard_grabbed = false;
         }
-    } else {
+    } ورنہ {
         mouse_grabbed = false;
         keyboard_grabbed = false;
     }
 
-    if (mouse_grabbed || keyboard_grabbed) {
-        if (_this->grabbed_window && (_this->grabbed_window != window)) {
+    اگر (mouse_grabbed || keyboard_grabbed) {
+        اگر (_this->grabbed_کھڑکی && (_this->grabbed_کھڑکی != کھڑکی)) {
             // stealing a grab from another window!
-            _this->grabbed_window->flags &= ~(SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED);
-            if (_this->SetWindowMouseGrab) {
-                _this->SetWindowMouseGrab(_this, _this->grabbed_window, false);
+            _this->grabbed_کھڑکی->flags &= ~(SDL_کھڑکی_MOUSE_GRABBED | SDL_کھڑکی_KEYBOARD_GRABBED);
+            اگر (_this->سیٹ_کھڑکی_Mouse_Grab) {
+                _this->سیٹ_کھڑکی_Mouse_Grab(_this, _this->grabbed_کھڑکی, false);
             }
-            if (_this->SetWindowKeyboardGrab) {
-                _this->SetWindowKeyboardGrab(_this, _this->grabbed_window, false);
+            اگر (_this->سیٹ_کھڑکی_Keyboard_Grab) {
+                _this->سیٹ_کھڑکی_Keyboard_Grab(_this, _this->grabbed_کھڑکی, false);
             }
         }
-        _this->grabbed_window = window;
-    } else if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+        _this->grabbed_کھڑکی = کھڑکی;
+    } ورنہ اگر (_this->grabbed_کھڑکی == کھڑکی) {
+        _this->grabbed_کھڑکی = تہی; // ungrabbing input.
     }
 
-    if (_this->SetWindowMouseGrab) {
-        if (!_this->SetWindowMouseGrab(_this, window, mouse_grabbed)) {
-            window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    اگر (_this->سیٹ_کھڑکی_Mouse_Grab) {
+        اگر (!_this->سیٹ_کھڑکی_Mouse_Grab(_this, کھڑکی, mouse_grabbed)) {
+            کھڑکی->flags &= ~SDL_کھڑکی_MOUSE_GRABBED;
         }
     }
-    if (_this->SetWindowKeyboardGrab) {
-        if (!_this->SetWindowKeyboardGrab(_this, window, keyboard_grabbed)) {
-            window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    اگر (_this->سیٹ_کھڑکی_Keyboard_Grab) {
+        اگر (!_this->سیٹ_کھڑکی_Keyboard_Grab(_this, کھڑکی, keyboard_grabbed)) {
+            کھڑکی->flags &= ~SDL_کھڑکی_KEYBOARD_GRABBED;
         }
     }
 
-    if (_this->grabbed_window && !(_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED))) {
-        _this->grabbed_window = NULL;
+    اگر (_this->grabbed_کھڑکی && !(_this->grabbed_کھڑکی->flags & (SDL_کھڑکی_MOUSE_GRABBED | SDL_کھڑکی_KEYBOARD_GRABBED))) {
+        _this->grabbed_کھڑکی = تہی;
     }
 }
 
-bool SDL_SetWindowKeyboardGrab(SDL_Window *window, bool grabbed)
+bool SDL_سیٹ_کھڑکی_Keyboard_Grab(SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        اگر (grabbed) {
+            کھڑکی->pending_flags |= SDL_کھڑکی_KEYBOARD_GRABBED;
+        } ورنہ {
+            کھڑکی->pending_flags &= ~SDL_کھڑکی_KEYBOARD_GRABBED;
         }
-        return true;
+        واپس true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return true;
+    اگر (!!grabbed == !!(کھڑکی->flags & SDL_کھڑکی_KEYBOARD_GRABBED)) {
+        واپس true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    اگر (grabbed) {
+        کھڑکی->flags |= SDL_کھڑکی_KEYBOARD_GRABBED;
+    } ورنہ {
+        کھڑکی->flags &= ~SDL_کھڑکی_KEYBOARD_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_کھڑکی_Grab(کھڑکی);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return false;
+    اگر (grabbed && !(کھڑکی->flags & SDL_کھڑکی_KEYBOARD_GRABBED)) {
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetWindowMouseGrab(SDL_Window *window, bool grabbed)
+bool SDL_سیٹ_کھڑکی_Mouse_Grab(SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_MOUSE_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    اگر (کھڑکی->flags & SDL_کھڑکی_HIDDEN) {
+        اگر (grabbed) {
+            کھڑکی->pending_flags |= SDL_کھڑکی_MOUSE_GRABBED;
+        } ورنہ {
+            کھڑکی->pending_flags &= ~SDL_کھڑکی_MOUSE_GRABBED;
         }
-        return true;
+        واپس true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return true;
+    اگر (!!grabbed == !!(کھڑکی->flags & SDL_کھڑکی_MOUSE_GRABBED)) {
+        واپس true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_MOUSE_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    اگر (grabbed) {
+        کھڑکی->flags |= SDL_کھڑکی_MOUSE_GRABBED;
+    } ورنہ {
+        کھڑکی->flags &= ~SDL_کھڑکی_MOUSE_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_کھڑکی_Grab(کھڑکی);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return false;
+    اگر (grabbed && !(کھڑکی->flags & SDL_کھڑکی_MOUSE_GRABBED)) {
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_GetWindowKeyboardGrab(SDL_Window *window)
+bool SDL_Get_کھڑکی_Keyboard_Grab(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_KEYBOARD_GRABBED);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    واپس کھڑکی == _this->grabbed_کھڑکی && (_this->grabbed_کھڑکی->flags & SDL_کھڑکی_KEYBOARD_GRABBED);
 }
 
-bool SDL_GetWindowMouseGrab(SDL_Window *window)
+bool SDL_Get_کھڑکی_Mouse_Grab(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_MOUSE_GRABBED);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    واپس کھڑکی == _this->grabbed_کھڑکی && (_this->grabbed_کھڑکی->flags & SDL_کھڑکی_MOUSE_GRABBED);
 }
 
-SDL_Window *SDL_GetGrabbedWindow(void)
+SDL_کھڑکی *SDL_Get_Grabbed_کھڑکی(خالی)
 {
-    if (_this && _this->grabbed_window &&
-        (_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED)) != 0) {
-        return _this->grabbed_window;
-    } else {
-        return NULL;
+    اگر (_this && _this->grabbed_کھڑکی &&
+        (_this->grabbed_کھڑکی->flags & (SDL_کھڑکی_MOUSE_GRABBED | SDL_کھڑکی_KEYBOARD_GRABBED)) != 0) {
+        واپس _this->grabbed_کھڑکی;
+    } ورنہ {
+        واپس تہی;
     }
 }
 
-bool SDL_SetWindowMouseRect(SDL_Window *window, const SDL_Rect *rect)
+bool SDL_سیٹ_کھڑکی_Mouse_Rect(SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->SetWindowMouseRect) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_Mouse_Rect) {
+        واپس SDL_Unsupported();
     }
 
     SDL_Rect zero = { 0, 0, 0, 0 };
-    if (!rect) {
+    اگر (!rect) {
         rect = &zero;
     }
 
-    if (SDL_memcmp(&window->mouse_rect, rect, sizeof(*rect)) == 0) {
-        return true;
+    اگر (SDL_memcmp(&کھڑکی->mouse_rect, rect, حجم(*rect)) == 0) {
+        واپس true;
     }
-    SDL_memcpy(&window->mouse_rect, rect, sizeof(*rect));
+    SDL_memcpy(&کھڑکی->mouse_rect, rect, حجم(*rect));
 
-    return _this->SetWindowMouseRect(_this, window);
+    واپس _this->سیٹ_کھڑکی_Mouse_Rect(_this, کھڑکی);
 }
 
-const SDL_Rect *SDL_GetWindowMouseRect(SDL_Window *window)
+ثابت SDL_Rect *SDL_Get_کھڑکی_Mouse_Rect(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        return NULL;
-    } else {
-        return &window->mouse_rect;
+    اگر (SDL_Rect_خالی_خانے(&کھڑکی->mouse_rect)) {
+        واپس تہی;
+    } ورنہ {
+        واپس &کھڑکی->mouse_rect;
     }
 }
 
-bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
+bool SDL_سیٹ_کھڑکی_Relative_Mouse_منوال(SDL_کھڑکی *کھڑکی, bool enabled)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
     /* If the app toggles relative mode directly, it probably shouldn't
      * also be emulating it using repeated mouse warps, so disable
@@ -4171,257 +4171,257 @@ bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
      */
     SDL_DisableMouseWarpEmulation();
 
-    if (enabled == SDL_GetWindowRelativeMouseMode(window)) {
-        return true;
+    اگر (enabled == SDL_Get_کھڑکی_Relative_Mouse_منوال(کھڑکی)) {
+        واپس true;
     }
 
-    if (enabled) {
-        window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    اگر (enabled) {
+        کھڑکی->flags |= SDL_کھڑکی_MOUSE_RELATIVE_منوال;
+    } ورنہ {
+        کھڑکی->flags &= ~SDL_کھڑکی_MOUSE_RELATIVE_منوال;
     }
 
-    if (!SDL_UpdateRelativeMouseMode()) {
-        if (enabled) {
-            window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
-        } else {
-            window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    اگر (!SDL_Update_Relative_Mouse_منوال()) {
+        اگر (enabled) {
+            کھڑکی->flags &= ~SDL_کھڑکی_MOUSE_RELATIVE_منوال;
+        } ورنہ {
+            کھڑکی->flags |= SDL_کھڑکی_MOUSE_RELATIVE_منوال;
         }
-        return false;
+        واپس false;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_GetWindowRelativeMouseMode(SDL_Window *window)
+bool SDL_Get_کھڑکی_Relative_Mouse_منوال(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE) {
-        return true;
-    } else {
-        return false;
+    اگر (کھڑکی->flags & SDL_کھڑکی_MOUSE_RELATIVE_منوال) {
+        واپس true;
+    } ورنہ {
+        واپس false;
     }
 }
 
-bool SDL_FlashWindow(SDL_Window *window, SDL_FlashOperation operation)
+bool SDL_Flash_کھڑکی(SDL_کھڑکی *کھڑکی, SDL_FlashOperation operation)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (_this->FlashWindow) {
-        return _this->FlashWindow(_this, window, operation);
+    اگر (_this->Flash_کھڑکی) {
+        واپس _this->Flash_کھڑکی(_this, کھڑکی, operation);
     }
 
-    return SDL_Unsupported();
+    واپس SDL_Unsupported();
 }
 
-bool SDL_SetWindowProgressState(SDL_Window *window, SDL_ProgressState state)
+bool SDL_سیٹ_کھڑکی_پیش_رفت_State(SDL_کھڑکی *کھڑکی, SDL_پیش_رفت_State state)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    CHECK_PARAM(state < SDL_PROGRESS_STATE_NONE || state > SDL_PROGRESS_STATE_ERROR) {
-        return SDL_InvalidParamError("state");
+    CHECK_PARAM(state < SDL_پیش_رفت_STATE_NONE || state > SDL_پیش_رفت_STATE_ERROR) {
+        واپس SDL_InvalidParamError("state");
     }
 
-    window->progress_state = state;
+    کھڑکی->پیش_رفت_state = state;
 
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-SDL_ProgressState SDL_GetWindowProgressState(SDL_Window *window)
-{
-    CHECK_WINDOW_MAGIC(window, SDL_PROGRESS_STATE_INVALID);
-    CHECK_WINDOW_NOT_POPUP(window, SDL_PROGRESS_STATE_INVALID);
-
-    return window->progress_state;
-}
-
-bool SDL_SetWindowProgressValue(SDL_Window *window, float value)
-{
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
-
-    value = SDL_clamp(value, 0.0f, 1.f);
-
-    window->progress_value = value;
-
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
+    اگر (_this->Apply_کھڑکی_پیش_رفت) {
+        اگر (!_this->Apply_کھڑکی_پیش_رفت(_this, کھڑکی)) {
+            واپس false;
         }
     }
 
-    return true;
+    واپس true;
 }
 
-float SDL_GetWindowProgressValue(SDL_Window *window)
+SDL_پیش_رفت_State SDL_Get_کھڑکی_پیش_رفت_State(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
-    CHECK_WINDOW_NOT_POPUP(window, -1.0f);
+    CHECK_کھڑکی_MAGIC(کھڑکی, SDL_پیش_رفت_STATE_INVALID);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, SDL_پیش_رفت_STATE_INVALID);
 
-    return window->progress_value;
+    واپس کھڑکی->پیش_رفت_state;
 }
 
-void SDL_OnWindowShown(SDL_Window *window)
+bool SDL_سیٹ_کھڑکی_پیش_رفت_قدر(SDL_کھڑکی *کھڑکی, اعشاری قدر)
+{
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
+
+    قدر = SDL_clamp(قدر, 0.0f, 1.f);
+
+    کھڑکی->پیش_رفت_قدر = قدر;
+
+    اگر (_this->Apply_کھڑکی_پیش_رفت) {
+        اگر (!_this->Apply_کھڑکی_پیش_رفت(_this, کھڑکی)) {
+            واپس false;
+        }
+    }
+
+    واپس true;
+}
+
+اعشاری SDL_Get_کھڑکی_پیش_رفت_قدر(SDL_کھڑکی *کھڑکی)
+{
+    CHECK_کھڑکی_MAGIC(کھڑکی, -1.0f);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, -1.0f);
+
+    واپس کھڑکی->پیش_رفت_قدر;
+}
+
+خالی SDL_On_کھڑکی_Shown(SDL_کھڑکی *کھڑکی)
 {
     // Set window state if we have pending window flags cached
-    ApplyWindowFlags(window, window->pending_flags);
-    window->pending_flags = 0;
+    Apply_کھڑکی_Flags(کھڑکی, کھڑکی->pending_flags);
+    کھڑکی->pending_flags = 0;
 }
 
-void SDL_OnWindowHidden(SDL_Window *window)
+خالی SDL_On_کھڑکی_Hidden(SDL_کھڑکی *کھڑکی)
 {
     /* Store the maximized and fullscreen flags for restoration later, in case
      * this was initiated by the window manager due to the window being unmapped
      * when minimized.
      */
-    window->pending_flags |= (window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED));
+    کھڑکی->pending_flags |= (کھڑکی->flags & (SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_MAXIMIZED));
 
     // The window is already hidden at this point, so just change the mode back if necessary.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_LEAVE, false);
 }
 
-void SDL_OnWindowDisplayChanged(SDL_Window *window)
+خالی SDL_On_کھڑکی_Display_بدلا(SDL_کھڑکی *کھڑکی)
 {
     // Don't run this if a fullscreen change was made in an event watcher callback in response to a display changed event.
-    if (window->update_fullscreen_on_display_changed && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        const bool auto_mode_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_MATCH_EXCLUSIVE_MODE_ON_MOVE, true);
+    اگر (کھڑکی->update_fullscreen_on_display_بدلا && (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+        ثابت bool auto_منوال_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_مطابقت_EXCLUSIVE_منوال_ON_MOVE, true);
 
-        if (auto_mode_switch && (window->requested_fullscreen_mode.w != 0 || window->requested_fullscreen_mode.h != 0)) {
-            SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
-            bool include_high_density_modes = false;
+        اگر (auto_منوال_switch && (کھڑکی->requested_fullscreen_منوال.w != 0 || کھڑکی->requested_fullscreen_منوال.h != 0)) {
+            SDL_DisplayID displayID = SDL_Get_Display_For_کھڑکی_Position(کھڑکی);
+            bool include_بلند_density_modes = false;
 
-            if (window->requested_fullscreen_mode.pixel_density > 1.0f) {
-                include_high_density_modes = true;
+            اگر (کھڑکی->requested_fullscreen_منوال.pixel_density > 1.0f) {
+                include_بلند_density_modes = true;
             }
-            const bool found_match = SDL_GetClosestFullscreenDisplayMode(displayID, window->requested_fullscreen_mode.w, window->requested_fullscreen_mode.h,
-                                                                         window->requested_fullscreen_mode.refresh_rate, include_high_density_modes, &window->current_fullscreen_mode);
+            ثابت bool ملا_مطابقت = SDL_Get_Closest_Fullscreen_Display_منوال(displayID, کھڑکی->requested_fullscreen_منوال.w, کھڑکی->requested_fullscreen_منوال.h,
+                                                                         کھڑکی->requested_fullscreen_منوال.refresh_شرح, include_بلند_density_modes, &کھڑکی->current_fullscreen_منوال);
 
             // If a mode without matching dimensions was not found, just go to fullscreen desktop.
-            if (!found_match ||
-                window->requested_fullscreen_mode.w != window->current_fullscreen_mode.w ||
-                window->requested_fullscreen_mode.h != window->current_fullscreen_mode.h) {
-                SDL_zero(window->current_fullscreen_mode);
+            اگر (!ملا_مطابقت ||
+                کھڑکی->requested_fullscreen_منوال.w != کھڑکی->current_fullscreen_منوال.w ||
+                کھڑکی->requested_fullscreen_منوال.h != کھڑکی->current_fullscreen_منوال.h) {
+                SDL_zero(کھڑکی->current_fullscreen_منوال);
             }
-        } else {
-            SDL_zero(window->current_fullscreen_mode);
+        } ورنہ {
+            SDL_zero(کھڑکی->current_fullscreen_منوال);
         }
 
-        if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        }
-    }
-
-    SDL_CheckWindowPixelSizeChanged(window);
-}
-
-void SDL_OnWindowMoved(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-}
-
-void SDL_OnWindowResized(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-    SDL_CheckWindowPixelSizeChanged(window);
-    SDL_CheckWindowSafeAreaChanged(window);
-
-    if ((window->flags & SDL_WINDOW_TRANSPARENT) && _this->UpdateWindowShape) {
-        SDL_Surface *surface = (SDL_Surface *)SDL_GetPointerProperty(window->props, SDL_PROP_WINDOW_SHAPE_POINTER, NULL);
-        if (surface) {
-            _this->UpdateWindowShape(_this, window, surface);
+        اگر (SDL_کھڑکی_FULLSCREEN_VISIBLE(کھڑکی)) {
+            SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_UPDATE, true);
         }
     }
+
+    SDL_Check_کھڑکی_Pixel_سائز_بدلا(کھڑکی);
 }
 
-void SDL_CheckWindowPixelSizeChanged(SDL_Window *window)
+خالی SDL_On_کھڑکی_Moved(SDL_کھڑکی *کھڑکی)
 {
-    int pixel_w = 0, pixel_h = 0;
-
-    SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h);
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED, pixel_w, pixel_h);
-
-    SDL_CheckWindowDisplayScaleChanged(window);
+    SDL_Check_کھڑکی_Display_بدلا(کھڑکی);
 }
 
-void SDL_OnWindowPixelSizeChanged(SDL_Window *window)
+خالی SDL_On_کھڑکی_Resized(SDL_کھڑکی *کھڑکی)
 {
-    window->surface_valid = false;
+    SDL_Check_کھڑکی_Display_بدلا(کھڑکی);
+    SDL_Check_کھڑکی_Pixel_سائز_بدلا(کھڑکی);
+    SDL_Check_کھڑکی_محفوظ_Area_بدلا(کھڑکی);
+
+    اگر ((کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) && _this->Update_کھڑکی_Shape) {
+        SDL_Surface *surface = (SDL_Surface *)SDL_Get_اشارہ_گر_Property(کھڑکی->props, SDL_PROP_کھڑکی_SHAPE_اشارہ_گر, تہی);
+        اگر (surface) {
+            _this->Update_کھڑکی_Shape(_this, کھڑکی, surface);
+        }
+    }
 }
 
-void SDL_OnWindowLiveResizeUpdate(SDL_Window *window)
+خالی SDL_Check_کھڑکی_Pixel_سائز_بدلا(SDL_کھڑکی *کھڑکی)
 {
-    if (SDL_HasMainCallbacks()) {
+    صحیح pixel_w = 0, pixel_h = 0;
+
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &pixel_w, &pixel_h);
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_PIXEL_سائز_بدلا, pixel_w, pixel_h);
+
+    SDL_Check_کھڑکی_Display_Scale_بدلا(کھڑکی);
+}
+
+خالی SDL_On_کھڑکی_Pixel_سائز_بدلا(SDL_کھڑکی *کھڑکی)
+{
+    کھڑکی->surface_valid = false;
+}
+
+خالی SDL_On_کھڑکی_زندہ_Resize_Update(SDL_کھڑکی *کھڑکی)
+{
+    اگر (SDL_HasMainCallbacks()) {
         SDL_IterateMainCallbacks(false);
-    } else {
+    } ورنہ {
         // Send an expose event so the application can redraw
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 1, 0);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 1, 0);
     }
 
     SDL_PumpEventMaintenance();
 }
 
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window)
+ساکن خالی SDL_Check_کھڑکی_محفوظ_Area_بدلا(SDL_کھڑکی *کھڑکی)
 {
     SDL_Rect rect;
 
-    rect.x = window->safe_inset_left;
-    rect.y = window->safe_inset_top;
-    rect.w = window->w - (window->safe_inset_right + window->safe_inset_left);
-    rect.h = window->h - (window->safe_inset_top + window->safe_inset_bottom);
-    if (SDL_memcmp(&rect, &window->safe_rect, sizeof(rect)) != 0) {
-        SDL_copyp(&window->safe_rect, &rect);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SAFE_AREA_CHANGED, 0, 0);
+    rect.x = کھڑکی->محفوظ_inset_بایاں;
+    rect.y = کھڑکی->محفوظ_inset_چوٹی;
+    rect.w = کھڑکی->w - (کھڑکی->محفوظ_inset_دایاں + کھڑکی->محفوظ_inset_بایاں);
+    rect.h = کھڑکی->h - (کھڑکی->محفوظ_inset_چوٹی + کھڑکی->محفوظ_inset_bottom);
+    اگر (SDL_memcmp(&rect, &کھڑکی->محفوظ_rect, حجم(rect)) != 0) {
+        SDL_copyp(&کھڑکی->محفوظ_rect, &rect);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_محفوظ_AREA_بدلا, 0, 0);
     }
 }
 
-void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom)
+خالی SDL_سیٹ_کھڑکی_محفوظ_Area_Insets(SDL_کھڑکی *کھڑکی, صحیح بایاں, صحیح دایاں, صحیح چوٹی, صحیح bottom)
 {
-    window->safe_inset_left = left;
-    window->safe_inset_right = right;
-    window->safe_inset_top = top;
-    window->safe_inset_bottom = bottom;
-    SDL_CheckWindowSafeAreaChanged(window);
+    کھڑکی->محفوظ_inset_بایاں = بایاں;
+    کھڑکی->محفوظ_inset_دایاں = دایاں;
+    کھڑکی->محفوظ_inset_چوٹی = چوٹی;
+    کھڑکی->محفوظ_inset_bottom = bottom;
+    SDL_Check_کھڑکی_محفوظ_Area_بدلا(کھڑکی);
 }
 
-bool SDL_GetWindowSafeArea(SDL_Window *window, SDL_Rect *rect)
+bool SDL_Get_کھڑکی_محفوظ_Area(SDL_کھڑکی *کھڑکی, SDL_Rect *rect)
 {
-    if (rect) {
+    اگر (rect) {
         SDL_zerop(rect);
     }
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (rect) {
-        if (SDL_RectEmpty(&window->safe_rect)) {
-            rect->w = window->w;
-            rect->h = window->h;
-        } else {
-            SDL_copyp(rect, &window->safe_rect);
+    اگر (rect) {
+        اگر (SDL_Rect_خالی_خانے(&کھڑکی->محفوظ_rect)) {
+            rect->w = کھڑکی->w;
+            rect->h = کھڑکی->h;
+        } ورنہ {
+            SDL_copyp(rect, &کھڑکی->محفوظ_rect);
         }
     }
-    return true;
+    واپس true;
 }
 
-void SDL_OnWindowMinimized(SDL_Window *window)
+خالی SDL_On_کھڑکی_Minimized(SDL_کھڑکی *کھڑکی)
 {
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+        SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_LEAVE, false);
     }
 }
 
-void SDL_OnWindowMaximized(SDL_Window *window)
+خالی SDL_On_کھڑکی_Maximized(SDL_کھڑکی *کھڑکی)
 {
 }
 
-void SDL_OnWindowRestored(SDL_Window *window)
+خالی SDL_On_کھڑکی_Restored(SDL_کھڑکی *کھڑکی)
 {
     /*
      * FIXME: Is this fine to just remove this, or should it be preserved just
@@ -4431,297 +4431,297 @@ void SDL_OnWindowRestored(SDL_Window *window)
      */
     // SDL_RaiseWindow(window);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, false);
+    اگر (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
+        SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_ENTER, false);
     }
 }
 
-void SDL_OnWindowEnter(SDL_Window *window)
+خالی SDL_On_کھڑکی_Enter(SDL_کھڑکی *کھڑکی)
 {
-    if (_this->OnWindowEnter) {
-        _this->OnWindowEnter(_this, window);
+    اگر (_this->On_کھڑکی_Enter) {
+        _this->On_کھڑکی_Enter(_this, کھڑکی);
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_منوال();
 }
 
-void SDL_OnWindowLeave(SDL_Window *window)
+خالی SDL_On_کھڑکی_Leave(SDL_کھڑکی *کھڑکی)
 {
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_منوال();
 }
 
-void SDL_OnWindowFocusGained(SDL_Window *window)
+خالی SDL_On_کھڑکی_Focus_Gained(SDL_کھڑکی *کھڑکی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse && mouse->relative_mode) {
-        SDL_SetMouseFocus(window);
+    اگر (mouse && mouse->relative_منوال) {
+        SDL_سیٹ_Mouse_Focus(کھڑکی);
     }
 
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_کھڑکی_Grab(کھڑکی);
 }
 
-static bool SDL_ShouldMinimizeOnFocusLoss(SDL_Window *window)
+ساکن bool SDL_ShouldMinimizeOnFocusLoss(SDL_کھڑکی *کھڑکی)
 {
-    const char *hint;
+    ثابت حرف *hint;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) || window->is_destroying) {
-        return false;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) || کھڑکی->is_destroying) {
+        واپس false;
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (Cocoa_IsShowingModalDialog(window)) {
-            return false;  // modal system dialogs can live over fullscreen windows, don't minimize.
-        } else if (Cocoa_IsWindowInFullscreenSpace(window)) {
-            return false;
+#اگر defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+    اگر (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        اگر (Cocoa_IsShowingModalDialog(کھڑکی)) {
+            واپس false;  // modal system dialogs can live over fullscreen windows, don't minimize.
+        } ورنہ اگر (Cocoa_Is_کھڑکی_اندر_Fullscreen_Space(کھڑکی)) {
+            واپس false;
         }
     }
-#endif
+#اگر_ختم
 
-#ifdef SDL_PLATFORM_ANDROID
+#اگر_تعریف_شدہ SDL_PLATFORM_ANDROID
     {
-        extern bool Android_JNI_ShouldMinimizeOnFocusLoss(void);
-        if (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
-            return false;
+        خارجی bool Android_JNI_ShouldMinimizeOnFocusLoss(خالی);
+        اگر (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
+            واپس false;
         }
     }
-#endif
+#اگر_ختم
 
     // Real fullscreen windows should minimize on focus loss so the desktop video mode is restored
     hint = SDL_GetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS);
-    if (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
-        if (window->fullscreen_exclusive && !SDL_ModeSwitchingEmulated(_this)) {
-            return true;
-        } else {
-            return false;
+    اگر (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
+        اگر (کھڑکی->fullscreen_exclusive && !SDL_منوال_Switching_Emulated(_this)) {
+            واپس true;
+        } ورنہ {
+            واپس false;
         }
     }
-    return SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
+    واپس SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
 }
 
-void SDL_OnWindowFocusLost(SDL_Window *window)
+خالی SDL_On_کھڑکی_Focus_گمشدہ(SDL_کھڑکی *کھڑکی)
 {
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_کھڑکی_Grab(کھڑکی);
 
-    if (SDL_ShouldMinimizeOnFocusLoss(window)) {
-        SDL_MinimizeWindow(window);
+    اگر (SDL_ShouldMinimizeOnFocusLoss(کھڑکی)) {
+        SDL_Minimize_کھڑکی(کھڑکی);
     }
 }
 
-SDL_Window *SDL_GetToplevelForKeyboardFocus(void)
+SDL_کھڑکی *SDL_GetToplevelForKeyboardFocus(خالی)
 {
-    SDL_Window *focus = SDL_GetKeyboardFocus();
+    SDL_کھڑکی *focus = SDL_GetKeyboardFocus();
 
-    if (focus) {
+    اگر (focus) {
         // Get the toplevel parent window.
-        while (focus->parent) {
-            focus = focus->parent;
+        جب (focus->والد) {
+            focus = focus->والد;
         }
     }
 
-    return focus;
+    واپس focus;
 }
 
-bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+bool SDL_جوڑو_کھڑکی_Renderer(SDL_کھڑکی *کھڑکی, SDL_Renderer *renderer)
 {
-    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(window->renderers, (window->num_renderers + 1) * sizeof(*renderers));
-    if (!renderers) {
-        return false;
+    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(کھڑکی->renderers, (کھڑکی->عدد_renderers + 1) * حجم(*renderers));
+    اگر (!renderers) {
+        واپس false;
     }
 
-    window->renderers = renderers;
-    window->renderers[window->num_renderers++] = renderer;
+    کھڑکی->renderers = renderers;
+    کھڑکی->renderers[کھڑکی->عدد_renderers++] = renderer;
 
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_RENDERER_POINTER, renderer);
-    return true;
+    SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_RENDERER_اشارہ_گر, renderer);
+    واپس true;
 }
 
-void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+خالی SDL_Remove_کھڑکی_Renderer(SDL_کھڑکی *کھڑکی, SDL_Renderer *renderer)
 {
-    for (int i = 0; i < window->num_renderers; ++i) {
-        if (window->renderers[i] == renderer) {
-            if (i < (window->num_renderers - 1)) {
-                SDL_memmove(&window->renderers[i], &window->renderers[i + 1], (window->num_renderers - i - 1) * sizeof(window->renderers[i]));
+    برائے (صحیح i = 0; i < کھڑکی->عدد_renderers; ++i) {
+        اگر (کھڑکی->renderers[i] == renderer) {
+            اگر (i < (کھڑکی->عدد_renderers - 1)) {
+                SDL_memmove(&کھڑکی->renderers[i], &کھڑکی->renderers[i + 1], (کھڑکی->عدد_renderers - i - 1) * حجم(کھڑکی->renderers[i]));
             }
-            --window->num_renderers;
-            break;
+            --کھڑکی->عدد_renderers;
+            توڑو;
         }
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_GetPointerProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER, NULL) == renderer) {
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    اگر (SDL_Get_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_RENDERER_اشارہ_گر, تہی) == renderer) {
+        SDL_ClearProperty(props, SDL_PROP_کھڑکی_RENDERER_اشارہ_گر);
     }
 }
 
-void SDL_DestroyWindow(SDL_Window *window)
+خالی SDL_Destroy_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window,);
+    CHECK_کھڑکی_MAGIC(کھڑکی,);
 
-    window->is_destroying = true;
+    کھڑکی->is_destroying = true;
 
     // Destroy any child windows of this window
-    while (window->first_child) {
-        SDL_DestroyWindow(window->first_child);
+    جب (کھڑکی->پہلا_بچہ) {
+        SDL_Destroy_کھڑکی(کھڑکی->پہلا_بچہ);
     }
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DESTROYED, 0, 0);
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_DESTROYED, 0, 0);
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_کھڑکی_Surface(کھڑکی);
 
-    SDL_Renderer *renderer = SDL_GetRenderer(window);
-    if (renderer) {
+    SDL_Renderer *renderer = SDL_GetRenderer(کھڑکی);
+    اگر (renderer) {
         SDL_DestroyRendererWithoutFreeing(renderer);
     }
 
     // Restore video mode, etc.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, true);
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        SDL_HideWindow(window);
+    SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_LEAVE, true);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
+        SDL_Hide_کھڑکی(کھڑکی);
     }
 
-    SDL_DestroyProperties(window->text_input_props);
+    SDL_DestroyProperties(کھڑکی->متن_داخلہ_props);
 
-    SDL_DestroyWindowTexture(_this, window);
-    SDL_DestroyProperties(window->props);
+    SDL_Destroy_کھڑکی_Texture(_this, کھڑکی);
+    SDL_DestroyProperties(کھڑکی->props);
 
     /* Clear the modal status, but don't unset the parent just yet, as it
      * may be needed later in the destruction process if a backend needs
      * to update the input focus.
      */
-    if (_this->SetWindowModal && (window->flags & SDL_WINDOW_MODAL)) {
-        _this->SetWindowModal(_this, window, false);
+    اگر (_this->سیٹ_کھڑکی_Modal && (کھڑکی->flags & SDL_کھڑکی_MODAL)) {
+        _this->سیٹ_کھڑکی_Modal(_this, کھڑکی, false);
     }
 
     // Make sure the destroyed window isn't referenced by any display as a fullscreen window.
-    for (int i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->fullscreen_window == window) {
-            _this->displays[i]->fullscreen_window = NULL;
+    برائے (صحیح i = 0; i < _this->عدد_displays; ++i) {
+        اگر (_this->displays[i]->fullscreen_کھڑکی == کھڑکی) {
+            _this->displays[i]->fullscreen_کھڑکی = تہی;
         }
     }
 
     // Make sure this window no longer has focus
-    if (SDL_GetKeyboardFocus() == window) {
-        SDL_SetKeyboardFocus(NULL);
+    اگر (SDL_GetKeyboardFocus() == کھڑکی) {
+        SDL_سیٹ_Keyboard_Focus(تہی);
     }
-    if ((window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+    اگر ((کھڑکی->flags & SDL_کھڑکی_MOUSE_CAPTURE)) {
         SDL_UpdateMouseCapture(true);
     }
-    if (SDL_GetMouseFocus() == window) {
-        SDL_SetMouseFocus(NULL);
+    اگر (SDL_GetMouseFocus() == کھڑکی) {
+        SDL_سیٹ_Mouse_Focus(تہی);
     }
 
     // Make no context current if this is the current context window
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        if (_this->current_glwin == window) {
-            SDL_GL_MakeCurrent(window, NULL);
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+        اگر (_this->current_glwin == کھڑکی) {
+            SDL_GL_MakeCurrent(کھڑکی, تہی);
         }
     }
 
-    if (_this->DestroyWindow) {
-        _this->DestroyWindow(_this, window);
+    اگر (_this->Destroy_کھڑکی) {
+        _this->Destroy_کھڑکی(_this, کھڑکی);
     }
 
     // Unload the graphics libraries after the window is destroyed, which may clean up EGL surfaces
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         SDL_GL_UnloadLibrary();
     }
-    if (window->flags & SDL_WINDOW_VULKAN) {
+    اگر (کھڑکی->flags & SDL_کھڑکی_VULKAN) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+    اگر (_this->grabbed_کھڑکی == کھڑکی) {
+        _this->grabbed_کھڑکی = تہی; // ungrabbing input.
     }
 
-    if (_this->current_glwin == window) {
-        _this->current_glwin = NULL;
+    اگر (_this->current_glwin == کھڑکی) {
+        _this->current_glwin = تہی;
     }
 
-    SDL_CompareAndSwapAtomicPointer(&_this->wakeup_window, window, NULL);
+    SDL_Compare_And_تبادلہ_Atomic_اشارہ_گر(&_this->wakeup_کھڑکی, کھڑکی, تہی);
 
     // Now invalidate magic
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, false);
+    SDL_سیٹ_Object_Valid(کھڑکی, SDL_OBJECT_TYPE_کھڑکی, false);
 
     // Free memory associated with the window
-    SDL_free(window->title);
-    SDL_DestroySurface(window->icon);
+    SDL_free(کھڑکی->title);
+    SDL_DestroySurface(کھڑکی->icon);
 
     // Unlink the window from its siblings.
-    SDL_UpdateWindowHierarchy(window, NULL);
+    SDL_Update_کھڑکی_Hierarchy(کھڑکی, تہی);
 
     // Unlink the window from the global window list
-    if (window->next) {
-        window->next->prev = window->prev;
+    اگر (کھڑکی->اگلا) {
+        کھڑکی->اگلا->پچھلا = کھڑکی->پچھلا;
     }
-    if (window->prev) {
-        window->prev->next = window->next;
-    } else {
-        _this->windows = window->next;
+    اگر (کھڑکی->پچھلا) {
+        کھڑکی->پچھلا->اگلا = کھڑکی->اگلا;
+    } ورنہ {
+        _this->windows = کھڑکی->اگلا;
     }
 
-    SDL_free(window->renderers);
-    SDL_free(window);
+    SDL_free(کھڑکی->renderers);
+    SDL_free(کھڑکی);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#اگر_ختم
 }
 
-bool SDL_ScreenSaverEnabled(void)
+bool SDL_ScreenSaverEnabled(خالی)
 {
-    if (!_this) {
-        return true;
+    اگر (!_this) {
+        واپس true;
     }
-    return !_this->suspend_screensaver;
+    واپس !_this->suspend_screensaver;
 }
 
-bool SDL_EnableScreenSaver(void)
+bool SDL_EnableScreenSaver(خالی)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
-    if (!_this->suspend_screensaver) {
-        return true;
+    اگر (!_this->suspend_screensaver) {
+        واپس true;
     }
     _this->suspend_screensaver = false;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    اگر (_this->SuspendScreenSaver) {
+        واپس _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    واپس SDL_Unsupported();
 }
 
-bool SDL_DisableScreenSaver(void)
+bool SDL_DisableScreenSaver(خالی)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
-    if (_this->suspend_screensaver) {
-        return true;
+    اگر (_this->suspend_screensaver) {
+        واپس true;
     }
     _this->suspend_screensaver = true;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    اگر (_this->SuspendScreenSaver) {
+        واپس _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    واپس SDL_Unsupported();
 }
 
-void SDL_QuitVideo(void)
+خالی SDL_QuitVideo(خالی)
 {
-    int i;
+    صحیح i;
 
-    if (!_this) {
-        return;
+    اگر (!_this) {
+        واپس;
     }
 
     _this->is_quitting = true;
 
     // Halt event processing before doing anything else
-#if 0 // This was moved to the end to fix a memory leak
+#اگر 0 // This was moved to the end to fix a memory leak
     SDL_QuitPen();
-#endif
+#اگر_ختم
     SDL_QuitTouch();
     SDL_QuitMouse();
     SDL_QuitKeyboard();
@@ -4730,231 +4730,231 @@ void SDL_QuitVideo(void)
     SDL_EnableScreenSaver();
 
     // Clean up the system video
-    while (_this->windows) {
-        SDL_DestroyWindow(_this->windows);
+    جب (_this->windows) {
+        SDL_Destroy_کھڑکی(_this->windows);
     }
 
-    if (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
+    اگر (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
         _this->GL_UnloadLibrary(_this);
         _this->gl_config.driver_loaded = 0;
     }
-    if (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
+    اگر (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
         _this->Vulkan_UnloadLibrary(_this);
         _this->vulkan_config.loader_loaded = 0;
     }
 
     _this->VideoQuit(_this);
 
-    for (i = _this->num_displays; i--; ) {
+    برائے (i = _this->عدد_displays; i--; ) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DelVideoDisplay(display->id, false);
     }
 
-    SDL_assert(_this->num_displays == 0);
+    SDL_assert(_this->عدد_displays == 0);
     SDL_free(_this->displays);
-    _this->displays = NULL;
+    _this->displays = تہی;
 
-    SDL_CancelClipboardData(0);
+    SDL_Cancel_Clipboard_ڈیٹا(0);
 
-    if (_this->primary_selection_text) {
-        SDL_free(_this->primary_selection_text);
-        _this->primary_selection_text = NULL;
+    اگر (_this->primary_selection_متن) {
+        SDL_free(_this->primary_selection_متن);
+        _this->primary_selection_متن = تہی;
     }
-    _this->free(_this);
-    _this = NULL;
+    _this->آزاد(_this);
+    _this = تہی;
 
     // This needs to happen after the video subsystem has removed pen data
     SDL_QuitPen();
 }
 
-bool SDL_GL_LoadLibrary(const char *path)
+bool SDL_GL_بھرو_Library(ثابت حرف *راستہ)
 {
-    bool result;
+    bool نتیجہ;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
-    if (_this->gl_config.driver_loaded) {
-        if (path && SDL_strcmp(path, _this->gl_config.driver_path) != 0) {
-            return SDL_SetError("OpenGL library already loaded");
+    اگر (_this->gl_config.driver_loaded) {
+        اگر (راستہ && SDL_strcmp(راستہ, _this->gl_config.driver_راستہ) != 0) {
+            واپس SDL_سیٹ_Error("OpenGL library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->GL_LoadLibrary) {
-            return SDL_DllNotSupported("OpenGL");
+        نتیجہ = true;
+    } ورنہ {
+        اگر (!_this->GL_بھرو_Library) {
+            واپس SDL_DllNotSupported("OpenGL");
         }
-        result = _this->GL_LoadLibrary(_this, path);
+        نتیجہ = _this->GL_بھرو_Library(_this, راستہ);
     }
-    if (result) {
+    اگر (نتیجہ) {
         ++_this->gl_config.driver_loaded;
-    } else {
-        if (_this->GL_UnloadLibrary) {
+    } ورنہ {
+        اگر (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
-    return result;
+    واپس نتیجہ;
 }
 
-SDL_FunctionPointer SDL_GL_GetProcAddress(const char *proc)
+SDL_Function_اشارہ_گر SDL_GL_Get_Proc_پتہ(ثابت حرف *proc)
 {
-    SDL_FunctionPointer func;
+    SDL_Function_اشارہ_گر func;
 
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    func = NULL;
-    if (_this->GL_GetProcAddress) {
-        if (_this->gl_config.driver_loaded) {
-            func = _this->GL_GetProcAddress(_this, proc);
-        } else {
-            SDL_SetError("No GL driver has been loaded");
+    func = تہی;
+    اگر (_this->GL_Get_Proc_پتہ) {
+        اگر (_this->gl_config.driver_loaded) {
+            func = _this->GL_Get_Proc_پتہ(_this, proc);
+        } ورنہ {
+            SDL_سیٹ_Error("No GL driver has been loaded");
         }
-    } else {
-        SDL_SetError("No dynamic GL support in current SDL video driver (%s)", _this->name);
+    } ورنہ {
+        SDL_سیٹ_Error("No dynamic GL support in current SDL video driver (%s)", _this->name);
     }
-    return func;
+    واپس func;
 }
 
-SDL_FunctionPointer SDL_EGL_GetProcAddress(const char *proc)
+SDL_Function_اشارہ_گر SDL_EGL_Get_Proc_پتہ(ثابت حرف *proc)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    SDL_FunctionPointer func;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    SDL_Function_اشارہ_گر func;
 
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    func = NULL;
+    func = تہی;
 
-    if (_this->egl_data) {
-        func = SDL_EGL_GetProcAddressInternal(_this, proc);
-    } else {
-        SDL_SetError("No EGL library has been loaded");
+    اگر (_this->egl_ڈیٹا) {
+        func = SDL_EGL_Get_Proc_پتہ_اندرونی(_this, proc);
+    } ورنہ {
+        SDL_سیٹ_Error("No EGL library has been loaded");
     }
 
-    return func;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    واپس func;
+#ورنہ
+    SDL_سیٹ_Error("SDL was not built with EGL support");
+    واپس تہی;
+#اگر_ختم
 }
 
-void SDL_GL_UnloadLibrary(void)
+خالی SDL_GL_UnloadLibrary(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return;
+        واپس;
     }
-    if (_this->gl_config.driver_loaded > 0) {
-        if (--_this->gl_config.driver_loaded > 0) {
-            return;
+    اگر (_this->gl_config.driver_loaded > 0) {
+        اگر (--_this->gl_config.driver_loaded > 0) {
+            واپس;
         }
-        if (_this->GL_UnloadLibrary) {
+        اگر (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
 }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-typedef GLenum (APIENTRY* PFNGLGETERRORPROC) (void);
-typedef void (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
-typedef void (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
-#ifndef SDL_VIDEO_OPENGL
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint index);
-#endif
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+قسمتعریف GLenum (APIENTRY* PFNGLGETERRORPROC) (خالی);
+قسمتعریف خالی (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
+قسمتعریف ثابت GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
+قسمتعریف خالی (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
+#اگر_غیر_تعریف_شدہ SDL_VIDEO_OPENGL
+قسمتعریف ثابت GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint اشاریہ);
+#اگر_ختم
 
-static SDL_INLINE bool isAtLeastGL3(const char *verstr)
+ساکن SDL_INLINE bool is_At_کم_سے_کم_GL3(ثابت حرف *verstr)
 {
-    return verstr && (SDL_atoi(verstr) >= 3);
+    واپس verstr && (SDL_atoi(verstr) >= 3);
 }
-#endif // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#اگر_ختم // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-bool SDL_GL_ExtensionSupported(const char *extension)
+bool SDL_GL_ExtensionSupported(ثابت حرف *extension)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETSTRINGPROC glGetStringFunc;
-    const char *extensions;
-    const char *start;
-    const char *where, *terminator;
+    ثابت حرف *extensions;
+    ثابت حرف *آغاز;
+    ثابت حرف *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    اگر (where || *extension == '\0') {
+        واپس false;
     }
     // See if there's a hint or environment variable override
-    start = SDL_GetHint(extension);
-    if (start && *start == '0') {
-        return false;
+    آغاز = SDL_GetHint(extension);
+    اگر (آغاز && *آغاز == '0') {
+        واپس false;
     }
 
     // Lookup the available extensions
 
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_پتہ("glGetString");
+    اگر (!glGetStringFunc) {
+        واپس false;
     }
 
-    if (isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    اگر (is_At_کم_سے_کم_GL3((ثابت حرف *)glGetStringFunc(GL_نسخہ))) {
         PFNGLGETSTRINGIPROC glGetStringiFunc;
         PFNGLGETINTEGERVPROC glGetIntegervFunc;
-        GLint num_exts = 0;
+        GLint عدد_exts = 0;
         GLint i;
 
-        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_GetProcAddress("glGetStringi");
-        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
-            return false;
+        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_Get_Proc_پتہ("glGetStringi");
+        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_پتہ("glGetIntegerv");
+        اگر ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
+            واپس false;
         }
 
-#ifndef GL_NUM_EXTENSIONS
-#define GL_NUM_EXTENSIONS 0x821D
-#endif
-        glGetIntegervFunc(GL_NUM_EXTENSIONS, &num_exts);
-        for (i = 0; i < num_exts; i++) {
-            const char *thisext = (const char *)glGetStringiFunc(GL_EXTENSIONS, i);
-            if (SDL_strcmp(thisext, extension) == 0) {
-                return true;
+#اگر_غیر_تعریف_شدہ GL_عدد_EXTENSIONS
+#تعریف_کرو GL_عدد_EXTENSIONS 0x821D
+#اگر_ختم
+        glGetIntegervFunc(GL_عدد_EXTENSIONS, &عدد_exts);
+        برائے (i = 0; i < عدد_exts; i++) {
+            ثابت حرف *thisext = (ثابت حرف *)glGetStringiFunc(GL_EXTENSIONS, i);
+            اگر (SDL_strcmp(thisext, extension) == 0) {
+                واپس true;
             }
         }
 
-        return false;
+        واپس false;
     }
 
     // Try the old way with glGetString(GL_EXTENSIONS) ...
 
-    extensions = (const char *)glGetStringFunc(GL_EXTENSIONS);
-    if (!extensions) {
-        return false;
+    extensions = (ثابت حرف *)glGetStringFunc(GL_EXTENSIONS);
+    اگر (!extensions) {
+        واپس false;
     }
     /*
      * It takes a bit of care to be fool-proof about parsing the OpenGL
      * extensions string. Don't be fooled by sub-strings, etc.
      */
 
-    start = extensions;
+    آغاز = extensions;
 
-    for (;;) {
-        where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+    برائے (;;) {
+        where = SDL_strstr(آغاز, extension);
+        اگر (!where) {
+            توڑو;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == extensions || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        اگر (where == extensions || *(where - 1) == ' ') {
+            اگر (*terminator == ' ' || *terminator == '\0') {
+                واپس true;
             }
         }
 
-        start = terminator;
+        آغاز = terminator;
     }
-    return false;
-#else
-    return false;
-#endif
+    واپس false;
+#ورنہ
+    واپس false;
+#اگر_ختم
 }
 
 /* Deduce supported ES profile versions from the supported
@@ -4963,37 +4963,37 @@ bool SDL_GL_ExtensionSupported(const char *extension)
    This is normally only called when the OpenGL driver supports
    {GLX,WGL}_EXT_create_context_es2_profile.
  */
-void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor)
+خالی SDL_GL_DeduceMaxSupportedESProfile(صحیح *major, صحیح *minor)
 {
 // THIS REQUIRES AN EXISTING GL CONTEXT THAT HAS BEEN MADE CURRENT.
 // Please refer to https://bugzilla.libsdl.org/show_bug.cgi?id=3725 for discussion.
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     /* XXX This is fragile; it will break in the event of release of
      * new versions of OpenGL ES.
      */
-    if (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
+    اگر (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
         *major = 3;
         *minor = 2;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
+    } ورنہ اگر (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
         *major = 3;
         *minor = 1;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
+    } ورنہ اگر (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
         *major = 3;
         *minor = 0;
-    } else {
+    } ورنہ {
         *major = 2;
         *minor = 0;
     }
-#endif
+#اگر_ختم
 }
 
-void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
+خالی SDL_EGL_سیٹ_Attribute_Callbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
                                    SDL_EGLIntArrayCallback surfaceAttribCallback,
                                    SDL_EGLIntArrayCallback contextAttribCallback,
-                                   void *userdata)
+                                   خالی *userdata)
 {
-    if (!_this) {
-        return;
+    اگر (!_this) {
+        واپس;
     }
     _this->egl_platformattrib_callback = platformAttribCallback;
     _this->egl_surfaceattrib_callback = surfaceAttribCallback;
@@ -5001,29 +5001,29 @@ void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCall
     _this->egl_attrib_callback_userdata = userdata;
 }
 
-void SDL_GL_ResetAttributes(void)
+خالی SDL_GL_Reset_اوصاف(خالی)
 {
-    if (!_this) {
-        return;
+    اگر (!_this) {
+        واپس;
     }
 
-    _this->egl_platformattrib_callback = NULL;
-    _this->egl_surfaceattrib_callback = NULL;
-    _this->egl_contextattrib_callback = NULL;
-    _this->egl_attrib_callback_userdata = NULL;
+    _this->egl_platformattrib_callback = تہی;
+    _this->egl_surfaceattrib_callback = تہی;
+    _this->egl_contextattrib_callback = تہی;
+    _this->egl_attrib_callback_userdata = تہی;
 
-    _this->gl_config.red_size = 8;
-    _this->gl_config.green_size = 8;
-    _this->gl_config.blue_size = 8;
-    _this->gl_config.alpha_size = 8;
-    _this->gl_config.buffer_size = 0;
-    _this->gl_config.depth_size = 16;
-    _this->gl_config.stencil_size = 0;
-    _this->gl_config.double_buffer = 1;
-    _this->gl_config.accum_red_size = 0;
-    _this->gl_config.accum_green_size = 0;
-    _this->gl_config.accum_blue_size = 0;
-    _this->gl_config.accum_alpha_size = 0;
+    _this->gl_config.red_سائز = 8;
+    _this->gl_config.green_سائز = 8;
+    _this->gl_config.blue_سائز = 8;
+    _this->gl_config.alpha_سائز = 8;
+    _this->gl_config.بفر_سائز = 0;
+    _this->gl_config.گہرائی_سائز = 16;
+    _this->gl_config.stencil_سائز = 0;
+    _this->gl_config.double_بفر = 1;
+    _this->gl_config.accum_red_سائز = 0;
+    _this->gl_config.accum_green_سائز = 0;
+    _this->gl_config.accum_blue_سائز = 0;
+    _this->gl_config.accum_alpha_سائز = 0;
     _this->gl_config.stereo = 0;
     _this->gl_config.multisamplebuffers = 0;
     _this->gl_config.multisamplesamples = 0;
@@ -5031,19 +5031,19 @@ void SDL_GL_ResetAttributes(void)
     _this->gl_config.retained_backing = 1;
     _this->gl_config.accelerated = -1; // accelerated or not, both are fine
 
-#ifdef SDL_VIDEO_OPENGL
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = 0;
-#elif defined(SDL_VIDEO_OPENGL_ES2)
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#elif defined(SDL_VIDEO_OPENGL_ES)
-    _this->gl_config.major_version = 1;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#endif
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+    _this->gl_config.major_نسخہ = 2;
+    _this->gl_config.minor_نسخہ = 1;
+    _this->gl_config.profile_نقاب = 0;
+#وگرنہ_اگر defined(SDL_VIDEO_OPENGL_ES2)
+    _this->gl_config.major_نسخہ = 2;
+    _this->gl_config.minor_نسخہ = 0;
+    _this->gl_config.profile_نقاب = SDL_GL_CONTEXT_PROFILE_ES;
+#وگرنہ_اگر defined(SDL_VIDEO_OPENGL_ES)
+    _this->gl_config.major_نسخہ = 1;
+    _this->gl_config.minor_نسخہ = 1;
+    _this->gl_config.profile_نقاب = SDL_GL_CONTEXT_PROFILE_ES;
+#اگر_ختم
 
     _this->gl_config.flags = 0;
     _this->gl_config.framebuffer_srgb_capable = 0;
@@ -5055,132 +5055,132 @@ void SDL_GL_ResetAttributes(void)
 
     _this->gl_config.egl_platform = 0;
 
-    if (_this->GL_SetDefaultProfileConfig) {
-        _this->GL_SetDefaultProfileConfig(_this);
+    اگر (_this->GL_سیٹ_Default_Profile_Config) {
+        _this->GL_سیٹ_Default_Profile_Config(_this);
     }
 }
 
-bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
+bool SDL_GL_سیٹ_Attribute(SDL_GLAttr attr, صحیح قدر)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    bool result;
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    bool نتیجہ;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
-    result = true;
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-        _this->gl_config.red_size = value;
-        break;
-    case SDL_GL_GREEN_SIZE:
-        _this->gl_config.green_size = value;
-        break;
-    case SDL_GL_BLUE_SIZE:
-        _this->gl_config.blue_size = value;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-        _this->gl_config.alpha_size = value;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-        _this->gl_config.double_buffer = value;
-        break;
-    case SDL_GL_BUFFER_SIZE:
-        _this->gl_config.buffer_size = value;
-        break;
-    case SDL_GL_DEPTH_SIZE:
-        _this->gl_config.depth_size = value;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-        _this->gl_config.stencil_size = value;
-        break;
-    case SDL_GL_ACCUM_RED_SIZE:
-        _this->gl_config.accum_red_size = value;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        _this->gl_config.accum_green_size = value;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        _this->gl_config.accum_blue_size = value;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        _this->gl_config.accum_alpha_size = value;
-        break;
-    case SDL_GL_STEREO:
-        _this->gl_config.stereo = value;
-        break;
-    case SDL_GL_MULTISAMPLEBUFFERS:
-        _this->gl_config.multisamplebuffers = value;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
-        _this->gl_config.multisamplesamples = value;
-        break;
-    case SDL_GL_FLOATBUFFERS:
-        _this->gl_config.floatbuffers = value;
-        break;
-    case SDL_GL_ACCELERATED_VISUAL:
-        _this->gl_config.accelerated = value;
-        break;
-    case SDL_GL_RETAINED_BACKING:
-        _this->gl_config.retained_backing = value;
-        break;
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
-        _this->gl_config.major_version = value;
-        break;
-    case SDL_GL_CONTEXT_MINOR_VERSION:
-        _this->gl_config.minor_version = value;
-        break;
-    case SDL_GL_CONTEXT_FLAGS:
-        if (value & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
+    نتیجہ = true;
+    انتخاب (attr) {
+    حالت SDL_GL_RED_سائز:
+        _this->gl_config.red_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_GREEN_سائز:
+        _this->gl_config.green_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_BLUE_سائز:
+        _this->gl_config.blue_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_ALPHA_سائز:
+        _this->gl_config.alpha_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_DOUBLEBUFFER:
+        _this->gl_config.double_بفر = قدر;
+        توڑو;
+    حالت SDL_GL_بفر_سائز:
+        _this->gl_config.بفر_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_گہرائی_سائز:
+        _this->gl_config.گہرائی_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_STENCIL_سائز:
+        _this->gl_config.stencil_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_ACCUM_RED_سائز:
+        _this->gl_config.accum_red_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_ACCUM_GREEN_سائز:
+        _this->gl_config.accum_green_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_ACCUM_BLUE_سائز:
+        _this->gl_config.accum_blue_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_ACCUM_ALPHA_سائز:
+        _this->gl_config.accum_alpha_سائز = قدر;
+        توڑو;
+    حالت SDL_GL_STEREO:
+        _this->gl_config.stereo = قدر;
+        توڑو;
+    حالت SDL_GL_MULTISAMPLEBUFFERS:
+        _this->gl_config.multisamplebuffers = قدر;
+        توڑو;
+    حالت SDL_GL_MULTISAMPLESAMPLES:
+        _this->gl_config.multisamplesamples = قدر;
+        توڑو;
+    حالت SDL_GL_FLOATBUFFERS:
+        _this->gl_config.floatbuffers = قدر;
+        توڑو;
+    حالت SDL_GL_ACCELERATED_VISUAL:
+        _this->gl_config.accelerated = قدر;
+        توڑو;
+    حالت SDL_GL_RETAINED_BACKING:
+        _this->gl_config.retained_backing = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_MAJOR_نسخہ:
+        _this->gl_config.major_نسخہ = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_MINOR_نسخہ:
+        _this->gl_config.minor_نسخہ = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_FLAGS:
+        اگر (قدر & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
                       SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG |
                       SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG |
                       SDL_GL_CONTEXT_RESET_ISOLATION_FLAG)) {
-            result = SDL_SetError("Unknown OpenGL context flag %d", value);
-            break;
+            نتیجہ = SDL_سیٹ_Error("Unknown OpenGL context flag %d", قدر);
+            توڑو;
         }
-        _this->gl_config.flags = value;
-        break;
-    case SDL_GL_CONTEXT_PROFILE_MASK:
-        if (value != 0 &&
-            value != SDL_GL_CONTEXT_PROFILE_CORE &&
-            value != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
-            value != SDL_GL_CONTEXT_PROFILE_ES) {
-            result = SDL_SetError("Unknown OpenGL context profile %d", value);
-            break;
+        _this->gl_config.flags = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_PROFILE_نقاب:
+        اگر (قدر != 0 &&
+            قدر != SDL_GL_CONTEXT_PROFILE_CORE &&
+            قدر != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
+            قدر != SDL_GL_CONTEXT_PROFILE_ES) {
+            نتیجہ = SDL_سیٹ_Error("Unknown OpenGL context profile %d", قدر);
+            توڑو;
         }
-        _this->gl_config.profile_mask = value;
-        break;
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
-        _this->gl_config.share_with_current_context = value;
-        break;
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
-        _this->gl_config.framebuffer_srgb_capable = value;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
-        _this->gl_config.release_behavior = value;
-        break;
-    case SDL_GL_CONTEXT_RESET_NOTIFICATION:
-        _this->gl_config.reset_notification = value;
-        break;
-    case SDL_GL_CONTEXT_NO_ERROR:
-        _this->gl_config.no_error = value;
-        break;
-    case SDL_GL_EGL_PLATFORM:
-        _this->gl_config.egl_platform = value;
-        break;
-    default:
-        result = SDL_SetError("Unknown OpenGL attribute");
-        break;
+        _this->gl_config.profile_نقاب = قدر;
+        توڑو;
+    حالت SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+        _this->gl_config.share_with_current_context = قدر;
+        توڑو;
+    حالت SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+        _this->gl_config.framebuffer_srgb_capable = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        _this->gl_config.release_behavior = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_RESET_NOTIFICATION:
+        _this->gl_config.reset_notification = قدر;
+        توڑو;
+    حالت SDL_GL_CONTEXT_NO_ERROR:
+        _this->gl_config.no_error = قدر;
+        توڑو;
+    حالت SDL_GL_EGL_PLATFORM:
+        _this->gl_config.egl_platform = قدر;
+        توڑو;
+    طےشدہ:
+        نتیجہ = SDL_سیٹ_Error("Unknown OpenGL attribute");
+        توڑو;
     }
-    return result;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    واپس نتیجہ;
+#ورنہ
+    واپس SDL_Unsupported();
+#اگر_ختم // SDL_VIDEO_OPENGL
 }
 
-bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
+bool SDL_GL_GetAttribute(SDL_GLAttr attr, صحیح *قدر)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETERRORPROC glGetErrorFunc;
     GLenum attrib = 0;
     GLenum error = 0;
@@ -5191,212 +5191,212 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
      * the enums we use for the former function don't exist in OpenGL ES 2, and
      * the function itself doesn't exist prior to OpenGL 3 and OpenGL ES 2.
      */
-#ifdef SDL_VIDEO_OPENGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
     PFNGLGETSTRINGPROC glGetStringFunc;
     PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameterivFunc;
-    GLenum attachment = GL_BACK_LEFT;
+    GLenum attachment = GL_عقب_بایاں;
     GLenum attachmentattrib = 0;
-#endif
+#اگر_ختم
 
-    CHECK_PARAM(!value) {
-        return SDL_InvalidParamError("value");
+    CHECK_PARAM(!قدر) {
+        واپس SDL_InvalidParamError("value");
     }
 
     // Clear value in any case
-    *value = 0;
+    *قدر = 0;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
 
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE;
-#endif
-        attrib = GL_RED_BITS;
-        break;
-    case SDL_GL_BLUE_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE;
-#endif
-        attrib = GL_BLUE_BITS;
-        break;
-    case SDL_GL_GREEN_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE;
-#endif
-        attrib = GL_GREEN_BITS;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE;
-#endif
-        attrib = GL_ALPHA_BITS;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-#ifdef SDL_VIDEO_OPENGL
+    انتخاب (attr) {
+    حالت SDL_GL_RED_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_سائز;
+#اگر_ختم
+        attrib = GL_RED_بٹ;
+        توڑو;
+    حالت SDL_GL_BLUE_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_سائز;
+#اگر_ختم
+        attrib = GL_BLUE_بٹ;
+        توڑو;
+    حالت SDL_GL_GREEN_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_سائز;
+#اگر_ختم
+        attrib = GL_GREEN_بٹ;
+        توڑو;
+    حالت SDL_GL_ALPHA_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_سائز;
+#اگر_ختم
+        attrib = GL_ALPHA_بٹ;
+        توڑو;
+    حالت SDL_GL_DOUBLEBUFFER:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
         attrib = GL_DOUBLEBUFFER;
-        break;
-#else
+        توڑو;
+#ورنہ
         // OpenGL ES 1.0 and above specifications have EGL_SINGLE_BUFFER
         // parameter which switches double buffer to single buffer. OpenGL ES
         // SDL driver must set proper value after initialization
-        *value = _this->gl_config.double_buffer;
-        return true;
-#endif
-    case SDL_GL_DEPTH_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachment = GL_DEPTH;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE;
-#endif
-        attrib = GL_DEPTH_BITS;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-#ifdef SDL_VIDEO_OPENGL
+        *قدر = _this->gl_config.double_بفر;
+        واپس true;
+#اگر_ختم
+    حالت SDL_GL_گہرائی_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+        attachment = GL_گہرائی;
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_گہرائی_سائز;
+#اگر_ختم
+        attrib = GL_گہرائی_بٹ;
+        توڑو;
+    حالت SDL_GL_STENCIL_سائز:
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
         attachment = GL_STENCIL;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE;
-#endif
-        attrib = GL_STENCIL_BITS;
-        break;
-#ifdef SDL_VIDEO_OPENGL
-    case SDL_GL_ACCUM_RED_SIZE:
-        attrib = GL_ACCUM_RED_BITS;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        attrib = GL_ACCUM_GREEN_BITS;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        attrib = GL_ACCUM_BLUE_BITS;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        attrib = GL_ACCUM_ALPHA_BITS;
-        break;
-    case SDL_GL_STEREO:
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_سائز;
+#اگر_ختم
+        attrib = GL_STENCIL_بٹ;
+        توڑو;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+    حالت SDL_GL_ACCUM_RED_سائز:
+        attrib = GL_ACCUM_RED_بٹ;
+        توڑو;
+    حالت SDL_GL_ACCUM_GREEN_سائز:
+        attrib = GL_ACCUM_GREEN_بٹ;
+        توڑو;
+    حالت SDL_GL_ACCUM_BLUE_سائز:
+        attrib = GL_ACCUM_BLUE_بٹ;
+        توڑو;
+    حالت SDL_GL_ACCUM_ALPHA_سائز:
+        attrib = GL_ACCUM_ALPHA_بٹ;
+        توڑو;
+    حالت SDL_GL_STEREO:
         attrib = GL_STEREO;
-        break;
-#else
-    case SDL_GL_ACCUM_RED_SIZE:
-    case SDL_GL_ACCUM_GREEN_SIZE:
-    case SDL_GL_ACCUM_BLUE_SIZE:
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-    case SDL_GL_STEREO:
+        توڑو;
+#ورنہ
+    حالت SDL_GL_ACCUM_RED_سائز:
+    حالت SDL_GL_ACCUM_GREEN_سائز:
+    حالت SDL_GL_ACCUM_BLUE_سائز:
+    حالت SDL_GL_ACCUM_ALPHA_سائز:
+    حالت SDL_GL_STEREO:
         // none of these are supported in OpenGL ES
-        *value = 0;
-        return true;
-#endif
-    case SDL_GL_MULTISAMPLEBUFFERS:
+        *قدر = 0;
+        واپس true;
+#اگر_ختم
+    حالت SDL_GL_MULTISAMPLEBUFFERS:
         attrib = GL_SAMPLE_BUFFERS;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
+        توڑو;
+    حالت SDL_GL_MULTISAMPLESAMPLES:
         attrib = GL_SAMPLES;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        توڑو;
+    حالت SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
         attrib = GL_CONTEXT_RELEASE_BEHAVIOR;
-        break;
-    case SDL_GL_BUFFER_SIZE:
+        توڑو;
+    حالت SDL_GL_بفر_سائز:
     {
-        int rsize = 0, gsize = 0, bsize = 0, asize = 0;
+        صحیح rsize = 0, gsize = 0, bsize = 0, asize = 0;
 
         // There doesn't seem to be a single flag in OpenGL for this!
-        if (!SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &rsize)) {
-            return false;
+        اگر (!SDL_GL_GetAttribute(SDL_GL_RED_سائز, &rsize)) {
+            واپس false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &gsize)) {
-            return false;
+        اگر (!SDL_GL_GetAttribute(SDL_GL_GREEN_سائز, &gsize)) {
+            واپس false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &bsize)) {
-            return false;
+        اگر (!SDL_GL_GetAttribute(SDL_GL_BLUE_سائز, &bsize)) {
+            واپس false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &asize)) {
-            return false;
+        اگر (!SDL_GL_GetAttribute(SDL_GL_ALPHA_سائز, &asize)) {
+            واپس false;
         }
 
-        *value = rsize + gsize + bsize + asize;
-        return true;
+        *قدر = rsize + gsize + bsize + asize;
+        واپس true;
     }
-    case SDL_GL_ACCELERATED_VISUAL:
+    حالت SDL_GL_ACCELERATED_VISUAL:
     {
         // Note that we can _not_ reasonably detect this once we have a context.
-        *value = (_this->gl_config.accelerated != 0);
-        return true;
+        *قدر = (_this->gl_config.accelerated != 0);
+        واپس true;
     }
-    case SDL_GL_RETAINED_BACKING:
+    حالت SDL_GL_RETAINED_BACKING:
     {
-        *value = _this->gl_config.retained_backing;
-        return true;
+        *قدر = _this->gl_config.retained_backing;
+        واپس true;
     }
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
+    حالت SDL_GL_CONTEXT_MAJOR_نسخہ:
     {
-        *value = _this->gl_config.major_version;
-        return true;
+        *قدر = _this->gl_config.major_نسخہ;
+        واپس true;
     }
-    case SDL_GL_CONTEXT_MINOR_VERSION:
+    حالت SDL_GL_CONTEXT_MINOR_نسخہ:
     {
-        *value = _this->gl_config.minor_version;
-        return true;
+        *قدر = _this->gl_config.minor_نسخہ;
+        واپس true;
     }
-    case SDL_GL_CONTEXT_FLAGS:
+    حالت SDL_GL_CONTEXT_FLAGS:
     {
-        *value = _this->gl_config.flags;
-        return true;
+        *قدر = _this->gl_config.flags;
+        واپس true;
     }
-    case SDL_GL_CONTEXT_PROFILE_MASK:
+    حالت SDL_GL_CONTEXT_PROFILE_نقاب:
     {
-        *value = _this->gl_config.profile_mask;
-        return true;
+        *قدر = _this->gl_config.profile_نقاب;
+        واپس true;
     }
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+    حالت SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
     {
-        *value = _this->gl_config.share_with_current_context;
-        return true;
+        *قدر = _this->gl_config.share_with_current_context;
+        واپس true;
     }
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+    حالت SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
     {
-        *value = _this->gl_config.framebuffer_srgb_capable;
-        return true;
+        *قدر = _this->gl_config.framebuffer_srgb_capable;
+        واپس true;
     }
-    case SDL_GL_CONTEXT_NO_ERROR:
+    حالت SDL_GL_CONTEXT_NO_ERROR:
     {
-        *value = _this->gl_config.no_error;
-        return true;
+        *قدر = _this->gl_config.no_error;
+        واپس true;
     }
-    case SDL_GL_EGL_PLATFORM:
+    حالت SDL_GL_EGL_PLATFORM:
     {
-        *value = _this->gl_config.egl_platform;
-        return true;
+        *قدر = _this->gl_config.egl_platform;
+        واپس true;
     }
-    case SDL_GL_FLOATBUFFERS:
+    حالت SDL_GL_FLOATBUFFERS:
     {
-        if (_this->gl_config.HAS_GL_ARB_color_buffer_float) {
-            attrib = GL_RGBA_FLOAT_MODE_ARB;
-            break;
-        } else {
-            return 0;
+        اگر (_this->gl_config.HAS_GL_ARB_color_بفر_float) {
+            attrib = GL_RGBA_FLOAT_منوال_ARB;
+            توڑو;
+        } ورنہ {
+            واپس 0;
         }
     }
-    default:
-        return SDL_SetError("Unknown OpenGL attribute");
+    طےشدہ:
+        واپس SDL_سیٹ_Error("Unknown OpenGL attribute");
     }
 
-#ifdef SDL_VIDEO_OPENGL
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_پتہ("glGetString");
+    اگر (!glGetStringFunc) {
+        واپس false;
     }
 
-    if (attachmentattrib && isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    اگر (attachmentattrib && is_At_کم_سے_کم_GL3((ثابت حرف *)glGetStringFunc(GL_نسخہ))) {
         // glGetFramebufferAttachmentParameteriv needs to operate on the window framebuffer for this, so bind FBO 0 if necessary.
         GLint current_fbo = 0;
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_GetProcAddress("glGetIntegerv");
-        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_GetProcAddress("glBindFramebuffer");
-        if (glGetIntegervFunc && glBindFramebufferFunc) {
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_Get_Proc_پتہ("glGetIntegerv");
+        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_Get_Proc_پتہ("glBindFramebuffer");
+        اگر (glGetIntegervFunc && glBindFramebufferFunc) {
             glGetIntegervFunc(GL_DRAW_FRAMEBUFFER_BINDING, &current_fbo);
         }
 
-        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_GetProcAddress("glGetFramebufferAttachmentParameteriv");
-        if (glGetFramebufferAttachmentParameterivFunc) {
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_Get_Proc_پتہ("glGetFramebufferAttachmentParameteriv");
+        اگر (glGetFramebufferAttachmentParameterivFunc) {
+            اگر (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, 0);
             }
             // glGetFramebufferAttachmentParameterivFunc may cause GL_INVALID_OPERATION when querying depth/stencil size if the
@@ -5406,1219 +5406,1219 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
             //      respectively, is zero. In this case querying pname GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME will return zero, and all
             //      other queries will generate an error.
             GLint fbo_type = GL_FRAMEBUFFER_DEFAULT;
-            if (attachment == GL_DEPTH || attachment == GL_STENCIL) {
+            اگر (attachment == GL_گہرائی || attachment == GL_STENCIL) {
                 glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &fbo_type);
             }
-            if (fbo_type != GL_NONE) {
-                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)value);
-            } else {
-                *value = 0;
+            اگر (fbo_type != GL_NONE) {
+                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)قدر);
+            } ورنہ {
+                *قدر = 0;
             }
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+            اگر (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, current_fbo);
             }
-        } else {
-            return false;
+        } ورنہ {
+            واپس false;
         }
-    } else
-#endif
+    } ورنہ
+#اگر_ختم
     {
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if (glGetIntegervFunc) {
-            glGetIntegervFunc(attrib, (GLint *)value);
-        } else {
-            return false;
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_پتہ("glGetIntegerv");
+        اگر (glGetIntegervFunc) {
+            glGetIntegervFunc(attrib, (GLint *)قدر);
+        } ورنہ {
+            واپس false;
         }
     }
 
-    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_GetProcAddress("glGetError");
-    if (!glGetErrorFunc) {
-        return false;
+    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_Get_Proc_پتہ("glGetError");
+    اگر (!glGetErrorFunc) {
+        واپس false;
     }
 
     error = glGetErrorFunc();
-    if (error != GL_NO_ERROR) {
-        if (error == GL_INVALID_ENUM) {
-            return SDL_SetError("OpenGL error: GL_INVALID_ENUM");
-        } else if (error == GL_INVALID_VALUE) {
-            return SDL_SetError("OpenGL error: GL_INVALID_VALUE");
+    اگر (error != GL_NO_ERROR) {
+        اگر (error == GL_INVALID_ENUM) {
+            واپس SDL_سیٹ_Error("OpenGL error: GL_INVALID_ENUM");
+        } ورنہ اگر (error == GL_INVALID_قدر) {
+            واپس SDL_سیٹ_Error("OpenGL error: GL_INVALID_VALUE");
         }
-        return SDL_SetError("OpenGL error: %08X", error);
+        واپس SDL_سیٹ_Error("OpenGL error: %08X", error);
     }
 
     // convert GL_CONTEXT_RELEASE_BEHAVIOR values back to SDL_GL_CONTEXT_RELEASE_BEHAVIOR values
-    if (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
-        *value = (*value == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
+    اگر (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
+        *قدر = (*قدر == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
     }
 
-    return true;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    واپس true;
+#ورنہ
+    واپس SDL_Unsupported();
+#اگر_ختم // SDL_VIDEO_OPENGL
 }
 
-#define NOT_AN_OPENGL_WINDOW "The specified window isn't an OpenGL window"
+#تعریف_کرو NOT_AN_OPENGL_کھڑکی "The specified window isn't an OpenGL window"
 
-SDL_GLContext SDL_GL_CreateContext(SDL_Window *window)
+SDL_GLContext SDL_GL_CreateContext(SDL_کھڑکی *کھڑکی)
 {
-    SDL_GLContext ctx = NULL;
-    CHECK_WINDOW_MAGIC(window, NULL);
+    SDL_GLContext ctx = تہی;
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        SDL_SetError(NOT_AN_OPENGL_WINDOW);
-        return NULL;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_OPENGL)) {
+        SDL_سیٹ_Error(NOT_AN_OPENGL_کھڑکی);
+        واپس تہی;
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    int srgb_requested = -1;
-    const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-    if (srgbhint && *srgbhint) {
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    صحیح srgb_requested = -1;
+    ثابت حرف *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+    اگر (srgbhint && *srgbhint) {
         srgb_requested = SDL_GetStringBoolean(srgbhint, false) ? 1 : 0;
     }
 
-#endif
+#اگر_ختم
 
-    ctx = _this->GL_CreateContext(_this, window);
+    ctx = _this->GL_CreateContext(_this, کھڑکی);
 
     // Creating a context is assumed to make it current in the SDL driver.
-    if (ctx) {
-        _this->current_glwin = window;
+    اگر (ctx) {
+        _this->current_glwin = کھڑکی;
         _this->current_glctx = ctx;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, ctx, NULL);
+        SDL_سیٹ_TLS(&_this->current_glwin_tls, کھڑکی, تہی);
+        SDL_سیٹ_TLS(&_this->current_glctx_tls, ctx, تہی);
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#اگر defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     // try to force the window framebuffer to the requested sRGB state.
-    if (srgb_requested != -1) {
-        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_GetProcAddress(srgb_requested ? "glEnable" : "glDisable");
-        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-        if (glToggleFunc && glGetStringFunc) {
+    اگر (srgb_requested != -1) {
+        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_Get_Proc_پتہ(srgb_requested ? "glEnable" : "glDisable");
+        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_پتہ("glGetString");
+        اگر (glToggleFunc && glGetStringFunc) {
             bool supported = false;
-            if (_this->gl_config.profile_mask & SDL_GL_CONTEXT_PROFILE_ES) {
+            اگر (_this->gl_config.profile_نقاب & SDL_GL_CONTEXT_PROFILE_ES) {
                 supported = SDL_GL_ExtensionSupported("GL_EXT_sRGB_write_control");  // GL_FRAMEBUFFER_SRGB is not core in any GLES version at the moment.
-            } else {
-                supported = isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION)) ||  // no extensions needed in OpenGL 3+.
+            } ورنہ {
+                supported = is_At_کم_سے_کم_GL3((ثابت حرف *)glGetStringFunc(GL_نسخہ)) ||  // no extensions needed in OpenGL 3+.
                             SDL_GL_ExtensionSupported("GL_EXT_framebuffer_sRGB") ||
                             SDL_GL_ExtensionSupported("GL_ARB_framebuffer_sRGB");
             }
 
-            if (supported) {
+            اگر (supported) {
                 glToggleFunc(GL_FRAMEBUFFER_SRGB);
             }
         }
     }
-#endif
+#اگر_ختم
 
-    return ctx;
+    واپس ctx;
 }
 
-bool SDL_GL_MakeCurrent(SDL_Window *window, SDL_GLContext context)
+bool SDL_GL_MakeCurrent(SDL_کھڑکی *کھڑکی, SDL_GLContext context)
 {
-    bool result;
+    bool نتیجہ;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
 
-    if (window == SDL_GL_GetCurrentWindow() &&
+    اگر (کھڑکی == SDL_GL_Get_Current_کھڑکی() &&
         context == SDL_GL_GetCurrentContext()) {
         // We're already current.
-        return true;
+        واپس true;
     }
 
-    if (!context) {
-        window = NULL;
-    } else if (window) {
-        CHECK_WINDOW_MAGIC(window, false);
+    اگر (!context) {
+        کھڑکی = تہی;
+    } ورنہ اگر (کھڑکی) {
+        CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_OPENGL)) {
+            واپس SDL_سیٹ_Error(NOT_AN_OPENGL_کھڑکی);
         }
-    } else if (!_this->gl_allow_no_surface) {
-        return SDL_SetError("Use of OpenGL without a window is not supported on this platform");
+    } ورنہ اگر (!_this->gl_allow_no_surface) {
+        واپس SDL_سیٹ_Error("Use of OpenGL without a window is not supported on this platform");
     }
 
-    result = _this->GL_MakeCurrent(_this, window, context);
-    if (result) {
-        _this->current_glwin = window;
+    نتیجہ = _this->GL_MakeCurrent(_this, کھڑکی, context);
+    اگر (نتیجہ) {
+        _this->current_glwin = کھڑکی;
         _this->current_glctx = context;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, context, NULL);
+        SDL_سیٹ_TLS(&_this->current_glwin_tls, کھڑکی, تہی);
+        SDL_سیٹ_TLS(&_this->current_glctx_tls, context, تہی);
     }
-    return result;
+    واپس نتیجہ;
 }
 
-SDL_Window *SDL_GL_GetCurrentWindow(void)
+SDL_کھڑکی *SDL_GL_Get_Current_کھڑکی(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    return (SDL_Window *)SDL_GetTLS(&_this->current_glwin_tls);
+    واپس (SDL_کھڑکی *)SDL_GetTLS(&_this->current_glwin_tls);
 }
 
-SDL_GLContext SDL_GL_GetCurrentContext(void)
+SDL_GLContext SDL_GL_GetCurrentContext(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    return (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
+    واپس (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
 }
 
-SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(void)
+SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(خالی)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return EGL_NO_DISPLAY;
+        واپس EGL_NO_DISPLAY;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return EGL_NO_DISPLAY;
+    اگر (!_this->egl_ڈیٹا) {
+        SDL_سیٹ_Error("There is no current EGL display");
+        واپس EGL_NO_DISPLAY;
     }
-    return _this->egl_data->egl_display;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    واپس _this->egl_ڈیٹا->egl_display;
+#ورنہ
+    SDL_سیٹ_Error("SDL was not built with EGL support");
+    واپس تہی;
+#اگر_ختم
 }
 
-SDL_EGLConfig SDL_EGL_GetCurrentConfig(void)
+SDL_EGLConfig SDL_EGL_GetCurrentConfig(خالی)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    اگر (!_this->egl_ڈیٹا) {
+        SDL_سیٹ_Error("There is no current EGL display");
+        واپس تہی;
     }
-    return _this->egl_data->egl_config;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    واپس _this->egl_ڈیٹا->egl_config;
+#ورنہ
+    SDL_سیٹ_Error("SDL was not built with EGL support");
+    واپس تہی;
+#اگر_ختم
 }
 
-SDL_EGLConfig SDL_EGL_GetWindowSurface(SDL_Window *window)
+SDL_EGLConfig SDL_EGL_Get_کھڑکی_Surface(SDL_کھڑکی *کھڑکی)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    اگر (!_this->egl_ڈیٹا) {
+        SDL_سیٹ_Error("There is no current EGL display");
+        واپس تہی;
     }
-    if (_this->GL_GetEGLSurface) {
-        return _this->GL_GetEGLSurface(_this, window);
+    اگر (_this->GL_GetEGLSurface) {
+        واپس _this->GL_GetEGLSurface(_this, کھڑکی);
     }
-    return NULL;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    واپس تہی;
+#ورنہ
+    SDL_سیٹ_Error("SDL was not built with EGL support");
+    واپس تہی;
+#اگر_ختم
 }
 
-bool SDL_GL_SetSwapInterval(int interval)
+bool SDL_GL_سیٹ_تبادلہ_Interval(صحیح interval)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("No OpenGL context has been made current");
-    } else if (_this->GL_SetSwapInterval) {
-        return _this->GL_SetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("Setting the swap interval is not supported");
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
+    } ورنہ اگر (SDL_GL_GetCurrentContext() == تہی) {
+        واپس SDL_سیٹ_Error("No OpenGL context has been made current");
+    } ورنہ اگر (_this->GL_سیٹ_تبادلہ_Interval) {
+        واپس _this->GL_سیٹ_تبادلہ_Interval(_this, interval);
+    } ورنہ {
+        واپس SDL_سیٹ_Error("Setting the swap interval is not supported");
     }
 }
 
-bool SDL_GL_GetSwapInterval(int *interval)
+bool SDL_GL_Get_تبادلہ_Interval(صحیح *interval)
 {
     CHECK_PARAM(!interval) {
-       return SDL_InvalidParamError("interval");
+       واپس SDL_InvalidParamError("interval");
     }
 
     *interval = 0;
 
-    if (!_this) {
-        return SDL_SetError("no video driver");
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("no current context");
-    } else if (_this->GL_GetSwapInterval) {
-        return _this->GL_GetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("not implemented");
+    اگر (!_this) {
+        واپس SDL_سیٹ_Error("no video driver");
+    } ورنہ اگر (SDL_GL_GetCurrentContext() == تہی) {
+        واپس SDL_سیٹ_Error("no current context");
+    } ورنہ اگر (_this->GL_Get_تبادلہ_Interval) {
+        واپس _this->GL_Get_تبادلہ_Interval(_this, interval);
+    } ورنہ {
+        واپس SDL_سیٹ_Error("not implemented");
     }
 }
 
-bool SDL_GL_SwapWindow(SDL_Window *window)
+bool SDL_GL_تبادلہ_کھڑکی(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_OPENGL)) {
+        واپس SDL_سیٹ_Error(NOT_AN_OPENGL_کھڑکی);
     }
 
-    if (SDL_GL_GetCurrentWindow() != window) {
-        return SDL_SetError("The specified window has not been made current");
+    اگر (SDL_GL_Get_Current_کھڑکی() != کھڑکی) {
+        واپس SDL_سیٹ_Error("The specified window has not been made current");
     }
 
-    return _this->GL_SwapWindow(_this, window);
+    واپس _this->GL_تبادلہ_کھڑکی(_this, کھڑکی);
 }
 
 bool SDL_GL_DestroyContext(SDL_GLContext context)
 {
     CHECK_PARAM(!_this) {
-        return SDL_UninitializedVideo();
+        واپس SDL_UninitializedVideo();
     }
     CHECK_PARAM(!context) {
-        return SDL_InvalidParamError("context");
+        واپس SDL_InvalidParamError("context");
     }
 
-    if (SDL_GL_GetCurrentContext() == context) {
-        SDL_GL_MakeCurrent(NULL, NULL);
+    اگر (SDL_GL_GetCurrentContext() == context) {
+        SDL_GL_MakeCurrent(تہی, تہی);
     }
 
-    return _this->GL_DestroyContext(_this, context);
+    واپس _this->GL_DestroyContext(_this, context);
 }
 
-#if 0 // FIXME
+#اگر 0 // FIXME
 /*
  * Utility function used by SDL_WM_SetIcon(); flags & 1 for color key, flags
  * & 2 for alpha channel.
  */
-static void CreateMaskFromColorKeyOrAlpha(SDL_Surface *icon, Uint8 *mask, int flags)
+ساکن خالی Create_نقاب_From_Color_کلید_Or_Alpha(SDL_Surface *icon, Uint8 *نقاب, صحیح flags)
 {
-    int x, y;
+    صحیح x, y;
     Uint32 colorkey;
-#define SET_MASKBIT(icon, x, y, mask) \
-    mask[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
+#تعریف_کرو سیٹ_MASKBIT(icon, x, y, نقاب) \
+    نقاب[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
 
     colorkey = icon->format->colorkey;
-    switch (SDL_BYTESPERPIXEL(icon->format)) {
-    case 1:
+    انتخاب (SDL_BYTESPERPIXEL(icon->format)) {
+    حالت 1:
         {
             Uint8 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            برائے (y = 0; y < icon->h; ++y) {
                 pixels = (Uint8 *) icon->pixels + y * icon->pitch;
-                for (x = 0; x < icon->w; ++x) {
-                    if (*pixels++ == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
+                برائے (x = 0; x < icon->w; ++x) {
+                    اگر (*pixels++ == colorkey) {
+                        سیٹ_MASKBIT(icon, x, y, نقاب);
                     }
                 }
             }
         }
-        break;
+        توڑو;
 
-    case 2:
+    حالت 2:
         {
             Uint16 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            برائے (y = 0; y < icon->h; ++y) {
                 pixels = (Uint16 *) icon->pixels + y * icon->pitch / 2;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                برائے (x = 0; x < icon->w; ++x) {
+                    اگر ((flags & 1) && *pixels == colorkey) {
+                        سیٹ_MASKBIT(icon, x, y, نقاب);
+                    } ورنہ اگر ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        سیٹ_MASKBIT(icon, x, y, نقاب);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        توڑو;
 
-    case 4:
+    حالت 4:
         {
             Uint32 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            برائے (y = 0; y < icon->h; ++y) {
                 pixels = (Uint32 *) icon->pixels + y * icon->pitch / 4;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                برائے (x = 0; x < icon->w; ++x) {
+                    اگر ((flags & 1) && *pixels == colorkey) {
+                        سیٹ_MASKBIT(icon, x, y, نقاب);
+                    } ورنہ اگر ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        سیٹ_MASKBIT(icon, x, y, نقاب);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        توڑو;
     }
 }
 
 /*
  * Sets the window manager icon for the display window.
  */
-void SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask)
+خالی SDL_WM_سیٹ_Icon(SDL_Surface *icon, Uint8 *نقاب)
 {
-    if (icon && _this->SetIcon) {
+    اگر (icon && _this->سیٹ_Icon) {
         // Generate a mask if necessary, and create the icon!
-        if (mask == NULL) {
-            int mask_len = icon->h * (icon->w + 7) / 8;
-            int flags = 0;
-            mask = (Uint8 *) SDL_malloc(mask_len);
-            if (mask == NULL) {
-                return;
+        اگر (نقاب == تہی) {
+            صحیح نقاب_len = icon->h * (icon->w + 7) / 8;
+            صحیح flags = 0;
+            نقاب = (Uint8 *) SDL_malloc(نقاب_len);
+            اگر (نقاب == تہی) {
+                واپس;
             }
-            SDL_memset(mask, ~0, mask_len);
-            if (icon->flags & SDL_SRCCOLORKEY)
+            SDL_memset(نقاب, ~0, نقاب_len);
+            اگر (icon->flags & SDL_SRCCOLORKEY)
                 flags |= 1;
-            if (icon->flags & SDL_SRCALPHA)
+            اگر (icon->flags & SDL_SRCALPHA)
                 flags |= 2;
-            if (flags) {
-                CreateMaskFromColorKeyOrAlpha(icon, mask, flags);
+            اگر (flags) {
+                Create_نقاب_From_Color_کلید_Or_Alpha(icon, نقاب, flags);
             }
-            _this->SetIcon(_this, icon, mask);
-            SDL_free(mask);
-        } else {
-            _this->SetIcon(_this, icon, mask);
+            _this->سیٹ_Icon(_this, icon, نقاب);
+            SDL_free(نقاب);
+        } ورنہ {
+            _this->سیٹ_Icon(_this, icon, نقاب);
         }
     }
 }
-#endif
+#اگر_ختم
 
-SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props)
+SDL_متن_داخلہ_Type SDL_Get_متن_داخلہ_Type(SDL_PropertiesID props)
 {
-    return (SDL_TextInputType)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_TYPE_NUMBER, SDL_TEXTINPUT_TYPE_TEXT);
+    واپس (SDL_متن_داخلہ_Type)SDL_Get_نمبر_Property(props, SDL_PROP_TEXTINPUT_TYPE_نمبر, SDL_TEXTINPUT_TYPE_متن);
 }
 
-SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props)
+SDL_Capitalization SDL_Get_متن_داخلہ_Capitalization(SDL_PropertiesID props)
 {
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER)) {
-        return (SDL_Capitalization)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+    اگر (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_نمبر)) {
+        واپس (SDL_Capitalization)SDL_Get_نمبر_Property(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_نمبر, SDL_CAPITALIZE_NONE);
     }
 
-    switch (SDL_GetTextInputType(props)) {
-    case SDL_TEXTINPUT_TYPE_TEXT:
-        return SDL_CAPITALIZE_SENTENCES;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        return SDL_CAPITALIZE_WORDS;
-    default:
-        return SDL_CAPITALIZE_NONE;
-    }
-}
-
-bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props)
-{
-    return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
-}
-
-bool SDL_GetTextInputMultiline(SDL_PropertiesID props)
-{
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
-        return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
-    }
-
-    if (SDL_GetHintBoolean(SDL_HINT_RETURN_KEY_HIDES_IME, false)) {
-        return false;
-    } else {
-        return true;
+    انتخاب (SDL_Get_متن_داخلہ_Type(props)) {
+    حالت SDL_TEXTINPUT_TYPE_متن:
+        واپس SDL_CAPITALIZE_SENTENCES;
+    حالت SDL_TEXTINPUT_TYPE_متن_NAME:
+        واپس SDL_CAPITALIZE_الفاظ;
+    طےشدہ:
+        واپس SDL_CAPITALIZE_NONE;
     }
 }
 
-static bool AutoShowingScreenKeyboard(void)
+bool SDL_Get_متن_داخلہ_Autocorrect(SDL_PropertiesID props)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
-    if (!hint) {
+    واپس SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
+}
+
+bool SDL_Get_متن_داخلہ_Multiline(SDL_PropertiesID props)
+{
+    اگر (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
+        واپس SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
+    }
+
+    اگر (SDL_GetHintBoolean(SDL_HINT_RETURN_کلید_HIDES_IME, false)) {
+        واپس false;
+    } ورنہ {
+        واپس true;
+    }
+}
+
+ساکن bool AutoShowingScreenKeyboard(خالی)
+{
+    ثابت حرف *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
+    اگر (!hint) {
         // This hint is currently only used by the X11 video driver
-        if (SDL_strcmp(_this->name, "x11") == 0) {
+        اگر (SDL_strcmp(_this->name, "x11") == 0) {
             hint = SDL_GetHint(SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD);
         }
     }
-    if (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
+    اگر (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
         SDL_GetStringBoolean(hint, false)) {
-        return true;
-    } else {
-        return false;
+        واپس true;
+    } ورنہ {
+        واپس false;
     }
 }
 
-bool SDL_StartTextInput(SDL_Window *window)
+bool SDL_آغاز_متن_داخلہ(SDL_کھڑکی *کھڑکی)
 {
-    return SDL_StartTextInputWithProperties(window, 0);
+    واپس SDL_آغاز_متن_داخلہ_With_Properties(کھڑکی, 0);
 }
 
-bool SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props)
+bool SDL_آغاز_متن_داخلہ_With_Properties(SDL_کھڑکی *کھڑکی, SDL_PropertiesID props)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->text_input_props) {
-        SDL_DestroyProperties(window->text_input_props);
-        window->text_input_props = 0;
+    اگر (کھڑکی->متن_داخلہ_props) {
+        SDL_DestroyProperties(کھڑکی->متن_داخلہ_props);
+        کھڑکی->متن_داخلہ_props = 0;
     }
 
-    if (props) {
-        window->text_input_props = SDL_CreateProperties();
-        if (!window->text_input_props) {
-            return false;
+    اگر (props) {
+        کھڑکی->متن_داخلہ_props = SDL_CreateProperties();
+        اگر (!کھڑکی->متن_داخلہ_props) {
+            واپس false;
         }
-        if (!SDL_CopyProperties(props, window->text_input_props)) {
-            return false;
+        اگر (!SDL_CopyProperties(props, کھڑکی->متن_داخلہ_props)) {
+            واپس false;
         }
     }
 
-    if (_this->SetTextInputProperties) {
-        _this->SetTextInputProperties(_this, window, props);
+    اگر (_this->سیٹ_متن_داخلہ_Properties) {
+        _this->سیٹ_متن_داخلہ_Properties(_this, کھڑکی, props);
     }
 
-    if (!window->text_input_active) {
+    اگر (!کھڑکی->متن_داخلہ_فعال) {
         // Start the text input system
-        if (_this->StartTextInput) {
-            if (!_this->StartTextInput(_this, window, props)) {
-                return false;
+        اگر (_this->آغاز_متن_داخلہ) {
+            اگر (!_this->آغاز_متن_داخلہ(_this, کھڑکی, props)) {
+                واپس false;
             }
         }
-        window->text_input_active = true;
+        کھڑکی->متن_داخلہ_فعال = true;
     }
 
     // Show the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(window)) {
-        if (_this->ShowScreenKeyboard) {
-            _this->ShowScreenKeyboard(_this, window, props);
+    اگر (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(کھڑکی)) {
+        اگر (_this->ShowScreenKeyboard) {
+            _this->ShowScreenKeyboard(_this, کھڑکی, props);
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_TextInputActive(SDL_Window *window)
+bool SDL_متن_داخلہ_فعال(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    return window->text_input_active;
+    واپس کھڑکی->متن_داخلہ_فعال;
 }
 
-bool SDL_StopTextInput(SDL_Window *window)
+bool SDL_Stop_متن_داخلہ(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (window->text_input_active) {
+    اگر (کھڑکی->متن_داخلہ_فعال) {
         // Stop the text input system
-        if (_this->StopTextInput) {
-            _this->StopTextInput(_this, window);
+        اگر (_this->Stop_متن_داخلہ) {
+            _this->Stop_متن_داخلہ(_this, کھڑکی);
         }
-        window->text_input_active = false;
+        کھڑکی->متن_داخلہ_فعال = false;
     }
 
     // Hide the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(window)) {
-        if (_this->HideScreenKeyboard) {
-            _this->HideScreenKeyboard(_this, window);
+    اگر (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(کھڑکی)) {
+        اگر (_this->HideScreenKeyboard) {
+            _this->HideScreenKeyboard(_this, کھڑکی);
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor)
+bool SDL_سیٹ_متن_داخلہ_Area(SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rect, صحیح cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (rect) {
-        SDL_copyp(&window->text_input_rect, rect);
-        window->text_input_cursor = cursor;
-    } else {
-        SDL_zero(window->text_input_rect);
-        window->text_input_cursor = 0;
+    اگر (rect) {
+        SDL_copyp(&کھڑکی->متن_داخلہ_rect, rect);
+        کھڑکی->متن_داخلہ_cursor = cursor;
+    } ورنہ {
+        SDL_zero(کھڑکی->متن_داخلہ_rect);
+        کھڑکی->متن_داخلہ_cursor = 0;
     }
 
-    if (_this && _this->UpdateTextInputArea) {
-        if (!_this->UpdateTextInputArea(_this, window)) {
-            return false;
+    اگر (_this && _this->Update_متن_داخلہ_Area) {
+        اگر (!_this->Update_متن_داخلہ_Area(_this, کھڑکی)) {
+            واپس false;
         }
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor)
+bool SDL_Get_متن_داخلہ_Area(SDL_کھڑکی *کھڑکی, SDL_Rect *rect, صحیح *cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (rect) {
-        SDL_copyp(rect, &window->text_input_rect);
+    اگر (rect) {
+        SDL_copyp(rect, &کھڑکی->متن_داخلہ_rect);
     }
-    if (cursor) {
-        *cursor = window->text_input_cursor;
+    اگر (cursor) {
+        *cursor = کھڑکی->متن_داخلہ_cursor;
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_ClearComposition(SDL_Window *window)
+bool SDL_ClearComposition(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (_this->ClearComposition) {
-        return _this->ClearComposition(_this, window);
+    اگر (_this->ClearComposition) {
+        واپس _this->ClearComposition(_this, کھڑکی);
     }
-    return true;
+    واپس true;
 }
 
-bool SDL_HasScreenKeyboardSupport(void)
+bool SDL_HasScreenKeyboardSupport(خالی)
 {
-    if (_this && _this->HasScreenKeyboardSupport) {
-        return _this->HasScreenKeyboardSupport(_this);
+    اگر (_this && _this->HasScreenKeyboardSupport) {
+        واپس _this->HasScreenKeyboardSupport(_this);
     }
-    return false;
+    واپس false;
 }
 
-bool SDL_ScreenKeyboardShown(SDL_Window *window)
+bool SDL_ScreenKeyboardShown(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    return _this->screen_keyboard_shown;
+    واپس _this->screen_keyboard_shown;
 }
 
-void SDL_SendScreenKeyboardShown(void)
+خالی SDL_SendScreenKeyboardShown(خالی)
 {
-    if (!_this || _this->screen_keyboard_shown) {
-        return;
+    اگر (!_this || _this->screen_keyboard_shown) {
+        واپس;
     }
 
     _this->screen_keyboard_shown = true;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
+    اگر (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_SHOWN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_ڈالو_Event(&event);
     }
 }
 
-void SDL_SendScreenKeyboardHidden(void)
+خالی SDL_SendScreenKeyboardHidden(خالی)
 {
-    if (!_this || !_this->screen_keyboard_shown) {
-        return;
+    اگر (!_this || !_this->screen_keyboard_shown) {
+        واپس;
     }
 
     _this->screen_keyboard_shown = false;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
+    اگر (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_HIDDEN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_ڈالو_Event(&event);
     }
 }
 
-int SDL_GetMessageBoxCount(void)
+صحیح SDL_Get_پیغام_Box_گنتی(خالی)
 {
-    return SDL_GetAtomicInt(&SDL_messagebox_count);
+    واپس SDL_GetAtomicInt(&SDL_messagebox_گنتی);
 }
 
-bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool SDL_Show_پیغام_Box(ثابت SDL_پیغام_Box_ڈیٹا *messageboxdata, صحیح *buttonID)
 {
-    int dummybutton;
-    bool result = false;
-    bool show_cursor_prev;
-    SDL_Window *current_window;
-    SDL_MessageBoxData mbdata;
+    صحیح dummybutton;
+    bool نتیجہ = false;
+    bool show_cursor_پچھلا;
+    SDL_کھڑکی *current_کھڑکی;
+    SDL_پیغام_Box_ڈیٹا mbdata;
 
     CHECK_PARAM(!messageboxdata) {
-        return SDL_InvalidParamError("messageboxdata");
+        واپس SDL_InvalidParamError("messageboxdata");
     }
     CHECK_PARAM(messageboxdata->numbuttons < 0) {
-        return SDL_SetError("Invalid number of buttons");
+        واپس SDL_سیٹ_Error("Invalid number of buttons");
     }
 
     // in case either the title or message was a pointer from SDL_GetError(), make a copy
     // now, as we'll likely overwrite error state in here.
     bool titleisstack = false, msgisstack = false;
-    char *titlecpy = NULL;
-    char *msgcpy = NULL;
-    if (messageboxdata->title) {
-        const size_t slen = SDL_strlen(messageboxdata->title) + 1;
-        titlecpy = SDL_small_alloc(char, slen, &titleisstack);
-        if (!titlecpy) {
-            return false;
+    حرف *titlecpy = تہی;
+    حرف *msgcpy = تہی;
+    اگر (messageboxdata->title) {
+        ثابت size_t slen = SDL_strlen(messageboxdata->title) + 1;
+        titlecpy = SDL_small_alloc(حرف, slen, &titleisstack);
+        اگر (!titlecpy) {
+            واپس false;
         }
         SDL_memcpy(titlecpy, messageboxdata->title, slen);
     }
 
-    if (messageboxdata->message) {
-        const size_t slen = SDL_strlen(messageboxdata->message) + 1;
-        msgcpy = SDL_small_alloc(char, slen, &msgisstack);
-        if (!msgcpy) {
+    اگر (messageboxdata->پیغام) {
+        ثابت size_t slen = SDL_strlen(messageboxdata->پیغام) + 1;
+        msgcpy = SDL_small_alloc(حرف, slen, &msgisstack);
+        اگر (!msgcpy) {
             SDL_small_free(titlecpy, titleisstack);
-            return false;
+            واپس false;
         }
-        SDL_memcpy(msgcpy, messageboxdata->message, slen);
+        SDL_memcpy(msgcpy, messageboxdata->پیغام, slen);
     }
 
-    (void)SDL_AtomicIncRef(&SDL_messagebox_count);
+    (خالی)SDL_AtomicIncRef(&SDL_messagebox_گنتی);
 
-    current_window = SDL_GetKeyboardFocus();
+    current_کھڑکی = SDL_GetKeyboardFocus();
     SDL_UpdateMouseCapture(false);
-    SDL_SetRelativeMouseMode(false);
-    show_cursor_prev = SDL_CursorVisible();
+    SDL_سیٹ_Relative_Mouse_منوال(false);
+    show_cursor_پچھلا = SDL_CursorVisible();
     SDL_ShowCursor();
     SDL_ResetKeyboard();
 
-    if (!buttonID) {
+    اگر (!buttonID) {
         buttonID = &dummybutton;
     }
 
-    SDL_memcpy(&mbdata, messageboxdata, sizeof(*messageboxdata));
+    SDL_memcpy(&mbdata, messageboxdata, حجم(*messageboxdata));
     mbdata.title = titlecpy;
-    if (!mbdata.title) {
+    اگر (!mbdata.title) {
         mbdata.title = "";
     }
-    mbdata.message = msgcpy;
-    if (!mbdata.message) {
-        mbdata.message = "";
+    mbdata.پیغام = msgcpy;
+    اگر (!mbdata.پیغام) {
+        mbdata.پیغام = "";
     }
     messageboxdata = &mbdata;
 
     SDL_ClearError();
 
-    if (_this && _this->ShowMessageBox) {
-        result = _this->ShowMessageBox(_this, messageboxdata, buttonID);
-    } else {
+    اگر (_this && _this->Show_پیغام_Box) {
+        نتیجہ = _this->Show_پیغام_Box(_this, messageboxdata, buttonID);
+    } ورنہ {
         // It's completely fine to call this function before video is initialized
-        const char *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-        if (driver_name && *driver_name != 0) {
-            const char *driver_attempt = driver_name;
-            while (driver_attempt && (*driver_attempt != 0) && !result) {
-                const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-                size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+        ثابت حرف *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+        اگر (driver_name && *driver_name != 0) {
+            ثابت حرف *driver_attempt = driver_name;
+            جب (driver_attempt && (*driver_attempt != 0) && !نتیجہ) {
+                ثابت حرف *driver_attempt_انتہا = SDL_strchr(driver_attempt, ',');
+                size_t driver_attempt_len = (driver_attempt_انتہا) ? (driver_attempt_انتہا - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
-                for (int i = 0; bootstrap[i]; ++i) {
-                    if (bootstrap[i]->ShowMessageBox && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
+                برائے (صحیح i = 0; bootstrap[i]; ++i) {
+                    اگر (bootstrap[i]->Show_پیغام_Box && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                         (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
-                        if (bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                            result = true;
+                        اگر (bootstrap[i]->Show_پیغام_Box(messageboxdata, buttonID)) {
+                            نتیجہ = true;
                         }
-                        break;
+                        توڑو;
                     }
                 }
 
-                driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+                driver_attempt = (driver_attempt_انتہا) ? (driver_attempt_انتہا + 1) : تہی;
             }
-        } else {
-            for (int i = 0; bootstrap[i]; ++i) {
-                if (bootstrap[i]->ShowMessageBox && bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                    result = true;
-                    break;
+        } ورنہ {
+            برائے (صحیح i = 0; bootstrap[i]; ++i) {
+                اگر (bootstrap[i]->Show_پیغام_Box && bootstrap[i]->Show_پیغام_Box(messageboxdata, buttonID)) {
+                    نتیجہ = true;
+                    توڑو;
                 }
             }
         }
     }
 
-    if (!result) {
-        const char *error = SDL_GetError();
+    اگر (!نتیجہ) {
+        ثابت حرف *error = SDL_GetError();
 
-        if (!*error) {
-            SDL_SetError("No message system available");
+        اگر (!*error) {
+            SDL_سیٹ_Error("No message system available");
         }
-    } else {
+    } ورنہ {
         SDL_ClearError();
     }
 
-    (void)SDL_AtomicDecRef(&SDL_messagebox_count);
+    (خالی)SDL_AtomicDecRef(&SDL_messagebox_گنتی);
 
-    if (current_window) {
-        SDL_RaiseWindow(current_window);
+    اگر (current_کھڑکی) {
+        SDL_Raise_کھڑکی(current_کھڑکی);
     }
 
-    if (!show_cursor_prev) {
+    اگر (!show_cursor_پچھلا) {
         SDL_HideCursor();
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_منوال();
     SDL_UpdateMouseCapture(false);
 
     SDL_small_free(msgcpy, msgisstack);
     SDL_small_free(titlecpy, titleisstack);
 
-    return result;
+    واپس نتیجہ;
 }
 
-bool SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags flags, const char *title, const char *message, SDL_Window *window)
+bool SDL_Show_Simple_پیغام_Box(SDL_پیغام_Box_Flags flags, ثابت حرف *title, ثابت حرف *پیغام, SDL_کھڑکی *کھڑکی)
 {
-#if defined(SDL_PLATFORM_3DS)
+#اگر defined(SDL_PLATFORM_3DS)
     errorConf errCnf;
-    bool hasGpuRight;
+    bool has_Gpu_دایاں;
 
     // If the video subsystem has not been initialised, set up graphics temporarily
-    hasGpuRight = gspHasGpuRight();
-    if (!hasGpuRight)
+    has_Gpu_دایاں = gsp_Has_Gpu_دایاں();
+    اگر (!has_Gpu_دایاں)
         gfxInitDefault();
 
-    errorInit(&errCnf, ERROR_TEXT_WORD_WRAP, CFG_LANGUAGE_EN);
-    errorText(&errCnf, message);
+    errorInit(&errCnf, ERROR_متن_لفظ_WRAP, CFG_LANGUAGE_EN);
+    error_متن(&errCnf, پیغام);
     errorDisp(&errCnf);
 
-    if (!hasGpuRight)
+    اگر (!has_Gpu_دایاں)
         gfxExit();
 
-    return true;
-#else
-    SDL_MessageBoxData data;
-    SDL_MessageBoxButtonData button;
+    واپس true;
+#ورنہ
+    SDL_پیغام_Box_ڈیٹا ڈیٹا;
+    SDL_پیغام_Box_Button_ڈیٹا button;
 
-    SDL_zero(data);
-    data.flags = flags;
-    data.title = title;
-    data.message = message;
-    data.numbuttons = 1;
-    data.buttons = &button;
-    data.window = window;
+    SDL_zero(ڈیٹا);
+    ڈیٹا.flags = flags;
+    ڈیٹا.title = title;
+    ڈیٹا.پیغام = پیغام;
+    ڈیٹا.numbuttons = 1;
+    ڈیٹا.buttons = &button;
+    ڈیٹا.کھڑکی = کھڑکی;
 
     SDL_zero(button);
     button.flags |= SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT;
     button.flags |= SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
-    button.text = "OK";
+    button.متن = "OK";
 
-    return SDL_ShowMessageBox(&data, NULL);
-#endif
+    واپس SDL_Show_پیغام_Box(&ڈیٹا, تہی);
+#اگر_ختم
 }
 
-bool SDL_ShouldAllowTopmost(void)
+bool SDL_ShouldAllowTopmost(خالی)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOW_ALLOW_TOPMOST, true);
+    واپس SDL_GetHintBoolean(SDL_HINT_کھڑکی_ALLOW_TOPMOST, true);
 }
 
-bool SDL_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+bool SDL_Show_کھڑکی_System_Menu(SDL_کھڑکی *کھڑکی, صحیح x, صحیح y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
+    CHECK_کھڑکی_NOT_POPUP(کھڑکی, false);
 
-    if (_this->ShowWindowSystemMenu) {
-        _this->ShowWindowSystemMenu(window, x, y);
-        return true;
+    اگر (_this->Show_کھڑکی_System_Menu) {
+        _this->Show_کھڑکی_System_Menu(کھڑکی, x, y);
+        واپس true;
     }
 
-    return SDL_Unsupported();
+    واپس SDL_Unsupported();
 }
 
-bool SDL_SetWindowHitTest(SDL_Window *window, SDL_HitTest callback, void *callback_data)
+bool SDL_سیٹ_کھڑکی_کامیابی_Test(SDL_کھڑکی *کھڑکی, SDL_کامیابی_Test callback, خالی *callback_ڈیٹا)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->SetWindowHitTest) {
-        return SDL_Unsupported();
+    اگر (!_this->سیٹ_کھڑکی_کامیابی_Test) {
+        واپس SDL_Unsupported();
     }
 
-    window->hit_test = callback;
-    window->hit_test_data = callback_data;
+    کھڑکی->کامیابی_test = callback;
+    کھڑکی->کامیابی_test_ڈیٹا = callback_ڈیٹا;
 
-    return _this->SetWindowHitTest(window, callback != NULL);
+    واپس _this->سیٹ_کھڑکی_کامیابی_Test(کھڑکی, callback != تہی);
 }
 
-bool SDL_SetWindowShape(SDL_Window *window, SDL_Surface *shape)
+bool SDL_سیٹ_کھڑکی_Shape(SDL_کھڑکی *کھڑکی, SDL_Surface *shape)
 {
     SDL_PropertiesID props;
     SDL_Surface *surface;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!(window->flags & SDL_WINDOW_TRANSPARENT)) {
-        return SDL_SetError("Window must be created with SDL_WINDOW_TRANSPARENT");
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_TRANSPARENT)) {
+        واپس SDL_سیٹ_Error("Window must be created with SDL_WINDOW_TRANSPARENT");
     }
 
-    props = SDL_GetWindowProperties(window);
-    if (!props) {
-        return false;
+    props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    اگر (!props) {
+        واپس false;
     }
 
-    if (shape) {
+    اگر (shape) {
         surface = SDL_ConvertSurface(shape, SDL_PIXELFORMAT_ARGB32);
-        if (!surface) {
-            return false;
+        اگر (!surface) {
+            واپس false;
         }
-    } else {
-        surface = NULL;
+    } ورنہ {
+        surface = تہی;
     }
 
-    if (!SDL_SetSurfaceProperty(props, SDL_PROP_WINDOW_SHAPE_POINTER, surface)) {
-        return false;
+    اگر (!SDL_سیٹ_Surface_Property(props, SDL_PROP_کھڑکی_SHAPE_اشارہ_گر, surface)) {
+        واپس false;
     }
 
-    if (_this->UpdateWindowShape) {
-        if (!_this->UpdateWindowShape(_this, window, surface)) {
-            return false;
+    اگر (_this->Update_کھڑکی_Shape) {
+        اگر (!_this->Update_کھڑکی_Shape(_this, کھڑکی, surface)) {
+            واپس false;
         }
     }
-    return true;
+    واپس true;
 }
 
 /*
  * Functions used by iOS application delegates
  */
-void SDL_OnApplicationWillTerminate(void)
+خالی SDL_OnApplicationWillTerminate(خالی)
 {
     SDL_SendAppEvent(SDL_EVENT_TERMINATING);
 }
 
-void SDL_OnApplicationDidReceiveMemoryWarning(void)
+خالی SDL_On_Application_Did_Receive_حافظہ_Warning(خالی)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_کم_حافظہ);
 }
 
-void SDL_OnApplicationWillEnterBackground(void)
+خالی SDL_OnApplicationWillEnterBackground(خالی)
 {
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+    اگر (_this) {
+        SDL_کھڑکی *کھڑکی;
+        برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MINIMIZED, 0, 0);
         }
-        SDL_SetKeyboardFocus(NULL);
+        SDL_سیٹ_Keyboard_Focus(تہی);
     }
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationDidEnterBackground(void)
+خالی SDL_OnApplicationDidEnterBackground(خالی)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationWillEnterForeground(void)
+خالی SDL_OnApplicationWillEnterForeground(خالی)
 {
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_FOREGROUND);
 }
 
-void SDL_OnApplicationDidEnterForeground(void)
+خالی SDL_OnApplicationDidEnterForeground(خالی)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_FOREGROUND);
 
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SetKeyboardFocus(window);
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+    اگر (_this) {
+        SDL_کھڑکی *کھڑکی;
+        برائے (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            SDL_سیٹ_Keyboard_Focus(کھڑکی);
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESTORED, 0, 0);
         }
     }
 }
 
-#define NOT_A_VULKAN_WINDOW "The specified window isn't a Vulkan window"
+#تعریف_کرو NOT_A_VULKAN_کھڑکی "The specified window isn't a Vulkan window"
 
-bool SDL_Vulkan_LoadLibrary(const char *path)
+bool SDL_Vulkan_بھرو_Library(ثابت حرف *راستہ)
 {
-    bool result;
+    bool نتیجہ;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    اگر (!_this) {
+        واپس SDL_UninitializedVideo();
     }
-    if (_this->vulkan_config.loader_loaded) {
-        if (path && SDL_strcmp(path, _this->vulkan_config.loader_path) != 0) {
-            return SDL_SetError("Vulkan loader library already loaded");
+    اگر (_this->vulkan_config.loader_loaded) {
+        اگر (راستہ && SDL_strcmp(راستہ, _this->vulkan_config.loader_راستہ) != 0) {
+            واپس SDL_سیٹ_Error("Vulkan loader library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->Vulkan_LoadLibrary) {
-            return SDL_DllNotSupported("Vulkan");
+        نتیجہ = true;
+    } ورنہ {
+        اگر (!_this->Vulkan_بھرو_Library) {
+            واپس SDL_DllNotSupported("Vulkan");
         }
-        result = _this->Vulkan_LoadLibrary(_this, path);
+        نتیجہ = _this->Vulkan_بھرو_Library(_this, راستہ);
     }
-    if (result) {
+    اگر (نتیجہ) {
         _this->vulkan_config.loader_loaded++;
     }
-    return result;
+    واپس نتیجہ;
 }
 
-SDL_FunctionPointer SDL_Vulkan_GetVkGetInstanceProcAddr(void)
+SDL_Function_اشارہ_گر SDL_Vulkan_GetVkGetInstanceProcAddr(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        واپس تہی;
     }
-    if (!_this->vulkan_config.loader_loaded) {
-        SDL_SetError("No Vulkan loader has been loaded");
-        return NULL;
+    اگر (!_this->vulkan_config.loader_loaded) {
+        SDL_سیٹ_Error("No Vulkan loader has been loaded");
+        واپس تہی;
     }
-    return (SDL_FunctionPointer)_this->vulkan_config.vkGetInstanceProcAddr;
+    واپس (SDL_Function_اشارہ_گر)_this->vulkan_config.vkGetInstanceProcAddr;
 }
 
-void SDL_Vulkan_UnloadLibrary(void)
+خالی SDL_Vulkan_UnloadLibrary(خالی)
 {
-    if (!_this) {
+    اگر (!_this) {
         SDL_UninitializedVideo();
-        return;
+        واپس;
     }
-    if (_this->vulkan_config.loader_loaded > 0) {
-        if (--_this->vulkan_config.loader_loaded > 0) {
-            return;
+    اگر (_this->vulkan_config.loader_loaded > 0) {
+        اگر (--_this->vulkan_config.loader_loaded > 0) {
+            واپس;
         }
-        if (_this->Vulkan_UnloadLibrary) {
+        اگر (_this->Vulkan_UnloadLibrary) {
             _this->Vulkan_UnloadLibrary(_this);
         }
     }
 }
 
-char const * const *SDL_Vulkan_GetInstanceExtensions(Uint32 *count)
+حرف ثابت * ثابت *SDL_Vulkan_GetInstanceExtensions(Uint32 *گنتی)
 {
     Uint32 tmpcount = 0;
-    if (!count) {
-        count = &tmpcount;
+    اگر (!گنتی) {
+        گنتی = &tmpcount;
     }
 
-    if (!_this->Vulkan_GetInstanceExtensions) {
-        *count = 0;
+    اگر (!_this->Vulkan_GetInstanceExtensions) {
+        *گنتی = 0;
         SDL_Unsupported();
-        return NULL;
+        واپس تہی;
     }
 
-    return _this->Vulkan_GetInstanceExtensions(_this, count);
+    واپس _this->Vulkan_GetInstanceExtensions(_this, گنتی);
 }
 
-bool SDL_Vulkan_CreateSurface(SDL_Window *window,
+bool SDL_Vulkan_CreateSurface(SDL_کھڑکی *کھڑکی,
                                   VkInstance instance,
-                                  const struct VkAllocationCallbacks *allocator,
+                                  ثابت ساخت Vk_تخصیص_Callbacks *allocator,
                                   VkSurfaceKHR *surface)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_کھڑکی_MAGIC(کھڑکی, false);
 
-    if (!_this->Vulkan_CreateSurface) {
+    اگر (!_this->Vulkan_CreateSurface) {
         SDL_Unsupported();
-        return false;
+        واپس false;
     }
 
     CHECK_PARAM(!instance) {
-        return SDL_InvalidParamError("instance");
+        واپس SDL_InvalidParamError("instance");
     }
 
     CHECK_PARAM(!surface) {
-        return SDL_InvalidParamError("surface");
+        واپس SDL_InvalidParamError("surface");
     }
 
-    if (!(window->flags & SDL_WINDOW_VULKAN)) {
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_VULKAN)) {
         // No problem, we can convert to Vulkan
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+            کھڑکی->flags &= ~SDL_کھڑکی_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_METAL) {
-            window->flags &= ~SDL_WINDOW_METAL;
+        اگر (کھڑکی->flags & SDL_کھڑکی_METAL) {
+            کھڑکی->flags &= ~SDL_کھڑکی_METAL;
             // Nothing more to do for Metal.
         }
-        if (SDL_Vulkan_LoadLibrary(NULL)) {
-            window->flags |= SDL_WINDOW_VULKAN;
-        } else {
-            return SDL_SetError("failed to load Vulkan library");
+        اگر (SDL_Vulkan_بھرو_Library(تہی)) {
+            کھڑکی->flags |= SDL_کھڑکی_VULKAN;
+        } ورنہ {
+            واپس SDL_سیٹ_Error("failed to load Vulkan library");
         }
     }
 
-    return _this->Vulkan_CreateSurface(_this, window, instance, allocator, surface);
+    واپس _this->Vulkan_CreateSurface(_this, کھڑکی, instance, allocator, surface);
 }
 
-void SDL_Vulkan_DestroySurface(VkInstance instance,
+خالی SDL_Vulkan_DestroySurface(VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator)
+                               ثابت ساخت Vk_تخصیص_Callbacks *allocator)
 {
-    if (_this && instance && surface && _this->Vulkan_DestroySurface) {
+    اگر (_this && instance && surface && _this->Vulkan_DestroySurface) {
         _this->Vulkan_DestroySurface(_this, instance, surface, allocator);
     }
 }
 
 bool SDL_Vulkan_GetPresentationSupport(VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex)
+                                           Uint32 قطار_Family_اشاریہ)
 {
     CHECK_PARAM(!_this) {
         SDL_UninitializedVideo();
-        return false;
+        واپس false;
     }
 
     CHECK_PARAM(!instance) {
         SDL_InvalidParamError("instance");
-        return false;
+        واپس false;
     }
 
     CHECK_PARAM(!physicalDevice) {
         SDL_InvalidParamError("physicalDevice");
-        return false;
+        واپس false;
     }
 
-    if (_this->Vulkan_GetPresentationSupport) {
-        return _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, queueFamilyIndex);
+    اگر (_this->Vulkan_GetPresentationSupport) {
+        واپس _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, قطار_Family_اشاریہ);
     }
 
     /* If the backend does not have this function then it does not have a
      * WSI function to query it; in other words it's not necessary to check
      * as it is always supported.
      */
-    return true;
+    واپس true;
 }
 
-SDL_MetalView SDL_Metal_CreateView(SDL_Window *window)
+SDL_MetalView SDL_Metal_CreateView(SDL_کھڑکی *کھڑکی)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_کھڑکی_MAGIC(کھڑکی, تہی);
 
-    if (!_this->Metal_CreateView) {
+    اگر (!_this->Metal_CreateView) {
         SDL_Unsupported();
-        return NULL;
+        واپس تہی;
     }
 
-    if (!(window->flags & SDL_WINDOW_METAL)) {
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_METAL)) {
         // No problem, we can convert to Metal
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+            کھڑکی->flags &= ~SDL_کھڑکی_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
-            window->flags &= ~SDL_WINDOW_VULKAN;
+        اگر (کھڑکی->flags & SDL_کھڑکی_VULKAN) {
+            کھڑکی->flags &= ~SDL_کھڑکی_VULKAN;
             SDL_Vulkan_UnloadLibrary();
         }
-        window->flags |= SDL_WINDOW_METAL;
+        کھڑکی->flags |= SDL_کھڑکی_METAL;
     }
 
-    return _this->Metal_CreateView(_this, window);
+    واپس _this->Metal_CreateView(_this, کھڑکی);
 }
 
-void SDL_Metal_DestroyView(SDL_MetalView view)
+خالی SDL_Metal_DestroyView(SDL_MetalView view)
 {
-    if (_this && view && _this->Metal_DestroyView) {
+    اگر (_this && view && _this->Metal_DestroyView) {
         _this->Metal_DestroyView(_this, view);
     }
 }
 
-void *SDL_Metal_GetLayer(SDL_MetalView view)
+خالی *SDL_Metal_GetLayer(SDL_MetalView view)
 {
-    if (_this && _this->Metal_GetLayer) {
+    اگر (_this && _this->Metal_GetLayer) {
         CHECK_PARAM(!view) {
             SDL_InvalidParamError("view");
-            return NULL;
+            واپس تہی;
         }
-        return _this->Metal_GetLayer(_this, view);
-    } else {
-        SDL_SetError("Metal is not supported.");
-        return NULL;
+        واپس _this->Metal_GetLayer(_this, view);
+    } ورنہ {
+        SDL_سیٹ_Error("Metal is not supported.");
+        واپس تہی;
     }
 }
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name)
+#اگر defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+ثابت حرف *SDL_GetCSSCursorName(SDL_SystemCursor id, ثابت حرف **fallback_name)
 {
     // Reference: https://www.w3.org/TR/css-ui-4/#cursor
     // Also in: https://www.freedesktop.org/wiki/Specifications/cursor-spec/
-    switch (id) {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
-        return "default";
+    انتخاب (id) {
+    حالت SDL_SYSTEM_CURSOR_DEFAULT:
+        واپس "default";
 
-    case SDL_SYSTEM_CURSOR_TEXT:
-        return "text";
+    حالت SDL_SYSTEM_CURSOR_متن:
+        واپس "text";
 
-    case SDL_SYSTEM_CURSOR_WAIT:
-        return "wait";
+    حالت SDL_SYSTEM_CURSOR_WAIT:
+        واپس "wait";
 
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-        return "crosshair";
+    حالت SDL_SYSTEM_CURSOR_CROSSHAIR:
+        واپس "crosshair";
 
-    case SDL_SYSTEM_CURSOR_PROGRESS:
-        return "progress";
+    حالت SDL_SYSTEM_CURSOR_پیش_رفت:
+        واپس "progress";
 
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+        اگر (fallback_name) {
             // only a single arrow
             *fallback_name = "nw-resize";
         }
-        return "nwse-resize";
+        واپس "nwse-resize";
 
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_NESW_RESIZE:
+        اگر (fallback_name) {
             // only a single arrow
             *fallback_name = "ne-resize";
         }
-        return "nesw-resize";
+        واپس "nesw-resize";
 
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_EW_RESIZE:
+        اگر (fallback_name) {
             *fallback_name = "col-resize";
         }
-        return "ew-resize";
+        واپس "ew-resize";
 
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_NS_RESIZE:
+        اگر (fallback_name) {
             *fallback_name = "row-resize";
         }
-        return "ns-resize";
+        واپس "ns-resize";
 
-    case SDL_SYSTEM_CURSOR_MOVE:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_MOVE:
+        اگر (fallback_name) {
             *fallback_name = "all-scroll";
         }
-        return "move";
+        واپس "move";
 
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-        return "not-allowed";
+    حالت SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+        واپس "not-allowed";
 
-    case SDL_SYSTEM_CURSOR_POINTER:
-        return "pointer";
+    حالت SDL_SYSTEM_CURSOR_اشارہ_گر:
+        واپس "pointer";
 
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-        return "nw-resize";
+    حالت SDL_SYSTEM_CURSOR_NW_RESIZE:
+        واپس "nw-resize";
 
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-        return "n-resize";
+    حالت SDL_SYSTEM_CURSOR_N_RESIZE:
+        واپس "n-resize";
 
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-        return "ne-resize";
+    حالت SDL_SYSTEM_CURSOR_NE_RESIZE:
+        واپس "ne-resize";
 
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-        return "e-resize";
+    حالت SDL_SYSTEM_CURSOR_E_RESIZE:
+        واپس "e-resize";
 
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
-        return "se-resize";
+    حالت SDL_SYSTEM_CURSOR_SE_RESIZE:
+        واپس "se-resize";
 
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-        return "s-resize";
+    حالت SDL_SYSTEM_CURSOR_S_RESIZE:
+        واپس "s-resize";
 
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
-        return "sw-resize";
+    حالت SDL_SYSTEM_CURSOR_SW_RESIZE:
+        واپس "sw-resize";
 
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-        return "w-resize";
+    حالت SDL_SYSTEM_CURSOR_W_RESIZE:
+        واپس "w-resize";
 
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
-        return "context-menu";
+    حالت SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        واپس "context-menu";
 
-    case SDL_SYSTEM_CURSOR_HELP:
-        return "help";
+    حالت SDL_SYSTEM_CURSOR_HELP:
+        واپس "help";
 
-    case SDL_SYSTEM_CURSOR_CELL:
-        return "cell";
+    حالت SDL_SYSTEM_CURSOR_CELL:
+        واپس "cell";
 
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
-        return "vertical-text";
+    حالت SDL_SYSTEM_CURSOR_VERTICAL_متن:
+        واپس "vertical-text";
 
-    case SDL_SYSTEM_CURSOR_ALIAS:
-        return "alias";
+    حالت SDL_SYSTEM_CURSOR_ALIAS:
+        واپس "alias";
 
-    case SDL_SYSTEM_CURSOR_COPY:
-        return "copy";
+    حالت SDL_SYSTEM_CURSOR_COPY:
+        واپس "copy";
 
-    case SDL_SYSTEM_CURSOR_NO_DROP:
-        return "no-drop";
+    حالت SDL_SYSTEM_CURSOR_NO_DROP:
+        واپس "no-drop";
 
-    case SDL_SYSTEM_CURSOR_GRAB:
-        return "grab";
+    حالت SDL_SYSTEM_CURSOR_GRAB:
+        واپس "grab";
 
-    case SDL_SYSTEM_CURSOR_GRABBING:
-        return "grabbing";
+    حالت SDL_SYSTEM_CURSOR_GRABBING:
+        واپس "grabbing";
 
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-        return "col-resize";
+    حالت SDL_SYSTEM_CURSOR_ستون_RESIZE:
+        واپس "col-resize";
 
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-        return "row-resize";
+    حالت SDL_SYSTEM_CURSOR_صف_RESIZE:
+        واپس "row-resize";
 
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
-        if (fallback_name) {
+    حالت SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        اگر (fallback_name) {
             *fallback_name = "move";
         }
-        return "all-scroll";
+        واپس "all-scroll";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-        return "zoom-in";
+    حالت SDL_SYSTEM_CURSOR_ZOOM_اندر:
+        واپس "zoom-in";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
-        return "zoom-out";
+    حالت SDL_SYSTEM_CURSOR_ZOOM_برآمد:
+        واپس "zoom-out";
 
-    default:
-        return "default";
+    طےشدہ:
+        واپس "default";
     }
 }
-#endif
+#اگر_ختم

@@ -18,138 +18,138 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#include "SDL_sysvideo.h"
-#include "SDL_surface_c.h"
-#include "SDL_blit_auto.h"
-#include "SDL_blit_copy.h"
-#include "SDL_blit_slow.h"
-#include "SDL_RLEaccel_c.h"
-#include "SDL_pixels_c.h"
+#شامل "SDL_sysvideo.h"
+#شامل "SDL_surface_c.h"
+#شامل "SDL_blit_auto.h"
+#شامل "SDL_blit_copy.h"
+#شامل "SDL_blit_slow.h"
+#شامل "SDL_RLEaccel_c.h"
+#شامل "SDL_pixels_c.h"
 
 // The general purpose software blit routine
-static bool SDLCALL SDL_SoftBlit(SDL_Surface *src, const SDL_Rect *srcrect,
-                                SDL_Surface *dst, const SDL_Rect *dstrect)
+ساکن bool SDLCALL SDL_SoftBlit(SDL_Surface *src, ثابت SDL_Rect *srcrect,
+                                SDL_Surface *dst, ثابت SDL_Rect *dstrect)
 {
     bool okay;
-    int src_locked;
-    int dst_locked;
+    صحیح src_locked;
+    صحیح dst_locked;
 
     // Everything is okay at the beginning...
     okay = true;
 
     // Lock the destination if it's in hardware
     dst_locked = 0;
-    if (SDL_MUSTLOCK(dst)) {
-        if (!SDL_LockSurface(dst)) {
+    اگر (SDL_MUSTLOCK(dst)) {
+        اگر (!SDL_تالا_Surface(dst)) {
             okay = false;
-        } else {
+        } ورنہ {
             dst_locked = 1;
         }
     }
     // Lock the source if it's in hardware
     src_locked = 0;
-    if (SDL_MUSTLOCK(src)) {
-        if (!SDL_LockSurface(src)) {
+    اگر (SDL_MUSTLOCK(src)) {
+        اگر (!SDL_تالا_Surface(src)) {
             okay = false;
-        } else {
+        } ورنہ {
             src_locked = 1;
         }
     }
 
     // Set up source and destination buffer pointers, and BLIT!
-    if (okay) {
-        SDL_BlitFunc RunBlit;
+    اگر (okay) {
+        SDL_BlitFunc تسلسل_Blit;
         SDL_BlitInfo *info = &src->map.info;
 
         // Set up the blit information
-        if (info->src_fmt->bits_per_pixel >= 8) {
+        اگر (info->src_fmt->بٹ_فی_pixel >= 8) {
             info->src = (Uint8 *)src->pixels +
                         srcrect->y * src->pitch +
-                        srcrect->x * info->src_fmt->bytes_per_pixel;
-        } else {
+                        srcrect->x * info->src_fmt->بائٹیں_فی_pixel;
+        } ورنہ {
             info->src = (Uint8 *)src->pixels +
                         srcrect->y * src->pitch +
-                        (srcrect->x * info->src_fmt->bits_per_pixel) / 8;
+                        (srcrect->x * info->src_fmt->بٹ_فی_pixel) / 8;
             info->leading_skip =
-                        ((srcrect->x * info->src_fmt->bits_per_pixel) % 8) /
-                        info->src_fmt->bits_per_pixel;
+                        ((srcrect->x * info->src_fmt->بٹ_فی_pixel) % 8) /
+                        info->src_fmt->بٹ_فی_pixel;
         }
         info->src_w = srcrect->w;
         info->src_h = srcrect->h;
         info->src_pitch = src->pitch;
         info->src_skip =
-            info->src_pitch - info->src_w * info->src_fmt->bytes_per_pixel;
+            info->src_pitch - info->src_w * info->src_fmt->بائٹیں_فی_pixel;
         info->dst = (Uint8 *)dst->pixels +
                     dstrect->y * dst->pitch +
-                    dstrect->x * info->dst_fmt->bytes_per_pixel;
+                    dstrect->x * info->dst_fmt->بائٹیں_فی_pixel;
         info->dst_w = dstrect->w;
         info->dst_h = dstrect->h;
         info->dst_pitch = dst->pitch;
         info->dst_skip =
-            info->dst_pitch - info->dst_w * info->dst_fmt->bytes_per_pixel;
-        RunBlit = (SDL_BlitFunc)src->map.data;
+            info->dst_pitch - info->dst_w * info->dst_fmt->بائٹیں_فی_pixel;
+        تسلسل_Blit = (SDL_BlitFunc)src->map.ڈیٹا;
 
         // Run the actual software blit
-        RunBlit(info);
+        تسلسل_Blit(info);
     }
 
     // We need to unlock the surfaces if they're locked
-    if (dst_locked) {
+    اگر (dst_locked) {
         SDL_UnlockSurface(dst);
     }
-    if (src_locked) {
+    اگر (src_locked) {
         SDL_UnlockSurface(src);
     }
     // Blit is done!
-    return okay;
+    واپس okay;
 }
 
-#ifdef SDL_HAVE_BLIT_AUTO
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_AUTO
 
-static SDL_BlitFunc SDL_ChooseBlitFunc(SDL_PixelFormat src_format, SDL_PixelFormat dst_format, int flags,
-                                       SDL_BlitFuncEntry *entries)
+ساکن SDL_BlitFunc SDL_انتخاب_Blit_Func(SDL_PixelFormat src_format, SDL_PixelFormat dst_format, صحیح flags,
+                                       SDL_Blit_Func_اندراج *entries)
 {
-    int i, flagcheck = (flags & (SDL_COPY_MODULATE_MASK | SDL_COPY_BLEND_MASK | SDL_COPY_COLORKEY | SDL_COPY_NEAREST));
+    صحیح i, flagcheck = (flags & (SDL_COPY_MODULATE_نقاب | SDL_COPY_BLEND_نقاب | SDL_COPY_COLORKEY | SDL_COPY_قریب_ترین));
 
-    for (i = 0; entries[i].func; ++i) {
+    برائے (i = 0; entries[i].func; ++i) {
         // Check for matching pixel formats
-        if (src_format != entries[i].src_format) {
-            continue;
+        اگر (src_format != entries[i].src_format) {
+            جاری;
         }
-        if (dst_format != entries[i].dst_format) {
-            continue;
+        اگر (dst_format != entries[i].dst_format) {
+            جاری;
         }
 
         // Check flags
-        if ((flagcheck & entries[i].flags) != flagcheck) {
-            continue;
+        اگر ((flagcheck & entries[i].flags) != flagcheck) {
+            جاری;
         }
 
         // We found the best one!
-        return entries[i].func;
+        واپس entries[i].func;
     }
-    return NULL;
+    واپس تہی;
 }
-#endif // SDL_HAVE_BLIT_AUTO
+#اگر_ختم // SDL_HAVE_BLIT_AUTO
 
 // Figure out which of many blit routines to set up on a surface
 bool SDL_CalculateBlit(SDL_Surface *surface, SDL_Surface *dst)
 {
-    SDL_BlitFunc blit = NULL;
+    SDL_BlitFunc blit = تہی;
     SDL_BlitMap *map = &surface->map;
     SDL_Colorspace src_colorspace = surface->colorspace;
     SDL_Colorspace dst_colorspace = dst->colorspace;
 
     // We don't currently support blitting to < 8 bpp surfaces
-    if (SDL_BITSPERPIXEL(dst->format) < 8) {
+    اگر (SDL_BITSPERPIXEL(dst->format) < 8) {
         SDL_InvalidateMap(map);
-        return SDL_SetError("Blit combination not supported");
+        واپس SDL_سیٹ_Error("Blit combination not supported");
     }
 
     // We should have cleared out RLE at this point
-    SDL_assert(!(surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL));
+    SDL_assert(!(surface->اندرونی_flags & SDL_اندرونی_SURFACE_RLEACCEL));
 
     map->blit = SDL_SoftBlit;
     map->info.src_surface = surface;
@@ -159,87 +159,87 @@ bool SDL_CalculateBlit(SDL_Surface *surface, SDL_Surface *dst)
     map->info.dst_fmt = dst->fmt;
     map->info.dst_pal = dst->palette;
 
-#ifdef SDL_HAVE_RLE
+#اگر_تعریف_شدہ SDL_HAVE_RLE
     // See if we can do RLE acceleration
-    if (map->info.flags & SDL_COPY_RLE_DESIRED) {
-        if (SDL_RLESurface(surface)) {
-            return true;
+    اگر (map->info.flags & SDL_COPY_RLE_DESIRED) {
+        اگر (SDL_RLESurface(surface)) {
+            واپس true;
         }
     }
-#endif
+#اگر_ختم
 
     // Choose a standard blit function
-    if (!blit) {
-        if (src_colorspace != dst_colorspace ||
+    اگر (!blit) {
+        اگر (src_colorspace != dst_colorspace ||
             SDL_BYTESPERPIXEL(surface->format) > 4 ||
             SDL_BYTESPERPIXEL(dst->format) > 4) {
             blit = SDL_Blit_Slow_Float;
         }
     }
-    if (!blit) {
-        if (map->identity && !(map->info.flags & ~SDL_COPY_RLE_DESIRED)) {
+    اگر (!blit) {
+        اگر (map->شناختی_عنصر && !(map->info.flags & ~SDL_COPY_RLE_DESIRED)) {
             blit = SDL_BlitCopy;
-        } else if (SDL_ISPIXELFORMAT_10BIT(surface->format) ||
-                   SDL_ISPIXELFORMAT_10BIT(dst->format)) {
+        } ورنہ اگر (SDL_ISPIXELFORMAT_10_ثنائی_ہندسہ(surface->format) ||
+                   SDL_ISPIXELFORMAT_10_ثنائی_ہندسہ(dst->format)) {
             blit = SDL_Blit_Slow;
         }
-#ifdef SDL_HAVE_BLIT_0
-        else if (SDL_BITSPERPIXEL(surface->format) < 8 &&
-                 SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_0
+        ورنہ اگر (SDL_BITSPERPIXEL(surface->format) < 8 &&
+                 SDL_ISPIXELFORMAT_اشاریہ_دار(surface->format)) {
             blit = SDL_CalculateBlit0(surface);
         }
-#endif
-#ifdef SDL_HAVE_BLIT_1
-        else if (SDL_BYTESPERPIXEL(surface->format) == 1 &&
-                 SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_1
+        ورنہ اگر (SDL_BYTESPERPIXEL(surface->format) == 1 &&
+                 SDL_ISPIXELFORMAT_اشاریہ_دار(surface->format)) {
             blit = SDL_CalculateBlit1(surface);
         }
-#endif
-#ifdef SDL_HAVE_BLIT_A
-        else if (map->info.flags & SDL_COPY_BLEND) {
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_A
+        ورنہ اگر (map->info.flags & SDL_COPY_BLEND) {
             blit = SDL_CalculateBlitA(surface);
         }
-#endif
-#ifdef SDL_HAVE_BLIT_N
-        else {
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_N
+        ورنہ {
             blit = SDL_CalculateBlitN(surface);
         }
-#endif
+#اگر_ختم
     }
-#ifdef SDL_HAVE_BLIT_AUTO
-    if (!blit) {
+#اگر_تعریف_شدہ SDL_HAVE_BLIT_AUTO
+    اگر (!blit) {
         SDL_PixelFormat src_format = surface->format;
         SDL_PixelFormat dst_format = dst->format;
 
         blit =
-            SDL_ChooseBlitFunc(src_format, dst_format, map->info.flags,
-                               SDL_GeneratedBlitFuncTable);
+            SDL_انتخاب_Blit_Func(src_format, dst_format, map->info.flags,
+                               SDL_Generated_Blit_Func_جدول);
     }
-#endif
+#اگر_ختم
 
-#ifndef TEST_SLOW_BLIT
-    if (!blit)
-#endif
+#اگر_غیر_تعریف_شدہ TEST_SLOW_BLIT
+    اگر (!blit)
+#اگر_ختم
     {
         SDL_PixelFormat src_format = surface->format;
         SDL_PixelFormat dst_format = dst->format;
 
-        if ((!SDL_ISPIXELFORMAT_INDEXED(src_format) ||
+        اگر ((!SDL_ISPIXELFORMAT_اشاریہ_دار(src_format) ||
              (src_format == SDL_PIXELFORMAT_INDEX8 && surface->palette)) &&
             !SDL_ISPIXELFORMAT_FOURCC(src_format) &&
-            (!SDL_ISPIXELFORMAT_INDEXED(dst_format) ||
+            (!SDL_ISPIXELFORMAT_اشاریہ_دار(dst_format) ||
              (dst_format == SDL_PIXELFORMAT_INDEX8 && dst->palette)) &&
             !SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
             blit = SDL_Blit_Slow;
         }
     }
-    map->data = (void *)blit;
+    map->ڈیٹا = (خالی *)blit;
 
     // Make sure we have a blit function
-    if (!blit) {
+    اگر (!blit) {
         SDL_InvalidateMap(map);
-        return SDL_SetError("Blit combination not supported");
+        واپس SDL_سیٹ_Error("Blit combination not supported");
     }
 
-    return true;
+    واپس true;
 }

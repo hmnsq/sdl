@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_androidwindow_h_
-#define SDL_androidwindow_h_
+#اگر_غیر_تعریف_شدہ SDL_androidwindow_h_
+#تعریف_کرو SDL_androidwindow_h_
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_egl_c.h"
+#شامل "../../core/android/SDL_android.h"
+#شامل "../SDL_egl_c.h"
 
-extern bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+خارجی bool Android_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجی خالی Android_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی SDL_Fullscreen_نتیجہ Android_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجی خالی Android_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی خالی Android_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable);
 
-extern void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *Android_Window;
+خارجی خالی Android_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجی SDL_کھڑکی *Android_کھڑکی;
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    ANativeWindow *native_window;
+    صحیح has_تبادلہ_interval;  // Save/Restore the swap interval / vsync
+    صحیح تبادلہ_interval;
+#اگر_ختم
+    bool backup_مکمل;
+    ANative_کھڑکی *native_کھڑکی;
 
 };
 
-#endif // SDL_androidwindow_h_
+#اگر_ختم // SDL_androidwindow_h_

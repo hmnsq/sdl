@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_nullframebuffer_c_h_
-#define SDL_nullframebuffer_c_h_
+#اگر_غیر_تعریف_شدہ SDL_nullframebuffer_c_h_
+#تعریف_کرو SDL_nullframebuffer_c_h_
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-extern bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool SDL_DUMMY_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PixelFormat *format, خالی **pixels, صحیح *pitch);
+خارجی bool SDL_DUMMY_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects, صحیح numrects);
+خارجی خالی SDL_DUMMY_Destroy_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_nullframebuffer_c_h_
+#اگر_ختم // SDL_nullframebuffer_c_h_

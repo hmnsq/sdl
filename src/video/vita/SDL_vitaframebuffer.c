@@ -18,99 +18,99 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
+#شامل "SDL_vitavideo.h"
 
-#include <psp2/kernel/sysmem.h>
+#شامل <psp2/kernel/sysmem.h>
 
-#define SCREEN_W             960
-#define SCREEN_H             544
-#define ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
-#define DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
+#تعریف_کرو SCREEN_W             960
+#تعریف_کرو SCREEN_H             544
+#تعریف_کرو ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
+#تعریف_کرو DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
 
-void *vita_gpu_alloc(unsigned int type, unsigned int size, SceUID *uid)
+خالی *vita_gpu_alloc(غیرعلامتی صحیح type, غیرعلامتی صحیح سائز, SceUID *uid)
 {
-    void *mem;
+    خالی *mem;
 
-    if (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
-        size = ALIGN(size, 256 * 1024);
-    } else {
-        size = ALIGN(size, 4 * 1024);
+    اگر (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
+        سائز = ALIGN(سائز, 256 * 1024);
+    } ورنہ {
+        سائز = ALIGN(سائز, 4 * 1024);
     }
 
-    *uid = sceKernelAllocMemBlock("gpu_mem", type, size, NULL);
+    *uid = sce_Kernel_Alloc_Mem_بلاک("gpu_mem", type, سائز, تہی);
 
-    if (*uid < 0) {
-        return NULL;
+    اگر (*uid < 0) {
+        واپس تہی;
     }
 
-    if (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
-        return NULL;
+    اگر (sce_Kernel_Get_Mem_بلاک_بنیاد(*uid, &mem) < 0) {
+        واپس تہی;
     }
 
-    return mem;
+    واپس mem;
 }
 
-void vita_gpu_free(SceUID uid)
+خالی vita_gpu_free(SceUID uid)
 {
-    void *mem = NULL;
-    if (sceKernelGetMemBlockBase(uid, &mem) < 0) {
-        return;
+    خالی *mem = تہی;
+    اگر (sce_Kernel_Get_Mem_بلاک_بنیاد(uid, &mem) < 0) {
+        واپس;
     }
-    sceKernelFreeMemBlock(uid);
+    sce_Kernel_Free_Mem_بلاک(uid);
 }
 
-bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool VITA_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PixelFormat *format, خالی **pixels, صحیح *pitch)
 {
-    SDL_WindowData *data = window->internal;
-    SceDisplayFrameBuf framebuf;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    Sce_Display_چوکھٹا_Buf framebuf;
 
     *format = SDL_PIXELFORMAT_ABGR8888;
     *pitch = SCREEN_W * 4;
 
-    data->buffer = vita_gpu_alloc(
+    ڈیٹا->بفر_2 = vita_gpu_alloc(
         SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW,
         4 * SCREEN_W * SCREEN_H,
-        &data->buffer_uid);
+        &ڈیٹا->بفر_uid);
 
     // SDL_memset the buffer to black
-    SDL_memset(data->buffer, 0x0, SCREEN_W * SCREEN_H * 4);
+    SDL_memset(ڈیٹا->بفر_2, 0x0, SCREEN_W * SCREEN_H * 4);
 
     SDL_zero(framebuf);
-    framebuf.size = sizeof(SceDisplayFrameBuf);
-    framebuf.base = data->buffer;
+    framebuf.سائز = حجم(Sce_Display_چوکھٹا_Buf);
+    framebuf.بنیاد = ڈیٹا->بفر_2;
     framebuf.pitch = SCREEN_W;
     framebuf.pixelformat = DISPLAY_PIXEL_FORMAT;
-    framebuf.width = SCREEN_W;
-    framebuf.height = SCREEN_H;
-    sceDisplaySetFrameBuf(&framebuf, SCE_DISPLAY_SETBUF_NEXTFRAME);
+    framebuf.چوڑائی = SCREEN_W;
+    framebuf.اونچائی = SCREEN_H;
+    sce_Display_سیٹ_چوکھٹا_Buf(&framebuf, SCE_DISPLAY_SETBUF_NEXTFRAME);
 
-    *pixels = data->buffer;
+    *pixels = ڈیٹا->بفر_2;
 
-    return true;
+    واپس true;
 }
 
-bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool VITA_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects, صحیح numrects)
 {
     // do nothing
-    return true;
+    واپس true;
 }
 
-void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+خالی VITA_Destroy_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-    if (!data) {
+    اگر (!ڈیٹا) {
         // The window wasn't fully initialized
-        return;
+        واپس;
     }
 
-    vita_gpu_free(data->buffer_uid);
-    data->buffer = NULL;
-    return;
+    vita_gpu_free(ڈیٹا->بفر_uid);
+    ڈیٹا->بفر_2 = تہی;
+    واپس;
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#اگر_ختم // SDL_VIDEO_DRIVER_VITA

@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_windowsmodes_h_
-#define SDL_windowsmodes_h_
+#اگر_غیر_تعریف_شدہ SDL_windowsmodes_h_
+#تعریف_کرو SDL_windowsmodes_h_
 
-typedef enum
+قسمتعریف شمار
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+ساخت SDL_Display_ڈیٹا
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,18 +39,18 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+ساخت SDL_Display_منوال_ڈیٹا
 {
-    DEVMODEW DeviceMode;
+    DEVMODEW Device_منوال;
 };
 
-extern bool WIN_InitModes(SDL_VideoDevice *_this);
-extern bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void WIN_RefreshDisplays(SDL_VideoDevice *_this);
-extern void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
-extern void WIN_QuitModes(SDL_VideoDevice *_this);
+خارجی bool WIN_InitModes(SDL_VideoDevice *_this);
+خارجی bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجی bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجی bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجی bool WIN_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
+خارجی خالی WIN_RefreshDisplays(SDL_VideoDevice *_this);
+خارجی خالی WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
+خارجی خالی WIN_QuitModes(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsmodes_h_
+#اگر_ختم // SDL_windowsmodes_h_

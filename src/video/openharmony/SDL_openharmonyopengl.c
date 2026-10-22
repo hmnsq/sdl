@@ -18,62 +18,62 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
+#اگر defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // OpenHarmony/HarmonyOS SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_openharmonywindow.h"
+#شامل "../SDL_egl_c.h"
+#شامل "SDL_openharmonywindow.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonyopengl.h"
-#include "../../core/openharmony/SDL_openharmony.h"
+#شامل "SDL_openharmonyvideo.h"
+#شامل "SDL_openharmonyevents.h"
+#شامل "SDL_openharmonyopengl.h"
+#شامل "../../core/openharmony/SDL_openharmony.h"
 
-bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    اگر (کھڑکی && context) {
+        واپس SDL_EGL_MakeCurrent(_this, کھڑکی->اندرونی_2->egl_surface, context);
+    } ورنہ {
+        واپس SDL_EGL_MakeCurrent(_this, تہی, تہی);
     }
 }
 
-SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_GLContext result;
+    SDL_GLContext نتیجہ;
 
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //if (!OPENHARMONY_WaitActiveAndLockActivity()) {
     //    return NULL;
     //}
 
-    result = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    نتیجہ = SDL_EGL_CreateContext(_this, کھڑکی->اندرونی_2->egl_surface);
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    واپس نتیجہ;
 }
 
-bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool OPENHARMONY_GLES_تبادلہ_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    bool result;
+    bool نتیجہ;
 
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //OPENHARMONY_LockActivityMutex();
 
-    result = SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    نتیجہ = SDL_EGL_تبادلہ_Buffers(_this, کھڑکی->اندرونی_2->egl_surface);
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    واپس نتیجہ;
 }
 
-bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OPENHARMONY_GLES_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    واپس SDL_EGL_بھرو_Library(_this, راستہ, EGL_DEFAULT_DISPLAY);
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#اگر_ختم // SDL_VIDEO_DRIVER_OPENHARMONY

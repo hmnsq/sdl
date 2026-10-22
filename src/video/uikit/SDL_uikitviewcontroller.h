@@ -18,84 +18,84 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-#ifdef SDL_PLATFORM_TVOS
+#اگر_تعریف_شدہ SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
-#define SDLRootViewController GCEventViewController
-#else
-#define SDLRootViewController UIViewController
-#endif
+#تعریف_کرو SDLRootViewController GCEventViewController
+#ورنہ
+#تعریف_کرو SDLRootViewController UIViewController
+#اگر_ختم
 
-@interface SDLUITextField : UITextField
+@interface SDLUIText_میدان : UIText_میدان
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender;
-@end
+@انتہا
 
-#ifdef SDL_IPHONE_KEYBOARD
-@interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#اگر_تعریف_شدہ SDL_IPHONE_KEYBOARD
+@interface SDL_uikitviewcontroller : SDLRootViewController <UIText_میدان_Delegate>
+#ورنہ
 @interface SDL_uikitviewcontroller : SDLRootViewController
-#endif
+#اگر_ختم
 
-@property(nonatomic, assign) SDL_Window *window;
+@property(nonatomic, تفویض) SDL_کھڑکی *کھڑکی;
 
-- (instancetype)initWithSDLWindow:(SDL_Window *)_window;
+- (instancetype)initWithSDLWindow:(SDL_کھڑکی *)کھڑکی_3;
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+- (خالی)traitCollectionDidChange:(UITraitCollection *)پچھلا_Trait_Collection;
 
-- (void)setAnimationCallback:(int)interval
-                    callback:(void (*)(void *))callback
-               callbackParam:(void *)callbackParam;
+- (خالی)سیٹ_Animation_Callback:(صحیح)interval
+                    callback:(خالی (*)(خالی *))callback
+               callbackParam:(خالی *)callbackParam;
 
-- (void)startAnimation;
-- (void)stopAnimation;
+- (خالی)آغاز_Animation;
+- (خالی)stopAnimation;
 
-- (void)doLoop:(CADisplayLink *)sender;
+- (خالی)doLoop:(CADisplayLink *)sender;
 
-- (void)loadView;
-- (void)viewDidLayoutSubviews;
+- (خالی)بھرو_View;
+- (خالی)viewDidLayoutSubviews;
 
-#ifdef SDL_PLATFORM_VISIONOS
-- (void)initializeVisionOSCurvedUI;
-#endif
+#اگر_تعریف_شدہ SDL_PLATFORM_VISIONOS
+- (خالی)initializeVisionOSCurvedUI;
+#اگر_ختم
 
-#ifndef SDL_PLATFORM_TVOS
+#اگر_غیر_تعریف_شدہ SDL_PLATFORM_TVOS
 - (NSUInteger)supportedInterfaceOrientations;
-- (BOOL)prefersStatusBarHidden;
+- (BOOL)prefers_حالت_Bar_Hidden;
 - (BOOL)prefersHomeIndicatorAutoHidden;
-- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
+- (UIRect_کنارہ)preferred_Screen_کنارے_Deferring_System_Gestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
-#endif
+@property(nonatomic, تفویض) صحیح homeIndicatorHidden;
+#اگر_ختم
 
-#ifdef SDL_IPHONE_KEYBOARD
-- (bool)startTextInput;
-- (bool)stopTextInput;
-- (void)initKeyboard;
-- (void)deinitKeyboard;
+#اگر_تعریف_شدہ SDL_IPHONE_KEYBOARD
+- (bool)آغاز_متن_داخلہ_2;
+- (bool)stop_متن_داخلہ;
+- (خالی)initKeyboard;
+- (خالی)deinitKeyboard;
 
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardDidShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardDidHide:(NSNotification *)notification;
+- (خالی)keyboardWillShow:(NSNotification *)notification;
+- (خالی)keyboardDidShow:(NSNotification *)notification;
+- (خالی)keyboardWillHide:(NSNotification *)notification;
+- (خالی)keyboardDidHide:(NSNotification *)notification;
 
-- (void)updateKeyboard;
+- (خالی)updateKeyboard;
 
-@property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
-@property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
-#endif
+@property(nonatomic, تفویض, getter=is_متن_میدان_Focused) BOOL متن_میدان_Focused;
+@property(nonatomic, تفویض) SDL_Rect متن_داخلہ_Rect;
+@property(nonatomic, تفویض) صحیح keyboard_اونچائی;
+#اگر_ختم
 
-@end
+@انتہا
 
-#ifdef SDL_IPHONE_KEYBOARD
+#اگر_تعریف_شدہ SDL_IPHONE_KEYBOARD
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-#endif
+bool UIKit_آغاز_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+bool UIKit_Stop_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خالی UIKit_سیٹ_متن_داخلہ_Properties(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+bool UIKit_Update_متن_داخلہ_Area(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+#اگر_ختم

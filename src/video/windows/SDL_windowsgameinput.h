@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-typedef struct WIN_GameInputData WIN_GameInputData;
+قسمتعریف ساخت WIN_Game_داخلہ_ڈیٹا WIN_Game_داخلہ_ڈیٹا;
 
 // Set up for C function definitions, even when using C++
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
-extern bool WIN_InitGameInput(SDL_VideoDevice *_this);
-extern bool WIN_UpdateGameInputEnabled(SDL_VideoDevice *_this);
-extern void WIN_UpdateGameInput(SDL_VideoDevice *_this);
-extern void WIN_QuitGameInput(SDL_VideoDevice *_this);
+خارجی bool WIN_Init_Game_داخلہ(SDL_VideoDevice *_this);
+خارجی bool WIN_Update_Game_داخلہ_Enabled(SDL_VideoDevice *_this);
+خارجی خالی WIN_Update_Game_داخلہ(SDL_VideoDevice *_this);
+خارجی خالی WIN_Quit_Game_داخلہ(SDL_VideoDevice *_this);
 
 // Ends C function definitions when using C++
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم

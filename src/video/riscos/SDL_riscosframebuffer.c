@@ -18,110 +18,110 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "SDL_riscosframebuffer_c.h"
+#شامل "SDL_riscosvideo.h"
+#شامل "SDL_riscoswindow.h"
 
-#include <kernel.h>
-#include <swis.h>
+#شامل <kernel.h>
+#شامل <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PixelFormat *format, خالی **pixels, صحیح *pitch)
 {
-    SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    SDL_کھڑکی_ڈیٹا *اندرونی_2 = کھڑکی->اندرونی_2;
+    ثابت حرف *sprite_name = "display";
+    غیرعلامتی صحیح sprite_منوال;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
-    const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    ثابت SDL_Display_منوال *منوال;
+    صحیح سائز;
+    صحیح w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_کھڑکی_سائز_اندر_Pixels(کھڑکی, &w, &h);
 
     // Free the old framebuffer surface
-    RISCOS_DestroyWindowFramebuffer(_this, window);
+    RISCOS_Destroy_کھڑکی_Framebuffer(_this, کھڑکی);
 
     // Create a new one
-    mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
-        *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+    منوال = SDL_Get_Current_Display_منوال(SDL_Get_Display_For_کھڑکی(کھڑکی));
+    اگر ((SDL_ISPIXELFORMAT_PACKED(منوال->format) || SDL_ISPIXELFORMAT_ARRAY(منوال->format))) {
+        *format = منوال->format;
+        sprite_منوال = (غیرعلامتی صحیح)منوال->اندرونی_2;
+    } ورنہ {
         *format = SDL_PIXELFORMAT_XBGR8888;
-        sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
+        sprite_منوال = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
 
     // Calculate pitch
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
-    internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    سائز = حجم(sprite_area) + حجم(sprite_سرخی) + ((*pitch) * h);
+    اندرونی_2->fb_area = SDL_malloc(سائز);
+    اگر (!اندرونی_2->fb_area) {
+        واپس false;
     }
 
-    internal->fb_area->size = size;
-    internal->fb_area->count = 0;
-    internal->fb_area->start = 16;
-    internal->fb_area->end = 16;
+    اندرونی_2->fb_area->سائز = سائز;
+    اندرونی_2->fb_area->گنتی = 0;
+    اندرونی_2->fb_area->آغاز = 16;
+    اندرونی_2->fb_area->انتہا = 16;
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (صحیح)اندرونی_2->fb_area;
+    regs.r[2] = (صحیح)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
-    regs.r[6] = sprite_mode;
+    regs.r[6] = sprite_منوال;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+    اگر (error) {
+        SDL_free(اندرونی_2->fb_area);
+        واپس SDL_سیٹ_Error("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
-    internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
-    *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
+    اندرونی_2->fb_sprite = (sprite_سرخی *)(((Uint8 *)اندرونی_2->fb_area) + اندرونی_2->fb_area->آغاز);
+    *pixels = ((Uint8 *)اندرونی_2->fb_sprite) + اندرونی_2->fb_sprite->image_انحراف_2;
 
-    return true;
+    واپس true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects, صحیح numrects)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_کھڑکی_ڈیٹا *اندرونی_2 = کھڑکی->اندرونی_2;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (صحیح)اندرونی_2->fb_area;
+    regs.r[2] = (صحیح)اندرونی_2->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    اگر (error) {
+        واپس SDL_سیٹ_Error("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    واپس true;
 }
 
-void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+خالی RISCOS_Destroy_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_کھڑکی_ڈیٹا *اندرونی_2 = کھڑکی->اندرونی_2;
 
-    if (internal->fb_area) {
-        SDL_free(internal->fb_area);
-        internal->fb_area = NULL;
+    اگر (اندرونی_2->fb_area) {
+        SDL_free(اندرونی_2->fb_area);
+        اندرونی_2->fb_area = تہی;
     }
-    internal->fb_sprite = NULL;
+    اندرونی_2->fb_sprite = تہی;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#اگر_ختم // SDL_VIDEO_DRIVER_RISCOS

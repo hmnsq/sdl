@@ -19,42 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
 
-#include <sys/mman.h>
+#شامل <sys/mman.h>
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
-#include "../../core/unix/SDL_appid.h"
-#include "../../notification/SDL_notification_c.h"
-#include "../SDL_egl_c.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylandvideo.h"
-#include "../../SDL_hints_c.h"
-#include "SDL_waylandcolor.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../core/unix/SDL_appid.h"
+#شامل "../../notification/SDL_notification_c.h"
+#شامل "../SDL_egl_c.h"
+#شامل "SDL_waylandevents_c.h"
+#شامل "SDL_waylandmouse.h"
+#شامل "SDL_waylandwindow.h"
+#شامل "SDL_waylandvideo.h"
+#شامل "../../SDL_hints_c.h"
+#شامل "SDL_waylandcolor.h"
 
-#include "alpha-modifier-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "fractional-scale-v1-client-protocol.h"
-#include "xdg-foreign-unstable-v2-client-protocol.h"
-#include "xdg-dialog-v1-client-protocol.h"
-#include "frog-color-management-v1-client-protocol.h"
-#include "xdg-toplevel-icon-v1-client-protocol.h"
-#include "color-management-v1-client-protocol.h"
-#include "xdg-session-management-v1-client-protocol.h"
-#include "xdg-toplevel-tag-v1-client-protocol.h"
+#شامل "alpha-modifier-v1-client-protocol.h"
+#شامل "xdg-shell-client-protocol.h"
+#شامل "xdg-decoration-unstable-v1-client-protocol.h"
+#شامل "idle-inhibit-unstable-v1-client-protocol.h"
+#شامل "xdg-activation-v1-client-protocol.h"
+#شامل "viewporter-client-protocol.h"
+#شامل "fractional-scale-v1-client-protocol.h"
+#شامل "xdg-foreign-unstable-v2-client-protocol.h"
+#شامل "xdg-dialog-v1-client-protocol.h"
+#شامل "frog-color-management-v1-client-protocol.h"
+#شامل "xdg-toplevel-icon-v1-client-protocol.h"
+#شامل "color-management-v1-client-protocol.h"
+#شامل "xdg-session-management-v1-client-protocol.h"
+#شامل "xdg-toplevel-tag-v1-client-protocol.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+#شامل <libdecor.h>
+#اگر_ختم
 
 /* According to the Wayland spec:
  *
@@ -73,191 +73,191 @@
  *
  * TODO: Remove this once KDE is spec-compliant.
  */
-static bool ShouldMaskFullscreen()
+ساکن bool Should_نقاب_Fullscreen()
 {
-    static int mask_required = -1;
+    ساکن صحیح نقاب_required = -1;
 
-    if (mask_required >= 0) {
-        return mask_required != 0;
+    اگر (نقاب_required >= 0) {
+        واپس نقاب_required != 0;
     }
 
-    const char *desktop = SDL_getenv("XDG_CURRENT_DESKTOP");
-    if (desktop && SDL_strstr(desktop, "KDE") != NULL) {
-        mask_required = 1;
-    } else {
-        mask_required = 0;
+    ثابت حرف *desktop = SDL_getenv("XDG_CURRENT_DESKTOP");
+    اگر (desktop && SDL_strstr(desktop, "KDE") != تہی) {
+        نقاب_required = 1;
+    } ورنہ {
+        نقاب_required = 0;
     }
 
-    return mask_required != 0;
+    واپس نقاب_required != 0;
 }
 
-static double GetWindowScale(SDL_Window *window)
+ساکن دوہرا Get_کھڑکی_Scale(SDL_کھڑکی *کھڑکی)
 {
-    return (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) || window->internal->scale_to_display ? window->internal->scale_factor : 1.0;
+    واپس (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY) || کھڑکی->اندرونی_2->scale_مقصد_display ? کھڑکی->اندرونی_2->scale_ضربی_عدد_2 : 1.0;
 }
 
 // These are point->pixel->point round trip safe; the inverse is not round trip safe due to rounding.
-static int PointToPixel(SDL_Window *window, int point)
+ساکن صحیح نقطہ_مقصد_Pixel(SDL_کھڑکی *کھڑکی, صحیح نقطہ)
 {
     /* Rounds halfway away from zero as per the Wayland fractional scaling protocol spec.
      * Wayland scale units are in units of 1/120, so the offset is required to correct for
      * rounding errors when using certain scale values.
      */
-    return point ? SDL_max((int)SDL_lround((double)point * GetWindowScale(window) + 1e-6), 1) : 0;
+    واپس نقطہ ? SDL_max((صحیح)SDL_lround((دوہرا)نقطہ * Get_کھڑکی_Scale(کھڑکی) + 1e-6), 1) : 0;
 }
 
-static int PixelToPoint(SDL_Window *window, int pixel)
+ساکن صحیح Pixel_مقصد_نقطہ(SDL_کھڑکی *کھڑکی, صحیح pixel)
 {
-    return pixel ? SDL_max((int)SDL_lround((double)pixel / GetWindowScale(window)), 1) : 0;
+    واپس pixel ? SDL_max((صحیح)SDL_lround((دوہرا)pixel / Get_کھڑکی_Scale(کھڑکی)), 1) : 0;
 }
 
-enum WaylandModeScale
+شمار Wayland_منوال_Scale
 {
-    WAYLAND_MODE_SCALE_UNDEFINED,
-    WAYLAND_MODE_SCALE_ASPECT,
-    WAYLAND_MODE_SCALE_STRETCH,
-    WAYLAND_MODE_SCALE_NONE
+    WAYLAND_منوال_SCALE_UNDEFINED,
+    WAYLAND_منوال_SCALE_ASPECT,
+    WAYLAND_منوال_SCALE_STRETCH,
+    WAYLAND_منوال_SCALE_NONE
 };
 
-static enum WaylandModeScale GetModeScaleMethod(void)
+ساکن شمار Wayland_منوال_Scale Get_منوال_Scale_طریقہ(خالی)
 {
-    static enum WaylandModeScale scale_mode = WAYLAND_MODE_SCALE_UNDEFINED;
+    ساکن شمار Wayland_منوال_Scale scale_منوال_2 = WAYLAND_منوال_SCALE_UNDEFINED;
 
-    if (scale_mode == WAYLAND_MODE_SCALE_UNDEFINED) {
-        const char *scale_hint = SDL_GetHint(SDL_HINT_VIDEO_WAYLAND_MODE_SCALING);
+    اگر (scale_منوال_2 == WAYLAND_منوال_SCALE_UNDEFINED) {
+        ثابت حرف *scale_hint = SDL_GetHint(SDL_HINT_VIDEO_WAYLAND_منوال_SCALING);
 
-        if (scale_hint) {
-            if (!SDL_strcasecmp(scale_hint, "stretch")) {
-                scale_mode = WAYLAND_MODE_SCALE_STRETCH;
-            } else if (!SDL_strcasecmp(scale_hint, "none")) {
-                scale_mode = WAYLAND_MODE_SCALE_NONE;
-            } else {
-                scale_mode = WAYLAND_MODE_SCALE_ASPECT;
+        اگر (scale_hint) {
+            اگر (!SDL_strcasecmp(scale_hint, "stretch")) {
+                scale_منوال_2 = WAYLAND_منوال_SCALE_STRETCH;
+            } ورنہ اگر (!SDL_strcasecmp(scale_hint, "none")) {
+                scale_منوال_2 = WAYLAND_منوال_SCALE_NONE;
+            } ورنہ {
+                scale_منوال_2 = WAYLAND_منوال_SCALE_ASPECT;
             }
-        } else {
-            scale_mode = WAYLAND_MODE_SCALE_ASPECT;
+        } ورنہ {
+            scale_منوال_2 = WAYLAND_منوال_SCALE_ASPECT;
         }
     }
 
-    return scale_mode;
+    واپس scale_منوال_2;
 }
 
-typedef struct BorderInsets
+قسمتعریف ساخت BorderInsets
 {
-    int left;
-    int top;
-    int right;
-    int bottom;
+    صحیح بایاں;
+    صحیح چوٹی;
+    صحیح دایاں;
+    صحیح bottom;
 } BorderInsets;
 
 // The border insets from the window properties; they only apply to xdg-toplevel windows.
-static void GetBorderInsets(SDL_Window *window, BorderInsets *insets)
+ساکن خالی GetBorderInsets(SDL_کھڑکی *کھڑکی, BorderInsets *insets)
 {
     SDL_zerop(insets);
-    if (!window->internal->enable_insets) {
-        return;
+    اگر (!کھڑکی->اندرونی_2->enable_insets) {
+        واپس;
     }
-    if (window->internal->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        const SDL_PropertiesID props = SDL_GetWindowProperties(window);
-        insets->left = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_LEFT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->top = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_TOP_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->right = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_RIGHT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->bottom = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_NUMBER, 0), 0, SDL_MAX_SINT16);
+    اگر (کھڑکی->اندرونی_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ثابت SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+        insets->بایاں = (صحیح)SDL_clamp(SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_WAYLAND_BORDER_INSET_بایاں_نمبر, 0), 0, SDL_MAX_SINT16);
+        insets->چوٹی = (صحیح)SDL_clamp(SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_WAYLAND_BORDER_INSET_چوٹی_نمبر, 0), 0, SDL_MAX_SINT16);
+        insets->دایاں = (صحیح)SDL_clamp(SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_WAYLAND_BORDER_INSET_دایاں_نمبر, 0), 0, SDL_MAX_SINT16);
+        insets->bottom = (صحیح)SDL_clamp(SDL_Get_نمبر_Property(props, SDL_PROP_کھڑکی_WAYLAND_BORDER_INSET_BOTTOM_نمبر, 0), 0, SDL_MAX_SINT16);
     }
 }
 
-static void SetMinMaxDimensions(SDL_Window *window)
+ساکن خالی سیٹ_Min_Max_Dimensions(SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
-    int min_width, min_height, max_width, max_height;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    صحیح min_چوڑائی_2, min_اونچائی_2, max_چوڑائی_2, max_اونچائی_2;
 
     /* Keep the limits off while the window is in a fixed-size state, or the controls
      * to exit that state may be disabled.
      */
-    if (window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) {
-        min_width = 0;
-        min_height = 0;
-        max_width = 0;
-        max_height = 0;
-    } else if (window->flags & SDL_WINDOW_RESIZABLE) {
-        int adj_w = SDL_max(window->min_w, wind->system_limits.min_width);
-        int adj_h = SDL_max(window->min_h, wind->system_limits.min_height);
-        if (wind->scale_to_display) {
-            adj_w = PixelToPoint(window, adj_w);
-            adj_h = PixelToPoint(window, adj_h);
+    اگر (کھڑکی->flags & (SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_MAXIMIZED)) {
+        min_چوڑائی_2 = 0;
+        min_اونچائی_2 = 0;
+        max_چوڑائی_2 = 0;
+        max_اونچائی_2 = 0;
+    } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_RESIZABLE) {
+        صحیح adj_w = SDL_max(کھڑکی->min_w, wind->system_limits.min_چوڑائی_2);
+        صحیح adj_h = SDL_max(کھڑکی->min_h, wind->system_limits.min_اونچائی_2);
+        اگر (wind->scale_مقصد_display) {
+            adj_w = Pixel_مقصد_نقطہ(کھڑکی, adj_w);
+            adj_h = Pixel_مقصد_نقطہ(کھڑکی, adj_h);
         }
-        min_width = adj_w;
-        min_height = adj_h;
+        min_چوڑائی_2 = adj_w;
+        min_اونچائی_2 = adj_h;
 
-        adj_w = window->max_w ? SDL_max(window->max_w, wind->system_limits.min_width) : 0;
-        adj_h = window->max_h ? SDL_max(window->max_h, wind->system_limits.min_height) : 0;
-        if (wind->scale_to_display) {
-            adj_w = PixelToPoint(window, adj_w);
-            adj_h = PixelToPoint(window, adj_h);
+        adj_w = کھڑکی->max_w ? SDL_max(کھڑکی->max_w, wind->system_limits.min_چوڑائی_2) : 0;
+        adj_h = کھڑکی->max_h ? SDL_max(کھڑکی->max_h, wind->system_limits.min_اونچائی_2) : 0;
+        اگر (wind->scale_مقصد_display) {
+            adj_w = Pixel_مقصد_نقطہ(کھڑکی, adj_w);
+            adj_h = Pixel_مقصد_نقطہ(کھڑکی, adj_h);
         }
-        max_width = adj_w;
-        max_height = adj_h;
-    } else {
-        min_width = wind->current.logical_width;
-        min_height = wind->current.logical_height;
-        max_width = wind->current.logical_width;
-        max_height = wind->current.logical_height;
+        max_چوڑائی_2 = adj_w;
+        max_اونچائی_2 = adj_h;
+    } ورنہ {
+        min_چوڑائی_2 = wind->current.logical_چوڑائی;
+        min_اونچائی_2 = wind->current.logical_اونچائی;
+        max_چوڑائی_2 = wind->current.logical_چوڑائی;
+        max_اونچائی_2 = wind->current.logical_اونچائی;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (!wind->shell_surface.libdecor.چوکھٹا) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
 
-        if (min_width && min_height && min_width == max_width && min_height == max_height) {
-            libdecor_frame_unset_capabilities(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE);
-        } else {
-            libdecor_frame_set_capabilities(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE);
+        اگر (min_چوڑائی_2 && min_اونچائی_2 && min_چوڑائی_2 == max_چوڑائی_2 && min_اونچائی_2 == max_اونچائی_2) {
+            libdecor_چوکھٹا_unset_capabilities(wind->shell_surface.libdecor.چوکھٹا, LIBDECOR_ACTION_RESIZE);
+        } ورنہ {
+            libdecor_چوکھٹا_سیٹ_capabilities(wind->shell_surface.libdecor.چوکھٹا, LIBDECOR_ACTION_RESIZE);
         }
 
         /* No need to change these values if the window is non-resizable,
          * as libdecor will just overwrite them internally.
          */
-        if (libdecor_frame_has_capability(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE)) {
-            libdecor_frame_set_min_content_size(wind->shell_surface.libdecor.frame,
-                                                min_width,
-                                                min_height);
-            libdecor_frame_set_max_content_size(wind->shell_surface.libdecor.frame,
-                                                max_width,
-                                                max_height);
+        اگر (libdecor_چوکھٹا_has_capability(wind->shell_surface.libdecor.چوکھٹا, LIBDECOR_ACTION_RESIZE)) {
+            libdecor_چوکھٹا_سیٹ_min_content_سائز(wind->shell_surface.libdecor.چوکھٹا,
+                                                min_چوڑائی_2,
+                                                min_اونچائی_2);
+            libdecor_چوکھٹا_سیٹ_max_content_سائز(wind->shell_surface.libdecor.چوکھٹا,
+                                                max_چوڑائی_2,
+                                                max_اونچائی_2);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (!wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-            return; // Can't do anything yet, wait for ShowWindow
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (!wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
         /* The limits are in window geometry space; keep an existing minimum at 1 or more,
          * or the window can be spuriously closed.
          */
         BorderInsets insets;
-        GetBorderInsets(window, &insets);
-        min_width = SDL_max(min_width - (insets.left + insets.right), min_width ? 1 : 0);
-        min_height = SDL_max(min_height - (insets.top + insets.bottom), min_height ? 1 : 0);
-        if (max_width) {
-            max_width = SDL_max(max_width - (insets.left + insets.right), 1);
+        GetBorderInsets(کھڑکی, &insets);
+        min_چوڑائی_2 = SDL_max(min_چوڑائی_2 - (insets.بایاں + insets.دایاں), min_چوڑائی_2 ? 1 : 0);
+        min_اونچائی_2 = SDL_max(min_اونچائی_2 - (insets.چوٹی + insets.bottom), min_اونچائی_2 ? 1 : 0);
+        اگر (max_چوڑائی_2) {
+            max_چوڑائی_2 = SDL_max(max_چوڑائی_2 - (insets.بایاں + insets.دایاں), 1);
         }
-        if (max_height) {
-            max_height = SDL_max(max_height - (insets.top + insets.bottom), 1);
+        اگر (max_اونچائی_2) {
+            max_اونچائی_2 = SDL_max(max_اونچائی_2 - (insets.چوٹی + insets.bottom), 1);
         }
-        xdg_toplevel_set_min_size(wind->shell_surface.xdg.toplevel.xdg_toplevel,
-                                  min_width,
-                                  min_height);
-        xdg_toplevel_set_max_size(wind->shell_surface.xdg.toplevel.xdg_toplevel,
-                                  max_width,
-                                  max_height);
+        xdg_toplevel_سیٹ_min_سائز(wind->shell_surface.xdg.toplevel.xdg_toplevel,
+                                  min_چوڑائی_2,
+                                  min_اونچائی_2);
+        xdg_toplevel_سیٹ_max_سائز(wind->shell_surface.xdg.toplevel.xdg_toplevel,
+                                  max_چوڑائی_2,
+                                  max_اونچائی_2);
     }
 }
 
-static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
+ساکن خالی EnsurePopupPositionIsValid(SDL_کھڑکی *کھڑکی, صحیح *x, صحیح *y)
 {
-    int adj_count = 0;
+    صحیح adj_گنتی = 0;
 
     /* Per the xdg-positioner spec, child popup windows must intersect or at
      * least be partially adjoining the parent window.
@@ -266,445 +266,445 @@ static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
      * can result in behavior ranging from the window being spuriously closed
      * to a protocol violation.
      */
-    if (*x + window->w <= 0) {
-        *x = -window->w;
-        ++adj_count;
+    اگر (*x + کھڑکی->w <= 0) {
+        *x = -کھڑکی->w;
+        ++adj_گنتی;
     }
-    if (*y + window->h <= 0) {
-        *y = -window->h;
-        ++adj_count;
+    اگر (*y + کھڑکی->h <= 0) {
+        *y = -کھڑکی->h;
+        ++adj_گنتی;
     }
-    if (*x >= window->parent->w) {
-        *x = window->parent->w;
-        ++adj_count;
+    اگر (*x >= کھڑکی->والد->w) {
+        *x = کھڑکی->والد->w;
+        ++adj_گنتی;
     }
-    if (*y >= window->parent->h) {
-        *y = window->parent->h;
-        ++adj_count;
+    اگر (*y >= کھڑکی->والد->h) {
+        *y = کھڑکی->والد->h;
+        ++adj_گنتی;
     }
 
     /* If adjustment was required on the x and y axes, the popup is aligned with
      * the parent corner-to-corner and is neither overlapping nor adjoining, so it
      * must be nudged by 1 to be considered adjoining.
      */
-    if (adj_count > 1) {
+    اگر (adj_گنتی > 1) {
         *x += *x < 0 ? 1 : -1;
     }
 }
 
 // The window geometry: the explicitly set one, or the full surface if SDL has never set it.
-static void GetWindowGeometry(SDL_WindowData *wind, SDL_Rect *geometry)
+ساکن خالی Get_کھڑکی_Geometry(SDL_کھڑکی_ڈیٹا *wind, SDL_Rect *geometry)
 {
     *geometry = wind->explicit_geometry;
-    if (SDL_RectEmpty(geometry)) {
+    اگر (SDL_Rect_خالی_خانے(geometry)) {
         geometry->x = 0;
         geometry->y = 0;
-        geometry->w = wind->current.logical_width;
-        geometry->h = wind->current.logical_height;
+        geometry->w = wind->current.logical_چوڑائی;
+        geometry->h = wind->current.logical_اونچائی;
     }
 }
 
-static void AdjustPopupOffset(SDL_Window *popup, int *x, int *y)
+ساکن خالی Adjust_Popup_انحراف(SDL_کھڑکی *popup, صحیح *x, صحیح *y)
 {
     // Positioner offsets are relative to the origin of the parent's window geometry.
-#ifdef HAVE_LIBDECOR_H
-    if (popup->parent->internal->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        int adj_x, adj_y;
-        libdecor_frame_translate_coordinate(popup->parent->internal->shell_surface.libdecor.frame,
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (popup->والد->اندرونی_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        صحیح adj_x, adj_y;
+        libdecor_چوکھٹا_translate_coordinate(popup->والد->اندرونی_2->shell_surface.libdecor.چوکھٹا,
                                             *x, *y, &adj_x, &adj_y);
         *x = adj_x;
         *y = adj_y;
-    } else
-#endif
+    } ورنہ
+#اگر_ختم
     {
-        *x -= popup->parent->internal->explicit_geometry.x;
-        *y -= popup->parent->internal->explicit_geometry.y;
+        *x -= popup->والد->اندرونی_2->explicit_geometry.x;
+        *y -= popup->والد->اندرونی_2->explicit_geometry.y;
     }
 }
 
-static void RepositionPopup(SDL_Window *window, bool use_current_position)
+ساکن خالی RepositionPopup(SDL_کھڑکی *کھڑکی, bool use_current_position)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP &&
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP &&
         wind->shell_surface.xdg.popup.xdg_positioner &&
-        xdg_popup_get_version(wind->shell_surface.xdg.popup.xdg_popup) >= XDG_POPUP_REPOSITION_SINCE_VERSION) {
-        int x = use_current_position ? window->x : window->pending.x;
-        int y = use_current_position ? window->y : window->pending.y;
+        xdg_popup_get_نسخہ(wind->shell_surface.xdg.popup.xdg_popup) >= XDG_POPUP_REPOSITION_SINCE_نسخہ) {
+        صحیح x = use_current_position ? کھڑکی->x : کھڑکی->pending.x;
+        صحیح y = use_current_position ? کھڑکی->y : کھڑکی->pending.y;
 
-        EnsurePopupPositionIsValid(window, &x, &y);
-        if (wind->scale_to_display) {
-            x = PixelToPoint(window->parent, x);
-            y = PixelToPoint(window->parent, y);
+        EnsurePopupPositionIsValid(کھڑکی, &x, &y);
+        اگر (wind->scale_مقصد_display) {
+            x = Pixel_مقصد_نقطہ(کھڑکی->والد, x);
+            y = Pixel_مقصد_نقطہ(کھڑکی->والد, y);
         }
-        AdjustPopupOffset(window, &x, &y);
-        SDL_Rect parent_geometry;
-        GetWindowGeometry(window->parent->internal, &parent_geometry);
-        xdg_positioner_set_anchor_rect(wind->shell_surface.xdg.popup.xdg_positioner, 0, 0, parent_geometry.w, parent_geometry.h);
-        xdg_positioner_set_size(wind->shell_surface.xdg.popup.xdg_positioner, wind->current.logical_width, wind->current.logical_height);
-        xdg_positioner_set_offset(wind->shell_surface.xdg.popup.xdg_positioner, x, y);
+        Adjust_Popup_انحراف(کھڑکی, &x, &y);
+        SDL_Rect والد_geometry;
+        Get_کھڑکی_Geometry(کھڑکی->والد->اندرونی_2, &والد_geometry);
+        xdg_positioner_سیٹ_anchor_rect(wind->shell_surface.xdg.popup.xdg_positioner, 0, 0, والد_geometry.w, والد_geometry.h);
+        xdg_positioner_سیٹ_سائز(wind->shell_surface.xdg.popup.xdg_positioner, wind->current.logical_چوڑائی, wind->current.logical_اونچائی);
+        xdg_positioner_سیٹ_انحراف(wind->shell_surface.xdg.popup.xdg_positioner, x, y);
         xdg_popup_reposition(wind->shell_surface.xdg.popup.xdg_popup,
                              wind->shell_surface.xdg.popup.xdg_positioner,
                              0);
     }
 }
 
-static void SetSurfaceOpaqueRegion(struct wl_surface *surface, int width, int height)
+ساکن خالی سیٹ_Surface_Opaque_Region(ساخت wl_surface *surface, صحیح چوڑائی, صحیح اونچائی)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
+    SDL_Video_ڈیٹا *viddata = SDL_GetVideoDevice()->اندرونی_2;
 
-    if (width && height) {
-        struct wl_region *region = wl_compositor_create_region(viddata->compositor);
-        wl_region_add(region, 0, 0, width, height);
-        wl_surface_set_opaque_region(surface, region);
+    اگر (چوڑائی && اونچائی) {
+        ساخت wl_region *region = wl_compositor_create_region(viddata->compositor);
+        wl_region_جوڑو(region, 0, 0, چوڑائی, اونچائی);
+        wl_surface_سیٹ_opaque_region(surface, region);
         wl_region_destroy(region);
-    } else {
-        wl_surface_set_opaque_region(surface, NULL);
+    } ورنہ {
+        wl_surface_سیٹ_opaque_region(surface, تہی);
     }
 }
 
-static void ConfigureWindowGeometry(SDL_Window *window)
+ساکن خالی Configure_کھڑکی_Geometry(SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    const double scale_factor = GetWindowScale(window);
-    const double prev_pointer_scale_x = data->pointer_scale.x;
-    const double prev_pointer_scale_y = data->pointer_scale.y;
-    const int old_pixel_width = data->current.pixel_width;
-    const int old_pixel_height = data->current.pixel_height;
-    int window_width = 0;
-    int window_height = 0;
-    int viewport_width, viewport_height;
-    bool window_size_changed;
-    bool buffer_size_changed;
-    const bool is_opaque = !(window->flags & SDL_WINDOW_TRANSPARENT) && window->opacity == 1.0f;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    ثابت دوہرا scale_ضربی_عدد_2 = Get_کھڑکی_Scale(کھڑکی);
+    ثابت دوہرا پچھلا_اشارہ_گر_scale_x = ڈیٹا->اشارہ_گر_scale.x;
+    ثابت دوہرا پچھلا_اشارہ_گر_scale_y = ڈیٹا->اشارہ_گر_scale.y;
+    ثابت صحیح old_pixel_چوڑائی = ڈیٹا->current.pixel_چوڑائی;
+    ثابت صحیح old_pixel_اونچائی = ڈیٹا->current.pixel_اونچائی;
+    صحیح کھڑکی_چوڑائی = 0;
+    صحیح کھڑکی_اونچائی = 0;
+    صحیح viewport_چوڑائی, viewport_اونچائی;
+    bool کھڑکی_سائز_بدلا;
+    bool بفر_سائز_بدلا;
+    ثابت bool is_opaque = !(کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) && کھڑکی->opacity == 1.0f;
 
-    if (data->is_fullscreen && window->fullscreen_exclusive) {
-        window_width = window->current_fullscreen_mode.w;
-        window_height = window->current_fullscreen_mode.h;
+    اگر (ڈیٹا->is_fullscreen && کھڑکی->fullscreen_exclusive) {
+        کھڑکی_چوڑائی = کھڑکی->current_fullscreen_منوال.w;
+        کھڑکی_اونچائی = کھڑکی->current_fullscreen_منوال.h;
 
-        viewport_width = data->requested.logical_width;
-        viewport_height = data->requested.logical_height;
+        viewport_چوڑائی = ڈیٹا->requested.logical_چوڑائی;
+        viewport_اونچائی = ڈیٹا->requested.logical_اونچائی;
 
-        switch (GetModeScaleMethod()) {
-        case WAYLAND_MODE_SCALE_NONE:
+        انتخاب (Get_منوال_Scale_طریقہ()) {
+        حالت WAYLAND_منوال_SCALE_NONE:
             /* The Wayland spec states that the advertised fullscreen dimensions are a maximum.
              * Windows can request a smaller size, but exceeding these dimensions is a protocol violation,
              * thus, modes that exceed the output size still need to be scaled with a viewport.
              */
-            if (window_width <= viewport_width && window_height <= viewport_height) {
-                viewport_width = window_width;
-                viewport_height = window_height;
+            اگر (کھڑکی_چوڑائی <= viewport_چوڑائی && کھڑکی_اونچائی <= viewport_اونچائی) {
+                viewport_چوڑائی = کھڑکی_چوڑائی;
+                viewport_اونچائی = کھڑکی_اونچائی;
 
-                break;
+                توڑو;
             }
             SDL_FALLTHROUGH;
-        case WAYLAND_MODE_SCALE_ASPECT:
+        حالت WAYLAND_منوال_SCALE_ASPECT:
         {
-            const float output_ratio = (float)viewport_width / (float)viewport_height;
-            const float mode_ratio = (float)window_width / (float)window_height;
+            ثابت اعشاری output_تناسب = (اعشاری)viewport_چوڑائی / (اعشاری)viewport_اونچائی;
+            ثابت اعشاری منوال_تناسب = (اعشاری)کھڑکی_چوڑائی / (اعشاری)کھڑکی_اونچائی;
 
-            if (output_ratio > mode_ratio) {
-                viewport_width = SDL_lroundf((float)window_width * ((float)viewport_height / (float)window_height));
-            } else if (output_ratio < mode_ratio) {
-                viewport_height = SDL_lroundf((float)window_height * ((float)viewport_width / (float)window_width));
+            اگر (output_تناسب > منوال_تناسب) {
+                viewport_چوڑائی = SDL_lroundf((اعشاری)کھڑکی_چوڑائی * ((اعشاری)viewport_اونچائی / (اعشاری)کھڑکی_اونچائی));
+            } ورنہ اگر (output_تناسب < منوال_تناسب) {
+                viewport_اونچائی = SDL_lroundf((اعشاری)کھڑکی_اونچائی * ((اعشاری)viewport_چوڑائی / (اعشاری)کھڑکی_چوڑائی));
             }
-        } break;
-        default:
-            break;
+        } توڑو;
+        طےشدہ:
+            توڑو;
         }
 
-        window_size_changed = window_width != window->w ||
-                              window_height != window->h ||
-                              data->current.viewport_width != viewport_width ||
-                              data->current.viewport_height != viewport_height;
+        کھڑکی_سائز_بدلا = کھڑکی_چوڑائی != کھڑکی->w ||
+                              کھڑکی_اونچائی != کھڑکی->h ||
+                              ڈیٹا->current.viewport_چوڑائی != viewport_چوڑائی ||
+                              ڈیٹا->current.viewport_اونچائی != viewport_اونچائی;
 
         // Exclusive fullscreen window sizes are always in pixel units.
-        data->current.pixel_width = window_width;
-        data->current.pixel_height = window_height;
-        buffer_size_changed = data->current.pixel_width != old_pixel_width ||
-                              data->current.pixel_height != old_pixel_height;
+        ڈیٹا->current.pixel_چوڑائی = کھڑکی_چوڑائی;
+        ڈیٹا->current.pixel_اونچائی = کھڑکی_اونچائی;
+        بفر_سائز_بدلا = ڈیٹا->current.pixel_چوڑائی != old_pixel_چوڑائی ||
+                              ڈیٹا->current.pixel_اونچائی != old_pixel_اونچائی;
 
-        if (window_size_changed || buffer_size_changed) {
-            if (data->viewport) {
-                wp_viewport_set_destination(data->viewport, viewport_width, viewport_height);
+        اگر (کھڑکی_سائز_بدلا || بفر_سائز_بدلا) {
+            اگر (ڈیٹا->viewport) {
+                wp_viewport_سیٹ_destination(ڈیٹا->viewport, viewport_چوڑائی, viewport_اونچائی);
 
-                data->current.logical_width = data->requested.logical_width;
-                data->current.logical_height = data->requested.logical_height;
-                data->current.viewport_width = viewport_width;
-                data->current.viewport_height = viewport_height;
-            } else {
+                ڈیٹا->current.logical_چوڑائی = ڈیٹا->requested.logical_چوڑائی;
+                ڈیٹا->current.logical_اونچائی = ڈیٹا->requested.logical_اونچائی;
+                ڈیٹا->current.viewport_چوڑائی = viewport_چوڑائی;
+                ڈیٹا->current.viewport_اونچائی = viewport_اونچائی;
+            } ورنہ {
                 // Calculate the integer scale from the mode and output.
-                const int32_t int_scale = SDL_max(window->current_fullscreen_mode.w / viewport_width, 1);
+                ثابت int32_t int_scale = SDL_max(کھڑکی->current_fullscreen_منوال.w / viewport_چوڑائی, 1);
 
-                wl_surface_set_buffer_scale(data->surface, int_scale);
-                data->current.logical_width = window->current_fullscreen_mode.w;
-                data->current.logical_height = window->current_fullscreen_mode.h;
+                wl_surface_سیٹ_بفر_scale(ڈیٹا->surface, int_scale);
+                ڈیٹا->current.logical_چوڑائی = کھڑکی->current_fullscreen_منوال.w;
+                ڈیٹا->current.logical_اونچائی = کھڑکی->current_fullscreen_منوال.h;
             }
 
-            data->pointer_scale.x = (double)window_width / (double)viewport_width;
-            data->pointer_scale.y = (double)window_height / (double)viewport_height;
+            ڈیٹا->اشارہ_گر_scale.x = (دوہرا)کھڑکی_چوڑائی / (دوہرا)viewport_چوڑائی;
+            ڈیٹا->اشارہ_گر_scale.y = (دوہرا)کھڑکی_اونچائی / (دوہرا)viewport_اونچائی;
         }
-    } else {
-        if (!data->scale_to_display) {
-            viewport_width = data->requested.logical_width;
-            viewport_height = data->requested.logical_height;
-        } else {
-            viewport_width = data->requested.pixel_width;
-            viewport_height = data->requested.pixel_height;
+    } ورنہ {
+        اگر (!ڈیٹا->scale_مقصد_display) {
+            viewport_چوڑائی = ڈیٹا->requested.logical_چوڑائی;
+            viewport_اونچائی = ڈیٹا->requested.logical_اونچائی;
+        } ورنہ {
+            viewport_چوڑائی = ڈیٹا->requested.pixel_چوڑائی;
+            viewport_اونچائی = ڈیٹا->requested.pixel_اونچائی;
         }
 
-        if (!data->enable_insets &&
-            data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_HIDDEN &&
-            data->viewport && data->waylandData->subcompositor && !data->floating && !data->is_fullscreen) {
-            int min_width, min_height, max_width, max_height;
-            if (window->flags & SDL_WINDOW_RESIZABLE) {
-                min_width = window->min_w;
-                min_height = window->min_h;
-                max_width = window->max_w;
-                max_height = window->max_h;
-            } else {
+        اگر (!ڈیٹا->enable_insets &&
+            ڈیٹا->shell_surface_حالت != WAYLAND_SHELL_SURFACE_حالت_HIDDEN &&
+            ڈیٹا->viewport && ڈیٹا->wayland_ڈیٹا->subcompositor && !ڈیٹا->floating && !ڈیٹا->is_fullscreen) {
+            صحیح min_چوڑائی_2, min_اونچائی_2, max_چوڑائی_2, max_اونچائی_2;
+            اگر (کھڑکی->flags & SDL_کھڑکی_RESIZABLE) {
+                min_چوڑائی_2 = کھڑکی->min_w;
+                min_اونچائی_2 = کھڑکی->min_h;
+                max_چوڑائی_2 = کھڑکی->max_w;
+                max_اونچائی_2 = کھڑکی->max_h;
+            } ورنہ {
                 // Use the fixed size in the odd case where a non-resizable window somehow wound up tiled or maximized.
-                min_width = window->floating.w;
-                min_height = window->floating.h;
-                max_width = window->floating.w;
-                max_height = window->floating.h;
+                min_چوڑائی_2 = کھڑکی->floating.w;
+                min_اونچائی_2 = کھڑکی->floating.h;
+                max_چوڑائی_2 = کھڑکی->floating.w;
+                max_اونچائی_2 = کھڑکی->floating.h;
             }
 
-            if (min_width) {
-                viewport_width = SDL_max(viewport_width, min_width);
+            اگر (min_چوڑائی_2) {
+                viewport_چوڑائی = SDL_max(viewport_چوڑائی, min_چوڑائی_2);
             }
-            if (min_height) {
-                viewport_height = SDL_max(viewport_height, min_height);
+            اگر (min_اونچائی_2) {
+                viewport_اونچائی = SDL_max(viewport_اونچائی, min_اونچائی_2);
             }
-            if (max_width) {
-                viewport_width = SDL_min(viewport_width, max_width);
+            اگر (max_چوڑائی_2) {
+                viewport_چوڑائی = SDL_min(viewport_چوڑائی, max_چوڑائی_2);
             }
-            if (max_height) {
-                viewport_height = SDL_min(viewport_height, max_height);
+            اگر (max_اونچائی_2) {
+                viewport_اونچائی = SDL_min(viewport_اونچائی, max_اونچائی_2);
             }
 
-            float aspect = (float)viewport_width / (float)viewport_height;
-            if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-                viewport_height = SDL_max(SDL_lroundf((float)viewport_width / window->min_aspect), 1);
-            } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-                viewport_width = SDL_max(SDL_lroundf((float)viewport_height * window->max_aspect), 1);
+            اعشاری aspect = (اعشاری)viewport_چوڑائی / (اعشاری)viewport_اونچائی;
+            اگر (کھڑکی->min_aspect != 0.f && aspect < کھڑکی->min_aspect) {
+                viewport_اونچائی = SDL_max(SDL_lroundf((اعشاری)viewport_چوڑائی / کھڑکی->min_aspect), 1);
+            } ورنہ اگر (کھڑکی->max_aspect != 0.f && aspect > کھڑکی->max_aspect) {
+                viewport_چوڑائی = SDL_max(SDL_lroundf((اعشاری)viewport_اونچائی * کھڑکی->max_aspect), 1);
             }
 
             // At this point, the viewport matches the virtual window dimensions, but the viewport might be clamped to the output window dimensions beyond here.
-            window_width = viewport_width;
-            window_height = viewport_height;
+            کھڑکی_چوڑائی = viewport_چوڑائی;
+            کھڑکی_اونچائی = viewport_اونچائی;
 
             // If the viewport bounds exceed the window size, scale them while maintaining the aspect ratio.
-            if (!data->scale_to_display) {
-                if (viewport_width > data->requested.logical_width || viewport_height > data->requested.logical_height) {
-                    aspect = (float)viewport_width / (float)viewport_height;
-                    const float window_ratio = (float)data->requested.logical_width / (float)data->requested.logical_height;
-                    if (aspect >= window_ratio) {
-                        viewport_width = data->requested.logical_width;
-                        viewport_height = SDL_lroundf((float)viewport_width / aspect);
-                    } else if (aspect < window_ratio) {
-                        viewport_height = data->requested.logical_height;
-                        viewport_width = SDL_lroundf((float)viewport_height * aspect);
+            اگر (!ڈیٹا->scale_مقصد_display) {
+                اگر (viewport_چوڑائی > ڈیٹا->requested.logical_چوڑائی || viewport_اونچائی > ڈیٹا->requested.logical_اونچائی) {
+                    aspect = (اعشاری)viewport_چوڑائی / (اعشاری)viewport_اونچائی;
+                    ثابت اعشاری کھڑکی_تناسب = (اعشاری)ڈیٹا->requested.logical_چوڑائی / (اعشاری)ڈیٹا->requested.logical_اونچائی;
+                    اگر (aspect >= کھڑکی_تناسب) {
+                        viewport_چوڑائی = ڈیٹا->requested.logical_چوڑائی;
+                        viewport_اونچائی = SDL_lroundf((اعشاری)viewport_چوڑائی / aspect);
+                    } ورنہ اگر (aspect < کھڑکی_تناسب) {
+                        viewport_اونچائی = ڈیٹا->requested.logical_اونچائی;
+                        viewport_چوڑائی = SDL_lroundf((اعشاری)viewport_اونچائی * aspect);
                     }
                 }
-            } else {
-                if (viewport_width > data->requested.pixel_width || viewport_height > data->requested.pixel_height) {
-                    aspect = (float)viewport_width / (float)viewport_height;
-                    const float window_ratio = (float)data->requested.pixel_width / (float)data->requested.pixel_height;
-                    if (aspect >= window_ratio) {
-                        viewport_width = data->requested.pixel_width;
-                        viewport_height = SDL_lroundf((float)viewport_width / aspect);
-                    } else if (aspect < window_ratio) {
-                        viewport_height = data->requested.pixel_height;
-                        viewport_width = SDL_lroundf((float)viewport_height * aspect);
+            } ورنہ {
+                اگر (viewport_چوڑائی > ڈیٹا->requested.pixel_چوڑائی || viewport_اونچائی > ڈیٹا->requested.pixel_اونچائی) {
+                    aspect = (اعشاری)viewport_چوڑائی / (اعشاری)viewport_اونچائی;
+                    ثابت اعشاری کھڑکی_تناسب = (اعشاری)ڈیٹا->requested.pixel_چوڑائی / (اعشاری)ڈیٹا->requested.pixel_اونچائی;
+                    اگر (aspect >= کھڑکی_تناسب) {
+                        viewport_چوڑائی = ڈیٹا->requested.pixel_چوڑائی;
+                        viewport_اونچائی = SDL_lroundf((اعشاری)viewport_چوڑائی / aspect);
+                    } ورنہ اگر (aspect < کھڑکی_تناسب) {
+                        viewport_اونچائی = ڈیٹا->requested.pixel_اونچائی;
+                        viewport_چوڑائی = SDL_lroundf((اعشاری)viewport_اونچائی * aspect);
                     }
                 }
             }
 
-            viewport_width = SDL_max(viewport_width, 1);
-            viewport_height = SDL_max(viewport_height, 1);
-        } else {
-            window_width = viewport_width;
-            window_height = viewport_height;
+            viewport_چوڑائی = SDL_max(viewport_چوڑائی, 1);
+            viewport_اونچائی = SDL_max(viewport_اونچائی, 1);
+        } ورنہ {
+            کھڑکی_چوڑائی = viewport_چوڑائی;
+            کھڑکی_اونچائی = viewport_اونچائی;
         }
 
-        if (!data->scale_to_display) {
-            data->current.pixel_width = PointToPixel(window, window_width);
-            data->current.pixel_height = PointToPixel(window, window_height);
-        } else {
+        اگر (!ڈیٹا->scale_مقصد_display) {
+            ڈیٹا->current.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی, کھڑکی_چوڑائی);
+            ڈیٹا->current.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی, کھڑکی_اونچائی);
+        } ورنہ {
             // The viewport size is in pixels at this point; convert it to logical units.
-            data->current.pixel_width = window_width;
-            data->current.pixel_height = window_height;
-            viewport_width = PixelToPoint(window, viewport_width);
-            viewport_height = PixelToPoint(window, viewport_height);
+            ڈیٹا->current.pixel_چوڑائی = کھڑکی_چوڑائی;
+            ڈیٹا->current.pixel_اونچائی = کھڑکی_اونچائی;
+            viewport_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, viewport_چوڑائی);
+            viewport_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, viewport_اونچائی);
         }
 
         // Clamp the physical window size to the system minimum required size.
-        data->requested.logical_width = SDL_max(data->requested.logical_width, data->system_limits.min_width);
-        data->requested.logical_height = SDL_max(data->requested.logical_height, data->system_limits.min_height);
+        ڈیٹا->requested.logical_چوڑائی = SDL_max(ڈیٹا->requested.logical_چوڑائی, ڈیٹا->system_limits.min_چوڑائی_2);
+        ڈیٹا->requested.logical_اونچائی = SDL_max(ڈیٹا->requested.logical_اونچائی, ڈیٹا->system_limits.min_اونچائی_2);
 
-        window_size_changed = data->requested.logical_width != data->current.logical_width ||
-                              data->requested.logical_height != data->current.logical_height ||
-                              viewport_width != data->current.viewport_width ||
-                              viewport_height != data->current.viewport_height;
+        کھڑکی_سائز_بدلا = ڈیٹا->requested.logical_چوڑائی != ڈیٹا->current.logical_چوڑائی ||
+                              ڈیٹا->requested.logical_اونچائی != ڈیٹا->current.logical_اونچائی ||
+                              viewport_چوڑائی != ڈیٹا->current.viewport_چوڑائی ||
+                              viewport_اونچائی != ڈیٹا->current.viewport_اونچائی;
 
-        buffer_size_changed = data->current.pixel_width != old_pixel_width ||
-                              data->current.pixel_height != old_pixel_height;
+        بفر_سائز_بدلا = ڈیٹا->current.pixel_چوڑائی != old_pixel_چوڑائی ||
+                              ڈیٹا->current.pixel_اونچائی != old_pixel_اونچائی;
 
-        if (window_size_changed || buffer_size_changed) {
-            if (data->viewport) {
-                wp_viewport_set_destination(data->viewport, viewport_width, viewport_height);
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+        اگر (کھڑکی_سائز_بدلا || بفر_سائز_بدلا) {
+            اگر (ڈیٹا->viewport) {
+                wp_viewport_سیٹ_destination(ڈیٹا->viewport, viewport_چوڑائی, viewport_اونچائی);
+            } ورنہ اگر (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY) {
                 // Don't change this if the DPI awareness flag is unset, as an application may have set this manually on a custom or external surface.
-                wl_surface_set_buffer_scale(data->surface, (int32_t)scale_factor);
+                wl_surface_سیٹ_بفر_scale(ڈیٹا->surface, (int32_t)scale_ضربی_عدد_2);
             }
 
-            data->current.logical_width = data->requested.logical_width;
-            data->current.logical_height = data->requested.logical_height;
-            data->current.viewport_width = viewport_width;
-            data->current.viewport_height = viewport_height;
+            ڈیٹا->current.logical_چوڑائی = ڈیٹا->requested.logical_چوڑائی;
+            ڈیٹا->current.logical_اونچائی = ڈیٹا->requested.logical_اونچائی;
+            ڈیٹا->current.viewport_چوڑائی = viewport_چوڑائی;
+            ڈیٹا->current.viewport_اونچائی = viewport_اونچائی;
 
-            data->pointer_scale.x = (double)window_width / (double)viewport_width;
-            data->pointer_scale.y = (double)window_height / (double)viewport_height;
+            ڈیٹا->اشارہ_گر_scale.x = (دوہرا)کھڑکی_چوڑائی / (دوہرا)viewport_چوڑائی;
+            ڈیٹا->اشارہ_گر_scale.y = (دوہرا)کھڑکی_اونچائی / (دوہرا)viewport_اونچائی;
         }
     }
 
-    if (data->egl_window && buffer_size_changed) {
-        WAYLAND_wl_egl_window_resize(data->egl_window,
-                                     data->current.pixel_width,
-                                     data->current.pixel_height,
+    اگر (ڈیٹا->egl_کھڑکی && بفر_سائز_بدلا) {
+        WAYLAND_wl_egl_کھڑکی_resize(ڈیٹا->egl_کھڑکی,
+                                     ڈیٹا->current.pixel_چوڑائی,
+                                     ڈیٹا->current.pixel_اونچائی,
                                      0, 0);
     }
 
     /* Calculate the mask size and offset.
      * Fullscreen windows are centered and masked automatically by the compositor, unless it lacks the capability.
      */
-    if (!data->enable_insets && data->viewport && data->waylandData->subcompositor && (!data->is_fullscreen || ShouldMaskFullscreen()) &&
-        (viewport_width != data->current.logical_width || viewport_height != data->current.logical_height)) {
-        struct wl_buffer *old_buffer = NULL;
+    اگر (!ڈیٹا->enable_insets && ڈیٹا->viewport && ڈیٹا->wayland_ڈیٹا->subcompositor && (!ڈیٹا->is_fullscreen || Should_نقاب_Fullscreen()) &&
+        (viewport_چوڑائی != ڈیٹا->current.logical_چوڑائی || viewport_اونچائی != ڈیٹا->current.logical_اونچائی)) {
+        ساخت wl_بفر *old_بفر = تہی;
 
-        if (!data->mask.surface) {
-            data->mask.surface = wl_compositor_create_surface(data->waylandData->compositor);
-            SDL_WAYLAND_register_surface(data->mask.surface);
-            wl_surface_set_user_data(data->mask.surface, data);
+        اگر (!ڈیٹا->نقاب.surface) {
+            ڈیٹا->نقاب.surface = wl_compositor_create_surface(ڈیٹا->wayland_ڈیٹا->compositor);
+            SDL_WAYLAND_رجسٹر_surface(ڈیٹا->نقاب.surface);
+            wl_surface_سیٹ_user_ڈیٹا(ڈیٹا->نقاب.surface, ڈیٹا);
         }
-        if (!data->mask.subsurface) {
-            data->mask.subsurface = wl_subcompositor_get_subsurface(data->waylandData->subcompositor, data->mask.surface, data->surface);
+        اگر (!ڈیٹا->نقاب.subsurface) {
+            ڈیٹا->نقاب.subsurface = wl_subcompositor_get_subsurface(ڈیٹا->wayland_ڈیٹا->subcompositor, ڈیٹا->نقاب.surface, ڈیٹا->surface);
         }
-        if (!data->mask.viewport) {
-            data->mask.viewport = wp_viewporter_get_viewport(data->waylandData->viewporter, data->mask.surface);
+        اگر (!ڈیٹا->نقاب.viewport) {
+            ڈیٹا->نقاب.viewport = wp_viewporter_get_viewport(ڈیٹا->wayland_ڈیٹا->viewporter, ڈیٹا->نقاب.surface);
         }
-        if (!data->mask.buffer || data->mask.opaque != is_opaque) {
-            old_buffer = data->mask.buffer;
-            data->mask.opaque = is_opaque;
-            data->mask.buffer = Wayland_CreateSinglePixelBuffer(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
-        }
-
-        wl_surface_attach(data->mask.surface, data->mask.buffer, 0, 0);
-
-        wl_subsurface_place_below(data->mask.subsurface, data->surface);
-        wp_viewport_set_destination(data->mask.viewport, data->current.logical_width, data->current.logical_height);
-
-        if (wl_surface_get_version(data->mask.surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-            wl_surface_damage_buffer(data->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-        } else {
-            wl_surface_damage(data->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        اگر (!ڈیٹا->نقاب.بفر_2 || ڈیٹا->نقاب.opaque != is_opaque) {
+            old_بفر = ڈیٹا->نقاب.بفر_2;
+            ڈیٹا->نقاب.opaque = is_opaque;
+            ڈیٹا->نقاب.بفر_2 = Wayland_Create_Single_Pixel_بفر(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
         }
 
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(data->mask.surface, data->current.logical_width, data->current.logical_height);
-        } else {
-            SetSurfaceOpaqueRegion(data->mask.surface, 0, 0);
+        wl_surface_attach(ڈیٹا->نقاب.surface, ڈیٹا->نقاب.بفر_2, 0, 0);
+
+        wl_subsurface_رکھو_نیچے(ڈیٹا->نقاب.subsurface, ڈیٹا->surface);
+        wp_viewport_سیٹ_destination(ڈیٹا->نقاب.viewport, ڈیٹا->current.logical_چوڑائی, ڈیٹا->current.logical_اونچائی);
+
+        اگر (wl_surface_get_نسخہ(ڈیٹا->نقاب.surface) >= WL_SURFACE_DAMAGE_بفر_SINCE_نسخہ) {
+            wl_surface_damage_بفر(ڈیٹا->نقاب.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        } ورنہ {
+            wl_surface_damage(ڈیٹا->نقاب.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        }
+
+        اگر (is_opaque) {
+            سیٹ_Surface_Opaque_Region(ڈیٹا->نقاب.surface, ڈیٹا->current.logical_چوڑائی, ڈیٹا->current.logical_اونچائی);
+        } ورنہ {
+            سیٹ_Surface_Opaque_Region(ڈیٹا->نقاب.surface, 0, 0);
         }
 
         // Can't use an offset subsurface with libdecor (yet), or the decorations won't line up properly.
-        if (data->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-            data->mask.offset_x = -(data->current.logical_width - viewport_width) / 2;
-            data->mask.offset_y = -(data->current.logical_height - viewport_height) / 2;
-        } else {
-            data->mask.offset_x = 0;
-            data->mask.offset_y = 0;
+        اگر (ڈیٹا->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+            ڈیٹا->نقاب.انحراف_x = -(ڈیٹا->current.logical_چوڑائی - viewport_چوڑائی) / 2;
+            ڈیٹا->نقاب.انحراف_y = -(ڈیٹا->current.logical_اونچائی - viewport_اونچائی) / 2;
+        } ورنہ {
+            ڈیٹا->نقاب.انحراف_x = 0;
+            ڈیٹا->نقاب.انحراف_y = 0;
         }
 
-        wl_subsurface_set_position(data->mask.subsurface, data->mask.offset_x, data->mask.offset_y);
-        wl_surface_commit(data->mask.surface);
+        wl_subsurface_سیٹ_position(ڈیٹا->نقاب.subsurface, ڈیٹا->نقاب.انحراف_x, ڈیٹا->نقاب.انحراف_y);
+        wl_surface_commit(ڈیٹا->نقاب.surface);
 
-        if (old_buffer) {
-            wl_buffer_destroy(old_buffer);
+        اگر (old_بفر) {
+            wl_بفر_destroy(old_بفر);
         }
 
-        data->mask.mapped = true;
-    } else if (data->mask.mapped) {
-        wl_subsurface_set_position(data->mask.subsurface, 0, 0);
-        wl_surface_attach(data->mask.surface, NULL, 0, 0);
-        wl_surface_commit(data->mask.surface);
+        ڈیٹا->نقاب.mapped = true;
+    } ورنہ اگر (ڈیٹا->نقاب.mapped) {
+        wl_subsurface_سیٹ_position(ڈیٹا->نقاب.subsurface, 0, 0);
+        wl_surface_attach(ڈیٹا->نقاب.surface, تہی, 0, 0);
+        wl_surface_commit(ڈیٹا->نقاب.surface);
 
-        data->mask.offset_x = 0;
-        data->mask.offset_y = 0;
-        data->mask.mapped = false;
+        ڈیٹا->نقاب.انحراف_x = 0;
+        ڈیٹا->نقاب.انحراف_y = 0;
+        ڈیٹا->نقاب.mapped = false;
     }
 
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && data->shell_surface.xdg.surface &&
-        (data->enable_insets || !data->viewport)) {
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && ڈیٹا->shell_surface.xdg.surface &&
+        (ڈیٹا->enable_insets || !ڈیٹا->viewport)) {
         /* The window geometry is the surface minus the declared border insets. They don't apply
          * when an exact size is required (maximized/fullscreen).
          */
         BorderInsets insets;
-        GetBorderInsets(window, &insets);
-        const bool use_insets = (insets.left || insets.top || insets.right || insets.bottom) &&
-                                !(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN));
-        SDL_Rect geometry = { 0, 0, data->current.logical_width, data->current.logical_height };
-        if (use_insets) {
-            geometry.x = insets.left;
-            geometry.y = insets.top;
-            geometry.w = SDL_max(geometry.w - (insets.left + insets.right), 1);
-            geometry.h = SDL_max(geometry.h - (insets.top + insets.bottom), 1);
+        GetBorderInsets(کھڑکی, &insets);
+        ثابت bool use_insets = (insets.بایاں || insets.چوٹی || insets.دایاں || insets.bottom) &&
+                                !(کھڑکی->flags & (SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_FULLSCREEN));
+        SDL_Rect geometry = { 0, 0, ڈیٹا->current.logical_چوڑائی, ڈیٹا->current.logical_اونچائی };
+        اگر (use_insets) {
+            geometry.x = insets.بایاں;
+            geometry.y = insets.چوٹی;
+            geometry.w = SDL_max(geometry.w - (insets.بایاں + insets.دایاں), 1);
+            geometry.h = SDL_max(geometry.h - (insets.چوٹی + insets.bottom), 1);
         }
         /* An explicitly set geometry does not track the surface, so it must be kept in sync
          * once set. Otherwise this is only done when viewports aren't supported and the size
          * has changed (XXX: a hack) to avoid a potential protocol violation if a buffer with
          * an old size is committed.
          */
-        if ((use_insets || !SDL_RectEmpty(&data->explicit_geometry) || (!data->viewport && window_size_changed)) &&
-            !SDL_RectsEqual(&geometry, &data->explicit_geometry)) {
-            xdg_surface_set_window_geometry(data->shell_surface.xdg.surface, geometry.x, geometry.y, geometry.w, geometry.h);
-            data->explicit_geometry = geometry;
+        اگر ((use_insets || !SDL_Rect_خالی_خانے(&ڈیٹا->explicit_geometry) || (!ڈیٹا->viewport && کھڑکی_سائز_بدلا)) &&
+            !SDL_RectsEqual(&geometry, &ڈیٹا->explicit_geometry)) {
+            xdg_surface_سیٹ_کھڑکی_geometry(ڈیٹا->shell_surface.xdg.surface, geometry.x, geometry.y, geometry.w, geometry.h);
+            ڈیٹا->explicit_geometry = geometry;
         }
     }
 
     /* The opaque region and pointer confinement region only need to be
      * recalculated if the output size has changed.
      */
-    if (window_size_changed) {
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(data->surface, viewport_width, viewport_height);
-        } else {
-            SetSurfaceOpaqueRegion(data->surface, 0, 0);
+    اگر (کھڑکی_سائز_بدلا) {
+        اگر (is_opaque) {
+            سیٹ_Surface_Opaque_Region(ڈیٹا->surface, viewport_چوڑائی, viewport_اونچائی);
+        } ورنہ {
+            سیٹ_Surface_Opaque_Region(ڈیٹا->surface, 0, 0);
         }
 
         // Ensure that child popup windows are still in bounds.
-        for (SDL_Window *child = window->first_child; child; child = child->next_sibling) {
-            RepositionPopup(child, true);
+        برائے (SDL_کھڑکی *بچہ = کھڑکی->پہلا_بچہ; بچہ; بچہ = بچہ->اگلا_sibling) {
+            RepositionPopup(بچہ, true);
         }
     }
 
     // Update the scale for any focused cursors.
-    if (prev_pointer_scale_x != data->pointer_scale.x || prev_pointer_scale_y != data->pointer_scale.y) {
-        Wayland_DisplayUpdatePointerFocusedScale(data);
+    اگر (پچھلا_اشارہ_گر_scale_x != ڈیٹا->اشارہ_گر_scale.x || پچھلا_اشارہ_گر_scale_y != ڈیٹا->اشارہ_گر_scale.y) {
+        Wayland_Display_Update_اشارہ_گر_Focused_Scale(ڈیٹا);
     }
 
     /* Update the min/max dimensions, primarily if the state was changed, and for non-resizable
      * xdg-toplevel windows where the limits should match the window size.
      */
-    SetMinMaxDimensions(window);
+    سیٹ_Min_Max_Dimensions(کھڑکی);
 
     // Unconditionally send the window and drawable size, the video core will deduplicate when required.
-    if (!data->scale_to_display) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window_width, window_height);
-    } else {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, data->current.pixel_width, data->current.pixel_height);
+    اگر (!ڈیٹا->scale_مقصد_display) {
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, کھڑکی_چوڑائی, کھڑکی_اونچائی);
+    } ورنہ {
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESIZED, ڈیٹا->current.pixel_چوڑائی, ڈیٹا->current.pixel_اونچائی);
     }
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED, data->current.pixel_width, data->current.pixel_height);
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_PIXEL_سائز_بدلا, ڈیٹا->current.pixel_چوڑائی, ڈیٹا->current.pixel_اونچائی);
 
     /* Send an exposure event if the window is in the shown state and the size has changed,
      * even if the window is occluded, as the client needs to commit a new frame for the
@@ -712,86 +712,86 @@ static void ConfigureWindowGeometry(SDL_Window *window)
      *
      * The occlusion state is immediately set again afterward, if necessary.
      */
-    if (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-        if ((buffer_size_changed || window_size_changed) ||
-            (!data->suspended && (window->flags & SDL_WINDOW_OCCLUDED))) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    اگر (ڈیٹا->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
+        اگر ((بفر_سائز_بدلا || کھڑکی_سائز_بدلا) ||
+            (!ڈیٹا->suspended && (کھڑکی->flags & SDL_کھڑکی_OCCLUDED))) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
         }
 
-        if (data->suspended) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+        اگر (ڈیٹا->suspended) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_OCCLUDED, 0, 0);
         }
     }
 }
 
-static void CommitLibdecorFrame(SDL_Window *window)
+ساکن خالی Commit_Libdecor_چوکھٹا(SDL_کھڑکی *کھڑکی)
 {
-#ifdef HAVE_LIBDECOR_H
-    SDL_WindowData *wind = window->internal;
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        struct libdecor_state *state = libdecor_state_new(wind->current.logical_width, wind->current.logical_height);
-        libdecor_frame_commit(wind->shell_surface.libdecor.frame, state, NULL);
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.چوکھٹا) {
+        ساخت libdecor_state *state = libdecor_state_new(wind->current.logical_چوڑائی, wind->current.logical_اونچائی);
+        libdecor_چوکھٹا_commit(wind->shell_surface.libdecor.چوکھٹا, state, تہی);
         libdecor_state_free(state);
     }
-#endif
+#اگر_ختم
 }
 
-static void pending_state_deadline_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ساکن خالی pending_state_deadline_handler(خالی *ڈیٹا, ساخت wl_callback *callback, uint32_t callback_ڈیٹا)
 {
     // Get the window from the ID, as it may have been destroyed.
-    SDL_WindowID windowID = (SDL_WindowID)(uintptr_t)data;
-    SDL_Window *window = SDL_GetWindowFromID(windowID);
+    SDL_کھڑکی_ID کھڑکی_ID = (SDL_کھڑکی_ID)(uintptr_t)ڈیٹا;
+    SDL_کھڑکی *کھڑکی = SDL_Get_کھڑکی_From_ID(کھڑکی_ID);
 
-    if (window && window->internal) {
-        --window->internal->pending_state_deadline_count;
+    اگر (کھڑکی && کھڑکی->اندرونی_2) {
+        --کھڑکی->اندرونی_2->pending_state_deadline_گنتی;
     }
 
     wl_callback_destroy(callback);
 }
 
-static struct wl_callback_listener pending_state_deadline_listener = {
+ساکن ساخت wl_callback_listener pending_state_deadline_listener = {
     pending_state_deadline_handler
 };
 
-static void AddPendingStateSync(SDL_WindowData *window_data)
+ساکن خالی جوڑو_Pending_State_Sync(SDL_کھڑکی_ڈیٹا *کھڑکی_ڈیٹا_2)
 {
-    SDL_VideoData *video_data = window_data->waylandData;
-    void *cb_data = (void *)(uintptr_t)window_data->sdlwindow->id;
+    SDL_Video_ڈیٹا *video_ڈیٹا = کھڑکی_ڈیٹا_2->wayland_ڈیٹا;
+    خالی *cb_ڈیٹا = (خالی *)(uintptr_t)کھڑکی_ڈیٹا_2->sdlwindow->id;
 
-    ++window_data->pending_state_deadline_count;
-    struct wl_callback *cb = wl_display_sync(video_data->display);
-    wl_callback_add_listener(cb, &pending_state_deadline_listener, cb_data);
+    ++کھڑکی_ڈیٹا_2->pending_state_deadline_گنتی;
+    ساخت wl_callback *cb = wl_display_sync(video_ڈیٹا->display);
+    wl_callback_جوڑو_listener(cb, &pending_state_deadline_listener, cb_ڈیٹا);
 }
 
-static void FlushPendingEvents(SDL_Window *window)
+ساکن خالی FlushPendingEvents(SDL_کھڑکی *کھڑکی)
 {
     // Serialize and restore the pending flags, as they may be overwritten while flushing.
-    const bool last_position_pending = window->last_position_pending;
-    const bool last_size_pending = window->last_size_pending;
+    ثابت bool آخری_position_pending = کھڑکی->آخری_position_pending;
+    ثابت bool آخری_سائز_pending = کھڑکی->آخری_سائز_pending;
 
-    while (window->internal->pending_state_deadline_count) {
-        WAYLAND_wl_display_roundtrip(window->internal->waylandData->display);
+    جب (کھڑکی->اندرونی_2->pending_state_deadline_گنتی) {
+        WAYLAND_wl_display_roundtrip(کھڑکی->اندرونی_2->wayland_ڈیٹا->display);
     }
 
-    window->last_position_pending = last_position_pending;
-    window->last_size_pending = last_size_pending;
+    کھڑکی->آخری_position_pending = آخری_position_pending;
+    کھڑکی->آخری_سائز_pending = آخری_سائز_pending;
 }
 
 /* While we can't get window position from the compositor, we do at least know
  * what monitor we're on, so let's send move events that put the window at the
  * center of the whatever display the wl_surface_listener events give us.
  */
-void Wayland_UpdateWindowPosition(SDL_Window *window)
+خالی Wayland_Update_کھڑکی_Position(SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
-    SDL_DisplayData *display;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    SDL_Display_ڈیٹا *display;
 
-    if (wind->outputs && wind->num_outputs) {
-        display = wind->outputs[wind->num_outputs - 1];
-    } else {
+    اگر (wind->outputs && wind->عدد_outputs) {
+        display = wind->outputs[wind->عدد_outputs - 1];
+    } ورنہ {
         // A window may not be on any displays if minimized.
-        return;
+        واپس;
     }
 
     /* We want to send a very very specific combination here:
@@ -813,130 +813,130 @@ void Wayland_UpdateWindowPosition(SDL_Window *window)
      *
      * -flibit
      */
-    wind->last_displayID = display->display;
-    if (wind->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        if (!wind->waylandData->scale_to_display_enabled) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, display->logical.x, display->logical.y);
-        } else {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, display->pixel.x, display->pixel.y);
+    wind->آخری_display_ID = display->display;
+    اگر (wind->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        اگر (!wind->wayland_ڈیٹا->scale_مقصد_display_enabled) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, display->logical.x, display->logical.y);
+        } ورنہ {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MOVED, display->pixel.x, display->pixel.y);
         }
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_CHANGED, wind->last_displayID, 0);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_DISPLAY_بدلا, wind->آخری_display_ID, 0);
     }
 }
 
-static void SetFullscreen(SDL_Window *window, struct wl_output *output, bool fullscreen)
+ساکن خالی سیٹ_Fullscreen(SDL_کھڑکی *کھڑکی, ساخت wl_output *output, bool fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (!wind->shell_surface.libdecor.چوکھٹا) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
 
-        wind->fullscreen_exclusive = output ? window->fullscreen_exclusive : false;
-        if (fullscreen) {
-            libdecor_frame_set_fullscreen(wind->shell_surface.libdecor.frame, output);
-        } else {
-            libdecor_frame_unset_fullscreen(wind->shell_surface.libdecor.frame);
+        wind->fullscreen_exclusive = output ? کھڑکی->fullscreen_exclusive : false;
+        اگر (fullscreen) {
+            libdecor_چوکھٹا_سیٹ_fullscreen(wind->shell_surface.libdecor.چوکھٹا, output);
+        } ورنہ {
+            libdecor_چوکھٹا_unset_fullscreen(wind->shell_surface.libdecor.چوکھٹا);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel == تہی) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
 
-        wind->fullscreen_exclusive = output ? window->fullscreen_exclusive : false;
-        if (fullscreen) {
-            xdg_toplevel_set_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel, output);
-        } else {
+        wind->fullscreen_exclusive = output ? کھڑکی->fullscreen_exclusive : false;
+        اگر (fullscreen) {
+            xdg_toplevel_سیٹ_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel, output);
+        } ورنہ {
             xdg_toplevel_unset_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel);
         }
     }
 
-    AddPendingStateSync(wind);
+    جوڑو_Pending_State_Sync(wind);
 }
 
-static void UpdateWindowFullscreen(SDL_Window *window, bool fullscreen)
+ساکن خالی Update_کھڑکی_Fullscreen(SDL_کھڑکی *کھڑکی, bool fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
     wind->is_fullscreen = fullscreen;
 
-    if (fullscreen) {
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, false);
+    اگر (fullscreen) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+            SDL_copyp(&کھڑکی->current_fullscreen_منوال, &کھڑکی->requested_fullscreen_منوال);
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_ENTER_FULLSCREEN, 0, 0);
+            SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_ENTER, false);
 
             /* Set the output for exclusive fullscreen windows when entering fullscreen from a
              * compositor event, or if the fullscreen parameters were changed between the initial
              * fullscreen request and now, to ensure that the window is on the correct output,
              * as requested by the client.
              */
-            if (window->fullscreen_exclusive && (!wind->fullscreen_exclusive || !wind->fullscreen_was_positioned)) {
-                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(window->current_fullscreen_mode.displayID);
-                if (disp) {
+            اگر (کھڑکی->fullscreen_exclusive && (!wind->fullscreen_exclusive || !wind->fullscreen_was_positioned)) {
+                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(کھڑکی->current_fullscreen_منوال.displayID);
+                اگر (disp) {
                     wind->fullscreen_was_positioned = true;
-                    SetFullscreen(window, disp->internal->output, true);
+                    سیٹ_Fullscreen(کھڑکی, disp->اندرونی_2->output, true);
                 }
             }
         }
-    } else {
+    } ورنہ {
         // Don't change the fullscreen flags if the window is hidden or being hidden.
-        if ((window->flags & SDL_WINDOW_FULLSCREEN) && !window->is_hiding && !(window->flags & SDL_WINDOW_HIDDEN)) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+        اگر ((کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && !کھڑکی->is_hiding && !(کھڑکی->flags & SDL_کھڑکی_HIDDEN)) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_LEAVE_FULLSCREEN, 0, 0);
+            SDL_Update_Fullscreen_منوال(کھڑکی, SDL_FULLSCREEN_OP_LEAVE, false);
             wind->fullscreen_was_positioned = false;
 
             /* Send a move event, in case it was deferred while the fullscreen window was moving and
              * on multiple outputs.
              */
-            Wayland_UpdateWindowPosition(window);
+            Wayland_Update_کھڑکی_Position(کھڑکی);
         }
     }
 }
 
-static const struct wl_callback_listener surface_frame_listener;
+ساکن ثابت ساخت wl_callback_listener surface_چوکھٹا_listener;
 
-static void surface_frame_done(void *data, struct wl_callback *cb, uint32_t time)
+ساکن خالی surface_چوکھٹا_مکمل(خالی *ڈیٹا, ساخت wl_callback *cb, uint32_t وقت)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
 
     /* XXX: This is needed to work around an Nvidia egl-wayland bug due to buffer coordinates
      *      being used with wl_surface_damage, which causes part of the output to not be
      *      updated when using a viewport with an output region larger than the source region.
      */
-    if (wl_compositor_get_version(wind->waylandData->compositor) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-        wl_surface_damage_buffer(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-    } else {
+    اگر (wl_compositor_get_نسخہ(wind->wayland_ڈیٹا->compositor) >= WL_SURFACE_DAMAGE_بفر_SINCE_نسخہ) {
+        wl_surface_damage_بفر(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+    } ورنہ {
         wl_surface_damage(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
     }
 
     wind->pending_state_commit = false;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->pending_config_ack) {
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (wind->pending_config_ack) {
             wind->pending_config_ack = false;
-            ConfigureWindowGeometry(wind->sdlwindow);
+            Configure_کھڑکی_Geometry(wind->sdlwindow);
             xdg_surface_ack_configure(wind->shell_surface.xdg.surface, wind->shell_surface.xdg.serial);
         }
-    } else {
+    } ورنہ {
         wind->resizing = false;
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOWN;
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا) {
+        wind->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_SHOWN;
 
         // If any child windows are waiting on this window to be shown, show them now
-        for (SDL_Window *w = wind->sdlwindow->first_child; w; w = w->next_sibling) {
-            if (w->internal->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING) {
-                Wayland_ShowWindow(SDL_GetVideoDevice(), w);
-            } else if (w->internal->reparenting_required) {
-                Wayland_SetWindowParent(SDL_GetVideoDevice(), w, w->parent);
-                if (w->flags & SDL_WINDOW_MODAL) {
-                    Wayland_SetWindowModal(SDL_GetVideoDevice(), w, true);
+        برائے (SDL_کھڑکی *w = wind->sdlwindow->پہلا_بچہ; w; w = w->اگلا_sibling) {
+            اگر (w->اندرونی_2->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOW_PENDING) {
+                Wayland_Show_کھڑکی(SDL_GetVideoDevice(), w);
+            } ورنہ اگر (w->اندرونی_2->reparenting_required) {
+                Wayland_سیٹ_کھڑکی_والد(SDL_GetVideoDevice(), w, w->والد);
+                اگر (w->flags & SDL_کھڑکی_MODAL) {
+                    Wayland_سیٹ_کھڑکی_Modal(SDL_GetVideoDevice(), w, true);
                 }
             }
         }
@@ -944,153 +944,153 @@ static void surface_frame_done(void *data, struct wl_callback *cb, uint32_t time
         /* If the window was initially set to the suspended state, send the occluded event now,
          * as we don't want to mark the window as occluded until at least one frame has been submitted.
          */
-        if (wind->suspended) {
-            SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+        اگر (wind->suspended) {
+            SDL_Send_کھڑکی_Event(wind->sdlwindow, SDL_EVENT_کھڑکی_OCCLUDED, 0, 0);
         }
     }
 
     wl_callback_destroy(cb);
-    wind->surface_frame_callback = wl_surface_frame(wind->surface);
-    wl_callback_add_listener(wind->surface_frame_callback, &surface_frame_listener, data);
+    wind->surface_چوکھٹا_callback = wl_surface_چوکھٹا(wind->surface);
+    wl_callback_جوڑو_listener(wind->surface_چوکھٹا_callback, &surface_چوکھٹا_listener, ڈیٹا);
 }
 
-static const struct wl_callback_listener surface_frame_listener = {
-    surface_frame_done
+ساکن ثابت ساخت wl_callback_listener surface_چوکھٹا_listener = {
+    surface_چوکھٹا_مکمل
 };
 
-static const struct wl_callback_listener gles_swap_frame_listener;
+ساکن ثابت ساخت wl_callback_listener gles_تبادلہ_چوکھٹا_listener;
 
-static void gles_swap_frame_done(void *data, struct wl_callback *cb, uint32_t time)
+ساکن خالی gles_تبادلہ_چوکھٹا_مکمل(خالی *ڈیٹا, ساخت wl_callback *cb, uint32_t وقت)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_SetAtomicInt(&wind->swap_interval_ready, 1); // mark window as ready to present again.
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_سیٹ_Atomic_Int(&wind->تبادلہ_interval_ready, 1); // mark window as ready to present again.
 
     // reset this callback to fire again once a new frame was presented and compositor wants the next one.
-    wind->gles_swap_frame_callback = wl_surface_frame(wind->gles_swap_frame_surface_wrapper);
+    wind->gles_تبادلہ_چوکھٹا_callback = wl_surface_چوکھٹا(wind->gles_تبادلہ_چوکھٹا_surface_wrapper);
     wl_callback_destroy(cb);
-    wl_callback_add_listener(wind->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+    wl_callback_جوڑو_listener(wind->gles_تبادلہ_چوکھٹا_callback, &gles_تبادلہ_چوکھٹا_listener, ڈیٹا);
 }
 
-static const struct wl_callback_listener gles_swap_frame_listener = {
-    gles_swap_frame_done
+ساکن ثابت ساخت wl_callback_listener gles_تبادلہ_چوکھٹا_listener = {
+    gles_تبادلہ_چوکھٹا_مکمل
 };
 
-static void handle_xdg_surface_configure(void *data, struct xdg_surface *xdg, uint32_t serial)
+ساکن خالی handle_xdg_surface_configure(خالی *ڈیٹا, ساخت xdg_surface *xdg, uint32_t serial)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_کھڑکی *کھڑکی = wind->sdlwindow;
 
     /* Interactive resizes are throttled by acking and committing only the most recent configuration at
      * the next frame callback, or certain combinations of clients and compositors can exhibit severe lag
      * when resizing.
      */
     wind->shell_surface.xdg.serial = serial;
-    if (!wind->resizing) {
+    اگر (!wind->resizing) {
         wind->pending_config_ack = false;
-        ConfigureWindowGeometry(window);
+        Configure_کھڑکی_Geometry(کھڑکی);
         xdg_surface_ack_configure(xdg, serial);
-    } else if (!wind->pending_config_ack) {
+    } ورنہ اگر (!wind->pending_config_ack) {
         wind->pending_config_ack = true;
 
         // Always send an exposure event during a new frame to ensure forward progress if the frame callback already occurred.
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+        wind->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا;
     }
 }
 
-static const struct xdg_surface_listener _xdg_surface_listener = {
+ساکن ثابت ساخت xdg_surface_listener _xdg_surface_listener = {
     handle_xdg_surface_configure
 };
 
-static void ApplyGeometryLimits(SDL_Window *window, int req_w, int req_h, int *out_w, int *out_h)
+ساکن خالی ApplyGeometryLimits(SDL_کھڑکی *کھڑکی, صحیح req_w, صحیح req_h, صحیح *برآمد_w, صحیح *برآمد_h)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    int w = req_w;
-    int h = req_h;
-    const float aspect = (float)req_w / (float)req_h;
+    صحیح w = req_w;
+    صحیح h = req_h;
+    ثابت اعشاری aspect = (اعشاری)req_w / (اعشاری)req_h;
 
     /* If adjusting for aspect causes the adjusted dimension to exceed the min/max limit, clamp to the limit
      * and attempt to adjust the opposite dimension to compensate.
      */
-    if (!wind->resizing || (wind->resize_edge & WAYLAND_RESIZE_EDGE_CORNER) == WAYLAND_RESIZE_EDGE_CORNER) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->min_aspect), 1);
+    اگر (!wind->resizing || (wind->resize_کنارہ & WAYLAND_RESIZE_کنارہ_کونا) == WAYLAND_RESIZE_کنارہ_کونا) {
+        اگر (کھڑکی->min_aspect != 0.f && aspect < کھڑکی->min_aspect) {
+            h = SDL_max(SDL_lroundf((اعشاری)req_w / کھڑکی->min_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->min_aspect), 1);
+            اگر (h < کھڑکی->min_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_h * کھڑکی->min_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->min_aspect), 1);
+            اگر (کھڑکی->max_h && h > کھڑکی->max_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_h * کھڑکی->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->max_aspect), 1);
+        } ورنہ اگر (کھڑکی->max_aspect != 0.f && aspect > کھڑکی->max_aspect) {
+            w = SDL_max(SDL_lroundf((اعشاری)req_h * کھڑکی->max_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->max_aspect), 1);
+            اگر (w < کھڑکی->min_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_w / کھڑکی->max_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->max_aspect), 1);
+            اگر (کھڑکی->max_w && w > کھڑکی->max_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_w / کھڑکی->max_aspect), 1);
             }
         }
-    } else if (wind->resize_edge & WAYLAND_RESIZE_EDGE_LR) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->min_aspect), 1);
+    } ورنہ اگر (wind->resize_کنارہ & WAYLAND_RESIZE_کنارہ_LR) {
+        اگر (کھڑکی->min_aspect != 0.f && aspect < کھڑکی->min_aspect) {
+            h = SDL_max(SDL_lroundf((اعشاری)req_w / کھڑکی->min_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->min_aspect), 1);
+            اگر (h < کھڑکی->min_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_h * کھڑکی->min_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->min_aspect), 1);
+            اگر (کھڑکی->max_h && h > کھڑکی->max_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_h * کھڑکی->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->max_aspect), 1);
+        } ورنہ اگر (کھڑکی->max_aspect != 0.f && aspect > کھڑکی->max_aspect) {
+            h = SDL_max(SDL_lroundf((اعشاری)req_w / کھڑکی->max_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->max_aspect), 1);
+            اگر (h < کھڑکی->min_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_h * کھڑکی->max_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->max_aspect), 1);
+            اگر (کھڑکی->max_h && h > کھڑکی->max_h) {
+                w = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_h * کھڑکی->max_aspect), 1);
             }
         }
-    } else if (wind->resize_edge & WAYLAND_RESIZE_EDGE_TB) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->min_aspect), 1);
+    } ورنہ اگر (wind->resize_کنارہ & WAYLAND_RESIZE_کنارہ_TB) {
+        اگر (کھڑکی->min_aspect != 0.f && aspect < کھڑکی->min_aspect) {
+            w = SDL_max(SDL_lroundf((اعشاری)req_h * کھڑکی->min_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->min_aspect), 1);
+            اگر (w < کھڑکی->min_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_w / کھڑکی->min_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->min_aspect), 1);
+            اگر (کھڑکی->max_w && w > کھڑکی->max_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_w / کھڑکی->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->max_aspect), 1);
+        } ورنہ اگر (کھڑکی->max_aspect != 0.f && aspect > کھڑکی->max_aspect) {
+            w = SDL_max(SDL_lroundf((اعشاری)req_h * کھڑکی->max_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->max_aspect), 1);
+            اگر (w < کھڑکی->min_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->min_w / کھڑکی->max_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->max_aspect), 1);
+            اگر (کھڑکی->max_w && w > کھڑکی->max_w) {
+                h = SDL_max(SDL_lroundf((اعشاری)کھڑکی->max_w / کھڑکی->max_aspect), 1);
             }
         }
     }
 
-    if (window->max_w) {
-        w = SDL_min(w, window->max_w);
+    اگر (کھڑکی->max_w) {
+        w = SDL_min(w, کھڑکی->max_w);
     }
-    *out_w = SDL_max(w, window->min_w);
+    *برآمد_w = SDL_max(w, کھڑکی->min_w);
 
-    if (window->max_h) {
-        h = SDL_min(h, window->max_h);
+    اگر (کھڑکی->max_h) {
+        h = SDL_min(h, کھڑکی->max_h);
     }
-    *out_h = SDL_max(h, window->min_h);
+    *برآمد_h = SDL_max(h, کھڑکی->min_h);
 
 }
 
-static void DetermineResizeAxis(SDL_WindowData *wind, int width, int height, bool resizing)
+ساکن خالی DetermineResizeAxis(SDL_کھڑکی_ڈیٹا *wind, صحیح چوڑائی, صحیح اونچائی, bool resizing)
 {
     /* Try to determine the axis along which the window is being resized.
      *
@@ -1100,87 +1100,87 @@ static void DetermineResizeAxis(SDL_WindowData *wind, int width, int height, boo
      * Some compositors don't send a configure event with the resize flag cleared when the resize ends,
      * so a reset timer is required.
      */
-    if (resizing) {
-        const Uint64 now = SDL_GetTicksNS();
-        if (now >= wind->last_resize_event_time_ns + SDL_MS_TO_NS(500)) {
-            wind->resize_edge = 0;
+    اگر (resizing) {
+        ثابت Uint64 now = SDL_GetTicksNS();
+        اگر (now >= wind->آخری_resize_event_وقت_ns + SDL_MS_مقصد_NS(500)) {
+            wind->resize_کنارہ = 0;
         }
 
-        wind->last_resize_event_time_ns = now;
+        wind->آخری_resize_event_وقت_ns = now;
 
-        if (!wind->resize_edge) {
-            if (width != wind->last_configure.width || !height) {
-                wind->resize_edge |= WAYLAND_RESIZE_EDGE_LR;
+        اگر (!wind->resize_کنارہ) {
+            اگر (چوڑائی != wind->آخری_configure.چوڑائی || !اونچائی) {
+                wind->resize_کنارہ |= WAYLAND_RESIZE_کنارہ_LR;
             }
-            if (height != wind->last_configure.height || !width) {
-                wind->resize_edge |= WAYLAND_RESIZE_EDGE_TB;
+            اگر (اونچائی != wind->آخری_configure.اونچائی || !چوڑائی) {
+                wind->resize_کنارہ |= WAYLAND_RESIZE_کنارہ_TB;
             }
         }
-    } else {
-        wind->resize_edge = 0;
+    } ورنہ {
+        wind->resize_کنارہ = 0;
     }
 
     wind->resizing = resizing;
 }
 
-static void handle_xdg_toplevel_configure(void *data,
-                                          struct xdg_toplevel *xdg_toplevel,
-                                          int32_t width,
-                                          int32_t height,
-                                          struct wl_array *states)
+ساکن خالی handle_xdg_toplevel_configure(خالی *ڈیٹا,
+                                          ساخت xdg_toplevel *xdg_toplevel,
+                                          int32_t چوڑائی,
+                                          int32_t اونچائی,
+                                          ساخت wl_array *حالتیں)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_کھڑکی *کھڑکی = wind->sdlwindow;
 
-    enum xdg_toplevel_state *state;
+    شمار xdg_toplevel_state *state;
     bool fullscreen = false;
     bool maximized = false;
     bool floating = true;
     bool tiled = false;
-    bool active = false;
+    bool فعال = false;
     bool resizing = false;
     bool suspended = false;
     wind->toplevel_constraints = 0;
-    wl_array_for_each (state, states) {
-        switch (*state) {
-        case XDG_TOPLEVEL_STATE_FULLSCREEN:
+    wl_array_for_each (state, حالتیں) {
+        انتخاب (*state) {
+        حالت XDG_TOPLEVEL_STATE_FULLSCREEN:
             fullscreen = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_MAXIMIZED:
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_MAXIMIZED:
             maximized = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_RESIZING:
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_RESIZING:
             resizing = true;
-            break;
-        case XDG_TOPLEVEL_STATE_ACTIVATED:
-            active = true;
-            break;
-        case XDG_TOPLEVEL_STATE_TILED_LEFT:
-        case XDG_TOPLEVEL_STATE_TILED_RIGHT:
-        case XDG_TOPLEVEL_STATE_TILED_TOP:
-        case XDG_TOPLEVEL_STATE_TILED_BOTTOM:
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_ACTIVATED:
+            فعال = true;
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_TILED_بایاں:
+        حالت XDG_TOPLEVEL_STATE_TILED_دایاں:
+        حالت XDG_TOPLEVEL_STATE_TILED_چوٹی:
+        حالت XDG_TOPLEVEL_STATE_TILED_BOTTOM:
             tiled = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_SUSPENDED:
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_SUSPENDED:
             suspended = true;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_LEFT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_RIGHT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_TOP:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_BOTTOM:
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_CONSTRAINED_بایاں:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_بایاں;
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_CONSTRAINED_دایاں:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_دایاں;
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_CONSTRAINED_چوٹی:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_چوٹی;
+            توڑو;
+        حالت XDG_TOPLEVEL_STATE_CONSTRAINED_BOTTOM:
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
-            break;
-        default:
-            break;
+            توڑو;
+        طےشدہ:
+            توڑو;
         }
     }
 
@@ -1190,19 +1190,19 @@ static void handle_xdg_toplevel_configure(void *data,
      * sizes adopted from the cached window size are converted back to geometry space for
      * the last_configure store.
      */
-    const bool insets_apply = wind->enable_insets && !fullscreen && !maximized;
+    ثابت bool insets_apply = wind->enable_insets && !fullscreen && !maximized;
 
     // When resizing, dimensions other than 0 are a maximum.
-    const bool new_configure_size = width != wind->last_configure.width || height != wind->last_configure.height ||
-                                    insets_apply != wind->last_configure.insets_apply;
+    ثابت bool new_configure_سائز = چوڑائی != wind->آخری_configure.چوڑائی || اونچائی != wind->آخری_configure.اونچائی ||
+                                    insets_apply != wind->آخری_configure.insets_apply;
 
     BorderInsets insets = { 0, 0, 0, 0 };
-    if (insets_apply) {
-        GetBorderInsets(window, &insets);
+    اگر (insets_apply) {
+        GetBorderInsets(کھڑکی, &insets);
     }
 
-    DetermineResizeAxis(wind, width, height, resizing);
-    UpdateWindowFullscreen(window, fullscreen);
+    DetermineResizeAxis(wind, چوڑائی, اونچائی, resizing);
+    Update_کھڑکی_Fullscreen(کھڑکی, fullscreen);
 
     /* Always send a maximized/restore event; if the event is redundant it will
      * automatically be discarded (see src/events/SDL_windowevents.c)
@@ -1212,101 +1212,101 @@ static void handle_xdg_toplevel_configure(void *data,
      * dependent, but in general, we can assume that the flag should remain set until
      * the next focused configure event occurs.
      */
-    if (active || !(window->flags & SDL_WINDOW_MINIMIZED)) {
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+    اگر (فعال || !(کھڑکی->flags & SDL_کھڑکی_MINIMIZED)) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_MINIMIZED) {
             // If we were minimized, send a restored event before possibly sending maximized.
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESTORED, 0, 0);
         }
-        SDL_SendWindowEvent(window,
-                            (maximized && !fullscreen) ? SDL_EVENT_WINDOW_MAXIMIZED : SDL_EVENT_WINDOW_RESTORED,
+        SDL_Send_کھڑکی_Event(کھڑکی,
+                            (maximized && !fullscreen) ? SDL_EVENT_کھڑکی_MAXIMIZED : SDL_EVENT_کھڑکی_RESTORED,
                             0, 0);
     }
 
-    if (!fullscreen) {
+    اگر (!fullscreen) {
         /* xdg_toplevel spec states that this is a suggestion.
          * Ignore if less than or greater than max/min size.
          */
-        if ((window->flags & SDL_WINDOW_RESIZABLE) || maximized) {
-            if (!width) {
+        اگر ((کھڑکی->flags & SDL_کھڑکی_RESIZABLE) || maximized) {
+            اگر (!چوڑائی) {
                 /* This happens when the compositor indicates that the size is
                  * up to the client, so use the cached window size here.
                  */
-                if (floating) {
-                    width = window->floating.w;
+                اگر (floating) {
+                    چوڑائی = کھڑکی->floating.w;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.width) {
-                        width = SDL_min(wind->toplevel_bounds.width, width);
+                    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE && wind->toplevel_bounds.چوڑائی) {
+                        چوڑائی = SDL_min(wind->toplevel_bounds.چوڑائی, چوڑائی);
                     }
-                } else {
-                    width = window->windowed.w;
+                } ورنہ {
+                    چوڑائی = کھڑکی->windowed.w;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_width = width;
-                } else {
-                    wind->requested.pixel_width = width;
-                    width = wind->requested.logical_width = PixelToPoint(window, width);
+                اگر (!wind->scale_مقصد_display) {
+                    wind->requested.logical_چوڑائی = چوڑائی;
+                } ورنہ {
+                    wind->requested.pixel_چوڑائی = چوڑائی;
+                    چوڑائی = wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, چوڑائی);
                 }
-                width = SDL_max(width - (insets.left + insets.right), 1);
-            } else if (new_configure_size) {
+                چوڑائی = SDL_max(چوڑائی - (insets.بایاں + insets.دایاں), 1);
+            } ورنہ اگر (new_configure_سائز) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
 
-                wind->requested.logical_width = width + (insets.left + insets.right);
+                wind->requested.logical_چوڑائی = چوڑائی + (insets.بایاں + insets.دایاں);
 
-                if (wind->scale_to_display) {
-                    wind->requested.pixel_width = PointToPixel(window, wind->requested.logical_width);
+                اگر (wind->scale_مقصد_display) {
+                    wind->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی, wind->requested.logical_چوڑائی);
                 }
             }
-            if (!height) {
+            اگر (!اونچائی) {
                 /* This happens when the compositor indicates that the size is
                  * up to the client, so use the cached window size here.
                  */
-                if (floating) {
-                    height = window->floating.h;
+                اگر (floating) {
+                    اونچائی = کھڑکی->floating.h;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.height) {
-                        height = SDL_min(wind->toplevel_bounds.height, height);
+                    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE && wind->toplevel_bounds.اونچائی) {
+                        اونچائی = SDL_min(wind->toplevel_bounds.اونچائی, اونچائی);
                     }
-                } else {
-                    height = window->windowed.h;
+                } ورنہ {
+                    اونچائی = کھڑکی->windowed.h;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_height = height;
-                } else {
-                    wind->requested.pixel_height = height;
-                    height = wind->requested.logical_height = PixelToPoint(window, height);
+                اگر (!wind->scale_مقصد_display) {
+                    wind->requested.logical_اونچائی = اونچائی;
+                } ورنہ {
+                    wind->requested.pixel_اونچائی = اونچائی;
+                    اونچائی = wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, اونچائی);
                 }
-                height = SDL_max(height - (insets.top + insets.bottom), 1);
-            } else if (new_configure_size) {
+                اونچائی = SDL_max(اونچائی - (insets.چوٹی + insets.bottom), 1);
+            } ورنہ اگر (new_configure_سائز) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
-                wind->requested.logical_height = height + (insets.top + insets.bottom);
+                wind->requested.logical_اونچائی = اونچائی + (insets.چوٹی + insets.bottom);
 
-                if (wind->scale_to_display) {
-                    wind->requested.pixel_height = PointToPixel(window, wind->requested.logical_height);
+                اگر (wind->scale_مقصد_display) {
+                    wind->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی, wind->requested.logical_اونچائی);
                 }
             }
-        } else {
+        } ورنہ {
             /* If we're a fixed-size, non-maximized window, we know our size for sure.
              * Always assume the configure is wrong.
              */
-            if (!wind->scale_to_display) {
-                width = wind->requested.logical_width = window->floating.w;
-                height = wind->requested.logical_height = window->floating.h;
-            } else {
-                wind->requested.pixel_width = window->floating.w;
-                wind->requested.pixel_height = window->floating.h;
-                width = wind->requested.logical_width = PixelToPoint(window, window->floating.w);
-                height = wind->requested.logical_height = PixelToPoint(window, window->floating.h);
+            اگر (!wind->scale_مقصد_display) {
+                چوڑائی = wind->requested.logical_چوڑائی = کھڑکی->floating.w;
+                اونچائی = wind->requested.logical_اونچائی = کھڑکی->floating.h;
+            } ورنہ {
+                wind->requested.pixel_چوڑائی = کھڑکی->floating.w;
+                wind->requested.pixel_اونچائی = کھڑکی->floating.h;
+                چوڑائی = wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.w);
+                اونچائی = wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.h);
             }
-            width = SDL_max(width - (insets.left + insets.right), 1);
-            height = SDL_max(height - (insets.top + insets.bottom), 1);
+            چوڑائی = SDL_max(چوڑائی - (insets.بایاں + insets.دایاں), 1);
+            اونچائی = SDL_max(اونچائی - (insets.چوٹی + insets.bottom), 1);
         }
 
         /* Notes on the spec and implementations:
@@ -1321,168 +1321,168 @@ static void handle_xdg_toplevel_configure(void *data,
          *   it's best to use the supplied dimensions and use a viewport + mask to enforce the
          *   size limits and/or aspect ratio.
          */
-        if (floating) {
-            if (!wind->scale_to_display) {
-                ApplyGeometryLimits(window, wind->requested.logical_width, wind->requested.logical_height, &wind->requested.logical_width, &wind->requested.logical_height);
-            } else {
-                ApplyGeometryLimits(window, wind->requested.pixel_width, wind->requested.pixel_height, &wind->requested.pixel_width, &wind->requested.pixel_height);
+        اگر (floating) {
+            اگر (!wind->scale_مقصد_display) {
+                ApplyGeometryLimits(کھڑکی, wind->requested.logical_چوڑائی, wind->requested.logical_اونچائی, &wind->requested.logical_چوڑائی, &wind->requested.logical_اونچائی);
+            } ورنہ {
+                ApplyGeometryLimits(کھڑکی, wind->requested.pixel_چوڑائی, wind->requested.pixel_اونچائی, &wind->requested.pixel_چوڑائی, &wind->requested.pixel_اونچائی);
 
-                wind->requested.logical_width = PixelToPoint(window, wind->requested.pixel_width);
-                wind->requested.logical_height = PixelToPoint(window, wind->requested.pixel_height);
+                wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, wind->requested.pixel_چوڑائی);
+                wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, wind->requested.pixel_اونچائی);
             }
         }
-    } else {
+    } ورنہ {
         // Fullscreen windows know their exact size.
-        if (width == 0 || height == 0) {
-            width = wind->requested.logical_width;
-            height = wind->requested.logical_height;
-        } else {
-            wind->requested.logical_width = width;
-            wind->requested.logical_height = height;
+        اگر (چوڑائی == 0 || اونچائی == 0) {
+            چوڑائی = wind->requested.logical_چوڑائی;
+            اونچائی = wind->requested.logical_اونچائی;
+        } ورنہ {
+            wind->requested.logical_چوڑائی = چوڑائی;
+            wind->requested.logical_اونچائی = اونچائی;
         }
 
-        if (wind->scale_to_display) {
-            wind->requested.pixel_width = PointToPixel(window, width);
-            wind->requested.pixel_height = PointToPixel(window, height);
+        اگر (wind->scale_مقصد_display) {
+            wind->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی, چوڑائی);
+            wind->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی, اونچائی);
         }
     }
 
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
-    wind->last_configure.insets_apply = insets_apply;
+    wind->آخری_configure.چوڑائی = چوڑائی;
+    wind->آخری_configure.اونچائی = اونچائی;
+    wind->آخری_configure.insets_apply = insets_apply;
     wind->floating = floating;
     wind->suspended = suspended;
-    wind->active = active;
-    window->tiled = tiled;
+    wind->فعال = فعال;
+    کھڑکی->tiled = tiled;
 }
 
-static void handle_xdg_toplevel_close(void *data, struct xdg_toplevel *xdg_toplevel)
+ساکن خالی handle_xdg_toplevel_close(خالی *ڈیٹا, ساخت xdg_toplevel *xdg_toplevel)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    SDL_SendWindowEvent(window->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_کھڑکی_ڈیٹا *کھڑکی = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_Send_کھڑکی_Event(کھڑکی->sdlwindow, SDL_EVENT_کھڑکی_CLOSE_REQUESTED, 0, 0);
 }
 
-static void handle_xdg_toplevel_configure_bounds(void *data,
-                                                 struct xdg_toplevel *xdg_toplevel,
-                                                 int32_t width, int32_t height)
+ساکن خالی handle_xdg_toplevel_configure_bounds(خالی *ڈیٹا,
+                                                 ساخت xdg_toplevel *xdg_toplevel,
+                                                 int32_t چوڑائی, int32_t اونچائی)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    window->toplevel_bounds.width = width;
-    window->toplevel_bounds.height = height;
+    SDL_کھڑکی_ڈیٹا *کھڑکی = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    کھڑکی->toplevel_bounds.چوڑائی = چوڑائی;
+    کھڑکی->toplevel_bounds.اونچائی = اونچائی;
 }
 
-static void handle_xdg_toplevel_wm_capabilities(void *data,
-                                                struct xdg_toplevel *xdg_toplevel,
-                                                struct wl_array *capabilities)
+ساکن خالی handle_xdg_toplevel_wm_capabilities(خالی *ڈیٹا,
+                                                ساخت xdg_toplevel *xdg_toplevel,
+                                                ساخت wl_array *capabilities)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    enum xdg_toplevel_wm_capabilities *wm_cap;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    شمار xdg_toplevel_wm_capabilities *wm_cap;
 
     wind->wm_caps = 0;
 
     wl_array_for_each (wm_cap, capabilities) {
-        switch (*wm_cap) {
-        case XDG_TOPLEVEL_WM_CAPABILITIES_WINDOW_MENU:
-            wind->wm_caps |= WAYLAND_WM_CAPS_WINDOW_MENU;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE:
+        انتخاب (*wm_cap) {
+        حالت XDG_TOPLEVEL_WM_CAPABILITIES_کھڑکی_MENU:
+            wind->wm_caps |= WAYLAND_WM_CAPS_کھڑکی_MENU;
+            توڑو;
+        حالت XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE:
             wind->wm_caps |= WAYLAND_WM_CAPS_MAXIMIZE;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN:
+            توڑو;
+        حالت XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN:
             wind->wm_caps |= WAYLAND_WM_CAPS_FULLSCREEN;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE:
+            توڑو;
+        حالت XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE:
             wind->wm_caps |= WAYLAND_WM_CAPS_MINIMIZE;
-            break;
-        default:
-            break;
+            توڑو;
+        طےشدہ:
+            توڑو;
         }
     }
 }
 
-static const struct xdg_toplevel_listener toplevel_listener_xdg = {
+ساکن ثابت ساخت xdg_toplevel_listener toplevel_listener_xdg = {
     handle_xdg_toplevel_configure,
     handle_xdg_toplevel_close,
     handle_xdg_toplevel_configure_bounds, // Version 4
     handle_xdg_toplevel_wm_capabilities   // Version 5
 };
 
-static void handle_xdg_popup_configure(void *data,
-                                       struct xdg_popup *xdg_popup,
+ساکن خالی handle_xdg_popup_configure(خالی *ڈیٹا,
+                                       ساخت xdg_popup *xdg_popup,
                                        int32_t x,
                                        int32_t y,
-                                       int32_t width,
-                                       int32_t height)
+                                       int32_t چوڑائی,
+                                       int32_t اونچائی)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    int offset_x = 0, offset_y = 0;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    صحیح انحراف_x = 0, انحراف_y = 0;
 
     // Adjust the position if it was offset for libdecor
-    AdjustPopupOffset(wind->sdlwindow, &offset_x, &offset_y);
-    x -= offset_x;
-    y -= offset_y;
+    Adjust_Popup_انحراف(wind->sdlwindow, &انحراف_x, &انحراف_y);
+    x -= انحراف_x;
+    y -= انحراف_y;
 
     /* This happens when the compositor indicates that the size is
      * up to the client, so use the cached window size here.
      */
-    if (width == 0 || height == 0) {
-        width = wind->sdlwindow->floating.w;
-        height = wind->sdlwindow->floating.h;
+    اگر (چوڑائی == 0 || اونچائی == 0) {
+        چوڑائی = wind->sdlwindow->floating.w;
+        اونچائی = wind->sdlwindow->floating.h;
     }
 
     /* Don't apply the supplied dimensions if they haven't changed from the last configuration
      * event, or a newer size set programmatically can be overwritten by old data.
      */
-    if (width != wind->last_configure.width || height != wind->last_configure.height) {
-        wind->requested.logical_width = width;
-        wind->requested.logical_height = height;
+    اگر (چوڑائی != wind->آخری_configure.چوڑائی || اونچائی != wind->آخری_configure.اونچائی) {
+        wind->requested.logical_چوڑائی = چوڑائی;
+        wind->requested.logical_اونچائی = اونچائی;
 
-        if (wind->scale_to_display) {
-            wind->requested.pixel_width = PointToPixel(wind->sdlwindow, width);
-            wind->requested.pixel_height = PointToPixel(wind->sdlwindow, height);
+        اگر (wind->scale_مقصد_display) {
+            wind->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(wind->sdlwindow, چوڑائی);
+            wind->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(wind->sdlwindow, اونچائی);
         }
     }
 
-    if (wind->scale_to_display) {
-        x = PointToPixel(wind->sdlwindow->parent, x);
-        y = PointToPixel(wind->sdlwindow->parent, y);
+    اگر (wind->scale_مقصد_display) {
+        x = نقطہ_مقصد_Pixel(wind->sdlwindow->والد, x);
+        y = نقطہ_مقصد_Pixel(wind->sdlwindow->والد, y);
     }
 
-    SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_MOVED, x, y);
+    SDL_Send_کھڑکی_Event(wind->sdlwindow, SDL_EVENT_کھڑکی_MOVED, x, y);
 
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
+    wind->آخری_configure.چوڑائی = چوڑائی;
+    wind->آخری_configure.اونچائی = اونچائی;
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+        wind->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا;
     }
 }
 
-static void handle_xdg_popup_done(void *data, struct xdg_popup *xdg_popup)
+ساکن خالی handle_xdg_popup_مکمل(خالی *ڈیٹا, ساخت xdg_popup *xdg_popup)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    SDL_SendWindowEvent(window->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_کھڑکی_ڈیٹا *کھڑکی = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_Send_کھڑکی_Event(کھڑکی->sdlwindow, SDL_EVENT_کھڑکی_CLOSE_REQUESTED, 0, 0);
 }
 
-static void handle_xdg_popup_repositioned(void *data,
-                                          struct xdg_popup *xdg_popup,
+ساکن خالی handle_xdg_popup_repositioned(خالی *ڈیٹا,
+                                          ساخت xdg_popup *xdg_popup,
                                           uint32_t token)
 {
     // No-op, configure does all the work we care about
 }
 
-static const struct xdg_popup_listener _xdg_popup_listener = {
+ساکن ثابت ساخت xdg_popup_listener _xdg_popup_listener = {
     handle_xdg_popup_configure,
-    handle_xdg_popup_done,
+    handle_xdg_popup_مکمل,
     handle_xdg_popup_repositioned
 };
 
-static void handle_xdg_toplevel_decoration_configure(void *data,
-                                                     struct zxdg_toplevel_decoration_v1 *zxdg_toplevel_decoration_v1,
-                                                     uint32_t mode)
+ساکن خالی handle_xdg_toplevel_decoration_configure(خالی *ڈیٹا,
+                                                     ساخت zxdg_toplevel_decoration_v1 *zxdg_toplevel_decoration_v1,
+                                                     uint32_t منوال)
 {
-    SDL_Window *window = (SDL_Window *)data;
-    SDL_WindowData *internal = window->internal;
+    SDL_کھڑکی *کھڑکی = (SDL_کھڑکی *)ڈیٹا;
+    SDL_کھڑکی_ڈیٹا *اندرونی_2 = کھڑکی->اندرونی_2;
     SDL_VideoDevice *device = SDL_GetVideoDevice();
 
     /* If the compositor tries to force CSD anyway, bail on direct XDG support
@@ -1490,28 +1490,28 @@ static void handle_xdg_toplevel_decoration_configure(void *data,
      *
      * To do this we have to fully unmap, then map with libdecor loaded.
      */
-    if (mode == ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE) {
-        if (window->flags & SDL_WINDOW_BORDERLESS) {
+    اگر (منوال == ZXDG_TOPLEVEL_DECORATION_V1_منوال_CLIENT_SIDE) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_BORDERLESS) {
             // borderless windows do request CSD, so we got what we wanted
-            return;
+            واپس;
         }
-        if (!Wayland_LoadLibdecor(internal->waylandData, true)) {
+        اگر (!Wayland_بھرو_Libdecor(اندرونی_2->wayland_ڈیٹا, true)) {
             // libdecor isn't available, so no borders for you... oh well
-            return;
+            واپس;
         }
-        WAYLAND_wl_display_roundtrip(internal->waylandData->display);
+        WAYLAND_wl_display_roundtrip(اندرونی_2->wayland_ڈیٹا->display);
 
-        Wayland_HideWindow(device, window);
-        internal->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
-        Wayland_ShowWindow(device, window);
+        Wayland_Hide_کھڑکی(device, کھڑکی);
+        اندرونی_2->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
+        Wayland_Show_کھڑکی(device, کھڑکی);
     }
 }
 
-static const struct zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration_listener = {
+ساکن ثابت ساخت zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration_listener = {
     handle_xdg_toplevel_decoration_configure
 };
 
-#ifdef HAVE_LIBDECOR_H
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
 /*
  * XXX: Hack for older versions of libdecor that lack the function to query the
  *      minimum content size limit. The internal limits must always be overridden
@@ -1523,15 +1523,15 @@ static const struct zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration
  *      Can be removed if the minimum required version of libdecor is raised to
  *      0.1.2 or higher.
  */
-static void OverrideLibdecorLimits(SDL_Window *window)
+ساکن خالی OverrideLibdecorLimits(SDL_کھڑکی *کھڑکی)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (!libdecor_frame_get_min_content_size) {
-        libdecor_frame_set_min_content_size(window->internal->shell_surface.libdecor.frame, window->min_w, window->min_h);
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    اگر (!libdecor_چوکھٹا_get_min_content_سائز) {
+        libdecor_چوکھٹا_سیٹ_min_content_سائز(کھڑکی->اندرونی_2->shell_surface.libdecor.چوکھٹا, کھڑکی->min_w, کھڑکی->min_h);
     }
-#elif !SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-    libdecor_frame_set_min_content_size(window->internal->shell_surface.libdecor.frame, window->min_w, window->min_h);
-#endif
+#وگرنہ_اگر !SDL_LIBDECOR_CHECK_نسخہ(0, 2, 0)
+    libdecor_چوکھٹا_سیٹ_min_content_سائز(کھڑکی->اندرونی_2->shell_surface.libdecor.چوکھٹا, کھڑکی->min_w, کھڑکی->min_h);
+#اگر_ختم
 }
 
 /*
@@ -1542,28 +1542,28 @@ static void OverrideLibdecorLimits(SDL_Window *window)
  *       Can be replaced with a direct call if the minimum required version of libdecor is raised
  *       to 0.1.2 or higher.
  */
-static void LibdecorGetMinContentSize(struct libdecor_frame *frame, int *min_w, int *min_h)
+ساکن خالی Libdecor_Get_Min_Content_سائز(ساخت libdecor_چوکھٹا *چوکھٹا, صحیح *min_w, صحیح *min_h)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (libdecor_frame_get_min_content_size != NULL) {
-        libdecor_frame_get_min_content_size(frame, min_w, min_h);
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    اگر (libdecor_چوکھٹا_get_min_content_سائز != تہی) {
+        libdecor_چوکھٹا_get_min_content_سائز(چوکھٹا, min_w, min_h);
     }
-#elif SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-    libdecor_frame_get_min_content_size(frame, min_w, min_h);
-#endif
+#وگرنہ_اگر SDL_LIBDECOR_CHECK_نسخہ(0, 2, 0)
+    libdecor_چوکھٹا_get_min_content_سائز(چوکھٹا, min_w, min_h);
+#اگر_ختم
 }
 
-static void decoration_frame_configure(struct libdecor_frame *frame,
-                                       struct libdecor_configuration *configuration,
-                                       void *user_data)
+ساکن خالی decoration_چوکھٹا_configure(ساخت libdecor_چوکھٹا *چوکھٹا,
+                                       ساخت libdecor_configuration *configuration,
+                                       خالی *user_ڈیٹا_2)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)user_data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)user_ڈیٹا_2;
+    SDL_کھڑکی *کھڑکی = wind->sdlwindow;
 
-    enum libdecor_window_state window_state;
-    int width, height;
+    شمار libdecor_کھڑکی_state کھڑکی_state;
+    صحیح چوڑائی, اونچائی;
 
-    bool active = false;
+    bool فعال = false;
     bool fullscreen = false;
     bool maximized = false;
     bool tiled = false;
@@ -1571,42 +1571,42 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
     bool resizing = false;
     wind->toplevel_constraints = 0;
 
-    static const enum libdecor_window_state tiled_states = (LIBDECOR_WINDOW_STATE_TILED_LEFT | LIBDECOR_WINDOW_STATE_TILED_RIGHT |
-                                                            LIBDECOR_WINDOW_STATE_TILED_TOP | LIBDECOR_WINDOW_STATE_TILED_BOTTOM);
+    ساکن ثابت شمار libdecor_کھڑکی_state tiled_حالتیں = (LIBDECOR_کھڑکی_STATE_TILED_بایاں | LIBDECOR_کھڑکی_STATE_TILED_دایاں |
+                                                            LIBDECOR_کھڑکی_STATE_TILED_چوٹی | LIBDECOR_کھڑکی_STATE_TILED_BOTTOM);
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        LibdecorGetMinContentSize(frame, &wind->system_limits.min_width, &wind->system_limits.min_height);
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+        Libdecor_Get_Min_Content_سائز(چوکھٹا, &wind->system_limits.min_چوڑائی_2, &wind->system_limits.min_اونچائی_2);
     }
 
     // Window State
-    if (libdecor_configuration_get_window_state(configuration, &window_state)) {
-        fullscreen = (window_state & LIBDECOR_WINDOW_STATE_FULLSCREEN) != 0;
-        maximized = (window_state & LIBDECOR_WINDOW_STATE_MAXIMIZED) != 0;
-        active = (window_state & LIBDECOR_WINDOW_STATE_ACTIVE) != 0;
-        tiled = (window_state & tiled_states) != 0;
-#if SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-        suspended = (window_state & LIBDECOR_WINDOW_STATE_SUSPENDED) != 0;
-#endif
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-        resizing = (window_state & LIBDECOR_WINDOW_STATE_RESIZING) != 0;
+    اگر (libdecor_configuration_get_کھڑکی_state(configuration, &کھڑکی_state)) {
+        fullscreen = (کھڑکی_state & LIBDECOR_کھڑکی_STATE_FULLSCREEN) != 0;
+        maximized = (کھڑکی_state & LIBDECOR_کھڑکی_STATE_MAXIMIZED) != 0;
+        فعال = (کھڑکی_state & LIBDECOR_کھڑکی_STATE_فعال) != 0;
+        tiled = (کھڑکی_state & tiled_حالتیں) != 0;
+#اگر SDL_LIBDECOR_CHECK_نسخہ(0, 2, 0)
+        suspended = (کھڑکی_state & LIBDECOR_کھڑکی_STATE_SUSPENDED) != 0;
+#اگر_ختم
+#اگر SDL_LIBDECOR_CHECK_نسخہ(0, 3, 0)
+        resizing = (کھڑکی_state & LIBDECOR_کھڑکی_STATE_RESIZING) != 0;
 
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_LEFT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
+        اگر (کھڑکی_state & LIBDECOR_کھڑکی_STATE_CONSTRAINED_بایاں) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_بایاں;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_RIGHT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
+        اگر (کھڑکی_state & LIBDECOR_کھڑکی_STATE_CONSTRAINED_دایاں) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_دایاں;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_TOP) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
+        اگر (کھڑکی_state & LIBDECOR_کھڑکی_STATE_CONSTRAINED_چوٹی) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_چوٹی;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_BOTTOM) {
+        اگر (کھڑکی_state & LIBDECOR_کھڑکی_STATE_CONSTRAINED_BOTTOM) {
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
         }
-#endif
+#اگر_ختم
     }
-    const bool floating = !(fullscreen || maximized || tiled);
+    ثابت bool floating = !(fullscreen || maximized || tiled);
 
-    UpdateWindowFullscreen(window, fullscreen);
+    Update_کھڑکی_Fullscreen(کھڑکی, fullscreen);
 
     /* Always send a maximized/restore event; if the event is redundant it will
      * automatically be discarded (see src/events/SDL_windowevents.c)
@@ -1616,50 +1616,50 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
      * dependent, but in general, we can assume that the flag should remain set until
      * the next focused configure event occurs.
      */
-    if (active || !(window->flags & SDL_WINDOW_MINIMIZED)) {
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+    اگر (فعال || !(کھڑکی->flags & SDL_کھڑکی_MINIMIZED)) {
+        اگر (کھڑکی->flags & SDL_کھڑکی_MINIMIZED) {
             // If we were minimized, send a restored event before possibly sending maximized.
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_RESTORED, 0, 0);
         }
-        SDL_SendWindowEvent(window,
-                            (maximized && !fullscreen) ? SDL_EVENT_WINDOW_MAXIMIZED : SDL_EVENT_WINDOW_RESTORED,
+        SDL_Send_کھڑکی_Event(کھڑکی,
+                            (maximized && !fullscreen) ? SDL_EVENT_کھڑکی_MAXIMIZED : SDL_EVENT_کھڑکی_RESTORED,
                             0, 0);
     }
 
     /* For fullscreen or fixed-size windows we know our size.
      * Always assume the configure is wrong.
      */
-    if (fullscreen) {
-        if (!libdecor_configuration_get_content_size(configuration, frame, &width, &height)) {
-            width = wind->requested.logical_width;
-            height = wind->requested.logical_height;
-        } else {
+    اگر (fullscreen) {
+        اگر (!libdecor_configuration_get_content_سائز(configuration, چوکھٹا, &چوڑائی, &اونچائی)) {
+            چوڑائی = wind->requested.logical_چوڑائی;
+            اونچائی = wind->requested.logical_اونچائی;
+        } ورنہ {
             // Fullscreen windows know their exact size.
-            wind->requested.logical_width = width;
-            wind->requested.logical_height = height;
+            wind->requested.logical_چوڑائی = چوڑائی;
+            wind->requested.logical_اونچائی = اونچائی;
 
-            if (wind->scale_to_display) {
-                wind->requested.pixel_width = PointToPixel(window, width);
-                wind->requested.pixel_height = PointToPixel(window, height);
+            اگر (wind->scale_مقصد_display) {
+                wind->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی, چوڑائی);
+                wind->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی, اونچائی);
             }
         }
-    } else {
-        if (!(window->flags & SDL_WINDOW_RESIZABLE) && !maximized) {
+    } ورنہ {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE) && !maximized) {
             /* If we're a fixed-size, non-maximized window, we know our size for sure.
              * Always assume the configure is wrong.
              */
-            if (!wind->scale_to_display) {
-                width = wind->requested.logical_width = window->floating.w;
-                height = wind->requested.logical_height = window->floating.h;
-            } else {
-                wind->requested.pixel_width = window->floating.w;
-                wind->requested.pixel_height = window->floating.h;
-                width = wind->requested.logical_width = PixelToPoint(window, window->floating.w);
-                height = wind->requested.logical_height = PixelToPoint(window, window->floating.h);
+            اگر (!wind->scale_مقصد_display) {
+                چوڑائی = wind->requested.logical_چوڑائی = کھڑکی->floating.w;
+                اونچائی = wind->requested.logical_اونچائی = کھڑکی->floating.h;
+            } ورنہ {
+                wind->requested.pixel_چوڑائی = کھڑکی->floating.w;
+                wind->requested.pixel_اونچائی = کھڑکی->floating.h;
+                چوڑائی = wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.w);
+                اونچائی = wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.h);
             }
 
-            OverrideLibdecorLimits(window);
-        } else {
+            OverrideLibdecorLimits(کھڑکی);
+        } ورنہ {
             /* XXX: The libdecor cairo plugin sends bogus content sizes that add the
              *      height of the title bar when transitioning from a fixed-size to
              *      floating state. Ignore the sent window dimensions in this case,
@@ -1668,38 +1668,38 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
              *
              *      https://gitlab.freedesktop.org/libdecor/libdecor/-/issues/34
              */
-            if ((floating && (!wind->floating && !(window->flags & SDL_WINDOW_BORDERLESS))) ||
-                !libdecor_configuration_get_content_size(configuration, frame, &width, &height)) {
-                width = 0;
-                height = 0;
+            اگر ((floating && (!wind->floating && !(کھڑکی->flags & SDL_کھڑکی_BORDERLESS))) ||
+                !libdecor_configuration_get_content_سائز(configuration, چوکھٹا, &چوڑائی, &اونچائی)) {
+                چوڑائی = 0;
+                اونچائی = 0;
             }
 
-            const bool new_configure_size = width != wind->last_configure.width || height != wind->last_configure.height;
-            DetermineResizeAxis(wind, width, height, resizing);
+            ثابت bool new_configure_سائز = چوڑائی != wind->آخری_configure.چوڑائی || اونچائی != wind->آخری_configure.اونچائی;
+            DetermineResizeAxis(wind, چوڑائی, اونچائی, resizing);
 
-            if (!width) {
+            اگر (!چوڑائی) {
                 /* This happens when we're being restored from a non-floating state,
                  * or the compositor indicates that the size is up to the client, so
                  * used the cached window size here.
                  */
-                if (floating) {
-                    width = window->floating.w;
+                اگر (floating) {
+                    چوڑائی = کھڑکی->floating.w;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.width) {
-                        width = SDL_min(wind->toplevel_bounds.width, width);
+                    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE && wind->toplevel_bounds.چوڑائی) {
+                        چوڑائی = SDL_min(wind->toplevel_bounds.چوڑائی, چوڑائی);
                     }
-                } else {
-                    width = window->windowed.w;
+                } ورنہ {
+                    چوڑائی = کھڑکی->windowed.w;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_width = width;
-                } else {
-                    wind->requested.pixel_width = width;
-                    width = wind->requested.logical_width = PixelToPoint(window, width);
+                اگر (!wind->scale_مقصد_display) {
+                    wind->requested.logical_چوڑائی = چوڑائی;
+                } ورنہ {
+                    wind->requested.pixel_چوڑائی = چوڑائی;
+                    چوڑائی = wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, چوڑائی);
                 }
-            } else {
+            } ورنہ {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  *
@@ -1707,39 +1707,39 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
                  * configure event to set the suspended state may arrive with the content size increased
                  * by the decoration dimensions, which should also be ignored.
                  */
-                if (new_configure_size &&
-                    !(wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME && wind->suspended != suspended)) {
-                    wind->requested.logical_width = width;
+                اگر (new_configure_سائز &&
+                    !(wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا && wind->suspended != suspended)) {
+                    wind->requested.logical_چوڑائی = چوڑائی;
 
-                    if (wind->scale_to_display) {
-                        wind->requested.pixel_width = PointToPixel(window, width);
+                    اگر (wind->scale_مقصد_display) {
+                        wind->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی, چوڑائی);
                     }
                 }
             }
 
-            if (!height) {
+            اگر (!اونچائی) {
                 /* This happens when we're being restored from a non-floating state,
                  * or the compositor indicates that the size is up to the client, so
                  * used the cached window size here.
                  */
-                if (floating) {
-                    height = window->floating.h;
+                اگر (floating) {
+                    اونچائی = کھڑکی->floating.h;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.height) {
-                        height = SDL_min(wind->toplevel_bounds.height, height);
+                    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE && wind->toplevel_bounds.اونچائی) {
+                        اونچائی = SDL_min(wind->toplevel_bounds.اونچائی, اونچائی);
                     }
-                } else {
-                    height = window->windowed.h;
+                } ورنہ {
+                    اونچائی = کھڑکی->windowed.h;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_height = height;
-                } else {
-                    wind->requested.pixel_height = height;
-                    height = wind->requested.logical_height = PixelToPoint(window, height);
+                اگر (!wind->scale_مقصد_display) {
+                    wind->requested.logical_اونچائی = اونچائی;
+                } ورنہ {
+                    wind->requested.pixel_اونچائی = اونچائی;
+                    اونچائی = wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, اونچائی);
                 }
-            } else {
+            } ورنہ {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  *
@@ -1747,12 +1747,12 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
                  * configure event to set the suspended state may arrive with the content size increased
                  * by the decoration dimensions, which should also be ignored.
                  */
-                if (new_configure_size &&
-                    !(wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME && wind->suspended != suspended)) {
-                    wind->requested.logical_height = height;
+                اگر (new_configure_سائز &&
+                    !(wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا && wind->suspended != suspended)) {
+                    wind->requested.logical_اونچائی = اونچائی;
 
-                    if (wind->scale_to_display) {
-                        wind->requested.pixel_height = PointToPixel(window, height);
+                    اگر (wind->scale_مقصد_display) {
+                        wind->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی, اونچائی);
                     }
                 }
             }
@@ -1770,47 +1770,47 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
          *   the supplied dimensions and use a viewport + mask to enforce the size limits and/or
          *   aspect ratio.
          */
-        if (floating) {
-            if (!wind->scale_to_display) {
-                ApplyGeometryLimits(window, wind->requested.logical_width, wind->requested.logical_height, &wind->requested.logical_width, &wind->requested.logical_height);
-            } else {
-                ApplyGeometryLimits(window, wind->requested.pixel_width, wind->requested.pixel_height, &wind->requested.pixel_width, &wind->requested.pixel_height);
+        اگر (floating) {
+            اگر (!wind->scale_مقصد_display) {
+                ApplyGeometryLimits(کھڑکی, wind->requested.logical_چوڑائی, wind->requested.logical_اونچائی, &wind->requested.logical_چوڑائی, &wind->requested.logical_اونچائی);
+            } ورنہ {
+                ApplyGeometryLimits(کھڑکی, wind->requested.pixel_چوڑائی, wind->requested.pixel_اونچائی, &wind->requested.pixel_چوڑائی, &wind->requested.pixel_اونچائی);
 
-                wind->requested.logical_width = PixelToPoint(window, wind->requested.pixel_width);
-                wind->requested.logical_height = PixelToPoint(window, wind->requested.pixel_height);
+                wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, wind->requested.pixel_چوڑائی);
+                wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, wind->requested.pixel_اونچائی);
             }
         }
     }
 
     // Store the new state.
-    const bool started_resize = !wind->resizing && resizing;
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
+    ثابت bool started_resize = !wind->resizing && resizing;
+    wind->آخری_configure.چوڑائی = چوڑائی;
+    wind->آخری_configure.اونچائی = اونچائی;
     wind->floating = floating;
     wind->suspended = suspended;
-    wind->active = active;
-    window->tiled = tiled;
+    wind->فعال = فعال;
+    کھڑکی->tiled = tiled;
     wind->resizing = resizing;
 
     // Update the window manager capabilities.
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-    enum libdecor_wm_capabilities caps;
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (libdecor_frame_get_wm_capabilities) {
-        caps = libdecor_frame_get_wm_capabilities(wind->shell_surface.libdecor.frame);
-#else
-    caps = libdecor_frame_get_wm_capabilities(wind->shell_surface.libdecor.frame);
+#اگر SDL_LIBDECOR_CHECK_نسخہ(0, 3, 0)
+    شمار libdecor_wm_capabilities caps;
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    اگر (libdecor_چوکھٹا_get_wm_capabilities) {
+        caps = libdecor_چوکھٹا_get_wm_capabilities(wind->shell_surface.libdecor.چوکھٹا);
+#ورنہ
+    caps = libdecor_چوکھٹا_get_wm_capabilities(wind->shell_surface.libdecor.چوکھٹا);
     {
-#endif
+#اگر_ختم
         wind->wm_caps = 0;
-        wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_WINDOW_MENU ? WAYLAND_WM_CAPS_WINDOW_MENU : 0;
+        wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_کھڑکی_MENU ? WAYLAND_WM_CAPS_کھڑکی_MENU : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_MAXIMIZE ? WAYLAND_WM_CAPS_MAXIMIZE : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_FULLSCREEN ? WAYLAND_WM_CAPS_FULLSCREEN : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_MINIMIZE ? WAYLAND_WM_CAPS_MINIMIZE : 0;
     }
-#endif
+#اگر_ختم
 
-    if (!wind->resizing || started_resize) {
+    اگر (!wind->resizing || started_resize) {
         /* Calculate the new window geometry and commit the changes on the libdecor side.
          *
          * XXX: This will potentially leave un-acked configurations, but libdecor invalidates the
@@ -1818,81 +1818,81 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
          *      done, unless libdecor adds the ability to copy or refcount the configuration state
          *      to apply later.
          */
-        ConfigureWindowGeometry(window);
-        struct libdecor_state *state = libdecor_state_new(wind->current.logical_width, wind->current.logical_height);
-        libdecor_frame_commit(frame, state, configuration);
+        Configure_کھڑکی_Geometry(کھڑکی);
+        ساخت libdecor_state *state = libdecor_state_new(wind->current.logical_چوڑائی, wind->current.logical_اونچائی);
+        libdecor_چوکھٹا_commit(چوکھٹا, state, configuration);
         libdecor_state_free(state);
 
         // Always send an exposure event during a new frame to ensure forward progress if the frame callback already occurred.
-        if (started_resize) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+        اگر (started_resize) {
+            SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
         }
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+        wind->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_چوکھٹا;
     }
 }
 
-static void decoration_frame_close(struct libdecor_frame *frame, void *user_data)
+ساکن خالی decoration_چوکھٹا_close(ساخت libdecor_چوکھٹا *چوکھٹا, خالی *user_ڈیٹا_2)
 {
-    SDL_SendWindowEvent(((SDL_WindowData *)user_data)->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_Send_کھڑکی_Event(((SDL_کھڑکی_ڈیٹا *)user_ڈیٹا_2)->sdlwindow, SDL_EVENT_کھڑکی_CLOSE_REQUESTED, 0, 0);
 }
 
-static void decoration_frame_commit(struct libdecor_frame *frame, void *user_data)
+ساکن خالی decoration_چوکھٹا_commit(ساخت libdecor_چوکھٹا *چوکھٹا, خالی *user_ڈیٹا_2)
 {
     /* libdecor decoration subsurfaces are synchronous, so the client needs to
      * commit a frame to trigger an update of the decoration surfaces.
      */
-    SDL_WindowData *wind = (SDL_WindowData *)user_data;
-    if (!wind->suspended && wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-        SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)user_ڈیٹا_2;
+    اگر (!wind->suspended && wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
+        SDL_Send_کھڑکی_Event(wind->sdlwindow, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
     }
 }
 
-static void decoration_dismiss_popup(struct libdecor_frame *frame, const char *seat_name, void *user_data)
+ساکن خالی decoration_dismiss_popup(ساخت libdecor_چوکھٹا *چوکھٹا, ثابت حرف *seat_name, خالی *user_ڈیٹا_2)
 {
     // NOP
 }
 
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-static void decoration_frame_bounds(struct libdecor_frame *frame, int width, int height, void *user_data)
+#اگر SDL_LIBDECOR_CHECK_نسخہ(0, 3, 0)
+ساکن خالی decoration_چوکھٹا_bounds(ساخت libdecor_چوکھٹا *چوکھٹا, صحیح چوڑائی, صحیح اونچائی, خالی *user_ڈیٹا_2)
 {
-    SDL_WindowData *window = (SDL_WindowData *)user_data;
-    window->toplevel_bounds.width = width;
-    window->toplevel_bounds.height = height;
+    SDL_کھڑکی_ڈیٹا *کھڑکی = (SDL_کھڑکی_ڈیٹا *)user_ڈیٹا_2;
+    کھڑکی->toplevel_bounds.چوڑائی = چوڑائی;
+    کھڑکی->toplevel_bounds.اونچائی = اونچائی;
 }
-#endif
+#اگر_ختم
 
-static struct libdecor_frame_interface libdecor_frame_interface = {
-    decoration_frame_configure,
-    decoration_frame_close,
-    decoration_frame_commit,
+ساکن ساخت libdecor_چوکھٹا_interface libdecor_چوکھٹا_interface = {
+    decoration_چوکھٹا_configure,
+    decoration_چوکھٹا_close,
+    decoration_چوکھٹا_commit,
     decoration_dismiss_popup,
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-    decoration_frame_bounds
-#endif
+#اگر SDL_LIBDECOR_CHECK_نسخہ(0, 3, 0)
+    decoration_چوکھٹا_bounds
+#اگر_ختم
 };
-#endif
+#اگر_ختم
 
-static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, double factor)
+ساکن خالی Wayland_Handle_Preferred_Scale_بدلا(SDL_کھڑکی_ڈیٹا *کھڑکی_ڈیٹا_2, دوہرا ضربی_عدد)
 {
-    const double old_factor = window_data->scale_factor;
+    ثابت دوہرا old_ضربی_عدد = کھڑکی_ڈیٹا_2->scale_ضربی_عدد_2;
 
     // Round the scale factor if viewports aren't available.
-    if (!window_data->viewport) {
-        factor = SDL_ceil(factor);
+    اگر (!کھڑکی_ڈیٹا_2->viewport) {
+        ضربی_عدد = SDL_ceil(ضربی_عدد);
     }
 
-    if (factor != old_factor) {
-        window_data->scale_factor = factor;
+    اگر (ضربی_عدد != old_ضربی_عدد) {
+        کھڑکی_ڈیٹا_2->scale_ضربی_عدد_2 = ضربی_عدد;
 
-        if (window_data->scale_to_display) {
+        اگر (کھڑکی_ڈیٹا_2->scale_مقصد_display) {
             /* If the window is in the floating state with a user/application specified size, calculate the new
              * logical size from the backbuffer size. Otherwise, use the fixed underlying logical size to calculate
              * the new backbuffer dimensions.
              */
-            if (window_data->floating) {
+            اگر (کھڑکی_ڈیٹا_2->floating) {
                 /* Some compositors will send a configure event immediately after a scale event, however,
                  * this event can contain the old logical size, and should be ignored, or the window can
                  * incorrectly change size when moved between displays with differing scale factors.
@@ -1902,406 +1902,406 @@ static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, dou
                  * so subtract any border insets.
                  */
                 BorderInsets insets;
-                GetBorderInsets(window_data->sdlwindow, &insets);
-                window_data->last_configure.width = SDL_max(window_data->requested.logical_width - (insets.left + insets.right), 1);
-                window_data->last_configure.height = SDL_max(window_data->requested.logical_height - (insets.top + insets.bottom), 1);
+                GetBorderInsets(کھڑکی_ڈیٹا_2->sdlwindow, &insets);
+                کھڑکی_ڈیٹا_2->آخری_configure.چوڑائی = SDL_max(کھڑکی_ڈیٹا_2->requested.logical_چوڑائی - (insets.بایاں + insets.دایاں), 1);
+                کھڑکی_ڈیٹا_2->آخری_configure.اونچائی = SDL_max(کھڑکی_ڈیٹا_2->requested.logical_اونچائی - (insets.چوٹی + insets.bottom), 1);
 
-                window_data->requested.logical_width = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_width);
-                window_data->requested.logical_height = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_height);
-            } else {
-                window_data->requested.pixel_width = PointToPixel(window_data->sdlwindow, window_data->requested.logical_width);
-                window_data->requested.pixel_height = PointToPixel(window_data->sdlwindow, window_data->requested.logical_height);
+                کھڑکی_ڈیٹا_2->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی_ڈیٹا_2->sdlwindow, کھڑکی_ڈیٹا_2->requested.pixel_چوڑائی);
+                کھڑکی_ڈیٹا_2->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی_ڈیٹا_2->sdlwindow, کھڑکی_ڈیٹا_2->requested.pixel_اونچائی);
+            } ورنہ {
+                کھڑکی_ڈیٹا_2->requested.pixel_چوڑائی = نقطہ_مقصد_Pixel(کھڑکی_ڈیٹا_2->sdlwindow, کھڑکی_ڈیٹا_2->requested.logical_چوڑائی);
+                کھڑکی_ڈیٹا_2->requested.pixel_اونچائی = نقطہ_مقصد_Pixel(کھڑکی_ڈیٹا_2->sdlwindow, کھڑکی_ڈیٹا_2->requested.logical_اونچائی);
             }
         }
 
-        if (window_data->sdlwindow->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || window_data->scale_to_display) {
-            ConfigureWindowGeometry(window_data->sdlwindow);
-            CommitLibdecorFrame(window_data->sdlwindow);
+        اگر (کھڑکی_ڈیٹا_2->sdlwindow->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY || کھڑکی_ڈیٹا_2->scale_مقصد_display) {
+            Configure_کھڑکی_Geometry(کھڑکی_ڈیٹا_2->sdlwindow);
+            Commit_Libdecor_چوکھٹا(کھڑکی_ڈیٹا_2->sdlwindow);
         }
     }
 }
 
-static void Wayland_MaybeUpdateScaleFactor(SDL_WindowData *window)
+ساکن خالی Wayland_Maybe_Update_Scale_ضربی_عدد(SDL_کھڑکی_ڈیٹا *کھڑکی)
 {
-    double factor;
-    int i;
+    دوہرا ضربی_عدد;
+    صحیح i;
 
     /* If the fractional scale protocol is present or the core protocol supports the
      * preferred buffer scale event, the compositor will explicitly tell the application
      * what scale it wants via these events, so don't try to determine the scale factor
      * from which displays the surface has entered.
      */
-    if (window->fractional_scale || wl_surface_get_version(window->surface) >= WL_SURFACE_PREFERRED_BUFFER_SCALE_SINCE_VERSION) {
-        return;
+    اگر (کھڑکی->fractional_scale || wl_surface_get_نسخہ(کھڑکی->surface) >= WL_SURFACE_PREFERRED_بفر_SCALE_SINCE_نسخہ) {
+        واپس;
     }
 
-    if (window->num_outputs != 0) {
+    اگر (کھڑکی->عدد_outputs != 0) {
         // Check every display's factor, use the highest
-        factor = 0.0;
-        for (i = 0; i < window->num_outputs; i++) {
-            SDL_DisplayData *internal = window->outputs[i];
-            factor = SDL_max(factor, internal->scale_factor);
+        ضربی_عدد = 0.0;
+        برائے (i = 0; i < کھڑکی->عدد_outputs; i++) {
+            SDL_Display_ڈیٹا *اندرونی_2 = کھڑکی->outputs[i];
+            ضربی_عدد = SDL_max(ضربی_عدد, اندرونی_2->scale_ضربی_عدد_2);
         }
-    } else {
+    } ورنہ {
         // All outputs removed, just fall back.
-        factor = window->scale_factor;
+        ضربی_عدد = کھڑکی->scale_ضربی_عدد_2;
     }
 
-    Wayland_HandlePreferredScaleChanged(window, factor);
+    Wayland_Handle_Preferred_Scale_بدلا(کھڑکی, ضربی_عدد);
 }
 
-void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data)
+خالی Wayland_Remove_Output_From_کھڑکی(SDL_کھڑکی_ڈیٹا *کھڑکی, SDL_Display_ڈیٹا *display_ڈیٹا)
 {
-    for (int i = 0; i < window->num_outputs; i++) {
-        if (window->outputs[i] == display_data) { // remove this one
-            if (i == (window->num_outputs - 1)) {
-                window->outputs[i] = NULL;
-            } else {
-                SDL_memmove(&window->outputs[i],
-                            &window->outputs[i + 1],
-                            sizeof(SDL_DisplayData *) * ((window->num_outputs - i) - 1));
+    برائے (صحیح i = 0; i < کھڑکی->عدد_outputs; i++) {
+        اگر (کھڑکی->outputs[i] == display_ڈیٹا) { // remove this one
+            اگر (i == (کھڑکی->عدد_outputs - 1)) {
+                کھڑکی->outputs[i] = تہی;
+            } ورنہ {
+                SDL_memmove(&کھڑکی->outputs[i],
+                            &کھڑکی->outputs[i + 1],
+                            حجم(SDL_Display_ڈیٹا *) * ((کھڑکی->عدد_outputs - i) - 1));
             }
-            window->num_outputs--;
+            کھڑکی->عدد_outputs--;
             i--;
         }
     }
 
-    if (window->num_outputs == 0) {
-        SDL_free(window->outputs);
-        window->outputs = NULL;
-    } else if (!window->is_fullscreen || window->num_outputs == 1) {
-        Wayland_UpdateWindowPosition(window->sdlwindow);
-        Wayland_MaybeUpdateScaleFactor(window);
+    اگر (کھڑکی->عدد_outputs == 0) {
+        SDL_free(کھڑکی->outputs);
+        کھڑکی->outputs = تہی;
+    } ورنہ اگر (!کھڑکی->is_fullscreen || کھڑکی->عدد_outputs == 1) {
+        Wayland_Update_کھڑکی_Position(کھڑکی->sdlwindow);
+        Wayland_Maybe_Update_Scale_ضربی_عدد(کھڑکی);
     }
 }
 
-static void handle_surface_enter(void *data, struct wl_surface *surface, struct wl_output *output)
+ساکن خالی handle_surface_enter(خالی *ڈیٹا, ساخت wl_surface *surface, ساخت wl_output *output)
 {
-    SDL_WindowData *window = data;
-    SDL_DisplayData *internal = wl_output_get_user_data(output);
-    SDL_DisplayData **new_outputs;
+    SDL_کھڑکی_ڈیٹا *کھڑکی = ڈیٹا;
+    SDL_Display_ڈیٹا *اندرونی_2 = wl_output_get_user_ڈیٹا(output);
+    SDL_Display_ڈیٹا **new_outputs;
 
-    if (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
-        return;
+    اگر (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
+        واپس;
     }
 
-    new_outputs = SDL_realloc(window->outputs,
-                              sizeof(SDL_DisplayData *) * (window->num_outputs + 1));
-    if (!new_outputs) {
-        return;
+    new_outputs = SDL_realloc(کھڑکی->outputs,
+                              حجم(SDL_Display_ڈیٹا *) * (کھڑکی->عدد_outputs + 1));
+    اگر (!new_outputs) {
+        واپس;
     }
-    window->outputs = new_outputs;
-    window->outputs[window->num_outputs++] = internal;
+    کھڑکی->outputs = new_outputs;
+    کھڑکی->outputs[کھڑکی->عدد_outputs++] = اندرونی_2;
 
     // Update the scale factor after the move so that fullscreen outputs are updated.
-    if (!window->is_fullscreen || window->num_outputs == 1) {
-        Wayland_UpdateWindowPosition(window->sdlwindow);
-        Wayland_MaybeUpdateScaleFactor(window);
+    اگر (!کھڑکی->is_fullscreen || کھڑکی->عدد_outputs == 1) {
+        Wayland_Update_کھڑکی_Position(کھڑکی->sdlwindow);
+        Wayland_Maybe_Update_Scale_ضربی_عدد(کھڑکی);
     }
 }
 
-static void handle_surface_leave(void *data, struct wl_surface *surface, struct wl_output *output)
+ساکن خالی handle_surface_leave(خالی *ڈیٹا, ساخت wl_surface *surface, ساخت wl_output *output)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
+    SDL_کھڑکی_ڈیٹا *کھڑکی = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
 
-    if (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
-        return;
+    اگر (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
+        واپس;
     }
 
-    Wayland_RemoveOutputFromWindow(window, (SDL_DisplayData *)wl_output_get_user_data(output));
+    Wayland_Remove_Output_From_کھڑکی(کھڑکی, (SDL_Display_ڈیٹا *)wl_output_get_user_ڈیٹا(output));
 }
 
-static void handle_surface_preferred_buffer_scale(void *data, struct wl_surface *wl_surface, int32_t factor)
+ساکن خالی handle_surface_preferred_بفر_scale(خالی *ڈیٹا, ساخت wl_surface *wl_surface, int32_t ضربی_عدد)
 {
-    SDL_WindowData *wind = data;
+    SDL_کھڑکی_ڈیٹا *wind = ڈیٹا;
 
     /* The spec is unclear on how this interacts with the fractional scaling protocol,
      * so, for now, assume that the fractional scaling protocol takes priority and
      * only listen to this event if the fractional scaling protocol is not present.
      */
-    if (!wind->fractional_scale) {
-        Wayland_HandlePreferredScaleChanged(data, (double)factor);
+    اگر (!wind->fractional_scale) {
+        Wayland_Handle_Preferred_Scale_بدلا(ڈیٹا, (دوہرا)ضربی_عدد);
     }
 }
 
-static void handle_surface_preferred_buffer_transform(void *data, struct wl_surface *wl_surface, uint32_t transform)
+ساکن خالی handle_surface_preferred_بفر_transform(خالی *ڈیٹا, ساخت wl_surface *wl_surface, uint32_t transform)
 {
     // Nothing to do here.
 }
 
-static const struct wl_surface_listener surface_listener = {
+ساکن ثابت ساخت wl_surface_listener surface_listener = {
     handle_surface_enter,
     handle_surface_leave,
-    handle_surface_preferred_buffer_scale,
-    handle_surface_preferred_buffer_transform
+    handle_surface_preferred_بفر_scale,
+    handle_surface_preferred_بفر_transform
 };
 
-static void handle_fractional_scale_preferred(void *data, struct wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale)
+ساکن خالی handle_fractional_scale_preferred(خالی *ڈیٹا, ساخت wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale)
 {
-    const double factor = (double)scale / 120.; // 120 is a magic number defined in the spec as a common denominator
-    Wayland_HandlePreferredScaleChanged(data, factor);
+    ثابت دوہرا ضربی_عدد = (دوہرا)scale / 120.; // 120 is a magic number defined in the spec as a common denominator
+    Wayland_Handle_Preferred_Scale_بدلا(ڈیٹا, ضربی_عدد);
 }
 
-static const struct wp_fractional_scale_v1_listener fractional_scale_listener = {
+ساکن ثابت ساخت wp_fractional_scale_v1_listener fractional_scale_listener = {
     handle_fractional_scale_preferred
 };
 
-static void frog_preferred_metadata_handler(void *data, struct frog_color_managed_surface *frog_color_managed_surface, uint32_t transfer_function,
+ساکن خالی frog_preferred_metadata_handler(خالی *ڈیٹا, ساخت frog_color_managed_surface *frog_color_managed_surface, uint32_t transfer_function,
                                             uint32_t output_display_primary_red_x, uint32_t output_display_primary_red_y,
                                             uint32_t output_display_primary_green_x, uint32_t output_display_primary_green_y,
                                             uint32_t output_display_primary_blue_x, uint32_t output_display_primary_blue_y,
-                                            uint32_t output_white_point_x, uint32_t output_white_point_y,
+                                            uint32_t output_white_نقطہ_x, uint32_t output_white_نقطہ_y,
                                             uint32_t max_luminance, uint32_t min_luminance,
-                                            uint32_t max_full_frame_luminance)
+                                            uint32_t max_بھرا_چوکھٹا_luminance)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
     SDL_HDROutputProperties HDR;
 
     SDL_zero(HDR);
 
-    switch (transfer_function) {
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_ST2084_PQ:
+    انتخاب (transfer_function) {
+    حالت FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_ST2084_PQ:
         /* ITU-R BT.2408-7 (Sept 2023) has the reference PQ white level at 203 nits,
          * while older Dolby documentation claims a reference level of 100 nits.
          *
          * Use 203 nits for now.
          */
         HDR.HDR_headroom = max_luminance / 203.0f;
-        break;
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SCRGB_LINEAR:
+        توڑو;
+    حالت FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SCRGB_خطی:
         HDR.HDR_headroom = max_luminance / 80.0f;
-        break;
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_UNDEFINED:
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SRGB:
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_GAMMA_22:
-    default:
+        توڑو;
+    حالت FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_UNDEFINED:
+    حالت FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SRGB:
+    حالت FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_GAMMA_22:
+    طےشدہ:
         HDR.HDR_headroom = 1.0f;
-        break;
+        توڑو;
     }
 
     HDR.SDR_white_level = 1.0f;
-    SDL_SetWindowHDRProperties(wind->sdlwindow, &HDR, true);
+    SDL_سیٹ_کھڑکی_HDRProperties(wind->sdlwindow, &HDR, true);
 }
 
-static const struct frog_color_managed_surface_listener frog_surface_listener = {
+ساکن ثابت ساخت frog_color_managed_surface_listener frog_surface_listener = {
     frog_preferred_metadata_handler
 };
 
 
-static void handle_surface_feedback_preferred_changed2(void *data,
-                                                       struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
-                                                       uint32_t identity_hi, uint32_t identity_lo)
+ساکن خالی handle_surface_feedback_preferred_changed2(خالی *ڈیٹا,
+                                                       ساخت wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
+                                                       uint32_t شناختی_عنصر_hi, uint32_t شناختی_عنصر_lo)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    Wayland_GetColorInfoForWindow(wind, false);
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    Wayland_Get_Color_Info_For_کھڑکی(wind, false);
 }
 
-static void handle_surface_feedback_preferred_changed(void *data,
-                                                      struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
-                                                      uint32_t identity)
+ساکن خالی handle_surface_feedback_preferred_بدلا(خالی *ڈیٹا,
+                                                      ساخت wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
+                                                      uint32_t شناختی_عنصر)
 {
-    handle_surface_feedback_preferred_changed2(data, wp_color_management_surface_feedback_v1, 0, identity);
+    handle_surface_feedback_preferred_changed2(ڈیٹا, wp_color_management_surface_feedback_v1, 0, شناختی_عنصر);
 }
 
-static const struct wp_color_management_surface_feedback_v1_listener color_management_surface_feedback_listener = {
-    handle_surface_feedback_preferred_changed,
+ساکن ثابت ساخت wp_color_management_surface_feedback_v1_listener color_management_surface_feedback_listener = {
+    handle_surface_feedback_preferred_بدلا,
     handle_surface_feedback_preferred_changed2
 };
 
-static void Wayland_SetKeyboardFocus(SDL_Window *window, bool set_focus)
+ساکن خالی Wayland_سیٹ_Keyboard_Focus(SDL_کھڑکی *کھڑکی, bool سیٹ_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_کھڑکی *toplevel = کھڑکی;
 
     // Find the toplevel parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
-        toplevel = toplevel->parent;
+    جب (SDL_کھڑکی_IS_POPUP(toplevel)) {
+        toplevel = toplevel->والد;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = کھڑکی;
 
-    if (set_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    اگر (سیٹ_focus && !کھڑکی->is_hiding && !کھڑکی->is_destroying) {
+        SDL_سیٹ_Keyboard_Focus(کھڑکی);
     }
 }
 
-bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool Wayland_سیٹ_کھڑکی_کامیابی_Test(SDL_کھڑکی *کھڑکی, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    واپس true; // just succeed, the real work is done elsewhere.
 }
 
-static struct xdg_toplevel *GetToplevelForWindow(SDL_WindowData *wind)
+ساکن ساخت xdg_toplevel *Get_Toplevel_For_کھڑکی(SDL_کھڑکی_ڈیٹا *wind)
 {
-    if (wind) {
+    اگر (wind) {
         /* Libdecor crashes on attempts to unset the parent by passing null, which is allowed by the
          * toplevel spec, so just use the raw xdg-toplevel instead (that's what libdecor does
          * internally anyways).
          */
-#ifdef HAVE_LIBDECOR_H
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-            return libdecor_frame_get_xdg_toplevel(wind->shell_surface.libdecor.frame);
-        } else
-#endif
-            if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-                return wind->shell_surface.xdg.toplevel.xdg_toplevel;
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.چوکھٹا) {
+            واپس libdecor_چوکھٹا_get_xdg_toplevel(wind->shell_surface.libdecor.چوکھٹا);
+        } ورنہ
+#اگر_ختم
+            اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+                واپس wind->shell_surface.xdg.toplevel.xdg_toplevel;
             }
     }
 
-    return NULL;
+    واپس تہی;
 }
 
-bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window)
+bool Wayland_سیٹ_کھڑکی_والد(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_کھڑکی *والد_کھڑکی)
 {
-    SDL_WindowData *child_data = window->internal;
-    SDL_WindowData *parent_data = parent_window ? parent_window->internal : NULL;
+    SDL_کھڑکی_ڈیٹا *بچہ_ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *والد_ڈیٹا = والد_کھڑکی ? والد_کھڑکی->اندرونی_2 : تہی;
 
-    child_data->reparenting_required = false;
+    بچہ_ڈیٹا->reparenting_required = false;
 
-    if (parent_data && parent_data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    اگر (والد_ڈیٹا && والد_ڈیٹا->shell_surface_حالت != WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
         // Need to wait for the parent to become mapped, or it's the same as setting a null parent.
-        child_data->reparenting_required = true;
-        return true;
+        بچہ_ڈیٹا->reparenting_required = true;
+        واپس true;
     }
 
-    struct xdg_toplevel *child_toplevel = GetToplevelForWindow(child_data);
-    struct xdg_toplevel *parent_toplevel = GetToplevelForWindow(parent_data);
+    ساخت xdg_toplevel *بچہ_toplevel = Get_Toplevel_For_کھڑکی(بچہ_ڈیٹا);
+    ساخت xdg_toplevel *والد_toplevel = Get_Toplevel_For_کھڑکی(والد_ڈیٹا);
 
-    if (child_toplevel) {
-        xdg_toplevel_set_parent(child_toplevel, parent_toplevel);
+    اگر (بچہ_toplevel) {
+        xdg_toplevel_سیٹ_والد(بچہ_toplevel, والد_toplevel);
     }
 
-    return true;
+    واپس true;
 }
 
-bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool Wayland_سیٹ_کھڑکی_Modal(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool modal)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *data = window->internal;
-    SDL_WindowData *parent_data = window->parent->internal;
+    SDL_Video_ڈیٹا *viddata = _this->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *والد_ڈیٹا = کھڑکی->والد->اندرونی_2;
 
-    if (parent_data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    اگر (والد_ڈیٹا->shell_surface_حالت != WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
         // Need to wait for the parent to become mapped before changing modal status.
-        data->reparenting_required = true;
-        return true;
-    } else {
-        data->reparenting_required = false;
+        ڈیٹا->reparenting_required = true;
+        واپس true;
+    } ورنہ {
+        ڈیٹا->reparenting_required = false;
     }
 
-    struct xdg_toplevel *toplevel = GetToplevelForWindow(data);
+    ساخت xdg_toplevel *toplevel = Get_Toplevel_For_کھڑکی(ڈیٹا);
 
-    if (toplevel) {
-        if (viddata->xdg_wm_dialog_v1) {
-            if (modal) {
-                if (!data->xdg_dialog_v1) {
-                    data->xdg_dialog_v1 = xdg_wm_dialog_v1_get_xdg_dialog(viddata->xdg_wm_dialog_v1, toplevel);
+    اگر (toplevel) {
+        اگر (viddata->xdg_wm_dialog_v1) {
+            اگر (modal) {
+                اگر (!ڈیٹا->xdg_dialog_v1) {
+                    ڈیٹا->xdg_dialog_v1 = xdg_wm_dialog_v1_get_xdg_dialog(viddata->xdg_wm_dialog_v1, toplevel);
                 }
 
-                xdg_dialog_v1_set_modal(data->xdg_dialog_v1);
-            } else if (data->xdg_dialog_v1) {
-                xdg_dialog_v1_unset_modal(data->xdg_dialog_v1);
+                xdg_dialog_v1_سیٹ_modal(ڈیٹا->xdg_dialog_v1);
+            } ورنہ اگر (ڈیٹا->xdg_dialog_v1) {
+                xdg_dialog_v1_unset_modal(ڈیٹا->xdg_dialog_v1);
             }
         }
     }
 
-    return true;
+    واپس true;
 }
 
-static void Wayland_RegisterToplevelForSession(SDL_WindowData *data)
+ساکن خالی Wayland_رجسٹر_Toplevel_For_Session(SDL_کھڑکی_ڈیٹا *ڈیٹا)
 {
-    struct xdg_toplevel *toplevel = GetToplevelForWindow(data);
-    if (!toplevel) {
-        return;
+    ساخت xdg_toplevel *toplevel = Get_Toplevel_For_کھڑکی(ڈیٹا);
+    اگر (!toplevel) {
+        واپس;
     }
 
-    const char *id = SDL_GetStringProperty(data->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, NULL);
-    if (id && *id != '\0') {
+    ثابت حرف *id = SDL_GetStringProperty(ڈیٹا->sdlwindow->props, SDL_PROP_کھڑکی_WAYLAND_کھڑکی_ID_STRING, تہی);
+    اگر (id && *id != '\0') {
         SDL_VideoDevice *viddev = SDL_GetVideoDevice();
-        SDL_VideoData *viddata = viddev->internal;
+        SDL_Video_ڈیٹا *viddata = viddev->اندرونی_2;
 
-        if (viddata->xdg_toplevel_tag_manager) {
-            xdg_toplevel_tag_manager_v1_set_toplevel_tag(viddata->xdg_toplevel_tag_manager, toplevel, id);
+        اگر (viddata->xdg_toplevel_لیبل_manager) {
+            xdg_toplevel_لیبل_manager_v1_سیٹ_toplevel_لیبل(viddata->xdg_toplevel_لیبل_manager, toplevel, id);
         }
 
-        if (viddata->xdg_session_manager) {
+        اگر (viddata->xdg_session_manager) {
             Wayland_CreateSession(viddata);
 
-            if (viddata->xdg_session) {
+            اگر (viddata->xdg_session) {
                 CHECK_PARAM (true) {
                     // Windows added to a session must not have a duplicate ID string, or a protocol error will result.
-                    for (SDL_Window *w = viddev->windows; w; w = w->next) {
-                        SDL_WindowData *d = w->internal;
-                        if (d->session_id && SDL_strcmp(d->session_id, id) == 0) {
+                    برائے (SDL_کھڑکی *w = viddev->windows; w; w = w->اگلا) {
+                        SDL_کھڑکی_ڈیٹا *d = w->اندرونی_2;
+                        اگر (d->session_id && SDL_strcmp(d->session_id, id) == 0) {
                             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Duplicate window ID string %s found; window will not be added to session", id);
-                            return;
+                            واپس;
                         }
                     }
                 }
 
-                data->xdg_toplevel_session = xdg_session_v1_restore_toplevel(viddata->xdg_session, toplevel, id);
-                data->session_id = SDL_strdup(id);
+                ڈیٹا->xdg_toplevel_session = xdg_session_v1_restore_toplevel(viddata->xdg_session, toplevel, id);
+                ڈیٹا->session_id = SDL_strdup(id);
             }
         }
     }
 }
 
-static void Wayland_DestroyToplevelSession(SDL_WindowData *data)
+ساکن خالی Wayland_DestroyToplevelSession(SDL_کھڑکی_ڈیٹا *ڈیٹا)
 {
-    SDL_VideoData *viddata = data->waylandData;
+    SDL_Video_ڈیٹا *viddata = ڈیٹا->wayland_ڈیٹا;
 
-    if (data->xdg_toplevel_session) {
-        const char *id = SDL_GetStringProperty(data->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, NULL);
+    اگر (ڈیٹا->xdg_toplevel_session) {
+        ثابت حرف *id = SDL_GetStringProperty(ڈیٹا->sdlwindow->props, SDL_PROP_کھڑکی_WAYLAND_کھڑکی_ID_STRING, تہی);
 
         // If the ID string was cleared, remove the window from the session.
-        if (!id || *id == '\0') {
-            xdg_session_v1_remove_toplevel(viddata->xdg_session, data->session_id);
+        اگر (!id || *id == '\0') {
+            xdg_session_v1_remove_toplevel(viddata->xdg_session, ڈیٹا->session_id);
         }
 
-        xdg_toplevel_session_v1_destroy(data->xdg_toplevel_session);
-        data->xdg_toplevel_session = NULL;
+        xdg_toplevel_session_v1_destroy(ڈیٹا->xdg_toplevel_session);
+        ڈیٹا->xdg_toplevel_session = تہی;
 
-        SDL_free(data->session_id);
-        data->session_id = NULL;
+        SDL_free(ڈیٹا->session_id);
+        ڈیٹا->session_id = تہی;
     }
 }
 
-static void show_hide_sync_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ساکن خالی show_hide_sync_handler(خالی *ڈیٹا, ساخت wl_callback *callback, uint32_t callback_ڈیٹا)
 {
     // Get the window from the ID as it may have been destroyed
-    SDL_WindowID windowID = (SDL_WindowID)((uintptr_t)data);
-    SDL_Window *window = SDL_GetWindowFromID(windowID);
+    SDL_کھڑکی_ID کھڑکی_ID = (SDL_کھڑکی_ID)((uintptr_t)ڈیٹا);
+    SDL_کھڑکی *کھڑکی = SDL_Get_کھڑکی_From_ID(کھڑکی_ID);
 
-    if (window && window->internal) {
-        SDL_WindowData *wind = window->internal;
+    اگر (کھڑکی && کھڑکی->اندرونی_2) {
+        SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
         wind->show_hide_sync_required = false;
     }
 
     wl_callback_destroy(callback);
 }
 
-static struct wl_callback_listener show_hide_sync_listener = {
+ساکن ساخت wl_callback_listener show_hide_sync_listener = {
     show_hide_sync_handler
 };
 
-static void exported_handle_handler(void *data, struct zxdg_exported_v2 *zxdg_exported_v2, const char *handle)
+ساکن خالی exported_handle_handler(خالی *ڈیٹا, ساخت zxdg_exported_v2 *zxdg_exported_v2, ثابت حرف *handle)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_PropertiesID props = SDL_GetWindowProperties(wind->sdlwindow);
+    SDL_کھڑکی_ڈیٹا *wind = (SDL_کھڑکی_ڈیٹا *)ڈیٹا;
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(wind->sdlwindow);
 
-    SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, handle);
+    SDL_سیٹ_String_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, handle);
 }
 
-static struct zxdg_exported_v2_listener exported_v2_listener = {
+ساکن ساخت zxdg_exported_v2_listener exported_v2_listener = {
     exported_handle_handler
 };
 
-void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *c = _this->internal;
-    SDL_WindowData *data = window->internal;
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
+    SDL_Video_ڈیٹا *c = _this->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
 
     // Custom surfaces don't get toplevels and are always considered 'shown'; nothing to do here.
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return;
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        واپس;
     }
 
     /* If this is a child window, the parent *must* be in the final shown state,
@@ -2312,19 +2312,19 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * If waiting on the parent window, set the pending status and the window will
      * be shown when the parent is in the shown state.
      */
-    if (window->parent) {
-        if (window->parent->internal->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-            data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING;
-            return;
+    اگر (کھڑکی->والد) {
+        اگر (کھڑکی->والد->اندرونی_2->shell_surface_حالت != WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
+            ڈیٹا->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_SHOW_PENDING;
+            واپس;
         }
     }
 
     // Always roundtrip to ensure there are no pending buffer attachments.
-    do {
+    کرو {
         WAYLAND_wl_display_roundtrip(c->display);
-    } while (data->show_hide_sync_required);
+    } جب (ڈیٹا->show_hide_sync_required);
 
-    data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE;
+    ڈیٹا->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE;
 
     /* Detach any previous buffers before resetting everything, otherwise when
      * calling this a second time you'll get an annoying protocol error!
@@ -2340,365 +2340,365 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      *
      * -flibit
      */
-    wl_surface_attach(data->surface, NULL, 0, 0);
-    wl_surface_commit(data->surface);
+    wl_surface_attach(ڈیٹا->surface, تہی, 0, 0);
+    wl_surface_commit(ڈیٹا->surface);
 
     // Create the shell surface and map the toplevel/popup
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        data->shell_surface.libdecor.frame = libdecor_decorate(c->shell.libdecor,
-                                                               data->surface,
-                                                               &libdecor_frame_interface,
-                                                               data);
-        if (!data->shell_surface.libdecor.frame) {
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ڈیٹا->shell_surface.libdecor.چوکھٹا = libdecor_decorate(c->shell.libdecor,
+                                                               ڈیٹا->surface,
+                                                               &libdecor_چوکھٹا_interface,
+                                                               ڈیٹا);
+        اگر (!ڈیٹا->shell_surface.libdecor.چوکھٹا) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Failed to create libdecor frame!");
-        } else {
-            libdecor_frame_set_app_id(data->shell_surface.libdecor.frame, data->app_id);
-            libdecor_frame_map(data->shell_surface.libdecor.frame);
-            if (window->flags & SDL_WINDOW_BORDERLESS) {
+        } ورنہ {
+            libdecor_چوکھٹا_سیٹ_app_id(ڈیٹا->shell_surface.libdecor.چوکھٹا, ڈیٹا->app_id);
+            libdecor_چوکھٹا_map(ڈیٹا->shell_surface.libdecor.چوکھٹا);
+            اگر (کھڑکی->flags & SDL_کھڑکی_BORDERLESS) {
                 // Note: Calling this with 'true' immediately after mapping will cause the libdecor Cairo plugin to crash.
-                libdecor_frame_set_visibility(data->shell_surface.libdecor.frame, false);
+                libdecor_چوکھٹا_سیٹ_visibility(ڈیٹا->shell_surface.libdecor.چوکھٹا, false);
             }
 
-            if (c->zxdg_exporter_v2) {
-                data->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, data->surface);
-                zxdg_exported_v2_add_listener(data->exported, &exported_v2_listener, data);
+            اگر (c->zxdg_exporter_v2) {
+                ڈیٹا->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, ڈیٹا->surface);
+                zxdg_exported_v2_جوڑو_listener(ڈیٹا->exported, &exported_v2_listener, ڈیٹا);
             }
 
-            if (c->xdg_toplevel_icon_manager_v1 && data->xdg_toplevel_icon_v1) {
-                xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1,
-                                                      libdecor_frame_get_xdg_toplevel(data->shell_surface.libdecor.frame),
-                                                      data->xdg_toplevel_icon_v1);
+            اگر (c->xdg_toplevel_icon_manager_v1 && ڈیٹا->xdg_toplevel_icon_v1) {
+                xdg_toplevel_icon_manager_v1_سیٹ_icon(_this->اندرونی_2->xdg_toplevel_icon_manager_v1,
+                                                      libdecor_چوکھٹا_get_xdg_toplevel(ڈیٹا->shell_surface.libdecor.چوکھٹا),
+                                                      ڈیٹا->xdg_toplevel_icon_v1);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, libdecor_frame_get_xdg_surface(data->shell_surface.libdecor.frame));
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, libdecor_frame_get_xdg_toplevel(data->shell_surface.libdecor.frame));
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_SURFACE_اشارہ_گر, libdecor_چوکھٹا_get_xdg_surface(ڈیٹا->shell_surface.libdecor.چوکھٹا));
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_اشارہ_گر, libdecor_چوکھٹا_get_xdg_toplevel(ڈیٹا->shell_surface.libdecor.چوکھٹا));
         }
-    } else
-#endif
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        data->shell_surface.xdg.surface = xdg_wm_base_get_xdg_surface(c->shell.xdg, data->surface);
-        xdg_surface_set_user_data(data->shell_surface.xdg.surface, data);
-        xdg_surface_add_listener(data->shell_surface.xdg.surface, &_xdg_surface_listener, data);
-        SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, data->shell_surface.xdg.surface);
+    } ورنہ
+#اگر_ختم
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        ڈیٹا->shell_surface.xdg.surface = xdg_wm_بنیاد_get_xdg_surface(c->shell.xdg, ڈیٹا->surface);
+        xdg_surface_سیٹ_user_ڈیٹا(ڈیٹا->shell_surface.xdg.surface, ڈیٹا);
+        xdg_surface_جوڑو_listener(ڈیٹا->shell_surface.xdg.surface, &_xdg_surface_listener, ڈیٹا);
+        SDL_سیٹ_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), SDL_PROP_کھڑکی_WAYLAND_XDG_SURFACE_اشارہ_گر, ڈیٹا->shell_surface.xdg.surface);
 
-        if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-            SDL_Window *parent = window->parent;
-            SDL_WindowData *parent_data = parent->internal;
-            struct xdg_surface *parent_xdg_surface = NULL;
-            int position_x = 0, position_y = 0;
+        اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+            SDL_کھڑکی *والد = کھڑکی->والد;
+            SDL_کھڑکی_ڈیٹا *والد_ڈیٹا = والد->اندرونی_2;
+            ساخت xdg_surface *والد_xdg_surface = تہی;
+            صحیح position_x = 0, position_y = 0;
 
             // Configure the popup parameters
-#ifdef HAVE_LIBDECOR_H
-            if (parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-                parent_xdg_surface = libdecor_frame_get_xdg_surface(parent_data->shell_surface.libdecor.frame);
-            } else
-#endif
-            if (parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL ||
-                    parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-                parent_xdg_surface = parent_data->shell_surface.xdg.surface;
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+            اگر (والد_ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+                والد_xdg_surface = libdecor_چوکھٹا_get_xdg_surface(والد_ڈیٹا->shell_surface.libdecor.چوکھٹا);
+            } ورنہ
+#اگر_ختم
+            اگر (والد_ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL ||
+                    والد_ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+                والد_xdg_surface = والد_ڈیٹا->shell_surface.xdg.surface;
             }
 
             // Set up the positioner for the popup and configure the constraints
-            data->shell_surface.xdg.popup.xdg_positioner = xdg_wm_base_create_positioner(c->shell.xdg);
-            xdg_positioner_set_anchor(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_TOP_LEFT);
-            SDL_Rect parent_geometry;
-            GetWindowGeometry(parent->internal, &parent_geometry);
-            xdg_positioner_set_anchor_rect(data->shell_surface.xdg.popup.xdg_positioner, 0, 0, parent_geometry.w, parent_geometry.h);
+            ڈیٹا->shell_surface.xdg.popup.xdg_positioner = xdg_wm_بنیاد_create_positioner(c->shell.xdg);
+            xdg_positioner_سیٹ_anchor(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_چوٹی_بایاں);
+            SDL_Rect والد_geometry;
+            Get_کھڑکی_Geometry(والد->اندرونی_2, &والد_geometry);
+            xdg_positioner_سیٹ_anchor_rect(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, 0, 0, والد_geometry.w, والد_geometry.h);
 
-            const Uint32 constraint = window->constrain_popup ? (XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_X | XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_Y) : XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_NONE;
-            xdg_positioner_set_constraint_adjustment(data->shell_surface.xdg.popup.xdg_positioner, constraint);
-            xdg_positioner_set_gravity(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
-            xdg_positioner_set_size(data->shell_surface.xdg.popup.xdg_positioner, data->current.logical_width, data->current.logical_height);
+            ثابت Uint32 constraint = کھڑکی->constrain_popup ? (XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_X | XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_Y) : XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_NONE;
+            xdg_positioner_سیٹ_constraint_adjustment(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, constraint);
+            xdg_positioner_سیٹ_gravity(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_دایاں);
+            xdg_positioner_سیٹ_سائز(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, ڈیٹا->current.logical_چوڑائی, ڈیٹا->current.logical_اونچائی);
 
             // Set the popup initial position
-            position_x = window->last_position_pending ? window->pending.x : window->x;
-            position_y = window->last_position_pending ? window->pending.y : window->y;
-            EnsurePopupPositionIsValid(window, &position_x, &position_y);
-            if (data->scale_to_display) {
-                position_x = PixelToPoint(window->parent, position_x);
-                position_y = PixelToPoint(window->parent, position_y);
+            position_x = کھڑکی->آخری_position_pending ? کھڑکی->pending.x : کھڑکی->x;
+            position_y = کھڑکی->آخری_position_pending ? کھڑکی->pending.y : کھڑکی->y;
+            EnsurePopupPositionIsValid(کھڑکی, &position_x, &position_y);
+            اگر (ڈیٹا->scale_مقصد_display) {
+                position_x = Pixel_مقصد_نقطہ(کھڑکی->والد, position_x);
+                position_y = Pixel_مقصد_نقطہ(کھڑکی->والد, position_y);
             }
-            AdjustPopupOffset(window, &position_x, &position_y);
-            xdg_positioner_set_offset(data->shell_surface.xdg.popup.xdg_positioner, position_x, position_y);
+            Adjust_Popup_انحراف(کھڑکی, &position_x, &position_y);
+            xdg_positioner_سیٹ_انحراف(ڈیٹا->shell_surface.xdg.popup.xdg_positioner, position_x, position_y);
 
             // Assign the popup role
-            data->shell_surface.xdg.popup.xdg_popup = xdg_surface_get_popup(data->shell_surface.xdg.surface,
-                                                                                parent_xdg_surface,
-                                                                                data->shell_surface.xdg.popup.xdg_positioner);
-            xdg_popup_add_listener(data->shell_surface.xdg.popup.xdg_popup, &_xdg_popup_listener, data);
+            ڈیٹا->shell_surface.xdg.popup.xdg_popup = xdg_surface_get_popup(ڈیٹا->shell_surface.xdg.surface,
+                                                                                والد_xdg_surface,
+                                                                                ڈیٹا->shell_surface.xdg.popup.xdg_positioner);
+            xdg_popup_جوڑو_listener(ڈیٹا->shell_surface.xdg.popup.xdg_popup, &_xdg_popup_listener, ڈیٹا);
 
-            if (window->flags & SDL_WINDOW_TOOLTIP) {
-                struct wl_region *region;
+            اگر (کھڑکی->flags & SDL_کھڑکی_TOOLTIP) {
+                ساخت wl_region *region;
 
                 // Tooltips can't be interacted with, so turn off the input region to avoid blocking anything behind them
                 region = wl_compositor_create_region(c->compositor);
-                wl_region_add(region, 0, 0, 0, 0);
-                wl_surface_set_input_region(data->surface, region);
+                wl_region_جوڑو(region, 0, 0, 0, 0);
+                wl_surface_سیٹ_داخلہ_region(ڈیٹا->surface, region);
                 wl_region_destroy(region);
-            } else if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-                Wayland_SetKeyboardFocus(window, true);
+            } ورنہ اگر ((کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) && !(کھڑکی->flags & SDL_کھڑکی_NOT_FOCUSABLE)) {
+                Wayland_سیٹ_Keyboard_Focus(کھڑکی, true);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER, data->shell_surface.xdg.popup.xdg_popup);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER, data->shell_surface.xdg.popup.xdg_positioner);
-        } else {
-            data->shell_surface.xdg.toplevel.xdg_toplevel = xdg_surface_get_toplevel(data->shell_surface.xdg.surface);
-            xdg_toplevel_set_app_id(data->shell_surface.xdg.toplevel.xdg_toplevel, data->app_id);
-            xdg_toplevel_add_listener(data->shell_surface.xdg.toplevel.xdg_toplevel, &toplevel_listener_xdg, data);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_POPUP_اشارہ_گر, ڈیٹا->shell_surface.xdg.popup.xdg_popup);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_POSITIONER_اشارہ_گر, ڈیٹا->shell_surface.xdg.popup.xdg_positioner);
+        } ورنہ {
+            ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel = xdg_surface_get_toplevel(ڈیٹا->shell_surface.xdg.surface);
+            xdg_toplevel_سیٹ_app_id(ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel, ڈیٹا->app_id);
+            xdg_toplevel_جوڑو_listener(ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel, &toplevel_listener_xdg, ڈیٹا);
 
             // Create the window decorations
-            if (c->decoration_manager) {
-                data->server_decoration = zxdg_decoration_manager_v1_get_toplevel_decoration(c->decoration_manager, data->shell_surface.xdg.toplevel.xdg_toplevel);
-                zxdg_toplevel_decoration_v1_add_listener(data->server_decoration, &xdg_toplevel_decoration_listener, window);
-                const enum zxdg_toplevel_decoration_v1_mode mode = !(window->flags & SDL_WINDOW_BORDERLESS) ? ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE;
-                zxdg_toplevel_decoration_v1_set_mode(data->server_decoration, mode);
+            اگر (c->decoration_manager) {
+                ڈیٹا->server_decoration = zxdg_decoration_manager_v1_get_toplevel_decoration(c->decoration_manager, ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel);
+                zxdg_toplevel_decoration_v1_جوڑو_listener(ڈیٹا->server_decoration, &xdg_toplevel_decoration_listener, کھڑکی);
+                ثابت شمار zxdg_toplevel_decoration_v1_منوال منوال = !(کھڑکی->flags & SDL_کھڑکی_BORDERLESS) ? ZXDG_TOPLEVEL_DECORATION_V1_منوال_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_منوال_CLIENT_SIDE;
+                zxdg_toplevel_decoration_v1_سیٹ_منوال(ڈیٹا->server_decoration, منوال);
             }
 
-            if (c->zxdg_exporter_v2) {
-                data->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, data->surface);
-                zxdg_exported_v2_add_listener(data->exported, &exported_v2_listener, data);
+            اگر (c->zxdg_exporter_v2) {
+                ڈیٹا->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, ڈیٹا->surface);
+                zxdg_exported_v2_جوڑو_listener(ڈیٹا->exported, &exported_v2_listener, ڈیٹا);
             }
 
-            if (c->xdg_toplevel_icon_manager_v1 && data->xdg_toplevel_icon_v1) {
-                xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1,
-                                                      data->shell_surface.xdg.toplevel.xdg_toplevel,
-                                                      data->xdg_toplevel_icon_v1);
+            اگر (c->xdg_toplevel_icon_manager_v1 && ڈیٹا->xdg_toplevel_icon_v1) {
+                xdg_toplevel_icon_manager_v1_سیٹ_icon(_this->اندرونی_2->xdg_toplevel_icon_manager_v1,
+                                                      ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel,
+                                                      ڈیٹا->xdg_toplevel_icon_v1);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, data->shell_surface.xdg.toplevel.xdg_toplevel);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_اشارہ_گر, ڈیٹا->shell_surface.xdg.toplevel.xdg_toplevel);
         }
     }
 
     // Restore state that was set prior to this call
-    Wayland_RegisterToplevelForSession(data);
-    Wayland_SetWindowParent(_this, window, window->parent);
+    Wayland_رجسٹر_Toplevel_For_Session(ڈیٹا);
+    Wayland_سیٹ_کھڑکی_والد(_this, کھڑکی, کھڑکی->والد);
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        Wayland_SetWindowModal(_this, window, true);
+    اگر (کھڑکی->flags & SDL_کھڑکی_MODAL) {
+        Wayland_سیٹ_کھڑکی_Modal(_this, کھڑکی, true);
     }
 
-    Wayland_SetWindowTitle(_this, window);
+    Wayland_سیٹ_کھڑکی_Title(_this, کھڑکی);
 
     /* We have to wait until the surface gets a "configure" event, or use of
      * this surface will fail. This is a new rule for xdg_shell.
      */
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (data->shell_surface.libdecor.frame) {
-            while (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-                if (libdecor_dispatch(c->shell.libdecor, -1) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (ڈیٹا->shell_surface.libdecor.چوکھٹا) {
+            جب (ڈیٹا->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+                اگر (libdecor_dispatch(c->shell.libdecor, -1) < 0) {
+                    اگر (!Wayland_HandleDisplayDisconnected(_this)) {
+                        واپس;
                     }
                 }
-                if (WAYLAND_wl_display_dispatch_pending(c->display) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+                اگر (WAYLAND_wl_display_dispatch_pending(c->display) < 0) {
+                    اگر (!Wayland_HandleDisplayDisconnected(_this)) {
+                        واپس;
                     }
                 }
             }
         }
-    } else
-#endif
-        if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+    } ورنہ
+#اگر_ختم
+        اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP || ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
         /* Unlike libdecor we need to call this explicitly to prevent a deadlock.
          * libdecor will call this as part of their configure event!
          * -flibit
          */
-        wl_surface_commit(data->surface);
-        if (data->shell_surface.xdg.surface) {
-            while (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-                if (WAYLAND_wl_display_dispatch(c->display) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+        wl_surface_commit(ڈیٹا->surface);
+        اگر (ڈیٹا->shell_surface.xdg.surface) {
+            جب (ڈیٹا->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_انتظار_FOR_CONFIGURE) {
+                اگر (WAYLAND_wl_display_dispatch(c->display) < 0) {
+                    اگر (!Wayland_HandleDisplayDisconnected(_this)) {
+                        واپس;
                     }
                 }
             }
         }
-    } else {
+    } ورنہ {
         // Nothing to see here, just commit.
-        wl_surface_commit(data->surface);
+        wl_surface_commit(ڈیٹا->surface);
     }
 
     // Make sure the window can't be resized to 0, or it can be spuriously closed by the window manager.
-    data->system_limits.min_width = SDL_max(data->system_limits.min_width, 1);
-    data->system_limits.min_height = SDL_max(data->system_limits.min_height, 1);
+    ڈیٹا->system_limits.min_چوڑائی_2 = SDL_max(ڈیٹا->system_limits.min_چوڑائی_2, 1);
+    ڈیٹا->system_limits.min_اونچائی_2 = SDL_max(ڈیٹا->system_limits.min_اونچائی_2, 1);
 
     /* Unlike the rest of window state we have to set this _after_ flushing the
      * display, because we need to create the decorations before possibly hiding
      * them immediately afterward.
      */
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
         // Libdecor plugins can enforce minimum window sizes, so adjust if the initial window size is too small.
-        if (window->windowed.w < data->system_limits.min_width ||
-            window->windowed.h < data->system_limits.min_height) {
+        اگر (کھڑکی->windowed.w < ڈیٹا->system_limits.min_چوڑائی_2 ||
+            کھڑکی->windowed.h < ڈیٹا->system_limits.min_اونچائی_2) {
 
             // Warn if the window frame will be larger than the content surface.
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO,
                         "Window dimensions (%i, %i) are smaller than the system enforced minimum (%i, %i); window borders will be larger than the content surface.",
-                        window->windowed.w, window->windowed.h, data->system_limits.min_width, data->system_limits.min_height);
+                        کھڑکی->windowed.w, کھڑکی->windowed.h, ڈیٹا->system_limits.min_چوڑائی_2, ڈیٹا->system_limits.min_اونچائی_2);
 
-            data->current.logical_width = SDL_max(window->windowed.w, data->system_limits.min_width);
-            data->current.logical_height = SDL_max(window->windowed.h, data->system_limits.min_height);
-            CommitLibdecorFrame(window);
+            ڈیٹا->current.logical_چوڑائی = SDL_max(کھڑکی->windowed.w, ڈیٹا->system_limits.min_چوڑائی_2);
+            ڈیٹا->current.logical_اونچائی = SDL_max(کھڑکی->windowed.h, ڈیٹا->system_limits.min_اونچائی_2);
+            Commit_Libdecor_چوکھٹا(کھڑکی);
         }
     }
-#endif
-    Wayland_SetWindowResizable(_this, window, !!(window->flags & SDL_WINDOW_RESIZABLE));
+#اگر_ختم
+    Wayland_سیٹ_کھڑکی_Resizable(_this, کھڑکی, !!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE));
 
     // We're finally done putting the window together, raise if possible
-    if (c->activation_manager && SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true)) {
+    اگر (c->activation_manager && SDL_GetHintBoolean(SDL_HINT_کھڑکی_ACTIVATE_WHEN_SHOWN, true)) {
         /* if the process was passed an activation token, use it when showing
          * the initial window.
          *
          * Note that we don't check for empty strings, as that is still
          * considered a valid activation token!
          */
-        const char *activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
-        if (activation_token) {
+        ثابت حرف *activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
+        اگر (activation_token) {
             xdg_activation_v1_activate(c->activation_manager,
                                        activation_token,
-                                       data->surface);
+                                       ڈیٹا->surface);
 
             // Clear this variable, per the protocol's request
             SDL_unsetenv_unsafe("XDG_ACTIVATION_TOKEN");
-        } else {
+        } ورنہ {
             // Try to generate an activation token for this window.
-            Wayland_RaiseWindow(_this, window);
+            Wayland_Raise_کھڑکی(_this, کھڑکی);
         }
-    } else {
+    } ورنہ {
         // Clear the ignored activation token, as it won't be used.
         SDL_unsetenv_unsafe("XDG_ACTIVATION_TOKEN");
     }
 
     // No frame callback on an external surface, as it may already have one attached.
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
         // Fire a callback when the compositor wants a new frame.
-        data->surface_frame_callback = wl_surface_frame(data->surface);
-        wl_callback_add_listener(data->surface_frame_callback, &surface_frame_listener, data);
+        ڈیٹا->surface_چوکھٹا_callback = wl_surface_چوکھٹا(ڈیٹا->surface);
+        wl_callback_جوڑو_listener(ڈیٹا->surface_چوکھٹا_callback, &surface_چوکھٹا_listener, ڈیٹا);
     }
 
-    data->show_hide_sync_required = true;
-    struct wl_callback *cb = wl_display_sync(_this->internal->display);
-    wl_callback_add_listener(cb, &show_hide_sync_listener, (void *)((uintptr_t)window->id));
+    ڈیٹا->show_hide_sync_required = true;
+    ساخت wl_callback *cb = wl_display_sync(_this->اندرونی_2->display);
+    wl_callback_جوڑو_listener(cb, &show_hide_sync_listener, (خالی *)((uintptr_t)کھڑکی->id));
 
-    data->showing_window = true;
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->showing_window = false;
+    ڈیٹا->showing_کھڑکی = true;
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_SHOWN, 0, 0);
+    ڈیٹا->showing_کھڑکی = false;
 
     // Send an exposure event to signal that the client should draw.
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
 }
 
-static void Wayland_ReleasePopup(SDL_VideoDevice *_this, SDL_Window *popup)
+ساکن خالی Wayland_ReleasePopup(SDL_VideoDevice *_this, SDL_کھڑکی *popup)
 {
-    SDL_WindowData *popupdata;
+    SDL_کھڑکی_ڈیٹا *popupdata;
 
     // Basic sanity checks to weed out the weird popup closures
-    if (!SDL_ObjectValid(popup, SDL_OBJECT_TYPE_WINDOW)) {
-        return;
+    اگر (!SDL_ObjectValid(popup, SDL_OBJECT_TYPE_کھڑکی)) {
+        واپس;
     }
-    popupdata = popup->internal;
-    if (!popupdata) {
-        return;
+    popupdata = popup->اندرونی_2;
+    اگر (!popupdata) {
+        واپس;
     }
 
     // This may already be freed by a parent popup!
-    if (popupdata->shell_surface.xdg.popup.xdg_popup == NULL) {
-        return;
+    اگر (popupdata->shell_surface.xdg.popup.xdg_popup == تہی) {
+        واپس;
     }
 
-    if ((popup->flags & SDL_WINDOW_POPUP_MENU) && !(popup->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(popup, &new_focus);
-        Wayland_SetKeyboardFocus(new_focus, set_focus);
+    اگر ((popup->flags & SDL_کھڑکی_POPUP_MENU) && !(popup->flags & SDL_کھڑکی_NOT_FOCUSABLE)) {
+        SDL_کھڑکی *new_focus;
+        ثابت bool سیٹ_focus = SDL_ShouldRelinquishPopupFocus(popup, &new_focus);
+        Wayland_سیٹ_Keyboard_Focus(new_focus, سیٹ_focus);
     }
 
     xdg_popup_destroy(popupdata->shell_surface.xdg.popup.xdg_popup);
     xdg_positioner_destroy(popupdata->shell_surface.xdg.popup.xdg_positioner);
-    popupdata->shell_surface.xdg.popup.xdg_popup = NULL;
-    popupdata->shell_surface.xdg.popup.xdg_positioner = NULL;
+    popupdata->shell_surface.xdg.popup.xdg_popup = تہی;
+    popupdata->shell_surface.xdg.popup.xdg_positioner = تہی;
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(popup);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER, NULL);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER, NULL);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(popup);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_POPUP_اشارہ_گر, تہی);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_POSITIONER_اشارہ_گر, تہی);
 }
 
-void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wind = window->internal;
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
 
     // Custom surfaces have nothing to destroy and are always considered to be 'shown'; nothing to do here.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return;
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        واپس;
     }
 
     /* The window was shown, but the sync point hasn't yet been reached.
      * Pump events to avoid a possible protocol violation.
      */
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(data->display);
+    اگر (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(ڈیٹا->display);
     }
 
-    wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_HIDDEN;
+    wind->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_HIDDEN;
 
-    if (wind->surface_frame_callback) {
-        wl_callback_destroy(wind->surface_frame_callback);
-        wind->surface_frame_callback = NULL;
+    اگر (wind->surface_چوکھٹا_callback) {
+        wl_callback_destroy(wind->surface_چوکھٹا_callback);
+        wind->surface_چوکھٹا_callback = تہی;
     }
 
-    if (wind->server_decoration) {
+    اگر (wind->server_decoration) {
         zxdg_toplevel_decoration_v1_destroy(wind->server_decoration);
-        wind->server_decoration = NULL;
+        wind->server_decoration = تہی;
     }
 
     // Clean up the export handle.
-    if (wind->exported) {
+    اگر (wind->exported) {
         zxdg_exported_v2_destroy(wind->exported);
-        wind->exported = NULL;
+        wind->exported = تہی;
 
-        SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, NULL);
+        SDL_سیٹ_String_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, تہی);
     }
 
-    if (wind->xdg_dialog_v1) {
+    اگر (wind->xdg_dialog_v1) {
         xdg_dialog_v1_destroy(wind->xdg_dialog_v1);
-        wind->xdg_dialog_v1 = NULL;
+        wind->xdg_dialog_v1 = تہی;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_unref(wind->shell_surface.libdecor.frame);
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (wind->shell_surface.libdecor.چوکھٹا) {
+            libdecor_چوکھٹا_unref(wind->shell_surface.libdecor.چوکھٹا);
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, NULL);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, NULL);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_SURFACE_اشارہ_گر, تہی);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_اشارہ_گر, تہی);
         }
-    } else
-#endif
+    } ورنہ
+#اگر_ختم
     {
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-            Wayland_ReleasePopup(_this, window);
-        } else if (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+            Wayland_ReleasePopup(_this, کھڑکی);
+        } ورنہ اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
             xdg_toplevel_destroy(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, NULL);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_TOPLEVEL_اشارہ_گر, تہی);
         }
 
-        if (wind->shell_surface.xdg.surface) {
+        اگر (wind->shell_surface.xdg.surface) {
             xdg_surface_destroy(wind->shell_surface.xdg.surface);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, NULL);
+            SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_XDG_SURFACE_اشارہ_گر, تہی);
         }
     }
 
     // Attach a null buffer to unmap the surface.
-    if (wind->mask.surface) {
-        wl_surface_attach(wind->mask.surface, NULL, 0, 0);
-        wl_surface_commit(wind->mask.surface);
+    اگر (wind->نقاب.surface) {
+        wl_surface_attach(wind->نقاب.surface, تہی, 0, 0);
+        wl_surface_commit(wind->نقاب.surface);
     }
-    wl_surface_attach(wind->surface, NULL, 0, 0);
+    wl_surface_attach(wind->surface, تہی, 0, 0);
     wl_surface_commit(wind->surface);
 
     // Need to destroy the session object after unmapping the window, or the state may not be saved.
@@ -2707,26 +2707,26 @@ void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_zero(wind->shell_surface);
     SDL_zero(wind->explicit_geometry);
     wind->show_hide_sync_required = true;
-    struct wl_callback *cb = wl_display_sync(_this->internal->display);
-    wl_callback_add_listener(cb, &show_hide_sync_listener, (void *)((uintptr_t)window->id));
+    ساخت wl_callback *cb = wl_display_sync(_this->اندرونی_2->display);
+    wl_callback_جوڑو_listener(cb, &show_hide_sync_listener, (خالی *)((uintptr_t)کھڑکی->id));
 }
 
-static void handle_xdg_activation_done(void *data,
-                                       struct xdg_activation_token_v1 *xdg_activation_token_v1,
-                                       const char *token)
+ساکن خالی handle_xdg_activation_مکمل(خالی *ڈیٹا,
+                                       ساخت xdg_activation_token_v1 *xdg_activation_token_v1,
+                                       ثابت حرف *token)
 {
-    SDL_WindowData *window = data;
-    if (xdg_activation_token_v1 == window->activation_token) {
-        xdg_activation_v1_activate(window->waylandData->activation_manager,
+    SDL_کھڑکی_ڈیٹا *کھڑکی = ڈیٹا;
+    اگر (xdg_activation_token_v1 == کھڑکی->activation_token) {
+        xdg_activation_v1_activate(کھڑکی->wayland_ڈیٹا->activation_manager,
                                    token,
-                                   window->surface);
-        xdg_activation_token_v1_destroy(window->activation_token);
-        window->activation_token = NULL;
+                                   کھڑکی->surface);
+        xdg_activation_token_v1_destroy(کھڑکی->activation_token);
+        کھڑکی->activation_token = تہی;
     }
 }
 
-static const struct xdg_activation_token_v1_listener xdg_activation_listener = {
-    handle_xdg_activation_done
+ساکن ثابت ساخت xdg_activation_token_v1_listener xdg_activation_listener = {
+    handle_xdg_activation_مکمل
 };
 
 /* The xdg-activation protocol considers "activation" to be one of two things:
@@ -2749,30 +2749,30 @@ static const struct xdg_activation_token_v1_listener xdg_activation_listener = {
  *
  * -flibit
  */
-static void Wayland_activate_window(SDL_VideoData *data, SDL_WindowData *target_wind, bool set_serial)
+ساکن خالی Wayland_activate_کھڑکی(SDL_Video_ڈیٹا *ڈیٹا, SDL_کھڑکی_ڈیٹا *ہدف_wind, bool سیٹ_serial)
 {
-    SDL_WaylandSeat *seat = data->last_implicit_grab_seat;
-    SDL_WindowData *focus = NULL;
+    SDL_WaylandSeat *seat = ڈیٹا->آخری_implicit_grab_seat;
+    SDL_کھڑکی_ڈیٹا *focus = تہی;
 
-    if (seat) {
+    اگر (seat) {
         focus = seat->keyboard.focus;
-        if (!focus) {
-            focus = seat->pointer.focus;
+        اگر (!focus) {
+            focus = seat->اشارہ_گر_2.focus;
         }
     }
 
-    struct wl_surface *requesting_surface = focus ? focus->surface : NULL;
+    ساخت wl_surface *requesting_surface = focus ? focus->surface : تہی;
 
-    if (data->activation_manager) {
-        if (target_wind->activation_token) {
+    اگر (ڈیٹا->activation_manager) {
+        اگر (ہدف_wind->activation_token) {
             // We're about to overwrite this with a new request
-            xdg_activation_token_v1_destroy(target_wind->activation_token);
+            xdg_activation_token_v1_destroy(ہدف_wind->activation_token);
         }
 
-        target_wind->activation_token = xdg_activation_v1_get_activation_token(data->activation_manager);
-        xdg_activation_token_v1_add_listener(target_wind->activation_token,
+        ہدف_wind->activation_token = xdg_activation_v1_get_activation_token(ڈیٹا->activation_manager);
+        xdg_activation_token_v1_جوڑو_listener(ہدف_wind->activation_token,
                                              &xdg_activation_listener,
-                                             target_wind);
+                                             ہدف_wind);
 
         /* Note that we are not setting the app_id here.
          *
@@ -2781,93 +2781,93 @@ static void Wayland_activate_window(SDL_VideoData *data, SDL_WindowData *target_
          *
          * -flibit
          */
-        if (requesting_surface) {
+        اگر (requesting_surface) {
             // This specifies the surface from which the activation request is originating, not the activation target surface.
-            xdg_activation_token_v1_set_surface(target_wind->activation_token, requesting_surface);
+            xdg_activation_token_v1_سیٹ_surface(ہدف_wind->activation_token, requesting_surface);
         }
-        if (set_serial && seat && seat->wl_seat) {
-            xdg_activation_token_v1_set_serial(target_wind->activation_token, seat->last_implicit_grab_serial, seat->wl_seat);
+        اگر (سیٹ_serial && seat && seat->wl_seat) {
+            xdg_activation_token_v1_سیٹ_serial(ہدف_wind->activation_token, seat->آخری_implicit_grab_serial, seat->wl_seat);
         }
-        xdg_activation_token_v1_commit(target_wind->activation_token);
+        xdg_activation_token_v1_commit(ہدف_wind->activation_token);
     }
 }
 
-void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Raise_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *wind = window->internal;
+    SDL_Video_ڈیٹا *viddata = _this->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (viddata->activation_manager) {
+    اگر (viddata->activation_manager) {
         /* Check for an activation token, in case the window is being
          * raised in response to a system notification.
          *
          * Note that we don't check for empty strings, as that is still
          * considered a valid activation token!
          */
-        const char *activation_token = SDL_GetNotificationActivationToken();
-        if (activation_token) {
+        ثابت حرف *activation_token = SDL_GetNotificationActivationToken();
+        اگر (activation_token) {
             xdg_activation_v1_activate(viddata->activation_manager,
                                        activation_token,
                                        wind->surface);
-            return;
+            واپس;
         }
     }
 
     // No token? Try to activate the window via an event serial.
-    Wayland_activate_window(_this->internal, window->internal, true);
+    Wayland_activate_کھڑکی(_this->اندرونی_2, کھڑکی->اندرونی_2, true);
 }
 
-bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool Wayland_Flash_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_FlashOperation operation)
 {
     /* Not setting the serial will specify 'urgency' without switching focus as per
      * https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/9#note_854977
      */
-    Wayland_activate_window(_this->internal, window->internal, false);
-    return true;
+    Wayland_activate_کھڑکی(_this->اندرونی_2, کھڑکی->اندرونی_2, false);
+    واپس true;
 }
 
-SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window,
+SDL_Fullscreen_نتیجہ Wayland_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی,
                                  SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
-    struct wl_output *output = display->internal->output;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    ساخت wl_output *output = display->اندرونی_2->output;
 
     // Custom surfaces have no toplevel to make fullscreen.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return SDL_FULLSCREEN_FAILED;
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        واپس SDL_FULLSCREEN_FAILED;
     }
 
     // Drop fullscreen leave requests when showing the window.
-    if (wind->showing_window && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    اگر (wind->showing_کھڑکی && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        واپس SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
+    اگر (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(_this->اندرونی_2->display);
     }
 
     // Flushing old events pending a new one, ignore this request.
-    if (wind->drop_fullscreen_requests) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    اگر (wind->drop_fullscreen_درخواستیں) {
+        واپس SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    wind->drop_fullscreen_requests = true;
-    FlushPendingEvents(window);
-    wind->drop_fullscreen_requests = false;
+    wind->drop_fullscreen_درخواستیں = true;
+    FlushPendingEvents(کھڑکی);
+    wind->drop_fullscreen_درخواستیں = false;
 
     // Nothing to do if the window is not fullscreen, and this isn't an explicit enter request.
-    if (!wind->is_fullscreen) {
-        if (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
+    اگر (!wind->is_fullscreen) {
+        اگر (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
             // Request was out of date; signal the video core not to update any state.
-            return SDL_FULLSCREEN_PENDING;
-        } else if (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+            واپس SDL_FULLSCREEN_PENDING;
+        } ورنہ اگر (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
             // Already not fullscreen; nothing to do.
-            return SDL_FULLSCREEN_SUCCEEDED;
+            واپس SDL_FULLSCREEN_SUCCEEDED;
         }
     }
 
     // Don't send redundant fullscreen set/unset events.
-    if (!!fullscreen != wind->is_fullscreen) {
+    اگر (!!fullscreen != wind->is_fullscreen) {
         wind->fullscreen_was_positioned = !!fullscreen;
 
         /* Only use the specified output if an exclusive mode is being used, or a position was explicitly requested
@@ -2875,19 +2875,19 @@ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * information about where the window is and where it should go, particularly if fullscreen is being requested
          * before the window is mapped, or the window spans multiple outputs.
          */
-        if (!window->fullscreen_exclusive) {
-            if (window->undefined_x || window->undefined_y ||
-                (wind->num_outputs && !window->last_position_pending)) {
-                output = NULL;
+        اگر (!کھڑکی->fullscreen_exclusive) {
+            اگر (کھڑکی->undefined_x || کھڑکی->undefined_y ||
+                (wind->عدد_outputs && !کھڑکی->آخری_position_pending)) {
+                output = تہی;
             }
         }
 
         // Commit to set any pending size or limit data.
-        if (fullscreen && wind->pending_state_commit) {
+        اگر (fullscreen && wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        SetFullscreen(window, output, !!fullscreen);
-    } else if (wind->is_fullscreen) {
+        سیٹ_Fullscreen(کھڑکی, output, !!fullscreen);
+    } ورنہ اگر (wind->is_fullscreen) {
         /*
          * If the window is already fullscreen, this is likely a request to switch between
          * fullscreen and fullscreen desktop, change outputs, or change the video mode.
@@ -2895,160 +2895,160 @@ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * If the window is already positioned on the target output, just update the
          * window geometry.
          */
-        if (wind->last_displayID != display->id) {
+        اگر (wind->آخری_display_ID != display->id) {
             wind->fullscreen_was_positioned = true;
-            SetFullscreen(window, output, true);
-        } else {
-            ConfigureWindowGeometry(window);
-            CommitLibdecorFrame(window);
+            سیٹ_Fullscreen(کھڑکی, output, true);
+        } ورنہ {
+            Configure_کھڑکی_Geometry(کھڑکی);
+            Commit_Libdecor_چوکھٹا(کھڑکی);
 
-            return SDL_FULLSCREEN_SUCCEEDED;
+            واپس SDL_FULLSCREEN_SUCCEEDED;
         }
     }
 
-    return SDL_FULLSCREEN_PENDING;
+    واپس SDL_FULLSCREEN_PENDING;
 }
 
-void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Restore_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
     // Drop restore requests when showing the window.
-    if (wind->showing_window) {
-        return;
+    اگر (wind->showing_کھڑکی) {
+        واپس;
     }
 
     // Not currently fullscreen or maximized, and no state pending; nothing to do.
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) &&
-        !wind->pending_state_deadline_count) {
-        return;
+    اگر (!(کھڑکی->flags & (SDL_کھڑکی_FULLSCREEN | SDL_کھڑکی_MAXIMIZED)) &&
+        !wind->pending_state_deadline_گنتی) {
+        واپس;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (!wind->shell_surface.libdecor.چوکھٹا) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
-        libdecor_frame_unset_maximized(wind->shell_surface.libdecor.frame);
-        AddPendingStateSync(wind);
-    } else
-#endif
+        libdecor_چوکھٹا_unset_maximized(wind->shell_surface.libdecor.چوکھٹا);
+        جوڑو_Pending_State_Sync(wind);
+    } ورنہ
+#اگر_ختم
         // Note that xdg-shell does NOT provide a way to unset minimize!
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-            if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-                return; // Can't do anything yet, wait for ShowWindow
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+            اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel == تہی) {
+                واپس; // Can't do anything yet, wait for ShowWindow
             }
             xdg_toplevel_unset_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-            AddPendingStateSync(wind);
+            جوڑو_Pending_State_Sync(wind);
         }
 }
 
-void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+خالی Wayland_سیٹ_کھڑکی_Bordered(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool bordered)
 {
-    SDL_WindowData *wind = window->internal;
-    const SDL_VideoData *viddata = (const SDL_VideoData *)_this->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    ثابت SDL_Video_ڈیٹا *viddata = (ثابت SDL_Video_ڈیٹا *)_this->اندرونی_2;
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_set_visibility(wind->shell_surface.libdecor.frame, bordered);
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (wind->shell_surface.libdecor.چوکھٹا) {
+            libdecor_چوکھٹا_سیٹ_visibility(wind->shell_surface.libdecor.چوکھٹا, bordered);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if ((viddata->decoration_manager) && (wind->server_decoration)) {
-            const enum zxdg_toplevel_decoration_v1_mode mode = bordered ? ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE;
-            zxdg_toplevel_decoration_v1_set_mode(wind->server_decoration, mode);
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر ((viddata->decoration_manager) && (wind->server_decoration)) {
+            ثابت شمار zxdg_toplevel_decoration_v1_منوال منوال = bordered ? ZXDG_TOPLEVEL_DECORATION_V1_منوال_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_منوال_CLIENT_SIDE;
+            zxdg_toplevel_decoration_v1_سیٹ_منوال(wind->server_decoration, منوال);
         }
     }
 }
 
-void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+خالی Wayland_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
     /* When changing the resize capability on libdecor windows, the limits must always
      * be reapplied, as when libdecor changes states, it overwrites the values internally.
      */
-    SetMinMaxDimensions(window);
-    CommitLibdecorFrame(window);
+    سیٹ_Min_Max_Dimensions(کھڑکی);
+    Commit_Libdecor_چوکھٹا(کھڑکی);
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
         wind->pending_state_commit = true;
     }
 }
 
-void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Maximize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
+    اگر (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(_this->اندرونی_2->display);
     }
 
     // Not fullscreen, already maximized, and no state pending; nothing to do.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && (window->flags & SDL_WINDOW_MAXIMIZED) &&
-        !wind->pending_state_deadline_count) {
-        return;
+    اگر (!(کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) && (کھڑکی->flags & SDL_کھڑکی_MAXIMIZED) &&
+        !wind->pending_state_deadline_گنتی) {
+        واپس;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (!wind->shell_surface.libdecor.چوکھٹا) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
 
         // Commit to set any pending size or limit data.
-        if (wind->pending_state_commit) {
+        اگر (wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        libdecor_frame_set_maximized(wind->shell_surface.libdecor.frame);
-        AddPendingStateSync(wind);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+        libdecor_چوکھٹا_سیٹ_maximized(wind->shell_surface.libdecor.چوکھٹا);
+        جوڑو_Pending_State_Sync(wind);
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel == تہی) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
 
         // Commit to set any pending size or limit data.
-        if (wind->pending_state_commit) {
+        اگر (wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        xdg_toplevel_set_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-        AddPendingStateSync(wind);
+        xdg_toplevel_سیٹ_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
+        جوڑو_Pending_State_Sync(wind);
     }
 }
 
-void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (!(wind->wm_caps & WAYLAND_WM_CAPS_MINIMIZE)) {
-        return;
+    اگر (!(wind->wm_caps & WAYLAND_WM_CAPS_MINIMIZE)) {
+        واپس;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (!wind->shell_surface.libdecor.چوکھٹا) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
-        libdecor_frame_set_minimized(wind->shell_surface.libdecor.frame);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+        libdecor_چوکھٹا_سیٹ_minimized(wind->shell_surface.libdecor.چوکھٹا);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MINIMIZED, 0, 0);
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel == تہی) {
+            واپس; // Can't do anything yet, wait for ShowWindow
         }
-        xdg_toplevel_set_minimized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+        xdg_toplevel_سیٹ_minimized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
+        SDL_Send_کھڑکی_Event(کھڑکی, SDL_EVENT_کھڑکی_MINIMIZED, 0, 0);
     }
 }
 
-bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_سیٹ_کھڑکی_Mouse_Rect(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
 
     /* This may look suspiciously like SetWindowGrab, despite SetMouseRect not
      * implicitly doing a grab. And you're right! Wayland doesn't let us mess
@@ -3058,349 +3058,349 @@ bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
      * Just know that this call lets you confine with a rect, SetWindowGrab
      * lets you confine without a rect.
      */
-    if (!data->pointer_constraints) {
-        return SDL_SetError("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
+    اگر (!ڈیٹا->اشارہ_گر_constraints) {
+        واپس SDL_سیٹ_Error("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
     }
-    Wayland_DisplayUpdatePointerGrabs(data, window->internal);
-    return true;
+    Wayland_Display_Update_اشارہ_گر_Grabs(ڈیٹا, کھڑکی->اندرونی_2);
+    واپس true;
 }
 
-bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool Wayland_سیٹ_کھڑکی_Mouse_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    SDL_VideoData *data = _this->internal;
-    if (!data->pointer_constraints) {
-        return SDL_SetError("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    اگر (!ڈیٹا->اشارہ_گر_constraints) {
+        واپس SDL_سیٹ_Error("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
     }
-    Wayland_DisplayUpdatePointerGrabs(data, window->internal);
-    return true;
+    Wayland_Display_Update_اشارہ_گر_Grabs(ڈیٹا, کھڑکی->اندرونی_2);
+    واپس true;
 }
 
-bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool Wayland_سیٹ_کھڑکی_Keyboard_Grab(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool grabbed)
 {
-    SDL_VideoData *data = _this->internal;
-    if (!data->key_inhibitor_manager) {
-        return SDL_SetError("Failed to grab keyboard: compositor lacks support for the required zwp_keyboard_shortcuts_inhibit_manager_v1 protocol");
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    اگر (!ڈیٹا->کلید_inhibitor_manager) {
+        واپس SDL_سیٹ_Error("Failed to grab keyboard: compositor lacks support for the required zwp_keyboard_shortcuts_inhibit_manager_v1 protocol");
     }
-    Wayland_DisplayUpdateKeyboardGrabs(data, window->internal);
-    return true;
+    Wayland_DisplayUpdateKeyboardGrabs(ڈیٹا, کھڑکی->اندرونی_2);
+    واپس true;
 }
 
-bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags)
+bool Wayland_Reconfigure_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_کھڑکی_Flags flags)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
     // Don't try to reconfigure mapped windows, unless they are custom or external.
-    if (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN &&
-        data->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+    اگر (ڈیٹا->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOWN &&
+        ڈیٹا->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
         // Window is already mapped; abort.
-        return false;
+        واپس false;
     }
 
     /* The caller guarantees that only one of the GL or Vulkan flags will be set.
      * Note that Vulkan doesn't require any specific configuration, so only EGL
      * objects are added and removed as required.
      */
-    if (flags & SDL_WINDOW_OPENGL) {
-        if (!data->egl_window) {
-            data->egl_window = WAYLAND_wl_egl_window_create(data->surface, data->current.pixel_width, data->current.pixel_height);
+    اگر (flags & SDL_کھڑکی_OPENGL) {
+        اگر (!ڈیٹا->egl_کھڑکی) {
+            ڈیٹا->egl_کھڑکی = WAYLAND_wl_egl_کھڑکی_create(ڈیٹا->surface, ڈیٹا->current.pixel_چوڑائی, ڈیٹا->current.pixel_اونچائی);
         }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->egl_window);
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        ڈیٹا->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)ڈیٹا->egl_کھڑکی);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return false; // SDL_EGL_CreateSurface should have set the error.
+        اگر (ڈیٹا->egl_surface == EGL_NO_SURFACE) {
+            واپس false; // SDL_EGL_CreateSurface should have set the error.
         }
-#endif
+#اگر_ختم
 
-        if (!data->gles_swap_frame_event_queue) {
-            data->gles_swap_frame_event_queue = WAYLAND_wl_display_create_queue(data->waylandData->display);
-            data->gles_swap_frame_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(data->surface);
-            WAYLAND_wl_proxy_set_queue((struct wl_proxy *)data->gles_swap_frame_surface_wrapper, data->gles_swap_frame_event_queue);
-            data->gles_swap_frame_callback = wl_surface_frame(data->gles_swap_frame_surface_wrapper);
-            wl_callback_add_listener(data->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+        اگر (!ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار) {
+            ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار = WAYLAND_wl_display_create_قطار(ڈیٹا->wayland_ڈیٹا->display);
+            ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(ڈیٹا->surface);
+            WAYLAND_wl_proxy_سیٹ_قطار((ساخت wl_proxy *)ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper, ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار);
+            ڈیٹا->gles_تبادلہ_چوکھٹا_callback = wl_surface_چوکھٹا(ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper);
+            wl_callback_جوڑو_listener(ڈیٹا->gles_تبادلہ_چوکھٹا_callback, &gles_تبادلہ_چوکھٹا_listener, ڈیٹا);
         }
-    } else {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface) {
-            SDL_EGL_DestroySurface(_this, data->egl_surface);
-            data->egl_surface = EGL_NO_SURFACE;
+    } ورنہ {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        اگر (ڈیٹا->egl_surface) {
+            SDL_EGL_DestroySurface(_this, ڈیٹا->egl_surface);
+            ڈیٹا->egl_surface = EGL_NO_SURFACE;
         }
-#endif
+#اگر_ختم
 
-        if (data->egl_window) {
-            WAYLAND_wl_egl_window_destroy(data->egl_window);
-            data->egl_window = NULL;
-        }
-
-        if (data->gles_swap_frame_callback) {
-            wl_callback_destroy(data->gles_swap_frame_callback);
-            data->gles_swap_frame_callback = NULL;
+        اگر (ڈیٹا->egl_کھڑکی) {
+            WAYLAND_wl_egl_کھڑکی_destroy(ڈیٹا->egl_کھڑکی);
+            ڈیٹا->egl_کھڑکی = تہی;
         }
 
-        if (data->gles_swap_frame_surface_wrapper) {
-            WAYLAND_wl_proxy_wrapper_destroy(data->gles_swap_frame_surface_wrapper);
-            data->gles_swap_frame_surface_wrapper = NULL;
+        اگر (ڈیٹا->gles_تبادلہ_چوکھٹا_callback) {
+            wl_callback_destroy(ڈیٹا->gles_تبادلہ_چوکھٹا_callback);
+            ڈیٹا->gles_تبادلہ_چوکھٹا_callback = تہی;
         }
 
-        if (data->gles_swap_frame_event_queue) {
-            WAYLAND_wl_event_queue_destroy(data->gles_swap_frame_event_queue);
-            data->gles_swap_frame_event_queue = NULL;
+        اگر (ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper) {
+            WAYLAND_wl_proxy_wrapper_destroy(ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper);
+            ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper = تہی;
+        }
+
+        اگر (ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار) {
+            WAYLAND_wl_event_قطار_destroy(ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار);
+            ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار = تہی;
         }
     }
 
-    return true;
+    واپس true;
 }
 
-bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool Wayland_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    SDL_VideoData *c = _this->internal;
-    struct wl_surface *external_surface = (struct wl_surface *)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER,
-                                                                               (struct wl_surface *)SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    const bool custom_surface_role = (external_surface != NULL) || SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN, false);
-    const bool create_egl_window = !!(window->flags & SDL_WINDOW_OPENGL) ||
-                                       SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN, false);
+    SDL_کھڑکی_ڈیٹا *ڈیٹا;
+    SDL_Video_ڈیٹا *c = _this->اندرونی_2;
+    ساخت wl_surface *external_surface = (ساخت wl_surface *)SDL_Get_اشارہ_گر_Property(create_props, SDL_PROP_کھڑکی_CREATE_WAYLAND_WL_SURFACE_اشارہ_گر,
+                                                                               (ساخت wl_surface *)SDL_Get_اشارہ_گر_Property(create_props, "sdl2-compat.external_window", تہی));
+    ثابت bool custom_surface_role = (external_surface != تہی) || SDL_GetBooleanProperty(create_props, SDL_PROP_کھڑکی_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN, false);
+    ثابت bool create_egl_کھڑکی = !!(کھڑکی->flags & SDL_کھڑکی_OPENGL) ||
+                                       SDL_GetBooleanProperty(create_props, SDL_PROP_کھڑکی_CREATE_WAYLAND_CREATE_EGL_کھڑکی_BOOLEAN, false);
 
-    data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    ڈیٹا = SDL_calloc(1, حجم(*ڈیٹا));
+    اگر (!ڈیٹا) {
+        واپس false;
     }
 
-    window->internal = data;
-    data->enable_insets = SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN, false);
+    کھڑکی->اندرونی_2 = ڈیٹا;
+    ڈیٹا->enable_insets = SDL_GetBooleanProperty(create_props, SDL_PROP_کھڑکی_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN, false);
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    اگر (کھڑکی->x == SDL_WINDOWPOS_UNDEFINED) {
+        کھڑکی->x = 0;
     }
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    اگر (کھڑکی->y == SDL_WINDOWPOS_UNDEFINED) {
+        کھڑکی->y = 0;
     }
 
-    data->waylandData = c;
-    data->sdlwindow = window;
+    ڈیٹا->wayland_ڈیٹا = c;
+    ڈیٹا->sdlwindow = کھڑکی;
 
     // Default to all capabilities
-    data->wm_caps = WAYLAND_WM_CAPS_ALL;
+    ڈیٹا->wm_caps = WAYLAND_WM_CAPS_ALL;
 
-    data->scale_factor = 1.0;
+    ڈیٹا->scale_ضربی_عدد_2 = 1.0;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        data->scale_to_display = window->parent->internal->scale_to_display;
-        data->scale_factor = window->parent->internal->scale_factor;
-        EnsurePopupPositionIsValid(window, &window->x, &window->y);
-    } else {
-        for (int i = 0; i < _this->num_displays; i++) {
-            data->scale_factor = SDL_max(data->scale_factor, _this->displays[i]->internal->scale_factor);
+    اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+        ڈیٹا->scale_مقصد_display = کھڑکی->والد->اندرونی_2->scale_مقصد_display;
+        ڈیٹا->scale_ضربی_عدد_2 = کھڑکی->والد->اندرونی_2->scale_ضربی_عدد_2;
+        EnsurePopupPositionIsValid(کھڑکی, &کھڑکی->x, &کھڑکی->y);
+    } ورنہ {
+        برائے (صحیح i = 0; i < _this->عدد_displays; i++) {
+            ڈیٹا->scale_ضربی_عدد_2 = SDL_max(ڈیٹا->scale_ضربی_عدد_2, _this->displays[i]->اندرونی_2->scale_ضربی_عدد_2);
         }
     }
 
-    data->outputs = NULL;
-    data->num_outputs = 0;
-    data->scale_to_display = c->scale_to_display_enabled;
+    ڈیٹا->outputs = تہی;
+    ڈیٹا->عدد_outputs = 0;
+    ڈیٹا->scale_مقصد_display = c->scale_مقصد_display_enabled;
 
     // Cache the app_id at creation time, as it may change before the window is mapped.
-    data->app_id = SDL_strdup(SDL_GetAppID());
+    ڈیٹا->app_id = SDL_strdup(SDL_GetAppID());
 
-    if (!data->scale_to_display) {
-        data->requested.logical_width = window->floating.w;
-        data->requested.logical_height = window->floating.h;
-    } else {
-        data->requested.logical_width = PixelToPoint(window, window->floating.w);
-        data->requested.logical_height = PixelToPoint(window, window->floating.h);
-        data->requested.pixel_width = window->floating.w;
-        data->requested.pixel_height = window->floating.h;
+    اگر (!ڈیٹا->scale_مقصد_display) {
+        ڈیٹا->requested.logical_چوڑائی = کھڑکی->floating.w;
+        ڈیٹا->requested.logical_اونچائی = کھڑکی->floating.h;
+    } ورنہ {
+        ڈیٹا->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.w);
+        ڈیٹا->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->floating.h);
+        ڈیٹا->requested.pixel_چوڑائی = کھڑکی->floating.w;
+        ڈیٹا->requested.pixel_اونچائی = کھڑکی->floating.h;
     }
 
-    if (!external_surface) {
-        data->surface = wl_compositor_create_surface(c->compositor);
-        wl_surface_add_listener(data->surface, &surface_listener, data);
-        wl_surface_set_user_data(data->surface, data);
-        SDL_WAYLAND_register_surface(data->surface);
-    } else {
-        window->flags |= SDL_WINDOW_EXTERNAL;
-        data->surface = external_surface;
+    اگر (!external_surface) {
+        ڈیٹا->surface = wl_compositor_create_surface(c->compositor);
+        wl_surface_جوڑو_listener(ڈیٹا->surface, &surface_listener, ڈیٹا);
+        wl_surface_سیٹ_user_ڈیٹا(ڈیٹا->surface, ڈیٹا);
+        SDL_WAYLAND_رجسٹر_surface(ڈیٹا->surface);
+    } ورنہ {
+        کھڑکی->flags |= SDL_کھڑکی_EXTERNAL;
+        ڈیٹا->surface = external_surface;
 
         /* External surfaces are registered by being put in a list, as changing tags or userdata
          * can cause problems with external toolkits.
          */
-        Wayland_AddWindowDataToExternalList(data);
+        Wayland_جوڑو_کھڑکی_ڈیٹا_مقصد_External_List(ڈیٹا);
     }
 
     /* Always attach a viewport and fractional scale manager if available and the surface is not custom/external,
      * or the custom/external surface was explicitly flagged as high pixel density aware, which signals that the
      * application wants SDL to handle scaling.
      */
-    if (!custom_surface_role || (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY)) {
-        if (c->viewporter) {
-            data->viewport = wp_viewporter_get_viewport(c->viewporter, data->surface);
+    اگر (!custom_surface_role || (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY)) {
+        اگر (c->viewporter) {
+            ڈیٹا->viewport = wp_viewporter_get_viewport(c->viewporter, ڈیٹا->surface);
 
             // The viewport always uses the entire buffer.
-            wp_viewport_set_source(data->viewport,
+            wp_viewport_سیٹ_ماخذ(ڈیٹا->viewport,
                                    wl_fixed_from_int(-1), wl_fixed_from_int(-1),
                                    wl_fixed_from_int(-1), wl_fixed_from_int(-1));
         }
-        if (c->fractional_scale_manager) {
-            data->fractional_scale = wp_fractional_scale_manager_v1_get_fractional_scale(c->fractional_scale_manager, data->surface);
-            wp_fractional_scale_v1_add_listener(data->fractional_scale, &fractional_scale_listener, data);
+        اگر (c->fractional_scale_manager) {
+            ڈیٹا->fractional_scale = wp_fractional_scale_manager_v1_get_fractional_scale(c->fractional_scale_manager, ڈیٹا->surface);
+            wp_fractional_scale_v1_جوڑو_listener(ڈیٹا->fractional_scale, &fractional_scale_listener, ڈیٹا);
         }
     }
 
-    if (!custom_surface_role) {
-        if (c->wp_color_manager_v1) {
-            data->wp_color_management_surface_feedback = wp_color_manager_v1_get_surface_feedback(c->wp_color_manager_v1, data->surface);
-            wp_color_management_surface_feedback_v1_add_listener(data->wp_color_management_surface_feedback, &color_management_surface_feedback_listener, data);
-            Wayland_GetColorInfoForWindow(data, true);
-        } else if (c->frog_color_management_factory_v1) {
-            data->frog_color_managed_surface = frog_color_management_factory_v1_get_color_managed_surface(c->frog_color_management_factory_v1, data->surface);
-            frog_color_managed_surface_add_listener(data->frog_color_managed_surface, &frog_surface_listener, data);
+    اگر (!custom_surface_role) {
+        اگر (c->wp_color_manager_v1) {
+            ڈیٹا->wp_color_management_surface_feedback = wp_color_manager_v1_get_surface_feedback(c->wp_color_manager_v1, ڈیٹا->surface);
+            wp_color_management_surface_feedback_v1_جوڑو_listener(ڈیٹا->wp_color_management_surface_feedback, &color_management_surface_feedback_listener, ڈیٹا);
+            Wayland_Get_Color_Info_For_کھڑکی(ڈیٹا, true);
+        } ورنہ اگر (c->frog_color_management_factory_v1) {
+            ڈیٹا->frog_color_managed_surface = frog_color_management_factory_v1_get_color_managed_surface(c->frog_color_management_factory_v1, ڈیٹا->surface);
+            frog_color_managed_surface_جوڑو_listener(ڈیٹا->frog_color_managed_surface, &frog_surface_listener, ڈیٹا);
         }
 
-        if (c->wp_alpha_modifier_v1) {
-            data->wp_alpha_modifier_surface_v1 = wp_alpha_modifier_v1_get_surface(c->wp_alpha_modifier_v1, data->surface);
-            wp_alpha_modifier_surface_v1_set_multiplier(data->wp_alpha_modifier_surface_v1, SDL_MAX_UINT32);
+        اگر (c->wp_alpha_modifier_v1) {
+            ڈیٹا->wp_alpha_modifier_surface_v1 = wp_alpha_modifier_v1_get_surface(c->wp_alpha_modifier_v1, ڈیٹا->surface);
+            wp_alpha_modifier_surface_v1_سیٹ_multiplier(ڈیٹا->wp_alpha_modifier_surface_v1, SDL_MAX_UINT32);
         }
     }
 
     // Must be called before EGL configuration to set the drawable backbuffer size.
-    ConfigureWindowGeometry(window);
+    Configure_کھڑکی_Geometry(کھڑکی);
 
     /* Fire a callback when the compositor wants a new frame rendered.
      * Right now this only matters for OpenGL; we use this callback to add a
      * wait timeout that avoids getting deadlocked by the compositor when the
      * window isn't visible.
      */
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->gles_swap_frame_event_queue = WAYLAND_wl_display_create_queue(data->waylandData->display);
-        data->gles_swap_frame_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(data->surface);
-        WAYLAND_wl_proxy_set_queue((struct wl_proxy *)data->gles_swap_frame_surface_wrapper, data->gles_swap_frame_event_queue);
-        data->gles_swap_frame_callback = wl_surface_frame(data->gles_swap_frame_surface_wrapper);
-        wl_callback_add_listener(data->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+        ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار = WAYLAND_wl_display_create_قطار(ڈیٹا->wayland_ڈیٹا->display);
+        ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(ڈیٹا->surface);
+        WAYLAND_wl_proxy_سیٹ_قطار((ساخت wl_proxy *)ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper, ڈیٹا->gles_تبادلہ_چوکھٹا_event_قطار);
+        ڈیٹا->gles_تبادلہ_چوکھٹا_callback = wl_surface_چوکھٹا(ڈیٹا->gles_تبادلہ_چوکھٹا_surface_wrapper);
+        wl_callback_جوڑو_listener(ڈیٹا->gles_تبادلہ_چوکھٹا_callback, &gles_تبادلہ_چوکھٹا_listener, ڈیٹا);
     }
 
-    if (window->flags & SDL_WINDOW_TRANSPARENT) {
-        if (_this->gl_config.alpha_size == 0) {
-            _this->gl_config.alpha_size = 8;
+    اگر (کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) {
+        اگر (_this->gl_config.alpha_سائز == 0) {
+            _this->gl_config.alpha_سائز = 8;
         }
     }
 
-    if (create_egl_window) {
-        data->egl_window = WAYLAND_wl_egl_window_create(data->surface, data->current.pixel_width, data->current.pixel_height);
+    اگر (create_egl_کھڑکی) {
+        ڈیٹا->egl_کھڑکی = WAYLAND_wl_egl_کھڑکی_create(ڈیٹا->surface, ڈیٹا->current.pixel_چوڑائی, ڈیٹا->current.pixel_اونچائی);
     }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    اگر (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         // Create the GLES window surface
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->egl_window);
+        ڈیٹا->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, (Native_کھڑکی_Type)ڈیٹا->egl_کھڑکی);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return false; // SDL_EGL_CreateSurface should have set error
+        اگر (ڈیٹا->egl_surface == EGL_NO_SURFACE) {
+            واپس false; // SDL_EGL_CreateSurface should have set error
         }
     }
-#endif
+#اگر_ختم
 
     // We may need to create an idle inhibitor for this new window
     Wayland_SuspendScreenSaver(_this);
 
-    if (!custom_surface_role) {
-#ifdef HAVE_LIBDECOR_H
-        if (c->shell.libdecor && !SDL_WINDOW_IS_POPUP(window)) {
-            data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
-        } else
-#endif
-            if (c->shell.xdg) {
-            if (SDL_WINDOW_IS_POPUP(window)) {
-                data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP;
-            } else {
-                data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL;
+    اگر (!custom_surface_role) {
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+        اگر (c->shell.libdecor && !SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+            ڈیٹا->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
+        } ورنہ
+#اگر_ختم
+            اگر (c->shell.xdg) {
+            اگر (SDL_کھڑکی_IS_POPUP(کھڑکی)) {
+                ڈیٹا->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP;
+            } ورنہ {
+                ڈیٹا->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL;
             }
         } // All other cases will be WAYLAND_SURFACE_UNKNOWN
-    } else {
+    } ورنہ {
         // Roleless and external surfaces are always considered to be in the shown state by the backend.
-        data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_CUSTOM;
-        data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOWN;
+        ڈیٹا->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_CUSTOM;
+        ڈیٹا->shell_surface_حالت = WAYLAND_SHELL_SURFACE_حالت_SHOWN;
 
         // External windows are presumed to be shown.
-        if (window->flags & SDL_WINDOW_EXTERNAL) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
+        اگر (کھڑکی->flags & SDL_کھڑکی_EXTERNAL) {
+            کھڑکی->flags &= ~SDL_کھڑکی_HIDDEN;
         }
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
-        data->double_buffer = true;
+    اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_بفر, false)) {
+        ڈیٹا->double_بفر = true;
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER, data->waylandData->display);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER, data->surface);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_VIEWPORT_POINTER, data->viewport);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_EGL_WINDOW_POINTER, data->egl_window);
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        const char *window_id = SDL_GetStringProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_WINDOW_ID_STRING, NULL);
-        if (window_id && *window_id != '\0') {
-            SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, window_id);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_DISPLAY_اشارہ_گر, ڈیٹا->wayland_ڈیٹا->display);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_SURFACE_اشارہ_گر, ڈیٹا->surface);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_VIEWPORT_اشارہ_گر, ڈیٹا->viewport);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_WAYLAND_EGL_کھڑکی_اشارہ_گر, ڈیٹا->egl_کھڑکی);
+    اگر (ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || ڈیٹا->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ثابت حرف *کھڑکی_id = SDL_GetStringProperty(create_props, SDL_PROP_کھڑکی_CREATE_WAYLAND_کھڑکی_ID_STRING, تہی);
+        اگر (کھڑکی_id && *کھڑکی_id != '\0') {
+            SDL_سیٹ_String_Property(props, SDL_PROP_کھڑکی_WAYLAND_کھڑکی_ID_STRING, کھڑکی_id);
         }
     }
 
-    data->hit_test_result = SDL_HITTEST_NORMAL;
+    ڈیٹا->کامیابی_test_نتیجہ = SDL_HITTEST_معمول;
 
-    return true;
+    واپس true;
 }
 
-void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_سیٹ_کھڑکی_Minimum_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    کھڑکی->اندرونی_2->limits_بدلا = true;
 }
 
-void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_سیٹ_کھڑکی_زیادہ_سے_زیادہ_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    کھڑکی->اندرونی_2->limits_بدلا = true;
 }
 
-void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_سیٹ_کھڑکی_Aspect_تناسب(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    کھڑکی->اندرونی_2->limits_بدلا = true;
 }
 
-bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
     // Only popup windows can be positioned relative to the parent.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        if (wind->shell_surface.xdg.popup.xdg_popup &&
-            xdg_popup_get_version(wind->shell_surface.xdg.popup.xdg_popup) < XDG_POPUP_REPOSITION_SINCE_VERSION) {
-            return SDL_Unsupported();
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        اگر (wind->shell_surface.xdg.popup.xdg_popup &&
+            xdg_popup_get_نسخہ(wind->shell_surface.xdg.popup.xdg_popup) < XDG_POPUP_REPOSITION_SINCE_نسخہ) {
+            واپس SDL_Unsupported();
         }
 
-        RepositionPopup(window, false);
-        return true;
-    } else if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR || wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        RepositionPopup(کھڑکی, false);
+        واپس true;
+    } ورنہ اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR || wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
         /* Catch up on any pending state before attempting to change the fullscreen window
          * display via a set fullscreen call to make sure the window doesn't have a pending
          * leave fullscreen event that it might override.
          */
-        FlushPendingEvents(window);
+        FlushPendingEvents(کھڑکی);
 
-        if (wind->is_fullscreen) {
-            SDL_VideoDisplay *display = SDL_GetVideoDisplayForFullscreenWindow(window);
-            if (display && wind->last_displayID != display->id) {
-                struct wl_output *output = display->internal->output;
-                SetFullscreen(window, output, true);
+        اگر (wind->is_fullscreen) {
+            SDL_VideoDisplay *display = SDL_Get_Video_Display_For_Fullscreen_کھڑکی(کھڑکی);
+            اگر (display && wind->آخری_display_ID != display->id) {
+                ساخت wl_output *output = display->اندرونی_2->output;
+                سیٹ_Fullscreen(کھڑکی, output, true);
 
-                return true;
+                واپس true;
             }
         }
     }
-    return SDL_SetError("wayland cannot position non-popup windows");
+    واپس SDL_سیٹ_Error("wayland cannot position non-popup windows");
 }
 
-void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_سیٹ_کھڑکی_سائز(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
     /* Flush any pending state operations, as fullscreen windows do not get
      * explicitly resized, not strictly obeying the size of a maximized window
@@ -3410,10 +3410,10 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
      * Calling this on a custom surface is informative, so the size must
      * always be passed through.
      */
-    FlushPendingEvents(window);
+    FlushPendingEvents(کھڑکی);
 
-    const bool maximized = (window->flags & SDL_WINDOW_MAXIMIZED) != 0;
-    const bool resizable_state = !(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN));
+    ثابت bool maximized = (کھڑکی->flags & SDL_کھڑکی_MAXIMIZED) != 0;
+    ثابت bool resizable_state = !(کھڑکی->flags & (SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_FULLSCREEN));
 
     /* Maximized and fullscreen windows don't get resized, and the new size is ignored
      * if this is just to recalculate the min/max or aspect limits on a tiled window.
@@ -3422,19 +3422,19 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
      * size is recalculated, but window size itself is left alone, as the spec states that
      * the configure size of a maximized window must be obeyed.
      */
-    if (resizable_state || (window->tiled && !wind->limits_changed) ||
+    اگر (resizable_state || (کھڑکی->tiled && !wind->limits_بدلا) ||
         wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
 
         // Don't change the window size if maximized and tiled.
-        if (!maximized) {
-            if (!wind->scale_to_display) {
-                wind->requested.logical_width = window->pending.w;
-                wind->requested.logical_height = window->pending.h;
-            } else {
-                wind->requested.logical_width = PixelToPoint(window, window->pending.w);
-                wind->requested.logical_height = PixelToPoint(window, window->pending.h);
-                wind->requested.pixel_width = window->pending.w;
-                wind->requested.pixel_height = window->pending.h;
+        اگر (!maximized) {
+            اگر (!wind->scale_مقصد_display) {
+                wind->requested.logical_چوڑائی = کھڑکی->pending.w;
+                wind->requested.logical_اونچائی = کھڑکی->pending.h;
+            } ورنہ {
+                wind->requested.logical_چوڑائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->pending.w);
+                wind->requested.logical_اونچائی = Pixel_مقصد_نقطہ(کھڑکی, کھڑکی->pending.h);
+                wind->requested.pixel_چوڑائی = کھڑکی->pending.w;
+                wind->requested.pixel_اونچائی = کھڑکی->pending.h;
             }
         }
 
@@ -3444,359 +3444,359 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
          *
          * This shouldn't happen, but apparently it can on at least one compositor...
          */
-        if (window->tiled && !(window->flags & SDL_WINDOW_RESIZABLE)) {
-            window->floating.w = window->pending.w;
-            window->floating.h = window->pending.h;
+        اگر (کھڑکی->tiled && !(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
+            کھڑکی->floating.w = کھڑکی->pending.w;
+            کھڑکی->floating.h = کھڑکی->pending.h;
         }
-    } else {
+    } ورنہ {
         // Can't resize the window.
-        window->last_size_pending = false;
+        کھڑکی->آخری_سائز_pending = false;
     }
 
-    wind->limits_changed = false;
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    wind->limits_بدلا = false;
+    اگر (wind->shell_surface_حالت == WAYLAND_SHELL_SURFACE_حالت_SHOWN) {
         wind->pending_state_commit = true;
     }
 
     // Always recalculate the geometry, as this may be in response to a min/max limit change.
-    ConfigureWindowGeometry(window);
-    CommitLibdecorFrame(window);
+    Configure_کھڑکی_Geometry(کھڑکی);
+    Commit_Libdecor_چوکھٹا(کھڑکی);
 }
 
-void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+خالی Wayland_Get_کھڑکی_سائز_اندر_Pixels(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحیح *w, صحیح *h)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کھڑکی_ڈیٹا *ڈیٹا = کھڑکی->اندرونی_2;
 
-    *w = data->current.pixel_width;
-    *h = data->current.pixel_height;
+    *w = ڈیٹا->current.pixel_چوڑائی;
+    *h = ڈیٹا->current.pixel_اونچائی;
 }
 
-float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window)
+اعشاری Wayland_Get_کھڑکی_Content_Scale(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || wind->scale_to_display || wind->fullscreen_exclusive) {
-        return (float)wind->scale_factor;
+    اگر (کھڑکی->flags & SDL_کھڑکی_بلند_PIXEL_DENSITY || wind->scale_مقصد_display || wind->fullscreen_exclusive) {
+        واپس (اعشاری)wind->scale_ضربی_عدد_2;
     }
 
-    return 1.0f;
+    واپس 1.0f;
 }
 
-SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_DisplayID Wayland_Get_Display_For_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (wind) {
-        return wind->last_displayID;
+    اگر (wind) {
+        واپس wind->آخری_display_ID;
     }
 
-    return 0;
+    واپس 0;
 }
 
-bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool Wayland_سیٹ_کھڑکی_Opacity(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, اعشاری opacity)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (wind->wp_alpha_modifier_surface_v1) {
-        const bool is_opaque = !(window->flags & SDL_WINDOW_TRANSPARENT) && opacity == 1.0f;
+    اگر (wind->wp_alpha_modifier_surface_v1) {
+        ثابت bool is_opaque = !(کھڑکی->flags & SDL_کھڑکی_TRANSPARENT) && opacity == 1.0f;
 
-        if (wind->mask.mapped && wind->mask.opaque != is_opaque) {
-            struct wl_buffer *old_buffer = wind->mask.buffer;
-            wind->mask.opaque = is_opaque;
-            wind->mask.buffer = Wayland_CreateSinglePixelBuffer(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
+        اگر (wind->نقاب.mapped && wind->نقاب.opaque != is_opaque) {
+            ساخت wl_بفر *old_بفر = wind->نقاب.بفر_2;
+            wind->نقاب.opaque = is_opaque;
+            wind->نقاب.بفر_2 = Wayland_Create_Single_Pixel_بفر(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
 
-            wl_surface_attach(wind->mask.surface, wind->mask.buffer, 0, 0);
-            if (wl_surface_get_version(wind->mask.surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-                wl_surface_damage_buffer(wind->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-            } else {
-                wl_surface_damage(wind->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+            wl_surface_attach(wind->نقاب.surface, wind->نقاب.بفر_2, 0, 0);
+            اگر (wl_surface_get_نسخہ(wind->نقاب.surface) >= WL_SURFACE_DAMAGE_بفر_SINCE_نسخہ) {
+                wl_surface_damage_بفر(wind->نقاب.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+            } ورنہ {
+                wl_surface_damage(wind->نقاب.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
             }
 
-            if (is_opaque) {
-                SetSurfaceOpaqueRegion(wind->mask.surface, wind->current.logical_width, wind->current.logical_height);
-            } else {
-                SetSurfaceOpaqueRegion(wind->mask.surface, 0, 0);
+            اگر (is_opaque) {
+                سیٹ_Surface_Opaque_Region(wind->نقاب.surface, wind->current.logical_چوڑائی, wind->current.logical_اونچائی);
+            } ورنہ {
+                سیٹ_Surface_Opaque_Region(wind->نقاب.surface, 0, 0);
             }
 
-            wl_surface_commit(wind->mask.surface);
+            wl_surface_commit(wind->نقاب.surface);
 
-            if (old_buffer) {
-                wl_buffer_destroy(old_buffer);
+            اگر (old_بفر) {
+                wl_بفر_destroy(old_بفر);
             }
         }
 
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(wind->surface, wind->current.viewport_width, wind->current.viewport_height);
-        } else {
-            SetSurfaceOpaqueRegion(wind->surface, 0, 0);
+        اگر (is_opaque) {
+            سیٹ_Surface_Opaque_Region(wind->surface, wind->current.viewport_چوڑائی, wind->current.viewport_اونچائی);
+        } ورنہ {
+            سیٹ_Surface_Opaque_Region(wind->surface, 0, 0);
         }
 
-        wp_alpha_modifier_surface_v1_set_multiplier(wind->wp_alpha_modifier_surface_v1, (Uint32)((double)SDL_MAX_UINT32 * (double)opacity));
+        wp_alpha_modifier_surface_v1_سیٹ_multiplier(wind->wp_alpha_modifier_surface_v1, (Uint32)((دوہرا)SDL_MAX_UINT32 * (دوہرا)opacity));
 
-        return true;
+        واپس true;
     }
 
-    return SDL_SetError("wayland: set window opacity failed; compositor lacks support for the required wp_alpha_modifier_v1 protocol");
+    واپس SDL_سیٹ_Error("wayland: set window opacity failed; compositor lacks support for the required wp_alpha_modifier_v1 protocol");
 }
 
-void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
-    const char *title = window->title ? window->title : "";
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    ثابت حرف *title = کھڑکی->title ? کھڑکی->title : "";
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        libdecor_frame_set_title(wind->shell_surface.libdecor.frame, title);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-        xdg_toplevel_set_title(wind->shell_surface.xdg.toplevel.xdg_toplevel, title);
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.چوکھٹا) {
+        libdecor_چوکھٹا_سیٹ_title(wind->shell_surface.libdecor.چوکھٹا, title);
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+        xdg_toplevel_سیٹ_title(wind->shell_surface.xdg.toplevel.xdg_toplevel, title);
     }
 }
 
-static int icon_sort_callback(const void *a, const void *b)
+ساکن صحیح icon_ترتیب_دو_callback(ثابت خالی *a, ثابت خالی *b)
 {
-    const SDL_Surface *s1 = *(const SDL_Surface **)a;
-    const SDL_Surface *s2 = *(const SDL_Surface **)b;
+    ثابت SDL_Surface *s1 = *(ثابت SDL_Surface **)a;
+    ثابت SDL_Surface *s2 = *(ثابت SDL_Surface **)b;
 
-    return (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
+    واپس (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
 }
 
-bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool Wayland_سیٹ_کھڑکی_Icon(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_Surface *icon)
 {
-    SDL_WindowData *wind = window->internal;
-    Wayland_SHMPool *shm_pool = NULL;
-    struct xdg_toplevel *toplevel = NULL;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    Wayland_SHMPool *shm_pool = تہی;
+    ساخت xdg_toplevel *toplevel = تہی;
 
-    if (!_this->internal->xdg_toplevel_icon_manager_v1) {
-        return SDL_SetError("wayland: cannot set icon; required xdg_toplevel_icon_v1 protocol not supported");
+    اگر (!_this->اندرونی_2->xdg_toplevel_icon_manager_v1) {
+        واپس SDL_سیٹ_Error("wayland: cannot set icon; required xdg_toplevel_icon_v1 protocol not supported");
     }
 
-    int image_count = 0;
-    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_count);
-    if (!images || !image_count) {
-        return false;
+    صحیح image_گنتی_2 = 0;
+    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_گنتی_2);
+    اگر (!images || !image_گنتی_2) {
+        واپس false;
     }
 
     // Release the old icon resources.
-    if (wind->xdg_toplevel_icon_v1) {
+    اگر (wind->xdg_toplevel_icon_v1) {
         xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
-        wind->xdg_toplevel_icon_v1 = NULL;
+        wind->xdg_toplevel_icon_v1 = تہی;
     }
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
-        wl_buffer_destroy(wind->icon_buffers[i]);
+    برائے (صحیح i = 0; i < wind->icon_بفر_گنتی; ++i) {
+        wl_بفر_destroy(wind->icon_buffers[i]);
     }
-    wind->icon_buffer_count = 0;
+    wind->icon_بفر_گنتی = 0;
 
-    wind->xdg_toplevel_icon_v1 = xdg_toplevel_icon_manager_v1_create_icon(_this->internal->xdg_toplevel_icon_manager_v1);
-    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_count * sizeof(struct wl_buffer *));
-    if (!wind->icon_buffers) {
-        goto failure_cleanup;
+    wind->xdg_toplevel_icon_v1 = xdg_toplevel_icon_manager_v1_create_icon(_this->اندرونی_2->xdg_toplevel_icon_manager_v1);
+    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_گنتی_2 * حجم(ساخت wl_بفر *));
+    اگر (!wind->icon_buffers) {
+        جاؤ failure_cleanup;
     }
 
     // Calculate the size of the buffer pool.
-    size_t pool_size = 0;
-    for (int i = 0; i < image_count; ++i) {
+    size_t pool_سائز = 0;
+    برائے (صحیح i = 0; i < image_گنتی_2; ++i) {
         // Images must be square. Non-square images will be centered.
-        const int size = SDL_max(images[i]->w, images[i]->h);
-        pool_size += size * size * 4;
+        ثابت صحیح سائز = SDL_max(images[i]->w, images[i]->h);
+        pool_سائز += سائز * سائز * 4;
     }
 
     // Sort the images in ascending order by size.
-    SDL_qsort(images, image_count, sizeof(SDL_Surface *), icon_sort_callback);
+    SDL_qsort(images, image_گنتی_2, حجم(SDL_Surface *), icon_ترتیب_دو_callback);
 
-    shm_pool = Wayland_AllocSHMPool(pool_size);
-    if (!shm_pool) {
-        SDL_SetError("wayland: failed to allocate an SHM pool for the icon");
-        goto failure_cleanup;
+    shm_pool = Wayland_AllocSHMPool(pool_سائز);
+    اگر (!shm_pool) {
+        SDL_سیٹ_Error("wayland: failed to allocate an SHM pool for the icon");
+        جاؤ failure_cleanup;
     }
 
-    const double base_size = (double)SDL_max(icon->w, icon->h);
-    for (int i = 0; i < image_count; ++i) {
+    ثابت دوہرا بنیاد_سائز = (دوہرا)SDL_max(icon->w, icon->h);
+    برائے (صحیح i = 0; i < image_گنتی_2; ++i) {
         SDL_Surface *surface = images[i];
 
         // Choose the largest image for each integer scale, ignoring any below the base size.
-        const int level_size = SDL_max(surface->w, surface->h);
-        const int scale = (int)SDL_floor((double)level_size / base_size);
-        if (!scale) {
-            continue;
+        ثابت صحیح level_سائز = SDL_max(surface->w, surface->h);
+        ثابت صحیح scale = (صحیح)SDL_floor((دوہرا)level_سائز / بنیاد_سائز);
+        اگر (!scale) {
+            جاری;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+        اگر (surface->format != SDL_PIXELFORMAT_ARGB8888) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-            if (!surface) {
-                SDL_SetError("wayland: failed to convert the icon image to ARGB8888 format");
-                goto failure_cleanup;
+            اگر (!surface) {
+                SDL_سیٹ_Error("wayland: failed to convert the icon image to ARGB8888 format");
+                جاؤ failure_cleanup;
             }
         }
 
-        void *buffer_mem;
-        struct wl_buffer *buffer = Wayland_AllocBufferFromPool(shm_pool, level_size, level_size, &buffer_mem);
-        if (!buffer) {
+        خالی *بفر_mem;
+        ساخت wl_بفر *بفر_2 = Wayland_Alloc_بفر_From_Pool(shm_pool, level_سائز, level_سائز, &بفر_mem);
+        اگر (!بفر_2) {
             // Clean up the temporary conversion surface.
-            if (surface != images[i]) {
+            اگر (surface != images[i]) {
                 SDL_DestroySurface(surface);
             }
-            SDL_SetError("wayland: failed to allocate a wl_buffer for the icon");
-            goto failure_cleanup;
+            SDL_سیٹ_Error("wayland: failed to allocate a wl_buffer for the icon");
+            جاؤ failure_cleanup;
         }
 
-        wind->icon_buffers[wind->icon_buffer_count++] = buffer;
+        wind->icon_buffers[wind->icon_بفر_گنتی++] = بفر_2;
 
         // Center non-square images.
-        if (surface->w < level_size) {
-            SDL_memset(buffer_mem, 0, level_size * level_size * 4);
-            buffer_mem = (Uint8 *)buffer_mem + (((level_size - surface->w) / 2) * 4);
-        } else if (surface->h < level_size) {
-            SDL_memset(buffer_mem, 0, level_size * level_size * 4);
-            buffer_mem = (Uint8 *)buffer_mem + (((level_size - surface->h) / 2) * (level_size * 4));
+        اگر (surface->w < level_سائز) {
+            SDL_memset(بفر_mem, 0, level_سائز * level_سائز * 4);
+            بفر_mem = (Uint8 *)بفر_mem + (((level_سائز - surface->w) / 2) * 4);
+        } ورنہ اگر (surface->h < level_سائز) {
+            SDL_memset(بفر_mem, 0, level_سائز * level_سائز * 4);
+            بفر_mem = (Uint8 *)بفر_mem + (((level_سائز - surface->h) / 2) * (level_سائز * 4));
         }
 
         SDL_PremultiplyAlpha(surface->w, surface->h, surface->format, surface->pixels, surface->pitch,
-                             SDL_PIXELFORMAT_ARGB8888, buffer_mem, level_size * 4, true);
+                             SDL_PIXELFORMAT_ARGB8888, بفر_mem, level_سائز * 4, true);
 
-        xdg_toplevel_icon_v1_add_buffer(wind->xdg_toplevel_icon_v1, buffer, scale);
+        xdg_toplevel_icon_v1_جوڑو_بفر(wind->xdg_toplevel_icon_v1, بفر_2, scale);
 
         // Clean up the temporary scaled or conversion surface.
-        if (surface != images[i]) {
+        اگر (surface != images[i]) {
             SDL_DestroySurface(surface);
         }
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        toplevel = libdecor_frame_get_xdg_toplevel(wind->shell_surface.libdecor.frame);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.چوکھٹا) {
+        toplevel = libdecor_چوکھٹا_get_xdg_toplevel(wind->shell_surface.libdecor.چوکھٹا);
+    } ورنہ
+#اگر_ختم
+        اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
         toplevel = wind->shell_surface.xdg.toplevel.xdg_toplevel;
     }
 
-    if (toplevel) {
-        xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1, toplevel, wind->xdg_toplevel_icon_v1);
+    اگر (toplevel) {
+        xdg_toplevel_icon_manager_v1_سیٹ_icon(_this->اندرونی_2->xdg_toplevel_icon_manager_v1, toplevel, wind->xdg_toplevel_icon_v1);
     }
 
     Wayland_ReleaseSHMPool(shm_pool);
     SDL_free(images);
 
-    return true;
+    واپس true;
 
 failure_cleanup:
 
     SDL_free(images);
 
-    if (wind->xdg_toplevel_icon_v1) {
+    اگر (wind->xdg_toplevel_icon_v1) {
         xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
-        wind->xdg_toplevel_icon_v1 = NULL;
+        wind->xdg_toplevel_icon_v1 = تہی;
     }
 
     Wayland_ReleaseSHMPool(shm_pool);
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
-        wl_buffer_destroy(wind->icon_buffers[i]);
+    برائے (صحیح i = 0; i < wind->icon_بفر_گنتی; ++i) {
+        wl_بفر_destroy(wind->icon_buffers[i]);
     }
     SDL_free(wind->icon_buffers);
-    wind->icon_buffers = NULL;
-    wind->icon_buffer_count = 0;
+    wind->icon_buffers = تہی;
+    wind->icon_بفر_گنتی = 0;
 
-    return false;
+    واپس false;
 }
 
-void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+خالی *Wayland_Get_کھڑکی_ICCProfile(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, size_t *سائز)
 {
-    SDL_WindowData *wind = window->internal;
-    void *ret = NULL;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    خالی *ret = تہی;
 
-    if (wind->icc_size > 0) {
-        void *icc_map = mmap(NULL, wind->icc_size, PROT_READ, MAP_PRIVATE, wind->icc_fd, 0);
-        if (icc_map != MAP_FAILED) {
-            ret = SDL_malloc(wind->icc_size);
-            if (ret) {
-                *size = wind->icc_size;
-                SDL_memcpy(ret, icc_map, *size);
+    اگر (wind->icc_سائز > 0) {
+        خالی *icc_map = mmap(تہی, wind->icc_سائز, PROT_READ, MAP_PRIVATE, wind->icc_fd, 0);
+        اگر (icc_map != MAP_FAILED) {
+            ret = SDL_malloc(wind->icc_سائز);
+            اگر (ret) {
+                *سائز = wind->icc_سائز;
+                SDL_memcpy(ret, icc_map, *سائز);
             }
-            munmap(icc_map, wind->icc_size);
+            munmap(icc_map, wind->icc_سائز);
         }
     }
 
-    return ret;
+    واپس ret;
 }
 
-bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_Sync_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    do {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
-    } while (wind->pending_state_deadline_count);
+    کرو {
+        WAYLAND_wl_display_roundtrip(_this->اندرونی_2->display);
+    } جب (wind->pending_state_deadline_گنتی);
 
-    return true;
+    واپس true;
 }
 
-void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept)
+خالی Wayland_AcceptDragAndDrop(SDL_کھڑکی *کھڑکی, bool accept)
 {
-    window->internal->accepts_drag_and_drop = accept;
+    کھڑکی->اندرونی_2->قبول_کرتا_drag_and_drop = accept;
 }
 
-bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool Wayland_سیٹ_کھڑکی_Focusable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool focusable)
 {
-    if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                Wayland_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    Wayland_SetKeyboardFocus(window, true);
+    اگر (کھڑکی->flags & SDL_کھڑکی_POPUP_MENU) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_HIDDEN)) {
+            اگر (!focusable && (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS)) {
+                SDL_کھڑکی *new_focus;
+                ثابت bool سیٹ_focus = SDL_ShouldRelinquishPopupFocus(کھڑکی, &new_focus);
+                Wayland_سیٹ_Keyboard_Focus(new_focus, سیٹ_focus);
+            } ورنہ اگر (focusable) {
+                اگر (SDL_ShouldFocusPopup(کھڑکی)) {
+                    Wayland_سیٹ_Keyboard_Focus(کھڑکی, true);
                 }
             }
         }
 
-        return true;
+        واپس true;
     }
 
-    return SDL_SetError("wayland: focus can only be toggled on popup menu windows");
+    واپس SDL_سیٹ_Error("wayland: focus can only be toggled on popup menu windows");
 }
 
-void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+خالی Wayland_Show_کھڑکی_System_Menu(SDL_کھڑکی *کھڑکی, صحیح x, صحیح y)
 {
-    SDL_WindowData *wind = window->internal;
-    SDL_WaylandSeat *seat = wind->waylandData->last_implicit_grab_seat;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
+    SDL_WaylandSeat *seat = wind->wayland_ڈیٹا->آخری_implicit_grab_seat;
 
-    if (!seat) {
-        return;
+    اگر (!seat) {
+        واپس;
     }
 
-    if (wind->scale_to_display) {
-        x = PixelToPoint(window, x);
-        y = PixelToPoint(window, y);
+    اگر (wind->scale_مقصد_display) {
+        x = Pixel_مقصد_نقطہ(کھڑکی, x);
+        y = Pixel_مقصد_نقطہ(کھڑکی, y);
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_show_window_menu(wind->shell_surface.libdecor.frame, seat->wl_seat, seat->last_implicit_grab_serial, x, y);
+#اگر_تعریف_شدہ HAVE_LIBDECOR_H
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        اگر (wind->shell_surface.libdecor.چوکھٹا) {
+            libdecor_چوکھٹا_show_کھڑکی_menu(wind->shell_surface.libdecor.چوکھٹا, seat->wl_seat, seat->آخری_implicit_grab_serial, x, y);
         }
-    } else
-#endif
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-            xdg_toplevel_show_window_menu(wind->shell_surface.xdg.toplevel.xdg_toplevel, seat->wl_seat, seat->last_implicit_grab_serial, x, y);
+    } ورنہ
+#اگر_ختم
+    اگر (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        اگر (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+            xdg_toplevel_show_کھڑکی_menu(wind->shell_surface.xdg.toplevel.xdg_toplevel, seat->wl_seat, seat->آخری_implicit_grab_serial, x, y);
         }
     }
 }
 
 bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
-        return true;
+#اگر_تعریف_شدہ SDL_USE_LIBDBUS
+    اگر (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
+        واپس true;
     }
-#endif
+#اگر_ختم
 
     /* The idle_inhibit_unstable_v1 protocol suspends the screensaver
        on a per wl_surface basis, but SDL assumes that suspending
@@ -3806,94 +3806,94 @@ bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this)
        state to each window. If there is no window active, we will
        be able to inhibit idle once the first window is created.
     */
-    if (data->idle_inhibit_manager) {
-        SDL_Window *window = _this->windows;
-        while (window) {
-            SDL_WindowData *win_data = window->internal;
+    اگر (ڈیٹا->idle_inhibit_manager) {
+        SDL_کھڑکی *کھڑکی = _this->windows;
+        جب (کھڑکی) {
+            SDL_کھڑکی_ڈیٹا *win_ڈیٹا = کھڑکی->اندرونی_2;
 
-            if (_this->suspend_screensaver && !win_data->idle_inhibitor) {
-                win_data->idle_inhibitor =
-                    zwp_idle_inhibit_manager_v1_create_inhibitor(data->idle_inhibit_manager,
-                                                                 win_data->surface);
-            } else if (!_this->suspend_screensaver && win_data->idle_inhibitor) {
-                zwp_idle_inhibitor_v1_destroy(win_data->idle_inhibitor);
-                win_data->idle_inhibitor = NULL;
+            اگر (_this->suspend_screensaver && !win_ڈیٹا->idle_inhibitor) {
+                win_ڈیٹا->idle_inhibitor =
+                    zwp_idle_inhibit_manager_v1_create_inhibitor(ڈیٹا->idle_inhibit_manager,
+                                                                 win_ڈیٹا->surface);
+            } ورنہ اگر (!_this->suspend_screensaver && win_ڈیٹا->idle_inhibitor) {
+                zwp_idle_inhibitor_v1_destroy(win_ڈیٹا->idle_inhibitor);
+                win_ڈیٹا->idle_inhibitor = تہی;
             }
 
-            window = window->next;
+            کھڑکی = کھڑکی->اگلا;
         }
     }
 
-    return true;
+    واپس true;
 }
 
-void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+خالی Wayland_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wind = window->internal;
+    SDL_Video_ڈیٹا *ڈیٹا = _this->اندرونی_2;
+    SDL_کھڑکی_ڈیٹا *wind = کھڑکی->اندرونی_2;
 
-    if (data && wind) {
+    اگر (ڈیٹا && wind) {
         /* Roundtrip before destroying the window to make sure that it has received input leave events, so that
          * no internal structures are left pointing to the destroyed window.
          */
-        if (wind->show_hide_sync_required) {
+        اگر (wind->show_hide_sync_required) {
             /* Make sure hit test isn't executed during roundtrip */
-            window->hit_test = NULL;
-            WAYLAND_wl_display_roundtrip(data->display);
+            کھڑکی->کامیابی_test = تہی;
+            WAYLAND_wl_display_roundtrip(ڈیٹا->display);
         }
 
         /* The compositor should have relinquished keyboard, pointer, touch, and tablet tool focus when the toplevel
          * window was destroyed upon being hidden, but there is no guarantee of this, so ensure that all references
          * to the window held by seats are released before destroying the underlying surface and struct.
          */
-        Wayland_DisplayRemoveWindowReferencesFromSeats(data, wind);
+        Wayland_Display_Remove_کھڑکی_References_From_Seats(ڈیٹا, wind);
 
-        if (wind->mask.viewport) {
-            wp_viewport_destroy(wind->mask.viewport);
+        اگر (wind->نقاب.viewport) {
+            wp_viewport_destroy(wind->نقاب.viewport);
         }
-        if (wind->mask.buffer) {
-            wl_buffer_destroy(wind->mask.buffer);
+        اگر (wind->نقاب.بفر_2) {
+            wl_بفر_destroy(wind->نقاب.بفر_2);
         }
-        if (wind->mask.subsurface) {
-            wl_subsurface_destroy(wind->mask.subsurface);
+        اگر (wind->نقاب.subsurface) {
+            wl_subsurface_destroy(wind->نقاب.subsurface);
         }
-        if (wind->mask.surface) {
-            wl_surface_destroy(wind->mask.surface);
+        اگر (wind->نقاب.surface) {
+            wl_surface_destroy(wind->نقاب.surface);
         }
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (wind->egl_surface) {
+#اگر_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        اگر (wind->egl_surface) {
             SDL_EGL_DestroySurface(_this, wind->egl_surface);
         }
-#endif
-        if (wind->egl_window) {
-            WAYLAND_wl_egl_window_destroy(wind->egl_window);
+#اگر_ختم
+        اگر (wind->egl_کھڑکی) {
+            WAYLAND_wl_egl_کھڑکی_destroy(wind->egl_کھڑکی);
         }
 
-        if (wind->idle_inhibitor) {
+        اگر (wind->idle_inhibitor) {
             zwp_idle_inhibitor_v1_destroy(wind->idle_inhibitor);
         }
 
-        if (wind->activation_token) {
+        اگر (wind->activation_token) {
             xdg_activation_token_v1_destroy(wind->activation_token);
         }
 
-        if (wind->viewport) {
+        اگر (wind->viewport) {
             wp_viewport_destroy(wind->viewport);
         }
 
-        if (wind->fractional_scale) {
+        اگر (wind->fractional_scale) {
             wp_fractional_scale_v1_destroy(wind->fractional_scale);
         }
 
-        if (wind->wp_alpha_modifier_surface_v1) {
+        اگر (wind->wp_alpha_modifier_surface_v1) {
             wp_alpha_modifier_surface_v1_destroy(wind->wp_alpha_modifier_surface_v1);
         }
 
-        if (wind->frog_color_managed_surface) {
+        اگر (wind->frog_color_managed_surface) {
             frog_color_managed_surface_destroy(wind->frog_color_managed_surface);
         }
 
-        if (wind->wp_color_management_surface_feedback) {
+        اگر (wind->wp_color_management_surface_feedback) {
             Wayland_FreeColorInfoState(wind->color_info_state);
             wp_color_management_surface_feedback_v1_destroy(wind->wp_color_management_surface_feedback);
         }
@@ -3901,31 +3901,31 @@ void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
         SDL_free(wind->outputs);
         SDL_free(wind->app_id);
 
-        if (wind->gles_swap_frame_callback) {
-            wl_callback_destroy(wind->gles_swap_frame_callback);
-            WAYLAND_wl_proxy_wrapper_destroy(wind->gles_swap_frame_surface_wrapper);
-            WAYLAND_wl_event_queue_destroy(wind->gles_swap_frame_event_queue);
+        اگر (wind->gles_تبادلہ_چوکھٹا_callback) {
+            wl_callback_destroy(wind->gles_تبادلہ_چوکھٹا_callback);
+            WAYLAND_wl_proxy_wrapper_destroy(wind->gles_تبادلہ_چوکھٹا_surface_wrapper);
+            WAYLAND_wl_event_قطار_destroy(wind->gles_تبادلہ_چوکھٹا_event_قطار);
         }
 
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+        اگر (!(کھڑکی->flags & SDL_کھڑکی_EXTERNAL)) {
             wl_surface_destroy(wind->surface);
-        } else {
-            Wayland_RemoveWindowDataFromExternalList(wind);
+        } ورنہ {
+            Wayland_Remove_کھڑکی_ڈیٹا_From_External_List(wind);
         }
 
-        if (wind->xdg_toplevel_icon_v1) {
+        اگر (wind->xdg_toplevel_icon_v1) {
             xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
         }
 
-        for (int i = 0; i < wind->icon_buffer_count; ++i) {
-            wl_buffer_destroy(wind->icon_buffers[i]);
+        برائے (صحیح i = 0; i < wind->icon_بفر_گنتی; ++i) {
+            wl_بفر_destroy(wind->icon_buffers[i]);
         }
         SDL_free(wind->icon_buffers);
-        wind->icon_buffer_count = 0;
+        wind->icon_بفر_گنتی = 0;
 
         SDL_free(wind);
     }
-    window->internal = NULL;
+    کھڑکی->اندرونی_2 = تہی;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#اگر_ختم // SDL_VIDEO_DRIVER_WAYLAND

@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_vivanteplatform_h_
-#define SDL_vivanteplatform_h_
+#اگر_غیر_تعریف_شدہ SDL_vivanteplatform_h_
+#تعریف_کرو SDL_vivanteplatform_h_
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE
 
-#include "SDL_vivantevideo.h"
+#شامل "SDL_vivantevideo.h"
 
-#ifdef CAVIUM
-#define VIVANTE_PLATFORM_CAVIUM
-#elif defined(MARVELL)
-#define VIVANTE_PLATFORM_MARVELL
-#else
-#define VIVANTE_PLATFORM_GENERIC
-#endif
+#اگر_تعریف_شدہ CAVIUM
+#تعریف_کرو VIVANTE_PLATFORM_CAVIUM
+#وگرنہ_اگر defined(MARVELL)
+#تعریف_کرو VIVANTE_PLATFORM_MARVELL
+#ورنہ
+#تعریف_کرو VIVANTE_PLATFORM_GENERIC
+#اگر_ختم
 
-extern bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this);
-extern char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
-extern void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
-extern void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
+خارجی bool VIVANTE_تیاری_Platform(SDL_VideoDevice *_this);
+خارجی حرف *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
+خارجی خالی VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
+خارجی خالی VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_DRIVER_VIVANTE
+#اگر_ختم // SDL_VIDEO_DRIVER_VIVANTE
 
-#endif // SDL_vivanteplatform_h_
+#اگر_ختم // SDL_vivanteplatform_h_

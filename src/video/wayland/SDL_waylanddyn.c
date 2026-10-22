@@ -18,200 +18,200 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
 
-#define DEBUG_DYNAMIC_WAYLAND 0
+#تعریف_کرو DEBUG_DYNAMIC_WAYLAND 0
 
-#include "SDL_waylanddyn.h"
+#شامل "SDL_waylanddyn.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ترجیح_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 )
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ترجیح_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ترجیح_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ترجیح_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ترجیح_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
 )
-#endif
+#اگر_ختم
 
-typedef struct
+قسمتعریف ساخت
 {
     SDL_SharedObject *lib;
-    const char *libname;
-    const char *hint;
+    ثابت حرف *libname;
+    ثابت حرف *hint;
     bool hint_default;
 } waylanddynlib;
 
-static waylanddynlib waylandlibs[] = {
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, NULL, false },
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
-#endif
-    { NULL, NULL, NULL, false }
+ساکن waylanddynlib waylandlibs[] = {
+    { تہی, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, تہی, false },
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
+    { تہی, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, تہی, false },
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
+    { تہی, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, تہی, false },
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
+    { تہی, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, تہی, false },
+#اگر_ختم
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    { تہی, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
+#اگر_ختم
+    { تہی, تہی, تہی, false }
 };
 
-static void *WAYLAND_GetSym(const char *fnname, int *pHasModule, bool required)
+ساکن خالی *WAYLAND_GetSym(ثابت حرف *fnname, صحیح *pHasModule, bool required)
 {
-    void *fn = NULL;
+    خالی *fn = تہی;
     waylanddynlib *dynlib;
-    for (dynlib = waylandlibs; dynlib->libname; dynlib++) {
-        if (dynlib->lib) {
-            fn = SDL_LoadFunction(dynlib->lib, fnname);
-            if (fn) {
-                break;
+    برائے (dynlib = waylandlibs; dynlib->libname; dynlib++) {
+        اگر (dynlib->lib) {
+            fn = SDL_بھرو_Function(dynlib->lib, fnname);
+            اگر (fn) {
+                توڑو;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_WAYLAND
-    if (fn) {
+#اگر DEBUG_DYNAMIC_WAYLAND
+    اگر (fn) {
         SDL_Log("WAYLAND: Found '%s' in %s (%p)", fnname, dynlib->libname, fn);
-    } else {
+    } ورنہ {
         SDL_Log("WAYLAND: Symbol '%s' NOT FOUND!", fnname);
     }
-#endif
+#اگر_ختم
 
-    if (!fn && required) {
+    اگر (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    واپس fn;
 }
 
-#else
+#ورنہ
 
-#include <wayland-egl.h>
+#شامل <wayland-egl.h>
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#اگر_ختم // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_WAYLAND_MODULE(modname)         int SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#تعریف_کرو SDL_WAYLAND_MODULE(modname)         صحیح SDL_WAYLAND_HAVE_##modname = 0;
+#تعریف_کرو SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = تہی;
+#تعریف_کرو SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = تہی;
+#شامل "SDL_waylandsym.h"
 
-static int wayland_load_refcount = 0;
+ساکن صحیح wayland_بھرو_refcount = 0;
 
-void SDL_WAYLAND_UnloadSymbols(void)
+خالی SDL_WAYLAND_UnloadSymbols(خالی)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (wayland_load_refcount > 0) {
-        if (--wayland_load_refcount == 0) {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            int i;
-#endif
+    اگر (wayland_بھرو_refcount > 0) {
+        اگر (--wayland_بھرو_refcount == 0) {
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+            صحیح i;
+#اگر_ختم
 
             // set all the function pointers to NULL.
-#define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#تعریف_کرو SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 0;
+#تعریف_کرو SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = تہی;
+#تعریف_کرو SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = تہی;
+#شامل "SDL_waylandsym.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-                if (waylandlibs[i].lib) {
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+            برائے (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+                اگر (waylandlibs[i].lib) {
                     SDL_UnloadObject(waylandlibs[i].lib);
-                    waylandlibs[i].lib = NULL;
+                    waylandlibs[i].lib = تہی;
                 }
             }
-#endif
+#اگر_ختم
         }
     }
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_WAYLAND_LoadSymbols(void)
+bool SDL_WAYLAND_بھرو_Symbols(خالی)
 {
-    bool result = true; // always succeed if not using Dynamic WAYLAND stuff.
+    bool نتیجہ = true; // always succeed if not using Dynamic WAYLAND stuff.
 
     // deal with multiple modules (dga, wayland, etc) needing these symbols...
-    if (wayland_load_refcount++ == 0) {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-            if (waylandlibs[i].libname) {
-                if (waylandlibs[i].hint &&
+    اگر (wayland_بھرو_refcount++ == 0) {
+#اگر_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+        صحیح i;
+        صحیح *thismod = تہی;
+        برائے (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+            اگر (waylandlibs[i].libname) {
+                اگر (waylandlibs[i].hint &&
                     !SDL_GetHintBoolean(waylandlibs[i].hint, waylandlibs[i].hint_default)) {
-                    continue;
+                    جاری;
                 }
-                waylandlibs[i].lib = SDL_LoadObject(waylandlibs[i].libname);
+                waylandlibs[i].lib = SDL_بھرو_Object(waylandlibs[i].libname);
             }
         }
 
-#define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; // default yes
-#include "SDL_waylandsym.h"
+#تعریف_کرو SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; // default yes
+#شامل "SDL_waylandsym.h"
 
-#define SDL_WAYLAND_MODULE(modname)         thismod = &SDL_WAYLAND_HAVE_##modname;
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, true);
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
-#include "SDL_waylandsym.h"
+#تعریف_کرو SDL_WAYLAND_MODULE(modname)         thismod = &SDL_WAYLAND_HAVE_##modname;
+#تعریف_کرو SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, true);
+#تعریف_کرو SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
+#شامل "SDL_waylandsym.h"
 
-        if (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
+        اگر (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
             SDL_WAYLAND_HAVE_WAYLAND_CURSOR &&
             SDL_WAYLAND_HAVE_WAYLAND_EGL &&
             SDL_WAYLAND_HAVE_WAYLAND_XKB) {
             // All required symbols loaded, only libdecor is optional.
             SDL_ClearError();
-        } else {
+        } ورنہ {
             // in case something got loaded...
             SDL_WAYLAND_UnloadSymbols();
-            result = false;
+            نتیجہ = false;
         }
 
-#else // no dynamic WAYLAND
+#ورنہ // no dynamic WAYLAND
 
-#define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = fn;
-#include "SDL_waylandsym.h"
+#تعریف_کرو SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
+#تعریف_کرو SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
+#تعریف_کرو SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = fn;
+#شامل "SDL_waylandsym.h"
 
-#endif
+#اگر_ختم
     }
 
-    return result;
+    واپس نتیجہ;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#اگر_ختم // SDL_VIDEO_DRIVER_WAYLAND

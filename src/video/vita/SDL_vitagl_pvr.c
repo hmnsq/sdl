@@ -18,104 +18,104 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
-#include <gl4esinit.h>
+#اگر defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
+#شامل <stdlib.h>
+#شامل <string.h>
+#شامل <psp2/kernel/modulemgr.h>
+#شامل <gpu_es4/psp2_pvr_hint.h>
+#شامل <gl4esinit.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#شامل "SDL_vitavideo.h"
+#شامل "../SDL_egl_c.h"
 
-#define MAX_PATH 256 // vita limits are somehow wrong
+#تعریف_کرو MAX_راستہ 256 // vita limits are somehow wrong
 
 // Defaults
-static int FB_WIDTH = 960;
-static int FB_HEIGHT = 544;
+ساکن صحیح FB_چوڑائی = 960;
+ساکن صحیح FB_اونچائی = 544;
 
-static void getFBSize(int *width, int *height)
+ساکن خالی getFBSize(صحیح *چوڑائی, صحیح *اونچائی)
 {
-    *width = FB_WIDTH;
-    *height = FB_HEIGHT;
+    *چوڑائی = FB_چوڑائی;
+    *اونچائی = FB_اونچائی;
 }
 
-bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GL_بھرو_Library(SDL_VideoDevice *_this, ثابت حرف *راستہ)
 {
     PVRSRV_PSP2_APPHINT hint;
-    char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    حرف *default_راستہ = "app0:module";
+    حرف ہدف_راستہ[MAX_راستہ];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    اگر (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ثابت حرف *override = SDL_GetHint(SDL_HINT_VITA_MODULE_راستہ);
 
-        if (override && *override) {
-            default_path = override;
+        اگر (override && *override) {
+            default_راستہ = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sce_Kernel_بھرو_آغاز_Module("vs0:sys/external/libfios2.suprx", 0, تہی, 0, تہی, تہی);
+        sce_Kernel_بھرو_آغاز_Module("vs0:sys/external/libc.suprx", 0, تہی, 0, تہی, تہی);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ہدف_راستہ, MAX_راستہ, "%s/%s", default_راستہ, "libGL.suprx");
+        sce_Kernel_بھرو_آغاز_Module(ہدف_راستہ, 0, تہی, 0, تہی, تہی);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ہدف_راستہ, MAX_راستہ, "%s/%s", default_راستہ, "libgpu_es4_ext.suprx");
+        sce_Kernel_بھرو_آغاز_Module(ہدف_راستہ, 0, تہی, 0, تہی, تہی);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ہدف_راستہ, MAX_راستہ, "%s/%s", default_راستہ, "libIMGEGL.suprx");
+        sce_Kernel_بھرو_آغاز_Module(ہدف_راستہ, 0, تہی, 0, تہی, تہی);
 
         PVRSRVInitializeAppHint(&hint);
 
-        SDL_snprintf(hint.szGLES1, MAX_PATH, "%s/%s", default_path, "libGLESv1_CM.suprx");
-        SDL_snprintf(hint.szGLES2, MAX_PATH, "%s/%s", default_path, "libGLESv2.suprx");
-        SDL_snprintf(hint.szWindowSystem, MAX_PATH, "%s/%s", default_path, "libpvrPSP2_WSEGL.suprx");
+        SDL_snprintf(hint.szGLES1, MAX_راستہ, "%s/%s", default_راستہ, "libGLESv1_CM.suprx");
+        SDL_snprintf(hint.szGLES2, MAX_راستہ, "%s/%s", default_راستہ, "libGLESv2.suprx");
+        SDL_snprintf(hint.sz_کھڑکی_System, MAX_راستہ, "%s/%s", default_راستہ, "libpvrPSP2_WSEGL.suprx");
 
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    واپس SDL_EGL_بھرو_Library(_this, راستہ, EGL_DEFAULT_DISPLAY);
 }
 
-SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    char gl_version[3];
-    SDL_GLContext context = NULL;
-    int temp_major = _this->gl_config.major_version;
-    int temp_minor = _this->gl_config.minor_version;
-    int temp_profile = _this->gl_config.profile_mask;
+    حرف gl_نسخہ[3];
+    SDL_GLContext context = تہی;
+    صحیح عارضی_major = _this->gl_config.major_نسخہ;
+    صحیح عارضی_minor = _this->gl_config.minor_نسخہ;
+    صحیح عارضی_profile = _this->gl_config.profile_نقاب;
 
     // Set version to 2.0 and PROFILE to ES
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
+    _this->gl_config.major_نسخہ = 2;
+    _this->gl_config.minor_نسخہ = 0;
+    _this->gl_config.profile_نقاب = SDL_GL_CONTEXT_PROFILE_ES;
 
-    context = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    context = SDL_EGL_CreateContext(_this, کھڑکی->اندرونی_2->egl_surface);
 
-    if (context != NULL) {
-        FB_WIDTH = window->w;
-        FB_HEIGHT = window->h;
-        set_getprocaddress((void *(*)(const char *))eglGetProcAddress);
-        set_getmainfbsize(getFBSize);
-        SDL_snprintf(gl_version, 3, "%d%d", temp_major, temp_minor);
+    اگر (context != تہی) {
+        FB_چوڑائی = کھڑکی->w;
+        FB_اونچائی = کھڑکی->h;
+        سیٹ_getprocaddress((خالی *(*)(ثابت حرف *))egl_Get_Proc_پتہ);
+        سیٹ_getmainfbsize(getFBSize);
+        SDL_snprintf(gl_نسخہ, 3, "%d%d", عارضی_major, عارضی_minor);
         gl4es_setenv("LIBGL_NOTEXRECT", "1", 1); // Currently broken in driver
-        gl4es_setenv("LIBGL_GL", gl_version, 1);
+        gl4es_setenv("LIBGL_GL", gl_نسخہ, 1);
         initialize_gl4es();
     }
 
     // Restore gl_config
-    _this->gl_config.major_version = temp_major;
-    _this->gl_config.minor_version = temp_minor;
-    _this->gl_config.profile_mask = temp_profile;
+    _this->gl_config.major_نسخہ = عارضی_major;
+    _this->gl_config.minor_نسخہ = عارضی_minor;
+    _this->gl_config.profile_نقاب = عارضی_profile;
 
-    return context;
+    واپس context;
 }
 
-SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_اشارہ_گر VITA_GL_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc)
 {
-    return gl4es_GetProcAddress(proc);
+    واپس gl4es_Get_Proc_پتہ(proc);
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR
+#اگر_ختم // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

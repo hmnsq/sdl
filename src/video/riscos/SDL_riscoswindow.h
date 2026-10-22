@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#ifndef SDL_riscoswindow_h_
-#define SDL_riscoswindow_h_
+#اگر_غیر_تعریف_شدہ SDL_riscoswindow_h_
+#تعریف_کرو SDL_riscoswindow_h_
 
-#include "SDL_riscosdefs.h"
+#شامل "SDL_riscosdefs.h"
 
-struct SDL_WindowData
+ساخت SDL_کھڑکی_ڈیٹا
 {
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     sprite_area *fb_area;
-    sprite_header *fb_sprite;
+    sprite_سرخی *fb_sprite;
 };
 
-extern bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجی bool RISCOS_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجی خالی RISCOS_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-#endif // SDL_riscoswindow_h_
+#اگر_ختم // SDL_riscoswindow_h_

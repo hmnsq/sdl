@@ -1,5 +1,5 @@
-#ifndef VULKAN_VI_H_
-#define VULKAN_VI_H_ 1
+#اگر_غیر_تعریف_شدہ VULKAN_VI_H_
+#تعریف_کرو VULKAN_VI_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
 
 
 // VK_NN_vi_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_NN_vi_surface 1
+#تعریف_کرو VK_NN_vi_surface 1
 
-#define VK_NN_VI_SURFACE_SPEC_VERSION     1
-#define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
+#تعریف_کرو VK_NN_VI_SURFACE_SPEC_نسخہ     1
+#تعریف_کرو VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+قسمتعریف VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+قسمتعریف ساخت VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    ثابت خالی*                 p_اگلا;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    خالی*                       کھڑکی;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+قسمتعریف Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, ثابت VkViSurfaceCreateInfoNN* pCreateInfo, ثابت Vk_تخصیص_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#اگر_غیر_تعریف_شدہ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
+#اگر_غیر_تعریف_شدہ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkViSurfaceCreateInfoNN*              pCreateInfo,
+    ثابت Vk_تخصیص_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#اگر_ختم
+#اگر_ختم
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif
+#اگر_ختم
