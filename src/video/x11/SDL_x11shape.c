@@ -18,38 +18,38 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11shape.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11shape.h"
 
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-static Uint8 *GenerateShapeMask(SDL_Surface *shape)
+ساكن Uint8 *GenerateShapeMask(SDL_Surface *shape)
 {
-    int x, y;
-    const size_t ppb = 8;
-    const size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
-    const Uint8 *a;
+    صحيح x, y;
+    ثابت size_t ppb = 8;
+    ثابت size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
+    ثابت Uint8 *a;
     Uint8 *mask;
     Uint8 *mask_scanline;
     Uint8 mask_value;
 
     mask = (Uint8 *)SDL_calloc(1, shape->h * bytes_per_scanline);
-    if (mask) {
-        for (y = 0; y < shape->h; y++) {
-            a = (const Uint8 *)shape->pixels + y * shape->pitch;
+    𐡄𐡍 (mask) {
+        لكل (y = 0; y < shape->h; y++) {
+            a = (ثابت Uint8 *)shape->pixels + y * shape->pitch;
             mask_scanline = mask + y * bytes_per_scanline;
-            for (x = 0; x < shape->w; x++) {
+            لكل (x = 0; x < shape->w; x++) {
                 mask_value = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
                 mask_scanline[x / ppb] |= mask_value << (x % ppb);
                 a += 4;
             }
         }
     }
-    return mask;
+    أرجع mask;
 }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
@@ -61,36 +61,36 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     SDL_WindowData *windowdata = window->internal;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
+    𐡄𐡍 (shape) {
+        SDL_Surface *stretched = عدم;
         Uint8 *mask;
         Pixmap pixmap;
 
-        if (shape->w != window->w || shape->h != window->h) {
+        𐡄𐡍 (shape->w != window->w || shape->h != window->h) {
             stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+            𐡄𐡍 (!stretched) {
+                أرجع false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            𐡄𐡍 (!SDL_StretchSurface(shape, عدم, stretched, عدم, SDL_SCALEMODE_LINEAR)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                أرجع false;
             }
             shape = stretched;
         }
 
         mask = GenerateShapeMask(shape);
-        if (mask) {
-            pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (const char *)mask, shape->w, shape->h);
+        𐡄𐡍 (mask) {
+            pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (ثابت حرف *)mask, shape->w, shape->h);
             X11_XShapeCombineMask(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, pixmap, ShapeSet);
             SDL_free(mask);
 
             result = true;
         }
 
-        if (stretched) {
+        𐡄𐡍 (stretched) {
             SDL_DestroySurface(stretched);
         }
-    } else {
+    } وإلا {
         Region region = X11_XCreateRegion();
         XRectangle rect;
 
@@ -105,7 +105,7 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
-    return result;
+    أرجع result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

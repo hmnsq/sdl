@@ -18,20 +18,20 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#𐡄𐡍 defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #ifdef HAVE_LIMITS_H
-#include <limits.h>
+#ضمن <limits.h>
 #endif
 #ifndef SIZE_MAX
 #define SIZE_MAX ((size_t)-1)
 #endif
 
-#include "../../core/windows/SDL_windows.h"
+#ضمن "../../core/windows/SDL_windows.h"
 
-#include "SDL_windowsvideo.h"
+#ضمن "SDL_windowsvideo.h"
 
 #ifndef SS_EDITCONTROL
 #define SS_EDITCONTROL 0x2000
@@ -66,9 +66,9 @@
 
 // Display a Windows message box
 
-typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
+تعريفنوع HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
 
-enum _TASKDIALOG_FLAGS
+تعداد _TASKDIALOG_FLAGS
 {
     TDF_ENABLE_HYPERLINKS = 0x0001,
     TDF_USE_HICON_MAIN = 0x0002,
@@ -91,9 +91,9 @@ enum _TASKDIALOG_FLAGS
                                         // #endif // (NTDDI_VERSION >= NTDDI_WIN8)
     TDF_SIZE_TO_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
 };
-typedef int TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
+تعريفنوع صحيح TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
 
-typedef enum _TASKDIALOG_MESSAGES
+تعريفنوع تعداد _TASKDIALOG_MESSAGES
 {
     TDM_NAVIGATE_PAGE = WM_USER + 101,
     TDM_CLICK_BUTTON = WM_USER + 102,                        // wParam = Button ID
@@ -112,7 +112,7 @@ typedef enum _TASKDIALOG_MESSAGES
     TDM_UPDATE_ICON = WM_USER + 116                          // wParam = icon element (TASKDIALOG_ICON_ELEMENTS), lParam = new icon (hIcon if TDF_USE_HICON_* was set, PCWSTR otherwise)
 } TASKDIALOG_MESSAGES;
 
-typedef enum _TASKDIALOG_NOTIFICATIONS
+تعريفنوع تعداد _TASKDIALOG_NOTIFICATIONS
 {
     TDN_CREATED = 0,
     TDN_NAVIGATED = 1,
@@ -127,7 +127,7 @@ typedef enum _TASKDIALOG_NOTIFICATIONS
     TDN_EXPANDO_BUTTON_CLICKED = 10 // wParam = 0 (dialog is now collapsed), wParam != 0 (dialog is now expanded)
 } TASKDIALOG_NOTIFICATIONS;
 
-typedef enum _TASKDIALOG_ELEMENTS
+تعريفنوع تعداد _TASKDIALOG_ELEMENTS
 {
     TDE_CONTENT,
     TDE_EXPANDED_INFORMATION,
@@ -135,7 +135,7 @@ typedef enum _TASKDIALOG_ELEMENTS
     TDE_MAIN_INSTRUCTION
 } TASKDIALOG_ELEMENTS;
 
-typedef enum _TASKDIALOG_ICON_ELEMENTS
+تعريفنوع تعداد _TASKDIALOG_ICON_ELEMENTS
 {
     TDIE_ICON_MAIN,
     TDIE_ICON_FOOTER
@@ -146,7 +146,7 @@ typedef enum _TASKDIALOG_ICON_ELEMENTS
 #define TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
 #define TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
 
-enum _TASKDIALOG_COMMON_BUTTON_FLAGS
+تعداد _TASKDIALOG_COMMON_BUTTON_FLAGS
 {
     TDCBF_OK_BUTTON = 0x0001,     // selected control return value IDOK
     TDCBF_YES_BUTTON = 0x0002,    // selected control return value IDYES
@@ -155,17 +155,17 @@ enum _TASKDIALOG_COMMON_BUTTON_FLAGS
     TDCBF_RETRY_BUTTON = 0x0010,  // selected control return value IDRETRY
     TDCBF_CLOSE_BUTTON = 0x0020   // selected control return value IDCLOSE
 };
-typedef int TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
+تعريفنوع صحيح TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
 
 #pragma pack(push, 1)
 
-typedef struct _TASKDIALOG_BUTTON
+تعريفنوع بنية _TASKDIALOG_BUTTON
 {
-    int nButtonID;
+    صحيح nButtonID;
     PCWSTR pszButtonText;
 } TASKDIALOG_BUTTON;
 
-typedef struct _TASKDIALOGCONFIG
+تعريفنوع بنية _TASKDIALOGCONFIG
 {
     UINT cbSize;
     HWND hwndParent;                                // incorrectly named, this is the owner window, not a parent.
@@ -173,7 +173,7 @@ typedef struct _TASKDIALOGCONFIG
     TASKDIALOG_FLAGS dwFlags;                       // TASKDIALOG_FLAGS (TDF_XXX) flags
     TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons; // TASKDIALOG_COMMON_BUTTON (TDCBF_XXX) flags
     PCWSTR pszWindowTitle;                          // string or MAKEINTRESOURCE()
-    union
+    اتحاد
     {
         HICON hMainIcon;
         PCWSTR pszMainIcon;
@@ -181,16 +181,16 @@ typedef struct _TASKDIALOGCONFIG
     PCWSTR pszMainInstruction;
     PCWSTR pszContent;
     UINT cButtons;
-    const TASKDIALOG_BUTTON *pButtons;
-    int nDefaultButton;
+    ثابت TASKDIALOG_BUTTON *pButtons;
+    صحيح nDefaultButton;
     UINT cRadioButtons;
-    const TASKDIALOG_BUTTON *pRadioButtons;
-    int nDefaultRadioButton;
+    ثابت TASKDIALOG_BUTTON *pRadioButtons;
+    صحيح nDefaultRadioButton;
     PCWSTR pszVerificationText;
     PCWSTR pszExpandedInformation;
     PCWSTR pszExpandedControlText;
     PCWSTR pszCollapsedControlText;
-    union
+    اتحاد
     {
         HICON hFooterIcon;
         PCWSTR pszFooterIcon;
@@ -201,7 +201,7 @@ typedef struct _TASKDIALOGCONFIG
     UINT cxWidth; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
 } TASKDIALOGCONFIG;
 
-typedef struct
+تعريفنوع بنية
 {
     WORD dlgVer;
     WORD signature;
@@ -215,7 +215,7 @@ typedef struct
     short cy;
 } DLGTEMPLATEEX;
 
-typedef struct
+تعريفنوع بنية
 {
     DWORD helpID;
     DWORD exStyle;
@@ -229,187 +229,187 @@ typedef struct
 
 #pragma pack(pop)
 
-typedef struct
+تعريفنوع بنية
 {
     DLGTEMPLATEEX *lpDialog;
-    void *data;
+    فراغ *data;
     size_t size;
     size_t used;
     WORD numbuttons;
 } WIN_DialogData;
 
-static bool GetButtonIndex(const SDL_MessageBoxData *messageboxdata, SDL_MessageBoxButtonFlags flags, size_t *i)
+ساكن bool GetButtonIndex(ثابت SDL_MessageBoxData *messageboxdata, SDL_MessageBoxButtonFlags flags, size_t *i)
 {
-    for (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
-        if (messageboxdata->buttons[*i].flags & flags) {
-            return true;
+    لكل (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
+        𐡄𐡍 (messageboxdata->buttons[*i].flags & flags) {
+            أرجع true;
         }
     }
-    return false;
+    أرجع false;
 }
 
-static INT_PTR CALLBACK MessageBoxDialogProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+ساكن INT_PTR CALLBACK MessageBoxDialogProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-    const SDL_MessageBoxData *messageboxdata;
+    ثابت SDL_MessageBoxData *messageboxdata;
     size_t buttonindex;
 
-    switch (iMessage) {
-    case WM_INITDIALOG:
-        if (lParam == 0) {
+    بدل (iMessage) {
+    حالة WM_INITDIALOG:
+        𐡄𐡍 (lParam == 0) {
             EndDialog(hDlg, IDINVALPTRINIT);
-            return TRUE;
+            أرجع TRUE;
         }
-        messageboxdata = (const SDL_MessageBoxData *)lParam;
+        messageboxdata = (ثابت SDL_MessageBoxData *)lParam;
         SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
 
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+        𐡄𐡍 (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
             // Focus on the first default return-key button
-            HWND buttonctl = GetDlgItem(hDlg, (int)(IDBUTTONINDEX0 + buttonindex));
-            if (!buttonctl) {
+            HWND buttonctl = GetDlgItem(hDlg, (صحيح)(IDBUTTONINDEX0 + buttonindex));
+            𐡄𐡍 (!buttonctl) {
                 EndDialog(hDlg, IDINVALPTRDLGITEM);
             }
             PostMessage(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
-        } else {
+        } وإلا {
             // Give the focus to the dialog window instead
             SetFocus(hDlg);
         }
-        return FALSE;
-    case WM_SETFOCUS:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
+        أرجع FALSE;
+    حالة WM_SETFOCUS:
+        messageboxdata = (ثابت SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+        𐡄𐡍 (!messageboxdata) {
             EndDialog(hDlg, IDINVALPTRSETFOCUS);
-            return TRUE;
+            أرجع TRUE;
         }
 
         // Let the default button be focused if there is one. Otherwise, prevent any initial focus.
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-            return FALSE;
+        𐡄𐡍 (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+            أرجع FALSE;
         }
-        return TRUE;
-    case WM_COMMAND:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
+        أرجع TRUE;
+    حالة WM_COMMAND:
+        messageboxdata = (ثابت SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+        𐡄𐡍 (!messageboxdata) {
             EndDialog(hDlg, IDINVALPTRCOMMAND);
-            return TRUE;
+            أرجع TRUE;
         }
 
         // Return the ID of the button that was pushed
-        if (wParam == IDOK) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+        𐡄𐡍 (wParam == IDOK) {
+            𐡄𐡍 (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
                 EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
             }
-        } else if (wParam == IDCANCEL) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
+        } وإلا 𐡄𐡍 (wParam == IDCANCEL) {
+            𐡄𐡍 (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
                 EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
-            } else {
+            } وإلا {
                 // Closing of window was requested by user or system. It would be rude not to comply.
                 EndDialog(hDlg, IDCLOSED);
             }
-        } else if (wParam >= IDBUTTONINDEX0 && (int)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+        } وإلا 𐡄𐡍 (wParam >= IDBUTTONINDEX0 && (صحيح)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
             EndDialog(hDlg, wParam);
         }
-        return TRUE;
+        أرجع TRUE;
 
-    default:
-        break;
+    افتراضي:
+        اكسر;
     }
-    return FALSE;
+    أرجع FALSE;
 }
 
-static bool ExpandDialogSpace(WIN_DialogData *dialog, size_t space)
+ساكن bool ExpandDialogSpace(WIN_DialogData *dialog, size_t space)
 {
     // Growing memory in 64 KiB steps.
-    const size_t sizestep = 0x10000;
+    ثابت size_t sizestep = 0x10000;
     size_t size = dialog->size;
 
-    if (size == 0) {
+    𐡄𐡍 (size == 0) {
         // Start with 4 KiB or a multiple of 64 KiB to fit the data.
         size = 0x1000;
-        if (SIZE_MAX - sizestep < space) {
+        𐡄𐡍 (SIZE_MAX - sizestep < space) {
             size = space;
-        } else if (space > size) {
+        } وإلا 𐡄𐡍 (space > size) {
             size = (space + sizestep) & ~(sizestep - 1);
         }
-    } else if (SIZE_MAX - dialog->used < space) {
+    } وإلا 𐡄𐡍 (SIZE_MAX - dialog->used < space) {
         SDL_OutOfMemory();
-        return false;
-    } else if (SIZE_MAX - (dialog->used + space) < sizestep) {
+        أرجع false;
+    } وإلا 𐡄𐡍 (SIZE_MAX - (dialog->used + space) < sizestep) {
         // Close to the maximum.
         size = dialog->used + space;
-    } else if (size < dialog->used + space) {
+    } وإلا 𐡄𐡍 (size < dialog->used + space) {
         // Round up to the next 64 KiB block.
         size = dialog->used + space;
         size += sizestep - size % sizestep;
     }
 
-    if (size > dialog->size) {
-        void *data = SDL_realloc(dialog->data, size);
-        if (!data) {
-            return false;
+    𐡄𐡍 (size > dialog->size) {
+        فراغ *data = SDL_realloc(dialog->data, size);
+        𐡄𐡍 (!data) {
+            أرجع false;
         }
         dialog->data = data;
         dialog->size = size;
         dialog->lpDialog = (DLGTEMPLATEEX *)dialog->data;
     }
-    return true;
+    أرجع true;
 }
 
-static bool AlignDialogData(WIN_DialogData *dialog, size_t size)
+ساكن bool AlignDialogData(WIN_DialogData *dialog, size_t size)
 {
     size_t padding = (dialog->used % size);
 
-    if (!ExpandDialogSpace(dialog, padding)) {
-        return false;
+    𐡄𐡍 (!ExpandDialogSpace(dialog, padding)) {
+        أرجع false;
     }
 
     dialog->used += padding;
 
-    return true;
+    أرجع true;
 }
 
-static bool AddDialogData(WIN_DialogData *dialog, const void *data, size_t size)
+ساكن bool AddDialogData(WIN_DialogData *dialog, ثابت فراغ *data, size_t size)
 {
-    if (!ExpandDialogSpace(dialog, size)) {
-        return false;
+    𐡄𐡍 (!ExpandDialogSpace(dialog, size)) {
+        أرجع false;
     }
 
     SDL_memcpy((Uint8 *)dialog->data + dialog->used, data, size);
     dialog->used += size;
 
-    return true;
+    أرجع true;
 }
 
-static bool AddDialogString(WIN_DialogData *dialog, const char *string)
+ساكن bool AddDialogString(WIN_DialogData *dialog, ثابت حرف *string)
 {
     WCHAR *wstring;
     WCHAR *p;
     size_t count;
     bool status;
 
-    if (!string) {
+    𐡄𐡍 (!string) {
         string = "";
     }
 
     wstring = WIN_UTF8ToStringW(string);
-    if (!wstring) {
-        return false;
+    𐡄𐡍 (!wstring) {
+        أرجع false;
     }
 
     // Find out how many characters we have, including null terminator
     count = 0;
-    for (p = wstring; *p; ++p) {
+    لكل (p = wstring; *p; ++p) {
         ++count;
     }
     ++count;
 
-    status = AddDialogData(dialog, wstring, count * sizeof(WCHAR));
+    status = AddDialogData(dialog, wstring, count * حجم(WCHAR));
     SDL_free(wstring);
-    return status;
+    أرجع status;
 }
 
-static int s_BaseUnitsX;
-static int s_BaseUnitsY;
-static void Vec2ToDLU(short *x, short *y)
+ساكن صحيح s_BaseUnitsX;
+ساكن صحيح s_BaseUnitsY;
+ساكن فراغ Vec2ToDLU(short *x, short *y)
 {
     SDL_assert(s_BaseUnitsX != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
 
@@ -417,7 +417,7 @@ static void Vec2ToDLU(short *x, short *y)
     *y = (short)MulDiv(*y, 8, s_BaseUnitsY);
 }
 
-static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWORD exStyle, int x, int y, int w, int h, int id, const char *caption, WORD ordinal)
+ساكن bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWORD exStyle, صحيح x, صحيح y, صحيح w, صحيح h, صحيح id, ثابت حرف *caption, WORD ordinal)
 {
     DLGITEMTEMPLATEEX item;
     WORD marker = 0xFFFF;
@@ -435,75 +435,75 @@ static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWO
     Vec2ToDLU(&item.x, &item.y);
     Vec2ToDLU(&item.cx, &item.cy);
 
-    if (!AlignDialogData(dialog, sizeof(DWORD))) {
-        return false;
+    𐡄𐡍 (!AlignDialogData(dialog, حجم(DWORD))) {
+        أرجع false;
     }
-    if (!AddDialogData(dialog, &item, sizeof(item))) {
-        return false;
+    𐡄𐡍 (!AddDialogData(dialog, &item, حجم(item))) {
+        أرجع false;
     }
-    if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-        return false;
+    𐡄𐡍 (!AddDialogData(dialog, &marker, حجم(marker))) {
+        أرجع false;
     }
-    if (!AddDialogData(dialog, &type, sizeof(type))) {
-        return false;
+    𐡄𐡍 (!AddDialogData(dialog, &type, حجم(type))) {
+        أرجع false;
     }
-    if (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
-        if (!AddDialogString(dialog, caption)) {
-            return false;
+    𐡄𐡍 (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
+        𐡄𐡍 (!AddDialogString(dialog, caption)) {
+            أرجع false;
         }
-    } else {
-        if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-            return false;
+    } وإلا {
+        𐡄𐡍 (!AddDialogData(dialog, &marker, حجم(marker))) {
+            أرجع false;
         }
-        if (!AddDialogData(dialog, &ordinal, sizeof(ordinal))) {
-            return false;
+        𐡄𐡍 (!AddDialogData(dialog, &ordinal, حجم(ordinal))) {
+            أرجع false;
         }
     }
-    if (!AddDialogData(dialog, &extraData, sizeof(extraData))) {
-        return false;
+    𐡄𐡍 (!AddDialogData(dialog, &extraData, حجم(extraData))) {
+        أرجع false;
     }
-    if (type == DLGITEMTYPEBUTTON) {
+    𐡄𐡍 (type == DLGITEMTYPEBUTTON) {
         dialog->numbuttons++;
     }
     ++dialog->lpDialog->cDlgItems;
 
-    return true;
+    أرجع true;
 }
 
-static bool AddDialogStaticText(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text)
+ساكن bool AddDialogStaticText(WIN_DialogData *dialog, صحيح x, صحيح y, صحيح w, صحيح h, ثابت حرف *text)
 {
     DWORD style = WS_VISIBLE | WS_CHILD | SS_LEFT | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
+    أرجع AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
 }
 
-static bool AddDialogStaticIcon(WIN_DialogData *dialog, int x, int y, int w, int h, Uint16 ordinal)
+ساكن bool AddDialogStaticIcon(WIN_DialogData *dialog, صحيح x, صحيح y, صحيح w, صحيح h, Uint16 ordinal)
 {
     DWORD style = WS_VISIBLE | WS_CHILD | SS_ICON | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, NULL, ordinal);
+    أرجع AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, عدم, ordinal);
 }
 
-static bool AddDialogButton(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text, int id, bool isDefault)
+ساكن bool AddDialogButton(WIN_DialogData *dialog, صحيح x, صحيح y, صحيح w, صحيح h, ثابت حرف *text, صحيح id, bool isDefault)
 {
     DWORD style = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-    if (isDefault) {
+    𐡄𐡍 (isDefault) {
         style |= BS_DEFPUSHBUTTON;
-    } else {
+    } وإلا {
         style |= BS_PUSHBUTTON;
     }
     // The first button marks the start of the group.
-    if (dialog->numbuttons == 0) {
+    𐡄𐡍 (dialog->numbuttons == 0) {
         style |= WS_GROUP;
     }
-    return AddDialogControl(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
+    أرجع AddDialogControl(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
 }
 
-static void FreeDialogData(WIN_DialogData *dialog)
+ساكن فراغ FreeDialogData(WIN_DialogData *dialog)
 {
     SDL_free(dialog->data);
     SDL_free(dialog);
 }
 
-static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
+ساكن WIN_DialogData *CreateDialogData(صحيح w, صحيح h, ثابت حرف *caption)
 {
     WIN_DialogData *dialog;
     DLGTEMPLATEEX dialogTemplate;
@@ -519,33 +519,33 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
     dialogTemplate.cy = (short)h;
     Vec2ToDLU(&dialogTemplate.cx, &dialogTemplate.cy);
 
-    dialog = (WIN_DialogData *)SDL_calloc(1, sizeof(*dialog));
-    if (!dialog) {
-        return NULL;
+    dialog = (WIN_DialogData *)SDL_calloc(1, حجم(*dialog));
+    𐡄𐡍 (!dialog) {
+        أرجع عدم;
     }
 
-    if (!AddDialogData(dialog, &dialogTemplate, sizeof(dialogTemplate))) {
+    𐡄𐡍 (!AddDialogData(dialog, &dialogTemplate, حجم(dialogTemplate))) {
         FreeDialogData(dialog);
-        return NULL;
+        أرجع عدم;
     }
 
     // No menu
     WordToPass = 0;
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
+    𐡄𐡍 (!AddDialogData(dialog, &WordToPass, 2)) {
         FreeDialogData(dialog);
-        return NULL;
+        أرجع عدم;
     }
 
     // No custom class
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
+    𐡄𐡍 (!AddDialogData(dialog, &WordToPass, 2)) {
         FreeDialogData(dialog);
-        return NULL;
+        أرجع عدم;
     }
 
     // title
-    if (!AddDialogString(dialog, caption)) {
+    𐡄𐡍 (!AddDialogString(dialog, caption)) {
         FreeDialogData(dialog);
-        return NULL;
+        أرجع عدم;
     }
 
     // Font stuff
@@ -556,55 +556,55 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
         BYTE ToPass;
 
         NONCLIENTMETRICSA NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cbSize = حجم(NCM);
         SystemParametersInfoA(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
 
         // Font size - convert to logical font size for dialog parameter.
         {
-            HDC ScreenDC = GetDC(NULL);
-            int LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
-            if (!LogicalPixelsY) {
+            HDC ScreenDC = GetDC(عدم);
+            صحيح LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
+            𐡄𐡍 (!LogicalPixelsY) {
                 LogicalPixelsY = 72; // This can happen if the application runs out of GDI handles
             }
 
             WordToPass = (WORD)(-72 * NCM.lfMessageFont.lfHeight / LogicalPixelsY);
-            ReleaseDC(NULL, ScreenDC);
+            ReleaseDC(عدم, ScreenDC);
         }
 
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
+        𐡄𐡍 (!AddDialogData(dialog, &WordToPass, 2)) {
             FreeDialogData(dialog);
-            return NULL;
+            أرجع عدم;
         }
 
         // Font weight
         WordToPass = (WORD)NCM.lfMessageFont.lfWeight;
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
+        𐡄𐡍 (!AddDialogData(dialog, &WordToPass, 2)) {
             FreeDialogData(dialog);
-            return NULL;
+            أرجع عدم;
         }
 
         // italic?
         ToPass = NCM.lfMessageFont.lfItalic;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
+        𐡄𐡍 (!AddDialogData(dialog, &ToPass, 1)) {
             FreeDialogData(dialog);
-            return NULL;
+            أرجع عدم;
         }
 
         // charset?
         ToPass = NCM.lfMessageFont.lfCharSet;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
+        𐡄𐡍 (!AddDialogData(dialog, &ToPass, 1)) {
             FreeDialogData(dialog);
-            return NULL;
+            أرجع عدم;
         }
 
         // font typeface.
-        if (!AddDialogString(dialog, NCM.lfMessageFont.lfFaceName)) {
+        𐡄𐡍 (!AddDialogString(dialog, NCM.lfMessageFont.lfFaceName)) {
             FreeDialogData(dialog);
-            return NULL;
+            أرجع عدم;
         }
     }
 
-    return dialog;
+    أرجع dialog;
 }
 
 /* Escaping ampersands is necessary to disable mnemonics in dialog controls.
@@ -616,90 +616,90 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
  * work buffer is freed. Once all strings have been processed, it's the caller's
  * responsibility to free the work buffer with SDL_free, even on errors.
  */
-static const char *EscapeAmpersands(char **dst, size_t *dstlen, const char *src)
+ساكن ثابت حرف *EscapeAmpersands(حرف **dst, size_t *dstlen, ثابت حرف *src)
 {
-    char *newdst;
+    حرف *newdst;
     size_t ampcount = 0;
     size_t srclen = 0;
 
-    if (!src) {
-        return NULL;
+    𐡄𐡍 (!src) {
+        أرجع عدم;
     }
 
-    while (src[srclen]) {
-        if (src[srclen] == '&') {
+    طالما (src[srclen]) {
+        𐡄𐡍 (src[srclen] == '&') {
             ampcount++;
         }
         srclen++;
     }
     srclen++;
 
-    if (ampcount == 0) {
+    𐡄𐡍 (ampcount == 0) {
         // Nothing to do.
-        return src;
+        أرجع src;
     }
-    if (SIZE_MAX - srclen < ampcount) {
-        return NULL;
+    𐡄𐡍 (SIZE_MAX - srclen < ampcount) {
+        أرجع عدم;
     }
-    if (!*dst || *dstlen < srclen + ampcount) {
+    𐡄𐡍 (!*dst || *dstlen < srclen + ampcount) {
         // Allocating extra space in case the next strings are a bit longer.
         size_t extraspace = SIZE_MAX - (srclen + ampcount);
-        if (extraspace > 512) {
+        𐡄𐡍 (extraspace > 512) {
             extraspace = 512;
         }
         *dstlen = srclen + ampcount + extraspace;
         SDL_free(*dst);
-        *dst = NULL;
-        newdst = (char *)SDL_malloc(*dstlen);
-        if (!newdst) {
-            return NULL;
+        *dst = عدم;
+        newdst = (حرف *)SDL_malloc(*dstlen);
+        𐡄𐡍 (!newdst) {
+            أرجع عدم;
         }
         *dst = newdst;
-    } else {
+    } وإلا {
         newdst = *dst;
     }
 
     // The escape character is the ampersand itself.
-    while (srclen--) {
-        if (*src == '&') {
+    طالما (srclen--) {
+        𐡄𐡍 (*src == '&') {
             *newdst++ = '&';
         }
         *newdst++ = *src++;
     }
 
-    return *dst;
+    أرجع *dst;
 }
 
-static float WIN_GetContentScale(void)
+ساكن عائم WIN_GetContentScale(فراغ)
 {
-    int dpi = 0;
+    صحيح dpi = 0;
 
-#if 0 // We don't know what monitor the dialog will be shown on
+#𐡄𐡍 0 // We don't know what monitor the dialog will be shown on
     UINT hdpi_uint, vdpi_uint;
-    if (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-        dpi = (int)hdpi_uint;
+    𐡄𐡍 (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+        dpi = (صحيح)hdpi_uint;
     }
 #endif
-    if (dpi == 0) {
+    𐡄𐡍 (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(عدم);
+        𐡄𐡍 (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(عدم, hdc);
         }
     }
-    if (dpi == 0) {
+    𐡄𐡍 (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    أرجع dpi / (عائم)USER_DEFAULT_SCREEN_DPI;
 }
 
 // This function is called if a Task Dialog is unsupported.
-static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+ساكن bool WIN_ShowOldMessageBox(ثابت SDL_MessageBoxData *messageboxdata, صحيح *buttonID)
 {
     WIN_DialogData *dialog;
-    int i, x, y;
+    صحيح i, x, y;
     HFONT DialogFont;
     SIZE Size;
     RECT TextSize;
@@ -707,37 +707,37 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
     TEXTMETRIC TM;
     HDC FontDC;
     INT_PTR rc;
-    char *ampescape = NULL;
+    حرف *ampescape = عدم;
     size_t ampescapesize = 0;
     Uint16 defbuttoncount = 0;
     Uint16 icon = 0;
     bool result;
 
-    HWND ParentWindow = NULL;
+    HWND ParentWindow = عدم;
 
-    const float scale = WIN_GetContentScale();
-    const int ButtonWidth = (int)SDL_roundf(88 * scale);
-    const int ButtonHeight = (int)SDL_roundf(26 * scale);
-    const int TextMargin = (int)SDL_roundf(16 * scale);
-    const int ButtonMargin = (int)SDL_roundf(12 * scale);
-    const int IconWidth = GetSystemMetrics(SM_CXICON);
-    const int IconHeight = GetSystemMetrics(SM_CYICON);
-    const int IconMargin = (int)SDL_roundf(20 * scale);
+    ثابت عائم scale = WIN_GetContentScale();
+    ثابت صحيح ButtonWidth = (صحيح)SDL_roundf(88 * scale);
+    ثابت صحيح ButtonHeight = (صحيح)SDL_roundf(26 * scale);
+    ثابت صحيح TextMargin = (صحيح)SDL_roundf(16 * scale);
+    ثابت صحيح ButtonMargin = (صحيح)SDL_roundf(12 * scale);
+    ثابت صحيح IconWidth = GetSystemMetrics(SM_CXICON);
+    ثابت صحيح IconHeight = GetSystemMetrics(SM_CYICON);
+    ثابت صحيح IconMargin = (صحيح)SDL_roundf(20 * scale);
 
-    if (messageboxdata->numbuttons > MAX_BUTTONS) {
-        return SDL_SetError("Number of buttons exceeds limit of %d", MAX_BUTTONS);
+    𐡄𐡍 (messageboxdata->numbuttons > MAX_BUTTONS) {
+        أرجع SDL_SetError("Number of buttons exceeds limit of %d", MAX_BUTTONS);
     }
 
-    switch (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-    case SDL_MESSAGEBOX_ERROR:
+    بدل (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+    حالة SDL_MESSAGEBOX_ERROR:
         icon = (Uint16)(size_t)IDI_ERROR;
-        break;
-    case SDL_MESSAGEBOX_WARNING:
+        اكسر;
+    حالة SDL_MESSAGEBOX_WARNING:
         icon = (Uint16)(size_t)IDI_WARNING;
-        break;
-    case SDL_MESSAGEBOX_INFORMATION:
+        اكسر;
+    حالة SDL_MESSAGEBOX_INFORMATION:
         icon = (Uint16)(size_t)IDI_INFORMATION;
-        break;
+        اكسر;
     }
 
     /* Jan 25th, 2013 - dant@fleetsa.com
@@ -775,7 +775,7 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         // Create a duplicate of the font used in system message boxes.
         LOGFONT lf;
         NONCLIENTMETRICS NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cbSize = حجم(NCM);
         SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
         lf = NCM.lfMessageFont;
         DialogFont = CreateFontIndirect(&lf);
@@ -823,19 +823,19 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
     Size.cy += TextMargin * 2;
 
     // Make dialog wider and shift text over for the icon.
-    if (icon) {
+    𐡄𐡍 (icon) {
         Size.cx += IconMargin + IconWidth;
         TextSize.left += IconMargin + IconWidth;
         TextSize.right += IconMargin + IconWidth;
     }
 
     // Ensure the size is wide enough for all of the buttons.
-    if (Size.cx < (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin) {
+    𐡄𐡍 (Size.cx < (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin) {
         Size.cx = (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin;
     }
 
     // Reset the height to the icon size if it is actually bigger than the text.
-    if (icon && Size.cy < (LONG)IconMargin * 2 + IconHeight) {
+    𐡄𐡍 (icon && Size.cy < (LONG)IconMargin * 2 + IconHeight) {
         Size.cy = (LONG)IconMargin * 2 + IconHeight;
     }
 
@@ -843,40 +843,40 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
     Size.cy += ButtonHeight + TextMargin;
 
     dialog = CreateDialogData(Size.cx, Size.cy, messageboxdata->title);
-    if (!dialog) {
-        return false;
+    𐡄𐡍 (!dialog) {
+        أرجع false;
     }
 
-    if (icon && !AddDialogStaticIcon(dialog, IconMargin, IconMargin, IconWidth, IconHeight, icon)) {
+    𐡄𐡍 (icon && !AddDialogStaticIcon(dialog, IconMargin, IconMargin, IconWidth, IconHeight, icon)) {
         FreeDialogData(dialog);
-        return false;
+        أرجع false;
     }
 
-    if (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
+    𐡄𐡍 (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
         FreeDialogData(dialog);
-        return false;
+        أرجع false;
     }
 
     // Align the buttons to the right/bottom.
     x = Size.cx - (ButtonWidth + ButtonMargin) * messageboxdata->numbuttons;
     y = Size.cy - ButtonHeight - ButtonMargin;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    لكل (i = 0; i < messageboxdata->numbuttons; i++) {
         bool isdefault = false;
-        const char *buttontext;
-        const SDL_MessageBoxButtonData *sdlButton;
+        ثابت حرف *buttontext;
+        ثابت SDL_MessageBoxButtonData *sdlButton;
 
         /* We always have to create the dialog buttons from left to right
          * so that the tab order is correct.  Select the info to use
          * depending on which order was requested. */
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        𐡄𐡍 (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
             sdlButton = &messageboxdata->buttons[i];
-        } else {
+        } وإلا {
             sdlButton = &messageboxdata->buttons[messageboxdata->numbuttons - 1 - i];
         }
 
-        if (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        𐡄𐡍 (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             defbuttoncount++;
-            if (defbuttoncount == 1) {
+            𐡄𐡍 (defbuttoncount == 1) {
                 isdefault = true;
             }
         }
@@ -884,10 +884,10 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->text);
         /* Make sure to provide the correct ID to keep buttons indexed in the
          * same order as how they are in messageboxdata. */
-        if (!buttontext || !AddDialogButton(dialog, x, y, ButtonWidth, ButtonHeight, buttontext, IDBUTTONINDEX0 + (int)(sdlButton - messageboxdata->buttons), isdefault)) {
+        𐡄𐡍 (!buttontext || !AddDialogButton(dialog, x, y, ButtonWidth, ButtonHeight, buttontext, IDBUTTONINDEX0 + (صحيح)(sdlButton - messageboxdata->buttons), isdefault)) {
             FreeDialogData(dialog);
             SDL_free(ampescape);
-            return false;
+            أرجع false;
         }
 
         x += ButtonWidth + ButtonMargin;
@@ -896,48 +896,48 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
 
     /* If we have a parent window, get the Instance and HWND for them
      * so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
+    𐡄𐡍 (messageboxdata->window) {
         ParentWindow = messageboxdata->window->internal->hwnd;
     }
 
-    rc = DialogBoxIndirectParam(NULL, (DLGTEMPLATE *)dialog->lpDialog, ParentWindow, MessageBoxDialogProc, (LPARAM)messageboxdata);
-    if (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+    rc = DialogBoxIndirectParam(عدم, (DLGTEMPLATE *)dialog->lpDialog, ParentWindow, MessageBoxDialogProc, (LPARAM)messageboxdata);
+    𐡄𐡍 (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
         *buttonID = messageboxdata->buttons[rc - IDBUTTONINDEX0].buttonID;
         result = true;
-    } else if (rc == IDCLOSED) {
+    } وإلا 𐡄𐡍 (rc == IDCLOSED) {
         // Dialog window closed by user or system.
         // This could use a special return code.
         result = true;
         *buttonID = -1;
-    } else {
-        if (rc == 0) {
+    } وإلا {
+        𐡄𐡍 (rc == 0) {
             SDL_SetError("Invalid parent window handle");
-        } else if (rc == -1) {
+        } وإلا 𐡄𐡍 (rc == -1) {
             SDL_SetError("The message box encountered an error.");
-        } else if (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
+        } وإلا 𐡄𐡍 (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
             SDL_SetError("Invalid message box pointer in dialog procedure");
-        } else if (rc == IDINVALPTRDLGITEM) {
+        } وإلا 𐡄𐡍 (rc == IDINVALPTRDLGITEM) {
             SDL_SetError("Couldn't find dialog control of the default enter-key button");
-        } else {
+        } وإلا {
             SDL_SetError("An unknown error occurred");
         }
         result = false;
     }
 
     FreeDialogData(dialog);
-    return result;
+    أرجع result;
 }
 
 /* TaskDialogIndirect procedure
  * This is because SDL targets Windows XP (0x501), so this is not defined in the platform SDK.
  */
 /* *INDENT-OFF* */ // clang-format off
-typedef HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(const TASKDIALOGCONFIG *pTaskConfig, int *pnButton, int *pnRadioButton, BOOL *pfVerificationFlagChecked);
+تعريفنوع HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(ثابت TASKDIALOGCONFIG *pTaskConfig, صحيح *pnButton, صحيح *pnRadioButton, BOOL *pfVerificationFlagChecked);
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool WIN_ShowMessageBox(ثابت SDL_MessageBoxData *messageboxdata, صحيح *buttonID)
 {
-    HWND ParentWindow = NULL;
+    HWND ParentWindow = عدم;
     wchar_t *wmessage;
     wchar_t *wtitle;
     TASKDIALOGCONFIG TaskConfig;
@@ -946,30 +946,30 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
     HMODULE hComctl32;
     TASKDIALOGINDIRECTPROC pTaskDialogIndirect;
     HRESULT hr;
-    char *ampescape = NULL;
+    حرف *ampescape = عدم;
     size_t ampescapesize = 0;
-    int nButton;
-    int nCancelButton;
-    int i;
+    صحيح nButton;
+    صحيح nCancelButton;
+    صحيح i;
     bool result = false;
 
-    if (SIZE_MAX / sizeof(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
-        return SDL_OutOfMemory();
+    𐡄𐡍 (SIZE_MAX / حجم(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
+        أرجع SDL_OutOfMemory();
     }
 
     HMODULE hUser32 = GetModuleHandle(TEXT("user32.dll"));
-    typedef DPI_AWARENESS_CONTEXT (WINAPI *pfnSetThreadDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
+    تعريفنوع DPI_AWARENESS_CONTEXT (WINAPI *pfnSetThreadDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
     pfnSetThreadDpiAwarenessContext pSetThreadDpiAwarenessContext = (pfnSetThreadDpiAwarenessContext)GetProcAddress(hUser32, "SetThreadDpiAwarenessContext");
     DPI_AWARENESS_CONTEXT previous_context = DPI_AWARENESS_CONTEXT_UNAWARE;
-    if (pSetThreadDpiAwarenessContext) {
+    𐡄𐡍 (pSetThreadDpiAwarenessContext) {
         previous_context = pSetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
     }
 
     // If we cannot load comctl32.dll use the old messagebox!
     hComctl32 = LoadLibrary(TEXT("comctl32.dll"));
-    if (!hComctl32) {
+    𐡄𐡍 (!hComctl32) {
         result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+        اذهب done;
     }
 
     /* If TaskDialogIndirect doesn't exist use the old messagebox!
@@ -980,15 +980,15 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
        #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0'  processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
      */
     pTaskDialogIndirect = (TASKDIALOGINDIRECTPROC)GetProcAddress(hComctl32, "TaskDialogIndirect");
-    if (!pTaskDialogIndirect) {
+    𐡄𐡍 (!pTaskDialogIndirect) {
         FreeLibrary(hComctl32);
         result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+        اذهب done;
     }
 
     /* If we have a parent window, get the Instance and HWND for them
        so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
+    𐡄𐡍 (messageboxdata->window) {
         ParentWindow = messageboxdata->window->internal->hwnd;
     }
 
@@ -996,91 +996,91 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
     wtitle = WIN_UTF8ToStringW(messageboxdata->title);
 
     SDL_zero(TaskConfig);
-    TaskConfig.cbSize = sizeof(TASKDIALOGCONFIG);
+    TaskConfig.cbSize = حجم(TASKDIALOGCONFIG);
     TaskConfig.hwndParent = ParentWindow;
     TaskConfig.dwFlags = TDF_SIZE_TO_CONTENT;
     TaskConfig.pszWindowTitle = wtitle;
-    if (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
+    𐡄𐡍 (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
         TaskConfig.pszMainIcon = TD_ERROR_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } وإلا 𐡄𐡍 (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         TaskConfig.pszMainIcon = TD_WARNING_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    } وإلا 𐡄𐡍 (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         TaskConfig.pszMainIcon = TD_INFORMATION_ICON;
-    } else {
-        TaskConfig.pszMainIcon = NULL;
+    } وإلا {
+        TaskConfig.pszMainIcon = عدم;
     }
 
     TaskConfig.pszContent = wmessage;
     TaskConfig.cButtons = messageboxdata->numbuttons;
-    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(sizeof(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
+    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(حجم(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
     TaskConfig.nDefaultButton = 0;
     nCancelButton = 0;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        const char *buttontext;
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    لكل (i = 0; i < messageboxdata->numbuttons; i++) {
+        ثابت حرف *buttontext;
+        𐡄𐡍 (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
             pButton = &pButtons[i];
-        } else {
+        } وإلا {
             pButton = &pButtons[messageboxdata->numbuttons - 1 - i];
         }
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+        𐡄𐡍 (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
             nCancelButton = messageboxdata->buttons[i].buttonID;
             pButton->nButtonID = IDCANCEL;
-        } else {
+        } وإلا {
             pButton->nButtonID = IDBUTTONINDEX0 + i;
         }
         buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].text);
-        if (!buttontext) {
-            int j;
+        𐡄𐡍 (!buttontext) {
+            صحيح j;
             FreeLibrary(hComctl32);
             SDL_free(ampescape);
             SDL_free(wmessage);
             SDL_free(wtitle);
-            for (j = 0; j < i; j++) {
+            لكل (j = 0; j < i; j++) {
                 SDL_free((wchar_t *)pButtons[j].pszButtonText);
             }
             SDL_free(pButtons);
-            return false;
+            أرجع false;
         }
         pButton->pszButtonText = WIN_UTF8ToStringW(buttontext);
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        𐡄𐡍 (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             TaskConfig.nDefaultButton = pButton->nButtonID;
         }
     }
     TaskConfig.pButtons = pButtons;
 
     // Show the Task Dialog
-    hr = pTaskDialogIndirect(&TaskConfig, &nButton, NULL, NULL);
+    hr = pTaskDialogIndirect(&TaskConfig, &nButton, عدم, عدم);
 
     // Free everything
     FreeLibrary(hComctl32);
     SDL_free(ampescape);
     SDL_free(wmessage);
     SDL_free(wtitle);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    لكل (i = 0; i < messageboxdata->numbuttons; i++) {
         SDL_free((wchar_t *)pButtons[i].pszButtonText);
     }
     SDL_free(pButtons);
 
     // Check the Task Dialog was successful and give the result
-    if (SUCCEEDED(hr)) {
-        if (nButton == IDCANCEL) {
+    𐡄𐡍 (SUCCEEDED(hr)) {
+        𐡄𐡍 (nButton == IDCANCEL) {
             *buttonID = nCancelButton;
-        } else if (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
+        } وإلا 𐡄𐡍 (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
             *buttonID = messageboxdata->buttons[nButton - IDBUTTONINDEX0].buttonID;
-        } else {
+        } وإلا {
             *buttonID = -1;
         }
         result = true;
-    } else {
+    } وإلا {
         // We failed showing the Task Dialog, use the old message box!
         result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
     }
 
 done:
-    if (pSetThreadDpiAwarenessContext) {
+    𐡄𐡍 (pSetThreadDpiAwarenessContext) {
         pSetThreadDpiAwarenessContext(previous_context);
     }
-    return result;
+    أرجع result;
 }
 
 #endif // SDL_VIDEO_DRIVER_WINDOWS

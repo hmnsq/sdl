@@ -22,12 +22,12 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+تعريفنوع unsigned حرف uchar;
+تعريفنوع بنية MonitorInfo MonitorInfo;
+تعريفنوع بنية Timing Timing;
+تعريفنوع بنية DetailedTiming DetailedTiming;
 
-typedef enum
+تعريفنوع تعداد
 {
     UNDEFINED,
     DVI,
@@ -37,7 +37,7 @@ typedef enum
     DISPLAY_PORT
 } Interface;
 
-typedef enum
+تعريفنوع تعداد
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,7 +45,7 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+تعريفنوع تعداد
 {
     NO_STEREO,
     FIELD_RIGHT,
@@ -56,125 +56,125 @@ typedef enum
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+بنية Timing
 {
-    int width;
-    int height;
-    int frequency;
+    صحيح width;
+    صحيح height;
+    صحيح frequency;
 };
 
-struct DetailedTiming
+بنية DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    صحيح pixel_clock;
+    صحيح h_addr;
+    صحيح h_blank;
+    صحيح h_sync;
+    صحيح h_front_porch;
+    صحيح v_addr;
+    صحيح v_blank;
+    صحيح v_sync;
+    صحيح v_front_porch;
+    صحيح width_mm;
+    صحيح height_mm;
+    صحيح right_border;
+    صحيح top_border;
+    صحيح interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    صحيح digital_sync;
+    اتحاد
     {
-        struct
+        بنية
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            صحيح bipolar;
+            صحيح serrations;
+            صحيح sync_on_green;
         } analog;
 
-        struct
+        بنية
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            صحيح composite;
+            صحيح serrations;
+            صحيح negative_vsync;
+            صحيح negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+بنية MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    صحيح checksum;
+    حرف manufacturer_code[4];
+    صحيح product_code;
+    unsigned صحيح serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    صحيح production_week; // -1 if not specified
+    صحيح production_year; // -1 if not specified
+    صحيح model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    صحيح major_version;
+    صحيح minor_version;
 
-    int is_digital;
+    صحيح is_digital;
 
-    union
+    اتحاد
     {
-        struct
+        بنية
         {
-            int bits_per_primary;
+            صحيح bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            صحيح rgb444;
+            صحيح ycrcb444;
+            صحيح ycrcb422;
         } digital;
 
-        struct
+        بنية
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            مزدوج video_signal_level;
+            مزدوج sync_signal_level;
+            مزدوج total_signal_level;
 
-            int blank_to_black;
+            صحيح blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            صحيح separate_hv_sync;
+            صحيح composite_sync_on_h;
+            صحيح composite_sync_on_green;
+            صحيح serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    صحيح width_mm;        // -1 if not specified
+    صحيح height_mm;       // -1 if not specified
+    مزدوج aspect_ratio; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    مزدوج gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    صحيح standby;
+    صحيح suspend;
+    صحيح active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    صحيح srgb_is_standard;
+    صحيح preferred_timing_includes_native;
+    صحيح continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    مزدوج red_x;
+    مزدوج red_y;
+    مزدوج green_x;
+    مزدوج green_y;
+    مزدوج blue_x;
+    مزدوج blue_y;
+    مزدوج white_x;
+    مزدوج white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    مزدوج min_luminance;
+    مزدوج max_luminance;
+    مزدوج max_frame_average_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    صحيح n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    حرف dsc_serial_number[14];
+    حرف dsc_product_name[14];
+    حرف dsc_string[14]; // Unspecified ASCII data
 };
 
-MonitorInfo *decode_edid(const uchar *data, size_t size);
-void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
-                        const MonitorInfo *info);
+MonitorInfo *decode_edid(ثابت uchar *data, size_t size);
+فراغ dump_monitor_info(MonitorInfo *info);
+حرف *make_display_name(ثابت حرف *output_name,
+                        ثابت MonitorInfo *info);

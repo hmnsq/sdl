@@ -8,7 +8,7 @@
 #define OPENXR_PLATFORM_DEFINES_H_ 1
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 /* Platform-specific calling convention macros.
@@ -25,14 +25,14 @@ extern "C" {
  * Function declaration:  XRAPI_ATTR void XRAPI_CALL xrFunction(void);
  * Function pointer type: typedef void (XRAPI_PTR *PFN_xrFunction)(void);
  */
-#if defined(_WIN32)
+#𐡄𐡍 defined(_WIN32)
 #define XRAPI_ATTR
 // On Windows, functions use the stdcall convention
 #define XRAPI_CALL __stdcall
 #define XRAPI_PTR XRAPI_CALL
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
+#وإلاإذا defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
 #error "API not supported for the 'armeabi' NDK ABI"
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
+#وإلاإذا defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
 // On Android 32-bit ARM targets, functions use the "hardfloat"
 // calling convention, i.e. float parameters are passed in registers. This
 // is true even if the rest of the application passes floats on the stack,
@@ -40,61 +40,61 @@ extern "C" {
 #define XRAPI_ATTR __attribute__((pcs("aapcs-vfp")))
 #define XRAPI_CALL
 #define XRAPI_PTR XRAPI_ATTR
-#else
+#وإلا
 // On other platforms, use the default calling convention
 #define XRAPI_ATTR
 #define XRAPI_CALL
 #define XRAPI_PTR
 #endif
 
-#include <stddef.h>
+#ضمن <stddef.h>
 
-#if !defined(XR_NO_STDINT_H)
-#if defined(_MSC_VER) && (_MSC_VER < 1600)
-typedef signed __int8 int8_t;
-typedef unsigned __int8 uint8_t;
-typedef signed __int16 int16_t;
-typedef unsigned __int16 uint16_t;
-typedef signed __int32 int32_t;
-typedef unsigned __int32 uint32_t;
-typedef signed __int64 int64_t;
-typedef unsigned __int64 uint64_t;
-#else
-#include <stdint.h>
+#𐡄𐡍 !defined(XR_NO_STDINT_H)
+#𐡄𐡍 defined(_MSC_VER) && (_MSC_VER < 1600)
+تعريفنوع signed __int8 int8_t;
+تعريفنوع unsigned __int8 uint8_t;
+تعريفنوع signed __int16 int16_t;
+تعريفنوع unsigned __int16 uint16_t;
+تعريفنوع signed __int32 int32_t;
+تعريفنوع unsigned __int32 uint32_t;
+تعريفنوع signed __int64 int64_t;
+تعريفنوع unsigned __int64 uint64_t;
+#وإلا
+#ضمن <stdint.h>
 #endif
 #endif  // !defined( XR_NO_STDINT_H )
 
 // XR_PTR_SIZE (in bytes)
-#if (defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined(_M_IA64) || defined(__aarch64__) || defined(__powerpc64__))
+#𐡄𐡍 (defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined(_M_IA64) || defined(__aarch64__) || defined(__powerpc64__))
 #define XR_PTR_SIZE 8
-#else
+#وإلا
 #define XR_PTR_SIZE 4
 #endif
 
 // Needed so we can use clang __has_feature portably.
-#if !defined(XR_COMPILER_HAS_FEATURE)
-#if defined(__clang__)
+#𐡄𐡍 !defined(XR_COMPILER_HAS_FEATURE)
+#𐡄𐡍 defined(__clang__)
 #define XR_COMPILER_HAS_FEATURE(x) __has_feature(x)
-#else
+#وإلا
 #define XR_COMPILER_HAS_FEATURE(x) 0
 #endif
 #endif
 
 // Identifies if the current compiler has C++11 support enabled.
 // Does not by itself identify if any given C++11 feature is present.
-#if !defined(XR_CPP11_ENABLED) && defined(__cplusplus)
-#if defined(__GNUC__) && defined(__GXX_EXPERIMENTAL_CXX0X__)
+#𐡄𐡍 !defined(XR_CPP11_ENABLED) && defined(__cplusplus)
+#𐡄𐡍 defined(__GNUC__) && defined(__GXX_EXPERIMENTAL_CXX0X__)
 #define XR_CPP11_ENABLED 1
-#elif defined(_MSC_VER) && (_MSC_VER >= 1600)
+#وإلاإذا defined(_MSC_VER) && (_MSC_VER >= 1600)
 #define XR_CPP11_ENABLED 1
-#elif (__cplusplus >= 201103L) // 201103 is the first C++11 version.
+#وإلاإذا (__cplusplus >= 201103L) // 201103 is the first C++11 version.
 #define XR_CPP11_ENABLED 1
 #endif
 #endif
 
 // Identifies if the current compiler supports C++11 nullptr.
-#if !defined(XR_CPP_NULLPTR_SUPPORTED)
-#if defined(XR_CPP11_ENABLED) &&                                              \
+#𐡄𐡍 !defined(XR_CPP_NULLPTR_SUPPORTED)
+#𐡄𐡍 defined(XR_CPP11_ENABLED) &&                                              \
     ((defined(__clang__) && XR_COMPILER_HAS_FEATURE(cxx_nullptr)) ||          \
      (defined(__GNUC__) && (((__GNUC__ * 1000) + __GNUC_MINOR__) >= 4006)) || \
      (defined(_MSC_VER) && (_MSC_VER >= 1600)) ||                             \
@@ -103,7 +103,7 @@ typedef unsigned __int64 uint64_t;
 #endif
 #endif
 
-#if !defined(XR_CPP_NULLPTR_SUPPORTED)
+#𐡄𐡍 !defined(XR_CPP_NULLPTR_SUPPORTED)
 #define XR_CPP_NULLPTR_SUPPORTED 0
 #endif  // !defined(XR_CPP_NULLPTR_SUPPORTED)
 

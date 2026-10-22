@@ -14,7 +14,7 @@
  *      https://github.com/KhronosGroup/OpenGL-Registry
  */
 
-#include <KHR/khrplatform.h>
+#ضمن <KHR/khrplatform.h>
 
 #ifndef GL_APICALL
 #define GL_APICALL  KHRONOS_APICALL

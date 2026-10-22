@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_PSP
 
 /* Being a null driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_pspvideo.h"
-#include "SDL_pspevents_c.h"
-#include "../../thread/SDL_systhread.h"
-#include <psphprm.h>
-#include <pspthreadman.h>
+#ضمن "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_keyboard_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "SDL_pspvideo.h"
+#ضمن "SDL_pspevents_c.h"
+#ضمن "../../thread/SDL_systhread.h"
+#ضمن <psphprm.h>
+#ضمن <pspthreadman.h>
 
 #ifdef PSPIRKEYB
-#include <pspirkeyb.h>
-#include <pspirkeyb_rawkeys.h>
+#ضمن <pspirkeyb.h>
+#ضمن <pspirkeyb_rawkeys.h>
 
-#define IRKBD_CONFIG_FILE NULL // this will take ms0:/seplugins/pspirkeyb.ini
+#define IRKBD_CONFIG_FILE عدم // this will take ms0:/seplugins/pspirkeyb.ini
 
-static int irkbd_ready = 0;
-static SDL_Scancode keymap[256];
+ساكن صحيح irkbd_ready = 0;
+ساكن SDL_Scancode keymap[256];
 #endif
 
-static enum PspHprmKeys hprm = 0;
-static SDL_Semaphore *event_sem = NULL;
-static SDL_Thread *thread = NULL;
-static int running = 0;
-static struct
+ساكن تعداد PspHprmKeys hprm = 0;
+ساكن SDL_Semaphore *event_sem = عدم;
+ساكن SDL_Thread *thread = عدم;
+ساكن صحيح running = 0;
+ساكن بنية
 {
-    enum PspHprmKeys id;
+    تعداد PspHprmKeys id;
     SDL_Scancode scancode;
 } keymap_psp[] = {
     { PSP_HPRM_PLAYPAUSE, SDL_SCANCODE_F10 },
@@ -61,24 +61,24 @@ static struct
     { PSP_HPRM_HOLD, SDL_SCANCODE_F15 }
 };
 
-int EventUpdate(void *data)
+صحيح EventUpdate(فراغ *data)
 {
-    while (running) {
+    طالما (running) {
         SDL_WaitSemaphore(event_sem);
         sceHprmPeekCurrentKey((u32 *)&hprm);
         SDL_SignalSemaphore(event_sem);
         // Delay 1/60th of a second
         sceKernelDelayThread(1000000 / 60);
     }
-    return 0;
+    أرجع 0;
 }
 
-void PSP_PumpEvents(SDL_VideoDevice *_this)
+فراغ PSP_PumpEvents(SDL_VideoDevice *_this)
 {
-    int i;
-    enum PspHprmKeys keys;
-    enum PspHprmKeys changed;
-    static enum PspHprmKeys old_keys = 0;
+    صحيح i;
+    تعداد PspHprmKeys keys;
+    تعداد PspHprmKeys changed;
+    ساكن تعداد PspHprmKeys old_keys = 0;
 
     SDL_WaitSemaphore(event_sem);
     keys = hprm;
@@ -87,9 +87,9 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
     // HPRM Keyboard
     changed = old_keys ^ keys;
     old_keys = keys;
-    if (changed) {
-        for (i = 0; i < SDL_arraysize(keymap_psp); i++) {
-            if (changed & keymap_psp[i].id) {
+    𐡄𐡍 (changed) {
+        لكل (i = 0; i < SDL_arraysize(keymap_psp); i++) {
+            𐡄𐡍 (changed & keymap_psp[i].id) {
                 bool down = ((keys & keymap_psp[i].id) != 0);
                 SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
             }
@@ -97,16 +97,16 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
     }
 
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
-        unsigned char buffer[255];
-        int i, length, count;
+    𐡄𐡍 (irkbd_ready) {
+        unsigned حرف buffer[255];
+        صحيح i, length, count;
         SIrKeybScanCodeData *scanData;
 
-        if (pspIrKeybReadinput(buffer, &length) >= 0) {
-            if ((length % sizeof(SIrKeybScanCodeData)) == 0) {
-                count = length / sizeof(SIrKeybScanCodeData);
-                for (i = 0; i < count; i++) {
-                    unsigned char raw;
+        𐡄𐡍 (pspIrKeybReadinput(buffer, &length) >= 0) {
+            𐡄𐡍 ((length % حجم(SIrKeybScanCodeData)) == 0) {
+                count = length / حجم(SIrKeybScanCodeData);
+                لكل (i = 0; i < count; i++) {
+                    unsigned حرف raw;
                     bool down;
                     scanData = (SIrKeybScanCodeData *)buffer + i;
                     raw = scanData->raw;
@@ -119,14 +119,14 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
 #endif
     sceKernelDelayThread(0);
 
-    return;
+    أرجع;
 }
 
-void PSP_InitOSKeymap(SDL_VideoDevice *_this)
+فراغ PSP_InitOSKeymap(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int i;
-    for (i = 0; i < SDL_arraysize(keymap); ++i) {
+    صحيح i;
+    لكل (i = 0; i < SDL_arraysize(keymap); ++i) {
         keymap[i] = SDL_SCANCODE_UNKNOWN;
     }
 
@@ -236,33 +236,33 @@ void PSP_InitOSKeymap(SDL_VideoDevice *_this)
 bool PSP_EventInit(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
-    int ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
-    if (ret == PSP_IRKBD_RESULT_OK) {
+    صحيح outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
+    صحيح ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
+    𐡄𐡍 (ret == PSP_IRKBD_RESULT_OK) {
         pspIrKeybOutputMode(outputmode);
         irkbd_ready = 1;
-    } else {
+    } وإلا {
         irkbd_ready = 0;
     }
 #endif
     // Start thread to read data
-    if ((event_sem = SDL_CreateSemaphore(1)) == NULL) {
-        return SDL_SetError("Can't create input semaphore");
+    𐡄𐡍 ((event_sem = SDL_CreateSemaphore(1)) == عدم) {
+        أرجع SDL_SetError("Can't create input semaphore");
     }
     running = 1;
-    if ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, NULL)) == NULL) {
-        return SDL_SetError("Can't create input thread");
+    𐡄𐡍 ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, عدم)) == عدم) {
+        أرجع SDL_SetError("Can't create input thread");
     }
-    return true;
+    أرجع true;
 }
 
-void PSP_EventQuit(SDL_VideoDevice *_this)
+فراغ PSP_EventQuit(SDL_VideoDevice *_this)
 {
     running = 0;
-    SDL_WaitThread(thread, NULL);
+    SDL_WaitThread(thread, عدم);
     SDL_DestroySemaphore(event_sem);
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
+    𐡄𐡍 (irkbd_ready) {
         pspIrKeybFinish();
         irkbd_ready = 0;
     }

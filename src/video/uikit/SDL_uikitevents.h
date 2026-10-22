@@ -23,18 +23,18 @@
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-extern void SDL_UpdateLifecycleObserver(void);
+خارجي فراغ SDL_UpdateLifecycleObserver(فراغ);
 
-extern Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
-extern void UIKit_PumpEvents(SDL_VideoDevice *_this);
+خارجي Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
+خارجي فراغ UIKit_PumpEvents(SDL_VideoDevice *_this);
 
-extern void SDL_InitGCKeyboard(void);
-extern void SDL_QuitGCKeyboard(void);
+خارجي فراغ SDL_InitGCKeyboard(فراغ);
+خارجي فراغ SDL_QuitGCKeyboard(فراغ);
 
-extern void SDL_InitGCMouse(void);
-extern bool SDL_GCMouseRelativeMode(void);
-extern void SDL_QuitGCMouse(void);
+خارجي فراغ SDL_InitGCMouse(فراغ);
+خارجي bool SDL_GCMouseRelativeMode(فراغ);
+خارجي فراغ SDL_QuitGCMouse(فراغ);
 
 #endif // SDL_uikitevents_h_

@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "SDL3/SDL_scancode.h"
-#include "SDL3/SDL_events.h"
-#include "SDL_qnx.h"
-#include <sys/keycodes.h>
+#ضمن "SDL_internal.h"
+#ضمن "../../events/SDL_keyboard_c.h"
+#ضمن "SDL3/SDL_scancode.h"
+#ضمن "SDL3/SDL_events.h"
+#ضمن "SDL_qnx.h"
+#ضمن <sys/keycodes.h>
 
 /**
  * A map that translates Screen key names to SDL scan codes.
  * This map is incomplete, but should include most major keys.
  */
-static int key_to_sdl[] = {
+ساكن صحيح key_to_sdl[] = {
     [KEYCODE_SPACE] = SDL_SCANCODE_SPACE,
     [KEYCODE_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE,
     [KEYCODE_COMMA] = SDL_SCANCODE_COMMA,
@@ -163,55 +163,55 @@ static int key_to_sdl[] = {
  * Called from the event dispatcher when a keyboard event is encountered.
  * Translates the event such that it can be handled by SDL.
  */
-void handleKeyboardEvent(screen_event_t event)
+فراغ handleKeyboardEvent(screen_event_t event)
 {
-    int             val;
-    int             cap;
-    char            ascii_text[2];
+    صحيح             val;
+    صحيح             cap;
+    حرف            ascii_text[2];
     SDL_Scancode    scancode;
 
     // Get the key value.
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
-        return;
+    𐡄𐡍 (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
+        أرجع;
     }
 
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
-        return;
+    𐡄𐡍 (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
+        أرجع;
     }
 
     // Skip unrecognized keys.
-    if ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
-        return;
+    𐡄𐡍 ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
+        أرجع;
     }
 
     // Translate to an SDL scan code.
     scancode = key_to_sdl[val];
-    if (scancode == 0) {
-        return;
+    𐡄𐡍 (scancode == 0) {
+        أرجع;
     }
 
     // Get event flags (key state).
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
-        return;
+    𐡄𐡍 (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
+        أرجع;
     }
 
     // Propagate the event to SDL.
     // FIXME:
     // Need to handle more key states (such as key combinations).
-    if (val & KEY_DOWN) {
+    𐡄𐡍 (val & KEY_DOWN) {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, true);
 
         // TODO: To simplify, we're ignoring keycodes that aren't just ascii.
-        if ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
+        𐡄𐡍 ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
             ascii_text[0] = cap;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
-        } else if ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
+        } وإلا 𐡄𐡍 ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
             ascii_text[0] = val & 0xFF;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
         }
-    } else {
+    } وإلا {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, false);
     }
 }

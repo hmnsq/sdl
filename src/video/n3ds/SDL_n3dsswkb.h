@@ -22,11 +22,11 @@
 #ifndef SDL_n3dskeyboard_h_
 #define SDL_n3dskeyboard_h_
 
-#include "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-void N3DS_SwkbInit();
-void N3DS_SwkbPoll();
-void N3DS_SwkbQuit();
+فراغ N3DS_SwkbInit();
+فراغ N3DS_SwkbPoll();
+فراغ N3DS_SwkbQuit();
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 

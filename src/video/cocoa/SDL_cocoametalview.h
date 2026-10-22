@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_cocoametalview_h_
 #define SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#𐡄𐡍 defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -46,7 +46,7 @@
                      windowID:(Uint32)windowID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
+- (فراغ)updateDrawableSize;
 - (NSView *)hitTest:(NSPoint)point;
 
 // Override superclass tag so this class can set it.
@@ -58,8 +58,8 @@
 @end
 
 SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+فراغ Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+فراغ *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
 #endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 

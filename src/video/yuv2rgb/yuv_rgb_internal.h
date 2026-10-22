@@ -1,11 +1,11 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "yuv_rgb.h"
+#ضمن "yuv_rgb.h"
 
 #define PRECISION 6
 #define PRECISION_FACTOR (1<<PRECISION)
 
-typedef struct
+تعريفنوع بنية
 {
 	uint8_t y_shift;
 	int16_t matrix[3][3];
@@ -14,7 +14,7 @@ typedef struct
 // |U| = |  128  | + 1/PRECISION_FACTOR * |matrix[1][0] matrix[1][1] matrix[1][2]| * |G|
 // |V|   |  128  |                        |matrix[2][0] matrix[2][1] matrix[2][2]|   |B|
 
-typedef struct
+تعريفنوع بنية
 {
 	uint8_t y_shift;
 	int16_t y_factor;
@@ -40,7 +40,7 @@ typedef struct
 // for ITU-R BT.2020 values are assuming RGB is encoded using full 10-bit range ([0-1]<->[0-1023])
 // all values are rounded to the fourth decimal
 
-static const YUV2RGBParam YUV2RGB[] = {
+ساكن ثابت YUV2RGBParam YUV2RGB[] = {
 	// ITU-T T.871 (JPEG)
 	{/*.y_shift=*/ 0, /*.y_factor=*/ V(1.0), /*.v_r_factor=*/ V(1.402), /*.u_g_factor=*/ -V(0.3441), /*.v_g_factor=*/ -V(0.7141), /*.u_b_factor=*/ V(1.772)},
 	// ITU-R BT.601-7
@@ -53,7 +53,7 @@ static const YUV2RGBParam YUV2RGB[] = {
 	{/*.y_shift=*/ 0, /*.y_factor=*/ V(1.0), /*.v_r_factor=*/ V(1.4760), /*.u_g_factor=*/ -V(0.1647), /*.v_g_factor=*/ -V(0.5719), /*.u_b_factor=*/ V(1.8832) }
 };
 
-static const RGB2YUVParam RGB2YUV[] = {
+ساكن ثابت RGB2YUVParam RGB2YUV[] = {
 	// ITU-T T.871 (JPEG)
 	{/*.y_shift=*/ 0, /*.matrix=*/ {{V(0.299), V(0.587), V(0.114)}, {-V(0.1687), -V(0.3313), V(0.5)}, {V(0.5), -V(0.4187), -V(0.0813)}}},
 	// ITU-R BT.601-7

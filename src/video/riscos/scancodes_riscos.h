@@ -24,7 +24,7 @@
    - https://www.riscosopen.org/wiki/documentation/show/Keyboard Scan Codes
 */
 /* *INDENT-OFF* */ // clang-format off
-static SDL_Scancode const riscos_scancode_table[] = {
+ساكن SDL_Scancode ثابت riscos_scancode_table[] = {
      /*   0 */   SDL_SCANCODE_UNKNOWN,   // Shift
      /*   1 */   SDL_SCANCODE_UNKNOWN,   // Ctrl
      /*   2 */   SDL_SCANCODE_UNKNOWN,   // Alt
