@@ -24,7 +24,7 @@
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-extern bool X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+extern bool X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, цео *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_X11
 

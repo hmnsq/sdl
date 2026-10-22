@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ако defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowswindow.h"
@@ -37,29 +37,29 @@ static UINT GetClipboardFormatPNG(void)
 {
     static UINT format;
 
-    if (!format) {
+    ако (!format) {
         format = RegisterClipboardFormat(TEXT("PNG"));
     }
-    return format;
+    врати format;
 }
 
 static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
+    const цео MAX_ATTEMPTS = 3;
+    цео attempt;
     HWND hwnd = NULL;
 
-    if (_this->windows) {
+    ако (_this->windows) {
         hwnd = _this->windows->internal->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    за (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        ако (OpenClipboard(hwnd)) {
+            врати TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    врати FALSE;
 }
 
 static void WIN_CloseClipboard(void)
@@ -71,44 +71,44 @@ static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format
 {
     HANDLE hMem = NULL;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    ако (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
         BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
         size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
         size_t pixels_size = pbih->biSizeImage;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        ако (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
             *format = CF_DIBV5;
-        } else {
+        } инако {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
+        ако (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
             (pbfh->bfOffBits + pixels_size) <= bmp_size) {
             const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
             size_t dib_size = bih_size + pixels_size;
             hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
+            ако (hMem) {
                 LPVOID dst = GlobalLock(hMem);
-                if (dst) {
+                ако (dst) {
                     SDL_memcpy(dst, pbih, bih_size);
                     SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
                     GlobalUnlock(hMem);
-                } else {
+                } инако {
                     WIN_SetError("GlobalLock()");
                     GlobalFree(hMem);
                     hMem = NULL;
                 }
-            } else {
+            } инако {
                 SDL_OutOfMemory();
             }
-        } else {
+        } инако {
             SDL_SetError("Invalid BMP data");
         }
-    } else {
+    } инако {
         SDL_SetError("Invalid BMP data");
     }
-    return hMem;
+    врати hMem;
 }
 
 static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
@@ -116,18 +116,18 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
     void *bmp = NULL;
     size_t mem_size = GlobalSize(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
+    ако (mem_size > sizeof(BITMAPINFOHEADER)) {
         LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+        ако (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
             size_t color_table_size;
             switch (pbih->biCompression) {
             case BI_RGB:
-                if (pbih->biBitCount <= 8) {
+                ако (pbih->biBitCount <= 8) {
                     color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
+                } инако {
                     color_table_size = 0;
                 }
                 break;
@@ -144,10 +144,10 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
 
             size_t bih_size = pbih->biSize + color_table_size;
             size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
+            ако (dib_size <= mem_size) {
                 size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
                 bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+                ако (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
                     pbfh->bfSize = (DWORD)bmp_size;
@@ -157,17 +157,17 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
                     SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
                     *size = bmp_size;
                 }
-            } else {
+            } инако {
                 SDL_SetError("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
+        } инако {
             WIN_SetError("GlobalLock()");
         }
-    } else {
+    } инако {
         SDL_SetError("Invalid BMP data");
     }
-    return bmp;
+    врати bmp;
 }
 
 static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
@@ -179,37 +179,37 @@ static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
+    ако (SDL_strcmp(mime_type, "image/bmp") == 0) {
         hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    } инако ако (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
         hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
+        ако (hMem) {
             LPVOID dst = GlobalLock(hMem);
-            if (dst) {
+            ако (dst) {
                 SDL_memcpy(dst, clipboard_data, clipboard_data_size);
                 GlobalUnlock(hMem);
-            } else {
+            } инако {
                 result = WIN_SetError("GlobalLock()");
                 GlobalFree(hMem);
                 hMem = NULL;
             }
-        } else {
+        } инако {
             result = SDL_OutOfMemory();
         }
-    } else {
+    } инако {
         result = SDL_SetError("Unknown image format");
     }
-    if (hMem) {
+    ако (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
+        ако (!SetClipboardData(format, hMem)) {
             result = WIN_SetError("Couldn't set clipboard data");
         }
-    } else {
+    } инако {
         // WIN_ConvertBMPtoDIB() set the error
         result = false;
     }
-    return result;
+    врати result;
 }
 
 static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
@@ -220,16 +220,16 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
+    ако (clipboard_data && clipboard_data_size > 0) {
         SIZE_T i, size;
         LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+        ако (!tstr) {
+            врати SDL_SetError("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        за (size = 0, i = 0; tstr[i]; ++i, ++size) {
+            ако (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
                 ++size;
             }
@@ -238,12 +238,12 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
 
         // Save the data to the clipboard
         hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
+        ако (hMem) {
             LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+            ако (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                за (i = 0; tstr[i]; ++i) {
+                    ако (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,15 +252,15 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
+            ако (!SetClipboardData(CF_UNICODETEXT, hMem)) {
                 result = WIN_SetError("Couldn't set clipboard data");
             }
-        } else {
+        } инако {
             result = SDL_OutOfMemory();
         }
         SDL_free(tstr);
     }
-    return result;
+    врати result;
 }
 
 bool WIN_SetClipboardData(SDL_VideoDevice *_this)
@@ -274,15 +274,15 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
+    ако (WIN_OpenClipboard(_this)) {
         EmptyClipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        за (i = 0; i < _this->num_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
+            ако (SDL_IsTextMimeType(mime_type)) {
+                ако (!WIN_SetClipboardText(_this, mime_type)) {
                     result = false;
                 }
                 // Only set the first clipboard text
@@ -291,12 +291,12 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        за (i = 0; i < _this->num_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            ако (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
+                ако (!WIN_SetClipboardImage(_this, mime_type)) {
                     result = false;
                 }
                 break;
@@ -305,136 +305,136 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
 
         data->clipboard_count = GetClipboardSequenceNumber();
         WIN_CloseClipboard();
-    } else {
+    } инако {
         result = WIN_SetError("Couldn't open clipboard");
     }
-    return result;
+    врати result;
 }
 
 void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
 {
     void *data = NULL;
 
-    if (SDL_IsTextMimeType(mime_type)) {
+    ако (SDL_IsTextMimeType(mime_type)) {
         char *text = NULL;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        ако (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
+            ако (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
                 hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
+                ако (hMem) {
                     str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
+                    ако (str) {
                         text = WIN_StringToUTF8W(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } инако {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } инако {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } инако ако (IsClipboardFormatAvailable(CF_TEXT)) {
+            ако (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
                 hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
+                ако (hMem) {
                     str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
+                    ако (str) {
                         text = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } инако {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } инако {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
+        ако (!text) {
             text = SDL_strdup("");
         }
         data = text;
         *size = SDL_strlen(text);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
+    } инако ако (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        ако (IsClipboardFormatAvailable(CF_DIBV5)) {
+            ако (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
+                ако (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } инако {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
+        } инако ако (IsClipboardFormatAvailable(CF_DIB)) {
+            ако (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
+                ако (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } инако {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
+    } инако ако (SDL_strcmp(mime_type, "image/png") == 0) {
+        ако (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            ако (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
+                ако (hMem) {
                     size_t mem_size = GlobalSize(hMem);
                     void *mem = GlobalLock(hMem);
-                    if (mem) {
+                    ако (mem) {
                         data = SDL_malloc(mem_size);
-                        if (data) {
+                        ако (data) {
                             SDL_memcpy(data, mem, mem_size);
                             *size = mem_size;
                         }
                         GlobalUnlock(hMem);
-                    } else {
+                    } инако {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } инако {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
+    } инако {
         data = SDL_GetInternalClipboardData(_this, mime_type, size);
     }
-    return data;
+    врати data;
 }
 
 bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    ако (SDL_IsTextMimeType(mime_type)) {
+        ако (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
+            врати true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } инако ако (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        ако (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
+            врати true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } инако ако (SDL_strcmp(mime_type, "image/png") == 0) {
+        ако (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            врати true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    врати SDL_HasInternalClipboardData(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+static цео GetClipboardFormatMimeType(UINT format, char *name)
 {
     const char *mime_type = NULL;
 
@@ -450,35 +450,35 @@ static int GetClipboardFormatMimeType(UINT format, char *name)
         mime_type = "image/bmp";
         break;
     default:
-        if (format == GetClipboardFormatPNG()) {
+        ако (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
         break;
     }
-    if (mime_type) {
+    ако (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        ако (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        врати (цео)len;
     }
-    return 0;
+    врати 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+static char **GetMimeTypes(цео *pnformats)
 {
     char **new_mime_types = NULL;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    ако (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        цео nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        цео formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        за ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
+            ако (!format) {
                 break;
             }
 
@@ -488,16 +488,16 @@ static char **GetMimeTypes(int *pnformats)
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
 #endif
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            ако (format == CF_DIB || format == CF_DIBV5) {
+                ако (have_image_bmp) {
                     // We have already registered this format
                     continue;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            цео len = GetClipboardFormatMimeType(format, NULL);
+            ако (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
@@ -505,26 +505,26 @@ static char **GetMimeTypes(int *pnformats)
 
         have_image_bmp = false;
         new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        ако (new_mime_types) {
             format = 0;
             char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            цео i = 0;
+            за ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
+                ако (!format) {
                     break;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                ако (format == CF_DIB || format == CF_DIBV5) {
+                    ако (have_image_bmp) {
                         // We have already registered this format
                         continue;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                цео len = GetClipboardFormatMimeType(format, strPtr);
+                ако (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
@@ -535,17 +535,17 @@ static char **GetMimeTypes(int *pnformats)
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    врати new_mime_types;
 }
 
 void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
 {
     DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
+    ако (count != data->clipboard_count) {
+        ако (count) {
+            цео nformats = 0;
             char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+            ако (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }

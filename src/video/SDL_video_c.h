@@ -57,9 +57,9 @@ extern bool SDL_InitVideo(const char *driver_name);
  */
 extern void SDL_QuitVideo(void);
 
-extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, int vsync);
+extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, цео vsync);
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+#ако defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
 const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name);
 #endif
 

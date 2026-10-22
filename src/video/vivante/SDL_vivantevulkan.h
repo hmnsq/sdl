@@ -31,7 +31,7 @@
 #include "../SDL_vulkan_internal.h"
 #include "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#ако defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
 extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);

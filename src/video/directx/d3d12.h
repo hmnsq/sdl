@@ -38,14 +38,14 @@
 #ifndef __d3d12_h__
 #define __d3d12_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#ако defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
+#ако defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
+#инако
 #define DECLSPEC_XFGVIRT(base, func)
 #endif
 #endif
@@ -596,7 +596,7 @@ extern "C"{
 #ifdef _MSC_VER
 #pragma region App Family
 #endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#ако WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 #ifndef _D3D12_CONSTANTS
 #define _D3D12_CONSTANTS
 #define	D3D12_16BIT_INDEX_STRIP_CUT_VALUE	( 0xffff )
@@ -1780,7 +1780,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0000_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Object;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c4fec28f-7966-4e95-9f94-f431cb56c3b8")
     ID3D12Object : public IUnknown
@@ -1806,7 +1806,7 @@ EXTERN_C const IID IID_ID3D12Object;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ObjectVtbl
     {
@@ -1906,7 +1906,7 @@ EXTERN_C const IID IID_ID3D12Object;
 
 EXTERN_C const IID IID_ID3D12DeviceChild;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("905db94b-a00c-4140-9df5-2b64ca9ea357")
     ID3D12DeviceChild : public ID3D12Object
@@ -1919,7 +1919,7 @@ EXTERN_C const IID IID_ID3D12DeviceChild;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceChildVtbl
     {
@@ -2029,7 +2029,7 @@ EXTERN_C const IID IID_ID3D12DeviceChild;
 
 EXTERN_C const IID IID_ID3D12RootSignature;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c54a6b66-72df-4ee8-8be5-a946a1429214")
     ID3D12RootSignature : public ID3D12DeviceChild
@@ -2038,7 +2038,7 @@ EXTERN_C const IID IID_ID3D12RootSignature;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12RootSignatureVtbl
     {
@@ -4169,7 +4169,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0001_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("34AB647B-3CC8-46AC-841B-C0965645C046")
     ID3D12RootSignatureDeserializer : public IUnknown
@@ -4180,7 +4180,7 @@ EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12RootSignatureDeserializerVtbl
     {
@@ -4250,7 +4250,7 @@ EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
 
 EXTERN_C const IID IID_ID3D12VersionedRootSignatureDeserializer;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7F91CE67-090C-4BB7-B78E-ED8FF2E31DA0")
     ID3D12VersionedRootSignatureDeserializer : public IUnknown
@@ -4265,7 +4265,7 @@ EXTERN_C const IID IID_ID3D12VersionedRootSignatureDeserializer;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12VersionedRootSignatureDeserializerVtbl
     {
@@ -4604,7 +4604,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0003_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Pageable;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("63ee58fb-1268-4835-86da-f008ce62f0d6")
     ID3D12Pageable : public ID3D12DeviceChild
@@ -4613,7 +4613,7 @@ EXTERN_C const IID IID_ID3D12Pageable;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12PageableVtbl
     {
@@ -4724,15 +4724,15 @@ EXTERN_C const IID IID_ID3D12Pageable;
 
 EXTERN_C const IID IID_ID3D12Heap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6b3b2502-6e51-45b3-90ee-9884265e8df3")
     ID3D12Heap : public ID3D12Pageable
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_HEAP_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_HEAP_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_HEAP_DESC * RetVal) = 0;
 #endif
@@ -4740,7 +4740,7 @@ EXTERN_C const IID IID_ID3D12Heap;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12HeapVtbl
     {
@@ -4792,11 +4792,11 @@ EXTERN_C const IID IID_ID3D12Heap;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12Heap, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap * This);
         
-#else
+#инако
         D3D12_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap * This,
             D3D12_HEAP_DESC * RetVal);
@@ -4843,11 +4843,11 @@ EXTERN_C const IID IID_ID3D12Heap;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Heap_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12Heap_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -4872,7 +4872,7 @@ EXTERN_C const IID IID_ID3D12Heap;
 
 EXTERN_C const IID IID_ID3D12Resource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("696442be-a72e-4059-bc79-5b5c98040fad")
     ID3D12Resource : public ID3D12Pageable
@@ -4887,9 +4887,9 @@ EXTERN_C const IID IID_ID3D12Resource;
             UINT Subresource,
             _In_opt_  const D3D12_RANGE *pWrittenRange) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_RESOURCE_DESC * RetVal) = 0;
 #endif
@@ -4917,7 +4917,7 @@ EXTERN_C const IID IID_ID3D12Resource;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ResourceVtbl
     {
@@ -4982,11 +4982,11 @@ EXTERN_C const IID IID_ID3D12Resource;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource * This);
         
-#else
+#инако
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -5067,11 +5067,11 @@ EXTERN_C const IID IID_ID3D12Resource;
 
 #define ID3D12Resource_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Resource_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12Resource_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -5108,7 +5108,7 @@ EXTERN_C const IID IID_ID3D12Resource;
 
 EXTERN_C const IID IID_ID3D12CommandAllocator;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6102dee4-af59-4b09-b999-b44d73f09b24")
     ID3D12CommandAllocator : public ID3D12Pageable
@@ -5119,7 +5119,7 @@ EXTERN_C const IID IID_ID3D12CommandAllocator;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12CommandAllocatorVtbl
     {
@@ -5238,7 +5238,7 @@ EXTERN_C const IID IID_ID3D12CommandAllocator;
 
 EXTERN_C const IID IID_ID3D12Fence;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0a753dcf-c4d8-4b91-adf6-be5a60d95a76")
     ID3D12Fence : public ID3D12Pageable
@@ -5256,7 +5256,7 @@ EXTERN_C const IID IID_ID3D12Fence;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12FenceVtbl
     {
@@ -5392,7 +5392,7 @@ EXTERN_C const IID IID_ID3D12Fence;
 
 EXTERN_C const IID IID_ID3D12Fence1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("433685fe-e22b-4ca0-a8db-b5b4f4dd0e4a")
     ID3D12Fence1 : public ID3D12Fence
@@ -5403,7 +5403,7 @@ EXTERN_C const IID IID_ID3D12Fence1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Fence1Vtbl
     {
@@ -5547,7 +5547,7 @@ EXTERN_C const IID IID_ID3D12Fence1;
 
 EXTERN_C const IID IID_ID3D12PipelineState;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("765a30f3-f624-4c6f-a828-ace948622445")
     ID3D12PipelineState : public ID3D12Pageable
@@ -5559,7 +5559,7 @@ EXTERN_C const IID IID_ID3D12PipelineState;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12PipelineStateVtbl
     {
@@ -5679,29 +5679,29 @@ EXTERN_C const IID IID_ID3D12PipelineState;
 
 EXTERN_C const IID IID_ID3D12DescriptorHeap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8efb471d-616c-4f49-90f7-127bb763fa51")
     ID3D12DescriptorHeap : public ID3D12Pageable
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_DESCRIPTOR_HEAP_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_DESCRIPTOR_HEAP_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_DESCRIPTOR_HEAP_DESC * RetVal) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_CPU_DESCRIPTOR_HANDLE STDMETHODCALLTYPE GetCPUDescriptorHandleForHeapStart( void) = 0;
-#else
+#инако
         virtual D3D12_CPU_DESCRIPTOR_HANDLE *STDMETHODCALLTYPE GetCPUDescriptorHandleForHeapStart( 
             D3D12_CPU_DESCRIPTOR_HANDLE * RetVal) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_GPU_DESCRIPTOR_HANDLE STDMETHODCALLTYPE GetGPUDescriptorHandleForHeapStart( void) = 0;
-#else
+#инако
         virtual D3D12_GPU_DESCRIPTOR_HANDLE *STDMETHODCALLTYPE GetGPUDescriptorHandleForHeapStart( 
             D3D12_GPU_DESCRIPTOR_HANDLE * RetVal) = 0;
 #endif
@@ -5709,7 +5709,7 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DescriptorHeapVtbl
     {
@@ -5761,11 +5761,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_DESCRIPTOR_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#инако
         D3D12_DESCRIPTOR_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DescriptorHeap * This,
             D3D12_DESCRIPTOR_HEAP_DESC * RetVal);
@@ -5773,11 +5773,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetCPUDescriptorHandleForHeapStart)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_CPU_DESCRIPTOR_HANDLE ( STDMETHODCALLTYPE *GetCPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#инако
         D3D12_CPU_DESCRIPTOR_HANDLE *( STDMETHODCALLTYPE *GetCPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This,
             D3D12_CPU_DESCRIPTOR_HANDLE * RetVal);
@@ -5785,11 +5785,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetGPUDescriptorHandleForHeapStart)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_GPU_DESCRIPTOR_HANDLE ( STDMETHODCALLTYPE *GetGPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#инако
         D3D12_GPU_DESCRIPTOR_HANDLE *( STDMETHODCALLTYPE *GetGPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This,
             D3D12_GPU_DESCRIPTOR_HANDLE * RetVal);
@@ -5836,27 +5836,27 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12DescriptorHeap_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetCPUDescriptorHandleForHeapStart(This)	\
     ( (This)->lpVtbl -> GetCPUDescriptorHandleForHeapStart(This) ) 
-#else
+#инако
 #define ID3D12DescriptorHeap_GetCPUDescriptorHandleForHeapStart(This,RetVal)	\
     ( (This)->lpVtbl -> GetCPUDescriptorHandleForHeapStart(This,RetVal) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetGPUDescriptorHandleForHeapStart(This)	\
     ( (This)->lpVtbl -> GetGPUDescriptorHandleForHeapStart(This) ) 
-#else
+#инако
 #define ID3D12DescriptorHeap_GetGPUDescriptorHandleForHeapStart(This,RetVal)	\
     ( (This)->lpVtbl -> GetGPUDescriptorHandleForHeapStart(This,RetVal) ) 
 #endif
@@ -5881,7 +5881,7 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 
 EXTERN_C const IID IID_ID3D12QueryHeap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0d9658ae-ed45-469e-a61d-970ec583cab4")
     ID3D12QueryHeap : public ID3D12Pageable
@@ -5890,7 +5890,7 @@ EXTERN_C const IID IID_ID3D12QueryHeap;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12QueryHeapVtbl
     {
@@ -6002,7 +6002,7 @@ EXTERN_C const IID IID_ID3D12QueryHeap;
 
 EXTERN_C const IID IID_ID3D12CommandSignature;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c36a797c-ec80-4f0a-8985-a7b2475082d1")
     ID3D12CommandSignature : public ID3D12Pageable
@@ -6011,7 +6011,7 @@ EXTERN_C const IID IID_ID3D12CommandSignature;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12CommandSignatureVtbl
     {
@@ -6123,7 +6123,7 @@ EXTERN_C const IID IID_ID3D12CommandSignature;
 
 EXTERN_C const IID IID_ID3D12CommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7116d91c-e7e4-47ce-b8c6-ec8168f437e5")
     ID3D12CommandList : public ID3D12DeviceChild
@@ -6134,7 +6134,7 @@ EXTERN_C const IID IID_ID3D12CommandList;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12CommandListVtbl
     {
@@ -6252,7 +6252,7 @@ EXTERN_C const IID IID_ID3D12CommandList;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5b160d0f-ac1b-4185-8ba8-b3ae42a5a455")
     ID3D12GraphicsCommandList : public ID3D12CommandList
@@ -6509,7 +6509,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandListVtbl
     {
@@ -7131,7 +7131,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("553103fb-1fe7-4557-bb38-946d7d0e7ca7")
     ID3D12GraphicsCommandList1 : public ID3D12GraphicsCommandList
@@ -7181,7 +7181,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList1Vtbl
     {
@@ -7897,7 +7897,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0018_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("38C3E585-FF17-412C-9150-4FC6F9D72A28")
     ID3D12GraphicsCommandList2 : public ID3D12GraphicsCommandList1
@@ -7911,7 +7911,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList2Vtbl
     {
@@ -8616,7 +8616,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
 
 EXTERN_C const IID IID_ID3D12CommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0ec870a6-5d7e-4c22-8cfc-5baae07616ed")
     ID3D12CommandQueue : public ID3D12Pageable
@@ -8673,9 +8673,9 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
             _Out_  UINT64 *pGpuTimestamp,
             _Out_  UINT64 *pCpuTimestamp) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_COMMAND_QUEUE_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_COMMAND_QUEUE_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_COMMAND_QUEUE_DESC * RetVal) = 0;
 #endif
@@ -8683,7 +8683,7 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12CommandQueueVtbl
     {
@@ -8806,11 +8806,11 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
             _Out_  UINT64 *pCpuTimestamp);
         
         DECLSPEC_XFGVIRT(ID3D12CommandQueue, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_COMMAND_QUEUE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12CommandQueue * This);
         
-#else
+#инако
         D3D12_COMMAND_QUEUE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12CommandQueue * This,
             D3D12_COMMAND_QUEUE_DESC * RetVal);
@@ -8887,11 +8887,11 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
 
 #define ID3D12CommandQueue_GetClockCalibration(This,pGpuTimestamp,pCpuTimestamp)	\
     ( (This)->lpVtbl -> GetClockCalibration(This,pGpuTimestamp,pCpuTimestamp) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12CommandQueue_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12CommandQueue_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -8937,7 +8937,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0020_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("189819f1-1db6-4b57-be54-1821339b85f7")
     ID3D12Device : public ID3D12Object
@@ -9037,12 +9037,12 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE SrcDescriptorRangeStart,
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo( 
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             _In_  UINT visibleMask,
@@ -9050,11 +9050,11 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_HEAP_PROPERTIES STDMETHODCALLTYPE GetCustomHeapProperties( 
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType) = 0;
-#else
+#инако
         virtual D3D12_HEAP_PROPERTIES *STDMETHODCALLTYPE GetCustomHeapProperties( 
             D3D12_HEAP_PROPERTIES * RetVal,
             _In_  UINT nodeMask,
@@ -9158,9 +9158,9 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  UINT FirstSubresourceTilingToGet,
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual LUID STDMETHODCALLTYPE GetAdapterLuid( void) = 0;
-#else
+#инако
         virtual LUID *STDMETHODCALLTYPE GetAdapterLuid( 
             LUID * RetVal) = 0;
 #endif
@@ -9168,7 +9168,7 @@ EXTERN_C const IID IID_ID3D12Device;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceVtbl
     {
@@ -9344,14 +9344,14 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -9362,13 +9362,13 @@ EXTERN_C const IID IID_ID3D12Device;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -9507,11 +9507,11 @@ EXTERN_C const IID IID_ID3D12Device;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device * This,
             LUID * RetVal);
@@ -9607,19 +9607,19 @@ EXTERN_C const IID IID_ID3D12Device;
 
 #define ID3D12Device_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -9671,11 +9671,11 @@ EXTERN_C const IID IID_ID3D12Device;
 
 #define ID3D12Device_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -9700,7 +9700,7 @@ EXTERN_C const IID IID_ID3D12Device;
 
 EXTERN_C const IID IID_ID3D12PipelineLibrary;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c64226a8-9201-46af-b4cc-53fb9ff7414f")
     ID3D12PipelineLibrary : public ID3D12DeviceChild
@@ -9731,7 +9731,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12PipelineLibraryVtbl
     {
@@ -9889,7 +9889,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary;
 
 EXTERN_C const IID IID_ID3D12PipelineLibrary1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("80eabf42-2568-4e5e-bd82-c37f86961dc3")
     ID3D12PipelineLibrary1 : public ID3D12PipelineLibrary
@@ -9904,7 +9904,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12PipelineLibrary1Vtbl
     {
@@ -10101,7 +10101,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0023_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("77acce80-638e-4e65-8895-c1f23386863e")
     ID3D12Device1 : public ID3D12Device
@@ -10128,7 +10128,7 @@ EXTERN_C const IID IID_ID3D12Device1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device1Vtbl
     {
@@ -10304,14 +10304,14 @@ EXTERN_C const IID IID_ID3D12Device1;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device1 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device1 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -10322,13 +10322,13 @@ EXTERN_C const IID IID_ID3D12Device1;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device1 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device1 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -10467,11 +10467,11 @@ EXTERN_C const IID IID_ID3D12Device1;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device1 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device1 * This,
             LUID * RetVal);
@@ -10591,19 +10591,19 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 #define ID3D12Device1_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device1_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device1_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device1_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device1_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -10655,11 +10655,11 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 #define ID3D12Device1_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device1_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device1_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -10694,7 +10694,7 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 EXTERN_C const IID IID_ID3D12Device2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("30baa41e-b15b-475c-a0bb-1af5c5b64328")
     ID3D12Device2 : public ID3D12Device1
@@ -10708,7 +10708,7 @@ EXTERN_C const IID IID_ID3D12Device2;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device2Vtbl
     {
@@ -10884,14 +10884,14 @@ EXTERN_C const IID IID_ID3D12Device2;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device2 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device2 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -10902,13 +10902,13 @@ EXTERN_C const IID IID_ID3D12Device2;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device2 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device2 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -11047,11 +11047,11 @@ EXTERN_C const IID IID_ID3D12Device2;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device2 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device2 * This,
             LUID * RetVal);
@@ -11178,19 +11178,19 @@ EXTERN_C const IID IID_ID3D12Device2;
 
 #define ID3D12Device2_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device2_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device2_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device2_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device2_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -11242,11 +11242,11 @@ EXTERN_C const IID IID_ID3D12Device2;
 
 #define ID3D12Device2_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device2_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device2_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -11301,7 +11301,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0025_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("81dadc15-2bad-4392-93c5-101345c4aa98")
     ID3D12Device3 : public ID3D12Device2
@@ -11327,7 +11327,7 @@ EXTERN_C const IID IID_ID3D12Device3;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device3Vtbl
     {
@@ -11503,14 +11503,14 @@ EXTERN_C const IID IID_ID3D12Device3;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device3 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device3 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -11521,13 +11521,13 @@ EXTERN_C const IID IID_ID3D12Device3;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device3 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device3 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -11666,11 +11666,11 @@ EXTERN_C const IID IID_ID3D12Device3;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device3 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device3 * This,
             LUID * RetVal);
@@ -11820,19 +11820,19 @@ EXTERN_C const IID IID_ID3D12Device3;
 
 #define ID3D12Device3_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device3_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device3_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device3_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device3_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -11884,11 +11884,11 @@ EXTERN_C const IID IID_ID3D12Device3;
 
 #define ID3D12Device3_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device3_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device3_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -11973,7 +11973,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0026_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("A1533D18-0AC1-4084-85B9-89A96116806B")
     ID3D12ProtectedSession : public ID3D12DeviceChild
@@ -11988,7 +11988,7 @@ EXTERN_C const IID IID_ID3D12ProtectedSession;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ProtectedSessionVtbl
     {
@@ -12150,15 +12150,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0027_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6CD696F4-F289-40CC-8091-5A6C0A099C3D")
     ID3D12ProtectedResourceSession : public ID3D12ProtectedSession
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal) = 0;
 #endif
@@ -12166,7 +12166,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ProtectedResourceSessionVtbl
     {
@@ -12228,11 +12228,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
             ID3D12ProtectedResourceSession * This);
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession * This);
         
-#else
+#инако
         D3D12_PROTECTED_RESOURCE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal);
@@ -12285,11 +12285,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 #define ID3D12ProtectedResourceSession_GetSessionStatus(This)	\
     ( (This)->lpVtbl -> GetSessionStatus(This) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12ProtectedResourceSession_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -12314,7 +12314,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 
 EXTERN_C const IID IID_ID3D12Device4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e865df17-a9ee-46f9-a463-3098315aa2e5")
     ID3D12Device4 : public ID3D12Device3
@@ -12356,13 +12356,13 @@ EXTERN_C const IID IID_ID3D12Device4;
             REFIID riid,
             _COM_Outptr_opt_  void **ppvResource) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo1( 
             UINT visibleMask,
             UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo1( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -12374,7 +12374,7 @@ EXTERN_C const IID IID_ID3D12Device4;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device4Vtbl
     {
@@ -12550,14 +12550,14 @@ EXTERN_C const IID IID_ID3D12Device4;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device4 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device4 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -12568,13 +12568,13 @@ EXTERN_C const IID IID_ID3D12Device4;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device4 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device4 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -12713,11 +12713,11 @@ EXTERN_C const IID IID_ID3D12Device4;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device4 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device4 * This,
             LUID * RetVal);
@@ -12825,7 +12825,7 @@ EXTERN_C const IID IID_ID3D12Device4;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device4 * This,
             UINT visibleMask,
@@ -12833,7 +12833,7 @@ EXTERN_C const IID IID_ID3D12Device4;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device4 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -12933,19 +12933,19 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device4_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device4_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device4_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device4_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -12997,11 +12997,11 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device4_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device4_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -13045,11 +13045,11 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device4_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device4_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -13090,7 +13090,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0029_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12LifetimeOwner;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e667af9f-cd56-4f46-83ce-032e595d70a8")
     ID3D12LifetimeOwner : public IUnknown
@@ -13102,7 +13102,7 @@ EXTERN_C const IID IID_ID3D12LifetimeOwner;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12LifetimeOwnerVtbl
     {
@@ -13173,15 +13173,15 @@ EXTERN_C const IID IID_ID3D12LifetimeOwner;
 
 EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("f1df64b6-57fd-49cd-8807-c0eb88b45c8f")
     ID3D12SwapChainAssistant : public IUnknown
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual LUID STDMETHODCALLTYPE GetLUID( void) = 0;
-#else
+#инако
         virtual LUID *STDMETHODCALLTYPE GetLUID( 
             LUID * RetVal) = 0;
 #endif
@@ -13201,7 +13201,7 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12SwapChainAssistantVtbl
     {
@@ -13222,11 +13222,11 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
             ID3D12SwapChainAssistant * This);
         
         DECLSPEC_XFGVIRT(ID3D12SwapChainAssistant, GetLUID)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetLUID )( 
             ID3D12SwapChainAssistant * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetLUID )( 
             ID3D12SwapChainAssistant * This,
             LUID * RetVal);
@@ -13273,11 +13273,11 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 #define ID3D12SwapChainAssistant_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12SwapChainAssistant_GetLUID(This)	\
     ( (This)->lpVtbl -> GetLUID(This) ) 
-#else
+#инако
 #define ID3D12SwapChainAssistant_GetLUID(This,RetVal)	\
     ( (This)->lpVtbl -> GetLUID(This,RetVal) ) 
 #endif
@@ -13311,7 +13311,7 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 
 EXTERN_C const IID IID_ID3D12LifetimeTracker;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3fd03d36-4eb1-424a-a582-494ecb8ba813")
     ID3D12LifetimeTracker : public ID3D12DeviceChild
@@ -13323,7 +13323,7 @@ EXTERN_C const IID IID_ID3D12LifetimeTracker;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12LifetimeTrackerVtbl
     {
@@ -13517,7 +13517,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0032_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12StateObject;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("47016943-fca8-4594-93ea-af258b55346d")
     ID3D12StateObject : public ID3D12Pageable
@@ -13526,7 +13526,7 @@ EXTERN_C const IID IID_ID3D12StateObject;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12StateObjectVtbl
     {
@@ -13638,7 +13638,7 @@ EXTERN_C const IID IID_ID3D12StateObject;
 
 EXTERN_C const IID IID_ID3D12StateObjectProperties;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("de5fa827-9bf9-4f26-89ff-d7f56fde3860")
     ID3D12StateObjectProperties : public IUnknown
@@ -13658,7 +13658,7 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12StateObjectPropertiesVtbl
     {
@@ -13765,16 +13765,16 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0034_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("460caac7-1d24-446a-a184-ca67db494138")
     ID3D12StateObjectProperties1 : public ID3D12StateObjectProperties
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROGRAM_IDENTIFIER STDMETHODCALLTYPE GetProgramIdentifier( 
             LPCWSTR pProgramName) = 0;
-#else
+#инако
         virtual D3D12_PROGRAM_IDENTIFIER *STDMETHODCALLTYPE GetProgramIdentifier( 
             D3D12_PROGRAM_IDENTIFIER * RetVal,
             LPCWSTR pProgramName) = 0;
@@ -13783,7 +13783,7 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12StateObjectProperties1Vtbl
     {
@@ -13823,12 +13823,12 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
             UINT64 PipelineStackSizeInBytes);
         
         DECLSPEC_XFGVIRT(ID3D12StateObjectProperties1, GetProgramIdentifier)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_PROGRAM_IDENTIFIER ( STDMETHODCALLTYPE *GetProgramIdentifier )( 
             ID3D12StateObjectProperties1 * This,
             LPCWSTR pProgramName);
         
-#else
+#инако
         D3D12_PROGRAM_IDENTIFIER *( STDMETHODCALLTYPE *GetProgramIdentifier )( 
             ID3D12StateObjectProperties1 * This,
             D3D12_PROGRAM_IDENTIFIER * RetVal,
@@ -13871,11 +13871,11 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 #define ID3D12StateObjectProperties1_SetPipelineStackSize(This,PipelineStackSizeInBytes)	\
     ( (This)->lpVtbl -> SetPipelineStackSize(This,PipelineStackSizeInBytes) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12StateObjectProperties1_GetProgramIdentifier(This,pProgramName)	\
     ( (This)->lpVtbl -> GetProgramIdentifier(This,pProgramName) ) 
-#else
+#инако
 #define ID3D12StateObjectProperties1_GetProgramIdentifier(This,RetVal,pProgramName)	\
     ( (This)->lpVtbl -> GetProgramIdentifier(This,RetVal,pProgramName) ) 
 #endif
@@ -13921,7 +13921,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0035_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("065acf71-f863-4b89-82f4-02e4d5886757")
     ID3D12WorkGraphProperties : public IUnknown
@@ -13938,11 +13938,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
         virtual UINT STDMETHODCALLTYPE GetNumNodes( 
             UINT WorkGraphIndex) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_NODE_ID STDMETHODCALLTYPE GetNodeID( 
             UINT WorkGraphIndex,
             UINT NodeIndex) = 0;
-#else
+#инако
         virtual D3D12_NODE_ID *STDMETHODCALLTYPE GetNodeID( 
             D3D12_NODE_ID * RetVal,
             UINT WorkGraphIndex,
@@ -13960,11 +13960,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
         virtual UINT STDMETHODCALLTYPE GetNumEntrypoints( 
             UINT WorkGraphIndex) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_NODE_ID STDMETHODCALLTYPE GetEntrypointID( 
             UINT WorkGraphIndex,
             UINT EntrypointIndex) = 0;
-#else
+#инако
         virtual D3D12_NODE_ID *STDMETHODCALLTYPE GetEntrypointID( 
             D3D12_NODE_ID * RetVal,
             UINT WorkGraphIndex,
@@ -13990,7 +13990,7 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12WorkGraphPropertiesVtbl
     {
@@ -14030,13 +14030,13 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
             UINT WorkGraphIndex);
         
         DECLSPEC_XFGVIRT(ID3D12WorkGraphProperties, GetNodeID)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_NODE_ID ( STDMETHODCALLTYPE *GetNodeID )( 
             ID3D12WorkGraphProperties * This,
             UINT WorkGraphIndex,
             UINT NodeIndex);
         
-#else
+#инако
         D3D12_NODE_ID *( STDMETHODCALLTYPE *GetNodeID )( 
             ID3D12WorkGraphProperties * This,
             D3D12_NODE_ID * RetVal,
@@ -14063,13 +14063,13 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
             UINT WorkGraphIndex);
         
         DECLSPEC_XFGVIRT(ID3D12WorkGraphProperties, GetEntrypointID)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_NODE_ID ( STDMETHODCALLTYPE *GetEntrypointID )( 
             ID3D12WorkGraphProperties * This,
             UINT WorkGraphIndex,
             UINT EntrypointIndex);
         
-#else
+#инако
         D3D12_NODE_ID *( STDMETHODCALLTYPE *GetEntrypointID )( 
             ID3D12WorkGraphProperties * This,
             D3D12_NODE_ID * RetVal,
@@ -14136,11 +14136,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
 #define ID3D12WorkGraphProperties_GetNumNodes(This,WorkGraphIndex)	\
     ( (This)->lpVtbl -> GetNumNodes(This,WorkGraphIndex) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12WorkGraphProperties_GetNodeID(This,WorkGraphIndex,NodeIndex)	\
     ( (This)->lpVtbl -> GetNodeID(This,WorkGraphIndex,NodeIndex) ) 
-#else
+#инако
 #define ID3D12WorkGraphProperties_GetNodeID(This,RetVal,WorkGraphIndex,NodeIndex)	\
     ( (This)->lpVtbl -> GetNodeID(This,RetVal,WorkGraphIndex,NodeIndex) ) 
 #endif
@@ -14153,11 +14153,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
 #define ID3D12WorkGraphProperties_GetNumEntrypoints(This,WorkGraphIndex)	\
     ( (This)->lpVtbl -> GetNumEntrypoints(This,WorkGraphIndex) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12WorkGraphProperties_GetEntrypointID(This,WorkGraphIndex,EntrypointIndex)	\
     ( (This)->lpVtbl -> GetEntrypointID(This,WorkGraphIndex,EntrypointIndex) ) 
-#else
+#инако
 #define ID3D12WorkGraphProperties_GetEntrypointID(This,RetVal,WorkGraphIndex,EntrypointIndex)	\
     ( (This)->lpVtbl -> GetEntrypointID(This,RetVal,WorkGraphIndex,EntrypointIndex) ) 
 #endif
@@ -14770,7 +14770,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0036_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8b4f173b-2fea-4b80-8f58-4307191ab95d")
     ID3D12Device5 : public ID3D12Device4
@@ -14818,7 +14818,7 @@ EXTERN_C const IID IID_ID3D12Device5;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device5Vtbl
     {
@@ -14994,14 +14994,14 @@ EXTERN_C const IID IID_ID3D12Device5;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device5 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device5 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -15012,13 +15012,13 @@ EXTERN_C const IID IID_ID3D12Device5;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device5 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device5 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -15157,11 +15157,11 @@ EXTERN_C const IID IID_ID3D12Device5;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device5 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device5 * This,
             LUID * RetVal);
@@ -15269,7 +15269,7 @@ EXTERN_C const IID IID_ID3D12Device5;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device5 * This,
             UINT visibleMask,
@@ -15277,7 +15277,7 @@ EXTERN_C const IID IID_ID3D12Device5;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device5 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -15432,19 +15432,19 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device5_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device5_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device5_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device5_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -15496,11 +15496,11 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device5_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device5_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -15544,11 +15544,11 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device5_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device5_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -15861,7 +15861,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0037_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82BC481C-6B9B-4030-AEDB-7EE3D1DF1E63")
     ID3D12DeviceRemovedExtendedDataSettings : public IUnknown
@@ -15879,7 +15879,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedDataSettingsVtbl
     {
@@ -15966,7 +15966,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("DBD5AE51-3317-4F0A-ADF9-1D7CEDCAAE0B")
     ID3D12DeviceRemovedExtendedDataSettings1 : public ID3D12DeviceRemovedExtendedDataSettings
@@ -15978,7 +15978,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedDataSettings1Vtbl
     {
@@ -16074,7 +16074,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("61552388-01ab-4008-a436-83db189566ea")
     ID3D12DeviceRemovedExtendedDataSettings2 : public ID3D12DeviceRemovedExtendedDataSettings1
@@ -16086,7 +16086,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedDataSettings2Vtbl
     {
@@ -16191,7 +16191,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("98931D33-5AE8-4791-AA3C-1A73A2934E71")
     ID3D12DeviceRemovedExtendedData : public IUnknown
@@ -16206,7 +16206,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedDataVtbl
     {
@@ -16285,7 +16285,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9727A022-CF1D-4DDA-9EBA-EFFA653FC506")
     ID3D12DeviceRemovedExtendedData1 : public ID3D12DeviceRemovedExtendedData
@@ -16300,7 +16300,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedData1Vtbl
     {
@@ -16396,7 +16396,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("67FC5816-E4CA-4915-BF18-42541272DA54")
     ID3D12DeviceRemovedExtendedData2 : public ID3D12DeviceRemovedExtendedData1
@@ -16410,7 +16410,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceRemovedExtendedData2Vtbl
     {
@@ -16548,7 +16548,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0043_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c70b221b-40e4-4a17-89af-025a0727a6dc")
     ID3D12Device6 : public ID3D12Device5
@@ -16563,7 +16563,7 @@ EXTERN_C const IID IID_ID3D12Device6;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device6Vtbl
     {
@@ -16739,14 +16739,14 @@ EXTERN_C const IID IID_ID3D12Device6;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device6 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device6 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -16757,13 +16757,13 @@ EXTERN_C const IID IID_ID3D12Device6;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device6 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device6 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -16902,11 +16902,11 @@ EXTERN_C const IID IID_ID3D12Device6;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device6 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device6 * This,
             LUID * RetVal);
@@ -17014,7 +17014,7 @@ EXTERN_C const IID IID_ID3D12Device6;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device6 * This,
             UINT visibleMask,
@@ -17022,7 +17022,7 @@ EXTERN_C const IID IID_ID3D12Device6;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device6 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -17185,19 +17185,19 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device6_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device6_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device6_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device6_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -17249,11 +17249,11 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device6_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device6_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -17297,11 +17297,11 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device6_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device6_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -17384,15 +17384,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0044_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("D6F12DD6-76FB-406E-8961-4296EEFC0409")
     ID3D12ProtectedResourceSession1 : public ID3D12ProtectedResourceSession
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC1 STDMETHODCALLTYPE GetDesc1( void) = 0;
-#else
+#инако
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC1 *STDMETHODCALLTYPE GetDesc1( 
             D3D12_PROTECTED_RESOURCE_SESSION_DESC1 * RetVal) = 0;
 #endif
@@ -17400,7 +17400,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ProtectedResourceSession1Vtbl
     {
@@ -17462,11 +17462,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
             ID3D12ProtectedResourceSession1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession1 * This);
         
-#else
+#инако
         D3D12_PROTECTED_RESOURCE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession1 * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal);
@@ -17474,11 +17474,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession1, GetDesc1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC1 ( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12ProtectedResourceSession1 * This);
         
-#else
+#инако
         D3D12_PROTECTED_RESOURCE_SESSION_DESC1 *( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12ProtectedResourceSession1 * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC1 * RetVal);
@@ -17531,20 +17531,20 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 #define ID3D12ProtectedResourceSession1_GetSessionStatus(This)	\
     ( (This)->lpVtbl -> GetSessionStatus(This) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12ProtectedResourceSession1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession1_GetDesc1(This)	\
     ( (This)->lpVtbl -> GetDesc1(This) ) 
-#else
+#инако
 #define ID3D12ProtectedResourceSession1_GetDesc1(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc1(This,RetVal) ) 
 #endif
@@ -17569,7 +17569,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 
 EXTERN_C const IID IID_ID3D12Device7;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5c014b53-68a1-4b9b-8bd1-dd6046b9358b")
     ID3D12Device7 : public ID3D12Device6
@@ -17589,7 +17589,7 @@ EXTERN_C const IID IID_ID3D12Device7;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device7Vtbl
     {
@@ -17765,14 +17765,14 @@ EXTERN_C const IID IID_ID3D12Device7;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device7 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device7 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -17783,13 +17783,13 @@ EXTERN_C const IID IID_ID3D12Device7;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device7 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device7 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -17928,11 +17928,11 @@ EXTERN_C const IID IID_ID3D12Device7;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device7 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device7 * This,
             LUID * RetVal);
@@ -18040,7 +18040,7 @@ EXTERN_C const IID IID_ID3D12Device7;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device7 * This,
             UINT visibleMask,
@@ -18048,7 +18048,7 @@ EXTERN_C const IID IID_ID3D12Device7;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device7 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -18226,19 +18226,19 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device7_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device7_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device7_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device7_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -18290,11 +18290,11 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device7_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device7_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -18338,11 +18338,11 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device7_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device7_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -18403,19 +18403,19 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 EXTERN_C const IID IID_ID3D12Device8;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9218E6BB-F944-4F7E-A75C-B1B2C7B701F3")
     ID3D12Device8 : public ID3D12Device7
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo2( 
             UINT visibleMask,
             UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo2( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -18461,7 +18461,7 @@ EXTERN_C const IID IID_ID3D12Device8;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device8Vtbl
     {
@@ -18637,14 +18637,14 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device8 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -18655,13 +18655,13 @@ EXTERN_C const IID IID_ID3D12Device8;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device8 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device8 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -18800,11 +18800,11 @@ EXTERN_C const IID IID_ID3D12Device8;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device8 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device8 * This,
             LUID * RetVal);
@@ -18912,7 +18912,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device8 * This,
             UINT visibleMask,
@@ -18920,7 +18920,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -19010,7 +19010,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device8 * This,
             UINT visibleMask,
@@ -19018,7 +19018,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -19160,19 +19160,19 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device8_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device8_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device8_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -19224,11 +19224,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device8_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device8_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -19272,11 +19272,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device8_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -19317,11 +19317,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 #define ID3D12Device8_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device8_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -19358,7 +19358,7 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 EXTERN_C const IID IID_ID3D12Resource1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9D5E227A-4430-4161-88B3-3ECA6BB16E19")
     ID3D12Resource1 : public ID3D12Resource
@@ -19371,7 +19371,7 @@ EXTERN_C const IID IID_ID3D12Resource1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Resource1Vtbl
     {
@@ -19436,11 +19436,11 @@ EXTERN_C const IID IID_ID3D12Resource1;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource1 * This);
         
-#else
+#инако
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource1 * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -19527,11 +19527,11 @@ EXTERN_C const IID IID_ID3D12Resource1;
 
 #define ID3D12Resource1_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Resource1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12Resource1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19572,15 +19572,15 @@ EXTERN_C const IID IID_ID3D12Resource1;
 
 EXTERN_C const IID IID_ID3D12Resource2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("BE36EC3B-EA85-4AEB-A45A-E9D76404A495")
     ID3D12Resource2 : public ID3D12Resource1
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_DESC1 STDMETHODCALLTYPE GetDesc1( void) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_DESC1 *STDMETHODCALLTYPE GetDesc1( 
             D3D12_RESOURCE_DESC1 * RetVal) = 0;
 #endif
@@ -19588,7 +19588,7 @@ EXTERN_C const IID IID_ID3D12Resource2;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Resource2Vtbl
     {
@@ -19653,11 +19653,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource2 * This);
         
-#else
+#инако
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource2 * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -19699,11 +19699,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
             _COM_Outptr_opt_  void **ppProtectedSession);
         
         DECLSPEC_XFGVIRT(ID3D12Resource2, GetDesc1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_DESC1 ( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12Resource2 * This);
         
-#else
+#инако
         D3D12_RESOURCE_DESC1 *( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12Resource2 * This,
             D3D12_RESOURCE_DESC1 * RetVal);
@@ -19756,11 +19756,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
 
 #define ID3D12Resource2_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Resource2_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12Resource2_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19781,11 +19781,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
 #define ID3D12Resource2_GetProtectedResourceSession(This,riid,ppProtectedSession)	\
     ( (This)->lpVtbl -> GetProtectedResourceSession(This,riid,ppProtectedSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Resource2_GetDesc1(This)	\
     ( (This)->lpVtbl -> GetDesc1(This) ) 
-#else
+#инако
 #define ID3D12Resource2_GetDesc1(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc1(This,RetVal) ) 
 #endif
@@ -19810,7 +19810,7 @@ EXTERN_C const IID IID_ID3D12Resource2;
 
 EXTERN_C const IID IID_ID3D12Heap1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("572F7389-2168-49E3-9693-D6DF5871BF6D")
     ID3D12Heap1 : public ID3D12Heap
@@ -19823,7 +19823,7 @@ EXTERN_C const IID IID_ID3D12Heap1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Heap1Vtbl
     {
@@ -19875,11 +19875,11 @@ EXTERN_C const IID IID_ID3D12Heap1;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12Heap, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap1 * This);
         
-#else
+#инако
         D3D12_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap1 * This,
             D3D12_HEAP_DESC * RetVal);
@@ -19932,11 +19932,11 @@ EXTERN_C const IID IID_ID3D12Heap1;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Heap1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12Heap1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19965,7 +19965,7 @@ EXTERN_C const IID IID_ID3D12Heap1;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6FDA83A7-B84C-4E38-9AC8-C7BD22016B3D")
     ID3D12GraphicsCommandList3 : public ID3D12GraphicsCommandList2
@@ -19977,7 +19977,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList3Vtbl
     {
@@ -20808,7 +20808,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0051_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12MetaCommand;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("DBB84C27-36CE-4FC9-B801-F048C46AC570")
     ID3D12MetaCommand : public ID3D12Pageable
@@ -20821,7 +20821,7 @@ EXTERN_C const IID IID_ID3D12MetaCommand;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12MetaCommandVtbl
     {
@@ -21055,7 +21055,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0052_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8754318e-d3a9-4541-98cf-645b50dc4874")
     ID3D12GraphicsCommandList4 : public ID3D12GraphicsCommandList3
@@ -21103,7 +21103,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList4Vtbl
     {
@@ -22107,7 +22107,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0053_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("28e2495d-0f64-4ae4-a6ec-129255dc49a8")
     ID3D12ShaderCacheSession : public ID3D12DeviceChild
@@ -22131,9 +22131,9 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
         
         virtual void STDMETHODCALLTYPE SetDeleteOnDestroy( void) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_SHADER_CACHE_SESSION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_SHADER_CACHE_SESSION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_SHADER_CACHE_SESSION_DESC * RetVal) = 0;
 #endif
@@ -22141,7 +22141,7 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ShaderCacheSessionVtbl
     {
@@ -22217,11 +22217,11 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
             ID3D12ShaderCacheSession * This);
         
         DECLSPEC_XFGVIRT(ID3D12ShaderCacheSession, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_SHADER_CACHE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ShaderCacheSession * This);
         
-#else
+#инако
         D3D12_SHADER_CACHE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ShaderCacheSession * This,
             D3D12_SHADER_CACHE_SESSION_DESC * RetVal);
@@ -22276,11 +22276,11 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 
 #define ID3D12ShaderCacheSession_SetDeleteOnDestroy(This)	\
     ( (This)->lpVtbl -> SetDeleteOnDestroy(This) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12ShaderCacheSession_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12ShaderCacheSession_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -22332,7 +22332,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0054_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device9;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("4c80e962-f032-4f60-bc9e-ebc2cfa1d83c")
     ID3D12Device9 : public ID3D12Device8
@@ -22356,7 +22356,7 @@ EXTERN_C const IID IID_ID3D12Device9;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device9Vtbl
     {
@@ -22532,14 +22532,14 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device9 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -22550,13 +22550,13 @@ EXTERN_C const IID IID_ID3D12Device9;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device9 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device9 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -22695,11 +22695,11 @@ EXTERN_C const IID IID_ID3D12Device9;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device9 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device9 * This,
             LUID * RetVal);
@@ -22807,7 +22807,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device9 * This,
             UINT visibleMask,
@@ -22815,7 +22815,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -22905,7 +22905,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device9 * This,
             UINT visibleMask,
@@ -22913,7 +22913,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -23076,19 +23076,19 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device9_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device9_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device9_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -23140,11 +23140,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device9_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device9_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -23188,11 +23188,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device9_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -23233,11 +23233,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 #define ID3D12Device9_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device9_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -23284,7 +23284,7 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 EXTERN_C const IID IID_ID3D12Device10;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("517f8718-aa66-49f9-b02b-a7ab89c06031")
     ID3D12Device10 : public ID3D12Device9
@@ -23326,7 +23326,7 @@ EXTERN_C const IID IID_ID3D12Device10;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device10Vtbl
     {
@@ -23502,14 +23502,14 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device10 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -23520,13 +23520,13 @@ EXTERN_C const IID IID_ID3D12Device10;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device10 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device10 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -23665,11 +23665,11 @@ EXTERN_C const IID IID_ID3D12Device10;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device10 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device10 * This,
             LUID * RetVal);
@@ -23777,7 +23777,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device10 * This,
             UINT visibleMask,
@@ -23785,7 +23785,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -23875,7 +23875,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device10 * This,
             UINT visibleMask,
@@ -23883,7 +23883,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24085,19 +24085,19 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device10_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device10_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device10_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -24149,11 +24149,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device10_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device10_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -24197,11 +24197,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device10_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -24242,11 +24242,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 #define ID3D12Device10_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device10_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -24303,7 +24303,7 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 EXTERN_C const IID IID_ID3D12Device11;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5405c344-d457-444e-b4dd-2366e45aee39")
     ID3D12Device11 : public ID3D12Device10
@@ -24316,7 +24316,7 @@ EXTERN_C const IID IID_ID3D12Device11;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device11Vtbl
     {
@@ -24492,14 +24492,14 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device11 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24510,13 +24510,13 @@ EXTERN_C const IID IID_ID3D12Device11;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device11 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device11 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -24655,11 +24655,11 @@ EXTERN_C const IID IID_ID3D12Device11;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device11 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device11 * This,
             LUID * RetVal);
@@ -24767,7 +24767,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device11 * This,
             UINT visibleMask,
@@ -24775,7 +24775,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24865,7 +24865,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device11 * This,
             UINT visibleMask,
@@ -24873,7 +24873,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -25081,19 +25081,19 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device11_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device11_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device11_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -25145,11 +25145,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device11_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device11_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -25193,11 +25193,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device11_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -25238,11 +25238,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 #define ID3D12Device11_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device11_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -25303,13 +25303,13 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 EXTERN_C const IID IID_ID3D12Device12;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5af5c532-4c91-4cd0-b541-15a405395fc5")
     ID3D12Device12 : public ID3D12Device11
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo3( 
             UINT visibleMask,
             UINT numResourceDescs,
@@ -25317,7 +25317,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_opt_count_(numResourceDescs)  const UINT32 *pNumCastableFormats,
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#инако
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo3( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -25331,7 +25331,7 @@ EXTERN_C const IID IID_ID3D12Device12;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device12Vtbl
     {
@@ -25507,14 +25507,14 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device12 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -25525,13 +25525,13 @@ EXTERN_C const IID IID_ID3D12Device12;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device12 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device12 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -25670,11 +25670,11 @@ EXTERN_C const IID IID_ID3D12Device12;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device12 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device12 * This,
             LUID * RetVal);
@@ -25782,7 +25782,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -25790,7 +25790,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -25880,7 +25880,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -25888,7 +25888,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26008,7 +26008,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -26018,7 +26018,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26120,19 +26120,19 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device12_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device12_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -26184,11 +26184,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device12_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -26232,11 +26232,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device12_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -26277,11 +26277,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 #define ID3D12Device12_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device12_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -26322,11 +26322,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 #define ID3D12Device12_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device12_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -26351,7 +26351,7 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 EXTERN_C const IID IID_ID3D12Device13;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("14eecffc-4df8-40f7-a118-5c816f45695e")
     ID3D12Device13 : public ID3D12Device12
@@ -26366,7 +26366,7 @@ EXTERN_C const IID IID_ID3D12Device13;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device13Vtbl
     {
@@ -26542,14 +26542,14 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device13 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26560,13 +26560,13 @@ EXTERN_C const IID IID_ID3D12Device13;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device13 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device13 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -26705,11 +26705,11 @@ EXTERN_C const IID IID_ID3D12Device13;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device13 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device13 * This,
             LUID * RetVal);
@@ -26817,7 +26817,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -26825,7 +26825,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26915,7 +26915,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -26923,7 +26923,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27043,7 +27043,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -27053,7 +27053,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27163,19 +27163,19 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device13_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device13_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -27227,11 +27227,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device13_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -27275,11 +27275,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device13_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -27320,11 +27320,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 #define ID3D12Device13_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device13_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -27365,11 +27365,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 #define ID3D12Device13_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device13_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -27398,7 +27398,7 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 EXTERN_C const IID IID_ID3D12Device14;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5f6e592d-d895-44c2-8e4a-88ad4926d323")
     ID3D12Device14 : public ID3D12Device13
@@ -27415,7 +27415,7 @@ EXTERN_C const IID IID_ID3D12Device14;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12Device14Vtbl
     {
@@ -27591,14 +27591,14 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device14 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27609,13 +27609,13 @@ EXTERN_C const IID IID_ID3D12Device14;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device14 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#инако
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device14 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -27754,11 +27754,11 @@ EXTERN_C const IID IID_ID3D12Device14;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device14 * This);
         
-#else
+#инако
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device14 * This,
             LUID * RetVal);
@@ -27866,7 +27866,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -27874,7 +27874,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27964,7 +27964,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -27972,7 +27972,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -28092,7 +28092,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -28102,7 +28102,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#инако
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -28222,19 +28222,19 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#инако
 #define ID3D12Device14_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#инако
 #define ID3D12Device14_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -28286,11 +28286,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#инако
 #define ID3D12Device14_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -28334,11 +28334,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device14_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -28379,11 +28379,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 #define ID3D12Device14_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device14_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -28424,11 +28424,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 #define ID3D12Device14_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#инако
 #define ID3D12Device14_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -28461,7 +28461,7 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("bc66d368-7373-4943-8757-fc87dc79e476")
     ID3D12VirtualizationGuestDevice : public IUnknown
@@ -28474,12 +28474,12 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
         virtual HRESULT STDMETHODCALLTYPE CreateFenceFd( 
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue,
-            _Out_  int *pFenceFd) = 0;
+            _Out_  цео *pFenceFd) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12VirtualizationGuestDeviceVtbl
     {
@@ -28510,7 +28510,7 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
             ID3D12VirtualizationGuestDevice * This,
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue,
-            _Out_  int *pFenceFd);
+            _Out_  цео *pFenceFd);
         
         END_INTERFACE
     } ID3D12VirtualizationGuestDeviceVtbl;
@@ -28561,7 +28561,7 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
 
 EXTERN_C const IID IID_ID3D12Tools;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7071e1f0-e84b-4b33-974f-12fa49de65c5")
     ID3D12Tools : public IUnknown
@@ -28575,7 +28575,7 @@ EXTERN_C const IID IID_ID3D12Tools;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12ToolsVtbl
     {
@@ -28661,7 +28661,7 @@ typedef struct D3D12_MEMCPY_DEST
     SIZE_T SlicePitch;
     } 	D3D12_MEMCPY_DEST;
 
-#if !defined( D3D12_IGNORE_SDK_LAYERS ) 
+#ако !defined( D3D12_IGNORE_SDK_LAYERS ) 
 #include "d3d12sdklayers.h" 
 #endif 
 
@@ -28791,7 +28791,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0062_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12SDKConfiguration;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e9eb5314-33aa-42b2-a718-d77f58b1f1c7")
     ID3D12SDKConfiguration : public IUnknown
@@ -28804,7 +28804,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12SDKConfigurationVtbl
     {
@@ -28876,7 +28876,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration;
 
 EXTERN_C const IID IID_ID3D12SDKConfiguration1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8aaf9303-ad25-48b9-9a57-d9c37e009d9f")
     ID3D12SDKConfiguration1 : public ID3D12SDKConfiguration
@@ -28893,7 +28893,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12SDKConfiguration1Vtbl
     {
@@ -29002,7 +29002,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0064_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceFactory;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("61f307d3-d34e-4e7c-8374-3ba4de23cccb")
     ID3D12DeviceFactory : public IUnknown
@@ -29037,7 +29037,7 @@ EXTERN_C const IID IID_ID3D12DeviceFactory;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceFactoryVtbl
     {
@@ -29195,15 +29195,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0065_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("78dbf87b-f766-422b-a61c-c8c446bdb9ad")
     ID3D12DeviceConfiguration : public IUnknown
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ако defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_DEVICE_CONFIGURATION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#инако
         virtual D3D12_DEVICE_CONFIGURATION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal) = 0;
 #endif
@@ -29226,7 +29226,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceConfigurationVtbl
     {
@@ -29247,11 +29247,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
             ID3D12DeviceConfiguration * This);
         
         DECLSPEC_XFGVIRT(ID3D12DeviceConfiguration, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_DEVICE_CONFIGURATION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration * This);
         
-#else
+#инако
         D3D12_DEVICE_CONFIGURATION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration * This,
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal);
@@ -29301,11 +29301,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 #define ID3D12DeviceConfiguration_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12DeviceConfiguration_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12DeviceConfiguration_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -29339,7 +29339,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 
 EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("ed342442-6343-4e16-bb82-a3a577874e56")
     ID3D12DeviceConfiguration1 : public ID3D12DeviceConfiguration
@@ -29355,7 +29355,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12DeviceConfiguration1Vtbl
     {
@@ -29376,11 +29376,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
             ID3D12DeviceConfiguration1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12DeviceConfiguration, GetDesc)
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
         D3D12_DEVICE_CONFIGURATION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration1 * This);
         
-#else
+#инако
         D3D12_DEVICE_CONFIGURATION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration1 * This,
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal);
@@ -29439,11 +29439,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 #define ID3D12DeviceConfiguration1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ако !defined(_WIN32)
 
 #define ID3D12DeviceConfiguration1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#инако
 #define ID3D12DeviceConfiguration1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -29524,7 +29524,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0067_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("55050859-4024-474c-87f5-6472eaee44ea")
     ID3D12GraphicsCommandList5 : public ID3D12GraphicsCommandList4
@@ -29540,7 +29540,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList5Vtbl
     {
@@ -30372,7 +30372,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0068_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c3827890-e548-4cfa-96cf-5689a9370f80")
     ID3D12GraphicsCommandList6 : public ID3D12GraphicsCommandList5
@@ -30386,7 +30386,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList6Vtbl
     {
@@ -31214,7 +31214,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("dd171223-8b61-4769-90e3-160ccde4e2c1")
     ID3D12GraphicsCommandList7 : public ID3D12GraphicsCommandList6
@@ -31227,7 +31227,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList7Vtbl
     {
@@ -32065,7 +32065,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("ee936ef9-599d-4d28-938e-23c4ad05ce51")
     ID3D12GraphicsCommandList8 : public ID3D12GraphicsCommandList7
@@ -32078,7 +32078,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList8Vtbl
     {
@@ -32926,7 +32926,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("34ed2808-ffe6-4c2b-b11a-cabd2b0c59e1")
     ID3D12GraphicsCommandList9 : public ID3D12GraphicsCommandList8
@@ -32943,7 +32943,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList9Vtbl
     {
@@ -33810,7 +33810,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7013c015-d161-4b63-a08c-238552dd8acc")
     ID3D12GraphicsCommandList10 : public ID3D12GraphicsCommandList9
@@ -33825,7 +33825,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GraphicsCommandList10Vtbl
     {
@@ -34709,7 +34709,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
 
 EXTERN_C const IID IID_ID3D12GBVDiagnostics;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ако defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("597985ab-9b75-4dbb-be23-0761195bebee")
     ID3D12GBVDiagnostics : public IUnknown
@@ -34717,17 +34717,17 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
     public:
         virtual HRESULT STDMETHODCALLTYPE GetGBVEntireSubresourceStatesData( 
             _In_  ID3D12Resource *pResource,
-            _Out_writes_bytes_(DataSize)  int *pData,
+            _Out_writes_bytes_(DataSize)  цео *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVSubresourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
-            _Out_  int *pData) = 0;
+            _Out_  цео *pData) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVResourceUniformState( 
             _In_  ID3D12Resource *pResource,
-            _Out_  int *pData) = 0;
+            _Out_  цео *pData) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVResourceInfo( 
             _In_  ID3D12Resource *pResource,
@@ -34742,7 +34742,7 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
     };
     
     
-#else 	/* C style interface */
+#инако 	/* C style interface */
 
     typedef struct ID3D12GBVDiagnosticsVtbl
     {
@@ -34766,7 +34766,7 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
         HRESULT ( STDMETHODCALLTYPE *GetGBVEntireSubresourceStatesData )( 
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
-            _Out_writes_bytes_(DataSize)  int *pData,
+            _Out_writes_bytes_(DataSize)  цео *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVSubresourceState)
@@ -34774,13 +34774,13 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
-            _Out_  int *pData);
+            _Out_  цео *pData);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVResourceUniformState)
         HRESULT ( STDMETHODCALLTYPE *GetGBVResourceUniformState )( 
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
-            _Out_  int *pData);
+            _Out_  цео *pData);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVResourceInfo)
         HRESULT ( STDMETHODCALLTYPE *GetGBVResourceInfo )( 

@@ -53,9 +53,9 @@ typedef enum
 } OptionAsAlt;
 
 @interface SDL_CocoaVideoData : NSObject
-@property(nonatomic) int allow_spaces;
-@property(nonatomic) int trackpad_is_touch_only;
-@property(nonatomic) unsigned int modifierFlags;
+@property(nonatomic) цео allow_spaces;
+@property(nonatomic) цео trackpad_is_touch_only;
+@property(nonatomic) unsigned цео modifierFlags;
 @property(nonatomic) void *key_layout;
 @property(nonatomic) SDL3TranslatorResponder *fieldEdit;
 @property(nonatomic) NSInteger clipboard_count;

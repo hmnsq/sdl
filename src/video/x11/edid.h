@@ -58,74 +58,74 @@ typedef enum
 
 struct Timing
 {
-    int width;
-    int height;
-    int frequency;
+    цео width;
+    цео height;
+    цео frequency;
 };
 
 struct DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    цео pixel_clock;
+    цео h_addr;
+    цео h_blank;
+    цео h_sync;
+    цео h_front_porch;
+    цео v_addr;
+    цео v_blank;
+    цео v_sync;
+    цео v_front_porch;
+    цео width_mm;
+    цео height_mm;
+    цео right_border;
+    цео top_border;
+    цео interlaced;
     StereoType stereo;
 
-    int digital_sync;
+    цео digital_sync;
     union
     {
         struct
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            цео bipolar;
+            цео serrations;
+            цео sync_on_green;
         } analog;
 
         struct
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            цео composite;
+            цео serrations;
+            цео negative_vsync;
+            цео negative_hsync;
         } digital;
     } ad;
 };
 
 struct MonitorInfo
 {
-    int checksum;
+    цео checksum;
     char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    цео product_code;
+    unsigned цео serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    цео production_week; // -1 if not specified
+    цео production_year; // -1 if not specified
+    цео model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    цео major_version;
+    цео minor_version;
 
-    int is_digital;
+    цео is_digital;
 
     union
     {
         struct
         {
-            int bits_per_primary;
+            цео bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            цео rgb444;
+            цео ycrcb444;
+            цео ycrcb422;
         } digital;
 
         struct
@@ -134,29 +134,29 @@ struct MonitorInfo
             double sync_signal_level;
             double total_signal_level;
 
-            int blank_to_black;
+            цео blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            цео separate_hv_sync;
+            цео composite_sync_on_h;
+            цео composite_sync_on_green;
+            цео serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
+    цео width_mm;        // -1 if not specified
+    цео height_mm;       // -1 if not specified
     double aspect_ratio; // -1.0 if not specififed
 
     double gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    цео standby;
+    цео suspend;
+    цео active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    цео srgb_is_standard;
+    цео preferred_timing_includes_native;
+    цео continuous_frequency;
 
     double red_x;
     double red_y;
@@ -174,7 +174,7 @@ struct MonitorInfo
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    цео n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is

@@ -26,7 +26,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#ако defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
 #include "../SDL_vulkan_internal.h"
 
@@ -44,70 +44,70 @@ bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     bool hasOHOSSurfaceExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
 
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    ако (_this->vulkan_config.loader_handle) {
+        врати SDL_SetError("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
+    ако (!path) {
         path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
-        if (!path) {
+        ако (!path) {
             path = "libvulkan.so";
         }
     }
 
     SDL_SharedObject *lib = SDL_LoadObject(path);
     _this->vulkan_config.loader_handle = lib;
-    if (!lib) {
-        return false;
+    ако (!lib) {
+        врати false;
     }
 
     SDL_strlcpy(_this->vulkan_config.loader_path, path, sizeof (_this->vulkan_config.loader_path));
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(lib, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
+    ако (!vkGetInstanceProcAddr) {
         goto fail;
     }
 
     _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties = (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+    ако (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
         goto fail;
     }
 
     extensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &extensionCount);
-    if (!extensions) {
+    ако (!extensions) {
         goto fail;
     }
 
-    for (Uint32 i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    за (Uint32 i = 0; i < extensionCount; i++) {
+        ако (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_OHOS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } инако ако (SDL_strcmp(VK_OHOS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasOHOSSurfaceExtension = true;
         }
     }
 
     SDL_free(extensions);
 
-    if (!hasSurfaceExtension) {
+    ако (!hasSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
         goto fail;
-    } else if (!hasOHOSSurfaceExtension) {
+    } инако ако (!hasOHOSSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_OHOS_SURFACE_EXTENSION_NAME " extension");
         goto fail;
     }
 
-    return true;
+    врати true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
     _this->vulkan_config.loader_handle = NULL;
-    return false;
+    врати false;
 }
 
 void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ако (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
         _this->vulkan_config.loader_handle = NULL;
     }
@@ -118,10 +118,10 @@ char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_t
     static const char *const extensionsForOpenHarmony[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_OHOS_SURFACE_EXTENSION_NAME
     };
-    if (count) {
+    ако (count) {
         *count = SDL_arraysize(extensionsForOpenHarmony);
     }
-    return extensionsForOpenHarmony;
+    врати extensionsForOpenHarmony;
 }
 
 bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
@@ -136,12 +136,12 @@ bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     VkSurfaceCreateInfoOHOS createInfo;
     VkResult result;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ако (!_this->vulkan_config.loader_handle) {
+        врати SDL_SetError("Vulkan is not loaded");
     }
 
-    if (!vkCreateSurfaceOHOS) {
-        return SDL_SetError(VK_OHOS_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    ако (!vkCreateSurfaceOHOS) {
+        врати SDL_SetError(VK_OHOS_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
     SDL_zero(createInfo);
@@ -150,14 +150,14 @@ bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     createInfo.flags = 0;
     createInfo.window = (OHNativeWindow *) windowData->native_window;
     result = vkCreateSurfaceOHOS(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        if (result == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
-            return SDL_SetError("vkCreateSurfaceOHOS failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_GetResultString(result));
-        } else {
-            return SDL_SetError("vkCreateSurfaceOHOS failed: %s", SDL_Vulkan_GetResultString(result));
+    ако (result != VK_SUCCESS) {
+        ако (result == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
+            врати SDL_SetError("vkCreateSurfaceOHOS failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_GetResultString(result));
+        } инако {
+            врати SDL_SetError("vkCreateSurfaceOHOS failed: %s", SDL_Vulkan_GetResultString(result));
         }
     }
-    return true;
+    врати true;
 }
 
 void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
@@ -165,7 +165,7 @@ void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkSurfaceKHR surface,
                                    const struct VkAllocationCallbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ако (_this->vulkan_config.loader_handle) {
         SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }

@@ -38,20 +38,20 @@ static void PasteboardNotifyCallback(void *userdata, Pasteboard_NotifyType type)
     SDL_VideoDevice *_this = (SDL_VideoDevice *) userdata;
     SDL_VideoData *data = _this->internal;
 
-    if (data->clipboard_set) {
+    ако (data->clipboard_set) {
         data->clipboard_set = false;  // this was us, ignore it.
-        return;
+        врати;
     }
 
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
     SDL_assert(pasteboard != NULL);
 
     const char *mimetype = "text/plain";
-    if (OH_Pasteboard_HasType(pasteboard, mimetype)) {
+    ако (OH_Pasteboard_HasType(pasteboard, mimetype)) {
         const size_t slen = SDL_strlen(mimetype);
         const size_t allocationsize = (slen + 1) + (sizeof (char *) * 2);
         char **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
-        if (new_mime_types) {
+        ако (new_mime_types) {
             char *ptr = (char *)(new_mime_types + 2);
             SDL_strlcpy(ptr, mimetype, slen + 1);
             new_mime_types[0] = ptr;
@@ -77,11 +77,11 @@ void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
 
     OH_PasteboardObserver *observer = OH_PasteboardObserver_Create();
     data->oh_pasteboard_observer = observer;
-    if (observer) {
+    ако (observer) {
         OH_PasteboardObserver_SetData(observer, _this, PasteboardNotifyCallback, PasteboardFinalizeCallback);
     }
 
-    if (pasteboard && observer) {
+    ако (pasteboard && observer) {
         OH_Pasteboard_Subscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
     }
 }
@@ -93,16 +93,16 @@ void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
     OH_PasteboardObserver *observer = (OH_PasteboardObserver *) data->oh_pasteboard_observer;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
 
-    if (observer && pasteboard) {
+    ако (observer && pasteboard) {
         OH_Pasteboard_Unsubscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
     }
 
-    if (observer) {
+    ако (observer) {
         OH_PasteboardObserver_Destroy(observer);
         data->oh_pasteboard_observer = NULL;
     }
 
-    if (pasteboard) {
+    ако (pasteboard) {
         OH_Pasteboard_Destroy(pasteboard);
         data->oh_pasteboard = NULL;
     }
@@ -112,35 +112,35 @@ const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *
 {
     static const char *const text_mime_types[] = { "text/plain" };
     *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    врати text_mime_types;
 }
 
 bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    ако (!pasteboard) {
+        врати SDL_SetError("Pasteboard not initialized");
     }
 
     OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-    if (!udspt) {
-        return SDL_SetError("Could not create OH_UdsPlainText instance");
+    ако (!udspt) {
+        врати SDL_SetError("Could not create OH_UdsPlainText instance");
     }
     OH_UdsPlainText_SetContent(udspt, text);
 
     OH_UdmfRecord *udmfrec = OH_UdmfRecord_Create();
-    if (!udmfrec) {
+    ако (!udmfrec) {
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfRecord instance");
+        врати SDL_SetError("Could not create OH_UdmfRecord instance");
     }
     OH_UdmfRecord_AddPlainText(udmfrec, udspt);
 
     OH_UdmfData *udmfdata = OH_UdmfData_Create();
-    if (!udmfdata) {
+    ако (!udmfdata) {
         OH_UdmfRecord_Destroy(udmfrec);
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfData instance");
+        врати SDL_SetError("Could not create OH_UdmfData instance");
     }
     OH_UdmfData_AddRecord(udmfdata, udmfrec);
 
@@ -151,51 +151,51 @@ bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text)
     OH_UdmfRecord_Destroy(udmfrec);
     OH_UdsPlainText_Destroy(udspt);
 
-    if (rc != ERR_OK) {
+    ако (rc != ERR_OK) {
         data->clipboard_set = true;
-        return SDL_SetError("OH_Pasteboard_SetData failed: %d", (int) rc);
+        врати SDL_SetError("OH_Pasteboard_SetData failed: %d", (цео) rc);
     }
-    return true;
+    врати true;
 }
 
 char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
+    ако (!pasteboard) {
         SDL_SetError("Pasteboard not initialized");
-        return NULL;
+        врати NULL;
     }
 
     char *retval = NULL;
-    if (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
-        int rc = (int) ERR_OK;
+    ако (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
+        цео rc = (цео) ERR_OK;
         OH_UdmfData *udmfdata = OH_Pasteboard_GetData(pasteboard, &rc);
-        if (!udmfdata) {
+        ако (!udmfdata) {
             SDL_SetError("Could not create OH_UdmfData instance %d", rc);
-            return NULL;
+            врати NULL;
         }
 
         OH_UdmfRecord *udmfrec = OH_UdmfData_GetRecord(udmfdata, 0); // 0 == first record in udmfdata
-        if (!udmfrec) {
+        ако (!udmfrec) {
             OH_UdmfData_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdmfRecord instance");
-            return NULL;
+            врати NULL;
         }
 
         OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-        if (!udspt) {
+        ако (!udspt) {
             OH_UdmfRecord_Destroy(udmfrec);
             OH_UdmfData_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdsPlainText instance");
-            return NULL;
+            врати NULL;
         }
 
         OH_UdmfRecord_GetPlainText(udmfrec, udspt);
         const char *utf8 = OH_UdsPlainText_GetContent(udspt);
-        if (!utf8) {
+        ако (!utf8) {
             SDL_SetError("Could not get plaintext content");
-        } else {
+        } инако {
             retval = SDL_strdup(utf8);
         }
 
@@ -204,17 +204,17 @@ char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
         OH_UdmfData_Destroy(udmfdata);
     }
 
-    return retval;
+    врати retval;
 }
 
 bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    ако (!pasteboard) {
+        врати SDL_SetError("Pasteboard not initialized");
     }
-    return OH_Pasteboard_HasType(pasteboard, "text/plain");
+    врати OH_Pasteboard_HasType(pasteboard, "text/plain");
 }
 
 #endif // SDL_VIDEO_DRIVER_OPENHARMONY

@@ -98,8 +98,8 @@ typedef struct KMSDRM_connector
 
 struct SDL_VideoData
 {
-    int devindex;     // device index that was passed on creation
-    int drm_fd;       // DRM file desc
+    цео devindex;     // device index that was passed on creation
+    цео drm_fd;       // DRM file desc
     char devpath[32]; // DRM dev path.
 
     struct gbm_device *gbm_dev;
@@ -109,8 +109,8 @@ struct SDL_VideoData
     bool async_pageflip_support; // Does the hardware support async. pageflips?
 
     SDL_Window **windows;
-    int max_windows;
-    int num_windows;
+    цео max_windows;
+    цео num_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -121,7 +121,7 @@ struct SDL_VideoData
 
 struct SDL_DisplayModeData
 {
-    int mode_index;
+    цео mode_index;
 };
 
 struct SDL_DisplayData
@@ -143,15 +143,15 @@ struct SDL_DisplayData
        where we may not have an SDL_Cursor at all (so no SDL_Cursor internal).
        There's only one cursor GBM BO because we only support one cursor. */
     struct gbm_bo *cursor_bo;
-    int cursor_bo_drm_fd;
+    цео cursor_bo_drm_fd;
     uint64_t cursor_w, cursor_h;
 
     /* Central atomic request list, used for the prop
        changeset related to pageflip in SwapWindow. */
     drmModeAtomicReq *atomic_req;
 
-    int kms_in_fence_fd;
-    int kms_out_fence_fd;
+    цео kms_in_fence_fd;
+    цео kms_out_fence_fd;
     EGLSyncKHR kms_fence;
     EGLSyncKHR gpu_fence;
 
@@ -181,7 +181,7 @@ struct SDL_WindowData
 
 typedef struct KMSDRM_FBInfo
 {
-    int drm_fd;     // DRM file desc
+    цео drm_fd;     // DRM file desc
     uint32_t fb_id; // DRM framebuffer ID
 } KMSDRM_FBInfo;
 
@@ -203,16 +203,16 @@ typedef struct KMSDRM_PlaneInfo
 // Helper functions
 extern bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
 extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, int w, int h);
+extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, цео w, цео h);
 extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
 
 // Atomic functions that are used from SDL_kmsdrmopengles.c and SDL_kmsdrmmouse.c
 void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
 void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
+цео drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
+цео add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
+цео add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
+цео add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
 bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
 void free_plane(struct KMSDRM_plane **plane);
 

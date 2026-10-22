@@ -155,9 +155,9 @@ typedef struct VkEnumerateInstanceExtensionPropertiesChain {
                                       VkExtensionProperties *);
     const struct VkEnumerateInstanceExtensionPropertiesChain *pNextLink;
 
-#if defined(__cplusplus)
+#ако defined(__cplusplus)
     inline VkResult CallDown(const char *pLayerName, uint32_t *pPropertyCount, VkExtensionProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pLayerName, pPropertyCount, pProperties);
+        врати pfnNextLayer(pNextLink, pLayerName, pPropertyCount, pProperties);
     }
 #endif
 } VkEnumerateInstanceExtensionPropertiesChain;
@@ -167,9 +167,9 @@ typedef struct VkEnumerateInstanceLayerPropertiesChain {
     VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceLayerPropertiesChain *, uint32_t *, VkLayerProperties *);
     const struct VkEnumerateInstanceLayerPropertiesChain *pNextLink;
 
-#if defined(__cplusplus)
+#ако defined(__cplusplus)
     inline VkResult CallDown(uint32_t *pPropertyCount, VkLayerProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pPropertyCount, pProperties);
+        врати pfnNextLayer(pNextLink, pPropertyCount, pProperties);
     }
 #endif
 } VkEnumerateInstanceLayerPropertiesChain;
@@ -179,9 +179,9 @@ typedef struct VkEnumerateInstanceVersionChain {
     VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceVersionChain *, uint32_t *);
     const struct VkEnumerateInstanceVersionChain *pNextLink;
 
-#if defined(__cplusplus)
+#ако defined(__cplusplus)
     inline VkResult CallDown(uint32_t *pApiVersion) const {
-        return pfnNextLayer(pNextLink, pApiVersion);
+        врати pfnNextLayer(pNextLink, pApiVersion);
     }
 #endif
 } VkEnumerateInstanceVersionChain;

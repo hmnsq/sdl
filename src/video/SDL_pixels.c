@@ -29,19 +29,19 @@
 // Lookup tables to expand partial bytes to the full 0..255 range
 
 // This is the code used to generate the lookup tables below:
-#if 0
+#ако 0
 #include <SDL3/SDL.h>
 
 #define GENERATE_SHIFTS
 
-static Uint32 Calculate(int v, int bits, int vmax, int shift)
+static Uint32 Calculate(цео v, цео bits, цео vmax, цео shift)
 {
-#if defined(GENERATE_FLOOR)
+#ако defined(GENERATE_FLOOR)
     (void)bits;
-    return (Uint32)SDL_floor(v * 255.0f / vmax) << shift;
+    врати (Uint32)SDL_floor(v * 255.0f / vmax) << shift;
 #elif defined(GENERATE_ROUND)
     (void)bits;
-    return (Uint32)SDL_roundf(v * 255.0f / vmax) << shift;
+    врати (Uint32)SDL_roundf(v * 255.0f / vmax) << shift;
 #elif defined(GENERATE_SHIFTS)
     (void)vmax;
     switch (bits) {
@@ -69,21 +69,21 @@ static Uint32 Calculate(int v, int bits, int vmax, int shift)
     case 8:
         break;
     }
-    return (Uint32)v << shift;
+    врати (Uint32)v << shift;
 #endif
 }
 
-int main(int argc, char *argv[])
+цео main(цео argc, char *argv[])
 {
-    int i, b;
+    цео i, b;
     SDL_IOStream *io = SDL_IOFromDynamicMem();
 
     (void)argc;
     (void)argv;
-    for (b = 1; b <= 8; ++b) {
+    за (b = 1; b <= 8; ++b) {
         SDL_IOprintf(io, "static const Uint8 lookup_%d[] = {\n    ", b);
-        for (i = 0; i < (1 << b); ++i) {
-            if (i > 0) {
+        за (i = 0; i < (1 << b); ++i) {
+            ако (i > 0) {
                 SDL_IOprintf(io, ", ");
             }
             SDL_IOprintf(io, "%d", Calculate(i, b, (1 << b) - 1, 0));
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         SDL_SeekIO(io, 0, SDL_IO_SEEK_SET);
     }
     SDL_CloseIO(io);
-    return 0;
+    врати 0;
 }
 #endif
 
@@ -157,7 +157,7 @@ SDL_COMPILE_TIME_ASSERT(SDL_expand_byte_10_size, SDL_arraysize(SDL_expand_byte_1
 
 #define CASE(X) \
     case X:     \
-        return #X;
+        врати #X;
 const char *SDL_GetPixelFormatName(SDL_PixelFormat format)
 {
     switch (format) {
@@ -231,18 +231,18 @@ const char *SDL_GetPixelFormatName(SDL_PixelFormat format)
         CASE(SDL_PIXELFORMAT_MJPG)
 
     default:
-        return "SDL_PIXELFORMAT_UNKNOWN";
+        врати "SDL_PIXELFORMAT_UNKNOWN";
     }
 }
 #undef CASE
 
-bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask, Uint32 *Gmask, Uint32 *Bmask, Uint32 *Amask)
+bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, цео *bpp, Uint32 *Rmask, Uint32 *Gmask, Uint32 *Bmask, Uint32 *Amask)
 {
     Uint32 masks[4];
 
 #ifdef SDL_HAVE_YUV
     // Partial support for SDL_Surface with FOURCC
-    if (SDL_ISPIXELFORMAT_FOURCC(format)) {
+    ако (SDL_ISPIXELFORMAT_FOURCC(format)) {
         // Not a format that uses masks
         *Rmask = *Gmask = *Bmask = *Amask = 0;
         // however, some of these are packed formats, and can legit declare bits-per-pixel!
@@ -255,48 +255,48 @@ bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask,
             default:
                 *bpp = 0;  // oh well.
         }
-        return true;
+        врати true;
     }
-#else
-    if (SDL_ISPIXELFORMAT_FOURCC(format)) {
-        return SDL_SetError("SDL not built with YUV support");
+#инако
+    ако (SDL_ISPIXELFORMAT_FOURCC(format)) {
+        врати SDL_SetError("SDL not built with YUV support");
     }
 #endif
 
     // Initialize the values here
-    if (SDL_BYTESPERPIXEL(format) <= 2) {
+    ако (SDL_BYTESPERPIXEL(format) <= 2) {
         *bpp = SDL_BITSPERPIXEL(format);
-    } else {
+    } инако {
         *bpp = SDL_BYTESPERPIXEL(format) * 8;
     }
     *Rmask = *Gmask = *Bmask = *Amask = 0;
 
-    if (SDL_PIXELTYPE(format) == SDL_PIXELTYPE_ARRAYU8) {
+    ако (SDL_PIXELTYPE(format) == SDL_PIXELTYPE_ARRAYU8) {
         switch (SDL_BYTESPERPIXEL(format)) {
         case 3:
             switch (SDL_PIXELORDER(format)) {
             case SDL_ARRAYORDER_RGB:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0x00FF0000;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x000000FF;
-#else
+#инако
                 *Rmask = 0x000000FF;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x00FF0000;
 #endif
-                return true;
+                врати true;
             case SDL_ARRAYORDER_BGR:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0x000000FF;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x00FF0000;
-#else
+#инако
                 *Rmask = 0x00FF0000;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x000000FF;
 #endif
-                return true;
+                врати true;
             default:
                 break;
             }
@@ -304,57 +304,57 @@ bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask,
         case 4:
             switch (SDL_PIXELORDER(format)) {
             case SDL_ARRAYORDER_RGBA:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0xFF000000;
                 *Gmask = 0x00FF0000;
                 *Bmask = 0x0000FF00;
                 *Amask = 0x000000FF;
-#else
+#инако
                 *Rmask = 0x000000FF;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x00FF0000;
                 *Amask = 0xFF000000;
 #endif
-                return true;
+                врати true;
             case SDL_ARRAYORDER_ARGB:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0x00FF0000;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x000000FF;
                 *Amask = 0xFF000000;
-#else
+#инако
                 *Rmask = 0x0000FF00;
                 *Gmask = 0x00FF0000;
                 *Bmask = 0xFF000000;
                 *Amask = 0x000000FF;
 #endif
-                return true;
+                врати true;
             case SDL_ARRAYORDER_BGRA:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0x0000FF00;
                 *Gmask = 0x00FF0000;
                 *Bmask = 0xFF000000;
                 *Amask = 0x000000FF;
-#else
+#инако
                 *Rmask = 0x00FF0000;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x000000FF;
                 *Amask = 0xFF000000;
 #endif
-                return true;
+                врати true;
             case SDL_ARRAYORDER_ABGR:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
                 *Rmask = 0x000000FF;
                 *Gmask = 0x0000FF00;
                 *Bmask = 0x00FF0000;
                 *Amask = 0xFF000000;
-#else
+#инако
                 *Rmask = 0xFF000000;
                 *Gmask = 0x00FF0000;
                 *Bmask = 0x0000FF00;
                 *Amask = 0x000000FF;
 #endif
-                return true;
+                врати true;
             default:
                 break;
             }
@@ -362,14 +362,14 @@ bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask,
         default:
             break;
         }
-        return SDL_SetError("Unknown pixel format");
+        врати SDL_SetError("Unknown pixel format");
     }
 
-    if (SDL_PIXELTYPE(format) != SDL_PIXELTYPE_PACKED8 &&
+    ако (SDL_PIXELTYPE(format) != SDL_PIXELTYPE_PACKED8 &&
         SDL_PIXELTYPE(format) != SDL_PIXELTYPE_PACKED16 &&
         SDL_PIXELTYPE(format) != SDL_PIXELTYPE_PACKED32) {
         // Not a format that uses masks
-        return true;
+        врати true;
     }
 
     switch (SDL_PIXELLAYOUT(format)) {
@@ -422,7 +422,7 @@ bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask,
         masks[3] = 0x00000003;
         break;
     default:
-        return SDL_SetError("Unknown pixel format");
+        врати SDL_SetError("Unknown pixel format");
     }
 
     switch (SDL_PIXELORDER(format)) {
@@ -471,247 +471,247 @@ bool SDL_GetMasksForPixelFormat(SDL_PixelFormat format, int *bpp, Uint32 *Rmask,
         *Rmask = masks[3];
         break;
     default:
-        return SDL_SetError("Unknown pixel format");
+        врати SDL_SetError("Unknown pixel format");
     }
-    return true;
+    врати true;
 }
 
-SDL_PixelFormat SDL_GetPixelFormatForMasks(int bpp, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask)
+SDL_PixelFormat SDL_GetPixelFormatForMasks(цео bpp, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask)
 {
     switch (bpp) {
     case 1:
         // SDL defaults to MSB ordering
-        return SDL_PIXELFORMAT_INDEX1MSB;
+        врати SDL_PIXELFORMAT_INDEX1MSB;
     case 2:
         // SDL defaults to MSB ordering
-        return SDL_PIXELFORMAT_INDEX2MSB;
+        врати SDL_PIXELFORMAT_INDEX2MSB;
     case 4:
         // SDL defaults to MSB ordering
-        return SDL_PIXELFORMAT_INDEX4MSB;
+        врати SDL_PIXELFORMAT_INDEX4MSB;
     case 8:
-        if (Rmask == 0xE0 &&
+        ако (Rmask == 0xE0 &&
             Gmask == 0x1C &&
             Bmask == 0x03 &&
             Amask == 0x00) {
-            return SDL_PIXELFORMAT_RGB332;
+            врати SDL_PIXELFORMAT_RGB332;
         }
-        return SDL_PIXELFORMAT_INDEX8;
+        врати SDL_PIXELFORMAT_INDEX8;
     case 12:
-        if (Rmask == 0) {
-            return SDL_PIXELFORMAT_XRGB4444;
+        ако (Rmask == 0) {
+            врати SDL_PIXELFORMAT_XRGB4444;
         }
-        if (Rmask == 0x0F00 &&
+        ако (Rmask == 0x0F00 &&
             Gmask == 0x00F0 &&
             Bmask == 0x000F &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_XRGB4444;
+            врати SDL_PIXELFORMAT_XRGB4444;
         }
-        if (Rmask == 0x000F &&
+        ако (Rmask == 0x000F &&
             Gmask == 0x00F0 &&
             Bmask == 0x0F00 &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_XBGR4444;
+            врати SDL_PIXELFORMAT_XBGR4444;
         }
         break;
     case 15:
-        if (Rmask == 0) {
-            return SDL_PIXELFORMAT_XRGB1555;
+        ако (Rmask == 0) {
+            врати SDL_PIXELFORMAT_XRGB1555;
         }
         SDL_FALLTHROUGH;
     case 16:
-        if (Rmask == 0) {
-            return SDL_PIXELFORMAT_RGB565;
+        ако (Rmask == 0) {
+            врати SDL_PIXELFORMAT_RGB565;
         }
-        if (Rmask == 0x7C00 &&
+        ако (Rmask == 0x7C00 &&
             Gmask == 0x03E0 &&
             Bmask == 0x001F &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_XRGB1555;
+            врати SDL_PIXELFORMAT_XRGB1555;
         }
-        if (Rmask == 0x001F &&
+        ако (Rmask == 0x001F &&
             Gmask == 0x03E0 &&
             Bmask == 0x7C00 &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_XBGR1555;
+            врати SDL_PIXELFORMAT_XBGR1555;
         }
-        if (Rmask == 0x0F00 &&
+        ако (Rmask == 0x0F00 &&
             Gmask == 0x00F0 &&
             Bmask == 0x000F &&
             Amask == 0xF000) {
-            return SDL_PIXELFORMAT_ARGB4444;
+            врати SDL_PIXELFORMAT_ARGB4444;
         }
-        if (Rmask == 0xF000 &&
+        ако (Rmask == 0xF000 &&
             Gmask == 0x0F00 &&
             Bmask == 0x00F0 &&
             Amask == 0x000F) {
-            return SDL_PIXELFORMAT_RGBA4444;
+            врати SDL_PIXELFORMAT_RGBA4444;
         }
-        if (Rmask == 0x000F &&
+        ако (Rmask == 0x000F &&
             Gmask == 0x00F0 &&
             Bmask == 0x0F00 &&
             Amask == 0xF000) {
-            return SDL_PIXELFORMAT_ABGR4444;
+            врати SDL_PIXELFORMAT_ABGR4444;
         }
-        if (Rmask == 0x00F0 &&
+        ако (Rmask == 0x00F0 &&
             Gmask == 0x0F00 &&
             Bmask == 0xF000 &&
             Amask == 0x000F) {
-            return SDL_PIXELFORMAT_BGRA4444;
+            врати SDL_PIXELFORMAT_BGRA4444;
         }
-        if (Rmask == 0x7C00 &&
+        ако (Rmask == 0x7C00 &&
             Gmask == 0x03E0 &&
             Bmask == 0x001F &&
             Amask == 0x8000) {
-            return SDL_PIXELFORMAT_ARGB1555;
+            врати SDL_PIXELFORMAT_ARGB1555;
         }
-        if (Rmask == 0xF800 &&
+        ако (Rmask == 0xF800 &&
             Gmask == 0x07C0 &&
             Bmask == 0x003E &&
             Amask == 0x0001) {
-            return SDL_PIXELFORMAT_RGBA5551;
+            врати SDL_PIXELFORMAT_RGBA5551;
         }
-        if (Rmask == 0x001F &&
+        ако (Rmask == 0x001F &&
             Gmask == 0x03E0 &&
             Bmask == 0x7C00 &&
             Amask == 0x8000) {
-            return SDL_PIXELFORMAT_ABGR1555;
+            врати SDL_PIXELFORMAT_ABGR1555;
         }
-        if (Rmask == 0x003E &&
+        ако (Rmask == 0x003E &&
             Gmask == 0x07C0 &&
             Bmask == 0xF800 &&
             Amask == 0x0001) {
-            return SDL_PIXELFORMAT_BGRA5551;
+            врати SDL_PIXELFORMAT_BGRA5551;
         }
-        if (Rmask == 0xF800 &&
+        ако (Rmask == 0xF800 &&
             Gmask == 0x07E0 &&
             Bmask == 0x001F &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_RGB565;
+            врати SDL_PIXELFORMAT_RGB565;
         }
-        if (Rmask == 0x001F &&
+        ако (Rmask == 0x001F &&
             Gmask == 0x07E0 &&
             Bmask == 0xF800 &&
             Amask == 0x0000) {
-            return SDL_PIXELFORMAT_BGR565;
+            врати SDL_PIXELFORMAT_BGR565;
         }
-        if (Rmask == 0x003F &&
+        ако (Rmask == 0x003F &&
             Gmask == 0x07C0 &&
             Bmask == 0xF800 &&
             Amask == 0x0000) {
             // Technically this would be BGR556, but Witek says this works in bug 3158
-            return SDL_PIXELFORMAT_RGB565;
+            врати SDL_PIXELFORMAT_RGB565;
         }
         break;
     case 24:
         switch (Rmask) {
         case 0:
         case 0x00FF0000:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            return SDL_PIXELFORMAT_RGB24;
-#else
-            return SDL_PIXELFORMAT_BGR24;
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
+            врати SDL_PIXELFORMAT_RGB24;
+#инако
+            врати SDL_PIXELFORMAT_BGR24;
 #endif
         case 0x000000FF:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            return SDL_PIXELFORMAT_BGR24;
-#else
-            return SDL_PIXELFORMAT_RGB24;
+#ако SDL_BYTEORDER == SDL_BIG_ENDIAN
+            врати SDL_PIXELFORMAT_BGR24;
+#инако
+            врати SDL_PIXELFORMAT_RGB24;
 #endif
         }
         break;
     case 30:
-        if (Rmask == 0x3FF00000 &&
+        ако (Rmask == 0x3FF00000 &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x000003FF &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XRGB2101010;
+            врати SDL_PIXELFORMAT_XRGB2101010;
         }
-        if (Rmask == 0x000003FF &&
+        ако (Rmask == 0x000003FF &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x3FF00000 &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XBGR2101010;
+            врати SDL_PIXELFORMAT_XBGR2101010;
         }
         break;
     case 32:
-        if (Rmask == 0) {
-            return SDL_PIXELFORMAT_XRGB8888;
+        ако (Rmask == 0) {
+            врати SDL_PIXELFORMAT_XRGB8888;
         }
-        if (Rmask == 0x00FF0000 &&
+        ако (Rmask == 0x00FF0000 &&
             Gmask == 0x0000FF00 &&
             Bmask == 0x000000FF &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XRGB8888;
+            врати SDL_PIXELFORMAT_XRGB8888;
         }
-        if (Rmask == 0xFF000000 &&
+        ако (Rmask == 0xFF000000 &&
             Gmask == 0x00FF0000 &&
             Bmask == 0x0000FF00 &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_RGBX8888;
+            врати SDL_PIXELFORMAT_RGBX8888;
         }
-        if (Rmask == 0x000000FF &&
+        ако (Rmask == 0x000000FF &&
             Gmask == 0x0000FF00 &&
             Bmask == 0x00FF0000 &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XBGR8888;
+            врати SDL_PIXELFORMAT_XBGR8888;
         }
-        if (Rmask == 0x0000FF00 &&
+        ако (Rmask == 0x0000FF00 &&
             Gmask == 0x00FF0000 &&
             Bmask == 0xFF000000 &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_BGRX8888;
+            врати SDL_PIXELFORMAT_BGRX8888;
         }
-        if (Rmask == 0x00FF0000 &&
+        ако (Rmask == 0x00FF0000 &&
             Gmask == 0x0000FF00 &&
             Bmask == 0x000000FF &&
             Amask == 0xFF000000) {
-            return SDL_PIXELFORMAT_ARGB8888;
+            врати SDL_PIXELFORMAT_ARGB8888;
         }
-        if (Rmask == 0xFF000000 &&
+        ако (Rmask == 0xFF000000 &&
             Gmask == 0x00FF0000 &&
             Bmask == 0x0000FF00 &&
             Amask == 0x000000FF) {
-            return SDL_PIXELFORMAT_RGBA8888;
+            врати SDL_PIXELFORMAT_RGBA8888;
         }
-        if (Rmask == 0x000000FF &&
+        ако (Rmask == 0x000000FF &&
             Gmask == 0x0000FF00 &&
             Bmask == 0x00FF0000 &&
             Amask == 0xFF000000) {
-            return SDL_PIXELFORMAT_ABGR8888;
+            врати SDL_PIXELFORMAT_ABGR8888;
         }
-        if (Rmask == 0x0000FF00 &&
+        ако (Rmask == 0x0000FF00 &&
             Gmask == 0x00FF0000 &&
             Bmask == 0xFF000000 &&
             Amask == 0x000000FF) {
-            return SDL_PIXELFORMAT_BGRA8888;
+            врати SDL_PIXELFORMAT_BGRA8888;
         }
-        if (Rmask == 0x3FF00000 &&
+        ако (Rmask == 0x3FF00000 &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x000003FF &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XRGB2101010;
+            врати SDL_PIXELFORMAT_XRGB2101010;
         }
-        if (Rmask == 0x000003FF &&
+        ако (Rmask == 0x000003FF &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x3FF00000 &&
             Amask == 0x00000000) {
-            return SDL_PIXELFORMAT_XBGR2101010;
+            врати SDL_PIXELFORMAT_XBGR2101010;
         }
-        if (Rmask == 0x3FF00000 &&
+        ако (Rmask == 0x3FF00000 &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x000003FF &&
             Amask == 0xC0000000) {
-            return SDL_PIXELFORMAT_ARGB2101010;
+            врати SDL_PIXELFORMAT_ARGB2101010;
         }
-        if (Rmask == 0x000003FF &&
+        ако (Rmask == 0x000003FF &&
             Gmask == 0x000FFC00 &&
             Bmask == 0x3FF00000 &&
             Amask == 0xC0000000) {
-            return SDL_PIXELFORMAT_ABGR2101010;
+            врати SDL_PIXELFORMAT_ABGR2101010;
         }
         break;
     }
-    return SDL_PIXELFORMAT_UNKNOWN;
+    врати SDL_PIXELFORMAT_UNKNOWN;
 }
 
 static SDL_InitState SDL_format_details_init;
@@ -719,12 +719,12 @@ static SDL_HashTable *SDL_format_details;
 
 static bool SDL_InitPixelFormatDetails(SDL_PixelFormatDetails *details, SDL_PixelFormat format)
 {
-    int bpp;
+    цео bpp;
     Uint32 Rmask, Gmask, Bmask, Amask;
     Uint32 mask;
 
-    if (!SDL_GetMasksForPixelFormat(format, &bpp, &Rmask, &Gmask, &Bmask, &Amask)) {
-        return false;
+    ако (!SDL_GetMasksForPixelFormat(format, &bpp, &Rmask, &Gmask, &Bmask, &Amask)) {
+        врати false;
     }
 
     // Set up the format
@@ -736,11 +736,11 @@ static bool SDL_InitPixelFormatDetails(SDL_PixelFormatDetails *details, SDL_Pixe
     details->Rmask = Rmask;
     details->Rshift = 0;
     details->Rbits = 0;
-    if (Rmask) {
-        for (mask = Rmask; !(mask & 0x01); mask >>= 1) {
+    ако (Rmask) {
+        за (mask = Rmask; !(mask & 0x01); mask >>= 1) {
             ++details->Rshift;
         }
-        for (; (mask & 0x01); mask >>= 1) {
+        за (; (mask & 0x01); mask >>= 1) {
             ++details->Rbits;
         }
     }
@@ -748,11 +748,11 @@ static bool SDL_InitPixelFormatDetails(SDL_PixelFormatDetails *details, SDL_Pixe
     details->Gmask = Gmask;
     details->Gshift = 0;
     details->Gbits = 0;
-    if (Gmask) {
-        for (mask = Gmask; !(mask & 0x01); mask >>= 1) {
+    ако (Gmask) {
+        за (mask = Gmask; !(mask & 0x01); mask >>= 1) {
             ++details->Gshift;
         }
-        for (; (mask & 0x01); mask >>= 1) {
+        за (; (mask & 0x01); mask >>= 1) {
             ++details->Gbits;
         }
     }
@@ -760,11 +760,11 @@ static bool SDL_InitPixelFormatDetails(SDL_PixelFormatDetails *details, SDL_Pixe
     details->Bmask = Bmask;
     details->Bshift = 0;
     details->Bbits = 0;
-    if (Bmask) {
-        for (mask = Bmask; !(mask & 0x01); mask >>= 1) {
+    ако (Bmask) {
+        за (mask = Bmask; !(mask & 0x01); mask >>= 1) {
             ++details->Bshift;
         }
-        for (; (mask & 0x01); mask >>= 1) {
+        за (; (mask & 0x01); mask >>= 1) {
             ++details->Bbits;
         }
     }
@@ -772,61 +772,61 @@ static bool SDL_InitPixelFormatDetails(SDL_PixelFormatDetails *details, SDL_Pixe
     details->Amask = Amask;
     details->Ashift = 0;
     details->Abits = 0;
-    if (Amask) {
-        for (mask = Amask; !(mask & 0x01); mask >>= 1) {
+    ако (Amask) {
+        за (mask = Amask; !(mask & 0x01); mask >>= 1) {
             ++details->Ashift;
         }
-        for (; (mask & 0x01); mask >>= 1) {
+        за (; (mask & 0x01); mask >>= 1) {
             ++details->Abits;
         }
     }
 
-    return true;
+    врати true;
 }
 
 const SDL_PixelFormatDetails *SDL_GetPixelFormatDetails(SDL_PixelFormat format)
 {
     SDL_PixelFormatDetails *details;
 
-    if (SDL_ShouldInit(&SDL_format_details_init)) {
+    ако (SDL_ShouldInit(&SDL_format_details_init)) {
         SDL_format_details = SDL_CreateHashTable(0, true, SDL_HashID, SDL_KeyMatchID, SDL_DestroyHashValue, NULL);
-        if (!SDL_format_details) {
+        ако (!SDL_format_details) {
             SDL_SetInitialized(&SDL_format_details_init, false);
-            return NULL;
+            врати NULL;
         }
         SDL_SetInitialized(&SDL_format_details_init, true);
     }
 
-    if (SDL_FindInHashTable(SDL_format_details, (const void *)(uintptr_t)format, (const void **)&details)) {
-        return details;
+    ако (SDL_FindInHashTable(SDL_format_details, (const void *)(uintptr_t)format, (const void **)&details)) {
+        врати details;
     }
 
     // Allocate an empty pixel format structure, and initialize it
     details = (SDL_PixelFormatDetails *)SDL_malloc(sizeof(*details));
-    if (!details) {
-        return NULL;
+    ако (!details) {
+        врати NULL;
     }
 
-    if (!SDL_InitPixelFormatDetails(details, format)) {
+    ако (!SDL_InitPixelFormatDetails(details, format)) {
         SDL_free(details);
-        return NULL;
+        врати NULL;
     }
 
-    if (!SDL_InsertIntoHashTable(SDL_format_details, (const void *)(uintptr_t)format, (void *)details, false)) {
+    ако (!SDL_InsertIntoHashTable(SDL_format_details, (const void *)(uintptr_t)format, (void *)details, false)) {
         SDL_free(details);
         // uh...did another thread beat us to inserting this?
-        if (SDL_FindInHashTable(SDL_format_details, (const void *)(uintptr_t)format, (const void **)&details)) {
-            return details;
+        ако (SDL_FindInHashTable(SDL_format_details, (const void *)(uintptr_t)format, (const void **)&details)) {
+            врати details;
         }
-        return NULL;  // oh well.
+        врати NULL;  // oh well.
     }
 
-    return details;
+    врати details;
 }
 
 void SDL_QuitPixelFormatDetails(void)
 {
-    if (SDL_ShouldQuit(&SDL_format_details_init)) {
+    ако (SDL_ShouldQuit(&SDL_format_details_init)) {
         SDL_DestroyHashTable(SDL_format_details);
         SDL_format_details = NULL;
         SDL_SetInitialized(&SDL_format_details_init, false);
@@ -835,10 +835,10 @@ void SDL_QuitPixelFormatDetails(void)
 
 void SDL_Get8888AlphaMaskAndShift(const SDL_PixelFormatDetails *fmt, Uint32 *mask, Uint32 *shift)
 {
-    if (fmt->Amask) {
+    ако (fmt->Amask) {
         *mask = fmt->Amask;
         *shift = fmt->Ashift;
-    } else {
+    } инако {
         *mask = ~(fmt->Rmask | fmt->Gmask | fmt->Bmask);
         switch (*mask) {
         case 0x000000FF:
@@ -863,41 +863,41 @@ void SDL_Get8888AlphaMaskAndShift(const SDL_PixelFormatDetails *fmt, Uint32 *mas
 
 SDL_Colorspace SDL_GetDefaultColorspaceForFormat(SDL_PixelFormat format)
 {
-    if (SDL_ISPIXELFORMAT_FOURCC(format)) {
-        if (format == SDL_PIXELFORMAT_MJPG) {
-            return SDL_COLORSPACE_SRGB;
-        } else if (format == SDL_PIXELFORMAT_P010 || format == SDL_PIXELFORMAT_I0FL || format == SDL_PIXELFORMAT_I4FL) {
-            return SDL_COLORSPACE_HDR10;
-        } else {
-            return SDL_COLORSPACE_YUV_DEFAULT;
+    ако (SDL_ISPIXELFORMAT_FOURCC(format)) {
+        ако (format == SDL_PIXELFORMAT_MJPG) {
+            врати SDL_COLORSPACE_SRGB;
+        } инако ако (format == SDL_PIXELFORMAT_P010 || format == SDL_PIXELFORMAT_I0FL || format == SDL_PIXELFORMAT_I4FL) {
+            врати SDL_COLORSPACE_HDR10;
+        } инако {
+            врати SDL_COLORSPACE_YUV_DEFAULT;
         }
-    } else if (SDL_ISPIXELFORMAT_FLOAT(format)) {
-        return SDL_COLORSPACE_SRGB_LINEAR;
-    } else if (SDL_ISPIXELFORMAT_10BIT(format)) {
-        return SDL_COLORSPACE_HDR10;
-    } else {
-        return SDL_COLORSPACE_RGB_DEFAULT;
+    } инако ако (SDL_ISPIXELFORMAT_FLOAT(format)) {
+        врати SDL_COLORSPACE_SRGB_LINEAR;
+    } инако ако (SDL_ISPIXELFORMAT_10BIT(format)) {
+        врати SDL_COLORSPACE_HDR10;
+    } инако {
+        врати SDL_COLORSPACE_RGB_DEFAULT;
     }
 }
 
 float SDL_sRGBtoLinear(float v)
 {
-    if (v <= 0.04045f) {
+    ако (v <= 0.04045f) {
         v = (v / 12.92f);
-    } else {
+    } инако {
         v = SDL_powf((v + 0.055f) / 1.055f, 2.4f);
     }
-    return v;
+    врати v;
 }
 
 float SDL_sRGBfromLinear(float v)
 {
-    if (v <= 0.0031308f) {
+    ако (v <= 0.0031308f) {
         v = (v * 12.92f);
-    } else {
+    } инако {
         v = (SDL_powf(v, 1.0f / 2.4f) * 1.055f - 0.055f);
     }
-    return v;
+    врати v;
 }
 
 float SDL_PQtoNits(float v)
@@ -910,7 +910,7 @@ float SDL_PQtoNits(float v)
 
     float num = SDL_max(SDL_powf(v, oo_m2) - c1, 0.0f);
     float den = c2 - c3 * SDL_powf(v, oo_m2);
-    return 10000.0f * SDL_powf(num / den, oo_m1);
+    врати 10000.0f * SDL_powf(num / den, oo_m1);
 }
 
 float SDL_PQfromNits(float v)
@@ -924,7 +924,7 @@ float SDL_PQfromNits(float v)
     float y = SDL_clamp(v / 10000.0f, 0.0f, 1.0f);
     float num = c1 + c2 * SDL_powf(y, m1);
     float den = 1.0f + c3 * SDL_powf(y, m1);
-    return SDL_powf(num / den, m2);
+    врати SDL_powf(num / den, m2);
 }
 
 /* This is a helpful tool for deriving these:
@@ -977,13 +977,13 @@ static const float *SDL_GetBT601ConversionMatrix( SDL_Colorspace colorspace )
     switch (SDL_COLORSPACERANGE(colorspace)) {
     case SDL_COLOR_RANGE_LIMITED:
     case SDL_COLOR_RANGE_UNKNOWN:
-        return mat_BT601_Limited_8bit;
+        врати mat_BT601_Limited_8bit;
     case SDL_COLOR_RANGE_FULL:
-        return mat_BT601_Full_8bit;
+        врати mat_BT601_Full_8bit;
     default:
         break;
     }
-    return NULL;
+    врати NULL;
 }
 
 static const float *SDL_GetBT709ConversionMatrix(SDL_Colorspace colorspace)
@@ -991,13 +991,13 @@ static const float *SDL_GetBT709ConversionMatrix(SDL_Colorspace colorspace)
     switch (SDL_COLORSPACERANGE(colorspace)) {
     case SDL_COLOR_RANGE_LIMITED:
     case SDL_COLOR_RANGE_UNKNOWN:
-        return mat_BT709_Limited_8bit;
+        врати mat_BT709_Limited_8bit;
     case SDL_COLOR_RANGE_FULL:
-        return mat_BT709_Full_8bit;
+        врати mat_BT709_Full_8bit;
     default:
         break;
     }
-    return NULL;
+    врати NULL;
 }
 
 static const float *SDL_GetBT2020ConversionMatrix(SDL_Colorspace colorspace)
@@ -1005,39 +1005,39 @@ static const float *SDL_GetBT2020ConversionMatrix(SDL_Colorspace colorspace)
     switch (SDL_COLORSPACERANGE(colorspace)) {
     case SDL_COLOR_RANGE_LIMITED:
     case SDL_COLOR_RANGE_UNKNOWN:
-        return mat_BT2020_Limited_10bit;
+        врати mat_BT2020_Limited_10bit;
     case SDL_COLOR_RANGE_FULL:
-        return mat_BT2020_Full_10bit;
+        врати mat_BT2020_Full_10bit;
     default:
         break;
     }
-    return NULL;
+    врати NULL;
 }
 
-const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, int w, int h, int bits_per_pixel)
+const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, цео w, цео h, цео bits_per_pixel)
 {
     switch (SDL_COLORSPACEMATRIX(colorspace)) {
     case SDL_MATRIX_COEFFICIENTS_BT601:
     case SDL_MATRIX_COEFFICIENTS_BT470BG:
-        return SDL_GetBT601ConversionMatrix(colorspace);
+        врати SDL_GetBT601ConversionMatrix(colorspace);
 
     case SDL_MATRIX_COEFFICIENTS_BT709:
-        return SDL_GetBT709ConversionMatrix(colorspace);
+        врати SDL_GetBT709ConversionMatrix(colorspace);
 
     case SDL_MATRIX_COEFFICIENTS_BT2020_NCL:
-        return SDL_GetBT2020ConversionMatrix(colorspace);
+        врати SDL_GetBT2020ConversionMatrix(colorspace);
 
     case SDL_MATRIX_COEFFICIENTS_UNSPECIFIED:
         switch (bits_per_pixel) {
         case 8:
-            if (h <= YUV_SD_THRESHOLD) {
-                return SDL_GetBT601ConversionMatrix(colorspace);
-            } else {
-                return SDL_GetBT709ConversionMatrix(colorspace);
+            ако (h <= YUV_SD_THRESHOLD) {
+                врати SDL_GetBT601ConversionMatrix(colorspace);
+            } инако {
+                врати SDL_GetBT709ConversionMatrix(colorspace);
             }
         case 10:
         case 16:
-            return SDL_GetBT2020ConversionMatrix(colorspace);
+            врати SDL_GetBT2020ConversionMatrix(colorspace);
         default:
             break;
         }
@@ -1045,7 +1045,7 @@ const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, int w,
     default:
         break;
     }
-    return NULL;
+    врати NULL;
 }
 
 /* Conversion matrices generated using gamescope color helpers and the primaries definitions at:
@@ -1113,9 +1113,9 @@ const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_C
     case SDL_COLOR_PRIMARIES_SMPTE240:
         switch (src) {
         case SDL_COLOR_PRIMARIES_BT709:
-            return mat709to601;
+            врати mat709to601;
         case SDL_COLOR_PRIMARIES_BT2020:
-            return mat2020to601;
+            врати mat2020to601;
         default:
             break;
         }
@@ -1124,13 +1124,13 @@ const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_C
         switch (src) {
         case SDL_COLOR_PRIMARIES_BT601:
         case SDL_COLOR_PRIMARIES_SMPTE240:
-            return mat601to709;
+            врати mat601to709;
         case SDL_COLOR_PRIMARIES_BT2020:
-            return mat2020to709;
+            врати mat2020to709;
         case SDL_COLOR_PRIMARIES_SMPTE431:
-            return matSMPTE431to709;
+            врати matSMPTE431to709;
         case SDL_COLOR_PRIMARIES_SMPTE432:
-            return matSMPTE432to709;
+            врати matSMPTE432to709;
         default:
             break;
         }
@@ -1139,13 +1139,13 @@ const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_C
         switch (src) {
         case SDL_COLOR_PRIMARIES_BT601:
         case SDL_COLOR_PRIMARIES_SMPTE240:
-            return mat601to2020;
+            врати mat601to2020;
         case SDL_COLOR_PRIMARIES_BT709:
-            return mat709to2020;
+            врати mat709to2020;
         case SDL_COLOR_PRIMARIES_SMPTE431:
-            return matSMPTE431to2020;
+            врати matSMPTE431to2020;
         case SDL_COLOR_PRIMARIES_SMPTE432:
-            return matSMPTE432to2020;
+            врати matSMPTE432to2020;
         default:
             break;
         }
@@ -1153,7 +1153,7 @@ const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_C
     default:
         break;
     }
-    return NULL;
+    врати NULL;
 }
 
 void SDL_ConvertColorPrimaries(float *fR, float *fG, float *fB, const float *matrix)
@@ -1174,24 +1174,24 @@ void SDL_ConvertColor709to2020(float *fR, float *fG, float *fB)
     SDL_ConvertColorPrimaries(fR, fG, fB, mat709to2020);
 }
 
-SDL_Palette *SDL_CreatePalette(int ncolors)
+SDL_Palette *SDL_CreatePalette(цео ncolors)
 {
     SDL_Palette *palette;
 
     // Input validation
     CHECK_PARAM(ncolors < 1) {
         SDL_InvalidParamError("ncolors");
-        return NULL;
+        врати NULL;
     }
 
     palette = (SDL_Palette *)SDL_malloc(sizeof(*palette));
-    if (!palette) {
-        return NULL;
+    ако (!palette) {
+        врати NULL;
     }
     palette->colors = (SDL_Color *)SDL_malloc(ncolors * sizeof(*palette->colors));
-    if (!palette->colors) {
+    ако (!palette->colors) {
         SDL_free(palette);
-        return NULL;
+        врати NULL;
     }
     palette->ncolors = ncolors;
     palette->version = 1;
@@ -1199,38 +1199,38 @@ SDL_Palette *SDL_CreatePalette(int ncolors)
 
     SDL_memset(palette->colors, 0xFF, ncolors * sizeof(*palette->colors));
 
-    return palette;
+    врати palette;
 }
 
-bool SDL_SetPaletteColors(SDL_Palette *palette, const SDL_Color *colors, int firstcolor, int ncolors)
+bool SDL_SetPaletteColors(SDL_Palette *palette, const SDL_Color *colors, цео firstcolor, цео ncolors)
 {
     // Verify the parameters
-    if (!palette) {
-        return false;
+    ако (!palette) {
+        врати false;
     }
-    if (ncolors > (palette->ncolors - firstcolor)) {
+    ако (ncolors > (palette->ncolors - firstcolor)) {
         ncolors = (palette->ncolors - firstcolor);
     }
 
-    if (colors != (palette->colors + firstcolor)) {
+    ако (colors != (palette->colors + firstcolor)) {
         SDL_memcpy(palette->colors + firstcolor, colors,
                    ncolors * sizeof(*colors));
     }
     ++palette->version;
-    if (!palette->version) {
+    ако (!palette->version) {
         palette->version = 1;
     }
 
-    return true;
+    врати true;
 }
 
 void SDL_DestroyPalette(SDL_Palette *palette)
 {
-    if (!palette) {
-        return;
+    ако (!palette) {
+        врати;
     }
-    if (--palette->refcount > 0) {
-        return;
+    ако (--palette->refcount > 0) {
+        врати;
     }
     SDL_free(palette->colors);
     SDL_free(palette);
@@ -1241,13 +1241,13 @@ void SDL_DestroyPalette(SDL_Palette *palette)
  */
 void SDL_DitherPalette(SDL_Palette *palette)
 {
-    int i;
-    if (palette->ncolors != 256) {
-        return; // only 8bpp supported right now
+    цео i;
+    ако (palette->ncolors != 256) {
+        врати; // only 8bpp supported right now
     }
 
-    for (i = 0; i < palette->ncolors; i++) {
-        int r, g, b;
+    за (i = 0; i < palette->ncolors; i++) {
+        цео r, g, b;
         /* map each bit field to the full [0, 255] interval,
            so 0 is mapped to (0, 0, 0) and 255 to (255, 255, 255) */
         r = i & 0xe0;
@@ -1270,38 +1270,38 @@ void SDL_DitherPalette(SDL_Palette *palette)
 static Uint8 SDL_FindColor(const SDL_Palette *pal, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     // Do colorspace distance matching
-    unsigned int smallest;
-    unsigned int distance;
-    int rd, gd, bd, ad;
-    int i;
+    unsigned цео smallest;
+    unsigned цео distance;
+    цео rd, gd, bd, ad;
+    цео i;
     Uint8 pixelvalue = 0;
 
     smallest = ~0U;
-    for (i = 0; i < pal->ncolors; ++i) {
+    за (i = 0; i < pal->ncolors; ++i) {
         rd = pal->colors[i].r - r;
         gd = pal->colors[i].g - g;
         bd = pal->colors[i].b - b;
         ad = pal->colors[i].a - a;
         distance = (rd * rd) + (gd * gd) + (bd * bd) + (ad * ad);
-        if (distance < smallest) {
+        ако (distance < smallest) {
             pixelvalue = (Uint8)i;
-            if (distance == 0) { // Perfect match!
+            ако (distance == 0) { // Perfect match!
                 break;
             }
             smallest = distance;
         }
     }
-    return pixelvalue;
+    врати pixelvalue;
 }
 
 Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const SDL_Palette *pal)
 {
     Uint8 color_index = 0;
-    if (pal) {
+    ако (pal) {
         const void *value;
-        if (SDL_FindInHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, &value)) {
+        ако (SDL_FindInHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, &value)) {
             color_index = (Uint8)(uintptr_t)value;
-        } else {
+        } инако {
             Uint8 r = (Uint8)((pixelvalue >> 24) & 0xFF);
             Uint8 g = (Uint8)((pixelvalue >> 16) & 0xFF);
             Uint8 b = (Uint8)((pixelvalue >>  8) & 0xFF);
@@ -1310,47 +1310,47 @@ Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const S
             SDL_InsertIntoHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, (const void *)(uintptr_t)color_index, true);
         }
     }
-    return color_index;
+    врати color_index;
 }
 
 // Tell whether palette is opaque, and if it has an alpha_channel
 void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel)
 {
-    int i;
+    цео i;
 
     {
         bool all_opaque = true;
-        for (i = 0; i < pal->ncolors; i++) {
+        за (i = 0; i < pal->ncolors; i++) {
             Uint8 alpha_value = pal->colors[i].a;
-            if (alpha_value != SDL_ALPHA_OPAQUE) {
+            ако (alpha_value != SDL_ALPHA_OPAQUE) {
                 all_opaque = false;
                 break;
             }
         }
 
-        if (all_opaque) {
+        ако (all_opaque) {
             // Palette is opaque, with an alpha channel
             *is_opaque = true;
             *has_alpha_channel = true;
-            return;
+            врати;
         }
     }
 
     {
         bool all_transparent = true;
-        for (i = 0; i < pal->ncolors; i++) {
+        за (i = 0; i < pal->ncolors; i++) {
             Uint8 alpha_value = pal->colors[i].a;
-            if (alpha_value != SDL_ALPHA_TRANSPARENT) {
+            ако (alpha_value != SDL_ALPHA_TRANSPARENT) {
                 all_transparent = false;
                 break;
             }
         }
 
-        if (all_transparent) {
+        ако (all_transparent) {
             // Palette is opaque, without an alpha channel
             *is_opaque = true;
             *has_alpha_channel = false;
-            return;
+            врати;
         }
     }
 
@@ -1364,24 +1364,24 @@ Uint32 SDL_MapRGB(const SDL_PixelFormatDetails *format, const SDL_Palette *palet
 {
     CHECK_PARAM(!format) {
         SDL_InvalidParamError("format");
-        return 0;
+        врати 0;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
         CHECK_PARAM(!palette) {
             SDL_InvalidParamError("palette");
-            return 0;
+            врати 0;
         }
-        return SDL_FindColor(palette, r, g, b, SDL_ALPHA_OPAQUE);
+        врати SDL_FindColor(palette, r, g, b, SDL_ALPHA_OPAQUE);
     }
 
-    if (SDL_ISPIXELFORMAT_10BIT(format->format)) {
-        return (((Uint32)SDL_expand_byte_10[r]) << format->Rshift) |
+    ако (SDL_ISPIXELFORMAT_10BIT(format->format)) {
+        врати (((Uint32)SDL_expand_byte_10[r]) << format->Rshift) |
                (((Uint32)SDL_expand_byte_10[g]) << format->Gshift) |
                (((Uint32)SDL_expand_byte_10[b]) << format->Bshift) |
                format->Amask;
-    } else {
-        return ((Uint32)(r >> (8 - format->Rbits))) << format->Rshift |
+    } инако {
+        врати ((Uint32)(r >> (8 - format->Rbits))) << format->Rshift |
                ((Uint32)(g >> (8 - format->Gbits))) << format->Gshift |
                ((Uint32)(b >> (8 - format->Bbits))) << format->Bshift |
                format->Amask;
@@ -1393,24 +1393,24 @@ Uint32 SDL_MapRGBA(const SDL_PixelFormatDetails *format, const SDL_Palette *pale
 {
     CHECK_PARAM(!format) {
         SDL_InvalidParamError("format");
-        return 0;
+        врати 0;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
         CHECK_PARAM(!palette) {
             SDL_InvalidParamError("palette");
-            return 0;
+            врати 0;
         }
-        return SDL_FindColor(palette, r, g, b, a);
+        врати SDL_FindColor(palette, r, g, b, a);
     }
 
-    if (SDL_ISPIXELFORMAT_10BIT(format->format)) {
-        return (((Uint32)SDL_expand_byte_10[r]) << format->Rshift) |
+    ако (SDL_ISPIXELFORMAT_10BIT(format->format)) {
+        врати (((Uint32)SDL_expand_byte_10[r]) << format->Rshift) |
                (((Uint32)SDL_expand_byte_10[g]) << format->Gshift) |
                (((Uint32)SDL_expand_byte_10[b]) << format->Bshift) |
                ((((Uint32)(a >> (8 - format->Abits))) << format->Ashift) & format->Amask);
-    } else {
-        return ((Uint32)(r >> (8 - format->Rbits))) << format->Rshift |
+    } инако {
+        врати ((Uint32)(r >> (8 - format->Rbits))) << format->Rshift |
                ((Uint32)(g >> (8 - format->Gbits))) << format->Gshift |
                ((Uint32)(b >> (8 - format->Bbits))) << format->Bshift |
                ((((Uint32)(a >> (8 - format->Abits))) << format->Ashift) & format->Amask);
@@ -1421,33 +1421,33 @@ void SDL_GetRGB(Uint32 pixelvalue, const SDL_PixelFormatDetails *format, const S
 {
     Uint8 unused;
 
-    if (!r) {
+    ако (!r) {
         r = &unused;
     }
-    if (!g) {
+    ако (!g) {
         g = &unused;
     }
-    if (!b) {
+    ако (!b) {
         b = &unused;
     }
 
-    if (!format) {
+    ако (!format) {
         *r = *g = *b = 0;
-        return;
+        врати;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
-        if (palette && pixelvalue < (unsigned)palette->ncolors) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
+        ако (palette && pixelvalue < (unsigned)palette->ncolors) {
             *r = palette->colors[pixelvalue].r;
             *g = palette->colors[pixelvalue].g;
             *b = palette->colors[pixelvalue].b;
-        } else {
+        } инако {
             *r = *g = *b = 0;
         }
-        return;
+        врати;
     }
 
-    if (SDL_ISPIXELFORMAT_10BIT(format->format)) {
+    ако (SDL_ISPIXELFORMAT_10BIT(format->format)) {
         unsigned v;
         v = (pixelvalue & format->Rmask) >> format->Rshift;
         *r = (Uint8)(v >> 2);
@@ -1455,7 +1455,7 @@ void SDL_GetRGB(Uint32 pixelvalue, const SDL_PixelFormatDetails *format, const S
         *g = (Uint8)(v >> 2);
         v = (pixelvalue & format->Bmask) >> format->Bshift;
         *b = (Uint8)(v >> 2);
-    } else {
+    } инако {
         unsigned v;
         v = (pixelvalue & format->Rmask) >> format->Rshift;
         *r = SDL_expand_byte[format->Rbits][v];
@@ -1470,37 +1470,37 @@ void SDL_GetRGBA(Uint32 pixelvalue, const SDL_PixelFormatDetails *format, const 
 {
     Uint8 unused;
 
-    if (!r) {
+    ако (!r) {
         r = &unused;
     }
-    if (!g) {
+    ако (!g) {
         g = &unused;
     }
-    if (!b) {
+    ако (!b) {
         b = &unused;
     }
-    if (!a) {
+    ако (!a) {
         a = &unused;
     }
 
-    if (!format) {
+    ако (!format) {
         *r = *g = *b = *a = 0;
-        return;
+        врати;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
-        if (palette && pixelvalue < (unsigned)palette->ncolors) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(format->format)) {
+        ако (palette && pixelvalue < (unsigned)palette->ncolors) {
             *r = palette->colors[pixelvalue].r;
             *g = palette->colors[pixelvalue].g;
             *b = palette->colors[pixelvalue].b;
             *a = palette->colors[pixelvalue].a;
-        } else {
+        } инако {
             *r = *g = *b = *a = 0;
         }
-        return;
+        врати;
     }
 
-    if (SDL_ISPIXELFORMAT_10BIT(format->format)) {
+    ако (SDL_ISPIXELFORMAT_10BIT(format->format)) {
         unsigned v;
         v = (pixelvalue & format->Rmask) >> format->Rshift;
         *r = (Uint8)(v >> 2);
@@ -1510,7 +1510,7 @@ void SDL_GetRGBA(Uint32 pixelvalue, const SDL_PixelFormatDetails *format, const 
         *b = (Uint8)(v >> 2);
         v = (pixelvalue & format->Amask) >> format->Ashift;
         *a = SDL_expand_byte[format->Abits][v];
-    } else {
+    } инако {
         unsigned v;
         v = (pixelvalue & format->Rmask) >> format->Rshift;
         *r = SDL_expand_byte[format->Rbits][v];
@@ -1525,61 +1525,61 @@ void SDL_GetRGBA(Uint32 pixelvalue, const SDL_PixelFormatDetails *format, const 
 
 bool SDL_IsSamePalette(const SDL_Palette *src, const SDL_Palette *dst)
 {
-    if (src->ncolors <= dst->ncolors) {
+    ако (src->ncolors <= dst->ncolors) {
         // If an identical palette, no need to map
-        if (src == dst ||
+        ако (src == dst ||
             (SDL_memcmp(src->colors, dst->colors,
                         src->ncolors * sizeof(SDL_Color)) == 0)) {
-            return true;
+            врати true;
         }
     }
-    return false;
+    врати false;
 }
 
 // Map from Palette to Palette
-static Uint8 *Map1to1(const SDL_Palette *src, const SDL_Palette *dst, int *identical)
+static Uint8 *Map1to1(const SDL_Palette *src, const SDL_Palette *dst, цео *identical)
 {
     Uint8 *map;
-    int i;
+    цео i;
 
-    if (SDL_IsSamePalette(src, dst)) {
+    ако (SDL_IsSamePalette(src, dst)) {
         *identical = 1;
-        return NULL;
+        врати NULL;
     }
     *identical = 0;
 
     map = (Uint8 *)SDL_calloc(256, sizeof(Uint8));
-    if (!map) {
-        return NULL;
+    ако (!map) {
+        врати NULL;
     }
-    for (i = 0; i < src->ncolors; ++i) {
+    за (i = 0; i < src->ncolors; ++i) {
         map[i] = SDL_FindColor(dst,
                                src->colors[i].r, src->colors[i].g,
                                src->colors[i].b, src->colors[i].a);
     }
-    return map;
+    врати map;
 }
 
 // Map from Palette to BitField
 static Uint8 *Map1toN(const SDL_Palette *pal, Uint8 Rmod, Uint8 Gmod, Uint8 Bmod, Uint8 Amod, const SDL_PixelFormatDetails *dst)
 {
     Uint8 *map;
-    int i;
-    int bpp;
+    цео i;
+    цео bpp;
 
-    if (!pal) {
+    ако (!pal) {
         SDL_SetError("src does not have a palette set");
-        return NULL;
+        врати NULL;
     }
 
     bpp = ((SDL_BYTESPERPIXEL(dst->format) == 3) ? 4 : SDL_BYTESPERPIXEL(dst->format));
     map = (Uint8 *)SDL_calloc(256, bpp);
-    if (!map) {
-        return NULL;
+    ако (!map) {
+        врати NULL;
     }
 
     // We memory copy to the pixel map so the endianness is preserved
-    for (i = 0; i < pal->ncolors; ++i) {
+    за (i = 0; i < pal->ncolors; ++i) {
         Uint8 R = (Uint8)((pal->colors[i].r * Rmod) / 255);
         Uint8 G = (Uint8)((pal->colors[i].g * Gmod) / 255);
         Uint8 B = (Uint8)((pal->colors[i].b * Bmod) / 255);
@@ -1587,32 +1587,32 @@ static Uint8 *Map1toN(const SDL_Palette *pal, Uint8 Rmod, Uint8 Gmod, Uint8 Bmod
         ASSEMBLE_RGBA(&map[i * bpp], SDL_BYTESPERPIXEL(dst->format), dst, (Uint32)R,
                       (Uint32)G, (Uint32)B, (Uint32)A);
     }
-    return map;
+    врати map;
 }
 
 bool SDL_ValidateMap(SDL_Surface *src, SDL_Surface *dst)
 {
     SDL_BlitMap *map = &src->map;
 
-    if (map->info.dst_fmt != dst->fmt ||
+    ако (map->info.dst_fmt != dst->fmt ||
         map->info.dst_pal != dst->palette ||
         (dst->palette &&
          map->dst_palette_version != dst->palette->version) ||
         (src->palette &&
          map->src_palette_version != src->palette->version)) {
-        if (!SDL_MapSurface(src, dst)) {
-            return false;
+        ако (!SDL_MapSurface(src, dst)) {
+            врати false;
         }
-#if 0
+#ако 0
         // just here for debugging
         SDL_Log("src = %p src->flags = %08X map->info.flags = %08x\ndst = %p dst->flags = %08X dst->map.info.flags = %08X\nmap->blit = %p",
             src, dst->flags, map->info.flags, dst, dst->flags,
             dst->map.info.flags, map->blit);
 #endif
-    } else {
+    } инако {
         map->info.dst_surface = dst;
     }
-    return true;
+    врати true;
 }
 
 void SDL_InvalidateMap(SDL_BlitMap *map)
@@ -1621,11 +1621,11 @@ void SDL_InvalidateMap(SDL_BlitMap *map)
     map->info.dst_pal = NULL;
     map->src_palette_version = 0;
     map->dst_palette_version = 0;
-    if (map->info.table) {
+    ако (map->info.table) {
         SDL_free(map->info.table);
         map->info.table = NULL;
     }
-    if (map->info.palette_map) {
+    ако (map->info.palette_map) {
         SDL_DestroyHashTable(map->info.palette_map);
         map->info.palette_map = NULL;
     }
@@ -1642,7 +1642,7 @@ bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst)
     // Clear out any previous mapping
     map = &src->map;
 #ifdef SDL_HAVE_RLE
-    if (src->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    ако (src->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         SDL_UnRLESurface(src);
     }
 #endif
@@ -1654,56 +1654,56 @@ bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst)
     srcpal = src->palette;
     dstfmt = dst->fmt;
     dstpal = dst->palette;
-    if (SDL_ISPIXELFORMAT_INDEXED(srcfmt->format)) {
-        if (SDL_ISPIXELFORMAT_INDEXED(dstfmt->format)) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(srcfmt->format)) {
+        ако (SDL_ISPIXELFORMAT_INDEXED(dstfmt->format)) {
             // Palette --> Palette
-            if (srcpal && dstpal) {
+            ако (srcpal && dstpal) {
                 map->info.table = Map1to1(srcpal, dstpal, &map->identity);
-            } else {
+            } инако {
                 map->identity = 1;
             }
-            if (!map->identity) {
-                if (!map->info.table) {
-                    return false;
+            ако (!map->identity) {
+                ако (!map->info.table) {
+                    врати false;
                 }
             }
-            if (srcfmt->bits_per_pixel != dstfmt->bits_per_pixel) {
+            ако (srcfmt->bits_per_pixel != dstfmt->bits_per_pixel) {
                 map->identity = 0;
             }
-        } else {
+        } инако {
             // Palette --> BitField
             map->info.table =
                 Map1toN(srcpal, src->map.info.r, src->map.info.g,
                         src->map.info.b, src->map.info.a, dstfmt);
-            if (!map->info.table) {
-                return false;
+            ако (!map->info.table) {
+                врати false;
             }
         }
-    } else {
-        if (SDL_ISPIXELFORMAT_INDEXED(dstfmt->format)) {
+    } инако {
+        ако (SDL_ISPIXELFORMAT_INDEXED(dstfmt->format)) {
             // BitField --> Palette
             map->info.palette_map = SDL_CreateHashTable(0, false, SDL_HashID, SDL_KeyMatchID, NULL, NULL);
-        } else {
+        } инако {
             // BitField --> BitField
-            if (srcfmt == dstfmt) {
+            ако (srcfmt == dstfmt) {
                 map->identity = 1;
             }
         }
     }
 
-    if (dstpal) {
+    ако (dstpal) {
         map->dst_palette_version = dstpal->version;
-    } else {
+    } инако {
         map->dst_palette_version = 0;
     }
 
-    if (srcpal) {
+    ако (srcpal) {
         map->src_palette_version = srcpal->version;
-    } else {
+    } инако {
         map->src_palette_version = 0;
     }
 
     // Choose your blitters wisely
-    return SDL_CalculateBlit(src, dst);
+    врати SDL_CalculateBlit(src, dst);
 }
 

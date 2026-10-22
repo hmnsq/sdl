@@ -48,31 +48,31 @@ void Android_QuitTouch(void)
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(цео touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    ако (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } инако {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    врати retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+void Android_OnTouch(SDL_Window *window, цео touch_device_id_in, цео pointer_finger_id_in, цео action, float x, float y, float p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    ако (!window) {
+        врати;
     }
 
     touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
@@ -80,8 +80,8 @@ void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_fin
     // Finger ID should be greater than 0
     fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    ако (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        врати;
     }
 
     switch (action) {

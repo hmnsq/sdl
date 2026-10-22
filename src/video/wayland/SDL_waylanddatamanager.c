@@ -49,7 +49,7 @@
 #ifndef HAVE_SIGTIMEDWAIT
 #include <errno.h>
 #include <time.h>
-static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
+static цео sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
 {
     struct timespec elapsed = { 0 }, rem = { 0 };
     sigset_t pending;
@@ -57,35 +57,35 @@ static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct times
     do {
         // Check the pending signals, and call sigwait if there is at least one of interest in the set.
         sigpending(&pending);
-        for (int signo = 1; signo < NSIG; ++signo) {
-            if (sigismember(set, signo) && sigismember(&pending, signo)) {
-                if (!sigwait(set, &signo)) {
-                    if (info) {
+        за (цео signo = 1; signo < NSIG; ++signo) {
+            ако (sigismember(set, signo) && sigismember(&pending, signo)) {
+                ако (!sigwait(set, &signo)) {
+                    ако (info) {
                         SDL_zerop(info);
                         info->si_signo = signo;
                     }
-                    return signo;
-                } else {
-                    return -1;
+                    врати signo;
+                } инако {
+                    врати -1;
                 }
             }
         }
 
-        if (timeout->tv_sec || timeout->tv_nsec) {
+        ако (timeout->tv_sec || timeout->tv_nsec) {
             long ns = 20000000L; // 2/100ths of a second
             nanosleep(&(struct timespec){ 0, ns }, &rem);
             ns -= rem.tv_nsec;
             elapsed.tv_sec += (elapsed.tv_nsec + ns) / 1000000000L;
             elapsed.tv_nsec = (elapsed.tv_nsec + ns) % 1000000000L;
         }
-    } while (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
+    } док (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
 
     errno = EAGAIN;
-    return -1;
+    врати -1;
 }
 #endif
 
-static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t *pos)
+static ssize_t WritePipe(цео fd, const void *buffer, size_t total_length, size_t *pos)
 {
     ssize_t bytes_written = 0;
     const ssize_t length = total_length - *pos;
@@ -94,28 +94,28 @@ static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t
     sigset_t old_sig_set;
     struct timespec zerotime = { 0 };
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
+    const цео ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
 
     sigemptyset(&sig_set);
     sigaddset(&sig_set, SIGPIPE);
 
 #ifdef SDL_THREADS_DISABLED
     sigprocmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#else
+#инако
     pthread_sigmask(SIG_BLOCK, &sig_set, &old_sig_set);
 #endif
 
-    if (ready > 0) {
-        if (length > 0) {
+    ако (ready > 0) {
+        ако (length > 0) {
             bytes_written = write(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
         }
 
-        if (bytes_written > 0) {
+        ако (bytes_written > 0) {
             *pos += bytes_written;
         }
-    } else if (ready == 0) {
+    } инако ако (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else  {
+    } инако  {
         SDL_SetError("Pipe poll error");
     }
 
@@ -123,44 +123,44 @@ static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t
 
 #ifdef SDL_THREADS_DISABLED
     sigprocmask(SIG_SETMASK, &old_sig_set, NULL);
-#else
+#инако
     pthread_sigmask(SIG_SETMASK, &old_sig_set, NULL);
 #endif
 
-    return bytes_written;
+    врати bytes_written;
 }
 
-static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
+static ssize_t ReadPipe(цео fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
 {
     void *output_buffer = NULL;
     char temp[PIPE_BUF];
     ssize_t bytes_read = 0;
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
+    const цео ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
 
-    if (ready > 0) {
+    ако (ready > 0) {
         bytes_read = read(fd, temp, sizeof(temp));
-    } else if (ready == 0) {
+    } инако ако (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else {
+    } инако {
         SDL_SetError("Pipe poll error");
     }
 
-    if (bytes_read > 0) {
+    ако (bytes_read > 0) {
         const size_t pos = *total_length;
         *total_length += bytes_read;
 
         const size_t new_buffer_length = *total_length + sizeof(Uint32);
 
-        if (!*buffer) {
+        ако (!*buffer) {
             output_buffer = SDL_malloc(new_buffer_length);
-        } else {
+        } инако {
             output_buffer = SDL_realloc(*buffer, new_buffer_length);
         }
 
-        if (!output_buffer) {
+        ако (!output_buffer) {
             bytes_read = -1;
-        } else {
+        } инако {
             SDL_memcpy((Uint8 *)output_buffer + pos, temp, bytes_read);
             SDL_memset((Uint8 *)output_buffer + (new_buffer_length - sizeof(Uint32)), 0, sizeof(Uint32));
 
@@ -168,29 +168,29 @@ static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 time
         }
     }
 
-    return bytes_read;
+    врати bytes_read;
 }
 
 static bool MIMEDataListHasType(struct wl_array *list, const char *mime_type)
 {
     const char **item;
     wl_array_for_each(item, list) {
-        if (SDL_strcmp(*item, mime_type) == 0) {
-            return true;
+        ако (SDL_strcmp(*item, mime_type) == 0) {
+            врати true;
         }
     }
 
-    return false;
+    врати false;
 }
 
 static bool MIMEDataListAdd(struct wl_array *list, const char *mime_type)
 {
-    if (!MIMEDataListHasType(list, mime_type)) {
+    ако (!MIMEDataListHasType(list, mime_type)) {
         char **item = WAYLAND_wl_array_add(list, sizeof(char *));
         *item = SDL_strdup(mime_type);
     }
 
-    return true;
+    врати true;
 }
 
 static void MIMEDataListFree(struct wl_array *list)
@@ -215,7 +215,7 @@ static void data_source_handle_send(void *data, struct wl_data_source *wl_data_s
 static void data_source_handle_cancelled(void *data, struct wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    ако (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
@@ -227,7 +227,7 @@ static void data_source_handle_dnd_drop_performed(void *data, struct wl_data_sou
 static void data_source_handle_dnd_finished(void *data, struct wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    ако (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
@@ -248,8 +248,8 @@ static const struct wl_data_source_listener data_source_listener = {
 SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
 {
     SDL_WaylandDataSource *data_source = SDL_calloc(1, sizeof(*data_source));
-    if (!data_source) {
-        return NULL;
+    ако (!data_source) {
+        врати NULL;
     }
 
     struct wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
@@ -257,7 +257,7 @@ SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
     wl_data_source_set_user_data(id, data_source);
     wl_data_source_add_listener(id, &data_source_listener, data_source);
 
-    return data_source;
+    врати data_source;
 }
 
 static void primary_selection_source_send(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, const char *mime_type, int32_t fd)
@@ -278,61 +278,61 @@ static const struct zwp_primary_selection_source_v1_listener primary_selection_s
 SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data)
 {
     SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, sizeof(*primary_selection_source));
-    if (!primary_selection_source) {
-        return NULL;
+    ако (!primary_selection_source) {
+        врати NULL;
     }
 
     struct zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
     primary_selection_source->source = id;
     zwp_primary_selection_source_v1_add_listener(id, &primary_selection_source_listener, primary_selection_source);
 
-    return primary_selection_source;
+    врати primary_selection_source;
 }
 
-static size_t SendData(const void *data, size_t length, int fd)
+static size_t SendData(const void *data, size_t length, цео fd)
 {
     size_t result = 0;
 
-    if (length > 0 && data) {
-        while (WritePipe(fd, data, length, &result) > 0) {
+    ако (length > 0 && data) {
+        док (WritePipe(fd, data, length, &result) > 0) {
             // Just keep spinning
         }
     }
     close(fd);
 
-    return result;
+    врати result;
 }
 
-ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd)
+ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, цео fd)
 {
     const void *data = NULL;
     size_t length = 0;
 
-    if (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
+    ако (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
         data = source->data_device->id_str;
         length = SDL_strlen(source->data_device->id_str);
-    } else if (source->data_callback) {
+    } инако ако (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    врати SendData(data, length, fd);
 }
 
-ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd)
+ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, цео fd)
 {
     const void *data = NULL;
     size_t length = 0;
 
-    if (source->data_callback) {
+    ако (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    врати SendData(data, length, fd);
 }
 
 void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence)
 {
-    if (source) {
+    ако (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = sequence;
@@ -342,7 +342,7 @@ void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardD
 
 void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata)
 {
-    if (source) {
+    ако (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = 0;
@@ -353,14 +353,14 @@ void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource
 static void *CloneDataBuffer(const void *buffer, const size_t *len)
 {
     void *clone = NULL;
-    if (*len > 0 && buffer) {
+    ако (*len > 0 && buffer) {
         clone = SDL_malloc((*len)+sizeof(Uint32));
-        if (clone) {
+        ако (clone) {
             SDL_memcpy(clone, buffer, *len);
             SDL_memset((Uint8 *)clone + *len, 0, sizeof(Uint32));
         }
     }
-    return clone;
+    врати clone;
 }
 
 void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length)
@@ -368,14 +368,14 @@ void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_
     void *buffer = NULL;
     *length = 0;
 
-    if (!source) {
+    ако (!source) {
         SDL_SetError("Invalid data source");
-    } else if (source->data_callback) {
+    } инако ако (source->data_callback) {
         const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    врати buffer;
 }
 
 void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length)
@@ -383,27 +383,27 @@ void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *s
     void *buffer = NULL;
     *length = 0;
 
-    if (!source) {
+    ако (!source) {
         SDL_SetError("Invalid primary selection source");
-    } else if (source->data_callback) {
+    } инако ако (source->data_callback) {
         const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    врати buffer;
 }
 
 void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
 {
-    if (source) {
+    ако (source) {
         SDL_WaylandDataDevice *data_device = source->data_device;
-        if (data_device && (data_device->selection_source == source)) {
+        ако (data_device && (data_device->selection_source == source)) {
             data_device->selection_source = NULL;
         }
         wl_data_source_destroy(source->source);
-        if (source->userdata.sequence) {
+        ако (source->userdata.sequence) {
             SDL_CancelClipboardData(source->userdata.sequence);
-        } else if (source->cleanup_callback) {
+        } инако ако (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
@@ -412,13 +412,13 @@ void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
 
 void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
 {
-    if (source) {
+    ако (source) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = source->primary_selection_device;
-        if (primary_selection_device && (primary_selection_device->selection_source == source)) {
+        ако (primary_selection_device && (primary_selection_device->selection_source == source)) {
             primary_selection_device->selection_source = NULL;
         }
         zwp_primary_selection_source_v1_destroy(source->source);
-        if (source->cleanup_callback) {
+        ако (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
@@ -429,8 +429,8 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
 
 static void offer_source_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
 {
-    if (!callback) {
-        return;
+    ако (!callback) {
+        врати;
     }
 
     SDL_WaylandDataOffer *offer = (SDL_WaylandDataOffer *)data;
@@ -440,17 +440,17 @@ static void offer_source_done_handler(void *data, struct wl_callback *callback, 
     wl_callback_destroy(offer->callback);
     offer->callback = NULL;
 
-    while (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+    док (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
     }
     close(offer->read_fd);
     offer->read_fd = -1;
 
-    if (id) {
+    ако (id) {
         const bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
         SDL_free(id);
-        if (source_is_external) {
+        ако (source_is_external) {
             SelectionOfferNotifyFromMIMEs(offer->data_device, false);
-        } else {
+        } инако {
             // Recursive data offer; just destroy it.
             SDL_WaylandDataDevice *data_device = offer->data_device;
             Wayland_DataOfferDestroy(offer);
@@ -471,12 +471,12 @@ static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
     // Clear any existing references to the existing clipboard data before replacing the current offer.
     SDL_WaylandSeat *s;
     wl_list_for_each (s, &video_data->seat_list, link) {
-        if (s->data_device) {
+        ако (s->data_device) {
             Wayland_DataSourceDestroy(s->data_device->selection_source);
             s->data_device->selection_source = NULL;
 
             // Don't clear the offer that is about to be set.
-            if (s != offer_seat) {
+            ако (s != offer_seat) {
                 Wayland_DataOfferDestroy(s->data_device->selection_offer);
                 s->data_device->selection_offer = NULL;
             }
@@ -492,16 +492,16 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
     char **new_mime_types = NULL;
     size_t num_formats = 0;
 
-    if (offer) {
+    ако (offer) {
         size_t alloc_size = 0;
 
         // Do a first pass to compute allocation size.
         const char **item;
         wl_array_for_each(item, &offer->mimes) {
             // If origin metadata is found, queue a check and wait for confirmation that this offer isn't recursive.
-            if (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
+            ако (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
                 Wayland_DataOfferRequestDataFromSelf(offer, *item, &offer_source_listener, offer);
-                return;
+                врати;
             }
 
             ++num_formats;
@@ -511,9 +511,9 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
         alloc_size += (num_formats + 1) * sizeof(char *);
 
         new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
-        if (!new_mime_types) {
+        ако (!new_mime_types) {
             SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
-            return;
+            врати;
         }
 
         // Second pass to fill.
@@ -521,9 +521,9 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
         alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
         item = NULL;
-        int i = 0;
+        цео i = 0;
         wl_array_for_each(item, &offer->mimes) {
-            if (!item) {
+            ако (!item) {
                 continue;
             }
 
@@ -545,51 +545,51 @@ void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL
     const bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
     Wayland_DataOfferDestroy(data_device->selection_offer);
     data_device->selection_offer = offer;
-    if (notify) {
+    ако (notify) {
         SelectionOfferNotifyFromMIMEs(data_device, true);
     }
 }
 
 void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
 {
-    if (!offer) {
+    ако (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        врати NULL;
     }
 
-    if (offer->read_fd < 0) {
+    ако (offer->read_fd < 0) {
         SDL_SetError("Pipe closed");
-        return NULL;
+        врати NULL;
     }
 
     // The timeout is 0, as the data will already be in the pipe if it is from this process.
     void *buffer = NULL;
-    while (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
+    док (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
     }
 
-    return buffer;
+    врати buffer;
 }
 
 bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata)
 {
-    int pipefd[2];
+    цео pipefd[2];
 
-    if (!offer) {
+    ако (!offer) {
         SDL_SetError("Invalid data offer");
-        return false;
+        врати false;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
-    if (offer->read_fd >= 0) {
+    ако (offer->read_fd >= 0) {
         close(offer->read_fd);
         offer->read_fd = -1;
     }
-    if (offer->callback) {
+    ако (offer->callback) {
         wl_callback_destroy(offer->callback);
         offer->callback = NULL;
     }
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ако (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         offer->read_fd = pipefd[0];
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
@@ -598,36 +598,36 @@ bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const cha
         wl_callback_add_listener(offer->callback, completion_listener, userdata);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
-    } else {
-        return SDL_SetError("Could not create pipe");
+    } инако {
+        врати SDL_SetError("Could not create pipe");
     }
 
-    return true;
+    врати true;
 }
 
 void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length)
 {
-    int pipefd[2];
+    цео pipefd[2];
     void *buffer = NULL;
     *length = 0;
 
-    if (!offer) {
+    ако (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        врати NULL;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ако (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        док (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
-    } else {
+    } инако {
         SDL_SetError("Could not create pipe");
     }
 
@@ -635,33 +635,33 @@ void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_typ
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    врати buffer;
 }
 
 void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length)
 {
-    int pipefd[2];
+    цео pipefd[2];
     void *buffer = NULL;
     *length = 0;
 
-    if (!offer) {
+    ако (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        врати NULL;
     }
 
     SDL_WaylandPrimarySelectionDevice *primary_selection_device = offer->primary_selection_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ако (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         zwp_primary_selection_offer_v1_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(primary_selection_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        док (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
 
-    } else {
+    } инако {
         SDL_SetError("Could not create pipe");
     }
 
@@ -669,42 +669,42 @@ void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *off
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    врати buffer;
 }
 
 bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    врати MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
 bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    врати MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
 bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ако (offer && mime_type) {
+        врати MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    врати false;
 }
 
 bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ако (offer && mime_type) {
+        врати MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    врати false;
 }
 
 void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
 {
-    if (offer) {
-        if (offer->callback) {
+    ако (offer) {
+        ако (offer->callback) {
             wl_callback_destroy(offer->callback);
         }
-        if (offer->read_fd >= 0) {
+        ако (offer->read_fd >= 0) {
             close(offer->read_fd);
         }
         wl_data_offer_destroy(offer->offer);
@@ -715,7 +715,7 @@ void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
 
 void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
 {
-    if (offer) {
+    ако (offer) {
         zwp_primary_selection_offer_v1_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
@@ -724,15 +724,15 @@ void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offe
 
 bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
 {
-    if (!data_device) {
-        return SDL_SetError("Invalid Data Device");
+    ако (!data_device) {
+        врати SDL_SetError("Invalid Data Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ако (!source) {
+        врати SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
+    ако (mime_count) {
+        за (size_t index = 0; index < mime_count; ++index) {
             const char *mime_type = mime_types[index];
             wl_data_source_offer(source->source, mime_type);
         }
@@ -741,34 +741,34 @@ bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SD
         wl_data_source_offer(source->source, SDL_DATA_ORIGIN_MIME);
 
         wl_data_device_set_selection(data_device->data_device, source->source, data_device->seat->last_implicit_grab_serial);
-        if (data_device->selection_source) {
+        ако (data_device->selection_source) {
             Wayland_DataSourceDestroy(data_device->selection_source);
         }
         data_device->selection_source = source;
         source->data_device = data_device;
 
-    } else {
+    } инако {
         Wayland_DataSourceDestroy(data_device->selection_source);
         data_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        врати SDL_SetError("No mime data");
     }
 
-    return true;
+    врати true;
 }
 
 bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
                                                 SDL_WaylandPrimarySelectionSource *source,
                                                 const char *const *mime_types, size_t mime_count)
 {
-    if (!primary_selection_device) {
-        return SDL_SetError("Invalid Primary Selection Device");
+    ако (!primary_selection_device) {
+        врати SDL_SetError("Invalid Primary Selection Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ако (!source) {
+        врати SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
+    ако (mime_count) {
+        за (size_t index = 0; index < mime_count; ++index) {
             const char *mime_type = mime_types[index];
             zwp_primary_selection_source_v1_offer(source->source, mime_type);
         }
@@ -776,18 +776,18 @@ bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevic
         zwp_primary_selection_device_v1_set_selection(primary_selection_device->primary_selection_device,
                                                       source->source,
                                                       primary_selection_device->seat->last_implicit_grab_serial);
-        if (primary_selection_device->selection_source) {
+        ако (primary_selection_device->selection_source) {
             Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
         }
         primary_selection_device->selection_source = source;
         source->primary_selection_device = primary_selection_device;
-    } else {
+    } инако {
         Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
         primary_selection_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        врати SDL_SetError("No mime data");
     }
 
-    return true;
+    врати true;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

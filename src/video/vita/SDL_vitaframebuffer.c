@@ -31,39 +31,39 @@
 #define ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
 #define DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
 
-void *vita_gpu_alloc(unsigned int type, unsigned int size, SceUID *uid)
+void *vita_gpu_alloc(unsigned цео type, unsigned цео size, SceUID *uid)
 {
     void *mem;
 
-    if (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
+    ако (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
         size = ALIGN(size, 256 * 1024);
-    } else {
+    } инако {
         size = ALIGN(size, 4 * 1024);
     }
 
     *uid = sceKernelAllocMemBlock("gpu_mem", type, size, NULL);
 
-    if (*uid < 0) {
-        return NULL;
+    ако (*uid < 0) {
+        врати NULL;
     }
 
-    if (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
-        return NULL;
+    ако (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
+        врати NULL;
     }
 
-    return mem;
+    врати mem;
 }
 
 void vita_gpu_free(SceUID uid)
 {
     void *mem = NULL;
-    if (sceKernelGetMemBlockBase(uid, &mem) < 0) {
-        return;
+    ако (sceKernelGetMemBlockBase(uid, &mem) < 0) {
+        врати;
     }
     sceKernelFreeMemBlock(uid);
 }
 
-bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, цео *pitch)
 {
     SDL_WindowData *data = window->internal;
     SceDisplayFrameBuf framebuf;
@@ -90,27 +90,27 @@ bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SD
 
     *pixels = data->buffer;
 
-    return true;
+    врати true;
 }
 
-bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, цео numrects)
 {
     // do nothing
-    return true;
+    врати true;
 }
 
 void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!data) {
+    ако (!data) {
         // The window wasn't fully initialized
-        return;
+        врати;
     }
 
     vita_gpu_free(data->buffer_uid);
     data->buffer = NULL;
-    return;
+    врати;
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA

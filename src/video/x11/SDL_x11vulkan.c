@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#ако defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
 #include "../SDL_vulkan_internal.h"
 
@@ -34,7 +34,7 @@
 #ifdef SDL_PLATFORM_OPENBSD
 #define DEFAULT_VULKAN "libvulkan.so"
 #define DEFAULT_X11_XCB "libX11-xcb.so"
-#else
+#инако
 #define DEFAULT_VULKAN "libvulkan.so.1"
 #define DEFAULT_X11_XCB "libX11-xcb.so.1"
 #endif
@@ -68,89 +68,89 @@ bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     bool hasXCBSurfaceExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
     Uint32 i;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    ако (_this->vulkan_config.loader_handle) {
+        врати SDL_SetError("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
+    ако (!path) {
         path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
+    ако (!path) {
         path = DEFAULT_VULKAN;
     }
     _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    ако (!_this->vulkan_config.loader_handle) {
+        врати false;
     }
     SDL_strlcpy(_this->vulkan_config.loader_path, path, SDL_arraysize(_this->vulkan_config.loader_path));
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
+    ако (!vkGetInstanceProcAddr) {
         goto fail;
     }
     _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
         (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+    ако (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
         goto fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
         &extensionCount);
-    if (!extensions) {
+    ако (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    за (i = 0; i < extensionCount; i++) {
+        ако (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_XCB_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } инако ако (SDL_strcmp(VK_KHR_XCB_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasXCBSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_XLIB_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } инако ако (SDL_strcmp(VK_KHR_XLIB_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasXlibSurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
+    ако (!hasSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
         goto fail;
     }
-    if (hasXlibSurfaceExtension) {
+    ако (hasXlibSurfaceExtension) {
         videoData->vulkan_xlib_xcb_library = NULL;
-    } else if (!hasXCBSurfaceExtension) {
+    } инако ако (!hasXCBSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement either the " VK_KHR_XCB_SURFACE_EXTENSION_NAME " extension or the " VK_KHR_XLIB_SURFACE_EXTENSION_NAME " extension");
         goto fail;
-    } else {
+    } инако {
         const char *libX11XCBLibraryName = SDL_GetHint(SDL_HINT_X11_XCB_LIBRARY);
-        if (!libX11XCBLibraryName || !*libX11XCBLibraryName) {
+        ако (!libX11XCBLibraryName || !*libX11XCBLibraryName) {
             libX11XCBLibraryName = DEFAULT_X11_XCB;
         }
         videoData->vulkan_xlib_xcb_library = SDL_LoadObject(libX11XCBLibraryName);
-        if (!videoData->vulkan_xlib_xcb_library) {
+        ако (!videoData->vulkan_xlib_xcb_library) {
             goto fail;
         }
         videoData->vulkan_XGetXCBConnection =
             (PFN_XGetXCBConnection)SDL_LoadFunction(videoData->vulkan_xlib_xcb_library, "XGetXCBConnection");
-        if (!videoData->vulkan_XGetXCBConnection) {
+        ако (!videoData->vulkan_XGetXCBConnection) {
             SDL_UnloadObject(videoData->vulkan_xlib_xcb_library);
             goto fail;
         }
     }
-    return true;
+    врати true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
     _this->vulkan_config.loader_handle = NULL;
-    return false;
+    врати false;
 }
 
 void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videoData = _this->internal;
-    if (_this->vulkan_config.loader_handle) {
-        if (videoData->vulkan_xlib_xcb_library) {
+    ако (_this->vulkan_config.loader_handle) {
+        ако (videoData->vulkan_xlib_xcb_library) {
             SDL_UnloadObject(videoData->vulkan_xlib_xcb_library);
         }
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
@@ -161,20 +161,20 @@ void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
 {
     SDL_VideoData *videoData = _this->internal;
-    if (videoData->vulkan_xlib_xcb_library) {
+    ако (videoData->vulkan_xlib_xcb_library) {
         static const char *const extensionsForXCB[] = {
             VK_KHR_SURFACE_EXTENSION_NAME,
             VK_KHR_XCB_SURFACE_EXTENSION_NAME,
         };
         *count = SDL_arraysize(extensionsForXCB);
-        return extensionsForXCB;
-    } else {
+        врати extensionsForXCB;
+    } инако {
         static const char *const extensionsForXlib[] = {
             VK_KHR_SURFACE_EXTENSION_NAME,
             VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
         };
         *count = SDL_arraysize(extensionsForXlib);
-        return extensionsForXlib;
+        врати extensionsForXlib;
     }
 }
 
@@ -187,50 +187,50 @@ bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     SDL_VideoData *videoData = _this->internal;
     SDL_WindowData *windowData = window->internal;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr;
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ако (!_this->vulkan_config.loader_handle) {
+        врати SDL_SetError("Vulkan is not loaded");
     }
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
-    if (videoData->vulkan_xlib_xcb_library) {
+    ако (videoData->vulkan_xlib_xcb_library) {
         PFN_vkCreateXcbSurfaceKHR vkCreateXcbSurfaceKHR =
             (PFN_vkCreateXcbSurfaceKHR)vkGetInstanceProcAddr(instance,
                                                              "vkCreateXcbSurfaceKHR");
         VkXcbSurfaceCreateInfoKHR createInfo;
         VkResult result;
-        if (!vkCreateXcbSurfaceKHR) {
-            return SDL_SetError(VK_KHR_XCB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+        ако (!vkCreateXcbSurfaceKHR) {
+            врати SDL_SetError(VK_KHR_XCB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
         }
         SDL_zero(createInfo);
         createInfo.sType = VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR;
         createInfo.connection = videoData->vulkan_XGetXCBConnection(videoData->display);
-        if (!createInfo.connection) {
-            return SDL_SetError("XGetXCBConnection failed");
+        ако (!createInfo.connection) {
+            врати SDL_SetError("XGetXCBConnection failed");
         }
         createInfo.window = (xcb_window_t)windowData->xwindow;
         result = vkCreateXcbSurfaceKHR(instance, &createInfo, allocator, surface);
-        if (result != VK_SUCCESS) {
-            return SDL_SetError("vkCreateXcbSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+        ако (result != VK_SUCCESS) {
+            врати SDL_SetError("vkCreateXcbSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
         }
-    } else {
+    } инако {
         PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR =
             (PFN_vkCreateXlibSurfaceKHR)vkGetInstanceProcAddr(instance,
                                                               "vkCreateXlibSurfaceKHR");
         VkXlibSurfaceCreateInfoKHR createInfo;
         VkResult result;
-        if (!vkCreateXlibSurfaceKHR) {
-            return SDL_SetError(VK_KHR_XLIB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+        ако (!vkCreateXlibSurfaceKHR) {
+            врати SDL_SetError(VK_KHR_XLIB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
         }
         SDL_zero(createInfo);
         createInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
         createInfo.dpy = videoData->display;
         createInfo.window = (xcb_window_t)windowData->xwindow;
         result = vkCreateXlibSurfaceKHR(instance, &createInfo, allocator, surface);
-        if (result != VK_SUCCESS) {
-            return SDL_SetError("vkCreateXlibSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+        ако (result != VK_SUCCESS) {
+            врати SDL_SetError("vkCreateXlibSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
         }
     }
 
-    return true;  // success!
+    врати true;  // success!
 }
 
 void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
@@ -238,7 +238,7 @@ void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkSurfaceKHR surface,
                                const struct VkAllocationCallbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ако (_this->vulkan_config.loader_handle) {
         SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
@@ -253,43 +253,43 @@ bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
     const char *forced_visual_id;
     VisualID visualid;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ако (!_this->vulkan_config.loader_handle) {
+        врати SDL_SetError("Vulkan is not loaded");
     }
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
 
     forced_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_WINDOW_VISUALID);
-    if (forced_visual_id) {
+    ако (forced_visual_id) {
         visualid = SDL_strtol(forced_visual_id, NULL, 0);
-    } else {
+    } инако {
         visualid = X11_XVisualIDFromVisual(DefaultVisual(videoData->display, DefaultScreen(videoData->display)));
     }
 
-    if (videoData->vulkan_xlib_xcb_library) {
+    ако (videoData->vulkan_xlib_xcb_library) {
         PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR vkGetPhysicalDeviceXcbPresentationSupportKHR =
             (PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)vkGetInstanceProcAddr(
                 instance,
                 "vkGetPhysicalDeviceXcbPresentationSupportKHR");
 
-        if (!vkGetPhysicalDeviceXcbPresentationSupportKHR) {
-            return SDL_SetError(VK_KHR_XCB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+        ако (!vkGetPhysicalDeviceXcbPresentationSupportKHR) {
+            врати SDL_SetError(VK_KHR_XCB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
         }
 
-        return vkGetPhysicalDeviceXcbPresentationSupportKHR(physicalDevice,
+        врати vkGetPhysicalDeviceXcbPresentationSupportKHR(physicalDevice,
                                                             queueFamilyIndex,
                                                             videoData->vulkan_XGetXCBConnection(videoData->display),
                                                             visualid);
-    } else {
+    } инако {
         PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR vkGetPhysicalDeviceXlibPresentationSupportKHR =
             (PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)vkGetInstanceProcAddr(
                 instance,
                 "vkGetPhysicalDeviceXlibPresentationSupportKHR");
 
-        if (!vkGetPhysicalDeviceXlibPresentationSupportKHR) {
-            return SDL_SetError(VK_KHR_XLIB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+        ако (!vkGetPhysicalDeviceXlibPresentationSupportKHR) {
+            врати SDL_SetError(VK_KHR_XLIB_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
         }
 
-        return vkGetPhysicalDeviceXlibPresentationSupportKHR(physicalDevice,
+        врати vkGetPhysicalDeviceXlibPresentationSupportKHR(physicalDevice,
                                                              queueFamilyIndex,
                                                              videoData->display,
                                                              visualid);

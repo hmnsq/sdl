@@ -44,7 +44,7 @@ extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *wi
 
 extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, цео interval);
+extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, цео *interval);
 
 #endif // SDL_pspgl_c_h_

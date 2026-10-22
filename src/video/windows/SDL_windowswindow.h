@@ -25,7 +25,7 @@
 
 #ifdef SDL_VIDEO_OPENGL_EGL
 #include "../SDL_egl_c.h"
-#else
+#инако
 #include "../SDL_sysvideo.h"
 #endif
 
@@ -52,7 +52,7 @@ typedef enum SDL_WindowEraseBackgroundMode
 typedef struct
 {
     void **lpVtbl;
-    int refcount;
+    цео refcount;
     SDL_Window *window;
     HWND hwnd;
     UINT format_text;
@@ -86,9 +86,9 @@ struct SDL_WindowData
     bool force_ws_maximizebox;
     bool disable_move_size_events;
     bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
+    цео in_modal_loop;
+    цео last_modal_width;
+    цео last_modal_height;
     RECT initial_size_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
@@ -112,8 +112,8 @@ extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
 extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
 extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
+extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, цео *top, цео *left, цео *bottom, цео *right);
+extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, цео *width, цео *height);
 extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
@@ -139,9 +139,9 @@ extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
 extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
 extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void WIN_ShowWindowSystemMenu(SDL_Window *window, цео x, цео y);
 extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
+extern bool WIN_AdjustWindowRect(SDL_Window *window, цео *x, цео *y, цео *width, цео *height, SDL_WindowRect rect_type);
 extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
 extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);

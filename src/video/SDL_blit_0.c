@@ -31,10 +31,10 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int c;
-    int width, height;
+    цео c;
+    цео width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    цео srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -47,29 +47,29 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (map) {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    ако (map) {
+        ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (1) {
+                    ако (1) {
                         *dst = map[bit];
                     }
                     dst++;
@@ -78,21 +78,21 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } инако {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (1) {
+                    ако (1) {
                         *dst = map[bit];
                     }
                     dst++;
@@ -102,22 +102,22 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 dst += dstskip;
             }
         }
-    } else {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    } инако {
+        ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (1) {
+                    ако (1) {
                         *dst = bit;
                     }
                     dst++;
@@ -126,21 +126,21 @@ SDL_FORCE_INLINE void BlitBto1(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } инако {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (1) {
+                    ако (1) {
                         *dst = bit;
                     }
                     dst++;
@@ -158,11 +158,11 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int c;
-    int width, height;
+    цео c;
+    цео width, height;
     Uint8 *src;
     Uint16 *map, *dst;
-    int srcskip, dstskip;
+    цео srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -175,28 +175,28 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                ако (1) {
                     *dst = map[bit];
                 }
                 byte >>= srcbpp;
@@ -205,21 +205,21 @@ SDL_FORCE_INLINE void BlitBto2(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                ако (1) {
                     *dst = map[bit];
                 }
                 byte <<= srcbpp;
@@ -236,10 +236,10 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int c, o;
-    int width, height;
+    цео c, o;
+    цео width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    цео srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -252,28 +252,28 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                ако (1) {
                     o = bit * 4;
                     dst[0] = map[o++];
                     dst[1] = map[o++];
@@ -285,21 +285,21 @@ SDL_FORCE_INLINE void BlitBto3(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                ако (1) {
                     o = bit * 4;
                     dst[0] = map[o++];
                     dst[1] = map[o++];
@@ -319,11 +319,11 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int width, height;
+    цео width, height;
     Uint8 *src;
     Uint32 *map, *dst;
-    int srcskip, dstskip;
-    int c;
+    цео srcskip, dstskip;
+    цео c;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -336,28 +336,28 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                ако (1) {
                     *dst = map[bit];
                 }
                 byte >>= srcbpp;
@@ -366,21 +366,21 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                ако (1) {
                     *dst = map[bit];
                 }
                 byte <<= srcbpp;
@@ -397,41 +397,41 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    цео c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (palmap) {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    ако (palmap) {
+        ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (bit != ckey) {
+                    ако (bit != ckey) {
                         *dst = palmap[bit];
                     }
                     dst++;
@@ -440,21 +440,21 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } инако {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (bit != ckey) {
+                    ако (bit != ckey) {
                         *dst = palmap[bit];
                     }
                     dst++;
@@ -464,22 +464,22 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 dst += dstskip;
             }
         }
-    } else {
-        if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-            while (height--) {
+    } инако {
+        ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte >>= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte & mask);
-                    if (bit != ckey) {
+                    ако (bit != ckey) {
                         *dst = bit;
                     }
                     dst++;
@@ -488,21 +488,21 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
-            while (height--) {
+        } инако {
+            док (height--) {
                 Uint8 byte = 0, bit;
-                for (c = 0; c < info->leading_skip; ++c) {
-                    if (!(c & align)) {
+                за (c = 0; c < info->leading_skip; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     byte <<= srcbpp;
                 }
-                for (; c < width; ++c) {
-                    if (!(c & align)) {
+                за (; c < width; ++c) {
+                    ако (!(c & align)) {
                         byte = *src++;
                     }
                     bit = (byte >> (8 - srcbpp)) & mask;
-                    if (bit != ckey) {
+                    ако (bit != ckey) {
                         *dst = bit;
                     }
                     dst++;
@@ -520,41 +520,41 @@ SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint16 *dstp = (Uint16 *)info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    цео c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     dstskip /= 2;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     *dstp = ((Uint16 *)palmap)[bit];
                 }
                 byte >>= srcbpp;
@@ -563,21 +563,21 @@ SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dstp += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     *dstp = ((Uint16 *)palmap)[bit];
                 }
                 byte <<= srcbpp;
@@ -594,40 +594,40 @@ SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    цео c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     SDL_memcpy(dst, &palmap[bit * 4], 3);
                 }
                 byte >>= srcbpp;
@@ -636,21 +636,21 @@ SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     SDL_memcpy(dst, &palmap[bit * 4], 3);
                 }
                 byte <<= srcbpp;
@@ -667,41 +667,41 @@ SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint32 *dstp = (Uint32 *)info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint8 *palmap = info->table;
-    int c;
+    цео c;
 
     width += info->leading_skip;
 
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     dstskip /= 4;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     *dstp = ((Uint32 *)palmap)[bit];
                 }
                 byte >>= srcbpp;
@@ -710,21 +710,21 @@ SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
             src += srcskip;
             dstp += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     *dstp = ((Uint32 *)palmap)[bit];
                 }
                 byte <<= srcbpp;
@@ -738,17 +738,17 @@ SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
 
 static void BlitBtoNAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     const SDL_Color *srcpal = info->src_pal->colors;
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int srcbpp, dstbpp;
-    int c;
+    цео srcbpp, dstbpp;
+    цео c;
     Uint32 pixelvalue, mask, align;
     unsigned sR, sG, sB;
     unsigned dR, dG, dB, dA;
@@ -758,30 +758,30 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
 
     srcbpp = srcfmt->bytes_per_pixel;
     dstbpp = dstfmt->bytes_per_pixel;
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     mask = (1 << srcbpp) - 1;
     align = (8 / srcbpp) - 1;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (1) {
+                ако (1) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -795,21 +795,21 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (1) {
+                ако (1) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -828,17 +828,17 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
 
 static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цео width = info->dst_w;
+    цео height = info->dst_h;
     Uint8 *src = info->src;
     Uint8 *dst = info->dst;
-    int srcskip = info->src_skip;
-    int dstskip = info->dst_skip;
+    цео srcskip = info->src_skip;
+    цео dstskip = info->dst_skip;
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     const SDL_Color *srcpal = info->src_pal->colors;
-    int srcbpp, dstbpp;
-    int c;
+    цео srcbpp, dstbpp;
+    цео c;
     Uint32 pixelvalue, mask, align;
     unsigned sR, sG, sB;
     unsigned dR, dG, dB, dA;
@@ -849,30 +849,30 @@ static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
 
     srcbpp = srcfmt->bytes_per_pixel;
     dstbpp = dstfmt->bytes_per_pixel;
-    if (srcbpp == 4)
+    ако (srcbpp == 4)
         srcskip += width - (width + 1) / 2;
-    else if (srcbpp == 2)
+    инако ако (srcbpp == 2)
         srcskip += width - (width + 3) / 4;
-    else if (srcbpp == 1)
+    инако ако (srcbpp == 1)
         srcskip += width - (width + 7) / 8;
     mask = (1 << srcbpp) - 1;
     align = (8 / srcbpp) - 1;
 
-    if (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
-        while (height--) {
+    ако (SDL_PIXELORDER(info->src_fmt->format) == SDL_BITMAPORDER_4321) {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte >>= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte & mask);
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -886,21 +886,21 @@ static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } инако {
+        док (height--) {
             Uint8 byte = 0, bit;
-            for (c = 0; c < info->leading_skip; ++c) {
-                if (!(c & align)) {
+            за (c = 0; c < info->leading_skip; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 byte <<= srcbpp;
             }
-            for (; c < width; ++c) {
-                if (!(c & align)) {
+            за (; c < width; ++c) {
+                ако (!(c & align)) {
                     byte = *src++;
                 }
                 bit = (byte >> (8 - srcbpp)) & mask;
-                if (bit != ckey) {
+                ако (bit != ckey) {
                     sR = srcpal[bit].r;
                     sG = srcpal[bit].g;
                     sB = srcpal[bit].b;
@@ -1047,84 +1047,84 @@ static const SDL_BlitFunc colorkey_blit_4b[] = {
 
 SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
 {
-    int which;
+    цео which;
 
-    if (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
+    ако (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
         which = 0;
-    } else {
+    } инако {
         which = SDL_BYTESPERPIXEL(surface->map.info.dst_fmt->format);
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX1) {
+    ако (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX1) {
         switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
         case 0:
-            if (which < SDL_arraysize(bitmap_blit_1b)) {
-                return bitmap_blit_1b[which];
+            ако (which < SDL_arraysize(bitmap_blit_1b)) {
+                врати bitmap_blit_1b[which];
             }
             break;
 
         case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_1b)) {
-                return colorkey_blit_1b[which];
+            ако (which < SDL_arraysize(colorkey_blit_1b)) {
+                врати colorkey_blit_1b[which];
             }
             break;
 
         case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
         }
-        return NULL;
+        врати NULL;
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX2) {
+    ако (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX2) {
         switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
         case 0:
-            if (which < SDL_arraysize(bitmap_blit_2b)) {
-                return bitmap_blit_2b[which];
+            ако (which < SDL_arraysize(bitmap_blit_2b)) {
+                врати bitmap_blit_2b[which];
             }
             break;
 
         case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_2b)) {
-                return colorkey_blit_2b[which];
+            ако (which < SDL_arraysize(colorkey_blit_2b)) {
+                врати colorkey_blit_2b[which];
             }
             break;
 
         case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
         }
-        return NULL;
+        врати NULL;
     }
 
-    if (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX4) {
+    ако (SDL_PIXELTYPE(surface->format) == SDL_PIXELTYPE_INDEX4) {
         switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
         case 0:
-            if (which < SDL_arraysize(bitmap_blit_4b)) {
-                return bitmap_blit_4b[which];
+            ако (which < SDL_arraysize(bitmap_blit_4b)) {
+                врати bitmap_blit_4b[which];
             }
             break;
 
         case SDL_COPY_COLORKEY:
-            if (which < SDL_arraysize(colorkey_blit_4b)) {
-                return colorkey_blit_4b[which];
+            ако (which < SDL_arraysize(colorkey_blit_4b)) {
+                врати colorkey_blit_4b[which];
             }
             break;
 
         case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            врати which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
         }
-        return NULL;
+        врати NULL;
     }
 
-    return NULL;
+    врати NULL;
 }
 
 #endif // SDL_HAVE_BLIT_0

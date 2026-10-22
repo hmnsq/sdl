@@ -35,16 +35,16 @@ typedef enum
 
 static SlowBlitPixelAccess GetPixelAccessMethod(SDL_PixelFormat format)
 {
-    if (SDL_BYTESPERPIXEL(format) > 4) {
-        return SlowBlitPixelAccess_Large;
-    } else if (SDL_ISPIXELFORMAT_10BIT(format)) {
-        return SlowBlitPixelAccess_10Bit;
-    } else if (format == SDL_PIXELFORMAT_INDEX8) {
-        return SlowBlitPixelAccess_Index8;
-    } else if (SDL_ISPIXELFORMAT_ALPHA(format)) {
-        return SlowBlitPixelAccess_RGBA;
-    } else {
-        return SlowBlitPixelAccess_RGB;
+    ако (SDL_BYTESPERPIXEL(format) > 4) {
+        врати SlowBlitPixelAccess_Large;
+    } инако ако (SDL_ISPIXELFORMAT_10BIT(format)) {
+        врати SlowBlitPixelAccess_10Bit;
+    } инако ако (format == SDL_PIXELFORMAT_INDEX8) {
+        врати SlowBlitPixelAccess_Index8;
+    } инако ако (SDL_ISPIXELFORMAT_ALPHA(format)) {
+        врати SlowBlitPixelAccess_RGBA;
+    } инако {
+        врати SlowBlitPixelAccess_RGB;
     }
 }
 
@@ -53,7 +53,7 @@ static SlowBlitPixelAccess GetPixelAccessMethod(SDL_PixelFormat format)
  */
 void SDL_Blit_Slow(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const цео flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -70,8 +70,8 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
     const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
     const SDL_Palette *dst_pal = info->dst_pal;
     SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    цео srcbpp = src_fmt->bytes_per_pixel;
+    цео dstbpp = dst_fmt->bytes_per_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     Uint32 rgbmask = ~src_fmt->Amask;
@@ -81,7 +81,7 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
 
     src_access = GetPixelAccessMethod(src_fmt->format);
     dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
+    ако (dst_access == SlowBlitPixelAccess_Index8) {
         last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
     }
 
@@ -89,13 +89,13 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
     incx = info->dst_w ? ((Uint64)info->src_w << 16) / info->dst_w : 0;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
+    док (info->dst_h--) {
         Uint8 *src = NULL;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        цео n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        док (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
@@ -140,19 +140,19 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
                 break;
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            ако (flags & SDL_COPY_COLORKEY) {
                 // srcpixel isn't set for 24 bpp
-                if (srcbpp == 3) {
+                ако (srcbpp == 3) {
                     srcpixel = (srcR << src_fmt->Rshift) |
                                (srcG << src_fmt->Gshift) | (srcB << src_fmt->Bshift);
                 }
-                if ((srcpixel & rgbmask) == ckey) {
+                ако ((srcpixel & rgbmask) == ckey) {
                     posx += incx;
                     dst += dstbpp;
                     continue;
                 }
             }
-            if (flags & SDL_COPY_BLEND_MASK) {
+            ако (flags & SDL_COPY_BLEND_MASK) {
                 switch (dst_access) {
                 case SlowBlitPixelAccess_Index8:
                     dstpixel = *dst;
@@ -193,20 +193,20 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
                     // Handled in SDL_Blit_Slow_Float()
                     break;
                 }
-            } else {
+            } инако {
                 // don't care
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            ако (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            ако (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            ако (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
+                ако (srcA < 255) {
                     srcR = (srcR * srcA) / 255;
                     srcG = (srcG * srcA) / 255;
                     srcB = (srcB * srcA) / 255;
@@ -227,34 +227,34 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 dstR = srcR + ((255 - srcA) * dstR) / 255;
-                if (dstR > 255) {
+                ако (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + ((255 - srcA) * dstG) / 255;
-                if (dstG > 255) {
+                ако (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + ((255 - srcA) * dstB) / 255;
-                if (dstB > 255) {
+                ако (dstB > 255) {
                     dstB = 255;
                 }
                 dstA = srcA + ((255 - srcA) * dstA) / 255;
-                if (dstA > 255) {
+                ако (dstA > 255) {
                     dstA = 255;
                 }
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
                 dstR = srcR + dstR;
-                if (dstR > 255) {
+                ако (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + dstG;
-                if (dstG > 255) {
+                ако (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + dstB;
-                if (dstB > 255) {
+                ако (dstB > 255) {
                     dstB = 255;
                 }
                 break;
@@ -265,15 +265,15 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_MUL:
                 dstR = ((srcR * dstR) + (dstR * (255 - srcA))) / 255;
-                if (dstR > 255) {
+                ако (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = ((srcG * dstG) + (dstG * (255 - srcA))) / 255;
-                if (dstG > 255) {
+                ако (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = ((srcB * dstB) + (dstB * (255 - srcA))) / 255;
-                if (dstB > 255) {
+                ако (dstB > 255) {
                     dstB = 255;
                 }
                 break;
@@ -282,7 +282,7 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
             switch (dst_access) {
             case SlowBlitPixelAccess_Index8:
                 dstpixel = ((dstR << 24) | (dstG << 16) | (dstB << 8) | dstA);
-                if (dstpixel != last_pixel) {
+                ако (dstpixel != last_pixel) {
                     last_pixel = dstpixel;
                     last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
@@ -375,10 +375,10 @@ static float half_to_float(Uint16 unValue)
     h.u = unValue;
     o.u = (h.u & 0x7fff) << 13;     // exponent/mantissa bits
     o.f *= magic.f;                 // exponent adjust
-    if (o.f >= was_infnan.f)        // make sure Inf/NaN survive
+    ако (o.f >= was_infnan.f)        // make sure Inf/NaN survive
         o.u |= 255 << 23;
     o.u |= (h.u & 0x8000) << 16;    // sign bit
-    return o.f;
+    врати o.f;
 }
 
 /* Convert from float to F16
@@ -392,33 +392,33 @@ static Uint16 float_to_half(float a)
     SDL_memcpy(&ia, &a, sizeof(ia));
 
     ir = (ia >> 16) & 0x8000;
-    if ((ia & 0x7f800000) == 0x7f800000) {
-        if ((ia & 0x7fffffff) == 0x7f800000) {
+    ако ((ia & 0x7f800000) == 0x7f800000) {
+        ако ((ia & 0x7fffffff) == 0x7f800000) {
             ir |= 0x7c00; // infinity
-        } else {
+        } инако {
             ir |= 0x7e00 | ((ia >> (24 - 11)) & 0x1ff); // NaN, quietened
         }
-    } else if ((ia & 0x7f800000) >= 0x33000000) {
-        int shift = (int)((ia >> 23) & 0xff) - 127;
-        if (shift > 15) {
+    } инако ако ((ia & 0x7f800000) >= 0x33000000) {
+        цео shift = (цео)((ia >> 23) & 0xff) - 127;
+        ако (shift > 15) {
             ir |= 0x7c00; // infinity
-        } else {
+        } инако {
             ia = (ia & 0x007fffff) | 0x00800000; // extract mantissa
-            if (shift < -14) { // denormal
+            ако (shift < -14) { // denormal
                 ir |= ia >> (-1 - shift);
                 ia = ia << (32 - (-1 - shift));
-            } else { // normal
+            } инако { // normal
                 ir |= ia >> (24 - 11);
                 ia = ia << (32 - (24 - 11));
                 ir = ir + ((14 + shift) << 10);
             }
             // IEEE-754 round to nearest of even
-            if ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
+            ако ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
                 ir++;
             }
         }
     }
-    return ir;
+    врати ir;
 }
 
 static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_PixelFormatDetails *fmt, const SDL_Palette *pal, SDL_Colorspace colorspace, float SDR_white_point,
@@ -479,9 +479,9 @@ static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_
             v[0] = (float)(((Uint16 *)pixels)[0]) / SDL_MAX_UINT16;
             v[1] = (float)(((Uint16 *)pixels)[1]) / SDL_MAX_UINT16;
             v[2] = (float)(((Uint16 *)pixels)[2]) / SDL_MAX_UINT16;
-            if (fmt->bytes_per_pixel == 8) {
+            ако (fmt->bytes_per_pixel == 8) {
                 v[3] = (float)(((Uint16 *)pixels)[3]) / SDL_MAX_UINT16;
-            } else {
+            } инако {
                 v[3] = 1.0f;
             }
             break;
@@ -489,9 +489,9 @@ static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_
             v[0] = half_to_float(((Uint16 *)pixels)[0]);
             v[1] = half_to_float(((Uint16 *)pixels)[1]);
             v[2] = half_to_float(((Uint16 *)pixels)[2]);
-            if (fmt->bytes_per_pixel == 8) {
+            ако (fmt->bytes_per_pixel == 8) {
                 v[3] = half_to_float(((Uint16 *)pixels)[3]);
-            } else {
+            } инако {
                 v[3] = 1.0f;
             }
             break;
@@ -499,9 +499,9 @@ static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_
             v[0] = ((float *)pixels)[0];
             v[1] = ((float *)pixels)[1];
             v[2] = ((float *)pixels)[2];
-            if (fmt->bytes_per_pixel == 16) {
+            ако (fmt->bytes_per_pixel == 16) {
                 v[3] = ((float *)pixels)[3];
-            } else {
+            } инако {
                 v[3] = 1.0f;
             }
             break;
@@ -700,7 +700,7 @@ static void WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL
             ((Uint16 *)pixels)[0] = (Uint16)SDL_roundf(SDL_clamp(v[0], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[1] = (Uint16)SDL_roundf(SDL_clamp(v[1], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[2] = (Uint16)SDL_roundf(SDL_clamp(v[2], 0.0f, 1.0f) * SDL_MAX_UINT16);
-            if (fmt->bytes_per_pixel == 8) {
+            ако (fmt->bytes_per_pixel == 8) {
                 ((Uint16 *)pixels)[3] = (Uint16)SDL_roundf(SDL_clamp(v[3], 0.0f, 1.0f) * SDL_MAX_UINT16);
             }
             break;
@@ -708,7 +708,7 @@ static void WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL
             ((Uint16 *)pixels)[0] = float_to_half(v[0]);
             ((Uint16 *)pixels)[1] = float_to_half(v[1]);
             ((Uint16 *)pixels)[2] = float_to_half(v[2]);
-            if (fmt->bytes_per_pixel == 8) {
+            ако (fmt->bytes_per_pixel == 8) {
                 ((Uint16 *)pixels)[3] = float_to_half(v[3]);
             }
             break;
@@ -716,7 +716,7 @@ static void WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL
             ((float *)pixels)[0] = v[0];
             ((float *)pixels)[1] = v[1];
             ((float *)pixels)[2] = v[2];
-            if (fmt->bytes_per_pixel == 16) {
+            ако (fmt->bytes_per_pixel == 16) {
                 ((float *)pixels)[3] = v[3];
             }
             break;
@@ -779,7 +779,7 @@ static void TonemapChrome(float *r, float *g, float *b, float tonemap_a, float t
     float v3 = *b;
     float vmax = SDL_max(v1, SDL_max(v2, v3));
 
-    if (vmax > 0.0f) {
+    ако (vmax > 0.0f) {
         float scale = (1.0f + tonemap_a * vmax) / (1.0f + tonemap_b * vmax);
         TonemapLinear(r, g, b, scale);
     }
@@ -792,7 +792,7 @@ static void ApplyTonemap(SDL_TonemapContext *ctx, float *r, float *g, float *b)
         TonemapLinear(r, g, b, ctx->data.linear.scale);
         break;
     case SDL_TONEMAP_CHROME:
-        if (ctx->data.chrome.color_primaries_matrix) {
+        ако (ctx->data.chrome.color_primaries_matrix) {
             SDL_ConvertColorPrimaries(r, g, b, ctx->data.chrome.color_primaries_matrix);
         }
         TonemapChrome(r, g, b, ctx->data.chrome.a, ctx->data.chrome.b);
@@ -807,7 +807,7 @@ static void ApplyTonemap(SDL_TonemapContext *ctx, float *r, float *g, float *b)
  */
 void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const цео flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -822,8 +822,8 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
     const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
     const SDL_Palette *dst_pal = info->dst_pal;
     SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    цео srcbpp = src_fmt->bytes_per_pixel;
+    цео dstbpp = dst_fmt->bytes_per_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     SDL_Colorspace src_colorspace;
@@ -848,7 +848,7 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
     dst_white_point = SDL_GetSurfaceSDRWhitePoint(info->dst_surface, dst_colorspace);
     src_headroom = SDL_GetSurfaceHDRHeadroom(info->src_surface, src_colorspace);
     dst_headroom = SDL_GetSurfaceHDRHeadroom(info->dst_surface, dst_colorspace);
-    if (dst_headroom == 0.0f) {
+    ако (dst_headroom == 0.0f) {
         // The destination will have the same headroom as the source
         dst_headroom = src_headroom;
         SDL_SetFloatProperty(SDL_GetSurfaceProperties(info->dst_surface), SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, dst_headroom);
@@ -856,39 +856,39 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
 
     SDL_zero(tonemap);
 
-    if (src_headroom > dst_headroom) {
+    ако (src_headroom > dst_headroom) {
         const char *tonemap_operator = SDL_GetStringProperty(SDL_GetSurfaceProperties(info->src_surface), SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING, NULL);
-        if (tonemap_operator) {
-            if (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
+        ако (tonemap_operator) {
+            ако (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
                 tonemap.op = SDL_TONEMAP_LINEAR;
                 tonemap.data.linear.scale = (float)SDL_atof(tonemap_operator + 2);
-            } else if (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
+            } инако ако (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
                 tonemap.op = SDL_TONEMAP_CHROME;
-            } else if (SDL_strcasecmp(tonemap_operator, "none") == 0) {
+            } инако ако (SDL_strcasecmp(tonemap_operator, "none") == 0) {
                 tonemap.op = SDL_TONEMAP_NONE;
             }
-        } else {
+        } инако {
             tonemap.op = SDL_TONEMAP_CHROME;
         }
-        if (tonemap.op == SDL_TONEMAP_CHROME) {
+        ако (tonemap.op == SDL_TONEMAP_CHROME) {
             tonemap.data.chrome.a = (dst_headroom / (src_headroom * src_headroom));
             tonemap.data.chrome.b = (1.0f / dst_headroom);
 
             // We'll convert to BT.2020 primaries for the tonemap operation
             tonemap.data.chrome.color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, SDL_COLOR_PRIMARIES_BT2020);
-            if (tonemap.data.chrome.color_primaries_matrix) {
+            ако (tonemap.data.chrome.color_primaries_matrix) {
                 src_primaries = SDL_COLOR_PRIMARIES_BT2020;
             }
         }
     }
 
-    if (src_primaries != dst_primaries) {
+    ако (src_primaries != dst_primaries) {
         color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, dst_primaries);
     }
 
     src_access = GetPixelAccessMethod(src_fmt->format);
     dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
+    ако (dst_access == SlowBlitPixelAccess_Index8) {
         last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
     }
 
@@ -896,46 +896,46 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
+    док (info->dst_h--) {
         Uint8 *src = NULL;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        цео n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        док (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
             ReadFloatPixel(src, src_access, src_fmt, src_pal, src_colorspace, src_white_point, &srcR, &srcG, &srcB, &srcA);
 
-            if (tonemap.op) {
+            ако (tonemap.op) {
                 ApplyTonemap(&tonemap, &srcR, &srcG, &srcB);
             }
 
-            if (color_primaries_matrix) {
+            ако (color_primaries_matrix) {
                 SDL_ConvertColorPrimaries(&srcR, &srcG, &srcB, color_primaries_matrix);
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            ако (flags & SDL_COPY_COLORKEY) {
                 // colorkey isn't supported
             }
-            if ((flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL))) {
+            ако ((flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL))) {
                 ReadFloatPixel(dst, dst_access, dst_fmt, dst_pal, dst_colorspace, dst_white_point, &dstR, &dstG, &dstB, &dstA);
-            } else {
+            } инако {
                 // don't care
                 dstR = dstG = dstB = dstA = 0.0f;
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            ако (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            ако (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 1.0f) {
+            ако (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
+                ако (srcA < 1.0f) {
                     srcR = (srcR * srcA);
                     srcG = (srcG * srcA);
                     srcB = (srcB * srcA);
@@ -971,18 +971,18 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
                 break;
             }
 
-            if (dst_access == SlowBlitPixelAccess_Index8) {
+            ако (dst_access == SlowBlitPixelAccess_Index8) {
                 Uint32 R = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstR), 0.0f, 1.0f) * 255.0f);
                 Uint32 G = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstG), 0.0f, 1.0f) * 255.0f);
                 Uint32 B = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstB), 0.0f, 1.0f) * 255.0f);
                 Uint32 A = (Uint8)SDL_roundf(SDL_clamp(dstA, 0.0f, 1.0f) * 255.0f);
                 Uint32 dstpixel = ((R << 24) | (G << 16) | (B << 8) | A);
-                if (dstpixel != last_pixel) {
+                ако (dstpixel != last_pixel) {
                     last_pixel = dstpixel;
                     last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
                 *dst = last_index;
-            } else {
+            } инако {
                 WriteFloatPixel(dst, dst_access, dst_fmt, dst_colorspace, dst_white_point, dstR, dstG, dstB, dstA);
             }
 

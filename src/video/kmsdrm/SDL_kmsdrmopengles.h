@@ -32,7 +32,7 @@
 #define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 
 extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
+extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, цео interval);
 extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);

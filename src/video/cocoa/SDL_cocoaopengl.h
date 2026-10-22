@@ -36,7 +36,7 @@
 
 struct SDL_GLDriverData
 {
-    int initialized;
+    цео initialized;
 };
 
 @interface SDL3OpenGLContext : NSOpenGLContext
@@ -74,8 +74,8 @@ extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const
 extern void Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, цео interval);
+extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, цео *interval);
 extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 

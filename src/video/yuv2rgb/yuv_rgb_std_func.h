@@ -7,7 +7,7 @@
 	RGB_FORMAT
 */
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#ако RGB_FORMAT == RGB_FORMAT_RGB565
 
 #define PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = \
@@ -84,7 +84,7 @@
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + b_tmp); \
 	rgb_ptr += sizeof(Uint16)
 
-#else
+#инако
 #error PACK_PIXEL unimplemented
 #endif
 
@@ -95,18 +95,18 @@
 #endif
 
 #undef YUV_TYPE
-#if YUV_BITS > 8
+#ако YUV_BITS > 8
 #define YUV_TYPE	uint16_t
-#else
+#инако
 #define YUV_TYPE	uint8_t
 #endif
 #undef UV_OFFSET
 #define UV_OFFSET	(1 << ((YUV_BITS)-1))
 
 #undef GET
-#if YUV_BITS == 10
+#ако YUV_BITS == 10
 #define GET(X)	((X) >> 6)
-#else
+#инако
 #define GET(X)	(X)
 #endif
 
@@ -117,7 +117,7 @@ void STD_FUNCTION_NAME(
 	YCbCrType yuv_type)
 {
 	const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
+#ако YUV_FORMAT == YUV_FORMAT_420
 	#define y_pixel_stride 1
 	#define uv_pixel_stride 1
 	#define uv_x_sample_interval 2
@@ -143,23 +143,23 @@ void STD_FUNCTION_NAME(
 	UV_stride /= sizeof(YUV_TYPE);
 
 	uint32_t x, y;
-	for(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
+	за(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
 	{
 		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
-		#if uv_y_sample_interval > 1
+		#ако uv_y_sample_interval > 1
 		const YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
 		#endif
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		#if uv_y_sample_interval > 1
+		#ако uv_y_sample_interval > 1
 		uint8_t *rgb_ptr2=RGB+(y+1)*RGB_stride;
 		#endif
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		за(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -175,12 +175,12 @@ void STD_FUNCTION_NAME(
 			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_x_sample_interval > 1
+			#ако uv_x_sample_interval > 1
 			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 			#endif
 
-			#if uv_y_sample_interval > 1
+			#ако uv_y_sample_interval > 1
 			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr2);
 
@@ -188,26 +188,26 @@ void STD_FUNCTION_NAME(
 			PACK_PIXEL(rgb_ptr2);
 			#endif
 
-			#if uv_x_sample_interval > 1
+			#ако uv_x_sample_interval > 1
 			y_ptr1+=2*y_pixel_stride;
-			#else
+			#инако
 			y_ptr1+=y_pixel_stride;
 			#endif
-			#if uv_y_sample_interval > 1
+			#ако uv_y_sample_interval > 1
 			y_ptr2+=2*y_pixel_stride;
 			#endif
-			#if uv_x_sample_interval > 1
+			#ако uv_x_sample_interval > 1
 			u_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
-			#else
+			#инако
 			u_ptr+=uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=uv_pixel_stride/uv_x_sample_interval;
 			#endif
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#ако uv_x_sample_interval == 2
+		ако (x == (width-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -223,7 +223,7 @@ void STD_FUNCTION_NAME(
 			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_y_sample_interval > 1
+			#ако uv_y_sample_interval > 1
 			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
 			PACK_PIXEL(rgb_ptr2);
 			#endif
@@ -232,8 +232,8 @@ void STD_FUNCTION_NAME(
 	}
 
 	/* Catch the last line, if needed */
-#if uv_y_sample_interval == 2
-	if (y == (height-1))
+#ако uv_y_sample_interval == 2
+	ако (y == (height-1))
 	{
 		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
@@ -241,7 +241,7 @@ void STD_FUNCTION_NAME(
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		за(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
@@ -266,8 +266,8 @@ void STD_FUNCTION_NAME(
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#ако uv_x_sample_interval == 2
+		ако (x == (width-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 

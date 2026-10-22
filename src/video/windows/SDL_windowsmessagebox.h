@@ -22,6 +22,6 @@
 
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
 
-extern bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+extern bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, цео *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_WINDOWS
