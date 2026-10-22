@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_sysvideo_h_
 #define SDL_sysvideo_h_
 
-#include <SDL3/SDL_vulkan.h>
+#अन्तर्भाव <SDL3/SDL_vulkan.h>
 
-#include "SDL_surface_c.h"
+#अन्तर्भाव "SDL_surface_c.h"
 
 // The SDL video driver
 
-typedef struct SDL_VideoDisplay SDL_VideoDisplay;
-typedef struct SDL_VideoDevice SDL_VideoDevice;
-typedef struct SDL_VideoData SDL_VideoData;
-typedef struct SDL_DisplayData SDL_DisplayData;
-typedef struct SDL_WindowData SDL_WindowData;
+प्रकारनिर्देश संरचना SDL_VideoDisplay SDL_VideoDisplay;
+प्रकारनिर्देश संरचना SDL_VideoDevice SDL_VideoDevice;
+प्रकारनिर्देश संरचना SDL_VideoData SDL_VideoData;
+प्रकारनिर्देश संरचना SDL_DisplayData SDL_DisplayData;
+प्रकारनिर्देश संरचना SDL_WindowData SDL_WindowData;
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
-    float SDR_white_level;
-    float HDR_headroom;
+    भिन्न SDR_white_level;
+    भिन्न HDR_headroom;
 } SDL_HDROutputProperties;
 
 // Define the SDL window structure, corresponding to toplevel windows
-struct SDL_Window
+संरचना SDL_Window
 {
     SDL_WindowID id;
-    char *title;
+    वर्ण *title;
     SDL_Surface *icon;
-    int x, y;
-    int w, h;
-    int min_w, min_h;
-    int max_w, max_h;
-    float min_aspect;
-    float max_aspect;
-    int last_pixel_w, last_pixel_h;
+    पूर्णाङ्क x, y;
+    पूर्णाङ्क w, h;
+    पूर्णाङ्क min_w, min_h;
+    पूर्णाङ्क max_w, max_h;
+    भिन्न min_aspect;
+    भिन्न max_aspect;
+    पूर्णाङ्क last_pixel_w, last_pixel_h;
     SDL_WindowFlags flags;
     SDL_WindowFlags pending_flags;
-    float display_scale;
+    भिन्न display_scale;
     bool external_graphics_context;
     bool fullscreen_exclusive;  // The window is currently fullscreen exclusive
     SDL_DisplayID last_fullscreen_exclusive_display;  // The last fullscreen_exclusive display
@@ -95,7 +95,7 @@ struct SDL_Window
     SDL_DisplayMode current_fullscreen_mode;
     SDL_HDROutputProperties HDR;
 
-    float opacity;
+    भिन्न opacity;
 
     SDL_Surface *surface;
     bool surface_valid;
@@ -109,28 +109,28 @@ struct SDL_Window
     bool is_destroying;
     bool is_dropping; // drag/drop in progress, expecting SDL_SendDropComplete().
 
-    int safe_inset_left;
-    int safe_inset_right;
-    int safe_inset_top;
-    int safe_inset_bottom;
+    पूर्णाङ्क safe_inset_बायाँ;
+    पूर्णाङ्क safe_inset_दायाँ;
+    पूर्णाङ्क safe_inset_शीर्ष;
+    पूर्णाङ्क safe_inset_bottom;
     SDL_Rect safe_rect;
 
-    SDL_PropertiesID text_input_props;
-    bool text_input_active;
-    SDL_Rect text_input_rect;
-    int text_input_cursor;
+    SDL_PropertiesID text_निवेश_props;
+    bool text_निवेश_active;
+    SDL_Rect text_निवेश_rect;
+    पूर्णाङ्क text_निवेश_cursor;
 
     SDL_Rect mouse_rect;
 
     SDL_HitTest hit_test;
-    void *hit_test_data;
+    शून्य *hit_test_data;
 
     SDL_ProgressState progress_state;
-    float progress_value;
+    भिन्न progress_मूल्य;
 
     SDL_PropertiesID props;
 
-    int num_renderers;
+    पूर्णाङ्क अंक_renderers;
     SDL_Renderer **renderers;
 
     SDL_WindowData *internal;
@@ -158,18 +158,18 @@ struct SDL_Window
  * Define the SDL display structure.
  * This corresponds to physical monitors attached to the system.
  */
-struct SDL_VideoDisplay
+संरचना SDL_VideoDisplay
 {
     SDL_DisplayID id;
-    char *name;
-    int max_fullscreen_modes;
-    int num_fullscreen_modes;
+    वर्ण *name;
+    पूर्णाङ्क max_fullscreen_modes;
+    पूर्णाङ्क अंक_fullscreen_modes;
     SDL_DisplayMode *fullscreen_modes;
     SDL_DisplayMode desktop_mode;
-    const SDL_DisplayMode *current_mode;
+    ध्रुव SDL_DisplayMode *current_mode;
     SDL_DisplayOrientation natural_orientation;
     SDL_DisplayOrientation current_orientation;
-    float content_scale;
+    भिन्न content_scale;
     SDL_HDROutputProperties HDR;
 
     // This is true if we are fullscreen or fullscreen is pending
@@ -184,7 +184,7 @@ struct SDL_VideoDisplay
 };
 
 // Video device flags
-typedef enum
+प्रकारनिर्देश गणना
 {
     VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED = 0x01,
     VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT = 0x02,
@@ -196,25 +196,25 @@ typedef enum
 } DeviceCaps;
 
 // Fullscreen operations
-typedef enum
+प्रकारनिर्देश गणना
 {
     SDL_FULLSCREEN_OP_LEAVE = 0,
     SDL_FULLSCREEN_OP_ENTER,
     SDL_FULLSCREEN_OP_UPDATE
 } SDL_FullscreenOp;
 
-typedef enum
+प्रकारनिर्देश गणना
 {
     SDL_FULLSCREEN_FAILED,
     SDL_FULLSCREEN_SUCCEEDED,
     SDL_FULLSCREEN_PENDING
 } SDL_FullscreenResult;
 
-struct SDL_VideoDevice
+संरचना SDL_VideoDevice
 {
     /* * * */
     // The name of this video driver
-    const char *name;
+    ध्रुव वर्ण *name;
 
     /* * * */
     // Initialization/Query functions
@@ -229,12 +229,12 @@ struct SDL_VideoDevice
      * Reverse the effects VideoInit() -- called if VideoInit() fails or
      * if the application is shutting down the video subsystem.
      */
-    void (*VideoQuit)(SDL_VideoDevice *_this);
+    शून्य (*VideoQuit)(SDL_VideoDevice *_this);
 
     /*
      * Reinitialize the touch devices -- called if an unknown touch ID occurs.
      */
-    void (*ResetTouch)(SDL_VideoDevice *_this);
+    शून्य (*ResetTouch)(SDL_VideoDevice *_this);
 
     /* * * */
     /*
@@ -244,7 +244,7 @@ struct SDL_VideoDevice
     /*
      * Refresh the display list
      */
-    void (*RefreshDisplays)(SDL_VideoDevice *_this);
+    शून्य (*RefreshDisplays)(SDL_VideoDevice *_this);
 
     /*
      * Get the bounds of a display
@@ -274,41 +274,41 @@ struct SDL_VideoDevice
      * Window functions
      */
     bool (*CreateSDLWindow)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-    void (*SetWindowTitle)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*SetWindowTitle)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*SetWindowIcon)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
     bool (*SetWindowPosition)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetWindowSize)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetWindowMinimumSize)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetWindowMaximumSize)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetWindowAspectRatio)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-    float (*GetWindowContentScale)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-    bool (*SetWindowOpacity)(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
+    शून्य (*SetWindowSize)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*SetWindowMinimumSize)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*SetWindowMaximumSize)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*SetWindowAspectRatio)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, पूर्णाङ्क *शीर्ष, पूर्णाङ्क *बायाँ, पूर्णाङ्क *bottom, पूर्णाङ्क *दायाँ);
+    भिन्न (*GetWindowContentScale)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, पूर्णाङ्क *w, पूर्णाङ्क *h);
+    bool (*SetWindowOpacity)(SDL_VideoDevice *_this, SDL_Window *window, भिन्न opacity);
     bool (*SetWindowParent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
     bool (*SetWindowModal)(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-    void (*ShowWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*HideWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*RaiseWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*MaximizeWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*MinimizeWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*RestoreWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetWindowBordered)(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-    void (*SetWindowResizable)(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-    void (*SetWindowAlwaysOnTop)(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
+    शून्य (*ShowWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*HideWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*RaiseWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*MaximizeWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*MinimizeWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*RestoreWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*SetWindowBordered)(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+    शून्य (*SetWindowResizable)(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+    शून्य (*Set_Window_Always_On_शीर्ष)(SDL_VideoDevice *_this, SDL_Window *window, bool on_शीर्ष);
     SDL_FullscreenResult (*SetWindowFullscreen)(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-    void *(*GetWindowICCProfile)(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
+    शून्य *(*GetWindowICCProfile)(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
     SDL_DisplayID (*GetDisplayForWindow)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*SetWindowMouseRect)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*SetWindowMouseGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
     bool (*SetWindowKeyboardGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-    void (*DestroyWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int vsync);
-    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int *vsync);
-    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-    void (*DestroyWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*OnWindowEnter)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*DestroyWindow)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch);
+    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, पूर्णाङ्क vsync);
+    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, पूर्णाङ्क *vsync);
+    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects);
+    शून्य (*DestroyWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*OnWindowEnter)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*UpdateWindowShape)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
     bool (*FlashWindow)(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
     bool (*ApplyWindowProgress)(SDL_VideoDevice *_this, SDL_Window *window);
@@ -321,27 +321,27 @@ struct SDL_VideoDevice
     /*
      * OpenGL support
      */
-    bool (*GL_LoadLibrary)(SDL_VideoDevice *_this, const char *path);
-    SDL_FunctionPointer (*GL_GetProcAddress)(SDL_VideoDevice *_this, const char *proc);
-    void (*GL_UnloadLibrary)(SDL_VideoDevice *_this);
+    bool (*GL_LoadLibrary)(SDL_VideoDevice *_this, ध्रुव वर्ण *path);
+    SDL_FunctionPointer (*GL_GetProcAddress)(SDL_VideoDevice *_this, ध्रुव वर्ण *proc);
+    शून्य (*GL_UnloadLibrary)(SDL_VideoDevice *_this);
     SDL_GLContext (*GL_CreateContext)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_MakeCurrent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
     SDL_EGLSurface (*GL_GetEGLSurface)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, int interval);
-    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, int *interval);
+    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, पूर्णाङ्क interval);
+    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, पूर्णाङ्क *interval);
     bool (*GL_SwapWindow)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_DestroyContext)(SDL_VideoDevice *_this, SDL_GLContext context);
-    void (*GL_SetDefaultProfileConfig)(SDL_VideoDevice *_this);
+    शून्य (*GL_SetDefaultProfileConfig)(SDL_VideoDevice *_this);
 
     /* * * */
     /*
      * Vulkan support
      */
-    bool (*Vulkan_LoadLibrary)(SDL_VideoDevice *_this, const char *path);
-    void (*Vulkan_UnloadLibrary)(SDL_VideoDevice *_this);
-    char const * const *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *count);
-    bool (*Vulkan_CreateSurface)(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-    void (*Vulkan_DestroySurface)(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+    bool (*Vulkan_LoadLibrary)(SDL_VideoDevice *_this, ध्रुव वर्ण *path);
+    शून्य (*Vulkan_UnloadLibrary)(SDL_VideoDevice *_this);
+    वर्ण ध्रुव * ध्रुव *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *गिनती);
+    bool (*Vulkan_CreateSurface)(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, ध्रुव संरचना VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
+    शून्य (*Vulkan_DestroySurface)(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, ध्रुव संरचना VkAllocationCallbacks *allocator);
     bool (*Vulkan_GetPresentationSupport)(SDL_VideoDevice *_this, VkInstance instance, VkPhysicalDevice physicalDevice, Uint32 queueFamilyIndex);
 
     /* * * */
@@ -349,65 +349,65 @@ struct SDL_VideoDevice
      * Metal support
      */
     SDL_MetalView (*Metal_CreateView)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*Metal_DestroyView)(SDL_VideoDevice *_this, SDL_MetalView view);
-    void *(*Metal_GetLayer)(SDL_VideoDevice *_this, SDL_MetalView view);
+    शून्य (*Metal_DestroyView)(SDL_VideoDevice *_this, SDL_MetalView view);
+    शून्य *(*Metal_GetLayer)(SDL_VideoDevice *_this, SDL_MetalView view);
 
     /* * * */
     /*
      * Event manager functions
      */
-    int (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
-    void (*SendWakeupEvent)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*PumpEvents)(SDL_VideoDevice *_this);
+    पूर्णाङ्क (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
+    शून्य (*SendWakeupEvent)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*PumpEvents)(SDL_VideoDevice *_this);
 
     // Suspend/resume the screensaver
     bool (*SuspendScreenSaver)(SDL_VideoDevice *_this);
 
     // Text input
-    bool (*StartTextInput)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-    bool (*StopTextInput)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*UpdateTextInputArea)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*Start_Text_निवेश)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+    bool (*Stop_Text_निवेश)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*Update_Text_निवेश_Area)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*ClearComposition)(SDL_VideoDevice *_this, SDL_Window *window);
 
     // Screen keyboard
     bool (*HasScreenKeyboardSupport)(SDL_VideoDevice *_this);
-    void (*ShowScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-    void (*HideScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetTextInputProperties)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+    शून्य (*ShowScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+    शून्य (*HideScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window);
+    शून्य (*Set_Text_निवेश_Properties)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
 
     // Clipboard
-    const char *const *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *num_mime_types);
+    ध्रुव वर्ण *ध्रुव *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *अंक_mime_types);
     bool (*SetClipboardData)(SDL_VideoDevice *_this);
-    void *(*GetClipboardData)(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-    bool (*HasClipboardData)(SDL_VideoDevice *_this, const char *mime_type);
+    शून्य *(*GetClipboardData)(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type, size_t *size);
+    bool (*HasClipboardData)(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type);
     /* If you implement *ClipboardData, you don't need to implement *ClipboardText */
-    bool (*SetClipboardText)(SDL_VideoDevice *_this, const char *text);
-    char *(*GetClipboardText)(SDL_VideoDevice *_this);
+    bool (*SetClipboardText)(SDL_VideoDevice *_this, ध्रुव वर्ण *text);
+    वर्ण *(*GetClipboardText)(SDL_VideoDevice *_this);
     bool (*HasClipboardText)(SDL_VideoDevice *_this);
     // These functions are only needed if the platform has a separate primary selection buffer
-    bool (*SetPrimarySelectionText)(SDL_VideoDevice *_this, const char *text);
-    char *(*GetPrimarySelectionText)(SDL_VideoDevice *_this);
+    bool (*SetPrimarySelectionText)(SDL_VideoDevice *_this, ध्रुव वर्ण *text);
+    वर्ण *(*GetPrimarySelectionText)(SDL_VideoDevice *_this);
     bool (*HasPrimarySelectionText)(SDL_VideoDevice *_this);
 
     // MessageBox
-    bool (*ShowMessageBox)(SDL_VideoDevice *_this, const SDL_MessageBoxData *messageboxdata, int *buttonID);
+    bool (*ShowMessageBox)(SDL_VideoDevice *_this, ध्रुव SDL_MessageBoxData *messageboxdata, पूर्णाङ्क *buttonID);
 
     // Hit-testing
     bool (*SetWindowHitTest)(SDL_Window *window, bool enabled);
 
     // Tell window that app enabled drag'n'drop events
-    void (*AcceptDragAndDrop)(SDL_Window *window, bool accept);
+    शून्य (*AcceptDragAndDrop)(SDL_Window *window, bool accept);
 
     // Display the system-level window menu
-    void (*ShowWindowSystemMenu)(SDL_Window *window, int x, int y);
+    शून्य (*ShowWindowSystemMenu)(SDL_Window *window, पूर्णाङ्क x, पूर्णाङ्क y);
 
     /* * * */
     // Data common to all drivers
     SDL_ThreadID thread;
     bool checked_texture_framebuffer;
     bool suspend_screensaver;
-    void *wakeup_window;
-    int num_displays;
+    शून्य *wakeup_window;
+    पूर्णाङ्क अंक_displays;
     SDL_VideoDisplay **displays;
     SDL_Rect desktop_bounds;
     SDL_Window *windows;
@@ -415,10 +415,10 @@ struct SDL_VideoDevice
     Uint32 clipboard_sequence;
     SDL_ClipboardDataCallback clipboard_callback;
     SDL_ClipboardCleanupCallback clipboard_cleanup;
-    void *clipboard_userdata;
-    char **clipboard_mime_types;
-    size_t num_clipboard_mime_types;
-    char *primary_selection_text;
+    शून्य *clipboard_userdata;
+    वर्ण **clipboard_mime_types;
+    size_t अंक_clipboard_mime_types;
+    वर्ण *primary_selection_text;
     bool setting_display_mode;
     Uint32 device_caps;
     SDL_SystemTheme system_theme;
@@ -427,46 +427,46 @@ struct SDL_VideoDevice
 
     /* * * */
     // Data used by the GL drivers
-    struct
+    संरचना
     {
-        int red_size;
-        int green_size;
-        int blue_size;
-        int alpha_size;
-        int depth_size;
-        int buffer_size;
-        int stencil_size;
-        int double_buffer;
-        int accum_red_size;
-        int accum_green_size;
-        int accum_blue_size;
-        int accum_alpha_size;
-        int stereo;
-        int multisamplebuffers;
-        int multisamplesamples;
-        int floatbuffers;
-        int accelerated;
-        int major_version;
-        int minor_version;
-        int flags;
-        int profile_mask;
-        int share_with_current_context;
-        int release_behavior;
-        int reset_notification;
-        int framebuffer_srgb_capable;
-        int no_error;
-        int retained_backing;
-        int egl_platform;
-        int driver_loaded;
-        int HAS_GL_ARB_color_buffer_float;
-        char driver_path[256];
+        पूर्णाङ्क red_size;
+        पूर्णाङ्क green_size;
+        पूर्णाङ्क blue_size;
+        पूर्णाङ्क alpha_size;
+        पूर्णाङ्क depth_size;
+        पूर्णाङ्क buffer_size;
+        पूर्णाङ्क stencil_size;
+        पूर्णाङ्क double_buffer;
+        पूर्णाङ्क accum_red_size;
+        पूर्णाङ्क accum_green_size;
+        पूर्णाङ्क accum_blue_size;
+        पूर्णाङ्क accum_alpha_size;
+        पूर्णाङ्क stereo;
+        पूर्णाङ्क multisamplebuffers;
+        पूर्णाङ्क multisamplesamples;
+        पूर्णाङ्क floatbuffers;
+        पूर्णाङ्क accelerated;
+        पूर्णाङ्क major_version;
+        पूर्णाङ्क minor_version;
+        पूर्णाङ्क flags;
+        पूर्णाङ्क profile_mask;
+        पूर्णाङ्क share_with_current_context;
+        पूर्णाङ्क release_behavior;
+        पूर्णाङ्क reset_notification;
+        पूर्णाङ्क framebuffer_srgb_capable;
+        पूर्णाङ्क no_error;
+        पूर्णाङ्क retained_backing;
+        पूर्णाङ्क egl_platform;
+        पूर्णाङ्क driver_loaded;
+        पूर्णाङ्क HAS_GL_ARB_color_buffer_float;
+        वर्ण driver_path[256];
         SDL_SharedObject *dll_handle;
     } gl_config;
 
     SDL_EGLAttribArrayCallback egl_platformattrib_callback;
     SDL_EGLIntArrayCallback egl_surfaceattrib_callback;
     SDL_EGLIntArrayCallback egl_contextattrib_callback;
-    void *egl_attrib_callback_userdata;
+    शून्य *egl_attrib_callback_userdata;
 
     /* * * */
     // Cache current GL context; don't call the OS when it hasn't changed.
@@ -485,139 +485,139 @@ struct SDL_VideoDevice
 
     /* * * */
     // Data used by the Vulkan drivers
-    struct
+    संरचना
     {
         SDL_FunctionPointer vkGetInstanceProcAddr;
         SDL_FunctionPointer vkEnumerateInstanceExtensionProperties;
-        int loader_loaded;
-        char loader_path[256];
+        पूर्णाङ्क loader_loaded;
+        वर्ण loader_path[256];
         SDL_SharedObject *loader_handle;
     } vulkan_config;
 
     /* * * */
     // Data private to this driver
     SDL_VideoData *internal;
-    struct SDL_GLDriverData *gl_data;
+    संरचना SDL_GLDriverData *gl_data;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    struct SDL_EGL_VideoData *egl_data;
+    संरचना SDL_EGL_VideoData *egl_data;
 #endif
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    struct SDL_PrivateGLESData *gles_data;
+#यदि defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    संरचना SDL_PrivateGLESData *gles_data;
 #endif
 
     /* * * */
     // The function used to dispose of this structure
-    void (*free)(SDL_VideoDevice *_this);
+    शून्य (*मुक्त)(SDL_VideoDevice *_this);
 };
 
-typedef struct VideoBootStrap
+प्रकारनिर्देश संरचना VideoBootStrap
 {
-    const char *name;
-    const char *desc;
-    SDL_VideoDevice *(*create)(void);
-    bool (*ShowMessageBox)(const SDL_MessageBoxData *messageboxdata, int *buttonID);  // can be done without initializing backend!
+    ध्रुव वर्ण *name;
+    ध्रुव वर्ण *desc;
+    SDL_VideoDevice *(*create)(शून्य);
+    bool (*ShowMessageBox)(ध्रुव SDL_MessageBoxData *messageboxdata, पूर्णाङ्क *buttonID);  // can be done without initializing backend!
     bool is_preferred;
 } VideoBootStrap;
 
 // Not all of these are available in a given build. Use #ifdefs, etc.
-extern VideoBootStrap PRIVATE_bootstrap;
-extern VideoBootStrap COCOA_bootstrap;
-extern VideoBootStrap X11_bootstrap;
-extern VideoBootStrap WINDOWS_bootstrap;
-extern VideoBootStrap HAIKU_bootstrap;
-extern VideoBootStrap UIKIT_bootstrap;
-extern VideoBootStrap Android_bootstrap;
-extern VideoBootStrap OPENHARMONY_bootstrap;
-extern VideoBootStrap PS2_bootstrap;
-extern VideoBootStrap PSP_bootstrap;
-extern VideoBootStrap VITA_bootstrap;
-extern VideoBootStrap RISCOS_bootstrap;
-extern VideoBootStrap N3DS_bootstrap;
-extern VideoBootStrap NGAGE_bootstrap;
-extern VideoBootStrap RPI_bootstrap;
-extern VideoBootStrap KMSDRM_bootstrap;
-extern VideoBootStrap DUMMY_bootstrap;
-extern VideoBootStrap DUMMY_evdev_bootstrap;
-extern VideoBootStrap Wayland_preferred_bootstrap;
-extern VideoBootStrap Wayland_bootstrap;
-extern VideoBootStrap VIVANTE_bootstrap;
-extern VideoBootStrap Emscripten_bootstrap;
-extern VideoBootStrap OFFSCREEN_bootstrap;
-extern VideoBootStrap QNX_bootstrap;
-extern VideoBootStrap OPENVR_bootstrap;
-extern VideoBootStrap DOSVESA_bootstrap;
+बाह्य VideoBootStrap PRIVATE_bootstrap;
+बाह्य VideoBootStrap COCOA_bootstrap;
+बाह्य VideoBootStrap X11_bootstrap;
+बाह्य VideoBootStrap WINDOWS_bootstrap;
+बाह्य VideoBootStrap HAIKU_bootstrap;
+बाह्य VideoBootStrap UIKIT_bootstrap;
+बाह्य VideoBootStrap Android_bootstrap;
+बाह्य VideoBootStrap OPENHARMONY_bootstrap;
+बाह्य VideoBootStrap PS2_bootstrap;
+बाह्य VideoBootStrap PSP_bootstrap;
+बाह्य VideoBootStrap VITA_bootstrap;
+बाह्य VideoBootStrap RISCOS_bootstrap;
+बाह्य VideoBootStrap N3DS_bootstrap;
+बाह्य VideoBootStrap NGAGE_bootstrap;
+बाह्य VideoBootStrap RPI_bootstrap;
+बाह्य VideoBootStrap KMSDRM_bootstrap;
+बाह्य VideoBootStrap DUMMY_bootstrap;
+बाह्य VideoBootStrap DUMMY_evdev_bootstrap;
+बाह्य VideoBootStrap Wayland_preferred_bootstrap;
+बाह्य VideoBootStrap Wayland_bootstrap;
+बाह्य VideoBootStrap VIVANTE_bootstrap;
+बाह्य VideoBootStrap Emscripten_bootstrap;
+बाह्य VideoBootStrap OFFSCREEN_bootstrap;
+बाह्य VideoBootStrap QNX_bootstrap;
+बाह्य VideoBootStrap OPENVR_bootstrap;
+बाह्य VideoBootStrap DOSVESA_bootstrap;
 
-extern bool SDL_UninitializedVideo(void);
+बाह्य bool SDL_UninitializedVideo(शून्य);
 // Use SDL_OnVideoThread() sparingly, to avoid regressions in use cases that currently happen to work
-extern bool SDL_OnVideoThread(void);
-extern SDL_VideoDevice *SDL_GetVideoDevice(void);
-extern void SDL_SetSystemTheme(SDL_SystemTheme theme);
-extern SDL_DisplayID SDL_AddBasicVideoDisplay(const SDL_DisplayMode *desktop_mode);
-extern SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_event);
-extern void SDL_DelVideoDisplay(SDL_DisplayID display, bool send_event);
-extern bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode);
-extern void SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display);
-extern void SDL_SetDesktopDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode);
-extern void SDL_SetCurrentDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode);
-extern void SDL_SetDisplayContentScale(SDL_VideoDisplay *display, float scale);
-extern void SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, const SDL_HDROutputProperties *HDR);
-extern bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID display);
-extern SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window);
-extern SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window);
-extern SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window);
-extern int SDL_GetDisplayIndex(SDL_DisplayID displayID);
-extern SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID display);
-extern SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window);
-extern int SDL_GetMessageBoxCount(void);
-extern void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event);
-extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom);
+बाह्य bool SDL_OnVideoThread(शून्य);
+बाह्य SDL_VideoDevice *SDL_GetVideoDevice(शून्य);
+बाह्य शून्य SDL_SetSystemTheme(SDL_SystemTheme theme);
+बाह्य SDL_DisplayID SDL_AddBasicVideoDisplay(ध्रुव SDL_DisplayMode *desktop_mode);
+बाह्य SDL_DisplayID SDL_AddVideoDisplay(ध्रुव SDL_VideoDisplay *display, bool send_event);
+बाह्य शून्य SDL_DelVideoDisplay(SDL_DisplayID display, bool send_event);
+बाह्य bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, ध्रुव SDL_DisplayMode *mode);
+बाह्य शून्य SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display);
+बाह्य शून्य SDL_SetDesktopDisplayMode(SDL_VideoDisplay *display, ध्रुव SDL_DisplayMode *mode);
+बाह्य शून्य SDL_SetCurrentDisplayMode(SDL_VideoDisplay *display, ध्रुव SDL_DisplayMode *mode);
+बाह्य शून्य SDL_SetDisplayContentScale(SDL_VideoDisplay *display, भिन्न scale);
+बाह्य शून्य SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, ध्रुव SDL_HDROutputProperties *HDR);
+बाह्य bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+बाह्य SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID display);
+बाह्य SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window);
+बाह्य SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window);
+बाह्य SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window);
+बाह्य पूर्णाङ्क SDL_GetDisplayIndex(SDL_DisplayID displayID);
+बाह्य SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID display);
+बाह्य SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window);
+बाह्य पूर्णाङ्क SDL_Get_Message_Box_गिनती(शून्य);
+बाह्य शून्य SDL_SetWindowHDRProperties(SDL_Window *window, ध्रुव SDL_HDROutputProperties *HDR, bool send_event);
+बाह्य शून्य SDL_SetWindowSafeAreaInsets(SDL_Window *window, पूर्णाङ्क बायाँ, पूर्णाङ्क दायाँ, पूर्णाङ्क शीर्ष, पूर्णाङ्क bottom);
 
-extern void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor);
+बाह्य शून्य SDL_GL_DeduceMaxSupportedESProfile(पूर्णाङ्क *major, पूर्णाङ्क *minor);
 
-extern bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags);
-extern bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags);
-extern bool SDL_HasWindows(void);
-extern void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y);
-extern void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y);
-extern bool SDL_ShouldFocusPopup(SDL_Window *window);
-extern bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus);
+बाह्य bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags);
+बाह्य bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags);
+बाह्य bool SDL_HasWindows(शून्य);
+बाह्य शून्य SDL_RelativeToGlobalForWindow(SDL_Window *window, पूर्णाङ्क rel_x, पूर्णाङ्क rel_y, पूर्णाङ्क *abs_x, पूर्णाङ्क *abs_y);
+बाह्य शून्य SDL_GlobalToRelativeForWindow(SDL_Window *window, पूर्णाङ्क abs_x, पूर्णाङ्क abs_y, पूर्णाङ्क *rel_x, पूर्णाङ्क *rel_y);
+बाह्य bool SDL_ShouldFocusPopup(SDL_Window *window);
+बाह्य bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus);
 
-extern void SDL_OnDisplayAdded(SDL_VideoDisplay *display);
-extern void SDL_OnDisplayMoved(SDL_VideoDisplay *display);
-extern void SDL_OnWindowShown(SDL_Window *window);
-extern void SDL_OnWindowHidden(SDL_Window *window);
-extern void SDL_OnWindowMoved(SDL_Window *window);
-extern void SDL_OnWindowResized(SDL_Window *window);
-extern void SDL_CheckWindowPixelSizeChanged(SDL_Window *window);
-extern void SDL_OnWindowPixelSizeChanged(SDL_Window *window);
-extern void SDL_OnWindowLiveResizeUpdate(SDL_Window *window);
-extern void SDL_OnWindowMinimized(SDL_Window *window);
-extern void SDL_OnWindowMaximized(SDL_Window *window);
-extern void SDL_OnWindowRestored(SDL_Window *window);
-extern void SDL_OnWindowEnter(SDL_Window *window);
-extern void SDL_OnWindowLeave(SDL_Window *window);
-extern void SDL_OnWindowFocusGained(SDL_Window *window);
-extern void SDL_OnWindowFocusLost(SDL_Window *window);
-extern void SDL_OnWindowDisplayChanged(SDL_Window *window);
-extern void SDL_UpdateWindowGrab(SDL_Window *window);
-extern bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, bool commit);
-extern SDL_Window *SDL_GetToplevelForKeyboardFocus(void);
+बाह्य शून्य SDL_OnDisplayAdded(SDL_VideoDisplay *display);
+बाह्य शून्य SDL_OnDisplayMoved(SDL_VideoDisplay *display);
+बाह्य शून्य SDL_OnWindowShown(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowHidden(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowMoved(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowResized(SDL_Window *window);
+बाह्य शून्य SDL_CheckWindowPixelSizeChanged(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowPixelSizeChanged(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowLiveResizeUpdate(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowMinimized(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowMaximized(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowRestored(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowEnter(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowLeave(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowFocusGained(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowFocusLost(SDL_Window *window);
+बाह्य शून्य SDL_OnWindowDisplayChanged(SDL_Window *window);
+बाह्य शून्य SDL_UpdateWindowGrab(SDL_Window *window);
+बाह्य bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, bool commit);
+बाह्य SDL_Window *SDL_GetToplevelForKeyboardFocus(शून्य);
 
-extern bool SDL_ShouldAllowTopmost(void);
+बाह्य bool SDL_ShouldAllowTopmost(शून्य);
 
-extern void SDL_ToggleDragAndDropSupport(void);
+बाह्य शून्य SDL_ToggleDragAndDropSupport(शून्य);
 
-extern void SDL_UpdateDesktopBounds(void);
+बाह्य शून्य SDL_UpdateDesktopBounds(शून्य);
 
-extern SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props);
-extern SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props);
-extern bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props);
-extern bool SDL_GetTextInputMultiline(SDL_PropertiesID props);
+बाह्य SDL_Text_निवेश_Type SDL_Get_Text_निवेश_Type(SDL_PropertiesID props);
+बाह्य SDL_Capitalization SDL_Get_Text_निवेश_Capitalization(SDL_PropertiesID props);
+बाह्य bool SDL_Get_Text_निवेश_Autocorrect(SDL_PropertiesID props);
+बाह्य bool SDL_Get_Text_निवेश_Multiline(SDL_PropertiesID props);
 
-extern void SDL_SendScreenKeyboardShown(void);
-extern void SDL_SendScreenKeyboardHidden(void);
+बाह्य शून्य SDL_SendScreenKeyboardShown(शून्य);
+बाह्य शून्य SDL_SendScreenKeyboardHidden(शून्य);
 
 #endif // SDL_sysvideo_h_

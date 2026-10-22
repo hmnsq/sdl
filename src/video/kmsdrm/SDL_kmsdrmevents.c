@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmevents.h"
+#अन्तर्भाव "SDL_kmsdrmvideo.h"
+#अन्तर्भाव "SDL_kmsdrmevents.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
-#include "../../core/openbsd/SDL_wscons.h"
+#ifdef SDL_निवेश_LINUXEV
+#अन्तर्भाव "../../core/linux/SDL_evdev.h"
+#नोचेद्यदि defined SDL_निवेश_WSCONS
+#अन्तर्भाव "../../core/openbsd/SDL_wscons.h"
 #endif
 
-void KMSDRM_PumpEvents(SDL_VideoDevice *_this)
+शून्य KMSDRM_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_निवेश_LINUXEV
     SDL_EVDEV_Poll();
-#elif defined SDL_INPUT_WSCONS
+#नोचेद्यदि defined SDL_निवेश_WSCONS
     SDL_WSCONS_PumpEvents();
 #endif
 }
