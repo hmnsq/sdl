@@ -22,9 +22,9 @@
 #ifndef SDL_emscriptenmouse_h_
 #define SDL_emscriptenmouse_h_
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
-    const char *system_cursor;
+    const var_na *system_cursor;
     bool is_custom;
 };
 

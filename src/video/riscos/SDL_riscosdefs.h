@@ -23,29 +23,29 @@
 #ifndef SDL_riscosdefs_h_
 #define SDL_riscosdefs_h_
 
-typedef struct sprite_area
+typedef sa_nracanaa sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    ཧྲིལ size;  // +0
+    ཧྲིལ count; // +4
+    ཧྲིལ start; // +8
+    ཧྲིལ end;   // +12
 } sprite_area;
 
-SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
+SDL_COMPILE_TIME_ASSERT(sprite_area, parimaa_na(sprite_area) == 16);
 
-typedef struct sprite_header
+typedef sa_nracanaa sprite_header
 {
-    int next;         // +0
-    char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
+    ཧྲིལ next;         // +0
+    var_na name[12];    // +4
+    ཧྲིལ width;        // +16
+    ཧྲིལ height;       // +20
+    ཧྲིལ first_bit;    // +24
+    ཧྲིལ last_bit;     // +28
+    ཧྲིལ image_offset; // +32
+    ཧྲིལ mask_offset;  // +36
+    ཧྲིལ mode;         // +40
 } sprite_header;
 
-SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);
+SDL_COMPILE_TIME_ASSERT(sprite_header, parimaa_na(sprite_header) == 44);
 
 #endif // SDL_riscosdefs_h_

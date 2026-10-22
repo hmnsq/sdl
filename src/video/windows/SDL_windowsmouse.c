@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#གལ་སྲིད defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowsevents.h"
@@ -39,7 +39,7 @@
 
 #pragma pack(push, 1)
 
-typedef struct
+typedef sa_nracanaa
 {
     BYTE bWidth;
     BYTE bHeight;
@@ -51,14 +51,14 @@ typedef struct
     DWORD dwImageOffset;
 } CURSORICONFILEDIRENTRY;
 
-typedef struct
+typedef sa_nracanaa
 {
     WORD idReserved;
     WORD idType;
     WORD idCount;
 } CURSORICONFILEDIR;
 
-typedef struct
+typedef sa_nracanaa
 {
     DWORD cbSizeof; // sizeof(ANIHEADER) = 36 bytes.
     DWORD frames;   // Number of frames in the frame list.
@@ -73,32 +73,32 @@ typedef struct
 
 #pragma pack(pop)
 
-typedef struct CachedCursor
+typedef sa_nracanaa CachedCursor
 {
     float scale;
     HCURSOR cursor;
-    struct CachedCursor *next;
+    sa_nracanaa CachedCursor *next;
 } CachedCursor;
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
     HCURSOR cursor;
 
     CachedCursor *cache;
-    int hot_x;
-    int hot_y;
-    int num_frames;
+    ཧྲིལ hot_x;
+    ཧྲིལ hot_y;
+    ཧྲིལ num_frames;
     SDL_CursorFrameInfo frames[1];
 };
 
-typedef struct
+typedef sa_nracanaa
 {
     Uint64 xs[5];
     Uint64 ys[5];
     Sint64 residual[2];
     Uint32 dpiscale;
     Uint32 dpidenom;
-    int last_node;
+    ཧྲིལ last_node;
     bool enhanced;
     bool dpiaware;
 } WIN_MouseData;
@@ -110,88 +110,88 @@ static WIN_MouseData WIN_system_scale_data;
 
 static SDL_Cursor *WIN_CreateCursorAndData(HCURSOR hcursor)
 {
-    if (!hcursor) {
-        return NULL;
+    གལ་སྲིད (!hcursor) {
+        ལོག NULL;
     }
 
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, parimaa_na(*cursor));
+    གལ་སྲིད (!cursor) {
+        ལོག NULL;
     }
 
-    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, parimaa_na(*data));
+    གལ་སྲིད (!data) {
         SDL_free(cursor);
-        return NULL;
+        ལོག NULL;
     }
 
     data->cursor = hcursor;
     cursor->internal = data;
-    return cursor;
+    ལོག cursor;
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, ཧྲིལ frame_count, ཧྲིལ hot_x, ཧྲིལ hot_y)
 {
     // Dynamically generate cursors at the appropriate DPI
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, parimaa_na(*cursor));
+    གལ་སྲིད (!cursor) {
+        ལོག NULL;
     }
 
-    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data) + (sizeof(SDL_CursorFrameInfo) * (frame_count - 1)));
-    if (!data) {
+    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, parimaa_na(*data) + (parimaa_na(SDL_CursorFrameInfo) * (frame_count - 1)));
+    གལ་སྲིད (!data) {
         SDL_free(cursor);
-        return NULL;
+        ལོག NULL;
     }
 
     data->hot_x = hot_x;
     data->hot_y = hot_y;
     data->num_frames = frame_count;
-    for (int i = 0; i < frame_count; ++i) {
+    དོན་ལུ (ཧྲིལ i = 0; i < frame_count; ++i) {
         SDL_Surface *surface = frames[i].surface;
-        if (surface->flags & SDL_SURFACE_PREALLOCATED) {
+        གལ་སྲིད (surface->flags & SDL_SURFACE_PREALLOCATED) {
             surface = SDL_DuplicateSurface(surface);
-            if (!surface) {
-                while (i > 0) {
+            གལ་སྲིད (!surface) {
+                སྐབས (i > 0) {
                     --i;
                     SDL_DestroySurface(data->frames[i].surface);
                 }
                 SDL_free(data);
                 SDL_free(cursor);
-                return NULL;
+                ལོག NULL;
             }
-        } else {
+        } དེ་མིན {
             ++surface->refcount;
         }
         data->frames[i].surface = surface;
         data->frames[i].duration = frames[i].duration;
     }
     cursor->internal = data;
-    return cursor;
+    ལོག cursor;
 }
 
 static bool SaveChunkSize(SDL_IOStream* dst, Sint64 offset)
 {
     Sint64 here = SDL_TellIO(dst);
-    if (here < 0) {
-        return false;
+    གལ་སྲིད (here < 0) {
+        ལོག false;
     }
-    if (SDL_SeekIO(dst, offset, SDL_IO_SEEK_SET) < 0) {
-        return false;
+    གལ་སྲིད (SDL_SeekIO(dst, offset, SDL_IO_SEEK_SET) < 0) {
+        ལོག false;
     }
 
-    DWORD size = (DWORD)(here - (offset + sizeof(DWORD)));
-    if (!SDL_WriteU32LE(dst, size)) {
-        return false;
+    DWORD size = (DWORD)(here - (offset + parimaa_na(DWORD)));
+    གལ་སྲིད (!SDL_WriteU32LE(dst, size)) {
+        ལོག false;
     }
-    return SDL_SeekIO(dst, here, SDL_IO_SEEK_SET);
+    ལོག SDL_SeekIO(dst, here, SDL_IO_SEEK_SET);
 }
 
-static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, int hot_x, int hot_y, DWORD dwImageSize, DWORD dwImageOffset)
+static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, ཧྲིལ hot_x, ཧྲིལ hot_y, DWORD dwImageSize, DWORD dwImageOffset)
 {
-    if (surface->props) {
-        hot_x = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
-        hot_y = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
+    གལ་སྲིད (surface->props) {
+        hot_x = (ཧྲིལ)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
+        hot_y = (ཧྲིལ)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
     }
     hot_x = SDL_clamp(hot_x, 0, surface->w - 1);
     hot_y = SDL_clamp(hot_y, 0, surface->h - 1);
@@ -203,28 +203,28 @@ static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, i
     entry->yHotspot = hot_y;
     entry->dwImageSize = dwImageSize;
     entry->dwImageOffset = dwImageOffset;
-    return true;
+    ལོག true;
 }
 
 #ifdef SAVE_ICON_PNG
 
 static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
-    if (!SDL_SavePNG_IO(surface, dst, false)) {
-        return false;
+    གལ་སྲིད (!SDL_SavePNG_IO(surface, dst, false)) {
+        ལོག false;
     }
 
     // Image data offsets must be WORD aligned
     Sint64 offset = SDL_TellIO(dst);
-    if (offset & 1) {
-        if (!SDL_WriteU8(dst, 0)) {
-            return false;
+    གལ་སྲིད (offset & 1) {
+        གལ་སྲིད (!SDL_WriteU8(dst, 0)) {
+            ལོག false;
         }
     }
-    return true;
+    ལོག true;
 }
 
-#else
+#དེ་མིན
 
 /* For info on the expected mask format see:
  * https://devblogs.microsoft.com/oldnewthing/20101018-00/?p=12513
@@ -232,44 +232,44 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 static void *CreateIconMask(SDL_Surface *surface, size_t *mask_size)
 {
     Uint8 *dst;
-    const int w = (surface->w + 7) / 8;
-    const int pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
-    const int pitch = (w + pad);
+    const ཧྲིལ w = (surface->w + 7) / 8;
+    const ཧྲིལ pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
+    const ཧྲིལ pitch = (w + pad);
     const size_t size = pitch * surface->h;
-    static const unsigned char masks[] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
+    static const unsigned var_na masks[] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
 
     void *mask = SDL_malloc(size);
-    if (!mask) {
-        return NULL;
+    གལ་སྲིད (!mask) {
+        ལོག NULL;
     }
 
     dst = (Uint8 *)mask;
 
     // Make the mask completely transparent.
     SDL_memset(dst, 0xff, size);
-    for (int y = surface->h - 1; y >= 0; --y, dst += pitch) {
-        for (int x = 0; x < surface->w; ++x) {
+    དོན་ལུ (ཧྲིལ y = surface->h - 1; y >= 0; --y, dst += pitch) {
+        དོན་ལུ (ཧྲིལ x = 0; x < surface->w; ++x) {
             Uint8 r, g, b, a;
             SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
 
-            if (a != 0) {
+            གལ་སྲིད (a != 0) {
                 // Reset bit of an opaque pixel.
                 dst[x >> 3] &= ~masks[x & 7];
             }
         }
     }
     *mask_size = size;
-    return mask;
+    ལོག mask;
 }
 
 static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
     SDL_Surface *temp = NULL;
 
-    if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+    གལ་སྲིད (surface->format != SDL_PIXELFORMAT_ARGB8888) {
         temp = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (!temp) {
-            return false;
+        གལ་སྲིད (!temp) {
+            ལོག false;
         }
         surface = temp;
     }
@@ -278,7 +278,7 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
     bool ok = true;
     size_t mask_size = 0;
     void *mask = CreateIconMask(surface, &mask_size);
-    if (!mask) {
+    གལ་སྲིད (!mask) {
         ok = false;
         goto done;
     }
@@ -286,18 +286,18 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
     BITMAPINFOHEADER bmih;
     SDL_zero(bmih);
     DWORD row_size = surface->w * 4;
-    bmih.biSize = sizeof(BITMAPINFOHEADER);
+    bmih.biSize = parimaa_na(BITMAPINFOHEADER);
     bmih.biWidth = surface->w;
     bmih.biHeight = surface->h * 2;
     bmih.biPlanes = 1;
     bmih.biBitCount = 32;
     bmih.biCompression = BI_RGB;
     bmih.biSizeImage = (DWORD)(surface->h * row_size + mask_size);
-    ok &= (SDL_WriteIO(dst, &bmih, sizeof(bmih)) == sizeof(bmih));
+    ok &= (SDL_WriteIO(dst, &bmih, parimaa_na(bmih)) == parimaa_na(bmih));
 
     const Uint8 *pix = surface->pixels;
     pix += (surface->h - 1) * surface->pitch;
-    for (int i = 0; i < surface->h; ++i) {
+    དོན་ལུ (ཧྲིལ i = 0; i < surface->h; ++i) {
         ok &= (SDL_WriteIO(dst, pix, row_size) == row_size);
         pix -= surface->pitch;
     }
@@ -306,26 +306,26 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 done:
     SDL_free(mask);
     SDL_DestroySurface(temp);
-    return ok;
+    ལོག ok;
 }
 
 #endif // SAVE_ICON_PNG
 
-static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, int hot_y, float scale)
+static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, ཧྲིལ hot_x, ཧྲིལ hot_y, float scale)
 {
 #ifdef SAVE_MULTIPLE_ICONS
-    int count = 0;
+    ཧྲིལ count = 0;
     SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &count);
-    if (!surfaces) {
-        return false;
+    གལ་སྲིད (!surfaces) {
+        ལོག false;
     }
-#else
+#དེ་མིན
     surface = SDL_GetSurfaceImage(surface, scale);
-    if (!surface) {
-        return false;
+    གལ་སྲིད (!surface) {
+        ལོག false;
     }
 
-    int count = 1;
+    ཧྲིལ count = 1;
     SDL_Surface **surfaces = &surface;
 #endif
 
@@ -335,24 +335,24 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('i', 'c', 'o', 'n'));
     Sint64 icon_size_offset = SDL_TellIO(dst);
     ok &= SDL_WriteU32LE(dst, 0);
-    Sint64 base_offset = icon_size_offset + sizeof(DWORD);
+    Sint64 base_offset = icon_size_offset + parimaa_na(DWORD);
 
     CURSORICONFILEDIR dir;
     dir.idReserved = 0;
     dir.idType = 2; // Cursor
     dir.idCount = count;
-    ok &= (SDL_WriteIO(dst, &dir, sizeof(dir)) == sizeof(dir));
+    ok &= (SDL_WriteIO(dst, &dir, parimaa_na(dir)) == parimaa_na(dir));
 
-    DWORD entries_size = count * sizeof(CURSORICONFILEDIRENTRY);
+    DWORD entries_size = count * parimaa_na(CURSORICONFILEDIRENTRY);
     CURSORICONFILEDIRENTRY *entries = (CURSORICONFILEDIRENTRY *)SDL_malloc(entries_size);
-    if (!entries) {
+    གལ་སྲིད (!entries) {
         ok = false;
         goto done;
     }
     ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
 
     Sint64 image_offset = SDL_TellIO(dst);
-    for (int i = 0; i < count; ++i) {
+    དོན་ལུ (ཧྲིལ i = 0; i < count; ++i) {
         ok &= WriteIconSurface(dst, surfaces[i]);
 
         Sint64 next_offset = SDL_TellIO(dst);
@@ -365,7 +365,7 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
     }
 
     // Now that we have the icon entries filled out, rewrite them
-    ok &= (SDL_SeekIO(dst, base_offset + sizeof(dir), SDL_IO_SEEK_SET) >= 0);
+    ok &= (SDL_SeekIO(dst, base_offset + parimaa_na(dir), SDL_IO_SEEK_SET) >= 0);
     ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
     ok &= (SDL_SeekIO(dst, image_offset, SDL_IO_SEEK_SET) >= 0);
     SDL_free(entries);
@@ -375,25 +375,25 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
 done:
 #ifdef SAVE_MULTIPLE_ICONS
     SDL_free(surfaces);
-#else
+#དེ་མིན
     SDL_DestroySurface(surface);
 #endif
-    return ok;
+    ལོག ok;
 }
 
 /* Windows doesn't have an API to easily create animated cursors from a sequence of images,
  * so we have to build an animated cursor resource file in memory and load it.
  */
-static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y, float scale)
+static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, ཧྲིལ frame_count, ཧྲིལ hot_x, ཧྲིལ hot_y, float scale)
 {
     HCURSOR hcursor = NULL;
     SDL_IOStream *dst = SDL_IOFromDynamicMem();
-    if (!dst) {
-        return NULL;
+    གལ་སྲིད (!dst) {
+        ལོག NULL;
     }
 
-    int w = (int)SDL_roundf(frames[0].surface->w * scale);
-    int h = (int)SDL_roundf(frames[0].surface->h * scale);
+    ཧྲིལ w = (ཧྲིལ)SDL_roundf(frames[0].surface->w * scale);
+    ཧྲིལ h = (ཧྲིལ)SDL_roundf(frames[0].surface->h * scale);
 
     bool ok = true;
     // RIFF header
@@ -404,23 +404,23 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
 
     // anih header chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('a', 'n', 'i', 'h'));
-    ok &= SDL_WriteU32LE(dst, sizeof(ANIHEADER));
+    ok &= SDL_WriteU32LE(dst, parimaa_na(ANIHEADER));
 
     ANIHEADER anih;
     SDL_zero(anih);
-    anih.cbSizeof = sizeof(anih);
+    anih.cbSizeof = parimaa_na(anih);
     anih.frames = frame_count;
     anih.steps = frame_count;
     anih.jifRate = 1;
     anih.fl = ANI_FLAG_ICON;
-    ok &= (SDL_WriteIO(dst, &anih, sizeof(anih)) == sizeof(anih));
+    ok &= (SDL_WriteIO(dst, &anih, parimaa_na(anih)) == parimaa_na(anih));
 
     // Rate chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('r', 'a', 't', 'e'));
-    ok &= SDL_WriteU32LE(dst, sizeof(DWORD) * frame_count);
-    for (int i = 0; i < frame_count; ++i) {
+    ok &= SDL_WriteU32LE(dst, parimaa_na(DWORD) * frame_count);
+    དོན་ལུ (ཧྲིལ i = 0; i < frame_count; ++i) {
         // Animated Win32 cursors are in jiffy units, and one jiffy is 1/60 of a second.
-        const double WIN32_JIFFY = 1000.0 / 60.0;
+        const dviguu_na WIN32_JIFFY = 1000.0 / 60.0;
         DWORD duration = (frames[i].duration ? SDL_lround(frames[i].duration / WIN32_JIFFY) : 0xFFFFFFFF);
         ok &= SDL_WriteU32LE(dst, duration);
     }
@@ -431,14 +431,14 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     ok &= SDL_WriteU32LE(dst, 0);
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('f', 'r', 'a', 'm'));
 
-    for (int i = 0; i < frame_count; ++i) {
+    དོན་ལུ (ཧྲིལ i = 0; i < frame_count; ++i) {
         ok &= WriteIconFrame(dst, frames[i].surface, hot_x, hot_y, scale);
     }
     ok &= SaveChunkSize(dst, frame_list_size_offset);
 
     // All done!
     ok &= SaveChunkSize(dst, riff_size_offset);
-    if (!ok) {
+    གལ་སྲིད (!ok) {
         // The error has been set above
         goto done;
     }
@@ -446,36 +446,36 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     BYTE *mem = (BYTE *)SDL_GetPointerProperty(SDL_GetIOProperties(dst), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, NULL);
     DWORD size = (DWORD)SDL_GetIOSize(dst);
     hcursor = (HCURSOR)CreateIconFromResourceEx(mem, size, FALSE, 0x00030000, w, h, 0);
-    if (!hcursor) {
+    གལ་སྲིད (!hcursor) {
         SDL_SetError("CreateIconFromResource failed");
     }
 
 done:
     SDL_CloseIO(dst);
 
-    return hcursor;
+    ལོག hcursor;
 }
 
-static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, ཧྲིལ hot_x, ཧྲིལ hot_y)
 {
     SDL_CursorFrameInfo frame = { surface, 0 };
-    return WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
+    ལོག WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, ཧྲིལ frame_count, ཧྲིལ hot_x, ཧྲིལ hot_y)
 {
-    return WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
+    ལོག WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
 }
 
 static SDL_Cursor *WIN_CreateBlankCursor(void)
 {
     SDL_Cursor *cursor = NULL;
     SDL_Surface *surface = SDL_CreateSurfaceZeroed(32, 32, SDL_PIXELFORMAT_ARGB8888);
-    if (surface) {
+    གལ་སྲིད (surface) {
         cursor = WIN_CreateCursor(surface, 0, 0);
         SDL_DestroySurface(surface);
     }
-    return cursor;
+    ལོག cursor;
 }
 
 static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
@@ -485,93 +485,93 @@ static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
     switch (id) {
     default:
         SDL_assert(!"Unknown system cursor ID");
-        return NULL;
-    case SDL_SYSTEM_CURSOR_DEFAULT:
+        ལོག NULL;
+    pak_sa SDL_SYSTEM_CURSOR_DEFAULT:
         name = IDC_ARROW;
-        break;
-    case SDL_SYSTEM_CURSOR_TEXT:
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_TEXT:
+    pak_sa SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
         name = IDC_IBEAM;
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_WAIT:
         name = IDC_WAIT;
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-    case SDL_SYSTEM_CURSOR_CELL:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_CROSSHAIR:
+    pak_sa SDL_SYSTEM_CURSOR_CELL:
         name = IDC_CROSS;
-        break;
-    case SDL_SYSTEM_CURSOR_PROGRESS:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_PROGRESS:
         name = IDC_APPSTARTING;
-        break;
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_NW_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_SE_RESIZE:
         name = IDC_SIZENWSE;
-        break;
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_NESW_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_NE_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_SW_RESIZE:
         name = IDC_SIZENESW;
-        break;
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_EW_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_E_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_W_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_COL_RESIZE:
         name = IDC_SIZEWE;
-        break;
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_NS_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_N_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_S_RESIZE:
+    pak_sa SDL_SYSTEM_CURSOR_ROW_RESIZE:
         name = IDC_SIZENS;
-        break;
-    case SDL_SYSTEM_CURSOR_MOVE:
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_MOVE:
+    pak_sa SDL_SYSTEM_CURSOR_ALL_SCROLL:
         name = IDC_SIZEALL;
-        break;
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-    case SDL_SYSTEM_CURSOR_NO_DROP:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+    pak_sa SDL_SYSTEM_CURSOR_NO_DROP:
         name = IDC_NO;
-        break;
-    case SDL_SYSTEM_CURSOR_POINTER:
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
-    case SDL_SYSTEM_CURSOR_ALIAS:
-    case SDL_SYSTEM_CURSOR_COPY:
-    case SDL_SYSTEM_CURSOR_GRAB:
-    case SDL_SYSTEM_CURSOR_GRABBING:
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_POINTER:
+    pak_sa SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+    pak_sa SDL_SYSTEM_CURSOR_ALIAS:
+    pak_sa SDL_SYSTEM_CURSOR_COPY:
+    pak_sa SDL_SYSTEM_CURSOR_GRAB:
+    pak_sa SDL_SYSTEM_CURSOR_GRABBING:
+    pak_sa SDL_SYSTEM_CURSOR_ZOOM_IN:
+    pak_sa SDL_SYSTEM_CURSOR_ZOOM_OUT:
         name = IDC_HAND;
-        break;
-    case SDL_SYSTEM_CURSOR_HELP:
+        bha_nga;
+    pak_sa SDL_SYSTEM_CURSOR_HELP:
         name = IDC_HELP;
-        break;
+        bha_nga;
     }
-    return WIN_CreateCursorAndData(LoadCursor(NULL, name));
+    ལོག WIN_CreateCursorAndData(LoadCursor(NULL, name));
 }
 
 static SDL_Cursor *WIN_CreateDefaultCursor(void)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return WIN_CreateSystemCursor(id);
+    ལོག WIN_CreateSystemCursor(id);
 }
 
 static void WIN_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    for (int i = 0; i < data->num_frames; ++i) {
+    དོན་ལུ (ཧྲིལ i = 0; i < data->num_frames; ++i) {
         SDL_DestroySurface(data->frames[i].surface);
     }
-    while (data->cache) {
+    སྐབས (data->cache) {
         CachedCursor *entry = data->cache;
         data->cache = entry->next;
-        if (entry->cursor) {
+        གལ་སྲིད (entry->cursor) {
             DestroyCursor(entry->cursor);
         }
         SDL_free(entry);
     }
-    if (data->cursor) {
+    གལ་སྲིད (data->cursor) {
         DestroyCursor(data->cursor);
     }
     SDL_free(data);
@@ -583,62 +583,62 @@ static HCURSOR GetCachedCursor(SDL_Cursor *cursor)
     SDL_CursorData *data = cursor->internal;
 
     float scale = 1.0f;
-    if (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
+    གལ་སྲིད (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
         scale = SDL_GetDisplayContentScale(SDL_GetDisplayForWindow(SDL_GetMouseFocus()));
-        if (scale == 0.0f) {
+        གལ་སྲིད (scale == 0.0f) {
             scale = 1.0f;
         }
     }
-    for (CachedCursor *entry = data->cache; entry; entry = entry->next) {
-        if (scale == entry->scale) {
-            return entry->cursor;
+    དོན་ལུ (CachedCursor *entry = data->cache; entry; entry = entry->next) {
+        གལ་སྲིད (scale == entry->scale) {
+            ལོག entry->cursor;
         }
     }
 
     // Need to create a cursor for this content scale
     HCURSOR hcursor = WIN_CreateAnimatedCursorInternal(data->frames, data->num_frames, data->hot_x, data->hot_y, scale);
-    if (!hcursor) {
-        return NULL;
+    གལ་སྲིད (!hcursor) {
+        ལོག NULL;
     }
 
-    CachedCursor *entry = (CachedCursor *)SDL_calloc(1, sizeof(*entry));
-    if (!entry) {
+    CachedCursor *entry = (CachedCursor *)SDL_calloc(1, parimaa_na(*entry));
+    གལ་སྲིད (!entry) {
         DestroyCursor(hcursor);
-        return NULL;
+        ལོག NULL;
     }
     entry->cursor = hcursor;
     entry->scale = scale;
     entry->next = data->cache;
     data->cache = entry;
 
-    return hcursor;
+    ལོག hcursor;
 }
 
 static bool WIN_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
-        if (GetSystemMetrics(SM_REMOTESESSION)) {
+    གལ་སྲིད (!cursor) {
+        གལ་སྲིད (GetSystemMetrics(SM_REMOTESESSION)) {
             // Use a blank cursor so we continue to get relative motion over RDP
             cursor = SDL_blank_cursor;
         }
     }
-    if (cursor) {
+    གལ་སྲིད (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->num_frames > 0) {
+        གལ་སྲིད (data->num_frames > 0) {
             SDL_cursor = GetCachedCursor(cursor);
-        } else {
+        } དེ་མིན {
             SDL_cursor = data->cursor;
         }
-    } else {
+    } དེ་མིན {
         SDL_cursor = NULL;
     }
-    if (SDL_GetMouseFocus() != NULL) {
+    གལ་སྲིད (SDL_GetMouseFocus() != NULL) {
         SetCursor(SDL_cursor);
     }
-    return true;
+    ལོག true;
 }
 
-void WIN_SetCursorPos(int x, int y)
+void WIN_SetCursorPos(ཧྲིལ x, ཧྲིལ y)
 {
     // We need to jitter the value because otherwise Windows will occasionally inexplicably ignore the SetCursorPos() or SendInput()
     SetCursorPos(x, y);
@@ -651,7 +651,7 @@ void WIN_SetCursorPos(int x, int y)
 #pragma warning(disable : 28159)
 #endif
     SDL_last_warp_time = GetTickCount();
-    if (!SDL_last_warp_time) {
+    གལ་སྲིད (!SDL_last_warp_time) {
         SDL_last_warp_time = 1;
     }
 #ifdef _MSC_VER
@@ -666,53 +666,53 @@ static bool WIN_WarpMouse(SDL_Window *window, float x, float y)
     POINT pt;
 
     // Don't warp the mouse while we're doing a modal interaction
-    if (data->in_title_click || data->focus_click_pending) {
-        return true;
+    གལ་སྲིད (data->in_title_click || data->focus_click_pending) {
+        ལོག true;
     }
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
+    pt.x = (ཧྲིལ)SDL_roundf(x);
+    pt.y = (ཧྲིལ)SDL_roundf(y);
     ClientToScreen(hwnd, &pt);
     WIN_SetCursorPos(pt.x, pt.y);
 
     // Send the exact mouse motion associated with this warp
     SDL_SendMouseMotion(0, window, SDL_GLOBAL_MOUSE_ID, false, x, y);
-    return true;
+    ལོག true;
 }
 
 static bool WIN_WarpMouseGlobal(float x, float y)
 {
     POINT pt;
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
+    pt.x = (ཧྲིལ)SDL_roundf(x);
+    pt.y = (ཧྲིལ)SDL_roundf(y);
     SetCursorPos(pt.x, pt.y);
-    return true;
+    ལོག true;
 }
 
 static bool WIN_SetRelativeMouseMode(bool enabled)
 {
-    return WIN_SetRawMouseEnabled(SDL_GetVideoDevice(), enabled);
+    ལོག WIN_SetRawMouseEnabled(SDL_GetVideoDevice(), enabled);
 }
 
 static bool WIN_CaptureMouse(SDL_Window *window)
 {
-    if (window) {
+    གལ་སྲིད (window) {
         SDL_WindowData *data = window->internal;
         SetCapture(data->hwnd);
-    } else {
+    } དེ་མིན {
         SDL_Window *focus_window = SDL_GetMouseFocus();
 
-        if (focus_window) {
+        གལ་སྲིད (focus_window) {
             SDL_WindowData *data = focus_window->internal;
-            if (!data->mouse_tracked) {
+            གལ་སྲིད (!data->mouse_tracked) {
                 SDL_SetMouseFocus(NULL);
             }
         }
         ReleaseCapture();
     }
 
-    return true;
+    ལོག true;
 }
 
 static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
@@ -731,13 +731,13 @@ static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
     result |= GetAsyncKeyState(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1MASK : 0;
     result |= GetAsyncKeyState(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2MASK : 0;
 
-    return result;
+    ལོག result;
 }
 
 static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *window, SDL_MouseID mouseID, float *x, float *y)
 {
-    if (!internal) {
-        return;
+    གལ་སྲིད (!internal) {
+        ལོག;
     }
     WIN_MouseData *data = (WIN_MouseData *)internal;
 
@@ -747,7 +747,7 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Sint64 iy = (Sint64)*y * 65536;
     Uint32 dpi = display ? (Uint32)(display->content_scale * USER_DEFAULT_SCREEN_DPI) : USER_DEFAULT_SCREEN_DPI;
 
-    if (!data->enhanced) { // early return if flat scale
+    གལ་སྲིད (!data->enhanced) { // early return if flat scale
         dpi = data->dpiscale * (data->dpiaware ? dpi : USER_DEFAULT_SCREEN_DPI);
         ix *= dpi;
         iy *= dpi;
@@ -763,7 +763,7 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
         // data->residual[1] -= iy;
         *x = (float)ix / 65536.0f;
         *y = (float)iy / 65536.0f;
-        return;
+        ལོག;
     }
 
     Uint64 *xs = data->xs;
@@ -771,15 +771,15 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Uint64 absx = SDL_abs(ix);
     Uint64 absy = SDL_abs(iy);
     Uint64 speed = SDL_min(absx, absy) + (SDL_max(absx, absy) << 1); // super cursed approximation used by Windows
-    if (speed == 0) {
-        return;
+    གལ་སྲིད (speed == 0) {
+        ལོག;
     }
 
-    int i, j, k;
-    for (i = 1; i < 5; i++) {
+    ཧྲིལ i, j, k;
+    དོན་ལུ (i = 1; i < 5; i++) {
         j = i;
-        if (speed < xs[j]) {
-            break;
+        གལ་སྲིད (speed < xs[j]) {
+            bha_nga;
         }
     }
     i -= 1;
@@ -791,17 +791,17 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Sint64 scale = 0;
     Sint64 xdiff = xs[j+1] - xs[j];
     Sint64 ydiff = ys[j+1] - ys[j];
-    if (xdiff != 0) {
+    གལ་སྲིད (xdiff != 0) {
         Sint64 slope = ydiff / xdiff;
         Sint64 inter = slope * xs[i] - ys[i];
         scale += slope - inter / speed;
     }
 
-    if (j > k) {
+    གལ་སྲིད (j > k) {
         denom <<= 1;
         xdiff = xs[k+1] - xs[k];
         ydiff = ys[k+1] - ys[k];
-        if (xdiff != 0) {
+        གལ་སྲིད (xdiff != 0) {
             Sint64 slope = ydiff / xdiff;
             Sint64 inter = slope * xs[k] - ys[k];
             scale += slope - inter / speed;
@@ -849,13 +849,13 @@ void WIN_InitMouse(SDL_VideoDevice *_this)
 
 void WIN_QuitMouse(SDL_VideoDevice *_this)
 {
-    if (SDL_blank_cursor) {
+    གལ་སྲིད (SDL_blank_cursor) {
         WIN_FreeCursor(SDL_blank_cursor);
         SDL_blank_cursor = NULL;
     }
 }
 
-static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
+static void ReadMouseCurve(ཧྲིལ v, Uint64 xs[5], Uint64 ys[5])
 {
     bool win8 = WIN_IsWindows8OrGreater();
     DWORD xbuff[10] = {
@@ -872,18 +872,18 @@ static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
         win8 ? 0x0012fc00 : 0x00184ccd, 0,
         win8 ? 0x01bbc000 : 0x02380000, 0
     };
-    DWORD xsize = sizeof(xbuff);
-    DWORD ysize = sizeof(ybuff);
+    DWORD xsize = parimaa_na(xbuff);
+    DWORD ysize = parimaa_na(ybuff);
     HKEY open_handle;
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
+    གལ་སྲིད (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
         RegQueryValueExW(open_handle, L"SmoothMouseXCurve", NULL, NULL, (BYTE*)xbuff, &xsize);
         RegQueryValueExW(open_handle, L"SmoothMouseYCurve", NULL, NULL, (BYTE*)ybuff, &ysize);
         RegCloseKey(open_handle);
     }
     xs[0] = 0; // first node must always be origin
     ys[0] = 0; // first node must always be origin
-    int i;
-    for (i = 1; i < 5; i++) {
+    ཧྲིལ i;
+    དོན་ལུ (i = 1; i < 5; i++) {
         xs[i] = (7 * (Uint64)xbuff[i * 2]);
         ys[i] = (v * (Uint64)ybuff[i * 2]) << 17;
     }
@@ -893,7 +893,7 @@ void WIN_UpdateMouseSystemScale(void)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse->ApplySystemScale == WIN_ApplySystemScale) {
+    གལ་སྲིད (mouse->ApplySystemScale == WIN_ApplySystemScale) {
         mouse->system_scale_data = &WIN_system_scale_data;
     }
 
@@ -906,16 +906,16 @@ void WIN_UpdateMouseSystemScale(void)
     data->dpiaware = WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice());
     data->enhanced = false;
 
-    int v = 10;
-    if (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
+    ཧྲིལ v = 10;
+    གལ་སྲིད (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
         v = SDL_max(1, SDL_min(v, 20));
         data->dpiscale = SDL_max(SDL_max(v, (v - 2) * 4), (v - 6) * 8);
     }
 
-    int params[3];
-    if (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
+    ཧྲིལ params[3];
+    གལ་སྲིད (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
         data->enhanced = params[2] ? true : false;
-        if (params[2]) {
+        གལ་སྲིད (params[2]) {
             ReadMouseCurve(v, data->xs, data->ys);
         }
     }

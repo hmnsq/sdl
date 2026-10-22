@@ -33,12 +33,12 @@ extern "C" {
 
 static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
 {
-    return (SDL_BWin *)(window->internal);
+    ལོག (SDL_BWin *)(window->internal);
 }
 
 static SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    ལོག SDL_Looper;
 }
 
 static bool _InitWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
@@ -53,40 +53,40 @@ static bool _InitWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properti
         window->y + window->h - 1
     );
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    གལ་སྲིད (window->flags & SDL_WINDOW_FULLSCREEN) {
         // TODO: Add support for this flag
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    གལ་སྲིད (window->flags & SDL_WINDOW_OPENGL) {
         // TODO: Add support for this flag
     }
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    གལ་སྲིད (!(window->flags & SDL_WINDOW_RESIZABLE)) {
         flags |= B_NOT_RESIZABLE | B_NOT_ZOOMABLE;
     }
-    if (window->flags & SDL_WINDOW_BORDERLESS) {
+    གལ་སྲིད (window->flags & SDL_WINDOW_BORDERLESS) {
         look = B_NO_BORDER_WINDOW_LOOK;
     }
 
     SDL_BWin *bwin = new(std::nothrow) SDL_BWin(bounds, look, flags);
-    if (!bwin) {
-        return false;
+    གལ་སྲིད (!bwin) {
+        ལོག false;
     }
 
     window->internal = (SDL_WindowData *)bwin;
     int32 winID = _GetBeLooper()->GetID(window);
     bwin->SetID(winID);
 
-    return true;
+    ལོག true;
 }
 
 bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    if (!_InitWindow(_this, window, create_props)) {
-        return false;
+    གལ་སྲིད (!_InitWindow(_this, window, create_props)) {
+        ལོག false;
     }
 
     // Start window loop
     _ToBeWin(window)->Show();
-    return true;
+    ལོག true;
 }
 
 void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window * window)
@@ -102,7 +102,7 @@ bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window * window)
     msg.AddInt32("window-x", window->pending.x);
     msg.AddInt32("window-y", window->pending.y);
     _ToBeWin(window)->PostMessage(&msg);
-    return true;
+    ལོག true;
 }
 
 void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window * window)
@@ -169,7 +169,7 @@ SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Windo
     BMessage msg(BWIN_FULLSCREEN);
     msg.AddBool("fullscreen", !!fullscreen);
     _ToBeWin(window)->PostMessage(&msg);
-    return SDL_FULLSCREEN_SUCCEEDED;
+    ལོག SDL_FULLSCREEN_SUCCEEDED;
 }
 
 
@@ -184,28 +184,28 @@ void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window * window)
 bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window * window, bool grabbed)
 {
     // TODO: Implement this!
-    return SDL_Unsupported();
+    ལོག SDL_Unsupported();
 }
 
 bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window * window, SDL_Window *parent)
 {
-    return true;
+    ལོག true;
 }
 
 bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
 {
-    if (modal) {
+    གལ་སྲིད (modal) {
         _ToBeWin(window)->SetLook(B_MODAL_WINDOW_LOOK);
         _ToBeWin(window)->SetFeel(B_MODAL_SUBSET_WINDOW_FEEL);
         _ToBeWin(window)->AddToSubset(_ToBeWin(window->parent));
-    } else {
+    } དེ་མིན {
         window_look look = (window->flags & SDL_WINDOW_BORDERLESS) ? B_NO_BORDER_WINDOW_LOOK : B_TITLED_WINDOW_LOOK;
         _ToBeWin(window)->RemoveFromSubset(_ToBeWin(window->parent));
         _ToBeWin(window)->SetLook(look);
         _ToBeWin(window)->SetFeel(B_NORMAL_WINDOW_FEEL);
     }
 
-    return true;
+    ལོག true;
 }
 
 void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window * window)

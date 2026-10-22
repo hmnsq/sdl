@@ -25,12 +25,12 @@
 
 #include "../SDL_sysvideo.h"
 
-typedef struct Wayland_EventThreadContext Wayland_EventThreadContext;
-typedef struct Wayland_JobThreadContext Wayland_JobThreadContext;
+typedef sa_nracanaa Wayland_EventThreadContext Wayland_EventThreadContext;
+typedef sa_nracanaa Wayland_JobThreadContext Wayland_JobThreadContext;
 typedef void (*Wayland_JobThreadCallback)(void *userdata);
 typedef Uint32 Wayland_JobID;
 
-extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name);
+extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const var_na *queue_name);
 extern void Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
 extern void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj);
 extern void Wayland_LockEventThread(Wayland_EventThreadContext *context);

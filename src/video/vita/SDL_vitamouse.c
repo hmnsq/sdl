@@ -31,14 +31,14 @@
 #include "../../events/SDL_mouse_c.h"
 
 SceHidMouseReport m_reports[SCE_HID_MAX_REPORT];
-int mouse_hid_handle = 0;
+ཧྲིལ mouse_hid_handle = 0;
 Uint8 prev_buttons = 0;
 
 void VITA_InitMouse(void)
 {
     sceHidMouseEnumerate(&mouse_hid_handle, 1);
 
-    if (mouse_hid_handle > 0) {
+    གལ་སྲིད (mouse_hid_handle > 0) {
         SDL_AddMouse((SDL_MouseID)mouse_hid_handle, NULL);
     }
 }
@@ -46,55 +46,55 @@ void VITA_InitMouse(void)
 void VITA_PollMouse(void)
 {
     // We skip polling mouse if no window is created
-    if (!Vita_Window) {
-        return;
+    གལ་སྲིད (!Vita_Window) {
+        ལོག;
     }
 
-    if (mouse_hid_handle > 0) {
+    གལ་སྲིད (mouse_hid_handle > 0) {
         SDL_MouseID mouseID = (SDL_MouseID)mouse_hid_handle;
-        int numReports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
-        if (numReports > 0) {
-            for (int i = 0; i <= numReports - 1; i++) {
+        ཧྲིལ numReports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
+        གལ་སྲིད (numReports > 0) {
+            དོན་ལུ (ཧྲིལ i = 0; i <= numReports - 1; i++) {
                 Uint8 changed_buttons = m_reports[i].buttons ^ prev_buttons;
 
-                if (changed_buttons & 0x1) {
-                    if (prev_buttons & 0x1)
+                གལ་སྲིད (changed_buttons & 0x1) {
+                    གལ་སྲིད (prev_buttons & 0x1)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, false);
-                    else
+                    དེ་མིན
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, true);
                 }
-                if (changed_buttons & 0x2) {
-                    if (prev_buttons & 0x2)
+                གལ་སྲིད (changed_buttons & 0x2) {
+                    གལ་སྲིད (prev_buttons & 0x2)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, false);
-                    else
+                    དེ་མིན
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, true);
                 }
-                if (changed_buttons & 0x4) {
-                    if (prev_buttons & 0x4)
+                གལ་སྲིད (changed_buttons & 0x4) {
+                    གལ་སྲིད (prev_buttons & 0x4)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, false);
-                    else
+                    དེ་མིན
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, true);
                 }
-                if (changed_buttons & 0x8) {
-                    if (prev_buttons & 0x8)
+                གལ་སྲིད (changed_buttons & 0x8) {
+                    གལ་སྲིད (prev_buttons & 0x8)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, false);
-                    else
+                    དེ་མིན
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, true);
                 }
-                if (changed_buttons & 0x10) {
-                    if (prev_buttons & 0x10)
+                གལ་སྲིད (changed_buttons & 0x10) {
+                    གལ་སྲིད (prev_buttons & 0x10)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, false);
-                    else
+                    དེ་མིན
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, true);
                 }
 
                 prev_buttons = m_reports[i].buttons;
 
-                if (m_reports[i].rel_x || m_reports[i].rel_y) {
+                གལ་སྲིད (m_reports[i].rel_x || m_reports[i].rel_y) {
                     SDL_SendMouseMotion(0, Vita_Window, mouseID, true, (float)m_reports[i].rel_x, (float)m_reports[i].rel_y);
                 }
 
-                if (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
+                གལ་སྲིད (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
                     SDL_SendMouseWheel(0, Vita_Window, mouseID, m_reports[i].tilt, m_reports[i].wheel, SDL_MOUSEWHEEL_NORMAL);
                 }
             }

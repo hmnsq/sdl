@@ -32,9 +32,9 @@ extern "C" {
 
 extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
+                                          void **pixels, ཧྲིལ *pitch);
 extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
+                                          const SDL_Rect *rects, ཧྲིལ numrects);
 extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 extern int32 HAIKU_DrawThread(void *data);
 

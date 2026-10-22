@@ -30,59 +30,59 @@
 #include "SDL_emscriptenopengles.h"
 #include "../../main/SDL_main_callbacks.h"
 
-bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
-    return true;
+    ལོག true;
 }
 
 void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
 }
 
-SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc)
 {
-    return emscripten_webgl_get_proc_address(proc);
+    ལོག emscripten_webgl_get_proc_address(proc);
 }
 
-bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, ཧྲིལ interval)
 {
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
+    གལ་སྲིད (interval < 0) {
+        ལོག SDL_SetError("Late swap tearing currently unsupported");
     }
 
-    if (Emscripten_ShouldSetSwapInterval(interval)) {
+    གལ་སྲིད (Emscripten_ShouldSetSwapInterval(interval)) {
         // don't change the mainloop timing if the app is also driving a main callback with this hint,
         //  as we assume that was the more deliberate action.
-        if (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
-            if (interval == 0) {
+        གལ་སྲིད (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
+            གལ་སྲིད (interval == 0) {
                 emscripten_set_main_loop_timing(EM_TIMING_SETTIMEOUT, 0);
-            } else {
+            } དེ་མིན {
                 emscripten_set_main_loop_timing(EM_TIMING_RAF, interval);
             }
         }
     }
 
-    return true;
+    ལོག true;
 }
 
-bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, ཧྲིལ *interval)
 {
-    const int pending = Emscripten_GetPendingSwapInterval();
-    if (pending >= 0) {
+    const ཧྲིལ pending = Emscripten_GetPendingSwapInterval();
+    གལ་སྲིད (pending >= 0) {
         *interval = pending;
-        return true;  // we're planning to set it to this once the system settles down.
+        ལོག true;  // we're planning to set it to this once the system settles down.
     }
 
-    int mode, value;
+    ཧྲིལ mode, value;
 
     emscripten_get_main_loop_timing(&mode, &value);
 
-    if (mode == EM_TIMING_RAF) {
+    གལ་སྲིད (mode == EM_TIMING_RAF) {
         *interval = value;
-        return true;
-    } else {
+        ལོག true;
+    } དེ་མིན {
         *interval = 0;
-        return true;
+        ལོག true;
     }
 }
 
@@ -100,31 +100,31 @@ SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *
     attribs.stencil = _this->gl_config.stencil_size > 0;
     attribs.antialias = _this->gl_config.multisamplebuffers == 1;
 
-    if (_this->gl_config.major_version == 3)
+    གལ་སྲིད (_this->gl_config.major_version == 3)
         attribs.majorVersion = 2; // WebGL 2.0 ~= GLES 3.0
 
     window_data = window->internal;
 
-    if (window_data->gl_context) {
+    གལ་སྲིད (window_data->gl_context) {
         SDL_SetError("Cannot create multiple webgl contexts per window");
-        return NULL;
+        ལོག NULL;
     }
 
     context = emscripten_webgl_create_context(window_data->canvas_id, &attribs);
 
-    if (!context) {
+    གལ་སྲིད (!context) {
         SDL_SetError("Could not create webgl context");
-        return NULL;
+        ལོག NULL;
     }
 
-    if (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
+    གལ་སྲིད (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
         emscripten_webgl_destroy_context(context);
-        return NULL;
+        ལོག NULL;
     }
 
     window_data->gl_context = (SDL_GLContext)context;
 
-    return (SDL_GLContext)context;
+    ལོག (SDL_GLContext)context;
 }
 
 bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -132,42 +132,42 @@ bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext contex
     SDL_Window *window;
 
     // remove the context from its window
-    for (window = _this->windows; window; window = window->next) {
+    དོན་ལུ (window = _this->windows; window; window = window->next) {
         SDL_WindowData *window_data = window->internal;
 
-        if (window_data->gl_context == context) {
+        གལ་སྲིད (window_data->gl_context == context) {
             window_data->gl_context = NULL;
         }
     }
 
     emscripten_webgl_destroy_context((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context);
-    return true;
+    ལོག true;
 }
 
 bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    གལ་སྲིད (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
-    return true;
+    ལོག true;
 }
 
 bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
     // it isn't possible to reuse contexts across canvases
-    if (window && context) {
+    གལ་སྲིད (window && context) {
         SDL_WindowData *window_data = window->internal;
 
-        if (context != window_data->gl_context) {
-            return SDL_SetError("Cannot make context current to another window");
+        གལ་སྲིད (context != window_data->gl_context) {
+            ལོག SDL_SetError("Cannot make context current to another window");
         }
     }
 
-    if (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
-        return SDL_SetError("Unable to make context current");
+    གལ་སྲིད (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
+        ལོག SDL_SetError("Unable to make context current");
     }
-    return true;
+    ལོག true;
 }
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
