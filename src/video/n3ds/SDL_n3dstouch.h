@@ -22,8 +22,8 @@
 #ifndef SDL_n3dstouch_h_
 #define SDL_n3dstouch_h_
 
-void N3DS_InitTouch(void);
-void N3DS_QuitTouch(void);
-void N3DS_PollTouch(SDL_VideoDevice *_this);
+શૂન્ય N3DS_InitTouch(શૂન્ય);
+શૂન્ય N3DS_QuitTouch(શૂન્ય);
+શૂન્ય N3DS_PollTouch(SDL_VideoDevice *_this);
 
 #endif // SDL_n3dstouch_h_

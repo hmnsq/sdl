@@ -6,103 +6,103 @@
 ** SPDX-License-Identifier: Apache-2.0 OR MIT
 */
 
-#include "vk_platform.h"
-#include "vulkan_core.h"
+#અન્તર્ભાવ "vk_platform.h"
+#અન્તર્ભાવ "vulkan_core.h"
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-#include "vulkan_android.h"
+#અન્તર્ભાવ "vulkan_android.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
-#include <zircon/types.h>
-#include "vulkan_fuchsia.h"
+#અન્તર્ભાવ <zircon/types.h>
+#અન્તર્ભાવ "vulkan_fuchsia.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-#include "vulkan_ios.h"
+#અન્તર્ભાવ "vulkan_ios.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-#include "vulkan_macos.h"
+#અન્તર્ભાવ "vulkan_macos.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-#include "vulkan_metal.h"
+#અન્તર્ભાવ "vulkan_metal.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_VI_NN
-#include "vulkan_vi.h"
+#અન્તર્ભાવ "vulkan_vi.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_UBM_SEC
-#include "vulkan_ubm.h"
+#અન્તર્ભાવ "vulkan_ubm.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-#include "vulkan_wayland.h"
+#અન્તર્ભાવ "vulkan_wayland.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-#include <windows.h>
-#include "vulkan_win32.h"
+#અન્તર્ભાવ <windows.h>
+#અન્તર્ભાવ "vulkan_win32.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-#include <xcb/xcb.h>
-#include "vulkan_xcb.h"
+#અન્તર્ભાવ <xcb/xcb.h>
+#અન્તર્ભાવ "vulkan_xcb.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-#include <X11/Xlib.h>
-#include "vulkan_xlib.h"
+#અન્તર્ભાવ <X11/Xlib.h>
+#અન્તર્ભાવ "vulkan_xlib.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-#include <directfb.h>
-#include "vulkan_directfb.h"
+#અન્તર્ભાવ <directfb.h>
+#અન્તર્ભાવ "vulkan_directfb.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
-#include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
-#include "vulkan_xlib_xrandr.h"
+#અન્તર્ભાવ <X11/Xlib.h>
+#અન્તર્ભાવ <X11/extensions/Xrandr.h>
+#અન્તર્ભાવ "vulkan_xlib_xrandr.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_GGP
-#include <ggp_c/vulkan_types.h>
-#include "vulkan_ggp.h"
+#અન્તર્ભાવ <ggp_c/vulkan_types.h>
+#અન્તર્ભાવ "vulkan_ggp.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-#include <screen/screen.h>
-#include "vulkan_screen.h"
+#અન્તર્ભાવ <screen/screen.h>
+#અન્તર્ભાવ "vulkan_screen.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_SCI
-#include <nvscisync.h>
-#include <nvscibuf.h>
-#include "vulkan_sci.h"
+#અન્તર્ભાવ <nvscisync.h>
+#અન્તર્ભાવ <nvscibuf.h>
+#અન્તર્ભાવ "vulkan_sci.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_OHOS
-#include "vulkan_ohos.h"
+#અન્તર્ભાવ "vulkan_ohos.h"
 #endif
 
 /* vulkan_beta.h should go last in the event any beta extension interactions
  * with platform extensions exist.
  */
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-#include "vulkan_beta.h"
+#અન્તર્ભાવ "vulkan_beta.h"
 #endif
 
 #endif // VULKAN_H_

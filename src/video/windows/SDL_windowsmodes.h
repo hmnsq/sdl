@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_windowsmodes_h_
 #define SDL_windowsmodes_h_
 
-typedef enum
+પ્રકારવ્યાખ્યા ગણના
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+સંરચના SDL_DisplayData
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,18 +39,18 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+સંરચના SDL_DisplayModeData
 {
     DEVMODEW DeviceMode;
 };
 
-extern bool WIN_InitModes(SDL_VideoDevice *_this);
-extern bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void WIN_RefreshDisplays(SDL_VideoDevice *_this);
-extern void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
-extern void WIN_QuitModes(SDL_VideoDevice *_this);
+બાહ્ય bool WIN_InitModes(SDL_VideoDevice *_this);
+બાહ્ય bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+બાહ્ય bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+બાહ્ય bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+બાહ્ય bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+બાહ્ય શૂન્ય WIN_RefreshDisplays(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય WIN_QuitModes(SDL_VideoDevice *_this);
 
 #endif // SDL_windowsmodes_h_

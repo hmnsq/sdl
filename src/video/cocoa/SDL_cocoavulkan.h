@@ -24,28 +24,28 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_cocoavulkan_h_
 #define SDL_cocoavulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_vulkan_internal.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
+#જો defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
 
-extern bool Cocoa_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Cocoa_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Cocoa_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Cocoa_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+બાહ્ય bool Cocoa_Vulkan_LoadLibrary(SDL_VideoDevice *_this, અચલ અક્ષર *path);
+બાહ્ય શૂન્ય Cocoa_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+બાહ્ય અક્ષર અચલ * અચલ *Cocoa_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ગણતરી);
+બાહ્ય bool Cocoa_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                SDL_Window *window,
                                VkInstance instance,
-                               const struct VkAllocationCallbacks *allocator,
+                               અચલ સંરચના VkAllocationCallbacks *allocator,
                                VkSurfaceKHR *surface);
-extern void Cocoa_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+બાહ્ય શૂન્ય Cocoa_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                  VkInstance instance,
                                  VkSurfaceKHR surface,
-                                 const struct VkAllocationCallbacks *allocator);
+                                 અચલ સંરચના VkAllocationCallbacks *allocator);
 
 #endif
 

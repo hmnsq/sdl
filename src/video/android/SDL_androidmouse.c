@@ -19,15 +19,15 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidmouse.h"
+#અન્તર્ભાવ "SDL_androidmouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#અન્તર્ભાવ "../../events/SDL_mouse_c.h"
 
-#include "../../core/android/SDL_android.h"
+#અન્તર્ભાવ "../../core/android/SDL_android.h"
 
 // See Android's MotionEvent class for constants
 #define ACTION_DOWN           0
@@ -47,136 +47,136 @@
 #define BUTTON_BACK           8
 #define BUTTON_FORWARD        16
 
-struct SDL_CursorData
+સંરચના SDL_CursorData
 {
-    int custom_cursor;
-    int system_cursor;
+    પૂર્ણાંક custom_cursor;
+    પૂર્ણાંક system_cursor;
 };
 
-static const char k_aAndroidButtons[] = { BUTTON_PRIMARY, BUTTON_SECONDARY, BUTTON_TERTIARY, BUTTON_BACK, BUTTON_FORWARD };
+સ્થિર અચલ અક્ષર k_aAndroidButtons[] = { BUTTON_PRIMARY, BUTTON_SECONDARY, BUTTON_TERTIARY, BUTTON_BACK, BUTTON_FORWARD };
 
 // Last known Android mouse button state (includes all buttons)
-static int last_state;
+સ્થિર પૂર્ણાંક last_state;
 
 // Blank cursor
-static SDL_Cursor *empty_cursor;
+સ્થિર SDL_Cursor *empty_cursor;
 
-static SDL_Cursor *Android_WrapCursor(int custom_cursor, int system_cursor)
+સ્થિર SDL_Cursor *Android_WrapCursor(પૂર્ણાંક custom_cursor, પૂર્ણાંક system_cursor)
 {
     SDL_Cursor *cursor;
 
-    cursor = SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (data) {
+    cursor = SDL_calloc(1, કદ(*cursor));
+    જો (cursor) {
+        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, કદ(*data));
+        જો (data) {
             data->custom_cursor = custom_cursor;
             data->system_cursor = system_cursor;
             cursor->internal = data;
-        } else {
+        } નહીંતર {
             SDL_free(cursor);
-            cursor = NULL;
+            cursor = ખાલી;
         }
     }
 
-    return cursor;
+    પાછા cursor;
 }
 
-static SDL_Cursor *Android_CreateDefaultCursor(void)
+સ્થિર SDL_Cursor *Android_CreateDefaultCursor(શૂન્ય)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return Android_WrapCursor(0, id);
+    પાછા Android_WrapCursor(0, id);
 }
 
-static SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+સ્થિર SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, પૂર્ણાંક hot_x, પૂર્ણાંક hot_y)
 {
-    int custom_cursor;
+    પૂર્ણાંક custom_cursor;
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    જો (!converted) {
+        પાછા ખાલી;
     }
     custom_cursor = Android_JNI_CreateCustomCursor(converted, hot_x, hot_y);
     SDL_DestroySurface(converted);
-    if (!custom_cursor) {
+    જો (!custom_cursor) {
         SDL_Unsupported();
-        return NULL;
+        પાછા ખાલી;
     }
-    return Android_WrapCursor(custom_cursor, 0);
+    પાછા Android_WrapCursor(custom_cursor, 0);
 }
 
-static SDL_Cursor *Android_CreateSystemCursor(SDL_SystemCursor id)
+સ્થિર SDL_Cursor *Android_CreateSystemCursor(SDL_SystemCursor id)
 {
-    return Android_WrapCursor(0, id);
+    પાછા Android_WrapCursor(0, id);
 }
 
-static void Android_FreeCursor(SDL_Cursor *cursor)
+સ્થિર શૂન્ય Android_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
-    if (data->custom_cursor != 0) {
+    જો (data->custom_cursor != 0) {
         Android_JNI_DestroyCustomCursor(data->custom_cursor);
     }
     SDL_free(cursor->internal);
     SDL_free(cursor);
 }
 
-static SDL_Cursor *Android_CreateEmptyCursor(void)
+સ્થિર SDL_Cursor *Android_CreateEmptyCursor(શૂન્ય)
 {
-    if (!empty_cursor) {
+    જો (!empty_cursor) {
         SDL_Surface *empty_surface = SDL_CreateSurfaceZeroed(1, 1, SDL_PIXELFORMAT_ARGB8888);
-        if (empty_surface) {
+        જો (empty_surface) {
             empty_cursor = Android_CreateCursor(empty_surface, 0, 0);
             SDL_DestroySurface(empty_surface);
         }
     }
-    return empty_cursor;
+    પાછા empty_cursor;
 }
 
-static void Android_DestroyEmptyCursor(void)
+સ્થિર શૂન્ય Android_DestroyEmptyCursor(શૂન્ય)
 {
-    if (empty_cursor) {
+    જો (empty_cursor) {
         Android_FreeCursor(empty_cursor);
-        empty_cursor = NULL;
+        empty_cursor = ખાલી;
     }
 }
 
-static bool Android_ShowCursor(SDL_Cursor *cursor)
+સ્થિર bool Android_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
+    જો (!cursor) {
         cursor = Android_CreateEmptyCursor();
     }
-    if (cursor) {
+    જો (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        જો (data->custom_cursor) {
+            જો (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
+                પાછા SDL_Unsupported();
             }
-        } else {
-            if (!Android_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } નહીંતર {
+            જો (!Android_JNI_SetSystemCursor(data->system_cursor)) {
+                પાછા SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        પાછા true;
+    } નહીંતર {
         // SDL error set inside Android_CreateEmptyCursor()
-        return false;
+        પાછા false;
     }
 }
 
-static bool Android_SetRelativeMouseMode(bool enabled)
+સ્થિર bool Android_SetRelativeMouseMode(bool enabled)
 {
-    if (!Android_JNI_SupportsRelativeMouse()) {
-        return SDL_Unsupported();
+    જો (!Android_JNI_SupportsRelativeMouse()) {
+        પાછા SDL_Unsupported();
     }
 
-    if (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
-        return SDL_Unsupported();
+    જો (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
+        પાછા SDL_Unsupported();
     }
 
-    return true;
+    પાછા true;
 }
 
-void Android_InitMouse(void)
+શૂન્ય Android_InitMouse(શૂન્ય)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -191,55 +191,55 @@ void Android_InitMouse(void)
     last_state = 0;
 }
 
-void Android_QuitMouse(void)
+શૂન્ય Android_QuitMouse(શૂન્ય)
 {
     Android_DestroyEmptyCursor();
 }
 
 // Translate Android mouse button state to SDL mouse button
-static Uint8 TranslateButton(int state)
+સ્થિર Uint8 TranslateButton(પૂર્ણાંક state)
 {
-    if (state & BUTTON_PRIMARY) {
-        return SDL_BUTTON_LEFT;
-    } else if (state & BUTTON_SECONDARY) {
-        return SDL_BUTTON_RIGHT;
-    } else if (state & BUTTON_TERTIARY) {
-        return SDL_BUTTON_MIDDLE;
-    } else if (state & BUTTON_FORWARD) {
-        return SDL_BUTTON_X1;
-    } else if (state & BUTTON_BACK) {
-        return SDL_BUTTON_X2;
-    } else {
-        return 0;
+    જો (state & BUTTON_PRIMARY) {
+        પાછા SDL_BUTTON_ડાબું;
+    } નહીંતર જો (state & BUTTON_SECONDARY) {
+        પાછા SDL_BUTTON_જમણું;
+    } નહીંતર જો (state & BUTTON_TERTIARY) {
+        પાછા SDL_BUTTON_મધ્ય;
+    } નહીંતર જો (state & BUTTON_FORWARD) {
+        પાછા SDL_BUTTON_X1;
+    } નહીંતર જો (state & BUTTON_BACK) {
+        પાછા SDL_BUTTON_X2;
+    } નહીંતર {
+        પાછા 0;
     }
 }
 
-void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y, bool relative)
+શૂન્ય Android_OnMouse(SDL_Window *window, પૂર્ણાંક state, પૂર્ણાંક action, દશાંશ x, દશાંશ y, bool relative)
 {
-    int changes_press;
-    int changes_release;
+    પૂર્ણાંક changes_press;
+    પૂર્ણાંક changes_release;
     Uint8 button;
 
-    if (!window) {
-        return;
+    જો (!window) {
+        પાછા;
     }
 
-    switch (action) {
-    case ACTION_MOVE:
-    case ACTION_HOVER_MOVE:
+    પસંદગી (action) {
+    સ્થિતિ ACTION_MOVE:
+    સ્થિતિ ACTION_HOVER_MOVE:
         SDL_SendMouseMotion(0, window, SDL_DEFAULT_MOUSE_ID, relative, x, y);
-        break;
+        તોડો;
 
-    case ACTION_SCROLL:
+    સ્થિતિ ACTION_SCROLL:
         SDL_SendMouseWheel(0, window, SDL_DEFAULT_MOUSE_ID, x, y, SDL_MOUSEWHEEL_NORMAL);
-        break;
+        તોડો;
 
-    case ACTION_UP:
-    case ACTION_DOWN:
-    case ACTION_BUTTON_PRESS:
-    case ACTION_BUTTON_RELEASE:
-    case ACTION_HOVER_ENTER:
-    case ACTION_HOVER_EXIT:
+    સ્થિતિ ACTION_UP:
+    સ્થિતિ ACTION_DOWN:
+    સ્થિતિ ACTION_BUTTON_PRESS:
+    સ્થિતિ ACTION_BUTTON_RELEASE:
+    સ્થિતિ ACTION_HOVER_ENTER:
+    સ્થિતિ ACTION_HOVER_EXIT:
         // Some Android versions will send mouse buttons as ACTION_BUTTON_PRESS and 
         // ACTION_BUTTON_RELEASE. Some will use ACTION_DOWN and ACTION_UP.
         //
@@ -261,9 +261,9 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
 
         // Some versions of Android will send multiple mouse buttons in a single
         // event, so read it bit-by-bit.
-        if (changes_press) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_press & k_aAndroidButtons[i]) {
+        જો (changes_press) {
+            માટે (પૂર્ણાંક i = 0; i < કદ(k_aAndroidButtons); i++) {
+                જો (changes_press & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, true);
                 }
@@ -271,19 +271,19 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
             last_state = state;
         }
 
-        if (changes_release) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_release & k_aAndroidButtons[i]) {
+        જો (changes_release) {
+            માટે (પૂર્ણાંક i = 0; i < કદ(k_aAndroidButtons); i++) {
+                જો (changes_release & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, false);
                 }
             }
             last_state = state;
         }
-        break;        
+        તોડો;        
 
-    default:
-        break;
+    મૂળભૂત:
+        તોડો;
     }
 }
 

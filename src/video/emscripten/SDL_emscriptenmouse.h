@@ -22,13 +22,13 @@
 #ifndef SDL_emscriptenmouse_h_
 #define SDL_emscriptenmouse_h_
 
-struct SDL_CursorData
+સંરચના SDL_CursorData
 {
-    const char *system_cursor;
+    અચલ અક્ષર *system_cursor;
     bool is_custom;
 };
 
-extern void Emscripten_InitMouse(void);
-extern void Emscripten_QuitMouse(void);
+બાહ્ય શૂન્ય Emscripten_InitMouse(શૂન્ય);
+બાહ્ય શૂન્ય Emscripten_QuitMouse(શૂન્ય);
 
 #endif // SDL_emscriptenmouse_h_

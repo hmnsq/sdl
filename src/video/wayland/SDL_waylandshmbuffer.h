@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_waylandshmbuffer_h_
 #define SDL_waylandshmbuffer_h_
 
-typedef struct Wayland_SHMPool Wayland_SHMPool;
+પ્રકારવ્યાખ્યા સંરચના Wayland_SHMPool Wayland_SHMPool;
 
-extern Wayland_SHMPool *Wayland_AllocSHMPool(int size);
-extern struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data);
-extern void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool);
+બાહ્ય Wayland_SHMPool *Wayland_AllocSHMPool(પૂર્ણાંક size);
+બાહ્ય સંરચના wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, પૂર્ણાંક width, પૂર્ણાંક height, શૂન્ય **data);
+બાહ્ય શૂન્ય Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool);
 
-extern struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a);
+બાહ્ય સંરચના wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a);
 
 #endif

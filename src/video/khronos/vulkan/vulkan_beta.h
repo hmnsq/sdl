@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+બાહ્ય "C" {
 #endif
 
 
@@ -25,9 +25,9 @@ extern "C" {
 #define VK_KHR_PORTABILITY_SUBSET_SPEC_VERSION 1
 #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
 
-typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkBool32           constantAlphaColorBlendFactors;
     VkBool32           events;
     VkBool32           imageViewFormatReinterpretation;
@@ -45,10 +45,10 @@ typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkBool32           vertexAttributeAccessBeyondStride;
 } VkPhysicalDevicePortabilitySubsetFeaturesKHR;
 
-typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDevicePortabilitySubsetPropertiesKHR {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           minVertexInputBindingStrideAlignment;
+    શૂન્ય*              pNext;
+    uint32_t           min_Vertex_આગત_Binding_Stride_Alignment;
 } VkPhysicalDevicePortabilitySubsetPropertiesKHR;
 
 
@@ -60,78 +60,78 @@ typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
 #define VK_AMDX_SHADER_ENQUEUE_EXTENSION_NAME "VK_AMDX_shader_enqueue"
 #define VK_SHADER_INDEX_UNUSED_AMDX       (~0U)
 
-typedef struct VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkBool32           shaderEnqueue;
     VkBool32           shaderMeshEnqueue;
 } VkPhysicalDeviceShaderEnqueueFeaturesAMDX;
 
-typedef struct VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     uint32_t           maxExecutionGraphDepth;
     uint32_t           maxExecutionGraphShaderOutputNodes;
     uint32_t           maxExecutionGraphShaderPayloadSize;
-    uint32_t           maxExecutionGraphShaderPayloadCount;
+    uint32_t           max_Execution_Graph_Shader_Payload_ગણતરી;
     uint32_t           executionGraphDispatchAddressAlignment;
-    uint32_t           maxExecutionGraphWorkgroupCount[3];
+    uint32_t           max_Execution_Graph_Workgroup_ગણતરી[3];
     uint32_t           maxExecutionGraphWorkgroups;
 } VkPhysicalDeviceShaderEnqueuePropertiesAMDX;
 
-typedef struct VkExecutionGraphPipelineScratchSizeAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkExecutionGraphPipelineScratchSizeAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkDeviceSize       minSize;
     VkDeviceSize       maxSize;
     VkDeviceSize       sizeGranularity;
 } VkExecutionGraphPipelineScratchSizeAMDX;
 
-typedef struct VkExecutionGraphPipelineCreateInfoAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkExecutionGraphPipelineCreateInfoAMDX {
     VkStructureType                           sType;
-    const void*                               pNext;
+    અચલ શૂન્ય*                               pNext;
     VkPipelineCreateFlags                     flags;
-    uint32_t                                  stageCount;
-    const VkPipelineShaderStageCreateInfo*    pStages;
-    const VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
+    uint32_t                                  stage_ગણતરી;
+    અચલ VkPipelineShaderStageCreateInfo*    pStages;
+    અચલ VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
     VkPipelineLayout                          layout;
     VkPipeline                                basePipelineHandle;
     int32_t                                   basePipelineIndex;
 } VkExecutionGraphPipelineCreateInfoAMDX;
 
-typedef union VkDeviceOrHostAddressConstAMDX {
+પ્રકારવ્યાખ્યા સંઘ VkDeviceOrHostAddressConstAMDX {
     VkDeviceAddress    deviceAddress;
-    const void*        hostAddress;
+    અચલ શૂન્ય*        hostAddress;
 } VkDeviceOrHostAddressConstAMDX;
 
-typedef struct VkDispatchGraphInfoAMDX {
-    uint32_t                          nodeIndex;
-    uint32_t                          payloadCount;
+પ્રકારવ્યાખ્યા સંરચના VkDispatchGraphInfoAMDX {
+    uint32_t                          ગાંઠ_Index_2;
+    uint32_t                          payload_ગણતરી;
     VkDeviceOrHostAddressConstAMDX    payloads;
     uint64_t                          payloadStride;
 } VkDispatchGraphInfoAMDX;
 
-typedef struct VkDispatchGraphCountInfoAMDX {
-    uint32_t                          count;
+પ્રકારવ્યાખ્યા સંરચના Vk_Dispatch_Graph_ગણતરી_Info_AMDX {
+    uint32_t                          ગણતરી;
     VkDeviceOrHostAddressConstAMDX    infos;
     uint64_t                          stride;
-} VkDispatchGraphCountInfoAMDX;
+} Vk_Dispatch_Graph_ગણતરી_Info_AMDX;
 
-typedef struct VkPipelineShaderStageNodeCreateInfoAMDX {
+પ્રકારવ્યાખ્યા સંરચના Vk_Pipeline_Shader_Stage_ગાંઠ_Create_Info_AMDX {
       VkStructureType    sType;
-    const void*          pNext;
-    const char*          pName;
+    અચલ શૂન્ય*          pNext;
+    અચલ અક્ષર*          pName;
     uint32_t             index;
-} VkPipelineShaderStageNodeCreateInfoAMDX;
+} Vk_Pipeline_Shader_Stage_ગાંઠ_Create_Info_AMDX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateExecutionGraphPipelinesAMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        createInfoCount, const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos, const VkAllocationCallbacks*    pAllocator, VkPipeline*               pPipelines);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineScratchSizeAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, VkExecutionGraphPipelineScratchSizeAMDX*        pSizeInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineNodeIndexAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, const VkPipelineShaderStageNodeCreateInfoAMDX*  pNodeInfo, uint32_t*                                       pNodeIndex);
-typedef void (VKAPI_PTR *PFN_vkCmdInitializeGraphScratchMemoryAMDX)(VkCommandBuffer                                 commandBuffer, VkPipeline                                      executionGraph, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectCountAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, VkDeviceAddress                                 countInfo);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vkCreateExecutionGraphPipelinesAMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        create_Info_ગણતરી, અચલ VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos, અચલ VkAllocationCallbacks*    pAllocator, VkPipeline*               pPipelines);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineScratchSizeAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, VkExecutionGraphPipelineScratchSizeAMDX*        pSizeInfo);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vk_Get_Execution_Graph_Pipeline_ગાંઠ_Index_AMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, અચલ Vk_Pipeline_Shader_Stage_ગાંઠ_Create_Info_AMDX*  p_ગાંઠ_Info, uint32_t*                                       p_ગાંઠ_Index);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkCmdInitializeGraphScratchMemoryAMDX)(VkCommandBuffer                                 commandBuffer, VkPipeline                                      executionGraph, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkCmdDispatchGraphAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, અચલ Vk_Dispatch_Graph_ગણતરી_Info_AMDX*             p_ગણતરી_Info);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, અચલ Vk_Dispatch_Graph_ગણતરી_Info_AMDX*             p_ગણતરી_Info);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vk_Cmd_Dispatch_Graph_Indirect_ગણતરી_AMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, VkDeviceAddress                                 ગણતરી_Info);
 
 #ifndef VK_NO_PROTOTYPES
 
@@ -139,9 +139,9 @@ typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectCountAMDX)(VkCommandBuffe
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateExecutionGraphPipelinesAMDX(
     VkDevice                                    device,
     VkPipelineCache                             pipelineCache,
-    uint32_t                                    createInfoCount,
-    const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
-    const VkAllocationCallbacks*                pAllocator,
+    uint32_t                                    create_Info_ગણતરી,
+    અચલ VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
+    અચલ VkAllocationCallbacks*                pAllocator,
     VkPipeline*                                 pPipelines);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
@@ -151,39 +151,39 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineScratchSizeAMDX(
     VkExecutionGraphPipelineScratchSizeAMDX*    pSizeInfo);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineNodeIndexAMDX(
+VKAPI_ATTR VkResult VKAPI_CALL vk_Get_Execution_Graph_Pipeline_ગાંઠ_Index_AMDX(
     VkDevice                                    device,
     VkPipeline                                  executionGraph,
-    const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo,
-    uint32_t*                                   pNodeIndex);
+    અચલ Vk_Pipeline_Shader_Stage_ગાંઠ_Create_Info_AMDX* p_ગાંઠ_Info,
+    uint32_t*                                   p_ગાંઠ_Index);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdInitializeGraphScratchMemoryAMDX(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkCmdInitializeGraphScratchMemoryAMDX(
     VkCommandBuffer                             commandBuffer,
     VkPipeline                                  executionGraph,
     VkDeviceAddress                             scratch,
     VkDeviceSize                                scratchSize);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphAMDX(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkCmdDispatchGraphAMDX(
     VkCommandBuffer                             commandBuffer,
     VkDeviceAddress                             scratch,
     VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
+    અચલ Vk_Dispatch_Graph_ગણતરી_Info_AMDX*         p_ગણતરી_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectAMDX(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkCmdDispatchGraphIndirectAMDX(
     VkCommandBuffer                             commandBuffer,
     VkDeviceAddress                             scratch,
     VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
+    અચલ Vk_Dispatch_Graph_ગણતરી_Info_AMDX*         p_ગણતરી_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectCountAMDX(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vk_Cmd_Dispatch_Graph_Indirect_ગણતરી_AMDX(
     VkCommandBuffer                             commandBuffer,
     VkDeviceAddress                             scratch,
     VkDeviceSize                                scratchSize,
-    VkDeviceAddress                             countInfo);
+    VkDeviceAddress                             ગણતરી_Info);
 #endif
 #endif
 
@@ -197,23 +197,23 @@ VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCudaFunctionNV)
 #define VK_NV_CUDA_KERNEL_LAUNCH_SPEC_VERSION 2
 #define VK_NV_CUDA_KERNEL_LAUNCH_EXTENSION_NAME "VK_NV_cuda_kernel_launch"
 
-typedef struct VkCudaModuleCreateInfoNV {
+પ્રકારવ્યાખ્યા સંરચના VkCudaModuleCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
+    અચલ શૂન્ય*        pNext;
     size_t             dataSize;
-    const void*        pData;
+    અચલ શૂન્ય*        pData;
 } VkCudaModuleCreateInfoNV;
 
-typedef struct VkCudaFunctionCreateInfoNV {
+પ્રકારવ્યાખ્યા સંરચના VkCudaFunctionCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
+    અચલ શૂન્ય*        pNext;
     VkCudaModuleNV     module;
-    const char*        pName;
+    અચલ અક્ષર*        pName;
 } VkCudaFunctionCreateInfoNV;
 
-typedef struct VkCudaLaunchInfoNV {
+પ્રકારવ્યાખ્યા સંરચના VkCudaLaunchInfoNV {
     VkStructureType        sType;
-    const void*            pNext;
+    અચલ શૂન્ય*            pNext;
     VkCudaFunctionNV       function;
     uint32_t               gridDimX;
     uint32_t               gridDimY;
@@ -222,40 +222,40 @@ typedef struct VkCudaLaunchInfoNV {
     uint32_t               blockDimY;
     uint32_t               blockDimZ;
     uint32_t               sharedMemBytes;
-    size_t                 paramCount;
-    const void* const *    pParams;
-    size_t                 extraCount;
-    const void* const *    pExtras;
+    size_t                 param_ગણતરી;
+    અચલ શૂન્ય* અચલ *    pParams;
+    size_t                 extra_ગણતરી;
+    અચલ શૂન્ય* અચલ *    pExtras;
 } VkCudaLaunchInfoNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkBool32           cudaKernelLaunchFeatures;
 } VkPhysicalDeviceCudaKernelLaunchFeaturesNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     uint32_t           computeCapabilityMinor;
     uint32_t           computeCapabilityMajor;
 } VkPhysicalDeviceCudaKernelLaunchPropertiesNV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule);
-typedef VkResult (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* pCacheSize, void* pCacheData);
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, const VkCudaFunctionCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaFunctionNV* pFunction);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(VkCommandBuffer commandBuffer, const VkCudaLaunchInfoNV* pLaunchInfo);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, અચલ VkCudaModuleCreateInfoNV* pCreateInfo, અચલ VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* pCacheSize, શૂન્ય* pCacheData);
+પ્રકારવ્યાખ્યા VkResult (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, અચલ VkCudaFunctionCreateInfoNV* pCreateInfo, અચલ VkAllocationCallbacks* pAllocator, VkCudaFunctionNV* pFunction);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, અચલ VkAllocationCallbacks* pAllocator);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, અચલ VkAllocationCallbacks* pAllocator);
+પ્રકારવ્યાખ્યા શૂન્ય (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(VkCommandBuffer commandBuffer, અચલ VkCudaLaunchInfoNV* pLaunchInfo);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaModuleNV(
     VkDevice                                    device,
-    const VkCudaModuleCreateInfoNV*             pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    અચલ VkCudaModuleCreateInfoNV*             pCreateInfo,
+    અચલ VkAllocationCallbacks*                pAllocator,
     VkCudaModuleNV*                             pModule);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
@@ -263,31 +263,31 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetCudaModuleCacheNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
     size_t*                                     pCacheSize,
-    void*                                       pCacheData);
+    શૂન્ય*                                       pCacheData);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaFunctionNV(
     VkDevice                                    device,
-    const VkCudaFunctionCreateInfoNV*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    અચલ VkCudaFunctionCreateInfoNV*           pCreateInfo,
+    અચલ VkAllocationCallbacks*                pAllocator,
     VkCudaFunctionNV*                           pFunction);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaModuleNV(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkDestroyCudaModuleNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
-    const VkAllocationCallbacks*                pAllocator);
+    અચલ VkAllocationCallbacks*                pAllocator);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaFunctionNV(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkDestroyCudaFunctionNV(
     VkDevice                                    device,
     VkCudaFunctionNV                            function,
-    const VkAllocationCallbacks*                pAllocator);
+    અચલ VkAllocationCallbacks*                pAllocator);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
+VKAPI_ATTR શૂન્ય VKAPI_CALL vkCmdCudaLaunchKernelNV(
     VkCommandBuffer                             commandBuffer,
-    const VkCudaLaunchInfoNV*                   pLaunchInfo);
+    અચલ VkCudaLaunchInfoNV*                   pLaunchInfo);
 #endif
 #endif
 
@@ -298,28 +298,28 @@ VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
 #define VK_NV_DISPLACEMENT_MICROMAP_SPEC_VERSION 2
 #define VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME "VK_NV_displacement_micromap"
 
-typedef enum VkDisplacementMicromapFormatNV {
+પ્રકારવ્યાખ્યા ગણના VkDisplacementMicromapFormatNV {
     VK_DISPLACEMENT_MICROMAP_FORMAT_64_TRIANGLES_64_BYTES_NV = 1,
     VK_DISPLACEMENT_MICROMAP_FORMAT_256_TRIANGLES_128_BYTES_NV = 2,
     VK_DISPLACEMENT_MICROMAP_FORMAT_1024_TRIANGLES_128_BYTES_NV = 3,
     VK_DISPLACEMENT_MICROMAP_FORMAT_MAX_ENUM_NV = 0x7FFFFFFF
 } VkDisplacementMicromapFormatNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapFeaturesNV {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceDisplacementMicromapFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkBool32           displacementMicromap;
 } VkPhysicalDeviceDisplacementMicromapFeaturesNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapPropertiesNV {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceDisplacementMicromapPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     uint32_t           maxDisplacementMicromapSubdivisionLevel;
 } VkPhysicalDeviceDisplacementMicromapPropertiesNV;
 
-typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
+પ્રકારવ્યાખ્યા સંરચના VkAccelerationStructureTrianglesDisplacementMicromapNV {
     VkStructureType                     sType;
-    void*                               pNext;
+    શૂન્ય*                               pNext;
     VkFormat                            displacementBiasAndScaleFormat;
     VkFormat                            displacementVectorFormat;
     VkDeviceOrHostAddressConstKHR       displacementBiasAndScaleBuffer;
@@ -332,9 +332,9 @@ typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
     VkDeviceOrHostAddressConstKHR       indexBuffer;
     VkDeviceSize                        indexStride;
     uint32_t                            baseTriangle;
-    uint32_t                            usageCountsCount;
-    const VkMicromapUsageEXT*           pUsageCounts;
-    const VkMicromapUsageEXT* const*    ppUsageCounts;
+    uint32_t                            usage_Counts_ગણતરી;
+    અચલ VkMicromapUsageEXT*           pUsageCounts;
+    અચલ VkMicromapUsageEXT* અચલ*    ppUsageCounts;
     VkMicromapEXT                       micromap;
 } VkAccelerationStructureTrianglesDisplacementMicromapNV;
 
@@ -348,24 +348,24 @@ typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX 128U
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX 128U
 
-typedef enum VkCompressedTriangleFormatAMDX {
+પ્રકારવ્યાખ્યા ગણના VkCompressedTriangleFormatAMDX {
     VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_AMDX = 0,
     VK_COMPRESSED_TRIANGLE_FORMAT_MAX_ENUM_AMDX = 0x7FFFFFFF
 } VkCompressedTriangleFormatAMDX;
 
-typedef struct VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    શૂન્ય*              pNext;
     VkBool32           denseGeometryFormat;
 } VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX;
 
-typedef struct VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
+પ્રકારવ્યાખ્યા સંરચના VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
     VkStructureType                   sType;
-    const void*                       pNext;
+    અચલ શૂન્ય*                       pNext;
     VkDeviceOrHostAddressConstKHR     compressedData;
     VkDeviceSize                      dataSize;
-    uint32_t                          numTriangles;
-    uint32_t                          numVertices;
+    uint32_t                          અંક_Triangles;
+    uint32_t                          અંક_Vertices;
     uint32_t                          maxPrimitiveIndex;
     uint32_t                          maxGeometryIndex;
     VkCompressedTriangleFormatAMDX    format;

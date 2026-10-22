@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_x11clipboard_h_
 #define SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#અન્તર્ભાવ <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
+પ્રકારવ્યાખ્યા સંરચના X11_ClipboardData {
     SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+    શૂન્ય *userdata;
+    અચલ અક્ષર *અચલ *mime_types;
+    size_t mime_ગણતરી;
     Uint32 sequence;
 } SDLX11_ClipboardData;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
+બાહ્ય અચલ અક્ષર *અચલ *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *અંક_mime_types);
+બાહ્ય bool X11_SetClipboardData(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય *X11_GetClipboardData(SDL_VideoDevice *_this, અચલ અક્ષર *mime_type, size_t *length);
+બાહ્ય bool X11_HasClipboardData(SDL_VideoDevice *_this, અચલ અક્ષર *mime_type);
+બાહ્ય bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, અચલ અક્ષર *text);
+બાહ્ય અક્ષર *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
+બાહ્ય bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય X11_QuitClipboard(SDL_VideoDevice *_this);
 Window GetWindow(SDL_VideoDevice *_this);
 
 #endif // SDL_x11clipboard_h_

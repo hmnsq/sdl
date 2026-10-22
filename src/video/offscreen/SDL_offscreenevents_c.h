@@ -18,6 +18,6 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-extern void OFFSCREEN_PumpEvents(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય OFFSCREEN_PumpEvents(SDL_VideoDevice *_this);

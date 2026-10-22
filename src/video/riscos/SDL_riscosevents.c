@@ -18,89 +18,89 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../../events/SDL_events_c.h"
+#અન્તર્ભાવ "../../events/SDL_events_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "scancodes_riscos.h"
+#અન્તર્ભાવ "SDL_riscosvideo.h"
+#અન્તર્ભાવ "SDL_riscosevents_c.h"
+#અન્તર્ભાવ "scancodes_riscos.h"
 
-#include <kernel.h>
-#include <swis.h>
+#અન્તર્ભાવ <kernel.h>
+#અન્તર્ભાવ <swis.h>
 
-static SDL_Scancode SDL_RISCOS_translate_keycode(int keycode)
+સ્થિર SDL_Scancode SDL_RISCOS_translate_keycode(પૂર્ણાંક keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(riscos_scancode_table)) {
+    જો (keycode < SDL_arraysize(riscos_scancode_table)) {
         scancode = riscos_scancode_table[keycode];
 
 #ifdef DEBUG_SCANCODES
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
+        જો (scancode == SDL_SCANCODE_UNKNOWN) {
             SDL_Log("The key you just pressed is not recognized by SDL: %d", keycode);
         }
 #endif
     }
 
-    return scancode;
+    પાછા scancode;
 }
 
-void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
+શૂન્ય RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
-    Uint8 key = 2;
-    int i;
+    Uint8 ચાવી = 2;
+    પૂર્ણાંક i;
 
     // Check for key releases
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        if (internal->key_pressed[i] != 255) {
-            if ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
-                SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, internal->key_pressed[i], SDL_RISCOS_translate_keycode(internal->key_pressed[i]), false);
-                internal->key_pressed[i] = 255;
+    માટે (i = 0; i < RISCOS_MAX_ચાવીઓ_PRESSED; i++) {
+        જો (internal->ચાવી_pressed[i] != 255) {
+            જો ((_kernel_osbyte(129, internal->ચાવી_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
+                SDL_Send_Keyboard_ચાવી(0, SDL_DEFAULT_KEYBOARD_ID, internal->ચાવી_pressed[i], SDL_RISCOS_translate_keycode(internal->ચાવી_pressed[i]), false);
+                internal->ચાવી_pressed[i] = 255;
             }
         }
     }
 
     // Check for key presses
-    while (key < 0xff) {
-        key = _kernel_osbyte(121, key + 1, 0) & 0xff;
-        switch (key) {
-        case 255:
+    જ્યારે (ચાવી < 0xff) {
+        ચાવી = _kernel_osbyte(121, ચાવી + 1, 0) & 0xff;
+        પસંદગી (ચાવી) {
+        સ્થિતિ 255:
         // Ignore mouse keys
-        case 9:
-        case 10:
-        case 11:
+        સ્થિતિ 9:
+        સ્થિતિ 10:
+        સ્થિતિ 11:
         // Ignore keys with multiple INKEY codes
-        case 24:
-        case 40:
-        case 71:
-        case 87:
-            break;
+        સ્થિતિ 24:
+        સ્થિતિ 40:
+        સ્થિતિ 71:
+        સ્થિતિ 87:
+            તોડો;
 
-        default:
-            SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, key, SDL_RISCOS_translate_keycode(key), true);
+        મૂળભૂત:
+            SDL_Send_Keyboard_ચાવી(0, SDL_DEFAULT_KEYBOARD_ID, ચાવી, SDL_RISCOS_translate_keycode(ચાવી), true);
 
             // Record the press so we can detect release later.
-            for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-                if (internal->key_pressed[i] == key) {
-                    break;
+            માટે (i = 0; i < RISCOS_MAX_ચાવીઓ_PRESSED; i++) {
+                જો (internal->ચાવી_pressed[i] == ચાવી) {
+                    તોડો;
                 }
-                if (internal->key_pressed[i] == 255) {
-                    internal->key_pressed[i] = key;
-                    break;
+                જો (internal->ચાવી_pressed[i] == 255) {
+                    internal->ચાવી_pressed[i] = ચાવી;
+                    તોડો;
                 }
             }
         }
     }
 }
 
-static const Uint8 mouse_button_map[] = {
-    SDL_BUTTON_RIGHT,
-    SDL_BUTTON_MIDDLE,
-    SDL_BUTTON_LEFT,
+સ્થિર અચલ Uint8 mouse_button_map[] = {
+    SDL_BUTTON_જમણું,
+    SDL_BUTTON_મધ્ય,
+    SDL_BUTTON_ડાબું,
     SDL_BUTTON_X1,
     SDL_BUTTON_X2,
     SDL_BUTTON_X2 + 1,
@@ -108,16 +108,16 @@ static const Uint8 mouse_button_map[] = {
     SDL_BUTTON_X2 + 3
 };
 
-void RISCOS_PollMouse(SDL_VideoDevice *_this)
+શૂન્ય RISCOS_PollMouse(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_Rect rect;
     _kernel_swi_regs regs;
-    int i, x, y, buttons;
+    પૂર્ણાંક i, x, y, buttons;
 
-    if (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
-        return;
+    જો (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
+        પાછા;
     }
 
     _kernel_swi(OS_Mouse, &regs, &regs);
@@ -125,12 +125,12 @@ void RISCOS_PollMouse(SDL_VideoDevice *_this)
     y = rect.h - (regs.r[1] >> 1);
     buttons = regs.r[2];
 
-    if (mouse->x != x || mouse->y != y) {
-        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (float)x, (float)y);
+    જો (mouse->x != x || mouse->y != y) {
+        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (દશાંશ)x, (દશાંશ)y);
     }
 
-    if (internal->last_mouse_buttons != buttons) {
-        for (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
+    જો (internal->last_mouse_buttons != buttons) {
+        માટે (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
             bool down = ((buttons & (1 << i)) != 0);
             SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, mouse_button_map[i], down);
         }
@@ -142,14 +142,14 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     _kernel_swi_regs regs;
-    int i, status;
+    પૂર્ણાંક i, status;
 
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        internal->key_pressed[i] = 255;
+    માટે (i = 0; i < RISCOS_MAX_ચાવીઓ_PRESSED; i++) {
+        internal->ચાવી_pressed[i] = 255;
     }
 
     status = (_kernel_osbyte(202, 0, 255) & 0xFF);
-    SDL_ToggleModState(SDL_KMOD_NUM, (status & (1 << 2)) ? false : true);
+    SDL_ToggleModState(SDL_KMOD_અંક, (status & (1 << 2)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_CAPS, (status & (1 << 4)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_SCROLL, (status & (1 << 1)) ? true : false);
 
@@ -159,16 +159,16 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
     // Disable escape.
     _kernel_osbyte(229, 1, 0);
 
-    return true;
+    પાછા true;
 }
 
-void RISCOS_PumpEvents(SDL_VideoDevice *_this)
+શૂન્ય RISCOS_PumpEvents(SDL_VideoDevice *_this)
 {
     RISCOS_PollMouse(_this);
     RISCOS_PollKeyboard(_this);
 }
 
-void RISCOS_QuitEvents(SDL_VideoDevice *_this)
+શૂન્ય RISCOS_QuitEvents(SDL_VideoDevice *_this)
 {
     // Re-enable escape.
     _kernel_osbyte(229, 0, 0);

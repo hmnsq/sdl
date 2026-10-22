@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-#include "SDL_surface_c.h"
+#અન્તર્ભાવ "SDL_surface_c.h"
 
 #ifdef SDL_SSE_INTRINSICS
 /* *INDENT-OFF* */ // clang-format off
 
-#if defined(_MSC_VER) && !defined(__clang__)
+#જો defined(_MSC_VER) && !defined(__clang__)
 #define SSE_BEGIN \
     __m128 c128; \
     c128.m128_u32[0] = color; \
     c128.m128_u32[1] = color; \
     c128.m128_u32[2] = color; \
     c128.m128_u32[3] = color
-#else
+#નહીંતર
 #define SSE_BEGIN \
     __m128 c128; \
     DECLARE_ALIGNED(Uint32, cccc[4], 16); \
@@ -44,51 +44,51 @@
 #endif
 
 #define SSE_WORK \
-    for (i = n / 64; i--;) { \
-        _mm_stream_ps((float *)(p+0), c128); \
-        _mm_stream_ps((float *)(p+16), c128); \
-        _mm_stream_ps((float *)(p+32), c128); \
-        _mm_stream_ps((float *)(p+48), c128); \
+    માટે (i = n / 64; i--;) { \
+        _mm_stream_ps((દશાંશ *)(p+0), c128); \
+        _mm_stream_ps((દશાંશ *)(p+16), c128); \
+        _mm_stream_ps((દશાંશ *)(p+32), c128); \
+        _mm_stream_ps((દશાંશ *)(p+48), c128); \
         p += 64; \
     }
 
 #define SSE_END
 
 #define DEFINE_SSE_FILLRECT(bpp, type) \
-static void SDL_TARGETING("sse") SDL_FillSurfaceRect##bpp##SSE(Uint8 *pixels, int pitch, Uint32 color, int w, int h) \
+સ્થિર શૂન્ય SDL_TARGETING("sse") SDL_FillSurfaceRect##bpp##SSE(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h) \
 { \
-    int i, n; \
-    Uint8 *p = NULL; \
+    પૂર્ણાંક i, n; \
+    Uint8 *p = ખાલી; \
   \
     /* If the number of bytes per row is equal to the pitch, treat */ \
     /* all rows as one long continuous row (for better performance) */ \
-    if ((w) * (bpp) == pitch) { \
+    જો ((w) * (bpp) == pitch) { \
         w = w * h; \
         h = 1; \
     } \
  \
     SSE_BEGIN; \
  \
-    while (h--) { \
+    જ્યારે (h--) { \
         n = (w) * (bpp); \
         p = pixels; \
  \
-        if (n > 63) { \
-            int adjust = 16 - ((uintptr_t)p & 15); \
-            if (adjust < 16) { \
+        જો (n > 63) { \
+            પૂર્ણાંક adjust = 16 - ((uintptr_t)p & 15); \
+            જો (adjust < 16) { \
                 n -= adjust; \
                 adjust /= (bpp); \
-                while (adjust--) { \
+                જ્યારે (adjust--) { \
                     *((type *)p) = (type)color; \
                     p += (bpp); \
                 } \
             } \
             SSE_WORK; \
         } \
-        if (n & 63) { \
-            int remainder = (n & 63); \
+        જો (n & 63) { \
+            પૂર્ણાંક remainder = (n & 63); \
             remainder /= (bpp); \
-            while (remainder--) { \
+            જ્યારે (remainder--) { \
                 *((type *)p) = (type)color; \
                 p += (bpp); \
             } \
@@ -99,26 +99,26 @@ static void SDL_TARGETING("sse") SDL_FillSurfaceRect##bpp##SSE(Uint8 *pixels, in
     SSE_END; \
 }
 
-static void SDL_TARGETING("sse") SDL_FillSurfaceRect1SSE(Uint8 *pixels, int pitch, Uint32 color, int w, int h)
+સ્થિર શૂન્ય SDL_TARGETING("sse") SDL_FillSurfaceRect1SSE(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h)
 {
-    int i, n;
+    પૂર્ણાંક i, n;
 
     SSE_BEGIN;
-    while (h--) {
+    જ્યારે (h--) {
         Uint8 *p = pixels;
         n = w;
 
-        if (n > 63) {
-            int adjust = 16 - ((uintptr_t)p & 15);
-            if (adjust) {
+        જો (n > 63) {
+            પૂર્ણાંક adjust = 16 - ((uintptr_t)p & 15);
+            જો (adjust) {
                 n -= adjust;
                 SDL_memset(p, color, adjust);
                 p += adjust;
             }
             SSE_WORK;
         }
-        if (n & 63) {
-            int remainder = (n & 63);
+        જો (n & 63) {
+            પૂર્ણાંક remainder = (n & 63);
             SDL_memset(p, color, remainder);
         }
         pixels += pitch;
@@ -139,7 +139,7 @@ DEFINE_SSE_FILLRECT(4, Uint32)
 #define LSX_BEGIN __m128i c128 = __lsx_vreplgr2vr_w(color);
 
 #define LSX_WORK \
-    for (i = n / 64; i--;) { \
+    માટે (i = n / 64; i--;) { \
         __lsx_vst(c128, p, 0); \
         __lsx_vst(c128, p, 16); \
         __lsx_vst(c128, p, 32); \
@@ -148,40 +148,40 @@ DEFINE_SSE_FILLRECT(4, Uint32)
     }
 
 #define DEFINE_LSX_FILLRECT(bpp, type) \
-static void SDL_TARGETING("lsx") SDL_FillSurfaceRect##bpp##LSX(Uint8 *pixels, int pitch, Uint32 color, int w, int h) \
+સ્થિર શૂન્ય SDL_TARGETING("lsx") SDL_FillSurfaceRect##bpp##LSX(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h) \
 { \
-    int i, n; \
-    Uint8 *p = NULL; \
+    પૂર્ણાંક i, n; \
+    Uint8 *p = ખાલી; \
   \
     /* If the number of bytes per row is equal to the pitch, treat */ \
     /* all rows as one long continuous row (for better performance) */ \
-    if ((w) * (bpp) == pitch) { \
+    જો ((w) * (bpp) == pitch) { \
         w = w * h; \
         h = 1; \
     } \
  \
     LSX_BEGIN; \
  \
-    while (h--) { \
+    જ્યારે (h--) { \
         n = (w) * (bpp); \
         p = pixels; \
  \
-        if (n > 63) { \
-            int adjust = 16 - ((uintptr_t)p & 15); \
-            if (adjust < 16) { \
+        જો (n > 63) { \
+            પૂર્ણાંક adjust = 16 - ((uintptr_t)p & 15); \
+            જો (adjust < 16) { \
                 n -= adjust; \
                 adjust /= (bpp); \
-                while (adjust--) { \
+                જ્યારે (adjust--) { \
                     *((type *)p) = (type)color; \
                     p += (bpp); \
                 } \
             } \
             LSX_WORK; \
         } \
-        if (n & 63) { \
-            int remainder = (n & 63); \
+        જો (n & 63) { \
+            પૂર્ણાંક remainder = (n & 63); \
             remainder /= (bpp); \
-            while (remainder--) { \
+            જ્યારે (remainder--) { \
                 *((type *)p) = (type)color; \
                 p += (bpp); \
             } \
@@ -196,41 +196,41 @@ DEFINE_LSX_FILLRECT(4, Uint32)
 /* *INDENT-ON* */ // clang-format on
 #endif // SDL_LSX_INTRINSICS
 
-static void SDL_FillSurfaceRect1(Uint8 *pixels, int pitch, Uint32 color, int w, int h)
+સ્થિર શૂન્ય SDL_FillSurfaceRect1(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h)
 {
-    int n;
-    Uint8 *p = NULL;
+    પૂર્ણાંક n;
+    Uint8 *p = ખાલી;
 
-    while (h--) {
+    જ્યારે (h--) {
         n = w;
         p = pixels;
 
-        if (n > 3) {
-            switch ((uintptr_t)p & 3) {
-            case 1:
+        જો (n > 3) {
+            પસંદગી ((uintptr_t)p & 3) {
+            સ્થિતિ 1:
                 *p++ = (Uint8)color;
                 --n;
                 SDL_FALLTHROUGH;
-            case 2:
+            સ્થિતિ 2:
                 *p++ = (Uint8)color;
                 --n;
                 SDL_FALLTHROUGH;
-            case 3:
+            સ્થિતિ 3:
                 *p++ = (Uint8)color;
                 --n;
             }
             SDL_memset4(p, color, (n >> 2));
         }
-        if (n & 3) {
+        જો (n & 3) {
             p += (n & ~3);
-            switch (n & 3) {
-            case 3:
+            પસંદગી (n & 3) {
+            સ્થિતિ 3:
                 *p++ = (Uint8)color;
                 SDL_FALLTHROUGH;
-            case 2:
+            સ્થિતિ 2:
                 *p++ = (Uint8)color;
                 SDL_FALLTHROUGH;
-            case 1:
+            સ્થિતિ 1:
                 *p++ = (Uint8)color;
             }
         }
@@ -238,48 +238,48 @@ static void SDL_FillSurfaceRect1(Uint8 *pixels, int pitch, Uint32 color, int w, 
     }
 }
 
-static void SDL_FillSurfaceRect2(Uint8 *pixels, int pitch, Uint32 color, int w, int h)
+સ્થિર શૂન્ય SDL_FillSurfaceRect2(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h)
 {
-    int n;
-    Uint16 *p = NULL;
+    પૂર્ણાંક n;
+    Uint16 *p = ખાલી;
 
-    while (h--) {
+    જ્યારે (h--) {
         n = w;
         p = (Uint16 *)pixels;
 
-        if (n > 1) {
-            if ((uintptr_t)p & 2) {
+        જો (n > 1) {
+            જો ((uintptr_t)p & 2) {
                 *p++ = (Uint16)color;
                 --n;
             }
             SDL_memset4(p, color, (n >> 1));
         }
-        if (n & 1) {
+        જો (n & 1) {
             p[n - 1] = (Uint16)color;
         }
         pixels += pitch;
     }
 }
 
-static void SDL_FillSurfaceRect3(Uint8 *pixels, int pitch, Uint32 color, int w, int h)
+સ્થિર શૂન્ય SDL_FillSurfaceRect3(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h)
 {
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#જો SDL_BYTEORDER == SDL_LIL_ENDIAN
     Uint8 b1 = (Uint8)(color & 0xFF);
     Uint8 b2 = (Uint8)((color >> 8) & 0xFF);
     Uint8 b3 = (Uint8)((color >> 16) & 0xFF);
-#elif SDL_BYTEORDER == SDL_BIG_ENDIAN
+#અથવાજો SDL_BYTEORDER == SDL_BIG_ENDIAN
     Uint8 b1 = (Uint8)((color >> 16) & 0xFF);
     Uint8 b2 = (Uint8)((color >> 8) & 0xFF);
     Uint8 b3 = (Uint8)(color & 0xFF);
 #endif
-    int n;
-    Uint8 *p = NULL;
+    પૂર્ણાંક n;
+    Uint8 *p = ખાલી;
 
-    while (h--) {
+    જ્યારે (h--) {
         n = w;
         p = pixels;
 
-        while (n--) {
+        જ્યારે (n--) {
             *p++ = b1;
             *p++ = b2;
             *p++ = b3;
@@ -288,9 +288,9 @@ static void SDL_FillSurfaceRect3(Uint8 *pixels, int pitch, Uint32 color, int w, 
     }
 }
 
-static void SDL_FillSurfaceRect4(Uint8 *pixels, int pitch, Uint32 color, int w, int h)
+સ્થિર શૂન્ય SDL_FillSurfaceRect4(Uint8 *pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h)
 {
-    while (h--) {
+    જ્યારે (h--) {
         SDL_memset4(pixels, color, w);
         pixels += pitch;
     }
@@ -299,130 +299,130 @@ static void SDL_FillSurfaceRect4(Uint8 *pixels, int pitch, Uint32 color, int w, 
 /*
  * This function performs a fast fill of the given rectangle with 'color'
  */
-bool SDL_FillSurfaceRect(SDL_Surface *dst, const SDL_Rect *rect, Uint32 color)
+bool SDL_FillSurfaceRect(SDL_Surface *dst, અચલ SDL_Rect *rect, Uint32 color)
 {
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("SDL_FillSurfaceRect(): dst");
+        પાછા SDL_InvalidParamError("SDL_FillSurfaceRect(): dst");
     }
 
     // If 'rect' == NULL, then fill the whole surface
-    if (!rect) {
+    જો (!rect) {
         rect = &dst->clip_rect;
         // Don't attempt to fill if the surface's clip_rect is empty
-        if (SDL_RectEmpty(rect)) {
-            return true;
+        જો (SDL_RectEmpty(rect)) {
+            પાછા true;
         }
     }
 
-    return SDL_FillSurfaceRects(dst, rect, 1, color);
+    પાછા SDL_FillSurfaceRects(dst, rect, 1, color);
 }
 
-bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int count, Uint32 color)
+bool SDL_FillSurfaceRects(SDL_Surface *dst, અચલ SDL_Rect *rects, પૂર્ણાંક ગણતરી, Uint32 color)
 {
     SDL_Rect clipped;
     Uint8 *pixels;
-    const SDL_Rect *rect;
-    void (*fill_function)(Uint8 * pixels, int pitch, Uint32 color, int w, int h) = NULL;
-    int i;
+    અચલ SDL_Rect *rect;
+    શૂન્ય (*fill_function)(Uint8 * pixels, પૂર્ણાંક pitch, Uint32 color, પૂર્ણાંક w, પૂર્ણાંક h) = ખાલી;
+    પૂર્ણાંક i;
 
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("SDL_FillSurfaceRects(): dst");
+        પાછા SDL_InvalidParamError("SDL_FillSurfaceRects(): dst");
     }
 
     CHECK_PARAM(!rects) {
-        return SDL_InvalidParamError("SDL_FillSurfaceRects(): rects");
+        પાછા SDL_InvalidParamError("SDL_FillSurfaceRects(): rects");
     }
 
-    if (!dst->pixels && SDL_MUSTLOCK(dst)) {
-        return SDL_SetError("SDL_FillSurfaceRects(): You must lock the surface");
+    જો (!dst->pixels && SDL_MUSTLOCK(dst)) {
+        પાછા SDL_SetError("SDL_FillSurfaceRects(): You must lock the surface");
     }
 
     // Nothing to do
-    if (dst->w == 0 || dst->h == 0 || !dst->pixels) {
-        return true;
+    જો (dst->w == 0 || dst->h == 0 || !dst->pixels) {
+        પાછા true;
     }
 
     /* This function doesn't usually work on surfaces < 8 bpp
      * Except: support for 4bits, when filling full size.
      */
-    if (SDL_BITSPERPIXEL(dst->format) < 8) {
-        if (count == 1) {
-            const SDL_Rect *r = &rects[0];
-            if (r->x == 0 && r->y == 0 && r->w == dst->w && r->h == dst->h) {
-                if (SDL_BITSPERPIXEL(dst->format) == 4) {
+    જો (SDL_BITSPERPIXEL(dst->format) < 8) {
+        જો (ગણતરી == 1) {
+            અચલ SDL_Rect *r = &rects[0];
+            જો (r->x == 0 && r->y == 0 && r->w == dst->w && r->h == dst->h) {
+                જો (SDL_BITSPERPIXEL(dst->format) == 4) {
                     Uint8 b = (((Uint8)color << 4) | (Uint8)color);
                     SDL_memset(dst->pixels, b, (size_t)dst->h * dst->pitch);
-                    return true;
+                    પાછા true;
                 }
             }
         }
-        return SDL_SetError("SDL_FillSurfaceRects(): Unsupported surface format");
+        પાછા SDL_SetError("SDL_FillSurfaceRects(): Unsupported surface format");
     }
 
-    if (fill_function == NULL) {
-        switch (SDL_BYTESPERPIXEL(dst->format)) {
-        case 1:
+    જો (fill_function == ખાલી) {
+        પસંદગી (SDL_BYTESPERPIXEL(dst->format)) {
+        સ્થિતિ 1:
         {
             color |= (color << 8);
             color |= (color << 16);
 #ifdef SDL_SSE_INTRINSICS
-            if (SDL_HasSSE()) {
+            જો (SDL_HasSSE()) {
                 fill_function = SDL_FillSurfaceRect1SSE;
-                break;
+                તોડો;
             }
 #endif
             fill_function = SDL_FillSurfaceRect1;
-            break;
+            તોડો;
         }
 
-        case 2:
+        સ્થિતિ 2:
         {
             color |= (color << 16);
 #ifdef SDL_SSE_INTRINSICS
-            if (SDL_HasSSE()) {
+            જો (SDL_HasSSE()) {
                 fill_function = SDL_FillSurfaceRect2SSE;
-                break;
+                તોડો;
             }
 #endif
             fill_function = SDL_FillSurfaceRect2;
-            break;
+            તોડો;
         }
 
-        case 3:
+        સ્થિતિ 3:
             // 24-bit RGB is a slow path, at least for now.
             {
                 fill_function = SDL_FillSurfaceRect3;
-                break;
+                તોડો;
             }
 
-        case 4:
+        સ્થિતિ 4:
         {
 #ifdef SDL_SSE_INTRINSICS
-            if (SDL_HasSSE()) {
+            જો (SDL_HasSSE()) {
                 fill_function = SDL_FillSurfaceRect4SSE;
-                break;
+                તોડો;
             }
 #endif
 #ifdef SDL_LSX_INTRINSICS
-            if (SDL_HasLSX()) {
+            જો (SDL_HasLSX()) {
                 fill_function = SDL_FillSurfaceRect4LSX;
-                break;
+                તોડો;
             }
 #endif
             fill_function = SDL_FillSurfaceRect4;
-            break;
+            તોડો;
         }
 
-        default:
-            return SDL_SetError("Unsupported pixel format");
+        મૂળભૂત:
+            પાછા SDL_SetError("Unsupported pixel format");
         }
     }
 
-    for (i = 0; i < count; ++i) {
+    માટે (i = 0; i < ગણતરી; ++i) {
         rect = &rects[i];
         // Perform clipping
-        if (!SDL_GetRectIntersection(rect, &dst->clip_rect, &clipped)) {
-            continue;
+        જો (!SDL_GetRectIntersection(rect, &dst->clip_rect, &clipped)) {
+            ચાલુ;
         }
         rect = &clipped;
 
@@ -433,5 +433,5 @@ bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int count, Ui
     }
 
     // We're done!
-    return true;
+    પાછા true;
 }

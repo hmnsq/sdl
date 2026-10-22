@@ -21,43 +21,43 @@
  */
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-#include "edid.h"
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <stdio.h>
+#અન્તર્ભાવ "edid.h"
+#અન્તર્ભાવ <stdlib.h>
+#અન્તર્ભાવ <string.h>
+#અન્તર્ભાવ <math.h>
+#અન્તર્ભાવ <stdio.h>
 
 #define TRUE 1
 #define FALSE 0
 
-static int
-get_bit (int in, int bit)
+સ્થિર પૂર્ણાંક
+get_bit (પૂર્ણાંક in, પૂર્ણાંક bit)
 {
-    return (in & (1 << bit)) >> bit;
+    પાછા (in & (1 << bit)) >> bit;
 }
 
-static int
-get_bits (int in, int begin, int end)
+સ્થિર પૂર્ણાંક
+get_bits (પૂર્ણાંક in, પૂર્ણાંક begin, પૂર્ણાંક end)
 {
-    int mask = (1 << (end - begin + 1)) - 1;
+    પૂર્ણાંક mask = (1 << (end - begin + 1)) - 1;
     
-    return (in >> begin) & mask;
+    પાછા (in >> begin) & mask;
 }
 
-static int
-decode_header (const uchar *edid)
+સ્થિર પૂર્ણાંક
+decode_header (અચલ uchar *edid)
 {
-    if (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
-	return TRUE;
-    return FALSE;
+    જો (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
+	પાછા TRUE;
+    પાછા FALSE;
 }
 
-static int
-decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_vendor_and_product_identification (અચલ uchar *edid, MonitorInfo *info)
 {
-    int is_model_year;
+    પૂર્ણાંક is_model_year;
     
     /* Manufacturer Code */
     info->manufacturer_code[0]  = get_bits (edid[0x08], 2, 6);
@@ -74,66 +74,66 @@ decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
     info->product_code = edid[0x0b] << 8 | edid[0x0a];
 
     /* Serial Number */
-    info->serial_number =
+    info->serial_સંખ્યા =
 	edid[0x0c] | edid[0x0d] << 8 | edid[0x0e] << 16 | (Uint32)edid[0x0f] << 24;
 
     /* Week and Year */
     is_model_year = FALSE;
-    switch (edid[0x10])
+    પસંદગી (edid[0x10])
     {
-    case 0x00:
+    સ્થિતિ 0x00:
 	info->production_week = -1;
-	break;
+	તોડો;
 
-    case 0xff:
+    સ્થિતિ 0xff:
 	info->production_week = -1;
 	is_model_year = TRUE;
-	break;
+	તોડો;
 
-    default:
+    મૂળભૂત:
 	info->production_week = edid[0x10];
-	break;
+	તોડો;
     }
 
-    if (is_model_year)
+    જો (is_model_year)
     {
 	info->production_year = -1;
 	info->model_year = 1990 + edid[0x11];
     }
-    else
+    નહીંતર
     {
 	info->production_year = 1990 + edid[0x11];
 	info->model_year = -1;
     }
 
-    return TRUE;
+    પાછા TRUE;
 }
 
-static int
-decode_edid_version (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_edid_version (અચલ uchar *edid, MonitorInfo *info)
 {
     info->major_version = edid[0x12];
     info->minor_version = edid[0x13];
 
-    return TRUE;
+    પાછા TRUE;
 }
 
-static int
-decode_display_parameters (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_display_parameters (અચલ uchar *edid, MonitorInfo *info)
 {
     /* Digital vs Analog */
     info->is_digital = get_bit (edid[0x14], 7);
 
-    if (info->is_digital)
+    જો (info->is_digital)
     {
-	int bits;
+	પૂર્ણાંક bits;
 	
-	static const int bit_depth[8] =
+	સ્થિર અચલ પૂર્ણાંક bit_depth[8] =
 	{
 	    -1, 6, 8, 10, 12, 14, 16, -1
 	};
 
-	static const Interface interfaces[6] =
+	સ્થિર અચલ Interface interfaces[6] =
 	{
 	    UNDEFINED, DVI, HDMI_A, HDMI_B, MDDI, DISPLAY_PORT
 	};
@@ -143,16 +143,16 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
 	bits = get_bits (edid[0x14], 0, 3);
 	
-	if (bits <= 5)
+	જો (bits <= 5)
 	    info->ad.digital.interface = interfaces[bits];
-	else
+	નહીંતર
 	    info->ad.digital.interface = UNDEFINED;
     }
-    else
+    નહીંતર
     {
-	int bits = get_bits (edid[0x14], 5, 6);
+	પૂર્ણાંક bits = get_bits (edid[0x14], 5, 6);
 	
-	static const double levels[][3] =
+	સ્થિર અચલ દ્વિગુણ levels[][3] =
 	{
 	    { 0.7,   0.3,    1.0 },
 	    { 0.714, 0.286,  1.0 },
@@ -174,35 +174,35 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     }
 
     /* Screen Size / Aspect Ratio */
-    if (edid[0x15] == 0 && edid[0x16] == 0)
+    જો (edid[0x15] == 0 && edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = -1.0;
     }
-    else if (edid[0x16] == 0)
+    નહીંતર જો (edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1; 
 	info->aspect_ratio = 100.0 / (edid[0x15] + 99);
     }
-    else if (edid[0x15] == 0)
+    નહીંતર જો (edid[0x15] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = 100.0 / (edid[0x16] + 99);
 	info->aspect_ratio = 1/info->aspect_ratio; /* portrait */
     }
-    else
+    નહીંતર
     {
 	info->width_mm = 10 * edid[0x15];
 	info->height_mm = 10 * edid[0x16];
     }
 
     /* Gamma */
-    if (edid[0x17] == 0xFF)
+    જો (edid[0x17] == 0xFF)
 	info->gamma = -1.0;
-    else
+    નહીંતર
 	info->gamma = (edid[0x17] + 100.0) / 100.0;
 
     /* Features */
@@ -210,17 +210,17 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     info->suspend = get_bit (edid[0x18], 6);
     info->active_off = get_bit (edid[0x18], 5);
 
-    if (info->is_digital)
+    જો (info->is_digital)
     {
 	info->ad.digital.rgb444 = TRUE;
-	if (get_bit (edid[0x18], 3))
+	જો (get_bit (edid[0x18], 3))
 	    info->ad.digital.ycrcb444 = 1;
-	if (get_bit (edid[0x18], 4))
+	જો (get_bit (edid[0x18], 4))
 	    info->ad.digital.ycrcb422 = 1;
     }
-    else
+    નહીંતર
     {
-	int bits = get_bits (edid[0x18], 3, 4);
+	પૂર્ણાંક bits = get_bits (edid[0x18], 3, 4);
 	ColorType color_type[4] =
 	{
 	    MONOCHROME, RGB, OTHER_COLOR, UNDEFINED_COLOR
@@ -236,25 +236,25 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
     /* FIXME: In 1.3 this indicates whether the monitor accepts GTF */
     info->continuous_frequency = get_bit (edid[0x18], 0);
-    return TRUE;
+    પાછા TRUE;
 }
 
-static double
-decode_fraction (int high, int low)
+સ્થિર દ્વિગુણ
+decode_fraction (પૂર્ણાંક ઉપલું, પૂર્ણાંક નીચલું)
 {
-    double result = 0.0;
-    int i;
+    દ્વિગુણ result = 0.0;
+    પૂર્ણાંક i;
 
-    high = (high << 2) | low;
+    ઉપલું = (ઉપલું << 2) | નીચલું;
 
-    for (i = 0; i < 10; ++i)
-	result += get_bit (high, i) * SDL_pow (2, i - 10);
+    માટે (i = 0; i < 10; ++i)
+	result += get_bit (ઉપલું, i) * SDL_pow (2, i - 10);
 
-    return result;
+    પાછા result;
 }
 
-static int
-decode_color_characteristics (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_color_characteristics (અચલ uchar *edid, MonitorInfo *info)
 {
     info->red_x = decode_fraction (edid[0x1b], get_bits (edid[0x19], 6, 7));
     info->red_y = decode_fraction (edid[0x1c], get_bits (edid[0x19], 5, 4));
@@ -265,13 +265,13 @@ decode_color_characteristics (const uchar *edid, MonitorInfo *info)
     info->white_x = decode_fraction (edid[0x21], get_bits (edid[0x1a], 2, 3));
     info->white_y = decode_fraction (edid[0x22], get_bits (edid[0x1a], 0, 1));
 
-    return TRUE;
+    પાછા TRUE;
 }
 
-static int
-decode_established_timings (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_established_timings (અચલ uchar *edid, MonitorInfo *info)
 {
-    static const Timing established[][8] = 
+    સ્થિર અચલ Timing established[][8] = 
     {
 	{
 	    { 800, 600, 60 },
@@ -305,43 +305,43 @@ decode_established_timings (const uchar *edid, MonitorInfo *info)
 	},
     };
 
-    int i, j, idx;
+    પૂર્ણાંક i, j, idx;
 
     idx = 0;
-    for (i = 0; i < 3; ++i)
+    માટે (i = 0; i < 3; ++i)
     {
-	for (j = 0; j < 8; ++j)
+	માટે (j = 0; j < 8; ++j)
 	{
-	    int byte = edid[0x23 + i];
+	    પૂર્ણાંક byte = edid[0x23 + i];
 
-	    if (get_bit (byte, j) && established[i][j].frequency != 0)
+	    જો (get_bit (byte, j) && established[i][j].frequency != 0)
 		info->established[idx++] = established[i][j];
 	}
     }
-    return TRUE;
+    પાછા TRUE;
 }
 
-static int
-decode_standard_timings (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_standard_timings (અચલ uchar *edid, MonitorInfo *info)
 {
-    int i;
+    પૂર્ણાંક i;
     
-    for (i = 0; i < 8; i++)
+    માટે (i = 0; i < 8; i++)
     {
-	int first = edid[0x26 + 2 * i];
-	int second = edid[0x27 + 2 * i];
+	પૂર્ણાંક first = edid[0x26 + 2 * i];
+	પૂર્ણાંક second = edid[0x27 + 2 * i];
 
-	if (first != 0x01 && second != 0x01)
+	જો (first != 0x01 && second != 0x01)
 	{
-	    int w = 8 * (first + 31);
-	    int h = 0;
+	    પૂર્ણાંક w = 8 * (first + 31);
+	    પૂર્ણાંક h = 0;
 
-	    switch (get_bits (second, 6, 7))
+	    પસંદગી (get_bits (second, 6, 7))
 	    {
-	    case 0x00: h = (w / 16) * 10; break;
-	    case 0x01: h = (w / 4) * 3; break;
-	    case 0x02: h = (w / 5) * 4; break;
-	    case 0x03: h = (w / 16) * 9; break;
+	    સ્થિતિ 0x00: h = (w / 16) * 10; તોડો;
+	    સ્થિતિ 0x01: h = (w / 4) * 3; તોડો;
+	    સ્થિતિ 0x02: h = (w / 5) * 4; તોડો;
+	    સ્થિતિ 0x03: h = (w / 16) * 9; તોડો;
 	    }
 
 	    info->standard[i].width = w;
@@ -350,79 +350,79 @@ decode_standard_timings (const uchar *edid, MonitorInfo *info)
 	}
     }
     
-    return TRUE;
+    પાછા TRUE;
 }
 
-static void
-decode_lf_string (const uchar *s, int n_chars, char *result)
+સ્થિર શૂન્ય
+decode_lf_string (અચલ uchar *s, પૂર્ણાંક n_chars, અક્ષર *result)
 {
-    int i;
-    for (i = 0; i < n_chars; ++i)
+    પૂર્ણાંક i;
+    માટે (i = 0; i < n_chars; ++i)
     {
-	if (s[i] == 0x0a)
+	જો (s[i] == 0x0a)
 	{
 	    *result++ = '\0';
-	    break;
+	    તોડો;
 	}
-	else if (s[i] == 0x00)
+	નહીંતર જો (s[i] == 0x00)
 	{
 	    /* Convert embedded 0's to spaces */
 	    *result++ = ' ';
 	}
-	else
+	નહીંતર
 	{
 	    *result++ = s[i];
 	}
     }
 }
 
-static void
-decode_display_descriptor (const uchar *desc,
+સ્થિર શૂન્ય
+decode_display_descriptor (અચલ uchar *desc,
 			   MonitorInfo *info)
 {
-    switch (desc[0x03])
+    પસંદગી (desc[0x03])
     {
-    case 0xFC:
+    સ્થિતિ 0xFC:
 	decode_lf_string (desc + 5, 13, info->dsc_product_name);
-	break;
-    case 0xFF:
-	decode_lf_string (desc + 5, 13, info->dsc_serial_number);
-	break;
-    case 0xFE:
+	તોડો;
+    સ્થિતિ 0xFF:
+	decode_lf_string (desc + 5, 13, info->dsc_serial_સંખ્યા);
+	તોડો;
+    સ્થિતિ 0xFE:
 	decode_lf_string (desc + 5, 13, info->dsc_string);
-	break;
-    case 0xFD:
+	તોડો;
+    સ્થિતિ 0xFD:
 	/* Range Limits */
-	break;
-    case 0xFB:
+	તોડો;
+    સ્થિતિ 0xFB:
 	/* Color Point */
-	break;
-    case 0xFA:
+	તોડો;
+    સ્થિતિ 0xFA:
 	/* Timing Identifications */
-	break;
-    case 0xF9:
+	તોડો;
+    સ્થિતિ 0xF9:
 	/* Color Management */
-	break;
-    case 0xF8:
+	તોડો;
+    સ્થિતિ 0xF8:
 	/* Timing Codes */
-	break;
-    case 0xF7:
+	તોડો;
+    સ્થિતિ 0xF7:
 	/* Established Timings */
-	break;
-    case 0x10:
-	break;
+	તોડો;
+    સ્થિતિ 0x10:
+	તોડો;
     }
 }
 
-static void
-decode_detailed_timing (const uchar *timing,
+સ્થિર શૂન્ય
+decode_detailed_timing (અચલ uchar *timing,
 			DetailedTiming *detailed)
 {
-    int bits;
+    પૂર્ણાંક bits;
     StereoType stereo[] =
     {
-	NO_STEREO, NO_STEREO, FIELD_RIGHT, FIELD_LEFT,
-	TWO_WAY_RIGHT_ON_EVEN, TWO_WAY_LEFT_ON_EVEN,
+	NO_STEREO, NO_STEREO, FIELD_જમણું, FIELD_ડાબું,
+	TWO_WAY_જમણું_ON_EVEN, TWO_WAY_ડાબું_ON_EVEN,
 	FOUR_WAY_INTERLEAVED, SIDE_BY_SIDE
     };
     
@@ -439,8 +439,8 @@ decode_detailed_timing (const uchar *timing,
 	get_bits (timing[0x0a], 0, 3) | get_bits (timing[0x0b], 0, 1) << 4;
     detailed->width_mm =  timing[0x0c] | get_bits (timing[0x0e], 4, 7) << 8;
     detailed->height_mm = timing[0x0d] | get_bits (timing[0x0e], 0, 3) << 8;
-    detailed->right_border = timing[0x0f];
-    detailed->top_border = timing[0x10];
+    detailed->જમણું_border = timing[0x0f];
+    detailed->ટોચ_border = timing[0x10];
 
     detailed->interlaced = get_bit (timing[0x11], 7);
 
@@ -452,16 +452,16 @@ decode_detailed_timing (const uchar *timing,
     bits = timing[0x11];
 
     detailed->digital_sync = get_bit (bits, 4);
-    if (detailed->digital_sync)
+    જો (detailed->digital_sync)
     {
 	detailed->ad.digital.composite = !get_bit (bits, 3);
 
-	if (detailed->ad.digital.composite)
+	જો (detailed->ad.digital.composite)
 	{
 	    detailed->ad.digital.serrations = get_bit (bits, 2);
 	    detailed->ad.digital.negative_vsync = FALSE;
 	}
-	else
+	નહીંતર
 	{
 	    detailed->ad.digital.serrations = FALSE;
 	    detailed->ad.digital.negative_vsync = !get_bit (bits, 2);
@@ -469,7 +469,7 @@ decode_detailed_timing (const uchar *timing,
 
 	detailed->ad.digital.negative_hsync = !get_bit (bits, 0);
     }
-    else
+    નહીંતર
     {
 	detailed->ad.analog.bipolar = get_bit (bits, 3);
 	detailed->ad.analog.serrations = get_bit (bits, 2);
@@ -477,23 +477,23 @@ decode_detailed_timing (const uchar *timing,
     }
 }
 
-static int
-decode_descriptors (const uchar *edid, MonitorInfo *info)
+સ્થિર પૂર્ણાંક
+decode_descriptors (અચલ uchar *edid, MonitorInfo *info)
 {
-    int i;
-    int timing_idx;
+    પૂર્ણાંક i;
+    પૂર્ણાંક timing_idx;
     
     timing_idx = 0;
     
-    for (i = 0; i < 4; ++i)
+    માટે (i = 0; i < 4; ++i)
     {
-	int index = 0x36 + i * 18;
+	પૂર્ણાંક index = 0x36 + i * 18;
 
-	if (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
+	જો (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
 	{
 	    decode_display_descriptor (edid + index, info);
 	}
-	else
+	નહીંતર
 	{
 	    decode_detailed_timing (
 		edid + index, &(info->detailed_timings[timing_idx++]));
@@ -502,52 +502,52 @@ decode_descriptors (const uchar *edid, MonitorInfo *info)
 
     info->n_detailed_timings = timing_idx;
 
-    return TRUE;
+    પાછા TRUE;
 }
 
-static void
-decode_check_sum (const uchar *edid,
+સ્થિર શૂન્ય
+decode_check_sum (અચલ uchar *edid,
 		  MonitorInfo *info)
 {
-    int i;
+    પૂર્ણાંક i;
     uchar check = 0;
 
-    for (i = 0; i < 128; ++i)
+    માટે (i = 0; i < 128; ++i)
 	check += edid[i];
 
     info->checksum = check;
 }
 
-static void
-decode_HDR_metadata_block (const uchar *data, int length, MonitorInfo *info)
+સ્થિર શૂન્ય
+decode_HDR_metadata_block (અચલ uchar *data, પૂર્ણાંક length, MonitorInfo *info)
 {
-    if (length >= 3)
+    જો (length >= 3)
 	info->max_luminance = 50.0 * SDL_pow(2, data[2] / 32.0);
 
-    if (length >= 4)
+    જો (length >= 4)
 	info->max_frame_average_luminance = 50.0 * SDL_pow(2, data[3] / 32.0);
 
-    if (length >= 5)
+    જો (length >= 5)
 	info->min_luminance = 50.0 * SDL_pow(2, data[4] / 32.0);
 }
 
 
-static void
-decode_cta_block (const uchar *edid,
+સ્થિર શૂન્ય
+decode_cta_block (અચલ uchar *edid,
 		  MonitorInfo *info)
 {
-    int offset = 4;
-    while (offset < 128) {
-	int length = edid[offset] & 0x1f;
-	int type = edid[offset] >> 5;
-	if (length == 0) {
-	    break;
+    પૂર્ણાંક offset = 4;
+    જ્યારે (offset < 128) {
+	પૂર્ણાંક length = edid[offset] & 0x1f;
+	પૂર્ણાંક type = edid[offset] >> 5;
+	જો (length == 0) {
+	    તોડો;
 	}
-	if (type == 7) {
+	જો (type == 7) {
 	    type <<= 8;
 	    type |= edid[offset + 1];
 	}
-	if (type == 0x706) {
+	જો (type == 0x706) {
 	    decode_HDR_metadata_block (&edid[offset + 2], length - 1, info);
 	}
 	offset += (1 + length);
@@ -555,21 +555,21 @@ decode_cta_block (const uchar *edid,
 }
 
 MonitorInfo *
-decode_edid (const uchar *edid, size_t size)
+decode_edid (અચલ uchar *edid, size_t size)
 {
-    const int EDID_PAGE_SIZE = 128;
-    int num_blocks = (size / EDID_PAGE_SIZE);
+    અચલ પૂર્ણાંક EDID_PAGE_SIZE = 128;
+    પૂર્ણાંક અંક_blocks = (size / EDID_PAGE_SIZE);
     MonitorInfo *info;
 
-    if ((size % EDID_PAGE_SIZE) != 0) {
-	return NULL;
+    જો ((size % EDID_PAGE_SIZE) != 0) {
+	પાછા ખાલી;
     }
 
-    info = SDL_calloc (1, sizeof (MonitorInfo));
+    info = SDL_calloc (1, કદ (MonitorInfo));
 
     decode_check_sum (edid, info);
     
-    if (!decode_header (edid) ||
+    જો (!decode_header (edid) ||
         !decode_vendor_and_product_identification (edid, info) ||
         !decode_edid_version (edid, info) ||
         !decode_display_parameters (edid, info) ||
@@ -578,75 +578,75 @@ decode_edid (const uchar *edid, size_t size)
         !decode_standard_timings (edid, info) ||
         !decode_descriptors (edid, info)) {
 	SDL_free(info);
-	return NULL;
+	પાછા ખાલી;
     }
     
-    if (num_blocks > 1) {
-	for (int i = 1; i < num_blocks; ++i) {
-	    int offset = i * EDID_PAGE_SIZE;
+    જો (અંક_blocks > 1) {
+	માટે (પૂર્ણાંક i = 1; i < અંક_blocks; ++i) {
+	    પૂર્ણાંક offset = i * EDID_PAGE_SIZE;
 	    uchar extension = edid[offset];
-	    if (extension == 0x02) {
+	    જો (extension == 0x02) {
 		// CTA-861 Extension Block
 		decode_cta_block (&edid[offset], info);
 	    }
 	}
     }
 
-    return info;
+    પાછા info;
 }
 
-static const char *
-yesno (int v)
+સ્થિર અચલ અક્ષર *
+yesno (પૂર્ણાંક v)
 {
-    return v? "yes" : "no";
+    પાછા v? "yes" : "no";
 }
 
-void
+શૂન્ય
 dump_monitor_info (MonitorInfo *info)
 {
-    int i;
+    પૂર્ણાંક i;
     
     printf ("Checksum: %d (%s)\n",
 	    info->checksum, info->checksum? "incorrect" : "correct");
     printf ("Manufacturer Code: %s\n", info->manufacturer_code);
     printf ("Product Code: 0x%x\n", info->product_code);
-    printf ("Serial Number: %u\n", info->serial_number);
+    printf ("Serial Number: %u\n", info->serial_સંખ્યા);
     
-    if (info->production_week != -1)
+    જો (info->production_week != -1)
 	printf ("Production Week: %d\n", info->production_week);
-    else
+    નહીંતર
 	printf ("Production Week: unspecified\n");
     
-    if (info->production_year != -1)
+    જો (info->production_year != -1)
 	printf ("Production Year: %d\n", info->production_year);
-    else
+    નહીંતર
 	printf ("Production Year: unspecified\n");
     
-    if (info->model_year != -1)
+    જો (info->model_year != -1)
 	printf ("Model Year: %d\n", info->model_year);
-    else
+    નહીંતર
 	printf ("Model Year: unspecified\n");
     
     printf ("EDID revision: %d.%d\n", info->major_version, info->minor_version);
     
     printf ("Display is %s\n", info->is_digital? "digital" : "analog");
-    if (info->is_digital)
+    જો (info->is_digital)
     {
-	const char *interface;
-	if (info->ad.digital.bits_per_primary != -1)
+	અચલ અક્ષર *interface;
+	જો (info->ad.digital.bits_per_primary != -1)
 	    printf ("Bits Per Primary: %d\n", info->ad.digital.bits_per_primary);
-	else
+	નહીંતર
 	    printf ("Bits Per Primary: undefined\n");
 	
-	switch (info->ad.digital.interface)
+	પસંદગી (info->ad.digital.interface)
 	{
-	case DVI: interface = "DVI"; break;
-	case HDMI_A: interface = "HDMI-a"; break;
-	case HDMI_B: interface = "HDMI-b"; break;
-	case MDDI: interface = "MDDI"; break;
-	case DISPLAY_PORT: interface = "DisplayPort"; break;
-	case UNDEFINED: interface = "undefined"; break;
-	default: interface = "unknown"; break;
+	સ્થિતિ DVI: interface = "DVI"; તોડો;
+	સ્થિતિ HDMI_A: interface = "HDMI-a"; તોડો;
+	સ્થિતિ HDMI_B: interface = "HDMI-b"; તોડો;
+	સ્થિતિ MDDI: interface = "MDDI"; તોડો;
+	સ્થિતિ DISPLAY_PORT: interface = "DisplayPort"; તોડો;
+	સ્થિતિ UNDEFINED: interface = "undefined"; તોડો;
+	મૂળભૂત: interface = "unknown"; તોડો;
 	}
 	printf ("Interface: %s\n", interface);
 	
@@ -654,9 +654,9 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("YCrCb 4:4:4: %s\n", yesno (info->ad.digital.ycrcb444));
 	printf ("YCrCb 4:2:2: %s\n", yesno (info->ad.digital.ycrcb422));
     }
-    else
+    નહીંતર
     {
-       const char *s;
+       અચલ અક્ષર *s;
 	printf ("Video Signal Level: %f\n", info->ad.analog.video_signal_level);
 	printf ("Sync Signal Level: %f\n", info->ad.analog.sync_signal_level);
 	printf ("Total Signal Level: %f\n", info->ad.analog.total_signal_level);
@@ -670,36 +670,36 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("Serration on VSync: %s\n",
 		yesno (info->ad.analog.serration_on_vsync));
 	
-	switch (info->ad.analog.color_type)
+	પસંદગી (info->ad.analog.color_type)
 	{
-	case UNDEFINED_COLOR: s = "undefined"; break;
-	case MONOCHROME: s = "monochrome"; break;
-	case RGB: s = "rgb"; break;
-	case OTHER_COLOR: s = "other color"; break;
-	default: s = "unknown"; break;
+	સ્થિતિ UNDEFINED_COLOR: s = "undefined"; તોડો;
+	સ્થિતિ MONOCHROME: s = "monochrome"; તોડો;
+	સ્થિતિ RGB: s = "rgb"; તોડો;
+	સ્થિતિ OTHER_COLOR: s = "other color"; તોડો;
+	મૂળભૂત: s = "unknown"; તોડો;
 	}
 	
 	printf ("Color: %s\n", s);
     }
     
-    if (info->width_mm == -1)
+    જો (info->width_mm == -1)
 	printf ("Width: undefined\n");
-    else
+    નહીંતર
 	printf ("Width: %d mm\n", info->width_mm);
     
-    if (info->height_mm == -1)
+    જો (info->height_mm == -1)
 	printf ("Height: undefined\n");
-    else
+    નહીંતર
 	printf ("Height: %d mm\n", info->height_mm);
     
-    if (info->aspect_ratio > 0)
+    જો (info->aspect_ratio > 0)
 	printf ("Aspect Ratio: %f\n", info->aspect_ratio);
-    else
+    નહીંતર
 	printf ("Aspect Ratio: undefined\n");
     
-    if (info->gamma >= 0)
+    જો (info->gamma >= 0)
 	printf ("Gamma: %f\n", info->gamma);
-    else
+    નહીંતર
 	printf ("Gamma: undefined\n");
     
     printf ("Standby: %s\n", yesno (info->standby));
@@ -725,12 +725,12 @@ dump_monitor_info (MonitorInfo *info)
     
     printf ("Established Timings:\n");
     
-    for (i = 0; i < 24; ++i)
+    માટે (i = 0; i < 24; ++i)
     {
 	Timing *timing = &(info->established[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	જો (timing->frequency == 0)
+	    તોડો;
 	
 	printf ("  %d x %d @ %d Hz\n",
 		timing->width, timing->height, timing->frequency);
@@ -738,21 +738,21 @@ dump_monitor_info (MonitorInfo *info)
     }
     
     printf ("Standard Timings:\n");
-    for (i = 0; i < 8; ++i)
+    માટે (i = 0; i < 8; ++i)
     {
 	Timing *timing = &(info->standard[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	જો (timing->frequency == 0)
+	    તોડો;
 	
 	printf ("  %d x %d @ %d Hz\n",
 		timing->width, timing->height, timing->frequency);
     }
     
-    for (i = 0; i < info->n_detailed_timings; ++i)
+    માટે (i = 0; i < info->n_detailed_timings; ++i)
     {
 	DetailedTiming *timing = &(info->detailed_timings[i]);
-	const char *s;
+	અચલ અક્ષર *s;
 	
 	printf ("Timing%s: \n",
 		(i == 0 && info->preferred_timing_includes_native)?
@@ -768,22 +768,22 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("  V Sync: %d\n", timing->v_sync);
 	printf ("  Width: %d mm\n", timing->width_mm);
 	printf ("  Height: %d mm\n", timing->height_mm);
-	printf ("  Right Border: %d\n", timing->right_border);
-	printf ("  Top Border: %d\n", timing->top_border);
-	switch (timing->stereo)
+	printf ("  Right Border: %d\n", timing->જમણું_border);
+	printf ("  Top Border: %d\n", timing->ટોચ_border);
+	પસંદગી (timing->stereo)
 	{
-	default:
-	case NO_STEREO:   s = "No Stereo"; break;
-	case FIELD_RIGHT: s = "Field Sequential, Right on Sync"; break;
-	case FIELD_LEFT:  s = "Field Sequential, Left on Sync"; break;
-	case TWO_WAY_RIGHT_ON_EVEN: s = "Two-way, Right on Even"; break;
-	case TWO_WAY_LEFT_ON_EVEN:  s = "Two-way, Left on Even"; break;
-	case FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; break;
-	case SIDE_BY_SIDE:          s = "Side-by-Side"; break;
+	મૂળભૂત:
+	સ્થિતિ NO_STEREO:   s = "No Stereo"; તોડો;
+	સ્થિતિ FIELD_જમણું: s = "Field Sequential, Right on Sync"; તોડો;
+	સ્થિતિ FIELD_ડાબું:  s = "Field Sequential, Left on Sync"; તોડો;
+	સ્થિતિ TWO_WAY_જમણું_ON_EVEN: s = "Two-way, Right on Even"; તોડો;
+	સ્થિતિ TWO_WAY_ડાબું_ON_EVEN:  s = "Two-way, Left on Even"; તોડો;
+	સ્થિતિ FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; તોડો;
+	સ્થિતિ SIDE_BY_SIDE:          s = "Side-by-Side"; તોડો;
 	}
 	printf ("  Stereo: %s\n", s);
 	
-	if (timing->digital_sync)
+	જો (timing->digital_sync)
 	{
 	    printf ("  Digital Sync:\n");
 	    printf ("    composite: %s\n", yesno (timing->ad.digital.composite));
@@ -793,7 +793,7 @@ dump_monitor_info (MonitorInfo *info)
 	    printf ("    negative hsync: %s\n",
 		    yesno (timing->ad.digital.negative_hsync));
 	}
-	else
+	નહીંતર
 	{
 	    printf ("  Analog Sync:\n");
 	    printf ("    bipolar: %s\n", yesno (timing->ad.analog.bipolar));
@@ -805,7 +805,7 @@ dump_monitor_info (MonitorInfo *info)
     
     printf ("Detailed Product information:\n");
     printf ("  Product Name: %s\n", info->dsc_product_name);
-    printf ("  Serial Number: %s\n", info->dsc_serial_number);
+    printf ("  Serial Number: %s\n", info->dsc_serial_સંખ્યા);
     printf ("  Unspecified String: %s\n", info->dsc_string);
 }
 

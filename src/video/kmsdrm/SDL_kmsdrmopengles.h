@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_kmsdrmopengles_h_
 #define SDL_kmsdrmopengles_h_
 
-#include "../SDL_egl_c.h"
+#અન્તર્ભાવ "../SDL_egl_c.h"
 
 // OpenGLES functions
 #define KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
@@ -31,12 +31,12 @@
 #define KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
 #define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 
-extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+બાહ્ય શૂન્ય KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+બાહ્ય bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, પૂર્ણાંક interval);
+બાહ્ય bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, અચલ અક્ષર *path);
+બાહ્ય શૂન્ય KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+બાહ્ય SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 
 #endif // SDL_kmsdrmopengles_h_

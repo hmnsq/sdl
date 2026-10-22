@@ -22,10 +22,10 @@
 #ifndef SDL_stb_c_h_
 #define SDL_stb_c_h_
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 // Image conversion functions
 
-extern bool SDL_ConvertPixels_STB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+બાહ્ય bool SDL_ConvertPixels_STB(પૂર્ણાંક width, પૂર્ણાંક height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, શૂન્ય *dst, પૂર્ણાંક dst_pitch);
 
 #endif // SDL_stb_c_h_

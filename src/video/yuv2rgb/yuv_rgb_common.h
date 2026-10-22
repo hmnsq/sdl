@@ -3,7 +3,7 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
 
-typedef enum
+પ્રકારવ્યાખ્યા ગણના
 {
     YCBCR_601_FULL,
     YCBCR_601_LIMITED,

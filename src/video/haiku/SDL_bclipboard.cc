@@ -18,72 +18,72 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
 // BWindow based clipboard implementation
 
-#include <unistd.h>
-#include <TypeConstants.h>
+#અન્તર્ભાવ <unistd.h>
+#અન્તર્ભાવ <TypeConstants.h>
 
-#include "SDL_BWin.h"
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "SDL_BWin.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
 #ifdef __cplusplus
-extern "C" {
+બાહ્ય "C" {
 #endif
 
-bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+તાર્કિક HAIKU_SetClipboardText(SDL_VideoDevice *_this, અચલ અક્ષર *text)
 {
-    BMessage *clip = NULL;
-    if (be_clipboard->Lock()) {
+    BMessage *clip = ખાલી;
+    જો (be_clipboard->Lock()) {
         be_clipboard->Clear();
-        if ((clip = be_clipboard->Data())) {
+        જો ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
             ssize_t asciiLength = 0;
-            for (; text[asciiLength] != 0; ++asciiLength) {}
+            માટે (; text[asciiLength] != 0; ++asciiLength) {}
             clip->AddData("text/plain", B_MIME_TYPE, text, asciiLength);
             be_clipboard->Commit();
         }
         be_clipboard->Unlock();
     }
-    return true;
+    પાછા સાચું;
 }
 
-char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
-    BMessage *clip = NULL;
-    const char *text = NULL;
+અક્ષર *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
+    BMessage *clip = ખાલી;
+    અચલ અક્ષર *text = ખાલી;
     ssize_t length;
-    char *result;
-    if (be_clipboard->Lock()) {
-        if ((clip = be_clipboard->Data())) {
+    અક્ષર *result;
+    જો (be_clipboard->Lock()) {
+        જો ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
-            clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text,
+            clip->FindData("text/plain", B_MIME_TYPE, (અચલ શૂન્ય **)&text,
                 &length);
         }
         be_clipboard->Unlock();
     }
 
-    if (!text) {
+    જો (!text) {
         result = SDL_strdup("");
-    } else {
+    } નહીંતર {
         // Copy the data and pass on to SDL
-        result = (char *)SDL_malloc((length + 1) * sizeof(char));
+        result = (અક્ષર *)SDL_malloc((length + 1) * કદ(અક્ષર));
         SDL_strlcpy(result, text, length + 1);
     }
 
-    return result;
+    પાછા result;
 }
 
-bool HAIKU_HasClipboardText(SDL_VideoDevice *_this) {
-    bool result = false;
-    char *text = HAIKU_GetClipboardText(_this);
-    if (text) {
+તાર્કિક HAIKU_HasClipboardText(SDL_VideoDevice *_this) {
+    તાર્કિક result = ખોટું;
+    અક્ષર *text = HAIKU_GetClipboardText(_this);
+    જો (text) {
         result = (text[0] != '\0');
         SDL_free(text);
     }
-    return result;
+    પાછા result;
 }
 
 #ifdef __cplusplus

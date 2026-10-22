@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_cocoamodes_h_
 #define SDL_cocoamodes_h_
 
-struct SDL_DisplayData
+સંરચના SDL_DisplayData
 {
     CGDirectDisplayID display;
     SDL_Rect usable_bounds;
 };
 
-struct SDL_DisplayModeData
+સંરચના SDL_DisplayModeData
 {
     CFMutableArrayRef modes;
 };
 
-extern void Cocoa_InitModes(SDL_VideoDevice *_this);
-extern void Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
-extern bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool Cocoa_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void Cocoa_QuitModes(SDL_VideoDevice *_this);
-extern SDL_VideoDisplay *Cocoa_FindSDLDisplayByCGDirectDisplayID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
+બાહ્ય શૂન્ય Cocoa_InitModes(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
+બાહ્ય bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+બાહ્ય bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+બાહ્ય bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+બાહ્ય bool Cocoa_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+બાહ્ય શૂન્ય Cocoa_QuitModes(SDL_VideoDevice *_this);
+બાહ્ય SDL_VideoDisplay *Cocoa_FindSDLDisplayByCGDirectDisplayID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
 
 #endif // SDL_cocoamodes_h_

@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/touch.h>
+#અન્તર્ભાવ <psp2/kernel/processmgr.h>
+#અન્તર્ભાવ <psp2/touch.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitatouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#અન્તર્ભાવ "SDL_vitavideo.h"
+#અન્તર્ભાવ "SDL_vitatouch.h"
+#અન્તર્ભાવ "../../events/SDL_mouse_c.h"
+#અન્તર્ભાવ "../../events/SDL_touch_c.h"
 
-SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
-SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
+SceTouchData touch_old[SCE_TOUCH_PORT_MAX_અંક];
+SceTouchData touch[SCE_TOUCH_PORT_MAX_અંક];
 
-SDL_FRect area_info[SCE_TOUCH_PORT_MAX_NUM];
+SDL_FRect area_info[SCE_TOUCH_PORT_MAX_અંક];
 
-struct
+સંરચના
 {
-    float min;
-    float range;
-} force_info[SCE_TOUCH_PORT_MAX_NUM];
+    દશાંશ min;
+    દશાંશ range;
+} force_info[SCE_TOUCH_PORT_MAX_અંક];
 
-static bool disableFrontPoll;
-static bool disableBackPoll;
+સ્થિર bool disableFrontPoll;
+સ્થિર bool disableBackPoll;
 
-void VITA_InitTouch(void)
+શૂન્ય VITA_InitTouch(શૂન્ય)
 {
     disableFrontPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_FRONT_TOUCH, true);
     disableBackPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_BACK_TOUCH, true);
@@ -54,17 +54,17 @@ void VITA_InitTouch(void)
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_BACK);
 
-    for (int port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    માટે (પૂર્ણાંક port = 0; port < SCE_TOUCH_PORT_MAX_અંક; port++) {
         SceTouchPanelInfo panelinfo;
         sceTouchGetPanelInfo(port, &panelinfo);
 
-        area_info[port].x = (float)panelinfo.minAaX;
-        area_info[port].y = (float)panelinfo.minAaY;
-        area_info[port].w = (float)(panelinfo.maxAaX - panelinfo.minAaX);
-        area_info[port].h = (float)(panelinfo.maxAaY - panelinfo.minAaY);
+        area_info[port].x = (દશાંશ)panelinfo.minAaX;
+        area_info[port].y = (દશાંશ)panelinfo.minAaY;
+        area_info[port].w = (દશાંશ)(panelinfo.maxAaX - panelinfo.minAaX);
+        area_info[port].h = (દશાંશ)(panelinfo.maxAaY - panelinfo.minAaY);
 
-        force_info[port].min = (float)panelinfo.minForce;
-        force_info[port].range = (float)(panelinfo.maxForce - panelinfo.minForce);
+        force_info[port].min = (દશાંશ)panelinfo.minForce;
+        force_info[port].range = (દશાંશ)(panelinfo.maxForce - panelinfo.minForce);
     }
 
     // Support passing both front and back touch devices in events
@@ -72,48 +72,48 @@ void VITA_InitTouch(void)
     SDL_AddTouch(2, SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE, "Back");
 }
 
-void VITA_QuitTouch(void)
+શૂન્ય VITA_QuitTouch(શૂન્ય)
 {
     sceTouchDisableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchDisableTouchForce(SCE_TOUCH_PORT_BACK);
 }
 
-void VITA_PollTouch(void)
+શૂન્ય VITA_PollTouch(શૂન્ય)
 {
     SDL_TouchID touch_id;
     SDL_FingerID finger_id;
-    int port;
+    પૂર્ણાંક port;
 
     // We skip polling touch if no window is created
-    if (!Vita_Window) {
-        return;
+    જો (!Vita_Window) {
+        પાછા;
     }
 
-    SDL_memcpy(touch_old, touch, sizeof(touch_old));
+    SDL_memcpy(touch_old, touch, કદ(touch_old));
 
-    for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    માટે (port = 0; port < SCE_TOUCH_PORT_MAX_અંક; port++) {
         /** Skip polling of Touch Device if hint is set **/
-        if (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
-            continue;
+        જો (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
+            ચાલુ;
         }
         sceTouchPeek(port, &touch[port], 1);
 
         touch_id = (SDL_TouchID)(port + 1);
 
-        if (touch[port].reportNum > 0) {
-            for (int i = 0; i < touch[port].reportNum; i++) {
+        જો (touch[port].report_અંક > 0) {
+            માટે (પૂર્ણાંક i = 0; i < touch[port].report_અંક; i++) {
                 // adjust coordinates and forces to return normalized values
                 // for the front, screen area is used as a reference (for direct touch)
                 // e.g. touch_x = 1.0 corresponds to screen_x = 960
                 // for the back panel, the active touch area is used as reference
-                float x = 0;
-                float y = 0;
-                float force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
-                int finger_down = 0;
+                દશાંશ x = 0;
+                દશાંશ y = 0;
+                દશાંશ force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
+                પૂર્ણાંક finger_down = 0;
 
-                if (touch_old[port].reportNum > 0) {
-                    for (int j = 0; j < touch_old[port].reportNum; j++) {
-                        if (touch[port].report[i].id == touch_old[port].report[j].id) {
+                જો (touch_old[port].report_અંક > 0) {
+                    માટે (પૂર્ણાંક j = 0; j < touch_old[port].report_અંક; j++) {
+                        જો (touch[port].report[i].id == touch_old[port].report[j].id) {
                             finger_down = 1;
                         }
                     }
@@ -123,7 +123,7 @@ void VITA_PollTouch(void)
                 finger_id = (SDL_FingerID)(touch[port].report[i].id + 1);
 
                 // Skip if finger was already previously down
-                if (!finger_down) {
+                જો (!finger_down) {
                     // Send an initial touch
                     SDL_SendTouch(0, touch_id, finger_id, Vita_Window, SDL_EVENT_FINGER_DOWN, x, y, force);
                 }
@@ -134,20 +134,20 @@ void VITA_PollTouch(void)
         }
 
         // some fingers might have been let go
-        if (touch_old[port].reportNum > 0) {
-            for (int i = 0; i < touch_old[port].reportNum; i++) {
-                int finger_up = 1;
-                if (touch[port].reportNum > 0) {
-                    for (int j = 0; j < touch[port].reportNum; j++) {
-                        if (touch[port].report[j].id == touch_old[port].report[i].id) {
+        જો (touch_old[port].report_અંક > 0) {
+            માટે (પૂર્ણાંક i = 0; i < touch_old[port].report_અંક; i++) {
+                પૂર્ણાંક finger_up = 1;
+                જો (touch[port].report_અંક > 0) {
+                    માટે (પૂર્ણાંક j = 0; j < touch[port].report_અંક; j++) {
+                        જો (touch[port].report[j].id == touch_old[port].report[i].id) {
                             finger_up = 0;
                         }
                     }
                 }
-                if (finger_up == 1) {
-                    float x = 0;
-                    float y = 0;
-                    float force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
+                જો (finger_up == 1) {
+                    દશાંશ x = 0;
+                    દશાંશ y = 0;
+                    દશાંશ force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
                     VITA_ConvertTouchXYToSDLXY(&x, &y, touch_old[port].report[i].x, touch_old[port].report[i].y, port);
                     finger_id = (SDL_FingerID)(touch_old[port].report[i].id + 1);
                     // Finger released from screen
@@ -158,18 +158,18 @@ void VITA_PollTouch(void)
     }
 }
 
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port)
+શૂન્ય VITA_ConvertTouchXYToSDLXY(દશાંશ *sdl_x, દશાંશ *sdl_y, પૂર્ણાંક vita_x, પૂર્ણાંક vita_y, પૂર્ણાંક port)
 {
-    float x, y;
+    દશાંશ x, y;
 
-    if (area_info[port].w <= 1) {
+    જો (area_info[port].w <= 1) {
         x = 0.5f;
-    } else {
+    } નહીંતર {
         x = (vita_x - area_info[port].x) / (area_info[port].w - 1);
     }
-    if (area_info[port].h <= 1) {
+    જો (area_info[port].h <= 1) {
         y = 0.5f;
-    } else {
+    } નહીંતર {
         y = (vita_y - area_info[port].y) / (area_info[port].h - 1);
     }
 

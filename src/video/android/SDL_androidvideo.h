@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_androidvideo_h_
 #define SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+બાહ્ય શૂન્ય Android_SetScreenResolution(પૂર્ણાંક surfaceWidth, પૂર્ણાંક surfaceHeight, પૂર્ણાંક deviceWidth, પૂર્ણાંક deviceHeight, દશાંશ density, દશાંશ rate);
+બાહ્ય શૂન્ય Android_SetScreenHDRHeadroom(દશાંશ headroom);
+બાહ્ય શૂન્ય Android_SetFormat(પૂર્ણાંક format_wanted, પૂર્ણાંક format_got);
+બાહ્ય શૂન્ય Android_SetOrientation(SDL_DisplayOrientation orientation);
+બાહ્ય શૂન્ય Android_SendResize(SDL_Window *window);
+બાહ્ય શૂન્ય Android_SetWindowSafeAreaInsets(પૂર્ણાંક ડાબું, પૂર્ણાંક જમણું, પૂર્ણાંક ટોચ, પૂર્ણાંક bottom);
+બાહ્ય શૂન્ય Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+સંરચના SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    પૂર્ણાંક isPaused;
+    પૂર્ણાંક isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+બાહ્ય પૂર્ણાંક Android_SurfaceWidth;
+બાહ્ય પૂર્ણાંક Android_SurfaceHeight;
+બાહ્ય દશાંશ Android_ScreenDensity;
+બાહ્ય પૂર્ણાંક Android_Safe_Inset_ડાબું;
+બાહ્ય પૂર્ણાંક Android_Safe_Inset_જમણું;
+બાહ્ય પૂર્ણાંક Android_Safe_Inset_ટોચ;
+બાહ્ય પૂર્ણાંક Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

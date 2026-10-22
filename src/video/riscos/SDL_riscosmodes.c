@@ -18,20 +18,20 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosmodes.h"
+#અન્તર્ભાવ "SDL_riscosvideo.h"
+#અન્તર્ભાવ "SDL_riscosmodes.h"
 
-#include <kernel.h>
-#include <swis.h>
+#અન્તર્ભાવ <kernel.h>
+#અન્તર્ભાવ <swis.h>
 
-enum
+ગણના
 {
     MODE_FLAG_565 = 1 << 7,
 
@@ -43,10 +43,10 @@ enum
     MODE_FLAG_ARGB = MODE_FLAG_TRGB | MODE_FLAG_ABGR
 };
 
-static const struct
+સ્થિર અચલ સંરચના
 {
     SDL_PixelFormat pixel_format;
-    int modeflags, ncolour, log2bpp;
+    પૂર્ણાંક modeflags, ncolour, log2bpp;
 } mode_to_pixelformat[] = {
     // { SDL_PIXELFORMAT_INDEX1LSB, 0, 1, 0 },
     // { SDL_PIXELFORMAT_INDEX2LSB, 0, 3, 1 },
@@ -70,64 +70,64 @@ static const struct
     { SDL_PIXELFORMAT_ARGB8888, MODE_FLAG_ARGB, -1, 5 }
 };
 
-static SDL_PixelFormat RISCOS_ModeToPixelFormat(int ncolour, int modeflags, int log2bpp)
+સ્થિર SDL_PixelFormat RISCOS_ModeToPixelFormat(પૂર્ણાંક ncolour, પૂર્ણાંક modeflags, પૂર્ણાંક log2bpp)
 {
-    int i;
+    પૂર્ણાંક i;
 
-    for (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
-        if (log2bpp == mode_to_pixelformat[i].log2bpp &&
+    માટે (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
+        જો (log2bpp == mode_to_pixelformat[i].log2bpp &&
             (ncolour == mode_to_pixelformat[i].ncolour || ncolour == 0) &&
             (modeflags & (MODE_FLAG_565 | MODE_FLAG_COLOUR_SPACE)) == mode_to_pixelformat[i].modeflags) {
-            return mode_to_pixelformat[i].pixel_format;
+            પાછા mode_to_pixelformat[i].pixel_format;
         }
     }
 
-    return SDL_PIXELFORMAT_UNKNOWN;
+    પાછા SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static size_t measure_mode_block(const int *block)
+સ્થિર size_t measure_mode_block(અચલ પૂર્ણાંક *block)
 {
     size_t blockSize = ((block[0] & 0xFF) == 3) ? 7 : 5;
-    while (block[blockSize] != -1) {
+    જ્યારે (block[blockSize] != -1) {
         blockSize += 2;
     }
     blockSize++;
 
-    return blockSize * 4;
+    પાછા blockSize * 4;
 }
 
-static int read_mode_variable(int *block, int var)
+સ્થિર પૂર્ણાંક read_mode_variable(પૂર્ણાંક *block, પૂર્ણાંક var)
 {
     _kernel_swi_regs regs;
-    regs.r[0] = (int)block;
+    regs.r[0] = (પૂર્ણાંક)block;
     regs.r[1] = var;
     _kernel_swi(OS_ReadModeVariable, &regs, &regs);
-    return regs.r[2];
+    પાછા regs.r[2];
 }
 
-static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
+સ્થિર bool read_mode_block(પૂર્ણાંક *block, SDL_DisplayMode *mode, bool extended)
 {
-    int xres, yres, ncolour, modeflags, log2bpp, rate;
+    પૂર્ણાંક xres, yres, ncolour, modeflags, log2bpp, rate;
 
-    if ((block[0] & 0xFF) == 1) {
+    જો ((block[0] & 0xFF) == 1) {
         xres = block[1];
         yres = block[2];
         log2bpp = block[3];
         rate = block[4];
         ncolour = (1 << (1 << log2bpp)) - 1;
         modeflags = MODE_FLAG_TBGR;
-    } else if ((block[0] & 0xFF) == 3) {
+    } નહીંતર જો ((block[0] & 0xFF) == 3) {
         xres = block[1];
         yres = block[2];
         ncolour = block[3];
         modeflags = block[4];
         log2bpp = block[5];
         rate = block[6];
-    } else {
-        return false;
+    } નહીંતર {
+        પાછા false;
     }
 
-    if (extended) {
+    જો (extended) {
         xres = read_mode_variable(block, 11) + 1;
         yres = read_mode_variable(block, 12) + 1;
         log2bpp = read_mode_variable(block, 9);
@@ -139,36 +139,36 @@ static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
     mode->w = xres;
     mode->h = yres;
     mode->format = RISCOS_ModeToPixelFormat(ncolour, modeflags, log2bpp);
-    mode->refresh_rate = (float)rate;
+    mode->refresh_rate = (દશાંશ)rate;
 
-    return true;
+    પાછા true;
 }
 
-static void *convert_mode_block(const int *block)
+સ્થિર શૂન્ય *convert_mode_block(અચલ પૂર્ણાંક *block)
 {
-    int xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
+    પૂર્ણાંક xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
     size_t pos = 0;
-    int *dst;
+    પૂર્ણાંક *dst;
 
-    if ((block[0] & 0xFF) == 1) {
+    જો ((block[0] & 0xFF) == 1) {
         xres = block[1];
         yres = block[2];
         log2bpp = block[3];
         rate = block[4];
-    } else if ((block[0] & 0xFF) == 3) {
+    } નહીંતર જો ((block[0] & 0xFF) == 3) {
         xres = block[1];
         yres = block[2];
         ncolour = block[3];
         modeflags = block[4];
         log2bpp = block[5];
         rate = block[6];
-    } else {
-        return NULL;
+    } નહીંતર {
+        પાછા ખાલી;
     }
 
     dst = SDL_malloc(40);
-    if (!dst) {
-        return NULL;
+    જો (!dst) {
+        પાછા ખાલી;
     }
 
     dst[pos++] = 1;
@@ -176,57 +176,57 @@ static void *convert_mode_block(const int *block)
     dst[pos++] = yres;
     dst[pos++] = log2bpp;
     dst[pos++] = rate;
-    if (ncolour != 0) {
+    જો (ncolour != 0) {
         dst[pos++] = 3;
         dst[pos++] = ncolour;
     }
-    if (modeflags != 0) {
+    જો (modeflags != 0) {
         dst[pos++] = 0;
         dst[pos++] = modeflags;
     }
     dst[pos++] = -1;
 
-    return dst;
+    પાછા dst;
 }
 
-static void *copy_memory(const void *src, size_t size, size_t alloc)
+સ્થિર શૂન્ય *copy_memory(અચલ શૂન્ય *src, size_t size, size_t alloc)
 {
-    void *dst = SDL_malloc(alloc);
-    if (dst) {
+    શૂન્ય *dst = SDL_malloc(alloc);
+    જો (dst) {
         SDL_memcpy(dst, src, size);
     }
-    return dst;
+    પાછા dst;
 }
 
 bool RISCOS_InitModes(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
-    int *current_mode;
+    પૂર્ણાંક *current_mode;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
     size_t size;
 
     regs.r[0] = 1;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
+    જો (error) {
+        પાછા SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
-    current_mode = (int *)regs.r[1];
-    if (!read_mode_block(current_mode, &mode, true)) {
-        return SDL_SetError("Unsupported mode block format %d", current_mode[0]);
+    current_mode = (પૂર્ણાંક *)regs.r[1];
+    જો (!read_mode_block(current_mode, &mode, true)) {
+        પાછા SDL_SetError("Unsupported mode block format %d", current_mode[0]);
     }
 
     size = measure_mode_block(current_mode);
     mode.internal = copy_memory(current_mode, size, size);
-    if (!mode.internal) {
-        return false;
+    જો (!mode.internal) {
+        પાછા false;
     }
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    જો (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        પાછા false;
     }
-    return true;
+    પાછા true;
 }
 
 bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
@@ -234,77 +234,77 @@ bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     SDL_DisplayMode mode;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    void *block, *pos;
+    શૂન્ય *block, *pos;
 
     regs.r[0] = 2;
     regs.r[2] = 0;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    જો (error) {
+        પાછા SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
     block = SDL_malloc(-regs.r[7]);
-    if (!block) {
-        return false;
+    જો (!block) {
+        પાછા false;
     }
 
-    regs.r[6] = (int)block;
+    regs.r[6] = (પૂર્ણાંક)block;
     regs.r[7] = -regs.r[7];
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
+    જો (error) {
         SDL_free(block);
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+        પાછા SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    for (pos = block; pos < (void *)regs.r[6]; pos += *((int *)pos)) {
-        if (!read_mode_block(pos + 4, &mode, false)) {
-            continue;
+    માટે (pos = block; pos < (શૂન્ય *)regs.r[6]; pos += *((પૂર્ણાંક *)pos)) {
+        જો (!read_mode_block(pos + 4, &mode, false)) {
+            ચાલુ;
         }
 
-        if (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
-            continue;
+        જો (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
+            ચાલુ;
         }
 
         mode.internal = convert_mode_block(pos + 4);
-        if (!mode.internal) {
+        જો (!mode.internal) {
             SDL_free(block);
-            return false;
+            પાછા false;
         }
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        જો (!SDL_AddFullscreenDisplayMode(display, &mode)) {
             SDL_free(mode.internal);
         }
     }
 
     SDL_free(block);
-    return true;
+    પાછા true;
 }
 
 bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    const char disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    અચલ અક્ષર disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    int i;
+    પૂર્ણાંક i;
 
     regs.r[0] = 0;
-    regs.r[1] = (int)mode->internal;
+    regs.r[1] = (પૂર્ણાંક)mode->internal;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
+    જો (error) {
+        પાછા SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
     // Turn the text cursor off
-    for (i = 0; i < SDL_arraysize(disable_cursor); i++) {
+    માટે (i = 0; i < SDL_arraysize(disable_cursor); i++) {
         _kernel_oswrch(disable_cursor[i]);
     }
 
     // Update cursor visibility, since it may have been disabled by the mode change.
     SDL_RedrawCursor();
 
-    return true;
+    પાછા true;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

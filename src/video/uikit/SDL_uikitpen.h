@@ -22,18 +22,18 @@
 #ifndef SDL_uikitpen_h_
 #define SDL_uikitpen_h_
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#અન્તર્ભાવ "SDL_uikitvideo.h"
+#અન્તર્ભાવ "SDL_uikitwindow.h"
 
-extern bool UIKit_InitPen(SDL_VideoDevice *_this);
-extern void UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
+બાહ્ય bool UIKit_InitPen(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
+બાહ્ય શૂન્ય UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
+બાહ્ય શૂન્ય UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
 
-#if !defined(SDL_PLATFORM_TVOS)
-extern void UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
+#જો !defined(SDL_PLATFORM_TVOS)
+બાહ્ય શૂન્ય UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
 #endif
 
-extern void UIKit_QuitPen(SDL_VideoDevice *_this);
+બાહ્ય શૂન્ય UIKit_QuitPen(SDL_VideoDevice *_this);
 
 #endif // SDL_uikitpen_h_

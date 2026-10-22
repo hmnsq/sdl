@@ -18,50 +18,50 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "SDL_riscosmessagebox.h"
+#અન્તર્ભાવ "SDL_riscosmessagebox.h"
 
-#include <kernel.h>
-#include <swis.h>
+#અન્તર્ભાવ <kernel.h>
+#અન્તર્ભાવ <swis.h>
 
-bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool RISCOS_ShowMessageBox(અચલ SDL_MessageBoxData *messageboxdata, પૂર્ણાંક *buttonID)
 {
     _kernel_swi_regs regs;
     _kernel_oserror error;
-    char buttonstring[1024];
-    int i;
+    અક્ષર buttonstring[1024];
+    પૂર્ણાંક i;
 
     error.errnum = 0;
     SDL_strlcpy(error.errmess, messageboxdata->message, 252);
-    regs.r[0] = (unsigned int)&error;
+    regs.r[0] = (unsigned પૂર્ણાંક)&error;
 
     regs.r[1] = (1 << 8) | (1 << 4);
-    if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    જો (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         regs.r[1] |= (1 << 9);
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } નહીંતર જો (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         regs.r[1] |= (2 << 9);
     }
 
-    regs.r[2] = (unsigned int)messageboxdata->title;
+    regs.r[2] = (unsigned પૂર્ણાંક)messageboxdata->title;
     regs.r[3] = 0;
     regs.r[4] = 0;
 
     SDL_strlcpy(buttonstring, "", 1024);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    માટે (i = 0; i < messageboxdata->numbuttons; i++) {
         SDL_strlcat(buttonstring, messageboxdata->buttons[i].text, 1024);
-        if (i + 1 < messageboxdata->numbuttons) {
+        જો (i + 1 < messageboxdata->numbuttons) {
             SDL_strlcat(buttonstring, ",", 1024);
         }
     }
-    regs.r[5] = (unsigned int)buttonstring;
+    regs.r[5] = (unsigned પૂર્ણાંક)buttonstring;
 
     _kernel_swi(Wimp_ReportError, &regs, &regs);
 
     *buttonID = (regs.r[1] == 0) ? -1 : messageboxdata->buttons[regs.r[1] - 3].buttonID;
-    return true;
+    પાછા true;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

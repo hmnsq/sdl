@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+બાહ્ય "C" {
 #endif
 
 
@@ -22,8 +22,8 @@ extern "C" {
 // vulkan_video_codecs_common is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codecs_common 1
 
-#if !defined(VK_NO_STDINT_H)
-    #include <stdint.h>
+#જો !defined(VK_NO_STDINT_H)
+    #અન્તર્ભાવ <stdint.h>
 #endif
 
 #define VK_MAKE_VIDEO_STD_VERSION(major, minor, patch) \

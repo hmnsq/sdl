@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DUMMY
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_nullframebuffer_c.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../../SDL_properties_c.h"
+#અન્તર્ભાવ "SDL_nullframebuffer_c.h"
 
 #define DUMMY_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, શૂન્ય **pixels, પૂર્ણાંક *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    અચલ SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    પૂર્ણાંક w, h;
 
     // Create a new framebuffer
     SDL_GetWindowSizeInPixels(window, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    જો (!surface) {
+        પાછા false;
     }
 
     // Save the info and return!
@@ -47,30 +47,30 @@ bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *windo
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
-    return true;
+    પાછા true;
 }
 
-bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, અચલ SDL_Rect *rects, પૂર્ણાંક numrects)
 {
-    static int frame_number;
+    સ્થિર પૂર્ણાંક frame_સંખ્યા;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find dummy surface for window");
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, ખાલી);
+    જો (!surface) {
+        પાછા SDL_SetError("Couldn't find dummy surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    જો (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES, false)) {
+        અક્ષર file[128];
+        (શૂન્ય)SDL_snprintf(file, કદ(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_GetWindowID(window), ++frame_સંખ્યા);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    પાછા true;
 }
 
-void SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+શૂન્ય SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE);
 }

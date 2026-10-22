@@ -19,90 +19,90 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#જો defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
+#અન્તર્ભાવ "SDL_x11video.h"
+#અન્તર્ભાવ "SDL_x11settings.h"
 
-static void UpdateContentScale(SDL_VideoDevice *_this)
+સ્થિર શૂન્ય UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
-        float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+    જો (_this) {
+        દશાંશ scale_factor = X11_GetGlobalContentScaleForDevice(_this);
+        માટે (પૂર્ણાંક i = 0; i < _this->અંક_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+સ્થિર શૂન્ય X11_XsettingsNotify(અચલ અક્ષર *name, XSettingsAction action, XSettingsSetting *setting, શૂન્ય *data)
 {
     SDL_VideoDevice *_this = data;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    જો (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
     }
 }
 
-void X11_InitXsettings(SDL_VideoDevice *_this)
+શૂન્ય X11_InitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
     xsettings_data->xsettings = xsettings_client_new(data->display,
-        DefaultScreen(data->display), X11_XsettingsNotify, NULL, _this);
+        DefaultScreen(data->display), X11_XsettingsNotify, ખાલી, _this);
 }
 
-void X11_QuitXsettings(SDL_VideoDevice *_this)
+શૂન્ય X11_QuitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    જો (xsettings_data->xsettings) {
         xsettings_client_destroy(xsettings_data->xsettings);
-        xsettings_data->xsettings = NULL;
+        xsettings_data->xsettings = ખાલી;
     }
 }
 
-void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+શૂન્ય X11_HandleXsettingsEvent(SDL_VideoDevice *_this, અચલ XEvent *xevent)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    જો (xsettings_data->xsettings) {
         xsettings_client_process_event(xsettings_data->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
-    XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+પૂર્ણાંક X11_Get_Xsettings_Client_Int_ચાવી(XSettingsClient *client, અચલ અક્ષર *ચાવી, પૂર્ણાંક fallback_કિંમત) {
+    XSettingsSetting *setting = ખાલી;
+    પૂર્ણાંક res = fallback_કિંમત;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+    જો (client) {
+        જો (xsettings_client_get_setting(client, ચાવી, &setting) != XSETTINGS_SUCCESS) {
+            જાઓ no_ચાવી;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+        જો (setting->type != XSETTINGS_TYPE_INT) {
+            જાઓ no_ચાવી;
         }
 
         res = setting->data.v_int;
     }
 
-no_key:
-    if (setting) {
+no_ચાવી:
+    જો (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    પાછા res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+પૂર્ણાંક X11_Get_Xsettings_Int_ચાવી(SDL_VideoDevice *_this, અચલ અક્ષર *ચાવી, પૂર્ણાંક fallback_કિંમત) {
+    પાછા X11_Get_Xsettings_Client_Int_ચાવી(_this->internal->xsettings_data.xsettings, ચાવી, fallback_કિંમત);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

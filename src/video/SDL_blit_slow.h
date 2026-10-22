@@ -22,9 +22,9 @@
 #ifndef SDL_blit_slow_h_
 #define SDL_blit_slow_h_
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-extern void SDL_Blit_Slow(SDL_BlitInfo *info);
-extern void SDL_Blit_Slow_Float(SDL_BlitInfo *info);
+બાહ્ય શૂન્ય SDL_Blit_Slow(SDL_BlitInfo *info);
+બાહ્ય શૂન્ય SDL_Blit_Slow_Float(SDL_BlitInfo *info);
 
 #endif // SDL_blit_slow_h_

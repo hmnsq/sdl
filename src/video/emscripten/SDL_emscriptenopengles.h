@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_emscriptenopengles_h_
 #define SDL_emscriptenopengles_h_
 
 #ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
 // OpenGLES functions
-extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+બાહ્ય bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, અચલ અક્ષર *path);
+બાહ્ય શૂન્ય Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+બાહ્ય SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, અચલ અક્ષર *proc);
+બાહ્ય bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, પૂર્ણાંક interval);
+બાહ્ય bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, પૂર્ણાંક *interval);
+બાહ્ય SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+બાહ્ય bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
 

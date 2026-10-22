@@ -22,10 +22,10 @@
 #ifndef SDL_androidmouse_h_
 #define SDL_androidmouse_h_
 
-#include "SDL_androidvideo.h"
+#અન્તર્ભાવ "SDL_androidvideo.h"
 
-extern void Android_InitMouse(void);
-extern void Android_OnMouse(SDL_Window *window, int button, int action, float x, float y, bool relative);
-extern void Android_QuitMouse(void);
+બાહ્ય શૂન્ય Android_InitMouse(શૂન્ય);
+બાહ્ય શૂન્ય Android_OnMouse(SDL_Window *window, પૂર્ણાંક button, પૂર્ણાંક action, દશાંશ x, દશાંશ y, bool relative);
+બાહ્ય શૂન્ય Android_QuitMouse(શૂન્ય);
 
 #endif // SDL_androidmouse_h_

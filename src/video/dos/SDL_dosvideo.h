@@ -22,11 +22,11 @@
 #ifndef SDL_dosvideo_h
 #define SDL_dosvideo_h
 
-#include "../../core/dos/SDL_dos.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_internal.h"
+#અન્તર્ભાવ "../../core/dos/SDL_dos.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-struct SDL_DisplayModeData
+સંરચના SDL_DisplayModeData
 {
     // we can add more fields to this, if we want them, later.
     Uint16 mode_id;
@@ -34,10 +34,10 @@ struct SDL_DisplayModeData
     Uint16 pitch;
     Uint16 w;
     Uint16 h;
-    Uint8 num_planes;
+    Uint8 અંક_planes;
     Uint8 bpp;
     Uint8 memory_model;
-    Uint8 num_image_pages;
+    Uint8 અંક_image_pages;
     Uint8 red_mask_size;
     Uint8 red_mask_pos;
     Uint8 green_mask_size;
@@ -55,35 +55,35 @@ struct SDL_DisplayModeData
     Uint8 win_a_attributes; // window A capabilities
 };
 
-struct SDL_VideoData
+સંરચના SDL_VideoData
 {
     __dpmi_meminfo mapping; // video memory mapping.
     SDL_DisplayMode current_mode;
     DOS_InterruptHook keyboard_interrupt_hook;
     Uint32 palette_version;       // tracks SDL_Palette::version to detect changes
     Uint16 original_vbe_mode;     // VBE mode number at startup
-    void *vbe_state_buffer;       // saved VBE state (from VBE 0x4F04)
+    શૂન્ય *vbe_state_buffer;       // saved VBE state (from VBE 0x4F04)
     Uint32 vbe_state_buffer_size; // size of the state buffer
 
     // Mouse sensitivity (mickeys per pixel), queried from INT 33h function 0x1B
-    float mickeys_per_hpixel; // horizontal mickeys per pixel (default: 8)
-    float mickeys_per_vpixel; // vertical mickeys per pixel (default: 16)
+    દશાંશ mickeys_per_hpixel; // horizontal mickeys per pixel (default: 8)
+    દશાંશ mickeys_per_vpixel; // vertical mickeys per pixel (default: 16)
 
     // Page-flipping (double-buffering) state
-    int current_page;         // 0 or 1: which page is currently displayed
+    પૂર્ણાંક current_page;         // 0 or 1: which page is currently displayed
     Uint32 page_offset[2];    // byte offset of each page within video memory
     bool page_flip_available; // true if mode supports double-buffering
     bool banked_mode;         // true if current mode uses banked (not LFB) access
 };
 
-struct SDL_DisplayData
+સંરચના SDL_DisplayData
 {
-    int unused; // for now
+    પૂર્ણાંક unused; // for now
 };
 
-struct SDL_WindowData
+સંરચના SDL_WindowData
 {
-    int framebuffer_vsync;
+    પૂર્ણાંક framebuffer_vsync;
 };
 
 #endif // SDL_dosvideo_h

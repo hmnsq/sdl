@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
 /* Being a offscreen driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
+#અન્તર્ભાવ "../../events/SDL_events_c.h"
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
+#અન્તર્ભાવ "SDL_offscreenvideo.h"
+#અન્તર્ભાવ "SDL_offscreenevents_c.h"
 
-void OFFSCREEN_PumpEvents(SDL_VideoDevice *_this)
+શૂન્ય OFFSCREEN_PumpEvents(SDL_VideoDevice *_this)
 {
     // do nothing.
 }

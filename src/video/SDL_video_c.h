@@ -22,9 +22,9 @@
 #ifndef SDL_video_c_h_
 #define SDL_video_c_h_
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-struct SDL_VideoDevice;
+સંરચના SDL_VideoDevice;
 
 /**
  * Initialize the video subsystem, optionally specifying a video driver.
@@ -48,22 +48,22 @@ struct SDL_VideoDevice;
  * \returns true on success or false on failure; call
  *          SDL_GetError() for more information.
  */
-extern bool SDL_InitVideo(const char *driver_name);
+બાહ્ય bool SDL_InitVideo(અચલ અક્ષર *driver_name);
 
 /**
  * Shut down the video subsystem, if initialized with SDL_InitVideo().
  *
  * This function closes all windows, and restores the original video mode.
  */
-extern void SDL_QuitVideo(void);
+બાહ્ય શૂન્ય SDL_QuitVideo(શૂન્ય);
 
-extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, int vsync);
+બાહ્ય bool SDL_SetWindowTextureVSync(સંરચના SDL_VideoDevice *_this, SDL_Window *window, પૂર્ણાંક vsync);
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name);
+#જો defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+અચલ અક્ષર *SDL_GetCSSCursorName(SDL_SystemCursor id, અચલ અક્ષર **fallback_name);
 #endif
 
-extern bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
-extern void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
+બાહ્ય bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
+બાહ્ય શૂન્ય SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
 
 #endif // SDL_video_c_h_

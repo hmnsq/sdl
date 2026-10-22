@@ -21,22 +21,22 @@
 
 #ifndef SDL_BFRAMEBUFFER_H
 #define SDL_BFRAMEBUFFER_H
-#include <SupportDefs.h>
+#અન્તર્ભાવ <SupportDefs.h>
 #ifdef __cplusplus
-extern "C" {
+બાહ્ય "C" {
 #endif
 
 #define DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+બાહ્ય bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
-extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
-extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
-extern int32 HAIKU_DrawThread(void *data);
+                                          શૂન્ય **pixels, પૂર્ણાંક *pitch);
+બાહ્ય bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+                                          અચલ SDL_Rect *rects, પૂર્ણાંક numrects);
+બાહ્ય શૂન્ય HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય int32 HAIKU_DrawThread(શૂન્ય *data);
 
 #ifdef __cplusplus
 }

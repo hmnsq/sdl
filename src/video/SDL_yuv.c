@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
-#include "SDL_pixels_c.h"
-#include "SDL_yuv_c.h"
+#અન્તર્ભાવ "SDL_pixels_c.h"
+#અન્તર્ભાવ "SDL_yuv_c.h"
 
-#include "yuv2rgb/yuv_rgb.h"
+#અન્તર્ભાવ "yuv2rgb/yuv_rgb.h"
 
 
-static bool IsPlanar1x1Format(SDL_PixelFormat format)
+સ્થિર bool IsPlanar1x1Format(SDL_PixelFormat format)
 {
-    return format == SDL_PIXELFORMAT_I444 || format == SDL_PIXELFORMAT_I4FL;
+    પાછા format == SDL_PIXELFORMAT_I444 || format == SDL_PIXELFORMAT_I4FL;
 }
 
-static bool IsPlanar2x2Format(SDL_PixelFormat format)
+સ્થિર bool IsPlanar2x2Format(SDL_PixelFormat format)
 {
-    return format == SDL_PIXELFORMAT_YV12 ||
+    પાછા format == SDL_PIXELFORMAT_YV12 ||
            format == SDL_PIXELFORMAT_IYUV ||
            format == SDL_PIXELFORMAT_NV12 ||
            format == SDL_PIXELFORMAT_NV21 ||
@@ -41,775 +41,775 @@ static bool IsPlanar2x2Format(SDL_PixelFormat format)
            format == SDL_PIXELFORMAT_I0FL;
 }
 
-static bool IsPacked4Format(Uint32 format)
+સ્થિર bool IsPacked4Format(Uint32 format)
 {
-    return format == SDL_PIXELFORMAT_YUY2 || format == SDL_PIXELFORMAT_UYVY || format == SDL_PIXELFORMAT_YVYU;
+    પાછા format == SDL_PIXELFORMAT_YUY2 || format == SDL_PIXELFORMAT_UYVY || format == SDL_PIXELFORMAT_YVYU;
 }
 
 /*
  * Calculate YUV size and pitch. Check for overflow.
  * Output 'pitch' that can be used with SDL_ConvertPixels()
  */
-bool SDL_CalculateYUVSize(SDL_PixelFormat format, int w, int h, size_t *size, size_t *pitch)
+bool SDL_CalculateYUVSize(SDL_PixelFormat format, પૂર્ણાંક w, પૂર્ણાંક h, size_t *size, size_t *pitch)
 {
-    int sz_plane = 0, sz_plane_chroma = 0, sz_plane_packed = 0;
+    પૂર્ણાંક sz_plane = 0, sz_plane_chroma = 0, sz_plane_packed = 0;
 
-    if (IsPlanar1x1Format(format)) {
+    જો (IsPlanar1x1Format(format)) {
         /* sz_plane == w * h * bpp; */
         size_t s1;
-        if (!SDL_size_mul_check_overflow(w, h, &s1)) {
-            return SDL_SetError("width * height would overflow");
+        જો (!SDL_size_mul_check_overflow(w, h, &s1)) {
+            પાછા SDL_SetError("width * height would overflow");
         }
-        if (!SDL_size_mul_check_overflow(s1, SDL_BYTESPERPIXEL(format), &s1)) {
-            return SDL_SetError("width * height * bpp would overflow");
+        જો (!SDL_size_mul_check_overflow(s1, SDL_BYTESPERPIXEL(format), &s1)) {
+            પાછા SDL_SetError("width * height * bpp would overflow");
         }
-        sz_plane = (int)s1;
+        sz_plane = (પૂર્ણાંક)s1;
         sz_plane_chroma = sz_plane;
-    } else if (IsPlanar2x2Format(format)) {
+    } નહીંતર જો (IsPlanar2x2Format(format)) {
         {
             /* sz_plane == w * h * bpp; */
             size_t s1;
-            if (!SDL_size_mul_check_overflow(w, h, &s1)) {
-                return SDL_SetError("width * height would overflow");
+            જો (!SDL_size_mul_check_overflow(w, h, &s1)) {
+                પાછા SDL_SetError("width * height would overflow");
             }
-            if (!SDL_size_mul_check_overflow(s1, SDL_BYTESPERPIXEL(format), &s1)) {
-                return SDL_SetError("width * height * bpp would overflow");
+            જો (!SDL_size_mul_check_overflow(s1, SDL_BYTESPERPIXEL(format), &s1)) {
+                પાછા SDL_SetError("width * height * bpp would overflow");
             }
-            sz_plane = (int)s1;
+            sz_plane = (પૂર્ણાંક)s1;
         }
 
         {
             /* sz_plane_chroma == ((w + 1) / 2) * ((h + 1) / 2) * bpp; */
             size_t s1, s2, s3;
-            if (!SDL_size_add_check_overflow(w, 1, &s1)) {
-                return SDL_SetError("width + 1 would overflow");
+            જો (!SDL_size_add_check_overflow(w, 1, &s1)) {
+                પાછા SDL_SetError("width + 1 would overflow");
             }
             s1 = s1 / 2;
-            if (!SDL_size_add_check_overflow(h, 1, &s2)) {
-                return SDL_SetError("height + 1 would overflow");
+            જો (!SDL_size_add_check_overflow(h, 1, &s2)) {
+                પાછા SDL_SetError("height + 1 would overflow");
             }
             s2 = s2 / 2;
-            if (!SDL_size_mul_check_overflow(s1, s2, &s3)) {
-                return SDL_SetError("width * height would overflow");
+            જો (!SDL_size_mul_check_overflow(s1, s2, &s3)) {
+                પાછા SDL_SetError("width * height would overflow");
             }
-            if (!SDL_size_mul_check_overflow(s3, SDL_BYTESPERPIXEL(format), &s3)) {
-                return SDL_SetError("width * height * bpp would overflow");
+            જો (!SDL_size_mul_check_overflow(s3, SDL_BYTESPERPIXEL(format), &s3)) {
+                પાછા SDL_SetError("width * height * bpp would overflow");
             }
-            sz_plane_chroma = (int)s3;
+            sz_plane_chroma = (પૂર્ણાંક)s3;
         }
-    } else if (IsPacked4Format(format)) {
+    } નહીંતર જો (IsPacked4Format(format)) {
         /* sz_plane_packed == ((w + 1) / 2) * h; */
         size_t s1, s2;
-        if (!SDL_size_add_check_overflow(w, 1, &s1)) {
-            return SDL_SetError("width + 1 would overflow");
+        જો (!SDL_size_add_check_overflow(w, 1, &s1)) {
+            પાછા SDL_SetError("width + 1 would overflow");
         }
         s1 = s1 / 2;
-        if (!SDL_size_mul_check_overflow(s1, h, &s2)) {
-            return SDL_SetError("width * height would overflow");
+        જો (!SDL_size_mul_check_overflow(s1, h, &s2)) {
+            પાછા SDL_SetError("width * height would overflow");
         }
-        sz_plane_packed = (int) s2;
-    } else {
-        return SDL_Unsupported();
+        sz_plane_packed = (પૂર્ણાંક) s2;
+    } નહીંતર {
+        પાછા SDL_Unsupported();
     }
 
-    switch (format) {
-    case SDL_PIXELFORMAT_YV12: /**< Planar mode: Y + V + U  (3 planes) */
-    case SDL_PIXELFORMAT_IYUV: /**< Planar mode: Y + U + V  (3 planes) */
-    case SDL_PIXELFORMAT_I444: /**< Planar mode: Y + U + V  (3 planes) */
-    case SDL_PIXELFORMAT_I0FL: /**< Planar mode: Y + U + V  (3 planes) */
-    case SDL_PIXELFORMAT_I4FL: /**< Planar mode: Y + U + V  (3 planes) */
+    પસંદગી (format) {
+    સ્થિતિ SDL_PIXELFORMAT_YV12: /**< Planar mode: Y + V + U  (3 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_IYUV: /**< Planar mode: Y + U + V  (3 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_I444: /**< Planar mode: Y + U + V  (3 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_I0FL: /**< Planar mode: Y + U + V  (3 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_I4FL: /**< Planar mode: Y + U + V  (3 planes) */
 
-        if (pitch) {
+        જો (pitch) {
             *pitch = w * SDL_BYTESPERPIXEL(format);
         }
 
-        if (size) {
+        જો (size) {
             // dst_size == sz_plane + sz_plane_chroma + sz_plane_chroma;
             size_t s1, s2;
-            if (!SDL_size_add_check_overflow(sz_plane, sz_plane_chroma, &s1)) {
-                return SDL_SetError("Y + U would overflow");
+            જો (!SDL_size_add_check_overflow(sz_plane, sz_plane_chroma, &s1)) {
+                પાછા SDL_SetError("Y + U would overflow");
             }
-            if (!SDL_size_add_check_overflow(s1, sz_plane_chroma, &s2)) {
-                return SDL_SetError("Y + U + V would overflow");
+            જો (!SDL_size_add_check_overflow(s1, sz_plane_chroma, &s2)) {
+                પાછા SDL_SetError("Y + U + V would overflow");
             }
-            *size = (int)s2;
+            *size = (પૂર્ણાંક)s2;
         }
-        break;
+        તોડો;
 
-    case SDL_PIXELFORMAT_YUY2: /**< Packed mode: Y0+U0+Y1+V0 (1 plane) */
-    case SDL_PIXELFORMAT_UYVY: /**< Packed mode: U0+Y0+V0+Y1 (1 plane) */
-    case SDL_PIXELFORMAT_YVYU: /**< Packed mode: Y0+V0+Y1+U0 (1 plane) */
+    સ્થિતિ SDL_PIXELFORMAT_YUY2: /**< Packed mode: Y0+U0+Y1+V0 (1 plane) */
+    સ્થિતિ SDL_PIXELFORMAT_UYVY: /**< Packed mode: U0+Y0+V0+Y1 (1 plane) */
+    સ્થિતિ SDL_PIXELFORMAT_YVYU: /**< Packed mode: Y0+V0+Y1+U0 (1 plane) */
 
-        if (pitch) {
+        જો (pitch) {
             /* pitch == ((w + 1) / 2) * 4; */
            size_t p1, p2;
-           if (!SDL_size_add_check_overflow(w, 1, &p1)) {
-               return SDL_SetError("width + 1 would overflow");
+           જો (!SDL_size_add_check_overflow(w, 1, &p1)) {
+               પાછા SDL_SetError("width + 1 would overflow");
            }
            p1 = p1 / 2;
-           if (!SDL_size_mul_check_overflow(p1, 4, &p2)) {
-               return SDL_SetError("width * 4 would overflow");
+           જો (!SDL_size_mul_check_overflow(p1, 4, &p2)) {
+               પાછા SDL_SetError("width * 4 would overflow");
            }
            *pitch = p2;
         }
 
-        if (size) {
+        જો (size) {
             /* dst_size == 4 * sz_plane_packed; */
             size_t s1;
-            if (!SDL_size_mul_check_overflow(sz_plane_packed, 4, &s1)) {
-                return SDL_SetError("plane * 4 would overflow");
+            જો (!SDL_size_mul_check_overflow(sz_plane_packed, 4, &s1)) {
+                પાછા SDL_SetError("plane * 4 would overflow");
             }
-            *size = (int) s1;
+            *size = (પૂર્ણાંક) s1;
         }
-        break;
+        તોડો;
 
-    case SDL_PIXELFORMAT_NV12: /**< Planar mode: Y + U/V interleaved  (2 planes) */
-    case SDL_PIXELFORMAT_NV21: /**< Planar mode: Y + V/U interleaved  (2 planes) */
-    case SDL_PIXELFORMAT_P010: /**< Planar mode: Y + U/V interleaved, 10 bit  (2 planes) */
-        if (pitch) {
+    સ્થિતિ SDL_PIXELFORMAT_NV12: /**< Planar mode: Y + U/V interleaved  (2 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_NV21: /**< Planar mode: Y + V/U interleaved  (2 planes) */
+    સ્થિતિ SDL_PIXELFORMAT_P010: /**< Planar mode: Y + U/V interleaved, 10 bit  (2 planes) */
+        જો (pitch) {
             *pitch = w * SDL_BYTESPERPIXEL(format);
         }
 
-        if (size) {
+        જો (size) {
             // dst_size == sz_plane + sz_plane_chroma + sz_plane_chroma;
             size_t s1, s2;
-            if (!SDL_size_add_check_overflow(sz_plane, sz_plane_chroma, &s1)) {
-                return SDL_SetError("Y + U would overflow");
+            જો (!SDL_size_add_check_overflow(sz_plane, sz_plane_chroma, &s1)) {
+                પાછા SDL_SetError("Y + U would overflow");
             }
-            if (!SDL_size_add_check_overflow(s1, sz_plane_chroma, &s2)) {
-                return SDL_SetError("Y + U + V would overflow");
+            જો (!SDL_size_add_check_overflow(s1, sz_plane_chroma, &s2)) {
+                પાછા SDL_SetError("Y + U + V would overflow");
             }
-            *size = (int) s2;
+            *size = (પૂર્ણાંક) s2;
         }
-        break;
+        તોડો;
 
-    default:
-        return SDL_Unsupported();
+    મૂળભૂત:
+        પાછા SDL_Unsupported();
     }
 
-    return true;
+    પાછા true;
 }
 
 #ifdef SDL_HAVE_YUV
 
-static bool GetYUVConversionType(SDL_Colorspace colorspace, int w, int h, int bits_per_pixel, YCbCrType *yuv_type)
+સ્થિર bool GetYUVConversionType(SDL_Colorspace colorspace, પૂર્ણાંક w, પૂર્ણાંક h, પૂર્ણાંક bits_per_pixel, YCbCrType *yuv_type)
 {
-    if (SDL_ISCOLORSPACE_MATRIX_BT601(colorspace)) {
-        if (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
+    જો (SDL_ISCOLORSPACE_MATRIX_BT601(colorspace)) {
+        જો (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
             *yuv_type = YCBCR_601_LIMITED;
-        } else {
+        } નહીંતર {
             *yuv_type = YCBCR_601_FULL;
         }
-        return true;
+        પાછા true;
     }
 
-    if (SDL_ISCOLORSPACE_MATRIX_BT709(colorspace)) {
-        if (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
+    જો (SDL_ISCOLORSPACE_MATRIX_BT709(colorspace)) {
+        જો (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
             *yuv_type = YCBCR_709_LIMITED;
-        } else {
+        } નહીંતર {
             *yuv_type = YCBCR_709_FULL;
         }
-        return true;
+        પાછા true;
     }
 
-    if (SDL_ISCOLORSPACE_MATRIX_BT2020_NCL(colorspace)) {
-        if (SDL_ISCOLORSPACE_FULL_RANGE(colorspace)) {
+    જો (SDL_ISCOLORSPACE_MATRIX_BT2020_NCL(colorspace)) {
+        જો (SDL_ISCOLORSPACE_FULL_RANGE(colorspace)) {
             *yuv_type = YCBCR_2020_NCL_FULL;
-            return true;
+            પાછા true;
         }
     }
 
-    if (SDL_COLORSPACEMATRIX(colorspace) == SDL_MATRIX_COEFFICIENTS_UNSPECIFIED) {
-        switch (bits_per_pixel) {
-        case 8:
-            if (h <= YUV_SD_THRESHOLD) {
-                if (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
+    જો (SDL_COLORSPACEMATRIX(colorspace) == SDL_MATRIX_COEFFICIENTS_UNSPECIFIED) {
+        પસંદગી (bits_per_pixel) {
+        સ્થિતિ 8:
+            જો (h <= YUV_SD_THRESHOLD) {
+                જો (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
                     *yuv_type = YCBCR_601_LIMITED;
-                } else {
+                } નહીંતર {
                     *yuv_type = YCBCR_601_FULL;
                 }
-            } else {
-                if (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
+            } નહીંતર {
+                જો (SDL_ISCOLORSPACE_LIMITED_RANGE(colorspace)) {
                     *yuv_type = YCBCR_709_LIMITED;
-                } else {
+                } નહીંતર {
                     *yuv_type = YCBCR_709_FULL;
                 }
             }
-			return true;
-        case 10:
-        case 16:
-            if (SDL_ISCOLORSPACE_FULL_RANGE(colorspace)) {
+			પાછા true;
+        સ્થિતિ 10:
+        સ્થિતિ 16:
+            જો (SDL_ISCOLORSPACE_FULL_RANGE(colorspace)) {
                 *yuv_type = YCBCR_2020_NCL_FULL;
-                return true;
+                પાછા true;
             }
-            break;
-        default:
-            break;
+            તોડો;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    return SDL_SetError("Unsupported YUV colorspace");
+    પાછા SDL_SetError("Unsupported YUV colorspace");
 }
 
-static bool GetYUVPlanes(int width, int height, SDL_PixelFormat format, const void *yuv, int yuv_pitch,
-                         const Uint8 **y, const Uint8 **u, const Uint8 **v, Uint32 *y_stride, Uint32 *uv_stride)
+સ્થિર bool GetYUVPlanes(પૂર્ણાંક width, પૂર્ણાંક height, SDL_PixelFormat format, અચલ શૂન્ય *yuv, પૂર્ણાંક yuv_pitch,
+                         અચલ Uint8 **y, અચલ Uint8 **u, અચલ Uint8 **v, Uint32 *y_stride, Uint32 *uv_stride)
 {
-    const Uint8 *planes[3] = { NULL, NULL, NULL };
-    int pitches[3] = { 0, 0, 0 };
-    int uv_width;
+    અચલ Uint8 *planes[3] = { ખાલી, ખાલી, ખાલી };
+    પૂર્ણાંક pitches[3] = { 0, 0, 0 };
+    પૂર્ણાંક uv_width;
 
-    switch (format) {
-    case SDL_PIXELFORMAT_YV12:
-    case SDL_PIXELFORMAT_IYUV:
-    case SDL_PIXELFORMAT_I0FL:
+    પસંદગી (format) {
+    સ્થિતિ SDL_PIXELFORMAT_YV12:
+    સ્થિતિ SDL_PIXELFORMAT_IYUV:
+    સ્થિતિ SDL_PIXELFORMAT_I0FL:
         pitches[0] = yuv_pitch;
         pitches[1] = ((pitches[0] / SDL_BYTESPERPIXEL(format) + 1) / 2) * SDL_BYTESPERPIXEL(format);
         pitches[2] = pitches[1];
-        planes[0] = (const Uint8 *)yuv;
+        planes[0] = (અચલ Uint8 *)yuv;
         planes[1] = planes[0] + pitches[0] * height;
         planes[2] = planes[1] + pitches[1] * ((height + 1) / 2);
-        break;
-    case SDL_PIXELFORMAT_YUY2:
-    case SDL_PIXELFORMAT_UYVY:
-    case SDL_PIXELFORMAT_YVYU:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_YUY2:
+    સ્થિતિ SDL_PIXELFORMAT_UYVY:
+    સ્થિતિ SDL_PIXELFORMAT_YVYU:
         pitches[0] = yuv_pitch;
-        planes[0] = (const Uint8 *)yuv;
-        break;
-    case SDL_PIXELFORMAT_NV12:
-    case SDL_PIXELFORMAT_NV21:
+        planes[0] = (અચલ Uint8 *)yuv;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_NV12:
+    સ્થિતિ SDL_PIXELFORMAT_NV21:
         pitches[0] = yuv_pitch;
         pitches[1] = 2 * ((pitches[0] + 1) / 2);
-        planes[0] = (const Uint8 *)yuv;
+        planes[0] = (અચલ Uint8 *)yuv;
         planes[1] = planes[0] + pitches[0] * height;
-        break;
-    case SDL_PIXELFORMAT_P010:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_P010:
         pitches[0] = yuv_pitch;
         uv_width = ((width + 1) / 2) * 2;
-        pitches[1] = SDL_max(pitches[0], (int)(uv_width * sizeof(Uint16)));
-        planes[0] = (const Uint8 *)yuv;
+        pitches[1] = SDL_max(pitches[0], (પૂર્ણાંક)(uv_width * કદ(Uint16)));
+        planes[0] = (અચલ Uint8 *)yuv;
         planes[1] = planes[0] + pitches[0] * height;
-        break;
-    case SDL_PIXELFORMAT_I444:
-    case SDL_PIXELFORMAT_I4FL:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_I444:
+    સ્થિતિ SDL_PIXELFORMAT_I4FL:
         pitches[0] = yuv_pitch;
         pitches[1] = pitches[0];
         pitches[2] = pitches[1];
-        planes[0] = (const Uint8 *)yuv;
+        planes[0] = (અચલ Uint8 *)yuv;
         planes[1] = planes[0] + pitches[0] * height;
         planes[2] = planes[1] + pitches[1] * height;
-        break;
-    default:
-        return SDL_SetError("GetYUVPlanes(): Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
+        તોડો;
+    મૂળભૂત:
+        પાછા SDL_SetError("GetYUVPlanes(): Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
     }
 
-    switch (format) {
-    case SDL_PIXELFORMAT_YV12:
+    પસંદગી (format) {
+    સ્થિતિ SDL_PIXELFORMAT_YV12:
         *y = planes[0];
         *y_stride = pitches[0];
         *v = planes[1];
         *u = planes[2];
         *uv_stride = pitches[1];
-        break;
-    case SDL_PIXELFORMAT_IYUV:
-    case SDL_PIXELFORMAT_I444:
-    case SDL_PIXELFORMAT_I0FL:
-    case SDL_PIXELFORMAT_I4FL:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_IYUV:
+    સ્થિતિ SDL_PIXELFORMAT_I444:
+    સ્થિતિ SDL_PIXELFORMAT_I0FL:
+    સ્થિતિ SDL_PIXELFORMAT_I4FL:
         *y = planes[0];
         *y_stride = pitches[0];
         *v = planes[2];
         *u = planes[1];
         *uv_stride = pitches[1];
-        break;
-    case SDL_PIXELFORMAT_YUY2:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_YUY2:
         *y = planes[0];
         *y_stride = pitches[0];
         *v = *y + 3;
         *u = *y + 1;
         *uv_stride = pitches[0];
-        break;
-    case SDL_PIXELFORMAT_UYVY:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_UYVY:
         *y = planes[0] + 1;
         *y_stride = pitches[0];
         *v = *y + 1;
         *u = *y - 1;
         *uv_stride = pitches[0];
-        break;
-    case SDL_PIXELFORMAT_YVYU:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_YVYU:
         *y = planes[0];
         *y_stride = pitches[0];
         *v = *y + 1;
         *u = *y + 3;
         *uv_stride = pitches[0];
-        break;
-    case SDL_PIXELFORMAT_NV12:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_NV12:
         *y = planes[0];
         *y_stride = pitches[0];
         *u = planes[1];
         *v = *u + 1;
         *uv_stride = pitches[1];
-        break;
-    case SDL_PIXELFORMAT_NV21:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_NV21:
         *y = planes[0];
         *y_stride = pitches[0];
         *v = planes[1];
         *u = *v + 1;
         *uv_stride = pitches[1];
-        break;
-    case SDL_PIXELFORMAT_P010:
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_P010:
         *y = planes[0];
         *y_stride = pitches[0];
         *u = planes[1];
-        *v = *u + sizeof(Uint16);
+        *v = *u + કદ(Uint16);
         *uv_stride = pitches[1];
-        break;
-    default:
+        તોડો;
+    મૂળભૂત:
         // Should have caught this above
-        return SDL_SetError("GetYUVPlanes[2]: Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
+        પાછા SDL_SetError("GetYUVPlanes[2]: Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
     }
-    return true;
+    પાછા true;
 }
 
 #ifdef SDL_SSE2_INTRINSICS
-static bool SDL_TARGETING("sse2") yuv_rgb_sse(
+સ્થિર bool SDL_TARGETING("sse2") yuv_rgb_sse(
     SDL_PixelFormat src_format, SDL_PixelFormat dst_format,
     Uint32 width, Uint32 height,
-    const Uint8 *y, const Uint8 *u, const Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
+    અચલ Uint8 *y, અચલ Uint8 *u, અચલ Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
     Uint8 *rgb, Uint32 rgb_stride,
     YCbCrType yuv_type)
 {
-    if (!SDL_HasSSE2()) {
-        return false;
+    જો (!SDL_HasSSE2()) {
+        પાછા false;
     }
 
-    if (src_format == SDL_PIXELFORMAT_YV12 ||
+    જો (src_format == SDL_PIXELFORMAT_YV12 ||
         src_format == SDL_PIXELFORMAT_IYUV) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuv420_rgb565_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuv420_rgb24_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv420_rgba_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv420_bgra_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv420_argb_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv420_abgr_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_YUY2 ||
+    જો (src_format == SDL_PIXELFORMAT_YUY2 ||
         src_format == SDL_PIXELFORMAT_UYVY ||
         src_format == SDL_PIXELFORMAT_YVYU) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuv422_rgb565_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuv422_rgb24_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv422_rgba_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv422_bgra_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv422_argb_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv422_abgr_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_NV12 ||
+    જો (src_format == SDL_PIXELFORMAT_NV12 ||
         src_format == SDL_PIXELFORMAT_NV21) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuvnv12_rgb565_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuvnv12_rgb24_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuvnv12_rgba_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuvnv12_bgra_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuvnv12_argb_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuvnv12_abgr_sseu(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
-    return false;
+    પાછા false;
 }
-#else
-static bool yuv_rgb_sse(
+#નહીંતર
+સ્થિર bool yuv_rgb_sse(
     SDL_PixelFormat src_format, SDL_PixelFormat dst_format,
     Uint32 width, Uint32 height,
-    const Uint8 *y, const Uint8 *u, const Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
+    અચલ Uint8 *y, અચલ Uint8 *u, અચલ Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
     Uint8 *rgb, Uint32 rgb_stride,
     YCbCrType yuv_type)
 {
-    return false;
+    પાછા false;
 }
 #endif
 
 #ifdef SDL_LSX_INTRINSICS
-static bool yuv_rgb_lsx(
+સ્થિર bool yuv_rgb_lsx(
     SDL_PixelFormat src_format, SDL_PixelFormat dst_format,
     Uint32 width, Uint32 height,
-    const Uint8 *y, const Uint8 *u, const Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
+    અચલ Uint8 *y, અચલ Uint8 *u, અચલ Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
     Uint8 *rgb, Uint32 rgb_stride,
     YCbCrType yuv_type)
 {
-    if (!SDL_HasLSX()) {
-        return false;
+    જો (!SDL_HasLSX()) {
+        પાછા false;
     }
-    if (src_format == SDL_PIXELFORMAT_YV12 ||
+    જો (src_format == SDL_PIXELFORMAT_YV12 ||
         src_format == SDL_PIXELFORMAT_IYUV) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB24:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuv420_rgb24_lsx(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv420_rgba_lsx(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv420_bgra_lsx(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv420_argb_lsx(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv420_abgr_lsx(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
-    return false;
+    પાછા false;
 }
-#else
-static bool yuv_rgb_lsx(
+#નહીંતર
+સ્થિર bool yuv_rgb_lsx(
     SDL_PixelFormat src_format, SDL_PixelFormat dst_format,
     Uint32 width, Uint32 height,
-    const Uint8 *y, const Uint8 *u, const Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
+    અચલ Uint8 *y, અચલ Uint8 *u, અચલ Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
     Uint8 *rgb, Uint32 rgb_stride,
     YCbCrType yuv_type)
 {
-    return false;
+    પાછા false;
 }
 #endif
 
-static bool yuv_rgb_std(
+સ્થિર bool yuv_rgb_std(
     SDL_PixelFormat src_format, SDL_PixelFormat dst_format,
     Uint32 width, Uint32 height,
-    const Uint8 *y, const Uint8 *u, const Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
+    અચલ Uint8 *y, અચલ Uint8 *u, અચલ Uint8 *v, Uint32 y_stride, Uint32 uv_stride,
     Uint8 *rgb, Uint32 rgb_stride,
     YCbCrType yuv_type)
 {
-    if (src_format == SDL_PIXELFORMAT_YV12 ||
+    જો (src_format == SDL_PIXELFORMAT_YV12 ||
         src_format == SDL_PIXELFORMAT_IYUV) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuv420_rgb565_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuv420_rgb24_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv420_rgba_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv420_bgra_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv420_argb_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv420_abgr_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_I444) {
+    જો (src_format == SDL_PIXELFORMAT_I444) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv444_rgba_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv444_bgra_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv444_argb_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv444_abgr_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_YUY2 ||
+    જો (src_format == SDL_PIXELFORMAT_YUY2 ||
         src_format == SDL_PIXELFORMAT_UYVY ||
         src_format == SDL_PIXELFORMAT_YVYU) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuv422_rgb565_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuv422_rgb24_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuv422_rgba_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuv422_bgra_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuv422_argb_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuv422_abgr_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_NV12 ||
+    જો (src_format == SDL_PIXELFORMAT_NV12 ||
         src_format == SDL_PIXELFORMAT_NV21) {
 
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB565:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB565:
             yuvnv12_rgb565_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGB24:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGB24:
             yuvnv12_rgb24_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_RGBX8888:
-        case SDL_PIXELFORMAT_RGBA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_RGBX8888:
+        સ્થિતિ SDL_PIXELFORMAT_RGBA8888:
             yuvnv12_rgba_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_BGRX8888:
-        case SDL_PIXELFORMAT_BGRA8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_BGRX8888:
+        સ્થિતિ SDL_PIXELFORMAT_BGRA8888:
             yuvnv12_bgra_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XRGB8888:
-        case SDL_PIXELFORMAT_ARGB8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XRGB8888:
+        સ્થિતિ SDL_PIXELFORMAT_ARGB8888:
             yuvnv12_argb_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        case SDL_PIXELFORMAT_XBGR8888:
-        case SDL_PIXELFORMAT_ABGR8888:
+            પાછા true;
+        સ્થિતિ SDL_PIXELFORMAT_XBGR8888:
+        સ્થિતિ SDL_PIXELFORMAT_ABGR8888:
             yuvnv12_abgr_std(width, height, y, u, v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_P010) {
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_XBGR2101010:
-            yuvp010_xbgr2101010_std(width, height, (const uint16_t *)y, (const uint16_t *)u, (const uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+    જો (src_format == SDL_PIXELFORMAT_P010) {
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_XBGR2101010:
+            yuvp010_xbgr2101010_std(width, height, (અચલ uint16_t *)y, (અચલ uint16_t *)u, (અચલ uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_I0FL) {
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB48:
-            yuvi0fl_rgb48_std(width, height, (const uint16_t *)y, (const uint16_t *)u, (const uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+    જો (src_format == SDL_PIXELFORMAT_I0FL) {
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB48:
+            yuvi0fl_rgb48_std(width, height, (અચલ uint16_t *)y, (અચલ uint16_t *)u, (અચલ uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
 
-    if (src_format == SDL_PIXELFORMAT_I4FL) {
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_RGB48:
-            yuvi4fl_rgb48_std(width, height, (const uint16_t *)y, (const uint16_t *)u, (const uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
-            return true;
-        default:
-            break;
+    જો (src_format == SDL_PIXELFORMAT_I4FL) {
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_RGB48:
+            yuvi4fl_rgb48_std(width, height, (અચલ uint16_t *)y, (અચલ uint16_t *)u, (અચલ uint16_t *)v, y_stride, uv_stride, rgb, rgb_stride, yuv_type);
+            પાછા true;
+        મૂળભૂત:
+            તોડો;
         }
     }
-    return false;
+    પાછા false;
 }
 
-bool SDL_ConvertPixels_YUV_to_RGB(int width, int height,
-                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_YUV_to_RGB(પૂર્ણાંક width, પૂર્ણાંક height,
+                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    const Uint8 *y = NULL;
-    const Uint8 *u = NULL;
-    const Uint8 *v = NULL;
+    અચલ Uint8 *y = ખાલી;
+    અચલ Uint8 *u = ખાલી;
+    અચલ Uint8 *v = ખાલી;
     Uint32 y_stride = 0;
     Uint32 uv_stride = 0;
     YCbCrType yuv_type = YCBCR_601_LIMITED;
 
-    if (!GetYUVPlanes(width, height, src_format, src, src_pitch, &y, &u, &v, &y_stride, &uv_stride)) {
-        return false;
+    જો (!GetYUVPlanes(width, height, src_format, src, src_pitch, &y, &u, &v, &y_stride, &uv_stride)) {
+        પાછા false;
     }
 
-    if (!GetYUVConversionType(src_colorspace, width, height, 8, &yuv_type)) {
-        return false;
+    જો (!GetYUVConversionType(src_colorspace, width, height, 8, &yuv_type)) {
+        પાછા false;
     }
 
-    if (yuv_rgb_sse(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
-        return true;
+    જો (yuv_rgb_sse(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
+        પાછા true;
     }
 
-    if (yuv_rgb_lsx(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
-        return true;
+    જો (yuv_rgb_lsx(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
+        પાછા true;
     }
 
-    if (yuv_rgb_std(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
-        return true;
+    જો (yuv_rgb_std(src_format, dst_format, width, height, y, u, v, y_stride, uv_stride, (Uint8 *)dst, dst_pitch, yuv_type)) {
+        પાછા true;
     }
 
     // No fast path for the RGB format, instead convert using an intermediate buffer
-    if (src_format == SDL_PIXELFORMAT_P010 && dst_format != SDL_PIXELFORMAT_XBGR2101010) {
+    જો (src_format == SDL_PIXELFORMAT_P010 && dst_format != SDL_PIXELFORMAT_XBGR2101010) {
         bool result;
-        void *tmp;
-        int tmp_pitch = (width * sizeof(Uint32));
+        શૂન્ય *tmp;
+        પૂર્ણાંક tmp_pitch = (width * કદ(Uint32));
 
         tmp = SDL_malloc((size_t)tmp_pitch * height);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
 
         // convert src/src_format to tmp/XBGR2101010
         result = SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, SDL_PIXELFORMAT_XBGR2101010, src_colorspace, src_properties, tmp, tmp_pitch);
-        if (!result) {
+        જો (!result) {
             SDL_free(tmp);
-            return false;
+            પાછા false;
         }
 
         // convert tmp/XBGR2101010 to dst/RGB
         result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_XBGR2101010, src_colorspace, src_properties, tmp, tmp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
         SDL_free(tmp);
-        return result;
+        પાછા result;
     }
 
-    if ((src_format == SDL_PIXELFORMAT_I0FL || src_format == SDL_PIXELFORMAT_I4FL) && dst_format != SDL_PIXELFORMAT_RGB48) {
+    જો ((src_format == SDL_PIXELFORMAT_I0FL || src_format == SDL_PIXELFORMAT_I4FL) && dst_format != SDL_PIXELFORMAT_RGB48) {
         bool result;
-        void *tmp;
-        int tmp_pitch = (width * 3 * sizeof(Uint16));
+        શૂન્ય *tmp;
+        પૂર્ણાંક tmp_pitch = (width * 3 * કદ(Uint16));
 
         tmp = SDL_malloc((size_t)tmp_pitch * height);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
 
         // convert src/src_format to tmp/RGB48
         result = SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, SDL_PIXELFORMAT_RGB48, src_colorspace, src_properties, tmp, tmp_pitch);
-        if (!result) {
+        જો (!result) {
             SDL_free(tmp);
-            return false;
+            પાછા false;
         }
 
         // convert tmp/RGB48 to dst/RGB
         result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_RGB48, src_colorspace, src_properties, tmp, tmp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
         SDL_free(tmp);
-        return result;
+        પાછા result;
     }
 
-    if (dst_format != SDL_PIXELFORMAT_ARGB8888) {
+    જો (dst_format != SDL_PIXELFORMAT_ARGB8888) {
         bool result;
-        void *tmp;
-        int tmp_pitch = (width * sizeof(Uint32));
+        શૂન્ય *tmp;
+        પૂર્ણાંક tmp_pitch = (width * કદ(Uint32));
 
         tmp = SDL_malloc((size_t)tmp_pitch * height);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
 
         // convert src/src_format to tmp/ARGB8888
         result = SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, SDL_PIXELFORMAT_ARGB8888, SDL_COLORSPACE_SRGB, 0, tmp, tmp_pitch);
-        if (!result) {
+        જો (!result) {
             SDL_free(tmp);
-            return false;
+            પાછા false;
         }
 
         // convert tmp/ARGB8888 to dst/RGB
         result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_ARGB8888, SDL_COLORSPACE_SRGB, 0, tmp, tmp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
         SDL_free(tmp);
-        return result;
+        પાછા result;
     }
 
-    return SDL_SetError("Unsupported YUV conversion");
+    પાછા SDL_SetError("Unsupported YUV conversion");
 }
 
-struct RGB2YUVFactors
+સંરચના RGB2YUVFactors
 {
-    int y_offset;
-    float y[3]; // Rfactor, Gfactor, Bfactor
-    float u[3]; // Rfactor, Gfactor, Bfactor
-    float v[3]; // Rfactor, Gfactor, Bfactor
+    પૂર્ણાંક y_offset;
+    દશાંશ y[3]; // Rfactor, Gfactor, Bfactor
+    દશાંશ u[3]; // Rfactor, Gfactor, Bfactor
+    દશાંશ v[3]; // Rfactor, Gfactor, Bfactor
 };
 
-static struct RGB2YUVFactors RGB2YUVFactorTables[] = {
+સ્થિર સંરચના RGB2YUVFactors RGB2YUVFactorTables[] = {
     // ITU-T T.871 (JPEG)
     {
         0,
@@ -847,73 +847,73 @@ static struct RGB2YUVFactors RGB2YUVFactorTables[] = {
     },
 };
 
-static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void *src, int src_pitch, SDL_PixelFormat dst_format, void *dst, int dst_pitch, YCbCrType yuv_type)
+સ્થિર bool SDL_ConvertPixels_XRGB8888_to_YUV(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch, YCbCrType yuv_type)
 {
-    const int src_pitch_x_2 = src_pitch * 2;
-    const int height_half = height / 2;
-    const int height_remainder = (height & 0x1);
-    const int width_half = width / 2;
-    const int width_remainder = (width & 0x1);
-    int i, j;
+    અચલ પૂર્ણાંક src_pitch_x_2 = src_pitch * 2;
+    અચલ પૂર્ણાંક height_half = height / 2;
+    અચલ પૂર્ણાંક height_remainder = (height & 0x1);
+    અચલ પૂર્ણાંક width_half = width / 2;
+    અચલ પૂર્ણાંક width_remainder = (width & 0x1);
+    પૂર્ણાંક i, j;
 
-    const struct RGB2YUVFactors *cvt = &RGB2YUVFactorTables[yuv_type];
+    અચલ સંરચના RGB2YUVFactors *cvt = &RGB2YUVFactorTables[yuv_type];
 
-#define MAKE_Y(r, g, b) (Uint8)SDL_clamp(((int)(cvt->y[0] * (r) + cvt->y[1] * (g) + cvt->y[2] * (b) + 0.5f) + cvt->y_offset), 0, 255)
-#define MAKE_U(r, g, b) (Uint8)SDL_clamp(((int)(cvt->u[0] * (r) + cvt->u[1] * (g) + cvt->u[2] * (b) + 0.5f) + 128), 0, 255)
-#define MAKE_V(r, g, b) (Uint8)SDL_clamp(((int)(cvt->v[0] * (r) + cvt->v[1] * (g) + cvt->v[2] * (b) + 0.5f) + 128), 0, 255)
+#define MAKE_Y(r, g, b) (Uint8)SDL_clamp(((પૂર્ણાંક)(cvt->y[0] * (r) + cvt->y[1] * (g) + cvt->y[2] * (b) + 0.5f) + cvt->y_offset), 0, 255)
+#define MAKE_U(r, g, b) (Uint8)SDL_clamp(((પૂર્ણાંક)(cvt->u[0] * (r) + cvt->u[1] * (g) + cvt->u[2] * (b) + 0.5f) + 128), 0, 255)
+#define MAKE_V(r, g, b) (Uint8)SDL_clamp(((પૂર્ણાંક)(cvt->v[0] * (r) + cvt->v[1] * (g) + cvt->v[2] * (b) + 0.5f) + 128), 0, 255)
 
 #define READ_2x2_PIXELS                                                                                     \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];                                                    \
-    const Uint32 p2 = ((const Uint32 *)curr_row)[2 * i + 1];                                                \
-    const Uint32 p3 = ((const Uint32 *)next_row)[2 * i];                                                    \
-    const Uint32 p4 = ((const Uint32 *)next_row)[2 * i + 1];                                                \
-    const Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000) + (p3 & 0x00ff0000) + (p4 & 0x00ff0000)) >> 18; \
-    const Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00) + (p3 & 0x0000ff00) + (p4 & 0x0000ff00)) >> 10; \
-    const Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff) + (p3 & 0x000000ff) + (p4 & 0x000000ff)) >> 2
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];                                                    \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)curr_row)[2 * i + 1];                                                \
+    અચલ Uint32 p3 = ((અચલ Uint32 *)next_row)[2 * i];                                                    \
+    અચલ Uint32 p4 = ((અચલ Uint32 *)next_row)[2 * i + 1];                                                \
+    અચલ Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000) + (p3 & 0x00ff0000) + (p4 & 0x00ff0000)) >> 18; \
+    અચલ Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00) + (p3 & 0x0000ff00) + (p4 & 0x0000ff00)) >> 10; \
+    અચલ Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff) + (p3 & 0x000000ff) + (p4 & 0x000000ff)) >> 2
 
 #define READ_2x1_PIXELS                                             \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];            \
-    const Uint32 p2 = ((const Uint32 *)next_row)[2 * i];            \
-    const Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000)) >> 17; \
-    const Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00)) >> 9;  \
-    const Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff)) >> 1
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];            \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)next_row)[2 * i];            \
+    અચલ Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000)) >> 17; \
+    અચલ Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00)) >> 9;  \
+    અચલ Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff)) >> 1
 
 #define READ_1x2_PIXELS                                             \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];            \
-    const Uint32 p2 = ((const Uint32 *)curr_row)[2 * i + 1];        \
-    const Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000)) >> 17; \
-    const Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00)) >> 9;  \
-    const Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff)) >> 1
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];            \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)curr_row)[2 * i + 1];        \
+    અચલ Uint32 r = ((p1 & 0x00ff0000) + (p2 & 0x00ff0000)) >> 17; \
+    અચલ Uint32 g = ((p1 & 0x0000ff00) + (p2 & 0x0000ff00)) >> 9;  \
+    અચલ Uint32 b = ((p1 & 0x000000ff) + (p2 & 0x000000ff)) >> 1
 
 #define READ_1x1_PIXEL                                  \
-    const Uint32 p = ((const Uint32 *)curr_row)[2 * i]; \
-    const Uint32 r = (p & 0x00ff0000) >> 16;            \
-    const Uint32 g = (p & 0x0000ff00) >> 8;             \
-    const Uint32 b = (p & 0x000000ff)
+    અચલ Uint32 p = ((અચલ Uint32 *)curr_row)[2 * i]; \
+    અચલ Uint32 r = (p & 0x00ff0000) >> 16;            \
+    અચલ Uint32 g = (p & 0x0000ff00) >> 8;             \
+    અચલ Uint32 b = (p & 0x000000ff)
 
 #define READ_TWO_RGB_PIXELS                                  \
-    const Uint32 p = ((const Uint32 *)curr_row)[2 * i];      \
-    const Uint32 r = (p & 0x00ff0000) >> 16;                 \
-    const Uint32 g = (p & 0x0000ff00) >> 8;                  \
-    const Uint32 b = (p & 0x000000ff);                       \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i + 1]; \
-    const Uint32 r1 = (p1 & 0x00ff0000) >> 16;               \
-    const Uint32 g1 = (p1 & 0x0000ff00) >> 8;                \
-    const Uint32 b1 = (p1 & 0x000000ff);                     \
-    const Uint32 R = (r + r1) / 2;                           \
-    const Uint32 G = (g + g1) / 2;                           \
-    const Uint32 B = (b + b1) / 2
+    અચલ Uint32 p = ((અચલ Uint32 *)curr_row)[2 * i];      \
+    અચલ Uint32 r = (p & 0x00ff0000) >> 16;                 \
+    અચલ Uint32 g = (p & 0x0000ff00) >> 8;                  \
+    અચલ Uint32 b = (p & 0x000000ff);                       \
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i + 1]; \
+    અચલ Uint32 r1 = (p1 & 0x00ff0000) >> 16;               \
+    અચલ Uint32 g1 = (p1 & 0x0000ff00) >> 8;                \
+    અચલ Uint32 b1 = (p1 & 0x000000ff);                     \
+    અચલ Uint32 R = (r + r1) / 2;                           \
+    અચલ Uint32 G = (g + g1) / 2;                           \
+    અચલ Uint32 B = (b + b1) / 2
 
 #define READ_ONE_RGB_PIXEL READ_1x1_PIXEL
 
-    switch (dst_format) {
-    case SDL_PIXELFORMAT_YV12:
-    case SDL_PIXELFORMAT_IYUV:
-    case SDL_PIXELFORMAT_I444:
-    case SDL_PIXELFORMAT_NV12:
-    case SDL_PIXELFORMAT_NV21:
+    પસંદગી (dst_format) {
+    સ્થિતિ SDL_PIXELFORMAT_YV12:
+    સ્થિતિ SDL_PIXELFORMAT_IYUV:
+    સ્થિતિ SDL_PIXELFORMAT_I444:
+    સ્થિતિ SDL_PIXELFORMAT_NV12:
+    સ્થિતિ SDL_PIXELFORMAT_NV21:
     {
-        const Uint8 *curr_row, *next_row;
+        અચલ Uint8 *curr_row, *next_row;
 
         Uint8 *plane_y;
         Uint8 *plane_u;
@@ -921,44 +921,44 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
         Uint8 *plane_interleaved_uv;
         Uint32 y_stride, uv_stride, y_skip, uv_skip;
 
-        if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
-                          (const Uint8 **)&plane_y, (const Uint8 **)&plane_u, (const Uint8 **)&plane_v,
+        જો (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
+                          (અચલ Uint8 **)&plane_y, (અચલ Uint8 **)&plane_u, (અચલ Uint8 **)&plane_v,
                           &y_stride, &uv_stride)) {
-            return false;
+            પાછા false;
         }
 
         plane_interleaved_uv = (plane_y + height * y_stride);
         y_skip = (y_stride - width);
 
-        curr_row = (const Uint8 *)src;
+        curr_row = (અચલ Uint8 *)src;
 
         // Write Y plane
-        for (j = 0; j < height; j++) {
-            for (i = 0; i < width; i++) {
-                const Uint32 p1 = ((const Uint32 *)curr_row)[i];
-                const Uint32 r = (p1 & 0x00ff0000) >> 16;
-                const Uint32 g = (p1 & 0x0000ff00) >> 8;
-                const Uint32 b = (p1 & 0x000000ff);
+        માટે (j = 0; j < height; j++) {
+            માટે (i = 0; i < width; i++) {
+                અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[i];
+                અચલ Uint32 r = (p1 & 0x00ff0000) >> 16;
+                અચલ Uint32 g = (p1 & 0x0000ff00) >> 8;
+                અચલ Uint32 b = (p1 & 0x000000ff);
                 *plane_y++ = MAKE_Y(r, g, b);
             }
             plane_y += y_skip;
             curr_row += src_pitch;
         }
 
-        curr_row = (const Uint8 *)src;
-        next_row = (const Uint8 *)src;
+        curr_row = (અચલ Uint8 *)src;
+        next_row = (અચલ Uint8 *)src;
         next_row += src_pitch;
 
-        if (dst_format == SDL_PIXELFORMAT_YV12 || dst_format == SDL_PIXELFORMAT_IYUV) {
+        જો (dst_format == SDL_PIXELFORMAT_YV12 || dst_format == SDL_PIXELFORMAT_IYUV) {
             // Write UV planes, not interleaved
             uv_skip = (uv_stride - (width + 1) / 2);
-            for (j = 0; j < height_half; j++) {
-                for (i = 0; i < width_half; i++) {
+            માટે (j = 0; j < height_half; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_2x2_PIXELS;
                     *plane_u++ = MAKE_U(r, g, b);
                     *plane_v++ = MAKE_V(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_2x1_PIXELS;
                     *plane_u++ = MAKE_U(r, g, b);
                     *plane_v++ = MAKE_V(r, g, b);
@@ -968,13 +968,13 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 curr_row += src_pitch_x_2;
                 next_row += src_pitch_x_2;
             }
-            if (height_remainder) {
-                for (i = 0; i < width_half; i++) {
+            જો (height_remainder) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_1x2_PIXELS;
                     *plane_u++ = MAKE_U(r, g, b);
                     *plane_v++ = MAKE_V(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_1x1_PIXEL;
                     *plane_u++ = MAKE_U(r, g, b);
                     *plane_v++ = MAKE_V(r, g, b);
@@ -982,15 +982,15 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 plane_u += uv_skip;
                 plane_v += uv_skip;
             }
-        } else if (dst_format == SDL_PIXELFORMAT_I444) {
+        } નહીંતર જો (dst_format == SDL_PIXELFORMAT_I444) {
             // Write UV planes, not interleaved
             uv_skip = (uv_stride - width);
-            for (j = 0; j < height; j++) {
-                for (i = 0; i < width; i++) {
-                    const Uint32 p1 = ((const Uint32 *)curr_row)[i];
-                    const Uint32 r = (p1 & 0x00ff0000) >> 16;
-                    const Uint32 g = (p1 & 0x0000ff00) >> 8;
-                    const Uint32 b = (p1 & 0x000000ff);
+            માટે (j = 0; j < height; j++) {
+                માટે (i = 0; i < width; i++) {
+                    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[i];
+                    અચલ Uint32 r = (p1 & 0x00ff0000) >> 16;
+                    અચલ Uint32 g = (p1 & 0x0000ff00) >> 8;
+                    અચલ Uint32 b = (p1 & 0x000000ff);
                     *plane_u++ = MAKE_U(r, g, b);
                     *plane_v++ = MAKE_V(r, g, b);
                 }
@@ -998,15 +998,15 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 plane_v += uv_skip;
                 curr_row += src_pitch;
             }
-        } else if (dst_format == SDL_PIXELFORMAT_NV12) {
+        } નહીંતર જો (dst_format == SDL_PIXELFORMAT_NV12) {
             uv_skip = (uv_stride - ((width + 1) / 2) * 2);
-            for (j = 0; j < height_half; j++) {
-                for (i = 0; i < width_half; i++) {
+            માટે (j = 0; j < height_half; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_2x2_PIXELS;
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_2x1_PIXELS;
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
@@ -1015,27 +1015,27 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 curr_row += src_pitch_x_2;
                 next_row += src_pitch_x_2;
             }
-            if (height_remainder) {
-                for (i = 0; i < width_half; i++) {
+            જો (height_remainder) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_1x2_PIXELS;
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_1x1_PIXEL;
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                 }
             }
-        } else /* dst_format == SDL_PIXELFORMAT_NV21 */ {
+        } નહીંતર /* dst_format == SDL_PIXELFORMAT_NV21 */ {
             uv_skip = (uv_stride - ((width + 1) / 2) * 2);
-            for (j = 0; j < height_half; j++) {
-                for (i = 0; i < width_half; i++) {
+            માટે (j = 0; j < height_half; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_2x2_PIXELS;
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_2x1_PIXELS;
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
@@ -1044,39 +1044,39 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 curr_row += src_pitch_x_2;
                 next_row += src_pitch_x_2;
             }
-            if (height_remainder) {
-                for (i = 0; i < width_half; i++) {
+            જો (height_remainder) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_1x2_PIXELS;
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_1x1_PIXEL;
                     *plane_interleaved_uv++ = MAKE_V(r, g, b);
                     *plane_interleaved_uv++ = MAKE_U(r, g, b);
                 }
             }
         }
-    } break;
+    } તોડો;
 
-    case SDL_PIXELFORMAT_YUY2:
-    case SDL_PIXELFORMAT_UYVY:
-    case SDL_PIXELFORMAT_YVYU:
+    સ્થિતિ SDL_PIXELFORMAT_YUY2:
+    સ્થિતિ SDL_PIXELFORMAT_UYVY:
+    સ્થિતિ SDL_PIXELFORMAT_YVYU:
     {
-        const Uint8 *curr_row = (const Uint8 *)src;
+        અચલ Uint8 *curr_row = (અચલ Uint8 *)src;
         Uint8 *plane = (Uint8 *)dst;
-        const int row_size = (4 * ((width + 1) / 2));
-        int plane_skip;
+        અચલ પૂર્ણાંક row_size = (4 * ((width + 1) / 2));
+        પૂર્ણાંક plane_skip;
 
-        if (dst_pitch < row_size) {
-            return SDL_SetError("Destination pitch is too small, expected at least %d", row_size);
+        જો (dst_pitch < row_size) {
+            પાછા SDL_SetError("Destination pitch is too small, expected at least %d", row_size);
         }
         plane_skip = (dst_pitch - row_size);
 
         // Write YUV plane, packed
-        if (dst_format == SDL_PIXELFORMAT_YUY2) {
-            for (j = 0; j < height; j++) {
-                for (i = 0; i < width_half; i++) {
+        જો (dst_format == SDL_PIXELFORMAT_YUY2) {
+            માટે (j = 0; j < height; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_TWO_RGB_PIXELS;
                     // Y U Y1 V
                     *plane++ = MAKE_Y(r, g, b);
@@ -1084,7 +1084,7 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                     *plane++ = MAKE_Y(r1, g1, b1);
                     *plane++ = MAKE_V(R, G, B);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_ONE_RGB_PIXEL;
                     // Y U Y V
                     *plane++ = MAKE_Y(r, g, b);
@@ -1095,9 +1095,9 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 plane += plane_skip;
                 curr_row += src_pitch;
             }
-        } else if (dst_format == SDL_PIXELFORMAT_UYVY) {
-            for (j = 0; j < height; j++) {
-                for (i = 0; i < width_half; i++) {
+        } નહીંતર જો (dst_format == SDL_PIXELFORMAT_UYVY) {
+            માટે (j = 0; j < height; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_TWO_RGB_PIXELS;
                     // U Y V Y1
                     *plane++ = MAKE_U(R, G, B);
@@ -1105,7 +1105,7 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                     *plane++ = MAKE_V(R, G, B);
                     *plane++ = MAKE_Y(r1, g1, b1);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_ONE_RGB_PIXEL;
                     // U Y V Y
                     *plane++ = MAKE_U(r, g, b);
@@ -1116,9 +1116,9 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 plane += plane_skip;
                 curr_row += src_pitch;
             }
-        } else if (dst_format == SDL_PIXELFORMAT_YVYU) {
-            for (j = 0; j < height; j++) {
-                for (i = 0; i < width_half; i++) {
+        } નહીંતર જો (dst_format == SDL_PIXELFORMAT_YVYU) {
+            માટે (j = 0; j < height; j++) {
+                માટે (i = 0; i < width_half; i++) {
                     READ_TWO_RGB_PIXELS;
                     // Y V Y1 U
                     *plane++ = MAKE_Y(r, g, b);
@@ -1126,7 +1126,7 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                     *plane++ = MAKE_Y(r1, g1, b1);
                     *plane++ = MAKE_U(R, G, B);
                 }
-                if (width_remainder) {
+                જો (width_remainder) {
                     READ_ONE_RGB_PIXEL;
                     // Y V Y U
                     *plane++ = MAKE_Y(r, g, b);
@@ -1138,10 +1138,10 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
                 curr_row += src_pitch;
             }
         }
-    } break;
+    } તોડો;
 
-    default:
-        return SDL_SetError("Unsupported YUV destination format: %s", SDL_GetPixelFormatName(dst_format));
+    મૂળભૂત:
+        પાછા SDL_SetError("Unsupported YUV destination format: %s", SDL_GetPixelFormatName(dst_format));
     }
 #undef MAKE_Y
 #undef MAKE_U
@@ -1152,54 +1152,54 @@ static bool SDL_ConvertPixels_XRGB8888_to_YUV(int width, int height, const void 
 #undef READ_1x1_PIXEL
 #undef READ_TWO_RGB_PIXELS
 #undef READ_ONE_RGB_PIXEL
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_XBGR2101010_to_P010(int width, int height, const void *src, int src_pitch, SDL_PixelFormat dst_format, void *dst, int dst_pitch, YCbCrType yuv_type)
+સ્થિર bool SDL_ConvertPixels_XBGR2101010_to_P010(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch, YCbCrType yuv_type)
 {
-    const int src_pitch_x_2 = src_pitch * 2;
-    const int height_half = height / 2;
-    const int height_remainder = (height & 0x1);
-    const int width_half = width / 2;
-    const int width_remainder = (width & 0x1);
-    int i, j;
+    અચલ પૂર્ણાંક src_pitch_x_2 = src_pitch * 2;
+    અચલ પૂર્ણાંક height_half = height / 2;
+    અચલ પૂર્ણાંક height_remainder = (height & 0x1);
+    અચલ પૂર્ણાંક width_half = width / 2;
+    અચલ પૂર્ણાંક width_remainder = (width & 0x1);
+    પૂર્ણાંક i, j;
 
-    const struct RGB2YUVFactors *cvt = &RGB2YUVFactorTables[yuv_type];
+    અચલ સંરચના RGB2YUVFactors *cvt = &RGB2YUVFactorTables[yuv_type];
 
-#define MAKE_Y(r, g, b) (Uint16)(((int)(cvt->y[0] * (r) + cvt->y[1] * (g) + cvt->y[2] * (b) + 0.5f) + cvt->y_offset) << 6)
-#define MAKE_U(r, g, b) (Uint16)(((int)(cvt->u[0] * (r) + cvt->u[1] * (g) + cvt->u[2] * (b) + 0.5f) + 512) << 6)
-#define MAKE_V(r, g, b) (Uint16)(((int)(cvt->v[0] * (r) + cvt->v[1] * (g) + cvt->v[2] * (b) + 0.5f) + 512) << 6)
+#define MAKE_Y(r, g, b) (Uint16)(((પૂર્ણાંક)(cvt->y[0] * (r) + cvt->y[1] * (g) + cvt->y[2] * (b) + 0.5f) + cvt->y_offset) << 6)
+#define MAKE_U(r, g, b) (Uint16)(((પૂર્ણાંક)(cvt->u[0] * (r) + cvt->u[1] * (g) + cvt->u[2] * (b) + 0.5f) + 512) << 6)
+#define MAKE_V(r, g, b) (Uint16)(((પૂર્ણાંક)(cvt->v[0] * (r) + cvt->v[1] * (g) + cvt->v[2] * (b) + 0.5f) + 512) << 6)
 
 #define READ_2x2_PIXELS                                                                                     \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];                                                    \
-    const Uint32 p2 = ((const Uint32 *)curr_row)[2 * i + 1];                                                \
-    const Uint32 p3 = ((const Uint32 *)next_row)[2 * i];                                                    \
-    const Uint32 p4 = ((const Uint32 *)next_row)[2 * i + 1];                                                \
-    const Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff) + (p3 & 0x000003ff) + (p4 & 0x000003ff)) >> 2;  \
-    const Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00) + (p3 & 0x000ffc00) + (p4 & 0x000ffc00)) >> 12; \
-    const Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000) + (p3 & 0x3ff00000) + (p4 & 0x3ff00000)) >> 22
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];                                                    \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)curr_row)[2 * i + 1];                                                \
+    અચલ Uint32 p3 = ((અચલ Uint32 *)next_row)[2 * i];                                                    \
+    અચલ Uint32 p4 = ((અચલ Uint32 *)next_row)[2 * i + 1];                                                \
+    અચલ Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff) + (p3 & 0x000003ff) + (p4 & 0x000003ff)) >> 2;  \
+    અચલ Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00) + (p3 & 0x000ffc00) + (p4 & 0x000ffc00)) >> 12; \
+    અચલ Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000) + (p3 & 0x3ff00000) + (p4 & 0x3ff00000)) >> 22
 
 #define READ_2x1_PIXELS                                             \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];            \
-    const Uint32 p2 = ((const Uint32 *)next_row)[2 * i];            \
-    const Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff)) >> 1;  \
-    const Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00)) >> 11; \
-    const Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000)) >> 21
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];            \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)next_row)[2 * i];            \
+    અચલ Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff)) >> 1;  \
+    અચલ Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00)) >> 11; \
+    અચલ Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000)) >> 21
 
 #define READ_1x2_PIXELS                                             \
-    const Uint32 p1 = ((const Uint32 *)curr_row)[2 * i];            \
-    const Uint32 p2 = ((const Uint32 *)curr_row)[2 * i + 1];        \
-    const Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff)) >> 1;  \
-    const Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00)) >> 11; \
-    const Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000)) >> 21
+    અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[2 * i];            \
+    અચલ Uint32 p2 = ((અચલ Uint32 *)curr_row)[2 * i + 1];        \
+    અચલ Uint32 r = ((p1 & 0x000003ff) + (p2 & 0x000003ff)) >> 1;  \
+    અચલ Uint32 g = ((p1 & 0x000ffc00) + (p2 & 0x000ffc00)) >> 11; \
+    અચલ Uint32 b = ((p1 & 0x3ff00000) + (p2 & 0x3ff00000)) >> 21
 
 #define READ_1x1_PIXEL                                  \
-    const Uint32 p = ((const Uint32 *)curr_row)[2 * i]; \
-    const Uint32 r = (p & 0x000003ff);                  \
-    const Uint32 g = (p & 0x000ffc00) >> 10;            \
-    const Uint32 b = (p & 0x3ff00000) >> 20
+    અચલ Uint32 p = ((અચલ Uint32 *)curr_row)[2 * i]; \
+    અચલ Uint32 r = (p & 0x000003ff);                  \
+    અચલ Uint32 g = (p & 0x000ffc00) >> 10;            \
+    અચલ Uint32 b = (p & 0x3ff00000) >> 20
 
-    const Uint8 *curr_row, *next_row;
+    અચલ Uint8 *curr_row, *next_row;
 
     Uint16 *plane_y;
     Uint16 *plane_u;
@@ -1207,45 +1207,45 @@ static bool SDL_ConvertPixels_XBGR2101010_to_P010(int width, int height, const v
     Uint16 *plane_interleaved_uv;
     Uint32 y_stride, uv_stride, y_skip, uv_skip;
 
-    if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
-                      (const Uint8 **)&plane_y, (const Uint8 **)&plane_u, (const Uint8 **)&plane_v,
+    જો (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
+                      (અચલ Uint8 **)&plane_y, (અચલ Uint8 **)&plane_u, (અચલ Uint8 **)&plane_v,
                       &y_stride, &uv_stride)) {
-        return false;
+        પાછા false;
     }
 
-    y_stride /= sizeof(Uint16);
-    uv_stride /= sizeof(Uint16);
+    y_stride /= કદ(Uint16);
+    uv_stride /= કદ(Uint16);
 
     plane_interleaved_uv = (plane_y + height * y_stride);
     y_skip = (y_stride - width);
 
-    curr_row = (const Uint8 *)src;
+    curr_row = (અચલ Uint8 *)src;
 
     // Write Y plane
-    for (j = 0; j < height; j++) {
-        for (i = 0; i < width; i++) {
-            const Uint32 p1 = ((const Uint32 *)curr_row)[i];
-            const Uint32 r = (p1 >>  0) & 0x03ff;
-            const Uint32 g = (p1 >> 10) & 0x03ff;
-            const Uint32 b = (p1 >> 20) & 0x03ff;
+    માટે (j = 0; j < height; j++) {
+        માટે (i = 0; i < width; i++) {
+            અચલ Uint32 p1 = ((અચલ Uint32 *)curr_row)[i];
+            અચલ Uint32 r = (p1 >>  0) & 0x03ff;
+            અચલ Uint32 g = (p1 >> 10) & 0x03ff;
+            અચલ Uint32 b = (p1 >> 20) & 0x03ff;
             *plane_y++ = MAKE_Y(r, g, b);
         }
         plane_y += y_skip;
         curr_row += src_pitch;
     }
 
-    curr_row = (const Uint8 *)src;
-    next_row = (const Uint8 *)src;
+    curr_row = (અચલ Uint8 *)src;
+    next_row = (અચલ Uint8 *)src;
     next_row += src_pitch;
 
     uv_skip = (uv_stride - ((width + 1) / 2) * 2);
-    for (j = 0; j < height_half; j++) {
-        for (i = 0; i < width_half; i++) {
+    માટે (j = 0; j < height_half; j++) {
+        માટે (i = 0; i < width_half; i++) {
             READ_2x2_PIXELS;
             *plane_interleaved_uv++ = MAKE_U(r, g, b);
             *plane_interleaved_uv++ = MAKE_V(r, g, b);
         }
-        if (width_remainder) {
+        જો (width_remainder) {
             READ_2x1_PIXELS;
             *plane_interleaved_uv++ = MAKE_U(r, g, b);
             *plane_interleaved_uv++ = MAKE_V(r, g, b);
@@ -1254,13 +1254,13 @@ static bool SDL_ConvertPixels_XBGR2101010_to_P010(int width, int height, const v
         curr_row += src_pitch_x_2;
         next_row += src_pitch_x_2;
     }
-    if (height_remainder) {
-        for (i = 0; i < width_half; i++) {
+    જો (height_remainder) {
+        માટે (i = 0; i < width_half; i++) {
             READ_1x2_PIXELS;
             *plane_interleaved_uv++ = MAKE_U(r, g, b);
             *plane_interleaved_uv++ = MAKE_V(r, g, b);
         }
-        if (width_remainder) {
+        જો (width_remainder) {
             READ_1x1_PIXEL;
             *plane_interleaved_uv++ = MAKE_U(r, g, b);
             *plane_interleaved_uv++ = MAKE_V(r, g, b);
@@ -1274,122 +1274,122 @@ static bool SDL_ConvertPixels_XBGR2101010_to_P010(int width, int height, const v
 #undef READ_2x1_PIXELS
 #undef READ_1x2_PIXELS
 #undef READ_1x1_PIXEL
-    return true;
+    પાછા true;
 }
 
-bool SDL_ConvertPixels_RGB_to_YUV(int width, int height,
-                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_RGB_to_YUV(પૂર્ણાંક width, પૂર્ણાંક height,
+                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
     YCbCrType yuv_type = YCBCR_601_LIMITED;
 
-    if (!GetYUVConversionType(dst_colorspace, width, height, 8, &yuv_type)) {
-        return false;
+    જો (!GetYUVConversionType(dst_colorspace, width, height, 8, &yuv_type)) {
+        પાછા false;
     }
 
-#if 0 // Doesn't handle odd widths
+#જો 0 // Doesn't handle odd widths
     // RGB24 to FOURCC
-    if (src_format == SDL_PIXELFORMAT_RGB24) {
+    જો (src_format == SDL_PIXELFORMAT_RGB24) {
         Uint8 *y;
         Uint8 *u;
         Uint8 *v;
         Uint32 y_stride;
         Uint32 uv_stride;
 
-        if (GetYUVPlanes(width, height, dst_format, dst, dst_pitch, (const Uint8 **)&y, (const Uint8 **)&u, (const Uint8 **)&v, &y_stride, &uv_stride) < 0) {
-            return false;
+        જો (GetYUVPlanes(width, height, dst_format, dst, dst_pitch, (અચલ Uint8 **)&y, (અચલ Uint8 **)&u, (અચલ Uint8 **)&v, &y_stride, &uv_stride) < 0) {
+            પાછા false;
         }
 
         rgb24_yuv420_std(width, height, src, src_pitch, y, u, v, y_stride, uv_stride, yuv_type);
-        return true;
+        પાછા true;
     }
 #endif
 
     // ARGB8888 to FOURCC
-    if (src_format == SDL_PIXELFORMAT_ARGB8888 || src_format == SDL_PIXELFORMAT_XRGB8888) {
-        return SDL_ConvertPixels_XRGB8888_to_YUV(width, height, src, src_pitch, dst_format, dst, dst_pitch, yuv_type);
+    જો (src_format == SDL_PIXELFORMAT_ARGB8888 || src_format == SDL_PIXELFORMAT_XRGB8888) {
+        પાછા SDL_ConvertPixels_XRGB8888_to_YUV(width, height, src, src_pitch, dst_format, dst, dst_pitch, yuv_type);
     }
 
-    if (dst_format == SDL_PIXELFORMAT_P010) {
-        if (src_format == SDL_PIXELFORMAT_XBGR2101010) {
-            return SDL_ConvertPixels_XBGR2101010_to_P010(width, height, src, src_pitch, dst_format, dst, dst_pitch, yuv_type);
+    જો (dst_format == SDL_PIXELFORMAT_P010) {
+        જો (src_format == SDL_PIXELFORMAT_XBGR2101010) {
+            પાછા SDL_ConvertPixels_XBGR2101010_to_P010(width, height, src, src_pitch, dst_format, dst, dst_pitch, yuv_type);
         }
 
         // We currently only support converting from XBGR2101010 to P010
         bool result;
-        void *tmp;
-        int tmp_pitch = (width * sizeof(Uint32));
+        શૂન્ય *tmp;
+        પૂર્ણાંક tmp_pitch = (width * કદ(Uint32));
 
         tmp = SDL_malloc((size_t)tmp_pitch * height);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
 
         // convert src/src_format to tmp/XBGR2101010
         result = SDL_ConvertPixelsAndColorspace(width, height, src_format, src_colorspace, src_properties, src, src_pitch, SDL_PIXELFORMAT_XBGR2101010, dst_colorspace, dst_properties, tmp, tmp_pitch);
-        if (!result) {
+        જો (!result) {
             SDL_free(tmp);
-            return false;
+            પાછા false;
         }
 
         // convert tmp/XBGR2101010 to dst/P010
         result = SDL_ConvertPixels_XBGR2101010_to_P010(width, height, tmp, tmp_pitch, dst_format, dst, dst_pitch, yuv_type);
         SDL_free(tmp);
-        return result;
+        પાછા result;
     }
 
     // not ARGB8888 to FOURCC : need an intermediate conversion
     {
         bool result;
-        void *tmp;
-        int tmp_pitch = (width * sizeof(Uint32));
+        શૂન્ય *tmp;
+        પૂર્ણાંક tmp_pitch = (width * કદ(Uint32));
 
         tmp = SDL_malloc((size_t)tmp_pitch * height);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
 
         // convert src/src_format to tmp/XRGB8888
         result = SDL_ConvertPixelsAndColorspace(width, height, src_format, src_colorspace, src_properties, src, src_pitch, SDL_PIXELFORMAT_XRGB8888, SDL_COLORSPACE_SRGB, 0, tmp, tmp_pitch);
-        if (!result) {
+        જો (!result) {
             SDL_free(tmp);
-            return false;
+            પાછા false;
         }
 
         // convert tmp/XRGB8888 to dst/FOURCC
         result = SDL_ConvertPixels_XRGB8888_to_YUV(width, height, tmp, tmp_pitch, dst_format, dst, dst_pitch, yuv_type);
         SDL_free(tmp);
-        return result;
+        પાછા result;
     }
 }
 
-static bool SDL_ConvertPixels_YUV_to_YUV_Copy(int width, int height, SDL_PixelFormat format, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YUV_to_YUV_Copy(પૂર્ણાંક width, પૂર્ણાંક height, SDL_PixelFormat format, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int i;
+    પૂર્ણાંક i;
 
-    if (IsPlanar1x1Format(format)) {
+    જો (IsPlanar1x1Format(format)) {
         // YUV planes
-        const size_t length = width * SDL_BYTESPERPIXEL(format);
-        for (i = height * 3; i--;) {
+        અચલ size_t length = width * SDL_BYTESPERPIXEL(format);
+        માટે (i = height * 3; i--;) {
             SDL_memcpy(dst, src, length);
-            src = (const Uint8 *)src + src_pitch;
+            src = (અચલ Uint8 *)src + src_pitch;
             dst = (Uint8 *)dst + dst_pitch;
         }
-        return true;
+        પાછા true;
     }
 
-    if (IsPlanar2x2Format(format)) {
-        const int bpp = SDL_BYTESPERPIXEL(format);
+    જો (IsPlanar2x2Format(format)) {
+        અચલ પૂર્ણાંક bpp = SDL_BYTESPERPIXEL(format);
 
         // Y plane
-        const size_t length = width * bpp;
-        for (i = height; i--;) {
+        અચલ size_t length = width * bpp;
+        માટે (i = height; i--;) {
             SDL_memcpy(dst, src, length);
-            src = (const Uint8 *)src + src_pitch;
+            src = (અચલ Uint8 *)src + src_pitch;
             dst = (Uint8 *)dst + dst_pitch;
         }
 
-        if (format == SDL_PIXELFORMAT_YV12 ||
+        જો (format == SDL_PIXELFORMAT_YV12 ||
             format == SDL_PIXELFORMAT_IYUV ||
             format == SDL_PIXELFORMAT_I0FL) {
             // U and V planes are a quarter the size of the Y plane, rounded up
@@ -1397,12 +1397,12 @@ static bool SDL_ConvertPixels_YUV_to_YUV_Copy(int width, int height, SDL_PixelFo
             height = (height + 1) / 2;
             src_pitch = ((src_pitch / bpp + 1) / 2) * bpp;
             dst_pitch = ((dst_pitch / bpp + 1) / 2) * bpp;
-            for (i = height * 2; i--;) {
+            માટે (i = height * 2; i--;) {
                 SDL_memcpy(dst, src, width);
-                src = (const Uint8 *)src + src_pitch;
+                src = (અચલ Uint8 *)src + src_pitch;
                 dst = (Uint8 *)dst + dst_pitch;
             }
-        } else if (format == SDL_PIXELFORMAT_NV12 ||
+        } નહીંતર જો (format == SDL_PIXELFORMAT_NV12 ||
                    format == SDL_PIXELFORMAT_NV21 ||
                    format == SDL_PIXELFORMAT_P010) {
             // U/V plane is half the height of the Y plane, rounded up, with packed CrCb
@@ -1410,51 +1410,51 @@ static bool SDL_ConvertPixels_YUV_to_YUV_Copy(int width, int height, SDL_PixelFo
             height = (height + 1) / 2;
             src_pitch = ((src_pitch / bpp + 1) / 2) * 2 * bpp;
             dst_pitch = ((dst_pitch / bpp + 1) / 2) * 2 * bpp;
-            for (i = height; i--;) {
+            માટે (i = height; i--;) {
                 SDL_memcpy(dst, src, width);
-                src = (const Uint8 *)src + src_pitch;
+                src = (અચલ Uint8 *)src + src_pitch;
                 dst = (Uint8 *)dst + dst_pitch;
             }
         }
-        return true;
+        પાછા true;
     }
 
-    if (IsPacked4Format(format)) {
+    જો (IsPacked4Format(format)) {
         // Packed planes
         width = 4 * ((width + 1) / 2);
-        for (i = height; i--;) {
+        માટે (i = height; i--;) {
             SDL_memcpy(dst, src, width);
-            src = (const Uint8 *)src + src_pitch;
+            src = (અચલ Uint8 *)src + src_pitch;
             dst = (Uint8 *)dst + dst_pitch;
         }
-        return true;
+        પાછા true;
     }
 
-    return SDL_SetError("SDL_ConvertPixels_YUV_to_YUV_Copy: Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
+    પાછા SDL_SetError("SDL_ConvertPixels_YUV_to_YUV_Copy: Unsupported YUV format: %s", SDL_GetPixelFormatName(format));
 }
 
-static bool SDL_ConvertPixels_SwapUVPlanes(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_SwapUVPlanes(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
+    પૂર્ણાંક y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    if (src == dst) {
-        int UVpitch = (dst_pitch + 1) / 2;
+    જો (src == dst) {
+        પૂર્ણાંક UVpitch = (dst_pitch + 1) / 2;
         Uint8 *tmp;
         Uint8 *row1 = (Uint8 *)dst;
         Uint8 *row2 = row1 + UVheight * UVpitch;
 
         // Allocate a temporary row for the swap
         tmp = (Uint8 *)SDL_malloc(UVwidth);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
-        for (y = 0; y < UVheight; ++y) {
+        માટે (y = 0; y < UVheight; ++y) {
             SDL_memcpy(tmp, row1, UVwidth);
             SDL_memcpy(row1, row2, UVwidth);
             SDL_memcpy(row2, tmp, UVwidth);
@@ -1462,16 +1462,16 @@ static bool SDL_ConvertPixels_SwapUVPlanes(int width, int height, const void *sr
             row2 += UVpitch;
         }
         SDL_free(tmp);
-    } else {
-        const Uint8 *srcUV;
+    } નહીંતર {
+        અચલ Uint8 *srcUV;
         Uint8 *dstUV;
-        int srcUVPitch = ((src_pitch + 1) / 2);
-        int dstUVPitch = ((dst_pitch + 1) / 2);
+        પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2);
+        પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2);
 
         // Copy the first plane
-        srcUV = (const Uint8 *)src;
+        srcUV = (અચલ Uint8 *)src;
         dstUV = (Uint8 *)dst + UVheight * dstUVPitch;
-        for (y = 0; y < UVheight; ++y) {
+        માટે (y = 0; y < UVheight; ++y) {
             SDL_memcpy(dstUV, srcUV, UVwidth);
             srcUV += srcUVPitch;
             dstUV += dstUVPitch;
@@ -1479,56 +1479,56 @@ static bool SDL_ConvertPixels_SwapUVPlanes(int width, int height, const void *sr
 
         // Copy the second plane
         dstUV = (Uint8 *)dst;
-        for (y = 0; y < UVheight; ++y) {
+        માટે (y = 0; y < UVheight; ++y) {
             SDL_memcpy(dstUV, srcUV, UVwidth);
             srcUV += srcUVPitch;
             dstUV += dstUVPitch;
         }
     }
-    return true;
+    પાછા true;
 }
 
 #ifdef SDL_SSE2_INTRINSICS
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2);
-    const int srcUVPitchLeft = srcUVPitch - UVwidth;
-    const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = dstUVPitch - UVwidth * 2;
-    const Uint8 *src1, *src2;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2);
+    અચલ પૂર્ણાંક src_UVPitch_ડાબું = srcUVPitch - UVwidth;
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક dst_UVPitch_ડાબું = dstUVPitch - UVwidth * 2;
+    અચલ Uint8 *src1, *src2;
     Uint8 *dstUV;
-    Uint8 *tmp = NULL;
+    Uint8 *tmp = ખાલી;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    if (src == dst) {
+    જો (src == dst) {
         // Need to make a copy of the buffer so we don't clobber it while converting
         tmp = (Uint8 *)SDL_malloc((size_t)2 * UVheight * srcUVPitch);
-        if (tmp == NULL) {
-            return false;
+        જો (tmp == ખાલી) {
+            પાછા false;
         }
         SDL_memcpy(tmp, src, (size_t)2 * UVheight * srcUVPitch);
         src = tmp;
     }
 
-    if (reverseUV) {
-        src2 = (const Uint8 *)src;
+    જો (reverseUV) {
+        src2 = (અચલ Uint8 *)src;
         src1 = src2 + UVheight * srcUVPitch;
-    } else {
-        src1 = (const Uint8 *)src;
+    } નહીંતર {
+        src1 = (અચલ Uint8 *)src;
         src2 = src1 + UVheight * srcUVPitch;
     }
     dstUV = (Uint8 *)dst;
 
     y = UVheight;
-    while (y--) {
+    જ્યારે (y--) {
         x = UVwidth;
-        while (x >= 16) {
+        જ્યારે (x >= 16) {
             __m128i u = _mm_loadu_si128((__m128i *)src1);
             __m128i v = _mm_loadu_si128((__m128i *)src2);
             __m128i uv1 = _mm_unpacklo_epi8(u, v);
@@ -1540,62 +1540,62 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(int 
             dstUV += 32;
             x -= 16;
         }
-        while (x--) {
+        જ્યારે (x--) {
             *dstUV++ = *src1++;
             *dstUV++ = *src2++;
         }
-        src1 += srcUVPitchLeft;
-        src2 += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        src1 += src_UVPitch_ડાબું;
+        src2 += src_UVPitch_ડાબું;
+        dstUV += dst_UVPitch_ડાબું;
     }
 
-    if (tmp) {
+    જો (tmp) {
         SDL_free(tmp);
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = srcUVPitch - UVwidth * 2;
-    const int dstUVPitch = ((dst_pitch + 1) / 2);
-    const int dstUVPitchLeft = dstUVPitch - UVwidth;
-    const Uint8 *srcUV;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક src_UVPitch_ડાબું = srcUVPitch - UVwidth * 2;
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2);
+    અચલ પૂર્ણાંક dst_UVPitch_ડાબું = dstUVPitch - UVwidth;
+    અચલ Uint8 *srcUV;
     Uint8 *dst1, *dst2;
-    Uint8 *tmp = NULL;
+    Uint8 *tmp = ખાલી;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    if (src == dst) {
+    જો (src == dst) {
         // Need to make a copy of the buffer so we don't clobber it while converting
         tmp = (Uint8 *)SDL_malloc((size_t)UVheight * srcUVPitch);
-        if (tmp == NULL) {
-            return false;
+        જો (tmp == ખાલી) {
+            પાછા false;
         }
         SDL_memcpy(tmp, src, (size_t)UVheight * srcUVPitch);
         src = tmp;
     }
 
-    if (reverseUV) {
+    જો (reverseUV) {
         dst2 = (Uint8 *)dst;
         dst1 = dst2 + UVheight * dstUVPitch;
-    } else {
+    } નહીંતર {
         dst1 = (Uint8 *)dst;
         dst2 = dst1 + UVheight * dstUVPitch;
     }
-    srcUV = (const Uint8 *)src;
+    srcUV = (અચલ Uint8 *)src;
 
     y = UVheight;
-    while (y--) {
+    જ્યારે (y--) {
         __m128i mask = _mm_set1_epi16(0x00FF);
         x = UVwidth;
-        while (x >= 16) {
+        જ્યારે (x >= 16) {
             __m128i uv1 = _mm_loadu_si128((__m128i *)srcUV);
             __m128i uv2 = _mm_loadu_si128((__m128i *)(srcUV + 16));
             __m128i u1 = _mm_and_si128(uv1, mask);
@@ -1611,43 +1611,43 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(int
             dst2 += 16;
             x -= 16;
         }
-        while (x--) {
+        જ્યારે (x--) {
             *dst1++ = *srcUV++;
             *dst2++ = *srcUV++;
         }
-        srcUV += srcUVPitchLeft;
-        dst1 += dstUVPitchLeft;
-        dst2 += dstUVPitchLeft;
+        srcUV += src_UVPitch_ડાબું;
+        dst1 += dst_UVPitch_ડાબું;
+        dst2 += dst_UVPitch_ડાબું;
     }
 
-    if (tmp) {
+    જો (tmp) {
         SDL_free(tmp);
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SwapNV_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_SwapNV_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
-    const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
-    const Uint16 *srcUV;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક src_UVPitch_ડાબું = (srcUVPitch - UVwidth * 2) / કદ(Uint16);
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક dst_UVPitch_ડાબું = (dstUVPitch - UVwidth * 2) / કદ(Uint16);
+    અચલ Uint16 *srcUV;
     Uint16 *dstUV;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    srcUV = (const Uint16 *)src;
+    srcUV = (અચલ Uint16 *)src;
     dstUV = (Uint16 *)dst;
     y = UVheight;
-    while (y--) {
+    જ્યારે (y--) {
         x = UVwidth;
-        while (x >= 8) {
+        જ્યારે (x >= 8) {
             __m128i uv = _mm_loadu_si128((__m128i *)srcUV);
             __m128i v = _mm_slli_epi16(uv, 8);
             __m128i u = _mm_srli_epi16(uv, 8);
@@ -1657,282 +1657,282 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SwapNV_SSE2(int width, int h
             dstUV += 8;
             x -= 8;
         }
-        if (x > 0) {
-            const Uint8 *srcUV8 = (const Uint8 *)srcUV;
+        જો (x > 0) {
+            અચલ Uint8 *srcUV8 = (અચલ Uint8 *)srcUV;
             Uint8 *dstUV8 = (Uint8 *)dstUV;
             srcUV += x;
             dstUV += x;
-            while (x--) {
+            જ્યારે (x--) {
                 Uint8 u = *srcUV8++;
                 Uint8 v = *srcUV8++;
                 *dstUV8++ = v;
                 *dstUV8++ = u;
             }
         }
-        srcUV += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        srcUV += src_UVPitch_ડાબું;
+        dstUV += dst_UVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 #endif
 
-static bool SDL_ConvertPixels_PackUVPlanes_to_NV_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_ConvertPixels_PackUVPlanes_to_NV_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2);
-    const int srcUVPitchLeft = srcUVPitch - UVwidth;
-    const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = dstUVPitch - UVwidth * 2;
-    const Uint8 *src1, *src2;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2);
+    અચલ પૂર્ણાંક src_UVPitch_ડાબું = srcUVPitch - UVwidth;
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક dst_UVPitch_ડાબું = dstUVPitch - UVwidth * 2;
+    અચલ Uint8 *src1, *src2;
     Uint8 *dstUV;
-    Uint8 *tmp = NULL;
+    Uint8 *tmp = ખાલી;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    if (src == dst) {
+    જો (src == dst) {
         // Need to make a copy of the buffer so we don't clobber it while converting
         tmp = (Uint8 *)SDL_malloc((size_t)2 * UVheight * srcUVPitch);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
         SDL_memcpy(tmp, src, (size_t)2 * UVheight * srcUVPitch);
         src = tmp;
     }
 
-    if (reverseUV) {
-        src2 = (const Uint8 *)src;
+    જો (reverseUV) {
+        src2 = (અચલ Uint8 *)src;
         src1 = src2 + UVheight * srcUVPitch;
-    } else {
-        src1 = (const Uint8 *)src;
+    } નહીંતર {
+        src1 = (અચલ Uint8 *)src;
         src2 = src1 + UVheight * srcUVPitch;
     }
     dstUV = (Uint8 *)dst;
 
     y = UVheight;
-    while (y--) {
+    જ્યારે (y--) {
         x = UVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             *dstUV++ = *src1++;
             *dstUV++ = *src2++;
         }
-        src1 += srcUVPitchLeft;
-        src2 += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        src1 += src_UVPitch_ડાબું;
+        src2 += src_UVPitch_ડાબું;
+        dstUV += dst_UVPitch_ડાબું;
     }
 
     SDL_free(tmp);
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_SplitNV_to_UVPlanes_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_ConvertPixels_SplitNV_to_UVPlanes_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = srcUVPitch - UVwidth * 2;
-    const int dstUVPitch = ((dst_pitch + 1) / 2);
-    const int dstUVPitchLeft = dstUVPitch - UVwidth;
-    const Uint8 *srcUV;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક src_UVPitch_ડાબું = srcUVPitch - UVwidth * 2;
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2);
+    અચલ પૂર્ણાંક dst_UVPitch_ડાબું = dstUVPitch - UVwidth;
+    અચલ Uint8 *srcUV;
     Uint8 *dst1, *dst2;
-    Uint8 *tmp = NULL;
+    Uint8 *tmp = ખાલી;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
-    if (src == dst) {
+    જો (src == dst) {
         // Need to make a copy of the buffer so we don't clobber it while converting
         tmp = (Uint8 *)SDL_malloc((size_t)UVheight * srcUVPitch);
-        if (!tmp) {
-            return false;
+        જો (!tmp) {
+            પાછા false;
         }
         SDL_memcpy(tmp, src, (size_t)UVheight * srcUVPitch);
         src = tmp;
     }
 
-    if (reverseUV) {
+    જો (reverseUV) {
         dst2 = (Uint8 *)dst;
         dst1 = dst2 + UVheight * dstUVPitch;
-    } else {
+    } નહીંતર {
         dst1 = (Uint8 *)dst;
         dst2 = dst1 + UVheight * dstUVPitch;
     }
-    srcUV = (const Uint8 *)src;
+    srcUV = (અચલ Uint8 *)src;
 
     y = UVheight;
-    while (y--) {
+    જ્યારે (y--) {
         x = UVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             *dst1++ = *srcUV++;
             *dst2++ = *srcUV++;
         }
-        srcUV += srcUVPitchLeft;
-        dst1 += dstUVPitchLeft;
-        dst2 += dstUVPitchLeft;
+        srcUV += src_UVPitch_ડાબું;
+        dst1 += dst_UVPitch_ડાબું;
+        dst2 += dst_UVPitch_ડાબું;
     }
 
     SDL_free(tmp);
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_SwapNV_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_SwapNV_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int UVwidth = (width + 1) / 2;
-    const int UVheight = (height + 1) / 2;
-    const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક UVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક UVheight = (height + 1) / 2;
+    અચલ પૂર્ણાંક srcUVPitch = ((src_pitch + 1) / 2) * 2;
+    અચલ પૂર્ણાંક dstUVPitch = ((dst_pitch + 1) / 2) * 2;
 
     // Skip the Y plane
-    src = (const Uint8 *)src + height * src_pitch;
+    src = (અચલ Uint8 *)src + height * src_pitch;
     dst = (Uint8 *)dst + height * dst_pitch;
 
     bool aligned = (((uintptr_t)src | (uintptr_t)dst) & 1) == 0;
-    if (aligned) {
-        const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
-        const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
-        const Uint16 *srcUV = (const Uint16 *)src;
+    જો (aligned) {
+        અચલ પૂર્ણાંક src_UVPitch_ડાબું = (srcUVPitch - UVwidth * 2) / કદ(Uint16);
+        અચલ પૂર્ણાંક dst_UVPitch_ડાબું = (dstUVPitch - UVwidth * 2) / કદ(Uint16);
+        અચલ Uint16 *srcUV = (અચલ Uint16 *)src;
         Uint16 *dstUV = (Uint16 *)dst;
         y = UVheight;
-        while (y--) {
+        જ્યારે (y--) {
             x = UVwidth;
-            while (x--) {
+            જ્યારે (x--) {
                 *dstUV++ = SDL_Swap16(*srcUV++);
             }
-            srcUV += srcUVPitchLeft;
-            dstUV += dstUVPitchLeft;
+            srcUV += src_UVPitch_ડાબું;
+            dstUV += dst_UVPitch_ડાબું;
         }
-    } else {
-        const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2);
-        const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2);
-        const Uint8 *srcUV = (const Uint8 *)src;
+    } નહીંતર {
+        અચલ પૂર્ણાંક src_UVPitch_ડાબું = (srcUVPitch - UVwidth * 2);
+        અચલ પૂર્ણાંક dst_UVPitch_ડાબું = (dstUVPitch - UVwidth * 2);
+        અચલ Uint8 *srcUV = (અચલ Uint8 *)src;
         Uint8 *dstUV = (Uint8 *)dst;
         y = UVheight;
-        while (y--) {
+        જ્યારે (y--) {
             x = UVwidth;
-            while (x--) {
+            જ્યારે (x--) {
                 Uint8 u = *srcUV++;
                 Uint8 v = *srcUV++;
                 *dstUV++ = v;
                 *dstUV++ = u;
             }
-            srcUV += srcUVPitchLeft;
-            dstUV += dstUVPitchLeft;
+            srcUV += src_UVPitch_ડાબું;
+            dstUV += dst_UVPitch_ડાબું;
         }
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_PackUVPlanes_to_NV(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_ConvertPixels_PackUVPlanes_to_NV(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
     }
 #endif
-    return SDL_ConvertPixels_PackUVPlanes_to_NV_std(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
+    પાછા SDL_ConvertPixels_PackUVPlanes_to_NV_std(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
 }
 
-static bool SDL_ConvertPixels_SplitNV_to_UVPlanes(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch, bool reverseUV)
+સ્થિર bool SDL_ConvertPixels_SplitNV_to_UVPlanes(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch, bool reverseUV)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
     }
 #endif
-    return SDL_ConvertPixels_SplitNV_to_UVPlanes_std(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
+    પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes_std(width, height, src, src_pitch, dst, dst_pitch, reverseUV);
 }
 
-static bool SDL_ConvertPixels_SwapNV(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_SwapNV(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_SwapNV_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_SwapNV_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_SwapNV_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_SwapNV_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_Planar2x2_to_Planar2x2(int width, int height,
-                                                     SDL_PixelFormat src_format, const void *src, int src_pitch,
-                                                     SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_Planar2x2_to_Planar2x2(પૂર્ણાંક width, પૂર્ણાંક height,
+                                                     SDL_PixelFormat src_format, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                                     SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    if (src != dst) {
+    જો (src != dst) {
         // Copy Y plane
-        int i;
-        const Uint8 *srcY = (const Uint8 *)src;
+        પૂર્ણાંક i;
+        અચલ Uint8 *srcY = (અચલ Uint8 *)src;
         Uint8 *dstY = (Uint8 *)dst;
-        for (i = height; i--;) {
+        માટે (i = height; i--;) {
             SDL_memcpy(dstY, srcY, width);
             srcY += src_pitch;
             dstY += dst_pitch;
         }
     }
 
-    switch (src_format) {
-    case SDL_PIXELFORMAT_YV12:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_IYUV:
-            return SDL_ConvertPixels_SwapUVPlanes(width, height, src, src_pitch, dst, dst_pitch);
-        case SDL_PIXELFORMAT_NV12:
-            return SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, true);
-        case SDL_PIXELFORMAT_NV21:
-            return SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, false);
-        default:
-            break;
+    પસંદગી (src_format) {
+    સ્થિતિ SDL_PIXELFORMAT_YV12:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_IYUV:
+            પાછા SDL_ConvertPixels_SwapUVPlanes(width, height, src, src_pitch, dst, dst_pitch);
+        સ્થિતિ SDL_PIXELFORMAT_NV12:
+            પાછા SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, true);
+        સ્થિતિ SDL_PIXELFORMAT_NV21:
+            પાછા SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, false);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    case SDL_PIXELFORMAT_IYUV:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_YV12:
-            return SDL_ConvertPixels_SwapUVPlanes(width, height, src, src_pitch, dst, dst_pitch);
-        case SDL_PIXELFORMAT_NV12:
-            return SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, false);
-        case SDL_PIXELFORMAT_NV21:
-            return SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, true);
-        default:
-            break;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_IYUV:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_YV12:
+            પાછા SDL_ConvertPixels_SwapUVPlanes(width, height, src, src_pitch, dst, dst_pitch);
+        સ્થિતિ SDL_PIXELFORMAT_NV12:
+            પાછા SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, false);
+        સ્થિતિ SDL_PIXELFORMAT_NV21:
+            પાછા SDL_ConvertPixels_PackUVPlanes_to_NV(width, height, src, src_pitch, dst, dst_pitch, true);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    case SDL_PIXELFORMAT_NV12:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_YV12:
-            return SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, true);
-        case SDL_PIXELFORMAT_IYUV:
-            return SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, false);
-        case SDL_PIXELFORMAT_NV21:
-            return SDL_ConvertPixels_SwapNV(width, height, src, src_pitch, dst, dst_pitch);
-        default:
-            break;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_NV12:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_YV12:
+            પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, true);
+        સ્થિતિ SDL_PIXELFORMAT_IYUV:
+            પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, false);
+        સ્થિતિ SDL_PIXELFORMAT_NV21:
+            પાછા SDL_ConvertPixels_SwapNV(width, height, src, src_pitch, dst, dst_pitch);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    case SDL_PIXELFORMAT_NV21:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_YV12:
-            return SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, false);
-        case SDL_PIXELFORMAT_IYUV:
-            return SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, true);
-        case SDL_PIXELFORMAT_NV12:
-            return SDL_ConvertPixels_SwapNV(width, height, src, src_pitch, dst, dst_pitch);
-        default:
-            break;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_NV21:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_YV12:
+            પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, false);
+        સ્થિતિ SDL_PIXELFORMAT_IYUV:
+            પાછા SDL_ConvertPixels_SplitNV_to_UVPlanes(width, height, src, src_pitch, dst, dst_pitch, true);
+        સ્થિતિ SDL_PIXELFORMAT_NV12:
+            પાછા SDL_ConvertPixels_SwapNV(width, height, src, src_pitch, dst, dst_pitch);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    default:
-        break;
+        તોડો;
+    મૂળભૂત:
+        તોડો;
     }
-    return SDL_SetError("SDL_ConvertPixels_Planar2x2_to_Planar2x2: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
+    પાછા SDL_SetError("SDL_ConvertPixels_Planar2x2_to_Planar2x2: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
                         SDL_GetPixelFormatName(dst_format));
 }
 
 #ifdef SDL_SSE2_INTRINSICS
 #define PACKED4_TO_PACKED4_ROW_SSE2(shuffle)                      \
-    while (x >= 4) {                                              \
+    જ્યારે (x >= 4) {                                              \
         __m128i yuv = _mm_loadu_si128((__m128i *)srcYUV);         \
         __m128i lo = _mm_unpacklo_epi8(yuv, _mm_setzero_si128()); \
         __m128i hi = _mm_unpackhi_epi8(yuv, _mm_setzero_si128()); \
@@ -1947,20 +1947,20 @@ static bool SDL_ConvertPixels_Planar2x2_to_Planar2x2(int width, int height,
         x -= 4;                                                   \
     }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_UYVY_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_UYVY_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(2, 3, 0, 1));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -1975,27 +1975,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_UYVY_SSE2(int width,
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_YVYU_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_YVYU_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(1, 2, 3, 0));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2010,27 +2010,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_YVYU_SSE2(int width,
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YUY2_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YUY2_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(2, 3, 0, 1));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             U = srcYUV[0];
@@ -2045,27 +2045,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YUY2_SSE2(int width,
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YVYU_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YVYU_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(0, 3, 2, 1));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             U = srcYUV[0];
@@ -2080,27 +2080,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YVYU_SSE2(int width,
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_YUY2_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_YUY2_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(1, 2, 3, 0));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2115,27 +2115,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_YUY2_SSE2(int width,
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_UYVY_SSE2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_UYVY_SSE2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
     x = YUVwidth;
-    while (y--) {
+    જ્યારે (y--) {
         PACKED4_TO_PACKED4_ROW_SSE2(_MM_SHUFFLE(2, 1, 0, 3));
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2150,27 +2150,27 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_UYVY_SSE2(int width,
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
         x = YUVwidth;
     }
-    return true;
+    પાછા true;
 }
 #endif
 
-static bool SDL_ConvertPixels_YUY2_to_UYVY_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YUY2_to_UYVY_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2185,25 +2185,25 @@ static bool SDL_ConvertPixels_YUY2_to_UYVY_std(int width, int height, const void
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_YUY2_to_YVYU_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YUY2_to_YVYU_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2218,25 +2218,25 @@ static bool SDL_ConvertPixels_YUY2_to_YVYU_std(int width, int height, const void
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_UYVY_to_YUY2_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_UYVY_to_YUY2_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             U = srcYUV[0];
@@ -2251,25 +2251,25 @@ static bool SDL_ConvertPixels_UYVY_to_YUY2_std(int width, int height, const void
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_UYVY_to_YVYU_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_UYVY_to_YVYU_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             U = srcYUV[0];
@@ -2284,25 +2284,25 @@ static bool SDL_ConvertPixels_UYVY_to_YVYU_std(int width, int height, const void
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_YVYU_to_YUY2_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YVYU_to_YUY2_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2317,25 +2317,25 @@ static bool SDL_ConvertPixels_YVYU_to_YUY2_std(int width, int height, const void
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_YVYU_to_UYVY_std(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YVYU_to_UYVY_std(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
-    const Uint8 *srcYUV = (const Uint8 *)src;
+    પૂર્ણાંક x, y;
+    અચલ પૂર્ણાંક YUVwidth = (width + 1) / 2;
+    અચલ પૂર્ણાંક src_YUVPitch_ડાબું = (src_pitch - YUVwidth * 4);
+    અચલ પૂર્ણાંક dst_YUVPitch_ડાબું = (dst_pitch - YUVwidth * 4);
+    અચલ Uint8 *srcYUV = (અચલ Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
     y = height;
-    while (y--) {
+    જ્યારે (y--) {
         x = YUVwidth;
-        while (x--) {
+        જ્યારે (x--) {
             Uint8 Y1, U, Y2, V;
 
             Y1 = srcYUV[0];
@@ -2350,158 +2350,158 @@ static bool SDL_ConvertPixels_YVYU_to_UYVY_std(int width, int height, const void
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_ડાબું;
+        dstYUV += dst_YUVPitch_ડાબું;
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_YUY2_to_UYVY(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YUY2_to_UYVY(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_YUY2_to_UYVY_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_YUY2_to_UYVY_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_YUY2_to_UYVY_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_YUY2_to_UYVY_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_YUY2_to_YVYU(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YUY2_to_YVYU(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_YUY2_to_YVYU_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_YUY2_to_YVYU_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_YUY2_to_YVYU_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_YUY2_to_YVYU_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_UYVY_to_YUY2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_UYVY_to_YUY2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_UYVY_to_YUY2_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_UYVY_to_YUY2_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_UYVY_to_YUY2_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_UYVY_to_YUY2_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_UYVY_to_YVYU(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_UYVY_to_YVYU(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_UYVY_to_YVYU_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_UYVY_to_YVYU_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_UYVY_to_YVYU_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_UYVY_to_YVYU_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_YVYU_to_YUY2(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YVYU_to_YUY2(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_YVYU_to_YUY2_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_YVYU_to_YUY2_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_YVYU_to_YUY2_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_YVYU_to_YUY2_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_YVYU_to_UYVY(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_YVYU_to_UYVY(પૂર્ણાંક width, પૂર્ણાંક height, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_SSE2_INTRINSICS
-    if (SDL_HasSSE2()) {
-      return SDL_ConvertPixels_YVYU_to_UYVY_SSE2(width, height, src, src_pitch, dst, dst_pitch);
+    જો (SDL_HasSSE2()) {
+      પાછા SDL_ConvertPixels_YVYU_to_UYVY_SSE2(width, height, src, src_pitch, dst, dst_pitch);
     }
 #endif
-    return SDL_ConvertPixels_YVYU_to_UYVY_std(width, height, src, src_pitch, dst, dst_pitch);
+    પાછા SDL_ConvertPixels_YVYU_to_UYVY_std(width, height, src, src_pitch, dst, dst_pitch);
 }
 
-static bool SDL_ConvertPixels_Packed4_to_Packed4(int width, int height,
-                                                SDL_PixelFormat src_format, const void *src, int src_pitch,
-                                                SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_Packed4_to_Packed4(પૂર્ણાંક width, પૂર્ણાંક height,
+                                                SDL_PixelFormat src_format, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                                SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    switch (src_format) {
-    case SDL_PIXELFORMAT_YUY2:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_UYVY:
-            return SDL_ConvertPixels_YUY2_to_UYVY(width, height, src, src_pitch, dst, dst_pitch);
-        case SDL_PIXELFORMAT_YVYU:
-            return SDL_ConvertPixels_YUY2_to_YVYU(width, height, src, src_pitch, dst, dst_pitch);
-        default:
-            break;
+    પસંદગી (src_format) {
+    સ્થિતિ SDL_PIXELFORMAT_YUY2:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_UYVY:
+            પાછા SDL_ConvertPixels_YUY2_to_UYVY(width, height, src, src_pitch, dst, dst_pitch);
+        સ્થિતિ SDL_PIXELFORMAT_YVYU:
+            પાછા SDL_ConvertPixels_YUY2_to_YVYU(width, height, src, src_pitch, dst, dst_pitch);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    case SDL_PIXELFORMAT_UYVY:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_YUY2:
-            return SDL_ConvertPixels_UYVY_to_YUY2(width, height, src, src_pitch, dst, dst_pitch);
-        case SDL_PIXELFORMAT_YVYU:
-            return SDL_ConvertPixels_UYVY_to_YVYU(width, height, src, src_pitch, dst, dst_pitch);
-        default:
-            break;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_UYVY:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_YUY2:
+            પાછા SDL_ConvertPixels_UYVY_to_YUY2(width, height, src, src_pitch, dst, dst_pitch);
+        સ્થિતિ SDL_PIXELFORMAT_YVYU:
+            પાછા SDL_ConvertPixels_UYVY_to_YVYU(width, height, src, src_pitch, dst, dst_pitch);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    case SDL_PIXELFORMAT_YVYU:
-        switch (dst_format) {
-        case SDL_PIXELFORMAT_YUY2:
-            return SDL_ConvertPixels_YVYU_to_YUY2(width, height, src, src_pitch, dst, dst_pitch);
-        case SDL_PIXELFORMAT_UYVY:
-            return SDL_ConvertPixels_YVYU_to_UYVY(width, height, src, src_pitch, dst, dst_pitch);
-        default:
-            break;
+        તોડો;
+    સ્થિતિ SDL_PIXELFORMAT_YVYU:
+        પસંદગી (dst_format) {
+        સ્થિતિ SDL_PIXELFORMAT_YUY2:
+            પાછા SDL_ConvertPixels_YVYU_to_YUY2(width, height, src, src_pitch, dst, dst_pitch);
+        સ્થિતિ SDL_PIXELFORMAT_UYVY:
+            પાછા SDL_ConvertPixels_YVYU_to_UYVY(width, height, src, src_pitch, dst, dst_pitch);
+        મૂળભૂત:
+            તોડો;
         }
-        break;
-    default:
-        break;
+        તોડો;
+    મૂળભૂત:
+        તોડો;
     }
-    return SDL_SetError("SDL_ConvertPixels_Packed4_to_Packed4: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
+    પાછા SDL_SetError("SDL_ConvertPixels_Packed4_to_Packed4: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
                         SDL_GetPixelFormatName(dst_format));
 }
 
-static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
-                                                   SDL_PixelFormat src_format, const void *src, int src_pitch,
-                                                   SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_Planar2x2_to_Packed4(પૂર્ણાંક width, પૂર્ણાંક height,
+                                                   SDL_PixelFormat src_format, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                                   SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const Uint8 *srcY1, *srcY2, *srcU, *srcV;
+    પૂર્ણાંક x, y;
+    અચલ Uint8 *srcY1, *srcY2, *srcU, *srcV;
     Uint32 srcY_pitch, srcUV_pitch;
-    Uint32 srcY_pitch_left, srcUV_pitch_left, srcUV_pixel_stride;
+    Uint32 src_Y_pitch_ડાબું, src_UV_pitch_ડાબું, srcUV_pixel_stride;
     Uint8 *dstY1, *dstY2, *dstU1, *dstU2, *dstV1, *dstV2;
     Uint32 dstY_pitch, dstUV_pitch;
-    Uint32 dst_pitch_left;
+    Uint32 dst_pitch_ડાબું;
 
-    if (src == dst) {
-        return SDL_SetError("Can't change YUV plane types in-place");
+    જો (src == dst) {
+        પાછા SDL_SetError("Can't change YUV plane types in-place");
     }
 
-    if (!GetYUVPlanes(width, height, src_format, src, src_pitch,
+    જો (!GetYUVPlanes(width, height, src_format, src, src_pitch,
                       &srcY1, &srcU, &srcV, &srcY_pitch, &srcUV_pitch)) {
-        return false;
+        પાછા false;
     }
     srcY2 = srcY1 + srcY_pitch;
-    srcY_pitch_left = (srcY_pitch - width);
+    src_Y_pitch_ડાબું = (srcY_pitch - width);
 
-    if (src_format == SDL_PIXELFORMAT_NV12 || src_format == SDL_PIXELFORMAT_NV21) {
+    જો (src_format == SDL_PIXELFORMAT_NV12 || src_format == SDL_PIXELFORMAT_NV21) {
         srcUV_pixel_stride = 2;
-        srcUV_pitch_left = (srcUV_pitch - 2 * ((width + 1) / 2));
-    } else {
+        src_UV_pitch_ડાબું = (srcUV_pitch - 2 * ((width + 1) / 2));
+    } નહીંતર {
         srcUV_pixel_stride = 1;
-        srcUV_pitch_left = (srcUV_pitch - ((width + 1) / 2));
+        src_UV_pitch_ડાબું = (srcUV_pitch - ((width + 1) / 2));
     }
 
-    if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
-                      (const Uint8 **)&dstY1, (const Uint8 **)&dstU1, (const Uint8 **)&dstV1,
+    જો (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
+                      (અચલ Uint8 **)&dstY1, (અચલ Uint8 **)&dstU1, (અચલ Uint8 **)&dstV1,
                       &dstY_pitch, &dstUV_pitch)) {
-        return false;
+        પાછા false;
     }
     dstY2 = dstY1 + dstY_pitch;
     dstU2 = dstU1 + dstUV_pitch;
     dstV2 = dstV1 + dstUV_pitch;
-    dst_pitch_left = (dstY_pitch - 4 * ((width + 1) / 2));
+    dst_pitch_ડાબું = (dstY_pitch - 4 * ((width + 1) / 2));
 
     // Copy 2x2 blocks of pixels at a time
-    for (y = 0; y < (height - 1); y += 2) {
-        for (x = 0; x < (width - 1); x += 2) {
+    માટે (y = 0; y < (height - 1); y += 2) {
+        માટે (x = 0; x < (width - 1); x += 2) {
             // Row 1
             *dstY1 = *srcY1++;
             dstY1 += 2;
@@ -2527,7 +2527,7 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
         }
 
         // Last column
-        if (x == (width - 1)) {
+        જો (x == (width - 1)) {
             // Row 1
             *dstY1 = *srcY1;
             dstY1 += 2;
@@ -2552,21 +2552,21 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
             dstV2 += 4;
         }
 
-        srcY1 += srcY_pitch_left + srcY_pitch;
-        srcY2 += srcY_pitch_left + srcY_pitch;
-        srcU += srcUV_pitch_left;
-        srcV += srcUV_pitch_left;
-        dstY1 += dst_pitch_left + dstY_pitch;
-        dstY2 += dst_pitch_left + dstY_pitch;
-        dstU1 += dst_pitch_left + dstUV_pitch;
-        dstU2 += dst_pitch_left + dstUV_pitch;
-        dstV1 += dst_pitch_left + dstUV_pitch;
-        dstV2 += dst_pitch_left + dstUV_pitch;
+        srcY1 += src_Y_pitch_ડાબું + srcY_pitch;
+        srcY2 += src_Y_pitch_ડાબું + srcY_pitch;
+        srcU += src_UV_pitch_ડાબું;
+        srcV += src_UV_pitch_ડાબું;
+        dstY1 += dst_pitch_ડાબું + dstY_pitch;
+        dstY2 += dst_pitch_ડાબું + dstY_pitch;
+        dstU1 += dst_pitch_ડાબું + dstUV_pitch;
+        dstU2 += dst_pitch_ડાબું + dstUV_pitch;
+        dstV1 += dst_pitch_ડાબું + dstUV_pitch;
+        dstV2 += dst_pitch_ડાબું + dstUV_pitch;
     }
 
     // Last row
-    if (y == (height - 1)) {
-        for (x = 0; x < (width - 1); x += 2) {
+    જો (y == (height - 1)) {
+        માટે (x = 0; x < (width - 1); x += 2) {
             // Row 1
             *dstY1 = *srcY1++;
             dstY1 += 2;
@@ -2582,7 +2582,7 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
         }
 
         // Last column
-        if (x == (width - 1)) {
+        જો (x == (width - 1)) {
             // Row 1
             *dstY1 = *srcY1;
             dstY1 += 2;
@@ -2597,53 +2597,53 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
             dstV1 += 4;
         }
     }
-    return true;
+    પાછા true;
 }
 
-static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
-                                                   SDL_PixelFormat src_format, const void *src, int src_pitch,
-                                                   SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+સ્થિર bool SDL_ConvertPixels_Packed4_to_Planar2x2(પૂર્ણાંક width, પૂર્ણાંક height,
+                                                   SDL_PixelFormat src_format, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                                   SDL_PixelFormat dst_format, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
-    int x, y;
-    const Uint8 *srcY1, *srcY2, *srcU1, *srcU2, *srcV1, *srcV2;
+    પૂર્ણાંક x, y;
+    અચલ Uint8 *srcY1, *srcY2, *srcU1, *srcU2, *srcV1, *srcV2;
     Uint32 srcY_pitch, srcUV_pitch;
-    Uint32 src_pitch_left;
+    Uint32 src_pitch_ડાબું;
     Uint8 *dstY1, *dstY2, *dstU, *dstV;
     Uint32 dstY_pitch, dstUV_pitch;
-    Uint32 dstY_pitch_left, dstUV_pitch_left, dstUV_pixel_stride;
+    Uint32 dst_Y_pitch_ડાબું, dst_UV_pitch_ડાબું, dstUV_pixel_stride;
 
-    if (src == dst) {
-        return SDL_SetError("Can't change YUV plane types in-place");
+    જો (src == dst) {
+        પાછા SDL_SetError("Can't change YUV plane types in-place");
     }
 
-    if (!GetYUVPlanes(width, height, src_format, src, src_pitch,
+    જો (!GetYUVPlanes(width, height, src_format, src, src_pitch,
                       &srcY1, &srcU1, &srcV1, &srcY_pitch, &srcUV_pitch)) {
-        return false;
+        પાછા false;
     }
     srcY2 = srcY1 + srcY_pitch;
     srcU2 = srcU1 + srcUV_pitch;
     srcV2 = srcV1 + srcUV_pitch;
-    src_pitch_left = (srcY_pitch - 4 * ((width + 1) / 2));
+    src_pitch_ડાબું = (srcY_pitch - 4 * ((width + 1) / 2));
 
-    if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
-                      (const Uint8 **)&dstY1, (const Uint8 **)&dstU, (const Uint8 **)&dstV,
+    જો (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
+                      (અચલ Uint8 **)&dstY1, (અચલ Uint8 **)&dstU, (અચલ Uint8 **)&dstV,
                       &dstY_pitch, &dstUV_pitch)) {
-        return false;
+        પાછા false;
     }
     dstY2 = dstY1 + dstY_pitch;
-    dstY_pitch_left = (dstY_pitch - width);
+    dst_Y_pitch_ડાબું = (dstY_pitch - width);
 
-    if (dst_format == SDL_PIXELFORMAT_NV12 || dst_format == SDL_PIXELFORMAT_NV21) {
+    જો (dst_format == SDL_PIXELFORMAT_NV12 || dst_format == SDL_PIXELFORMAT_NV21) {
         dstUV_pixel_stride = 2;
-        dstUV_pitch_left = (dstUV_pitch - 2 * ((width + 1) / 2));
-    } else {
+        dst_UV_pitch_ડાબું = (dstUV_pitch - 2 * ((width + 1) / 2));
+    } નહીંતર {
         dstUV_pixel_stride = 1;
-        dstUV_pitch_left = (dstUV_pitch - ((width + 1) / 2));
+        dst_UV_pitch_ડાબું = (dstUV_pitch - ((width + 1) / 2));
     }
 
     // Copy 2x2 blocks of pixels at a time
-    for (y = 0; y < (height - 1); y += 2) {
-        for (x = 0; x < (width - 1); x += 2) {
+    માટે (y = 0; y < (height - 1); y += 2) {
+        માટે (x = 0; x < (width - 1); x += 2) {
             // Row 1
             *dstY1++ = *srcY1;
             srcY1 += 2;
@@ -2668,7 +2668,7 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
         }
 
         // Last column
-        if (x == (width - 1)) {
+        જો (x == (width - 1)) {
             // Row 1
             *dstY1 = *srcY1;
             srcY1 += 2;
@@ -2692,21 +2692,21 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
             dstV += dstUV_pixel_stride;
         }
 
-        srcY1 += src_pitch_left + srcY_pitch;
-        srcY2 += src_pitch_left + srcY_pitch;
-        srcU1 += src_pitch_left + srcUV_pitch;
-        srcU2 += src_pitch_left + srcUV_pitch;
-        srcV1 += src_pitch_left + srcUV_pitch;
-        srcV2 += src_pitch_left + srcUV_pitch;
-        dstY1 += dstY_pitch_left + dstY_pitch;
-        dstY2 += dstY_pitch_left + dstY_pitch;
-        dstU += dstUV_pitch_left;
-        dstV += dstUV_pitch_left;
+        srcY1 += src_pitch_ડાબું + srcY_pitch;
+        srcY2 += src_pitch_ડાબું + srcY_pitch;
+        srcU1 += src_pitch_ડાબું + srcUV_pitch;
+        srcU2 += src_pitch_ડાબું + srcUV_pitch;
+        srcV1 += src_pitch_ડાબું + srcUV_pitch;
+        srcV2 += src_pitch_ડાબું + srcUV_pitch;
+        dstY1 += dst_Y_pitch_ડાબું + dstY_pitch;
+        dstY2 += dst_Y_pitch_ડાબું + dstY_pitch;
+        dstU += dst_UV_pitch_ડાબું;
+        dstV += dst_UV_pitch_ડાબું;
     }
 
     // Last row
-    if (y == (height - 1)) {
-        for (x = 0; x < (width - 1); x += 2) {
+    જો (y == (height - 1)) {
+        માટે (x = 0; x < (width - 1); x += 2) {
             *dstY1++ = *srcY1;
             srcY1 += 2;
             *dstY1++ = *srcY1;
@@ -2722,47 +2722,47 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
         }
 
         // Last column
-        if (x == (width - 1)) {
+        જો (x == (width - 1)) {
             *dstY1 = *srcY1;
             *dstU = *srcU1;
             *dstV = *srcV1;
         }
     }
-    return true;
+    પાછા true;
 }
 
 #endif // SDL_HAVE_YUV
 
-bool SDL_ConvertPixels_YUV_to_YUV(int width, int height,
-                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_YUV_to_YUV(પૂર્ણાંક width, પૂર્ણાંક height,
+                                  SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, અચલ શૂન્ય *src, પૂર્ણાંક src_pitch,
+                                  SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, શૂન્ય *dst, પૂર્ણાંક dst_pitch)
 {
 #ifdef SDL_HAVE_YUV
-    if (src_colorspace != dst_colorspace) {
-        return SDL_SetError("SDL_ConvertPixels_YUV_to_YUV: colorspace conversion not supported");
+    જો (src_colorspace != dst_colorspace) {
+        પાછા SDL_SetError("SDL_ConvertPixels_YUV_to_YUV: colorspace conversion not supported");
     }
 
-    if (src_format == dst_format) {
-        if (src == dst) {
+    જો (src_format == dst_format) {
+        જો (src == dst) {
             // Nothing to do
-            return true;
+            પાછા true;
         }
-        return SDL_ConvertPixels_YUV_to_YUV_Copy(width, height, src_format, src, src_pitch, dst, dst_pitch);
+        પાછા SDL_ConvertPixels_YUV_to_YUV_Copy(width, height, src_format, src, src_pitch, dst, dst_pitch);
     }
 
-    if (IsPlanar2x2Format(src_format) && IsPlanar2x2Format(dst_format)) {
-        return SDL_ConvertPixels_Planar2x2_to_Planar2x2(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
-    } else if (IsPacked4Format(src_format) && IsPacked4Format(dst_format)) {
-        return SDL_ConvertPixels_Packed4_to_Packed4(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
-    } else if (IsPlanar2x2Format(src_format) && IsPacked4Format(dst_format)) {
-        return SDL_ConvertPixels_Planar2x2_to_Packed4(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
-    } else if (IsPacked4Format(src_format) && IsPlanar2x2Format(dst_format)) {
-        return SDL_ConvertPixels_Packed4_to_Planar2x2(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
-    } else {
-        return SDL_SetError("SDL_ConvertPixels_YUV_to_YUV: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
+    જો (IsPlanar2x2Format(src_format) && IsPlanar2x2Format(dst_format)) {
+        પાછા SDL_ConvertPixels_Planar2x2_to_Planar2x2(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
+    } નહીંતર જો (IsPacked4Format(src_format) && IsPacked4Format(dst_format)) {
+        પાછા SDL_ConvertPixels_Packed4_to_Packed4(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
+    } નહીંતર જો (IsPlanar2x2Format(src_format) && IsPacked4Format(dst_format)) {
+        પાછા SDL_ConvertPixels_Planar2x2_to_Packed4(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
+    } નહીંતર જો (IsPacked4Format(src_format) && IsPlanar2x2Format(dst_format)) {
+        પાછા SDL_ConvertPixels_Packed4_to_Planar2x2(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
+    } નહીંતર {
+        પાછા SDL_SetError("SDL_ConvertPixels_YUV_to_YUV: Unsupported YUV conversion: %s -> %s", SDL_GetPixelFormatName(src_format),
                             SDL_GetPixelFormatName(dst_format));
     }
-#else
-    return SDL_SetError("SDL not built with YUV support");
+#નહીંતર
+    પાછા SDL_SetError("SDL not built with YUV support");
 #endif
 }

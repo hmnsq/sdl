@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_waylandopengles_h_
 #define SDL_waylandopengles_h_
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+પ્રકારવ્યાખ્યા સંરચના SDL_PrivateGLESData
 {
-    int dummy;
+    પૂર્ણાંક dummy;
 } SDL_PrivateGLESData;
 
 // OpenGLES functions
@@ -36,14 +36,14 @@ typedef struct SDL_PrivateGLESData
 #define Wayland_GLES_GetProcAddress SDL_EGL_GetProcAddressInternal
 #define Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
 
-extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, અચલ અક્ષર *path);
+બાહ્ય SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, પૂર્ણાંક interval);
+બાહ્ય bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, પૂર્ણાંક *interval);
+બાહ્ય bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+બાહ્ય bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+બાહ્ય bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+બાહ્ય શૂન્ય Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+બાહ્ય SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_waylandopengles_h_

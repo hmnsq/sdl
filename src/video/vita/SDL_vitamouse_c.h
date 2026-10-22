@@ -22,10 +22,10 @@
 #ifndef SDL_vitamouse_h
 #define SDL_vitamouse_h
 
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 // mouse functions
-extern void VITA_InitMouse(void);
-extern void VITA_PollMouse(void);
+બાહ્ય શૂન્ય VITA_InitMouse(શૂન્ય);
+બાહ્ય શૂન્ય VITA_PollMouse(શૂન્ય);
 
 #endif // SDL_vitamouse_h

@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_openharmonyvideo_h_
 #define SDL_openharmonyvideo_h_
 
-#include "../SDL_sysvideo.h"
+#અન્તર્ભાવ "../SDL_sysvideo.h"
 
 // these are fired from XComponent callbacks registered in src/core/openharmony/SDL_openharmony.c
-extern void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window);
+બાહ્ય શૂન્ય SDL_OpenHarmonyVideoSurfaceDestroyed(શૂન્ય *component, શૂન્ય *window);
+બાહ્ય શૂન્ય SDL_OpenHarmonyVideoSurfaceChanged(શૂન્ય *component, શૂન્ય *window);
+બાહ્ય શૂન્ય SDL_OpenHarmonyVideoSurfaceCreated(શૂન્ય *component, શૂન્ય *window);
 
 // Get the app's current native window.
-extern void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window);
+બાહ્ય શૂન્ય SDL_OpenHarmonyGetNativeWindowPointers(શૂન્ય **xcomponent, શૂન્ય **window);
 
-struct SDL_VideoData
+સંરચના SDL_VideoData
 {
-    void *oh_pasteboard;
-    void *oh_pasteboard_observer;
+    શૂન્ય *oh_pasteboard;
+    શૂન્ય *oh_pasteboard_observer;
     bool clipboard_set;
 
 // !!! FIXME: Android stuff.
-    int isPaused;
-    int isPausing;
+    પૂર્ણાંક isPaused;
+    પૂર્ણાંક isPausing;
 };
 
 #endif // SDL_openharmonyvideo_h_

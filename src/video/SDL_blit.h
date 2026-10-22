@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#અન્તર્ભાવ "SDL_internal.h"
 
 #ifndef SDL_blit_h_
 #define SDL_blit_h_
 
 // Table to do pixel byte expansion
-extern const Uint8 *SDL_expand_byte[9];
-extern const Uint16 SDL_expand_byte_10[];
+બાહ્ય અચલ Uint8 *SDL_expand_byte[9];
+બાહ્ય અચલ Uint16 SDL_expand_byte_10[];
 
 // SDL blit copy flags
 #define SDL_COPY_MODULATE_COLOR         0x00000001
@@ -53,48 +53,48 @@ extern const Uint16 SDL_expand_byte_10[];
 #define SDL_CPU_ALTIVEC_PREFETCH   0x00000008
 #define SDL_CPU_ALTIVEC_NOPREFETCH 0x00000010
 
-typedef struct
+પ્રકારવ્યાખ્યા સંરચના
 {
     SDL_Surface *src_surface;
     Uint8 *src;
-    int src_w, src_h;
-    int src_pitch;
-    int src_skip;
-    int leading_skip;
+    પૂર્ણાંક src_w, src_h;
+    પૂર્ણાંક src_pitch;
+    પૂર્ણાંક src_skip;
+    પૂર્ણાંક leading_skip;
     SDL_Surface *dst_surface;
     Uint8 *dst;
-    int dst_w, dst_h;
-    int dst_pitch;
-    int dst_skip;
-    const SDL_PixelFormatDetails *src_fmt;
-    const SDL_Palette *src_pal;
-    const SDL_PixelFormatDetails *dst_fmt;
-    const SDL_Palette *dst_pal;
+    પૂર્ણાંક dst_w, dst_h;
+    પૂર્ણાંક dst_pitch;
+    પૂર્ણાંક dst_skip;
+    અચલ SDL_PixelFormatDetails *src_fmt;
+    અચલ SDL_Palette *src_pal;
+    અચલ SDL_PixelFormatDetails *dst_fmt;
+    અચલ SDL_Palette *dst_pal;
     Uint8 *table;
     SDL_HashTable *palette_map;
-    int flags;
+    પૂર્ણાંક flags;
     Uint32 colorkey;
     Uint8 r, g, b, a;
 } SDL_BlitInfo;
 
-typedef void (*SDL_BlitFunc)(SDL_BlitInfo *info);
+પ્રકારવ્યાખ્યા શૂન્ય (*SDL_BlitFunc)(SDL_BlitInfo *info);
 
-typedef struct
+પ્રકારવ્યાખ્યા સંરચના
 {
     SDL_PixelFormat src_format;
     SDL_PixelFormat dst_format;
-    int flags;
+    પૂર્ણાંક flags;
     SDL_BlitFunc func;
 } SDL_BlitFuncEntry;
 
-typedef bool (SDLCALL *SDL_Blit) (struct SDL_Surface *src, const SDL_Rect *srcrect, struct SDL_Surface *dst, const SDL_Rect *dstrect);
+પ્રકારવ્યાખ્યા bool (SDLCALL *SDL_Blit) (સંરચના SDL_Surface *src, અચલ SDL_Rect *srcrect, સંરચના SDL_Surface *dst, અચલ SDL_Rect *dstrect);
 
 // Blit mapping definition
-typedef struct SDL_BlitMap
+પ્રકારવ્યાખ્યા સંરચના SDL_BlitMap
 {
-    int identity;
+    પૂર્ણાંક identity;
     SDL_Blit blit;
-    void *data;
+    શૂન્ય *data;
     SDL_BlitInfo info;
 
     /* the version count matches the destination; mismatch indicates
@@ -104,13 +104,13 @@ typedef struct SDL_BlitMap
 } SDL_BlitMap;
 
 // Functions found in SDL_blit.c
-extern bool SDL_CalculateBlit(SDL_Surface *surface, SDL_Surface *dst);
+બાહ્ય bool SDL_CalculateBlit(SDL_Surface *surface, SDL_Surface *dst);
 
 /* Functions found in SDL_blit_*.c */
-extern SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface);
-extern SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface);
-extern SDL_BlitFunc SDL_CalculateBlitN(SDL_Surface *surface);
-extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
+બાહ્ય SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface);
+બાહ્ય SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface);
+બાહ્ય SDL_BlitFunc SDL_CalculateBlitN(SDL_Surface *surface);
+બાહ્ય SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 
 /*
  * Useful macros for blitting routines
@@ -118,9 +118,9 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 
 #ifdef __GNUC__
 #define DECLARE_ALIGNED(t, v, a) t __attribute__((aligned(a))) v
-#elif defined(_MSC_VER)
+#અથવાજો defined(_MSC_VER)
 #define DECLARE_ALIGNED(t, v, a) __declspec(align(a)) t v
-#else
+#નહીંતર
 #define DECLARE_ALIGNED(t, v, a) t v
 #endif
 
@@ -149,76 +149,76 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         g = ((Pixel & 0xFF00) >> 8);    \
         b = (Pixel & 0xFF);             \
     }
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#જો SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24(B) (B[2] << 16) | (B[1] << 8) | B[0]
-#else
+#નહીંતર
 #define GET_RGB24(B) (B[0] << 16) | (B[1] << 8) | B[2]
 #endif
 #define RETRIEVE_RGB_PIXEL(buf, bpp, Pixel)                \
-    do {                                                   \
-        switch (bpp) {                                     \
-        case 1:                                            \
+    કરો {                                                   \
+        પસંદગી (bpp) {                                     \
+        સ્થિતિ 1:                                            \
             Pixel = *((Uint8 *)(buf));                     \
-            break;                                         \
+            તોડો;                                         \
                                                            \
-        case 2:                                            \
+        સ્થિતિ 2:                                            \
             Pixel = *((Uint16 *)(buf));                    \
-            break;                                         \
+            તોડો;                                         \
                                                            \
-        case 3:                                            \
+        સ્થિતિ 3:                                            \
         {                                                  \
             Uint8 *B = (Uint8 *)(buf);                     \
             Pixel = GET_RGB24(B);                          \
-        } break;                                           \
+        } તોડો;                                           \
                                                            \
-        case 4:                                            \
+        સ્થિતિ 4:                                            \
             Pixel = *((Uint32 *)(buf));                    \
-            break;                                         \
+            તોડો;                                         \
                                                            \
-        default:                                           \
+        મૂળભૂત:                                           \
             Pixel = 0; /* stop gcc complaints */           \
-            break;                                         \
+            તોડો;                                         \
         }                                                  \
-    } while (0)
+    } જ્યારે (0)
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#જો SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + fmt->shift / 8)
-#else
+#નહીંતર
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + 2 - fmt->shift / 8)
 #endif
 #define DISEMBLE_RGB(buf, bpp, fmt, Pixel, r, g, b)    \
-    do {                                               \
-        switch (bpp) {                                 \
-        case 1:                                        \
+    કરો {                                               \
+        પસંદગી (bpp) {                                 \
+        સ્થિતિ 1:                                        \
             Pixel = *((Uint8 *)(buf));                 \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            તોડો;                                     \
                                                        \
-        case 2:                                        \
+        સ્થિતિ 2:                                        \
             Pixel = *((Uint16 *)(buf));                \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            તોડો;                                     \
                                                        \
-        case 3:                                        \
+        સ્થિતિ 3:                                        \
         {                                              \
             Pixel = 0;                                 \
             r = GET_RGB24_COMPONENT(buf, fmt, Rshift); \
             g = GET_RGB24_COMPONENT(buf, fmt, Gshift); \
             b = GET_RGB24_COMPONENT(buf, fmt, Bshift); \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 4:                                        \
+        સ્થિતિ 4:                                        \
             Pixel = *((Uint32 *)(buf));                \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            તોડો;                                     \
                                                        \
-        default:                                       \
+        મૂળભૂત:                                       \
             /* stop gcc complaints */                  \
             Pixel = 0;                                 \
             r = g = b = 0;                             \
-            break;                                     \
+            તોડો;                                     \
         }                                              \
-    } while (0)
+    } જ્યારે (0)
 
 // Assemble R-G-B values into a specified pixel format and store them
 #define PIXEL_FROM_RGB(Pixel, fmt, r, g, b)                 \
@@ -300,37 +300,37 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
     }
 #define ASSEMBLE_RGB(buf, bpp, fmt, r, g, b)           \
     {                                                  \
-        switch (bpp) {                                 \
-        case 1:                                        \
+        પસંદગી (bpp) {                                 \
+        સ્થિતિ 1:                                        \
         {                                              \
             Uint8 _pixel;                              \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint8 *)(buf)) = _pixel;                \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 2:                                        \
+        સ્થિતિ 2:                                        \
         {                                              \
             Uint16 _pixel;                             \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint16 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 3:                                        \
+        સ્થિતિ 3:                                        \
         {                                              \
             GET_RGB24_COMPONENT(buf, fmt, Rshift) = r; \
             GET_RGB24_COMPONENT(buf, fmt, Gshift) = g; \
             GET_RGB24_COMPONENT(buf, fmt, Bshift) = b; \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 4:                                        \
+        સ્થિતિ 4:                                        \
         {                                              \
             Uint32 _pixel;                             \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint32 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } તોડો;                                       \
         }                                              \
     }
 
@@ -386,10 +386,10 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
     }
 #define RGBAFLOAT_FROM_ARGB2101010(Pixel, r, g, b, a)   \
     {                                                   \
-        r = (float)((Pixel >> 20) & 0x3FF) / 1023.0f;   \
-        g = (float)((Pixel >> 10) & 0x3FF) / 1023.0f;   \
-        b = (float)((Pixel >> 0) & 0x3FF) / 1023.0f;    \
-        a = (float)(Pixel >> 30) / 3.0f;                \
+        r = (દશાંશ)((Pixel >> 20) & 0x3FF) / 1023.0f;   \
+        g = (દશાંશ)((Pixel >> 10) & 0x3FF) / 1023.0f;   \
+        b = (દશાંશ)((Pixel >> 0) & 0x3FF) / 1023.0f;    \
+        a = (દશાંશ)(Pixel >> 30) / 3.0f;                \
     }
 #define RGBA_FROM_ABGR2101010(Pixel, r, g, b, a) \
     {                                            \
@@ -400,45 +400,45 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
     }
 #define RGBAFLOAT_FROM_ABGR2101010(Pixel, r, g, b, a)   \
     {                                                   \
-        r = (float)((Pixel >> 0) & 0x3FF) / 1023.0f;    \
-        g = (float)((Pixel >> 10) & 0x3FF) / 1023.0f;   \
-        b = (float)((Pixel >> 20) & 0x3FF) / 1023.0f;   \
-        a = (float)(Pixel >> 30) / 3.0f;                \
+        r = (દશાંશ)((Pixel >> 0) & 0x3FF) / 1023.0f;    \
+        g = (દશાંશ)((Pixel >> 10) & 0x3FF) / 1023.0f;   \
+        b = (દશાંશ)((Pixel >> 20) & 0x3FF) / 1023.0f;   \
+        a = (દશાંશ)(Pixel >> 30) / 3.0f;                \
     }
 #define DISEMBLE_RGBA(buf, bpp, fmt, Pixel, r, g, b, a) \
-    do {                                                \
-        switch (bpp) {                                  \
-        case 1:                                         \
+    કરો {                                                \
+        પસંદગી (bpp) {                                  \
+        સ્થિતિ 1:                                         \
             Pixel = *((Uint8 *)(buf));                  \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            તોડો;                                      \
                                                         \
-        case 2:                                         \
+        સ્થિતિ 2:                                         \
             Pixel = *((Uint16 *)(buf));                 \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            તોડો;                                      \
                                                         \
-        case 3:                                         \
+        સ્થિતિ 3:                                         \
         {                                               \
             Pixel = 0;                                  \
             r = GET_RGB24_COMPONENT(buf, fmt, Rshift);  \
             g = GET_RGB24_COMPONENT(buf, fmt, Gshift);  \
             b = GET_RGB24_COMPONENT(buf, fmt, Bshift);  \
             a = 0xFF;                                   \
-        } break;                                        \
+        } તોડો;                                        \
                                                         \
-        case 4:                                         \
+        સ્થિતિ 4:                                         \
             Pixel = *((Uint32 *)(buf));                 \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            તોડો;                                      \
                                                         \
-        default:                                        \
+        મૂળભૂત:                                        \
             /* stop gcc complaints */                   \
             Pixel = 0;                                  \
             r = g = b = a = 0;                          \
-            break;                                      \
+            તોડો;                                      \
         }                                               \
-    } while (0)
+    } જ્યારે (0)
 
 // FIXME: this isn't correct, especially for Alpha (maximum != 255)
 #define PIXEL_FROM_RGBA(Pixel, fmt, r, g, b, a)             \
@@ -450,80 +450,80 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
     }
 #define ASSEMBLE_RGBA(buf, bpp, fmt, r, g, b, a)       \
     {                                                  \
-        switch (bpp) {                                 \
-        case 1:                                        \
+        પસંદગી (bpp) {                                 \
+        સ્થિતિ 1:                                        \
         {                                              \
             Uint8 _pixel;                              \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint8 *)(buf)) = _pixel;                \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 2:                                        \
+        સ્થિતિ 2:                                        \
         {                                              \
             Uint16 _pixel;                             \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint16 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 3:                                        \
+        સ્થિતિ 3:                                        \
         {                                              \
             GET_RGB24_COMPONENT(buf, fmt, Rshift) = r; \
             GET_RGB24_COMPONENT(buf, fmt, Gshift) = g; \
             GET_RGB24_COMPONENT(buf, fmt, Bshift) = b; \
-        } break;                                       \
+        } તોડો;                                       \
                                                        \
-        case 4:                                        \
+        સ્થિતિ 4:                                        \
         {                                              \
             Uint32 _pixel;                             \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint32 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } તોડો;                                       \
         }                                              \
     }
 
 // Convert any 32-bit 4-bpp pixel to ARGB format
 #define PIXEL_TO_ARGB_PIXEL(src, srcfmt, dst)         \
-    do {                                              \
+    કરો {                                              \
         Uint8 a, r, g, b;                         \
         RGBA_FROM_PIXEL(src, srcfmt, r, g, b, a); \
         dst = a << 24 | r << 16 | g << 8 | b;     \
-    } while (0)
+    } જ્યારે (0)
 // Blend a single color channel or alpha value
 /* dC = ((sC * sA) + (dC * (255 - sA))) / 255 */
 #define ALPHA_BLEND_CHANNEL(sC, dC, sA)                  \
-    do {                                                 \
+    કરો {                                                 \
         Uint16 x;                                        \
         x = ((sC - dC) * sA) + ((dC << 8) - dC);         \
         x += 0x1U;                                       \
         x += x >> 8;                                     \
         dC = x >> 8;                                     \
-    } while (0)
+    } જ્યારે (0)
 // Perform a division by 255 after a multiplication of two 8-bit color channels
 /* out = (sC * dC) / 255 */
 #define MULT_DIV_255(sC, dC, out) \
-    do {                          \
+    કરો {                          \
         Uint16 x = sC * dC;       \
         x += 0x1U;                \
         x += x >> 8;              \
         out = x >> 8;             \
-    } while (0)
+    } જ્યારે (0)
 // Blend the RGB values of two pixels with an alpha value
 #define ALPHA_BLEND_RGB(sR, sG, sB, A, dR, dG, dB)            \
-    do {                                                      \
+    કરો {                                                      \
         ALPHA_BLEND_CHANNEL(sR, dR, A);                       \
         ALPHA_BLEND_CHANNEL(sG, dG, A);                       \
         ALPHA_BLEND_CHANNEL(sB, dB, A);                       \
-    } while (0)
+    } જ્યારે (0)
 
 // Blend two 8888 pixels with the same format
 /* Calculates dst = ((src * factor) + (dst * (255 - factor))) / 255 */
 // FIXME: SDL_SIZE_MAX might not be an integer literal
-#if defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
+#જો defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
 #define FACTOR_BLEND_8888(src, dst, factor)                        \
-    do {                                                           \
+    કરો {                                                           \
         Uint64 src64 = src;                                        \
         src64 = (src64 | (src64 << 24)) & 0x00FF00FF00FF00FF;      \
                                                                    \
@@ -536,10 +536,10 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         dst64 &= 0xFF00FF00FF00FF00;                               \
                                                                    \
         dst = (Uint32)((dst64 >> 8) | (dst64 >> 32));              \
-    } while (0)
-#else
+    } જ્યારે (0)
+#નહીંતર
 #define FACTOR_BLEND_8888(src, dst, factor)                               \
-    do {                                                                  \
+    કરો {                                                                  \
         Uint32 src02 = src & 0x00FF00FF;                                  \
         Uint32 dst02 = dst & 0x00FF00FF;                                  \
                                                                           \
@@ -556,47 +556,47 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         res13 += (res13 >> 8) & 0x00FF00FF;                               \
         res13 &= 0xFF00FF00;                                              \
         dst = res02 | res13;                                              \
-    } while (0)
+    } જ્યારે (0)
 #endif
 
 // Alpha blend two 8888 pixels with the same formats.
 #define ALPHA_BLEND_8888(src, dst, fmt)            \
-    do {                                           \
+    કરો {                                           \
         Uint32 srcA = (src >> fmt->Ashift) & 0xFF; \
         Uint32 tmp = src | fmt->Amask;             \
         FACTOR_BLEND_8888(tmp, dst, srcA);         \
-    } while (0)
+    } જ્યારે (0)
 
 // Alpha blend two 8888 pixels with differing formats.
 #define ALPHA_BLEND_SWIZZLE_8888(src, dst, srcfmt, dstfmt)                  \
-    do {                                                                    \
+    કરો {                                                                    \
         Uint32 srcA = (src >> srcfmt->Ashift) & 0xFF;                       \
         Uint32 tmp = (((src >> srcfmt->Rshift) & 0xFF) << dstfmt->Rshift) | \
                      (((src >> srcfmt->Gshift) & 0xFF) << dstfmt->Gshift) | \
                      (((src >> srcfmt->Bshift) & 0xFF) << dstfmt->Bshift) | \
                      dstfmt->Amask;                                         \
         FACTOR_BLEND_8888(tmp, dst, srcA);                                  \
-    } while (0)
+    } જ્યારે (0)
 // Blend the RGBA values of two pixels
 #define ALPHA_BLEND_RGBA(sR, sG, sB, sA, dR, dG, dB, dA) \
-    do {                                                 \
+    કરો {                                                 \
         ALPHA_BLEND_CHANNEL(sR, dR, sA);                 \
         ALPHA_BLEND_CHANNEL(sG, dG, sA);                 \
         ALPHA_BLEND_CHANNEL(sB, dB, sA);                 \
         ALPHA_BLEND_CHANNEL(255, dA, sA);                \
-    } while (0)
+    } જ્યારે (0)
 
 // This is a very useful loop for optimizing blitters
-#if defined(_MSC_VER) && (_MSC_VER == 1300)
+#જો defined(_MSC_VER) && (_MSC_VER == 1300)
 // There's a bug in the Visual C++ 7 optimizer when compiling this code
-#else
+#નહીંતર
 #define USE_DUFFS_LOOP
 #endif
 
 #define DUFFS_LOOP1(pixel_copy_increment, width) \
     {                                            \
-        int n;                                   \
-        for (n = width; n > 0; --n) {            \
+        પૂર્ણાંક n;                                   \
+        માટે (n = width; n > 0; --n) {            \
             pixel_copy_increment;                \
         }                                        \
     }
@@ -606,69 +606,69 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 // 8-times unrolled loop
 #define DUFFS_LOOP8(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 7) / 8;                 \
-        switch (width & 7) {                     \
-        case 0:                                  \
-            do {                                 \
+        પૂર્ણાંક n = (width + 7) / 8;                 \
+        પસંદગી (width & 7) {                     \
+        સ્થિતિ 0:                                  \
+            કરો {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 7:                              \
+            સ્થિતિ 7:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 6:                              \
+            સ્થિતિ 6:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 5:                              \
+            સ્થિતિ 5:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 4:                              \
+            સ્થિતિ 4:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 3:                              \
+            સ્થિતિ 3:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 2:                              \
+            સ્થિતિ 2:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            સ્થિતિ 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } જ્યારે (--n > 0);                   \
         }                                        \
     }
 
 // 4-times unrolled loop
 #define DUFFS_LOOP4(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 3) / 4;                 \
-        switch (width & 3) {                     \
-        case 0:                                  \
-            do {                                 \
+        પૂર્ણાંક n = (width + 3) / 4;                 \
+        પસંદગી (width & 3) {                     \
+        સ્થિતિ 0:                                  \
+            કરો {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 3:                              \
+            સ્થિતિ 3:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 2:                              \
+            સ્થિતિ 2:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            સ્થિતિ 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } જ્યારે (--n > 0);                   \
         }                                        \
     }
 
 // 2-times unrolled loop
 #define DUFFS_LOOP2(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 1) / 2;                 \
-        switch (width & 1) {                     \
-        case 0:                                  \
-            do {                                 \
+        પૂર્ણાંક n = (width + 1) / 2;                 \
+        પસંદગી (width & 1) {                     \
+        સ્થિતિ 0:                                  \
+            કરો {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            સ્થિતિ 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } જ્યારે (--n > 0);                   \
         }                                        \
     }
 
@@ -684,29 +684,29 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                        pixel_copy_increment2,        \
                        pixel_copy_increment4, width) \
     {                                                \
-        int n = width;                               \
-        if (n & 1) {                                 \
+        પૂર્ણાંક n = width;                               \
+        જો (n & 1) {                                 \
             pixel_copy_increment1;                   \
             n -= 1;                                  \
         }                                            \
-        if (n & 2) {                                 \
+        જો (n & 2) {                                 \
             pixel_copy_increment2;                   \
             n -= 2;                                  \
         }                                            \
-        if (n & 4) {                                 \
+        જો (n & 4) {                                 \
             pixel_copy_increment4;                   \
             n -= 4;                                  \
         }                                            \
-        if (n) {                                     \
+        જો (n) {                                     \
             n /= 8;                                  \
-            do {                                     \
+            કરો {                                     \
                 pixel_copy_increment4;               \
                 pixel_copy_increment4;               \
-            } while (--n > 0);                       \
+            } જ્યારે (--n > 0);                       \
         }                                            \
     }
 
-#else
+#નહીંતર
 
 // Don't use Duff's device to unroll loops
 #define DUFFS_LOOP(pixel_copy_increment, width) \
@@ -726,7 +726,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 
 #endif // USE_DUFFS_LOOP
 
-#if defined(_MSC_VER) && (_MSC_VER >= 600)
+#જો defined(_MSC_VER) && (_MSC_VER >= 600)
 #pragma warning(disable : 4244) // '=': conversion from 'X' to 'Y', possible loss of data
 #endif
 
