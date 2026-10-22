@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rect_c_h_
-#define SDL_rect_c_h_
+#که_نه_تعریف_شوی SDL_rect_c_h_
+#تعریف_کړه SDL_rect_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern bool SDL_GetSpanEnclosingRect(int width, int height, int numrects, const SDL_Rect *rects, SDL_Rect *span);
+خارجي bool SDL_Get_پراختیا_Enclosing_Rect(صحيح پلنوالی, صحيح لوړوالی, صحيح numrects, ثابت SDL_Rect *rects, SDL_Rect *پراختیا);
 
-#endif // SDL_rect_c_h_
+#د_که_پای // SDL_rect_c_h_

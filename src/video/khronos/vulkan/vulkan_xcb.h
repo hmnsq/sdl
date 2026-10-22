@@ -1,5 +1,5 @@
-#ifndef VULKAN_XCB_H_
-#define VULKAN_XCB_H_ 1
+#که_نه_تعریف_شوی VULKAN_XCB_H_
+#تعریف_کړه VULKAN_XCB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,52 +13,52 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
 
 
 // VK_KHR_xcb_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_xcb_surface 1
+#تعریف_کړه VK_KHR_xcb_surface 1
 
-#define VK_KHR_XCB_SURFACE_SPEC_VERSION   6
-#define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
+#تعریف_کړه VK_KHR_XCB_SURFACE_SPEC_نسخه   6
+#تعریف_کړه VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
 
-typedef VkFlags VkXcbSurfaceCreateFlagsKHR;
+تعريفنوع VkFlags VkXcbSurfaceCreateFlagsKHR;
 
-typedef struct VkXcbSurfaceCreateInfoKHR {
+تعريفنوع بنية VkXcbSurfaceCreateInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
+    ثابت فراغ*                   p_بل;
     VkXcbSurfaceCreateFlagsKHR    flags;
     xcb_connection_t*             connection;
-    xcb_window_t                  window;
+    xcb_کړکۍ_t                  کړکۍ;
 } VkXcbSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, ثابت VkXcbSurfaceCreateInfoKHR* pCreateInfo, ثابت Vk_ویش_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t کتار_Family_شاخص, xcb_connection_t* connection, xcb_visualid_t visual_id);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateXcbSurfaceKHR(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkCreateXcbSurfaceKHR(
     VkInstance                                  instance,
-    const VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
+    ثابت Vk_ویش_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceXcbPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    کتار_Family_شاخص,
     xcb_connection_t*                           connection,
     xcb_visualid_t                              visual_id);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
-#endif
+#د_که_پای

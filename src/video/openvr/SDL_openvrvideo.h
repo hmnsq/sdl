@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#که_نه_تعریف_شوی _SDL_OPENVRVIDEO_H
+#تعریف_کړه _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#که_تعریف_شوی SDL_VIDEO_DRIVER_WINDOWS
+#که_تعریف_شوی EXTERN_C
+#تعریف_لغوه EXTERN_C
+#د_که_پای
+#د_که_پای
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#که_تعریف_شوی __GNUC__
+#لارښوونه GCC diagnostic ټېل
+#لارښوونه GCC diagnostic ignored "-Wunused-variable"
+#د_که_پای
 
-#define USE_SDL
-#include "openvr_capi.h"
+#تعریف_کړه USE_SDL
+#ضمن "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#که_تعریف_شوی __GNUC__
+#لارښوونه GCC diagnostic راوباسه
+#د_که_پای
 
-#include <stdint.h>
+#ضمن <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#که_نه_تعریف_شوی SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ضمن <GLES3/gl3.h>
+#ضمن <GLES3/gl32.h>
+#ضمن <EGL/egl.h>
+#ضمن <GLES2/gl2.h>
+#ضمن <GLES2/gl2ext.h>
+#ضمن <GLES2/gl2ext.h>
 
-#endif
+#د_که_پای
 
 
-struct SDL_WindowData
+بنية SDL_کړکۍ_معلومات
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#که_تعریف_شوی SDL_VIDEO_DRIVER_WINDOWS
+    SDL_کړکۍ *کړکۍ;
     HWND hwnd;
-    HWND parent;
+    HWND پلار;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#وإلا
+    صحيح dummy;
+#د_که_پای
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+بنية SDL_Video_معلومات {
+    فراغ * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_دننی)( EVRInitError *peError, EVRApplicationType eType );
+    ثابت حرف *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ثابت حرف *pch_Interface_نسخه, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    صحيح is_بفر_rendering;
 
-    unsigned int overlaytexture;
+    بینښه صحيح overlaytexture;
 
-    unsigned int fbo, rbo;
+    بینښه صحيح fbo, rbo;
 
-    int saved_texture_state;
+    صحيح saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    بنية VR_IVRSystem_Fn_جدول *oSystem;
+    بنية VR_IVROverlay_Fn_جدول *oOverlay;
+	بنية VR_IVRInput_Fn_جدول * o_ننوت;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	حرف * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_سېټ_Handle_t ننوت_action_سېټ;
+	VRActionHandle_t * ننوت_action_handles_buttons;
+	صحيح ننوت_action_handles_buttons_شمېر;
+	VRActionHandle_t * ننوت_action_handles_axes;
+	صحيح ننوت_action_handles_axes_شمېر;
+	VRActionHandle_t ننوت_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    صحيح targw, targh;
+    صحيح وروستی_targw, وروستی_targh;
+    صحيح بدلون_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_چوکاټ_پای_ټکی;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_کړکۍ * کړکۍ;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#که_تعریف_شوی SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#وإلا
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#د_که_پای
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_معلومات
 {
-    int dummy;
+    صحيح dummy;
 };
 
-#endif
+#د_که_پای

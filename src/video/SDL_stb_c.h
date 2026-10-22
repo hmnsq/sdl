@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_stb_c_h_
-#define SDL_stb_c_h_
+#که_نه_تعریف_شوی SDL_stb_c_h_
+#تعریف_کړه SDL_stb_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 // Image conversion functions
 
-extern bool SDL_ConvertPixels_STB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+خارجي bool SDL_ConvertPixels_STB(صحيح پلنوالی, صحيح لوړوالی, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت فراغ *src, صحيح src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, فراغ *dst, صحيح dst_pitch);
 
-#endif // SDL_stb_c_h_
+#د_که_پای // SDL_stb_c_h_

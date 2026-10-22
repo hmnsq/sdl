@@ -18,50 +18,50 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_uikitmodes_h_
-#define SDL_uikitmodes_h_
+#که_نه_تعریف_شوی SDL_uikitmodes_h_
+#تعریف_کړه SDL_uikitmodes_h_
 
-#include "SDL_uikitvideo.h"
+#ضمن "SDL_uikitvideo.h"
 
-@interface SDL_UIKitDisplayData : NSObject
+@interface SDL_UIKit_Display_معلومات : NSObject
 
-#ifndef SDL_PLATFORM_VISIONOS
+#که_نه_تعریف_شوی SDL_PLATFORM_VISIONOS
 - (instancetype)initWithScreen:(UIScreen *)screen;
 @property(nonatomic, strong) UIScreen *uiscreen;
-#endif
+#د_که_پای
 
-@end
+@پای_ټکی
 
-@interface SDL_UIKitDisplayModeData : NSObject
-#ifndef SDL_PLATFORM_VISIONOS
-@property(nonatomic, strong) UIScreenMode *uiscreenmode;
-#endif
+@interface SDL_UIKit_Display_ډېرپېښ_معلومات : NSObject
+#که_نه_تعریف_شوی SDL_PLATFORM_VISIONOS
+@property(nonatomic, strong) UIScreen_ډېرپېښ *uiscreenmode;
+#د_که_پای
 
-@end
+@پای_ټکی
 
-#ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
-#endif
+#که_نه_تعریف_شوی SDL_PLATFORM_VISIONOS
+خارجي bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
+#د_که_پای
 
-extern bool UIKit_InitModes(SDL_VideoDevice *_this);
-#ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_AddDisplay(UIScreen *uiscreen, bool send_event);
-extern void UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
-#endif
-extern bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool UIKit_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void UIKit_QuitModes(SDL_VideoDevice *_this);
-extern bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool UIKit_InitModes(SDL_VideoDevice *_this);
+#که_نه_تعریف_شوی SDL_PLATFORM_VISIONOS
+خارجي bool UIKit_جمع_کړه_Display(UIScreen *uiscreen, bool send_event);
+خارجي فراغ UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
+#د_که_پای
+خارجي bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجي bool UIKit_سېټ_Display_ډېرپېښ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ډېرپېښ *ډېرپېښ);
+خارجي فراغ UIKit_QuitModes(SDL_VideoDevice *_this);
+خارجي bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 
 // because visionOS does not have a screen
 // we create a fake display to maintain compatibility.
 // By default, a window measures 1280x720 pt.
 // https://developer.apple.com/design/human-interface-guidelines/windows#visionOS
-#ifdef SDL_PLATFORM_VISIONOS
-#define SDL_XR_SCREENWIDTH 1280
-#define SDL_XR_SCREENHEIGHT 720
-#endif
+#که_تعریف_شوی SDL_PLATFORM_VISIONOS
+#تعریف_کړه SDL_XR_SCREENWIDTH 1280
+#تعریف_کړه SDL_XR_SCREENHEIGHT 720
+#د_که_پای
 
-#endif // SDL_uikitmodes_h_
+#د_که_پای // SDL_uikitmodes_h_

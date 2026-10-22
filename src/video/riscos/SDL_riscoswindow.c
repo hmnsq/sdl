@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#که_تعریف_شوی SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#ضمن "SDL_riscosvideo.h"
+#ضمن "SDL_riscoswindow.h"
 
-bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RISCOS_Create_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_کړکۍ_معلومات *معلومات;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    معلومات = (SDL_کړکۍ_معلومات *)SDL_calloc(1, حجم(*معلومات));
+    إذا (!معلومات) {
+        أرجع false;
     }
-    data->window = window;
+    معلومات->کړکۍ = کړکۍ;
 
-    SDL_SetMouseFocus(window);
+    SDL_سېټ_Mouse_Focus(کړکۍ);
 
     // All done!
-    window->internal = data;
-    return true;
+    کړکۍ->دننی = معلومات;
+    أرجع true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ RISCOS_Destroy_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    if (window->internal) {
-        SDL_free(window->internal);
-        window->internal = NULL;
+    إذا (کړکۍ->دننی) {
+        SDL_free(کړکۍ->دننی);
+        کړکۍ->دننی = عدم;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#د_که_پای // SDL_VIDEO_DRIVER_RISCOS

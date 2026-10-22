@@ -126,8 +126,8 @@ RECENT REVISION HISTORY:
   of the credits.
 */
 
-#ifndef STBI_INCLUDE_STB_IMAGE_H
-#define STBI_INCLUDE_STB_IMAGE_H
+#که_نه_تعریف_شوی STBI_INCLUDE_STB_IMAGE_H
+#تعریف_کړه STBI_INCLUDE_STB_IMAGE_H
 
 // DOCUMENTATION
 //
@@ -367,13 +367,13 @@ RECENT REVISION HISTORY:
 //    default this is set to (1 << 24), which is 16777216, but that's still
 //    very big.
 
-#ifndef STBI_NO_STDIO
-#include <stdio.h>
-#endif // STBI_NO_STDIO
+#که_نه_تعریف_شوی STBI_NO_STDIO
+#ضمن <stdio.h>
+#د_که_پای // STBI_NO_STDIO
 
-#define STBI_VERSION 1
+#تعریف_کړه STBI_نسخه 1
 
-enum
+تعداد
 {
    STBI_default = 0, // only used for desired_channels
 
@@ -383,26 +383,26 @@ enum
    STBI_rgb_alpha  = 4
 };
 
-#if 0 /* SDL change */
-#include <stdlib.h>
-typedef unsigned char stbi_uc;
-typedef unsigned short stbi_us;
-#else
-typedef Uint8  stbi_uc;
-typedef Uint16 stbi_us;
-#endif
+#إذا 0 /* SDL change */
+#ضمن <stdlib.h>
+تعريفنوع بینښه حرف stbi_uc;
+تعريفنوع بینښه لنډ stbi_us;
+#وإلا
+تعريفنوع Uint8  stbi_uc;
+تعريفنوع Uint16 stbi_us;
+#د_که_پای
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
-#ifndef STBIDEF
-#ifdef STB_IMAGE_STATIC
-#define STBIDEF static
-#else
-#define STBIDEF extern
-#endif
-#endif
+#که_نه_تعریف_شوی STBIDEF
+#که_تعریف_شوی STB_IMAGE_STATIC
+#تعریف_کړه STBIDEF ساكن
+#وإلا
+#تعریف_کړه STBIDEF خارجي
+#د_که_پای
+#د_که_پای
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -413,11 +413,11 @@ extern "C" {
 // load image by filename, open file, or memory buffer
 //
 
-typedef struct
+تعريفنوع بنية
 {
-   int      (*read)  (void *user,char *data,int size);   // fill 'data' with 'size' bytes.  return number of bytes actually read
-   void     (*skip)  (void *user,int n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
-   int      (*eof)   (void *user);                       // returns nonzero if we are at end of file/data
+   صحيح      (*اقرأ)  (فراغ *user,حرف *معلومات,صحيح اندازه);   // fill 'data' with 'size' bytes.  return number of bytes actually read
+   فراغ     (*skip)  (فراغ *user,صحيح n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
+   صحيح      (*eof)   (فراغ *user);                       // returns nonzero if we are at end of file/data
 } stbi_io_callbacks;
 
 ////////////////////////////////////
@@ -425,24 +425,24 @@ typedef struct
 // 8-bits-per-channel interface
 //
 
-STBIDEF stbi_uc *stbi_load_from_memory   (stbi_uc           const *buffer, int len   , int *x, int *y, int *channels_in_file, int desired_channels);
-#if 0 /* not used in SDL */
-STBIDEF stbi_uc *stbi_load_from_callbacks(stbi_io_callbacks const *clbk  , void *user, int *x, int *y, int *channels_in_file, int desired_channels);
-#endif
+STBIDEF stbi_uc *stbi_بارول_from_حافظه   (stbi_uc           ثابت *بفر_2, صحيح len   , صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+#إذا 0 /* not used in SDL */
+STBIDEF stbi_uc *stbi_بارول_from_callbacks(stbi_io_callbacks ثابت *clbk  , فراغ *user, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+#د_که_پای
 
-#ifndef STBI_NO_STDIO
-STBIDEF stbi_uc *stbi_load            (char const *filename, int *x, int *y, int *channels_in_file, int desired_channels);
-STBIDEF stbi_uc *stbi_load_from_file  (FILE *f, int *x, int *y, int *channels_in_file, int desired_channels);
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF stbi_uc *stbi_بارول            (حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+STBIDEF stbi_uc *stbi_بارول_from_file  (FILE *f, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
 // for stbi_load_from_file, file pointer is left pointing immediately after image
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_GIF
-STBIDEF stbi_uc *stbi_load_gif_from_memory(stbi_uc const *buffer, int len, int **delays, int *x, int *y, int *z, int *comp, int req_comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_GIF
+STBIDEF stbi_uc *stbi_بارول_gif_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح **delays, صحيح *x, صحيح *y, صحيح *z, صحيح *comp, صحيح req_comp);
+#د_که_پای
 
-#ifdef STBI_WINDOWS_UTF8
-STBIDEF int stbi_convert_wchar_to_utf8(char *buffer, size_t bufferlen, const wchar_t* input);
-#endif
+#که_تعریف_شوی STBI_WINDOWS_UTF8
+STBIDEF صحيح stbi_convert_wchar_منزل_utf8(حرف *بفر_2, size_t bufferlen, ثابت wchar_t* ننوت);
+#د_که_پای
 
 ////////////////////////////////////
 //
@@ -451,320 +451,320 @@ STBIDEF int stbi_convert_wchar_to_utf8(char *buffer, size_t bufferlen, const wch
 // Palette buffer needs to be at least 256 entries for PNG.
 //
 
-#if 0 /* not used in SDL */
-STBIDEF stbi_uc *stbi_load_from_memory_with_palette   (stbi_uc           const *buffer, int len , int *x, int *y, unsigned int *palette_buffer, int palette_buffer_len);
-#endif
-STBIDEF stbi_uc *stbi_load_from_callbacks_with_palette(stbi_io_callbacks const *clbk, void *user, int *x, int *y, unsigned int *palette_buffer, int palette_buffer_len);
+#إذا 0 /* not used in SDL */
+STBIDEF stbi_uc *stbi_بارول_from_حافظه_with_palette   (stbi_uc           ثابت *بفر_2, صحيح len , صحيح *x, صحيح *y, بینښه صحيح *palette_بفر, صحيح palette_بفر_len);
+#د_که_پای
+STBIDEF stbi_uc *stbi_بارول_from_callbacks_with_palette(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, بینښه صحيح *palette_بفر, صحيح palette_بفر_len);
 
 ////////////////////////////////////
 //
 // 16-bits-per-channel interface
 //
 
-#if 0 /* not used in SDL */
-STBIDEF stbi_us *stbi_load_16_from_memory   (stbi_uc const *buffer, int len, int *x, int *y, int *channels_in_file, int desired_channels);
-STBIDEF stbi_us *stbi_load_16_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *channels_in_file, int desired_channels);
-#endif
+#إذا 0 /* not used in SDL */
+STBIDEF stbi_us *stbi_بارول_16_from_حافظه   (stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+STBIDEF stbi_us *stbi_بارول_16_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+#د_که_پای
 
-#ifndef STBI_NO_STDIO
-STBIDEF stbi_us *stbi_load_16          (char const *filename, int *x, int *y, int *channels_in_file, int desired_channels);
-STBIDEF stbi_us *stbi_load_from_file_16(FILE *f, int *x, int *y, int *channels_in_file, int desired_channels);
-#endif
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF stbi_us *stbi_بارول_16          (حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+STBIDEF stbi_us *stbi_بارول_from_file_16(FILE *f, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+#د_که_پای
 
 ////////////////////////////////////
 //
 // float-per-channel interface
 //
-#ifndef STBI_NO_LINEAR
-   STBIDEF float *stbi_loadf_from_memory     (stbi_uc const *buffer, int len, int *x, int *y, int *channels_in_file, int desired_channels);
-   STBIDEF float *stbi_loadf_from_callbacks  (stbi_io_callbacks const *clbk, void *user, int *x, int *y,  int *channels_in_file, int desired_channels);
+#که_نه_تعریف_شوی STBI_NO_خطي
+   STBIDEF عائم *stbi_loadf_from_حافظه     (stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+   STBIDEF عائم *stbi_loadf_from_callbacks  (stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y,  صحيح *channels_دننه_file, صحيح desired_channels);
 
-   #ifndef STBI_NO_STDIO
-   STBIDEF float *stbi_loadf            (char const *filename, int *x, int *y, int *channels_in_file, int desired_channels);
-   STBIDEF float *stbi_loadf_from_file  (FILE *f, int *x, int *y, int *channels_in_file, int desired_channels);
-   #endif
-#endif
+   #که_نه_تعریف_شوی STBI_NO_STDIO
+   STBIDEF عائم *stbi_loadf            (حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+   STBIDEF عائم *stbi_loadf_from_file  (FILE *f, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels);
+   #د_که_پای
+#د_که_پای
 
-#ifndef STBI_NO_HDR
-   STBIDEF void   stbi_hdr_to_ldr_gamma(float gamma);
-   STBIDEF void   stbi_hdr_to_ldr_scale(float scale);
-#endif // STBI_NO_HDR
+#که_نه_تعریف_شوی STBI_NO_HDR
+   STBIDEF فراغ   stbi_hdr_منزل_ldr_gamma(عائم gamma);
+   STBIDEF فراغ   stbi_hdr_منزل_ldr_scale(عائم scale);
+#د_که_پای // STBI_NO_HDR
 
-#ifndef STBI_NO_LINEAR
-   STBIDEF void   stbi_ldr_to_hdr_gamma(float gamma);
-   STBIDEF void   stbi_ldr_to_hdr_scale(float scale);
-#endif // STBI_NO_LINEAR
+#که_نه_تعریف_شوی STBI_NO_خطي
+   STBIDEF فراغ   stbi_ldr_منزل_hdr_gamma(عائم gamma);
+   STBIDEF فراغ   stbi_ldr_منزل_hdr_scale(عائم scale);
+#د_که_پای // STBI_NO_LINEAR
 
-#if 0 /* not used in SDL */
+#إذا 0 /* not used in SDL */
 // stbi_is_hdr is always defined, but always returns false if STBI_NO_HDR
-STBIDEF int    stbi_is_hdr_from_callbacks(stbi_io_callbacks const *clbk, void *user);
-STBIDEF int    stbi_is_hdr_from_memory(stbi_uc const *buffer, int len);
-#endif
-#ifndef STBI_NO_STDIO
-STBIDEF int      stbi_is_hdr          (char const *filename);
-STBIDEF int      stbi_is_hdr_from_file(FILE *f);
-#endif // STBI_NO_STDIO
+STBIDEF صحيح    stbi_is_hdr_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user);
+STBIDEF صحيح    stbi_is_hdr_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len);
+#د_که_پای
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF صحيح      stbi_is_hdr          (حرف ثابت *filename);
+STBIDEF صحيح      stbi_is_hdr_from_file(FILE *f);
+#د_که_پای // STBI_NO_STDIO
 
 
-#if 0 /* not used in SDL */
+#إذا 0 /* not used in SDL */
 // get a VERY brief reason for failure
 // on most compilers (and ALL modern mainstream compilers) this is threadsafe
-STBIDEF const char *stbi_failure_reason  (void);
-#endif
+STBIDEF ثابت حرف *stbi_failure_reason  (فراغ);
+#د_که_پای
 
 // free the loaded image -- this is just free()
-STBIDEF void     stbi_image_free      (void *retval_from_stbi_load);
+STBIDEF فراغ     stbi_image_free      (فراغ *retval_from_stbi_بارول);
 
-#if 0 /* not used in SDL */
+#إذا 0 /* not used in SDL */
 // get image dimensions & components without fully decoding
-STBIDEF int      stbi_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp);
-STBIDEF int      stbi_info_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *comp);
-STBIDEF int      stbi_is_16_bit_from_memory(stbi_uc const *buffer, int len);
-STBIDEF int      stbi_is_16_bit_from_callbacks(stbi_io_callbacks const *clbk, void *user);
-#endif
+STBIDEF صحيح      stbi_info_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *comp);
+STBIDEF صحيح      stbi_info_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, صحيح *comp);
+STBIDEF صحيح      stbi_is_16_بټ_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len);
+STBIDEF صحيح      stbi_is_16_بټ_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user);
+#د_که_پای
 
-#ifndef STBI_NO_STDIO
-STBIDEF int      stbi_info               (char const *filename,     int *x, int *y, int *comp);
-STBIDEF int      stbi_info_from_file     (FILE *f,                  int *x, int *y, int *comp);
-STBIDEF int      stbi_is_16_bit          (char const *filename);
-STBIDEF int      stbi_is_16_bit_from_file(FILE *f);
-#endif
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF صحيح      stbi_info               (حرف ثابت *filename,     صحيح *x, صحيح *y, صحيح *comp);
+STBIDEF صحيح      stbi_info_from_file     (FILE *f,                  صحيح *x, صحيح *y, صحيح *comp);
+STBIDEF صحيح      stbi_is_16_بټ          (حرف ثابت *filename);
+STBIDEF صحيح      stbi_is_16_بټ_from_file(FILE *f);
+#د_که_پای
 
 
-#ifndef STBI_NO_PNG
-#if 0 /* not used in SDL */
+#که_نه_تعریف_شوی STBI_NO_PNG
+#إذا 0 /* not used in SDL */
 // for image formats that explicitly notate that they have premultiplied alpha,
 // we just return the colors as stored in the file. set this flag to force
 // unpremultiplication. results are undefined if the unpremultiply overflow.
-STBIDEF void stbi_set_unpremultiply_on_load(int flag_true_if_should_unpremultiply);
+STBIDEF فراغ stbi_سېټ_unpremultiply_on_بارول(صحيح flag_true_if_should_unpremultiply);
 
 // indicate whether we should process iphone images back to canonical format,
 // or just pass them through "as-is"
-STBIDEF void stbi_convert_iphone_png_to_rgb(int flag_true_if_should_convert);
+STBIDEF فراغ stbi_convert_iphone_png_منزل_rgb(صحيح flag_true_if_should_convert);
 
 // flip the image vertically, so the first pixel in the output array is the bottom left
-STBIDEF void stbi_set_flip_vertically_on_load(int flag_true_if_should_flip);
-#endif /**/
+STBIDEF فراغ stbi_سېټ_flip_vertically_on_بارول(صحيح flag_true_if_should_flip);
+#د_که_پای /**/
 
-#ifndef STBI_NO_THREAD_LOCALS /**/
+#که_نه_تعریف_شوی STBI_NO_THREAD_LOCALS /**/
 // as above, but only applies to images loaded on the thread that calls the function
 // this function is only available if your compiler supports thread-local variables;
 // calling it will fail to link if your compiler doesn't
-STBIDEF void stbi_set_unpremultiply_on_load_thread(int flag_true_if_should_unpremultiply);
-STBIDEF void stbi_convert_iphone_png_to_rgb_thread(int flag_true_if_should_convert);
-STBIDEF void stbi_set_flip_vertically_on_load_thread(int flag_true_if_should_flip);
-#endif
-#endif
+STBIDEF فراغ stbi_سېټ_unpremultiply_on_بارول_thread(صحيح flag_true_if_should_unpremultiply);
+STBIDEF فراغ stbi_convert_iphone_png_منزل_rgb_thread(صحيح flag_true_if_should_convert);
+STBIDEF فراغ stbi_سېټ_flip_vertically_on_بارول_thread(صحيح flag_true_if_should_flip);
+#د_که_پای
+#د_که_پای
 
 // ZLIB client - used by PNG, available for other purposes
 
-#ifndef STBI_NO_ZLIB
-#if 0 /* not used in SDL */
-STBIDEF char *stbi_zlib_decode_malloc_guesssize(const char *buffer, int len, int initial_size, int *outlen);
-#endif
-STBIDEF char *stbi_zlib_decode_malloc_guesssize_headerflag(const char *buffer, int len, int initial_size, int *outlen, int parse_header);
-#if 0 /* not used in SDL */
-STBIDEF char *stbi_zlib_decode_malloc(const char *buffer, int len, int *outlen);
-STBIDEF int   stbi_zlib_decode_buffer(char *obuffer, int olen, const char *ibuffer, int ilen);
+#که_نه_تعریف_شوی STBI_NO_ZLIB
+#إذا 0 /* not used in SDL */
+STBIDEF حرف *stbi_zlib_decode_malloc_guesssize(ثابت حرف *بفر_2, صحيح len, صحيح initial_اندازه, صحيح *outlen);
+#د_که_پای
+STBIDEF حرف *stbi_zlib_decode_malloc_guesssize_headerflag(ثابت حرف *بفر_2, صحيح len, صحيح initial_اندازه, صحيح *outlen, صحيح parse_سرلیک);
+#إذا 0 /* not used in SDL */
+STBIDEF حرف *stbi_zlib_decode_malloc(ثابت حرف *بفر_2, صحيح len, صحيح *outlen);
+STBIDEF صحيح   stbi_zlib_decode_بفر(حرف *obuffer, صحيح olen, ثابت حرف *ibuffer, صحيح ilen);
 
-STBIDEF char *stbi_zlib_decode_noheader_malloc(const char *buffer, int len, int *outlen);
-STBIDEF int   stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const char *ibuffer, int ilen);
-#endif
-#endif
+STBIDEF حرف *stbi_zlib_decode_noheader_malloc(ثابت حرف *بفر_2, صحيح len, صحيح *outlen);
+STBIDEF صحيح   stbi_zlib_decode_noheader_بفر(حرف *obuffer, صحيح olen, ثابت حرف *ibuffer, صحيح ilen);
+#د_که_پای
+#د_که_پای
 
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
 //
 //
 ////   end header file   /////////////////////////////////////////////////////
-#endif // STBI_INCLUDE_STB_IMAGE_H
+#د_که_پای // STBI_INCLUDE_STB_IMAGE_H
 
-#ifdef STB_IMAGE_IMPLEMENTATION
+#که_تعریف_شوی STB_IMAGE_IMPLEMENTATION
 
-#if defined(STBI_ONLY_JPEG) || defined(STBI_ONLY_PNG) || defined(STBI_ONLY_BMP) \
+#إذا defined(STBI_ONLY_JPEG) || defined(STBI_ONLY_PNG) || defined(STBI_ONLY_BMP) \
   || defined(STBI_ONLY_TGA) || defined(STBI_ONLY_GIF) || defined(STBI_ONLY_PSD) \
   || defined(STBI_ONLY_HDR) || defined(STBI_ONLY_PIC) || defined(STBI_ONLY_PNM) \
   || defined(STBI_ONLY_ZLIB)
-   #ifndef STBI_ONLY_JPEG
-   #define STBI_NO_JPEG
-   #endif
-   #ifndef STBI_ONLY_PNG
-   #define STBI_NO_PNG
-   #endif
-   #ifndef STBI_ONLY_BMP
-   #define STBI_NO_BMP
-   #endif
-   #ifndef STBI_ONLY_PSD
-   #define STBI_NO_PSD
-   #endif
-   #ifndef STBI_ONLY_TGA
-   #define STBI_NO_TGA
-   #endif
-   #ifndef STBI_ONLY_GIF
-   #define STBI_NO_GIF
-   #endif
-   #ifndef STBI_ONLY_HDR
-   #define STBI_NO_HDR
-   #endif
-   #ifndef STBI_ONLY_PIC
-   #define STBI_NO_PIC
-   #endif
-   #ifndef STBI_ONLY_PNM
-   #define STBI_NO_PNM
-   #endif
-#endif
+   #که_نه_تعریف_شوی STBI_ONLY_JPEG
+   #تعریف_کړه STBI_NO_JPEG
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_PNG
+   #تعریف_کړه STBI_NO_PNG
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_BMP
+   #تعریف_کړه STBI_NO_BMP
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_PSD
+   #تعریف_کړه STBI_NO_PSD
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_TGA
+   #تعریف_کړه STBI_NO_TGA
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_GIF
+   #تعریف_کړه STBI_NO_GIF
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_HDR
+   #تعریف_کړه STBI_NO_HDR
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_PIC
+   #تعریف_کړه STBI_NO_PIC
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_ONLY_PNM
+   #تعریف_کړه STBI_NO_PNM
+   #د_که_پای
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && !defined(STBI_SUPPORT_ZLIB) && !defined(STBI_NO_ZLIB)
-#define STBI_NO_ZLIB
-#endif
-
-
-#if 0 /* SDL change */
-#include <stdarg.h>
-#include <stddef.h> // ptrdiff_t on osx
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
-
-#if !defined(STBI_NO_LINEAR) || !defined(STBI_NO_HDR)
-#include <math.h>  // ldexp, pow
-#endif
-#else /* SDL change */
-#ifndef UINT_MAX
-#define UINT_MAX SDL_MAX_UINT32
-#endif
-#ifndef INT_MAX
-#define INT_MAX SDL_MAX_SINT32
-#endif
-#ifndef INT_MIN
-#define INT_MIN SDL_MIN_SINT32
-#endif
-#ifndef SHRT_MAX
-#define SHRT_MAX SDL_MAX_SINT16
-#endif
-#ifndef SHRT_MIN
-#define SHRT_MIN SDL_MIN_SINT16
-#endif
-#endif
-
-#ifndef STBI_NO_STDIO
-#include <stdio.h>
-#endif
-
-#ifndef STBI_ASSERT
-#include <assert.h>
-#define STBI_ASSERT(x) assert(x)
-#endif
-
-#ifdef __cplusplus
-#define STBI_EXTERN extern "C"
-#else
-#define STBI_EXTERN extern
-#endif
+#إذا defined(STBI_NO_PNG) && !defined(STBI_SUPPORT_ZLIB) && !defined(STBI_NO_ZLIB)
+#تعریف_کړه STBI_NO_ZLIB
+#د_که_پای
 
 
-#ifndef _MSC_VER
-   #ifdef __cplusplus
-   #define stbi_inline inline
-   #else
-   #define stbi_inline
-   #endif
-#else
-   #define stbi_inline __forceinline
-#endif
+#إذا 0 /* SDL change */
+#ضمن <stdarg.h>
+#ضمن <stddef.h> // ptrdiff_t on osx
+#ضمن <stdlib.h>
+#ضمن <string.h>
+#ضمن <limits.h>
 
-#ifndef STBI_NO_THREAD_LOCALS
-   #if defined(__cplusplus) &&  __cplusplus >= 201103L
-      #define STBI_THREAD_LOCAL       thread_local
-   #elif defined(__GNUC__) && __GNUC__ < 5
-      #define STBI_THREAD_LOCAL       __thread
-   #elif defined(_MSC_VER)
-      #define STBI_THREAD_LOCAL       __declspec(thread)
-   #elif defined (__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && !defined(__STDC_NO_THREADS__)
-      #define STBI_THREAD_LOCAL       _Thread_local
-   #endif
+#إذا !defined(STBI_NO_خطي) || !defined(STBI_NO_HDR)
+#ضمن <math.h>  // ldexp, pow
+#د_که_پای
+#وإلا /* SDL change */
+#که_نه_تعریف_شوی UINT_MAX
+#تعریف_کړه UINT_MAX SDL_MAX_UINT32
+#د_که_پای
+#که_نه_تعریف_شوی لوی_عدد
+#تعریف_کړه لوی_عدد SDL_MAX_SINT32
+#د_که_پای
+#که_نه_تعریف_شوی INT_MIN
+#تعریف_کړه INT_MIN SDL_MIN_SINT32
+#د_که_پای
+#که_نه_تعریف_شوی SHRT_MAX
+#تعریف_کړه SHRT_MAX SDL_MAX_SINT16
+#د_که_پای
+#که_نه_تعریف_شوی SHRT_MIN
+#تعریف_کړه SHRT_MIN SDL_MIN_SINT16
+#د_که_پای
+#د_که_پای
 
-   #ifndef STBI_THREAD_LOCAL
-      #if defined(__GNUC__)
-        #define STBI_THREAD_LOCAL       __thread
-      #endif
-   #endif
-#endif
+#که_نه_تعریف_شوی STBI_NO_STDIO
+#ضمن <stdio.h>
+#د_که_پای
 
-#if 0 /* SDL change */
-#if defined(_MSC_VER) || defined(__SYMBIAN32__)
-typedef unsigned short stbi__uint16;
-typedef   signed short stbi__int16;
-typedef unsigned int   stbi__uint32;
-typedef   signed int   stbi__int32;
-#else
-#include <stdint.h>
-typedef uint16_t stbi__uint16;
-typedef int16_t  stbi__int16;
-typedef uint32_t stbi__uint32;
-typedef int32_t  stbi__int32;
-#endif
-#else
-typedef Uint16 stbi__uint16;
-typedef Sint16 stbi__int16;
-typedef Uint32 stbi__uint32;
-typedef Sint32 stbi__int32;
-#endif
+#که_نه_تعریف_شوی STBI_ASSERT
+#ضمن <assert.h>
+#تعریف_کړه STBI_ASSERT(x) أكد(x)
+#د_که_پای
 
-#ifndef STBI_BUFFER_SIZE
-#define STBI_BUFFER_SIZE 128
-#endif
+#که_تعریف_شوی __cplusplus
+#تعریف_کړه STBI_EXTERN خارجي "C"
+#وإلا
+#تعریف_کړه STBI_EXTERN خارجي
+#د_که_پای
+
+
+#که_نه_تعریف_شوی _MSC_VER
+   #که_تعریف_شوی __cplusplus
+   #تعریف_کړه stbi_inline مضمن
+   #وإلا
+   #تعریف_کړه stbi_inline
+   #د_که_پای
+#وإلا
+   #تعریف_کړه stbi_inline __forceinline
+#د_که_پای
+
+#که_نه_تعریف_شوی STBI_NO_THREAD_LOCALS
+   #إذا defined(__cplusplus) &&  __cplusplus >= 201103L
+      #تعریف_کړه STBI_THREAD_LOCAL       thread_local
+   #وإلاإذا defined(__GNUC__) && __GNUC__ < 5
+      #تعریف_کړه STBI_THREAD_LOCAL       __thread
+   #وإلاإذا defined(_MSC_VER)
+      #تعریف_کړه STBI_THREAD_LOCAL       __declspec(thread)
+   #وإلاإذا defined (__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && !defined(__STDC_NO_THREADS__)
+      #تعریف_کړه STBI_THREAD_LOCAL       _Thread_local
+   #د_که_پای
+
+   #که_نه_تعریف_شوی STBI_THREAD_LOCAL
+      #إذا defined(__GNUC__)
+        #تعریف_کړه STBI_THREAD_LOCAL       __thread
+      #د_که_پای
+   #د_که_پای
+#د_که_پای
+
+#إذا 0 /* SDL change */
+#إذا defined(_MSC_VER) || defined(__SYMBIAN32__)
+تعريفنوع بینښه لنډ stbi__uint16;
+تعريفنوع   نښهدار لنډ stbi__int16;
+تعريفنوع بینښه صحيح   stbi__uint32;
+تعريفنوع   نښهدار صحيح   stbi__int32;
+#وإلا
+#ضمن <stdint.h>
+تعريفنوع uint16_t stbi__uint16;
+تعريفنوع int16_t  stbi__int16;
+تعريفنوع uint32_t stbi__uint32;
+تعريفنوع int32_t  stbi__int32;
+#د_که_پای
+#وإلا
+تعريفنوع Uint16 stbi__uint16;
+تعريفنوع Sint16 stbi__int16;
+تعريفنوع Uint32 stbi__uint32;
+تعريفنوع Sint32 stbi__int32;
+#د_که_پای
+
+#که_نه_تعریف_شوی STBI_بفر_اندازه
+#تعریف_کړه STBI_بفر_اندازه 128
+#د_که_پای
 
 // should produce compiler error if size is wrong
-typedef unsigned char validate_uint32[sizeof(stbi__uint32)==4 ? 1 : -1];
+تعريفنوع بینښه حرف validate_uint32[حجم(stbi__uint32)==4 ? 1 : -1];
 
-#ifdef _MSC_VER
-#define STBI_NOTUSED(v)  (void)(v)
-#else
-#define STBI_NOTUSED(v)  (void)sizeof(v)
-#endif
+#که_تعریف_شوی _MSC_VER
+#تعریف_کړه STBI_NOTUSED(v)  (فراغ)(v)
+#وإلا
+#تعریف_کړه STBI_NOTUSED(v)  (فراغ)حجم(v)
+#د_که_پای
 
-#if 0 /* SDL change: */
-#ifdef _MSC_VER
-#define STBI_HAS_LROTL
-#endif
-#endif
+#إذا 0 /* SDL change: */
+#که_تعریف_شوی _MSC_VER
+#تعریف_کړه STBI_HAS_LROTL
+#د_که_پای
+#د_که_پای
 
-#ifdef STBI_HAS_LROTL
-   #define stbi_lrot(x,y)  _lrotl(x,y)
-#else
-   #define stbi_lrot(x,y)  (((x) << (y)) | ((x) >> (-(y) & 31)))
-#endif
+#که_تعریف_شوی STBI_HAS_LROTL
+   #تعریف_کړه stbi_lrot(x,y)  _lrotl(x,y)
+#وإلا
+   #تعریف_کړه stbi_lrot(x,y)  (((x) << (y)) | ((x) >> (-(y) & 31)))
+#د_که_پای
 
-#if defined(STBI_MALLOC) && defined(STBI_FREE) && (defined(STBI_REALLOC) || defined(STBI_REALLOC_SIZED))
+#إذا defined(STBI_MALLOC) && defined(STBI_FREE) && (defined(STBI_REALLOC) || defined(STBI_REALLOC_SIZED))
 // ok
-#elif !defined(STBI_MALLOC) && !defined(STBI_FREE) && !defined(STBI_REALLOC) && !defined(STBI_REALLOC_SIZED)
+#وإلاإذا !defined(STBI_MALLOC) && !defined(STBI_FREE) && !defined(STBI_REALLOC) && !defined(STBI_REALLOC_SIZED)
 // ok
-#else
-#error "Must define all or none of STBI_MALLOC, STBI_FREE, and STBI_REALLOC (or STBI_REALLOC_SIZED)."
-#endif
+#وإلا
+#تېروتنه "Must define all or none of STBI_MALLOC, STBI_FREE, and STBI_REALLOC (or STBI_REALLOC_SIZED)."
+#د_که_پای
 
-#ifndef STBI_MALLOC
-#define STBI_MALLOC(sz)           malloc(sz)
-#define STBI_REALLOC(p,newsz)     realloc(p,newsz)
-#define STBI_FREE(p)              free(p)
-#endif
+#که_نه_تعریف_شوی STBI_MALLOC
+#تعریف_کړه STBI_MALLOC(sz)           حافظه_ورکړه(sz)
+#تعریف_کړه STBI_REALLOC(p,newsz)     realloc(p,newsz)
+#تعریف_کړه STBI_FREE(p)              حرر(p)
+#د_که_پای
 
-#ifndef STBI_REALLOC_SIZED
-#define STBI_REALLOC_SIZED(p,oldsz,newsz) STBI_REALLOC(p,newsz)
-#endif
+#که_نه_تعریف_شوی STBI_REALLOC_SIZED
+#تعریف_کړه STBI_REALLOC_SIZED(p,oldsz,newsz) STBI_REALLOC(p,newsz)
+#د_که_پای
 
 // x86/x64 detection
-#if defined(__x86_64__) || defined(_M_X64)
-#define STBI__X64_TARGET
-#elif defined(__i386) || defined(_M_IX86)
-#define STBI__X86_TARGET
-#endif
+#إذا defined(__x86_64__) || defined(_M_X64)
+#تعریف_کړه STBI_X64_موخه
+#وإلاإذا defined(__i386) || defined(_M_IX86)
+#تعریف_کړه STBI_X86_موخه
+#د_که_پای
 
-#if defined(__GNUC__) && defined(STBI__X86_TARGET) && !defined(__SSE2__) && !defined(STBI_NO_SIMD)
+#إذا defined(__GNUC__) && defined(STBI_X86_موخه) && !defined(__SSE2__) && !defined(STBI_NO_SIMD)
 // gcc doesn't support sse2 intrinsics unless you compile with -msse2,
 // which in turn means it gets to use SSE2 everywhere. This is unfortunate,
 // but previous attempts to provide the SSE2 functions with runtime
@@ -773,9 +773,9 @@ typedef unsigned char validate_uint32[sizeof(stbi__uint32)==4 ? 1 : -1];
 // New behavior: if compiled with -msse2, we use SSE2 without any
 // detection; if not, we don't use it at all.
 // #define STBI_NO_SIMD /* Changed by SDL: use SDL_TARGETING("sse2") */
-#endif
+#د_که_پای
 
-#if defined(__MINGW32__) && defined(STBI__X86_TARGET) && !defined(STBI_MINGW_ENABLE_SSE2) && !defined(STBI_NO_SIMD)
+#إذا defined(__MINGW32__) && defined(STBI_X86_موخه) && !defined(STBI_MINGW_ENABLE_SSE2) && !defined(STBI_NO_SIMD)
 // Note that __MINGW32__ doesn't actually mean 32-bit, so we have to avoid STBI__X64_TARGET
 //
 // 32-bit MinGW wants ESP to be 16-byte aligned, but this is not in the
@@ -787,86 +787,86 @@ typedef unsigned char validate_uint32[sizeof(stbi__uint32)==4 ? 1 : -1];
 //
 // So default to no SSE2 on 32-bit MinGW. If you've read this far and added
 // -mstackrealign to your build settings, feel free to #define STBI_MINGW_ENABLE_SSE2.
-#define STBI_NO_SIMD
-#endif
+#تعریف_کړه STBI_NO_SIMD
+#د_که_پای
 
-#if !defined(STBI_NO_SIMD) && (defined(STBI__X86_TARGET) || defined(STBI__X64_TARGET))
-#ifdef SDL_SSE2_INTRINSICS /* SDL change */
-#define STBI_SSE2
-#include <emmintrin.h>
+#إذا !defined(STBI_NO_SIMD) && (defined(STBI_X86_موخه) || defined(STBI_X64_موخه))
+#که_تعریف_شوی SDL_SSE2_INTRINSICS /* SDL change */
+#تعریف_کړه STBI_SSE2
+#ضمن <emmintrin.h>
 
-#ifdef _MSC_VER
+#که_تعریف_شوی _MSC_VER
 
-#if 0 /* SDL change (unused due to using SDL_HasSSE2) */
-#if _MSC_VER >= 1400  // not VC6
-#include <intrin.h> // __cpuid
-static int stbi__cpuid3(void)
+#إذا 0 /* SDL change (unused due to using SDL_HasSSE2) */
+#إذا _MSC_VER >= 1400  // not VC6
+#ضمن <intrin.h> // __cpuid
+ساكن صحيح stbi__cpuid3(فراغ)
 {
-   int info[4];
+   صحيح info[4];
    __cpuid(info,1);
-   return info[3];
+   أرجع info[3];
 }
-#else
-static int stbi__cpuid3(void)
+#وإلا
+ساكن صحيح stbi__cpuid3(فراغ)
 {
-   int res;
+   صحيح res;
    __asm {
       mov  eax,1
       cpuid
       mov  res,edx
    }
-   return res;
+   أرجع res;
 }
-#endif
-#endif /* SDL change */
+#د_که_پای
+#د_که_پای /* SDL change */
 
-#define STBI_SIMD_ALIGN(type, name) __declspec(align(16)) type name
+#تعریف_کړه STBI_SIMD_ALIGN(type, name) __declspec(align(16)) type name
 
-#if !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
-static int stbi__sse2_available(void)
+#إذا !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
+ساكن صحيح stbi_sse2_شته(فراغ)
 {
-   return SDL_HasSSE2(); /* SDL change */
+   أرجع SDL_HasSSE2(); /* SDL change */
 }
-#endif
+#د_که_پای
 
-#else // assume GCC-style if not VC++
-#define STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
+#وإلا // assume GCC-style if not VC++
+#تعریف_کړه STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
 
-#if !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
-static int stbi__sse2_available(void)
+#إذا !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
+ساكن صحيح stbi_sse2_شته(فراغ)
 {
    // If we're even attempting to compile this on GCC/Clang, that means
    // -msse2 is on, which means the compiler is allowed to use SSE2
    // instructions at will, and so are we.
-   return SDL_HasSSE2(); /* SDL change */
+   أرجع SDL_HasSSE2(); /* SDL change */
 }
-#endif
+#د_که_پای
 
-#endif
-#endif /* SDL change (SDL_SSE2_INTRINSICS) */
-#endif
+#د_که_پای
+#د_که_پای /* SDL change (SDL_SSE2_INTRINSICS) */
+#د_که_پای
 
 // ARM NEON
-#if defined(STBI_NO_SIMD) && defined(STBI_NEON)
-#undef STBI_NEON
-#endif
+#إذا defined(STBI_NO_SIMD) && defined(STBI_NEON)
+#تعریف_لغوه STBI_NEON
+#د_که_پای
 
-#ifdef STBI_NEON
-#include <arm_neon.h>
-#ifdef _MSC_VER
-#define STBI_SIMD_ALIGN(type, name) __declspec(align(16)) type name
-#else
-#define STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
-#endif
-#endif
+#که_تعریف_شوی STBI_NEON
+#ضمن <arm_neon.h>
+#که_تعریف_شوی _MSC_VER
+#تعریف_کړه STBI_SIMD_ALIGN(type, name) __declspec(align(16)) type name
+#وإلا
+#تعریف_کړه STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
+#د_که_پای
+#د_که_پای
 
-#ifndef STBI_SIMD_ALIGN
-#define STBI_SIMD_ALIGN(type, name) type name
-#endif
+#که_نه_تعریف_شوی STBI_SIMD_ALIGN
+#تعریف_کړه STBI_SIMD_ALIGN(type, name) type name
+#د_که_پای
 
-#ifndef STBI_MAX_DIMENSIONS
-#define STBI_MAX_DIMENSIONS (1 << 24)
-#endif
+#که_نه_تعریف_شوی STBI_MAX_DIMENSIONS
+#تعریف_کړه STBI_MAX_DIMENSIONS (1 << 24)
+#د_که_پای
 
 ///////////////////////////////////////////////
 //
@@ -874,212 +874,212 @@ static int stbi__sse2_available(void)
 
 // stbi__context structure is our basic context used by all images, so it
 // contains all the IO context, plus some basic image information
-typedef struct
+تعريفنوع بنية
 {
    stbi__uint32 img_x, img_y;
-   int img_n, img_out_n;
+   صحيح img_n, img_بهر_n;
 
    stbi_io_callbacks io;
-   void *io_user_data;
+   فراغ *io_user_معلومات;
 
-   int read_from_callbacks;
-   int buflen;
-   stbi_uc buffer_start[128];
-   int callback_already_read;
+   صحيح read_from_callbacks;
+   صحيح buflen;
+   stbi_uc بفر_پیل[128];
+   صحيح callback_already_read;
 
-   stbi_uc *img_buffer, *img_buffer_end;
-   stbi_uc *img_buffer_original, *img_buffer_original_end;
+   stbi_uc *img_بفر, *img_بفر_پای_ټکی;
+   stbi_uc *img_بفر_original, *img_بفر_original_پای_ټکی;
 } stbi__context;
 
 
-static void stbi__refill_buffer(stbi__context *s);
+ساكن فراغ stbi_refill_بفر(stbi__context *s);
 
 // initialize a memory-decode context
-static void stbi__start_mem(stbi__context *s, stbi_uc const *buffer, int len)
+ساكن فراغ stbi_پیل_mem(stbi__context *s, stbi_uc ثابت *بفر_2, صحيح len)
 {
-   s->io.read = NULL;
-   s->io.skip = NULL;
-   s->io.eof = NULL;
+   s->io.اقرأ = عدم;
+   s->io.skip = عدم;
+   s->io.eof = عدم;
    s->read_from_callbacks = 0;
    s->callback_already_read = 0;
-   s->img_buffer = s->img_buffer_original = (stbi_uc *) buffer;
-   s->img_buffer_end = s->img_buffer_original_end = (stbi_uc *) buffer+len;
+   s->img_بفر = s->img_بفر_original = (stbi_uc *) بفر_2;
+   s->img_بفر_پای_ټکی = s->img_بفر_original_پای_ټکی = (stbi_uc *) بفر_2+len;
 }
 
 // initialize a callback-based context
-static void stbi__start_callbacks(stbi__context *s, stbi_io_callbacks *c, void *user)
+ساكن فراغ stbi_پیل_callbacks(stbi__context *s, stbi_io_callbacks *c, فراغ *user)
 {
    s->io = *c;
-   s->io_user_data = user;
-   s->buflen = sizeof(s->buffer_start);
+   s->io_user_معلومات = user;
+   s->buflen = حجم(s->بفر_پیل);
    s->read_from_callbacks = 1;
    s->callback_already_read = 0;
-   s->img_buffer = s->img_buffer_original = s->buffer_start;
-   stbi__refill_buffer(s);
-   s->img_buffer_original_end = s->img_buffer_end;
+   s->img_بفر = s->img_بفر_original = s->بفر_پیل;
+   stbi_refill_بفر(s);
+   s->img_بفر_original_پای_ټکی = s->img_بفر_پای_ټکی;
 }
 
-#ifndef STBI_NO_STDIO
+#که_نه_تعریف_شوی STBI_NO_STDIO
 
-static int stbi__stdio_read(void *user, char *data, int size)
+ساكن صحيح stbi__stdio_read(فراغ *user, حرف *معلومات, صحيح اندازه)
 {
-   return (int) fread(data,1,size,(FILE*) user);
+   أرجع (صحيح) fread(معلومات,1,اندازه,(FILE*) user);
 }
 
-static void stbi__stdio_skip(void *user, int n)
+ساكن فراغ stbi__stdio_skip(فراغ *user, صحيح n)
 {
-   int ch;
+   صحيح ch;
    fseek((FILE*) user, n, SEEK_CUR);
    ch = fgetc((FILE*) user);  /* have to read a byte to reset feof()'s flag */
-   if (ch != EOF) {
+   إذا (ch != EOF) {
       ungetc(ch, (FILE *) user);  /* push byte back onto stream if valid. */
    }
 }
 
-static int stbi__stdio_eof(void *user)
+ساكن صحيح stbi__stdio_eof(فراغ *user)
 {
-   return feof((FILE*) user) || ferror((FILE *) user);
+   أرجع feof((FILE*) user) || ferror((FILE *) user);
 }
 
-static stbi_io_callbacks stbi__stdio_callbacks =
+ساكن stbi_io_callbacks stbi__stdio_callbacks =
 {
    stbi__stdio_read,
    stbi__stdio_skip,
    stbi__stdio_eof,
 };
 
-static void stbi__start_file(stbi__context *s, FILE *f)
+ساكن فراغ stbi_پیل_file(stbi__context *s, FILE *f)
 {
-   stbi__start_callbacks(s, &stbi__stdio_callbacks, (void *) f);
+   stbi_پیل_callbacks(s, &stbi__stdio_callbacks, (فراغ *) f);
 }
 
 //static void stop_file(stbi__context *s) { }
 
-#endif // !STBI_NO_STDIO
+#د_که_پای // !STBI_NO_STDIO
 
-static void stbi__rewind(stbi__context *s)
+ساكن فراغ stbi__rewind(stbi__context *s)
 {
    // conceptually rewind SHOULD rewind to the beginning of the stream,
    // but we just rewind to the beginning of the initial buffer, because
    // we only use it after doing 'test', which only ever looks at at most 92 bytes
-   s->img_buffer = s->img_buffer_original;
-   s->img_buffer_end = s->img_buffer_original_end;
+   s->img_بفر = s->img_بفر_original;
+   s->img_بفر_پای_ټکی = s->img_بفر_original_پای_ټکی;
 }
 
-enum
+تعداد
 {
-   STBI_ORDER_RGB,
-   STBI_ORDER_BGR
+   STBI_ترتیب_RGB,
+   STBI_ترتیب_BGR
 };
 
-typedef struct
+تعريفنوع بنية
 {
-    int w;
-    int h;
-    int pitch;
+    صحيح w;
+    صحيح h;
+    صحيح pitch;
     stbi_uc *y;
     stbi_uc *uv;
 } stbi__nv12;
 
-typedef struct
+تعريفنوع بنية
 {
-   int bits_per_channel;
-   int num_channels;
-   int channel_order;
-} stbi__result_info;
+   صحيح بټونه_فی_channel;
+   صحيح عدد_channels;
+   صحيح channel_ترتیب;
+} stbi_پایله_info;
 
-#ifndef STBI_NO_JPEG
-static int      stbi__jpeg_test(stbi__context *s);
-static void    *stbi__jpeg_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__nv12 *nv12, stbi__result_info *ri);
-#if 0 /* not used in SDL */
-static int      stbi__jpeg_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
-#endif
+#که_نه_تعریف_شوی STBI_NO_JPEG
+ساكن صحيح      stbi__jpeg_test(stbi__context *s);
+ساكن فراغ    *stbi_jpeg_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi__nv12 *nv12, stbi_پایله_info *ri);
+#إذا 0 /* not used in SDL */
+ساكن صحيح      stbi__jpeg_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
+#د_که_پای
 
-#ifndef STBI_NO_PNG
-static int      stbi__png_test(stbi__context *s);
-static void    *stbi__png_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, unsigned int *palette_buffer, int palette_buffer_len, stbi__result_info *ri);
-#if 0 /* not used in SDL */
-static int      stbi__png_info(stbi__context *s, int *x, int *y, int *comp);
-static int      stbi__png_is16(stbi__context *s);
-#endif
-#endif
+#که_نه_تعریف_شوی STBI_NO_PNG
+ساكن صحيح      stbi__png_test(stbi__context *s);
+ساكن فراغ    *stbi_png_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len, stbi_پایله_info *ri);
+#إذا 0 /* not used in SDL */
+ساكن صحيح      stbi__png_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+ساكن صحيح      stbi__png_is16(stbi__context *s);
+#د_که_پای
+#د_که_پای
 
-#ifndef STBI_NO_BMP
-static int      stbi__bmp_test(stbi__context *s);
-static void    *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri);
-static int      stbi__bmp_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_BMP
+ساكن صحيح      stbi__bmp_test(stbi__context *s);
+ساكن فراغ    *stbi_bmp_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri);
+ساكن صحيح      stbi__bmp_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
 
-#ifndef STBI_NO_TGA
-static int      stbi__tga_test(stbi__context *s);
-static void    *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, unsigned int *palette_buffer, int palette_buffer_len, stbi__result_info *ri);
-static int      stbi__tga_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_TGA
+ساكن صحيح      stbi__tga_test(stbi__context *s);
+ساكن فراغ    *stbi_tga_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len, stbi_پایله_info *ri);
+ساكن صحيح      stbi__tga_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
 
-#ifndef STBI_NO_PSD
-static int      stbi__psd_test(stbi__context *s);
-static void    *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri, int bpc);
-static int      stbi__psd_info(stbi__context *s, int *x, int *y, int *comp);
-static int      stbi__psd_is16(stbi__context *s);
-#endif
+#که_نه_تعریف_شوی STBI_NO_PSD
+ساكن صحيح      stbi__psd_test(stbi__context *s);
+ساكن فراغ    *stbi_psd_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri, صحيح bpc);
+ساكن صحيح      stbi__psd_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+ساكن صحيح      stbi__psd_is16(stbi__context *s);
+#د_که_پای
 
-#ifndef STBI_NO_HDR
-static int      stbi__hdr_test(stbi__context *s);
-static float   *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri);
-static int      stbi__hdr_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_HDR
+ساكن صحيح      stbi__hdr_test(stbi__context *s);
+ساكن عائم   *stbi_hdr_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri);
+ساكن صحيح      stbi__hdr_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
 
-#ifndef STBI_NO_PIC
-static int      stbi__pic_test(stbi__context *s);
-static void    *stbi__pic_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri);
-static int      stbi__pic_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_PIC
+ساكن صحيح      stbi__pic_test(stbi__context *s);
+ساكن فراغ    *stbi_pic_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri);
+ساكن صحيح      stbi__pic_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
 
-#ifndef STBI_NO_GIF
-static int      stbi__gif_test(stbi__context *s);
-static void    *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri);
-static void    *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y, int *z, int *comp, int req_comp);
-static int      stbi__gif_info(stbi__context *s, int *x, int *y, int *comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_GIF
+ساكن صحيح      stbi__gif_test(stbi__context *s);
+ساكن فراغ    *stbi_gif_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri);
+ساكن فراغ    *stbi_بارول_gif_main(stbi__context *s, صحيح **delays, صحيح *x, صحيح *y, صحيح *z, صحيح *comp, صحيح req_comp);
+ساكن صحيح      stbi__gif_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+#د_که_پای
 
-#ifndef STBI_NO_PNM
-static int      stbi__pnm_test(stbi__context *s);
-static void    *stbi__pnm_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri);
-static int      stbi__pnm_info(stbi__context *s, int *x, int *y, int *comp);
-static int      stbi__pnm_is16(stbi__context *s);
-#endif
+#که_نه_تعریف_شوی STBI_NO_PNM
+ساكن صحيح      stbi__pnm_test(stbi__context *s);
+ساكن فراغ    *stbi_pnm_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri);
+ساكن صحيح      stbi__pnm_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp);
+ساكن صحيح      stbi__pnm_is16(stbi__context *s);
+#د_که_پای
 
-#ifndef STBI_NO_FAILURE_STRINGS
-#if 1 /* SDL change: */
-static int stbi__err(const char *str)
+#که_نه_تعریف_شوی STBI_NO_FAILURE_مزي_ګانې
+#إذا 1 /* SDL change: */
+ساكن صحيح stbi__err(ثابت حرف *str)
 {
-   SDL_SetError("%s", str);
-   return 0;
+   SDL_سېټ_Error("%s", str);
+   أرجع 0;
 }
-#else /* SDL change. */
-static
-#ifdef STBI_THREAD_LOCAL
+#وإلا /* SDL change. */
+ساكن
+#که_تعریف_شوی STBI_THREAD_LOCAL
 STBI_THREAD_LOCAL
-#endif
-const char *stbi__g_failure_reason;
+#د_که_پای
+ثابت حرف *stbi__g_failure_reason;
 
-STBIDEF const char *stbi_failure_reason(void)
+STBIDEF ثابت حرف *stbi_failure_reason(فراغ)
 {
-   return stbi__g_failure_reason;
+   أرجع stbi__g_failure_reason;
 }
 
-static int stbi__err(const char *str)
+ساكن صحيح stbi__err(ثابت حرف *str)
 {
    stbi__g_failure_reason = str;
-   return 0;
+   أرجع 0;
 }
-#endif /**/
-#endif
+#د_که_پای /**/
+#د_که_پای
 
-static void *stbi__malloc(size_t size)
+ساكن فراغ *stbi__malloc(size_t اندازه)
 {
-    return STBI_MALLOC(size);
+    أرجع STBI_MALLOC(اندازه);
 }
 
 // stb_image uses ints pervasively, including for offset calculations.
@@ -1094,654 +1094,654 @@ static void *stbi__malloc(size_t size)
 
 // return 1 if the sum is valid, 0 on overflow.
 // negative terms are considered invalid.
-static int stbi__addsizes_valid(int a, int b)
+ساكن صحيح stbi__addsizes_valid(صحيح a, صحيح b)
 {
-   if (b < 0) return 0;
+   إذا (b < 0) أرجع 0;
    // now 0 <= b <= INT_MAX, hence also
    // 0 <= INT_MAX - b <= INTMAX.
    // And "a + b <= INT_MAX" (which might overflow) is the
    // same as a <= INT_MAX - b (no overflow)
-   return a <= INT_MAX - b;
+   أرجع a <= لوی_عدد - b;
 }
 
 // returns 1 if the product is valid, 0 on overflow.
 // negative factors are considered invalid.
-static int stbi__mul2sizes_valid(int a, int b)
+ساكن صحيح stbi__mul2sizes_valid(صحيح a, صحيح b)
 {
-   if (a < 0 || b < 0) return 0;
-   if (b == 0) return 1; // mul-by-0 is always safe
+   إذا (a < 0 || b < 0) أرجع 0;
+   إذا (b == 0) أرجع 1; // mul-by-0 is always safe
    // portable way to check for no overflows in a*b
-   return a <= INT_MAX/b;
+   أرجع a <= لوی_عدد/b;
 }
 
-#if !defined(STBI_NO_JPEG) || !defined(STBI_NO_PNG) || !defined(STBI_NO_TGA) || !defined(STBI_NO_HDR)
+#إذا !defined(STBI_NO_JPEG) || !defined(STBI_NO_PNG) || !defined(STBI_NO_TGA) || !defined(STBI_NO_HDR)
 // returns 1 if "a*b + add" has no negative terms/factors and doesn't overflow
-static int stbi__mad2sizes_valid(int a, int b, int add)
+ساكن صحيح stbi__mad2sizes_valid(صحيح a, صحيح b, صحيح جمع_کړه)
 {
-   return stbi__mul2sizes_valid(a, b) && stbi__addsizes_valid(a*b, add);
+   أرجع stbi__mul2sizes_valid(a, b) && stbi__addsizes_valid(a*b, جمع_کړه);
 }
-#endif
+#د_که_پای
 
 // returns 1 if "a*b*c + add" has no negative terms/factors and doesn't overflow
-static int stbi__mad3sizes_valid(int a, int b, int c, int add)
+ساكن صحيح stbi__mad3sizes_valid(صحيح a, صحيح b, صحيح c, صحيح جمع_کړه)
 {
-   return stbi__mul2sizes_valid(a, b) && stbi__mul2sizes_valid(a*b, c) &&
-      stbi__addsizes_valid(a*b*c, add);
+   أرجع stbi__mul2sizes_valid(a, b) && stbi__mul2sizes_valid(a*b, c) &&
+      stbi__addsizes_valid(a*b*c, جمع_کړه);
 }
 
 // returns 1 if "a*b*c*d + add" has no negative terms/factors and doesn't overflow
-#if !defined(STBI_NO_LINEAR) || !defined(STBI_NO_HDR) || !defined(STBI_NO_PNM) || !defined(STBI_NO_PNG) || !defined(STBI_NO_PSD)
-static int stbi__mad4sizes_valid(int a, int b, int c, int d, int add)
+#إذا !defined(STBI_NO_خطي) || !defined(STBI_NO_HDR) || !defined(STBI_NO_PNM) || !defined(STBI_NO_PNG) || !defined(STBI_NO_PSD)
+ساكن صحيح stbi__mad4sizes_valid(صحيح a, صحيح b, صحيح c, صحيح d, صحيح جمع_کړه)
 {
-   return stbi__mul2sizes_valid(a, b) && stbi__mul2sizes_valid(a*b, c) &&
-      stbi__mul2sizes_valid(a*b*c, d) && stbi__addsizes_valid(a*b*c*d, add);
+   أرجع stbi__mul2sizes_valid(a, b) && stbi__mul2sizes_valid(a*b, c) &&
+      stbi__mul2sizes_valid(a*b*c, d) && stbi__addsizes_valid(a*b*c*d, جمع_کړه);
 }
-#endif
+#د_که_پای
 
-#if !defined(STBI_NO_JPEG) || !defined(STBI_NO_PNG) || !defined(STBI_NO_TGA) || !defined(STBI_NO_HDR)
+#إذا !defined(STBI_NO_JPEG) || !defined(STBI_NO_PNG) || !defined(STBI_NO_TGA) || !defined(STBI_NO_HDR)
 // mallocs with size overflow checking
-static void *stbi__malloc_mad2(int a, int b, int add)
+ساكن فراغ *stbi__malloc_mad2(صحيح a, صحيح b, صحيح جمع_کړه)
 {
-   if (!stbi__mad2sizes_valid(a, b, add)) return NULL;
-   return stbi__malloc(a*b + add);
+   إذا (!stbi__mad2sizes_valid(a, b, جمع_کړه)) أرجع عدم;
+   أرجع stbi__malloc(a*b + جمع_کړه);
 }
-#endif
+#د_که_پای
 
-static void *stbi__malloc_mad3(int a, int b, int c, int add)
+ساكن فراغ *stbi__malloc_mad3(صحيح a, صحيح b, صحيح c, صحيح جمع_کړه)
 {
-   if (!stbi__mad3sizes_valid(a, b, c, add)) return NULL;
-   return stbi__malloc(a*b*c + add);
+   إذا (!stbi__mad3sizes_valid(a, b, c, جمع_کړه)) أرجع عدم;
+   أرجع stbi__malloc(a*b*c + جمع_کړه);
 }
 
-#if !defined(STBI_NO_LINEAR) || !defined(STBI_NO_HDR) || !defined(STBI_NO_PNM) || !defined(STBI_NO_PNG) || !defined(STBI_NO_PSD)
-static void *stbi__malloc_mad4(int a, int b, int c, int d, int add)
+#إذا !defined(STBI_NO_خطي) || !defined(STBI_NO_HDR) || !defined(STBI_NO_PNM) || !defined(STBI_NO_PNG) || !defined(STBI_NO_PSD)
+ساكن فراغ *stbi__malloc_mad4(صحيح a, صحيح b, صحيح c, صحيح d, صحيح جمع_کړه)
 {
-   if (!stbi__mad4sizes_valid(a, b, c, d, add)) return NULL;
-   return stbi__malloc(a*b*c*d + add);
+   إذا (!stbi__mad4sizes_valid(a, b, c, d, جمع_کړه)) أرجع عدم;
+   أرجع stbi__malloc(a*b*c*d + جمع_کړه);
 }
-#endif
+#د_که_پای
 
 // returns 1 if the sum of two signed ints is valid (between -2^31 and 2^31-1 inclusive), 0 on overflow.
-static int stbi__addints_valid(int a, int b)
+ساكن صحيح stbi__addints_valid(صحيح a, صحيح b)
 {
-   if ((a >= 0) != (b >= 0)) return 1; // a and b have different signs, so no overflow
-   if (a < 0 && b < 0) return a >= INT_MIN - b; // same as a + b >= INT_MIN; INT_MIN - b cannot overflow since b < 0.
-   return a <= INT_MAX - b;
+   إذا ((a >= 0) != (b >= 0)) أرجع 1; // a and b have different signs, so no overflow
+   إذا (a < 0 && b < 0) أرجع a >= INT_MIN - b; // same as a + b >= INT_MIN; INT_MIN - b cannot overflow since b < 0.
+   أرجع a <= لوی_عدد - b;
 }
 
 // returns 1 if the product of two ints fits in a signed short, 0 on overflow.
-static int stbi__mul2shorts_valid(int a, int b)
+ساكن صحيح stbi__mul2shorts_valid(صحيح a, صحيح b)
 {
-   if (b == 0 || b == -1) return 1; // multiplication by 0 is always 0; check for -1 so SHRT_MIN/b doesn't overflow
-   if ((a >= 0) == (b >= 0)) return a <= SHRT_MAX/b; // product is positive, so similar to mul2sizes_valid
-   if (b < 0) return a <= SHRT_MIN / b; // same as a * b >= SHRT_MIN
-   return a >= SHRT_MIN / b;
+   إذا (b == 0 || b == -1) أرجع 1; // multiplication by 0 is always 0; check for -1 so SHRT_MIN/b doesn't overflow
+   إذا ((a >= 0) == (b >= 0)) أرجع a <= SHRT_MAX/b; // product is positive, so similar to mul2sizes_valid
+   إذا (b < 0) أرجع a <= SHRT_MIN / b; // same as a * b >= SHRT_MIN
+   أرجع a >= SHRT_MIN / b;
 }
 
 // stbi__err - error
 // stbi__errpf - error returning pointer to float
 // stbi__errpuc - error returning pointer to unsigned char
 
-#ifdef STBI_NO_FAILURE_STRINGS
-   #define stbi__err(x,y)  0
-#elif defined(STBI_FAILURE_USERMSG)
-   #define stbi__err(x,y)  stbi__err(y)
-#else
-   #define stbi__err(x,y)  stbi__err(x)
-#endif
+#که_تعریف_شوی STBI_NO_FAILURE_مزي_ګانې
+   #تعریف_کړه stbi__err(x,y)  0
+#وإلاإذا defined(STBI_FAILURE_USERMSG)
+   #تعریف_کړه stbi__err(x,y)  stbi__err(y)
+#وإلا
+   #تعریف_کړه stbi__err(x,y)  stbi__err(x)
+#د_که_پای
 
-#define stbi__errpf(x,y)   ((float *)(size_t) (stbi__err(x,y)?NULL:NULL))
-#define stbi__errpuc(x,y)  ((unsigned char *)(size_t) (stbi__err(x,y)?NULL:NULL))
+#تعریف_کړه stbi__errpf(x,y)   ((عائم *)(size_t) (stbi__err(x,y)?عدم:عدم))
+#تعریف_کړه stbi__errpuc(x,y)  ((بینښه حرف *)(size_t) (stbi__err(x,y)?عدم:عدم))
 
-STBIDEF void stbi_image_free(void *retval_from_stbi_load)
+STBIDEF فراغ stbi_image_free(فراغ *retval_from_stbi_بارول)
 {
-   STBI_FREE(retval_from_stbi_load);
+   STBI_FREE(retval_from_stbi_بارول);
 }
 
-#ifndef STBI_NO_LINEAR
-static float   *stbi__ldr_to_hdr(stbi_uc *data, int x, int y, int comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_خطي
+ساكن عائم   *stbi_ldr_منزل_hdr(stbi_uc *معلومات, صحيح x, صحيح y, صحيح comp);
+#د_که_پای
 
-#ifndef STBI_NO_HDR
-static stbi_uc *stbi__hdr_to_ldr(float   *data, int x, int y, int comp);
-#endif
+#که_نه_تعریف_شوی STBI_NO_HDR
+ساكن stbi_uc *stbi_hdr_منزل_ldr(عائم   *معلومات, صحيح x, صحيح y, صحيح comp);
+#د_که_پای
 
-static int stbi__vertically_flip_on_load_global = 0;
+ساكن صحيح stbi_vertically_flip_on_بارول_global = 0;
 
-#ifndef STBI_NO_PNG
-#if 0 /* not used in SDL */
-STBIDEF void stbi_set_flip_vertically_on_load(int flag_true_if_should_flip)
+#که_نه_تعریف_شوی STBI_NO_PNG
+#إذا 0 /* not used in SDL */
+STBIDEF فراغ stbi_سېټ_flip_vertically_on_بارول(صحيح flag_true_if_should_flip)
 {
-   stbi__vertically_flip_on_load_global = flag_true_if_should_flip;
+   stbi_vertically_flip_on_بارول_global = flag_true_if_should_flip;
 }
-#endif /**/
-#endif
+#د_که_پای /**/
+#د_که_پای
 
-#ifndef STBI_THREAD_LOCAL
-#define stbi__vertically_flip_on_load  stbi__vertically_flip_on_load_global
-#else
-static STBI_THREAD_LOCAL int stbi__vertically_flip_on_load_local, stbi__vertically_flip_on_load_set;
+#که_نه_تعریف_شوی STBI_THREAD_LOCAL
+#تعریف_کړه stbi_vertically_flip_on_بارول  stbi_vertically_flip_on_بارول_global
+#وإلا
+ساكن STBI_THREAD_LOCAL صحيح stbi_vertically_flip_on_بارول_local, stbi_vertically_flip_on_بارول_سېټ;
 
-#ifndef STBI_NO_PNG
-STBIDEF void stbi_set_flip_vertically_on_load_thread(int flag_true_if_should_flip)
+#که_نه_تعریف_شوی STBI_NO_PNG
+STBIDEF فراغ stbi_سېټ_flip_vertically_on_بارول_thread(صحيح flag_true_if_should_flip)
 {
-   stbi__vertically_flip_on_load_local = flag_true_if_should_flip;
-   stbi__vertically_flip_on_load_set = 1;
+   stbi_vertically_flip_on_بارول_local = flag_true_if_should_flip;
+   stbi_vertically_flip_on_بارول_سېټ = 1;
 }
-#endif
+#د_که_پای
 
-#define stbi__vertically_flip_on_load  (stbi__vertically_flip_on_load_set       \
-                                         ? stbi__vertically_flip_on_load_local  \
-                                         : stbi__vertically_flip_on_load_global)
-#endif // STBI_THREAD_LOCAL
+#تعریف_کړه stbi_vertically_flip_on_بارول  (stbi_vertically_flip_on_بارول_سېټ       \
+                                         ? stbi_vertically_flip_on_بارول_local  \
+                                         : stbi_vertically_flip_on_بارول_global)
+#د_که_پای // STBI_THREAD_LOCAL
 
-static void *stbi__load_main(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri, int bpc, unsigned int *palette_buffer, int palette_buffer_len)
+ساكن فراغ *stbi_بارول_main(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri, صحيح bpc, بینښه صحيح *palette_بفر, صحيح palette_بفر_len)
 {
-   memset(ri, 0, sizeof(*ri)); // make sure it's initialized if we add new fields
-   ri->bits_per_channel = 8; // default is 8 so most paths don't have to be changed
-   ri->channel_order = STBI_ORDER_RGB; // all current input & output are this, but this is here so we can add BGR order
-   ri->num_channels = 0;
+   memset(ri, 0, حجم(*ri)); // make sure it's initialized if we add new fields
+   ri->بټونه_فی_channel = 8; // default is 8 so most paths don't have to be changed
+   ri->channel_ترتیب = STBI_ترتیب_RGB; // all current input & output are this, but this is here so we can add BGR order
+   ri->عدد_channels = 0;
 
    // test the formats with a very explicit header first (at least a FOURCC
    // or distinctive magic number first)
-   #ifndef STBI_NO_PNG
-   if (stbi__png_test(s))  return stbi__png_load(s,x,y,comp,req_comp, palette_buffer, palette_buffer_len, ri);
-   #endif
-   #ifndef STBI_NO_BMP
-   if (stbi__bmp_test(s))  return stbi__bmp_load(s,x,y,comp,req_comp, ri);
-   #endif
-   #ifndef STBI_NO_GIF
-   if (stbi__gif_test(s))  return stbi__gif_load(s,x,y,comp,req_comp, ri);
-   #endif
-   #ifndef STBI_NO_PSD
-   if (stbi__psd_test(s))  return stbi__psd_load(s,x,y,comp,req_comp, ri, bpc);
-   #else
+   #که_نه_تعریف_شوی STBI_NO_PNG
+   إذا (stbi__png_test(s))  أرجع stbi_png_بارول(s,x,y,comp,req_comp, palette_بفر, palette_بفر_len, ri);
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_NO_BMP
+   إذا (stbi__bmp_test(s))  أرجع stbi_bmp_بارول(s,x,y,comp,req_comp, ri);
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_NO_GIF
+   إذا (stbi__gif_test(s))  أرجع stbi_gif_بارول(s,x,y,comp,req_comp, ri);
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_NO_PSD
+   إذا (stbi__psd_test(s))  أرجع stbi_psd_بارول(s,x,y,comp,req_comp, ri, bpc);
+   #وإلا
    STBI_NOTUSED(bpc);
-   #endif
-   #ifndef STBI_NO_PIC
-   if (stbi__pic_test(s))  return stbi__pic_load(s,x,y,comp,req_comp, ri);
-   #endif
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_NO_PIC
+   إذا (stbi__pic_test(s))  أرجع stbi_pic_بارول(s,x,y,comp,req_comp, ri);
+   #د_که_پای
 
    // then the formats that can end up attempting to load with just 1 or 2
    // bytes matching expectations; these are prone to false positives, so
    // try them later
-   #ifndef STBI_NO_JPEG
-   if (stbi__jpeg_test(s)) return stbi__jpeg_load(s,x,y,comp,req_comp,NULL, ri);
-   #endif
-   #ifndef STBI_NO_PNM
-   if (stbi__pnm_test(s))  return stbi__pnm_load(s,x,y,comp,req_comp, ri);
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_JPEG
+   إذا (stbi__jpeg_test(s)) أرجع stbi_jpeg_بارول(s,x,y,comp,req_comp,عدم, ri);
+   #د_که_پای
+   #که_نه_تعریف_شوی STBI_NO_PNM
+   إذا (stbi__pnm_test(s))  أرجع stbi_pnm_بارول(s,x,y,comp,req_comp, ri);
+   #د_که_پای
 
-   #ifndef STBI_NO_HDR
-   if (stbi__hdr_test(s)) {
-      float *hdr = stbi__hdr_load(s, x,y,comp,req_comp, ri);
-      return stbi__hdr_to_ldr(hdr, *x, *y, req_comp ? req_comp : *comp);
+   #که_نه_تعریف_شوی STBI_NO_HDR
+   إذا (stbi__hdr_test(s)) {
+      عائم *hdr = stbi_hdr_بارول(s, x,y,comp,req_comp, ri);
+      أرجع stbi_hdr_منزل_ldr(hdr, *x, *y, req_comp ? req_comp : *comp);
    }
-   #endif
+   #د_که_پای
 
-   #ifndef STBI_NO_TGA
+   #که_نه_تعریف_شوی STBI_NO_TGA
    // test tga last because it's a crappy test!
-   if (stbi__tga_test(s))
-      return stbi__tga_load(s,x,y,comp,req_comp, palette_buffer, palette_buffer_len, ri);
-   #endif
+   إذا (stbi__tga_test(s))
+      أرجع stbi_tga_بارول(s,x,y,comp,req_comp, palette_بفر, palette_بفر_len, ri);
+   #د_که_پای
 
-   return stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
+   أرجع stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
 }
 
-static stbi_uc *stbi__convert_16_to_8(stbi__uint16 *orig, int w, int h, int channels)
+ساكن stbi_uc *stbi_convert_16_منزل_8(stbi__uint16 *orig, صحيح w, صحيح h, صحيح channels)
 {
-   int i;
-   int img_len = w * h * channels;
+   صحيح i;
+   صحيح img_len = w * h * channels;
    stbi_uc *reduced;
 
    reduced = (stbi_uc *) stbi__malloc(img_len);
-   if (reduced == NULL) return stbi__errpuc("outofmem", "Out of memory");
+   إذا (reduced == عدم) أرجع stbi__errpuc("outofmem", "Out of memory");
 
-   for (i = 0; i < img_len; ++i)
+   لكل (i = 0; i < img_len; ++i)
       reduced[i] = (stbi_uc)((orig[i] >> 8) & 0xFF); // top half of each byte is sufficient approx of 16->8 bit scaling
 
    STBI_FREE(orig);
-   return reduced;
+   أرجع reduced;
 }
 
-#if 0 /* not used in SDL */
-static stbi__uint16 *stbi__convert_8_to_16(stbi_uc *orig, int w, int h, int channels)
+#إذا 0 /* not used in SDL */
+ساكن stbi__uint16 *stbi_convert_8_منزل_16(stbi_uc *orig, صحيح w, صحيح h, صحيح channels)
 {
-   int i;
-   int img_len = w * h * channels;
+   صحيح i;
+   صحيح img_len = w * h * channels;
    stbi__uint16 *enlarged;
 
    enlarged = (stbi__uint16 *) stbi__malloc_mad2(img_len, 2, 0);
-   if (enlarged == NULL) return (stbi__uint16 *) stbi__errpuc("outofmem", "Out of memory");
+   إذا (enlarged == عدم) أرجع (stbi__uint16 *) stbi__errpuc("outofmem", "Out of memory");
 
-   for (i = 0; i < img_len; ++i)
+   لكل (i = 0; i < img_len; ++i)
       enlarged[i] = (stbi__uint16)((orig[i] << 8) + orig[i]); // replicate to high and low byte, maps 0->0, 255->0xffff
 
    STBI_FREE(orig);
-   return enlarged;
+   أرجع enlarged;
 }
-#endif
+#د_که_پای
 
-static void stbi__vertical_flip(void *image, int w, int h, int bytes_per_pixel)
+ساكن فراغ stbi__vertical_flip(فراغ *image, صحيح w, صحيح h, صحيح بایټونه_فی_pixel)
 {
-   int row;
-   size_t bytes_per_row = (size_t)w * bytes_per_pixel;
-   stbi_uc temp[2048];
-   stbi_uc *bytes = (stbi_uc *)image;
+   صحيح لیکه;
+   size_t بایټونه_فی_لیکه_2 = (size_t)w * بایټونه_فی_pixel;
+   stbi_uc لنډمهاله[2048];
+   stbi_uc *بایټونه = (stbi_uc *)image;
 
-   for (row = 0; row < (h>>1); row++) {
-      stbi_uc *row0 = bytes + row*bytes_per_row;
-      stbi_uc *row1 = bytes + (h - row - 1)*bytes_per_row;
+   لكل (لیکه = 0; لیکه < (h>>1); لیکه++) {
+      stbi_uc *row0 = بایټونه + لیکه*بایټونه_فی_لیکه_2;
+      stbi_uc *row1 = بایټونه + (h - لیکه - 1)*بایټونه_فی_لیکه_2;
       // swap row0 with row1
-      size_t bytes_left = bytes_per_row;
-      while (bytes_left) {
-         size_t bytes_copy = (bytes_left < sizeof(temp)) ? bytes_left : sizeof(temp);
-         memcpy(temp, row0, bytes_copy);
-         memcpy(row0, row1, bytes_copy);
-         memcpy(row1, temp, bytes_copy);
-         row0 += bytes_copy;
-         row1 += bytes_copy;
-         bytes_left -= bytes_copy;
+      size_t بایټونه_کیڼ = بایټونه_فی_لیکه_2;
+      طالما (بایټونه_کیڼ) {
+         size_t بایټونه_copy = (بایټونه_کیڼ < حجم(لنډمهاله)) ? بایټونه_کیڼ : حجم(لنډمهاله);
+         حافظه_نقل(لنډمهاله, row0, بایټونه_copy);
+         حافظه_نقل(row0, row1, بایټونه_copy);
+         حافظه_نقل(row1, لنډمهاله, بایټونه_copy);
+         row0 += بایټونه_copy;
+         row1 += بایټونه_copy;
+         بایټونه_کیڼ -= بایټونه_copy;
       }
    }
 }
 
-#ifndef STBI_NO_GIF
-static void stbi__vertical_flip_slices(void *image, int w, int h, int z, int bytes_per_pixel)
+#که_نه_تعریف_شوی STBI_NO_GIF
+ساكن فراغ stbi__vertical_flip_slices(فراغ *image, صحيح w, صحيح h, صحيح z, صحيح بایټونه_فی_pixel)
 {
-   int slice;
-   int slice_size = w * h * bytes_per_pixel;
+   صحيح ټوټه;
+   صحيح ټوټه_اندازه = w * h * بایټونه_فی_pixel;
 
-   stbi_uc *bytes = (stbi_uc *)image;
-   for (slice = 0; slice < z; ++slice) {
-      stbi__vertical_flip(bytes, w, h, bytes_per_pixel);
-      bytes += slice_size;
+   stbi_uc *بایټونه = (stbi_uc *)image;
+   لكل (ټوټه = 0; ټوټه < z; ++ټوټه) {
+      stbi__vertical_flip(بایټونه, w, h, بایټونه_فی_pixel);
+      بایټونه += ټوټه_اندازه;
    }
 }
-#endif
+#د_که_پای
 
-static unsigned char *stbi__load_indexed(stbi__context *s, int *x, int *y, unsigned int *palette_buffer, int palette_buffer_len)
+ساكن بینښه حرف *stbi_بارول_شاخصي(stbi__context *s, صحيح *x, صحيح *y, بینښه صحيح *palette_بفر, صحيح palette_بفر_len)
 {
-   stbi__result_info ri;
-   int comp;
-   void *result;
+   stbi_پایله_info ri;
+   صحيح comp;
+   فراغ *پایله;
 
-   if (!palette_buffer)
-       return NULL;
+   إذا (!palette_بفر)
+       أرجع عدم;
 
-   result = stbi__load_main(s, x, y, &comp, 1, &ri, 8, palette_buffer, palette_buffer_len);
-   if (result == NULL)
-      return NULL;
+   پایله = stbi_بارول_main(s, x, y, &comp, 1, &ri, 8, palette_بفر, palette_بفر_len);
+   إذا (پایله == عدم)
+      أرجع عدم;
 
-   if (comp != 1) {
-       stbi_image_free(result);
-       return NULL;
+   إذا (comp != 1) {
+       stbi_image_free(پایله);
+       أرجع عدم;
    }
 
-   if (ri.bits_per_channel != 8) {
-      stbi_image_free(result);
-      return NULL;
+   إذا (ri.بټونه_فی_channel != 8) {
+      stbi_image_free(پایله);
+      أرجع عدم;
    }
 
    // @TODO: move stbi__convert_format to here
 
-   if (stbi__vertically_flip_on_load) {
-      int channels = 1;
-      stbi__vertical_flip(result, *x, *y, channels * sizeof(stbi_uc));
+   إذا (stbi_vertically_flip_on_بارول) {
+      صحيح channels = 1;
+      stbi__vertical_flip(پایله, *x, *y, channels * حجم(stbi_uc));
    }
 
-   return (unsigned char *) result;
+   أرجع (بینښه حرف *) پایله;
 }
 
-static unsigned char *stbi__load_and_postprocess_8bit(stbi__context *s, int *x, int *y, int *comp, int req_comp)
+ساكن بینښه حرف *stbi_بارول_and_postprocess_8bit(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   stbi__result_info ri;
-   void *result = stbi__load_main(s, x, y, comp, req_comp, &ri, 8, NULL, 0);
+   stbi_پایله_info ri;
+   فراغ *پایله = stbi_بارول_main(s, x, y, comp, req_comp, &ri, 8, عدم, 0);
 
-   if (result == NULL)
-      return NULL;
+   إذا (پایله == عدم)
+      أرجع عدم;
 
    // it is the responsibility of the loaders to make sure we get either 8 or 16 bit.
-   STBI_ASSERT(ri.bits_per_channel == 8 || ri.bits_per_channel == 16);
+   STBI_ASSERT(ri.بټونه_فی_channel == 8 || ri.بټونه_فی_channel == 16);
 
-   if (ri.bits_per_channel != 8) {
-      result = stbi__convert_16_to_8((stbi__uint16 *) result, *x, *y, req_comp == 0 ? *comp : req_comp);
-      ri.bits_per_channel = 8;
+   إذا (ri.بټونه_فی_channel != 8) {
+      پایله = stbi_convert_16_منزل_8((stbi__uint16 *) پایله, *x, *y, req_comp == 0 ? *comp : req_comp);
+      ri.بټونه_فی_channel = 8;
    }
 
    // @TODO: move stbi__convert_format to here
 
-   if (stbi__vertically_flip_on_load) {
-      int channels = req_comp ? req_comp : *comp;
-      stbi__vertical_flip(result, *x, *y, channels * sizeof(stbi_uc));
+   إذا (stbi_vertically_flip_on_بارول) {
+      صحيح channels = req_comp ? req_comp : *comp;
+      stbi__vertical_flip(پایله, *x, *y, channels * حجم(stbi_uc));
    }
 
-   return (unsigned char *) result;
+   أرجع (بینښه حرف *) پایله;
 }
 
-#if 0 /* not used in SDL */
-static stbi__uint16 *stbi__load_and_postprocess_16bit(stbi__context *s, int *x, int *y, int *comp, int req_comp)
+#إذا 0 /* not used in SDL */
+ساكن stbi__uint16 *stbi_بارول_and_postprocess_16bit(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   stbi__result_info ri;
-   void *result = stbi__load_main(s, x, y, comp, req_comp, &ri, 16, NULL, 0);
+   stbi_پایله_info ri;
+   فراغ *پایله = stbi_بارول_main(s, x, y, comp, req_comp, &ri, 16, عدم, 0);
 
-   if (result == NULL)
-      return NULL;
+   إذا (پایله == عدم)
+      أرجع عدم;
 
    // it is the responsibility of the loaders to make sure we get either 8 or 16 bit.
-   STBI_ASSERT(ri.bits_per_channel == 8 || ri.bits_per_channel == 16);
+   STBI_ASSERT(ri.بټونه_فی_channel == 8 || ri.بټونه_فی_channel == 16);
 
-   if (ri.bits_per_channel != 16) {
-      result = stbi__convert_8_to_16((stbi_uc *) result, *x, *y, req_comp == 0 ? *comp : req_comp);
-      ri.bits_per_channel = 16;
+   إذا (ri.بټونه_فی_channel != 16) {
+      پایله = stbi_convert_8_منزل_16((stbi_uc *) پایله, *x, *y, req_comp == 0 ? *comp : req_comp);
+      ri.بټونه_فی_channel = 16;
    }
 
    // @TODO: move stbi__convert_format16 to here
    // @TODO: special case RGB-to-Y (and RGBA-to-YA) for 8-bit-to-16-bit case to keep more precision
 
-   if (stbi__vertically_flip_on_load) {
-      int channels = req_comp ? req_comp : *comp;
-      stbi__vertical_flip(result, *x, *y, channels * sizeof(stbi__uint16));
+   إذا (stbi_vertically_flip_on_بارول) {
+      صحيح channels = req_comp ? req_comp : *comp;
+      stbi__vertical_flip(پایله, *x, *y, channels * حجم(stbi__uint16));
    }
 
-   return (stbi__uint16 *) result;
+   أرجع (stbi__uint16 *) پایله;
 }
-#endif /**/
+#د_که_پای /**/
 
-#if !defined(STBI_NO_HDR) && !defined(STBI_NO_LINEAR)
-static void stbi__float_postprocess(float *result, int *x, int *y, int *comp, int req_comp)
+#إذا !defined(STBI_NO_HDR) && !defined(STBI_NO_خطي)
+ساكن فراغ stbi__float_postprocess(عائم *پایله, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   if (stbi__vertically_flip_on_load && result != NULL) {
-      int channels = req_comp ? req_comp : *comp;
-      stbi__vertical_flip(result, *x, *y, channels * sizeof(float));
+   إذا (stbi_vertically_flip_on_بارول && پایله != عدم) {
+      صحيح channels = req_comp ? req_comp : *comp;
+      stbi__vertical_flip(پایله, *x, *y, channels * حجم(عائم));
    }
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_STDIO
+#که_نه_تعریف_شوی STBI_NO_STDIO
 
-#if defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
-STBI_EXTERN __declspec(dllimport) int __stdcall MultiByteToWideChar(unsigned int cp, unsigned long flags, const char *str, int cbmb, wchar_t *widestr, int cchwide);
-STBI_EXTERN __declspec(dllimport) int __stdcall WideCharToMultiByte(unsigned int cp, unsigned long flags, const wchar_t *widestr, int cchwide, char *str, int cbmb, const char *defchar, int *used_default);
-#endif
+#إذا defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
+STBI_EXTERN __declspec(dllimport) صحيح __stdcall Multi_Byte_منزل_Wide_Char(بینښه صحيح cp, بینښه اوږد flags, ثابت حرف *str, صحيح cbmb, wchar_t *widestr, صحيح cchwide);
+STBI_EXTERN __declspec(dllimport) صحيح __stdcall Wide_Char_منزل_Multi_Byte(بینښه صحيح cp, بینښه اوږد flags, ثابت wchar_t *widestr, صحيح cchwide, حرف *str, صحيح cbmb, ثابت حرف *defchar, صحيح *کارول_شوی_default);
+#د_که_پای
 
-#if defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
-STBIDEF int stbi_convert_wchar_to_utf8(char *buffer, size_t bufferlen, const wchar_t* input)
+#إذا defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
+STBIDEF صحيح stbi_convert_wchar_منزل_utf8(حرف *بفر_2, size_t bufferlen, ثابت wchar_t* ننوت)
 {
-	return WideCharToMultiByte(65001 /* UTF8 */, 0, input, -1, buffer, (int) bufferlen, NULL, NULL);
+	أرجع Wide_Char_منزل_Multi_Byte(65001 /* UTF8 */, 0, ننوت, -1, بفر_2, (صحيح) bufferlen, عدم, عدم);
 }
-#endif
+#د_که_پای
 
-static FILE *stbi__fopen(char const *filename, char const *mode)
+ساكن FILE *stbi__fopen(حرف ثابت *filename, حرف ثابت *ډېرپېښ)
 {
    FILE *f;
-#if defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
-   wchar_t wMode[64];
+#إذا defined(_WIN32) && defined(STBI_WINDOWS_UTF8)
+   wchar_t w_ډېرپېښ[64];
    wchar_t wFilename[1024];
-	if (0 == MultiByteToWideChar(65001 /* UTF8 */, 0, filename, -1, wFilename, sizeof(wFilename)/sizeof(*wFilename)))
-      return 0;
+	إذا (0 == Multi_Byte_منزل_Wide_Char(65001 /* UTF8 */, 0, filename, -1, wFilename, حجم(wFilename)/حجم(*wFilename)))
+      أرجع 0;
 
-	if (0 == MultiByteToWideChar(65001 /* UTF8 */, 0, mode, -1, wMode, sizeof(wMode)/sizeof(*wMode)))
-      return 0;
+	إذا (0 == Multi_Byte_منزل_Wide_Char(65001 /* UTF8 */, 0, ډېرپېښ, -1, w_ډېرپېښ, حجم(w_ډېرپېښ)/حجم(*w_ډېرپېښ)))
+      أرجع 0;
 
-#if defined(_MSC_VER) && _MSC_VER >= 1400
-	if (0 != _wfopen_s(&f, wFilename, wMode))
+#إذا defined(_MSC_VER) && _MSC_VER >= 1400
+	إذا (0 != _wfopen_s(&f, wFilename, w_ډېرپېښ))
 		f = 0;
-#else
-   f = _wfopen(wFilename, wMode);
-#endif
+#وإلا
+   f = _wfopen(wFilename, w_ډېرپېښ);
+#د_که_پای
 
-#elif defined(_MSC_VER) && _MSC_VER >= 1400
-   if (0 != fopen_s(&f, filename, mode))
+#وإلاإذا defined(_MSC_VER) && _MSC_VER >= 1400
+   إذا (0 != fopen_s(&f, filename, ډېرپېښ))
       f=0;
-#else
-   f = fopen(filename, mode);
-#endif
-   return f;
+#وإلا
+   f = fopen(filename, ډېرپېښ);
+#د_که_پای
+   أرجع f;
 }
 
 
-STBIDEF stbi_uc *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi_uc *stbi_بارول(حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    FILE *f = stbi__fopen(filename, "rb");
-   unsigned char *result;
-   if (!f) return stbi__errpuc("can't fopen", "Unable to open file");
-   result = stbi_load_from_file(f,x,y,comp,req_comp);
+   بینښه حرف *پایله;
+   إذا (!f) أرجع stbi__errpuc("can't fopen", "Unable to open file");
+   پایله = stbi_بارول_from_file(f,x,y,comp,req_comp);
    fclose(f);
-   return result;
+   أرجع پایله;
 }
 
-STBIDEF stbi_uc *stbi_load_from_file(FILE *f, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi_uc *stbi_بارول_from_file(FILE *f, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   unsigned char *result;
+   بینښه حرف *پایله;
    stbi__context s;
-   stbi__start_file(&s,f);
-   result = stbi__load_and_postprocess_8bit(&s,x,y,comp,req_comp);
-   if (result) {
+   stbi_پیل_file(&s,f);
+   پایله = stbi_بارول_and_postprocess_8bit(&s,x,y,comp,req_comp);
+   إذا (پایله) {
       // need to 'unget' all the characters in the IO buffer
-      fseek(f, - (int) (s.img_buffer_end - s.img_buffer), SEEK_CUR);
+      fseek(f, - (صحيح) (s.img_بفر_پای_ټکی - s.img_بفر), SEEK_CUR);
    }
-   return result;
+   أرجع پایله;
 }
 
-STBIDEF stbi__uint16 *stbi_load_from_file_16(FILE *f, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi__uint16 *stbi_بارول_from_file_16(FILE *f, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   stbi__uint16 *result;
+   stbi__uint16 *پایله;
    stbi__context s;
-   stbi__start_file(&s,f);
-   result = stbi__load_and_postprocess_16bit(&s,x,y,comp,req_comp);
-   if (result) {
+   stbi_پیل_file(&s,f);
+   پایله = stbi_بارول_and_postprocess_16bit(&s,x,y,comp,req_comp);
+   إذا (پایله) {
       // need to 'unget' all the characters in the IO buffer
-      fseek(f, - (int) (s.img_buffer_end - s.img_buffer), SEEK_CUR);
+      fseek(f, - (صحيح) (s.img_بفر_پای_ټکی - s.img_بفر), SEEK_CUR);
    }
-   return result;
+   أرجع پایله;
 }
 
-STBIDEF stbi_us *stbi_load_16(char const *filename, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi_us *stbi_بارول_16(حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    FILE *f = stbi__fopen(filename, "rb");
-   stbi__uint16 *result;
-   if (!f) return (stbi_us *) stbi__errpuc("can't fopen", "Unable to open file");
-   result = stbi_load_from_file_16(f,x,y,comp,req_comp);
+   stbi__uint16 *پایله;
+   إذا (!f) أرجع (stbi_us *) stbi__errpuc("can't fopen", "Unable to open file");
+   پایله = stbi_بارول_from_file_16(f,x,y,comp,req_comp);
    fclose(f);
-   return result;
+   أرجع پایله;
 }
 
 
-#endif //!STBI_NO_STDIO
+#د_که_پای //!STBI_NO_STDIO
 
-#if 0 /* not used in SDL */
-STBIDEF stbi_us *stbi_load_16_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *channels_in_file, int desired_channels)
+#إذا 0 /* not used in SDL */
+STBIDEF stbi_us *stbi_بارول_16_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels)
 {
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__load_and_postprocess_16bit(&s,x,y,channels_in_file,desired_channels);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi_بارول_and_postprocess_16bit(&s,x,y,channels_دننه_file,desired_channels);
 }
 
-STBIDEF stbi_us *stbi_load_16_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *channels_in_file, int desired_channels)
+STBIDEF stbi_us *stbi_بارول_16_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, صحيح *channels_دننه_file, صحيح desired_channels)
 {
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *)clbk, user);
-   return stbi__load_and_postprocess_16bit(&s,x,y,channels_in_file,desired_channels);
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *)clbk, user);
+   أرجع stbi_بارول_and_postprocess_16bit(&s,x,y,channels_دننه_file,desired_channels);
 }
-#endif /**/
+#د_که_پای /**/
 
-STBIDEF stbi_uc *stbi_load_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi_uc *stbi_بارول_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__load_and_postprocess_8bit(&s,x,y,comp,req_comp);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi_بارول_and_postprocess_8bit(&s,x,y,comp,req_comp);
 }
 
-STBIDEF stbi_uc *stbi_load_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *comp, int req_comp)
+STBIDEF stbi_uc *stbi_بارول_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *) clbk, user);
-   return stbi__load_and_postprocess_8bit(&s,x,y,comp,req_comp);
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *) clbk, user);
+   أرجع stbi_بارول_and_postprocess_8bit(&s,x,y,comp,req_comp);
 }
 
-#if 0 /* not used in SDL */
-STBIDEF stbi_uc *stbi_load_from_memory_with_palette(stbi_uc const *buffer, int len, int *x, int *y, unsigned int *palette_buffer, int palette_buffer_len)
+#إذا 0 /* not used in SDL */
+STBIDEF stbi_uc *stbi_بارول_from_حافظه_with_palette(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, بینښه صحيح *palette_بفر, صحيح palette_بفر_len)
 {
     stbi__context s;
-    stbi__start_mem(&s, buffer, len);
-    return stbi__load_indexed(&s, x, y, palette_buffer, palette_buffer_len);
+    stbi_پیل_mem(&s, بفر_2, len);
+    أرجع stbi_بارول_شاخصي(&s, x, y, palette_بفر, palette_بفر_len);
 }
-#endif
+#د_که_پای
 
-STBIDEF stbi_uc *stbi_load_from_callbacks_with_palette(stbi_io_callbacks const *clbk, void *user, int *x, int *y, unsigned int *palette_buffer, int palette_buffer_len)
+STBIDEF stbi_uc *stbi_بارول_from_callbacks_with_palette(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, بینښه صحيح *palette_بفر, صحيح palette_بفر_len)
 {
     stbi__context s;
-    stbi__start_callbacks(&s, (stbi_io_callbacks *)clbk, user);
-    return stbi__load_indexed(&s, x, y, palette_buffer, palette_buffer_len);
+    stbi_پیل_callbacks(&s, (stbi_io_callbacks *)clbk, user);
+    أرجع stbi_بارول_شاخصي(&s, x, y, palette_بفر, palette_بفر_len);
 }
 
-#ifndef STBI_NO_GIF
-STBIDEF stbi_uc *stbi_load_gif_from_memory(stbi_uc const *buffer, int len, int **delays, int *x, int *y, int *z, int *comp, int req_comp)
+#که_نه_تعریف_شوی STBI_NO_GIF
+STBIDEF stbi_uc *stbi_بارول_gif_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح **delays, صحيح *x, صحيح *y, صحيح *z, صحيح *comp, صحيح req_comp)
 {
-   unsigned char *result;
+   بینښه حرف *پایله;
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
+   stbi_پیل_mem(&s,بفر_2,len);
 
-   result = (unsigned char*) stbi__load_gif_main(&s, delays, x, y, z, comp, req_comp);
-   if (stbi__vertically_flip_on_load) {
-      stbi__vertical_flip_slices( result, *x, *y, *z, *comp );
+   پایله = (بینښه حرف*) stbi_بارول_gif_main(&s, delays, x, y, z, comp, req_comp);
+   إذا (stbi_vertically_flip_on_بارول) {
+      stbi__vertical_flip_slices( پایله, *x, *y, *z, *comp );
    }
 
-   return result;
+   أرجع پایله;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_LINEAR
-static float *stbi__loadf_main(stbi__context *s, int *x, int *y, int *comp, int req_comp)
+#که_نه_تعریف_شوی STBI_NO_خطي
+ساكن عائم *stbi__loadf_main(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   unsigned char *data;
-   #ifndef STBI_NO_HDR
-   if (stbi__hdr_test(s)) {
-      stbi__result_info ri;
-      float *hdr_data = stbi__hdr_load(s,x,y,comp,req_comp, &ri);
-      if (hdr_data)
-         stbi__float_postprocess(hdr_data,x,y,comp,req_comp);
-      return hdr_data;
+   بینښه حرف *معلومات;
+   #که_نه_تعریف_شوی STBI_NO_HDR
+   إذا (stbi__hdr_test(s)) {
+      stbi_پایله_info ri;
+      عائم *hdr_معلومات = stbi_hdr_بارول(s,x,y,comp,req_comp, &ri);
+      إذا (hdr_معلومات)
+         stbi__float_postprocess(hdr_معلومات,x,y,comp,req_comp);
+      أرجع hdr_معلومات;
    }
-   #endif
-   data = stbi__load_and_postprocess_8bit(s, x, y, comp, req_comp);
-   if (data)
-      return stbi__ldr_to_hdr(data, *x, *y, req_comp ? req_comp : *comp);
-   return stbi__errpf("unknown image type", "Image not of any known type, or corrupt");
+   #د_که_پای
+   معلومات = stbi_بارول_and_postprocess_8bit(s, x, y, comp, req_comp);
+   إذا (معلومات)
+      أرجع stbi_ldr_منزل_hdr(معلومات, *x, *y, req_comp ? req_comp : *comp);
+   أرجع stbi__errpf("unknown image type", "Image not of any known type, or corrupt");
 }
 
-STBIDEF float *stbi_loadf_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp, int req_comp)
+STBIDEF عائم *stbi_loadf_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__loadf_main(&s,x,y,comp,req_comp);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi__loadf_main(&s,x,y,comp,req_comp);
 }
 
-STBIDEF float *stbi_loadf_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *comp, int req_comp)
+STBIDEF عائم *stbi_loadf_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *) clbk, user);
-   return stbi__loadf_main(&s,x,y,comp,req_comp);
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *) clbk, user);
+   أرجع stbi__loadf_main(&s,x,y,comp,req_comp);
 }
 
-#ifndef STBI_NO_STDIO
-STBIDEF float *stbi_loadf(char const *filename, int *x, int *y, int *comp, int req_comp)
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF عائم *stbi_loadf(حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
-   float *result;
+   عائم *پایله;
    FILE *f = stbi__fopen(filename, "rb");
-   if (!f) return stbi__errpf("can't fopen", "Unable to open file");
-   result = stbi_loadf_from_file(f,x,y,comp,req_comp);
+   إذا (!f) أرجع stbi__errpf("can't fopen", "Unable to open file");
+   پایله = stbi_loadf_from_file(f,x,y,comp,req_comp);
    fclose(f);
-   return result;
+   أرجع پایله;
 }
 
-STBIDEF float *stbi_loadf_from_file(FILE *f, int *x, int *y, int *comp, int req_comp)
+STBIDEF عائم *stbi_loadf_from_file(FILE *f, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp)
 {
    stbi__context s;
-   stbi__start_file(&s,f);
-   return stbi__loadf_main(&s,x,y,comp,req_comp);
+   stbi_پیل_file(&s,f);
+   أرجع stbi__loadf_main(&s,x,y,comp,req_comp);
 }
-#endif // !STBI_NO_STDIO
+#د_که_پای // !STBI_NO_STDIO
 
-#endif // !STBI_NO_LINEAR
+#د_که_پای // !STBI_NO_LINEAR
 
-#if 0 /* not used in SDL */
+#إذا 0 /* not used in SDL */
 // these is-hdr-or-not is defined independent of whether STBI_NO_LINEAR is
 // defined, for API simplicity; if STBI_NO_LINEAR is defined, it always
 // reports false!
 
-STBIDEF int stbi_is_hdr_from_memory(stbi_uc const *buffer, int len)
+STBIDEF صحيح stbi_is_hdr_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len)
 {
-   #ifndef STBI_NO_HDR
+   #که_نه_تعریف_شوی STBI_NO_HDR
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__hdr_test(&s);
-   #else
-   STBI_NOTUSED(buffer);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi__hdr_test(&s);
+   #وإلا
+   STBI_NOTUSED(بفر_2);
    STBI_NOTUSED(len);
-   return 0;
-   #endif
+   أرجع 0;
+   #د_که_پای
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_STDIO
-STBIDEF int      stbi_is_hdr          (char const *filename)
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF صحيح      stbi_is_hdr          (حرف ثابت *filename)
 {
    FILE *f = stbi__fopen(filename, "rb");
-   int result=0;
-   if (f) {
-      result = stbi_is_hdr_from_file(f);
+   صحيح پایله=0;
+   إذا (f) {
+      پایله = stbi_is_hdr_from_file(f);
       fclose(f);
    }
-   return result;
+   أرجع پایله;
 }
 
-STBIDEF int stbi_is_hdr_from_file(FILE *f)
+STBIDEF صحيح stbi_is_hdr_from_file(FILE *f)
 {
-   #ifndef STBI_NO_HDR
-   long pos = ftell(f);
-   int res;
+   #که_نه_تعریف_شوی STBI_NO_HDR
+   اوږد pos = ftell(f);
+   صحيح res;
    stbi__context s;
-   stbi__start_file(&s,f);
+   stbi_پیل_file(&s,f);
    res = stbi__hdr_test(&s);
    fseek(f, pos, SEEK_SET);
-   return res;
-   #else
+   أرجع res;
+   #وإلا
    STBI_NOTUSED(f);
-   return 0;
-   #endif
+   أرجع 0;
+   #د_که_پای
 }
-#endif // !STBI_NO_STDIO
+#د_که_پای // !STBI_NO_STDIO
 
-#if 0 /* not used in SDL */
-STBIDEF int      stbi_is_hdr_from_callbacks(stbi_io_callbacks const *clbk, void *user)
+#إذا 0 /* not used in SDL */
+STBIDEF صحيح      stbi_is_hdr_from_callbacks(stbi_io_callbacks ثابت *clbk, فراغ *user)
 {
-   #ifndef STBI_NO_HDR
+   #که_نه_تعریف_شوی STBI_NO_HDR
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *) clbk, user);
-   return stbi__hdr_test(&s);
-   #else
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *) clbk, user);
+   أرجع stbi__hdr_test(&s);
+   #وإلا
    STBI_NOTUSED(clbk);
    STBI_NOTUSED(user);
-   return 0;
-   #endif
+   أرجع 0;
+   #د_که_پای
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_LINEAR
-static float stbi__l2h_gamma=2.2f, stbi__l2h_scale=1.0f;
+#که_نه_تعریف_شوی STBI_NO_خطي
+ساكن عائم stbi__l2h_gamma=2.2f, stbi__l2h_scale=1.0f;
 
-STBIDEF void   stbi_ldr_to_hdr_gamma(float gamma) { stbi__l2h_gamma = gamma; }
-STBIDEF void   stbi_ldr_to_hdr_scale(float scale) { stbi__l2h_scale = scale; }
-#endif
+STBIDEF فراغ   stbi_ldr_منزل_hdr_gamma(عائم gamma) { stbi__l2h_gamma = gamma; }
+STBIDEF فراغ   stbi_ldr_منزل_hdr_scale(عائم scale) { stbi__l2h_scale = scale; }
+#د_که_پای
 
-#ifndef STBI_NO_HDR
-static float stbi__h2l_gamma_i=1.0f/2.2f, stbi__h2l_scale_i=1.0f;
+#که_نه_تعریف_شوی STBI_NO_HDR
+ساكن عائم stbi__h2l_gamma_i=1.0f/2.2f, stbi__h2l_scale_i=1.0f;
 
-STBIDEF void   stbi_hdr_to_ldr_gamma(float gamma) { stbi__h2l_gamma_i = 1/gamma; }
-STBIDEF void   stbi_hdr_to_ldr_scale(float scale) { stbi__h2l_scale_i = 1/scale; }
-#endif
+STBIDEF فراغ   stbi_hdr_منزل_ldr_gamma(عائم gamma) { stbi__h2l_gamma_i = 1/gamma; }
+STBIDEF فراغ   stbi_hdr_منزل_ldr_scale(عائم scale) { stbi__h2l_scale_i = 1/scale; }
+#د_که_پای
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1749,151 +1749,151 @@ STBIDEF void   stbi_hdr_to_ldr_scale(float scale) { stbi__h2l_scale_i = 1/scale;
 // Common code used by all image loaders
 //
 
-enum
+تعداد
 {
-   STBI__SCAN_load=0,
-   STBI__SCAN_type,
-   STBI__SCAN_header
+   STBI_لټون_بارول=0,
+   STBI_لټون_type,
+   STBI_لټون_سرلیک
 };
 
-static void stbi__refill_buffer(stbi__context *s)
+ساكن فراغ stbi_refill_بفر(stbi__context *s)
 {
-   int n = (s->io.read)(s->io_user_data,(char*)s->buffer_start,s->buflen);
-   s->callback_already_read += (int) (s->img_buffer - s->img_buffer_original);
-   if (n == 0) {
+   صحيح n = (s->io.اقرأ)(s->io_user_معلومات,(حرف*)s->بفر_پیل,s->buflen);
+   s->callback_already_read += (صحيح) (s->img_بفر - s->img_بفر_original);
+   إذا (n == 0) {
       // at end of file, treat same as if from memory, but need to handle case
       // where s->img_buffer isn't pointing to safe memory, e.g. 0-byte file
       s->read_from_callbacks = 0;
-      s->img_buffer = s->buffer_start;
-      s->img_buffer_end = s->buffer_start+1;
-      *s->img_buffer = 0;
-   } else {
-      s->img_buffer = s->buffer_start;
-      s->img_buffer_end = s->buffer_start + n;
+      s->img_بفر = s->بفر_پیل;
+      s->img_بفر_پای_ټکی = s->بفر_پیل+1;
+      *s->img_بفر = 0;
+   } وإلا {
+      s->img_بفر = s->بفر_پیل;
+      s->img_بفر_پای_ټکی = s->بفر_پیل + n;
    }
 }
 
-stbi_inline static stbi_uc stbi__get8(stbi__context *s)
+stbi_inline ساكن stbi_uc stbi__get8(stbi__context *s)
 {
-   if (s->img_buffer < s->img_buffer_end)
-      return *s->img_buffer++;
-   if (s->read_from_callbacks) {
-      stbi__refill_buffer(s);
-      return *s->img_buffer++;
+   إذا (s->img_بفر < s->img_بفر_پای_ټکی)
+      أرجع *s->img_بفر++;
+   إذا (s->read_from_callbacks) {
+      stbi_refill_بفر(s);
+      أرجع *s->img_بفر++;
    }
-   return 0;
+   أرجع 0;
 }
 
-#if defined(STBI_NO_JPEG) && defined(STBI_NO_HDR) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
+#إذا defined(STBI_NO_JPEG) && defined(STBI_NO_HDR) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
 // nothing
-#else
-stbi_inline static int stbi__at_eof(stbi__context *s)
+#وإلا
+stbi_inline ساكن صحيح stbi__at_eof(stbi__context *s)
 {
-   if (s->io.read) {
-      if (!(s->io.eof)(s->io_user_data)) return 0;
+   إذا (s->io.اقرأ) {
+      إذا (!(s->io.eof)(s->io_user_معلومات)) أرجع 0;
       // if feof() is true, check if buffer = end
       // special case: we've only got the special 0 character at the end
-      if (s->read_from_callbacks == 0) return 1;
+      إذا (s->read_from_callbacks == 0) أرجع 1;
    }
 
-   return s->img_buffer >= s->img_buffer_end;
+   أرجع s->img_بفر >= s->img_بفر_پای_ټکی;
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC)
+#إذا defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC)
 // nothing
-#else
-static void stbi__skip(stbi__context *s, int n)
+#وإلا
+ساكن فراغ stbi__skip(stbi__context *s, صحيح n)
 {
-   if (n == 0) return;  // already there!
-   if (n < 0) {
-      s->img_buffer = s->img_buffer_end;
-      return;
+   إذا (n == 0) أرجع;  // already there!
+   إذا (n < 0) {
+      s->img_بفر = s->img_بفر_پای_ټکی;
+      أرجع;
    }
-   if (s->io.read) {
-      int blen = (int) (s->img_buffer_end - s->img_buffer);
-      if (blen < n) {
-         s->img_buffer = s->img_buffer_end;
-         (s->io.skip)(s->io_user_data, n - blen);
-         return;
+   إذا (s->io.اقرأ) {
+      صحيح blen = (صحيح) (s->img_بفر_پای_ټکی - s->img_بفر);
+      إذا (blen < n) {
+         s->img_بفر = s->img_بفر_پای_ټکی;
+         (s->io.skip)(s->io_user_معلومات, n - blen);
+         أرجع;
       }
    }
-   s->img_buffer += n;
+   s->img_بفر += n;
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && defined(STBI_NO_TGA) && defined(STBI_NO_HDR) && defined(STBI_NO_PNM)
+#إذا defined(STBI_NO_PNG) && defined(STBI_NO_TGA) && defined(STBI_NO_HDR) && defined(STBI_NO_PNM)
 // nothing
-#else
-static int stbi__getn(stbi__context *s, stbi_uc *buffer, int n)
+#وإلا
+ساكن صحيح stbi__getn(stbi__context *s, stbi_uc *بفر_2, صحيح n)
 {
-   if (s->io.read) {
-      int blen = (int) (s->img_buffer_end - s->img_buffer);
-      if (blen < n) {
-         int res, count;
+   إذا (s->io.اقرأ) {
+      صحيح blen = (صحيح) (s->img_بفر_پای_ټکی - s->img_بفر);
+      إذا (blen < n) {
+         صحيح res, شمېر;
 
-         memcpy(buffer, s->img_buffer, blen);
+         حافظه_نقل(بفر_2, s->img_بفر, blen);
 
-         count = (s->io.read)(s->io_user_data, (char*) buffer + blen, n - blen);
-         res = (count == (n-blen));
-         s->img_buffer = s->img_buffer_end;
-         return res;
+         شمېر = (s->io.اقرأ)(s->io_user_معلومات, (حرف*) بفر_2 + blen, n - blen);
+         res = (شمېر == (n-blen));
+         s->img_بفر = s->img_بفر_پای_ټکی;
+         أرجع res;
       }
    }
 
-   if (s->img_buffer+n <= s->img_buffer_end) {
-      memcpy(buffer, s->img_buffer, n);
-      s->img_buffer += n;
-      return 1;
-   } else
-      return 0;
+   إذا (s->img_بفر+n <= s->img_بفر_پای_ټکی) {
+      حافظه_نقل(بفر_2, s->img_بفر, n);
+      s->img_بفر += n;
+      أرجع 1;
+   } وإلا
+      أرجع 0;
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_PSD) && defined(STBI_NO_PIC)
+#إذا defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_PSD) && defined(STBI_NO_PIC)
 // nothing
-#else
-static int stbi__get16be(stbi__context *s)
+#وإلا
+ساكن صحيح stbi__get16be(stbi__context *s)
 {
-   int z = stbi__get8(s);
-   return (z << 8) + stbi__get8(s);
+   صحيح z = stbi__get8(s);
+   أرجع (z << 8) + stbi__get8(s);
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && defined(STBI_NO_PSD) && defined(STBI_NO_PIC)
+#إذا defined(STBI_NO_PNG) && defined(STBI_NO_PSD) && defined(STBI_NO_PIC)
 // nothing
-#else
-static stbi__uint32 stbi__get32be(stbi__context *s)
+#وإلا
+ساكن stbi__uint32 stbi__get32be(stbi__context *s)
 {
    stbi__uint32 z = stbi__get16be(s);
-   return (z << 16) + stbi__get16be(s);
+   أرجع (z << 16) + stbi__get16be(s);
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_BMP) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF)
+#إذا defined(STBI_NO_BMP) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF)
 // nothing
-#else
-static int stbi__get16le(stbi__context *s)
+#وإلا
+ساكن صحيح stbi__get16le(stbi__context *s)
 {
-   int z = stbi__get8(s);
-   return z + (stbi__get8(s) << 8);
+   صحيح z = stbi__get8(s);
+   أرجع z + (stbi__get8(s) << 8);
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_BMP
-static stbi__uint32 stbi__get32le(stbi__context *s)
+#که_نه_تعریف_شوی STBI_NO_BMP
+ساكن stbi__uint32 stbi__get32le(stbi__context *s)
 {
    stbi__uint32 z = stbi__get16le(s);
    z += (stbi__uint32)stbi__get16le(s) << 16;
-   return z;
+   أرجع z;
 }
-#endif
+#د_که_پای
 
-#define STBI__BYTECAST(x)  ((stbi_uc) ((x) & 255))  // truncate int to byte without warnings
+#تعریف_کړه STBI__BYTECAST(x)  ((stbi_uc) ((x) & 255))  // truncate int to byte without warnings
 
-#if defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
+#إذا defined(STBI_NO_JPEG) && defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
 // nothing
-#else
+#وإلا
 //////////////////////////////////////////////////////////////////////////////
 //
 //  generic converter from built-in img_n to req_comp
@@ -1905,172 +1905,172 @@ static stbi__uint32 stbi__get32le(stbi__context *s)
 //  assume data buffer is malloced, so malloc a new one and free that one
 //  only failure mode is malloc failing
 
-static stbi_uc stbi__compute_y(int r, int g, int b)
+ساكن stbi_uc stbi__compute_y(صحيح r, صحيح g, صحيح b)
 {
-   return (stbi_uc) (((r*77) + (g*150) +  (29*b)) >> 8);
+   أرجع (stbi_uc) (((r*77) + (g*150) +  (29*b)) >> 8);
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
+#إذا defined(STBI_NO_PNG) && defined(STBI_NO_BMP) && defined(STBI_NO_PSD) && defined(STBI_NO_TGA) && defined(STBI_NO_GIF) && defined(STBI_NO_PIC) && defined(STBI_NO_PNM)
 // nothing
-#else
-static unsigned char *stbi__convert_format(unsigned char *data, int img_n, int req_comp, unsigned int x, unsigned int y)
+#وإلا
+ساكن بینښه حرف *stbi__convert_format(بینښه حرف *معلومات, صحيح img_n, صحيح req_comp, بینښه صحيح x, بینښه صحيح y)
 {
-   int i,j;
-   unsigned char *good;
+   صحيح i,j;
+   بینښه حرف *good;
 
-   if (data == NULL) return data;
-   if (req_comp == img_n) return data;
+   إذا (معلومات == عدم) أرجع معلومات;
+   إذا (req_comp == img_n) أرجع معلومات;
    STBI_ASSERT(req_comp >= 1 && req_comp <= 4);
 
-   good = (unsigned char *) stbi__malloc_mad3(req_comp, x, y, 0);
-   if (good == NULL) {
-      STBI_FREE(data);
-      return stbi__errpuc("outofmem", "Out of memory");
+   good = (بینښه حرف *) stbi__malloc_mad3(req_comp, x, y, 0);
+   إذا (good == عدم) {
+      STBI_FREE(معلومات);
+      أرجع stbi__errpuc("outofmem", "Out of memory");
    }
 
-   for (j=0; j < (int) y; ++j) {
-      unsigned char *src  = data + j * x * img_n   ;
-      unsigned char *dest = good + j * x * req_comp;
+   لكل (j=0; j < (صحيح) y; ++j) {
+      بینښه حرف *src  = معلومات + j * x * img_n   ;
+      بینښه حرف *dest = good + j * x * req_comp;
 
-      #define STBI__COMBO(a,b)  ((a)*8+(b))
-      #define STBI__CASE(a,b)   case STBI__COMBO(a,b): for(i=x-1; i >= 0; --i, src += a, dest += b)
+      #تعریف_کړه STBI__COMBO(a,b)  ((a)*8+(b))
+      #تعریف_کړه STBI__CASE(a,b)   حالة STBI__COMBO(a,b): لكل(i=x-1; i >= 0; --i, src += a, dest += b)
       // convert source image with img_n components to one with req_comp components;
       // avoid switch per pixel, so use switch per scanline and massive macros
-      switch (STBI__COMBO(img_n, req_comp)) {
-         STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=255;                                     } break;
-         STBI__CASE(1,3) { dest[0]=dest[1]=dest[2]=src[0];                                  } break;
-         STBI__CASE(1,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=255;                     } break;
-         STBI__CASE(2,1) { dest[0]=src[0];                                                  } break;
-         STBI__CASE(2,3) { dest[0]=dest[1]=dest[2]=src[0];                                  } break;
-         STBI__CASE(2,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=src[1];                  } break;
-         STBI__CASE(3,4) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];dest[3]=255;        } break;
-         STBI__CASE(3,1) { dest[0]=stbi__compute_y(src[0],src[1],src[2]);                   } break;
-         STBI__CASE(3,2) { dest[0]=stbi__compute_y(src[0],src[1],src[2]); dest[1] = 255;    } break;
-         STBI__CASE(4,1) { dest[0]=stbi__compute_y(src[0],src[1],src[2]);                   } break;
-         STBI__CASE(4,2) { dest[0]=stbi__compute_y(src[0],src[1],src[2]); dest[1] = src[3]; } break;
-         STBI__CASE(4,3) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];                    } break;
-         default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return stbi__errpuc("unsupported", "Unsupported format conversion");
+      بدل (STBI__COMBO(img_n, req_comp)) {
+         STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=255;                                     } اكسر;
+         STBI__CASE(1,3) { dest[0]=dest[1]=dest[2]=src[0];                                  } اكسر;
+         STBI__CASE(1,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=255;                     } اكسر;
+         STBI__CASE(2,1) { dest[0]=src[0];                                                  } اكسر;
+         STBI__CASE(2,3) { dest[0]=dest[1]=dest[2]=src[0];                                  } اكسر;
+         STBI__CASE(2,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=src[1];                  } اكسر;
+         STBI__CASE(3,4) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];dest[3]=255;        } اكسر;
+         STBI__CASE(3,1) { dest[0]=stbi__compute_y(src[0],src[1],src[2]);                   } اكسر;
+         STBI__CASE(3,2) { dest[0]=stbi__compute_y(src[0],src[1],src[2]); dest[1] = 255;    } اكسر;
+         STBI__CASE(4,1) { dest[0]=stbi__compute_y(src[0],src[1],src[2]);                   } اكسر;
+         STBI__CASE(4,2) { dest[0]=stbi__compute_y(src[0],src[1],src[2]); dest[1] = src[3]; } اكسر;
+         STBI__CASE(4,3) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];                    } اكسر;
+         افتراضي: STBI_ASSERT(0); STBI_FREE(معلومات); STBI_FREE(good); أرجع stbi__errpuc("unsupported", "Unsupported format conversion");
       }
-      #undef STBI__CASE
+      #تعریف_لغوه STBI__CASE
    }
 
-   STBI_FREE(data);
-   return good;
+   STBI_FREE(معلومات);
+   أرجع good;
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && defined(STBI_NO_PSD)
+#إذا defined(STBI_NO_PNG) && defined(STBI_NO_PSD)
 // nothing
-#else
-static stbi__uint16 stbi__compute_y_16(int r, int g, int b)
+#وإلا
+ساكن stbi__uint16 stbi__compute_y_16(صحيح r, صحيح g, صحيح b)
 {
-   return (stbi__uint16) (((r*77) + (g*150) +  (29*b)) >> 8);
+   أرجع (stbi__uint16) (((r*77) + (g*150) +  (29*b)) >> 8);
 }
-#endif
+#د_که_پای
 
-#if defined(STBI_NO_PNG) && defined(STBI_NO_PSD)
+#إذا defined(STBI_NO_PNG) && defined(STBI_NO_PSD)
 // nothing
-#else
-static stbi__uint16 *stbi__convert_format16(stbi__uint16 *data, int img_n, int req_comp, unsigned int x, unsigned int y)
+#وإلا
+ساكن stbi__uint16 *stbi__convert_format16(stbi__uint16 *معلومات, صحيح img_n, صحيح req_comp, بینښه صحيح x, بینښه صحيح y)
 {
-   int i,j;
+   صحيح i,j;
    stbi__uint16 *good;
 
-   if (req_comp == img_n) return data;
+   إذا (req_comp == img_n) أرجع معلومات;
    STBI_ASSERT(req_comp >= 1 && req_comp <= 4);
 
    good = (stbi__uint16 *) stbi__malloc_mad4(req_comp, x, y, 2, 0);
-   if (good == NULL) {
-      STBI_FREE(data);
-      return (stbi__uint16 *) stbi__errpuc("outofmem", "Out of memory");
+   إذا (good == عدم) {
+      STBI_FREE(معلومات);
+      أرجع (stbi__uint16 *) stbi__errpuc("outofmem", "Out of memory");
    }
 
-   for (j=0; j < (int) y; ++j) {
-      stbi__uint16 *src  = data + j * x * img_n   ;
+   لكل (j=0; j < (صحيح) y; ++j) {
+      stbi__uint16 *src  = معلومات + j * x * img_n   ;
       stbi__uint16 *dest = good + j * x * req_comp;
 
-      #define STBI__COMBO(a,b)  ((a)*8+(b))
-      #define STBI__CASE(a,b)   case STBI__COMBO(a,b): for(i=x-1; i >= 0; --i, src += a, dest += b)
+      #تعریف_کړه STBI__COMBO(a,b)  ((a)*8+(b))
+      #تعریف_کړه STBI__CASE(a,b)   حالة STBI__COMBO(a,b): لكل(i=x-1; i >= 0; --i, src += a, dest += b)
       // convert source image with img_n components to one with req_comp components;
       // avoid switch per pixel, so use switch per scanline and massive macros
-      switch (STBI__COMBO(img_n, req_comp)) {
-         STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=0xffff;                                     } break;
-         STBI__CASE(1,3) { dest[0]=dest[1]=dest[2]=src[0];                                     } break;
-         STBI__CASE(1,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=0xffff;                     } break;
-         STBI__CASE(2,1) { dest[0]=src[0];                                                     } break;
-         STBI__CASE(2,3) { dest[0]=dest[1]=dest[2]=src[0];                                     } break;
-         STBI__CASE(2,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=src[1];                     } break;
-         STBI__CASE(3,4) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];dest[3]=0xffff;        } break;
-         STBI__CASE(3,1) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]);                   } break;
-         STBI__CASE(3,2) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]); dest[1] = 0xffff; } break;
-         STBI__CASE(4,1) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]);                   } break;
-         STBI__CASE(4,2) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]); dest[1] = src[3]; } break;
-         STBI__CASE(4,3) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];                       } break;
-         default: STBI_ASSERT(0); STBI_FREE(data); STBI_FREE(good); return (stbi__uint16*) stbi__errpuc("unsupported", "Unsupported format conversion");
+      بدل (STBI__COMBO(img_n, req_comp)) {
+         STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=0xffff;                                     } اكسر;
+         STBI__CASE(1,3) { dest[0]=dest[1]=dest[2]=src[0];                                     } اكسر;
+         STBI__CASE(1,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=0xffff;                     } اكسر;
+         STBI__CASE(2,1) { dest[0]=src[0];                                                     } اكسر;
+         STBI__CASE(2,3) { dest[0]=dest[1]=dest[2]=src[0];                                     } اكسر;
+         STBI__CASE(2,4) { dest[0]=dest[1]=dest[2]=src[0]; dest[3]=src[1];                     } اكسر;
+         STBI__CASE(3,4) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];dest[3]=0xffff;        } اكسر;
+         STBI__CASE(3,1) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]);                   } اكسر;
+         STBI__CASE(3,2) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]); dest[1] = 0xffff; } اكسر;
+         STBI__CASE(4,1) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]);                   } اكسر;
+         STBI__CASE(4,2) { dest[0]=stbi__compute_y_16(src[0],src[1],src[2]); dest[1] = src[3]; } اكسر;
+         STBI__CASE(4,3) { dest[0]=src[0];dest[1]=src[1];dest[2]=src[2];                       } اكسر;
+         افتراضي: STBI_ASSERT(0); STBI_FREE(معلومات); STBI_FREE(good); أرجع (stbi__uint16*) stbi__errpuc("unsupported", "Unsupported format conversion");
       }
-      #undef STBI__CASE
+      #تعریف_لغوه STBI__CASE
    }
 
-   STBI_FREE(data);
-   return good;
+   STBI_FREE(معلومات);
+   أرجع good;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_LINEAR
-static float   *stbi__ldr_to_hdr(stbi_uc *data, int x, int y, int comp)
+#که_نه_تعریف_شوی STBI_NO_خطي
+ساكن عائم   *stbi_ldr_منزل_hdr(stbi_uc *معلومات, صحيح x, صحيح y, صحيح comp)
 {
-   int i,k,n;
-   float *output;
-   if (!data) return NULL;
-   output = (float *) stbi__malloc_mad4(x, y, comp, sizeof(float), 0);
-   if (output == NULL) { STBI_FREE(data); return stbi__errpf("outofmem", "Out of memory"); }
+   صحيح i,k,n;
+   عائم *output;
+   إذا (!معلومات) أرجع عدم;
+   output = (عائم *) stbi__malloc_mad4(x, y, comp, حجم(عائم), 0);
+   إذا (output == عدم) { STBI_FREE(معلومات); أرجع stbi__errpf("outofmem", "Out of memory"); }
    // compute number of non-alpha components
-   if (comp & 1) n = comp; else n = comp-1;
-   for (i=0; i < x*y; ++i) {
-      for (k=0; k < n; ++k) {
-         output[i*comp + k] = (float) (pow(data[i*comp+k]/255.0f, stbi__l2h_gamma) * stbi__l2h_scale);
+   إذا (comp & 1) n = comp; وإلا n = comp-1;
+   لكل (i=0; i < x*y; ++i) {
+      لكل (k=0; k < n; ++k) {
+         output[i*comp + k] = (عائم) (توان(معلومات[i*comp+k]/255.0f, stbi__l2h_gamma) * stbi__l2h_scale);
       }
    }
-   if (n < comp) {
-      for (i=0; i < x*y; ++i) {
-         output[i*comp + n] = data[i*comp + n]/255.0f;
+   إذا (n < comp) {
+      لكل (i=0; i < x*y; ++i) {
+         output[i*comp + n] = معلومات[i*comp + n]/255.0f;
       }
    }
-   STBI_FREE(data);
-   return output;
+   STBI_FREE(معلومات);
+   أرجع output;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_HDR
-#define stbi__float2int(x)   ((int) (x))
-static stbi_uc *stbi__hdr_to_ldr(float   *data, int x, int y, int comp)
+#که_نه_تعریف_شوی STBI_NO_HDR
+#تعریف_کړه stbi__float2int(x)   ((صحيح) (x))
+ساكن stbi_uc *stbi_hdr_منزل_ldr(عائم   *معلومات, صحيح x, صحيح y, صحيح comp)
 {
-   int i,k,n;
+   صحيح i,k,n;
    stbi_uc *output;
-   if (!data) return NULL;
+   إذا (!معلومات) أرجع عدم;
    output = (stbi_uc *) stbi__malloc_mad3(x, y, comp, 0);
-   if (output == NULL) { STBI_FREE(data); return stbi__errpuc("outofmem", "Out of memory"); }
+   إذا (output == عدم) { STBI_FREE(معلومات); أرجع stbi__errpuc("outofmem", "Out of memory"); }
    // compute number of non-alpha components
-   if (comp & 1) n = comp; else n = comp-1;
-   for (i=0; i < x*y; ++i) {
-      for (k=0; k < n; ++k) {
-         float z = (float) pow(data[i*comp+k]*stbi__h2l_scale_i, stbi__h2l_gamma_i) * 255 + 0.5f;
-         if (z < 0) z = 0;
-         if (z > 255) z = 255;
+   إذا (comp & 1) n = comp; وإلا n = comp-1;
+   لكل (i=0; i < x*y; ++i) {
+      لكل (k=0; k < n; ++k) {
+         عائم z = (عائم) توان(معلومات[i*comp+k]*stbi__h2l_scale_i, stbi__h2l_gamma_i) * 255 + 0.5f;
+         إذا (z < 0) z = 0;
+         إذا (z > 255) z = 255;
          output[i*comp + k] = (stbi_uc) stbi__float2int(z);
       }
-      if (k < comp) {
-         float z = data[i*comp+k] * 255 + 0.5f;
-         if (z < 0) z = 0;
-         if (z > 255) z = 255;
+      إذا (k < comp) {
+         عائم z = معلومات[i*comp+k] * 255 + 0.5f;
+         إذا (z < 0) z = 0;
+         إذا (z > 255) z = 255;
          output[i*comp + k] = (stbi_uc) stbi__float2int(z);
       }
    }
-   STBI_FREE(data);
-   return output;
+   STBI_FREE(معلومات);
+   أرجع output;
 }
-#endif
+#د_که_پای
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2093,188 +2093,188 @@ static stbi_uc *stbi__hdr_to_ldr(float   *data, int x, int y, int comp)
 //      - some SIMD kernels for common paths on targets with SSE2/NEON
 //      - uses a lot of intermediate memory, could cache poorly
 
-#ifndef STBI_NO_JPEG
+#که_نه_تعریف_شوی STBI_NO_JPEG
 
 // huffman decoding acceleration
-#define FAST_BITS   9  // larger handles more cases; smaller stomps less cache
+#تعریف_کړه FAST_بټونه   9  // larger handles more cases; smaller stomps less cache
 
-typedef struct
+تعريفنوع بنية
 {
-   stbi_uc  fast[1 << FAST_BITS];
+   stbi_uc  fast[1 << FAST_بټونه];
    // weirdly, repacking this into AoS is a 10% speed loss, instead of a win
-   stbi__uint16 code[256];
-   stbi_uc  values[256];
-   stbi_uc  size[257];
-   unsigned int maxcode[18];
-   int    delta[17];   // old 'firstsymbol' - old 'firstcode'
+   stbi__uint16 کوډ[256];
+   stbi_uc  ارزښتونه[256];
+   stbi_uc  اندازه[257];
+   بینښه صحيح maxcode[18];
+   صحيح    delta[17];   // old 'firstsymbol' - old 'firstcode'
 } stbi__huffman;
 
-typedef struct
+تعريفنوع بنية
 {
    stbi__context *s;
    stbi__huffman huff_dc[4];
    stbi__huffman huff_ac[4];
    stbi__uint16 dequant[4][64];
-   stbi__int16 fast_ac[4][1 << FAST_BITS];
+   stbi__int16 fast_ac[4][1 << FAST_بټونه];
 
 // sizes for components, interleaved MCUs
-   int img_h_max, img_v_max;
-   int img_mcu_x, img_mcu_y;
-   int img_mcu_w, img_mcu_h;
+   صحيح img_h_max, img_v_max;
+   صحيح img_mcu_x, img_mcu_y;
+   صحيح img_mcu_w, img_mcu_h;
 
 // definition of jpeg image component
-   struct
+   بنية
    {
-      int id;
-      int h,v;
-      int tq;
-      int hd,ha;
-      int dc_pred;
+      صحيح id;
+      صحيح h,v;
+      صحيح tq;
+      صحيح hd,ha;
+      صحيح dc_pred;
 
-      int x,y,w2,h2;
-      stbi_uc *data;
-      void *raw_data, *raw_coeff;
+      صحيح x,y,w2,h2;
+      stbi_uc *معلومات;
+      فراغ *raw_معلومات, *raw_coeff;
       stbi_uc *linebuf;
-      short   *coeff;   // progressive only
-      int      coeff_w, coeff_h; // number of 8x8 coefficient blocks
+      لنډ   *coeff;   // progressive only
+      صحيح      coeff_w, coeff_h; // number of 8x8 coefficient blocks
    } img_comp[4];
 
-   stbi__uint32   code_buffer; // jpeg entropy-coded buffer
-   int            code_bits;   // number of valid bits
-   unsigned char  marker;      // marker seen while filling entropy buffer
-   int            nomore;      // flag if we saw a marker so must stop
+   stbi__uint32   کوډ_بفر; // jpeg entropy-coded buffer
+   صحيح            کوډ_بټونه;   // number of valid bits
+   بینښه حرف  marker;      // marker seen while filling entropy buffer
+   صحيح            nomore;      // flag if we saw a marker so must stop
 
-   int            progressive;
-   int            spec_start;
-   int            spec_end;
-   int            succ_high;
-   int            succ_low;
-   int            eob_run;
-   int            jfif;
-   int            app14_color_transform; // Adobe APP14 tag
-   int            rgb;
+   صحيح            progressive;
+   صحيح            spec_پیل;
+   صحيح            spec_پای_ټکی;
+   صحيح            succ_لوړ;
+   صحيح            succ_ټیټ;
+   صحيح            eob_پرلپسې;
+   صحيح            jfif;
+   صحيح            app14_color_transform; // Adobe APP14 tag
+   صحيح            rgb;
 
-   int scan_n, order[4];
-   int restart_interval, todo;
+   صحيح لټون_n, ترتیب[4];
+   صحيح restart_interval, todo;
 
 // kernels
-   void (*idct_block_kernel)(stbi_uc *out, int out_stride, short data[64]);
-   void (*YCbCr_to_RGB_kernel)(stbi_uc *out, const stbi_uc *y, const stbi_uc *pcb, const stbi_uc *pcr, int count, int step);
-   stbi_uc *(*resample_row_hv_2_kernel)(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs);
+   فراغ (*idct_بلاک_kernel)(stbi_uc *بهر, صحيح بهر_stride, لنډ معلومات[64]);
+   فراغ (*YCb_Cr_منزل_RGB_kernel)(stbi_uc *بهر, ثابت stbi_uc *y, ثابت stbi_uc *pcb, ثابت stbi_uc *pcr, صحيح شمېر, صحيح ګام);
+   stbi_uc *(*resample_لیکه_hv_2_kernel)(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs);
 } stbi__jpeg;
 
-static int stbi__build_huffman(stbi__huffman *h, int *count)
+ساكن صحيح stbi__build_huffman(stbi__huffman *h, صحيح *شمېر)
 {
-   int i,j,k=0;
-   unsigned int code;
+   صحيح i,j,k=0;
+   بینښه صحيح کوډ;
    // build size list for each symbol (from JPEG spec)
-   for (i=0; i < 16; ++i) {
-      for (j=0; j < count[i]; ++j) {
-         h->size[k++] = (stbi_uc) (i+1);
-         if(k >= 257) return stbi__err("bad size list","Corrupt JPEG");
+   لكل (i=0; i < 16; ++i) {
+      لكل (j=0; j < شمېر[i]; ++j) {
+         h->اندازه[k++] = (stbi_uc) (i+1);
+         إذا(k >= 257) أرجع stbi__err("bad size list","Corrupt JPEG");
       }
    }
-   h->size[k] = 0;
+   h->اندازه[k] = 0;
 
    // compute actual symbols (from jpeg spec)
-   code = 0;
+   کوډ = 0;
    k = 0;
-   for(j=1; j <= 16; ++j) {
+   لكل(j=1; j <= 16; ++j) {
       // compute delta to add to code to compute symbol id
-      h->delta[j] = k - code;
-      if (h->size[k] == j) {
-         while (h->size[k] == j)
-            h->code[k++] = (stbi__uint16) (code++);
-         if (code-1 >= (1u << j)) return stbi__err("bad code lengths","Corrupt JPEG");
+      h->delta[j] = k - کوډ;
+      إذا (h->اندازه[k] == j) {
+         طالما (h->اندازه[k] == j)
+            h->کوډ[k++] = (stbi__uint16) (کوډ++);
+         إذا (کوډ-1 >= (1u << j)) أرجع stbi__err("bad code lengths","Corrupt JPEG");
       }
       // compute largest code + 1 for this size, preshifted as needed later
-      h->maxcode[j] = code << (16-j);
-      code <<= 1;
+      h->maxcode[j] = کوډ << (16-j);
+      کوډ <<= 1;
    }
    h->maxcode[j] = 0xffffffff;
 
    // build non-spec acceleration table; 255 is flag for not-accelerated
-   memset(h->fast, 255, 1 << FAST_BITS);
-   for (i=0; i < k; ++i) {
-      int s = h->size[i];
-      if (s <= FAST_BITS) {
-         int c = h->code[i] << (FAST_BITS-s);
-         int m = 1 << (FAST_BITS-s);
-         for (j=0; j < m; ++j) {
+   memset(h->fast, 255, 1 << FAST_بټونه);
+   لكل (i=0; i < k; ++i) {
+      صحيح s = h->اندازه[i];
+      إذا (s <= FAST_بټونه) {
+         صحيح c = h->کوډ[i] << (FAST_بټونه-s);
+         صحيح m = 1 << (FAST_بټونه-s);
+         لكل (j=0; j < m; ++j) {
             h->fast[c+j] = (stbi_uc) i;
          }
       }
    }
-   return 1;
+   أرجع 1;
 }
 
 // build a table that decodes both magnitude and value of small ACs in
 // one go.
-static void stbi__build_fast_ac(stbi__int16 *fast_ac, stbi__huffman *h)
+ساكن فراغ stbi__build_fast_ac(stbi__int16 *fast_ac, stbi__huffman *h)
 {
-   int i;
-   for (i=0; i < (1 << FAST_BITS); ++i) {
+   صحيح i;
+   لكل (i=0; i < (1 << FAST_بټونه); ++i) {
       stbi_uc fast = h->fast[i];
       fast_ac[i] = 0;
-      if (fast < 255) {
-         int rs = h->values[fast];
-         int run = (rs >> 4) & 15;
-         int magbits = rs & 15;
-         int len = h->size[fast];
+      إذا (fast < 255) {
+         صحيح rs = h->ارزښتونه[fast];
+         صحيح پرلپسې = (rs >> 4) & 15;
+         صحيح magbits = rs & 15;
+         صحيح len = h->اندازه[fast];
 
-         if (magbits && len + magbits <= FAST_BITS) {
+         إذا (magbits && len + magbits <= FAST_بټونه) {
             // magnitude code followed by receive_extend code
-            int k = ((i << len) & ((1 << FAST_BITS) - 1)) >> (FAST_BITS - magbits);
-            int m = 1 << (magbits - 1);
-            if (k < m) k += (~0U << magbits) + 1;
+            صحيح k = ((i << len) & ((1 << FAST_بټونه) - 1)) >> (FAST_بټونه - magbits);
+            صحيح m = 1 << (magbits - 1);
+            إذا (k < m) k += (~0U << magbits) + 1;
             // if the result is small enough, we can fit it in fast_ac table
-            if (k >= -128 && k <= 127)
-               fast_ac[i] = (stbi__int16) ((k * 256) + (run * 16) + (len + magbits));
+            إذا (k >= -128 && k <= 127)
+               fast_ac[i] = (stbi__int16) ((k * 256) + (پرلپسې * 16) + (len + magbits));
          }
       }
    }
 }
 
-static void stbi__grow_buffer_unsafe(stbi__jpeg *j)
+ساكن فراغ stbi_grow_بفر_unsafe(stbi__jpeg *j)
 {
-   do {
-      unsigned int b = j->nomore ? 0 : stbi__get8(j->s);
-      if (b == 0xff) {
-         int c = stbi__get8(j->s);
-         while (c == 0xff) c = stbi__get8(j->s); // consume fill bytes
-         if (c != 0) {
-            j->marker = (unsigned char) c;
+   افعل {
+      بینښه صحيح b = j->nomore ? 0 : stbi__get8(j->s);
+      إذا (b == 0xff) {
+         صحيح c = stbi__get8(j->s);
+         طالما (c == 0xff) c = stbi__get8(j->s); // consume fill bytes
+         إذا (c != 0) {
+            j->marker = (بینښه حرف) c;
             j->nomore = 1;
-            return;
+            أرجع;
          }
       }
-      j->code_buffer |= b << (24 - j->code_bits);
-      j->code_bits += 8;
-   } while (j->code_bits <= 24);
+      j->کوډ_بفر |= b << (24 - j->کوډ_بټونه);
+      j->کوډ_بټونه += 8;
+   } طالما (j->کوډ_بټونه <= 24);
 }
 
 // (1 << n) - 1
-static const stbi__uint32 stbi__bmask[17]={0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
+ساكن ثابت stbi__uint32 stbi__bmask[17]={0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
 
 // decode a jpeg huffman value from the bitstream
-stbi_inline static int stbi__jpeg_huff_decode(stbi__jpeg *j, stbi__huffman *h)
+stbi_inline ساكن صحيح stbi__jpeg_huff_decode(stbi__jpeg *j, stbi__huffman *h)
 {
-   unsigned int temp;
-   int c,k;
+   بینښه صحيح لنډمهاله;
+   صحيح c,k;
 
-   if (j->code_bits < 16) stbi__grow_buffer_unsafe(j);
+   إذا (j->کوډ_بټونه < 16) stbi_grow_بفر_unsafe(j);
 
    // look at the top FAST_BITS and determine what symbol ID it is,
    // if the code is <= FAST_BITS
-   c = (j->code_buffer >> (32 - FAST_BITS)) & ((1 << FAST_BITS)-1);
+   c = (j->کوډ_بفر >> (32 - FAST_بټونه)) & ((1 << FAST_بټونه)-1);
    k = h->fast[c];
-   if (k < 255) {
-      int s = h->size[k];
-      if (s > j->code_bits)
-         return -1;
-      j->code_buffer <<= s;
-      j->code_bits -= s;
-      return h->values[k];
+   إذا (k < 255) {
+      صحيح s = h->اندازه[k];
+      إذا (s > j->کوډ_بټونه)
+         أرجع -1;
+      j->کوډ_بفر <<= s;
+      j->کوډ_بټونه -= s;
+      أرجع h->ارزښتونه[k];
    }
 
    // naive test is to shift the code_buffer down so k bits are
@@ -2283,78 +2283,78 @@ stbi_inline static int stbi__jpeg_huff_decode(stbi__jpeg *j, stbi__huffman *h)
    // end; in other words, regardless of the number of bits, it
    // wants to be compared against something shifted to have 16;
    // that way we don't need to shift inside the loop.
-   temp = j->code_buffer >> 16;
-   for (k=FAST_BITS+1 ; ; ++k)
-      if (temp < h->maxcode[k])
-         break;
-   if (k == 17) {
+   لنډمهاله = j->کوډ_بفر >> 16;
+   لكل (k=FAST_بټونه+1 ; ; ++k)
+      إذا (لنډمهاله < h->maxcode[k])
+         اكسر;
+   إذا (k == 17) {
       // error! code not found
-      j->code_bits -= 16;
-      return -1;
+      j->کوډ_بټونه -= 16;
+      أرجع -1;
    }
 
-   if (k > j->code_bits)
-      return -1;
+   إذا (k > j->کوډ_بټونه)
+      أرجع -1;
 
    // convert the huffman code to the symbol id
-   c = ((j->code_buffer >> (32 - k)) & stbi__bmask[k]) + h->delta[k];
-   if(c < 0 || c >= 256) // symbol id out of bounds!
-       return -1;
-   STBI_ASSERT((((j->code_buffer) >> (32 - h->size[c])) & stbi__bmask[h->size[c]]) == h->code[c]);
+   c = ((j->کوډ_بفر >> (32 - k)) & stbi__bmask[k]) + h->delta[k];
+   إذا(c < 0 || c >= 256) // symbol id out of bounds!
+       أرجع -1;
+   STBI_ASSERT((((j->کوډ_بفر) >> (32 - h->اندازه[c])) & stbi__bmask[h->اندازه[c]]) == h->کوډ[c]);
 
    // convert the id to a symbol
-   j->code_bits -= k;
-   j->code_buffer <<= k;
-   return h->values[c];
+   j->کوډ_بټونه -= k;
+   j->کوډ_بفر <<= k;
+   أرجع h->ارزښتونه[c];
 }
 
 // bias[n] = (-1<<n) + 1
-static const int stbi__jbias[16] = {0,-1,-3,-7,-15,-31,-63,-127,-255,-511,-1023,-2047,-4095,-8191,-16383,-32767};
+ساكن ثابت صحيح stbi__jbias[16] = {0,-1,-3,-7,-15,-31,-63,-127,-255,-511,-1023,-2047,-4095,-8191,-16383,-32767};
 
 // combined JPEG 'receive' and JPEG 'extend', since baseline
 // always extends everything it receives.
-stbi_inline static int stbi__extend_receive(stbi__jpeg *j, int n)
+stbi_inline ساكن صحيح stbi__extend_receive(stbi__jpeg *j, صحيح n)
 {
-   unsigned int k;
-   int sgn;
-   if (j->code_bits < n) stbi__grow_buffer_unsafe(j);
-   if (j->code_bits < n) return 0; // ran out of bits from stream, return 0s intead of continuing
+   بینښه صحيح k;
+   صحيح sgn;
+   إذا (j->کوډ_بټونه < n) stbi_grow_بفر_unsafe(j);
+   إذا (j->کوډ_بټونه < n) أرجع 0; // ran out of bits from stream, return 0s intead of continuing
 
-   sgn = j->code_buffer >> 31; // sign bit always in MSB; 0 if MSB clear (positive), 1 if MSB set (negative)
-   k = stbi_lrot(j->code_buffer, n);
-   j->code_buffer = k & ~stbi__bmask[n];
+   sgn = j->کوډ_بفر >> 31; // sign bit always in MSB; 0 if MSB clear (positive), 1 if MSB set (negative)
+   k = stbi_lrot(j->کوډ_بفر, n);
+   j->کوډ_بفر = k & ~stbi__bmask[n];
    k &= stbi__bmask[n];
-   j->code_bits -= n;
-   return k + (stbi__jbias[n] & (sgn - 1));
+   j->کوډ_بټونه -= n;
+   أرجع k + (stbi__jbias[n] & (sgn - 1));
 }
 
 // get some unsigned bits
-stbi_inline static int stbi__jpeg_get_bits(stbi__jpeg *j, int n)
+stbi_inline ساكن صحيح stbi_jpeg_get_بټونه(stbi__jpeg *j, صحيح n)
 {
-   unsigned int k;
-   if (j->code_bits < n) stbi__grow_buffer_unsafe(j);
-   if (j->code_bits < n) return 0; // ran out of bits from stream, return 0s intead of continuing
-   k = stbi_lrot(j->code_buffer, n);
-   j->code_buffer = k & ~stbi__bmask[n];
+   بینښه صحيح k;
+   إذا (j->کوډ_بټونه < n) stbi_grow_بفر_unsafe(j);
+   إذا (j->کوډ_بټونه < n) أرجع 0; // ran out of bits from stream, return 0s intead of continuing
+   k = stbi_lrot(j->کوډ_بفر, n);
+   j->کوډ_بفر = k & ~stbi__bmask[n];
    k &= stbi__bmask[n];
-   j->code_bits -= n;
-   return k;
+   j->کوډ_بټونه -= n;
+   أرجع k;
 }
 
-stbi_inline static int stbi__jpeg_get_bit(stbi__jpeg *j)
+stbi_inline ساكن صحيح stbi_jpeg_get_بټ(stbi__jpeg *j)
 {
-   unsigned int k;
-   if (j->code_bits < 1) stbi__grow_buffer_unsafe(j);
-   if (j->code_bits < 1) return 0; // ran out of bits from stream, return 0s intead of continuing
-   k = j->code_buffer;
-   j->code_buffer <<= 1;
-   --j->code_bits;
-   return k & 0x80000000;
+   بینښه صحيح k;
+   إذا (j->کوډ_بټونه < 1) stbi_grow_بفر_unsafe(j);
+   إذا (j->کوډ_بټونه < 1) أرجع 0; // ran out of bits from stream, return 0s intead of continuing
+   k = j->کوډ_بفر;
+   j->کوډ_بفر <<= 1;
+   --j->کوډ_بټونه;
+   أرجع k & 0x80000000;
 }
 
 // given a value that's at position X in the zigzag stream,
 // where does it appear in the 8x8 matrix coded as row-major?
-static const stbi_uc stbi__jpeg_dezigzag[64+15] =
+ساكن ثابت stbi_uc stbi__jpeg_dezigzag[64+15] =
 {
     0,  1,  8, 16,  9,  2,  3, 10,
    17, 24, 32, 25, 18, 11,  4,  5,
@@ -2370,228 +2370,228 @@ static const stbi_uc stbi__jpeg_dezigzag[64+15] =
 };
 
 // decode one 64-entry block--
-static int stbi__jpeg_decode_block(stbi__jpeg *j, short data[64], stbi__huffman *hdc, stbi__huffman *hac, stbi__int16 *fac, int b, stbi__uint16 *dequant)
+ساكن صحيح stbi_jpeg_decode_بلاک(stbi__jpeg *j, لنډ معلومات[64], stbi__huffman *hdc, stbi__huffman *hac, stbi__int16 *fac, صحيح b, stbi__uint16 *dequant)
 {
-   int diff,dc,k;
-   int t;
+   صحيح diff,dc,k;
+   صحيح t;
 
-   if (j->code_bits < 16) stbi__grow_buffer_unsafe(j);
+   إذا (j->کوډ_بټونه < 16) stbi_grow_بفر_unsafe(j);
    t = stbi__jpeg_huff_decode(j, hdc);
-   if (t < 0 || t > 15) return stbi__err("bad huffman code","Corrupt JPEG");
+   إذا (t < 0 || t > 15) أرجع stbi__err("bad huffman code","Corrupt JPEG");
 
    // 0 all the ac values now so we can do it 32-bits at a time
-   memset(data,0,64*sizeof(data[0]));
+   memset(معلومات,0,64*حجم(معلومات[0]));
 
    diff = t ? stbi__extend_receive(j, t) : 0;
-   if (!stbi__addints_valid(j->img_comp[b].dc_pred, diff)) return stbi__err("bad delta","Corrupt JPEG");
+   إذا (!stbi__addints_valid(j->img_comp[b].dc_pred, diff)) أرجع stbi__err("bad delta","Corrupt JPEG");
    dc = j->img_comp[b].dc_pred + diff;
    j->img_comp[b].dc_pred = dc;
-   if (!stbi__mul2shorts_valid(dc, dequant[0])) return stbi__err("can't merge dc and ac", "Corrupt JPEG");
-   data[0] = (short) (dc * dequant[0]);
+   إذا (!stbi__mul2shorts_valid(dc, dequant[0])) أرجع stbi__err("can't merge dc and ac", "Corrupt JPEG");
+   معلومات[0] = (لنډ) (dc * dequant[0]);
 
    // decode AC components, see JPEG spec
    k = 1;
-   do {
-      unsigned int zig;
-      int c,r,s;
-      if (j->code_bits < 16) stbi__grow_buffer_unsafe(j);
-      c = (j->code_buffer >> (32 - FAST_BITS)) & ((1 << FAST_BITS)-1);
+   افعل {
+      بینښه صحيح zig;
+      صحيح c,r,s;
+      إذا (j->کوډ_بټونه < 16) stbi_grow_بفر_unsafe(j);
+      c = (j->کوډ_بفر >> (32 - FAST_بټونه)) & ((1 << FAST_بټونه)-1);
       r = fac[c];
-      if (r) { // fast-AC path
-         k += (r >> 4) & 15; // run
+      إذا (r) { // fast-AC path
+         k += (r >> 4) & 15; //پرلپسې
          s = r & 15; // combined length
-         if (s > j->code_bits) return stbi__err("bad huffman code", "Combined length longer than code bits available");
-         j->code_buffer <<= s;
-         j->code_bits -= s;
+         إذا (s > j->کوډ_بټونه) أرجع stbi__err("bad huffman code", "Combined length longer than code bits available");
+         j->کوډ_بفر <<= s;
+         j->کوډ_بټونه -= s;
          // decode into unzigzag'd location
          zig = stbi__jpeg_dezigzag[k++];
-         data[zig] = (short) ((r >> 8) * dequant[zig]);
-      } else {
-         int rs = stbi__jpeg_huff_decode(j, hac);
-         if (rs < 0) return stbi__err("bad huffman code","Corrupt JPEG");
+         معلومات[zig] = (لنډ) ((r >> 8) * dequant[zig]);
+      } وإلا {
+         صحيح rs = stbi__jpeg_huff_decode(j, hac);
+         إذا (rs < 0) أرجع stbi__err("bad huffman code","Corrupt JPEG");
          s = rs & 15;
          r = rs >> 4;
-         if (s == 0) {
-            if (rs != 0xf0) break; // end block
+         إذا (s == 0) {
+            إذا (rs != 0xf0) اكسر; // end block
             k += 16;
-         } else {
+         } وإلا {
             k += r;
             // decode into unzigzag'd location
             zig = stbi__jpeg_dezigzag[k++];
-            data[zig] = (short) (stbi__extend_receive(j,s) * dequant[zig]);
+            معلومات[zig] = (لنډ) (stbi__extend_receive(j,s) * dequant[zig]);
          }
       }
-   } while (k < 64);
-   return 1;
+   } طالما (k < 64);
+   أرجع 1;
 }
 
-static int stbi__jpeg_decode_block_prog_dc(stbi__jpeg *j, short data[64], stbi__huffman *hdc, int b)
+ساكن صحيح stbi_jpeg_decode_بلاک_prog_dc(stbi__jpeg *j, لنډ معلومات[64], stbi__huffman *hdc, صحيح b)
 {
-   int diff,dc;
-   int t;
-   if (j->spec_end != 0) return stbi__err("can't merge dc and ac", "Corrupt JPEG");
+   صحيح diff,dc;
+   صحيح t;
+   إذا (j->spec_پای_ټکی != 0) أرجع stbi__err("can't merge dc and ac", "Corrupt JPEG");
 
-   if (j->code_bits < 16) stbi__grow_buffer_unsafe(j);
+   إذا (j->کوډ_بټونه < 16) stbi_grow_بفر_unsafe(j);
 
-   if (j->succ_high == 0) {
+   إذا (j->succ_لوړ == 0) {
       // first scan for DC coefficient, must be first
-      memset(data,0,64*sizeof(data[0])); // 0 all the ac values now
+      memset(معلومات,0,64*حجم(معلومات[0])); // 0 all the ac values now
       t = stbi__jpeg_huff_decode(j, hdc);
-      if (t < 0 || t > 15) return stbi__err("can't merge dc and ac", "Corrupt JPEG");
+      إذا (t < 0 || t > 15) أرجع stbi__err("can't merge dc and ac", "Corrupt JPEG");
       diff = t ? stbi__extend_receive(j, t) : 0;
 
-      if (!stbi__addints_valid(j->img_comp[b].dc_pred, diff)) return stbi__err("bad delta", "Corrupt JPEG");
+      إذا (!stbi__addints_valid(j->img_comp[b].dc_pred, diff)) أرجع stbi__err("bad delta", "Corrupt JPEG");
       dc = j->img_comp[b].dc_pred + diff;
       j->img_comp[b].dc_pred = dc;
-      if (!stbi__mul2shorts_valid(dc, 1 << j->succ_low)) return stbi__err("can't merge dc and ac", "Corrupt JPEG");
-      data[0] = (short) (dc * (1 << j->succ_low));
-   } else {
+      إذا (!stbi__mul2shorts_valid(dc, 1 << j->succ_ټیټ)) أرجع stbi__err("can't merge dc and ac", "Corrupt JPEG");
+      معلومات[0] = (لنډ) (dc * (1 << j->succ_ټیټ));
+   } وإلا {
       // refinement scan for DC coefficient
-      if (stbi__jpeg_get_bit(j))
-         data[0] += (short) (1 << j->succ_low);
+      إذا (stbi_jpeg_get_بټ(j))
+         معلومات[0] += (لنډ) (1 << j->succ_ټیټ);
    }
-   return 1;
+   أرجع 1;
 }
 
 // @OPTIMIZE: store non-zigzagged during the decode passes,
 // and only de-zigzag when dequantizing
-static int stbi__jpeg_decode_block_prog_ac(stbi__jpeg *j, short data[64], stbi__huffman *hac, stbi__int16 *fac)
+ساكن صحيح stbi_jpeg_decode_بلاک_prog_ac(stbi__jpeg *j, لنډ معلومات[64], stbi__huffman *hac, stbi__int16 *fac)
 {
-   int k;
-   if (j->spec_start == 0) return stbi__err("can't merge dc and ac", "Corrupt JPEG");
+   صحيح k;
+   إذا (j->spec_پیل == 0) أرجع stbi__err("can't merge dc and ac", "Corrupt JPEG");
 
-   if (j->succ_high == 0) {
-      int shift = j->succ_low;
+   إذا (j->succ_لوړ == 0) {
+      صحيح ښويدنه = j->succ_ټیټ;
 
-      if (j->eob_run) {
-         --j->eob_run;
-         return 1;
+      إذا (j->eob_پرلپسې) {
+         --j->eob_پرلپسې;
+         أرجع 1;
       }
 
-      k = j->spec_start;
-      do {
-         unsigned int zig;
-         int c,r,s;
-         if (j->code_bits < 16) stbi__grow_buffer_unsafe(j);
-         c = (j->code_buffer >> (32 - FAST_BITS)) & ((1 << FAST_BITS)-1);
+      k = j->spec_پیل;
+      افعل {
+         بینښه صحيح zig;
+         صحيح c,r,s;
+         إذا (j->کوډ_بټونه < 16) stbi_grow_بفر_unsafe(j);
+         c = (j->کوډ_بفر >> (32 - FAST_بټونه)) & ((1 << FAST_بټونه)-1);
          r = fac[c];
-         if (r) { // fast-AC path
-            k += (r >> 4) & 15; // run
+         إذا (r) { // fast-AC path
+            k += (r >> 4) & 15; //پرلپسې
             s = r & 15; // combined length
-            if (s > j->code_bits) return stbi__err("bad huffman code", "Combined length longer than code bits available");
-            j->code_buffer <<= s;
-            j->code_bits -= s;
+            إذا (s > j->کوډ_بټونه) أرجع stbi__err("bad huffman code", "Combined length longer than code bits available");
+            j->کوډ_بفر <<= s;
+            j->کوډ_بټونه -= s;
             zig = stbi__jpeg_dezigzag[k++];
-            data[zig] = (short) ((r >> 8) * (1 << shift));
-         } else {
-            int rs = stbi__jpeg_huff_decode(j, hac);
-            if (rs < 0) return stbi__err("bad huffman code","Corrupt JPEG");
+            معلومات[zig] = (لنډ) ((r >> 8) * (1 << ښويدنه));
+         } وإلا {
+            صحيح rs = stbi__jpeg_huff_decode(j, hac);
+            إذا (rs < 0) أرجع stbi__err("bad huffman code","Corrupt JPEG");
             s = rs & 15;
             r = rs >> 4;
-            if (s == 0) {
-               if (r < 15) {
-                  j->eob_run = (1 << r);
-                  if (r)
-                     j->eob_run += stbi__jpeg_get_bits(j, r);
-                  --j->eob_run;
-                  break;
+            إذا (s == 0) {
+               إذا (r < 15) {
+                  j->eob_پرلپسې = (1 << r);
+                  إذا (r)
+                     j->eob_پرلپسې += stbi_jpeg_get_بټونه(j, r);
+                  --j->eob_پرلپسې;
+                  اكسر;
                }
                k += 16;
-            } else {
+            } وإلا {
                k += r;
                zig = stbi__jpeg_dezigzag[k++];
-               data[zig] = (short) (stbi__extend_receive(j,s) * (1 << shift));
+               معلومات[zig] = (لنډ) (stbi__extend_receive(j,s) * (1 << ښويدنه));
             }
          }
-      } while (k <= j->spec_end);
-   } else {
+      } طالما (k <= j->spec_پای_ټکی);
+   } وإلا {
       // refinement scan for these AC coefficients
 
-      short bit = (short) (1 << j->succ_low);
+      لنډ بټ = (لنډ) (1 << j->succ_ټیټ);
 
-      if (j->eob_run) {
-         --j->eob_run;
-         for (k = j->spec_start; k <= j->spec_end; ++k) {
-            short *p = &data[stbi__jpeg_dezigzag[k]];
-            if (*p != 0)
-               if (stbi__jpeg_get_bit(j))
-                  if ((*p & bit)==0) {
-                     if (*p > 0)
-                        *p += bit;
-                     else
-                        *p -= bit;
+      إذا (j->eob_پرلپسې) {
+         --j->eob_پرلپسې;
+         لكل (k = j->spec_پیل; k <= j->spec_پای_ټکی; ++k) {
+            لنډ *p = &معلومات[stbi__jpeg_dezigzag[k]];
+            إذا (*p != 0)
+               إذا (stbi_jpeg_get_بټ(j))
+                  إذا ((*p & بټ)==0) {
+                     إذا (*p > 0)
+                        *p += بټ;
+                     وإلا
+                        *p -= بټ;
                   }
          }
-      } else {
-         k = j->spec_start;
-         do {
-            int r,s;
-            int rs = stbi__jpeg_huff_decode(j, hac); // @OPTIMIZE see if we can use the fast path here, advance-by-r is so slow, eh
-            if (rs < 0) return stbi__err("bad huffman code","Corrupt JPEG");
+      } وإلا {
+         k = j->spec_پیل;
+         افعل {
+            صحيح r,s;
+            صحيح rs = stbi__jpeg_huff_decode(j, hac); // @OPTIMIZE see if we can use the fast path here, advance-by-r is so slow, eh
+            إذا (rs < 0) أرجع stbi__err("bad huffman code","Corrupt JPEG");
             s = rs & 15;
             r = rs >> 4;
-            if (s == 0) {
-               if (r < 15) {
-                  j->eob_run = (1 << r) - 1;
-                  if (r)
-                     j->eob_run += stbi__jpeg_get_bits(j, r);
+            إذا (s == 0) {
+               إذا (r < 15) {
+                  j->eob_پرلپسې = (1 << r) - 1;
+                  إذا (r)
+                     j->eob_پرلپسې += stbi_jpeg_get_بټونه(j, r);
                   r = 64; // force end of block
-               } else {
+               } وإلا {
                   // r=15 s=0 should write 16 0s, so we just do
                   // a run of 15 0s and then write s (which is 0),
                   // so we don't have to do anything special here
                }
-            } else {
-               if (s != 1) return stbi__err("bad huffman code", "Corrupt JPEG");
+            } وإلا {
+               إذا (s != 1) أرجع stbi__err("bad huffman code", "Corrupt JPEG");
                // sign bit
-               if (stbi__jpeg_get_bit(j))
-                  s = bit;
-               else
-                  s = -bit;
+               إذا (stbi_jpeg_get_بټ(j))
+                  s = بټ;
+               وإلا
+                  s = -بټ;
             }
 
             // advance by r
-            while (k <= j->spec_end) {
-               short *p = &data[stbi__jpeg_dezigzag[k++]];
-               if (*p != 0) {
-                  if (stbi__jpeg_get_bit(j))
-                     if ((*p & bit)==0) {
-                        if (*p > 0)
-                           *p += bit;
-                        else
-                           *p -= bit;
+            طالما (k <= j->spec_پای_ټکی) {
+               لنډ *p = &معلومات[stbi__jpeg_dezigzag[k++]];
+               إذا (*p != 0) {
+                  إذا (stbi_jpeg_get_بټ(j))
+                     إذا ((*p & بټ)==0) {
+                        إذا (*p > 0)
+                           *p += بټ;
+                        وإلا
+                           *p -= بټ;
                      }
-               } else {
-                  if (r == 0) {
-                     *p = (short) s;
-                     break;
+               } وإلا {
+                  إذا (r == 0) {
+                     *p = (لنډ) s;
+                     اكسر;
                   }
                   --r;
                }
             }
-         } while (k <= j->spec_end);
+         } طالما (k <= j->spec_پای_ټکی);
       }
    }
-   return 1;
+   أرجع 1;
 }
 
 // take a -128..127 value and stbi__clamp it and convert to 0..255
-stbi_inline static stbi_uc stbi__clamp(int x)
+stbi_inline ساكن stbi_uc stbi__clamp(صحيح x)
 {
    // trick to use a single test to catch both cases
-   if ((unsigned int) x > 255) {
-      if (x < 0) return 0;
-      if (x > 255) return 255;
+   إذا ((بینښه صحيح) x > 255) {
+      إذا (x < 0) أرجع 0;
+      إذا (x > 255) أرجع 255;
    }
-   return (stbi_uc) x;
+   أرجع (stbi_uc) x;
 }
 
-#define stbi__f2f(x)  ((int) (((x) * 4096 + 0.5f)))
-#define stbi__fsh(x)  ((x) * 4096)
+#تعریف_کړه stbi__f2f(x)  ((صحيح) (((x) * 4096 + 0.5f)))
+#تعریف_کړه stbi__fsh(x)  ((x) * 4096)
 
 // derived from jidctint -- DCT_ISLOW
-#define STBI__IDCT_1D(s0,s1,s2,s3,s4,s5,s6,s7) \
-   int t0,t1,t2,t3,p1,p2,p3,p4,p5,x0,x1,x2,x3; \
+#تعریف_کړه STBI__IDCT_1D(s0,s1,s2,s3,s4,s5,s6,s7) \
+   صحيح t0,t1,t2,t3,p1,p2,p3,p4,p5,x0,x1,x2,x3; \
    p2 = s2;                                    \
    p3 = s6;                                    \
    p1 = (p2+p3) * stbi__f2f(0.5411961f);       \
@@ -2627,24 +2627,24 @@ stbi_inline static stbi_uc stbi__clamp(int x)
    t1 += p2+p4;                                \
    t0 += p1+p3;
 
-static void stbi__idct_block(stbi_uc *out, int out_stride, short data[64])
+ساكن فراغ stbi_idct_بلاک(stbi_uc *بهر, صحيح بهر_stride, لنډ معلومات[64])
 {
-   int i,val[64],*v=val;
+   صحيح i,val[64],*v=val;
    stbi_uc *o;
-   short *d = data;
+   لنډ *d = معلومات;
 
    // columns
-   for (i=0; i < 8; ++i,++d, ++v) {
+   لكل (i=0; i < 8; ++i,++d, ++v) {
       // if all zeroes, shortcut -- this avoids dequantizing 0s and IDCTing
-      if (d[ 8]==0 && d[16]==0 && d[24]==0 && d[32]==0
+      إذا (d[ 8]==0 && d[16]==0 && d[24]==0 && d[32]==0
            && d[40]==0 && d[48]==0 && d[56]==0) {
          //    no shortcut                 0     seconds
          //    (1|2|3|4|5|6|7)==0          0     seconds
          //    all separate               -0.047 seconds
          //    1 && 2|3 && 4|5 && 6|7:    -0.047 seconds
-         int dcterm = d[0]*4;
+         صحيح dcterm = d[0]*4;
          v[0] = v[8] = v[16] = v[24] = v[32] = v[40] = v[48] = v[56] = dcterm;
-      } else {
+      } وإلا {
          STBI__IDCT_1D(d[ 0],d[ 8],d[16],d[24],d[32],d[40],d[48],d[56])
          // constants scaled things up by 1<<12; let's bring them back
          // down, but keep 2 extra bits of precision
@@ -2660,7 +2660,7 @@ static void stbi__idct_block(stbi_uc *out, int out_stride, short data[64])
       }
    }
 
-   for (i=0, v=val, o=out; i < 8; ++i,v+=8,o+=out_stride) {
+   لكل (i=0, v=val, o=بهر; i < 8; ++i,v+=8,o+=بهر_stride) {
       // no fast case since the first 1D IDCT spread components out
       STBI__IDCT_1D(v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7])
       // constants scaled things up by 1<<12, plus we had 1<<2 from first
@@ -2686,22 +2686,22 @@ static void stbi__idct_block(stbi_uc *out, int out_stride, short data[64])
    }
 }
 
-#ifdef STBI_SSE2
+#که_تعریف_شوی STBI_SSE2
 // sse2 integer IDCT. not the fastest possible implementation but it
 // produces bit-identical results to the generic C version so it's
 // fully "transparent".
-static void SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *out, int out_stride, short data[64]) /* Changed by SDL: SDL_TARGETING("sse2") */
+ساكن فراغ SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *بهر, صحيح بهر_stride, لنډ معلومات[64]) /* Changed by SDL: SDL_TARGETING("sse2") */
 {
    // This is constructed to match our regular (generic) integer IDCT exactly.
    __m128i row0, row1, row2, row3, row4, row5, row6, row7;
    __m128i tmp;
 
    // dot product constant: even elems=x, odd elems=y
-   #define dct_const(x,y)  _mm_setr_epi16((x),(y),(x),(y),(x),(y),(x),(y))
+   #تعریف_کړه dct_const(x,y)  _mm_setr_epi16((x),(y),(x),(y),(x),(y),(x),(y))
 
    // out(0) = c0[even]*x + c0[odd]*y   (c0, x, y 16-bit, out 32-bit)
    // out(1) = c1[even]*x + c1[odd]*y
-   #define dct_rot(out0,out1, x,y,c0,c1) \
+   #تعریف_کړه dct_rot(out0,out1, x,y,c0,c1) \
       __m128i c0##lo = _mm_unpacklo_epi16((x),(y)); \
       __m128i c0##hi = _mm_unpackhi_epi16((x),(y)); \
       __m128i out0##_l = _mm_madd_epi16(c0##lo, c0); \
@@ -2710,48 +2710,48 @@ static void SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *out, int out_stride, 
       __m128i out1##_h = _mm_madd_epi16(c0##hi, c1)
 
    // out = in << 12  (in 16-bit, out 32-bit)
-   #define dct_widen(out, in) \
-      __m128i out##_l = _mm_srai_epi32(_mm_unpacklo_epi16(_mm_setzero_si128(), (in)), 4); \
-      __m128i out##_h = _mm_srai_epi32(_mm_unpackhi_epi16(_mm_setzero_si128(), (in)), 4)
+   #تعریف_کړه dct_widen(بهر, دننه_2) \
+      __m128i بهر##_l = _mm_srai_epi32(_mm_unpacklo_epi16(_mm_setzero_si128(), (دننه_2)), 4); \
+      __m128i بهر##_h = _mm_srai_epi32(_mm_unpackhi_epi16(_mm_setzero_si128(), (دننه_2)), 4)
 
    // wide add
-   #define dct_wadd(out, a, b) \
-      __m128i out##_l = _mm_add_epi32(a##_l, b##_l); \
-      __m128i out##_h = _mm_add_epi32(a##_h, b##_h)
+   #تعریف_کړه dct_wadd(بهر, a, b) \
+      __m128i بهر##_l = mm_جمع_کړه_epi32(a##_l, b##_l); \
+      __m128i بهر##_h = mm_جمع_کړه_epi32(a##_h, b##_h)
 
    // wide sub
-   #define dct_wsub(out, a, b) \
-      __m128i out##_l = _mm_sub_epi32(a##_l, b##_l); \
-      __m128i out##_h = _mm_sub_epi32(a##_h, b##_h)
+   #تعریف_کړه dct_wsub(بهر, a, b) \
+      __m128i بهر##_l = _mm_sub_epi32(a##_l, b##_l); \
+      __m128i بهر##_h = _mm_sub_epi32(a##_h, b##_h)
 
    // butterfly a/b, add bias, then shift by "s" and pack
-   #define dct_bfly32o(out0, out1, a,b,bias,s) \
+   #تعریف_کړه dct_bfly32o(out0, out1, a,b,bias,s) \
       { \
-         __m128i abiased_l = _mm_add_epi32(a##_l, bias); \
-         __m128i abiased_h = _mm_add_epi32(a##_h, bias); \
-         dct_wadd(sum, abiased, b); \
+         __m128i abiased_l = mm_جمع_کړه_epi32(a##_l, bias); \
+         __m128i abiased_h = mm_جمع_کړه_epi32(a##_h, bias); \
+         dct_wadd(مجموعه, abiased, b); \
          dct_wsub(dif, abiased, b); \
-         out0 = _mm_packs_epi32(_mm_srai_epi32(sum_l, s), _mm_srai_epi32(sum_h, s)); \
+         out0 = _mm_packs_epi32(_mm_srai_epi32(مجموعه_l, s), _mm_srai_epi32(مجموعه_h, s)); \
          out1 = _mm_packs_epi32(_mm_srai_epi32(dif_l, s), _mm_srai_epi32(dif_h, s)); \
       }
 
    // 8-bit interleave step (for transposes)
-   #define dct_interleave8(a, b) \
+   #تعریف_کړه dct_interleave8(a, b) \
       tmp = a; \
       a = _mm_unpacklo_epi8(a, b); \
       b = _mm_unpackhi_epi8(tmp, b)
 
    // 16-bit interleave step (for transposes)
-   #define dct_interleave16(a, b) \
+   #تعریف_کړه dct_interleave16(a, b) \
       tmp = a; \
       a = _mm_unpacklo_epi16(a, b); \
       b = _mm_unpackhi_epi16(tmp, b)
 
-   #define dct_pass(bias,shift) \
-      do { \
+   #تعریف_کړه dct_pass(bias,ښويدنه) \
+      افعل { \
          /* even part */ \
          dct_rot(t2e,t3e, row2,row6, rot0_0,rot0_1); \
-         __m128i sum04 = _mm_add_epi16(row0, row4); \
+         __m128i sum04 = mm_جمع_کړه_epi16(row0, row4); \
          __m128i dif04 = _mm_sub_epi16(row0, row4); \
          dct_widen(t0e, sum04); \
          dct_widen(t1e, dif04); \
@@ -2762,18 +2762,18 @@ static void SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *out, int out_stride, 
          /* odd part */ \
          dct_rot(y0o,y2o, row7,row3, rot2_0,rot2_1); \
          dct_rot(y1o,y3o, row5,row1, rot3_0,rot3_1); \
-         __m128i sum17 = _mm_add_epi16(row1, row7); \
-         __m128i sum35 = _mm_add_epi16(row3, row5); \
+         __m128i sum17 = mm_جمع_کړه_epi16(row1, row7); \
+         __m128i sum35 = mm_جمع_کړه_epi16(row3, row5); \
          dct_rot(y4o,y5o, sum17,sum35, rot1_0,rot1_1); \
          dct_wadd(x4, y0o, y4o); \
          dct_wadd(x5, y1o, y5o); \
          dct_wadd(x6, y2o, y5o); \
          dct_wadd(x7, y3o, y4o); \
-         dct_bfly32o(row0,row7, x0,x7,bias,shift); \
-         dct_bfly32o(row1,row6, x1,x6,bias,shift); \
-         dct_bfly32o(row2,row5, x2,x5,bias,shift); \
-         dct_bfly32o(row3,row4, x3,x4,bias,shift); \
-      } while ( 0 )
+         dct_bfly32o(row0,row7, x0,x7,bias,ښويدنه); \
+         dct_bfly32o(row1,row6, x1,x6,bias,ښويدنه); \
+         dct_bfly32o(row2,row5, x2,x5,bias,ښويدنه); \
+         dct_bfly32o(row3,row4, x3,x4,bias,ښويدنه); \
+      } طالما ( 0 )
 
    __m128i rot0_0 = dct_const(stbi__f2f(0.5411961f), stbi__f2f(0.5411961f) + stbi__f2f(-1.847759065f));
    __m128i rot0_1 = dct_const(stbi__f2f(0.5411961f) + stbi__f2f( 0.765366865f), stbi__f2f(0.5411961f));
@@ -2788,15 +2788,15 @@ static void SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *out, int out_stride, 
    __m128i bias_0 = _mm_set1_epi32(512);
    __m128i bias_1 = _mm_set1_epi32(65536 + (128<<17));
 
-   // load
-   row0 = _mm_load_si128((const __m128i *) (data + 0*8));
-   row1 = _mm_load_si128((const __m128i *) (data + 1*8));
-   row2 = _mm_load_si128((const __m128i *) (data + 2*8));
-   row3 = _mm_load_si128((const __m128i *) (data + 3*8));
-   row4 = _mm_load_si128((const __m128i *) (data + 4*8));
-   row5 = _mm_load_si128((const __m128i *) (data + 5*8));
-   row6 = _mm_load_si128((const __m128i *) (data + 6*8));
-   row7 = _mm_load_si128((const __m128i *) (data + 7*8));
+   //بارول
+   row0 = mm_بارول_si128((ثابت __m128i *) (معلومات + 0*8));
+   row1 = mm_بارول_si128((ثابت __m128i *) (معلومات + 1*8));
+   row2 = mm_بارول_si128((ثابت __m128i *) (معلومات + 2*8));
+   row3 = mm_بارول_si128((ثابت __m128i *) (معلومات + 3*8));
+   row4 = mm_بارول_si128((ثابت __m128i *) (معلومات + 4*8));
+   row5 = mm_بارول_si128((ثابت __m128i *) (معلومات + 5*8));
+   row6 = mm_بارول_si128((ثابت __m128i *) (معلومات + 6*8));
+   row7 = mm_بارول_si128((ثابت __m128i *) (معلومات + 7*8));
 
    // column pass
    dct_pass(bias_0, 10);
@@ -2844,34 +2844,34 @@ static void SDL_TARGETING("sse2") stbi__idct_simd(stbi_uc *out, int out_stride, 
       dct_interleave8(p1, p3); // a4b4c4d4...
 
       // store
-      _mm_storel_epi64((__m128i *) out, p0); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, _mm_shuffle_epi32(p0, 0x4e)); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, p2); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, _mm_shuffle_epi32(p2, 0x4e)); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, p1); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, _mm_shuffle_epi32(p1, 0x4e)); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, p3); out += out_stride;
-      _mm_storel_epi64((__m128i *) out, _mm_shuffle_epi32(p3, 0x4e));
+      _mm_storel_epi64((__m128i *) بهر, p0); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, _mm_shuffle_epi32(p0, 0x4e)); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, p2); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, _mm_shuffle_epi32(p2, 0x4e)); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, p1); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, _mm_shuffle_epi32(p1, 0x4e)); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, p3); بهر += بهر_stride;
+      _mm_storel_epi64((__m128i *) بهر, _mm_shuffle_epi32(p3, 0x4e));
    }
 
-#undef dct_const
-#undef dct_rot
-#undef dct_widen
-#undef dct_wadd
-#undef dct_wsub
-#undef dct_bfly32o
-#undef dct_interleave8
-#undef dct_interleave16
-#undef dct_pass
+#تعریف_لغوه dct_const
+#تعریف_لغوه dct_rot
+#تعریف_لغوه dct_widen
+#تعریف_لغوه dct_wadd
+#تعریف_لغوه dct_wsub
+#تعریف_لغوه dct_bfly32o
+#تعریف_لغوه dct_interleave8
+#تعریف_لغوه dct_interleave16
+#تعریف_لغوه dct_pass
 }
 
-#endif // STBI_SSE2
+#د_که_پای // STBI_SSE2
 
-#ifdef STBI_NEON
+#که_تعریف_شوی STBI_NEON
 
 // NEON integer IDCT. should produce bit-identical
 // results to the generic C version.
-static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
+ساكن فراغ stbi__idct_simd(stbi_uc *بهر, صحيح بهر_stride, لنډ معلومات[64])
 {
    int16x8_t row0, row1, row2, row3, row4, row5, row6, row7;
 
@@ -2888,39 +2888,39 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
    int16x4_t rot3_2 = vdup_n_s16(stbi__f2f( 3.072711026f));
    int16x4_t rot3_3 = vdup_n_s16(stbi__f2f( 1.501321110f));
 
-#define dct_long_mul(out, inq, coeff) \
-   int32x4_t out##_l = vmull_s16(vget_low_s16(inq), coeff); \
-   int32x4_t out##_h = vmull_s16(vget_high_s16(inq), coeff)
+#تعریف_کړه dct_long_mul(بهر, inq, coeff) \
+   int32x4_t بهر##_l = vmull_s16(vget_ټیټ_s16(inq), coeff); \
+   int32x4_t بهر##_h = vmull_s16(vget_لوړ_s16(inq), coeff)
 
-#define dct_long_mac(out, acc, inq, coeff) \
-   int32x4_t out##_l = vmlal_s16(acc##_l, vget_low_s16(inq), coeff); \
-   int32x4_t out##_h = vmlal_s16(acc##_h, vget_high_s16(inq), coeff)
+#تعریف_کړه dct_long_mac(بهر, acc, inq, coeff) \
+   int32x4_t بهر##_l = vmlal_s16(acc##_l, vget_ټیټ_s16(inq), coeff); \
+   int32x4_t بهر##_h = vmlal_s16(acc##_h, vget_لوړ_s16(inq), coeff)
 
-#define dct_widen(out, inq) \
-   int32x4_t out##_l = vshll_n_s16(vget_low_s16(inq), 12); \
-   int32x4_t out##_h = vshll_n_s16(vget_high_s16(inq), 12)
+#تعریف_کړه dct_widen(بهر, inq) \
+   int32x4_t بهر##_l = vshll_n_s16(vget_ټیټ_s16(inq), 12); \
+   int32x4_t بهر##_h = vshll_n_s16(vget_لوړ_s16(inq), 12)
 
 // wide add
-#define dct_wadd(out, a, b) \
-   int32x4_t out##_l = vaddq_s32(a##_l, b##_l); \
-   int32x4_t out##_h = vaddq_s32(a##_h, b##_h)
+#تعریف_کړه dct_wadd(بهر, a, b) \
+   int32x4_t بهر##_l = vaddq_s32(a##_l, b##_l); \
+   int32x4_t بهر##_h = vaddq_s32(a##_h, b##_h)
 
 // wide sub
-#define dct_wsub(out, a, b) \
-   int32x4_t out##_l = vsubq_s32(a##_l, b##_l); \
-   int32x4_t out##_h = vsubq_s32(a##_h, b##_h)
+#تعریف_کړه dct_wsub(بهر, a, b) \
+   int32x4_t بهر##_l = vsubq_s32(a##_l, b##_l); \
+   int32x4_t بهر##_h = vsubq_s32(a##_h, b##_h)
 
 // butterfly a/b, then shift using "shiftop" by "s" and pack
-#define dct_bfly32o(out0,out1, a,b,shiftop,s) \
-   do { \
-      dct_wadd(sum, a, b); \
+#تعریف_کړه dct_bfly32o(out0,out1, a,b,shiftop,s) \
+   افعل { \
+      dct_wadd(مجموعه, a, b); \
       dct_wsub(dif, a, b); \
-      out0 = vcombine_s16(shiftop(sum_l, s), shiftop(sum_h, s)); \
+      out0 = vcombine_s16(shiftop(مجموعه_l, s), shiftop(مجموعه_h, s)); \
       out1 = vcombine_s16(shiftop(dif_l, s), shiftop(dif_h, s)); \
-   } while ( 0 )
+   } طالما ( 0 )
 
-#define dct_pass(shiftop, shift) \
-   do { \
+#تعریف_کړه dct_pass(shiftop, ښويدنه) \
+   افعل { \
       /* even part */ \
       int16x8_t sum26 = vaddq_s16(row2, row6); \
       dct_long_mul(p1e, sum26, rot0_0); \
@@ -2953,21 +2953,21 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
       dct_long_mac(x5, sump24o, row5, rot3_1); \
       dct_long_mac(x6, sump23o, row3, rot3_2); \
       dct_long_mac(x7, sump14o, row1, rot3_3); \
-      dct_bfly32o(row0,row7, x0,x7,shiftop,shift); \
-      dct_bfly32o(row1,row6, x1,x6,shiftop,shift); \
-      dct_bfly32o(row2,row5, x2,x5,shiftop,shift); \
-      dct_bfly32o(row3,row4, x3,x4,shiftop,shift); \
-   } while ( 0 )
+      dct_bfly32o(row0,row7, x0,x7,shiftop,ښويدنه); \
+      dct_bfly32o(row1,row6, x1,x6,shiftop,ښويدنه); \
+      dct_bfly32o(row2,row5, x2,x5,shiftop,ښويدنه); \
+      dct_bfly32o(row3,row4, x3,x4,shiftop,ښويدنه); \
+   } طالما ( 0 )
 
-   // load
-   row0 = vld1q_s16(data + 0*8);
-   row1 = vld1q_s16(data + 1*8);
-   row2 = vld1q_s16(data + 2*8);
-   row3 = vld1q_s16(data + 3*8);
-   row4 = vld1q_s16(data + 4*8);
-   row5 = vld1q_s16(data + 5*8);
-   row6 = vld1q_s16(data + 6*8);
-   row7 = vld1q_s16(data + 7*8);
+   //بارول
+   row0 = vld1q_s16(معلومات + 0*8);
+   row1 = vld1q_s16(معلومات + 1*8);
+   row2 = vld1q_s16(معلومات + 2*8);
+   row3 = vld1q_s16(معلومات + 3*8);
+   row4 = vld1q_s16(معلومات + 4*8);
+   row5 = vld1q_s16(معلومات + 5*8);
+   row6 = vld1q_s16(معلومات + 6*8);
+   row7 = vld1q_s16(معلومات + 7*8);
 
    // add DC bias
    row0 = vaddq_s16(row0, vsetq_lane_s16(1024, vdupq_n_s16(0), 0));
@@ -2979,9 +2979,9 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
    {
 // these three map to a single VTRN.16, VTRN.32, and VSWP, respectively.
 // whether compilers actually get this is another story, sadly.
-#define dct_trn16(x, y) do { int16x8x2_t t = vtrnq_s16(x, y); x = t.val[0]; y = t.val[1]; } while ( 0 )
-#define dct_trn32(x, y) do { int32x4x2_t t = vtrnq_s32(vreinterpretq_s32_s16(x), vreinterpretq_s32_s16(y)); x = vreinterpretq_s16_s32(t.val[0]); y = vreinterpretq_s16_s32(t.val[1]); } while ( 0 )
-#define dct_trn64(x, y) do { int16x8_t x0 = x; int16x8_t y0 = y; x = vcombine_s16(vget_low_s16(x0), vget_low_s16(y0)); y = vcombine_s16(vget_high_s16(x0), vget_high_s16(y0)); } while ( 0 )
+#تعریف_کړه dct_trn16(x, y) افعل { int16x8x2_t t = vtrnq_s16(x, y); x = t.val[0]; y = t.val[1]; } طالما ( 0 )
+#تعریف_کړه dct_trn32(x, y) افعل { int32x4x2_t t = vtrnq_s32(vreinterpretq_s32_s16(x), vreinterpretq_s32_s16(y)); x = vreinterpretq_s16_s32(t.val[0]); y = vreinterpretq_s16_s32(t.val[1]); } طالما ( 0 )
+#تعریف_کړه dct_trn64(x, y) افعل { int16x8_t x0 = x; int16x8_t y0 = y; x = vcombine_s16(vget_ټیټ_s16(x0), vget_ټیټ_s16(y0)); y = vcombine_s16(vget_لوړ_s16(x0), vget_لوړ_s16(y0)); } طالما ( 0 )
 
       // pass 1
       dct_trn16(row0, row1); // a0b0a2b2a4b4a6b6
@@ -3001,9 +3001,9 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
       dct_trn64(row2, row6);
       dct_trn64(row3, row7);
 
-#undef dct_trn16
-#undef dct_trn32
-#undef dct_trn64
+#تعریف_لغوه dct_trn16
+#تعریف_لغوه dct_trn32
+#تعریف_لغوه dct_trn64
    }
 
    // row pass
@@ -3024,9 +3024,9 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
       uint8x8_t p7 = vqrshrun_n_s16(row7, 1);
 
       // again, these can translate into one instruction, but often don't.
-#define dct_trn8_8(x, y) do { uint8x8x2_t t = vtrn_u8(x, y); x = t.val[0]; y = t.val[1]; } while ( 0 )
-#define dct_trn8_16(x, y) do { uint16x4x2_t t = vtrn_u16(vreinterpret_u16_u8(x), vreinterpret_u16_u8(y)); x = vreinterpret_u8_u16(t.val[0]); y = vreinterpret_u8_u16(t.val[1]); } while ( 0 )
-#define dct_trn8_32(x, y) do { uint32x2x2_t t = vtrn_u32(vreinterpret_u32_u8(x), vreinterpret_u32_u8(y)); x = vreinterpret_u8_u32(t.val[0]); y = vreinterpret_u8_u32(t.val[1]); } while ( 0 )
+#تعریف_کړه dct_trn8_8(x, y) افعل { uint8x8x2_t t = vtrn_u8(x, y); x = t.val[0]; y = t.val[1]; } طالما ( 0 )
+#تعریف_کړه dct_trn8_16(x, y) افعل { uint16x4x2_t t = vtrn_u16(vreinterpret_u16_u8(x), vreinterpret_u16_u8(y)); x = vreinterpret_u8_u16(t.val[0]); y = vreinterpret_u8_u16(t.val[1]); } طالما ( 0 )
+#تعریف_کړه dct_trn8_32(x, y) افعل { uint32x2x2_t t = vtrn_u32(vreinterpret_u32_u8(x), vreinterpret_u32_u8(y)); x = vreinterpret_u8_u32(t.val[0]); y = vreinterpret_u8_u32(t.val[1]); } طالما ( 0 )
 
       // sadly can't use interleaved stores here since we only write
       // 8 bytes to each scan line!
@@ -3050,304 +3050,304 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
       dct_trn8_32(p3, p7);
 
       // store
-      vst1_u8(out, p0); out += out_stride;
-      vst1_u8(out, p1); out += out_stride;
-      vst1_u8(out, p2); out += out_stride;
-      vst1_u8(out, p3); out += out_stride;
-      vst1_u8(out, p4); out += out_stride;
-      vst1_u8(out, p5); out += out_stride;
-      vst1_u8(out, p6); out += out_stride;
-      vst1_u8(out, p7);
+      vst1_u8(بهر, p0); بهر += بهر_stride;
+      vst1_u8(بهر, p1); بهر += بهر_stride;
+      vst1_u8(بهر, p2); بهر += بهر_stride;
+      vst1_u8(بهر, p3); بهر += بهر_stride;
+      vst1_u8(بهر, p4); بهر += بهر_stride;
+      vst1_u8(بهر, p5); بهر += بهر_stride;
+      vst1_u8(بهر, p6); بهر += بهر_stride;
+      vst1_u8(بهر, p7);
 
-#undef dct_trn8_8
-#undef dct_trn8_16
-#undef dct_trn8_32
+#تعریف_لغوه dct_trn8_8
+#تعریف_لغوه dct_trn8_16
+#تعریف_لغوه dct_trn8_32
    }
 
-#undef dct_long_mul
-#undef dct_long_mac
-#undef dct_widen
-#undef dct_wadd
-#undef dct_wsub
-#undef dct_bfly32o
-#undef dct_pass
+#تعریف_لغوه dct_long_mul
+#تعریف_لغوه dct_long_mac
+#تعریف_لغوه dct_widen
+#تعریف_لغوه dct_wadd
+#تعریف_لغوه dct_wsub
+#تعریف_لغوه dct_bfly32o
+#تعریف_لغوه dct_pass
 }
 
-#endif // STBI_NEON
+#د_که_پای // STBI_NEON
 
-#define STBI__MARKER_none  0xff
+#تعریف_کړه STBI__MARKER_none  0xff
 // if there's a pending marker from the entropy stream, return that
 // otherwise, fetch from the stream and get a marker. if there's no
 // marker, return 0xff, which is never a valid marker value
-static stbi_uc stbi__get_marker(stbi__jpeg *j)
+ساكن stbi_uc stbi__get_marker(stbi__jpeg *j)
 {
    stbi_uc x;
-   if (j->marker != STBI__MARKER_none) { x = j->marker; j->marker = STBI__MARKER_none; return x; }
+   إذا (j->marker != STBI__MARKER_none) { x = j->marker; j->marker = STBI__MARKER_none; أرجع x; }
    x = stbi__get8(j->s);
-   if (x != 0xff) return STBI__MARKER_none;
-   while (x == 0xff)
+   إذا (x != 0xff) أرجع STBI__MARKER_none;
+   طالما (x == 0xff)
       x = stbi__get8(j->s); // consume repeated 0xff fill bytes
-   return x;
+   أرجع x;
 }
 
 // in each scan, we'll have scan_n components, and the order
 // of the components is specified by order[]
-#define STBI__RESTART(x)     ((x) >= 0xd0 && (x) <= 0xd7)
+#تعریف_کړه STBI__RESTART(x)     ((x) >= 0xd0 && (x) <= 0xd7)
 
 // after a restart interval, stbi__jpeg_reset the entropy decoder and
 // the dc prediction
-static void stbi__jpeg_reset(stbi__jpeg *j)
+ساكن فراغ stbi__jpeg_reset(stbi__jpeg *j)
 {
-   j->code_bits = 0;
-   j->code_buffer = 0;
+   j->کوډ_بټونه = 0;
+   j->کوډ_بفر = 0;
    j->nomore = 0;
    j->img_comp[0].dc_pred = j->img_comp[1].dc_pred = j->img_comp[2].dc_pred = j->img_comp[3].dc_pred = 0;
    j->marker = STBI__MARKER_none;
    j->todo = j->restart_interval ? j->restart_interval : 0x7fffffff;
-   j->eob_run = 0;
+   j->eob_پرلپسې = 0;
    // no more than 1<<31 MCUs if no restart_interal? that's plenty safe,
    // since we don't even allow 1<<30 pixels
 }
 
-static int stbi__parse_entropy_coded_data(stbi__jpeg *z)
+ساكن صحيح stbi_parse_entropy_coded_معلومات(stbi__jpeg *z)
 {
    stbi__jpeg_reset(z);
-   if (!z->progressive) {
-      if (z->scan_n == 1) {
-         int i,j;
-         STBI_SIMD_ALIGN(short, data[64]);
-         int n = z->order[0];
+   إذا (!z->progressive) {
+      إذا (z->لټون_n == 1) {
+         صحيح i,j;
+         STBI_SIMD_ALIGN(لنډ, معلومات[64]);
+         صحيح n = z->ترتیب[0];
          // non-interleaved data, we just need to process one block at a time,
          // in trivial scanline order
          // number of blocks to do just depends on how many actual "pixels" this
          // component has, independent of interleaved MCU blocking and such
-         int w = (z->img_comp[n].x+7) >> 3;
-         int h = (z->img_comp[n].y+7) >> 3;
-         for (j=0; j < h; ++j) {
-            for (i=0; i < w; ++i) {
-               int ha = z->img_comp[n].ha;
-               if (!stbi__jpeg_decode_block(z, data, z->huff_dc+z->img_comp[n].hd, z->huff_ac+ha, z->fast_ac[ha], n, z->dequant[z->img_comp[n].tq])) return 0;
-               z->idct_block_kernel(z->img_comp[n].data+z->img_comp[n].w2*j*8+i*8, z->img_comp[n].w2, data);
+         صحيح w = (z->img_comp[n].x+7) >> 3;
+         صحيح h = (z->img_comp[n].y+7) >> 3;
+         لكل (j=0; j < h; ++j) {
+            لكل (i=0; i < w; ++i) {
+               صحيح ha = z->img_comp[n].ha;
+               إذا (!stbi_jpeg_decode_بلاک(z, معلومات, z->huff_dc+z->img_comp[n].hd, z->huff_ac+ha, z->fast_ac[ha], n, z->dequant[z->img_comp[n].tq])) أرجع 0;
+               z->idct_بلاک_kernel(z->img_comp[n].معلومات+z->img_comp[n].w2*j*8+i*8, z->img_comp[n].w2, معلومات);
                // every data block is an MCU, so countdown the restart interval
-               if (--z->todo <= 0) {
-                  if (z->code_bits < 24) stbi__grow_buffer_unsafe(z);
+               إذا (--z->todo <= 0) {
+                  إذا (z->کوډ_بټونه < 24) stbi_grow_بفر_unsafe(z);
                   // if it's NOT a restart, then just bail, so we get corrupt data
                   // rather than no data
-                  if (!STBI__RESTART(z->marker)) return 1;
+                  إذا (!STBI__RESTART(z->marker)) أرجع 1;
                   stbi__jpeg_reset(z);
                }
             }
          }
-         return 1;
-      } else { // interleaved
-         int i,j,k,x,y;
-         STBI_SIMD_ALIGN(short, data[64]);
-         for (j=0; j < z->img_mcu_y; ++j) {
-            for (i=0; i < z->img_mcu_x; ++i) {
+         أرجع 1;
+      } وإلا { // interleaved
+         صحيح i,j,k,x,y;
+         STBI_SIMD_ALIGN(لنډ, معلومات[64]);
+         لكل (j=0; j < z->img_mcu_y; ++j) {
+            لكل (i=0; i < z->img_mcu_x; ++i) {
                // scan an interleaved mcu... process scan_n components in order
-               for (k=0; k < z->scan_n; ++k) {
-                  int n = z->order[k];
+               لكل (k=0; k < z->لټون_n; ++k) {
+                  صحيح n = z->ترتیب[k];
                   // scan out an mcu's worth of this component; that's just determined
                   // by the basic H and V specified for the component
-                  for (y=0; y < z->img_comp[n].v; ++y) {
-                     for (x=0; x < z->img_comp[n].h; ++x) {
-                        int x2 = (i*z->img_comp[n].h + x)*8;
-                        int y2 = (j*z->img_comp[n].v + y)*8;
-                        int ha = z->img_comp[n].ha;
-                        if (!stbi__jpeg_decode_block(z, data, z->huff_dc+z->img_comp[n].hd, z->huff_ac+ha, z->fast_ac[ha], n, z->dequant[z->img_comp[n].tq])) return 0;
-                        z->idct_block_kernel(z->img_comp[n].data+z->img_comp[n].w2*y2+x2, z->img_comp[n].w2, data);
+                  لكل (y=0; y < z->img_comp[n].v; ++y) {
+                     لكل (x=0; x < z->img_comp[n].h; ++x) {
+                        صحيح x2 = (i*z->img_comp[n].h + x)*8;
+                        صحيح y2 = (j*z->img_comp[n].v + y)*8;
+                        صحيح ha = z->img_comp[n].ha;
+                        إذا (!stbi_jpeg_decode_بلاک(z, معلومات, z->huff_dc+z->img_comp[n].hd, z->huff_ac+ha, z->fast_ac[ha], n, z->dequant[z->img_comp[n].tq])) أرجع 0;
+                        z->idct_بلاک_kernel(z->img_comp[n].معلومات+z->img_comp[n].w2*y2+x2, z->img_comp[n].w2, معلومات);
                      }
                   }
                }
                // after all interleaved components, that's an interleaved MCU,
                // so now count down the restart interval
-               if (--z->todo <= 0) {
-                  if (z->code_bits < 24) stbi__grow_buffer_unsafe(z);
-                  if (!STBI__RESTART(z->marker)) return 1;
+               إذا (--z->todo <= 0) {
+                  إذا (z->کوډ_بټونه < 24) stbi_grow_بفر_unsafe(z);
+                  إذا (!STBI__RESTART(z->marker)) أرجع 1;
                   stbi__jpeg_reset(z);
                }
             }
          }
-         return 1;
+         أرجع 1;
       }
-   } else {
-      if (z->scan_n == 1) {
-         int i,j;
-         int n = z->order[0];
+   } وإلا {
+      إذا (z->لټون_n == 1) {
+         صحيح i,j;
+         صحيح n = z->ترتیب[0];
          // non-interleaved data, we just need to process one block at a time,
          // in trivial scanline order
          // number of blocks to do just depends on how many actual "pixels" this
          // component has, independent of interleaved MCU blocking and such
-         int w = (z->img_comp[n].x+7) >> 3;
-         int h = (z->img_comp[n].y+7) >> 3;
-         for (j=0; j < h; ++j) {
-            for (i=0; i < w; ++i) {
-               short *data = z->img_comp[n].coeff + 64 * (i + j * z->img_comp[n].coeff_w);
-               if (z->spec_start == 0) {
-                  if (!stbi__jpeg_decode_block_prog_dc(z, data, &z->huff_dc[z->img_comp[n].hd], n))
-                     return 0;
-               } else {
-                  int ha = z->img_comp[n].ha;
-                  if (!stbi__jpeg_decode_block_prog_ac(z, data, &z->huff_ac[ha], z->fast_ac[ha]))
-                     return 0;
+         صحيح w = (z->img_comp[n].x+7) >> 3;
+         صحيح h = (z->img_comp[n].y+7) >> 3;
+         لكل (j=0; j < h; ++j) {
+            لكل (i=0; i < w; ++i) {
+               لنډ *معلومات = z->img_comp[n].coeff + 64 * (i + j * z->img_comp[n].coeff_w);
+               إذا (z->spec_پیل == 0) {
+                  إذا (!stbi_jpeg_decode_بلاک_prog_dc(z, معلومات, &z->huff_dc[z->img_comp[n].hd], n))
+                     أرجع 0;
+               } وإلا {
+                  صحيح ha = z->img_comp[n].ha;
+                  إذا (!stbi_jpeg_decode_بلاک_prog_ac(z, معلومات, &z->huff_ac[ha], z->fast_ac[ha]))
+                     أرجع 0;
                }
                // every data block is an MCU, so countdown the restart interval
-               if (--z->todo <= 0) {
-                  if (z->code_bits < 24) stbi__grow_buffer_unsafe(z);
-                  if (!STBI__RESTART(z->marker)) return 1;
+               إذا (--z->todo <= 0) {
+                  إذا (z->کوډ_بټونه < 24) stbi_grow_بفر_unsafe(z);
+                  إذا (!STBI__RESTART(z->marker)) أرجع 1;
                   stbi__jpeg_reset(z);
                }
             }
          }
-         return 1;
-      } else { // interleaved
-         int i,j,k,x,y;
-         for (j=0; j < z->img_mcu_y; ++j) {
-            for (i=0; i < z->img_mcu_x; ++i) {
+         أرجع 1;
+      } وإلا { // interleaved
+         صحيح i,j,k,x,y;
+         لكل (j=0; j < z->img_mcu_y; ++j) {
+            لكل (i=0; i < z->img_mcu_x; ++i) {
                // scan an interleaved mcu... process scan_n components in order
-               for (k=0; k < z->scan_n; ++k) {
-                  int n = z->order[k];
+               لكل (k=0; k < z->لټون_n; ++k) {
+                  صحيح n = z->ترتیب[k];
                   // scan out an mcu's worth of this component; that's just determined
                   // by the basic H and V specified for the component
-                  for (y=0; y < z->img_comp[n].v; ++y) {
-                     for (x=0; x < z->img_comp[n].h; ++x) {
-                        int x2 = (i*z->img_comp[n].h + x);
-                        int y2 = (j*z->img_comp[n].v + y);
-                        short *data = z->img_comp[n].coeff + 64 * (x2 + y2 * z->img_comp[n].coeff_w);
-                        if (!stbi__jpeg_decode_block_prog_dc(z, data, &z->huff_dc[z->img_comp[n].hd], n))
-                           return 0;
+                  لكل (y=0; y < z->img_comp[n].v; ++y) {
+                     لكل (x=0; x < z->img_comp[n].h; ++x) {
+                        صحيح x2 = (i*z->img_comp[n].h + x);
+                        صحيح y2 = (j*z->img_comp[n].v + y);
+                        لنډ *معلومات = z->img_comp[n].coeff + 64 * (x2 + y2 * z->img_comp[n].coeff_w);
+                        إذا (!stbi_jpeg_decode_بلاک_prog_dc(z, معلومات, &z->huff_dc[z->img_comp[n].hd], n))
+                           أرجع 0;
                      }
                   }
                }
                // after all interleaved components, that's an interleaved MCU,
                // so now count down the restart interval
-               if (--z->todo <= 0) {
-                  if (z->code_bits < 24) stbi__grow_buffer_unsafe(z);
-                  if (!STBI__RESTART(z->marker)) return 1;
+               إذا (--z->todo <= 0) {
+                  إذا (z->کوډ_بټونه < 24) stbi_grow_بفر_unsafe(z);
+                  إذا (!STBI__RESTART(z->marker)) أرجع 1;
                   stbi__jpeg_reset(z);
                }
             }
          }
-         return 1;
+         أرجع 1;
       }
    }
 }
 
-static void stbi__jpeg_dequantize(short *data, stbi__uint16 *dequant)
+ساكن فراغ stbi__jpeg_dequantize(لنډ *معلومات, stbi__uint16 *dequant)
 {
-   int i;
-   for (i=0; i < 64; ++i)
-      data[i] *= dequant[i];
+   صحيح i;
+   لكل (i=0; i < 64; ++i)
+      معلومات[i] *= dequant[i];
 }
 
-static void stbi__jpeg_finish(stbi__jpeg *z)
+ساكن فراغ stbi_jpeg_پای(stbi__jpeg *z)
 {
-   if (z->progressive) {
+   إذا (z->progressive) {
       // dequantize and idct the data
-      int i,j,n;
-      for (n=0; n < z->s->img_n; ++n) {
-         int w = (z->img_comp[n].x+7) >> 3;
-         int h = (z->img_comp[n].y+7) >> 3;
-         for (j=0; j < h; ++j) {
-            for (i=0; i < w; ++i) {
-               short *data = z->img_comp[n].coeff + 64 * (i + j * z->img_comp[n].coeff_w);
-               stbi__jpeg_dequantize(data, z->dequant[z->img_comp[n].tq]);
-               z->idct_block_kernel(z->img_comp[n].data+z->img_comp[n].w2*j*8+i*8, z->img_comp[n].w2, data);
+      صحيح i,j,n;
+      لكل (n=0; n < z->s->img_n; ++n) {
+         صحيح w = (z->img_comp[n].x+7) >> 3;
+         صحيح h = (z->img_comp[n].y+7) >> 3;
+         لكل (j=0; j < h; ++j) {
+            لكل (i=0; i < w; ++i) {
+               لنډ *معلومات = z->img_comp[n].coeff + 64 * (i + j * z->img_comp[n].coeff_w);
+               stbi__jpeg_dequantize(معلومات, z->dequant[z->img_comp[n].tq]);
+               z->idct_بلاک_kernel(z->img_comp[n].معلومات+z->img_comp[n].w2*j*8+i*8, z->img_comp[n].w2, معلومات);
             }
          }
       }
    }
 }
 
-static int stbi__process_marker(stbi__jpeg *z, int m)
+ساكن صحيح stbi__process_marker(stbi__jpeg *z, صحيح m)
 {
-   int L;
-   switch (m) {
-      case STBI__MARKER_none: // no marker found
-         return stbi__err("expected marker","Corrupt JPEG");
+   صحيح L;
+   بدل (m) {
+      حالة STBI__MARKER_none: // no marker found
+         أرجع stbi__err("expected marker","Corrupt JPEG");
 
-      case 0xDD: // DRI - specify restart interval
-         if (stbi__get16be(z->s) != 4) return stbi__err("bad DRI len","Corrupt JPEG");
+      حالة 0xDD: // DRI - specify restart interval
+         إذا (stbi__get16be(z->s) != 4) أرجع stbi__err("bad DRI len","Corrupt JPEG");
          z->restart_interval = stbi__get16be(z->s);
-         return 1;
+         أرجع 1;
 
-      case 0xDB: // DQT - define quantization table
+      حالة 0xDB: // DQT - define quantization table
          L = stbi__get16be(z->s)-2;
-         while (L > 0) {
-            int q = stbi__get8(z->s);
-            int p = q >> 4, sixteen = (p != 0);
-            int t = q & 15,i;
-            if (p != 0 && p != 1) return stbi__err("bad DQT type","Corrupt JPEG");
-            if (t > 3) return stbi__err("bad DQT table","Corrupt JPEG");
+         طالما (L > 0) {
+            صحيح q = stbi__get8(z->s);
+            صحيح p = q >> 4, sixteen = (p != 0);
+            صحيح t = q & 15,i;
+            إذا (p != 0 && p != 1) أرجع stbi__err("bad DQT type","Corrupt JPEG");
+            إذا (t > 3) أرجع stbi__err("bad DQT table","Corrupt JPEG");
 
-            for (i=0; i < 64; ++i)
+            لكل (i=0; i < 64; ++i)
                z->dequant[t][stbi__jpeg_dezigzag[i]] = (stbi__uint16)(sixteen ? stbi__get16be(z->s) : stbi__get8(z->s));
             L -= (sixteen ? 129 : 65);
          }
-         return L==0;
+         أرجع L==0;
 
-      case 0xC4: // DHT - define huffman table
+      حالة 0xC4: // DHT - define huffman table
          L = stbi__get16be(z->s)-2;
-         while (L > 0) {
+         طالما (L > 0) {
             stbi_uc *v;
-            int sizes[16],i,n=0;
-            int q = stbi__get8(z->s);
-            int tc = q >> 4;
-            int th = q & 15;
-            if (tc > 1 || th > 3) return stbi__err("bad DHT header","Corrupt JPEG");
-            for (i=0; i < 16; ++i) {
+            صحيح sizes[16],i,n=0;
+            صحيح q = stbi__get8(z->s);
+            صحيح tc = q >> 4;
+            صحيح th = q & 15;
+            إذا (tc > 1 || th > 3) أرجع stbi__err("bad DHT header","Corrupt JPEG");
+            لكل (i=0; i < 16; ++i) {
                sizes[i] = stbi__get8(z->s);
                n += sizes[i];
             }
-            if(n > 256) return stbi__err("bad DHT header","Corrupt JPEG"); // Loop over i < n would write past end of values!
+            إذا(n > 256) أرجع stbi__err("bad DHT header","Corrupt JPEG"); // Loop over i < n would write past end of values!
             L -= 17;
-            if (tc == 0) {
-               if (!stbi__build_huffman(z->huff_dc+th, sizes)) return 0;
-               v = z->huff_dc[th].values;
-            } else {
-               if (!stbi__build_huffman(z->huff_ac+th, sizes)) return 0;
-               v = z->huff_ac[th].values;
+            إذا (tc == 0) {
+               إذا (!stbi__build_huffman(z->huff_dc+th, sizes)) أرجع 0;
+               v = z->huff_dc[th].ارزښتونه;
+            } وإلا {
+               إذا (!stbi__build_huffman(z->huff_ac+th, sizes)) أرجع 0;
+               v = z->huff_ac[th].ارزښتونه;
             }
-            for (i=0; i < n; ++i)
+            لكل (i=0; i < n; ++i)
                v[i] = stbi__get8(z->s);
-            if (tc != 0)
+            إذا (tc != 0)
                stbi__build_fast_ac(z->fast_ac[th], z->huff_ac + th);
             L -= n;
          }
-         return L==0;
+         أرجع L==0;
    }
 
    // check for comment block or APP blocks
-   if ((m >= 0xE0 && m <= 0xEF) || m == 0xFE) {
+   إذا ((m >= 0xE0 && m <= 0xEF) || m == 0xFE) {
       L = stbi__get16be(z->s);
-      if (L < 2) {
-         if (m == 0xFE)
-            return stbi__err("bad COM len","Corrupt JPEG");
-         else
-            return stbi__err("bad APP len","Corrupt JPEG");
+      إذا (L < 2) {
+         إذا (m == 0xFE)
+            أرجع stbi__err("bad COM len","Corrupt JPEG");
+         وإلا
+            أرجع stbi__err("bad APP len","Corrupt JPEG");
       }
       L -= 2;
 
-      if (m == 0xE0 && L >= 5) { // JFIF APP0 segment
-         static const unsigned char tag[5] = {'J','F','I','F','\0'};
-         int ok = 1;
-         int i;
-         for (i=0; i < 5; ++i)
-            if (stbi__get8(z->s) != tag[i])
+      إذا (m == 0xE0 && L >= 5) { // JFIF APP0 segment
+         ساكن ثابت بینښه حرف نښان[5] = {'J','F','I','F','\0'};
+         صحيح ok = 1;
+         صحيح i;
+         لكل (i=0; i < 5; ++i)
+            إذا (stbi__get8(z->s) != نښان[i])
                ok = 0;
          L -= 5;
-         if (ok)
+         إذا (ok)
             z->jfif = 1;
-      } else if (m == 0xEE && L >= 12) { // Adobe APP14 segment
-         static const unsigned char tag[6] = {'A','d','o','b','e','\0'};
-         int ok = 1;
-         int i;
-         for (i=0; i < 6; ++i)
-            if (stbi__get8(z->s) != tag[i])
+      } وإلا إذا (m == 0xEE && L >= 12) { // Adobe APP14 segment
+         ساكن ثابت بینښه حرف نښان[6] = {'A','d','o','b','e','\0'};
+         صحيح ok = 1;
+         صحيح i;
+         لكل (i=0; i < 6; ++i)
+            إذا (stbi__get8(z->s) != نښان[i])
                ok = 0;
          L -= 6;
-         if (ok) {
-            stbi__get8(z->s); // version
+         إذا (ok) {
+            stbi__get8(z->s); //نسخه
             stbi__get16be(z->s); // flags0
             stbi__get16be(z->s); // flags1
             z->app14_color_transform = stbi__get8(z->s); // color transform
@@ -3356,120 +3356,120 @@ static int stbi__process_marker(stbi__jpeg *z, int m)
       }
 
       stbi__skip(z->s, L);
-      return 1;
+      أرجع 1;
    }
 
-   return stbi__err("unknown marker","Corrupt JPEG");
+   أرجع stbi__err("unknown marker","Corrupt JPEG");
 }
 
 // after we see SOS
-static int stbi__process_scan_header(stbi__jpeg *z)
+ساكن صحيح stbi_process_لټون_سرلیک(stbi__jpeg *z)
 {
-   int i;
-   int Ls = stbi__get16be(z->s);
-   z->scan_n = stbi__get8(z->s);
-   if (z->scan_n < 1 || z->scan_n > 4 || z->scan_n > (int) z->s->img_n) return stbi__err("bad SOS component count","Corrupt JPEG");
-   if (Ls != 6+2*z->scan_n) return stbi__err("bad SOS len","Corrupt JPEG");
-   for (i=0; i < z->scan_n; ++i) {
-      int id = stbi__get8(z->s), which;
-      int q = stbi__get8(z->s);
-      for (which = 0; which < z->s->img_n; ++which)
-         if (z->img_comp[which].id == id)
-            break;
-      if (which == z->s->img_n) return 0; // no match
-      z->img_comp[which].hd = q >> 4;   if (z->img_comp[which].hd > 3) return stbi__err("bad DC huff","Corrupt JPEG");
-      z->img_comp[which].ha = q & 15;   if (z->img_comp[which].ha > 3) return stbi__err("bad AC huff","Corrupt JPEG");
-      z->order[i] = which;
+   صحيح i;
+   صحيح Ls = stbi__get16be(z->s);
+   z->لټون_n = stbi__get8(z->s);
+   إذا (z->لټون_n < 1 || z->لټون_n > 4 || z->لټون_n > (صحيح) z->s->img_n) أرجع stbi__err("bad SOS component count","Corrupt JPEG");
+   إذا (Ls != 6+2*z->لټون_n) أرجع stbi__err("bad SOS len","Corrupt JPEG");
+   لكل (i=0; i < z->لټون_n; ++i) {
+      صحيح id = stbi__get8(z->s), which;
+      صحيح q = stbi__get8(z->s);
+      لكل (which = 0; which < z->s->img_n; ++which)
+         إذا (z->img_comp[which].id == id)
+            اكسر;
+      إذا (which == z->s->img_n) أرجع 0; // no match
+      z->img_comp[which].hd = q >> 4;   إذا (z->img_comp[which].hd > 3) أرجع stbi__err("bad DC huff","Corrupt JPEG");
+      z->img_comp[which].ha = q & 15;   إذا (z->img_comp[which].ha > 3) أرجع stbi__err("bad AC huff","Corrupt JPEG");
+      z->ترتیب[i] = which;
    }
 
    {
-      int aa;
-      z->spec_start = stbi__get8(z->s);
-      z->spec_end   = stbi__get8(z->s); // should be 63, but might be 0
+      صحيح aa;
+      z->spec_پیل = stbi__get8(z->s);
+      z->spec_پای_ټکی   = stbi__get8(z->s); // should be 63, but might be 0
       aa = stbi__get8(z->s);
-      z->succ_high = (aa >> 4);
-      z->succ_low  = (aa & 15);
-      if (z->progressive) {
-         if (z->spec_start > 63 || z->spec_end > 63  || z->spec_start > z->spec_end || z->succ_high > 13 || z->succ_low > 13)
-            return stbi__err("bad SOS", "Corrupt JPEG");
-      } else {
-         if (z->spec_start != 0) return stbi__err("bad SOS","Corrupt JPEG");
-         if (z->succ_high != 0 || z->succ_low != 0) return stbi__err("bad SOS","Corrupt JPEG");
-         z->spec_end = 63;
+      z->succ_لوړ = (aa >> 4);
+      z->succ_ټیټ  = (aa & 15);
+      إذا (z->progressive) {
+         إذا (z->spec_پیل > 63 || z->spec_پای_ټکی > 63  || z->spec_پیل > z->spec_پای_ټکی || z->succ_لوړ > 13 || z->succ_ټیټ > 13)
+            أرجع stbi__err("bad SOS", "Corrupt JPEG");
+      } وإلا {
+         إذا (z->spec_پیل != 0) أرجع stbi__err("bad SOS","Corrupt JPEG");
+         إذا (z->succ_لوړ != 0 || z->succ_ټیټ != 0) أرجع stbi__err("bad SOS","Corrupt JPEG");
+         z->spec_پای_ټکی = 63;
       }
    }
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__free_jpeg_components(stbi__jpeg *z, int ncomp, int why)
+ساكن صحيح stbi__free_jpeg_components(stbi__jpeg *z, صحيح ncomp, صحيح why)
 {
-   int i;
-   for (i=0; i < ncomp; ++i) {
-      if (z->img_comp[i].raw_data) {
-         STBI_FREE(z->img_comp[i].raw_data);
-         z->img_comp[i].raw_data = NULL;
-         z->img_comp[i].data = NULL;
+   صحيح i;
+   لكل (i=0; i < ncomp; ++i) {
+      إذا (z->img_comp[i].raw_معلومات) {
+         STBI_FREE(z->img_comp[i].raw_معلومات);
+         z->img_comp[i].raw_معلومات = عدم;
+         z->img_comp[i].معلومات = عدم;
       }
-      if (z->img_comp[i].raw_coeff) {
+      إذا (z->img_comp[i].raw_coeff) {
          STBI_FREE(z->img_comp[i].raw_coeff);
-         z->img_comp[i].raw_coeff = NULL;
-         z->img_comp[i].coeff = NULL;
+         z->img_comp[i].raw_coeff = عدم;
+         z->img_comp[i].coeff = عدم;
       }
-      if (z->img_comp[i].linebuf) {
+      إذا (z->img_comp[i].linebuf) {
          STBI_FREE(z->img_comp[i].linebuf);
-         z->img_comp[i].linebuf = NULL;
+         z->img_comp[i].linebuf = عدم;
       }
    }
-   return why;
+   أرجع why;
 }
 
-static int stbi__process_frame_header(stbi__jpeg *z, int scan)
+ساكن صحيح stbi_process_چوکاټ_سرلیک(stbi__jpeg *z, صحيح لټون)
 {
    stbi__context *s = z->s;
-   int Lf,p,i,q, h_max=1,v_max=1,c;
-   Lf = stbi__get16be(s);         if (Lf < 11) return stbi__err("bad SOF len","Corrupt JPEG"); // JPEG
-   p  = stbi__get8(s);            if (p != 8) return stbi__err("only 8-bit","JPEG format not supported: 8-bit only"); // JPEG baseline
-   s->img_y = stbi__get16be(s);   if (s->img_y == 0) return stbi__err("no header height", "JPEG format not supported: delayed height"); // Legal, but we don't handle it--but neither does IJG
-   s->img_x = stbi__get16be(s);   if (s->img_x == 0) return stbi__err("0 width","Corrupt JPEG"); // JPEG requires
-   if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-   if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
+   صحيح Lf,p,i,q, h_max=1,v_max=1,c;
+   Lf = stbi__get16be(s);         إذا (Lf < 11) أرجع stbi__err("bad SOF len","Corrupt JPEG"); // JPEG
+   p  = stbi__get8(s);            إذا (p != 8) أرجع stbi__err("only 8-bit","JPEG format not supported: 8-bit only"); // JPEG baseline
+   s->img_y = stbi__get16be(s);   إذا (s->img_y == 0) أرجع stbi__err("no header height", "JPEG format not supported: delayed height"); // Legal, but we don't handle it--but neither does IJG
+   s->img_x = stbi__get16be(s);   إذا (s->img_x == 0) أرجع stbi__err("0 width","Corrupt JPEG"); // JPEG requires
+   إذا (s->img_y > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
+   إذا (s->img_x > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
    c = stbi__get8(s);
-   if (c != 3 && c != 1 && c != 4) return stbi__err("bad component count","Corrupt JPEG");
+   إذا (c != 3 && c != 1 && c != 4) أرجع stbi__err("bad component count","Corrupt JPEG");
    s->img_n = c;
-   for (i=0; i < c; ++i) {
-      z->img_comp[i].data = NULL;
-      z->img_comp[i].linebuf = NULL;
+   لكل (i=0; i < c; ++i) {
+      z->img_comp[i].معلومات = عدم;
+      z->img_comp[i].linebuf = عدم;
    }
 
-   if (Lf != 8+3*s->img_n) return stbi__err("bad SOF len","Corrupt JPEG");
+   إذا (Lf != 8+3*s->img_n) أرجع stbi__err("bad SOF len","Corrupt JPEG");
 
    z->rgb = 0;
-   for (i=0; i < s->img_n; ++i) {
-      static const unsigned char rgb[3] = { 'R', 'G', 'B' };
+   لكل (i=0; i < s->img_n; ++i) {
+      ساكن ثابت بینښه حرف rgb[3] = { 'R', 'G', 'B' };
       z->img_comp[i].id = stbi__get8(s);
-      if (s->img_n == 3 && z->img_comp[i].id == rgb[i])
+      إذا (s->img_n == 3 && z->img_comp[i].id == rgb[i])
          ++z->rgb;
       q = stbi__get8(s);
-      z->img_comp[i].h = (q >> 4);  if (!z->img_comp[i].h || z->img_comp[i].h > 4) return stbi__err("bad H","Corrupt JPEG");
-      z->img_comp[i].v = q & 15;    if (!z->img_comp[i].v || z->img_comp[i].v > 4) return stbi__err("bad V","Corrupt JPEG");
-      z->img_comp[i].tq = stbi__get8(s);  if (z->img_comp[i].tq > 3) return stbi__err("bad TQ","Corrupt JPEG");
+      z->img_comp[i].h = (q >> 4);  إذا (!z->img_comp[i].h || z->img_comp[i].h > 4) أرجع stbi__err("bad H","Corrupt JPEG");
+      z->img_comp[i].v = q & 15;    إذا (!z->img_comp[i].v || z->img_comp[i].v > 4) أرجع stbi__err("bad V","Corrupt JPEG");
+      z->img_comp[i].tq = stbi__get8(s);  إذا (z->img_comp[i].tq > 3) أرجع stbi__err("bad TQ","Corrupt JPEG");
    }
 
-   if (scan != STBI__SCAN_load) return 1;
+   إذا (لټون != STBI_لټون_بارول) أرجع 1;
 
-   if (!stbi__mad3sizes_valid(s->img_x, s->img_y, s->img_n, 0)) return stbi__err("too large", "Image too large to decode");
+   إذا (!stbi__mad3sizes_valid(s->img_x, s->img_y, s->img_n, 0)) أرجع stbi__err("too large", "Image too large to decode");
 
-   for (i=0; i < s->img_n; ++i) {
-      if (z->img_comp[i].h > h_max) h_max = z->img_comp[i].h;
-      if (z->img_comp[i].v > v_max) v_max = z->img_comp[i].v;
+   لكل (i=0; i < s->img_n; ++i) {
+      إذا (z->img_comp[i].h > h_max) h_max = z->img_comp[i].h;
+      إذا (z->img_comp[i].v > v_max) v_max = z->img_comp[i].v;
    }
 
    // check that plane subsampling factors are integer ratios; our resamplers can't deal with fractional ratios
    // and I've never seen a non-corrupted JPEG file actually use them
-   for (i=0; i < s->img_n; ++i) {
-      if (h_max % z->img_comp[i].h != 0) return stbi__err("bad H","Corrupt JPEG");
-      if (v_max % z->img_comp[i].v != 0) return stbi__err("bad V","Corrupt JPEG");
+   لكل (i=0; i < s->img_n; ++i) {
+      إذا (h_max % z->img_comp[i].h != 0) أرجع stbi__err("bad H","Corrupt JPEG");
+      إذا (v_max % z->img_comp[i].v != 0) أرجع stbi__err("bad V","Corrupt JPEG");
    }
 
    // compute interleaved mcu info
@@ -3481,7 +3481,7 @@ static int stbi__process_frame_header(stbi__jpeg *z, int scan)
    z->img_mcu_x = (s->img_x + z->img_mcu_w-1) / z->img_mcu_w;
    z->img_mcu_y = (s->img_y + z->img_mcu_h-1) / z->img_mcu_h;
 
-   for (i=0; i < s->img_n; ++i) {
+   لكل (i=0; i < s->img_n; ++i) {
       // number of effective pixels (e.g. for non-interleaved MCU)
       z->img_comp[i].x = (s->img_x * z->img_comp[i].h + h_max-1) / h_max;
       z->img_comp[i].y = (s->img_y * z->img_comp[i].v + v_max-1) / v_max;
@@ -3494,233 +3494,233 @@ static int stbi__process_frame_header(stbi__jpeg *z, int scan)
       // so these muls can't overflow with 32-bit ints (which we require)
       z->img_comp[i].w2 = z->img_mcu_x * z->img_comp[i].h * 8;
       z->img_comp[i].h2 = z->img_mcu_y * z->img_comp[i].v * 8;
-      z->img_comp[i].coeff = NULL;
-      z->img_comp[i].raw_coeff = NULL;
-      z->img_comp[i].linebuf = NULL;
-      z->img_comp[i].raw_data = stbi__malloc_mad2(z->img_comp[i].w2, z->img_comp[i].h2, 15);
-      if (z->img_comp[i].raw_data == NULL)
-         return stbi__free_jpeg_components(z, i+1, stbi__err("outofmem", "Out of memory"));
+      z->img_comp[i].coeff = عدم;
+      z->img_comp[i].raw_coeff = عدم;
+      z->img_comp[i].linebuf = عدم;
+      z->img_comp[i].raw_معلومات = stbi__malloc_mad2(z->img_comp[i].w2, z->img_comp[i].h2, 15);
+      إذا (z->img_comp[i].raw_معلومات == عدم)
+         أرجع stbi__free_jpeg_components(z, i+1, stbi__err("outofmem", "Out of memory"));
       // align blocks for idct using mmx/sse
-      z->img_comp[i].data = (stbi_uc*) (((size_t) z->img_comp[i].raw_data + 15) & ~15);
-      if (z->progressive) {
+      z->img_comp[i].معلومات = (stbi_uc*) (((size_t) z->img_comp[i].raw_معلومات + 15) & ~15);
+      إذا (z->progressive) {
          // w2, h2 are multiples of 8 (see above)
          z->img_comp[i].coeff_w = z->img_comp[i].w2 / 8;
          z->img_comp[i].coeff_h = z->img_comp[i].h2 / 8;
-         z->img_comp[i].raw_coeff = stbi__malloc_mad3(z->img_comp[i].w2, z->img_comp[i].h2, sizeof(short), 15);
-         if (z->img_comp[i].raw_coeff == NULL)
-            return stbi__free_jpeg_components(z, i+1, stbi__err("outofmem", "Out of memory"));
-         z->img_comp[i].coeff = (short*) (((size_t) z->img_comp[i].raw_coeff + 15) & ~15);
+         z->img_comp[i].raw_coeff = stbi__malloc_mad3(z->img_comp[i].w2, z->img_comp[i].h2, حجم(لنډ), 15);
+         إذا (z->img_comp[i].raw_coeff == عدم)
+            أرجع stbi__free_jpeg_components(z, i+1, stbi__err("outofmem", "Out of memory"));
+         z->img_comp[i].coeff = (لنډ*) (((size_t) z->img_comp[i].raw_coeff + 15) & ~15);
       }
    }
 
-   return 1;
+   أرجع 1;
 }
 
 // use comparisons since in some cases we handle more than one case (e.g. SOF)
-#define stbi__DNL(x)         ((x) == 0xdc)
-#define stbi__SOI(x)         ((x) == 0xd8)
-#define stbi__EOI(x)         ((x) == 0xd9)
-#define stbi__SOF(x)         ((x) == 0xc0 || (x) == 0xc1 || (x) == 0xc2)
-#define stbi__SOS(x)         ((x) == 0xda)
+#تعریف_کړه stbi__DNL(x)         ((x) == 0xdc)
+#تعریف_کړه stbi__SOI(x)         ((x) == 0xd8)
+#تعریف_کړه stbi__EOI(x)         ((x) == 0xd9)
+#تعریف_کړه stbi__SOF(x)         ((x) == 0xc0 || (x) == 0xc1 || (x) == 0xc2)
+#تعریف_کړه stbi__SOS(x)         ((x) == 0xda)
 
-#define stbi__SOF_progressive(x)   ((x) == 0xc2)
+#تعریف_کړه stbi__SOF_progressive(x)   ((x) == 0xc2)
 
-static int stbi__decode_jpeg_header(stbi__jpeg *z, int scan)
+ساكن صحيح stbi_decode_jpeg_سرلیک(stbi__jpeg *z, صحيح لټون)
 {
-   int m;
+   صحيح m;
    z->jfif = 0;
    z->app14_color_transform = -1; // valid values are 0,1,2
    z->marker = STBI__MARKER_none; // initialize cached marker to empty
    m = stbi__get_marker(z);
-   if (!stbi__SOI(m)) return stbi__err("no SOI","Corrupt JPEG");
-   if (scan == STBI__SCAN_type) return 1;
+   إذا (!stbi__SOI(m)) أرجع stbi__err("no SOI","Corrupt JPEG");
+   إذا (لټون == STBI_لټون_type) أرجع 1;
    m = stbi__get_marker(z);
-   while (!stbi__SOF(m)) {
-      if (!stbi__process_marker(z,m)) return 0;
+   طالما (!stbi__SOF(m)) {
+      إذا (!stbi__process_marker(z,m)) أرجع 0;
       m = stbi__get_marker(z);
-      while (m == STBI__MARKER_none) {
+      طالما (m == STBI__MARKER_none) {
          // some files have extra padding after their blocks, so ok, we'll scan
-         if (stbi__at_eof(z->s)) return stbi__err("no SOF", "Corrupt JPEG");
+         إذا (stbi__at_eof(z->s)) أرجع stbi__err("no SOF", "Corrupt JPEG");
          m = stbi__get_marker(z);
       }
    }
    z->progressive = stbi__SOF_progressive(m);
-   if (!stbi__process_frame_header(z, scan)) return 0;
-   return 1;
+   إذا (!stbi_process_چوکاټ_سرلیک(z, لټون)) أرجع 0;
+   أرجع 1;
 }
 
-static stbi_uc stbi__skip_jpeg_junk_at_end(stbi__jpeg *j)
+ساكن stbi_uc stbi_skip_jpeg_junk_at_پای_ټکی(stbi__jpeg *j)
 {
    // some JPEGs have junk at end, skip over it but if we find what looks
    // like a valid marker, resume there
-   while (!stbi__at_eof(j->s)) {
+   طالما (!stbi__at_eof(j->s)) {
       stbi_uc x = stbi__get8(j->s);
-      while (x == 0xff) { // might be a marker
-         if (stbi__at_eof(j->s)) return STBI__MARKER_none;
+      طالما (x == 0xff) { // might be a marker
+         إذا (stbi__at_eof(j->s)) أرجع STBI__MARKER_none;
          x = stbi__get8(j->s);
-         if (x != 0x00 && x != 0xff) {
+         إذا (x != 0x00 && x != 0xff) {
             // not a stuffed zero or lead-in to another marker, looks
             // like an actual marker, return it
-            return x;
+            أرجع x;
          }
          // stuffed zero has x=0 now which ends the loop, meaning we go
          // back to regular scan loop.
          // repeated 0xff keeps trying to read the next byte of the marker.
       }
    }
-   return STBI__MARKER_none;
+   أرجع STBI__MARKER_none;
 }
 
 // decode image to YCbCr format
-static int stbi__decode_jpeg_image(stbi__jpeg *j)
+ساكن صحيح stbi__decode_jpeg_image(stbi__jpeg *j)
 {
-   int m;
-   for (m = 0; m < 4; m++) {
-      j->img_comp[m].raw_data = NULL;
-      j->img_comp[m].raw_coeff = NULL;
+   صحيح m;
+   لكل (m = 0; m < 4; m++) {
+      j->img_comp[m].raw_معلومات = عدم;
+      j->img_comp[m].raw_coeff = عدم;
    }
    j->restart_interval = 0;
-   if (!stbi__decode_jpeg_header(j, STBI__SCAN_load)) return 0;
+   إذا (!stbi_decode_jpeg_سرلیک(j, STBI_لټون_بارول)) أرجع 0;
    m = stbi__get_marker(j);
-   while (!stbi__EOI(m)) {
-      if (stbi__SOS(m)) {
-         if (!stbi__process_scan_header(j)) return 0;
-         if (!stbi__parse_entropy_coded_data(j)) return 0;
-         if (j->marker == STBI__MARKER_none ) {
-         j->marker = stbi__skip_jpeg_junk_at_end(j);
+   طالما (!stbi__EOI(m)) {
+      إذا (stbi__SOS(m)) {
+         إذا (!stbi_process_لټون_سرلیک(j)) أرجع 0;
+         إذا (!stbi_parse_entropy_coded_معلومات(j)) أرجع 0;
+         إذا (j->marker == STBI__MARKER_none ) {
+         j->marker = stbi_skip_jpeg_junk_at_پای_ټکی(j);
             // if we reach eof without hitting a marker, stbi__get_marker() below will fail and we'll eventually return 0
          }
          m = stbi__get_marker(j);
-         if (STBI__RESTART(m))
+         إذا (STBI__RESTART(m))
             m = stbi__get_marker(j);
-      } else if (stbi__DNL(m)) {
-         int Ld = stbi__get16be(j->s);
+      } وإلا إذا (stbi__DNL(m)) {
+         صحيح Ld = stbi__get16be(j->s);
          stbi__uint32 NL = stbi__get16be(j->s);
-         if (Ld != 4) return stbi__err("bad DNL len", "Corrupt JPEG");
-         if (NL != j->s->img_y) return stbi__err("bad DNL height", "Corrupt JPEG");
+         إذا (Ld != 4) أرجع stbi__err("bad DNL len", "Corrupt JPEG");
+         إذا (NL != j->s->img_y) أرجع stbi__err("bad DNL height", "Corrupt JPEG");
          m = stbi__get_marker(j);
-      } else {
-         if (!stbi__process_marker(j, m)) return 1;
+      } وإلا {
+         إذا (!stbi__process_marker(j, m)) أرجع 1;
          m = stbi__get_marker(j);
       }
    }
-   if (j->progressive)
-      stbi__jpeg_finish(j);
-   return 1;
+   إذا (j->progressive)
+      stbi_jpeg_پای(j);
+   أرجع 1;
 }
 
 // static jfif-centered resampling (across block boundaries)
 
-typedef stbi_uc *(*resample_row_func)(stbi_uc *out, stbi_uc *in0, stbi_uc *in1,
-                                    int w, int hs);
+تعريفنوع stbi_uc *(*resample_لیکه_func)(stbi_uc *بهر, stbi_uc *in0, stbi_uc *in1,
+                                    صحيح w, صحيح hs);
 
-#define stbi__div4(x) ((stbi_uc) ((x) >> 2))
+#تعریف_کړه stbi__div4(x) ((stbi_uc) ((x) >> 2))
 
-static stbi_uc *resample_row_1(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs)
+ساكن stbi_uc *resample_لیکه_1(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs)
 {
-   STBI_NOTUSED(out);
-   STBI_NOTUSED(in_far);
+   STBI_NOTUSED(بهر);
+   STBI_NOTUSED(دننه_far);
    STBI_NOTUSED(w);
    STBI_NOTUSED(hs);
-   return in_near;
+   أرجع دننه_near;
 }
 
-static stbi_uc* stbi__resample_row_v_2(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs)
+ساكن stbi_uc* stbi_resample_لیکه_v_2(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs)
 {
    // need to generate two samples vertically for every one in input
-   int i;
+   صحيح i;
    STBI_NOTUSED(hs);
-   for (i=0; i < w; ++i)
-      out[i] = stbi__div4(3*in_near[i] + in_far[i] + 2);
-   return out;
+   لكل (i=0; i < w; ++i)
+      بهر[i] = stbi__div4(3*دننه_near[i] + دننه_far[i] + 2);
+   أرجع بهر;
 }
 
-static stbi_uc*  stbi__resample_row_h_2(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs)
+ساكن stbi_uc*  stbi_resample_لیکه_h_2(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs)
 {
    // need to generate two samples horizontally for every one in input
-   int i;
-   stbi_uc *input = in_near;
+   صحيح i;
+   stbi_uc *ننوت = دننه_near;
 
-   if (w == 1) {
+   إذا (w == 1) {
       // if only one sample, can't do any interpolation
-      out[0] = out[1] = input[0];
-      return out;
+      بهر[0] = بهر[1] = ننوت[0];
+      أرجع بهر;
    }
 
-   out[0] = input[0];
-   out[1] = stbi__div4(input[0]*3 + input[1] + 2);
-   for (i=1; i < w-1; ++i) {
-      int n = 3*input[i]+2;
-      out[i*2+0] = stbi__div4(n+input[i-1]);
-      out[i*2+1] = stbi__div4(n+input[i+1]);
+   بهر[0] = ننوت[0];
+   بهر[1] = stbi__div4(ننوت[0]*3 + ننوت[1] + 2);
+   لكل (i=1; i < w-1; ++i) {
+      صحيح n = 3*ننوت[i]+2;
+      بهر[i*2+0] = stbi__div4(n+ننوت[i-1]);
+      بهر[i*2+1] = stbi__div4(n+ننوت[i+1]);
    }
-   out[i*2+0] = stbi__div4(input[w-2]*3 + input[w-1] + 2);
-   out[i*2+1] = input[w-1];
+   بهر[i*2+0] = stbi__div4(ننوت[w-2]*3 + ننوت[w-1] + 2);
+   بهر[i*2+1] = ننوت[w-1];
 
-   STBI_NOTUSED(in_far);
+   STBI_NOTUSED(دننه_far);
    STBI_NOTUSED(hs);
 
-   return out;
+   أرجع بهر;
 }
 
-#define stbi__div16(x) ((stbi_uc) ((x) >> 4))
+#تعریف_کړه stbi__div16(x) ((stbi_uc) ((x) >> 4))
 
-static stbi_uc *stbi__resample_row_hv_2(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs)
+ساكن stbi_uc *stbi_resample_لیکه_hv_2(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs)
 {
    // need to generate 2x2 samples for every one in input
-   int i,t0,t1;
-   if (w == 1) {
-      out[0] = out[1] = stbi__div4(3*in_near[0] + in_far[0] + 2);
-      return out;
+   صحيح i,t0,t1;
+   إذا (w == 1) {
+      بهر[0] = بهر[1] = stbi__div4(3*دننه_near[0] + دننه_far[0] + 2);
+      أرجع بهر;
    }
 
-   t1 = 3*in_near[0] + in_far[0];
-   out[0] = stbi__div4(t1+2);
-   for (i=1; i < w; ++i) {
+   t1 = 3*دننه_near[0] + دننه_far[0];
+   بهر[0] = stbi__div4(t1+2);
+   لكل (i=1; i < w; ++i) {
       t0 = t1;
-      t1 = 3*in_near[i]+in_far[i];
-      out[i*2-1] = stbi__div16(3*t0 + t1 + 8);
-      out[i*2  ] = stbi__div16(3*t1 + t0 + 8);
+      t1 = 3*دننه_near[i]+دننه_far[i];
+      بهر[i*2-1] = stbi__div16(3*t0 + t1 + 8);
+      بهر[i*2  ] = stbi__div16(3*t1 + t0 + 8);
    }
-   out[w*2-1] = stbi__div4(t1+2);
+   بهر[w*2-1] = stbi__div4(t1+2);
 
    STBI_NOTUSED(hs);
 
-   return out;
+   أرجع بهر;
 }
 
-#if defined(STBI_SSE2) || defined(STBI_NEON)
-#ifdef STBI_SSE2 /* Added by SDL */
-#define TARGETING_SSE2 SDL_TARGETING("sse2") /* Added by SDL */
-#else
-#define TARGETING_SSE2
-#endif // STBI_SSE2 /* Added by SDL */
-static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs) /* Changed by SDL: TARGETING_SSE2 */
+#إذا defined(STBI_SSE2) || defined(STBI_NEON)
+#که_تعریف_شوی STBI_SSE2 /* Added by SDL */
+#تعریف_کړه TARGETING_SSE2 SDL_TARGETING("sse2") /* Added by SDL */
+#وإلا
+#تعریف_کړه TARGETING_SSE2
+#د_که_پای // STBI_SSE2 /* Added by SDL */
+ساكن stbi_uc *TARGETING_SSE2 stbi_resample_لیکه_hv_2_simd(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs) /* Changed by SDL: TARGETING_SSE2 */
 {
    // need to generate 2x2 samples for every one in input
-   int i=0,t0,t1;
+   صحيح i=0,t0,t1;
 
-   if (w == 1) {
-      out[0] = out[1] = stbi__div4(3*in_near[0] + in_far[0] + 2);
-      return out;
+   إذا (w == 1) {
+      بهر[0] = بهر[1] = stbi__div4(3*دننه_near[0] + دننه_far[0] + 2);
+      أرجع بهر;
    }
 
-   t1 = 3*in_near[0] + in_far[0];
+   t1 = 3*دننه_near[0] + دننه_far[0];
    // process groups of 8 pixels for as long as we can.
    // note we can't handle the last pixel in a row in this loop
    // because we need to handle the filter boundary conditions.
-   for (; i < ((w-1) & ~7); i += 8) {
-#if defined(STBI_SSE2)
+   لكل (; i < ((w-1) & ~7); i += 8) {
+#إذا defined(STBI_SSE2)
       // load and perform the vertical filtering pass
       // this uses 3*x + y = 4*x + (y - x)
       __m128i zero  = _mm_setzero_si128();
-      __m128i farb  = _mm_loadl_epi64((__m128i *) (in_far + i));
-      __m128i nearb = _mm_loadl_epi64((__m128i *) (in_near + i));
+      __m128i farb  = _mm_loadl_epi64((__m128i *) (دننه_far + i));
+      __m128i nearb = _mm_loadl_epi64((__m128i *) (دننه_near + i));
       __m128i farw  = _mm_unpacklo_epi8(farb, zero);
       __m128i nearw = _mm_unpacklo_epi8(nearb, zero);
       __m128i diff  = _mm_sub_epi16(farw, nearw);
       __m128i nears = _mm_slli_epi16(nearw, 2);
-      __m128i curr  = _mm_add_epi16(nears, diff); // current row
+      __m128i curr  = mm_جمع_کړه_epi16(nears, diff); // current row
 
       // horizontal filter works the same based on shifted vers of current
       // row. "prev" is current row shifted right by 1 pixel; we need to
@@ -3729,8 +3729,8 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
       // of next block of 8 pixels added in.
       __m128i prv0 = _mm_slli_si128(curr, 2);
       __m128i nxt0 = _mm_srli_si128(curr, 2);
-      __m128i prev = _mm_insert_epi16(prv0, t1, 0);
-      __m128i next = _mm_insert_epi16(nxt0, 3*in_near[i+8] + in_far[i+8], 7);
+      __m128i prev = mm_ورننباسه_epi16(prv0, t1, 0);
+      __m128i بل = mm_ورننباسه_epi16(nxt0, 3*دننه_near[i+8] + دننه_far[i+8], 7);
 
       // horizontal filter, polyphase implementation since it's convenient:
       // even pixels = 3*cur + prev = cur*4 + (prev - cur)
@@ -3739,10 +3739,10 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
       __m128i bias  = _mm_set1_epi16(8);
       __m128i curs = _mm_slli_epi16(curr, 2);
       __m128i prvd = _mm_sub_epi16(prev, curr);
-      __m128i nxtd = _mm_sub_epi16(next, curr);
-      __m128i curb = _mm_add_epi16(curs, bias);
-      __m128i even = _mm_add_epi16(prvd, curb);
-      __m128i odd  = _mm_add_epi16(nxtd, curb);
+      __m128i nxtd = _mm_sub_epi16(بل, curr);
+      __m128i curb = mm_جمع_کړه_epi16(curs, bias);
+      __m128i even = mm_جمع_کړه_epi16(prvd, curb);
+      __m128i odd  = mm_جمع_کړه_epi16(nxtd, curb);
 
       // interleave even and odd pixels, then undo scaling.
       __m128i int0 = _mm_unpacklo_epi16(even, odd);
@@ -3752,12 +3752,12 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
 
       // pack and write output
       __m128i outv = _mm_packus_epi16(de0, de1);
-      _mm_storeu_si128((__m128i *) (out + i*2), outv);
-#elif defined(STBI_NEON)
+      _mm_storeu_si128((__m128i *) (بهر + i*2), outv);
+#وإلاإذا defined(STBI_NEON)
       // load and perform the vertical filtering pass
       // this uses 3*x + y = 4*x + (y - x)
-      uint8x8_t farb  = vld1_u8(in_far + i);
-      uint8x8_t nearb = vld1_u8(in_near + i);
+      uint8x8_t farb  = vld1_u8(دننه_far + i);
+      uint8x8_t nearb = vld1_u8(دننه_near + i);
       int16x8_t diff  = vreinterpretq_s16_u16(vsubl_u8(farb, nearb));
       int16x8_t nears = vreinterpretq_s16_u16(vshll_n_u8(nearb, 2));
       int16x8_t curr  = vaddq_s16(nears, diff); // current row
@@ -3770,7 +3770,7 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
       int16x8_t prv0 = vextq_s16(curr, curr, 7);
       int16x8_t nxt0 = vextq_s16(curr, curr, 1);
       int16x8_t prev = vsetq_lane_s16(t1, prv0, 0);
-      int16x8_t next = vsetq_lane_s16(3*in_near[i+8] + in_far[i+8], nxt0, 7);
+      int16x8_t بل = vsetq_lane_s16(3*دننه_near[i+8] + دننه_far[i+8], nxt0, 7);
 
       // horizontal filter, polyphase implementation since it's convenient:
       // even pixels = 3*cur + prev = cur*4 + (prev - cur)
@@ -3778,7 +3778,7 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
       // note the shared term.
       int16x8_t curs = vshlq_n_s16(curr, 2);
       int16x8_t prvd = vsubq_s16(prev, curr);
-      int16x8_t nxtd = vsubq_s16(next, curr);
+      int16x8_t nxtd = vsubq_s16(بل, curr);
       int16x8_t even = vaddq_s16(curs, prvd);
       int16x8_t odd  = vaddq_s16(curs, nxtd);
 
@@ -3786,99 +3786,99 @@ static stbi_uc *TARGETING_SSE2 stbi__resample_row_hv_2_simd(stbi_uc *out, stbi_u
       uint8x8x2_t o;
       o.val[0] = vqrshrun_n_s16(even, 4);
       o.val[1] = vqrshrun_n_s16(odd,  4);
-      vst2_u8(out + i*2, o);
-#endif
+      vst2_u8(بهر + i*2, o);
+#د_که_پای
 
       // "previous" value for next iter
-      t1 = 3*in_near[i+7] + in_far[i+7];
+      t1 = 3*دننه_near[i+7] + دننه_far[i+7];
    }
 
    t0 = t1;
-   t1 = 3*in_near[i] + in_far[i];
-   out[i*2] = stbi__div16(3*t1 + t0 + 8);
+   t1 = 3*دننه_near[i] + دننه_far[i];
+   بهر[i*2] = stbi__div16(3*t1 + t0 + 8);
 
-   for (++i; i < w; ++i) {
+   لكل (++i; i < w; ++i) {
       t0 = t1;
-      t1 = 3*in_near[i]+in_far[i];
-      out[i*2-1] = stbi__div16(3*t0 + t1 + 8);
-      out[i*2  ] = stbi__div16(3*t1 + t0 + 8);
+      t1 = 3*دننه_near[i]+دننه_far[i];
+      بهر[i*2-1] = stbi__div16(3*t0 + t1 + 8);
+      بهر[i*2  ] = stbi__div16(3*t1 + t0 + 8);
    }
-   out[w*2-1] = stbi__div4(t1+2);
+   بهر[w*2-1] = stbi__div4(t1+2);
 
    STBI_NOTUSED(hs);
 
-   return out;
+   أرجع بهر;
 }
-#endif
+#د_که_پای
 
-static stbi_uc *stbi__resample_row_generic(stbi_uc *out, stbi_uc *in_near, stbi_uc *in_far, int w, int hs)
+ساكن stbi_uc *stbi_resample_لیکه_generic(stbi_uc *بهر, stbi_uc *دننه_near, stbi_uc *دننه_far, صحيح w, صحيح hs)
 {
    // resample with nearest-neighbor
-   int i,j;
-   STBI_NOTUSED(in_far);
-   for (i=0; i < w; ++i)
-      for (j=0; j < hs; ++j)
-         out[i*hs+j] = in_near[i];
-   return out;
+   صحيح i,j;
+   STBI_NOTUSED(دننه_far);
+   لكل (i=0; i < w; ++i)
+      لكل (j=0; j < hs; ++j)
+         بهر[i*hs+j] = دننه_near[i];
+   أرجع بهر;
 }
 
 // this is a reduced-precision calculation of YCbCr-to-RGB introduced
 // to make sure the code produces the same results in both SIMD and scalar
-#define stbi__float2fixed(x)  (((int) ((x) * 4096.0f + 0.5f)) << 8)
-static void stbi__YCbCr_to_RGB_row(stbi_uc *out, const stbi_uc *y, const stbi_uc *pcb, const stbi_uc *pcr, int count, int step)
+#تعریف_کړه stbi__float2fixed(x)  (((صحيح) ((x) * 4096.0f + 0.5f)) << 8)
+ساكن فراغ stbi_YCb_Cr_منزل_RGB_لیکه(stbi_uc *بهر, ثابت stbi_uc *y, ثابت stbi_uc *pcb, ثابت stbi_uc *pcr, صحيح شمېر, صحيح ګام)
 {
-   int i;
-   for (i=0; i < count; ++i) {
-      int y_fixed = (y[i] << 20) + (1<<19); // rounding
-      int r,g,b;
-      int cr = pcr[i] - 128;
-      int cb = pcb[i] - 128;
+   صحيح i;
+   لكل (i=0; i < شمېر; ++i) {
+      صحيح y_fixed = (y[i] << 20) + (1<<19); // rounding
+      صحيح r,g,b;
+      صحيح cr = pcr[i] - 128;
+      صحيح cb = pcb[i] - 128;
       r = y_fixed +  cr* stbi__float2fixed(1.40200f);
       g = y_fixed + (cr*-stbi__float2fixed(0.71414f)) + ((cb*-stbi__float2fixed(0.34414f)) & 0xffff0000);
       b = y_fixed                                     +   cb* stbi__float2fixed(1.77200f);
       r >>= 20;
       g >>= 20;
       b >>= 20;
-      if ((unsigned) r > 255) { if (r < 0) r = 0; else r = 255; }
-      if ((unsigned) g > 255) { if (g < 0) g = 0; else g = 255; }
-      if ((unsigned) b > 255) { if (b < 0) b = 0; else b = 255; }
-      out[0] = (stbi_uc)r;
-      out[1] = (stbi_uc)g;
-      out[2] = (stbi_uc)b;
-      out[3] = 255;
-      out += step;
+      إذا ((بینښه) r > 255) { إذا (r < 0) r = 0; وإلا r = 255; }
+      إذا ((بینښه) g > 255) { إذا (g < 0) g = 0; وإلا g = 255; }
+      إذا ((بینښه) b > 255) { إذا (b < 0) b = 0; وإلا b = 255; }
+      بهر[0] = (stbi_uc)r;
+      بهر[1] = (stbi_uc)g;
+      بهر[2] = (stbi_uc)b;
+      بهر[3] = 255;
+      بهر += ګام;
    }
 }
 
-#if defined(STBI_SSE2) || defined(STBI_NEON)
-static void TARGETING_SSE2 stbi__YCbCr_to_RGB_simd(stbi_uc *out, stbi_uc const *y, stbi_uc const *pcb, stbi_uc const *pcr, int count, int step) /* Changed by SDL: TARGETING_SSE2 */
+#إذا defined(STBI_SSE2) || defined(STBI_NEON)
+ساكن فراغ TARGETING_SSE2 stbi_YCb_Cr_منزل_RGB_simd(stbi_uc *بهر, stbi_uc ثابت *y, stbi_uc ثابت *pcb, stbi_uc ثابت *pcr, صحيح شمېر, صحيح ګام) /* Changed by SDL: TARGETING_SSE2 */
 {
-   int i = 0;
+   صحيح i = 0;
 
-#ifdef STBI_SSE2
+#که_تعریف_شوی STBI_SSE2
    // step == 3 is pretty ugly on the final interleave, and i'm not convinced
    // it's useful in practice (you wouldn't use it for textures, for example).
    // so just accelerate step == 4 case.
-   if (step == 4) {
+   إذا (ګام == 4) {
       // this is a fairly straightforward implementation and not super-optimized.
       __m128i signflip  = _mm_set1_epi8(-0x80);
-      __m128i cr_const0 = _mm_set1_epi16(   (short) ( 1.40200f*4096.0f+0.5f));
-      __m128i cr_const1 = _mm_set1_epi16( - (short) ( 0.71414f*4096.0f+0.5f));
-      __m128i cb_const0 = _mm_set1_epi16( - (short) ( 0.34414f*4096.0f+0.5f));
-      __m128i cb_const1 = _mm_set1_epi16(   (short) ( 1.77200f*4096.0f+0.5f));
-      __m128i y_bias = _mm_set1_epi8((char) (unsigned char) 128);
+      __m128i cr_const0 = _mm_set1_epi16(   (لنډ) ( 1.40200f*4096.0f+0.5f));
+      __m128i cr_const1 = _mm_set1_epi16( - (لنډ) ( 0.71414f*4096.0f+0.5f));
+      __m128i cb_const0 = _mm_set1_epi16( - (لنډ) ( 0.34414f*4096.0f+0.5f));
+      __m128i cb_const1 = _mm_set1_epi16(   (لنډ) ( 1.77200f*4096.0f+0.5f));
+      __m128i y_bias = _mm_set1_epi8((حرف) (بینښه حرف) 128);
       __m128i xw = _mm_set1_epi16(255); // alpha channel
 
-      for (; i+7 < count; i += 8) {
-         // load
-         __m128i y_bytes = _mm_loadl_epi64((__m128i *) (y+i));
-         __m128i cr_bytes = _mm_loadl_epi64((__m128i *) (pcr+i));
-         __m128i cb_bytes = _mm_loadl_epi64((__m128i *) (pcb+i));
-         __m128i cr_biased = _mm_xor_si128(cr_bytes, signflip); // -128
-         __m128i cb_biased = _mm_xor_si128(cb_bytes, signflip); // -128
+      لكل (; i+7 < شمېر; i += 8) {
+         //بارول
+         __m128i y_بایټونه = _mm_loadl_epi64((__m128i *) (y+i));
+         __m128i cr_بایټونه = _mm_loadl_epi64((__m128i *) (pcr+i));
+         __m128i cb_بایټونه = _mm_loadl_epi64((__m128i *) (pcb+i));
+         __m128i cr_biased = _mm_xor_si128(cr_بایټونه, signflip); // -128
+         __m128i cb_biased = _mm_xor_si128(cb_بایټونه, signflip); // -128
 
          // unpack to short (and left-shift cr, cb by 8)
-         __m128i yw  = _mm_unpacklo_epi8(y_bias, y_bytes);
+         __m128i yw  = _mm_unpacklo_epi8(y_bias, y_بایټونه);
          __m128i crw = _mm_unpacklo_epi8(_mm_setzero_si128(), cr_biased);
          __m128i cbw = _mm_unpacklo_epi8(_mm_setzero_si128(), cb_biased);
 
@@ -3888,10 +3888,10 @@ static void TARGETING_SSE2 stbi__YCbCr_to_RGB_simd(stbi_uc *out, stbi_uc const *
          __m128i cb0 = _mm_mulhi_epi16(cb_const0, cbw);
          __m128i cb1 = _mm_mulhi_epi16(cbw, cb_const1);
          __m128i cr1 = _mm_mulhi_epi16(crw, cr_const1);
-         __m128i rws = _mm_add_epi16(cr0, yws);
-         __m128i gwt = _mm_add_epi16(cb0, yws);
-         __m128i bws = _mm_add_epi16(yws, cb1);
-         __m128i gws = _mm_add_epi16(gwt, cr1);
+         __m128i rws = mm_جمع_کړه_epi16(cr0, yws);
+         __m128i gwt = mm_جمع_کړه_epi16(cb0, yws);
+         __m128i bws = mm_جمع_کړه_epi16(yws, cb1);
+         __m128i gws = mm_جمع_کړه_epi16(gwt, cr1);
 
          // descale
          __m128i rw = _mm_srai_epi16(rws, 4);
@@ -3909,33 +3909,33 @@ static void TARGETING_SSE2 stbi__YCbCr_to_RGB_simd(stbi_uc *out, stbi_uc const *
          __m128i o1 = _mm_unpackhi_epi16(t0, t1);
 
          // store
-         _mm_storeu_si128((__m128i *) (out + 0), o0);
-         _mm_storeu_si128((__m128i *) (out + 16), o1);
-         out += 32;
+         _mm_storeu_si128((__m128i *) (بهر + 0), o0);
+         _mm_storeu_si128((__m128i *) (بهر + 16), o1);
+         بهر += 32;
       }
    }
-#endif
+#د_که_پای
 
-#ifdef STBI_NEON
+#که_تعریف_شوی STBI_NEON
    // in this version, step=3 support would be easy to add. but is there demand?
-   if (step == 4) {
+   إذا (ګام == 4) {
       // this is a fairly straightforward implementation and not super-optimized.
       uint8x8_t signflip = vdup_n_u8(0x80);
-      int16x8_t cr_const0 = vdupq_n_s16(   (short) ( 1.40200f*4096.0f+0.5f));
-      int16x8_t cr_const1 = vdupq_n_s16( - (short) ( 0.71414f*4096.0f+0.5f));
-      int16x8_t cb_const0 = vdupq_n_s16( - (short) ( 0.34414f*4096.0f+0.5f));
-      int16x8_t cb_const1 = vdupq_n_s16(   (short) ( 1.77200f*4096.0f+0.5f));
+      int16x8_t cr_const0 = vdupq_n_s16(   (لنډ) ( 1.40200f*4096.0f+0.5f));
+      int16x8_t cr_const1 = vdupq_n_s16( - (لنډ) ( 0.71414f*4096.0f+0.5f));
+      int16x8_t cb_const0 = vdupq_n_s16( - (لنډ) ( 0.34414f*4096.0f+0.5f));
+      int16x8_t cb_const1 = vdupq_n_s16(   (لنډ) ( 1.77200f*4096.0f+0.5f));
 
-      for (; i+7 < count; i += 8) {
-         // load
-         uint8x8_t y_bytes  = vld1_u8(y + i);
-         uint8x8_t cr_bytes = vld1_u8(pcr + i);
-         uint8x8_t cb_bytes = vld1_u8(pcb + i);
-         int8x8_t cr_biased = vreinterpret_s8_u8(vsub_u8(cr_bytes, signflip));
-         int8x8_t cb_biased = vreinterpret_s8_u8(vsub_u8(cb_bytes, signflip));
+      لكل (; i+7 < شمېر; i += 8) {
+         //بارول
+         uint8x8_t y_بایټونه  = vld1_u8(y + i);
+         uint8x8_t cr_بایټونه = vld1_u8(pcr + i);
+         uint8x8_t cb_بایټونه = vld1_u8(pcb + i);
+         int8x8_t cr_biased = vreinterpret_s8_u8(vsub_u8(cr_بایټونه, signflip));
+         int8x8_t cb_biased = vreinterpret_s8_u8(vsub_u8(cb_بایټونه, signflip));
 
          // expand to s16
-         int16x8_t yws = vreinterpretq_s16_u16(vshll_n_u8(y_bytes, 4));
+         int16x8_t yws = vreinterpretq_s16_u16(vshll_n_u8(y_بایټونه, 4));
          int16x8_t crw = vshll_n_s8(cr_biased, 7);
          int16x8_t cbw = vshll_n_s8(cb_biased, 7);
 
@@ -3956,355 +3956,355 @@ static void TARGETING_SSE2 stbi__YCbCr_to_RGB_simd(stbi_uc *out, stbi_uc const *
          o.val[3] = vdup_n_u8(255);
 
          // store, interleaving r/g/b/a
-         vst4_u8(out, o);
-         out += 8*4;
+         vst4_u8(بهر, o);
+         بهر += 8*4;
       }
    }
-#endif
+#د_که_پای
 
-   for (; i < count; ++i) {
-      int y_fixed = (y[i] << 20) + (1<<19); // rounding
-      int r,g,b;
-      int cr = pcr[i] - 128;
-      int cb = pcb[i] - 128;
+   لكل (; i < شمېر; ++i) {
+      صحيح y_fixed = (y[i] << 20) + (1<<19); // rounding
+      صحيح r,g,b;
+      صحيح cr = pcr[i] - 128;
+      صحيح cb = pcb[i] - 128;
       r = y_fixed + cr* stbi__float2fixed(1.40200f);
       g = y_fixed + cr*-stbi__float2fixed(0.71414f) + ((cb*-stbi__float2fixed(0.34414f)) & 0xffff0000);
       b = y_fixed                                   +   cb* stbi__float2fixed(1.77200f);
       r >>= 20;
       g >>= 20;
       b >>= 20;
-      if ((unsigned) r > 255) { if (r < 0) r = 0; else r = 255; }
-      if ((unsigned) g > 255) { if (g < 0) g = 0; else g = 255; }
-      if ((unsigned) b > 255) { if (b < 0) b = 0; else b = 255; }
-      out[0] = (stbi_uc)r;
-      out[1] = (stbi_uc)g;
-      out[2] = (stbi_uc)b;
-      out[3] = 255;
-      out += step;
+      إذا ((بینښه) r > 255) { إذا (r < 0) r = 0; وإلا r = 255; }
+      إذا ((بینښه) g > 255) { إذا (g < 0) g = 0; وإلا g = 255; }
+      إذا ((بینښه) b > 255) { إذا (b < 0) b = 0; وإلا b = 255; }
+      بهر[0] = (stbi_uc)r;
+      بهر[1] = (stbi_uc)g;
+      بهر[2] = (stbi_uc)b;
+      بهر[3] = 255;
+      بهر += ګام;
    }
 }
-#endif
+#د_که_پای
 
 // set up the kernels
-static void stbi__setup_jpeg(stbi__jpeg *j)
+ساكن فراغ stbi_تیاری_jpeg(stbi__jpeg *j)
 {
-   j->idct_block_kernel = stbi__idct_block;
-   j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_row;
-   j->resample_row_hv_2_kernel = stbi__resample_row_hv_2;
+   j->idct_بلاک_kernel = stbi_idct_بلاک;
+   j->YCb_Cr_منزل_RGB_kernel = stbi_YCb_Cr_منزل_RGB_لیکه;
+   j->resample_لیکه_hv_2_kernel = stbi_resample_لیکه_hv_2;
 
-#ifdef STBI_SSE2
-   if (stbi__sse2_available()) {
-      j->idct_block_kernel = stbi__idct_simd;
-      j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_simd;
-      j->resample_row_hv_2_kernel = stbi__resample_row_hv_2_simd;
+#که_تعریف_شوی STBI_SSE2
+   إذا (stbi_sse2_شته()) {
+      j->idct_بلاک_kernel = stbi__idct_simd;
+      j->YCb_Cr_منزل_RGB_kernel = stbi_YCb_Cr_منزل_RGB_simd;
+      j->resample_لیکه_hv_2_kernel = stbi_resample_لیکه_hv_2_simd;
    }
-#endif
+#د_که_پای
 
-#ifdef STBI_NEON
-  if (SDL_HasNEON()) { /* SDL change */
-   j->idct_block_kernel = stbi__idct_simd;
-   j->YCbCr_to_RGB_kernel = stbi__YCbCr_to_RGB_simd;
-   j->resample_row_hv_2_kernel = stbi__resample_row_hv_2_simd;
+#که_تعریف_شوی STBI_NEON
+  إذا (SDL_HasNEON()) { /* SDL change */
+   j->idct_بلاک_kernel = stbi__idct_simd;
+   j->YCb_Cr_منزل_RGB_kernel = stbi_YCb_Cr_منزل_RGB_simd;
+   j->resample_لیکه_hv_2_kernel = stbi_resample_لیکه_hv_2_simd;
   } /**/
-#endif
+#د_که_پای
 }
 
 // clean up the temporary component buffers
-static void stbi__cleanup_jpeg(stbi__jpeg *j)
+ساكن فراغ stbi__cleanup_jpeg(stbi__jpeg *j)
 {
    stbi__free_jpeg_components(j, j->s->img_n, 0);
 }
 
-typedef struct
+تعريفنوع بنية
 {
-   resample_row_func resample;
+   resample_لیکه_func resample;
    stbi_uc *line0,*line1;
-   int hs,vs;   // expansion factor in each axis
-   int w_lores; // horizontal pixels pre-expansion
-   int ystep;   // how far through vertical expansion we are
-   int ypos;    // which pre-expansion row we're on
+   صحيح hs,vs;   // expansion factor in each axis
+   صحيح w_lores; // horizontal pixels pre-expansion
+   صحيح ystep;   // how far through vertical expansion we are
+   صحيح ypos;    // which pre-expansion row we're on
 } stbi__resample;
 
 // fast 0..255 * 0..255 => 0..255 rounded multiplication
-static stbi_uc stbi__blinn_8x8(stbi_uc x, stbi_uc y)
+ساكن stbi_uc stbi__blinn_8x8(stbi_uc x, stbi_uc y)
 {
-   unsigned int t = x*y + 128;
-   return (stbi_uc) ((t + (t >>8)) >> 8);
+   بینښه صحيح t = x*y + 128;
+   أرجع (stbi_uc) ((t + (t >>8)) >> 8);
 }
 
-static stbi_uc *output_jpeg_nv12(stbi__jpeg *z, stbi__nv12 *nv12)
+ساكن stbi_uc *output_jpeg_nv12(stbi__jpeg *z, stbi__nv12 *nv12)
 {
-   unsigned int i,j;
+   بینښه صحيح i,j;
 
    // Copy the Y plane
-   if (nv12->pitch == (int)z->s->img_x) {
-      memcpy(nv12->y, z->img_comp[0].data, z->s->img_y * z->s->img_x);
-   } else {
-      for (i=0; i < z->s->img_y; ++i) {
-         memcpy(nv12->y + i * nv12->pitch, z->img_comp[0].data + i * z->s->img_x, z->s->img_x);
+   إذا (nv12->pitch == (صحيح)z->s->img_x) {
+      حافظه_نقل(nv12->y, z->img_comp[0].معلومات, z->s->img_y * z->s->img_x);
+   } وإلا {
+      لكل (i=0; i < z->s->img_y; ++i) {
+         حافظه_نقل(nv12->y + i * nv12->pitch, z->img_comp[0].معلومات + i * z->s->img_x, z->s->img_x);
       }
    }
 
-   if (z->s->img_n == 3) {
+   إذا (z->s->img_n == 3) {
       // NV12: U and V are interleaved, each subsampled by 2
-      const int nv12_hs = 2;
-      const int nv12_vs = 2;
-      const int u_hs = (z->img_h_max / z->img_comp[1].h);
-      const int u_vs = (z->img_v_max / z->img_comp[1].v);
-      const int v_hs = (z->img_h_max / z->img_comp[2].h);
-      const int v_vs = (z->img_v_max / z->img_comp[2].v);
-      for (i=0; i < (z->s->img_y + 1) / 2; ++i) {
-         stbi_uc *src_u = z->img_comp[1].data + i * (1 + (nv12_vs - u_vs)) * z->img_comp[1].x;
-         stbi_uc *src_v = z->img_comp[2].data + i * (1 + (nv12_vs - v_vs)) * z->img_comp[2].x;
+      ثابت صحيح nv12_hs = 2;
+      ثابت صحيح nv12_vs = 2;
+      ثابت صحيح u_hs = (z->img_h_max / z->img_comp[1].h);
+      ثابت صحيح u_vs = (z->img_v_max / z->img_comp[1].v);
+      ثابت صحيح v_hs = (z->img_h_max / z->img_comp[2].h);
+      ثابت صحيح v_vs = (z->img_v_max / z->img_comp[2].v);
+      لكل (i=0; i < (z->s->img_y + 1) / 2; ++i) {
+         stbi_uc *src_u = z->img_comp[1].معلومات + i * (1 + (nv12_vs - u_vs)) * z->img_comp[1].x;
+         stbi_uc *src_v = z->img_comp[2].معلومات + i * (1 + (nv12_vs - v_vs)) * z->img_comp[2].x;
          stbi_uc *dst = nv12->uv + i * nv12->pitch;
-         for (j=0; j < (z->s->img_x + 1) / 2; ++j) {
+         لكل (j=0; j < (z->s->img_x + 1) / 2; ++j) {
             *dst++ = *src_u;
             src_u += 1 + (nv12_hs - u_hs);
             *dst++ = *src_v;
             src_v += 1 + (nv12_hs - v_hs);
          }
       }
-   } else {
+   } وإلا {
       // Grayscale
-      for (i=0; i < (z->s->img_y + 1) / 2; ++i) {
+      لكل (i=0; i < (z->s->img_y + 1) / 2; ++i) {
          memset(nv12->uv + i * nv12->pitch, 0x80808080, ((z->s->img_x + 1) / 2) * 2);
       }
    }
 
-   return nv12->y;
+   أرجع nv12->y;
 }
 
-static stbi_uc *load_jpeg_image(stbi__jpeg *z, int *out_x, int *out_y, int *comp, int req_comp, stbi__nv12 *nv12)
+ساكن stbi_uc *بارول_jpeg_image(stbi__jpeg *z, صحيح *بهر_x, صحيح *بهر_y, صحيح *comp, صحيح req_comp, stbi__nv12 *nv12)
 {
-   int n, decode_n, is_rgb;
+   صحيح n, decode_n, is_rgb;
    z->s->img_n = 0; // make stbi__cleanup_jpeg safe
 
    // validate req_comp
-   if (req_comp < 0 || req_comp > 4) return stbi__errpuc("bad req_comp", "Internal error");
+   إذا (req_comp < 0 || req_comp > 4) أرجع stbi__errpuc("bad req_comp", "Internal error");
 
    // load a jpeg image from whichever source, but leave in YCbCr format
-   if (!stbi__decode_jpeg_image(z)) { stbi__cleanup_jpeg(z); return NULL; }
+   إذا (!stbi__decode_jpeg_image(z)) { stbi__cleanup_jpeg(z); أرجع عدم; }
 
    // determine actual number of components to generate
    n = req_comp ? req_comp : z->s->img_n >= 3 ? 3 : 1;
 
    is_rgb = z->s->img_n == 3 && (z->rgb == 3 || (z->app14_color_transform == 0 && !z->jfif));
 
-   if (z->s->img_n == 3 && n < 3 && !is_rgb)
+   إذا (z->s->img_n == 3 && n < 3 && !is_rgb)
       decode_n = 1;
-   else
+   وإلا
       decode_n = z->s->img_n;
 
    // nothing to do if no components requested; check this now to avoid
    // accessing uninitialized coutput[0] later
-   if (decode_n <= 0) { stbi__cleanup_jpeg(z); return NULL; }
+   إذا (decode_n <= 0) { stbi__cleanup_jpeg(z); أرجع عدم; }
 
    // resample and color-convert
    {
-      int k;
-      unsigned int i,j;
+      صحيح k;
+      بینښه صحيح i,j;
       stbi_uc *output;
-      stbi_uc *coutput[4] = { NULL, NULL, NULL, NULL };
+      stbi_uc *coutput[4] = { عدم, عدم, عدم, عدم };
 
       stbi__resample res_comp[4];
 
-      if (nv12) {
-         if (nv12->w != (int)z->s->img_x || nv12->h != (int)z->s->img_y) {
+      إذا (nv12) {
+         إذا (nv12->w != (صحيح)z->s->img_x || nv12->h != (صحيح)z->s->img_y) {
              stbi__cleanup_jpeg(z);
-             return stbi__errpuc("badsize", "Unexpected size");
+             أرجع stbi__errpuc("badsize", "Unexpected size");
          }
 
-         if (is_rgb) {
+         إذا (is_rgb) {
              stbi__cleanup_jpeg(z);
-             return stbi__errpuc("rgbtonv12", "Can't convert RGB to NV12");
+             أرجع stbi__errpuc("rgbtonv12", "Can't convert RGB to NV12");
          }
 
          output = output_jpeg_nv12(z, nv12);
-      } else {
-         for (k=0; k < decode_n; ++k) {
+      } وإلا {
+         لكل (k=0; k < decode_n; ++k) {
             stbi__resample *r = &res_comp[k];
 
             // allocate line buffer big enough for upsampling off the edges
             // with upsample factor of 4
             z->img_comp[k].linebuf = (stbi_uc *) stbi__malloc(z->s->img_x + 3);
-            if (!z->img_comp[k].linebuf) { stbi__cleanup_jpeg(z); return stbi__errpuc("outofmem", "Out of memory"); }
+            إذا (!z->img_comp[k].linebuf) { stbi__cleanup_jpeg(z); أرجع stbi__errpuc("outofmem", "Out of memory"); }
 
             r->hs      = z->img_h_max / z->img_comp[k].h;
             r->vs      = z->img_v_max / z->img_comp[k].v;
             r->ystep   = r->vs >> 1;
             r->w_lores = (z->s->img_x + r->hs-1) / r->hs;
             r->ypos    = 0;
-            r->line0   = r->line1 = z->img_comp[k].data;
+            r->line0   = r->line1 = z->img_comp[k].معلومات;
 
-            if      (r->hs == 1 && r->vs == 1) r->resample = resample_row_1;
-            else if (r->hs == 1 && r->vs == 2) r->resample = stbi__resample_row_v_2;
-            else if (r->hs == 2 && r->vs == 1) r->resample = stbi__resample_row_h_2;
-            else if (r->hs == 2 && r->vs == 2) r->resample = z->resample_row_hv_2_kernel;
-            else                               r->resample = stbi__resample_row_generic;
+            إذا      (r->hs == 1 && r->vs == 1) r->resample = resample_لیکه_1;
+            وإلا إذا (r->hs == 1 && r->vs == 2) r->resample = stbi_resample_لیکه_v_2;
+            وإلا إذا (r->hs == 2 && r->vs == 1) r->resample = stbi_resample_لیکه_h_2;
+            وإلا إذا (r->hs == 2 && r->vs == 2) r->resample = z->resample_لیکه_hv_2_kernel;
+            وإلا                               r->resample = stbi_resample_لیکه_generic;
          }
 
          // can't error after this so, this is safe
          output = (stbi_uc *) stbi__malloc_mad3(n, z->s->img_x, z->s->img_y, 1);
-         if (!output) { stbi__cleanup_jpeg(z); return stbi__errpuc("outofmem", "Out of memory"); }
+         إذا (!output) { stbi__cleanup_jpeg(z); أرجع stbi__errpuc("outofmem", "Out of memory"); }
 
          // now go ahead and resample
-         for (j=0; j < z->s->img_y; ++j) {
-            stbi_uc *out = output + n * z->s->img_x * j;
-            for (k=0; k < decode_n; ++k) {
+         لكل (j=0; j < z->s->img_y; ++j) {
+            stbi_uc *بهر = output + n * z->s->img_x * j;
+            لكل (k=0; k < decode_n; ++k) {
                stbi__resample *r = &res_comp[k];
-               int y_bot = r->ystep >= (r->vs >> 1);
+               صحيح y_bot = r->ystep >= (r->vs >> 1);
                coutput[k] = r->resample(z->img_comp[k].linebuf,
                                         y_bot ? r->line1 : r->line0,
                                         y_bot ? r->line0 : r->line1,
                                         r->w_lores, r->hs);
-               if (++r->ystep >= r->vs) {
+               إذا (++r->ystep >= r->vs) {
                   r->ystep = 0;
                   r->line0 = r->line1;
-                  if (++r->ypos < z->img_comp[k].y)
+                  إذا (++r->ypos < z->img_comp[k].y)
                      r->line1 += z->img_comp[k].w2;
                }
             }
-            if (n >= 3) {
+            إذا (n >= 3) {
                stbi_uc *y = coutput[0];
-               if (z->s->img_n == 3) {
-                  if (is_rgb) {
-                     for (i=0; i < z->s->img_x; ++i) {
-                        out[0] = y[i];
-                        out[1] = coutput[1][i];
-                        out[2] = coutput[2][i];
-                        out[3] = 255;
-                        out += n;
+               إذا (z->s->img_n == 3) {
+                  إذا (is_rgb) {
+                     لكل (i=0; i < z->s->img_x; ++i) {
+                        بهر[0] = y[i];
+                        بهر[1] = coutput[1][i];
+                        بهر[2] = coutput[2][i];
+                        بهر[3] = 255;
+                        بهر += n;
                      }
-                  } else {
-                     z->YCbCr_to_RGB_kernel(out, y, coutput[1], coutput[2], z->s->img_x, n);
+                  } وإلا {
+                     z->YCb_Cr_منزل_RGB_kernel(بهر, y, coutput[1], coutput[2], z->s->img_x, n);
                   }
-               } else if (z->s->img_n == 4) {
-                  if (z->app14_color_transform == 0) { // CMYK
-                     for (i=0; i < z->s->img_x; ++i) {
+               } وإلا إذا (z->s->img_n == 4) {
+                  إذا (z->app14_color_transform == 0) { // CMYK
+                     لكل (i=0; i < z->s->img_x; ++i) {
                         stbi_uc m = coutput[3][i];
-                        out[0] = stbi__blinn_8x8(coutput[0][i], m);
-                        out[1] = stbi__blinn_8x8(coutput[1][i], m);
-                        out[2] = stbi__blinn_8x8(coutput[2][i], m);
-                        out[3] = 255;
-                        out += n;
+                        بهر[0] = stbi__blinn_8x8(coutput[0][i], m);
+                        بهر[1] = stbi__blinn_8x8(coutput[1][i], m);
+                        بهر[2] = stbi__blinn_8x8(coutput[2][i], m);
+                        بهر[3] = 255;
+                        بهر += n;
                      }
-                  } else if (z->app14_color_transform == 2) { // YCCK
-                     z->YCbCr_to_RGB_kernel(out, y, coutput[1], coutput[2], z->s->img_x, n);
-                     for (i=0; i < z->s->img_x; ++i) {
+                  } وإلا إذا (z->app14_color_transform == 2) { // YCCK
+                     z->YCb_Cr_منزل_RGB_kernel(بهر, y, coutput[1], coutput[2], z->s->img_x, n);
+                     لكل (i=0; i < z->s->img_x; ++i) {
                         stbi_uc m = coutput[3][i];
-                        out[0] = stbi__blinn_8x8(255 - out[0], m);
-                        out[1] = stbi__blinn_8x8(255 - out[1], m);
-                        out[2] = stbi__blinn_8x8(255 - out[2], m);
-                        out += n;
+                        بهر[0] = stbi__blinn_8x8(255 - بهر[0], m);
+                        بهر[1] = stbi__blinn_8x8(255 - بهر[1], m);
+                        بهر[2] = stbi__blinn_8x8(255 - بهر[2], m);
+                        بهر += n;
                      }
-                  } else { // YCbCr + alpha?  Ignore the fourth channel for now
-                     z->YCbCr_to_RGB_kernel(out, y, coutput[1], coutput[2], z->s->img_x, n);
+                  } وإلا { // YCbCr + alpha?  Ignore the fourth channel for now
+                     z->YCb_Cr_منزل_RGB_kernel(بهر, y, coutput[1], coutput[2], z->s->img_x, n);
                   }
-               } else
-                  for (i=0; i < z->s->img_x; ++i) {
-                     out[0] = out[1] = out[2] = y[i];
-                     out[3] = 255; // not used if n==3
-                     out += n;
+               } وإلا
+                  لكل (i=0; i < z->s->img_x; ++i) {
+                     بهر[0] = بهر[1] = بهر[2] = y[i];
+                     بهر[3] = 255; // not used if n==3
+                     بهر += n;
                   }
-            } else {
-               if (is_rgb) {
-                  if (n == 1)
-                     for (i=0; i < z->s->img_x; ++i)
-                        *out++ = stbi__compute_y(coutput[0][i], coutput[1][i], coutput[2][i]);
-                  else {
-                     for (i=0; i < z->s->img_x; ++i, out += 2) {
-                        out[0] = stbi__compute_y(coutput[0][i], coutput[1][i], coutput[2][i]);
-                        out[1] = 255;
+            } وإلا {
+               إذا (is_rgb) {
+                  إذا (n == 1)
+                     لكل (i=0; i < z->s->img_x; ++i)
+                        *بهر++ = stbi__compute_y(coutput[0][i], coutput[1][i], coutput[2][i]);
+                  وإلا {
+                     لكل (i=0; i < z->s->img_x; ++i, بهر += 2) {
+                        بهر[0] = stbi__compute_y(coutput[0][i], coutput[1][i], coutput[2][i]);
+                        بهر[1] = 255;
                      }
                   }
-               } else if (z->s->img_n == 4 && z->app14_color_transform == 0) {
-                  for (i=0; i < z->s->img_x; ++i) {
+               } وإلا إذا (z->s->img_n == 4 && z->app14_color_transform == 0) {
+                  لكل (i=0; i < z->s->img_x; ++i) {
                      stbi_uc m = coutput[3][i];
                      stbi_uc r = stbi__blinn_8x8(coutput[0][i], m);
                      stbi_uc g = stbi__blinn_8x8(coutput[1][i], m);
                      stbi_uc b = stbi__blinn_8x8(coutput[2][i], m);
-                     out[0] = stbi__compute_y(r, g, b);
-                     out[1] = 255;
-                     out += n;
+                     بهر[0] = stbi__compute_y(r, g, b);
+                     بهر[1] = 255;
+                     بهر += n;
                   }
-               } else if (z->s->img_n == 4 && z->app14_color_transform == 2) {
-                  for (i=0; i < z->s->img_x; ++i) {
-                     out[0] = stbi__blinn_8x8(255 - coutput[0][i], coutput[3][i]);
-                     out[1] = 255;
-                     out += n;
+               } وإلا إذا (z->s->img_n == 4 && z->app14_color_transform == 2) {
+                  لكل (i=0; i < z->s->img_x; ++i) {
+                     بهر[0] = stbi__blinn_8x8(255 - coutput[0][i], coutput[3][i]);
+                     بهر[1] = 255;
+                     بهر += n;
                   }
-               } else {
+               } وإلا {
                   stbi_uc *y = coutput[0];
-                  if (n == 1)
-                     for (i=0; i < z->s->img_x; ++i) out[i] = y[i];
-                  else
-                     for (i=0; i < z->s->img_x; ++i) { *out++ = y[i]; *out++ = 255; }
+                  إذا (n == 1)
+                     لكل (i=0; i < z->s->img_x; ++i) بهر[i] = y[i];
+                  وإلا
+                     لكل (i=0; i < z->s->img_x; ++i) { *بهر++ = y[i]; *بهر++ = 255; }
                }
             }
          }
       }
       stbi__cleanup_jpeg(z);
-      *out_x = z->s->img_x;
-      *out_y = z->s->img_y;
-      if (comp) *comp = z->s->img_n >= 3 ? 3 : 1; // report original components, not output
-      return output;
+      *بهر_x = z->s->img_x;
+      *بهر_y = z->s->img_y;
+      إذا (comp) *comp = z->s->img_n >= 3 ? 3 : 1; // report original components, not output
+      أرجع output;
    }
 }
 
-static void *stbi__jpeg_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__nv12 *nv12, stbi__result_info *ri)
+ساكن فراغ *stbi_jpeg_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi__nv12 *nv12, stbi_پایله_info *ri)
 {
-   unsigned char* result;
-   stbi__jpeg* j = (stbi__jpeg*) stbi__malloc(sizeof(stbi__jpeg));
-   if (!j) return stbi__errpuc("outofmem", "Out of memory");
-   memset(j, 0, sizeof(stbi__jpeg));
+   بینښه حرف* پایله;
+   stbi__jpeg* j = (stbi__jpeg*) stbi__malloc(حجم(stbi__jpeg));
+   إذا (!j) أرجع stbi__errpuc("outofmem", "Out of memory");
+   memset(j, 0, حجم(stbi__jpeg));
    STBI_NOTUSED(ri);
    j->s = s;
-   stbi__setup_jpeg(j);
-   result = load_jpeg_image(j, x,y,comp,req_comp,nv12);
+   stbi_تیاری_jpeg(j);
+   پایله = بارول_jpeg_image(j, x,y,comp,req_comp,nv12);
    STBI_FREE(j);
-   return result;
+   أرجع پایله;
 }
 
-static int stbi__jpeg_test(stbi__context *s)
+ساكن صحيح stbi__jpeg_test(stbi__context *s)
 {
-   int r;
-   stbi__jpeg* j = (stbi__jpeg*)stbi__malloc(sizeof(stbi__jpeg));
-   if (!j) return stbi__err("outofmem", "Out of memory");
-   memset(j, 0, sizeof(stbi__jpeg));
+   صحيح r;
+   stbi__jpeg* j = (stbi__jpeg*)stbi__malloc(حجم(stbi__jpeg));
+   إذا (!j) أرجع stbi__err("outofmem", "Out of memory");
+   memset(j, 0, حجم(stbi__jpeg));
    j->s = s;
-   stbi__setup_jpeg(j);
-   r = stbi__decode_jpeg_header(j, STBI__SCAN_type);
+   stbi_تیاری_jpeg(j);
+   r = stbi_decode_jpeg_سرلیک(j, STBI_لټون_type);
    stbi__rewind(s);
    STBI_FREE(j);
-   return r;
+   أرجع r;
 }
 
-#if 0 /* not used in SDL */
-static int stbi__jpeg_info_raw(stbi__jpeg *j, int *x, int *y, int *comp)
+#إذا 0 /* not used in SDL */
+ساكن صحيح stbi__jpeg_info_raw(stbi__jpeg *j, صحيح *x, صحيح *y, صحيح *comp)
 {
-   if (!stbi__decode_jpeg_header(j, STBI__SCAN_header)) {
+   إذا (!stbi_decode_jpeg_سرلیک(j, STBI_لټون_سرلیک)) {
       stbi__rewind( j->s );
-      return 0;
+      أرجع 0;
    }
-   if (x) *x = j->s->img_x;
-   if (y) *y = j->s->img_y;
-   if (comp) *comp = j->s->img_n >= 3 ? 3 : 1;
-   return 1;
+   إذا (x) *x = j->s->img_x;
+   إذا (y) *y = j->s->img_y;
+   إذا (comp) *comp = j->s->img_n >= 3 ? 3 : 1;
+   أرجع 1;
 }
 
-static int stbi__jpeg_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__jpeg_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   int result;
-   stbi__jpeg* j = (stbi__jpeg*) (stbi__malloc(sizeof(stbi__jpeg)));
-   if (!j) return stbi__err("outofmem", "Out of memory");
-   memset(j, 0, sizeof(stbi__jpeg));
+   صحيح پایله;
+   stbi__jpeg* j = (stbi__jpeg*) (stbi__malloc(حجم(stbi__jpeg)));
+   إذا (!j) أرجع stbi__err("outofmem", "Out of memory");
+   memset(j, 0, حجم(stbi__jpeg));
    j->s = s;
-   result = stbi__jpeg_info_raw(j, x, y, comp);
+   پایله = stbi__jpeg_info_raw(j, x, y, comp);
    STBI_FREE(j);
-   return result;
+   أرجع پایله;
 }
-#endif /**/
-#endif
+#د_که_پای /**/
+#د_که_پای
 
 // public domain zlib decode    v0.2  Sean Barrett 2006-11-18
 //    simple implementation
@@ -4313,87 +4313,87 @@ static int stbi__jpeg_info(stbi__context *s, int *x, int *y, int *comp)
 //    performance
 //      - fast huffman
 
-#ifndef STBI_NO_ZLIB
+#که_نه_تعریف_شوی STBI_NO_ZLIB
 
 // fast-way is faster to check than jpeg huffman, but slow way is slower
-#define STBI__ZFAST_BITS  9 // accelerate all cases in default tables
-#define STBI__ZFAST_MASK  ((1 << STBI__ZFAST_BITS) - 1)
-#define STBI__ZNSYMS 288 // number of symbols in literal/length alphabet
+#تعریف_کړه STBI_ZFAST_بټونه  9 // accelerate all cases in default tables
+#تعریف_کړه STBI_ZFAST_ماسک  ((1 << STBI_ZFAST_بټونه) - 1)
+#تعریف_کړه STBI__ZNSYMS 288 // number of symbols in literal/length alphabet
 
 // zlib-style huffman encoding
 // (jpegs packs from left, zlib from right, so can't share code)
-typedef struct
+تعريفنوع بنية
 {
-   stbi__uint16 fast[1 << STBI__ZFAST_BITS];
+   stbi__uint16 fast[1 << STBI_ZFAST_بټونه];
    stbi__uint16 firstcode[16];
-   int maxcode[17];
+   صحيح maxcode[17];
    stbi__uint16 firstsymbol[16];
-   stbi_uc  size[STBI__ZNSYMS];
-   stbi__uint16 value[STBI__ZNSYMS];
+   stbi_uc  اندازه[STBI__ZNSYMS];
+   stbi__uint16 ارزښت[STBI__ZNSYMS];
 } stbi__zhuffman;
 
-stbi_inline static int stbi__bitreverse16(int n)
+stbi_inline ساكن صحيح stbi__bitreverse16(صحيح n)
 {
   n = ((n & 0xAAAA) >>  1) | ((n & 0x5555) << 1);
   n = ((n & 0xCCCC) >>  2) | ((n & 0x3333) << 2);
   n = ((n & 0xF0F0) >>  4) | ((n & 0x0F0F) << 4);
   n = ((n & 0xFF00) >>  8) | ((n & 0x00FF) << 8);
-  return n;
+  أرجع n;
 }
 
-stbi_inline static int stbi__bit_reverse(int v, int bits)
+stbi_inline ساكن صحيح stbi_بټ_سرچپه(صحيح v, صحيح بټونه)
 {
-   STBI_ASSERT(bits <= 16);
+   STBI_ASSERT(بټونه <= 16);
    // to bit reverse n bits, reverse 16 and shift
    // e.g. 11 bits, bit reverse and shift away 5
-   return stbi__bitreverse16(v) >> (16-bits);
+   أرجع stbi__bitreverse16(v) >> (16-بټونه);
 }
 
-static int stbi__zbuild_huffman(stbi__zhuffman *z, const stbi_uc *sizelist, int num)
+ساكن صحيح stbi__zbuild_huffman(stbi__zhuffman *z, ثابت stbi_uc *sizelist, صحيح عدد)
 {
-   int i,k=0;
-   int code, next_code[16], sizes[17];
+   صحيح i,k=0;
+   صحيح کوډ, بل_کوډ[16], sizes[17];
 
    // DEFLATE spec for generating codes
-   memset(sizes, 0, sizeof(sizes));
-   memset(z->fast, 0, sizeof(z->fast));
-   for (i=0; i < num; ++i)
+   memset(sizes, 0, حجم(sizes));
+   memset(z->fast, 0, حجم(z->fast));
+   لكل (i=0; i < عدد; ++i)
       ++sizes[sizelist[i]];
    sizes[0] = 0;
-   for (i=1; i < 16; ++i)
-      if (sizes[i] > (1 << i))
-         return stbi__err("bad sizes", "Corrupt PNG");
-   code = 0;
-   for (i=1; i < 16; ++i) {
-      next_code[i] = code;
-      z->firstcode[i] = (stbi__uint16) code;
+   لكل (i=1; i < 16; ++i)
+      إذا (sizes[i] > (1 << i))
+         أرجع stbi__err("bad sizes", "Corrupt PNG");
+   کوډ = 0;
+   لكل (i=1; i < 16; ++i) {
+      بل_کوډ[i] = کوډ;
+      z->firstcode[i] = (stbi__uint16) کوډ;
       z->firstsymbol[i] = (stbi__uint16) k;
-      code = (code + sizes[i]);
-      if (sizes[i])
-         if (code-1 >= (1 << i)) return stbi__err("bad codelengths","Corrupt PNG");
-      z->maxcode[i] = code << (16-i); // preshift for inner loop
-      code <<= 1;
+      کوډ = (کوډ + sizes[i]);
+      إذا (sizes[i])
+         إذا (کوډ-1 >= (1 << i)) أرجع stbi__err("bad codelengths","Corrupt PNG");
+      z->maxcode[i] = کوډ << (16-i); // preshift for inner loop
+      کوډ <<= 1;
       k += sizes[i];
    }
    z->maxcode[16] = 0x10000; // sentinel
-   for (i=0; i < num; ++i) {
-      int s = sizelist[i];
-      if (s) {
-         int c = next_code[s] - z->firstcode[s] + z->firstsymbol[s];
+   لكل (i=0; i < عدد; ++i) {
+      صحيح s = sizelist[i];
+      إذا (s) {
+         صحيح c = بل_کوډ[s] - z->firstcode[s] + z->firstsymbol[s];
          stbi__uint16 fastv = (stbi__uint16) ((s << 9) | i);
-         z->size [c] = (stbi_uc     ) s;
-         z->value[c] = (stbi__uint16) i;
-         if (s <= STBI__ZFAST_BITS) {
-            int j = stbi__bit_reverse(next_code[s],s);
-            while (j < (1 << STBI__ZFAST_BITS)) {
+         z->اندازه [c] = (stbi_uc     ) s;
+         z->ارزښت[c] = (stbi__uint16) i;
+         إذا (s <= STBI_ZFAST_بټونه) {
+            صحيح j = stbi_بټ_سرچپه(بل_کوډ[s],s);
+            طالما (j < (1 << STBI_ZFAST_بټونه)) {
                z->fast[j] = fastv;
                j += (1 << s);
             }
          }
-         ++next_code[s];
+         ++بل_کوډ[s];
       }
    }
-   return 1;
+   أرجع 1;
 }
 
 // zlib-from-memory implementation for PNG reading
@@ -4402,282 +4402,282 @@ static int stbi__zbuild_huffman(stbi__zhuffman *z, const stbi_uc *sizelist, int 
 //    we require PNG read all the IDATs and combine them into a single
 //    memory buffer
 
-typedef struct
+تعريفنوع بنية
 {
-   stbi_uc *zbuffer, *zbuffer_end;
-   int num_bits;
-   int hit_zeof_once;
-   stbi__uint32 code_buffer;
+   stbi_uc *zbuffer, *zbuffer_پای_ټکی;
+   صحيح عدد_بټونه;
+   صحيح موندنه_zeof_once;
+   stbi__uint32 کوډ_بفر;
 
-   char *zout;
-   char *zout_start;
-   char *zout_end;
-   int   z_expandable;
+   حرف *zout;
+   حرف *zout_پیل;
+   حرف *zout_پای_ټکی;
+   صحيح   z_expandable;
 
-   stbi__zhuffman z_length, z_distance;
+   stbi__zhuffman z_اوږدتیا, z_واټن;
 } stbi__zbuf;
 
-stbi_inline static int stbi__zeof(stbi__zbuf *z)
+stbi_inline ساكن صحيح stbi__zeof(stbi__zbuf *z)
 {
-   return (z->zbuffer >= z->zbuffer_end);
+   أرجع (z->zbuffer >= z->zbuffer_پای_ټکی);
 }
 
-stbi_inline static stbi_uc stbi__zget8(stbi__zbuf *z)
+stbi_inline ساكن stbi_uc stbi__zget8(stbi__zbuf *z)
 {
-   return stbi__zeof(z) ? 0 : *z->zbuffer++;
+   أرجع stbi__zeof(z) ? 0 : *z->zbuffer++;
 }
 
-static void stbi__fill_bits(stbi__zbuf *z)
+ساكن فراغ stbi_fill_بټونه(stbi__zbuf *z)
 {
-   do {
-      if (z->code_buffer >= (1U << z->num_bits)) {
-        z->zbuffer = z->zbuffer_end;  /* treat this as EOF so we fail. */
-        return;
+   افعل {
+      إذا (z->کوډ_بفر >= (1U << z->عدد_بټونه)) {
+        z->zbuffer = z->zbuffer_پای_ټکی;  /* treat this as EOF so we fail. */
+        أرجع;
       }
-      z->code_buffer |= (unsigned int) stbi__zget8(z) << z->num_bits;
-      z->num_bits += 8;
-   } while (z->num_bits <= 24);
+      z->کوډ_بفر |= (بینښه صحيح) stbi__zget8(z) << z->عدد_بټونه;
+      z->عدد_بټونه += 8;
+   } طالما (z->عدد_بټونه <= 24);
 }
 
-stbi_inline static unsigned int stbi__zreceive(stbi__zbuf *z, int n)
+stbi_inline ساكن بینښه صحيح stbi__zreceive(stbi__zbuf *z, صحيح n)
 {
-   unsigned int k;
-   if (z->num_bits < n) stbi__fill_bits(z);
-   k = z->code_buffer & ((1 << n) - 1);
-   z->code_buffer >>= n;
-   z->num_bits -= n;
-   return k;
+   بینښه صحيح k;
+   إذا (z->عدد_بټونه < n) stbi_fill_بټونه(z);
+   k = z->کوډ_بفر & ((1 << n) - 1);
+   z->کوډ_بفر >>= n;
+   z->عدد_بټونه -= n;
+   أرجع k;
 }
 
-static int stbi__zhuffman_decode_slowpath(stbi__zbuf *a, stbi__zhuffman *z)
+ساكن صحيح stbi__zhuffman_decode_slowpath(stbi__zbuf *a, stbi__zhuffman *z)
 {
-   int b,s,k;
+   صحيح b,s,k;
    // not resolved by fast table, so compute it the slow way
    // use jpeg approach, which requires MSbits at top
-   k = stbi__bit_reverse(a->code_buffer, 16);
-   for (s=STBI__ZFAST_BITS+1; ; ++s)
-      if (k < z->maxcode[s])
-         break;
-   if (s >= 16) return -1; // invalid code!
+   k = stbi_بټ_سرچپه(a->کوډ_بفر, 16);
+   لكل (s=STBI_ZFAST_بټونه+1; ; ++s)
+      إذا (k < z->maxcode[s])
+         اكسر;
+   إذا (s >= 16) أرجع -1; // invalid code!
    // code size is s, so:
    b = (k >> (16-s)) - z->firstcode[s] + z->firstsymbol[s];
-   if (b >= STBI__ZNSYMS) return -1; // some data was corrupt somewhere!
-   if (z->size[b] != s) return -1;  // was originally an assert, but report failure instead.
-   a->code_buffer >>= s;
-   a->num_bits -= s;
-   return z->value[b];
+   إذا (b >= STBI__ZNSYMS) أرجع -1; // some data was corrupt somewhere!
+   إذا (z->اندازه[b] != s) أرجع -1;  // was originally an assert, but report failure instead.
+   a->کوډ_بفر >>= s;
+   a->عدد_بټونه -= s;
+   أرجع z->ارزښت[b];
 }
 
-stbi_inline static int stbi__zhuffman_decode(stbi__zbuf *a, stbi__zhuffman *z)
+stbi_inline ساكن صحيح stbi__zhuffman_decode(stbi__zbuf *a, stbi__zhuffman *z)
 {
-   int b,s;
-   if (a->num_bits < 16) {
-      if (stbi__zeof(a)) {
-         if (!a->hit_zeof_once) {
+   صحيح b,s;
+   إذا (a->عدد_بټونه < 16) {
+      إذا (stbi__zeof(a)) {
+         إذا (!a->موندنه_zeof_once) {
             // This is the first time we hit eof, insert 16 extra padding btis
             // to allow us to keep going; if we actually consume any of them
             // though, that is invalid data. This is caught later.
-            a->hit_zeof_once = 1;
-            a->num_bits += 16; // add 16 implicit zero bits
-         } else {
+            a->موندنه_zeof_once = 1;
+            a->عدد_بټونه += 16; // add 16 implicit zero bits
+         } وإلا {
             // We already inserted our extra 16 padding bits and are again
             // out, this stream is actually prematurely terminated.
-            return -1;
+            أرجع -1;
          }
-      } else {
-         stbi__fill_bits(a);
+      } وإلا {
+         stbi_fill_بټونه(a);
       }
    }
-   b = z->fast[a->code_buffer & STBI__ZFAST_MASK];
-   if (b) {
+   b = z->fast[a->کوډ_بفر & STBI_ZFAST_ماسک];
+   إذا (b) {
       s = b >> 9;
-      a->code_buffer >>= s;
-      a->num_bits -= s;
-      return b & 511;
+      a->کوډ_بفر >>= s;
+      a->عدد_بټونه -= s;
+      أرجع b & 511;
    }
-   return stbi__zhuffman_decode_slowpath(a, z);
+   أرجع stbi__zhuffman_decode_slowpath(a, z);
 }
 
-static int stbi__zexpand(stbi__zbuf *z, char *zout, int n)  // need to make room for n bytes
+ساكن صحيح stbi__zexpand(stbi__zbuf *z, حرف *zout, صحيح n)  // need to make room for n bytes
 {
-   char *q;
-   unsigned int cur, limit, old_limit;
+   حرف *q;
+   بینښه صحيح cur, حد, old_حد;
    z->zout = zout;
-   if (!z->z_expandable) return stbi__err("output buffer limit","Corrupt PNG");
-   cur   = (unsigned int) (z->zout - z->zout_start);
-   limit = old_limit = (unsigned) (z->zout_end - z->zout_start);
-   if (UINT_MAX - cur < (unsigned) n) return stbi__err("outofmem", "Out of memory");
-   while (cur + n > limit) {
-      if(limit > UINT_MAX / 2) return stbi__err("outofmem", "Out of memory");
-      limit *= 2;
+   إذا (!z->z_expandable) أرجع stbi__err("output buffer limit","Corrupt PNG");
+   cur   = (بینښه صحيح) (z->zout - z->zout_پیل);
+   حد = old_حد = (بینښه) (z->zout_پای_ټکی - z->zout_پیل);
+   إذا (UINT_MAX - cur < (بینښه) n) أرجع stbi__err("outofmem", "Out of memory");
+   طالما (cur + n > حد) {
+      إذا(حد > UINT_MAX / 2) أرجع stbi__err("outofmem", "Out of memory");
+      حد *= 2;
    }
-   q = (char *) STBI_REALLOC_SIZED(z->zout_start, old_limit, limit);
-   STBI_NOTUSED(old_limit);
-   if (q == NULL) return stbi__err("outofmem", "Out of memory");
-   z->zout_start = q;
+   q = (حرف *) STBI_REALLOC_SIZED(z->zout_پیل, old_حد, حد);
+   STBI_NOTUSED(old_حد);
+   إذا (q == عدم) أرجع stbi__err("outofmem", "Out of memory");
+   z->zout_پیل = q;
    z->zout       = q + cur;
-   z->zout_end   = q + limit;
-   return 1;
+   z->zout_پای_ټکی   = q + حد;
+   أرجع 1;
 }
 
-static const int stbi__zlength_base[31] = {
+ساكن ثابت صحيح stbi_zlength_بنسټ[31] = {
    3,4,5,6,7,8,9,10,11,13,
    15,17,19,23,27,31,35,43,51,59,
    67,83,99,115,131,163,195,227,258,0,0 };
 
-static const int stbi__zlength_extra[31]=
+ساكن ثابت صحيح stbi__zlength_extra[31]=
 { 0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,0,0 };
 
-static const int stbi__zdist_base[32] = { 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,
+ساكن ثابت صحيح stbi_zdist_بنسټ[32] = { 1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,
 257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0};
 
-static const int stbi__zdist_extra[32] =
+ساكن ثابت صحيح stbi__zdist_extra[32] =
 { 0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
 
-static int stbi__parse_huffman_block(stbi__zbuf *a)
+ساكن صحيح stbi_parse_huffman_بلاک(stbi__zbuf *a)
 {
-   char *zout = a->zout;
-   for(;;) {
-      int z = stbi__zhuffman_decode(a, &a->z_length);
-      if (z < 256) {
-         if (z < 0) return stbi__err("bad huffman code","Corrupt PNG"); // error in huffman codes
-         if (zout >= a->zout_end) {
-            if (!stbi__zexpand(a, zout, 1)) return 0;
+   حرف *zout = a->zout;
+   لكل(;;) {
+      صحيح z = stbi__zhuffman_decode(a, &a->z_اوږدتیا);
+      إذا (z < 256) {
+         إذا (z < 0) أرجع stbi__err("bad huffman code","Corrupt PNG"); // error in huffman codes
+         إذا (zout >= a->zout_پای_ټکی) {
+            إذا (!stbi__zexpand(a, zout, 1)) أرجع 0;
             zout = a->zout;
          }
-         *zout++ = (char) z;
-      } else {
+         *zout++ = (حرف) z;
+      } وإلا {
          stbi_uc *p;
-         int len,dist;
-         if (z == 256) {
+         صحيح len,dist;
+         إذا (z == 256) {
             a->zout = zout;
-            if (a->hit_zeof_once && a->num_bits < 16) {
+            إذا (a->موندنه_zeof_once && a->عدد_بټونه < 16) {
                // The first time we hit zeof, we inserted 16 extra zero bits into our bit
                // buffer so the decoder can just do its speculative decoding. But if we
                // actually consumed any of those bits (which is the case when num_bits < 16),
                // the stream actually read past the end so it is malformed.
-               return stbi__err("unexpected end","Corrupt PNG");
+               أرجع stbi__err("unexpected end","Corrupt PNG");
             }
-            return 1;
+            أرجع 1;
          }
-         if (z >= 286) return stbi__err("bad huffman code","Corrupt PNG"); // per DEFLATE, length codes 286 and 287 must not appear in compressed data
+         إذا (z >= 286) أرجع stbi__err("bad huffman code","Corrupt PNG"); // per DEFLATE, length codes 286 and 287 must not appear in compressed data
          z -= 257;
-         len = stbi__zlength_base[z];
-         if (stbi__zlength_extra[z]) len += stbi__zreceive(a, stbi__zlength_extra[z]);
-         z = stbi__zhuffman_decode(a, &a->z_distance);
-         if (z < 0 || z >= 30) return stbi__err("bad huffman code","Corrupt PNG"); // per DEFLATE, distance codes 30 and 31 must not appear in compressed data
-         dist = stbi__zdist_base[z];
-         if (stbi__zdist_extra[z]) dist += stbi__zreceive(a, stbi__zdist_extra[z]);
-         if (zout - a->zout_start < dist) return stbi__err("bad dist","Corrupt PNG");
-         if (len > a->zout_end - zout) {
-            if (!stbi__zexpand(a, zout, len)) return 0;
+         len = stbi_zlength_بنسټ[z];
+         إذا (stbi__zlength_extra[z]) len += stbi__zreceive(a, stbi__zlength_extra[z]);
+         z = stbi__zhuffman_decode(a, &a->z_واټن);
+         إذا (z < 0 || z >= 30) أرجع stbi__err("bad huffman code","Corrupt PNG"); // per DEFLATE, distance codes 30 and 31 must not appear in compressed data
+         dist = stbi_zdist_بنسټ[z];
+         إذا (stbi__zdist_extra[z]) dist += stbi__zreceive(a, stbi__zdist_extra[z]);
+         إذا (zout - a->zout_پیل < dist) أرجع stbi__err("bad dist","Corrupt PNG");
+         إذا (len > a->zout_پای_ټکی - zout) {
+            إذا (!stbi__zexpand(a, zout, len)) أرجع 0;
             zout = a->zout;
          }
          p = (stbi_uc *) (zout - dist);
-         if (dist == 1) { // run of one byte; common in images.
+         إذا (dist == 1) { // run of one byte; common in images.
             stbi_uc v = *p;
-            if (len) { do *zout++ = v; while (--len); }
-         } else {
-            if (len) { do *zout++ = *p++; while (--len); }
+            إذا (len) { افعل *zout++ = v; طالما (--len); }
+         } وإلا {
+            إذا (len) { افعل *zout++ = *p++; طالما (--len); }
          }
       }
    }
 }
 
-static int stbi__compute_huffman_codes(stbi__zbuf *a)
+ساكن صحيح stbi__compute_huffman_codes(stbi__zbuf *a)
 {
-   static const stbi_uc length_dezigzag[19] = { 16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15 };
+   ساكن ثابت stbi_uc اوږدتیا_dezigzag[19] = { 16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15 };
    stbi__zhuffman z_codelength;
    stbi_uc lencodes[286+32+137];//padding for maximum single op
    stbi_uc codelength_sizes[19];
-   int i,n;
+   صحيح i,n;
 
-   int hlit  = stbi__zreceive(a,5) + 257;
-   int hdist = stbi__zreceive(a,5) + 1;
-   int hclen = stbi__zreceive(a,4) + 4;
-   int ntot  = hlit + hdist;
+   صحيح hlit  = stbi__zreceive(a,5) + 257;
+   صحيح hdist = stbi__zreceive(a,5) + 1;
+   صحيح hclen = stbi__zreceive(a,4) + 4;
+   صحيح ntot  = hlit + hdist;
 
-   memset(codelength_sizes, 0, sizeof(codelength_sizes));
-   for (i=0; i < hclen; ++i) {
-      int s = stbi__zreceive(a,3);
-      codelength_sizes[length_dezigzag[i]] = (stbi_uc) s;
+   memset(codelength_sizes, 0, حجم(codelength_sizes));
+   لكل (i=0; i < hclen; ++i) {
+      صحيح s = stbi__zreceive(a,3);
+      codelength_sizes[اوږدتیا_dezigzag[i]] = (stbi_uc) s;
    }
-   if (!stbi__zbuild_huffman(&z_codelength, codelength_sizes, 19)) return 0;
+   إذا (!stbi__zbuild_huffman(&z_codelength, codelength_sizes, 19)) أرجع 0;
 
    n = 0;
-   while (n < ntot) {
-      int c = stbi__zhuffman_decode(a, &z_codelength);
-      if (c < 0 || c >= 19) return stbi__err("bad codelengths", "Corrupt PNG");
-      if (c < 16)
+   طالما (n < ntot) {
+      صحيح c = stbi__zhuffman_decode(a, &z_codelength);
+      إذا (c < 0 || c >= 19) أرجع stbi__err("bad codelengths", "Corrupt PNG");
+      إذا (c < 16)
          lencodes[n++] = (stbi_uc) c;
-      else {
+      وإلا {
          stbi_uc fill = 0;
-         if (c == 16) {
+         إذا (c == 16) {
             c = stbi__zreceive(a,2)+3;
-            if (n == 0) return stbi__err("bad codelengths", "Corrupt PNG");
+            إذا (n == 0) أرجع stbi__err("bad codelengths", "Corrupt PNG");
             fill = lencodes[n-1];
-         } else if (c == 17) {
+         } وإلا إذا (c == 17) {
             c = stbi__zreceive(a,3)+3;
-         } else if (c == 18) {
+         } وإلا إذا (c == 18) {
             c = stbi__zreceive(a,7)+11;
-         } else {
-            return stbi__err("bad codelengths", "Corrupt PNG");
+         } وإلا {
+            أرجع stbi__err("bad codelengths", "Corrupt PNG");
          }
-         if (ntot - n < c) return stbi__err("bad codelengths", "Corrupt PNG");
+         إذا (ntot - n < c) أرجع stbi__err("bad codelengths", "Corrupt PNG");
          memset(lencodes+n, fill, c);
          n += c;
       }
    }
-   if (n != ntot) return stbi__err("bad codelengths","Corrupt PNG");
-   if (!stbi__zbuild_huffman(&a->z_length, lencodes, hlit)) return 0;
-   if (!stbi__zbuild_huffman(&a->z_distance, lencodes+hlit, hdist)) return 0;
-   return 1;
+   إذا (n != ntot) أرجع stbi__err("bad codelengths","Corrupt PNG");
+   إذا (!stbi__zbuild_huffman(&a->z_اوږدتیا, lencodes, hlit)) أرجع 0;
+   إذا (!stbi__zbuild_huffman(&a->z_واټن, lencodes+hlit, hdist)) أرجع 0;
+   أرجع 1;
 }
 
-static int stbi__parse_uncompressed_block(stbi__zbuf *a)
+ساكن صحيح stbi_parse_uncompressed_بلاک(stbi__zbuf *a)
 {
-   stbi_uc header[4];
-   int len,nlen,k;
-   if (a->num_bits & 7)
-      stbi__zreceive(a, a->num_bits & 7); // discard
+   stbi_uc سرلیک[4];
+   صحيح len,nlen,k;
+   إذا (a->عدد_بټونه & 7)
+      stbi__zreceive(a, a->عدد_بټونه & 7); // discard
    // drain the bit-packed data into header
    k = 0;
-   while (a->num_bits > 0) {
-      header[k++] = (stbi_uc) (a->code_buffer & 255); // suppress MSVC run-time check
-      a->code_buffer >>= 8;
-      a->num_bits -= 8;
+   طالما (a->عدد_بټونه > 0) {
+      سرلیک[k++] = (stbi_uc) (a->کوډ_بفر & 255); // suppress MSVC run-time check
+      a->کوډ_بفر >>= 8;
+      a->عدد_بټونه -= 8;
    }
-   if (a->num_bits < 0) return stbi__err("zlib corrupt","Corrupt PNG");
+   إذا (a->عدد_بټونه < 0) أرجع stbi__err("zlib corrupt","Corrupt PNG");
    // now fill header the normal way
-   while (k < 4)
-      header[k++] = stbi__zget8(a);
-   len  = header[1] * 256 + header[0];
-   nlen = header[3] * 256 + header[2];
-   if (nlen != (len ^ 0xffff)) return stbi__err("zlib corrupt","Corrupt PNG");
-   if (a->zbuffer + len > a->zbuffer_end) return stbi__err("read past buffer","Corrupt PNG");
-   if (a->zout + len > a->zout_end)
-      if (!stbi__zexpand(a, a->zout, len)) return 0;
-   memcpy(a->zout, a->zbuffer, len);
+   طالما (k < 4)
+      سرلیک[k++] = stbi__zget8(a);
+   len  = سرلیک[1] * 256 + سرلیک[0];
+   nlen = سرلیک[3] * 256 + سرلیک[2];
+   إذا (nlen != (len ^ 0xffff)) أرجع stbi__err("zlib corrupt","Corrupt PNG");
+   إذا (a->zbuffer + len > a->zbuffer_پای_ټکی) أرجع stbi__err("read past buffer","Corrupt PNG");
+   إذا (a->zout + len > a->zout_پای_ټکی)
+      إذا (!stbi__zexpand(a, a->zout, len)) أرجع 0;
+   حافظه_نقل(a->zout, a->zbuffer, len);
    a->zbuffer += len;
    a->zout += len;
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__parse_zlib_header(stbi__zbuf *a)
+ساكن صحيح stbi_parse_zlib_سرلیک(stbi__zbuf *a)
 {
-   int cmf   = stbi__zget8(a);
-   int cm    = cmf & 15;
+   صحيح cmf   = stbi__zget8(a);
+   صحيح cm    = cmf & 15;
    /* int cinfo = cmf >> 4; */
-   int flg   = stbi__zget8(a);
-   if (stbi__zeof(a)) return stbi__err("bad zlib header","Corrupt PNG"); // zlib spec
-   if ((cmf*256+flg) % 31 != 0) return stbi__err("bad zlib header","Corrupt PNG"); // zlib spec
-   if (flg & 32) return stbi__err("no preset dict","Corrupt PNG"); // preset dictionary not allowed in png
-   if (cm != 8) return stbi__err("bad compression","Corrupt PNG"); // DEFLATE required for png
+   صحيح flg   = stbi__zget8(a);
+   إذا (stbi__zeof(a)) أرجع stbi__err("bad zlib header","Corrupt PNG"); // zlib spec
+   إذا ((cmf*256+flg) % 31 != 0) أرجع stbi__err("bad zlib header","Corrupt PNG"); // zlib spec
+   إذا (flg & 32) أرجع stbi__err("no preset dict","Corrupt PNG"); // preset dictionary not allowed in png
+   إذا (cm != 8) أرجع stbi__err("bad compression","Corrupt PNG"); // DEFLATE required for png
    // window = 1 << (8 + cinfo)... but who cares, we fully buffer output
-   return 1;
+   أرجع 1;
 }
 
-static const stbi_uc stbi__zdefault_length[STBI__ZNSYMS] =
+ساكن ثابت stbi_uc stbi_zdefault_اوږدتیا[STBI__ZNSYMS] =
 {
    8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
    8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
@@ -4689,7 +4689,7 @@ static const stbi_uc stbi__zdefault_length[STBI__ZNSYMS] =
    9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9, 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
    7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7, 7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8
 };
-static const stbi_uc stbi__zdefault_distance[32] =
+ساكن ثابت stbi_uc stbi_zdefault_واټن[32] =
 {
    5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5
 };
@@ -4706,124 +4706,124 @@ Init algorithm:
 }
 */
 
-static int stbi__parse_zlib(stbi__zbuf *a, int parse_header)
+ساكن صحيح stbi__parse_zlib(stbi__zbuf *a, صحيح parse_سرلیک)
 {
-   int final, type;
-   if (parse_header)
-      if (!stbi__parse_zlib_header(a)) return 0;
-   a->num_bits = 0;
-   a->code_buffer = 0;
-   a->hit_zeof_once = 0;
-   do {
+   صحيح final, type;
+   إذا (parse_سرلیک)
+      إذا (!stbi_parse_zlib_سرلیک(a)) أرجع 0;
+   a->عدد_بټونه = 0;
+   a->کوډ_بفر = 0;
+   a->موندنه_zeof_once = 0;
+   افعل {
       final = stbi__zreceive(a,1);
       type = stbi__zreceive(a,2);
-      if (type == 0) {
-         if (!stbi__parse_uncompressed_block(a)) return 0;
-      } else if (type == 3) {
-         return 0;
-      } else {
-         if (type == 1) {
+      إذا (type == 0) {
+         إذا (!stbi_parse_uncompressed_بلاک(a)) أرجع 0;
+      } وإلا إذا (type == 3) {
+         أرجع 0;
+      } وإلا {
+         إذا (type == 1) {
             // use fixed code lengths
-            if (!stbi__zbuild_huffman(&a->z_length  , stbi__zdefault_length  , STBI__ZNSYMS)) return 0;
-            if (!stbi__zbuild_huffman(&a->z_distance, stbi__zdefault_distance,  32)) return 0;
-         } else {
-            if (!stbi__compute_huffman_codes(a)) return 0;
+            إذا (!stbi__zbuild_huffman(&a->z_اوږدتیا  , stbi_zdefault_اوږدتیا  , STBI__ZNSYMS)) أرجع 0;
+            إذا (!stbi__zbuild_huffman(&a->z_واټن, stbi_zdefault_واټن,  32)) أرجع 0;
+         } وإلا {
+            إذا (!stbi__compute_huffman_codes(a)) أرجع 0;
          }
-         if (!stbi__parse_huffman_block(a)) return 0;
+         إذا (!stbi_parse_huffman_بلاک(a)) أرجع 0;
       }
-   } while (!final);
-   return 1;
+   } طالما (!final);
+   أرجع 1;
 }
 
-static int stbi__do_zlib(stbi__zbuf *a, char *obuf, int olen, int exp, int parse_header)
+ساكن صحيح stbi__do_zlib(stbi__zbuf *a, حرف *obuf, صحيح olen, صحيح توانیز_تابع, صحيح parse_سرلیک)
 {
-   a->zout_start = obuf;
+   a->zout_پیل = obuf;
    a->zout       = obuf;
-   a->zout_end   = obuf + olen;
-   a->z_expandable = exp;
+   a->zout_پای_ټکی   = obuf + olen;
+   a->z_expandable = توانیز_تابع;
 
-   return stbi__parse_zlib(a, parse_header);
+   أرجع stbi__parse_zlib(a, parse_سرلیک);
 }
 
-#if 0 /* not used in SDL */
-STBIDEF char *stbi_zlib_decode_malloc_guesssize(const char *buffer, int len, int initial_size, int *outlen)
+#إذا 0 /* not used in SDL */
+STBIDEF حرف *stbi_zlib_decode_malloc_guesssize(ثابت حرف *بفر_2, صحيح len, صحيح initial_اندازه, صحيح *outlen)
 {
    stbi__zbuf a;
-   char *p = (char *) stbi__malloc(initial_size);
-   if (p == NULL) return NULL;
-   a.zbuffer = (stbi_uc *) buffer;
-   a.zbuffer_end = (stbi_uc *) buffer + len;
-   if (stbi__do_zlib(&a, p, initial_size, 1, 1)) {
-      if (outlen) *outlen = (int) (a.zout - a.zout_start);
-      return a.zout_start;
-   } else {
-      STBI_FREE(a.zout_start);
-      return NULL;
+   حرف *p = (حرف *) stbi__malloc(initial_اندازه);
+   إذا (p == عدم) أرجع عدم;
+   a.zbuffer = (stbi_uc *) بفر_2;
+   a.zbuffer_پای_ټکی = (stbi_uc *) بفر_2 + len;
+   إذا (stbi__do_zlib(&a, p, initial_اندازه, 1, 1)) {
+      إذا (outlen) *outlen = (صحيح) (a.zout - a.zout_پیل);
+      أرجع a.zout_پیل;
+   } وإلا {
+      STBI_FREE(a.zout_پیل);
+      أرجع عدم;
    }
 }
 
-STBIDEF char *stbi_zlib_decode_malloc(char const *buffer, int len, int *outlen)
+STBIDEF حرف *stbi_zlib_decode_malloc(حرف ثابت *بفر_2, صحيح len, صحيح *outlen)
 {
-   return stbi_zlib_decode_malloc_guesssize(buffer, len, 16384, outlen);
+   أرجع stbi_zlib_decode_malloc_guesssize(بفر_2, len, 16384, outlen);
 }
-#endif /* */
+#د_که_پای /* */
 
-STBIDEF char *stbi_zlib_decode_malloc_guesssize_headerflag(const char *buffer, int len, int initial_size, int *outlen, int parse_header)
+STBIDEF حرف *stbi_zlib_decode_malloc_guesssize_headerflag(ثابت حرف *بفر_2, صحيح len, صحيح initial_اندازه, صحيح *outlen, صحيح parse_سرلیک)
 {
    stbi__zbuf a;
-   char *p = (char *) stbi__malloc(initial_size);
-   if (p == NULL) return NULL;
-   a.zbuffer = (stbi_uc *) buffer;
-   a.zbuffer_end = (stbi_uc *) buffer + len;
-   if (stbi__do_zlib(&a, p, initial_size, 1, parse_header)) {
-      if (outlen) *outlen = (int) (a.zout - a.zout_start);
-      return a.zout_start;
-   } else {
-      STBI_FREE(a.zout_start);
-      return NULL;
+   حرف *p = (حرف *) stbi__malloc(initial_اندازه);
+   إذا (p == عدم) أرجع عدم;
+   a.zbuffer = (stbi_uc *) بفر_2;
+   a.zbuffer_پای_ټکی = (stbi_uc *) بفر_2 + len;
+   إذا (stbi__do_zlib(&a, p, initial_اندازه, 1, parse_سرلیک)) {
+      إذا (outlen) *outlen = (صحيح) (a.zout - a.zout_پیل);
+      أرجع a.zout_پیل;
+   } وإلا {
+      STBI_FREE(a.zout_پیل);
+      أرجع عدم;
    }
 }
 
-#if 0 /* not used in SDL */
-STBIDEF int stbi_zlib_decode_buffer(char *obuffer, int olen, char const *ibuffer, int ilen)
+#إذا 0 /* not used in SDL */
+STBIDEF صحيح stbi_zlib_decode_بفر(حرف *obuffer, صحيح olen, حرف ثابت *ibuffer, صحيح ilen)
 {
    stbi__zbuf a;
    a.zbuffer = (stbi_uc *) ibuffer;
-   a.zbuffer_end = (stbi_uc *) ibuffer + ilen;
-   if (stbi__do_zlib(&a, obuffer, olen, 0, 1))
-      return (int) (a.zout - a.zout_start);
-   else
-      return -1;
+   a.zbuffer_پای_ټکی = (stbi_uc *) ibuffer + ilen;
+   إذا (stbi__do_zlib(&a, obuffer, olen, 0, 1))
+      أرجع (صحيح) (a.zout - a.zout_پیل);
+   وإلا
+      أرجع -1;
 }
 
-STBIDEF char *stbi_zlib_decode_noheader_malloc(char const *buffer, int len, int *outlen)
+STBIDEF حرف *stbi_zlib_decode_noheader_malloc(حرف ثابت *بفر_2, صحيح len, صحيح *outlen)
 {
    stbi__zbuf a;
-   char *p = (char *) stbi__malloc(16384);
-   if (p == NULL) return NULL;
-   a.zbuffer = (stbi_uc *) buffer;
-   a.zbuffer_end = (stbi_uc *) buffer+len;
-   if (stbi__do_zlib(&a, p, 16384, 1, 0)) {
-      if (outlen) *outlen = (int) (a.zout - a.zout_start);
-      return a.zout_start;
-   } else {
-      STBI_FREE(a.zout_start);
-      return NULL;
+   حرف *p = (حرف *) stbi__malloc(16384);
+   إذا (p == عدم) أرجع عدم;
+   a.zbuffer = (stbi_uc *) بفر_2;
+   a.zbuffer_پای_ټکی = (stbi_uc *) بفر_2+len;
+   إذا (stbi__do_zlib(&a, p, 16384, 1, 0)) {
+      إذا (outlen) *outlen = (صحيح) (a.zout - a.zout_پیل);
+      أرجع a.zout_پیل;
+   } وإلا {
+      STBI_FREE(a.zout_پیل);
+      أرجع عدم;
    }
 }
 
-STBIDEF int stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const char *ibuffer, int ilen)
+STBIDEF صحيح stbi_zlib_decode_noheader_بفر(حرف *obuffer, صحيح olen, ثابت حرف *ibuffer, صحيح ilen)
 {
    stbi__zbuf a;
    a.zbuffer = (stbi_uc *) ibuffer;
-   a.zbuffer_end = (stbi_uc *) ibuffer + ilen;
-   if (stbi__do_zlib(&a, obuffer, olen, 0, 0))
-      return (int) (a.zout - a.zout_start);
-   else
-      return -1;
+   a.zbuffer_پای_ټکی = (stbi_uc *) ibuffer + ilen;
+   إذا (stbi__do_zlib(&a, obuffer, olen, 0, 0))
+      أرجع (صحيح) (a.zout - a.zout_پیل);
+   وإلا
+      أرجع -1;
 }
-#endif /* */
-#endif
+#د_که_پای /* */
+#د_که_پای
 
 // public domain "baseline" PNG decoder   v0.10  Sean Barrett 2006-11-18
 //    simple implementation
@@ -4835,87 +4835,87 @@ STBIDEF int stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const char
 //    performance
 //      - uses stb_zlib, a PD zlib implementation with fast huffman decoding
 
-#ifndef STBI_NO_PNG
-typedef struct
+#که_نه_تعریف_شوی STBI_NO_PNG
+تعريفنوع بنية
 {
-   stbi__uint32 length;
+   stbi__uint32 اوږدتیا;
    stbi__uint32 type;
 } stbi__pngchunk;
 
-static stbi__pngchunk stbi__get_chunk_header(stbi__context *s)
+ساكن stbi__pngchunk stbi_get_chunk_سرلیک(stbi__context *s)
 {
    stbi__pngchunk c;
-   c.length = stbi__get32be(s);
+   c.اوږدتیا = stbi__get32be(s);
    c.type   = stbi__get32be(s);
-   return c;
+   أرجع c;
 }
 
-static int stbi__check_png_header(stbi__context *s)
+ساكن صحيح stbi_check_png_سرلیک(stbi__context *s)
 {
-   static const stbi_uc png_sig[8] = { 137,80,78,71,13,10,26,10 };
-   int i;
-   for (i=0; i < 8; ++i)
-      if (stbi__get8(s) != png_sig[i]) return stbi__err("bad png sig","Not a PNG");
-   return 1;
+   ساكن ثابت stbi_uc png_sig[8] = { 137,80,78,71,13,10,26,10 };
+   صحيح i;
+   لكل (i=0; i < 8; ++i)
+      إذا (stbi__get8(s) != png_sig[i]) أرجع stbi__err("bad png sig","Not a PNG");
+   أرجع 1;
 }
 
-typedef struct
+تعريفنوع بنية
 {
    stbi__context *s;
-   stbi_uc *idata, *expanded, *out;
-   int depth;
+   stbi_uc *idata, *expanded, *بهر;
+   صحيح ژوروالی_2;
 } stbi__png;
 
 
-enum {
+تعداد {
    STBI__F_none=0,
    STBI__F_sub=1,
-   STBI__F_up=2,
+   STBI_F_پورته=2,
    STBI__F_avg=3,
    STBI__F_paeth=4,
    // synthetic filter used for first scanline to avoid needing a dummy row of 0s
-   STBI__F_avg_first
+   STBI_F_avg_لومړی
 };
 
-static stbi_uc first_row_filter[5] =
+ساكن stbi_uc لومړی_لیکه_filter[5] =
 {
    STBI__F_none,
    STBI__F_sub,
    STBI__F_none,
-   STBI__F_avg_first,
+   STBI_F_avg_لومړی,
    STBI__F_sub // Paeth with b=c=0 turns out to be equivalent to sub
 };
 
-static int stbi__paeth(int a, int b, int c)
+ساكن صحيح stbi__paeth(صحيح a, صحيح b, صحيح c)
 {
    // This formulation looks very different from the reference in the PNG spec, but is
    // actually equivalent and has favorable data dependencies and admits straightforward
    // generation of branch-free code, which helps performance significantly.
-   int thresh = c*3 - (a + b);
-   int lo = a < b ? a : b;
-   int hi = a < b ? b : a;
-   int t0 = (hi <= thresh) ? lo : c;
-   int t1 = (thresh <= lo) ? hi : t0;
-   return t1;
+   صحيح thresh = c*3 - (a + b);
+   صحيح lo = a < b ? a : b;
+   صحيح hi = a < b ? b : a;
+   صحيح t0 = (hi <= thresh) ? lo : c;
+   صحيح t1 = (thresh <= lo) ? hi : t0;
+   أرجع t1;
 }
 
-static const stbi_uc stbi__depth_scale_table[9] = { 0, 0xff, 0x55, 0, 0x11, 0,0,0, 0x01 };
+ساكن ثابت stbi_uc stbi_ژوروالی_scale_جدول[9] = { 0, 0xff, 0x55, 0, 0x11, 0,0,0, 0x01 };
 
 // adds an extra all-255 alpha channel
 // dest == src is legal
 // img_n must be 1 or 3
-static void stbi__create_png_alpha_expand8(stbi_uc *dest, stbi_uc *src, stbi__uint32 x, int img_n)
+ساكن فراغ stbi__create_png_alpha_expand8(stbi_uc *dest, stbi_uc *src, stbi__uint32 x, صحيح img_n)
 {
-   int i;
+   صحيح i;
    // must process data backwards since we allow dest==src
-   if (img_n == 1) {
-      for (i=x-1; i >= 0; --i) {
+   إذا (img_n == 1) {
+      لكل (i=x-1; i >= 0; --i) {
          dest[i*2+1] = 255;
          dest[i*2+0] = src[i];
       }
-   } else {
+   } وإلا {
       STBI_ASSERT(img_n == 3);
-      for (i=x-1; i >= 0; --i) {
+      لكل (i=x-1; i >= 0; --i) {
          dest[i*4+3] = 255;
          dest[i*4+2] = src[i*3+2];
          dest[i*4+1] = src[i*3+1];
@@ -4925,155 +4925,155 @@ static void stbi__create_png_alpha_expand8(stbi_uc *dest, stbi_uc *src, stbi__ui
 }
 
 // create the png data from post-deflated data
-static int stbi__create_png_image_raw(stbi__png *a, stbi_uc *raw, stbi__uint32 raw_len, int out_n, stbi__uint32 x, stbi__uint32 y, int depth, int color)
+ساكن صحيح stbi__create_png_image_raw(stbi__png *a, stbi_uc *raw, stbi__uint32 raw_len, صحيح بهر_n, stbi__uint32 x, stbi__uint32 y, صحيح ژوروالی_2, صحيح color)
 {
-   int bytes = (depth == 16 ? 2 : 1);
+   صحيح بایټونه = (ژوروالی_2 == 16 ? 2 : 1);
    stbi__context *s = a->s;
-   stbi__uint32 i,j,stride = x*out_n*bytes;
-   stbi__uint32 img_len, img_width_bytes;
+   stbi__uint32 i,j,stride = x*بهر_n*بایټونه;
+   stbi__uint32 img_len, img_پلنوالی_بایټونه;
    stbi_uc *filter_buf;
-   int all_ok = 1;
-   int k;
-   int img_n = s->img_n; // copy it into a local for later
+   صحيح all_ok = 1;
+   صحيح k;
+   صحيح img_n = s->img_n; // copy it into a local for later
 
-   int output_bytes = out_n*bytes;
-   int filter_bytes = img_n*bytes;
-   int width = x;
+   صحيح output_بایټونه = بهر_n*بایټونه;
+   صحيح filter_بایټونه = img_n*بایټونه;
+   صحيح پلنوالی = x;
 
-   STBI_ASSERT(out_n == s->img_n || out_n == s->img_n+1);
-   a->out = (stbi_uc *) stbi__malloc_mad3(x, y, output_bytes, 0); // extra bytes to write off the end into
-   if (!a->out) return stbi__err("outofmem", "Out of memory");
+   STBI_ASSERT(بهر_n == s->img_n || بهر_n == s->img_n+1);
+   a->بهر = (stbi_uc *) stbi__malloc_mad3(x, y, output_بایټونه, 0); // extra bytes to write off the end into
+   إذا (!a->بهر) أرجع stbi__err("outofmem", "Out of memory");
 
    // note: error exits here don't need to clean up a->out individually,
    // stbi__do_png always does on error.
-   if (!stbi__mad3sizes_valid(img_n, x, depth, 7)) return stbi__err("too large", "Corrupt PNG");
-   img_width_bytes = (((img_n * x * depth) + 7) >> 3);
-   if (!stbi__mad2sizes_valid(img_width_bytes, y, img_width_bytes)) return stbi__err("too large", "Corrupt PNG");
-   img_len = (img_width_bytes + 1) * y;
+   إذا (!stbi__mad3sizes_valid(img_n, x, ژوروالی_2, 7)) أرجع stbi__err("too large", "Corrupt PNG");
+   img_پلنوالی_بایټونه = (((img_n * x * ژوروالی_2) + 7) >> 3);
+   إذا (!stbi__mad2sizes_valid(img_پلنوالی_بایټونه, y, img_پلنوالی_بایټونه)) أرجع stbi__err("too large", "Corrupt PNG");
+   img_len = (img_پلنوالی_بایټونه + 1) * y;
 
    // we used to check for exact match between raw_len and img_len on non-interlaced PNGs,
    // but issue #276 reported a PNG in the wild that had extra data at the end (all zeros),
    // so just check for raw_len < img_len always.
-   if (raw_len < img_len) return stbi__err("not enough pixels","Corrupt PNG");
+   إذا (raw_len < img_len) أرجع stbi__err("not enough pixels","Corrupt PNG");
 
    // Allocate two scan lines worth of filter workspace buffer.
-   filter_buf = (stbi_uc *) stbi__malloc_mad2(img_width_bytes, 2, 0);
-   if (!filter_buf) return stbi__err("outofmem", "Out of memory");
+   filter_buf = (stbi_uc *) stbi__malloc_mad2(img_پلنوالی_بایټونه, 2, 0);
+   إذا (!filter_buf) أرجع stbi__err("outofmem", "Out of memory");
 
    // Filtering for low-bit-depth images
-   if (depth < 8) {
-      filter_bytes = 1;
-      width = img_width_bytes;
+   إذا (ژوروالی_2 < 8) {
+      filter_بایټونه = 1;
+      پلنوالی = img_پلنوالی_بایټونه;
    }
 
-   for (j=0; j < y; ++j) {
+   لكل (j=0; j < y; ++j) {
       // cur/prior filter buffers alternate
-      stbi_uc *cur = filter_buf + (j & 1)*img_width_bytes;
-      stbi_uc *prior = filter_buf + (~j & 1)*img_width_bytes;
-      stbi_uc *dest = a->out + stride*j;
-      int nk = width * filter_bytes;
-      int filter = *raw++;
+      stbi_uc *cur = filter_buf + (j & 1)*img_پلنوالی_بایټونه;
+      stbi_uc *مخکینی = filter_buf + (~j & 1)*img_پلنوالی_بایټونه;
+      stbi_uc *dest = a->بهر + stride*j;
+      صحيح nk = پلنوالی * filter_بایټونه;
+      صحيح filter = *raw++;
 
       // check filter type
-      if (filter > 4) {
+      إذا (filter > 4) {
          all_ok = stbi__err("invalid filter","Corrupt PNG");
-         break;
+         اكسر;
       }
 
       // if first row, use special filter that doesn't sample previous row
-      if (j == 0) filter = first_row_filter[filter];
+      إذا (j == 0) filter = لومړی_لیکه_filter[filter];
 
       // perform actual filtering
-      switch (filter) {
-      case STBI__F_none:
-         memcpy(cur, raw, nk);
-         break;
-      case STBI__F_sub:
-         memcpy(cur, raw, filter_bytes);
-         for (k = filter_bytes; k < nk; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + cur[k-filter_bytes]);
-         break;
-      case STBI__F_up:
-         for (k = 0; k < nk; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + prior[k]);
-         break;
-      case STBI__F_avg:
-         for (k = 0; k < filter_bytes; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + (prior[k]>>1));
-         for (k = filter_bytes; k < nk; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + ((prior[k] + cur[k-filter_bytes])>>1));
-         break;
-      case STBI__F_paeth:
-         for (k = 0; k < filter_bytes; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + prior[k]); // prior[k] == stbi__paeth(0,prior[k],0)
-         for (k = filter_bytes; k < nk; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + stbi__paeth(cur[k-filter_bytes], prior[k], prior[k-filter_bytes]));
-         break;
-      case STBI__F_avg_first:
-         memcpy(cur, raw, filter_bytes);
-         for (k = filter_bytes; k < nk; ++k)
-            cur[k] = STBI__BYTECAST(raw[k] + (cur[k-filter_bytes] >> 1));
-         break;
+      بدل (filter) {
+      حالة STBI__F_none:
+         حافظه_نقل(cur, raw, nk);
+         اكسر;
+      حالة STBI__F_sub:
+         حافظه_نقل(cur, raw, filter_بایټونه);
+         لكل (k = filter_بایټونه; k < nk; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + cur[k-filter_بایټونه]);
+         اكسر;
+      حالة STBI_F_پورته:
+         لكل (k = 0; k < nk; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + مخکینی[k]);
+         اكسر;
+      حالة STBI__F_avg:
+         لكل (k = 0; k < filter_بایټونه; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + (مخکینی[k]>>1));
+         لكل (k = filter_بایټونه; k < nk; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + ((مخکینی[k] + cur[k-filter_بایټونه])>>1));
+         اكسر;
+      حالة STBI__F_paeth:
+         لكل (k = 0; k < filter_بایټونه; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + مخکینی[k]); // prior[k] == stbi__paeth(0,prior[k],0)
+         لكل (k = filter_بایټونه; k < nk; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + stbi__paeth(cur[k-filter_بایټونه], مخکینی[k], مخکینی[k-filter_بایټونه]));
+         اكسر;
+      حالة STBI_F_avg_لومړی:
+         حافظه_نقل(cur, raw, filter_بایټونه);
+         لكل (k = filter_بایټونه; k < nk; ++k)
+            cur[k] = STBI__BYTECAST(raw[k] + (cur[k-filter_بایټونه] >> 1));
+         اكسر;
       }
 
       raw += nk;
 
       // expand decoded bits in cur to dest, also adding an extra alpha channel if desired
-      if (depth < 8) {
-         stbi_uc scale = (color == 0) ? stbi__depth_scale_table[depth] : 1; // scale grayscale values to 0..255 range
-         stbi_uc *in = cur;
-         stbi_uc *out = dest;
+      إذا (ژوروالی_2 < 8) {
+         stbi_uc scale = (color == 0) ? stbi_ژوروالی_scale_جدول[ژوروالی_2] : 1; // scale grayscale values to 0..255 range
+         stbi_uc *دننه_2 = cur;
+         stbi_uc *بهر = dest;
          stbi_uc inb = 0;
          stbi__uint32 nsmp = x*img_n;
 
          // expand bits to bytes first
-         if (depth == 4) {
-            for (i=0; i < nsmp; ++i) {
-               if ((i & 1) == 0) inb = *in++;
-               *out++ = scale * (inb >> 4);
+         إذا (ژوروالی_2 == 4) {
+            لكل (i=0; i < nsmp; ++i) {
+               إذا ((i & 1) == 0) inb = *دننه_2++;
+               *بهر++ = scale * (inb >> 4);
                inb <<= 4;
             }
-         } else if (depth == 2) {
-            for (i=0; i < nsmp; ++i) {
-               if ((i & 3) == 0) inb = *in++;
-               *out++ = scale * (inb >> 6);
+         } وإلا إذا (ژوروالی_2 == 2) {
+            لكل (i=0; i < nsmp; ++i) {
+               إذا ((i & 3) == 0) inb = *دننه_2++;
+               *بهر++ = scale * (inb >> 6);
                inb <<= 2;
             }
-         } else {
-            STBI_ASSERT(depth == 1);
-            for (i=0; i < nsmp; ++i) {
-               if ((i & 7) == 0) inb = *in++;
-               *out++ = scale * (inb >> 7);
+         } وإلا {
+            STBI_ASSERT(ژوروالی_2 == 1);
+            لكل (i=0; i < nsmp; ++i) {
+               إذا ((i & 7) == 0) inb = *دننه_2++;
+               *بهر++ = scale * (inb >> 7);
                inb <<= 1;
             }
          }
 
          // insert alpha=255 values if desired
-         if (img_n != out_n)
+         إذا (img_n != بهر_n)
             stbi__create_png_alpha_expand8(dest, dest, x, img_n);
-      } else if (depth == 8) {
-         if (img_n == out_n)
-            memcpy(dest, cur, x*img_n);
-         else
+      } وإلا إذا (ژوروالی_2 == 8) {
+         إذا (img_n == بهر_n)
+            حافظه_نقل(dest, cur, x*img_n);
+         وإلا
             stbi__create_png_alpha_expand8(dest, cur, x, img_n);
-      } else if (depth == 16) {
+      } وإلا إذا (ژوروالی_2 == 16) {
          // convert the image data from big-endian to platform-native
          stbi__uint16 *dest16 = (stbi__uint16*)dest;
          stbi__uint32 nsmp = x*img_n;
 
-         if (img_n == out_n) {
-            for (i = 0; i < nsmp; ++i, ++dest16, cur += 2)
+         إذا (img_n == بهر_n) {
+            لكل (i = 0; i < nsmp; ++i, ++dest16, cur += 2)
                *dest16 = (cur[0] << 8) | cur[1];
-         } else {
-            STBI_ASSERT(img_n+1 == out_n);
-            if (img_n == 1) {
-               for (i = 0; i < x; ++i, dest16 += 2, cur += 2) {
+         } وإلا {
+            STBI_ASSERT(img_n+1 == بهر_n);
+            إذا (img_n == 1) {
+               لكل (i = 0; i < x; ++i, dest16 += 2, cur += 2) {
                   dest16[0] = (cur[0] << 8) | cur[1];
                   dest16[1] = 0xffff;
                }
-            } else {
+            } وإلا {
                STBI_ASSERT(img_n == 3);
-               for (i = 0; i < x; ++i, dest16 += 4, cur += 6) {
+               لكل (i = 0; i < x; ++i, dest16 += 4, cur += 6) {
                   dest16[0] = (cur[0] << 8) | cur[1];
                   dest16[1] = (cur[2] << 8) | cur[3];
                   dest16[2] = (cur[4] << 8) | cur[5];
@@ -5085,128 +5085,128 @@ static int stbi__create_png_image_raw(stbi__png *a, stbi_uc *raw, stbi__uint32 r
    }
 
    STBI_FREE(filter_buf);
-   if (!all_ok) return 0;
+   إذا (!all_ok) أرجع 0;
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__create_png_image(stbi__png *a, stbi_uc *image_data, stbi__uint32 image_data_len, int out_n, int depth, int color, int interlaced)
+ساكن صحيح stbi__create_png_image(stbi__png *a, stbi_uc *image_معلومات_2, stbi__uint32 image_معلومات_len, صحيح بهر_n, صحيح ژوروالی_2, صحيح color, صحيح interlaced)
 {
-   int bytes = (depth == 16 ? 2 : 1);
-   int out_bytes = out_n * bytes;
+   صحيح بایټونه = (ژوروالی_2 == 16 ? 2 : 1);
+   صحيح بهر_بایټونه = بهر_n * بایټونه;
    stbi_uc *final;
-   int p;
-   if (!interlaced)
-      return stbi__create_png_image_raw(a, image_data, image_data_len, out_n, a->s->img_x, a->s->img_y, depth, color);
+   صحيح p;
+   إذا (!interlaced)
+      أرجع stbi__create_png_image_raw(a, image_معلومات_2, image_معلومات_len, بهر_n, a->s->img_x, a->s->img_y, ژوروالی_2, color);
 
    // de-interlacing
-   final = (stbi_uc *) stbi__malloc_mad3(a->s->img_x, a->s->img_y, out_bytes, 0);
-   if (!final) return stbi__err("outofmem", "Out of memory");
-   for (p=0; p < 7; ++p) {
-      int xorig[] = { 0,4,0,2,0,1,0 };
-      int yorig[] = { 0,0,4,0,2,0,1 };
-      int xspc[]  = { 8,8,4,4,2,2,1 };
-      int yspc[]  = { 8,8,8,4,4,2,2 };
-      int i,j,x,y;
+   final = (stbi_uc *) stbi__malloc_mad3(a->s->img_x, a->s->img_y, بهر_بایټونه, 0);
+   إذا (!final) أرجع stbi__err("outofmem", "Out of memory");
+   لكل (p=0; p < 7; ++p) {
+      صحيح xorig[] = { 0,4,0,2,0,1,0 };
+      صحيح yorig[] = { 0,0,4,0,2,0,1 };
+      صحيح xspc[]  = { 8,8,4,4,2,2,1 };
+      صحيح yspc[]  = { 8,8,8,4,4,2,2 };
+      صحيح i,j,x,y;
       // pass1_x[4] = 0, pass1_x[5] = 1, pass1_x[12] = 1
       x = (a->s->img_x - xorig[p] + xspc[p]-1) / xspc[p];
       y = (a->s->img_y - yorig[p] + yspc[p]-1) / yspc[p];
-      if (x && y) {
-         stbi__uint32 img_len = ((((a->s->img_n * x * depth) + 7) >> 3) + 1) * y;
-         if (!stbi__create_png_image_raw(a, image_data, image_data_len, out_n, x, y, depth, color)) {
+      إذا (x && y) {
+         stbi__uint32 img_len = ((((a->s->img_n * x * ژوروالی_2) + 7) >> 3) + 1) * y;
+         إذا (!stbi__create_png_image_raw(a, image_معلومات_2, image_معلومات_len, بهر_n, x, y, ژوروالی_2, color)) {
             STBI_FREE(final);
-            return 0;
+            أرجع 0;
          }
-         for (j=0; j < y; ++j) {
-            for (i=0; i < x; ++i) {
-               int out_y = j*yspc[p]+yorig[p];
-               int out_x = i*xspc[p]+xorig[p];
-               memcpy(final + out_y*a->s->img_x*out_bytes + out_x*out_bytes,
-                      a->out + (j*x+i)*out_bytes, out_bytes);
+         لكل (j=0; j < y; ++j) {
+            لكل (i=0; i < x; ++i) {
+               صحيح بهر_y = j*yspc[p]+yorig[p];
+               صحيح بهر_x = i*xspc[p]+xorig[p];
+               حافظه_نقل(final + بهر_y*a->s->img_x*بهر_بایټونه + بهر_x*بهر_بایټونه,
+                      a->بهر + (j*x+i)*بهر_بایټونه, بهر_بایټونه);
             }
          }
-         STBI_FREE(a->out);
-         image_data += img_len;
-         image_data_len -= img_len;
+         STBI_FREE(a->بهر);
+         image_معلومات_2 += img_len;
+         image_معلومات_len -= img_len;
       }
    }
-   a->out = final;
+   a->بهر = final;
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__compute_transparency(stbi__png *z, stbi_uc tc[3], int out_n)
+ساكن صحيح stbi__compute_transparency(stbi__png *z, stbi_uc tc[3], صحيح بهر_n)
 {
    stbi__context *s = z->s;
-   stbi__uint32 i, pixel_count = s->img_x * s->img_y;
-   stbi_uc *p = z->out;
+   stbi__uint32 i, pixel_شمېر = s->img_x * s->img_y;
+   stbi_uc *p = z->بهر;
 
    // compute color-based transparency, assuming we've
    // already got 255 as the alpha value in the output
-   STBI_ASSERT(out_n == 2 || out_n == 4);
+   STBI_ASSERT(بهر_n == 2 || بهر_n == 4);
 
-   if (out_n == 2) {
-      for (i=0; i < pixel_count; ++i) {
+   إذا (بهر_n == 2) {
+      لكل (i=0; i < pixel_شمېر; ++i) {
          p[1] = (p[0] == tc[0] ? 0 : 255);
          p += 2;
       }
-   } else {
-      for (i=0; i < pixel_count; ++i) {
-         if (p[0] == tc[0] && p[1] == tc[1] && p[2] == tc[2])
+   } وإلا {
+      لكل (i=0; i < pixel_شمېر; ++i) {
+         إذا (p[0] == tc[0] && p[1] == tc[1] && p[2] == tc[2])
             p[3] = 0;
          p += 4;
       }
    }
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__compute_transparency16(stbi__png *z, stbi__uint16 tc[3], int out_n)
+ساكن صحيح stbi__compute_transparency16(stbi__png *z, stbi__uint16 tc[3], صحيح بهر_n)
 {
    stbi__context *s = z->s;
-   stbi__uint32 i, pixel_count = s->img_x * s->img_y;
-   stbi__uint16 *p = (stbi__uint16*) z->out;
+   stbi__uint32 i, pixel_شمېر = s->img_x * s->img_y;
+   stbi__uint16 *p = (stbi__uint16*) z->بهر;
 
    // compute color-based transparency, assuming we've
    // already got 65535 as the alpha value in the output
-   STBI_ASSERT(out_n == 2 || out_n == 4);
+   STBI_ASSERT(بهر_n == 2 || بهر_n == 4);
 
-   if (out_n == 2) {
-      for (i = 0; i < pixel_count; ++i) {
+   إذا (بهر_n == 2) {
+      لكل (i = 0; i < pixel_شمېر; ++i) {
          p[1] = (p[0] == tc[0] ? 0 : 65535);
          p += 2;
       }
-   } else {
-      for (i = 0; i < pixel_count; ++i) {
-         if (p[0] == tc[0] && p[1] == tc[1] && p[2] == tc[2])
+   } وإلا {
+      لكل (i = 0; i < pixel_شمېر; ++i) {
+         إذا (p[0] == tc[0] && p[1] == tc[1] && p[2] == tc[2])
             p[3] = 0;
          p += 4;
       }
    }
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__expand_png_palette(stbi__png *a, stbi_uc *palette, int len, int pal_img_n)
+ساكن صحيح stbi__expand_png_palette(stbi__png *a, stbi_uc *palette, صحيح len, صحيح pal_img_n)
 {
-   stbi__uint32 i, pixel_count = a->s->img_x * a->s->img_y;
-   stbi_uc *p, *temp_out, *orig = a->out;
+   stbi__uint32 i, pixel_شمېر = a->s->img_x * a->s->img_y;
+   stbi_uc *p, *لنډمهاله_بهر, *orig = a->بهر;
 
-   p = (stbi_uc *) stbi__malloc_mad2(pixel_count, pal_img_n, 0);
-   if (p == NULL) return stbi__err("outofmem", "Out of memory");
+   p = (stbi_uc *) stbi__malloc_mad2(pixel_شمېر, pal_img_n, 0);
+   إذا (p == عدم) أرجع stbi__err("outofmem", "Out of memory");
 
    // between here and free(out) below, exitting would leak
-   temp_out = p;
+   لنډمهاله_بهر = p;
 
-   if (pal_img_n == 3) {
-      for (i=0; i < pixel_count; ++i) {
-         int n = orig[i]*4;
+   إذا (pal_img_n == 3) {
+      لكل (i=0; i < pixel_شمېر; ++i) {
+         صحيح n = orig[i]*4;
          p[0] = palette[n  ];
          p[1] = palette[n+1];
          p[2] = palette[n+2];
          p += 3;
       }
-   } else {
-      for (i=0; i < pixel_count; ++i) {
-         int n = orig[i]*4;
+   } وإلا {
+      لكل (i=0; i < pixel_شمېر; ++i) {
+         صحيح n = orig[i]*4;
          p[0] = palette[n  ];
          p[1] = palette[n+1];
          p[2] = palette[n+2];
@@ -5214,90 +5214,90 @@ static int stbi__expand_png_palette(stbi__png *a, stbi_uc *palette, int len, int
          p += 4;
       }
    }
-   STBI_FREE(a->out);
-   a->out = temp_out;
+   STBI_FREE(a->بهر);
+   a->بهر = لنډمهاله_بهر;
 
    STBI_NOTUSED(len);
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__unpremultiply_on_load_global = 0;
-static int stbi__de_iphone_flag_global = 0;
+ساكن صحيح stbi_unpremultiply_on_بارول_global = 0;
+ساكن صحيح stbi__de_iphone_flag_global = 0;
 
-#if 0 /* not used in SDL */
-STBIDEF void stbi_set_unpremultiply_on_load(int flag_true_if_should_unpremultiply)
+#إذا 0 /* not used in SDL */
+STBIDEF فراغ stbi_سېټ_unpremultiply_on_بارول(صحيح flag_true_if_should_unpremultiply)
 {
-   stbi__unpremultiply_on_load_global = flag_true_if_should_unpremultiply;
+   stbi_unpremultiply_on_بارول_global = flag_true_if_should_unpremultiply;
 }
 
-STBIDEF void stbi_convert_iphone_png_to_rgb(int flag_true_if_should_convert)
+STBIDEF فراغ stbi_convert_iphone_png_منزل_rgb(صحيح flag_true_if_should_convert)
 {
    stbi__de_iphone_flag_global = flag_true_if_should_convert;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_THREAD_LOCAL
-#define stbi__unpremultiply_on_load  stbi__unpremultiply_on_load_global
-#define stbi__de_iphone_flag  stbi__de_iphone_flag_global
-#else
-static STBI_THREAD_LOCAL int stbi__unpremultiply_on_load_local, stbi__unpremultiply_on_load_set;
-static STBI_THREAD_LOCAL int stbi__de_iphone_flag_local, stbi__de_iphone_flag_set;
+#که_نه_تعریف_شوی STBI_THREAD_LOCAL
+#تعریف_کړه stbi_unpremultiply_on_بارول  stbi_unpremultiply_on_بارول_global
+#تعریف_کړه stbi__de_iphone_flag  stbi__de_iphone_flag_global
+#وإلا
+ساكن STBI_THREAD_LOCAL صحيح stbi_unpremultiply_on_بارول_local, stbi_unpremultiply_on_بارول_سېټ;
+ساكن STBI_THREAD_LOCAL صحيح stbi__de_iphone_flag_local, stbi_de_iphone_flag_سېټ;
 
-STBIDEF void stbi_set_unpremultiply_on_load_thread(int flag_true_if_should_unpremultiply)
+STBIDEF فراغ stbi_سېټ_unpremultiply_on_بارول_thread(صحيح flag_true_if_should_unpremultiply)
 {
-   stbi__unpremultiply_on_load_local = flag_true_if_should_unpremultiply;
-   stbi__unpremultiply_on_load_set = 1;
+   stbi_unpremultiply_on_بارول_local = flag_true_if_should_unpremultiply;
+   stbi_unpremultiply_on_بارول_سېټ = 1;
 }
 
-STBIDEF void stbi_convert_iphone_png_to_rgb_thread(int flag_true_if_should_convert)
+STBIDEF فراغ stbi_convert_iphone_png_منزل_rgb_thread(صحيح flag_true_if_should_convert)
 {
    stbi__de_iphone_flag_local = flag_true_if_should_convert;
-   stbi__de_iphone_flag_set = 1;
+   stbi_de_iphone_flag_سېټ = 1;
 }
 
-#define stbi__unpremultiply_on_load  (stbi__unpremultiply_on_load_set           \
-                                       ? stbi__unpremultiply_on_load_local      \
-                                       : stbi__unpremultiply_on_load_global)
-#define stbi__de_iphone_flag  (stbi__de_iphone_flag_set                         \
+#تعریف_کړه stbi_unpremultiply_on_بارول  (stbi_unpremultiply_on_بارول_سېټ           \
+                                       ? stbi_unpremultiply_on_بارول_local      \
+                                       : stbi_unpremultiply_on_بارول_global)
+#تعریف_کړه stbi__de_iphone_flag  (stbi_de_iphone_flag_سېټ                         \
                                 ? stbi__de_iphone_flag_local                    \
                                 : stbi__de_iphone_flag_global)
-#endif // STBI_THREAD_LOCAL
+#د_که_پای // STBI_THREAD_LOCAL
 
-static void stbi__de_iphone(stbi__png *z)
+ساكن فراغ stbi__de_iphone(stbi__png *z)
 {
    stbi__context *s = z->s;
-   stbi__uint32 i, pixel_count = s->img_x * s->img_y;
-   stbi_uc *p = z->out;
+   stbi__uint32 i, pixel_شمېر = s->img_x * s->img_y;
+   stbi_uc *p = z->بهر;
 
-   if (s->img_out_n == 3) {  // convert bgr to rgb
-      for (i=0; i < pixel_count; ++i) {
+   إذا (s->img_بهر_n == 3) {  // convert bgr to rgb
+      لكل (i=0; i < pixel_شمېر; ++i) {
          stbi_uc t = p[0];
          p[0] = p[2];
          p[2] = t;
          p += 3;
       }
-   } else {
-      STBI_ASSERT(s->img_out_n == 4);
-      if (stbi__unpremultiply_on_load) {
+   } وإلا {
+      STBI_ASSERT(s->img_بهر_n == 4);
+      إذا (stbi_unpremultiply_on_بارول) {
          // convert bgr to rgb and unpremultiply
-         for (i=0; i < pixel_count; ++i) {
+         لكل (i=0; i < pixel_شمېر; ++i) {
             stbi_uc a = p[3];
             stbi_uc t = p[0];
-            if (a) {
+            إذا (a) {
                stbi_uc half = a / 2;
                p[0] = (p[2] * 255 + half) / a;
                p[1] = (p[1] * 255 + half) / a;
                p[2] = ( t   * 255 + half) / a;
-            } else {
+            } وإلا {
                p[0] = p[2];
                p[2] = t;
             }
             p += 4;
          }
-      } else {
+      } وإلا {
          // convert bgr to rgb
-         for (i=0; i < pixel_count; ++i) {
+         لكل (i=0; i < pixel_شمېر; ++i) {
             stbi_uc t = p[0];
             p[0] = p[2];
             p[2] = t;
@@ -5307,482 +5307,482 @@ static void stbi__de_iphone(stbi__png *z)
    }
 }
 
-#define STBI__PNG_TYPE(a,b,c,d)  (((unsigned) (a) << 24) + ((unsigned) (b) << 16) + ((unsigned) (c) << 8) + (unsigned) (d))
+#تعریف_کړه STBI__PNG_TYPE(a,b,c,d)  (((بینښه) (a) << 24) + ((بینښه) (b) << 16) + ((بینښه) (c) << 8) + (بینښه) (d))
 
-static int stbi__parse_png_file(stbi__png *z, int scan, int req_comp, unsigned int *palette_buffer, int palette_buffer_len)
+ساكن صحيح stbi__parse_png_file(stbi__png *z, صحيح لټون, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len)
 {
    stbi_uc _palette[1024]={0}, pal_img_n=0;
    stbi_uc *palette = _palette;
    stbi_uc has_trans=0, tc[3]={0};
    stbi__uint16 tc16[3]={0};
-   stbi__uint32 ioff=0, idata_limit=0, i, pal_len=0;
-   int first=1,k,interlace=0, color=0, is_iphone=0;
+   stbi__uint32 ioff=0, idata_حد=0, i, pal_len=0;
+   صحيح لومړی=1,k,interlace=0, color=0, is_iphone=0;
    stbi__context *s = z->s;
 
-   if (palette_buffer) {
-       if (palette_buffer_len < 256)
-           return stbi__err("palette buffer too small", "palette buffer len must be 256");
-       else if (req_comp != 1)
-           return stbi__err("invalid req_comp", "req_comp must be 1 when loading paletted");
-       else
-           palette = (stbi_uc *)(void *)palette_buffer;
+   إذا (palette_بفر) {
+       إذا (palette_بفر_len < 256)
+           أرجع stbi__err("palette buffer too small", "palette buffer len must be 256");
+       وإلا إذا (req_comp != 1)
+           أرجع stbi__err("invalid req_comp", "req_comp must be 1 when loading paletted");
+       وإلا
+           palette = (stbi_uc *)(فراغ *)palette_بفر;
    }
 
-   z->expanded = NULL;
-   z->idata = NULL;
-   z->out = NULL;
+   z->expanded = عدم;
+   z->idata = عدم;
+   z->بهر = عدم;
 
-   if (!stbi__check_png_header(s)) return 0;
+   إذا (!stbi_check_png_سرلیک(s)) أرجع 0;
 
-   if (scan == STBI__SCAN_type) return 1;
+   إذا (لټون == STBI_لټون_type) أرجع 1;
 
-   for (;;) {
-      stbi__pngchunk c = stbi__get_chunk_header(s);
-      switch (c.type) {
-         case STBI__PNG_TYPE('C','g','B','I'):
+   لكل (;;) {
+      stbi__pngchunk c = stbi_get_chunk_سرلیک(s);
+      بدل (c.type) {
+         حالة STBI__PNG_TYPE('C','g','B','I'):
             is_iphone = 1;
-            stbi__skip(s, c.length);
-            break;
-         case STBI__PNG_TYPE('I','H','D','R'): {
-            int comp,filter;
-            if (!first) return stbi__err("multiple IHDR","Corrupt PNG");
-            first = 0;
-            if (c.length != 13) return stbi__err("bad IHDR len","Corrupt PNG");
+            stbi__skip(s, c.اوږدتیا);
+            اكسر;
+         حالة STBI__PNG_TYPE('I','H','D','R'): {
+            صحيح comp,filter;
+            إذا (!لومړی) أرجع stbi__err("multiple IHDR","Corrupt PNG");
+            لومړی = 0;
+            إذا (c.اوږدتیا != 13) أرجع stbi__err("bad IHDR len","Corrupt PNG");
             s->img_x = stbi__get32be(s);
             s->img_y = stbi__get32be(s);
-            if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-            if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-            z->depth = stbi__get8(s);  if (z->depth != 1 && z->depth != 2 && z->depth != 4 && z->depth != 8 && z->depth != 16)  return stbi__err("1/2/4/8/16-bit only","PNG not supported: 1/2/4/8/16-bit only");
-            color = stbi__get8(s);  if (color > 6)         return stbi__err("bad ctype","Corrupt PNG");
-            if (color == 3 && z->depth == 16)                  return stbi__err("bad ctype","Corrupt PNG");
-            if (color == 3) pal_img_n = 3; else if (color & 1) return stbi__err("bad ctype","Corrupt PNG");
-            comp  = stbi__get8(s);  if (comp) return stbi__err("bad comp method","Corrupt PNG");
-            filter= stbi__get8(s);  if (filter) return stbi__err("bad filter method","Corrupt PNG");
-            interlace = stbi__get8(s); if (interlace>1) return stbi__err("bad interlace method","Corrupt PNG");
-            if (!s->img_x || !s->img_y) return stbi__err("0-pixel image","Corrupt PNG");
-            if (!pal_img_n) {
+            إذا (s->img_y > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
+            إذا (s->img_x > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
+            z->ژوروالی_2 = stbi__get8(s);  إذا (z->ژوروالی_2 != 1 && z->ژوروالی_2 != 2 && z->ژوروالی_2 != 4 && z->ژوروالی_2 != 8 && z->ژوروالی_2 != 16)  أرجع stbi__err("1/2/4/8/16-bit only","PNG not supported: 1/2/4/8/16-bit only");
+            color = stbi__get8(s);  إذا (color > 6)         أرجع stbi__err("bad ctype","Corrupt PNG");
+            إذا (color == 3 && z->ژوروالی_2 == 16)                  أرجع stbi__err("bad ctype","Corrupt PNG");
+            إذا (color == 3) pal_img_n = 3; وإلا إذا (color & 1) أرجع stbi__err("bad ctype","Corrupt PNG");
+            comp  = stbi__get8(s);  إذا (comp) أرجع stbi__err("bad comp method","Corrupt PNG");
+            filter= stbi__get8(s);  إذا (filter) أرجع stbi__err("bad filter method","Corrupt PNG");
+            interlace = stbi__get8(s); إذا (interlace>1) أرجع stbi__err("bad interlace method","Corrupt PNG");
+            إذا (!s->img_x || !s->img_y) أرجع stbi__err("0-pixel image","Corrupt PNG");
+            إذا (!pal_img_n) {
                s->img_n = (color & 2 ? 3 : 1) + (color & 4 ? 1 : 0);
-               if ((1 << 30) / s->img_x / s->img_n < s->img_y) return stbi__err("too large", "Image too large to decode");
-            } else {
+               إذا ((1 << 30) / s->img_x / s->img_n < s->img_y) أرجع stbi__err("too large", "Image too large to decode");
+            } وإلا {
                // if paletted, then pal_n is our final components, and
                // img_n is # components to decompress/filter.
                s->img_n = 1;
-               if ((1 << 30) / s->img_x / 4 < s->img_y) return stbi__err("too large","Corrupt PNG");
+               إذا ((1 << 30) / s->img_x / 4 < s->img_y) أرجع stbi__err("too large","Corrupt PNG");
             }
             // even with SCAN_header, have to scan to see if we have a tRNS
-            break;
+            اكسر;
          }
 
-         case STBI__PNG_TYPE('P','L','T','E'):  {
-            if (first) return stbi__err("first not IHDR", "Corrupt PNG");
-            if (c.length > 256*3) return stbi__err("invalid PLTE","Corrupt PNG");
-            pal_len = c.length / 3;
-            if (pal_len * 3 != c.length) return stbi__err("invalid PLTE","Corrupt PNG");
-            for (i=0; i < pal_len; ++i) {
+         حالة STBI__PNG_TYPE('P','L','T','E'):  {
+            إذا (لومړی) أرجع stbi__err("first not IHDR", "Corrupt PNG");
+            إذا (c.اوږدتیا > 256*3) أرجع stbi__err("invalid PLTE","Corrupt PNG");
+            pal_len = c.اوږدتیا / 3;
+            إذا (pal_len * 3 != c.اوږدتیا) أرجع stbi__err("invalid PLTE","Corrupt PNG");
+            لكل (i=0; i < pal_len; ++i) {
                palette[i*4+0] = stbi__get8(s);
                palette[i*4+1] = stbi__get8(s);
                palette[i*4+2] = stbi__get8(s);
                palette[i*4+3] = 255;
             }
-            break;
+            اكسر;
          }
 
-         case STBI__PNG_TYPE('t','R','N','S'): {
-            if (first) return stbi__err("first not IHDR", "Corrupt PNG");
-            if (z->idata) return stbi__err("tRNS after IDAT","Corrupt PNG");
-            if (pal_img_n) {
-               if (scan == STBI__SCAN_header) { s->img_n = 4; return 1; }
-               if (pal_len == 0) return stbi__err("tRNS before PLTE","Corrupt PNG");
-               if (c.length > pal_len) return stbi__err("bad tRNS len","Corrupt PNG");
+         حالة STBI__PNG_TYPE('t','R','N','S'): {
+            إذا (لومړی) أرجع stbi__err("first not IHDR", "Corrupt PNG");
+            إذا (z->idata) أرجع stbi__err("tRNS after IDAT","Corrupt PNG");
+            إذا (pal_img_n) {
+               إذا (لټون == STBI_لټون_سرلیک) { s->img_n = 4; أرجع 1; }
+               إذا (pal_len == 0) أرجع stbi__err("tRNS before PLTE","Corrupt PNG");
+               إذا (c.اوږدتیا > pal_len) أرجع stbi__err("bad tRNS len","Corrupt PNG");
                pal_img_n = 4;
-               for (i=0; i < c.length; ++i)
+               لكل (i=0; i < c.اوږدتیا; ++i)
                   palette[i*4+3] = stbi__get8(s);
-            } else {
-               if (!(s->img_n & 1)) return stbi__err("tRNS with alpha","Corrupt PNG");
-               if (c.length != (stbi__uint32) s->img_n*2) return stbi__err("bad tRNS len","Corrupt PNG");
+            } وإلا {
+               إذا (!(s->img_n & 1)) أرجع stbi__err("tRNS with alpha","Corrupt PNG");
+               إذا (c.اوږدتیا != (stbi__uint32) s->img_n*2) أرجع stbi__err("bad tRNS len","Corrupt PNG");
                has_trans = 1;
                // non-paletted with tRNS = constant alpha. if header-scanning, we can stop now.
-               if (scan == STBI__SCAN_header) { ++s->img_n; return 1; }
-               if (z->depth == 16) {
-                  for (k = 0; k < s->img_n && k < 3; ++k) // extra loop test to suppress false GCC warning
+               إذا (لټون == STBI_لټون_سرلیک) { ++s->img_n; أرجع 1; }
+               إذا (z->ژوروالی_2 == 16) {
+                  لكل (k = 0; k < s->img_n && k < 3; ++k) // extra loop test to suppress false GCC warning
                      tc16[k] = (stbi__uint16)stbi__get16be(s); // copy the values as-is
-               } else {
-                  for (k = 0; k < s->img_n && k < 3; ++k)
-                     tc[k] = (stbi_uc)(stbi__get16be(s) & 255) * stbi__depth_scale_table[z->depth]; // non 8-bit images will be larger
+               } وإلا {
+                  لكل (k = 0; k < s->img_n && k < 3; ++k)
+                     tc[k] = (stbi_uc)(stbi__get16be(s) & 255) * stbi_ژوروالی_scale_جدول[z->ژوروالی_2]; // non 8-bit images will be larger
                }
             }
-            break;
+            اكسر;
          }
 
-         case STBI__PNG_TYPE('I','D','A','T'): {
-            if (first) return stbi__err("first not IHDR", "Corrupt PNG");
-            if (pal_img_n && !pal_len) return stbi__err("no PLTE","Corrupt PNG");
-            if (scan == STBI__SCAN_header) {
+         حالة STBI__PNG_TYPE('I','D','A','T'): {
+            إذا (لومړی) أرجع stbi__err("first not IHDR", "Corrupt PNG");
+            إذا (pal_img_n && !pal_len) أرجع stbi__err("no PLTE","Corrupt PNG");
+            إذا (لټون == STBI_لټون_سرلیک) {
                // header scan definitely stops at first IDAT
-               if (pal_img_n)
+               إذا (pal_img_n)
                   s->img_n = pal_img_n;
-               return 1;
+               أرجع 1;
             }
-            if (c.length > (1u << 30)) return stbi__err("IDAT size limit", "IDAT section larger than 2^30 bytes");
-            if ((int)(ioff + c.length) < (int)ioff) return 0;
-            if (ioff + c.length > idata_limit) {
-               stbi__uint32 idata_limit_old = idata_limit;
+            إذا (c.اوږدتیا > (1u << 30)) أرجع stbi__err("IDAT size limit", "IDAT section larger than 2^30 bytes");
+            إذا ((صحيح)(ioff + c.اوږدتیا) < (صحيح)ioff) أرجع 0;
+            إذا (ioff + c.اوږدتیا > idata_حد) {
+               stbi__uint32 idata_حد_old = idata_حد;
                stbi_uc *p;
-               if (idata_limit == 0) idata_limit = c.length > 4096 ? c.length : 4096;
-               while (ioff + c.length > idata_limit)
-                  idata_limit *= 2;
-               STBI_NOTUSED(idata_limit_old);
-               p = (stbi_uc *) STBI_REALLOC_SIZED(z->idata, idata_limit_old, idata_limit); if (p == NULL) return stbi__err("outofmem", "Out of memory");
+               إذا (idata_حد == 0) idata_حد = c.اوږدتیا > 4096 ? c.اوږدتیا : 4096;
+               طالما (ioff + c.اوږدتیا > idata_حد)
+                  idata_حد *= 2;
+               STBI_NOTUSED(idata_حد_old);
+               p = (stbi_uc *) STBI_REALLOC_SIZED(z->idata, idata_حد_old, idata_حد); إذا (p == عدم) أرجع stbi__err("outofmem", "Out of memory");
                z->idata = p;
             }
-            if (!stbi__getn(s, z->idata+ioff,c.length)) return stbi__err("outofdata","Corrupt PNG");
-            ioff += c.length;
-            break;
+            إذا (!stbi__getn(s, z->idata+ioff,c.اوږدتیا)) أرجع stbi__err("outofdata","Corrupt PNG");
+            ioff += c.اوږدتیا;
+            اكسر;
          }
 
-         case STBI__PNG_TYPE('I','E','N','D'): {
+         حالة STBI__PNG_TYPE('I','E','N','D'): {
             stbi__uint32 raw_len, bpl;
-            if (first) return stbi__err("first not IHDR", "Corrupt PNG");
-            if (scan != STBI__SCAN_load) return 1;
-            if (z->idata == NULL) return stbi__err("no IDAT","Corrupt PNG");
+            إذا (لومړی) أرجع stbi__err("first not IHDR", "Corrupt PNG");
+            إذا (لټون != STBI_لټون_بارول) أرجع 1;
+            إذا (z->idata == عدم) أرجع stbi__err("no IDAT","Corrupt PNG");
             // initial guess for decoded data size to avoid unnecessary reallocs
-            bpl = (s->img_x * z->depth + 7) / 8; // bytes per line, per component
+            bpl = (s->img_x * z->ژوروالی_2 + 7) / 8; // bytes per line, per component
             raw_len = bpl * s->img_y * s->img_n /* pixels */ + s->img_y /* filter mode per row */;
-            z->expanded = (stbi_uc *) stbi_zlib_decode_malloc_guesssize_headerflag((char *) z->idata, ioff, raw_len, (int *) &raw_len, !is_iphone);
-            if (z->expanded == NULL) return 0; // zlib should set error
-            STBI_FREE(z->idata); z->idata = NULL;
-            if ((req_comp == s->img_n+1 && req_comp != 3 && !pal_img_n) || has_trans)
-               s->img_out_n = s->img_n+1;
-            else
-               s->img_out_n = s->img_n;
-            if (!stbi__create_png_image(z, z->expanded, raw_len, s->img_out_n, z->depth, color, interlace)) return 0;
-            if (has_trans) {
-               if (z->depth == 16) {
-                  if (!stbi__compute_transparency16(z, tc16, s->img_out_n)) return 0;
-               } else {
-                  if (!stbi__compute_transparency(z, tc, s->img_out_n)) return 0;
+            z->expanded = (stbi_uc *) stbi_zlib_decode_malloc_guesssize_headerflag((حرف *) z->idata, ioff, raw_len, (صحيح *) &raw_len, !is_iphone);
+            إذا (z->expanded == عدم) أرجع 0; // zlib should set error
+            STBI_FREE(z->idata); z->idata = عدم;
+            إذا ((req_comp == s->img_n+1 && req_comp != 3 && !pal_img_n) || has_trans)
+               s->img_بهر_n = s->img_n+1;
+            وإلا
+               s->img_بهر_n = s->img_n;
+            إذا (!stbi__create_png_image(z, z->expanded, raw_len, s->img_بهر_n, z->ژوروالی_2, color, interlace)) أرجع 0;
+            إذا (has_trans) {
+               إذا (z->ژوروالی_2 == 16) {
+                  إذا (!stbi__compute_transparency16(z, tc16, s->img_بهر_n)) أرجع 0;
+               } وإلا {
+                  إذا (!stbi__compute_transparency(z, tc, s->img_بهر_n)) أرجع 0;
                }
             }
-            if (is_iphone && stbi__de_iphone_flag && s->img_out_n > 2)
+            إذا (is_iphone && stbi__de_iphone_flag && s->img_بهر_n > 2)
                stbi__de_iphone(z);
-            if (pal_img_n) {
+            إذا (pal_img_n) {
                // pal_img_n == 3 or 4
                s->img_n = pal_img_n; // record the actual colors we had
-               s->img_out_n = pal_img_n;
-               if (req_comp >= 3) s->img_out_n = req_comp;
-               if (!palette_buffer)
-                   if (!stbi__expand_png_palette(z, palette, pal_len, s->img_out_n))
-                       return 0;
-            } else if (has_trans) {
+               s->img_بهر_n = pal_img_n;
+               إذا (req_comp >= 3) s->img_بهر_n = req_comp;
+               إذا (!palette_بفر)
+                   إذا (!stbi__expand_png_palette(z, palette, pal_len, s->img_بهر_n))
+                       أرجع 0;
+            } وإلا إذا (has_trans) {
                // non-paletted image with tRNS -> source image has (constant) alpha
                ++s->img_n;
             }
-            STBI_FREE(z->expanded); z->expanded = NULL;
+            STBI_FREE(z->expanded); z->expanded = عدم;
             // end of PNG chunk, read and skip CRC
             stbi__get32be(s);
-            if (s->io.skip && s->img_buffer_end > s->img_buffer) {
+            إذا (s->io.skip && s->img_بفر_پای_ټکی > s->img_بفر) {
                // rewind the additional bytes that have been read to the buffer
-               (s->io.skip)(s->io_user_data, (int)(s->img_buffer - s->img_buffer_end));
+               (s->io.skip)(s->io_user_معلومات, (صحيح)(s->img_بفر - s->img_بفر_پای_ټکی));
             }
-            return 1;
+            أرجع 1;
          }
 
-         default:
+         افتراضي:
             // if critical, fail
-            if (first) return stbi__err("first not IHDR", "Corrupt PNG");
-            if ((c.type & (1 << 29)) == 0) {
-               #ifndef STBI_NO_FAILURE_STRINGS
+            إذا (لومړی) أرجع stbi__err("first not IHDR", "Corrupt PNG");
+            إذا ((c.type & (1 << 29)) == 0) {
+               #که_نه_تعریف_شوی STBI_NO_FAILURE_مزي_ګانې
                // not threadsafe
-               static char invalid_chunk[] = "XXXX PNG chunk not known";
+               ساكن حرف invalid_chunk[] = "XXXX PNG chunk not known";
                invalid_chunk[0] = STBI__BYTECAST(c.type >> 24);
                invalid_chunk[1] = STBI__BYTECAST(c.type >> 16);
                invalid_chunk[2] = STBI__BYTECAST(c.type >>  8);
                invalid_chunk[3] = STBI__BYTECAST(c.type >>  0);
-               (void)invalid_chunk;
-               #endif
-               return stbi__err(invalid_chunk, "PNG not supported: unknown PNG chunk type");
+               (فراغ)invalid_chunk;
+               #د_که_پای
+               أرجع stbi__err(invalid_chunk, "PNG not supported: unknown PNG chunk type");
             }
-            stbi__skip(s, c.length);
-            break;
+            stbi__skip(s, c.اوږدتیا);
+            اكسر;
       }
       // end of PNG chunk, read and skip CRC
       stbi__get32be(s);
    }
 }
 
-static void *stbi__do_png(stbi__png *p, int *x, int *y, int *n, int req_comp, unsigned int *palette_buffer, int palette_buffer_len, stbi__result_info *ri)
+ساكن فراغ *stbi__do_png(stbi__png *p, صحيح *x, صحيح *y, صحيح *n, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len, stbi_پایله_info *ri)
 {
-   void *result=NULL;
-   if (palette_buffer && req_comp != 1) {
+   فراغ *پایله=عدم;
+   إذا (palette_بفر && req_comp != 1) {
       stbi__err("bad req_comp", "req_comp must be 1 if loading paletted image without expansion");
-      return NULL;
+      أرجع عدم;
    }
-   if (req_comp < 0 || req_comp > 4) {
+   إذا (req_comp < 0 || req_comp > 4) {
       stbi__err("bad req_comp", "Internal error");
-      return NULL;
+      أرجع عدم;
    }
-   if (stbi__parse_png_file(p, STBI__SCAN_load, req_comp, palette_buffer, palette_buffer_len)) {
-      if (p->depth <= 8)
-         ri->bits_per_channel = 8;
-      else if (p->depth == 16)
-         ri->bits_per_channel = 16;
-      else
-         return stbi__errpuc("bad bits_per_channel", "PNG not supported: unsupported color depth");
-      result = p->out;
-      p->out = NULL;
-      if (req_comp && req_comp != p->s->img_out_n) {
-         if (palette_buffer)
+   إذا (stbi__parse_png_file(p, STBI_لټون_بارول, req_comp, palette_بفر, palette_بفر_len)) {
+      إذا (p->ژوروالی_2 <= 8)
+         ri->بټونه_فی_channel = 8;
+      وإلا إذا (p->ژوروالی_2 == 16)
+         ri->بټونه_فی_channel = 16;
+      وإلا
+         أرجع stbi__errpuc("bad bits_per_channel", "PNG not supported: unsupported color depth");
+      پایله = p->بهر;
+      p->بهر = عدم;
+      إذا (req_comp && req_comp != p->s->img_بهر_n) {
+         إذا (palette_بفر)
             ;
-         else if (ri->bits_per_channel == 8)
-            result = stbi__convert_format((unsigned char *) result, p->s->img_out_n, req_comp, p->s->img_x, p->s->img_y);
-         else
-            result = stbi__convert_format16((stbi__uint16 *) result, p->s->img_out_n, req_comp, p->s->img_x, p->s->img_y);
-         p->s->img_out_n = req_comp;
-         if (result == NULL) return result;
+         وإلا إذا (ri->بټونه_فی_channel == 8)
+            پایله = stbi__convert_format((بینښه حرف *) پایله, p->s->img_بهر_n, req_comp, p->s->img_x, p->s->img_y);
+         وإلا
+            پایله = stbi__convert_format16((stbi__uint16 *) پایله, p->s->img_بهر_n, req_comp, p->s->img_x, p->s->img_y);
+         p->s->img_بهر_n = req_comp;
+         إذا (پایله == عدم) أرجع پایله;
       }
       *x = p->s->img_x;
       *y = p->s->img_y;
-      if (n) {
-         if (palette_buffer)
+      إذا (n) {
+         إذا (palette_بفر)
             *n = 1;
-         else
+         وإلا
             *n = p->s->img_n;
       }
    }
-   STBI_FREE(p->out);      p->out      = NULL;
-   STBI_FREE(p->expanded); p->expanded = NULL;
-   STBI_FREE(p->idata);    p->idata    = NULL;
+   STBI_FREE(p->بهر);      p->بهر      = عدم;
+   STBI_FREE(p->expanded); p->expanded = عدم;
+   STBI_FREE(p->idata);    p->idata    = عدم;
 
-   return result;
+   أرجع پایله;
 }
 
-static void *stbi__png_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, unsigned int *palette_buffer, int palette_buffer_len, stbi__result_info *ri)
+ساكن فراغ *stbi_png_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len, stbi_پایله_info *ri)
 {
    stbi__png p;
    p.s = s;
-   return stbi__do_png(&p, x,y,comp,req_comp, palette_buffer, palette_buffer_len, ri);
+   أرجع stbi__do_png(&p, x,y,comp,req_comp, palette_بفر, palette_بفر_len, ri);
 }
 
-static int stbi__png_test(stbi__context *s)
+ساكن صحيح stbi__png_test(stbi__context *s)
 {
-   int r;
-   r = stbi__check_png_header(s);
+   صحيح r;
+   r = stbi_check_png_سرلیک(s);
    stbi__rewind(s);
-   return r;
+   أرجع r;
 }
 
-#if 0 /* not used in SDL */
-static int stbi__png_info_raw(stbi__png *p, int *x, int *y, int *comp)
+#إذا 0 /* not used in SDL */
+ساكن صحيح stbi__png_info_raw(stbi__png *p, صحيح *x, صحيح *y, صحيح *comp)
 {
-   if (!stbi__parse_png_file(p, STBI__SCAN_header, NULL, 0, NULL)) {
+   إذا (!stbi__parse_png_file(p, STBI_لټون_سرلیک, عدم, 0, عدم)) {
       stbi__rewind( p->s );
-      return 0;
+      أرجع 0;
    }
-   if (x) *x = p->s->img_x;
-   if (y) *y = p->s->img_y;
-   if (comp) *comp = p->s->img_n;
-   return 1;
+   إذا (x) *x = p->s->img_x;
+   إذا (y) *y = p->s->img_y;
+   إذا (comp) *comp = p->s->img_n;
+   أرجع 1;
 }
 
-static int stbi__png_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__png_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
    stbi__png p;
    p.s = s;
-   return stbi__png_info_raw(&p, x, y, comp);
+   أرجع stbi__png_info_raw(&p, x, y, comp);
 }
 
-static int stbi__png_is16(stbi__context *s)
+ساكن صحيح stbi__png_is16(stbi__context *s)
 {
    stbi__png p;
    p.s = s;
-   if (!stbi__png_info_raw(&p, NULL, NULL, NULL))
-	   return 0;
-   if (p.depth != 16) {
+   إذا (!stbi__png_info_raw(&p, عدم, عدم, عدم))
+	   أرجع 0;
+   إذا (p.ژوروالی_2 != 16) {
       stbi__rewind(p.s);
-      return 0;
+      أرجع 0;
    }
-   return 1;
+   أرجع 1;
 }
-#endif /**/
-#endif
+#د_که_پای /**/
+#د_که_پای
 
 // Microsoft/Windows BMP image
 
-#ifndef STBI_NO_BMP
-static int stbi__bmp_test_raw(stbi__context *s)
+#که_نه_تعریف_شوی STBI_NO_BMP
+ساكن صحيح stbi__bmp_test_raw(stbi__context *s)
 {
-   int r;
-   int sz;
-   if (stbi__get8(s) != 'B') return 0;
-   if (stbi__get8(s) != 'M') return 0;
+   صحيح r;
+   صحيح sz;
+   إذا (stbi__get8(s) != 'B') أرجع 0;
+   إذا (stbi__get8(s) != 'M') أرجع 0;
    stbi__get32le(s); // discard filesize
    stbi__get16le(s); // discard reserved
    stbi__get16le(s); // discard reserved
    stbi__get32le(s); // discard data offset
    sz = stbi__get32le(s);
    r = (sz == 12 || sz == 40 || sz == 56 || sz == 108 || sz == 124);
-   return r;
+   أرجع r;
 }
 
-static int stbi__bmp_test(stbi__context *s)
+ساكن صحيح stbi__bmp_test(stbi__context *s)
 {
-   int r = stbi__bmp_test_raw(s);
+   صحيح r = stbi__bmp_test_raw(s);
    stbi__rewind(s);
-   return r;
+   أرجع r;
 }
 
 
 // returns 0..31 for the highest set bit
-static int stbi__high_bit(unsigned int z)
+ساكن صحيح stbi_لوړ_بټ(بینښه صحيح z)
 {
-   int n=0;
-   if (z == 0) return -1;
-   if (z >= 0x10000) { n += 16; z >>= 16; }
-   if (z >= 0x00100) { n +=  8; z >>=  8; }
-   if (z >= 0x00010) { n +=  4; z >>=  4; }
-   if (z >= 0x00004) { n +=  2; z >>=  2; }
-   if (z >= 0x00002) { n +=  1;/* >>=  1;*/ }
-   return n;
+   صحيح n=0;
+   إذا (z == 0) أرجع -1;
+   إذا (z >= 0x10000) { n += 16; z >>= 16; }
+   إذا (z >= 0x00100) { n +=  8; z >>=  8; }
+   إذا (z >= 0x00010) { n +=  4; z >>=  4; }
+   إذا (z >= 0x00004) { n +=  2; z >>=  2; }
+   إذا (z >= 0x00002) { n +=  1;/* >>=  1;*/ }
+   أرجع n;
 }
 
-static int stbi__bitcount(unsigned int a)
+ساكن صحيح stbi__bitcount(بینښه صحيح a)
 {
    a = (a & 0x55555555) + ((a >>  1) & 0x55555555); // max 2
    a = (a & 0x33333333) + ((a >>  2) & 0x33333333); // max 4
    a = (a + (a >> 4)) & 0x0f0f0f0f; // max 8 per 4, now 8 bits
    a = (a + (a >> 8)); // max 16 per 8 bits
    a = (a + (a >> 16)); // max 32 per 8 bits
-   return a & 0xff;
+   أرجع a & 0xff;
 }
 
 // extract an arbitrarily-aligned N-bit value (N=bits)
 // from v, and then make it 8-bits long and fractionally
 // extend it to full full range.
-static int stbi__shiftsigned(unsigned int v, int shift, int bits)
+ساكن صحيح stbi__shiftsigned(بینښه صحيح v, صحيح ښويدنه, صحيح بټونه)
 {
-   static unsigned int mul_table[9] = {
+   ساكن بینښه صحيح mul_جدول[9] = {
       0,
       0xff/*0b11111111*/, 0x55/*0b01010101*/, 0x49/*0b01001001*/, 0x11/*0b00010001*/,
       0x21/*0b00100001*/, 0x41/*0b01000001*/, 0x81/*0b10000001*/, 0x01/*0b00000001*/,
    };
-   static unsigned int shift_table[9] = {
+   ساكن بینښه صحيح ښويدنه_جدول[9] = {
       0, 0,0,1,0,2,4,6,0,
    };
-   if (shift < 0)
-      v <<= -shift;
-   else
-      v >>= shift;
+   إذا (ښويدنه < 0)
+      v <<= -ښويدنه;
+   وإلا
+      v >>= ښويدنه;
    STBI_ASSERT(v < 256);
-   v >>= (8-bits);
-   STBI_ASSERT(bits >= 0 && bits <= 8);
-   return (int) ((unsigned) v * mul_table[bits]) >> shift_table[bits];
+   v >>= (8-بټونه);
+   STBI_ASSERT(بټونه >= 0 && بټونه <= 8);
+   أرجع (صحيح) ((بینښه) v * mul_جدول[بټونه]) >> ښويدنه_جدول[بټونه];
 }
 
-typedef struct
+تعريفنوع بنية
 {
-   int bpp, offset, hsz;
-   unsigned int mr,mg,mb,ma, all_a;
-   int extra_read;
-} stbi__bmp_data;
+   صحيح bpp, دننه_واټن_2, hsz;
+   بینښه صحيح mr,mg,mb,ma, all_a;
+   صحيح extra_read;
+} stbi_bmp_معلومات;
 
-static int stbi__bmp_set_mask_defaults(stbi__bmp_data *info, int compress)
+ساكن صحيح stbi_bmp_سېټ_ماسک_defaults(stbi_bmp_معلومات *info, صحيح compress)
 {
    // BI_BITFIELDS specifies masks explicitly, don't override
-   if (compress == 3)
-      return 1;
+   إذا (compress == 3)
+      أرجع 1;
 
-   if (compress == 0) {
-      if (info->bpp == 16) {
+   إذا (compress == 0) {
+      إذا (info->bpp == 16) {
          info->mr = 31u << 10;
          info->mg = 31u <<  5;
          info->mb = 31u <<  0;
-      } else if (info->bpp == 32) {
+      } وإلا إذا (info->bpp == 32) {
          info->mr = 0xffu << 16;
          info->mg = 0xffu <<  8;
          info->mb = 0xffu <<  0;
          info->ma = 0xffu << 24;
          info->all_a = 0; // if all_a is 0 at end, then we loaded alpha channel but it was all 0
-      } else {
+      } وإلا {
          // otherwise, use defaults, which is all-0
          info->mr = info->mg = info->mb = info->ma = 0;
       }
-      return 1;
+      أرجع 1;
    }
-   return 0; // error
+   أرجع 0; // error
 }
 
-static void *stbi__bmp_parse_header(stbi__context *s, stbi__bmp_data *info)
+ساكن فراغ *stbi_bmp_parse_سرلیک(stbi__context *s, stbi_bmp_معلومات *info)
 {
-   int hsz;
-   if (stbi__get8(s) != 'B' || stbi__get8(s) != 'M') return stbi__errpuc("not BMP", "Corrupt BMP");
+   صحيح hsz;
+   إذا (stbi__get8(s) != 'B' || stbi__get8(s) != 'M') أرجع stbi__errpuc("not BMP", "Corrupt BMP");
    stbi__get32le(s); // discard filesize
    stbi__get16le(s); // discard reserved
    stbi__get16le(s); // discard reserved
-   info->offset = stbi__get32le(s);
+   info->دننه_واټن_2 = stbi__get32le(s);
    info->hsz = hsz = stbi__get32le(s);
    info->mr = info->mg = info->mb = info->ma = 0;
    info->extra_read = 14;
 
-   if (info->offset < 0) return stbi__errpuc("bad BMP", "bad BMP");
+   إذا (info->دننه_واټن_2 < 0) أرجع stbi__errpuc("bad BMP", "bad BMP");
 
-   if (hsz != 12 && hsz != 40 && hsz != 56 && hsz != 108 && hsz != 124) return stbi__errpuc("unknown BMP", "BMP type not supported: unknown");
-   if (hsz == 12) {
+   إذا (hsz != 12 && hsz != 40 && hsz != 56 && hsz != 108 && hsz != 124) أرجع stbi__errpuc("unknown BMP", "BMP type not supported: unknown");
+   إذا (hsz == 12) {
       s->img_x = stbi__get16le(s);
       s->img_y = stbi__get16le(s);
-   } else {
+   } وإلا {
       s->img_x = stbi__get32le(s);
       s->img_y = stbi__get32le(s);
    }
-   if (stbi__get16le(s) != 1) return stbi__errpuc("bad BMP", "bad BMP");
+   إذا (stbi__get16le(s) != 1) أرجع stbi__errpuc("bad BMP", "bad BMP");
    info->bpp = stbi__get16le(s);
-   if (hsz != 12) {
-      int compress = stbi__get32le(s);
-      if (compress == 1 || compress == 2) return stbi__errpuc("BMP RLE", "BMP type not supported: RLE");
-      if (compress >= 4) return stbi__errpuc("BMP JPEG/PNG", "BMP type not supported: unsupported compression"); // this includes PNG/JPEG modes
-      if (compress == 3 && info->bpp != 16 && info->bpp != 32) return stbi__errpuc("bad BMP", "bad BMP"); // bitfields requires 16 or 32 bits/pixel
+   إذا (hsz != 12) {
+      صحيح compress = stbi__get32le(s);
+      إذا (compress == 1 || compress == 2) أرجع stbi__errpuc("BMP RLE", "BMP type not supported: RLE");
+      إذا (compress >= 4) أرجع stbi__errpuc("BMP JPEG/PNG", "BMP type not supported: unsupported compression"); // this includes PNG/JPEG modes
+      إذا (compress == 3 && info->bpp != 16 && info->bpp != 32) أرجع stbi__errpuc("bad BMP", "bad BMP"); // bitfields requires 16 or 32 bits/pixel
       stbi__get32le(s); // discard sizeof
       stbi__get32le(s); // discard hres
       stbi__get32le(s); // discard vres
       stbi__get32le(s); // discard colorsused
       stbi__get32le(s); // discard max important
-      if (hsz == 40 || hsz == 56) {
-         if (hsz == 56) {
+      إذا (hsz == 40 || hsz == 56) {
+         إذا (hsz == 56) {
             stbi__get32le(s);
             stbi__get32le(s);
             stbi__get32le(s);
             stbi__get32le(s);
          }
-         if (info->bpp == 16 || info->bpp == 32) {
-            if (compress == 0) {
-               stbi__bmp_set_mask_defaults(info, compress);
-            } else if (compress == 3) {
+         إذا (info->bpp == 16 || info->bpp == 32) {
+            إذا (compress == 0) {
+               stbi_bmp_سېټ_ماسک_defaults(info, compress);
+            } وإلا إذا (compress == 3) {
                info->mr = stbi__get32le(s);
                info->mg = stbi__get32le(s);
                info->mb = stbi__get32le(s);
                info->extra_read += 12;
                // not documented, but generated by photoshop and handled by mspaint
-               if (info->mr == info->mg && info->mg == info->mb) {
+               إذا (info->mr == info->mg && info->mg == info->mb) {
                   // ?!?!?
-                  return stbi__errpuc("bad BMP", "bad BMP");
+                  أرجع stbi__errpuc("bad BMP", "bad BMP");
                }
-            } else
-               return stbi__errpuc("bad BMP", "bad BMP");
+            } وإلا
+               أرجع stbi__errpuc("bad BMP", "bad BMP");
          }
-      } else {
+      } وإلا {
          // V4/V5 header
-         int i;
-         if (hsz != 108 && hsz != 124)
-            return stbi__errpuc("bad BMP", "bad BMP");
+         صحيح i;
+         إذا (hsz != 108 && hsz != 124)
+            أرجع stbi__errpuc("bad BMP", "bad BMP");
          info->mr = stbi__get32le(s);
          info->mg = stbi__get32le(s);
          info->mb = stbi__get32le(s);
          info->ma = stbi__get32le(s);
-         if (compress != 3) // override mr/mg/mb unless in BI_BITFIELDS mode, as per docs
-            stbi__bmp_set_mask_defaults(info, compress);
+         إذا (compress != 3) // override mr/mg/mb unless in BI_BITFIELDS mode, as per docs
+            stbi_bmp_سېټ_ماسک_defaults(info, compress);
          stbi__get32le(s); // discard color space
-         for (i=0; i < 12; ++i)
+         لكل (i=0; i < 12; ++i)
             stbi__get32le(s); // discard color space parameters
-         if (hsz == 124) {
+         إذا (hsz == 124) {
             stbi__get32le(s); // discard rendering intent
             stbi__get32le(s); // discard offset of profile data
             stbi__get32le(s); // discard size of profile data
@@ -5790,29 +5790,29 @@ static void *stbi__bmp_parse_header(stbi__context *s, stbi__bmp_data *info)
          }
       }
    }
-   return (void *) 1;
+   أرجع (فراغ *) 1;
 }
 
 
-static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
+ساكن فراغ *stbi_bmp_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri)
 {
-   stbi_uc *out;
-   unsigned int mr=0,mg=0,mb=0,ma=0, all_a;
+   stbi_uc *بهر;
+   بینښه صحيح mr=0,mg=0,mb=0,ma=0, all_a;
    stbi_uc pal[256][4];
-   int psize=0,i,j,width;
-   int flip_vertically, pad, target;
-   stbi__bmp_data info;
+   صحيح psize=0,i,j,پلنوالی;
+   صحيح flip_vertically, pad, موخه;
+   stbi_bmp_معلومات info;
    STBI_NOTUSED(ri);
 
    info.all_a = 255;
-   if (stbi__bmp_parse_header(s, &info) == NULL)
-      return NULL; // error code already set
+   إذا (stbi_bmp_parse_سرلیک(s, &info) == عدم)
+      أرجع عدم; // error code already set
 
-   flip_vertically = ((int) s->img_y) > 0;
-   s->img_y = abs((int) s->img_y);
+   flip_vertically = ((صحيح) s->img_y) > 0;
+   s->img_y = مطلق_قیمت((صحيح) s->img_y);
 
-   if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-   if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (s->img_y > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (s->img_x > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
 
    mr = info.mr;
    mg = info.mg;
@@ -5820,150 +5820,150 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
    ma = info.ma;
    all_a = info.all_a;
 
-   if (info.hsz == 12) {
-      if (info.bpp < 24)
-         psize = (info.offset - info.extra_read - 24) / 3;
-   } else {
-      if (info.bpp < 16)
-         psize = (info.offset - info.extra_read - info.hsz) >> 2;
+   إذا (info.hsz == 12) {
+      إذا (info.bpp < 24)
+         psize = (info.دننه_واټن_2 - info.extra_read - 24) / 3;
+   } وإلا {
+      إذا (info.bpp < 16)
+         psize = (info.دننه_واټن_2 - info.extra_read - info.hsz) >> 2;
    }
-   if (psize == 0) {
+   إذا (psize == 0) {
       // accept some number of extra bytes after the header, but if the offset points either to before
       // the header ends or implies a large amount of extra data, reject the file as malformed
-      int bytes_read_so_far = s->callback_already_read + (int)(s->img_buffer - s->img_buffer_original);
-      int header_limit = 1024; // max we actually read is below 256 bytes currently.
-      int extra_data_limit = 256*4; // what ordinarily goes here is a palette; 256 entries*4 bytes is its max size.
-      if (bytes_read_so_far <= 0 || bytes_read_so_far > header_limit) {
-         return stbi__errpuc("bad header", "Corrupt BMP");
+      صحيح بایټونه_read_so_far = s->callback_already_read + (صحيح)(s->img_بفر - s->img_بفر_original);
+      صحيح سرلیک_حد = 1024; // max we actually read is below 256 bytes currently.
+      صحيح extra_معلومات_حد = 256*4; // what ordinarily goes here is a palette; 256 entries*4 bytes is its max size.
+      إذا (بایټونه_read_so_far <= 0 || بایټونه_read_so_far > سرلیک_حد) {
+         أرجع stbi__errpuc("bad header", "Corrupt BMP");
       }
       // we established that bytes_read_so_far is positive and sensible.
       // the first half of this test rejects offsets that are either too small positives, or
       // negative, and guarantees that info.offset >= bytes_read_so_far > 0. this in turn
       // ensures the number computed in the second half of the test can't overflow.
-      if (info.offset < bytes_read_so_far || info.offset - bytes_read_so_far > extra_data_limit) {
-         return stbi__errpuc("bad offset", "Corrupt BMP");
-      } else {
-         stbi__skip(s, info.offset - bytes_read_so_far);
+      إذا (info.دننه_واټن_2 < بایټونه_read_so_far || info.دننه_واټن_2 - بایټونه_read_so_far > extra_معلومات_حد) {
+         أرجع stbi__errpuc("bad offset", "Corrupt BMP");
+      } وإلا {
+         stbi__skip(s, info.دننه_واټن_2 - بایټونه_read_so_far);
       }
    }
 
-   if (info.bpp == 24 && ma == 0xff000000)
+   إذا (info.bpp == 24 && ma == 0xff000000)
       s->img_n = 3;
-   else
+   وإلا
       s->img_n = ma ? 4 : 3;
-   if (req_comp && req_comp >= 3) // we can directly decode 3 or 4
-      target = req_comp;
-   else
-      target = s->img_n; // if they want monochrome, we'll post-convert
+   إذا (req_comp && req_comp >= 3) // we can directly decode 3 or 4
+      موخه = req_comp;
+   وإلا
+      موخه = s->img_n; // if they want monochrome, we'll post-convert
 
    // sanity-check size
-   if (!stbi__mad3sizes_valid(target, s->img_x, s->img_y, 0))
-      return stbi__errpuc("too large", "Corrupt BMP");
+   إذا (!stbi__mad3sizes_valid(موخه, s->img_x, s->img_y, 0))
+      أرجع stbi__errpuc("too large", "Corrupt BMP");
 
-   out = (stbi_uc *) stbi__malloc_mad3(target, s->img_x, s->img_y, 0);
-   if (!out) return stbi__errpuc("outofmem", "Out of memory");
-   if (info.bpp < 16) {
-      int z=0;
-      if (psize == 0 || psize > 256) { STBI_FREE(out); return stbi__errpuc("invalid", "Corrupt BMP"); }
-      for (i=0; i < psize; ++i) {
+   بهر = (stbi_uc *) stbi__malloc_mad3(موخه, s->img_x, s->img_y, 0);
+   إذا (!بهر) أرجع stbi__errpuc("outofmem", "Out of memory");
+   إذا (info.bpp < 16) {
+      صحيح z=0;
+      إذا (psize == 0 || psize > 256) { STBI_FREE(بهر); أرجع stbi__errpuc("invalid", "Corrupt BMP"); }
+      لكل (i=0; i < psize; ++i) {
          pal[i][2] = stbi__get8(s);
          pal[i][1] = stbi__get8(s);
          pal[i][0] = stbi__get8(s);
-         if (info.hsz != 12) stbi__get8(s);
+         إذا (info.hsz != 12) stbi__get8(s);
          pal[i][3] = 255;
       }
-      stbi__skip(s, info.offset - info.extra_read - info.hsz - psize * (info.hsz == 12 ? 3 : 4));
-      if (info.bpp == 1) width = (s->img_x + 7) >> 3;
-      else if (info.bpp == 4) width = (s->img_x + 1) >> 1;
-      else if (info.bpp == 8) width = s->img_x;
-      else { STBI_FREE(out); return stbi__errpuc("bad bpp", "Corrupt BMP"); }
-      pad = (-width)&3;
-      if (info.bpp == 1) {
-         for (j=0; j < (int) s->img_y; ++j) {
-            int bit_offset = 7, v = stbi__get8(s);
-            for (i=0; i < (int) s->img_x; ++i) {
-               int color = (v>>bit_offset)&0x1;
-               out[z++] = pal[color][0];
-               out[z++] = pal[color][1];
-               out[z++] = pal[color][2];
-               if (target == 4) out[z++] = 255;
-               if (i+1 == (int) s->img_x) break;
-               if((--bit_offset) < 0) {
-                  bit_offset = 7;
+      stbi__skip(s, info.دننه_واټن_2 - info.extra_read - info.hsz - psize * (info.hsz == 12 ? 3 : 4));
+      إذا (info.bpp == 1) پلنوالی = (s->img_x + 7) >> 3;
+      وإلا إذا (info.bpp == 4) پلنوالی = (s->img_x + 1) >> 1;
+      وإلا إذا (info.bpp == 8) پلنوالی = s->img_x;
+      وإلا { STBI_FREE(بهر); أرجع stbi__errpuc("bad bpp", "Corrupt BMP"); }
+      pad = (-پلنوالی)&3;
+      إذا (info.bpp == 1) {
+         لكل (j=0; j < (صحيح) s->img_y; ++j) {
+            صحيح بټ_دننه_واټن = 7, v = stbi__get8(s);
+            لكل (i=0; i < (صحيح) s->img_x; ++i) {
+               صحيح color = (v>>بټ_دننه_واټن)&0x1;
+               بهر[z++] = pal[color][0];
+               بهر[z++] = pal[color][1];
+               بهر[z++] = pal[color][2];
+               إذا (موخه == 4) بهر[z++] = 255;
+               إذا (i+1 == (صحيح) s->img_x) اكسر;
+               إذا((--بټ_دننه_واټن) < 0) {
+                  بټ_دننه_واټن = 7;
                   v = stbi__get8(s);
                }
             }
             stbi__skip(s, pad);
          }
-      } else {
-         for (j=0; j < (int) s->img_y; ++j) {
-            for (i=0; i < (int) s->img_x; i += 2) {
-               int v=stbi__get8(s),v2=0;
-               if (info.bpp == 4) {
+      } وإلا {
+         لكل (j=0; j < (صحيح) s->img_y; ++j) {
+            لكل (i=0; i < (صحيح) s->img_x; i += 2) {
+               صحيح v=stbi__get8(s),v2=0;
+               إذا (info.bpp == 4) {
                   v2 = v & 15;
                   v >>= 4;
                }
-               out[z++] = pal[v][0];
-               out[z++] = pal[v][1];
-               out[z++] = pal[v][2];
-               if (target == 4) out[z++] = 255;
-               if (i+1 == (int) s->img_x) break;
+               بهر[z++] = pal[v][0];
+               بهر[z++] = pal[v][1];
+               بهر[z++] = pal[v][2];
+               إذا (موخه == 4) بهر[z++] = 255;
+               إذا (i+1 == (صحيح) s->img_x) اكسر;
                v = (info.bpp == 8) ? stbi__get8(s) : v2;
-               out[z++] = pal[v][0];
-               out[z++] = pal[v][1];
-               out[z++] = pal[v][2];
-               if (target == 4) out[z++] = 255;
+               بهر[z++] = pal[v][0];
+               بهر[z++] = pal[v][1];
+               بهر[z++] = pal[v][2];
+               إذا (موخه == 4) بهر[z++] = 255;
             }
             stbi__skip(s, pad);
          }
       }
-   } else {
-      int rshift=0,gshift=0,bshift=0,ashift=0,rcount=0,gcount=0,bcount=0,acount=0;
-      int z = 0;
-      int easy=0;
-      stbi__skip(s, info.offset - info.extra_read - info.hsz);
-      if (info.bpp == 24) width = 3 * s->img_x;
-      else if (info.bpp == 16) width = 2*s->img_x;
-      else /* bpp = 32 and pad = 0 */ width=0;
-      pad = (-width) & 3;
-      if (info.bpp == 24) {
+   } وإلا {
+      صحيح rshift=0,gshift=0,bshift=0,ashift=0,rcount=0,gcount=0,bcount=0,acount=0;
+      صحيح z = 0;
+      صحيح easy=0;
+      stbi__skip(s, info.دننه_واټن_2 - info.extra_read - info.hsz);
+      إذا (info.bpp == 24) پلنوالی = 3 * s->img_x;
+      وإلا إذا (info.bpp == 16) پلنوالی = 2*s->img_x;
+      وإلا /* bpp = 32 and pad = 0 */ پلنوالی=0;
+      pad = (-پلنوالی) & 3;
+      إذا (info.bpp == 24) {
          easy = 1;
-      } else if (info.bpp == 32) {
-         if (mb == 0xff && mg == 0xff00 && mr == 0x00ff0000 && ma == 0xff000000)
+      } وإلا إذا (info.bpp == 32) {
+         إذا (mb == 0xff && mg == 0xff00 && mr == 0x00ff0000 && ma == 0xff000000)
             easy = 2;
       }
-      if (!easy) {
-         if (!mr || !mg || !mb) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+      إذا (!easy) {
+         إذا (!mr || !mg || !mb) { STBI_FREE(بهر); أرجع stbi__errpuc("bad masks", "Corrupt BMP"); }
          // right shift amt to put high bit in position #7
-         rshift = stbi__high_bit(mr)-7; rcount = stbi__bitcount(mr);
-         gshift = stbi__high_bit(mg)-7; gcount = stbi__bitcount(mg);
-         bshift = stbi__high_bit(mb)-7; bcount = stbi__bitcount(mb);
-         ashift = stbi__high_bit(ma)-7; acount = stbi__bitcount(ma);
-         if (rcount > 8 || gcount > 8 || bcount > 8 || acount > 8) { STBI_FREE(out); return stbi__errpuc("bad masks", "Corrupt BMP"); }
+         rshift = stbi_لوړ_بټ(mr)-7; rcount = stbi__bitcount(mr);
+         gshift = stbi_لوړ_بټ(mg)-7; gcount = stbi__bitcount(mg);
+         bshift = stbi_لوړ_بټ(mb)-7; bcount = stbi__bitcount(mb);
+         ashift = stbi_لوړ_بټ(ma)-7; acount = stbi__bitcount(ma);
+         إذا (rcount > 8 || gcount > 8 || bcount > 8 || acount > 8) { STBI_FREE(بهر); أرجع stbi__errpuc("bad masks", "Corrupt BMP"); }
       }
-      for (j=0; j < (int) s->img_y; ++j) {
-         if (easy) {
-            for (i=0; i < (int) s->img_x; ++i) {
-               unsigned char a;
-               out[z+2] = stbi__get8(s);
-               out[z+1] = stbi__get8(s);
-               out[z+0] = stbi__get8(s);
+      لكل (j=0; j < (صحيح) s->img_y; ++j) {
+         إذا (easy) {
+            لكل (i=0; i < (صحيح) s->img_x; ++i) {
+               بینښه حرف a;
+               بهر[z+2] = stbi__get8(s);
+               بهر[z+1] = stbi__get8(s);
+               بهر[z+0] = stbi__get8(s);
                z += 3;
                a = (easy == 2 ? stbi__get8(s) : 255);
                all_a |= a;
-               if (target == 4) out[z++] = a;
+               إذا (موخه == 4) بهر[z++] = a;
             }
-         } else {
-            int bpp = info.bpp;
-            for (i=0; i < (int) s->img_x; ++i) {
+         } وإلا {
+            صحيح bpp = info.bpp;
+            لكل (i=0; i < (صحيح) s->img_x; ++i) {
                stbi__uint32 v = (bpp == 16 ? (stbi__uint32) stbi__get16le(s) : stbi__get32le(s));
-               unsigned int a;
-               out[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mr, rshift, rcount));
-               out[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mg, gshift, gcount));
-               out[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mb, bshift, bcount));
+               بینښه صحيح a;
+               بهر[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mr, rshift, rcount));
+               بهر[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mg, gshift, gcount));
+               بهر[z++] = STBI__BYTECAST(stbi__shiftsigned(v & mb, bshift, bcount));
                a = (ma ? stbi__shiftsigned(v & ma, ashift, acount) : 255);
                all_a |= a;
-               if (target == 4) out[z++] = STBI__BYTECAST(a);
+               إذا (موخه == 4) بهر[z++] = STBI__BYTECAST(a);
             }
          }
          stbi__skip(s, pad);
@@ -5971,162 +5971,162 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
    }
 
    // if alpha channel is all 0s, replace with all 255s
-   if (target == 4 && all_a == 0)
-      for (i=4*s->img_x*s->img_y-1; i >= 0; i -= 4)
-         out[i] = 255;
+   إذا (موخه == 4 && all_a == 0)
+      لكل (i=4*s->img_x*s->img_y-1; i >= 0; i -= 4)
+         بهر[i] = 255;
 
-   if (flip_vertically) {
+   إذا (flip_vertically) {
       stbi_uc t;
-      for (j=0; j < (int) s->img_y>>1; ++j) {
-         stbi_uc *p1 = out +      j     *s->img_x*target;
-         stbi_uc *p2 = out + (s->img_y-1-j)*s->img_x*target;
-         for (i=0; i < (int) s->img_x*target; ++i) {
+      لكل (j=0; j < (صحيح) s->img_y>>1; ++j) {
+         stbi_uc *p1 = بهر +      j     *s->img_x*موخه;
+         stbi_uc *p2 = بهر + (s->img_y-1-j)*s->img_x*موخه;
+         لكل (i=0; i < (صحيح) s->img_x*موخه; ++i) {
             t = p1[i]; p1[i] = p2[i]; p2[i] = t;
          }
       }
    }
 
-   if (req_comp && req_comp != target) {
-      out = stbi__convert_format(out, target, req_comp, s->img_x, s->img_y);
-      if (out == NULL) return out; // stbi__convert_format frees input on failure
+   إذا (req_comp && req_comp != موخه) {
+      بهر = stbi__convert_format(بهر, موخه, req_comp, s->img_x, s->img_y);
+      إذا (بهر == عدم) أرجع بهر; // stbi__convert_format frees input on failure
    }
 
    *x = s->img_x;
    *y = s->img_y;
-   if (comp) *comp = s->img_n;
-   return out;
+   إذا (comp) *comp = s->img_n;
+   أرجع بهر;
 }
-#endif
+#د_که_پای
 
 // Targa Truevision - TGA
 // by Jonathan Dummer
-#ifndef STBI_NO_TGA
+#که_نه_تعریف_شوی STBI_NO_TGA
 // returns STBI_rgb or whatever, 0 on error
-static int stbi__tga_get_comp(int bits_per_pixel, int is_grey, int* is_rgb16)
+ساكن صحيح stbi__tga_get_comp(صحيح بټونه_فی_pixel, صحيح is_grey, صحيح* is_rgb16)
 {
    // only RGB or RGBA (incl. 16bit) or grey allowed
-   if (is_rgb16) *is_rgb16 = 0;
-   switch(bits_per_pixel) {
-      case 8:  return STBI_grey;
-      case 16: if(is_grey) return STBI_grey_alpha;
+   إذا (is_rgb16) *is_rgb16 = 0;
+   بدل(بټونه_فی_pixel) {
+      حالة 8:  أرجع STBI_grey;
+      حالة 16: إذا(is_grey) أرجع STBI_grey_alpha;
                // fallthrough
-      case 15: if(is_rgb16) *is_rgb16 = 1;
-               return STBI_rgb;
-      case 24: // fallthrough
-      case 32: return bits_per_pixel/8;
-      default: return 0;
+      حالة 15: إذا(is_rgb16) *is_rgb16 = 1;
+               أرجع STBI_rgb;
+      حالة 24: // fallthrough
+      حالة 32: أرجع بټونه_فی_pixel/8;
+      افتراضي: أرجع 0;
    }
 }
 
-static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__tga_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-    int tga_w, tga_h, tga_comp, tga_image_type, tga_bits_per_pixel, tga_colormap_bpp;
-    int sz, tga_colormap_type;
+    صحيح tga_w, tga_h, tga_comp, tga_image_type, tga_بټونه_فی_pixel, tga_colormap_bpp;
+    صحيح sz, tga_colormap_type;
     stbi__get8(s);                   // discard Offset
     tga_colormap_type = stbi__get8(s); // colormap type
-    if( tga_colormap_type > 1 ) {
+    إذا( tga_colormap_type > 1 ) {
         stbi__rewind(s);
-        return 0;      // only RGB or indexed allowed
+        أرجع 0;      // only RGB or indexed allowed
     }
     tga_image_type = stbi__get8(s); // image type
-    if ( tga_colormap_type == 1 ) { // colormapped (paletted) image
-        if (tga_image_type != 1 && tga_image_type != 9) {
+    إذا ( tga_colormap_type == 1 ) { // colormapped (paletted) image
+        إذا (tga_image_type != 1 && tga_image_type != 9) {
             stbi__rewind(s);
-            return 0;
+            أرجع 0;
         }
         stbi__skip(s,4);       // skip index of first colormap entry and number of entries
         sz = stbi__get8(s);    //   check bits per palette color entry
-        if ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) {
+        إذا ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) {
             stbi__rewind(s);
-            return 0;
+            أرجع 0;
         }
         stbi__skip(s,4);       // skip image x and y origin
         tga_colormap_bpp = sz;
-    } else { // "normal" image w/o colormap - only RGB or grey allowed, +/- RLE
-        if ( (tga_image_type != 2) && (tga_image_type != 3) && (tga_image_type != 10) && (tga_image_type != 11) ) {
+    } وإلا { // "normal" image w/o colormap - only RGB or grey allowed, +/- RLE
+        إذا ( (tga_image_type != 2) && (tga_image_type != 3) && (tga_image_type != 10) && (tga_image_type != 11) ) {
             stbi__rewind(s);
-            return 0; // only RGB or grey allowed, +/- RLE
+            أرجع 0; // only RGB or grey allowed, +/- RLE
         }
         stbi__skip(s,9); // skip colormap specification and image x/y origin
         tga_colormap_bpp = 0;
     }
     tga_w = stbi__get16le(s);
-    if( tga_w < 1 ) {
+    إذا( tga_w < 1 ) {
         stbi__rewind(s);
-        return 0;   // test width
+        أرجع 0;   // test width
     }
     tga_h = stbi__get16le(s);
-    if( tga_h < 1 ) {
+    إذا( tga_h < 1 ) {
         stbi__rewind(s);
-        return 0;   // test height
+        أرجع 0;   // test height
     }
-    tga_bits_per_pixel = stbi__get8(s); // bits per pixel
+    tga_بټونه_فی_pixel = stbi__get8(s); // bits per pixel
     stbi__get8(s); // ignore alpha bits
-    if (tga_colormap_bpp != 0) {
-        if((tga_bits_per_pixel != 8) && (tga_bits_per_pixel != 16)) {
+    إذا (tga_colormap_bpp != 0) {
+        إذا((tga_بټونه_فی_pixel != 8) && (tga_بټونه_فی_pixel != 16)) {
             // when using a colormap, tga_bits_per_pixel is the size of the indexes
             // I don't think anything but 8 or 16bit indexes makes sense
             stbi__rewind(s);
-            return 0;
+            أرجع 0;
         }
-        tga_comp = stbi__tga_get_comp(tga_colormap_bpp, 0, NULL);
-    } else {
-        tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_image_type == 3) || (tga_image_type == 11), NULL);
+        tga_comp = stbi__tga_get_comp(tga_colormap_bpp, 0, عدم);
+    } وإلا {
+        tga_comp = stbi__tga_get_comp(tga_بټونه_فی_pixel, (tga_image_type == 3) || (tga_image_type == 11), عدم);
     }
-    if(!tga_comp) {
+    إذا(!tga_comp) {
       stbi__rewind(s);
-      return 0;
+      أرجع 0;
     }
-    if (x) *x = tga_w;
-    if (y) *y = tga_h;
-    if (comp) *comp = tga_comp;
-    return 1;                   // seems to have passed everything
+    إذا (x) *x = tga_w;
+    إذا (y) *y = tga_h;
+    إذا (comp) *comp = tga_comp;
+    أرجع 1;                   // seems to have passed everything
 }
 
-static int stbi__tga_test(stbi__context *s)
+ساكن صحيح stbi__tga_test(stbi__context *s)
 {
-   int res = 0;
-   int sz, tga_color_type;
+   صحيح res = 0;
+   صحيح sz, tga_color_type;
    stbi__get8(s);      //   discard Offset
    tga_color_type = stbi__get8(s);   //   color type
-   if ( tga_color_type > 1 ) goto errorEnd;   //   only RGB or indexed allowed
+   إذا ( tga_color_type > 1 ) اذهب error_پای_ټکی;   //   only RGB or indexed allowed
    sz = stbi__get8(s);   //   image type
-   if ( tga_color_type == 1 ) { // colormapped (paletted) image
-      if (sz != 1 && sz != 9) goto errorEnd; // colortype 1 demands image type 1 or 9
+   إذا ( tga_color_type == 1 ) { // colormapped (paletted) image
+      إذا (sz != 1 && sz != 9) اذهب error_پای_ټکی; // colortype 1 demands image type 1 or 9
       stbi__skip(s,4);       // skip index of first colormap entry and number of entries
       sz = stbi__get8(s);    //   check bits per palette color entry
-      if ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) goto errorEnd;
+      إذا ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) اذهب error_پای_ټکی;
       stbi__skip(s,4);       // skip image x and y origin
-   } else { // "normal" image w/o colormap
-      if ( (sz != 2) && (sz != 3) && (sz != 10) && (sz != 11) ) goto errorEnd; // only RGB or grey allowed, +/- RLE
+   } وإلا { // "normal" image w/o colormap
+      إذا ( (sz != 2) && (sz != 3) && (sz != 10) && (sz != 11) ) اذهب error_پای_ټکی; // only RGB or grey allowed, +/- RLE
       stbi__skip(s,9); // skip colormap specification and image x/y origin
    }
-   if ( stbi__get16le(s) < 1 ) goto errorEnd;      //   test width
-   if ( stbi__get16le(s) < 1 ) goto errorEnd;      //   test height
+   إذا ( stbi__get16le(s) < 1 ) اذهب error_پای_ټکی;      //   test width
+   إذا ( stbi__get16le(s) < 1 ) اذهب error_پای_ټکی;      //   test height
    sz = stbi__get8(s);   //   bits per pixel
-   if ( (tga_color_type == 1) && (sz != 8) && (sz != 16) ) goto errorEnd; // for colormapped images, bpp is size of an index
-   if ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) goto errorEnd;
+   إذا ( (tga_color_type == 1) && (sz != 8) && (sz != 16) ) اذهب error_پای_ټکی; // for colormapped images, bpp is size of an index
+   إذا ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) اذهب error_پای_ټکی;
 
    res = 1; // if we got this far, everything's good and we can return 1 instead of 0
 
-errorEnd:
+error_پای_ټکی:
    stbi__rewind(s);
-   return res;
+   أرجع res;
 }
 
 // read 16bit value and convert to 24bit RGB
-static void stbi__tga_read_rgb16(stbi__context *s, stbi_uc* out)
+ساكن فراغ stbi__tga_read_rgb16(stbi__context *s, stbi_uc* بهر)
 {
    stbi__uint16 px = (stbi__uint16)stbi__get16le(s);
-   stbi__uint16 fiveBitMask = 31;
+   stbi__uint16 five_بټ_ماسک = 31;
    // we have 3 channels with 5bits each
-   int r = (px >> 10) & fiveBitMask;
-   int g = (px >> 5) & fiveBitMask;
-   int b = px & fiveBitMask;
+   صحيح r = (px >> 10) & five_بټ_ماسک;
+   صحيح g = (px >> 5) & five_بټ_ماسک;
+   صحيح b = px & five_بټ_ماسک;
    // Note that this saves the data in RGB(A) order, so it doesn't need to be swapped later
-   out[0] = (stbi_uc)((r * 255)/31);
-   out[1] = (stbi_uc)((g * 255)/31);
-   out[2] = (stbi_uc)((b * 255)/31);
+   بهر[0] = (stbi_uc)((r * 255)/31);
+   بهر[1] = (stbi_uc)((g * 255)/31);
+   بهر[2] = (stbi_uc)((b * 255)/31);
 
    // some people claim that the most significant bit might be used for alpha
    // (possibly if an alpha-bit is set in the "image descriptor byte")
@@ -6134,41 +6134,41 @@ static void stbi__tga_read_rgb16(stbi__context *s, stbi_uc* out)
    // so let's treat all 15 and 16bit TGAs as RGB with no alpha.
 }
 
-static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, unsigned int *palette_buffer, int palette_buffer_len, stbi__result_info *ri)
+ساكن فراغ *stbi_tga_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, بینښه صحيح *palette_بفر, صحيح palette_بفر_len, stbi_پایله_info *ri)
 {
    //   read in the TGA header stuff
-   int tga_offset = stbi__get8(s);
-   int tga_indexed = stbi__get8(s);
-   int tga_image_type = stbi__get8(s);
-   int tga_is_RLE = 0;
-   int tga_palette_start = stbi__get16le(s);
-   int tga_palette_len = stbi__get16le(s);
-   int tga_palette_bits = stbi__get8(s);
-   int tga_x_origin = stbi__get16le(s);
-   int tga_y_origin = stbi__get16le(s);
-   int tga_width = stbi__get16le(s);
-   int tga_height = stbi__get16le(s);
-   int tga_bits_per_pixel = stbi__get8(s);
-   int tga_comp, tga_rgb16=0;
-   int tga_inverted = stbi__get8(s);
+   صحيح tga_دننه_واټن = stbi__get8(s);
+   صحيح tga_شاخصي = stbi__get8(s);
+   صحيح tga_image_type = stbi__get8(s);
+   صحيح tga_is_RLE = 0;
+   صحيح tga_palette_پیل = stbi__get16le(s);
+   صحيح tga_palette_len = stbi__get16le(s);
+   صحيح tga_palette_بټونه = stbi__get8(s);
+   صحيح tga_x_origin = stbi__get16le(s);
+   صحيح tga_y_origin = stbi__get16le(s);
+   صحيح tga_پلنوالی = stbi__get16le(s);
+   صحيح tga_لوړوالی = stbi__get16le(s);
+   صحيح tga_بټونه_فی_pixel = stbi__get8(s);
+   صحيح tga_comp, tga_rgb16=0;
+   صحيح tga_inverted = stbi__get8(s);
    // int tga_alpha_bits = tga_inverted & 15; // the 4 lowest bits - unused (useless?)
    //   image data
-   unsigned char *tga_data;
-   unsigned char *tga_palette = NULL;
-   int i, j;
-   unsigned char raw_data[4] = {0};
-   int RLE_count = 0;
-   int RLE_repeating = 0;
-   int read_next_pixel = 1;
+   بینښه حرف *tga_معلومات;
+   بینښه حرف *tga_palette = عدم;
+   صحيح i, j;
+   بینښه حرف raw_معلومات[4] = {0};
+   صحيح RLE_شمېر = 0;
+   صحيح RLE_repeating = 0;
+   صحيح read_بل_pixel = 1;
    STBI_NOTUSED(ri);
    STBI_NOTUSED(tga_x_origin); // @TODO
    STBI_NOTUSED(tga_y_origin); // @TODO
 
-   if (tga_height > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-   if (tga_width > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (tga_لوړوالی > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (tga_پلنوالی > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
 
    //   do a tiny bit of precessing
-   if ( tga_image_type >= 8 )
+   إذا ( tga_image_type >= 8 )
    {
       tga_image_type -= 8;
       tga_is_RLE = 1;
@@ -6176,218 +6176,218 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
    tga_inverted = 1 - ((tga_inverted >> 5) & 1);
 
    //   If I'm paletted, then I'll use the number of bits from the palette
-   if ( tga_indexed ) tga_comp = stbi__tga_get_comp(tga_palette_bits, 0, &tga_rgb16);
-   else tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_image_type == 3), &tga_rgb16);
+   إذا ( tga_شاخصي ) tga_comp = stbi__tga_get_comp(tga_palette_بټونه, 0, &tga_rgb16);
+   وإلا tga_comp = stbi__tga_get_comp(tga_بټونه_فی_pixel, (tga_image_type == 3), &tga_rgb16);
 
-   if(!tga_comp) // shouldn't really happen, stbi__tga_test() should have ensured basic consistency
-      return stbi__errpuc("bad format", "Can't find out TGA pixelformat");
+   إذا(!tga_comp) // shouldn't really happen, stbi__tga_test() should have ensured basic consistency
+      أرجع stbi__errpuc("bad format", "Can't find out TGA pixelformat");
 
    //   tga info
-   *x = tga_width;
-   *y = tga_height;
-   if (comp) *comp = tga_comp;
+   *x = tga_پلنوالی;
+   *y = tga_لوړوالی;
+   إذا (comp) *comp = tga_comp;
 
-   if (!stbi__mad3sizes_valid(tga_width, tga_height, tga_comp, 0))
-      return stbi__errpuc("too large", "Corrupt TGA");
+   إذا (!stbi__mad3sizes_valid(tga_پلنوالی, tga_لوړوالی, tga_comp, 0))
+      أرجع stbi__errpuc("too large", "Corrupt TGA");
 
-   tga_data = (unsigned char*)stbi__malloc_mad3(tga_width, tga_height, tga_comp, 0);
-   if (!tga_data) return stbi__errpuc("outofmem", "Out of memory");
+   tga_معلومات = (بینښه حرف*)stbi__malloc_mad3(tga_پلنوالی, tga_لوړوالی, tga_comp, 0);
+   إذا (!tga_معلومات) أرجع stbi__errpuc("outofmem", "Out of memory");
 
    // skip to the data's starting position (offset usually = 0)
-   stbi__skip(s, tga_offset );
+   stbi__skip(s, tga_دننه_واټن );
 
-   if ( !tga_indexed && !tga_is_RLE && !tga_rgb16 ) {
-      for (i=0; i < tga_height; ++i) {
-         int row = tga_inverted ? tga_height -i - 1 : i;
-         stbi_uc *tga_row = tga_data + row*tga_width*tga_comp;
-         stbi__getn(s, tga_row, tga_width * tga_comp);
+   إذا ( !tga_شاخصي && !tga_is_RLE && !tga_rgb16 ) {
+      لكل (i=0; i < tga_لوړوالی; ++i) {
+         صحيح لیکه = tga_inverted ? tga_لوړوالی -i - 1 : i;
+         stbi_uc *tga_لیکه = tga_معلومات + لیکه*tga_پلنوالی*tga_comp;
+         stbi__getn(s, tga_لیکه, tga_پلنوالی * tga_comp);
       }
-   } else  {
+   } وإلا  {
       //   do I need to load a palette?
-      if ( tga_indexed)
+      إذا ( tga_شاخصي)
       {
-         if (tga_palette_len == 0) {  /* you have to have at least one entry! */
-            STBI_FREE(tga_data);
-            return stbi__errpuc("bad palette", "Corrupt TGA");
+         إذا (tga_palette_len == 0) {  /* you have to have at least one entry! */
+            STBI_FREE(tga_معلومات);
+            أرجع stbi__errpuc("bad palette", "Corrupt TGA");
          }
 
          //   any data to skip? (offset usually = 0)
-         stbi__skip(s, tga_palette_start );
+         stbi__skip(s, tga_palette_پیل );
          //   load the palette
-         if (palette_buffer) {
-            if (palette_buffer_len < tga_palette_len * tga_comp) {
-               STBI_FREE(tga_data);
-               return stbi__errpuc("buffer too small", "Palette buffer too small");
+         إذا (palette_بفر) {
+            إذا (palette_بفر_len < tga_palette_len * tga_comp) {
+               STBI_FREE(tga_معلومات);
+               أرجع stbi__errpuc("buffer too small", "Palette buffer too small");
             }
-            tga_palette = (unsigned char*)(void*)palette_buffer;
-         } else {
-            tga_palette = (unsigned char*)stbi__malloc_mad2(tga_palette_len, tga_comp, 0);
-            if (!tga_palette) {
-               STBI_FREE(tga_data);
-               return stbi__errpuc("outofmem", "Out of memory");
+            tga_palette = (بینښه حرف*)(فراغ*)palette_بفر;
+         } وإلا {
+            tga_palette = (بینښه حرف*)stbi__malloc_mad2(tga_palette_len, tga_comp, 0);
+            إذا (!tga_palette) {
+               STBI_FREE(tga_معلومات);
+               أرجع stbi__errpuc("outofmem", "Out of memory");
             }
          }
-         if (tga_rgb16) {
-            stbi_uc *pal_entry = tga_palette;
+         إذا (tga_rgb16) {
+            stbi_uc *pal_ثبت = tga_palette;
             STBI_ASSERT(tga_comp == STBI_rgb);
-            for (i=0; i < tga_palette_len; ++i) {
-               stbi__tga_read_rgb16(s, pal_entry);
-               pal_entry += tga_comp;
+            لكل (i=0; i < tga_palette_len; ++i) {
+               stbi__tga_read_rgb16(s, pal_ثبت);
+               pal_ثبت += tga_comp;
             }
-         } else if (!stbi__getn(s, tga_palette, tga_palette_len * tga_comp)) {
-               STBI_FREE(tga_data);
-               if (!palette_buffer)
+         } وإلا إذا (!stbi__getn(s, tga_palette, tga_palette_len * tga_comp)) {
+               STBI_FREE(tga_معلومات);
+               إذا (!palette_بفر)
                   STBI_FREE(tga_palette);
-               return stbi__errpuc("bad palette", "Corrupt TGA");
+               أرجع stbi__errpuc("bad palette", "Corrupt TGA");
          }
       }
       //   load the data
-      for (i=0; i < tga_width * tga_height; ++i)
+      لكل (i=0; i < tga_پلنوالی * tga_لوړوالی; ++i)
       {
          //   if I'm in RLE mode, do I need to get a RLE stbi__pngchunk?
-         if ( tga_is_RLE )
+         إذا ( tga_is_RLE )
          {
-            if ( RLE_count == 0 )
+            إذا ( RLE_شمېر == 0 )
             {
                //   yep, get the next byte as a RLE command
-               int RLE_cmd = stbi__get8(s);
-               RLE_count = 1 + (RLE_cmd & 127);
+               صحيح RLE_cmd = stbi__get8(s);
+               RLE_شمېر = 1 + (RLE_cmd & 127);
                RLE_repeating = RLE_cmd >> 7;
-               read_next_pixel = 1;
-            } else if ( !RLE_repeating )
+               read_بل_pixel = 1;
+            } وإلا إذا ( !RLE_repeating )
             {
-               read_next_pixel = 1;
+               read_بل_pixel = 1;
             }
-         } else
+         } وإلا
          {
-            read_next_pixel = 1;
+            read_بل_pixel = 1;
          }
          //   OK, if I need to read a pixel, do it now
-         if ( read_next_pixel )
+         إذا ( read_بل_pixel )
          {
             //   load however much data we did have
-            if ( tga_indexed && !palette_buffer )
+            إذا ( tga_شاخصي && !palette_بفر )
             {
                // read in index, then perform the lookup
-               int pal_idx = (tga_bits_per_pixel == 8) ? stbi__get8(s) : stbi__get16le(s);
-               if ( pal_idx >= tga_palette_len ) {
+               صحيح pal_idx = (tga_بټونه_فی_pixel == 8) ? stbi__get8(s) : stbi__get16le(s);
+               إذا ( pal_idx >= tga_palette_len ) {
                   // invalid index
                   pal_idx = 0;
                }
                pal_idx *= tga_comp;
-               for (j = 0; j < tga_comp; ++j) {
-                  raw_data[j] = tga_palette[pal_idx+j];
+               لكل (j = 0; j < tga_comp; ++j) {
+                  raw_معلومات[j] = tga_palette[pal_idx+j];
                }
-            } else if(tga_rgb16) {
+            } وإلا إذا(tga_rgb16) {
                STBI_ASSERT(tga_comp == STBI_rgb);
-               stbi__tga_read_rgb16(s, raw_data);
-            } else {
+               stbi__tga_read_rgb16(s, raw_معلومات);
+            } وإلا {
                //   read in the data raw
-               for (j = 0; j < tga_comp; ++j) {
-                  raw_data[j] = stbi__get8(s);
+               لكل (j = 0; j < tga_comp; ++j) {
+                  raw_معلومات[j] = stbi__get8(s);
                }
             }
             //   clear the reading flag for the next pixel
-            read_next_pixel = 0;
+            read_بل_pixel = 0;
          } // end of reading a pixel
 
          // copy data
-         for (j = 0; j < tga_comp; ++j)
-           tga_data[i*tga_comp+j] = raw_data[j];
+         لكل (j = 0; j < tga_comp; ++j)
+           tga_معلومات[i*tga_comp+j] = raw_معلومات[j];
 
          //   in case we're in RLE mode, keep counting down
-         --RLE_count;
+         --RLE_شمېر;
       }
       //   do I need to invert the image?
-      if ( tga_inverted )
+      إذا ( tga_inverted )
       {
-         for (j = 0; j*2 < tga_height; ++j)
+         لكل (j = 0; j*2 < tga_لوړوالی; ++j)
          {
-            int index1 = j * tga_width * tga_comp;
-            int index2 = (tga_height - 1 - j) * tga_width * tga_comp;
-            for (i = tga_width * tga_comp; i > 0; --i)
+            صحيح index1 = j * tga_پلنوالی * tga_comp;
+            صحيح index2 = (tga_لوړوالی - 1 - j) * tga_پلنوالی * tga_comp;
+            لكل (i = tga_پلنوالی * tga_comp; i > 0; --i)
             {
-               unsigned char temp = tga_data[index1];
-               tga_data[index1] = tga_data[index2];
-               tga_data[index2] = temp;
+               بینښه حرف لنډمهاله = tga_معلومات[index1];
+               tga_معلومات[index1] = tga_معلومات[index2];
+               tga_معلومات[index2] = لنډمهاله;
                ++index1;
                ++index2;
             }
          }
       }
       //   clear my palette, if I had one
-      if ( tga_palette != NULL && !palette_buffer )
+      إذا ( tga_palette != عدم && !palette_بفر )
       {
          STBI_FREE( tga_palette );
       }
    }
 
    // swap RGB - if the source data was RGB16, it already is in the right order
-   if (tga_comp >= 3 && !tga_rgb16)
+   إذا (tga_comp >= 3 && !tga_rgb16)
    {
-      unsigned char* tga_pixel = tga_data;
-      for (i=0; i < tga_width * tga_height; ++i)
+      بینښه حرف* tga_pixel = tga_معلومات;
+      لكل (i=0; i < tga_پلنوالی * tga_لوړوالی; ++i)
       {
-         unsigned char temp = tga_pixel[0];
+         بینښه حرف لنډمهاله = tga_pixel[0];
          tga_pixel[0] = tga_pixel[2];
-         tga_pixel[2] = temp;
+         tga_pixel[2] = لنډمهاله;
          tga_pixel += tga_comp;
       }
    }
 
    // convert to target component count
-   if (req_comp && req_comp != tga_comp)
-      tga_data = stbi__convert_format(tga_data, tga_comp, req_comp, tga_width, tga_height);
+   إذا (req_comp && req_comp != tga_comp)
+      tga_معلومات = stbi__convert_format(tga_معلومات, tga_comp, req_comp, tga_پلنوالی, tga_لوړوالی);
 
    //   the things I do to get rid of an error message, and yet keep
    //   Microsoft's C compilers happy... [8^(
-   tga_palette_start = tga_palette_len = tga_palette_bits =
+   tga_palette_پیل = tga_palette_len = tga_palette_بټونه =
          tga_x_origin = tga_y_origin = 0;
-   STBI_NOTUSED(tga_palette_start);
+   STBI_NOTUSED(tga_palette_پیل);
    //   OK, done
-   return tga_data;
+   أرجع tga_معلومات;
 }
-#endif
+#د_که_پای
 
 // *************************************************************************************************
 // Photoshop PSD loader -- PD by Thatcher Ulrich, integration by Nicolas Schulz, tweaked by STB
 
-#ifndef STBI_NO_PSD
-static int stbi__psd_test(stbi__context *s)
+#که_نه_تعریف_شوی STBI_NO_PSD
+ساكن صحيح stbi__psd_test(stbi__context *s)
 {
-   int r = (stbi__get32be(s) == 0x38425053);
+   صحيح r = (stbi__get32be(s) == 0x38425053);
    stbi__rewind(s);
-   return r;
+   أرجع r;
 }
 
-static int stbi__psd_decode_rle(stbi__context *s, stbi_uc *p, int pixelCount)
+ساكن صحيح stbi__psd_decode_rle(stbi__context *s, stbi_uc *p, صحيح pixel_شمېر_2)
 {
-   int count, nleft, len;
+   صحيح شمېر, nleft, len;
 
-   count = 0;
-   while ((nleft = pixelCount - count) > 0) {
+   شمېر = 0;
+   طالما ((nleft = pixel_شمېر_2 - شمېر) > 0) {
       len = stbi__get8(s);
-      if (len == 128) {
+      إذا (len == 128) {
          // No-op.
-      } else if (len < 128) {
+      } وإلا إذا (len < 128) {
          // Copy next len+1 bytes literally.
          len++;
-         if (len > nleft) return 0; // corrupt data
-         count += len;
-         while (len) {
+         إذا (len > nleft) أرجع 0; // corrupt data
+         شمېر += len;
+         طالما (len) {
             *p = stbi__get8(s);
             p += 4;
             len--;
          }
-      } else if (len > 128) {
+      } وإلا إذا (len > 128) {
          stbi_uc   val;
          // Next -len+1 bytes in the dest are replicated from next source byte.
          // (Interpret len as a negative 8-bit int.)
          len = 257 - len;
-         if (len > nleft) return 0; // corrupt data
+         إذا (len > nleft) أرجع 0; // corrupt data
          val = stbi__get8(s);
-         count += len;
-         while (len) {
+         شمېر += len;
+         طالما (len) {
             *p = val;
             p += 4;
             len--;
@@ -6395,46 +6395,46 @@ static int stbi__psd_decode_rle(stbi__context *s, stbi_uc *p, int pixelCount)
       }
    }
 
-   return 1;
+   أرجع 1;
 }
 
-static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri, int bpc)
+ساكن فراغ *stbi_psd_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri, صحيح bpc)
 {
-   int pixelCount;
-   int channelCount, compression;
-   int channel, i;
-   int bitdepth;
-   int w,h;
-   stbi_uc *out;
+   صحيح pixel_شمېر_2;
+   صحيح channel_شمېر, compression;
+   صحيح channel, i;
+   صحيح bitdepth;
+   صحيح w,h;
+   stbi_uc *بهر;
    STBI_NOTUSED(ri);
 
    // Check identifier
-   if (stbi__get32be(s) != 0x38425053)   // "8BPS"
-      return stbi__errpuc("not PSD", "Corrupt PSD image");
+   إذا (stbi__get32be(s) != 0x38425053)   // "8BPS"
+      أرجع stbi__errpuc("not PSD", "Corrupt PSD image");
 
    // Check file type version.
-   if (stbi__get16be(s) != 1)
-      return stbi__errpuc("wrong version", "Unsupported version of PSD image");
+   إذا (stbi__get16be(s) != 1)
+      أرجع stbi__errpuc("wrong version", "Unsupported version of PSD image");
 
    // Skip 6 reserved bytes.
    stbi__skip(s, 6 );
 
    // Read the number of channels (R, G, B, A, etc).
-   channelCount = stbi__get16be(s);
-   if (channelCount < 0 || channelCount > 16)
-      return stbi__errpuc("wrong channel count", "Unsupported number of channels in PSD image");
+   channel_شمېر = stbi__get16be(s);
+   إذا (channel_شمېر < 0 || channel_شمېر > 16)
+      أرجع stbi__errpuc("wrong channel count", "Unsupported number of channels in PSD image");
 
    // Read the rows and columns of the image.
    h = stbi__get32be(s);
    w = stbi__get32be(s);
 
-   if (h > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-   if (w > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (h > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (w > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
 
    // Make sure the depth is 8 bits.
    bitdepth = stbi__get16be(s);
-   if (bitdepth != 8 && bitdepth != 16)
-      return stbi__errpuc("unsupported bit depth", "PSD bit depth is not 8 or 16 bit");
+   إذا (bitdepth != 8 && bitdepth != 16)
+      أرجع stbi__errpuc("unsupported bit depth", "PSD bit depth is not 8 or 16 bit");
 
    // Make sure the color mode is RGB.
    // Valid options are:
@@ -6446,8 +6446,8 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
    //   7: Multichannel
    //   8: Duotone
    //   9: Lab color
-   if (stbi__get16be(s) != 3)
-      return stbi__errpuc("wrong color format", "PSD is not in RGB color format");
+   إذا (stbi__get16be(s) != 3)
+      أرجع stbi__errpuc("wrong color format", "PSD is not in RGB color format");
 
    // Skip the Mode Data.  (It's the palette for indexed color; other info for other modes.)
    stbi__skip(s,stbi__get32be(s) );
@@ -6463,29 +6463,29 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
    //   0: no compression
    //   1: RLE compressed
    compression = stbi__get16be(s);
-   if (compression > 1)
-      return stbi__errpuc("bad compression", "PSD has an unknown compression format");
+   إذا (compression > 1)
+      أرجع stbi__errpuc("bad compression", "PSD has an unknown compression format");
 
    // Check size
-   if (!stbi__mad3sizes_valid(4, w, h, 0))
-      return stbi__errpuc("too large", "Corrupt PSD");
+   إذا (!stbi__mad3sizes_valid(4, w, h, 0))
+      أرجع stbi__errpuc("too large", "Corrupt PSD");
 
    // Create the destination image.
 
-   if (!compression && bitdepth == 16 && bpc == 16) {
-      out = (stbi_uc *) stbi__malloc_mad3(8, w, h, 0);
-      ri->bits_per_channel = 16;
-   } else
-      out = (stbi_uc *) stbi__malloc(4 * w*h);
+   إذا (!compression && bitdepth == 16 && bpc == 16) {
+      بهر = (stbi_uc *) stbi__malloc_mad3(8, w, h, 0);
+      ri->بټونه_فی_channel = 16;
+   } وإلا
+      بهر = (stbi_uc *) stbi__malloc(4 * w*h);
 
-   if (!out) return stbi__errpuc("outofmem", "Out of memory");
-   pixelCount = w*h;
+   إذا (!بهر) أرجع stbi__errpuc("outofmem", "Out of memory");
+   pixel_شمېر_2 = w*h;
 
    // Initialize the data to zero.
    //memset( out, 0, pixelCount * 4 );
 
    // Finally, the image data.
-   if (compression) {
+   إذا (compression) {
       // RLE as used by .PSD and .TIFF
       // Loop until you get the number of unpacked bytes you are expecting:
       //     Read the next source byte into n.
@@ -6496,57 +6496,57 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
 
       // The RLE-compressed data is preceded by a 2-byte data count for each row in the data,
       // which we're going to just skip.
-      stbi__skip(s, h * channelCount * 2 );
+      stbi__skip(s, h * channel_شمېر * 2 );
 
       // Read the RLE data by channel.
-      for (channel = 0; channel < 4; channel++) {
+      لكل (channel = 0; channel < 4; channel++) {
          stbi_uc *p;
 
-         p = out+channel;
-         if (channel >= channelCount) {
+         p = بهر+channel;
+         إذا (channel >= channel_شمېر) {
             // Fill this channel with default data.
-            for (i = 0; i < pixelCount; i++, p += 4)
+            لكل (i = 0; i < pixel_شمېر_2; i++, p += 4)
                *p = (channel == 3 ? 255 : 0);
-         } else {
+         } وإلا {
             // Read the RLE data.
-            if (!stbi__psd_decode_rle(s, p, pixelCount)) {
-               STBI_FREE(out);
-               return stbi__errpuc("corrupt", "bad RLE data");
+            إذا (!stbi__psd_decode_rle(s, p, pixel_شمېر_2)) {
+               STBI_FREE(بهر);
+               أرجع stbi__errpuc("corrupt", "bad RLE data");
             }
          }
       }
 
-   } else {
+   } وإلا {
       // We're at the raw image data.  It's each channel in order (Red, Green, Blue, Alpha, ...)
       // where each channel consists of an 8-bit (or 16-bit) value for each pixel in the image.
 
       // Read the data by channel.
-      for (channel = 0; channel < 4; channel++) {
-         if (channel >= channelCount) {
+      لكل (channel = 0; channel < 4; channel++) {
+         إذا (channel >= channel_شمېر) {
             // Fill this channel with default data.
-            if (bitdepth == 16 && bpc == 16) {
-               stbi__uint16 *q = ((stbi__uint16 *) out) + channel;
+            إذا (bitdepth == 16 && bpc == 16) {
+               stbi__uint16 *q = ((stbi__uint16 *) بهر) + channel;
                stbi__uint16 val = channel == 3 ? 65535 : 0;
-               for (i = 0; i < pixelCount; i++, q += 4)
+               لكل (i = 0; i < pixel_شمېر_2; i++, q += 4)
                   *q = val;
-            } else {
-               stbi_uc *p = out+channel;
+            } وإلا {
+               stbi_uc *p = بهر+channel;
                stbi_uc val = channel == 3 ? 255 : 0;
-               for (i = 0; i < pixelCount; i++, p += 4)
+               لكل (i = 0; i < pixel_شمېر_2; i++, p += 4)
                   *p = val;
             }
-         } else {
-            if (ri->bits_per_channel == 16) {    // output bpc
-               stbi__uint16 *q = ((stbi__uint16 *) out) + channel;
-               for (i = 0; i < pixelCount; i++, q += 4)
+         } وإلا {
+            إذا (ri->بټونه_فی_channel == 16) {    // output bpc
+               stbi__uint16 *q = ((stbi__uint16 *) بهر) + channel;
+               لكل (i = 0; i < pixel_شمېر_2; i++, q += 4)
                   *q = (stbi__uint16) stbi__get16be(s);
-            } else {
-               stbi_uc *p = out+channel;
-               if (bitdepth == 16) {  // input bpc
-                  for (i = 0; i < pixelCount; i++, p += 4)
+            } وإلا {
+               stbi_uc *p = بهر+channel;
+               إذا (bitdepth == 16) {  // input bpc
+                  لكل (i = 0; i < pixel_شمېر_2; i++, p += 4)
                      *p = (stbi_uc) (stbi__get16be(s) >> 8);
-               } else {
-                  for (i = 0; i < pixelCount; i++, p += 4)
+               } وإلا {
+                  لكل (i = 0; i < pixel_شمېر_2; i++, p += 4)
                      *p = stbi__get8(s);
                }
             }
@@ -6555,50 +6555,50 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
    }
 
    // remove weird white matte from PSD
-   if (channelCount >= 4) {
-      if (ri->bits_per_channel == 16) {
-         for (i=0; i < w*h; ++i) {
-            stbi__uint16 *pixels = (stbi__uint16 *) out + 4*i;
-            if (pixels[3] != 0 && pixels[3] != 65535) {
-               float a = pixels[3] / 65535.0f;
-               float ra = 1.0f / a;
-               float inv_a = 65535.0f * (1 - ra);
+   إذا (channel_شمېر >= 4) {
+      إذا (ri->بټونه_فی_channel == 16) {
+         لكل (i=0; i < w*h; ++i) {
+            stbi__uint16 *pixels = (stbi__uint16 *) بهر + 4*i;
+            إذا (pixels[3] != 0 && pixels[3] != 65535) {
+               عائم a = pixels[3] / 65535.0f;
+               عائم ra = 1.0f / a;
+               عائم inv_a = 65535.0f * (1 - ra);
                pixels[0] = (stbi__uint16) (pixels[0]*ra + inv_a);
                pixels[1] = (stbi__uint16) (pixels[1]*ra + inv_a);
                pixels[2] = (stbi__uint16) (pixels[2]*ra + inv_a);
             }
          }
-      } else {
-         for (i=0; i < w*h; ++i) {
-            unsigned char *pixels = out + 4*i;
-            if (pixels[3] != 0 && pixels[3] != 255) {
-               float a = pixels[3] / 255.0f;
-               float ra = 1.0f / a;
-               float inv_a = 255.0f * (1 - ra);
-               pixels[0] = (unsigned char) (pixels[0]*ra + inv_a);
-               pixels[1] = (unsigned char) (pixels[1]*ra + inv_a);
-               pixels[2] = (unsigned char) (pixels[2]*ra + inv_a);
+      } وإلا {
+         لكل (i=0; i < w*h; ++i) {
+            بینښه حرف *pixels = بهر + 4*i;
+            إذا (pixels[3] != 0 && pixels[3] != 255) {
+               عائم a = pixels[3] / 255.0f;
+               عائم ra = 1.0f / a;
+               عائم inv_a = 255.0f * (1 - ra);
+               pixels[0] = (بینښه حرف) (pixels[0]*ra + inv_a);
+               pixels[1] = (بینښه حرف) (pixels[1]*ra + inv_a);
+               pixels[2] = (بینښه حرف) (pixels[2]*ra + inv_a);
             }
          }
       }
    }
 
    // convert to desired output format
-   if (req_comp && req_comp != 4) {
-      if (ri->bits_per_channel == 16)
-         out = (stbi_uc *) stbi__convert_format16((stbi__uint16 *) out, 4, req_comp, w, h);
-      else
-         out = stbi__convert_format(out, 4, req_comp, w, h);
-      if (out == NULL) return out; // stbi__convert_format frees input on failure
+   إذا (req_comp && req_comp != 4) {
+      إذا (ri->بټونه_فی_channel == 16)
+         بهر = (stbi_uc *) stbi__convert_format16((stbi__uint16 *) بهر, 4, req_comp, w, h);
+      وإلا
+         بهر = stbi__convert_format(بهر, 4, req_comp, w, h);
+      إذا (بهر == عدم) أرجع بهر; // stbi__convert_format frees input on failure
    }
 
-   if (comp) *comp = 4;
+   إذا (comp) *comp = 4;
    *y = h;
    *x = w;
 
-   return out;
+   أرجع بهر;
 }
-#endif
+#د_که_پای
 
 // *************************************************************************************************
 // Softimage PIC loader
@@ -6607,272 +6607,272 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
 // See http://softimage.wiki.softimage.com/index.php/INFO:_PIC_file_format
 // See http://ozviz.wasp.uwa.edu.au/~pbourke/dataformats/softimagepic/
 
-#ifndef STBI_NO_PIC
-static int stbi__pic_is4(stbi__context *s,const char *str)
+#که_نه_تعریف_شوی STBI_NO_PIC
+ساكن صحيح stbi__pic_is4(stbi__context *s,ثابت حرف *str)
 {
-   int i;
-   for (i=0; i<4; ++i)
-      if (stbi__get8(s) != (stbi_uc)str[i])
-         return 0;
+   صحيح i;
+   لكل (i=0; i<4; ++i)
+      إذا (stbi__get8(s) != (stbi_uc)str[i])
+         أرجع 0;
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__pic_test_core(stbi__context *s)
+ساكن صحيح stbi__pic_test_core(stbi__context *s)
 {
-   int i;
+   صحيح i;
 
-   if (!stbi__pic_is4(s,"\x53\x80\xF6\x34"))
-      return 0;
+   إذا (!stbi__pic_is4(s,"\x53\x80\xF6\x34"))
+      أرجع 0;
 
-   for(i=0;i<84;++i)
+   لكل(i=0;i<84;++i)
       stbi__get8(s);
 
-   if (!stbi__pic_is4(s,"PICT"))
-      return 0;
+   إذا (!stbi__pic_is4(s,"PICT"))
+      أرجع 0;
 
-   return 1;
+   أرجع 1;
 }
 
-typedef struct
+تعريفنوع بنية
 {
-   stbi_uc size,type,channel;
+   stbi_uc اندازه,type,channel;
 } stbi__pic_packet;
 
-static stbi_uc *stbi__readval(stbi__context *s, int channel, stbi_uc *dest)
+ساكن stbi_uc *stbi__readval(stbi__context *s, صحيح channel, stbi_uc *dest)
 {
-   int mask=0x80, i;
+   صحيح ماسک=0x80, i;
 
-   for (i=0; i<4; ++i, mask>>=1) {
-      if (channel & mask) {
-         if (stbi__at_eof(s)) return stbi__errpuc("bad file","PIC file too short");
+   لكل (i=0; i<4; ++i, ماسک>>=1) {
+      إذا (channel & ماسک) {
+         إذا (stbi__at_eof(s)) أرجع stbi__errpuc("bad file","PIC file too short");
          dest[i]=stbi__get8(s);
       }
    }
 
-   return dest;
+   أرجع dest;
 }
 
-static void stbi__copyval(int channel,stbi_uc *dest,const stbi_uc *src)
+ساكن فراغ stbi__copyval(صحيح channel,stbi_uc *dest,ثابت stbi_uc *src)
 {
-   int mask=0x80,i;
+   صحيح ماسک=0x80,i;
 
-   for (i=0;i<4; ++i, mask>>=1)
-      if (channel&mask)
+   لكل (i=0;i<4; ++i, ماسک>>=1)
+      إذا (channel&ماسک)
          dest[i]=src[i];
 }
 
-static stbi_uc *stbi__pic_load_core(stbi__context *s,int width,int height,int *comp, stbi_uc *result)
+ساكن stbi_uc *stbi_pic_بارول_core(stbi__context *s,صحيح پلنوالی,صحيح لوړوالی,صحيح *comp, stbi_uc *پایله)
 {
-   int act_comp=0,num_packets=0,y,chained;
+   صحيح act_comp=0,عدد_packets=0,y,chained;
    stbi__pic_packet packets[10];
 
    // this will (should...) cater for even some bizarre stuff like having data
     // for the same channel in multiple packets.
-   do {
+   افعل {
       stbi__pic_packet *packet;
 
-      if (num_packets==sizeof(packets)/sizeof(packets[0]))
-         return stbi__errpuc("bad format","too many packets");
+      إذا (عدد_packets==حجم(packets)/حجم(packets[0]))
+         أرجع stbi__errpuc("bad format","too many packets");
 
-      packet = &packets[num_packets++];
+      packet = &packets[عدد_packets++];
 
       chained = stbi__get8(s);
-      packet->size    = stbi__get8(s);
+      packet->اندازه    = stbi__get8(s);
       packet->type    = stbi__get8(s);
       packet->channel = stbi__get8(s);
 
       act_comp |= packet->channel;
 
-      if (stbi__at_eof(s))          return stbi__errpuc("bad file","file too short (reading packets)");
-      if (packet->size != 8)  return stbi__errpuc("bad format","packet isn't 8bpp");
-   } while (chained);
+      إذا (stbi__at_eof(s))          أرجع stbi__errpuc("bad file","file too short (reading packets)");
+      إذا (packet->اندازه != 8)  أرجع stbi__errpuc("bad format","packet isn't 8bpp");
+   } طالما (chained);
 
    *comp = (act_comp & 0x10 ? 4 : 3); // has alpha channel?
 
-   for(y=0; y<height; ++y) {
-      int packet_idx;
+   لكل(y=0; y<لوړوالی; ++y) {
+      صحيح packet_idx;
 
-      for(packet_idx=0; packet_idx < num_packets; ++packet_idx) {
+      لكل(packet_idx=0; packet_idx < عدد_packets; ++packet_idx) {
          stbi__pic_packet *packet = &packets[packet_idx];
-         stbi_uc *dest = result+y*width*4;
+         stbi_uc *dest = پایله+y*پلنوالی*4;
 
-         switch (packet->type) {
-            default:
-               return stbi__errpuc("bad format","packet has bad compression type");
+         بدل (packet->type) {
+            افتراضي:
+               أرجع stbi__errpuc("bad format","packet has bad compression type");
 
-            case 0: {//uncompressed
-               int x;
+            حالة 0: {//uncompressed
+               صحيح x;
 
-               for(x=0;x<width;++x, dest+=4)
-                  if (!stbi__readval(s,packet->channel,dest))
-                     return 0;
-               break;
+               لكل(x=0;x<پلنوالی;++x, dest+=4)
+                  إذا (!stbi__readval(s,packet->channel,dest))
+                     أرجع 0;
+               اكسر;
             }
 
-            case 1://Pure RLE
+            حالة 1://Pure RLE
                {
-                  int left=width, i;
+                  صحيح کیڼ=پلنوالی, i;
 
-                  while (left>0) {
-                     stbi_uc count,value[4];
+                  طالما (کیڼ>0) {
+                     stbi_uc شمېر,ارزښت[4];
 
-                     count=stbi__get8(s);
-                     if (stbi__at_eof(s))   return stbi__errpuc("bad file","file too short (pure read count)");
+                     شمېر=stbi__get8(s);
+                     إذا (stbi__at_eof(s))   أرجع stbi__errpuc("bad file","file too short (pure read count)");
 
-                     if (count > left)
-                        count = (stbi_uc) left;
+                     إذا (شمېر > کیڼ)
+                        شمېر = (stbi_uc) کیڼ;
 
-                     if (!stbi__readval(s,packet->channel,value))  return 0;
+                     إذا (!stbi__readval(s,packet->channel,ارزښت))  أرجع 0;
 
-                     for(i=0; i<count; ++i,dest+=4)
-                        stbi__copyval(packet->channel,dest,value);
-                     left -= count;
+                     لكل(i=0; i<شمېر; ++i,dest+=4)
+                        stbi__copyval(packet->channel,dest,ارزښت);
+                     کیڼ -= شمېر;
                   }
                }
-               break;
+               اكسر;
 
-            case 2: {//Mixed RLE
-               int left=width;
-               while (left>0) {
-                  int count = stbi__get8(s), i;
-                  if (stbi__at_eof(s))  return stbi__errpuc("bad file","file too short (mixed read count)");
+            حالة 2: {//Mixed RLE
+               صحيح کیڼ=پلنوالی;
+               طالما (کیڼ>0) {
+                  صحيح شمېر = stbi__get8(s), i;
+                  إذا (stbi__at_eof(s))  أرجع stbi__errpuc("bad file","file too short (mixed read count)");
 
-                  if (count >= 128) { // Repeated
-                     stbi_uc value[4];
+                  إذا (شمېر >= 128) { // Repeated
+                     stbi_uc ارزښت[4];
 
-                     if (count==128)
-                        count = stbi__get16be(s);
-                     else
-                        count -= 127;
-                     if (count > left)
-                        return stbi__errpuc("bad file","scanline overrun");
+                     إذا (شمېر==128)
+                        شمېر = stbi__get16be(s);
+                     وإلا
+                        شمېر -= 127;
+                     إذا (شمېر > کیڼ)
+                        أرجع stbi__errpuc("bad file","scanline overrun");
 
-                     if (!stbi__readval(s,packet->channel,value))
-                        return 0;
+                     إذا (!stbi__readval(s,packet->channel,ارزښت))
+                        أرجع 0;
 
-                     for(i=0;i<count;++i, dest += 4)
-                        stbi__copyval(packet->channel,dest,value);
-                  } else { // Raw
-                     ++count;
-                     if (count>left) return stbi__errpuc("bad file","scanline overrun");
+                     لكل(i=0;i<شمېر;++i, dest += 4)
+                        stbi__copyval(packet->channel,dest,ارزښت);
+                  } وإلا { // Raw
+                     ++شمېر;
+                     إذا (شمېر>کیڼ) أرجع stbi__errpuc("bad file","scanline overrun");
 
-                     for(i=0;i<count;++i, dest+=4)
-                        if (!stbi__readval(s,packet->channel,dest))
-                           return 0;
+                     لكل(i=0;i<شمېر;++i, dest+=4)
+                        إذا (!stbi__readval(s,packet->channel,dest))
+                           أرجع 0;
                   }
-                  left-=count;
+                  کیڼ-=شمېر;
                }
-               break;
+               اكسر;
             }
          }
       }
    }
 
-   return result;
+   أرجع پایله;
 }
 
-static void *stbi__pic_load(stbi__context *s,int *px,int *py,int *comp,int req_comp, stbi__result_info *ri)
+ساكن فراغ *stbi_pic_بارول(stbi__context *s,صحيح *px,صحيح *py,صحيح *comp,صحيح req_comp, stbi_پایله_info *ri)
 {
-   stbi_uc *result;
-   int i, x,y, internal_comp;
+   stbi_uc *پایله;
+   صحيح i, x,y, دننی_comp;
    STBI_NOTUSED(ri);
 
-   if (!comp) comp = &internal_comp;
+   إذا (!comp) comp = &دننی_comp;
 
-   for (i=0; i<92; ++i)
+   لكل (i=0; i<92; ++i)
       stbi__get8(s);
 
    x = stbi__get16be(s);
    y = stbi__get16be(s);
 
-   if (y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-   if (x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (y > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (x > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
 
-   if (stbi__at_eof(s))  return stbi__errpuc("bad file","file too short (pic header)");
-   if (!stbi__mad3sizes_valid(x, y, 4, 0)) return stbi__errpuc("too large", "PIC image too large to decode");
+   إذا (stbi__at_eof(s))  أرجع stbi__errpuc("bad file","file too short (pic header)");
+   إذا (!stbi__mad3sizes_valid(x, y, 4, 0)) أرجع stbi__errpuc("too large", "PIC image too large to decode");
 
    stbi__get32be(s); //skip `ratio'
    stbi__get16be(s); //skip `fields'
    stbi__get16be(s); //skip `pad'
 
    // intermediate buffer is RGBA
-   result = (stbi_uc *) stbi__malloc_mad3(x, y, 4, 0);
-   if (!result) return stbi__errpuc("outofmem", "Out of memory");
-   memset(result, 0xff, x*y*4);
+   پایله = (stbi_uc *) stbi__malloc_mad3(x, y, 4, 0);
+   إذا (!پایله) أرجع stbi__errpuc("outofmem", "Out of memory");
+   memset(پایله, 0xff, x*y*4);
 
-   if (!stbi__pic_load_core(s,x,y,comp, result)) {
-      STBI_FREE(result);
-      return 0;
+   إذا (!stbi_pic_بارول_core(s,x,y,comp, پایله)) {
+      STBI_FREE(پایله);
+      أرجع 0;
    }
    *px = x;
    *py = y;
-   if (req_comp == 0) req_comp = *comp;
-   result=stbi__convert_format(result,4,req_comp,x,y);
+   إذا (req_comp == 0) req_comp = *comp;
+   پایله=stbi__convert_format(پایله,4,req_comp,x,y);
 
-   return result;
+   أرجع پایله;
 }
 
-static int stbi__pic_test(stbi__context *s)
+ساكن صحيح stbi__pic_test(stbi__context *s)
 {
-   int r = stbi__pic_test_core(s);
+   صحيح r = stbi__pic_test_core(s);
    stbi__rewind(s);
-   return r;
+   أرجع r;
 }
-#endif
+#د_که_پای
 
 // *************************************************************************************************
 // GIF loader -- public domain by Jean-Marc Lienher -- simplified/shrunk by stb
 
-#ifndef STBI_NO_GIF
-typedef struct
+#که_نه_تعریف_شوی STBI_NO_GIF
+تعريفنوع بنية
 {
-   stbi__int16 prefix;
-   stbi_uc first;
+   stbi__int16 مختاړی;
+   stbi_uc لومړی;
    stbi_uc suffix;
 } stbi__gif_lzw;
 
-typedef struct
+تعريفنوع بنية
 {
-   int w,h;
-   stbi_uc *out;                 // output buffer (always 4 components)
+   صحيح w,h;
+   stbi_uc *بهر;                 // output buffer (always 4 components)
    stbi_uc *background;          // The current "background" as far as a gif is concerned
    stbi_uc *history;
-   int flags, bgindex, ratio, transparent, eflags;
+   صحيح flags, bgindex, نسبت, transparent, eflags;
    stbi_uc  pal[256][4];
    stbi_uc lpal[256][4];
    stbi__gif_lzw codes[8192];
-   stbi_uc *color_table;
-   int parse, step;
-   int lflags;
-   int start_x, start_y;
-   int max_x, max_y;
-   int cur_x, cur_y;
-   int line_size;
-   int delay;
+   stbi_uc *color_جدول;
+   صحيح parse, ګام;
+   صحيح lflags;
+   صحيح پیل_x, پیل_y;
+   صحيح max_x, max_y;
+   صحيح cur_x, cur_y;
+   صحيح کرښه_اندازه;
+   صحيح delay;
 } stbi__gif;
 
-static int stbi__gif_test_raw(stbi__context *s)
+ساكن صحيح stbi__gif_test_raw(stbi__context *s)
 {
-   int sz;
-   if (stbi__get8(s) != 'G' || stbi__get8(s) != 'I' || stbi__get8(s) != 'F' || stbi__get8(s) != '8') return 0;
+   صحيح sz;
+   إذا (stbi__get8(s) != 'G' || stbi__get8(s) != 'I' || stbi__get8(s) != 'F' || stbi__get8(s) != '8') أرجع 0;
    sz = stbi__get8(s);
-   if (sz != '9' && sz != '7') return 0;
-   if (stbi__get8(s) != 'a') return 0;
-   return 1;
+   إذا (sz != '9' && sz != '7') أرجع 0;
+   إذا (stbi__get8(s) != 'a') أرجع 0;
+   أرجع 1;
 }
 
-static int stbi__gif_test(stbi__context *s)
+ساكن صحيح stbi__gif_test(stbi__context *s)
 {
-   int r = stbi__gif_test_raw(s);
+   صحيح r = stbi__gif_test_raw(s);
    stbi__rewind(s);
-   return r;
+   أرجع r;
 }
 
-static void stbi__gif_parse_colortable(stbi__context *s, stbi_uc pal[256][4], int num_entries, int transp)
+ساكن فراغ stbi__gif_parse_colortable(stbi__context *s, stbi_uc pal[256][4], صحيح عدد_entries, صحيح transp)
 {
-   int i;
-   for (i=0; i < num_entries; ++i) {
+   صحيح i;
+   لكل (i=0; i < عدد_entries; ++i) {
       pal[i][2] = stbi__get8(s);
       pal[i][1] = stbi__get8(s);
       pal[i][0] = stbi__get8(s);
@@ -6880,70 +6880,70 @@ static void stbi__gif_parse_colortable(stbi__context *s, stbi_uc pal[256][4], in
    }
 }
 
-static int stbi__gif_header(stbi__context *s, stbi__gif *g, int *comp, int is_info)
+ساكن صحيح stbi_gif_سرلیک(stbi__context *s, stbi__gif *g, صحيح *comp, صحيح is_info)
 {
-   stbi_uc version;
-   if (stbi__get8(s) != 'G' || stbi__get8(s) != 'I' || stbi__get8(s) != 'F' || stbi__get8(s) != '8')
-      return stbi__err("not GIF", "Corrupt GIF");
+   stbi_uc نسخه;
+   إذا (stbi__get8(s) != 'G' || stbi__get8(s) != 'I' || stbi__get8(s) != 'F' || stbi__get8(s) != '8')
+      أرجع stbi__err("not GIF", "Corrupt GIF");
 
-   version = stbi__get8(s);
-   if (version != '7' && version != '9')    return stbi__err("not GIF", "Corrupt GIF");
-   if (stbi__get8(s) != 'a')                return stbi__err("not GIF", "Corrupt GIF");
+   نسخه = stbi__get8(s);
+   إذا (نسخه != '7' && نسخه != '9')    أرجع stbi__err("not GIF", "Corrupt GIF");
+   إذا (stbi__get8(s) != 'a')                أرجع stbi__err("not GIF", "Corrupt GIF");
 
    stbi__g_failure_reason = "";
    g->w = stbi__get16le(s);
    g->h = stbi__get16le(s);
    g->flags = stbi__get8(s);
    g->bgindex = stbi__get8(s);
-   g->ratio = stbi__get8(s);
+   g->نسبت = stbi__get8(s);
    g->transparent = -1;
 
-   if (g->w > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-   if (g->h > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
+   إذا (g->w > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
+   إذا (g->h > STBI_MAX_DIMENSIONS) أرجع stbi__err("too large","Very large image (corrupt?)");
 
-   if (comp != 0) *comp = 4;  // can't actually tell whether it's 3 or 4 until we parse the comments
+   إذا (comp != 0) *comp = 4;  // can't actually tell whether it's 3 or 4 until we parse the comments
 
-   if (is_info) return 1;
+   إذا (is_info) أرجع 1;
 
-   if (g->flags & 0x80)
+   إذا (g->flags & 0x80)
       stbi__gif_parse_colortable(s,g->pal, 2 << (g->flags & 7), -1);
 
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__gif_info_raw(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__gif_info_raw(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   stbi__gif* g = (stbi__gif*) stbi__malloc(sizeof(stbi__gif));
-   if (!g) return stbi__err("outofmem", "Out of memory");
-   if (!stbi__gif_header(s, g, comp, 1)) {
+   stbi__gif* g = (stbi__gif*) stbi__malloc(حجم(stbi__gif));
+   إذا (!g) أرجع stbi__err("outofmem", "Out of memory");
+   إذا (!stbi_gif_سرلیک(s, g, comp, 1)) {
       STBI_FREE(g);
       stbi__rewind( s );
-      return 0;
+      أرجع 0;
    }
-   if (x) *x = g->w;
-   if (y) *y = g->h;
+   إذا (x) *x = g->w;
+   إذا (y) *y = g->h;
    STBI_FREE(g);
-   return 1;
+   أرجع 1;
 }
 
-static void stbi__out_gif_code(stbi__gif *g, stbi__uint16 code)
+ساكن فراغ stbi_بهر_gif_کوډ(stbi__gif *g, stbi__uint16 کوډ)
 {
    stbi_uc *p, *c;
-   int idx;
+   صحيح idx;
 
    // recurse to decode the prefixes, since the linked-list is backwards,
    // and working backwards through an interleaved image would be nasty
-   if (g->codes[code].prefix >= 0)
-      stbi__out_gif_code(g, g->codes[code].prefix);
+   إذا (g->codes[کوډ].مختاړی >= 0)
+      stbi_بهر_gif_کوډ(g, g->codes[کوډ].مختاړی);
 
-   if (g->cur_y >= g->max_y) return;
+   إذا (g->cur_y >= g->max_y) أرجع;
 
    idx = g->cur_x + g->cur_y;
-   p = &g->out[idx];
+   p = &g->بهر[idx];
    g->history[idx / 4] = 1;
 
-   c = &g->color_table[g->codes[code].suffix * 4];
-   if (c[3] > 128) { // don't render transparent pixels;
+   c = &g->color_جدول[g->codes[کوډ].suffix * 4];
+   إذا (c[3] > 128) { // don't render transparent pixels;
       p[0] = c[2];
       p[1] = c[1];
       p[2] = c[0];
@@ -6951,38 +6951,38 @@ static void stbi__out_gif_code(stbi__gif *g, stbi__uint16 code)
    }
    g->cur_x += 4;
 
-   if (g->cur_x >= g->max_x) {
-      g->cur_x = g->start_x;
-      g->cur_y += g->step;
+   إذا (g->cur_x >= g->max_x) {
+      g->cur_x = g->پیل_x;
+      g->cur_y += g->ګام;
 
-      while (g->cur_y >= g->max_y && g->parse > 0) {
-         g->step = (1 << g->parse) * g->line_size;
-         g->cur_y = g->start_y + (g->step >> 1);
+      طالما (g->cur_y >= g->max_y && g->parse > 0) {
+         g->ګام = (1 << g->parse) * g->کرښه_اندازه;
+         g->cur_y = g->پیل_y + (g->ګام >> 1);
          --g->parse;
       }
    }
 }
 
-static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
+ساكن stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
 {
    stbi_uc lzw_cs;
-   stbi__int32 len, init_code;
-   stbi__uint32 first;
-   stbi__int32 codesize, codemask, avail, oldcode, bits, valid_bits, clear;
+   stbi__int32 len, init_کوډ;
+   stbi__uint32 لومړی;
+   stbi__int32 codesize, codemask, avail, oldcode, بټونه, valid_بټونه, clear;
    stbi__gif_lzw *p;
 
    lzw_cs = stbi__get8(s);
-   if (lzw_cs > 12) return NULL;
+   إذا (lzw_cs > 12) أرجع عدم;
    clear = 1 << lzw_cs;
-   first = 1;
+   لومړی = 1;
    codesize = lzw_cs + 1;
    codemask = (1 << codesize) - 1;
-   bits = 0;
-   valid_bits = 0;
-   for (init_code = 0; init_code < clear; init_code++) {
-      g->codes[init_code].prefix = -1;
-      g->codes[init_code].first = (stbi_uc) init_code;
-      g->codes[init_code].suffix = (stbi_uc) init_code;
+   بټونه = 0;
+   valid_بټونه = 0;
+   لكل (init_کوډ = 0; init_کوډ < clear; init_کوډ++) {
+      g->codes[init_کوډ].مختاړی = -1;
+      g->codes[init_کوډ].لومړی = (stbi_uc) init_کوډ;
+      g->codes[init_کوډ].suffix = (stbi_uc) init_کوډ;
    }
 
    // support no starting clear code
@@ -6990,59 +6990,59 @@ static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
    oldcode = -1;
 
    len = 0;
-   for(;;) {
-      if (valid_bits < codesize) {
-         if (len == 0) {
+   لكل(;;) {
+      إذا (valid_بټونه < codesize) {
+         إذا (len == 0) {
             len = stbi__get8(s); // start new block
-            if (len == 0)
-               return g->out;
+            إذا (len == 0)
+               أرجع g->بهر;
          }
          --len;
-         bits |= (stbi__int32) stbi__get8(s) << valid_bits;
-         valid_bits += 8;
-      } else {
-         stbi__int32 code = bits & codemask;
-         bits >>= codesize;
-         valid_bits -= codesize;
+         بټونه |= (stbi__int32) stbi__get8(s) << valid_بټونه;
+         valid_بټونه += 8;
+      } وإلا {
+         stbi__int32 کوډ = بټونه & codemask;
+         بټونه >>= codesize;
+         valid_بټونه -= codesize;
          // @OPTIMIZE: is there some way we can accelerate the non-clear path?
-         if (code == clear) {  // clear code
+         إذا (کوډ == clear) {  // clear code
             codesize = lzw_cs + 1;
             codemask = (1 << codesize) - 1;
             avail = clear + 2;
             oldcode = -1;
-            first = 0;
-         } else if (code == clear + 1) { // end of stream code
+            لومړی = 0;
+         } وإلا إذا (کوډ == clear + 1) { // end of stream code
             stbi__skip(s, len);
-            while ((len = stbi__get8(s)) > 0)
+            طالما ((len = stbi__get8(s)) > 0)
                stbi__skip(s,len);
-            return g->out;
-         } else if (code <= avail) {
-            if (first) {
-               return stbi__errpuc("no clear code", "Corrupt GIF");
+            أرجع g->بهر;
+         } وإلا إذا (کوډ <= avail) {
+            إذا (لومړی) {
+               أرجع stbi__errpuc("no clear code", "Corrupt GIF");
             }
 
-            if (oldcode >= 0) {
+            إذا (oldcode >= 0) {
                p = &g->codes[avail++];
-               if (avail > 8192) {
-                  return stbi__errpuc("too many codes", "Corrupt GIF");
+               إذا (avail > 8192) {
+                  أرجع stbi__errpuc("too many codes", "Corrupt GIF");
                }
 
-               p->prefix = (stbi__int16) oldcode;
-               p->first = g->codes[oldcode].first;
-               p->suffix = (code == avail) ? p->first : g->codes[code].first;
-            } else if (code == avail)
-               return stbi__errpuc("illegal code in raster", "Corrupt GIF");
+               p->مختاړی = (stbi__int16) oldcode;
+               p->لومړی = g->codes[oldcode].لومړی;
+               p->suffix = (کوډ == avail) ? p->لومړی : g->codes[کوډ].لومړی;
+            } وإلا إذا (کوډ == avail)
+               أرجع stbi__errpuc("illegal code in raster", "Corrupt GIF");
 
-            stbi__out_gif_code(g, (stbi__uint16) code);
+            stbi_بهر_gif_کوډ(g, (stbi__uint16) کوډ);
 
-            if ((avail & codemask) == 0 && avail <= 0x0FFF) {
+            إذا ((avail & codemask) == 0 && avail <= 0x0FFF) {
                codesize++;
                codemask = (1 << codesize) - 1;
             }
 
-            oldcode = code;
-         } else {
-            return stbi__errpuc("illegal code in raster", "Corrupt GIF");
+            oldcode = کوډ;
+         } وإلا {
+            أرجع stbi__errpuc("illegal code in raster", "Corrupt GIF");
          }
       }
    }
@@ -7050,57 +7050,57 @@ static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
 
 // this function is designed to support animated gifs, although stb_image doesn't support it
 // two back is the image from two frames ago, used for a very specific disposal format
-static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, int req_comp, stbi_uc *two_back)
+ساكن stbi_uc *stbi_gif_بارول_بل(stbi__context *s, stbi__gif *g, صحيح *comp, صحيح req_comp, stbi_uc *two_شا)
 {
-   int dispose;
-   int first_frame;
-   int pi;
-   int pcount;
+   صحيح dispose;
+   صحيح لومړی_چوکاټ;
+   صحيح pi;
+   صحيح pcount;
    STBI_NOTUSED(req_comp);
 
    // on first frame, any non-written pixels get the background colour (non-transparent)
-   first_frame = 0;
-   if (g->out == 0) {
-      if (!stbi__gif_header(s, g, comp,0)) return 0; // stbi__g_failure_reason set by stbi__gif_header
-      if (!stbi__mad3sizes_valid(4, g->w, g->h, 0))
-         return stbi__errpuc("too large", "GIF image is too large");
+   لومړی_چوکاټ = 0;
+   إذا (g->بهر == 0) {
+      إذا (!stbi_gif_سرلیک(s, g, comp,0)) أرجع 0; // stbi__g_failure_reason set by stbi__gif_header
+      إذا (!stbi__mad3sizes_valid(4, g->w, g->h, 0))
+         أرجع stbi__errpuc("too large", "GIF image is too large");
       pcount = g->w * g->h;
-      g->out = (stbi_uc *) stbi__malloc(4 * pcount);
+      g->بهر = (stbi_uc *) stbi__malloc(4 * pcount);
       g->background = (stbi_uc *) stbi__malloc(4 * pcount);
       g->history = (stbi_uc *) stbi__malloc(pcount);
-      if (!g->out || !g->background || !g->history)
-         return stbi__errpuc("outofmem", "Out of memory");
+      إذا (!g->بهر || !g->background || !g->history)
+         أرجع stbi__errpuc("outofmem", "Out of memory");
 
       // image is treated as "transparent" at the start - ie, nothing overwrites the current background;
       // background colour is only used for pixels that are not rendered first frame, after that "background"
       // color refers to the color that was there the previous frame.
-      memset(g->out, 0x00, 4 * pcount);
+      memset(g->بهر, 0x00, 4 * pcount);
       memset(g->background, 0x00, 4 * pcount); // state of the background (starts transparent)
       memset(g->history, 0x00, pcount);        // pixels that were affected previous frame
-      first_frame = 1;
-   } else {
+      لومړی_چوکاټ = 1;
+   } وإلا {
       // second frame - how do we dispose of the previous one?
       dispose = (g->eflags & 0x1C) >> 2;
       pcount = g->w * g->h;
 
-      if ((dispose == 3) && (two_back == 0)) {
+      إذا ((dispose == 3) && (two_شا == 0)) {
          dispose = 2; // if I don't have an image to revert back to, default to the old background
       }
 
-      if (dispose == 3) { // use previous graphic
-         for (pi = 0; pi < pcount; ++pi) {
-            if (g->history[pi]) {
-               memcpy( &g->out[pi * 4], &two_back[pi * 4], 4 );
+      إذا (dispose == 3) { // use previous graphic
+         لكل (pi = 0; pi < pcount; ++pi) {
+            إذا (g->history[pi]) {
+               حافظه_نقل( &g->بهر[pi * 4], &two_شا[pi * 4], 4 );
             }
          }
-      } else if (dispose == 2) {
+      } وإلا إذا (dispose == 2) {
          // restore what was changed last frame to background before that frame;
-         for (pi = 0; pi < pcount; ++pi) {
-            if (g->history[pi]) {
-               memcpy( &g->out[pi * 4], &g->background[pi * 4], 4 );
+         لكل (pi = 0; pi < pcount; ++pi) {
+            إذا (g->history[pi]) {
+               حافظه_نقل( &g->بهر[pi * 4], &g->background[pi * 4], 4 );
             }
          }
-      } else {
+      } وإلا {
          // This is a non-disposal case eithe way, so just
          // leave the pixels as is, and they will become the new background
          // 1: do not dispose
@@ -7108,16 +7108,16 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
       }
 
       // background is what out is after the undoing of the previou frame;
-      memcpy( g->background, g->out, 4 * g->w * g->h );
+      حافظه_نقل( g->background, g->بهر, 4 * g->w * g->h );
    }
 
    // clear my history;
    memset( g->history, 0x00, g->w * g->h );        // pixels that were affected previous frame
 
-   for (;;) {
-      int tag = stbi__get8(s);
-      switch (tag) {
-         case 0x2C: /* Image Descriptor */
+   لكل (;;) {
+      صحيح نښان = stbi__get8(s);
+      بدل (نښان) {
+         حالة 0x2C: /* Image Descriptor */
          {
             stbi__int32 x, y, w, h;
             stbi_uc *o;
@@ -7126,390 +7126,390 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
             y = stbi__get16le(s);
             w = stbi__get16le(s);
             h = stbi__get16le(s);
-            if (((x + w) > (g->w)) || ((y + h) > (g->h)))
-               return stbi__errpuc("bad Image Descriptor", "Corrupt GIF");
+            إذا (((x + w) > (g->w)) || ((y + h) > (g->h)))
+               أرجع stbi__errpuc("bad Image Descriptor", "Corrupt GIF");
 
-            g->line_size = g->w * 4;
-            g->start_x = x * 4;
-            g->start_y = y * g->line_size;
-            g->max_x   = g->start_x + w * 4;
-            g->max_y   = g->start_y + h * g->line_size;
-            g->cur_x   = g->start_x;
-            g->cur_y   = g->start_y;
+            g->کرښه_اندازه = g->w * 4;
+            g->پیل_x = x * 4;
+            g->پیل_y = y * g->کرښه_اندازه;
+            g->max_x   = g->پیل_x + w * 4;
+            g->max_y   = g->پیل_y + h * g->کرښه_اندازه;
+            g->cur_x   = g->پیل_x;
+            g->cur_y   = g->پیل_y;
 
             // if the width of the specified rectangle is 0, that means
             // we may not see *any* pixels or the image is malformed;
             // to make sure this is caught, move the current y down to
             // max_y (which is what out_gif_code checks).
-            if (w == 0)
+            إذا (w == 0)
                g->cur_y = g->max_y;
 
             g->lflags = stbi__get8(s);
 
-            if (g->lflags & 0x40) {
-               g->step = 8 * g->line_size; // first interlaced spacing
+            إذا (g->lflags & 0x40) {
+               g->ګام = 8 * g->کرښه_اندازه; // first interlaced spacing
                g->parse = 3;
-            } else {
-               g->step = g->line_size;
+            } وإلا {
+               g->ګام = g->کرښه_اندازه;
                g->parse = 0;
             }
 
-            if (g->lflags & 0x80) {
+            إذا (g->lflags & 0x80) {
                stbi__gif_parse_colortable(s,g->lpal, 2 << (g->lflags & 7), g->eflags & 0x01 ? g->transparent : -1);
-               g->color_table = (stbi_uc *) g->lpal;
-            } else if (g->flags & 0x80) {
-               g->color_table = (stbi_uc *) g->pal;
-            } else
-               return stbi__errpuc("missing color table", "Corrupt GIF");
+               g->color_جدول = (stbi_uc *) g->lpal;
+            } وإلا إذا (g->flags & 0x80) {
+               g->color_جدول = (stbi_uc *) g->pal;
+            } وإلا
+               أرجع stbi__errpuc("missing color table", "Corrupt GIF");
 
             o = stbi__process_gif_raster(s, g);
-            if (!o) return NULL;
+            إذا (!o) أرجع عدم;
 
             // if this was the first frame,
             pcount = g->w * g->h;
-            if (first_frame && (g->bgindex > 0)) {
+            إذا (لومړی_چوکاټ && (g->bgindex > 0)) {
                // if first frame, any pixel not drawn to gets the background color
-               for (pi = 0; pi < pcount; ++pi) {
-                  if (g->history[pi] == 0) {
+               لكل (pi = 0; pi < pcount; ++pi) {
+                  إذا (g->history[pi] == 0) {
                      g->pal[g->bgindex][3] = 255; // just in case it was made transparent, undo that; It will be reset next frame if need be;
-                     memcpy( &g->out[pi * 4], &g->pal[g->bgindex], 4 );
+                     حافظه_نقل( &g->بهر[pi * 4], &g->pal[g->bgindex], 4 );
                   }
                }
             }
 
-            return o;
+            أرجع o;
          }
 
-         case 0x21: // Comment Extension.
+         حالة 0x21: // Comment Extension.
          {
-            int len;
-            int ext = stbi__get8(s);
-            if (ext == 0xF9) { // Graphic Control Extension.
+            صحيح len;
+            صحيح ext = stbi__get8(s);
+            إذا (ext == 0xF9) { // Graphic Control Extension.
                len = stbi__get8(s);
-               if (len == 4) {
+               إذا (len == 4) {
                   g->eflags = stbi__get8(s);
                   g->delay = 10 * stbi__get16le(s); // delay - 1/100th of a second, saving as 1/1000ths.
 
                   // unset old transparent
-                  if (g->transparent >= 0) {
+                  إذا (g->transparent >= 0) {
                      g->pal[g->transparent][3] = 255;
                   }
-                  if (g->eflags & 0x01) {
+                  إذا (g->eflags & 0x01) {
                      g->transparent = stbi__get8(s);
-                     if (g->transparent >= 0) {
+                     إذا (g->transparent >= 0) {
                         g->pal[g->transparent][3] = 0;
                      }
-                  } else {
+                  } وإلا {
                      // don't need transparent
                      stbi__skip(s, 1);
                      g->transparent = -1;
                   }
-               } else {
+               } وإلا {
                   stbi__skip(s, len);
-                  break;
+                  اكسر;
                }
             }
-            while ((len = stbi__get8(s)) != 0) {
+            طالما ((len = stbi__get8(s)) != 0) {
                stbi__skip(s, len);
             }
-            break;
+            اكسر;
          }
 
-         case 0x3B: // gif stream termination code
-            return (stbi_uc *) s; // using '1' causes warning on some compilers
+         حالة 0x3B: // gif stream termination code
+            أرجع (stbi_uc *) s; // using '1' causes warning on some compilers
 
-         default:
-            return stbi__errpuc("unknown code", "Corrupt GIF");
+         افتراضي:
+            أرجع stbi__errpuc("unknown code", "Corrupt GIF");
       }
    }
 }
 
-static void *stbi__load_gif_main_outofmem(stbi__gif *g, stbi_uc *out, int **delays)
+ساكن فراغ *stbi_بارول_gif_main_outofmem(stbi__gif *g, stbi_uc *بهر, صحيح **delays)
 {
-   STBI_FREE(g->out);
+   STBI_FREE(g->بهر);
    STBI_FREE(g->history);
    STBI_FREE(g->background);
 
-   if (out) STBI_FREE(out);
-   if (delays && *delays) {
+   إذا (بهر) STBI_FREE(بهر);
+   إذا (delays && *delays) {
       STBI_FREE(*delays);
-      *delays = NULL;
+      *delays = عدم;
    }
-   return stbi__errpuc("outofmem", "Out of memory");
+   أرجع stbi__errpuc("outofmem", "Out of memory");
 }
 
-static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y, int *z, int *comp, int req_comp)
+ساكن فراغ *stbi_بارول_gif_main(stbi__context *s, صحيح **delays, صحيح *x, صحيح *y, صحيح *z, صحيح *comp, صحيح req_comp)
 {
-   if (stbi__gif_test(s)) {
-      int layers = 0;
+   إذا (stbi__gif_test(s)) {
+      صحيح layers = 0;
       stbi_uc *u = 0;
-      stbi_uc *out = 0;
-      stbi_uc *two_back = 0;
+      stbi_uc *بهر = 0;
+      stbi_uc *two_شا = 0;
       stbi__gif g;
-      int stride;
-      int out_size = 0;
-      int delays_size = 0;
+      صحيح stride;
+      صحيح بهر_اندازه = 0;
+      صحيح delays_اندازه = 0;
 
-      STBI_NOTUSED(out_size);
-      STBI_NOTUSED(delays_size);
+      STBI_NOTUSED(بهر_اندازه);
+      STBI_NOTUSED(delays_اندازه);
 
-      memset(&g, 0, sizeof(g));
-      if (delays) {
+      memset(&g, 0, حجم(g));
+      إذا (delays) {
          *delays = 0;
       }
 
-      do {
-         u = stbi__gif_load_next(s, &g, comp, req_comp, two_back);
-         if (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
+      افعل {
+         u = stbi_gif_بارول_بل(s, &g, comp, req_comp, two_شا);
+         إذا (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
 
-         if (u) {
+         إذا (u) {
             *x = g.w;
             *y = g.h;
             ++layers;
             stride = g.w * g.h * 4;
 
-            if (out) {
-               void *tmp = (stbi_uc*) STBI_REALLOC_SIZED( out, out_size, layers * stride );
-               if (!tmp)
-                  return stbi__load_gif_main_outofmem(&g, out, delays);
-               else {
-                   out = (stbi_uc*) tmp;
-                   out_size = layers * stride;
+            إذا (بهر) {
+               فراغ *tmp = (stbi_uc*) STBI_REALLOC_SIZED( بهر, بهر_اندازه, layers * stride );
+               إذا (!tmp)
+                  أرجع stbi_بارول_gif_main_outofmem(&g, بهر, delays);
+               وإلا {
+                   بهر = (stbi_uc*) tmp;
+                   بهر_اندازه = layers * stride;
                }
 
-               if (delays) {
-                  int *new_delays = (int*) STBI_REALLOC_SIZED( *delays, delays_size, sizeof(int) * layers );
-                  if (!new_delays)
-                     return stbi__load_gif_main_outofmem(&g, out, delays);
+               إذا (delays) {
+                  صحيح *new_delays = (صحيح*) STBI_REALLOC_SIZED( *delays, delays_اندازه, حجم(صحيح) * layers );
+                  إذا (!new_delays)
+                     أرجع stbi_بارول_gif_main_outofmem(&g, بهر, delays);
                   *delays = new_delays;
-                  delays_size = layers * sizeof(int);
+                  delays_اندازه = layers * حجم(صحيح);
                }
-            } else {
-               out = (stbi_uc*)stbi__malloc( layers * stride );
-               if (!out)
-                  return stbi__load_gif_main_outofmem(&g, out, delays);
-               out_size = layers * stride;
-               if (delays) {
-                  *delays = (int*) stbi__malloc( layers * sizeof(int) );
-                  if (!*delays)
-                     return stbi__load_gif_main_outofmem(&g, out, delays);
-                  delays_size = layers * sizeof(int);
+            } وإلا {
+               بهر = (stbi_uc*)stbi__malloc( layers * stride );
+               إذا (!بهر)
+                  أرجع stbi_بارول_gif_main_outofmem(&g, بهر, delays);
+               بهر_اندازه = layers * stride;
+               إذا (delays) {
+                  *delays = (صحيح*) stbi__malloc( layers * حجم(صحيح) );
+                  إذا (!*delays)
+                     أرجع stbi_بارول_gif_main_outofmem(&g, بهر, delays);
+                  delays_اندازه = layers * حجم(صحيح);
                }
             }
-            memcpy( out + ((layers - 1) * stride), u, stride );
-            if (layers >= 2) {
-               two_back = out - 2 * stride;
+            حافظه_نقل( بهر + ((layers - 1) * stride), u, stride );
+            إذا (layers >= 2) {
+               two_شا = بهر - 2 * stride;
             }
 
-            if (delays) {
+            إذا (delays) {
                (*delays)[layers - 1U] = g.delay;
             }
          }
-      } while (u != 0);
+      } طالما (u != 0);
 
       // free temp buffer;
-      STBI_FREE(g.out);
+      STBI_FREE(g.بهر);
       STBI_FREE(g.history);
       STBI_FREE(g.background);
 
       // do the final conversion after loading everything;
-      if (req_comp && req_comp != 4)
-         out = stbi__convert_format(out, 4, req_comp, layers * g.w, g.h);
+      إذا (req_comp && req_comp != 4)
+         بهر = stbi__convert_format(بهر, 4, req_comp, layers * g.w, g.h);
 
       *z = layers;
-      return out;
-   } else {
-      return stbi__errpuc("not GIF", "Image was not as a gif type.");
+      أرجع بهر;
+   } وإلا {
+      أرجع stbi__errpuc("not GIF", "Image was not as a gif type.");
    }
 }
 
-static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
+ساكن فراغ *stbi_gif_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri)
 {
    stbi_uc *u = 0;
    stbi__gif g;
-   memset(&g, 0, sizeof(g));
+   memset(&g, 0, حجم(g));
    STBI_NOTUSED(ri);
 
-   u = stbi__gif_load_next(s, &g, comp, req_comp, 0);
-   if (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
-   if (u) {
+   u = stbi_gif_بارول_بل(s, &g, comp, req_comp, 0);
+   إذا (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
+   إذا (u) {
       *x = g.w;
       *y = g.h;
 
       // moved conversion to after successful load so that the same
       // can be done for multiple frames.
-      if (req_comp && req_comp != 4)
+      إذا (req_comp && req_comp != 4)
          u = stbi__convert_format(u, 4, req_comp, g.w, g.h);
-   } else if (g.out) {
+   } وإلا إذا (g.بهر) {
       // if there was an error and we allocated an image buffer, free it!
-      STBI_FREE(g.out);
+      STBI_FREE(g.بهر);
    }
 
    // free buffers needed for multiple frame loading;
    STBI_FREE(g.history);
    STBI_FREE(g.background);
 
-   return u;
+   أرجع u;
 }
 
-static int stbi__gif_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__gif_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   return stbi__gif_info_raw(s,x,y,comp);
+   أرجع stbi__gif_info_raw(s,x,y,comp);
 }
-#endif
+#د_که_پای
 
 // *************************************************************************************************
 // Radiance RGBE HDR loader
 // originally by Nicolas Schulz
-#ifndef STBI_NO_HDR
-static int stbi__hdr_test_core(stbi__context *s, const char *signature)
+#که_نه_تعریف_شوی STBI_NO_HDR
+ساكن صحيح stbi__hdr_test_core(stbi__context *s, ثابت حرف *signature)
 {
-   int i;
-   for (i=0; signature[i]; ++i)
-      if (stbi__get8(s) != signature[i])
-          return 0;
+   صحيح i;
+   لكل (i=0; signature[i]; ++i)
+      إذا (stbi__get8(s) != signature[i])
+          أرجع 0;
    stbi__rewind(s);
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__hdr_test(stbi__context* s)
+ساكن صحيح stbi__hdr_test(stbi__context* s)
 {
-   int r = stbi__hdr_test_core(s, "#?RADIANCE\n");
+   صحيح r = stbi__hdr_test_core(s, "#?RADIANCE\n");
    stbi__rewind(s);
-   if(!r) {
+   إذا(!r) {
        r = stbi__hdr_test_core(s, "#?RGBE\n");
        stbi__rewind(s);
    }
-   return r;
+   أرجع r;
 }
 
-#define STBI__HDR_BUFLEN  1024
-static char *stbi__hdr_gettoken(stbi__context *z, char *buffer)
+#تعریف_کړه STBI__HDR_BUFLEN  1024
+ساكن حرف *stbi__hdr_gettoken(stbi__context *z, حرف *بفر_2)
 {
-   int len=0;
-   char c = '\0';
+   صحيح len=0;
+   حرف c = '\0';
 
-   c = (char) stbi__get8(z);
+   c = (حرف) stbi__get8(z);
 
-   while (!stbi__at_eof(z) && c != '\n') {
-      buffer[len++] = c;
-      if (len == STBI__HDR_BUFLEN-1) {
+   طالما (!stbi__at_eof(z) && c != '\n') {
+      بفر_2[len++] = c;
+      إذا (len == STBI__HDR_BUFLEN-1) {
          // flush to end of line
-         while (!stbi__at_eof(z) && stbi__get8(z) != '\n')
+         طالما (!stbi__at_eof(z) && stbi__get8(z) != '\n')
             ;
-         break;
+         اكسر;
       }
-      c = (char) stbi__get8(z);
+      c = (حرف) stbi__get8(z);
    }
 
-   buffer[len] = 0;
-   return buffer;
+   بفر_2[len] = 0;
+   أرجع بفر_2;
 }
 
-static void stbi__hdr_convert(float *output, stbi_uc *input, int req_comp)
+ساكن فراغ stbi__hdr_convert(عائم *output, stbi_uc *ننوت, صحيح req_comp)
 {
-   if ( input[3] != 0 ) {
-      float f1;
+   إذا ( ننوت[3] != 0 ) {
+      عائم f1;
       // Exponent
-      f1 = (float) ldexp(1.0f, input[3] - (int)(128 + 8));
-      if (req_comp <= 2)
-         output[0] = (input[0] + input[1] + input[2]) * f1 / 3;
-      else {
-         output[0] = input[0] * f1;
-         output[1] = input[1] * f1;
-         output[2] = input[2] * f1;
+      f1 = (عائم) ldexp(1.0f, ننوت[3] - (صحيح)(128 + 8));
+      إذا (req_comp <= 2)
+         output[0] = (ننوت[0] + ننوت[1] + ننوت[2]) * f1 / 3;
+      وإلا {
+         output[0] = ننوت[0] * f1;
+         output[1] = ننوت[1] * f1;
+         output[2] = ننوت[2] * f1;
       }
-      if (req_comp == 2) output[1] = 1;
-      if (req_comp == 4) output[3] = 1;
-   } else {
-      switch (req_comp) {
-         case 4: output[3] = 1; /* fallthrough */
-         case 3: output[0] = output[1] = output[2] = 0;
-                 break;
-         case 2: output[1] = 1; /* fallthrough */
-         case 1: output[0] = 0;
-                 break;
+      إذا (req_comp == 2) output[1] = 1;
+      إذا (req_comp == 4) output[3] = 1;
+   } وإلا {
+      بدل (req_comp) {
+         حالة 4: output[3] = 1; /* fallthrough */
+         حالة 3: output[0] = output[1] = output[2] = 0;
+                 اكسر;
+         حالة 2: output[1] = 1; /* fallthrough */
+         حالة 1: output[0] = 0;
+                 اكسر;
       }
    }
 }
 
-static float *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
+ساكن عائم *stbi_hdr_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri)
 {
-   char buffer[STBI__HDR_BUFLEN];
-   char *token;
-   int valid = 0;
-   int width, height;
+   حرف بفر_2[STBI__HDR_BUFLEN];
+   حرف *token;
+   صحيح valid = 0;
+   صحيح پلنوالی, لوړوالی;
    stbi_uc *scanline;
-   float *hdr_data;
-   int len;
-   unsigned char count, value;
-   int i, j, k, c1,c2, z;
-   const char *headerToken;
+   عائم *hdr_معلومات;
+   صحيح len;
+   بینښه حرف شمېر, ارزښت;
+   صحيح i, j, k, c1,c2, z;
+   ثابت حرف *سرلیک_Token;
    STBI_NOTUSED(ri);
 
    // Check identifier
-   headerToken = stbi__hdr_gettoken(s,buffer);
-   if (strcmp(headerToken, "#?RADIANCE") != 0 && strcmp(headerToken, "#?RGBE") != 0)
-      return stbi__errpf("not HDR", "Corrupt HDR image");
+   سرلیک_Token = stbi__hdr_gettoken(s,بفر_2);
+   إذا (strcmp(سرلیک_Token, "#?RADIANCE") != 0 && strcmp(سرلیک_Token, "#?RGBE") != 0)
+      أرجع stbi__errpf("not HDR", "Corrupt HDR image");
 
    // Parse header
-   for(;;) {
-      token = stbi__hdr_gettoken(s,buffer);
-      if (token[0] == 0) break;
-      if (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
+   لكل(;;) {
+      token = stbi__hdr_gettoken(s,بفر_2);
+      إذا (token[0] == 0) اكسر;
+      إذا (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
    }
 
-   if (!valid)    return stbi__errpf("unsupported format", "Unsupported HDR format");
+   إذا (!valid)    أرجع stbi__errpf("unsupported format", "Unsupported HDR format");
 
    // Parse width and height
    // can't use sscanf() if we're not using stdio!
-   token = stbi__hdr_gettoken(s,buffer);
-   if (strncmp(token, "-Y ", 3))  return stbi__errpf("unsupported data layout", "Unsupported HDR format");
+   token = stbi__hdr_gettoken(s,بفر_2);
+   إذا (مزي_پرتله(token, "-Y ", 3))  أرجع stbi__errpf("unsupported data layout", "Unsupported HDR format");
    token += 3;
-   height = (int) strtol(token, &token, 10);
-   while (*token == ' ') ++token;
-   if (strncmp(token, "+X ", 3))  return stbi__errpf("unsupported data layout", "Unsupported HDR format");
+   لوړوالی = (صحيح) strtol(token, &token, 10);
+   طالما (*token == ' ') ++token;
+   إذا (مزي_پرتله(token, "+X ", 3))  أرجع stbi__errpf("unsupported data layout", "Unsupported HDR format");
    token += 3;
-   width = (int) strtol(token, NULL, 10);
+   پلنوالی = (صحيح) strtol(token, عدم, 10);
 
-   if (height > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large image (corrupt?)");
-   if (width > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large image (corrupt?)");
+   إذا (لوړوالی > STBI_MAX_DIMENSIONS) أرجع stbi__errpf("too large","Very large image (corrupt?)");
+   إذا (پلنوالی > STBI_MAX_DIMENSIONS) أرجع stbi__errpf("too large","Very large image (corrupt?)");
 
-   *x = width;
-   *y = height;
+   *x = پلنوالی;
+   *y = لوړوالی;
 
-   if (comp) *comp = 3;
-   if (req_comp == 0) req_comp = 3;
+   إذا (comp) *comp = 3;
+   إذا (req_comp == 0) req_comp = 3;
 
-   if (!stbi__mad4sizes_valid(width, height, req_comp, sizeof(float), 0))
-      return stbi__errpf("too large", "HDR image is too large");
+   إذا (!stbi__mad4sizes_valid(پلنوالی, لوړوالی, req_comp, حجم(عائم), 0))
+      أرجع stbi__errpf("too large", "HDR image is too large");
 
    // Read data
-   hdr_data = (float *) stbi__malloc_mad4(width, height, req_comp, sizeof(float), 0);
-   if (!hdr_data)
-      return stbi__errpf("outofmem", "Out of memory");
+   hdr_معلومات = (عائم *) stbi__malloc_mad4(پلنوالی, لوړوالی, req_comp, حجم(عائم), 0);
+   إذا (!hdr_معلومات)
+      أرجع stbi__errpf("outofmem", "Out of memory");
 
    // Load image data
    // image data is stored as some number of sca
-   if ( width < 8 || width >= 32768) {
+   إذا ( پلنوالی < 8 || پلنوالی >= 32768) {
       // Read flat data
-      for (j=0; j < height; ++j) {
-         for (i=0; i < width; ++i) {
+      لكل (j=0; j < لوړوالی; ++j) {
+         لكل (i=0; i < پلنوالی; ++i) {
             stbi_uc rgbe[4];
            main_decode_loop:
             stbi__getn(s, rgbe, 4);
-            stbi__hdr_convert(hdr_data + j * width * req_comp + i * req_comp, rgbe, req_comp);
+            stbi__hdr_convert(hdr_معلومات + j * پلنوالی * req_comp + i * req_comp, rgbe, req_comp);
          }
       }
-   } else {
+   } وإلا {
       // Read RLE-encoded data
-      scanline = NULL;
+      scanline = عدم;
 
-      for (j = 0; j < height; ++j) {
+      لكل (j = 0; j < لوړوالی; ++j) {
          c1 = stbi__get8(s);
          c2 = stbi__get8(s);
          len = stbi__get8(s);
-         if (c1 != 2 || c2 != 2 || (len & 0x80)) {
+         إذا (c1 != 2 || c2 != 2 || (len & 0x80)) {
             // not run-length encoded, so we have to actually use THIS data as a decoded
             // pixel (note this can't be a valid pixel--one of RGB must be >= 128)
             stbi_uc rgbe[4];
@@ -7517,244 +7517,244 @@ static float *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int re
             rgbe[1] = (stbi_uc) c2;
             rgbe[2] = (stbi_uc) len;
             rgbe[3] = (stbi_uc) stbi__get8(s);
-            stbi__hdr_convert(hdr_data, rgbe, req_comp);
+            stbi__hdr_convert(hdr_معلومات, rgbe, req_comp);
             i = 1;
             j = 0;
             STBI_FREE(scanline);
-            goto main_decode_loop; // yes, this makes no sense
+            اذهب main_decode_loop; // yes, this makes no sense
          }
          len <<= 8;
          len |= stbi__get8(s);
-         if (len != width) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("invalid decoded scanline length", "corrupt HDR"); }
-         if (scanline == NULL) {
-            scanline = (stbi_uc *) stbi__malloc_mad2(width, 4, 0);
-            if (!scanline) {
-               STBI_FREE(hdr_data);
-               return stbi__errpf("outofmem", "Out of memory");
+         إذا (len != پلنوالی) { STBI_FREE(hdr_معلومات); STBI_FREE(scanline); أرجع stbi__errpf("invalid decoded scanline length", "corrupt HDR"); }
+         إذا (scanline == عدم) {
+            scanline = (stbi_uc *) stbi__malloc_mad2(پلنوالی, 4, 0);
+            إذا (!scanline) {
+               STBI_FREE(hdr_معلومات);
+               أرجع stbi__errpf("outofmem", "Out of memory");
             }
          }
 
-         for (k = 0; k < 4; ++k) {
-            int nleft;
+         لكل (k = 0; k < 4; ++k) {
+            صحيح nleft;
             i = 0;
-            while ((nleft = width - i) > 0) {
-               count = stbi__get8(s);
-               if (count > 128) {
+            طالما ((nleft = پلنوالی - i) > 0) {
+               شمېر = stbi__get8(s);
+               إذا (شمېر > 128) {
                   // Run
-                  value = stbi__get8(s);
-                  count -= 128;
-                  if ((count == 0) || (count > nleft)) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
-                  for (z = 0; z < count; ++z)
-                     scanline[i++ * 4 + k] = value;
-               } else {
+                  ارزښت = stbi__get8(s);
+                  شمېر -= 128;
+                  إذا ((شمېر == 0) || (شمېر > nleft)) { STBI_FREE(hdr_معلومات); STBI_FREE(scanline); أرجع stbi__errpf("corrupt", "bad RLE data in HDR"); }
+                  لكل (z = 0; z < شمېر; ++z)
+                     scanline[i++ * 4 + k] = ارزښت;
+               } وإلا {
                   // Dump
-                  if ((count == 0) || (count > nleft)) { STBI_FREE(hdr_data); STBI_FREE(scanline); return stbi__errpf("corrupt", "bad RLE data in HDR"); }
-                  for (z = 0; z < count; ++z)
+                  إذا ((شمېر == 0) || (شمېر > nleft)) { STBI_FREE(hdr_معلومات); STBI_FREE(scanline); أرجع stbi__errpf("corrupt", "bad RLE data in HDR"); }
+                  لكل (z = 0; z < شمېر; ++z)
                      scanline[i++ * 4 + k] = stbi__get8(s);
                }
             }
          }
-         for (i=0; i < width; ++i)
-            stbi__hdr_convert(hdr_data+(j*width + i)*req_comp, scanline + i*4, req_comp);
+         لكل (i=0; i < پلنوالی; ++i)
+            stbi__hdr_convert(hdr_معلومات+(j*پلنوالی + i)*req_comp, scanline + i*4, req_comp);
       }
-      if (scanline)
+      إذا (scanline)
          STBI_FREE(scanline);
    }
 
-   return hdr_data;
+   أرجع hdr_معلومات;
 }
 
-static int stbi__hdr_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح stbi__hdr_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   char buffer[STBI__HDR_BUFLEN];
-   char *token;
-   int valid = 0;
-   int dummy;
+   حرف بفر_2[STBI__HDR_BUFLEN];
+   حرف *token;
+   صحيح valid = 0;
+   صحيح dummy;
 
-   if (!x) x = &dummy;
-   if (!y) y = &dummy;
-   if (!comp) comp = &dummy;
+   إذا (!x) x = &dummy;
+   إذا (!y) y = &dummy;
+   إذا (!comp) comp = &dummy;
 
-   if (stbi__hdr_test(s) == 0) {
+   إذا (stbi__hdr_test(s) == 0) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
 
-   for(;;) {
-      token = stbi__hdr_gettoken(s,buffer);
-      if (token[0] == 0) break;
-      if (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
+   لكل(;;) {
+      token = stbi__hdr_gettoken(s,بفر_2);
+      إذا (token[0] == 0) اكسر;
+      إذا (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
    }
 
-   if (!valid) {
+   إذا (!valid) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   token = stbi__hdr_gettoken(s,buffer);
-   if (strncmp(token, "-Y ", 3)) {
+   token = stbi__hdr_gettoken(s,بفر_2);
+   إذا (مزي_پرتله(token, "-Y ", 3)) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    token += 3;
-   *y = (int) strtol(token, &token, 10);
-   while (*token == ' ') ++token;
-   if (strncmp(token, "+X ", 3)) {
+   *y = (صحيح) strtol(token, &token, 10);
+   طالما (*token == ' ') ++token;
+   إذا (مزي_پرتله(token, "+X ", 3)) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    token += 3;
-   *x = (int) strtol(token, NULL, 10);
+   *x = (صحيح) strtol(token, عدم, 10);
    *comp = 3;
-   return 1;
+   أرجع 1;
 }
-#endif // STBI_NO_HDR
+#د_که_پای // STBI_NO_HDR
 
-#ifndef STBI_NO_BMP
-static int stbi__bmp_info(stbi__context *s, int *x, int *y, int *comp)
+#که_نه_تعریف_شوی STBI_NO_BMP
+ساكن صحيح stbi__bmp_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   void *p;
-   stbi__bmp_data info;
+   فراغ *p;
+   stbi_bmp_معلومات info;
 
    info.all_a = 255;
-   p = stbi__bmp_parse_header(s, &info);
-   if (p == NULL) {
+   p = stbi_bmp_parse_سرلیک(s, &info);
+   إذا (p == عدم) {
       stbi__rewind( s );
-      return 0;
+      أرجع 0;
    }
-   if (x) *x = s->img_x;
-   if (y) *y = s->img_y;
-   if (comp) {
-      if (info.bpp == 24 && info.ma == 0xff000000)
+   إذا (x) *x = s->img_x;
+   إذا (y) *y = s->img_y;
+   إذا (comp) {
+      إذا (info.bpp == 24 && info.ma == 0xff000000)
          *comp = 3;
-      else
+      وإلا
          *comp = info.ma ? 4 : 3;
    }
-   return 1;
+   أرجع 1;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_PSD
-static int stbi__psd_info(stbi__context *s, int *x, int *y, int *comp)
+#که_نه_تعریف_شوی STBI_NO_PSD
+ساكن صحيح stbi__psd_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   int channelCount, dummy, depth;
-   if (!x) x = &dummy;
-   if (!y) y = &dummy;
-   if (!comp) comp = &dummy;
-   if (stbi__get32be(s) != 0x38425053) {
+   صحيح channel_شمېر, dummy, ژوروالی_2;
+   إذا (!x) x = &dummy;
+   إذا (!y) y = &dummy;
+   إذا (!comp) comp = &dummy;
+   إذا (stbi__get32be(s) != 0x38425053) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   if (stbi__get16be(s) != 1) {
+   إذا (stbi__get16be(s) != 1) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    stbi__skip(s, 6);
-   channelCount = stbi__get16be(s);
-   if (channelCount < 0 || channelCount > 16) {
+   channel_شمېر = stbi__get16be(s);
+   إذا (channel_شمېر < 0 || channel_شمېر > 16) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    *y = stbi__get32be(s);
    *x = stbi__get32be(s);
-   depth = stbi__get16be(s);
-   if (depth != 8 && depth != 16) {
+   ژوروالی_2 = stbi__get16be(s);
+   إذا (ژوروالی_2 != 8 && ژوروالی_2 != 16) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   if (stbi__get16be(s) != 3) {
+   إذا (stbi__get16be(s) != 3) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    *comp = 4;
-   return 1;
+   أرجع 1;
 }
 
-static int stbi__psd_is16(stbi__context *s)
+ساكن صحيح stbi__psd_is16(stbi__context *s)
 {
-   int channelCount, depth;
-   if (stbi__get32be(s) != 0x38425053) {
+   صحيح channel_شمېر, ژوروالی_2;
+   إذا (stbi__get32be(s) != 0x38425053) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   if (stbi__get16be(s) != 1) {
+   إذا (stbi__get16be(s) != 1) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    stbi__skip(s, 6);
-   channelCount = stbi__get16be(s);
-   if (channelCount < 0 || channelCount > 16) {
+   channel_شمېر = stbi__get16be(s);
+   إذا (channel_شمېر < 0 || channel_شمېر > 16) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
    STBI_NOTUSED(stbi__get32be(s));
    STBI_NOTUSED(stbi__get32be(s));
-   depth = stbi__get16be(s);
-   if (depth != 16) {
+   ژوروالی_2 = stbi__get16be(s);
+   إذا (ژوروالی_2 != 16) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   return 1;
+   أرجع 1;
 }
-#endif
+#د_که_پای
 
-#ifndef STBI_NO_PIC
-static int stbi__pic_info(stbi__context *s, int *x, int *y, int *comp)
+#که_نه_تعریف_شوی STBI_NO_PIC
+ساكن صحيح stbi__pic_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   int act_comp=0,num_packets=0,chained,dummy;
+   صحيح act_comp=0,عدد_packets=0,chained,dummy;
    stbi__pic_packet packets[10];
 
-   if (!x) x = &dummy;
-   if (!y) y = &dummy;
-   if (!comp) comp = &dummy;
+   إذا (!x) x = &dummy;
+   إذا (!y) y = &dummy;
+   إذا (!comp) comp = &dummy;
 
-   if (!stbi__pic_is4(s,"\x53\x80\xF6\x34")) {
+   إذا (!stbi__pic_is4(s,"\x53\x80\xF6\x34")) {
       stbi__rewind(s);
-      return 0;
+      أرجع 0;
    }
 
    stbi__skip(s, 88);
 
    *x = stbi__get16be(s);
    *y = stbi__get16be(s);
-   if (stbi__at_eof(s)) {
+   إذا (stbi__at_eof(s)) {
       stbi__rewind( s);
-      return 0;
+      أرجع 0;
    }
-   if ( (*x) != 0 && (1 << 28) / (*x) < (*y)) {
+   إذا ( (*x) != 0 && (1 << 28) / (*x) < (*y)) {
       stbi__rewind( s );
-      return 0;
+      أرجع 0;
    }
 
    stbi__skip(s, 8);
 
-   do {
+   افعل {
       stbi__pic_packet *packet;
 
-      if (num_packets==sizeof(packets)/sizeof(packets[0]))
-         return 0;
+      إذا (عدد_packets==حجم(packets)/حجم(packets[0]))
+         أرجع 0;
 
-      packet = &packets[num_packets++];
+      packet = &packets[عدد_packets++];
       chained = stbi__get8(s);
-      packet->size    = stbi__get8(s);
+      packet->اندازه    = stbi__get8(s);
       packet->type    = stbi__get8(s);
       packet->channel = stbi__get8(s);
       act_comp |= packet->channel;
 
-      if (stbi__at_eof(s)) {
+      إذا (stbi__at_eof(s)) {
           stbi__rewind( s );
-          return 0;
+          أرجع 0;
       }
-      if (packet->size != 8) {
+      إذا (packet->اندازه != 8) {
           stbi__rewind( s );
-          return 0;
+          أرجع 0;
       }
-   } while (chained);
+   } طالما (chained);
 
    *comp = (act_comp & 0x10 ? 4 : 3);
 
-   return 1;
+   أرجع 1;
 }
-#endif
+#د_که_پای
 
 // *************************************************************************************************
 // Portable Gray Map and Portable Pixel Map loader
@@ -7767,281 +7767,281 @@ static int stbi__pic_info(stbi__context *s, int *x, int *y, int *comp)
 //    Does not support comments in the header section
 //    Does not support ASCII image data (formats P2 and P3)
 
-#ifndef STBI_NO_PNM
+#که_نه_تعریف_شوی STBI_NO_PNM
 
-static int      stbi__pnm_test(stbi__context *s)
+ساكن صحيح      stbi__pnm_test(stbi__context *s)
 {
-   char p, t;
-   p = (char) stbi__get8(s);
-   t = (char) stbi__get8(s);
-   if (p != 'P' || (t != '5' && t != '6')) {
+   حرف p, t;
+   p = (حرف) stbi__get8(s);
+   t = (حرف) stbi__get8(s);
+   إذا (p != 'P' || (t != '5' && t != '6')) {
        stbi__rewind( s );
-       return 0;
+       أرجع 0;
    }
-   return 1;
+   أرجع 1;
 }
 
-static void *stbi__pnm_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
+ساكن فراغ *stbi_pnm_بارول(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp, صحيح req_comp, stbi_پایله_info *ri)
 {
-   stbi_uc *out;
+   stbi_uc *بهر;
    STBI_NOTUSED(ri);
 
-   ri->bits_per_channel = stbi__pnm_info(s, (int *)&s->img_x, (int *)&s->img_y, (int *)&s->img_n);
-   if (ri->bits_per_channel == 0)
-      return 0;
+   ri->بټونه_فی_channel = stbi__pnm_info(s, (صحيح *)&s->img_x, (صحيح *)&s->img_y, (صحيح *)&s->img_n);
+   إذا (ri->بټونه_فی_channel == 0)
+      أرجع 0;
 
-   if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-   if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (s->img_y > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
+   إذا (s->img_x > STBI_MAX_DIMENSIONS) أرجع stbi__errpuc("too large","Very large image (corrupt?)");
 
    *x = s->img_x;
    *y = s->img_y;
-   if (comp) *comp = s->img_n;
+   إذا (comp) *comp = s->img_n;
 
-   if (!stbi__mad4sizes_valid(s->img_n, s->img_x, s->img_y, ri->bits_per_channel / 8, 0))
-      return stbi__errpuc("too large", "PNM too large");
+   إذا (!stbi__mad4sizes_valid(s->img_n, s->img_x, s->img_y, ri->بټونه_فی_channel / 8, 0))
+      أرجع stbi__errpuc("too large", "PNM too large");
 
-   out = (stbi_uc *) stbi__malloc_mad4(s->img_n, s->img_x, s->img_y, ri->bits_per_channel / 8, 0);
-   if (!out) return stbi__errpuc("outofmem", "Out of memory");
-   if (!stbi__getn(s, out, s->img_n * s->img_x * s->img_y * (ri->bits_per_channel / 8))) {
-      STBI_FREE(out);
-      return stbi__errpuc("bad PNM", "PNM file truncated");
+   بهر = (stbi_uc *) stbi__malloc_mad4(s->img_n, s->img_x, s->img_y, ri->بټونه_فی_channel / 8, 0);
+   إذا (!بهر) أرجع stbi__errpuc("outofmem", "Out of memory");
+   إذا (!stbi__getn(s, بهر, s->img_n * s->img_x * s->img_y * (ri->بټونه_فی_channel / 8))) {
+      STBI_FREE(بهر);
+      أرجع stbi__errpuc("bad PNM", "PNM file truncated");
    }
 
-   if (req_comp && req_comp != s->img_n) {
-      if (ri->bits_per_channel == 16) {
-         out = (stbi_uc *) stbi__convert_format16((stbi__uint16 *) out, s->img_n, req_comp, s->img_x, s->img_y);
-      } else {
-         out = stbi__convert_format(out, s->img_n, req_comp, s->img_x, s->img_y);
+   إذا (req_comp && req_comp != s->img_n) {
+      إذا (ri->بټونه_فی_channel == 16) {
+         بهر = (stbi_uc *) stbi__convert_format16((stbi__uint16 *) بهر, s->img_n, req_comp, s->img_x, s->img_y);
+      } وإلا {
+         بهر = stbi__convert_format(بهر, s->img_n, req_comp, s->img_x, s->img_y);
       }
-      if (out == NULL) return out; // stbi__convert_format frees input on failure
+      إذا (بهر == عدم) أرجع بهر; // stbi__convert_format frees input on failure
    }
-   return out;
+   أرجع بهر;
 }
 
-static int      stbi__pnm_isspace(char c)
+ساكن صحيح      stbi__pnm_isspace(حرف c)
 {
-   return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
+   أرجع c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
 }
 
-static void     stbi__pnm_skip_whitespace(stbi__context *s, char *c)
+ساكن فراغ     stbi__pnm_skip_whitespace(stbi__context *s, حرف *c)
 {
-   for (;;) {
-      while (!stbi__at_eof(s) && stbi__pnm_isspace(*c))
-         *c = (char) stbi__get8(s);
+   لكل (;;) {
+      طالما (!stbi__at_eof(s) && stbi__pnm_isspace(*c))
+         *c = (حرف) stbi__get8(s);
 
-      if (stbi__at_eof(s) || *c != '#')
-         break;
+      إذا (stbi__at_eof(s) || *c != '#')
+         اكسر;
 
-      while (!stbi__at_eof(s) && *c != '\n' && *c != '\r' )
-         *c = (char) stbi__get8(s);
+      طالما (!stbi__at_eof(s) && *c != '\n' && *c != '\r' )
+         *c = (حرف) stbi__get8(s);
    }
 }
 
-static int      stbi__pnm_isdigit(char c)
+ساكن صحيح      stbi__pnm_isdigit(حرف c)
 {
-   return c >= '0' && c <= '9';
+   أرجع c >= '0' && c <= '9';
 }
 
-static int      stbi__pnm_getinteger(stbi__context *s, char *c)
+ساكن صحيح      stbi__pnm_getinteger(stbi__context *s, حرف *c)
 {
-   int value = 0;
+   صحيح ارزښت = 0;
 
-   while (!stbi__at_eof(s) && stbi__pnm_isdigit(*c)) {
-      value = value*10 + (*c - '0');
-      *c = (char) stbi__get8(s);
-      if((value > 214748364) || (value == 214748364 && *c > '7'))
-          return stbi__err("integer parse overflow", "Parsing an integer in the PPM header overflowed a 32-bit int");
+   طالما (!stbi__at_eof(s) && stbi__pnm_isdigit(*c)) {
+      ارزښت = ارزښت*10 + (*c - '0');
+      *c = (حرف) stbi__get8(s);
+      إذا((ارزښت > 214748364) || (ارزښت == 214748364 && *c > '7'))
+          أرجع stbi__err("integer parse overflow", "Parsing an integer in the PPM header overflowed a 32-bit int");
    }
 
-   return value;
+   أرجع ارزښت;
 }
 
-static int      stbi__pnm_info(stbi__context *s, int *x, int *y, int *comp)
+ساكن صحيح      stbi__pnm_info(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   int maxv, dummy;
-   char c, p, t;
+   صحيح maxv, dummy;
+   حرف c, p, t;
 
-   if (!x) x = &dummy;
-   if (!y) y = &dummy;
-   if (!comp) comp = &dummy;
+   إذا (!x) x = &dummy;
+   إذا (!y) y = &dummy;
+   إذا (!comp) comp = &dummy;
 
    stbi__rewind(s);
 
    // Get identifier
-   p = (char) stbi__get8(s);
-   t = (char) stbi__get8(s);
-   if (p != 'P' || (t != '5' && t != '6')) {
+   p = (حرف) stbi__get8(s);
+   t = (حرف) stbi__get8(s);
+   إذا (p != 'P' || (t != '5' && t != '6')) {
        stbi__rewind(s);
-       return 0;
+       أرجع 0;
    }
 
    *comp = (t == '6') ? 3 : 1;  // '5' is 1-component .pgm; '6' is 3-component .ppm
 
-   c = (char) stbi__get8(s);
+   c = (حرف) stbi__get8(s);
    stbi__pnm_skip_whitespace(s, &c);
 
    *x = stbi__pnm_getinteger(s, &c); // read width
-   if(*x == 0)
-       return stbi__err("invalid width", "PPM image header had zero or overflowing width");
+   إذا(*x == 0)
+       أرجع stbi__err("invalid width", "PPM image header had zero or overflowing width");
    stbi__pnm_skip_whitespace(s, &c);
 
    *y = stbi__pnm_getinteger(s, &c); // read height
-   if (*y == 0)
-       return stbi__err("invalid width", "PPM image header had zero or overflowing width");
+   إذا (*y == 0)
+       أرجع stbi__err("invalid width", "PPM image header had zero or overflowing width");
    stbi__pnm_skip_whitespace(s, &c);
 
    maxv = stbi__pnm_getinteger(s, &c);  // read max value
-   if (maxv > 65535)
-      return stbi__err("max value > 65535", "PPM image supports only 8-bit and 16-bit images");
-   else if (maxv > 255)
-      return 16;
-   else
-      return 8;
+   إذا (maxv > 65535)
+      أرجع stbi__err("max value > 65535", "PPM image supports only 8-bit and 16-bit images");
+   وإلا إذا (maxv > 255)
+      أرجع 16;
+   وإلا
+      أرجع 8;
 }
 
-static int stbi__pnm_is16(stbi__context *s)
+ساكن صحيح stbi__pnm_is16(stbi__context *s)
 {
-   if (stbi__pnm_info(s, NULL, NULL, NULL) == 16)
-	   return 1;
-   return 0;
+   إذا (stbi__pnm_info(s, عدم, عدم, عدم) == 16)
+	   أرجع 1;
+   أرجع 0;
 }
-#endif
+#د_که_پای
 
-#if 0 /* not used in SDL */
-static int stbi__info_main(stbi__context *s, int *x, int *y, int *comp)
+#إذا 0 /* not used in SDL */
+ساكن صحيح stbi__info_main(stbi__context *s, صحيح *x, صحيح *y, صحيح *comp)
 {
-   #ifndef STBI_NO_JPEG
-   if (stbi__jpeg_info(s, x, y, comp)) return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_JPEG
+   إذا (stbi__jpeg_info(s, x, y, comp)) أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PNG
-   if (stbi__png_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PNG
+   إذا (stbi__png_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_GIF
-   if (stbi__gif_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_GIF
+   إذا (stbi__gif_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_BMP
-   if (stbi__bmp_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_BMP
+   إذا (stbi__bmp_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PSD
-   if (stbi__psd_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PSD
+   إذا (stbi__psd_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PIC
-   if (stbi__pic_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PIC
+   إذا (stbi__pic_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PNM
-   if (stbi__pnm_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PNM
+   إذا (stbi__pnm_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_HDR
-   if (stbi__hdr_info(s, x, y, comp))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_HDR
+   إذا (stbi__hdr_info(s, x, y, comp))  أرجع 1;
+   #د_که_پای
 
    // test tga last because it's a crappy test!
-   #ifndef STBI_NO_TGA
-   if (stbi__tga_info(s, x, y, comp))
-       return 1;
-   #endif
-   return stbi__err("unknown image type", "Image not of any known type, or corrupt");
+   #که_نه_تعریف_شوی STBI_NO_TGA
+   إذا (stbi__tga_info(s, x, y, comp))
+       أرجع 1;
+   #د_که_پای
+   أرجع stbi__err("unknown image type", "Image not of any known type, or corrupt");
 }
 
-static int stbi__is_16_main(stbi__context *s)
+ساكن صحيح stbi__is_16_main(stbi__context *s)
 {
-   #ifndef STBI_NO_PNG
-   if (stbi__png_is16(s))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PNG
+   إذا (stbi__png_is16(s))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PSD
-   if (stbi__psd_is16(s))  return 1;
-   #endif
+   #که_نه_تعریف_شوی STBI_NO_PSD
+   إذا (stbi__psd_is16(s))  أرجع 1;
+   #د_که_پای
 
-   #ifndef STBI_NO_PNM
-   if (stbi__pnm_is16(s))  return 1;
-   #endif
-   return 0;
+   #که_نه_تعریف_شوی STBI_NO_PNM
+   إذا (stbi__pnm_is16(s))  أرجع 1;
+   #د_که_پای
+   أرجع 0;
 }
-#endif /**/
+#د_که_پای /**/
 
-#ifndef STBI_NO_STDIO
-STBIDEF int stbi_info(char const *filename, int *x, int *y, int *comp)
+#که_نه_تعریف_شوی STBI_NO_STDIO
+STBIDEF صحيح stbi_info(حرف ثابت *filename, صحيح *x, صحيح *y, صحيح *comp)
 {
     FILE *f = stbi__fopen(filename, "rb");
-    int result;
-    if (!f) return stbi__err("can't fopen", "Unable to open file");
-    result = stbi_info_from_file(f, x, y, comp);
+    صحيح پایله;
+    إذا (!f) أرجع stbi__err("can't fopen", "Unable to open file");
+    پایله = stbi_info_from_file(f, x, y, comp);
     fclose(f);
-    return result;
+    أرجع پایله;
 }
 
-STBIDEF int stbi_info_from_file(FILE *f, int *x, int *y, int *comp)
+STBIDEF صحيح stbi_info_from_file(FILE *f, صحيح *x, صحيح *y, صحيح *comp)
 {
-   int r;
+   صحيح r;
    stbi__context s;
-   long pos = ftell(f);
-   stbi__start_file(&s, f);
+   اوږد pos = ftell(f);
+   stbi_پیل_file(&s, f);
    r = stbi__info_main(&s,x,y,comp);
    fseek(f,pos,SEEK_SET);
-   return r;
+   أرجع r;
 }
 
-STBIDEF int stbi_is_16_bit(char const *filename)
+STBIDEF صحيح stbi_is_16_بټ(حرف ثابت *filename)
 {
     FILE *f = stbi__fopen(filename, "rb");
-    int result;
-    if (!f) return stbi__err("can't fopen", "Unable to open file");
-    result = stbi_is_16_bit_from_file(f);
+    صحيح پایله;
+    إذا (!f) أرجع stbi__err("can't fopen", "Unable to open file");
+    پایله = stbi_is_16_بټ_from_file(f);
     fclose(f);
-    return result;
+    أرجع پایله;
 }
 
-STBIDEF int stbi_is_16_bit_from_file(FILE *f)
+STBIDEF صحيح stbi_is_16_بټ_from_file(FILE *f)
 {
-   int r;
+   صحيح r;
    stbi__context s;
-   long pos = ftell(f);
-   stbi__start_file(&s, f);
+   اوږد pos = ftell(f);
+   stbi_پیل_file(&s, f);
    r = stbi__is_16_main(&s);
    fseek(f,pos,SEEK_SET);
-   return r;
+   أرجع r;
 }
-#endif // !STBI_NO_STDIO
+#د_که_پای // !STBI_NO_STDIO
 
-#if 0 /* not used in SDL */
-STBIDEF int stbi_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp)
+#إذا 0 /* not used in SDL */
+STBIDEF صحيح stbi_info_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len, صحيح *x, صحيح *y, صحيح *comp)
 {
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__info_main(&s,x,y,comp);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi__info_main(&s,x,y,comp);
 }
 
-STBIDEF int stbi_info_from_callbacks(stbi_io_callbacks const *c, void *user, int *x, int *y, int *comp)
+STBIDEF صحيح stbi_info_from_callbacks(stbi_io_callbacks ثابت *c, فراغ *user, صحيح *x, صحيح *y, صحيح *comp)
 {
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *) c, user);
-   return stbi__info_main(&s,x,y,comp);
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *) c, user);
+   أرجع stbi__info_main(&s,x,y,comp);
 }
 
-STBIDEF int stbi_is_16_bit_from_memory(stbi_uc const *buffer, int len)
+STBIDEF صحيح stbi_is_16_بټ_from_حافظه(stbi_uc ثابت *بفر_2, صحيح len)
 {
    stbi__context s;
-   stbi__start_mem(&s,buffer,len);
-   return stbi__is_16_main(&s);
+   stbi_پیل_mem(&s,بفر_2,len);
+   أرجع stbi__is_16_main(&s);
 }
 
-STBIDEF int stbi_is_16_bit_from_callbacks(stbi_io_callbacks const *c, void *user)
+STBIDEF صحيح stbi_is_16_بټ_from_callbacks(stbi_io_callbacks ثابت *c, فراغ *user)
 {
    stbi__context s;
-   stbi__start_callbacks(&s, (stbi_io_callbacks *) c, user);
-   return stbi__is_16_main(&s);
+   stbi_پیل_callbacks(&s, (stbi_io_callbacks *) c, user);
+   أرجع stbi__is_16_main(&s);
 }
-#endif /**/
+#د_که_پای /**/
 
-#endif // STB_IMAGE_IMPLEMENTATION
+#د_که_پای // STB_IMAGE_IMPLEMENTATION
 
 /*
    revision history:

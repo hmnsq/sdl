@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODEC_AV1STD_ENCODE_H_
-#define VULKAN_VIDEO_CODEC_AV1STD_ENCODE_H_ 1
+#که_نه_تعریف_شوی VULKAN_VIDEO_CODEC_AV1STD_ENCODE_H_
+#تعریف_کړه VULKAN_VIDEO_CODEC_AV1STD_ENCODE_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,133 +13,133 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
 
 
 // vulkan_video_codec_av1std_encode is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codec_av1std_encode 1
+#تعریف_کړه vulkan_video_codec_av1std_encode 1
 
-#include "vulkan_video_codec_av1std.h"
+#ضمن "vulkan_video_codec_av1std.h"
 
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
+#تعریف_کړه VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_نسخه_1_0_0 VK_MAKE_VIDEO_STD_نسخه(1, 0, 0)
 
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_VERSION_1_0_0
-#define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_encode"
+#تعریف_کړه VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_نسخه VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_نسخه_1_0_0
+#تعریف_کړه VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_encode"
 
-typedef struct StdVideoEncodeAV1DecoderModelInfo {
-    uint8_t     buffer_delay_length_minus_1;
-    uint8_t     buffer_removal_time_length_minus_1;
-    uint8_t     frame_presentation_time_length_minus_1;
+تعريفنوع بنية StdVideoEncodeAV1DecoderModelInfo {
+    uint8_t     بفر_delay_اوږدتیا_minus_1;
+    uint8_t     بفر_removal_وخت_اوږدتیا_minus_1;
+    uint8_t     چوکاټ_presentation_وخت_اوږدتیا_minus_1;
     uint8_t     reserved1;
-    uint32_t    num_units_in_decoding_tick;
+    uint32_t    عدد_units_دننه_decoding_tick;
 } StdVideoEncodeAV1DecoderModelInfo;
 
-typedef struct StdVideoEncodeAV1ExtensionHeader {
+تعريفنوع بنية Std_Video_Encode_AV1_Extension_سرلیک {
     uint8_t    temporal_id;
     uint8_t    spatial_id;
-} StdVideoEncodeAV1ExtensionHeader;
+} Std_Video_Encode_AV1_Extension_سرلیک;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfoFlags {
+تعريفنوع بنية Std_Video_Encode_AV1_Operating_ټکی_Info_Flags {
     uint32_t    decoder_model_present_for_this_op : 1;
-    uint32_t    low_delay_mode_flag : 1;
+    uint32_t    ټیټ_delay_ډېرپېښ_flag : 1;
     uint32_t    initial_display_delay_present_for_this_op : 1;
     uint32_t    reserved : 29;
-} StdVideoEncodeAV1OperatingPointInfoFlags;
+} Std_Video_Encode_AV1_Operating_ټکی_Info_Flags;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfo {
-    StdVideoEncodeAV1OperatingPointInfoFlags    flags;
-    uint16_t                                    operating_point_idc;
+تعريفنوع بنية Std_Video_Encode_AV1_Operating_ټکی_Info {
+    Std_Video_Encode_AV1_Operating_ټکی_Info_Flags    flags;
+    uint16_t                                    operating_ټکی_idc;
     uint8_t                                     seq_level_idx;
     uint8_t                                     seq_tier;
-    uint32_t                                    decoder_buffer_delay;
-    uint32_t                                    encoder_buffer_delay;
+    uint32_t                                    decoder_بفر_delay;
+    uint32_t                                    encoder_بفر_delay;
     uint8_t                                     initial_display_delay_minus_1;
-} StdVideoEncodeAV1OperatingPointInfo;
+} Std_Video_Encode_AV1_Operating_ټکی_Info;
 
-typedef struct StdVideoEncodeAV1PictureInfoFlags {
-    uint32_t    error_resilient_mode : 1;
+تعريفنوع بنية StdVideoEncodeAV1PictureInfoFlags {
+    uint32_t    error_resilient_ډېرپېښ : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
-    uint32_t    render_and_frame_size_different : 1;
+    uint32_t    render_and_چوکاټ_اندازه_different : 1;
     uint32_t    allow_screen_content_tools : 1;
     uint32_t    is_filter_switchable : 1;
     uint32_t    force_integer_mv : 1;
-    uint32_t    frame_size_override_flag : 1;
-    uint32_t    buffer_removal_time_present_flag : 1;
+    uint32_t    چوکاټ_اندازه_override_flag : 1;
+    uint32_t    بفر_removal_وخت_present_flag : 1;
     uint32_t    allow_intrabc : 1;
-    uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
-    uint32_t    is_motion_mode_switchable : 1;
-    uint32_t    use_ref_frame_mvs : 1;
-    uint32_t    disable_frame_end_update_cdf : 1;
+    uint32_t    چوکاټ_refs_short_signaling : 1;
+    uint32_t    allow_لوړ_precision_mv : 1;
+    uint32_t    is_motion_ډېرپېښ_switchable : 1;
+    uint32_t    use_ref_چوکاټ_mvs : 1;
+    uint32_t    disable_چوکاټ_پای_ټکی_update_cdf : 1;
     uint32_t    allow_warped_motion : 1;
-    uint32_t    reduced_tx_set : 1;
-    uint32_t    skip_mode_present : 1;
+    uint32_t    reduced_tx_سېټ : 1;
+    uint32_t    skip_ډېرپېښ_present : 1;
     uint32_t    delta_q_present : 1;
     uint32_t    delta_lf_present : 1;
     uint32_t    delta_lf_multi : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    segmentation_update_map : 1;
     uint32_t    segmentation_temporal_update : 1;
-    uint32_t    segmentation_update_data : 1;
-    uint32_t    UsesLr : 1;
-    uint32_t    usesChromaLr : 1;
-    uint32_t    show_frame : 1;
-    uint32_t    showable_frame : 1;
+    uint32_t    segmentation_update_معلومات : 1;
+    uint32_t    کاروي_Lr : 1;
+    uint32_t    کاروي_Chroma_Lr : 1;
+    uint32_t    show_چوکاټ : 1;
+    uint32_t    showable_چوکاټ : 1;
     uint32_t    reserved : 3;
 } StdVideoEncodeAV1PictureInfoFlags;
 
-typedef struct StdVideoEncodeAV1PictureInfo {
+تعريفنوع بنية StdVideoEncodeAV1PictureInfo {
     StdVideoEncodeAV1PictureInfoFlags          flags;
-    StdVideoAV1FrameType                       frame_type;
-    uint32_t                                   frame_presentation_time;
-    uint32_t                                   current_frame_id;
-    uint8_t                                    order_hint;
-    uint8_t                                    primary_ref_frame;
-    uint8_t                                    refresh_frame_flags;
+    Std_Video_AV1_چوکاټ_Type                       چوکاټ_type;
+    uint32_t                                   چوکاټ_presentation_وخت;
+    uint32_t                                   current_چوکاټ_id;
+    uint8_t                                    ترتیب_hint;
+    uint8_t                                    primary_ref_چوکاټ;
+    uint8_t                                    refresh_چوکاټ_flags;
     uint8_t                                    coded_denom;
-    uint16_t                                   render_width_minus_1;
-    uint16_t                                   render_height_minus_1;
+    uint16_t                                   render_پلنوالی_minus_1;
+    uint16_t                                   render_لوړوالی_minus_1;
     StdVideoAV1InterpolationFilter             interpolation_filter;
-    StdVideoAV1TxMode                          TxMode;
+    Std_Video_AV1_Tx_ډېرپېښ                          Tx_ډېرپېښ;
     uint8_t                                    delta_q_res;
     uint8_t                                    delta_lf_res;
-    uint8_t                                    ref_order_hint[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    int8_t                                     ref_frame_idx[STD_VIDEO_AV1_REFS_PER_FRAME];
+    uint8_t                                    ref_ترتیب_hint[STD_VIDEO_AV1_عدد_REF_چوکاټونه];
+    int8_t                                     ref_چوکاټ_idx[STD_VIDEO_AV1_REFS_فی_چوکاټ];
     uint8_t                                    reserved1[3];
-    uint32_t                                   delta_frame_id_minus_1[STD_VIDEO_AV1_REFS_PER_FRAME];
-    const StdVideoAV1TileInfo*                 pTileInfo;
-    const StdVideoAV1Quantization*             pQuantization;
-    const StdVideoAV1Segmentation*             pSegmentation;
-    const StdVideoAV1LoopFilter*               pLoopFilter;
-    const StdVideoAV1CDEF*                     pCDEF;
-    const StdVideoAV1LoopRestoration*          pLoopRestoration;
-    const StdVideoAV1GlobalMotion*             pGlobalMotion;
-    const StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
-    const uint32_t*                            pBufferRemovalTimes;
+    uint32_t                                   delta_چوکاټ_id_minus_1[STD_VIDEO_AV1_REFS_فی_چوکاټ];
+    ثابت StdVideoAV1TileInfo*                 pTileInfo;
+    ثابت StdVideoAV1Quantization*             pQuantization;
+    ثابت StdVideoAV1Segmentation*             pSegmentation;
+    ثابت StdVideoAV1LoopFilter*               pLoopFilter;
+    ثابت StdVideoAV1CDEF*                     pCDEF;
+    ثابت StdVideoAV1LoopRestoration*          pLoopRestoration;
+    ثابت StdVideoAV1GlobalMotion*             pGlobalMotion;
+    ثابت Std_Video_Encode_AV1_Extension_سرلیک*    p_Extension_سرلیک;
+    ثابت uint32_t*                            p_بفر_Removal_Times;
 } StdVideoEncodeAV1PictureInfo;
 
-typedef struct StdVideoEncodeAV1ReferenceInfoFlags {
-    uint32_t    disable_frame_end_update_cdf : 1;
+تعريفنوع بنية StdVideoEncodeAV1ReferenceInfoFlags {
+    uint32_t    disable_چوکاټ_پای_ټکی_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeAV1ReferenceInfo {
+تعريفنوع بنية StdVideoEncodeAV1ReferenceInfo {
     StdVideoEncodeAV1ReferenceInfoFlags        flags;
-    uint32_t                                   RefFrameId;
-    StdVideoAV1FrameType                       frame_type;
-    uint8_t                                    OrderHint;
+    uint32_t                                   Ref_چوکاټ_Id;
+    Std_Video_AV1_چوکاټ_Type                       چوکاټ_type;
+    uint8_t                                    ترتیب_Hint;
     uint8_t                                    reserved1[3];
-    const StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
+    ثابت Std_Video_Encode_AV1_Extension_سرلیک*    p_Extension_سرلیک;
 } StdVideoEncodeAV1ReferenceInfo;
 
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
-#endif
+#د_که_پای

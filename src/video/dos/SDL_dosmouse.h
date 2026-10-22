@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosmouse_h_
-#define SDL_dosmouse_h_
+#که_نه_تعریف_شوی SDL_dosmouse_h_
+#تعریف_کړه SDL_dosmouse_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+بنية SDL_Cursor_معلومات
 {
     SDL_Surface *surface;
     SDL_Surface *converted_surface;
-    Uint32 converted_palette_version;
-    int hot_x, hot_y;
-    int w, h;
+    Uint32 converted_palette_نسخه;
+    صحيح hot_x, hot_y;
+    صحيح w, h;
 };
 
-extern void DOSVESA_InitMouse(SDL_VideoDevice *_this);
-extern void DOSVESA_QuitMouse(SDL_VideoDevice *_this);
+خارجي فراغ DOSVESA_InitMouse(SDL_VideoDevice *_this);
+خارجي فراغ DOSVESA_QuitMouse(SDL_VideoDevice *_this);
 
-#endif // SDL_dosmouse_h_
+#د_که_پای // SDL_dosmouse_h_

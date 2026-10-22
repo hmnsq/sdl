@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#که_نه_تعریف_شوی SDL_androidvideo_h_
+#تعریف_کړه SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+خارجي فراغ Android_سېټ_Screen_Resolution(صحيح surface_پلنوالی, صحيح surface_لوړوالی, صحيح device_پلنوالی, صحيح device_لوړوالی, عائم density, عائم شرح);
+خارجي فراغ Android_سېټ_Screen_HDRHeadroom(عائم headroom);
+خارجي فراغ Android_سېټ_Format(صحيح format_wanted, صحيح format_got);
+خارجي فراغ Android_سېټ_Orientation(SDL_DisplayOrientation orientation);
+خارجي فراغ Android_SendResize(SDL_کړکۍ *کړکۍ);
+خارجي فراغ Android_سېټ_کړکۍ_خوندي_Area_Insets(صحيح کیڼ, صحيح ښی, صحيح سر, صحيح bottom);
+خارجي فراغ Android_سېټ_Dark_ډېرپېښ(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+بنية SDL_Video_معلومات
 {
-    int isPaused;
-    int isPausing;
+    صحيح isPaused;
+    صحيح isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+خارجي صحيح Android_Surface_پلنوالی;
+خارجي صحيح Android_Surface_لوړوالی;
+خارجي عائم Android_ScreenDensity;
+خارجي صحيح Android_خوندي_Inset_کیڼ;
+خارجي صحيح Android_خوندي_Inset_ښی;
+خارجي صحيح Android_خوندي_Inset_سر;
+خارجي صحيح Android_خوندي_Inset_Bottom;
 
-#endif // SDL_androidvideo_h_
+#د_که_پای // SDL_androidvideo_h_

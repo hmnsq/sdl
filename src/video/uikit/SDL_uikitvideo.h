@@ -18,46 +18,46 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvideo_h_
-#define SDL_uikitvideo_h_
+#که_نه_تعریف_شوی SDL_uikitvideo_h_
+#تعریف_کړه SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#ifdef __OBJC__
+#که_تعریف_شوی __OBJC__
 
-#include <UIKit/UIKit.h>
+#ضمن <UIKit/UIKit.h>
 
-@interface SDL_UIKitVideoData : NSObject
+@interface SDL_UIKit_Video_معلومات : NSObject
 
-@property(nonatomic, assign) id pasteboardObserver;
+@property(nonatomic, ټاکل) id pasteboardObserver;
 
-@property(nonatomic, assign) bool setting_clipboard;
+@property(nonatomic, ټاکل) bool setting_clipboard;
 
-@end
+@پای_ټکی
 
-#ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
-#endif
+#که_تعریف_شوی SDL_PLATFORM_VISIONOS
+خارجي CGRect UIKit_Compute_View_چوکاټ(SDL_کړکۍ *کړکۍ);
+#وإلا
+خارجي CGRect UIKit_Compute_View_چوکاټ(SDL_کړکۍ *کړکۍ, UIScreen *screen);
+#د_که_پای
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+خارجي API_شته(ios(13.0)) UIWindowScene *UIKit_Get_فعال_کړکۍ_Scene(فراغ);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+خارجي فراغ UIKit_سېټ_Game_Controller_Interaction(bool enabled);
+خارجي فراغ UIKit_سېټ_View_Game_Controller_Interaction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
-#endif
+#إذا !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+خارجي UIInterfaceOrientation UIKit_GetInterfaceOrientation(فراغ);
+#د_که_پای
 
-#endif // __OBJC__
+#د_که_پای // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+خارجي bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+خارجي فراغ UIKit_ForceUpdateHomeIndicator(فراغ);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+خارجي bool UIKit_Is_System_نسخه_At_لږترلږه(مزدوج نسخه);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+خارجي SDL_SystemTheme UIKit_GetSystemTheme(فراغ);
 
-#endif // SDL_uikitvideo_h_
+#د_که_پای // SDL_uikitvideo_h_

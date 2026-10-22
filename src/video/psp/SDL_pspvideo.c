@@ -19,97 +19,97 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_PSP
+#که_تعریف_شوی SDL_VIDEO_DRIVER_PSP
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_mouse_c.h"
+#ضمن "../../events/SDL_keyboard_c.h"
 
 // PSP declarations
-#include "SDL_pspvideo.h"
-#include "SDL_pspevents_c.h"
-#include "SDL_pspgl_c.h"
-#include "../../render/psp/SDL_render_psp_c.h"
+#ضمن "SDL_pspvideo.h"
+#ضمن "SDL_pspevents_c.h"
+#ضمن "SDL_pspgl_c.h"
+#ضمن "../../render/psp/SDL_render_psp_c.h"
 
-#include <psputility.h>
-#include <pspgu.h>
-#include <pspdisplay.h>
-#include <vram.h>
+#ضمن <psputility.h>
+#ضمن <pspgu.h>
+#ضمن <pspdisplay.h>
+#ضمن <vram.h>
 
-/* unused
+/*ناکارول_شوی
 static bool PSP_initialized = false;
 */
 
-static void PSP_Destroy(SDL_VideoDevice *device)
+ساكن فراغ PSP_Destroy(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->دننی);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *PSP_Create(void)
+ساكن SDL_VideoDevice *PSP_Create(فراغ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
-    SDL_GLDriverData *gldata;
+    SDL_Video_معلومات *phdata;
+    SDL_GLDriver_معلومات *gldata;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    إذا (!device) {
+        أرجع عدم;
     }
 
     // Initialize internal PSP specific data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_معلومات *)SDL_calloc(1, حجم(SDL_Video_معلومات));
+    إذا (!phdata) {
         SDL_free(device);
-        return NULL;
+        أرجع عدم;
     }
 
-    gldata = (SDL_GLDriverData *)SDL_calloc(1, sizeof(SDL_GLDriverData));
-    if (!gldata) {
+    gldata = (SDL_GLDriver_معلومات *)SDL_calloc(1, حجم(SDL_GLDriver_معلومات));
+    إذا (!gldata) {
         SDL_free(device);
         SDL_free(phdata);
-        return NULL;
+        أرجع عدم;
     }
-    device->gl_data = gldata;
+    device->gl_معلومات = gldata;
 
-    device->internal = phdata;
+    device->دننی = phdata;
 
     phdata->egl_initialized = true;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->عدد_displays = 0;
 
     // Set device free function
-    device->free = PSP_Destroy;
+    device->حرر = PSP_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = PSP_VideoInit;
     device->VideoQuit = PSP_VideoQuit;
     device->GetDisplayModes = PSP_GetDisplayModes;
-    device->SetDisplayMode = PSP_SetDisplayMode;
-    device->CreateSDLWindow = PSP_CreateWindow;
-    device->SetWindowTitle = PSP_SetWindowTitle;
-    device->SetWindowPosition = PSP_SetWindowPosition;
-    device->SetWindowSize = PSP_SetWindowSize;
-    device->ShowWindow = PSP_ShowWindow;
-    device->HideWindow = PSP_HideWindow;
-    device->RaiseWindow = PSP_RaiseWindow;
-    device->MaximizeWindow = PSP_MaximizeWindow;
-    device->MinimizeWindow = PSP_MinimizeWindow;
-    device->RestoreWindow = PSP_RestoreWindow;
-    device->DestroyWindow = PSP_DestroyWindow;
-    device->GL_LoadLibrary = PSP_GL_LoadLibrary;
-    device->GL_GetProcAddress = PSP_GL_GetProcAddress;
+    device->سېټ_Display_ډېرپېښ = PSP_سېټ_Display_ډېرپېښ;
+    device->CreateSDLWindow = PSP_Create_کړکۍ;
+    device->سېټ_کړکۍ_Title = PSP_سېټ_کړکۍ_Title;
+    device->سېټ_کړکۍ_Position = PSP_سېټ_کړکۍ_Position;
+    device->سېټ_کړکۍ_اندازه = PSP_سېټ_کړکۍ_اندازه;
+    device->Show_کړکۍ = PSP_Show_کړکۍ;
+    device->Hide_کړکۍ = PSP_Hide_کړکۍ;
+    device->Raise_کړکۍ = PSP_Raise_کړکۍ;
+    device->Maximize_کړکۍ = PSP_Maximize_کړکۍ;
+    device->Minimize_کړکۍ = PSP_Minimize_کړکۍ;
+    device->Restore_کړکۍ = PSP_Restore_کړکۍ;
+    device->Destroy_کړکۍ = PSP_Destroy_کړکۍ;
+    device->GL_بارول_Library = PSP_GL_بارول_Library;
+    device->GL_Get_Proc_پته = PSP_GL_Get_Proc_پته;
     device->GL_UnloadLibrary = PSP_GL_UnloadLibrary;
     device->GL_CreateContext = PSP_GL_CreateContext;
     device->GL_MakeCurrent = PSP_GL_MakeCurrent;
-    device->GL_SetSwapInterval = PSP_GL_SetSwapInterval;
-    device->GL_GetSwapInterval = PSP_GL_GetSwapInterval;
-    device->GL_SwapWindow = PSP_GL_SwapWindow;
+    device->GL_سېټ_بدلون_Interval = PSP_GL_سېټ_بدلون_Interval;
+    device->GL_Get_بدلون_Interval = PSP_GL_Get_بدلون_Interval;
+    device->GL_بدلون_کړکۍ = PSP_GL_بدلون_کړکۍ;
     device->GL_DestroyContext = PSP_GL_DestroyContext;
     device->HasScreenKeyboardSupport = PSP_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = PSP_ShowScreenKeyboard;
@@ -119,154 +119,154 @@ static SDL_VideoDevice *PSP_Create(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    أرجع device;
 }
 
-static void configure_dialog(pspUtilityMsgDialogParams *dialog, size_t dialog_size)
+ساكن فراغ configure_dialog(psp_Utility_پیغام_Dialog_Params *dialog, size_t dialog_اندازه)
 {
 	// clear structure and setup size
-	SDL_memset(dialog, 0, dialog_size);
-	dialog->base.size = dialog_size;
+	SDL_memset(dialog, 0, dialog_اندازه);
+	dialog->بنسټ.اندازه = dialog_اندازه;
 
 	// set language
-	sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE, &dialog->base.language);
+	sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE, &dialog->بنسټ.language);
 
 	// set X/O swap
-	sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN, &dialog->base.buttonSwap);
+	sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN, &dialog->بنسټ.button_بدلون);
 
 	// set thread priorities
 	// TODO: understand how these work
-	dialog->base.soundThread = 0x10;
-	dialog->base.graphicsThread = 0x11;
-	dialog->base.fontThread = 0x12;
-	dialog->base.accessThread = 0x13;
+	dialog->بنسټ.soundThread = 0x10;
+	dialog->بنسټ.graphicsThread = 0x11;
+	dialog->بنسټ.fontThread = 0x12;
+	dialog->بنسټ.accessThread = 0x13;
 }
 
-static void *setup_temporal_gu(void *list)
+ساكن فراغ *تیاری_temporal_gu(فراغ *list)
 {
     // Using GU_PSM_8888 for the framebuffer
-	int bpp = 4;
+	صحيح bpp = 4;
 
-	void *doublebuffer = vramalloc(PSP_FRAME_BUFFER_SIZE * bpp * 2);
-    void *backbuffer = doublebuffer;
-    void *frontbuffer = ((uint8_t *)doublebuffer) + PSP_FRAME_BUFFER_SIZE * bpp;
+	فراغ *doublebuffer = vramalloc(PSP_چوکاټ_بفر_اندازه * bpp * 2);
+    فراغ *backbuffer = doublebuffer;
+    فراغ *frontbuffer = ((uint8_t *)doublebuffer) + PSP_چوکاټ_بفر_اندازه * bpp;
 
     sceGuInit();
 
-    sceGuStart(GU_DIRECT,list);
-	sceGuDrawBuffer(GU_PSM_8888, vrelptr(frontbuffer), PSP_FRAME_BUFFER_WIDTH);
-    sceGuDispBuffer(PSP_SCREEN_WIDTH, PSP_SCREEN_HEIGHT, vrelptr(backbuffer), PSP_FRAME_BUFFER_WIDTH);
+    sce_Gu_پیل(GU_مستقیم,list);
+	sce_Gu_Draw_بفر(GU_PSM_8888, vrelptr(frontbuffer), PSP_چوکاټ_بفر_پلنوالی);
+    sce_Gu_Disp_بفر(PSP_SCREEN_پلنوالی, PSP_SCREEN_لوړوالی, vrelptr(backbuffer), PSP_چوکاټ_بفر_پلنوالی);
 
-    sceGuOffset(2048 - (PSP_SCREEN_WIDTH >> 1), 2048 - (PSP_SCREEN_HEIGHT >> 1));
-    sceGuViewport(2048, 2048, PSP_SCREEN_WIDTH, PSP_SCREEN_HEIGHT);
+    sce_Gu_دننه_واټن(2048 - (PSP_SCREEN_پلنوالی >> 1), 2048 - (PSP_SCREEN_لوړوالی >> 1));
+    sceGuViewport(2048, 2048, PSP_SCREEN_پلنوالی, PSP_SCREEN_لوړوالی);
 
-    sceGuDisable(GU_DEPTH_TEST);
+    sceGuDisable(GU_ژوروالی_TEST);
 
     // Scissoring
-    sceGuScissor(0, 0, PSP_SCREEN_WIDTH, PSP_SCREEN_HEIGHT);
+    sceGuScissor(0, 0, PSP_SCREEN_پلنوالی, PSP_SCREEN_لوړوالی);
     sceGuEnable(GU_SCISSOR_TEST);
 
-    sceGuFinish();
+    sce_Gu_پای();
     sceGuSync(0,0);
 
-    sceDisplayWaitVblankStart();
+    sce_Display_Wait_Vblank_پیل();
     sceGuDisplay(GU_TRUE);
 
-	return doublebuffer;
+	أرجع doublebuffer;
 }
 
-static void term_temporal_gu(void *guBuffer)
+ساكن فراغ غړی_temporal_gu(فراغ *gu_بفر)
 {
-	sceGuTerm();
-	vfree(guBuffer);
-	sceDisplayWaitVblankStart();
+	sce_Gu_غړی();
+	vfree(gu_بفر);
+	sce_Display_Wait_Vblank_پیل();
 }
 
-bool PSP_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool PSP_Show_پیغام_Box(ثابت SDL_پیغام_Box_معلومات *messageboxdata, صحيح *buttonID)
 {
-	unsigned char list[64] __attribute__((aligned(64)));
-	pspUtilityMsgDialogParams dialog;
-	int status;
-    void *guBuffer = NULL;
+	بینښه حرف list[64] __attribute__((aligned(64)));
+	psp_Utility_پیغام_Dialog_Params dialog;
+	صحيح حالت;
+    فراغ *gu_بفر = عدم;
 
 	// check if it's possible to use existing video context
-	if (SDL_GetKeyboardFocus() == NULL) {
-		guBuffer = setup_temporal_gu(list);
+	إذا (SDL_GetKeyboardFocus() == عدم) {
+		gu_بفر = تیاری_temporal_gu(list);
 	}
 
 	// configure dialog
-	configure_dialog(&dialog, sizeof(dialog));
+	configure_dialog(&dialog, حجم(dialog));
 
 	// setup dialog options for text
-	dialog.mode = PSP_UTILITY_MSGDIALOG_MODE_TEXT;
-	dialog.options = PSP_UTILITY_MSGDIALOG_OPTION_TEXT;
+	dialog.ډېرپېښ = PSP_UTILITY_MSGDIALOG_ډېرپېښ_متن;
+	dialog.options = PSP_UTILITY_MSGDIALOG_OPTION_متن;
 
 	// copy the message in, 512 bytes max
-	SDL_snprintf(dialog.message, sizeof(dialog.message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+	SDL_snprintf(dialog.پیغام, حجم(dialog.پیغام), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->پیغام);
 
 	// too many buttons
-	if (messageboxdata->numbuttons > 2)
-		return SDL_SetError("messageboxdata->numbuttons valid values are 0, 1, 2");
+	إذا (messageboxdata->numbuttons > 2)
+		أرجع SDL_سېټ_Error("messageboxdata->numbuttons valid values are 0, 1, 2");
 
 	// we only have two options, "yes/no" or "ok"
-	if (messageboxdata->numbuttons == 2)
+	إذا (messageboxdata->numbuttons == 2)
 		dialog.options |= PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS | PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO;
 
 	// start dialog
-	if (sceUtilityMsgDialogInitStart(&dialog) != 0)
-		return SDL_SetError("sceUtilityMsgDialogInitStart() failed for some reason");
+	إذا (sce_Utility_پیغام_Dialog_Init_پیل(&dialog) != 0)
+		أرجع SDL_سېټ_Error("sceUtilityMsgDialogInitStart() failed for some reason");
 
 	// loop while the dialog is active
-	status = PSP_UTILITY_DIALOG_NONE;
-	do
+	حالت = PSP_UTILITY_DIALOG_NONE;
+	افعل
 	{
-		sceGuStart(GU_DIRECT, list);
+		sce_Gu_پیل(GU_مستقیم, list);
 		sceGuClearColor(0);
-		sceGuClearDepth(0);
-		sceGuClear(GU_COLOR_BUFFER_BIT|GU_DEPTH_BUFFER_BIT);
-		sceGuFinish();
+		sce_Gu_Clear_ژوروالی(0);
+		sceGuClear(GU_COLOR_بفر_بټ|GU_ژوروالی_بفر_بټ);
+		sce_Gu_پای();
 		sceGuSync(0,0);
 
-		status = sceUtilityMsgDialogGetStatus();
+		حالت = sce_Utility_پیغام_Dialog_Get_حالت();
 
-		switch (status)
+		بدل (حالت)
 		{
-			case PSP_UTILITY_DIALOG_VISIBLE:
-				sceUtilityMsgDialogUpdate(1);
-				break;
+			حالة PSP_UTILITY_DIALOG_VISIBLE:
+				sce_Utility_پیغام_Dialog_Update(1);
+				اكسر;
 
-			case PSP_UTILITY_DIALOG_QUIT:
-				sceUtilityMsgDialogShutdownStart();
-				break;
+			حالة PSP_UTILITY_DIALOG_QUIT:
+				sce_Utility_پیغام_Dialog_Shutdown_پیل();
+				اكسر;
 		}
 
-		sceDisplayWaitVblankStart();
-		sceGuSwapBuffers();
+		sce_Display_Wait_Vblank_پیل();
+		sce_Gu_بدلون_Buffers();
 
-	} while (status != PSP_UTILITY_DIALOG_NONE);
+	} طالما (حالت != PSP_UTILITY_DIALOG_NONE);
 
     // cleanup
-	if (guBuffer)
+	إذا (gu_بفر)
 	{
-		term_temporal_gu(guBuffer);
+		غړی_temporal_gu(gu_بفر);
 	}
 
 	// success
-	if (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_YES)
+	إذا (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_پایله_YES)
 		*buttonID = messageboxdata->buttons[0].buttonID;
-	else if (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_NO)
+	وإلا إذا (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_پایله_NO)
 		*buttonID = messageboxdata->buttons[1].buttonID;
-	else
+	وإلا
 		*buttonID = messageboxdata->buttons[0].buttonID;
 
-	return true;
+	أرجع true;
 }
 
 VideoBootStrap PSP_bootstrap = {
     "psp",
     "PSP Video Driver",
     PSP_Create,
-    PSP_ShowMessageBox,
+    PSP_Show_پیغام_Box,
     false
 };
 
@@ -275,255 +275,255 @@ VideoBootStrap PSP_bootstrap = {
 /*****************************************************************************/
 bool PSP_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_ډېرپېښ ډېرپېښ;
 
-    if (!PSP_EventInit(_this)) {
-        return false;  // error string would already be set
+    إذا (!PSP_EventInit(_this)) {
+        أرجع false;  // error string would already be set
     }
 
-    SDL_zero(mode);
-    mode.w = PSP_SCREEN_WIDTH;
-    mode.h = PSP_SCREEN_HEIGHT;
-    mode.refresh_rate = 60.0f;
+    SDL_zero(ډېرپېښ);
+    ډېرپېښ.w = PSP_SCREEN_پلنوالی;
+    ډېرپېښ.h = PSP_SCREEN_لوړوالی;
+    ډېرپېښ.refresh_شرح = 60.0f;
 
     // 32 bpp for default
-    mode.format = SDL_PIXELFORMAT_ABGR8888;
+    ډېرپېښ.format = SDL_PIXELFORMAT_ABGR8888;
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    إذا (SDL_جمع_کړه_Basic_Video_Display(&ډېرپېښ) == 0) {
+        أرجع false;
     }
-    return true;
+    أرجع true;
 }
 
-void PSP_VideoQuit(SDL_VideoDevice *_this)
+فراغ PSP_VideoQuit(SDL_VideoDevice *_this)
 {
     PSP_EventQuit(_this);
 }
 
 bool PSP_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_ډېرپېښ ډېرپېښ;
 
-    SDL_zero(mode);
-    mode.w = PSP_SCREEN_WIDTH;
-    mode.h = PSP_SCREEN_HEIGHT;
-    mode.refresh_rate = 60.0f;
+    SDL_zero(ډېرپېښ);
+    ډېرپېښ.w = PSP_SCREEN_پلنوالی;
+    ډېرپېښ.h = PSP_SCREEN_لوړوالی;
+    ډېرپېښ.refresh_شرح = 60.0f;
 
     // 32 bpp for default
-    mode.format = SDL_PIXELFORMAT_ABGR8888;
-    SDL_AddFullscreenDisplayMode(display, &mode);
+    ډېرپېښ.format = SDL_PIXELFORMAT_ABGR8888;
+    SDL_جمع_کړه_Fullscreen_Display_ډېرپېښ(display, &ډېرپېښ);
 
     // 16 bpp secondary mode
-    mode.format = SDL_PIXELFORMAT_BGR565;
-    SDL_AddFullscreenDisplayMode(display, &mode);
-    return true;
+    ډېرپېښ.format = SDL_PIXELFORMAT_BGR565;
+    SDL_جمع_کړه_Fullscreen_Display_ډېرپېښ(display, &ډېرپېښ);
+    أرجع true;
 }
 
-bool PSP_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool PSP_سېټ_Display_ډېرپېښ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ډېرپېښ *ډېرپېښ)
 {
-    return true;
+    أرجع true;
 }
 
-#define EGLCHK(stmt)                           \
-    do {                                       \
+#تعریف_کړه EGLCHK(stmt)                           \
+    افعل {                                       \
         EGLint err;                            \
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
-            SDL_SetError("EGL error %d", err); \
-            return true;                          \
+        إذا (err != EGL_SUCCESS) {              \
+            SDL_سېټ_Error("EGL error %d", err); \
+            أرجع true;                          \
         }                                      \
-    } while (0)
+    } طالما (0)
 
-bool PSP_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool PSP_Create_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *wdata;
+    SDL_کړکۍ_معلومات *wdata;
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_کړکۍ_معلومات *)SDL_calloc(1, حجم(SDL_کړکۍ_معلومات));
+    إذا (!wdata) {
+        أرجع false;
     }
 
     // Setup driver data for this window
-    window->internal = wdata;
+    کړکۍ->دننی = wdata;
 
-    SDL_SetKeyboardFocus(window);
+    SDL_سېټ_Keyboard_Focus(کړکۍ);
 
     // Window has been successfully created
-    return true;
+    أرجع true;
 }
 
-void PSP_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_سېټ_کړکۍ_Title(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-bool PSP_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool PSP_سېټ_کړکۍ_Position(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
-void PSP_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
-{
-}
-void PSP_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_سېټ_کړکۍ_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Show_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Hide_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Raise_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Maximize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Minimize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
-void PSP_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_Restore_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
+{
+}
+فراغ PSP_Destroy_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
 
 bool PSP_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    أرجع true;
 }
 
-void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+فراغ PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID props)
 {
-    char list[0x20000] __attribute__((aligned(64))); // Needed for sceGuStart to work
-    int done = 0;
-    int input_text_length = 128;
-    void *received_text = SDL_calloc(input_text_length, sizeof(Uint16));
-    if (!received_text) {
-        return;
+    حرف list[0x20000] __attribute__((aligned(64))); // Needed for sceGuStart to work
+    صحيح بشپړ = 0;
+    صحيح ننوت_متن_اوږدتیا = 128;
+    فراغ *received_متن = SDL_calloc(ننوت_متن_اوږدتیا, حجم(Uint16));
+    إذا (!received_متن) {
+        أرجع;
     }
-    void *received_text_start = received_text;
-    void *text_string = NULL;
-    void *string_to_send = NULL;
+    فراغ *received_متن_پیل = received_متن;
+    فراغ *متن_string = عدم;
+    فراغ *string_منزل_send = عدم;
 
-    SDL_iconv_t iconv = NULL;
-    size_t outbytesleft = input_text_length;
-    size_t inbytesleft = input_text_length * sizeof(Uint16);
-    size_t iconv_result = 0;
+    SDL_iconv_t iconv = عدم;
+    size_t outbytesleft = ننوت_متن_اوږدتیا;
+    size_t inbytesleft = ننوت_متن_اوږدتیا * حجم(Uint16);
+    size_t iconv_پایله = 0;
 
-    SceUtilityOskData data;
+    Sce_Utility_Osk_معلومات معلومات;
     SceUtilityOskParams params;
 
-    data.language = PSP_UTILITY_OSK_LANGUAGE_DEFAULT;
-    data.lines = 1;
-    data.unk_24 = 1;
-    switch (SDL_GetTextInputType(props)) {
-    default:
-    case SDL_TEXTINPUT_TYPE_TEXT:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-        data.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
-        break;
+    معلومات.language = PSP_UTILITY_OSK_LANGUAGE_DEFAULT;
+    معلومات.کرښې = 1;
+    معلومات.unk_24 = 1;
+    بدل (SDL_Get_متن_ننوت_Type(props)) {
+    افتراضي:
+    حالة SDL_TEXTINPUT_TYPE_متن:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_متن_NAME:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_متن_EMAIL:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_متن_USERNAME:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_متن_PASSWORD_HIDDEN:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_متن_PASSWORD_VISIBLE:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_ALL;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_شمېره:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_شمېره_PASSWORD_HIDDEN:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_شمېره_PASSWORD_VISIBLE:
+        معلومات.inputtype = PSP_UTILITY_OSK_INPUTTYPE_LATIN_DIGIT;
+        اكسر;
     }
-    data.desc = NULL;
-    data.intext = NULL;
-    data.outtextlength = input_text_length;
-    data.outtextlimit = input_text_length;
-    data.outtext = (unsigned short *)received_text;
+    معلومات.desc = عدم;
+    معلومات.intext = عدم;
+    معلومات.outtextlength = ننوت_متن_اوږدتیا;
+    معلومات.outtextlimit = ننوت_متن_اوږدتیا;
+    معلومات.outtext = (بینښه لنډ *)received_متن;
 
-    params.base.size = sizeof(params);
-    sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE, &params.base.language);
-    sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN, &params.base.buttonSwap);
-    params.base.graphicsThread = 17;
-    params.base.accessThread = 19;
-    params.base.fontThread = 18;
-    params.base.soundThread = 16;
+    params.بنسټ.اندازه = حجم(params);
+    sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_LANGUAGE, &params.بنسټ.language);
+    sceUtilityGetSystemParamInt(PSP_SYSTEMPARAM_ID_INT_UNKNOWN, &params.بنسټ.button_بدلون);
+    params.بنسټ.graphicsThread = 17;
+    params.بنسټ.accessThread = 19;
+    params.بنسټ.fontThread = 18;
+    params.بنسټ.soundThread = 16;
     params.datacount = 1;
-    params.data = &data;
+    params.معلومات = &معلومات;
 
-    sceUtilityOskInitStart(&params);
+    sce_Utility_Osk_Init_پیل(&params);
 
     SDL_SendScreenKeyboardShown();
 
-    while (!done) {
-        sceGuStart(GU_DIRECT, list);
+    طالما (!بشپړ) {
+        sce_Gu_پیل(GU_مستقیم, list);
         sceGuClearColor(0);
-        sceGuClear(GU_COLOR_BUFFER_BIT);
-        if (sceGuGetStatus(GU_DEPTH_TEST)) {
-            sceGuClearDepth(0);
-            sceGuClear(GU_DEPTH_BUFFER_BIT);
+        sceGuClear(GU_COLOR_بفر_بټ);
+        إذا (sce_Gu_Get_حالت(GU_ژوروالی_TEST)) {
+            sce_Gu_Clear_ژوروالی(0);
+            sceGuClear(GU_ژوروالی_بفر_بټ);
         }
-        sceGuFinish();
+        sce_Gu_پای();
         sceGuSync(0, 0);
 
-        switch (sceUtilityOskGetStatus()) {
-        case PSP_UTILITY_DIALOG_VISIBLE:
+        بدل (sce_Utility_Osk_Get_حالت()) {
+        حالة PSP_UTILITY_DIALOG_VISIBLE:
             sceUtilityOskUpdate(1);
-            break;
-        case PSP_UTILITY_DIALOG_QUIT:
-            sceUtilityOskShutdownStart();
-            break;
-        case PSP_UTILITY_DIALOG_NONE:
-            done = 1;
-            break;
-        default:
-            break;
+            اكسر;
+        حالة PSP_UTILITY_DIALOG_QUIT:
+            sce_Utility_Osk_Shutdown_پیل();
+            اكسر;
+        حالة PSP_UTILITY_DIALOG_NONE:
+            بشپړ = 1;
+            اكسر;
+        افتراضي:
+            اكسر;
         }
-        sceDisplayWaitVblankStart();
-        sceGuSwapBuffers();
+        sce_Display_Wait_Vblank_پیل();
+        sce_Gu_بدلون_Buffers();
     }
 
     // Convert input list to strings
     iconv = SDL_iconv_open("UTF-8", "UCS-2-INTERNAL");
-    if ((size_t)iconv == SDL_ICONV_ERROR) {
-        goto done;
+    إذا ((size_t)iconv == SDL_ICONV_ERROR) {
+        اذهب بشپړ;
     }
 
-    string_to_send = SDL_calloc(input_text_length, 3); // utf-8 characters can use up to 4 bytes, but the PSP keyboard has characters up to 3
-    if (!string_to_send) {
+    string_منزل_send = SDL_calloc(ننوت_متن_اوږدتیا, 3); // utf-8 characters can use up to 4 bytes, but the PSP keyboard has characters up to 3
+    إذا (!string_منزل_send) {
         SDL_iconv_close(iconv);
-        goto done;
+        اذهب بشپړ;
     }
 
-    text_string = string_to_send;
-    outbytesleft = input_text_length * 3;
-    iconv_result = SDL_iconv(iconv, (const char **)&received_text, (size_t *)&inbytesleft, (char **)&text_string, &outbytesleft);
-    if (iconv_result == 0) {
-        SDL_SendKeyboardText(string_to_send);
+    متن_string = string_منزل_send;
+    outbytesleft = ننوت_متن_اوږدتیا * 3;
+    iconv_پایله = SDL_iconv(iconv, (ثابت حرف **)&received_متن, (size_t *)&inbytesleft, (حرف **)&متن_string, &outbytesleft);
+    إذا (iconv_پایله == 0) {
+        SDL_Send_Keyboard_متن(string_منزل_send);
     }
 
     SDL_iconv_close(iconv);
 
-done:
-    SDL_free(string_to_send);
-    SDL_free(received_text_start);
+بشپړ:
+    SDL_free(string_منزل_send);
+    SDL_free(received_متن_پیل);
 
     SDL_SendScreenKeyboardHidden();
 }
 
-void PSP_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ PSP_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_PSP
+#د_که_پای // SDL_VIDEO_DRIVER_PSP

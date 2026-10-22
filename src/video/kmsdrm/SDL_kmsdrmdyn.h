@@ -19,36 +19,36 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_kmsdrmdyn_h_
-#define SDL_kmsdrmdyn_h_
+#که_نه_تعریف_شوی SDL_kmsdrmdyn_h_
+#تعریف_کړه SDL_kmsdrmdyn_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
+#ضمن <xf86drm.h>
+#ضمن <xf86drmMode.h>
+#ضمن <gbm.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
-extern bool SDL_KMSDRM_LoadSymbols(void);
-extern void SDL_KMSDRM_UnloadSymbols(void);
+خارجي bool SDL_KMSDRM_بارول_Symbols(فراغ);
+خارجي فراغ SDL_KMSDRM_UnloadSymbols(فراغ);
 
 // Declare all the function pointers and wrappers...
-#define SDL_KMSDRM_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
-#define SDL_KMSDRM_SYM_CONST(type, name)    \
-    typedef type SDL_DYNKMSDRMCONST_##name; \
-    extern SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
-#define SDL_KMSDRM_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
-#include "SDL_kmsdrmsym.h"
+#تعریف_کړه SDL_KMSDRM_SYM(rc, fn, params)        \
+    تعريفنوع rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    خارجي SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+#تعریف_کړه SDL_KMSDRM_SYM_CONST(type, name)    \
+    تعريفنوع type SDL_DYNKMSDRMCONST_##name; \
+    خارجي SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
+#تعریف_کړه SDL_KMSDRM_SYM_OPT(rc, fn, params)    \
+    تعريفنوع rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    خارجي SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+#ضمن "SDL_kmsdrmsym.h"
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
-#endif // SDL_kmsdrmdyn_h_
+#د_که_پای // SDL_kmsdrmdyn_h_

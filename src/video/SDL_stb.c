@@ -18,107 +18,107 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_stb_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_yuv_c.h"
+#ضمن "SDL_stb_c.h"
+#ضمن "SDL_surface_c.h"
+#ضمن "SDL_yuv_c.h"
 
 /* STB image conversion */
-#ifndef SDL_DISABLE_STB
-#define SDL_HAVE_STB
-#endif
+#که_نه_تعریف_شوی SDL_DISABLE_STB
+#تعریف_کړه SDL_HAVE_STB
+#د_که_پای
 
-#ifdef SDL_HAVE_STB
+#که_تعریف_شوی SDL_HAVE_STB
 ////////////////////////////////////////////////////////////////////////////
-#define malloc SDL_malloc
-#define realloc SDL_realloc
-#define free SDL_free
-#undef memcpy
-#define memcpy SDL_memcpy
-#undef memset
-#define memset SDL_memset
-#undef strcmp
-#define strcmp SDL_strcmp
-#undef strncmp
-#define strncmp SDL_strncmp
-#define strtol SDL_strtol
+#تعریف_کړه حافظه_ورکړه SDL_malloc
+#تعریف_کړه realloc SDL_realloc
+#تعریف_کړه حرر SDL_free
+#تعریف_لغوه حافظه_نقل
+#تعریف_کړه حافظه_نقل SDL_memcpy
+#تعریف_لغوه memset
+#تعریف_کړه memset SDL_memset
+#تعریف_لغوه strcmp
+#تعریف_کړه strcmp SDL_strcmp
+#تعریف_لغوه مزي_پرتله
+#تعریف_کړه مزي_پرتله SDL_strncmp
+#تعریف_کړه strtol SDL_strtol
 
-#define abs SDL_abs
-#define pow SDL_pow
-#define ldexp SDL_scalbn
+#تعریف_کړه مطلق_قیمت SDL_abs
+#تعریف_کړه توان SDL_pow
+#تعریف_کړه ldexp SDL_scalbn
 
-#define STB_IMAGE_STATIC
-#define STBI_NO_THREAD_LOCALS
-#define STBI_FAILURE_USERMSG
-#if defined(SDL_NEON_INTRINSICS)
-#define STBI_NEON
-#endif
-#define STBI_ONLY_PNG
-#define STBI_ONLY_JPEG
-#define STBI_NO_GIF
-#define STBI_NO_HDR
-#define STBI_NO_LINEAR
-#define STBI_NO_STDIO
-#define STBI_ASSERT SDL_assert
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#تعریف_کړه STB_IMAGE_STATIC
+#تعریف_کړه STBI_NO_THREAD_LOCALS
+#تعریف_کړه STBI_FAILURE_USERMSG
+#إذا defined(SDL_NEON_INTRINSICS)
+#تعریف_کړه STBI_NEON
+#د_که_پای
+#تعریف_کړه STBI_ONLY_PNG
+#تعریف_کړه STBI_ONLY_JPEG
+#تعریف_کړه STBI_NO_GIF
+#تعریف_کړه STBI_NO_HDR
+#تعریف_کړه STBI_NO_خطي
+#تعریف_کړه STBI_NO_STDIO
+#تعریف_کړه STBI_ASSERT SDL_assert
+#تعریف_کړه STB_IMAGE_IMPLEMENTATION
+#ضمن "stb_image.h"
 
 ////////////////////////////////////////////////////////////////////////////
-#define MZ_ASSERT(x) SDL_assert(x)
+#تعریف_کړه MZ_ASSERT(x) SDL_assert(x)
 //#undef memcpy
 //#define memcpy SDL_memcpy
 //#undef memset
 //#define memset SDL_memset
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-#define MINIZ_LITTLE_ENDIAN 1
-#else
-#define MINIZ_LITTLE_ENDIAN 0
-#endif
-#define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 0
-#define MINIZ_SDL_NOUNUSED
-#include "miniz.h"
+#إذا SDL_BYTEORDER == SDL_LIL_ENDIAN
+#تعریف_کړه MINIZ_LITTLE_ENDIAN 1
+#وإلا
+#تعریف_کړه MINIZ_LITTLE_ENDIAN 0
+#د_که_پای
+#تعریف_کړه MINIZ_USE_UNALIGNED_LOADS_AND_STORES 0
+#تعریف_کړه MINIZ_SDL_NOUNUSED
+#ضمن "miniz.h"
 
-#undef memset
-#endif // SDL_HAVE_STB
+#تعریف_لغوه memset
+#د_که_پای // SDL_HAVE_STB
 
-#ifdef SDL_HAVE_STB
-static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+#که_تعریف_شوی SDL_HAVE_STB
+ساكن bool SDL_Convert_Pixels_MJPG_منزل_NV12(صحيح پلنوالی, صحيح لوړوالی, ثابت فراغ *src, صحيح src_pitch, فراغ *dst, صحيح dst_pitch)
 {
-    int w = 0, h = 0, format = 0;
+    صحيح w = 0, h = 0, format = 0;
     stbi__context s;
-    stbi__start_mem(&s, src, src_pitch);
+    stbi_پیل_mem(&s, src, src_pitch);
 
-    stbi__result_info ri;
+    stbi_پایله_info ri;
     SDL_zero(ri);
-    ri.bits_per_channel = 8;
-    ri.channel_order = STBI_ORDER_RGB;
-    ri.num_channels = 0;
+    ri.بټونه_فی_channel = 8;
+    ri.channel_ترتیب = STBI_ترتیب_RGB;
+    ri.عدد_channels = 0;
 
     stbi__nv12 nv12;
-    nv12.w = width;
-    nv12.h = height;
+    nv12.w = پلنوالی;
+    nv12.h = لوړوالی;
     nv12.pitch = dst_pitch;
     nv12.y = (stbi_uc *)dst;
     nv12.uv = nv12.y + (nv12.h * nv12.pitch);
 
-    void *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
-    if (!pixels) {
-        return false;
+    فراغ *pixels = stbi_jpeg_بارول(&s, &w, &h, &format, 4, &nv12, &ri);
+    إذا (!pixels) {
+        أرجع false;
     }
-    return true;
+    أرجع true;
 }
-#endif // SDL_HAVE_STB
+#د_که_پای // SDL_HAVE_STB
 
-bool SDL_ConvertPixels_STB(int width, int height,
-                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_STB(صحيح پلنوالی, صحيح لوړوالی,
+                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت فراغ *src, صحيح src_pitch,
+                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, فراغ *dst, صحيح dst_pitch)
 {
-#ifdef SDL_HAVE_STB
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        if (dst_format == SDL_PIXELFORMAT_NV12) {
-            return SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
-        } else if (
+#که_تعریف_شوی SDL_HAVE_STB
+    إذا (src_format == SDL_PIXELFORMAT_MJPG) {
+        إذا (dst_format == SDL_PIXELFORMAT_NV12) {
+            أرجع SDL_Convert_Pixels_MJPG_منزل_NV12(پلنوالی, لوړوالی, src, src_pitch, dst, dst_pitch);
+        } وإلا إذا (
             dst_format == SDL_PIXELFORMAT_YV12 ||
             dst_format == SDL_PIXELFORMAT_IYUV ||
             dst_format == SDL_PIXELFORMAT_YUY2 ||
@@ -127,83 +127,83 @@ bool SDL_ConvertPixels_STB(int width, int height,
             dst_format == SDL_PIXELFORMAT_NV21 ||
             dst_format == SDL_PIXELFORMAT_P010
         ) {
-            size_t temp_size = 0;
-            size_t temp_pitch = 0;
-            if (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
-                return false;
+            size_t لنډمهاله_اندازه = 0;
+            size_t لنډمهاله_pitch = 0;
+            إذا (!SDL_CalculateYUVSize(dst_format, پلنوالی, لوړوالی, &لنډمهاله_اندازه, &لنډمهاله_pitch)) {
+                أرجع false;
             }
-            void *temp_pixels = SDL_malloc(temp_size);
-            if (!temp_pixels) {
-                return false;
-            }
-
-            if (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (int)temp_pitch)) {
-                SDL_free(temp_pixels);
-                return false;
+            فراغ *لنډمهاله_pixels = SDL_malloc(لنډمهاله_اندازه);
+            إذا (!لنډمهاله_pixels) {
+                أرجع false;
             }
 
-            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (int)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-            SDL_free(temp_pixels);
-            return result;
+            إذا (!SDL_Convert_Pixels_MJPG_منزل_NV12(پلنوالی, لوړوالی, src, src_pitch, لنډمهاله_pixels, (صحيح)لنډمهاله_pitch)) {
+                SDL_free(لنډمهاله_pixels);
+                أرجع false;
+            }
+
+            bool پایله = SDL_ConvertPixelsAndColorspace(پلنوالی, لوړوالی, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, لنډمهاله_pixels, (صحيح)لنډمهاله_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+            SDL_free(لنډمهاله_pixels);
+            أرجع پایله;
         }
     }
 
-    bool result;
-    int w = 0, h = 0, format = 0;
-    int len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
-    void *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
-    if (!pixels) {
-        return false;
+    bool پایله;
+    صحيح w = 0, h = 0, format = 0;
+    صحيح len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (لوړوالی * src_pitch);
+    فراغ *pixels = stbi_بارول_from_حافظه(src, len, &w, &h, &format, 4);
+    إذا (!pixels) {
+        أرجع false;
     }
 
-    if (w == width && h == height) {
-        result = SDL_ConvertPixelsAndColorspace(w, h, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, pixels, width * 4, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else {
-        result = SDL_SetError("Expected image size %dx%d, actual size %dx%d", width, height, w, h);
+    إذا (w == پلنوالی && h == لوړوالی) {
+        پایله = SDL_ConvertPixelsAndColorspace(w, h, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, pixels, پلنوالی * 4, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    } وإلا {
+        پایله = SDL_سېټ_Error("Expected image size %dx%d, actual size %dx%d", پلنوالی, لوړوالی, w, h);
     }
     stbi_image_free(pixels);
 
-    return result;
-#else
-    return SDL_SetError("SDL not built with STB image support");
-#endif
+    أرجع پایله;
+#وإلا
+    أرجع SDL_سېټ_Error("SDL not built with STB image support");
+#د_که_پای
 }
 
-#ifdef SDL_HAVE_STB
-static int IMG_LoadSTB_IO_read(void *user, char *data, int size)
+#که_تعریف_شوی SDL_HAVE_STB
+ساكن صحيح IMG_بارول_STB_IO_read(فراغ *user, حرف *معلومات, صحيح اندازه)
 {
-    size_t amount = SDL_ReadIO((SDL_IOStream*)user, data, size);
-    return (int)amount;
+    size_t amount = SDL_ReadIO((SDL_IOStream*)user, معلومات, اندازه);
+    أرجع (صحيح)amount;
 }
 
-static void IMG_LoadSTB_IO_skip(void *user, int n)
+ساكن فراغ IMG_بارول_STB_IO_skip(فراغ *user, صحيح n)
 {
     SDL_SeekIO((SDL_IOStream*)user, n, SDL_IO_SEEK_CUR);
 }
 
-static int IMG_LoadSTB_IO_eof(void *user)
+ساكن صحيح IMG_بارول_STB_IO_eof(فراغ *user)
 {
     SDL_IOStream *src = (SDL_IOStream*)user;
-    return SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
+    أرجع SDL_GetIOStatus(src) == SDL_IO_حالت_EOF;
 }
 
-static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
+ساكن SDL_Surface *SDL_بارول_STB_IO(SDL_IOStream *src)
 {
-    Sint64 start;
+    Sint64 پیل;
     Uint8 magic[26];
-    int w, h, format;
+    صحيح w, h, format;
     stbi_uc *pixels;
     stbi_io_callbacks rw_callbacks;
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
     bool use_palette = false;
-    unsigned int palette_colors[256];
+    بینښه صحيح palette_colors[256];
 
     // src has already been validated
-    start = SDL_TellIO(src);
+    پیل = SDL_TellIO(src);
 
-    if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-        const Uint8 PNG_COLOR_INDEXED = 3;
-        if (magic[0] == 0x89 &&
+    إذا (SDL_ReadIO(src, magic, حجم(magic)) == حجم(magic)) {
+        ثابت Uint8 PNG_COLOR_شاخصي = 3;
+        إذا (magic[0] == 0x89 &&
             magic[1] == 'P' &&
             magic[2] == 'N' &&
             magic[3] == 'G' &&
@@ -211,22 +211,22 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             magic[13] == 'H' &&
             magic[14] == 'D' &&
             magic[15] == 'R' &&
-            magic[25] == PNG_COLOR_INDEXED) {
+            magic[25] == PNG_COLOR_شاخصي) {
             use_palette = true;
         }
     }
-    SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
+    SDL_SeekIO(src, پیل, SDL_IO_SEEK_سېټ);
 
     /* Load the image data */
-    rw_callbacks.read = IMG_LoadSTB_IO_read;
-    rw_callbacks.skip = IMG_LoadSTB_IO_skip;
-    rw_callbacks.eof = IMG_LoadSTB_IO_eof;
+    rw_callbacks.اقرأ = IMG_بارول_STB_IO_read;
+    rw_callbacks.skip = IMG_بارول_STB_IO_skip;
+    rw_callbacks.eof = IMG_بارول_STB_IO_eof;
     w = h = format = 0; /* silence warning */
-    if (use_palette) {
+    إذا (use_palette) {
         /* Unused palette entries will be opaque white */
-        SDL_memset(palette_colors, 0xff, sizeof(palette_colors));
+        SDL_memset(palette_colors, 0xff, حجم(palette_colors));
 
-        pixels = stbi_load_from_callbacks_with_palette(
+        pixels = stbi_بارول_from_callbacks_with_palette(
             &rw_callbacks,
             src,
             &w,
@@ -234,8 +234,8 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             palette_colors,
             SDL_arraysize(palette_colors)
         );
-    } else {
-        pixels = stbi_load_from_callbacks(
+    } وإلا {
+        pixels = stbi_بارول_from_callbacks(
             &rw_callbacks,
             src,
             &w,
@@ -244,12 +244,12 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             STBI_default
         );
     }
-    if (!pixels) {
-        SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-        return NULL;
+    إذا (!pixels) {
+        SDL_SeekIO(src, پیل, SDL_IO_SEEK_سېټ);
+        أرجع عدم;
     }
 
-    if (use_palette) {
+    إذا (use_palette) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -257,35 +257,35 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w
         );
-        if (surface) {
+        إذا (surface) {
             bool has_colorkey = false;
-            int colorkey_index = -1;
+            صحيح colorkey_شاخص = -1;
             bool has_alpha = false;
             SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-            if (palette) {
-                int i;
-                Uint8 *palette_bytes = (Uint8 *)palette_colors;
+            إذا (palette) {
+                صحيح i;
+                Uint8 *palette_بایټونه = (Uint8 *)palette_colors;
 
-                for (i = 0; i < palette->ncolors; i++) {
-                    palette->colors[i].r = *palette_bytes++;
-                    palette->colors[i].g = *palette_bytes++;
-                    palette->colors[i].b = *palette_bytes++;
-                    palette->colors[i].a = *palette_bytes++;
-                    if (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
-                        if (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
+                لكل (i = 0; i < palette->ncolors; i++) {
+                    palette->colors[i].r = *palette_بایټونه++;
+                    palette->colors[i].g = *palette_بایټونه++;
+                    palette->colors[i].b = *palette_بایټونه++;
+                    palette->colors[i].a = *palette_بایټونه++;
+                    إذا (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
+                        إذا (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
                             has_colorkey = true;
-                            colorkey_index = i;
-                        } else {
+                            colorkey_شاخص = i;
+                        } وإلا {
                             /* Partial opacity or multiple colorkeys */
                             has_alpha = true;
                         }
                     }
                 }
             }
-            if (has_alpha) {
-                SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
-            } else if (has_colorkey) {
-                SDL_SetSurfaceColorKey(surface, true, colorkey_index);
+            إذا (has_alpha) {
+                SDL_سېټ_Surface_Blend_ډېرپېښ(surface, SDL_BLENDMODE_BLEND);
+            } وإلا إذا (has_colorkey) {
+                SDL_سېټ_Surface_Color_کلی(surface, true, colorkey_شاخص);
             }
 
             /* FIXME: This sucks. It'd be better to allocate the surface first, then
@@ -296,7 +296,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
+    } وإلا إذا (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -306,14 +306,14 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w * format
         );
-        if (surface) {
+        إذا (surface) {
             /* Set a grayscale palette for gray images */
-            if (surface->format == SDL_PIXELFORMAT_INDEX8) {
+            إذا (surface->format == SDL_PIXELFORMAT_INDEX8) {
                 SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-                if (palette) {
-                    int i;
+                إذا (palette) {
+                    صحيح i;
 
-                    for (i = 0; i < palette->ncolors; i++) {
+                    لكل (i = 0; i < palette->ncolors; i++) {
                         palette->colors[i].r = (Uint8)i;
                         palette->colors[i].g = (Uint8)i;
                         palette->colors[i].b = (Uint8)i;
@@ -329,16 +329,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey_alpha) {
+    } وإلا إذا (format == STBI_grey_alpha) {
         surface = SDL_CreateSurfaceUninitialized(w, h, SDL_PIXELFORMAT_RGBA32);
-        if (surface) {
+        إذا (surface) {
             Uint8 *src_ptr = pixels;
             Uint8 *dst = (Uint8 *)surface->pixels;
-            int skip = surface->pitch - (surface->w * 4);
-            int row, col;
+            صحيح skip = surface->pitch - (surface->w * 4);
+            صحيح لیکه, ستون;
 
-            for (row = 0; row < h; ++row) {
-                for (col = 0; col < w; ++col) {
+            لكل (لیکه = 0; لیکه < h; ++لیکه) {
+                لكل (ستون = 0; ستون < w; ++ستون) {
                     Uint8 c = *src_ptr++;
                     Uint8 a = *src_ptr++;
                     *dst++ = c;
@@ -350,294 +350,294 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             }
             stbi_image_free(pixels);
         }
-    } else {
-        SDL_SetError("Unknown image format: %d", format);
+    } وإلا {
+        SDL_سېټ_Error("Unknown image format: %d", format);
     }
 
-    if (!surface) {
+    إذا (!surface) {
         /* The error message should already be set */
         stbi_image_free(pixels); /* calls SDL_free() */
-        SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
+        SDL_SeekIO(src, پیل, SDL_IO_SEEK_سېټ);
     }
-    return surface;
+    أرجع surface;
 }
-#endif // SDL_HAVE_STB
+#د_که_پای // SDL_HAVE_STB
 
 /* FIXME: This is a copypaste from JPEGLIB! Pull that out of the ifdefs */
 /* Define this for quicker (but less perfect) JPEG identification */
-#define FAST_IS_JPEG
+#تعریف_کړه FAST_IS_JPEG
 
 /* See if an image is contained in a data source */
 bool SDL_IsJPG(SDL_IOStream *src)
 {
-    Sint64 start;
+    Sint64 پیل;
     bool is_JPG;
-    bool in_scan;
+    bool دننه_لټون;
     Uint8 magic[4];
 
     /* This detection code is by Steaphan Greene <stea@cs.binghamton.edu> */
     /* Blame me, not Sam, if this doesn't work right. */
     /* And don't forget to report the problem to the the sdl list too! */
 
-    if (!src) {
-        return false;
+    إذا (!src) {
+        أرجع false;
     }
 
-    start = SDL_TellIO(src);
+    پیل = SDL_TellIO(src);
     is_JPG = false;
-    in_scan = false;
-    if (SDL_ReadIO(src, magic, 2) == 2) {
-        if ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
+    دننه_لټون = false;
+    إذا (SDL_ReadIO(src, magic, 2) == 2) {
+        إذا ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
             is_JPG = true;
-            while (is_JPG) {
-                if (SDL_ReadIO(src, magic, 2) != 2) {
+            طالما (is_JPG) {
+                إذا (SDL_ReadIO(src, magic, 2) != 2) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) && !in_scan ) {
+                } وإلا إذا ( (magic[0] != 0xFF) && !دننه_لټون ) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
+                } وإلا إذا ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
                     /* Extra padding in JPEG (legal) */
                     /* or this is data and we are scanning */
                     SDL_SeekIO(src, -1, SDL_IO_SEEK_CUR);
-                } else if (magic[1] == 0xD9) {
+                } وإلا إذا (magic[1] == 0xD9) {
                     /* Got to end of good JPEG */
-                    break;
-                } else if ( in_scan && (magic[1] == 0x00) ) {
+                    اكسر;
+                } وإلا إذا ( دننه_لټون && (magic[1] == 0x00) ) {
                     /* This is an encoded 0xFF within the data */
-                } else if ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
+                } وإلا إذا ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
                     /* These have nothing else */
-                } else if (SDL_ReadIO(src, magic+2, 2) != 2) {
+                } وإلا إذا (SDL_ReadIO(src, magic+2, 2) != 2) {
                     is_JPG = false;
-                } else {
+                } وإلا {
                     /* Yes, it's big-endian */
-                    Sint64 innerStart;
-                    Uint32 size;
-                    Sint64 end;
-                    innerStart = SDL_TellIO(src);
-                    size = (magic[2] << 8) + magic[3];
-                    end = SDL_SeekIO(src, size-2, SDL_IO_SEEK_CUR);
-                    if ( end != innerStart + size - 2 ) {
+                    Sint64 inner_پیل;
+                    Uint32 اندازه;
+                    Sint64 پای_ټکی;
+                    inner_پیل = SDL_TellIO(src);
+                    اندازه = (magic[2] << 8) + magic[3];
+                    پای_ټکی = SDL_SeekIO(src, اندازه-2, SDL_IO_SEEK_CUR);
+                    إذا ( پای_ټکی != inner_پیل + اندازه - 2 ) {
                         is_JPG = false;
                     }
-                    if ( magic[1] == 0xDA ) {
+                    إذا ( magic[1] == 0xDA ) {
                         /* Now comes the actual JPEG meat */
-#ifdef  FAST_IS_JPEG
+#که_تعریف_شوی  FAST_IS_JPEG
                         /* Ok, I'm convinced.  It is a JPEG. */
-                        break;
-#else
+                        اكسر;
+#وإلا
                         /* I'm not convinced.  Prove it! */
-                        in_scan = true;
-#endif
+                        دننه_لټون = true;
+#د_که_پای
                     }
                 }
             }
         }
     }
-    SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-    return is_JPG;
+    SDL_SeekIO(src, پیل, SDL_IO_SEEK_سېټ);
+    أرجع is_JPG;
 }
 
-SDL_Surface *SDL_LoadJPG_IO(SDL_IOStream *src, bool closeio)
+SDL_Surface *SDL_بارول_JPG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        اذهب بشپړ;
     }
 
-    if (!SDL_IsJPG(src)) {
-        SDL_SetError("File is not a JPEG file");
-        goto done;
+    إذا (!SDL_IsJPG(src)) {
+        SDL_سېټ_Error("File is not a JPEG file");
+        اذهب بشپړ;
     }
 
-#ifdef SDL_HAVE_STB
-    surface = SDL_LoadSTB_IO(src);
-#else
-    SDL_SetError("SDL not built with STB image support");
-#endif // SDL_HAVE_STB
+#که_تعریف_شوی SDL_HAVE_STB
+    surface = SDL_بارول_STB_IO(src);
+#وإلا
+    SDL_سېټ_Error("SDL not built with STB image support");
+#د_که_پای // SDL_HAVE_STB
 
-done:
-    if (src && closeio) {
+بشپړ:
+    إذا (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    أرجع surface;
 }
 
-SDL_Surface *SDL_LoadJPG(const char *file)
+SDL_Surface *SDL_بارول_JPG(ثابت حرف *file)
 {
-    SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    SDL_IOStream *بهیر = SDL_IOFromFile(file, "rb");
+    إذا (!بهیر) {
+        أرجع عدم;
     }
 
-    return SDL_LoadJPG_IO(stream, true);
+    أرجع SDL_بارول_JPG_IO(بهیر, true);
 }
 
 bool SDL_IsPNG(SDL_IOStream *src)
 {
-    Sint64 start;
+    Sint64 پیل;
     Uint8 magic[4];
     bool is_PNG;
 
     is_PNG = false;
-    start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 0x89 &&
+    پیل = SDL_TellIO(src);
+    إذا (پیل >= 0) {
+        إذا (SDL_ReadIO(src, magic, حجم(magic)) == حجم(magic)) {
+            إذا (magic[0] == 0x89 &&
                 magic[1] == 'P' &&
                 magic[2] == 'N' &&
                 magic[3] == 'G') {
                 is_PNG = true;
             }
         }
-        SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
+        SDL_SeekIO(src, پیل, SDL_IO_SEEK_سېټ);
     }
 
-    return is_PNG;
+    أرجع is_PNG;
 }
 
-SDL_Surface *SDL_LoadPNG_IO(SDL_IOStream *src, bool closeio)
+SDL_Surface *SDL_بارول_PNG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        اذهب بشپړ;
     }
 
-    if (!SDL_IsPNG(src)) {
-        SDL_SetError("File is not a PNG file");
-        goto done;
+    إذا (!SDL_IsPNG(src)) {
+        SDL_سېټ_Error("File is not a PNG file");
+        اذهب بشپړ;
     }
 
-#ifdef SDL_HAVE_STB
-    surface = SDL_LoadSTB_IO(src);
-#else
-    SDL_SetError("SDL not built with STB image support");
-#endif // SDL_HAVE_STB
+#که_تعریف_شوی SDL_HAVE_STB
+    surface = SDL_بارول_STB_IO(src);
+#وإلا
+    SDL_سېټ_Error("SDL not built with STB image support");
+#د_که_پای // SDL_HAVE_STB
 
-done:
-    if (src && closeio) {
+بشپړ:
+    إذا (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    أرجع surface;
 }
 
-SDL_Surface *SDL_LoadPNG(const char *file)
+SDL_Surface *SDL_بارول_PNG(ثابت حرف *file)
 {
-    SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    SDL_IOStream *بهیر = SDL_IOFromFile(file, "rb");
+    إذا (!بهیر) {
+        أرجع عدم;
     }
 
-    return SDL_LoadPNG_IO(stream, true);
+    أرجع SDL_بارول_PNG_IO(بهیر, true);
 }
 
 bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 {
     bool retval = false;
-    Uint8 *plte = NULL;
-    Uint8 *trns = NULL;
+    Uint8 *plte = عدم;
+    Uint8 *trns = عدم;
     bool free_surface = false;
 
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        goto done;
+        اذهب بشپړ;
     }
     CHECK_PARAM(!dst) {
         SDL_InvalidParamError("dst");
-        goto done;
+        اذهب بشپړ;
     }
 
-#ifdef SDL_HAVE_STB
-    int plte_size = 0;
-    int trns_size = 0;
+#که_تعریف_شوی SDL_HAVE_STB
+    صحيح plte_اندازه = 0;
+    صحيح trns_اندازه = 0;
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        if (!surface->palette) {
-            SDL_SetError("Indexed surfaces must have a palette");
-            goto done;
+    إذا (SDL_ISPIXELFORMAT_شاخصي(surface->format)) {
+        إذا (!surface->palette) {
+            SDL_سېټ_Error("Indexed surfaces must have a palette");
+            اذهب بشپړ;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_INDEX8) {
+        إذا (surface->format != SDL_PIXELFORMAT_INDEX8) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_INDEX8);
-            if (!surface) {
-                goto done;
+            إذا (!surface) {
+                اذهب بشپړ;
             }
             free_surface = true;
         }
 
-        plte_size = surface->palette->ncolors * 3;
-        trns_size = surface->palette->ncolors;
-        plte = (Uint8 *)SDL_malloc(plte_size);
-        trns = (Uint8 *)SDL_malloc(trns_size);
-        if (!plte || !trns) {
-            goto done;
+        plte_اندازه = surface->palette->ncolors * 3;
+        trns_اندازه = surface->palette->ncolors;
+        plte = (Uint8 *)SDL_malloc(plte_اندازه);
+        trns = (Uint8 *)SDL_malloc(trns_اندازه);
+        إذا (!plte || !trns) {
+            اذهب بشپړ;
         }
         SDL_Color *colors = surface->palette->colors;
-        for (int i = 0; i < surface->palette->ncolors; ++i) {
+        لكل (صحيح i = 0; i < surface->palette->ncolors; ++i) {
             plte[i * 3 + 0] = colors[i].r;
             plte[i * 3 + 1] = colors[i].g;
             plte[i * 3 + 2] = colors[i].b;
             trns[i] = colors[i].a;
         }
-    } else {
-        if (surface->format != SDL_PIXELFORMAT_RGBA32) {
+    } وإلا {
+        إذا (surface->format != SDL_PIXELFORMAT_RGBA32) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-            if (!surface) {
-                goto done;
+            إذا (!surface) {
+                اذهب بشپړ;
             }
             free_surface = true;
         }
     }
 
-    size_t size = 0;
-    void *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
-    if (png) {
-        if (SDL_WriteIO(dst, png, size)) {
+    size_t اندازه = 0;
+    فراغ *png = tdefl_write_image_منزل_png_file_دننه_حافظه_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &اندازه, 6, MZ_FALSE, plte, plte_اندازه, trns, trns_اندازه);
+    إذا (png) {
+        إذا (SDL_WriteIO(dst, png, اندازه)) {
             retval = true;
         }
         mz_free(png); /* calls SDL_free() */
-    } else {
-        SDL_SetError("Failed to convert and save image");
+    } وإلا {
+        SDL_سېټ_Error("Failed to convert and save image");
     }
 
-#else
-    SDL_SetError("SDL not built with STB image support");
-#endif
+#وإلا
+    SDL_سېټ_Error("SDL not built with STB image support");
+#د_که_پای
 
-done:
-    if (free_surface) {
+بشپړ:
+    إذا (free_surface) {
         SDL_DestroySurface(surface);
     }
     SDL_free(plte);
     SDL_free(trns);
 
-    if (dst && closeio) {
+    إذا (dst && closeio) {
         retval &= SDL_CloseIO(dst);
     }
-    return retval;
+    أرجع retval;
 }
 
-bool SDL_SavePNG(SDL_Surface *surface, const char *file)
+bool SDL_SavePNG(SDL_Surface *surface, ثابت حرف *file)
 {
-#ifdef SDL_HAVE_STB
+#که_تعریف_شوی SDL_HAVE_STB
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        أرجع SDL_InvalidParamError("surface");
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
-        return SDL_SetError("Indexed surfaces must have a palette");
+    إذا (SDL_ISPIXELFORMAT_شاخصي(surface->format) && !surface->palette) {
+        أرجع SDL_سېټ_Error("Indexed surfaces must have a palette");
     }
-    SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    SDL_IOStream *بهیر = SDL_IOFromFile(file, "wb");
+    إذا (!بهیر) {
+        أرجع false;
     }
 
-    return SDL_SavePNG_IO(surface, stream, true);
-#else
-    return SDL_SetError("SDL not built with STB image support");
-#endif
+    أرجع SDL_SavePNG_IO(surface, بهیر, true);
+#وإلا
+    أرجع SDL_سېټ_Error("SDL not built with STB image support");
+#د_که_پای
 }

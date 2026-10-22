@@ -18,82 +18,82 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11window_h_
-#define SDL_x11window_h_
+#که_نه_تعریف_شوی SDL_x11window_h_
+#تعریف_کړه SDL_x11window_h_
 
 /* We need to queue the focus in/out changes because they may occur during
    video mode changes and we can respond to them by triggering more mode
    changes.
 */
-#define PENDING_FOCUS_TIME 200
+#تعریف_کړه PENDING_FOCUS_وخت 200
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include <EGL/egl.h>
-#endif
+#که_تعریف_شوی SDL_VIDEO_OPENGL_EGL
+#ضمن <EGL/egl.h>
+#د_که_پای
 
-typedef enum
+تعريفنوع تعداد
 {
     PENDING_FOCUS_NONE,
-    PENDING_FOCUS_IN,
-    PENDING_FOCUS_OUT
+    PENDING_FOCUS_دننه,
+    PENDING_FOCUS_بهر
 } PendingFocusEnum;
 
-struct SDL_WindowData
+بنية SDL_کړکۍ_معلومات
 {
-    SDL_Window *window;
-    Window xwindow;
+    SDL_کړکۍ *کړکۍ;
+    کړکۍ_2 xwindow;
     Visual *visual;
     Colormap colormap;
-#ifndef NO_SHARED_MEMORY
+#که_نه_تعریف_شوی NO_SHARED_حافظه
     // MIT shared memory extension information
     bool use_mitshm;
     XShmSegmentInfo shminfo;
-#endif
+#د_که_پای
     XImage *ximage;
     GC gc;
     XIC ic;
     bool created;
-    int border_left;
-    int border_right;
-    int border_top;
-    int border_bottom;
+    صحيح border_کیڼ;
+    صحيح border_ښی;
+    صحيح border_سر;
+    صحيح border_bottom;
     bool xinput2_mouse_enabled;
     bool xinput2_keyboard_enabled;
     bool mouse_grabbed;
-    Uint64 last_focus_event_time;
-    unsigned long ignore_button_press_serial;
+    Uint64 وروستی_focus_event_وخت;
+    بینښه اوږد ignore_button_press_serial;
     PendingFocusEnum pending_focus;
-    Uint64 pending_focus_time;
+    Uint64 pending_focus_وخت;
     bool pending_move;
-    SDL_Point pending_move_point;
-    XConfigureEvent last_xconfigure;
+    SDL_ټکی pending_move_ټکی;
+    XConfigureEvent وروستی_xconfigure;
     XConfigureEvent pending_xconfigure;
-    struct SDL_VideoData *videodata;
-    unsigned long user_time;
+    بنية SDL_Video_معلومات *videodata;
+    بینښه اوږد user_وخت;
     Atom xdnd_req;
-    Window xdnd_source;
-    bool flashing_window;
-    Uint64 flash_cancel_time;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    کړکۍ_2 xdnd_سرچینه;
+    bool flashing_کړکۍ;
+    Uint64 flash_cancel_وخت;
+#که_تعریف_شوی SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    bool pointer_barrier_active;
-    PointerBarrier barrier[4];
+#د_که_پای
+#که_تعریف_شوی SDL_VIDEO_DRIVER_X11_XFIXES
+    bool اشاره_ګر_barrier_فعال;
+    اشاره_ګر_Barrier barrier[4];
     SDL_Rect barrier_rect;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#د_که_پای // SDL_VIDEO_DRIVER_X11_XFIXES
+#که_تعریف_شوی SDL_VIDEO_DRIVER_X11_XSYNC
     XSyncCounter resize_counter;
-    XSyncValue resize_id;
-    bool resize_in_progress;
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+    XSync_ارزښت resize_id;
+    bool resize_دننه_پرمختګ;
+#د_که_پای /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
     SDL_Rect expected;
-    SDL_DisplayMode requested_fullscreen_mode;
+    SDL_Display_ډېرپېښ requested_fullscreen_ډېرپېښ;
 
-    enum
+    تعداد
     {
         X11_PENDING_OP_NONE = 0x00,
         X11_PENDING_OP_RESTORE = 0x01,
@@ -104,71 +104,71 @@ struct SDL_WindowData
         X11_PENDING_OP_RESIZE = 0x20
     } pending_operation;
 
-    enum
+    تعداد
     {
-        X11_SIZE_MOVE_EVENTS_DISABLE = 0x01, // Events are completely disabled.
-        X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS = 0x02, // Events are disabled until a _NET_FRAME_EXTENTS event arrives.
-    } size_move_event_flags;
+        X11_اندازه_MOVE_EVENTS_DISABLE = 0x01, // Events are completely disabled.
+        X11_اندازه_MOVE_EVENTS_WAIT_FOR_BORDERS = 0x02, // Events are disabled until a _NET_FRAME_EXTENTS event arrives.
+    } اندازه_move_event_flags;
 
-    bool pending_size;
+    bool pending_اندازه;
     bool pending_position;
     bool fs_repositioned;
-    bool window_was_maximized;
-    bool previous_borders_nonzero;
+    bool کړکۍ_was_maximized;
+    bool پخوانی_borders_nonzero;
     bool toggle_borders;
     bool fullscreen_borders_forced_on;
     bool was_shown;
-    bool emit_size_move_after_property_notify;
-    SDL_HitTestResult hit_test_result;
+    bool emit_اندازه_move_after_property_notify;
+    SDL_موندنه_Test_پایله موندنه_test_پایله;
     bool pending_grab;
 
     XPoint xim_spot;
-    char *preedit_text;
+    حرف *preedit_متن;
     XIMFeedback *preedit_feedback;
-    int preedit_length;
-    int preedit_cursor;
+    صحيح preedit_اوږدتیا;
+    صحيح preedit_cursor;
     bool ime_needs_clear_composition;
 };
 
-extern void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags flags);
-extern SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Window xwindow);
+خارجي فراغ X11_سېټ_Net_WMState(SDL_VideoDevice *_this, کړکۍ_2 xwindow, SDL_کړکۍ_Flags flags);
+خارجي SDL_کړکۍ_Flags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, کړکۍ_2 xwindow);
 
-extern bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow);
-extern void X11_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void X11_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+خارجي bool X11_Create_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID create_props);
+خارجي حرف *X11_Get_کړکۍ_Title(SDL_VideoDevice *_this, کړکۍ_2 xwindow);
+خارجي فراغ X11_سېټ_کړکۍ_Title(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي bool X11_سېټ_کړکۍ_Icon(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_Surface *icon);
+خارجي bool X11_سېټ_کړکۍ_Position(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_سېټ_کړکۍ_Minimum_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_سېټ_کړکۍ_اعظمي_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_سېټ_کړکۍ_Aspect_نسبت(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي bool X11_Get_کړکۍ_Borders_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, صحيح *سر, صحيح *کیڼ, صحيح *bottom, صحيح *ښی);
+خارجي bool X11_سېټ_کړکۍ_Opacity(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, عائم opacity);
+خارجي bool X11_سېټ_کړکۍ_پلار(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_کړکۍ *پلار);
+خارجي bool X11_سېټ_کړکۍ_Modal(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool modal);
+خارجي فراغ X11_سېټ_کړکۍ_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Show_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Hide_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Raise_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Maximize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Minimize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_Restore_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_سېټ_کړکۍ_Bordered(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool bordered);
+خارجي فراغ X11_سېټ_کړکۍ_Resizable(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool resizable);
+خارجي فراغ X11_سېټ_کړکۍ_Always_On_سر(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool on_سر);
+خارجي SDL_Fullscreen_پایله X11_سېټ_کړکۍ_Fullscreen(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ *X11_Get_کړکۍ_ICCProfile(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, size_t *اندازه);
+خارجي bool X11_سېټ_کړکۍ_Mouse_Grab(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool grabbed);
+خارجي bool X11_سېټ_کړکۍ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool grabbed);
+خارجي فراغ X11_Destroy_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي bool X11_سېټ_کړکۍ_موندنه_Test(SDL_کړکۍ *کړکۍ, bool enabled);
+خارجي فراغ X11_AcceptDragAndDrop(SDL_کړکۍ *کړکۍ, bool accept);
+خارجي bool X11_Flash_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_FlashOperation operation);
+خارجي فراغ X11_Show_کړکۍ_System_Menu(SDL_کړکۍ *کړکۍ, صحيح x, صحيح y);
+خارجي bool X11_Sync_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ);
+خارجي bool X11_سېټ_کړکۍ_Focusable(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool focusable);
 
-extern bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title);
-extern void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position);
-extern void X11_SetWindowMinMax(SDL_Window *window, bool use_current);
+خارجي bool SDL_X11_سېټ_کړکۍ_Title(Display *display, کړکۍ_2 xwindow, حرف *title);
+خارجي فراغ X11_Update_کړکۍ_Position(SDL_کړکۍ *کړکۍ, bool use_current_position);
+خارجي فراغ X11_سېټ_کړکۍ_Min_Max(SDL_کړکۍ *کړکۍ, bool use_current);
 
-#endif // SDL_x11window_h_
+#د_که_پای // SDL_x11window_h_

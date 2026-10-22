@@ -18,43 +18,43 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#که_تعریف_شوی SDL_VIDEO_DRIVER_WINDOWS
 
-#include "../../core/windows/SDL_windows.h"
+#ضمن "../../core/windows/SDL_windows.h"
 
-#include "../../SDL_hints_c.h"
-#include "../../events/SDL_dropevents_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_sysvideo.h"
+#ضمن "../../SDL_hints_c.h"
+#ضمن "../../events/SDL_dropevents_c.h"
+#ضمن "../../events/SDL_keyboard_c.h"
+#ضمن "../../events/SDL_mouse_c.h"
+#ضمن "../../events/SDL_windowevents_c.h"
+#ضمن "../SDL_pixels_c.h"
+#ضمن "../SDL_sysvideo.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowswindow.h"
+#ضمن "SDL_windowsvideo.h"
+#ضمن "SDL_windowskeyboard.h"
+#ضمن "SDL_windowswindow.h"
 
 // Dropfile support
-#include <shellapi.h>
+#ضمن <shellapi.h>
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
-#endif
+#إذا !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#ضمن <shobjidl.h>
+#د_که_پای
 
 // Windows CE compatibility
-#ifndef SWP_NOCOPYBITS
-#define SWP_NOCOPYBITS 0
-#endif
+#که_نه_تعریف_شوی SWP_NOCOPYBITS
+#تعریف_کړه SWP_NOCOPYBITS 0
+#د_که_پای
 
 /* An undocumented message to create a popup system menu
  * - wParam is always 0
  * - lParam = MAKELONG(x, y) where x and y are the screen coordinates where the menu should be displayed
  */
-#ifndef WM_POPUPSYSTEMMENU
-#define WM_POPUPSYSTEMMENU 0x313
-#endif
+#که_نه_تعریف_شوی WM_POPUPSYSTEMMENU
+#تعریف_کړه WM_POPUPSYSTEMMENU 0x313
+#د_که_پای
 
 // #define HIGHDPI_DEBUG
 
@@ -68,51 +68,51 @@
    - WS_MAXIMIZEBOX: window will respond to Windows maximize commands sent to all windows, and the window will fill the usable desktop area rather than the whole screen
  */
 
-#define STYLE_BASIC               (WS_CLIPSIBLINGS | WS_CLIPCHILDREN)
-#define STYLE_FULLSCREEN          (WS_POPUP | WS_MINIMIZEBOX)
-#define STYLE_BORDERLESS          (WS_POPUP | WS_MINIMIZEBOX)
-#define STYLE_BORDERLESS_WINDOWED (WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_NORMAL              (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_RESIZABLE           (WS_THICKFRAME | WS_MAXIMIZEBOX)
-#define STYLE_MASK                (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_NORMAL | STYLE_RESIZABLE)
+#تعریف_کړه STYLE_BASIC               (WS_CLIPSIBLINGS | WS_CLIPCHILDREN)
+#تعریف_کړه STYLE_FULLSCREEN          (WS_POPUP | WS_MINIMIZEBOX)
+#تعریف_کړه STYLE_BORDERLESS          (WS_POPUP | WS_MINIMIZEBOX)
+#تعریف_کړه STYLE_BORDERLESS_WINDOWED (WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
+#تعریف_کړه STYLE_نورمال              (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
+#تعریف_کړه STYLE_RESIZABLE           (WS_THICKFRAME | WS_MAXIMIZEBOX)
+#تعریف_کړه STYLE_ماسک                (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_نورمال | STYLE_RESIZABLE)
 
-static DWORD GetWindowStyle(SDL_Window *window)
+ساكن DWORD Get_کړکۍ_Style(SDL_کړکۍ *کړکۍ)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    إذا (SDL_کړکۍ_IS_POPUP(کړکۍ)) {
         style |= WS_POPUP;
-    } else if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    } وإلا إذا (کړکۍ->flags & SDL_کړکۍ_FULLSCREEN) {
         style |= STYLE_FULLSCREEN;
-    } else {
-        if (window->flags & SDL_WINDOW_BORDERLESS) {
+    } وإلا {
+        إذا (کړکۍ->flags & SDL_کړکۍ_BORDERLESS) {
             /* This behavior more closely matches other platform where the window is borderless
                but still interacts with the window manager (e.g. task bar shows above it, it can
                be resized to fit within usable desktop area, etc.)
              */
-            if (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
+            إذا (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
                 style |= STYLE_BORDERLESS_WINDOWED;
-            } else {
+            } وإلا {
                 style |= STYLE_BORDERLESS;
             }
-        } else {
-            style |= STYLE_NORMAL;
+        } وإلا {
+            style |= STYLE_نورمال;
         }
 
         /* The WS_MAXIMIZEBOX style flag needs to be retained for as long as the window is maximized,
          * or restoration from minimized can fail, and leaving maximized can result in an odd size.
          */
-        if (window->flags & SDL_WINDOW_RESIZABLE) {
+        إذا (کړکۍ->flags & SDL_کړکۍ_RESIZABLE) {
             /* You can have a borderless resizable window, but Windows doesn't always draw it correctly,
                see https://bugzilla.libsdl.org/show_bug.cgi?id=4466
              */
-            if (!(window->flags & SDL_WINDOW_BORDERLESS) ||
+            إذا (!(کړکۍ->flags & SDL_کړکۍ_BORDERLESS) ||
                 SDL_GetHintBoolean("SDL_BORDERLESS_RESIZABLE_STYLE", true)) {
                 style |= STYLE_RESIZABLE;
             }
         }
 
-        if (window->internal && window->internal->force_ws_maximizebox) {
+        إذا (کړکۍ->دننی && کړکۍ->دننی->force_ws_maximizebox) {
             /* Even if the resizable flag is cleared, WS_MAXIMIZEBOX is still needed as long
              * as the window is maximized, or de-maximizing or minimizing and restoring the
              * maximized window can result in the window disappearing or being the wrong size.
@@ -121,644 +121,644 @@ static DWORD GetWindowStyle(SDL_Window *window)
         }
 
         // Need to set initialize minimize style, or when we call ShowWindow with WS_MINIMIZE it will activate a random window
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        إذا (کړکۍ->flags & SDL_کړکۍ_MINIMIZED) {
             style |= WS_MINIMIZE;
         }
     }
-    return style;
+    أرجع style;
 }
 
-static DWORD GetWindowStyleEx(SDL_Window *window)
+ساكن DWORD Get_کړکۍ_Style_Ex(SDL_کړکۍ *کړکۍ)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_UTILITY)) {
+    إذا (SDL_کړکۍ_IS_POPUP(کړکۍ) || (کړکۍ->flags & SDL_کړکۍ_UTILITY)) {
         style |= WS_EX_TOOLWINDOW;
     }
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
+    إذا (SDL_کړکۍ_IS_POPUP(کړکۍ) || (کړکۍ->flags & SDL_کړکۍ_NOT_FOCUSABLE)) {
         style |= WS_EX_NOACTIVATE;
     }
-    return style;
+    أرجع style;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static ITaskbarList3 *GetTaskbarList(SDL_Window *window)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+ساكن ITaskbarList3 *GetTaskbarList(SDL_کړکۍ *کړکۍ)
 {
-    const SDL_WindowData *data = window->internal;
-    SDL_assert(data->taskbar_button_created);
-    if (!data->videodata->taskbar_list) {
-        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, NULL, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&data->videodata->taskbar_list);
-        if (FAILED(ret)) {
-            WIN_SetErrorFromHRESULT("Unable to create taskbar list", ret);
-            return NULL;
+    ثابت SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    SDL_assert(معلومات->taskbar_button_created);
+    إذا (!معلومات->videodata->taskbar_list) {
+        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, عدم, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&معلومات->videodata->taskbar_list);
+        إذا (FAILED(ret)) {
+            WIN_سېټ_Error_From_HRESULT("Unable to create taskbar list", ret);
+            أرجع عدم;
         }
-        ITaskbarList3 *taskbarlist = data->videodata->taskbar_list;
+        ITaskbarList3 *taskbarlist = معلومات->videodata->taskbar_list;
         ret = taskbarlist->lpVtbl->HrInit(taskbarlist);
-        if (FAILED(ret)) {
+        إذا (FAILED(ret)) {
             taskbarlist->lpVtbl->Release(taskbarlist);
-            data->videodata->taskbar_list = NULL;
-            WIN_SetErrorFromHRESULT("Unable to initialize taskbar list", ret);
-            return NULL;
+            معلومات->videodata->taskbar_list = عدم;
+            WIN_سېټ_Error_From_HRESULT("Unable to initialize taskbar list", ret);
+            أرجع عدم;
         }
     }
-    return data->videodata->taskbar_list;
+    أرجع معلومات->videodata->taskbar_list;
 }
-#endif
+#د_که_پای
 
 /**
  * Returns arguments to pass to SetWindowPos - the window rect, including frame, in Windows coordinates.
  * Can be called before we have a HWND.
  */
-static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD styleEx, BOOL menu, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+ساكن bool WIN_Adjust_کړکۍ_Rect_With_Style(SDL_کړکۍ *کړکۍ, DWORD style, DWORD styleEx, BOOL menu, صحيح *x, صحيح *y, صحيح *پلنوالی, صحيح *لوړوالی, SDL_کړکۍ_Rect rect_type)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->internal : NULL;
+    SDL_Video_معلومات *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->دننی : عدم;
     RECT rect;
 
     // Client rect, in points
-    switch (rect_type) {
-    case SDL_WINDOWRECT_CURRENT:
-        SDL_RelativeToGlobalForWindow(window, window->x, window->y, x, y);
-        *width = window->w;
-        *height = window->h;
-        break;
-    case SDL_WINDOWRECT_WINDOWED:
-        SDL_RelativeToGlobalForWindow(window, window->windowed.x, window->windowed.y, x, y);
-        *width = window->windowed.w;
-        *height = window->windowed.h;
-        break;
-    case SDL_WINDOWRECT_FLOATING:
-        SDL_RelativeToGlobalForWindow(window, window->floating.x, window->floating.y, x, y);
-        *width = window->floating.w;
-        *height = window->floating.h;
-        break;
-    case SDL_WINDOWRECT_PENDING:
-        SDL_RelativeToGlobalForWindow(window, window->pending.x, window->pending.y, x, y);
-        *width = window->pending.w;
-        *height = window->pending.h;
-        break;
-    default:
+    بدل (rect_type) {
+    حالة SDL_WINDOWRECT_CURRENT:
+        SDL_Relative_منزل_Global_For_کړکۍ(کړکۍ, کړکۍ->x, کړکۍ->y, x, y);
+        *پلنوالی = کړکۍ->w;
+        *لوړوالی = کړکۍ->h;
+        اكسر;
+    حالة SDL_WINDOWRECT_WINDOWED:
+        SDL_Relative_منزل_Global_For_کړکۍ(کړکۍ, کړکۍ->windowed.x, کړکۍ->windowed.y, x, y);
+        *پلنوالی = کړکۍ->windowed.w;
+        *لوړوالی = کړکۍ->windowed.h;
+        اكسر;
+    حالة SDL_WINDOWRECT_FLOATING:
+        SDL_Relative_منزل_Global_For_کړکۍ(کړکۍ, کړکۍ->floating.x, کړکۍ->floating.y, x, y);
+        *پلنوالی = کړکۍ->floating.w;
+        *لوړوالی = کړکۍ->floating.h;
+        اكسر;
+    حالة SDL_WINDOWRECT_PENDING:
+        SDL_Relative_منزل_Global_For_کړکۍ(کړکۍ, کړکۍ->pending.x, کړکۍ->pending.y, x, y);
+        *پلنوالی = کړکۍ->pending.w;
+        *لوړوالی = کړکۍ->pending.h;
+        اكسر;
+    افتراضي:
         // Should never be here
         SDL_assert_release(false);
-        *width = 0;
-        *height = 0;
-        break;
+        *پلنوالی = 0;
+        *لوړوالی = 0;
+        اكسر;
     }
 
     /* Copy the client size in pixels into this rect structure,
        which we'll then adjust with AdjustWindowRectEx */
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = *width;
-    rect.bottom = *height;
+    rect.کیڼ = 0;
+    rect.سر = 0;
+    rect.ښی = *پلنوالی;
+    rect.bottom = *لوړوالی;
 
     /* borderless windows will have WM_NCCALCSIZE return 0 for the non-client area. When this happens, it looks like windows will send a resize message
        expanding the window client area to the previous window + chrome size, so shouldn't need to adjust the window size for the set styles.
      */
-    if (!(window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(window)) {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-        AdjustWindowRectEx(&rect, style, menu, 0);
-#else
-        if (WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice())) {
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_BORDERLESS) && !SDL_کړکۍ_IS_POPUP(کړکۍ)) {
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+        Adjust_کړکۍ_Rect_Ex(&rect, style, menu, 0);
+#وإلا
+        إذا (WIN_Is_فی_Monitor_V2_DPIAware(SDL_GetVideoDevice())) {
             /* With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of
                AdjustWindowRectEx. */
-            if (videodata) {
-                UINT frame_dpi;
-                SDL_WindowData *data = window->internal;
-                frame_dpi = (data && videodata->GetDpiForWindow) ? videodata->GetDpiForWindow(data->hwnd) : USER_DEFAULT_SCREEN_DPI;
-                if (videodata->AdjustWindowRectExForDpi(&rect, style, menu, styleEx, frame_dpi) == 0) {
-                    return WIN_SetError("AdjustWindowRectExForDpi()");
+            إذا (videodata) {
+                UINT چوکاټ_dpi;
+                SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+                چوکاټ_dpi = (معلومات && videodata->Get_Dpi_For_کړکۍ) ? videodata->Get_Dpi_For_کړکۍ(معلومات->hwnd) : USER_DEFAULT_SCREEN_DPI;
+                إذا (videodata->Adjust_کړکۍ_Rect_Ex_For_Dpi(&rect, style, menu, styleEx, چوکاټ_dpi) == 0) {
+                    أرجع WIN_سېټ_Error("AdjustWindowRectExForDpi()");
                 }
             }
-        } else {
-            if (AdjustWindowRectEx(&rect, style, menu, styleEx) == 0) {
-                return WIN_SetError("AdjustWindowRectEx()");
+        } وإلا {
+            إذا (Adjust_کړکۍ_Rect_Ex(&rect, style, menu, styleEx) == 0) {
+                أرجع WIN_سېټ_Error("AdjustWindowRectEx()");
             }
         }
-#endif
+#د_که_پای
     }
 
     // Final rect in Windows screen space, including the frame
-    *x += rect.left;
-    *y += rect.top;
-    *width = (rect.right - rect.left);
-    *height = (rect.bottom - rect.top);
+    *x += rect.کیڼ;
+    *y += rect.سر;
+    *پلنوالی = (rect.ښی - rect.کیڼ);
+    *لوړوالی = (rect.bottom - rect.سر);
 
-#ifdef HIGHDPI_DEBUG
+#که_تعریف_شوی HIGHDPI_DEBUG
     SDL_Log("WIN_AdjustWindowRectWithStyle: in: %d, %d, %dx%d, returning: %d, %d, %dx%d, used dpi %d for frame calculation",
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.x : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.x : window->x),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.y : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.y : window->y),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.w : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.w : window->w),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.h : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.h : window->h),
-            *x, *y, *width, *height, frame_dpi);
-#endif
-    return true;
+            (rect_type == SDL_WINDOWRECT_FLOATING ? کړکۍ->floating.x : rect_type == SDL_WINDOWRECT_WINDOWED ? کړکۍ->windowed.x : کړکۍ->x),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? کړکۍ->floating.y : rect_type == SDL_WINDOWRECT_WINDOWED ? کړکۍ->windowed.y : کړکۍ->y),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? کړکۍ->floating.w : rect_type == SDL_WINDOWRECT_WINDOWED ? کړکۍ->windowed.w : کړکۍ->w),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? کړکۍ->floating.h : rect_type == SDL_WINDOWRECT_WINDOWED ? کړکۍ->windowed.h : کړکۍ->h),
+            *x, *y, *پلنوالی, *لوړوالی, چوکاټ_dpi);
+#د_که_پای
+    أرجع true;
 }
 
-bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+bool WIN_Adjust_کړکۍ_Rect(SDL_کړکۍ *کړکۍ, صحيح *x, صحيح *y, صحيح *پلنوالی, صحيح *لوړوالی, SDL_کړکۍ_Rect rect_type)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
     DWORD style, styleEx;
     BOOL menu;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+    styleEx = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-#endif
-    return WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu, x, y, width, height, rect_type);
+#وإلا
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != عدم);
+#د_که_پای
+    أرجع WIN_Adjust_کړکۍ_Rect_With_Style(کړکۍ, style, styleEx, menu, x, y, پلنوالی, لوړوالی, rect_type);
 }
 
-bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi)
+bool WIN_Adjust_کړکۍ_Rect_For_HWND(HWND hwnd, LPRECT lpRect, UINT چوکاټ_dpi)
 {
     SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
-    SDL_VideoData *videodata = videodevice ? videodevice->internal : NULL;
+    SDL_Video_معلومات *videodata = videodevice ? videodevice->دننی : عدم;
     DWORD style, styleEx;
     BOOL menu;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+    styleEx = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-#endif
+#وإلا
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != عدم);
+#د_که_پای
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    AdjustWindowRectEx(lpRect, style, menu, styleEx);
-#else
-    if (WIN_IsPerMonitorV2DPIAware(videodevice)) {
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    Adjust_کړکۍ_Rect_Ex(lpRect, style, menu, styleEx);
+#وإلا
+    إذا (WIN_Is_فی_Monitor_V2_DPIAware(videodevice)) {
         // With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of AdjustWindowRectEx.
-        if (!frame_dpi) {
-            frame_dpi = videodata->GetDpiForWindow ? videodata->GetDpiForWindow(hwnd) : USER_DEFAULT_SCREEN_DPI;
+        إذا (!چوکاټ_dpi) {
+            چوکاټ_dpi = videodata->Get_Dpi_For_کړکۍ ? videodata->Get_Dpi_For_کړکۍ(hwnd) : USER_DEFAULT_SCREEN_DPI;
         }
-        if (!videodata->AdjustWindowRectExForDpi(lpRect, style, menu, styleEx, frame_dpi)) {
-            return WIN_SetError("AdjustWindowRectExForDpi()");
+        إذا (!videodata->Adjust_کړکۍ_Rect_Ex_For_Dpi(lpRect, style, menu, styleEx, چوکاټ_dpi)) {
+            أرجع WIN_سېټ_Error("AdjustWindowRectExForDpi()");
         }
-    } else {
-        if (!AdjustWindowRectEx(lpRect, style, menu, styleEx)) {
-            return WIN_SetError("AdjustWindowRectEx()");
+    } وإلا {
+        إذا (!Adjust_کړکۍ_Rect_Ex(lpRect, style, menu, styleEx)) {
+            أرجع WIN_سېټ_Error("AdjustWindowRectEx()");
         }
     }
-#endif
-    return true;
+#د_که_پای
+    أرجع true;
 }
 
-bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type)
+bool WIN_سېټ_کړکۍ_Position_دننی(SDL_کړکۍ *کړکۍ, UINT flags, SDL_کړکۍ_Rect rect_type)
 {
-    SDL_Window *child_window;
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    HWND top;
-    int x, y;
-    int w, h;
-    bool result = true;
+    SDL_کړکۍ *ماشوم_کړکۍ;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
+    HWND سر;
+    صحيح x, y;
+    صحيح w, h;
+    bool پایله = true;
 
     // Figure out what the window area will be
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    إذا (SDL_ShouldAllowTopmost() && (کړکۍ->flags & SDL_کړکۍ_ALWAYS_ON_سر)) {
+        سر = HWND_TOPMOST;
+    } وإلا {
+        سر = HWND_NOTOPMOST;
     }
 
-    WIN_AdjustWindowRect(window, &x, &y, &w, &h, rect_type);
+    WIN_Adjust_کړکۍ_Rect(کړکۍ, &x, &y, &w, &h, rect_type);
 
-    data->expected_resize = !(flags & SWP_NOSIZE);
-    if (SetWindowPos(hwnd, top, x, y, w, h, flags) == 0) {
-        result = WIN_SetError("SetWindowPos()");
+    معلومات->expected_resize = !(flags & SWP_NOSIZE);
+    إذا (سېټ_کړکۍ_Pos(hwnd, سر, x, y, w, h, flags) == 0) {
+        پایله = WIN_سېټ_Error("SetWindowPos()");
     }
-    data->expected_resize = false;
+    معلومات->expected_resize = false;
 
     // Update any child windows
-    for (child_window = window->first_child; child_window; child_window = child_window->next_sibling) {
-        if (!child_window->internal) {
+    لكل (ماشوم_کړکۍ = کړکۍ->لومړی_ماشوم; ماشوم_کړکۍ; ماشوم_کړکۍ = ماشوم_کړکۍ->بل_sibling) {
+        إذا (!ماشوم_کړکۍ->دننی) {
             // This child window is not yet fully initialized.
-            continue;
+            استمر;
         }
-        if (!WIN_SetWindowPositionInternal(child_window, flags, SDL_WINDOWRECT_CURRENT)) {
-            result = false;
+        إذا (!WIN_سېټ_کړکۍ_Position_دننی(ماشوم_کړکۍ, flags, SDL_WINDOWRECT_CURRENT)) {
+            پایله = false;
         }
     }
-    return result;
+    أرجع پایله;
 }
 
-static SDL_WindowEraseBackgroundMode GetEraseBackgroundModeHint(void)
+ساكن SDL_کړکۍ_Erase_Background_ډېرپېښ Get_Erase_Background_ډېرپېښ_Hint(فراغ)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE);
-    if (!hint)
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    ثابت حرف *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_ډېرپېښ);
+    إذا (!hint)
+        أرجع SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "never"))
-        return SDL_ERASEBACKGROUNDMODE_NEVER;
+    إذا (SDL_strstr(hint, "never"))
+        أرجع SDL_ERASEBACKGROUNDMODE_NEVER;
 
-    if (SDL_strstr(hint, "initial"))
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    إذا (SDL_strstr(hint, "initial"))
+        أرجع SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "always"))
-        return SDL_ERASEBACKGROUNDMODE_ALWAYS;
+    إذا (SDL_strstr(hint, "always"))
+        أرجع SDL_ERASEBACKGROUNDMODE_ALWAYS;
 
-    int mode = SDL_GetStringInteger(hint, 1);
-    if (mode < 0 || mode > 2) {
+    صحيح ډېرپېښ = SDL_GetStringInteger(hint, 1);
+    إذا (ډېرپېښ < 0 || ډېرپېښ > 2) {
         SDL_Log("GetEraseBackgroundModeHint: invalid value for SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE. Fallback to default");
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+        أرجع SDL_ERASEBACKGROUNDMODE_INITIAL;
     }
 
-    return (SDL_WindowEraseBackgroundMode)mode;
+    أرجع (SDL_کړکۍ_Erase_Background_ډېرپېښ)ډېرپېښ;
 }
 
-static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwnd, HWND parent)
+ساكن bool تیاری_کړکۍ_معلومات(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, HWND hwnd, HWND پلار)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_WindowData *data;
+    SDL_Video_معلومات *videodata = _this->دننی;
+    SDL_کړکۍ_معلومات *معلومات;
 
     // Allocate the window data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    معلومات = (SDL_کړکۍ_معلومات *)SDL_calloc(1, حجم(*معلومات));
+    إذا (!معلومات) {
+        أرجع false;
     }
-    data->window = window;
-    data->hwnd = hwnd;
-    data->parent = parent;
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    data->hdc = (HDC)data->hwnd;
-#else
-    data->hdc = GetDC(hwnd);
-#endif
-    data->hinstance = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    data->mouse_button_flags = (WPARAM)-1;
-    data->last_pointer_update = (LPARAM)-1;
-    data->videodata = videodata;
-    data->initializing = true;
-    data->hint_erase_background_mode = GetEraseBackgroundModeHint();
+    معلومات->کړکۍ = کړکۍ;
+    معلومات->hwnd = hwnd;
+    معلومات->پلار = پلار;
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    معلومات->hdc = (HDC)معلومات->hwnd;
+#وإلا
+    معلومات->hdc = GetDC(hwnd);
+#د_که_پای
+    معلومات->hinstance = (HINSTANCE)Get_کړکۍ_Long_Ptr(hwnd, GWLP_HINSTANCE);
+    معلومات->mouse_button_flags = (WPARAM)-1;
+    معلومات->وروستی_اشاره_ګر_update = (LPARAM)-1;
+    معلومات->videodata = videodata;
+    معلومات->initializing = true;
+    معلومات->hint_erase_background_ډېرپېښ = Get_Erase_Background_ډېرپېښ_Hint();
 
 
     // WIN_WarpCursor() jitters by +1, and remote desktop warp wobble is +/- 1
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     LONG remote_desktop_adjustment = GetSystemMetrics(SM_REMOTESESSION) ? 2 : 0;
-    data->cursor_ctrlock_rect.left   = 0 - remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.top    = 0;
-    data->cursor_ctrlock_rect.right  = 1 + remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.bottom = 1;
-#endif
+    معلومات->cursor_ctrlock_rect.کیڼ   = 0 - remote_desktop_adjustment;
+    معلومات->cursor_ctrlock_rect.سر    = 0;
+    معلومات->cursor_ctrlock_rect.ښی  = 1 + remote_desktop_adjustment;
+    معلومات->cursor_ctrlock_rect.bottom = 1;
+#د_که_پای
 
-    if (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
-        data->copybits_flag = 0;
-    } else {
-        data->copybits_flag = SWP_NOCOPYBITS;
+    إذا (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
+        معلومات->copybits_flag = 0;
+    } وإلا {
+        معلومات->copybits_flag = SWP_NOCOPYBITS;
     }
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("SetupWindowData: initialized data->scaling_dpi to %d", data->scaling_dpi);
-#endif
+#که_تعریف_شوی HIGHDPI_DEBUG
+    SDL_Log("SetupWindowData: initialized data->scaling_dpi to %d", معلومات->scaling_dpi);
+#د_که_پای
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Associate the data with the window
-    if (!SetProp(hwnd, TEXT("SDL_WindowData"), data)) {
-        ReleaseDC(hwnd, data->hdc);
-        SDL_free(data);
-        return WIN_SetError("SetProp() failed");
+    إذا (!سېټ_Prop(hwnd, متن_2("SDL_WindowData"), معلومات)) {
+        ReleaseDC(hwnd, معلومات->hdc);
+        SDL_free(معلومات);
+        أرجع WIN_سېټ_Error("SetProp() failed");
     }
-#endif
+#د_که_پای
 
-    window->internal = data;
+    کړکۍ->دننی = معلومات;
 
     // Set up the window proc function
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
-#ifdef GWLP_WNDPROC
-        data->wndproc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
-            SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WIN_WindowProc);
+    إذا (کړکۍ->flags & SDL_کړکۍ_EXTERNAL) {
+#که_تعریف_شوی GWLP_WNDPROC
+        معلومات->wndproc = (WNDPROC)Get_کړکۍ_Long_Ptr(hwnd, GWLP_WNDPROC);
+        إذا (معلومات->wndproc != WIN_کړکۍ_Proc) {
+            سېټ_کړکۍ_Long_Ptr(hwnd, GWLP_WNDPROC, (LONG_PTR)WIN_کړکۍ_Proc);
         }
-#else
-        data->wndproc = (WNDPROC)GetWindowLong(hwnd, GWL_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
-            SetWindowLong(hwnd, GWL_WNDPROC, (LONG_PTR)WIN_WindowProc);
+#وإلا
+        معلومات->wndproc = (WNDPROC)Get_کړکۍ_Long(hwnd, GWL_WNDPROC);
+        إذا (معلومات->wndproc != WIN_کړکۍ_Proc) {
+            سېټ_کړکۍ_Long(hwnd, GWL_WNDPROC, (LONG_PTR)WIN_کړکۍ_Proc);
         }
-#endif
-    } else {
+#د_که_پای
+    } وإلا {
         // We set up our window proc function at window creation.
         // If someone has set hooks to modify it, leave it alone.
     }
 
     // Fill in the SDL window with the window state
     {
-        DWORD style = GetWindowLong(hwnd, GWL_STYLE);
-        if (style & WS_VISIBLE) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-        } else {
-            window->flags |= SDL_WINDOW_HIDDEN;
+        DWORD style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+        إذا (style & WS_VISIBLE) {
+            کړکۍ->flags &= ~SDL_کړکۍ_HIDDEN;
+        } وإلا {
+            کړکۍ->flags |= SDL_کړکۍ_HIDDEN;
         }
-        if (style & WS_POPUP) {
-            window->flags |= SDL_WINDOW_BORDERLESS;
-        } else {
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
+        إذا (style & WS_POPUP) {
+            کړکۍ->flags |= SDL_کړکۍ_BORDERLESS;
+        } وإلا {
+            کړکۍ->flags &= ~SDL_کړکۍ_BORDERLESS;
         }
-        if (style & WS_THICKFRAME) {
-            window->flags |= SDL_WINDOW_RESIZABLE;
-        } else if (!(style & WS_POPUP)) {
-            window->flags &= ~SDL_WINDOW_RESIZABLE;
+        إذا (style & WS_THICKFRAME) {
+            کړکۍ->flags |= SDL_کړکۍ_RESIZABLE;
+        } وإلا إذا (!(style & WS_POPUP)) {
+            کړکۍ->flags &= ~SDL_کړکۍ_RESIZABLE;
         }
-#ifdef WS_MAXIMIZE
-        if (style & WS_MAXIMIZE) {
-            window->flags |= SDL_WINDOW_MAXIMIZED;
-        } else
-#endif
+#که_تعریف_شوی WS_MAXIMIZE
+        إذا (style & WS_MAXIMIZE) {
+            کړکۍ->flags |= SDL_کړکۍ_MAXIMIZED;
+        } وإلا
+#د_که_پای
         {
-            window->flags &= ~SDL_WINDOW_MAXIMIZED;
+            کړکۍ->flags &= ~SDL_کړکۍ_MAXIMIZED;
         }
-#ifdef WS_MINIMIZE
-        if (style & WS_MINIMIZE) {
-            window->flags |= SDL_WINDOW_MINIMIZED;
-        } else
-#endif
+#که_تعریف_شوی WS_MINIMIZE
+        إذا (style & WS_MINIMIZE) {
+            کړکۍ->flags |= SDL_کړکۍ_MINIMIZED;
+        } وإلا
+#د_که_پای
         {
-            window->flags &= ~SDL_WINDOW_MINIMIZED;
+            کړکۍ->flags &= ~SDL_کړکۍ_MINIMIZED;
         }
     }
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_MINIMIZED)) {
         RECT rect;
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            int w = rect.right;
-            int h = rect.bottom;
+        إذا (GetClientRect(hwnd, &rect) && WIN_کړکۍ_Rect_Valid(&rect)) {
+            صحيح w = rect.ښی;
+            صحيح h = rect.bottom;
 
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
-                window->floating.w = window->windowed.w = window->w = w;
-                window->floating.h = window->windowed.h = window->h = h;
-            } else if ((window->windowed.w && window->windowed.w != w) || (window->windowed.h && window->windowed.h != h)) {
+            إذا (کړکۍ->flags & SDL_کړکۍ_EXTERNAL) {
+                کړکۍ->floating.w = کړکۍ->windowed.w = کړکۍ->w = w;
+                کړکۍ->floating.h = کړکۍ->windowed.h = کړکۍ->h = h;
+            } وإلا إذا ((کړکۍ->windowed.w && کړکۍ->windowed.w != w) || (کړکۍ->windowed.h && کړکۍ->windowed.h != h)) {
                 // We tried to create a window larger than the desktop and Windows didn't allow it.  Override!
-                int x, y;
+                صحيح x, y;
                 // Figure out what the window area will be
-                WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
-                data->expected_resize = true;
-                SetWindowPos(hwnd, NULL, x, y, w, h, data->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
-                data->expected_resize = false;
-            } else {
-                window->w = w;
-                window->h = h;
+                WIN_Adjust_کړکۍ_Rect(کړکۍ, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
+                معلومات->expected_resize = true;
+                سېټ_کړکۍ_Pos(hwnd, عدم, x, y, w, h, معلومات->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+                معلومات->expected_resize = false;
+            } وإلا {
+                کړکۍ->w = w;
+                کړکۍ->h = h;
             }
         }
     }
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
-        POINT point;
-        point.x = 0;
-        point.y = 0;
-        if (ClientToScreen(hwnd, &point)) {
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
-                window->floating.x = window->windowed.x = point.x;
-                window->floating.y = window->windowed.y = point.y;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_MINIMIZED)) {
+        ټکی_2 ټکی;
+        ټکی.x = 0;
+        ټکی.y = 0;
+        إذا (Client_منزل_Screen(hwnd, &ټکی)) {
+            إذا (کړکۍ->flags & SDL_کړکۍ_EXTERNAL) {
+                کړکۍ->floating.x = کړکۍ->windowed.x = ټکی.x;
+                کړکۍ->floating.y = کړکۍ->windowed.y = ټکی.y;
             }
-            window->x = point.x;
-            window->y = point.y;
+            کړکۍ->x = ټکی.x;
+            کړکۍ->y = ټکی.y;
         }
     }
 
-    WIN_UpdateWindowICCProfile(window, false);
-#endif
+    WIN_Update_کړکۍ_ICCProfile(کړکۍ, false);
+#د_که_پای
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    window->flags |= SDL_WINDOW_INPUT_FOCUS;
-    SDL_SetKeyboardFocus(window);
-#else
-    if (GetFocus() == hwnd) {
-        window->flags |= SDL_WINDOW_INPUT_FOCUS;
-        SDL_SetKeyboardFocus(window);
-        WIN_UpdateClipCursor(window);
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    کړکۍ->flags |= SDL_کړکۍ_ننوت_FOCUS;
+    SDL_سېټ_Keyboard_Focus(کړکۍ);
+#وإلا
+    إذا (GetFocus() == hwnd) {
+        کړکۍ->flags |= SDL_کړکۍ_ننوت_FOCUS;
+        SDL_سېټ_Keyboard_Focus(کړکۍ);
+        WIN_UpdateClipCursor(کړکۍ);
     }
-#endif
+#د_که_پای
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowAlwaysOnTop(_this, window, true);
-    } else {
-        WIN_SetWindowAlwaysOnTop(_this, window, false);
+    إذا (کړکۍ->flags & SDL_کړکۍ_ALWAYS_ON_سر) {
+        WIN_سېټ_کړکۍ_Always_On_سر(_this, کړکۍ, true);
+    } وإلا {
+        WIN_سېټ_کړکۍ_Always_On_سر(_this, کړکۍ, false);
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Enable multi-touch
-    if (videodata->RegisterTouchWindow) {
-        videodata->RegisterTouchWindow(hwnd, (TWF_FINETOUCH | TWF_WANTPALM));
+    إذا (videodata->ثبتوونکی_Touch_کړکۍ) {
+        videodata->ثبتوونکی_Touch_کړکۍ(hwnd, (TWF_FINETOUCH | TWF_WANTPALM));
     }
-#endif
+#د_که_پای
 
-    if (data->parent && !window->parent) {
-        data->destroy_parent_with_window = true;
+    إذا (معلومات->پلار && !کړکۍ->پلار) {
+        معلومات->destroy_پلار_with_کړکۍ = true;
     }
 
-    data->initializing = false;
+    معلومات->initializing = false;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (کړکۍ->flags & SDL_کړکۍ_EXTERNAL) {
         // Query the title from the existing window
         LPTSTR title;
-        int titleLen;
+        صحيح titleLen;
         bool isstack;
 
-        titleLen = GetWindowTextLength(hwnd);
+        titleLen = Get_کړکۍ_متن_اوږدتیا(hwnd);
         title = SDL_small_alloc(TCHAR, titleLen + 1, &isstack);
-        if (title) {
-            titleLen = GetWindowText(hwnd, title, titleLen + 1);
-        } else {
+        إذا (title) {
+            titleLen = Get_کړکۍ_متن(hwnd, title, titleLen + 1);
+        } وإلا {
             titleLen = 0;
         }
-        if (titleLen > 0) {
-            window->title = WIN_StringToUTF8(title);
+        إذا (titleLen > 0) {
+            کړکۍ->title = WIN_String_منزل_UTF8(title);
         }
-        if (title) {
+        إذا (title) {
             SDL_small_free(title, isstack);
         }
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, data->hwnd);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HDC_POINTER, data->hdc);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, data->hinstance);
+    SDL_PropertiesID props = SDL_Get_کړکۍ_Properties(کړکۍ);
+    SDL_سېټ_اشاره_ګر_Property(props, SDL_PROP_کړکۍ_WIN32_HWND_اشاره_ګر, معلومات->hwnd);
+    SDL_سېټ_اشاره_ګر_Property(props, SDL_PROP_کړکۍ_WIN32_HDC_اشاره_ګر, معلومات->hdc);
+    SDL_سېټ_اشاره_ګر_Property(props, SDL_PROP_کړکۍ_WIN32_INSTANCE_اشاره_ګر, معلومات->hinstance);
 
     // All done!
-    return true;
+    أرجع true;
 }
 
-static void CleanupWindowData(SDL_VideoDevice *_this, SDL_Window *window)
+ساكن فراغ Cleanup_کړکۍ_معلومات(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
 
-    if (data) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (data->drop_target) {
-            WIN_AcceptDragAndDrop(window, false);
+    إذا (معلومات) {
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        إذا (معلومات->drop_موخه) {
+            WIN_AcceptDragAndDrop(کړکۍ, false);
         }
-        SDL_free(data->ICMFileName);
-        if (data->keyboard_hook) {
-            UnhookWindowsHookEx(data->keyboard_hook);
+        SDL_free(معلومات->ICMFileName);
+        إذا (معلومات->keyboard_hook) {
+            UnhookWindowsHookEx(معلومات->keyboard_hook);
         }
-        if (data->hicon) {
-            DestroyIcon(data->hicon);
+        إذا (معلومات->hicon) {
+            DestroyIcon(معلومات->hicon);
         }
-        ReleaseDC(data->hwnd, data->hdc);
-        RemoveProp(data->hwnd, TEXT("SDL_WindowData"));
-#endif
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-            DestroyWindow(data->hwnd);
-            if (data->destroy_parent_with_window && data->parent) {
-                DestroyWindow(data->parent);
+        ReleaseDC(معلومات->hwnd, معلومات->hdc);
+        RemoveProp(معلومات->hwnd, متن_2("SDL_WindowData"));
+#د_که_پای
+        إذا (!(کړکۍ->flags & SDL_کړکۍ_EXTERNAL)) {
+            Destroy_کړکۍ(معلومات->hwnd);
+            إذا (معلومات->destroy_پلار_with_کړکۍ && معلومات->پلار) {
+                Destroy_کړکۍ(معلومات->پلار);
             }
-        } else {
+        } وإلا {
             // Restore any original event handler...
-            if (data->wndproc) {
-#ifdef GWLP_WNDPROC
-                SetWindowLongPtr(data->hwnd, GWLP_WNDPROC,
-                                 (LONG_PTR)data->wndproc);
-#else
-                SetWindowLong(data->hwnd, GWL_WNDPROC,
-                              (LONG_PTR)data->wndproc);
-#endif
+            إذا (معلومات->wndproc) {
+#که_تعریف_شوی GWLP_WNDPROC
+                سېټ_کړکۍ_Long_Ptr(معلومات->hwnd, GWLP_WNDPROC,
+                                 (LONG_PTR)معلومات->wndproc);
+#وإلا
+                سېټ_کړکۍ_Long(معلومات->hwnd, GWL_WNDPROC,
+                              (LONG_PTR)معلومات->wndproc);
+#د_که_پای
             }
         }
-        SDL_free(data);
+        SDL_free(معلومات);
     }
-    window->internal = NULL;
+    کړکۍ->دننی = عدم;
 }
 
-static void WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
+ساكن فراغ WIN_ConstrainPopup(SDL_کړکۍ *کړکۍ, bool output_منزل_pending)
 {
     // Possibly clamp popup windows to the output borders
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        SDL_Window *w;
+    إذا (SDL_کړکۍ_IS_POPUP(کړکۍ)) {
+        SDL_کړکۍ *w;
         SDL_DisplayID displayID;
         SDL_Rect rect;
-        int abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
-        int abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
-        const int width = window->last_size_pending ? window->pending.w : window->floating.w;
-        const int height = window->last_size_pending ? window->pending.h : window->floating.h;
-        int offset_x = 0, offset_y = 0;
+        صحيح abs_x = کړکۍ->وروستی_position_pending ? کړکۍ->pending.x : کړکۍ->floating.x;
+        صحيح abs_y = کړکۍ->وروستی_position_pending ? کړکۍ->pending.y : کړکۍ->floating.y;
+        ثابت صحيح پلنوالی = کړکۍ->وروستی_اندازه_pending ? کړکۍ->pending.w : کړکۍ->floating.w;
+        ثابت صحيح لوړوالی = کړکۍ->وروستی_اندازه_pending ? کړکۍ->pending.h : کړکۍ->floating.h;
+        صحيح دننه_واټن_x = 0, دننه_واټن_y = 0;
 
-        if (window->constrain_popup) {
+        إذا (کړکۍ->constrain_popup) {
             // Calculate the total offset from the parents
-            for (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
-                offset_x += w->x;
-                offset_y += w->y;
+            لكل (w = کړکۍ->پلار; SDL_کړکۍ_IS_POPUP(w); w = w->پلار) {
+                دننه_واټن_x += w->x;
+                دننه_واټن_y += w->y;
             }
 
-            offset_x += w->x;
-            offset_y += w->y;
-            abs_x += offset_x;
-            abs_y += offset_y;
+            دننه_واټن_x += w->x;
+            دننه_واټن_y += w->y;
+            abs_x += دننه_واټن_x;
+            abs_y += دننه_واټن_y;
 
             // Constrain the popup window to the display of the toplevel parent
-            displayID = SDL_GetDisplayForWindow(w);
+            displayID = SDL_Get_Display_For_کړکۍ(w);
             SDL_GetDisplayBounds(displayID, &rect);
-            if (abs_x + width > rect.x + rect.w) {
-                abs_x -= (abs_x + width) - (rect.x + rect.w);
+            إذا (abs_x + پلنوالی > rect.x + rect.w) {
+                abs_x -= (abs_x + پلنوالی) - (rect.x + rect.w);
             }
-            if (abs_y + height > rect.y + rect.h) {
-                abs_y -= (abs_y + height) - (rect.y + rect.h);
+            إذا (abs_y + لوړوالی > rect.y + rect.h) {
+                abs_y -= (abs_y + لوړوالی) - (rect.y + rect.h);
             }
             abs_x = SDL_max(abs_x, rect.x);
             abs_y = SDL_max(abs_y, rect.y);
         }
 
-        if (output_to_pending) {
-            window->pending.x = abs_x - offset_x;
-            window->pending.y = abs_y - offset_y;
-            window->pending.w = width;
-            window->pending.h = height;
-        } else {
-            window->floating.x = abs_x - offset_x;
-            window->floating.y = abs_y - offset_y;
-            window->floating.w = width;
-            window->floating.h = height;
+        إذا (output_منزل_pending) {
+            کړکۍ->pending.x = abs_x - دننه_واټن_x;
+            کړکۍ->pending.y = abs_y - دننه_واټن_y;
+            کړکۍ->pending.w = پلنوالی;
+            کړکۍ->pending.h = لوړوالی;
+        } وإلا {
+            کړکۍ->floating.x = abs_x - دننه_واټن_x;
+            کړکۍ->floating.y = abs_y - دننه_واټن_y;
+            کړکۍ->floating.w = پلنوالی;
+            کړکۍ->floating.h = لوړوالی;
         }
     }
 }
 
-static void WIN_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
+ساكن فراغ WIN_سېټ_Keyboard_Focus(SDL_کړکۍ *کړکۍ, bool سېټ_فعال_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_کړکۍ *toplevel = کړکۍ;
 
     // Find the topmost parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
-        toplevel = toplevel->parent;
+    طالما (SDL_کړکۍ_IS_POPUP(toplevel)) {
+        toplevel = toplevel->پلار;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = کړکۍ;
 
-    if (set_active_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    إذا (سېټ_فعال_focus && !کړکۍ->is_hiding && !کړکۍ->is_destroying) {
+        SDL_سېټ_Keyboard_Focus(کړکۍ);
     }
 }
 
-bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool WIN_Create_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID create_props)
 {
-    SDL_VideoData *videodata = _this->internal;
-    HWND hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER, SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    HWND parent = NULL;
-    if (hwnd) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    SDL_Video_معلومات *videodata = _this->دننی;
+    HWND hwnd = (HWND)SDL_Get_اشاره_ګر_Property(create_props, SDL_PROP_کړکۍ_CREATE_WIN32_HWND_اشاره_ګر, SDL_Get_اشاره_ګر_Property(create_props, "sdl2-compat.external_window", عدم));
+    HWND پلار = عدم;
+    إذا (hwnd) {
+        کړکۍ->flags |= SDL_کړکۍ_EXTERNAL;
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
-            return false;
+        إذا (!تیاری_کړکۍ_معلومات(_this, کړکۍ, hwnd, پلار)) {
+            أرجع false;
         }
-    } else {
+    } وإلا {
         DWORD style = STYLE_BASIC;
         DWORD styleEx = 0;
-        int x, y;
-        int w, h;
+        صحيح x, y;
+        صحيح w, h;
 
-        if (window->flags & SDL_WINDOW_UTILITY) {
-            parent = CreateWindow(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, NULL, NULL, SDL_Instance, NULL);
-        } else if (window->parent) {
-            parent = window->parent->internal->hwnd;
+        إذا (کړکۍ->flags & SDL_کړکۍ_UTILITY) {
+            پلار = Create_کړکۍ(SDL_Appname, متن_2(""), STYLE_BASIC, 0, 0, 32, 32, عدم, عدم, SDL_Instance, عدم);
+        } وإلا إذا (کړکۍ->پلار) {
+            پلار = کړکۍ->پلار->دننی->hwnd;
         }
 
-        style |= GetWindowStyle(window);
-        styleEx |= (DWORD)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER, GetWindowStyleEx(window));
+        style |= Get_کړکۍ_Style(کړکۍ);
+        styleEx |= (DWORD)SDL_Get_شمېره_Property(create_props, SDL_PROP_کړکۍ_CREATE_WIN32_STYLE_EX_شمېره, Get_کړکۍ_Style_Ex(کړکۍ));
 
         // Figure out what the window area will be
-        WIN_ConstrainPopup(window, false);
-        WIN_AdjustWindowRectWithStyle(window, style, styleEx, FALSE, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
+        WIN_ConstrainPopup(کړکۍ, false);
+        WIN_Adjust_کړکۍ_Rect_With_Style(کړکۍ, style, styleEx, FALSE, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
 
-        hwnd = CreateWindowEx(styleEx, SDL_Appname, TEXT(""), style,
-                              x, y, w, h, parent, NULL, SDL_Instance, NULL);
-        if (!hwnd) {
-            return WIN_SetError("Couldn't create window");
+        hwnd = Create_کړکۍ_Ex(styleEx, SDL_Appname, متن_2(""), style,
+                              x, y, w, h, پلار, عدم, SDL_Instance, عدم);
+        إذا (!hwnd) {
+            أرجع WIN_سېټ_Error("Couldn't create window");
         }
 
-        WIN_UpdateDarkModeForHWND(hwnd);
+        WIN_Update_Dark_ډېرپېښ_For_HWND(hwnd);
 
         WIN_PumpEventsForHWND(_this, hwnd);
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
-            DestroyWindow(hwnd);
-            if (parent) {
-                DestroyWindow(parent);
+        إذا (!تیاری_کړکۍ_معلومات(_this, کړکۍ, hwnd, پلار)) {
+            Destroy_کړکۍ(hwnd);
+            إذا (پلار) {
+                Destroy_کړکۍ(پلار);
             }
-            return false;
+            أرجع false;
         }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         // Ensure that the IME isn't active on the new window until explicitly requested.
-        WIN_StopTextInput(_this, window);
-#endif
+        WIN_Stop_متن_ننوت(_this, کړکۍ);
+#د_که_پای
 
         // Inform Windows of the frame change so we can respond to WM_NCCALCSIZE
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+        سېټ_کړکۍ_Pos(hwnd, عدم, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
 
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        إذا (کړکۍ->flags & SDL_کړکۍ_MINIMIZED) {
             /* TODO: We have to clear SDL_WINDOW_HIDDEN here to ensure the window flags match the window state. The
                window is already shown after this and windows with WS_MINIMIZE do not generate a WM_SHOWWINDOW. This
                means you can't currently create a window that is initially hidden and is minimized when shown.
             */
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-            ShowWindow(hwnd, SW_SHOWMINNOACTIVE);
+            کړکۍ->flags &= ~SDL_کړکۍ_HIDDEN;
+            Show_کړکۍ(hwnd, SW_SHOWMINNOACTIVE);
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // FIXME: does not work on all hardware configurations with different renders (i.e. hybrid GPUs)
-    if (window->flags & SDL_WINDOW_TRANSPARENT) {
-        if (videodata->DwmEnableBlurBehindWindow) {
+    إذا (کړکۍ->flags & SDL_کړکۍ_TRANSPARENT) {
+        إذا (videodata->Dwm_Enable_Blur_Behind_کړکۍ) {
             /* The region indicates which part of the window will be blurred and rest will be transparent. This
                is because the alpha value of the window will be used for non-blurred areas
                We can use (-1, -1, 0, 0) boundary to make sure no pixels are being blurred
@@ -769,332 +769,332 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
             bb.enable = TRUE;
             bb.blur_region = rgn;
             bb.transition_on_maxed = FALSE;
-            videodata->DwmEnableBlurBehindWindow(hwnd, &bb);
+            videodata->Dwm_Enable_Blur_Behind_کړکۍ(hwnd, &bb);
             DeleteObject(rgn);
         }
     }
 
-    HWND share_hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER, NULL);
-    if (share_hwnd) {
+    HWND share_hwnd = (HWND)SDL_Get_اشاره_ګر_Property(create_props, SDL_PROP_کړکۍ_CREATE_WIN32_PIXEL_FORMAT_HWND_اشاره_ګر, عدم);
+    إذا (share_hwnd) {
         HDC hdc = GetDC(share_hwnd);
-        int pixel_format = GetPixelFormat(hdc);
+        صحيح pixel_format = GetPixelFormat(hdc);
         PIXELFORMATDESCRIPTOR pfd;
 
         SDL_zero(pfd);
-        DescribePixelFormat(hdc, pixel_format, sizeof(pfd), &pfd);
+        DescribePixelFormat(hdc, pixel_format, حجم(pfd), &pfd);
         ReleaseDC(share_hwnd, hdc);
 
-        if (!SetPixelFormat(window->internal->hdc, pixel_format, &pfd)) {
-            WIN_DestroyWindow(_this, window);
-            return WIN_SetError("SetPixelFormat()");
+        إذا (!سېټ_Pixel_Format(کړکۍ->دننی->hdc, pixel_format, &pfd)) {
+            WIN_Destroy_کړکۍ(_this, کړکۍ);
+            أرجع WIN_سېټ_Error("SetPixelFormat()");
         }
-    } else {
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return true;
+    } وإلا {
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        إذا (!(کړکۍ->flags & SDL_کړکۍ_OPENGL)) {
+            أرجع true;
         }
 
         // The rest of this macro mess is for OpenGL or OpenGL ES windows
-#ifdef SDL_VIDEO_OPENGL_ES2
-        if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES ||
+#که_تعریف_شوی SDL_VIDEO_OPENGL_ES2
+        إذا ((_this->gl_config.profile_ماسک == SDL_GL_CONTEXT_PROFILE_ES ||
              SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_WGL
-             && (!_this->gl_data || WIN_GL_UseEGL(_this))
-#endif // SDL_VIDEO_OPENGL_WGL
+#که_تعریف_شوی SDL_VIDEO_OPENGL_WGL
+             && (!_this->gl_معلومات || WIN_GL_UseEGL(_this))
+#د_که_پای // SDL_VIDEO_OPENGL_WGL
         ) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-            if (!WIN_GLES_SetupWindow(_this, window)) {
-                WIN_DestroyWindow(_this, window);
-                return false;
+#که_تعریف_شوی SDL_VIDEO_OPENGL_EGL
+            إذا (!WIN_GLES_تیاری_کړکۍ(_this, کړکۍ)) {
+                WIN_Destroy_کړکۍ(_this, کړکۍ);
+                أرجع false;
             }
-            return true;
-#else
-            return SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-#endif // SDL_VIDEO_OPENGL_EGL
+            أرجع true;
+#وإلا
+            أرجع SDL_سېټ_Error("Could not create GLES window surface (EGL support not configured)");
+#د_که_پای // SDL_VIDEO_OPENGL_EGL
         }
-#endif // SDL_VIDEO_OPENGL_ES2
+#د_که_پای // SDL_VIDEO_OPENGL_ES2
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-        if (!WIN_GL_SetupWindow(_this, window)) {
-            WIN_DestroyWindow(_this, window);
-            return false;
+#که_تعریف_شوی SDL_VIDEO_OPENGL_WGL
+        إذا (!WIN_GL_تیاری_کړکۍ(_this, کړکۍ)) {
+            WIN_Destroy_کړکۍ(_this, کړکۍ);
+            أرجع false;
         }
-#else
-        return SDL_SetError("Could not create GL window (WGL support not configured)");
-#endif
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#وإلا
+        أرجع SDL_سېټ_Error("Could not create GL window (WGL support not configured)");
+#د_که_پای
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    أرجع true;
 }
 
-void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_سېټ_کړکۍ_Title(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
-    LPTSTR title = WIN_UTF8ToString(window->title);
-    SetWindowText(hwnd, title);
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = کړکۍ->دننی->hwnd;
+    LPTSTR title = WIN_UTF8_منزل_String(کړکۍ->title);
+    سېټ_کړکۍ_متن(hwnd, title);
     SDL_free(title);
-#endif
+#د_که_پای
 }
 
-bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool WIN_سېټ_کړکۍ_Icon(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_Surface *icon)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    HICON hicon = NULL;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
+    HICON hicon = عدم;
     BYTE *icon_bmp;
-    int icon_len, mask_len, row_len, y;
+    صحيح icon_len, ماسک_len, لیکه_len, y;
     BITMAPINFOHEADER *bmi;
     Uint8 *dst;
     bool isstack;
-    bool result = true;
+    bool پایله = true;
 
     // Create temporary buffer for ICONIMAGE structure
-    SDL_COMPILE_TIME_ASSERT(WIN_SetWindowIcon_uses_BITMAPINFOHEADER_to_prepare_an_ICONIMAGE, sizeof(BITMAPINFOHEADER) == 40);
-    mask_len = (icon->h * (icon->w + 7) / 8);
-    icon_len = sizeof(BITMAPINFOHEADER) + icon->h * icon->w * sizeof(Uint32) + mask_len;
+    SDL_COMPILE_وخت_ASSERT(WIN_سېټ_کړکۍ_Icon_کاروي_BITMAPINFOHEADER_منزل_prepare_an_ICONIMAGE, حجم(BITMAPINFOHEADER) == 40);
+    ماسک_len = (icon->h * (icon->w + 7) / 8);
+    icon_len = حجم(BITMAPINFOHEADER) + icon->h * icon->w * حجم(Uint32) + ماسک_len;
     icon_bmp = SDL_small_alloc(BYTE, icon_len, &isstack);
-    if (!icon_bmp) {
-        return false;
+    إذا (!icon_bmp) {
+        أرجع false;
     }
 
     // Write the BITMAPINFO header
     bmi = (BITMAPINFOHEADER *)icon_bmp;
-    bmi->biSize = SDL_Swap32LE(sizeof(BITMAPINFOHEADER));
-    bmi->biWidth = SDL_Swap32LE(icon->w);
-    bmi->biHeight = SDL_Swap32LE(icon->h * 2);
+    bmi->bi_اندازه = SDL_Swap32LE(حجم(BITMAPINFOHEADER));
+    bmi->bi_پلنوالی = SDL_Swap32LE(icon->w);
+    bmi->bi_لوړوالی = SDL_Swap32LE(icon->h * 2);
     bmi->biPlanes = SDL_Swap16LE(1);
-    bmi->biBitCount = SDL_Swap16LE(32);
+    bmi->bi_بټ_شمېر = SDL_Swap16LE(32);
     bmi->biCompression = SDL_Swap32LE(BI_RGB);
-    bmi->biSizeImage = SDL_Swap32LE(icon->h * icon->w * sizeof(Uint32));
-    bmi->biXPelsPerMeter = SDL_Swap32LE(0);
-    bmi->biYPelsPerMeter = SDL_Swap32LE(0);
-    bmi->biClrUsed = SDL_Swap32LE(0);
+    bmi->bi_اندازه_Image = SDL_Swap32LE(icon->h * icon->w * حجم(Uint32));
+    bmi->bi_XPels_فی_Meter = SDL_Swap32LE(0);
+    bmi->bi_YPels_فی_Meter = SDL_Swap32LE(0);
+    bmi->bi_Clr_کارول_شوی = SDL_Swap32LE(0);
     bmi->biClrImportant = SDL_Swap32LE(0);
 
     // Write the pixels upside down into the bitmap buffer
     SDL_assert(icon->format == SDL_PIXELFORMAT_ARGB8888);
-    dst = &icon_bmp[sizeof(BITMAPINFOHEADER)];
-    row_len = icon->w * sizeof(Uint32);
+    dst = &icon_bmp[حجم(BITMAPINFOHEADER)];
+    لیکه_len = icon->w * حجم(Uint32);
     y = icon->h;
-    while (y--) {
+    طالما (y--) {
         Uint8 *src = (Uint8 *)icon->pixels + y * icon->pitch;
-        SDL_memcpy(dst, src, row_len);
-        dst += row_len;
+        SDL_memcpy(dst, src, لیکه_len);
+        dst += لیکه_len;
     }
 
     // Write the mask
-    SDL_memset(icon_bmp + icon_len - mask_len, 0xFF, mask_len);
+    SDL_memset(icon_bmp + icon_len - ماسک_len, 0xFF, ماسک_len);
 
     hicon = CreateIconFromResource(icon_bmp, icon_len, TRUE, 0x00030000);
 
     SDL_small_free(icon_bmp, isstack);
 
-    if (!hicon) {
-        return SDL_SetError("SetWindowIcon() failed, error %08X", (unsigned int)GetLastError());
+    إذا (!hicon) {
+        أرجع SDL_سېټ_Error("SetWindowIcon() failed, error %08X", (بینښه صحيح)Get_وروستی_Error());
     }
 
-    if (data->hicon) {
-        DestroyIcon(data->hicon);
+    إذا (معلومات->hicon) {
+        DestroyIcon(معلومات->hicon);
     }
-    data->hicon = hicon;
+    معلومات->hicon = hicon;
 
     // Set the icon for the window
-    SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hicon);
+    Send_پیغام(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hicon);
 
     // Set the icon in the task manager (should we do this?)
-    SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hicon);
-    return result;
-#else
-    return SDL_Unsupported();
-#endif
+    Send_پیغام(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hicon);
+    أرجع پایله;
+#وإلا
+    أرجع SDL_Unsupported();
+#د_که_پای
 }
 
-bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_سېټ_کړکۍ_Position(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
     /* HighDPI support: removed SWP_NOSIZE. If the move results in a DPI change, we need to allow
      * the window to resize (e.g. AdjustWindowRectExForDpi frame sizes are different).
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
-            WIN_ConstrainPopup(window, true);
-            return WIN_SetWindowPositionInternal(window,
-                                                 window->internal->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE |
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_FULLSCREEN)) {
+        إذا (!(کړکۍ->flags & (SDL_کړکۍ_MAXIMIZED | SDL_کړکۍ_MINIMIZED))) {
+            WIN_ConstrainPopup(کړکۍ, true);
+            أرجع WIN_سېټ_کړکۍ_Position_دننی(کړکۍ,
+                                                 کړکۍ->دننی->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE |
                                                  SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
         }
-    } else {
-        return SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, true);
+    } وإلا {
+        أرجع SDL_Update_Fullscreen_ډېرپېښ(کړکۍ, SDL_FULLSCREEN_OP_ENTER, true);
     }
 
-    return true;
+    أرجع true;
 }
 
-void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_سېټ_کړکۍ_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
-        WIN_SetWindowPositionInternal(window, window->internal->copybits_flag | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
-    } else {
+    إذا (!(کړکۍ->flags & (SDL_کړکۍ_FULLSCREEN | SDL_کړکۍ_MAXIMIZED))) {
+        WIN_سېټ_کړکۍ_Position_دننی(کړکۍ, کړکۍ->دننی->copybits_flag | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
+    } وإلا {
         // Can't resize the window
-        window->last_size_pending = false;
+        کړکۍ->وروستی_اندازه_pending = false;
     }
 }
 
-bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool WIN_Get_کړکۍ_Borders_اندازه(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, صحيح *سر, صحيح *کیڼ, صحيح *bottom, صحيح *ښی)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = کړکۍ->دننی->hwnd;
     RECT rcClient;
 
     /* rcClient stores the size of the inner window, while rcWindow stores the outer size relative to the top-left
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
     GetClientRect(hwnd, &rcClient);
 
-    *top = rcClient.top;
-    *left = rcClient.left;
+    *سر = rcClient.سر;
+    *کیڼ = rcClient.کیڼ;
     *bottom = rcClient.bottom;
-    *right = rcClient.right;
+    *ښی = rcClient.ښی;
 
-    return true;
-#else  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
-    RECT rcClient, rcWindow;
-    POINT ptDiff;
+    أرجع true;
+#وإلا  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = کړکۍ->دننی->hwnd;
+    RECT rcClient, rc_کړکۍ;
+    ټکی_2 ptDiff;
 
     /* rcClient stores the size of the inner window, while rcWindow stores the outer size relative to the top-left
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
-    if (!GetClientRect(hwnd, &rcClient)) {
-        return SDL_SetError("GetClientRect() failed, error %08X", (unsigned int)GetLastError());
+    إذا (!GetClientRect(hwnd, &rcClient)) {
+        أرجع SDL_سېټ_Error("GetClientRect() failed, error %08X", (بینښه صحيح)Get_وروستی_Error());
     }
 
-    if (!GetWindowRect(hwnd, &rcWindow)) {
-        return SDL_SetError("GetWindowRect() failed, error %08X", (unsigned int)GetLastError());
+    إذا (!Get_کړکۍ_Rect(hwnd, &rc_کړکۍ)) {
+        أرجع SDL_سېټ_Error("GetWindowRect() failed, error %08X", (بینښه صحيح)Get_وروستی_Error());
     }
 
     /* convert the top/left values to make them relative to
      * the window; they will end up being slightly negative */
-    ptDiff.y = rcWindow.top;
-    ptDiff.x = rcWindow.left;
+    ptDiff.y = rc_کړکۍ.سر;
+    ptDiff.x = rc_کړکۍ.کیڼ;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    إذا (!Screen_منزل_Client(hwnd, &ptDiff)) {
+        أرجع SDL_سېټ_Error("ScreenToClient() failed, error %08X", (بینښه صحيح)Get_وروستی_Error());
     }
 
-    rcWindow.top = ptDiff.y;
-    rcWindow.left = ptDiff.x;
+    rc_کړکۍ.سر = ptDiff.y;
+    rc_کړکۍ.کیڼ = ptDiff.x;
 
     /* convert the bottom/right values to make them relative to the window,
      * these will be slightly bigger than the inner width/height */
-    ptDiff.y = rcWindow.bottom;
-    ptDiff.x = rcWindow.right;
+    ptDiff.y = rc_کړکۍ.bottom;
+    ptDiff.x = rc_کړکۍ.ښی;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    إذا (!Screen_منزل_Client(hwnd, &ptDiff)) {
+        أرجع SDL_سېټ_Error("ScreenToClient() failed, error %08X", (بینښه صحيح)Get_وروستی_Error());
     }
 
-    rcWindow.bottom = ptDiff.y;
-    rcWindow.right = ptDiff.x;
+    rc_کړکۍ.bottom = ptDiff.y;
+    rc_کړکۍ.ښی = ptDiff.x;
 
     /* Now that both the inner and outer rects use the same coordinate system we can subtract them to get the border size.
      * Keep in mind that the top/left coordinates of rcWindow are negative because the border lies slightly before {0,0},
      * so switch them around because SDL3 wants them in positive. */
-    *top = rcClient.top - rcWindow.top;
-    *left = rcClient.left - rcWindow.left;
-    *bottom = rcWindow.bottom - rcClient.bottom;
-    *right = rcWindow.right - rcClient.right;
+    *سر = rcClient.سر - rc_کړکۍ.سر;
+    *کیڼ = rcClient.کیڼ - rc_کړکۍ.کیڼ;
+    *bottom = rc_کړکۍ.bottom - rcClient.bottom;
+    *ښی = rc_کړکۍ.ښی - rcClient.ښی;
 
-    return true;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    أرجع true;
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+فراغ WIN_Get_کړکۍ_اندازه_دننه_Pixels(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, صحيح *w, صحيح *h)
 {
-    const SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    ثابت SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
     RECT rect;
 
-    if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-        *w = rect.right;
+    إذا (GetClientRect(hwnd, &rect) && WIN_کړکۍ_Rect_Valid(&rect)) {
+        *w = rect.ښی;
         *h = rect.bottom;
-    } else if (window->last_pixel_w && window->last_pixel_h) {
-        *w = window->last_pixel_w;
-        *h = window->last_pixel_h;
-    } else {
+    } وإلا إذا (کړکۍ->وروستی_pixel_w && کړکۍ->وروستی_pixel_h) {
+        *w = کړکۍ->وروستی_pixel_w;
+        *h = کړکۍ->وروستی_pixel_h;
+    } وإلا {
         // Probably created minimized, use the restored size
-        *w = window->floating.w;
-        *h = window->floating.h;
+        *w = کړکۍ->floating.w;
+        *h = کړکۍ->floating.h;
     }
 }
 
-void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Show_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
     DWORD style;
 
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true);
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_کړکۍ_ACTIVATE_WHEN_SHOWN, true);
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    إذا (SDL_کړکۍ_IS_POPUP(کړکۍ)) {
         // Update our position in case our parent moved while we were hidden
-        WIN_SetWindowPosition(_this, window);
+        WIN_سېټ_کړکۍ_Position(_this, کړکۍ);
     }
 
     // If the window isn't borderless and will be fullscreen, use the borderless style to hide the initial borders.
-    if (window->pending_flags & SDL_WINDOW_FULLSCREEN) {
-        if (!(window->flags & SDL_WINDOW_BORDERLESS)) {
-            window->flags |= SDL_WINDOW_BORDERLESS;
-            style = GetWindowLong(hwnd, GWL_STYLE);
-            style &= ~STYLE_MASK;
-            style |= GetWindowStyle(window);
-            SetWindowLong(hwnd, GWL_STYLE, style);
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
+    إذا (کړکۍ->pending_flags & SDL_کړکۍ_FULLSCREEN) {
+        إذا (!(کړکۍ->flags & SDL_کړکۍ_BORDERLESS)) {
+            کړکۍ->flags |= SDL_کړکۍ_BORDERLESS;
+            style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+            style &= ~STYLE_ماسک;
+            style |= Get_کړکۍ_Style(کړکۍ);
+            سېټ_کړکۍ_Long(hwnd, GWL_STYLE, style);
+            کړکۍ->flags &= ~SDL_کړکۍ_BORDERLESS;
         }
     }
-    style = GetWindowLong(hwnd, GWL_EXSTYLE);
-    if (style & WS_EX_NOACTIVATE) {
+    style = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
+    إذا (style & WS_EX_NOACTIVATE) {
         bActivate = false;
     }
 
-    data->showing_window = true;
-    if (bActivate) {
-        ShowWindow(hwnd, SW_SHOW);
-    } else {
+    معلومات->showing_کړکۍ = true;
+    إذا (bActivate) {
+        Show_کړکۍ(hwnd, SW_SHOW);
+    } وإلا {
         // Use SetWindowPos instead of ShowWindow to avoid activating the parent window if this is a child window
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, window->internal->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        سېټ_کړکۍ_Pos(hwnd, عدم, 0, 0, 0, 0, کړکۍ->دننی->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
     }
-    data->showing_window = false;
+    معلومات->showing_کړکۍ = false;
 
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) && bActivate) {
-        WIN_SetKeyboardFocus(window, true);
+    إذا ((کړکۍ->flags & SDL_کړکۍ_POPUP_MENU) && !(کړکۍ->flags & SDL_کړکۍ_NOT_FOCUSABLE) && bActivate) {
+        WIN_سېټ_Keyboard_Focus(کړکۍ, true);
     }
-    if (window->flags & SDL_WINDOW_MODAL) {
-        WIN_SetWindowModal(_this, window, true);
+    إذا (کړکۍ->flags & SDL_کړکۍ_MODAL) {
+        WIN_سېټ_کړکۍ_Modal(_this, کړکۍ, true);
     }
 }
 
-void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Hide_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    HWND hwnd = window->internal->hwnd;
+    HWND hwnd = کړکۍ->دننی->hwnd;
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        WIN_SetWindowModal(_this, window, false);
+    إذا (کړکۍ->flags & SDL_کړکۍ_MODAL) {
+        WIN_سېټ_کړکۍ_Modal(_this, کړکۍ, false);
     }
 
-    ShowWindow(hwnd, SW_HIDE);
+    Show_کړکۍ(hwnd, SW_HIDE);
 
     // Transfer keyboard focus back to the parent from a grabbing popup.
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-        WIN_SetKeyboardFocus(new_focus, set_focus);
+    إذا ((کړکۍ->flags & SDL_کړکۍ_POPUP_MENU) && !(کړکۍ->flags & SDL_کړکۍ_NOT_FOCUSABLE)) {
+        SDL_کړکۍ *new_focus;
+        ثابت bool سېټ_focus = SDL_ShouldRelinquishPopupFocus(کړکۍ, &new_focus);
+        WIN_سېټ_Keyboard_Focus(new_focus, سېټ_focus);
     }
 }
 
-void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Raise_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* If desired, raise the window more forcefully.
      * Technique taken from http://stackoverflow.com/questions/916259/ .
      * Specifically, http://stackoverflow.com/a/34414846 .
@@ -1104,214 +1104,214 @@ void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * for "security" reasons. Apparently, the following song-and-dance gets
      * around their objections. */
     bool bForce = SDL_GetHintBoolean(SDL_HINT_FORCE_RAISEWINDOW, false);
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED, true);
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_کړکۍ_ACTIVATE_WHEN_RAISED, true);
 
-    HWND hCurWnd = NULL;
+    HWND hCurWnd = عدم;
     DWORD dwMyID = 0u;
     DWORD dwCurID = 0u;
 
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    if (bForce) {
-        hCurWnd = GetForegroundWindow();
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
+    إذا (bForce) {
+        hCurWnd = Get_Foreground_کړکۍ();
         dwMyID = GetCurrentThreadId();
-        dwCurID = GetWindowThreadProcessId(hCurWnd, NULL);
-        ShowWindow(hwnd, SW_RESTORE);
-        AttachThreadInput(dwCurID, dwMyID, TRUE);
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        if (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-            SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        dwCurID = Get_کړکۍ_Thread_Process_Id(hCurWnd, عدم);
+        Show_کړکۍ(hwnd, SW_RESTORE);
+        Attach_Thread_ننوت(dwCurID, dwMyID, TRUE);
+        سېټ_کړکۍ_Pos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        إذا (!SDL_ShouldAllowTopmost() || !(کړکۍ->flags & SDL_کړکۍ_ALWAYS_ON_سر)) {
+            سېټ_کړکۍ_Pos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
         }
     }
-    if (bActivate) {
-        SetForegroundWindow(hwnd);
-        if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-            WIN_SetKeyboardFocus(window, window->parent == SDL_GetKeyboardFocus());
+    إذا (bActivate) {
+        سېټ_Foreground_کړکۍ(hwnd);
+        إذا ((کړکۍ->flags & SDL_کړکۍ_POPUP_MENU) && !(کړکۍ->flags & SDL_کړکۍ_NOT_FOCUSABLE)) {
+            WIN_سېټ_Keyboard_Focus(کړکۍ, کړکۍ->پلار == SDL_GetKeyboardFocus());
         }
-    } else {
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+    } وإلا {
+        سېټ_کړکۍ_Pos(hwnd, HWND_سر, 0, 0, 0, 0, معلومات->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
     }
-    if (bForce) {
-        AttachThreadInput(dwCurID, dwMyID, FALSE);
-        SetFocus(hwnd);
-        SetActiveWindow(hwnd);
+    إذا (bForce) {
+        Attach_Thread_ننوت(dwCurID, dwMyID, FALSE);
+        سېټ_Focus(hwnd);
+        سېټ_فعال_کړکۍ(hwnd);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Maximize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        HWND hwnd = data->hwnd;
-        data->expected_resize = true;
-        ShowWindow(hwnd, SW_MAXIMIZE);
-        data->expected_resize = false;
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_FULLSCREEN)) {
+        HWND hwnd = معلومات->hwnd;
+        معلومات->expected_resize = true;
+        Show_کړکۍ(hwnd, SW_MAXIMIZE);
+        معلومات->expected_resize = false;
 
         /* Clamp the maximized window size to the max window size.
          * This is automatic if maximizing from the window controls.
          */
-        if (window->max_w || window->max_h) {
-            int fx, fy, fw, fh;
+        إذا (کړکۍ->max_w || کړکۍ->max_h) {
+            صحيح fx, fy, fw, fh;
 
-            window->windowed.w = window->max_w ? SDL_min(window->w, window->max_w) : window->windowed.w;
-            window->windowed.h = window->max_h ? SDL_min(window->h, window->max_h) : window->windowed.h;
-            WIN_AdjustWindowRect(window, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
+            کړکۍ->windowed.w = کړکۍ->max_w ? SDL_min(کړکۍ->w, کړکۍ->max_w) : کړکۍ->windowed.w;
+            کړکۍ->windowed.h = کړکۍ->max_h ? SDL_min(کړکۍ->h, کړکۍ->max_h) : کړکۍ->windowed.h;
+            WIN_Adjust_کړکۍ_Rect(کړکۍ, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
 
-            data->expected_resize = true;
-            SetWindowPos(hwnd, HWND_TOP, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
-            data->expected_resize = false;
+            معلومات->expected_resize = true;
+            سېټ_کړکۍ_Pos(hwnd, HWND_سر, fx, fy, fw, fh, معلومات->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+            معلومات->expected_resize = false;
         }
-    } else {
-        data->windowed_mode_was_maximized = true;
+    } وإلا {
+        معلومات->windowed_ډېرپېښ_was_maximized = true;
     }
 }
 
-void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Minimize_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    HWND hwnd = window->internal->hwnd;
-    ShowWindow(hwnd, SW_MINIMIZE);
+    HWND hwnd = کړکۍ->دننی->hwnd;
+    Show_کړکۍ(hwnd, SW_MINIMIZE);
 }
 
-void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+فراغ WIN_سېټ_کړکۍ_Bordered(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool bordered)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
     DWORD style;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
+    style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_ماسک;
+    style |= Get_کړکۍ_Style(کړکۍ);
 
-    data->in_border_change = true;
-    SetWindowLong(hwnd, GWL_STYLE, style);
-    WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
-    data->in_border_change = false;
+    معلومات->دننه_border_change = true;
+    سېټ_کړکۍ_Long(hwnd, GWL_STYLE, style);
+    WIN_سېټ_کړکۍ_Position_دننی(کړکۍ, معلومات->copybits_flag | SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+    معلومات->دننه_border_change = false;
 }
 
-void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+فراغ WIN_سېټ_کړکۍ_Resizable(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool resizable)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
     DWORD style;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
+    style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_ماسک;
+    style |= Get_کړکۍ_Style(کړکۍ);
 
-    SetWindowLong(hwnd, GWL_STYLE, style);
+    سېټ_کړکۍ_Long(hwnd, GWL_STYLE, style);
 }
 
-void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+فراغ WIN_سېټ_کړکۍ_Always_On_سر(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool on_سر)
 {
-    WIN_SetWindowPositionInternal(window, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
+    WIN_سېټ_کړکۍ_Position_دننی(کړکۍ, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
 }
 
-void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Restore_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!data->showing_window || window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
-            HWND hwnd = data->hwnd;
-            data->expected_resize = true;
-            ShowWindow(hwnd, SW_RESTORE);
-            data->expected_resize = false;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_FULLSCREEN)) {
+        إذا (!معلومات->showing_کړکۍ || کړکۍ->flags & (SDL_کړکۍ_MAXIMIZED | SDL_کړکۍ_MINIMIZED)) {
+            HWND hwnd = معلومات->hwnd;
+            معلومات->expected_resize = true;
+            Show_کړکۍ(hwnd, SW_RESTORE);
+            معلومات->expected_resize = false;
         }
-    } else {
-        data->windowed_mode_was_maximized = false;
+    } وإلا {
+        معلومات->windowed_ډېرپېښ_was_maximized = false;
     }
 }
 
-static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref)
+ساكن فراغ WIN_Update_کونج_Rounding_For_HWND(SDL_VideoDevice *_this, HWND hwnd, DWM_کړکۍ_کونج_PREFERENCE کونج_Pref)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &cornerPref, sizeof(cornerPref));
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_معلومات *videodata = _this->دننی;
+    إذا (videodata->Dwm_سېټ_کړکۍ_Attribute && WIN_IsWindows11OrGreater()) {
+        videodata->Dwm_سېټ_کړکۍ_Attribute(hwnd, DWMWA_کړکۍ_کونج_PREFERENCE, &کونج_Pref, حجم(کونج_Pref));
     }
-#endif
+#د_که_پای
 }
 
-static void WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
+ساكن فراغ WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, sizeof(colorRef));
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_معلومات *videodata = _this->دننی;
+    إذا (videodata->Dwm_سېټ_کړکۍ_Attribute && WIN_IsWindows11OrGreater()) {
+        videodata->Dwm_سېټ_کړکۍ_Attribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, حجم(colorRef));
     }
-#endif
+#د_که_پای
 }
 
 /**
  * Reconfigures the window to fill the given display, if fullscreen is true, otherwise restores the window.
  */
-SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_پایله WIN_سېټ_کړکۍ_Fullscreen(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data ? data->hwnd : NULL;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Display_معلومات *displaydata = display->دننی;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات ? معلومات->hwnd : عدم;
     MONITORINFO minfo;
     DWORD style, styleEx;
-    HWND top;
-    int x, y;
-    int w, h;
+    HWND سر;
+    صحيح x, y;
+    صحيح w, h;
     bool enterMaximized = false;
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d", (int)fullscreen);
-#endif
+#که_تعریف_شوی HIGHDPI_DEBUG
+    SDL_Log("WIN_SetWindowFullscreen: %d", (صحيح)fullscreen);
+#د_که_پای
 
     /* Early out if already not in fullscreen, or the styling on
      * external windows may end up being overridden.
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    إذا (!(کړکۍ->flags & SDL_کړکۍ_FULLSCREEN) && !fullscreen) {
+        أرجع SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    إذا (SDL_ShouldAllowTopmost() && (کړکۍ->flags & SDL_کړکۍ_ALWAYS_ON_سر)) {
+        سر = HWND_TOPMOST;
+    } وإلا {
+        سر = HWND_NOTOPMOST;
     }
 
     /* Use GetMonitorInfo instead of WIN_GetDisplayBounds because we want the
        monitor bounds in Windows coordinates (pixels) rather than SDL coordinates (points). */
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    if (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
-        SDL_SetError("GetMonitorInfo failed");
-        return SDL_FULLSCREEN_FAILED;
+    minfo.cb_اندازه = حجم(MONITORINFO);
+    إذا (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
+        SDL_سېټ_Error("GetMonitorInfo failed");
+        أرجع SDL_FULLSCREEN_FAILED;
     }
 
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
+    SDL_Send_کړکۍ_Event(کړکۍ, fullscreen ? SDL_EVENT_کړکۍ_ENTER_FULLSCREEN : SDL_EVENT_کړکۍ_LEAVE_FULLSCREEN, 0, 0);
+    style = Get_کړکۍ_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_ماسک;
+    style |= Get_کړکۍ_Style(کړکۍ);
+    styleEx = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
 
-    if (fullscreen) {
-        x = minfo.rcMonitor.left;
-        y = minfo.rcMonitor.top;
-        w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-        h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    إذا (fullscreen) {
+        x = minfo.rcMonitor.کیڼ;
+        y = minfo.rcMonitor.سر;
+        w = minfo.rcMonitor.ښی - minfo.rcMonitor.کیڼ;
+        h = minfo.rcMonitor.bottom - minfo.rcMonitor.سر;
 
         /* Unset the maximized flag.  This fixes
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215
         */
-        if (style & WS_MAXIMIZE) {
-            data->windowed_mode_was_maximized = true;
+        إذا (style & WS_MAXIMIZE) {
+            معلومات->windowed_ډېرپېښ_was_maximized = true;
             style &= ~WS_MAXIMIZE;
         }
 
         // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
-        WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DONOTROUND);
+        WIN_Update_کونج_Rounding_For_HWND(_this, hwnd, DWMWCP_DONOTROUND);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_NONE);
-    } else {
+    } وإلا {
         BOOL menu;
 
-        WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DEFAULT);
+        WIN_Update_کونج_Rounding_For_HWND(_this, hwnd, DWMWCP_DEFAULT);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_DEFAULT);
 
         /* Restore window-maximization state, as applicable.
@@ -1320,42 +1320,42 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
            in_window_deactivation), otherwise
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215 can reproduce!
         */
-        if (data->windowed_mode_was_maximized && !data->in_window_deactivation) {
+        إذا (معلومات->windowed_ډېرپېښ_was_maximized && !معلومات->دننه_کړکۍ_deactivation) {
             enterMaximized = true;
-            data->disable_move_size_events = true;
+            معلومات->disable_move_اندازه_events = true;
         }
 
-        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-        WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu,
+        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != عدم);
+        WIN_Adjust_کړکۍ_Rect_With_Style(کړکۍ, style, styleEx, menu,
                                       &x, &y,
                                       &w, &h,
                                       SDL_WINDOWRECT_FLOATING);
-        data->windowed_mode_was_maximized = false;
+        معلومات->windowed_ډېرپېښ_was_maximized = false;
 
         /* A window may have been maximized by dragging it to the top of another display, in which case the floating
          * position may be out-of-date. If the window is being restored to maximized, and the maximized and floating
          * position are on different displays, try to center the window on the maximized display for restoration, which
          * mimics native Windows behavior.
          */
-        if (enterMaximized) {
-            const SDL_Point windowed_point = { window->windowed.x, window->windowed.y };
-            const SDL_Point floating_point = { window->floating.x, window->floating.y };
-            const SDL_DisplayID floating_display = SDL_GetDisplayForPoint(&floating_point);
-            const SDL_DisplayID windowed_display = SDL_GetDisplayForPoint(&windowed_point);
+        إذا (enterMaximized) {
+            ثابت SDL_ټکی windowed_ټکی = { کړکۍ->windowed.x, کړکۍ->windowed.y };
+            ثابت SDL_ټکی floating_ټکی = { کړکۍ->floating.x, کړکۍ->floating.y };
+            ثابت SDL_DisplayID floating_display = SDL_Get_Display_For_ټکی(&floating_ټکی);
+            ثابت SDL_DisplayID windowed_display = SDL_Get_Display_For_ټکی(&windowed_ټکی);
 
-            if (floating_display != windowed_display) {
+            إذا (floating_display != windowed_display) {
                 SDL_Rect bounds;
 
                 SDL_zero(bounds);
                 SDL_GetDisplayUsableBounds(windowed_display, &bounds);
-                if (w < bounds.w) {
+                إذا (w < bounds.w) {
                     x = bounds.x + (bounds.w - w) / 2;
-                } else {
+                } وإلا {
                     x = bounds.x;
                 }
-                if (h < bounds.h) {
+                إذا (h < bounds.h) {
                     y = bounds.y + (bounds.h - h) / 2;
-                } else {
+                } وإلا {
                     y = bounds.y;
                 }
             }
@@ -1365,49 +1365,49 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
     /* Always reset the window to the base floating size before possibly re-applying the maximized state,
      * otherwise, the base floating size can seemingly be lost in some cases.
      */
-    SetWindowLong(hwnd, GWL_STYLE, style);
-    data->expected_resize = true;
-    SetWindowPos(hwnd, top, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
-    data->expected_resize = false;
-    data->disable_move_size_events = false;
+    سېټ_کړکۍ_Long(hwnd, GWL_STYLE, style);
+    معلومات->expected_resize = true;
+    سېټ_کړکۍ_Pos(hwnd, سر, x, y, w, h, معلومات->copybits_flag | SWP_NOACTIVATE);
+    معلومات->expected_resize = false;
+    معلومات->disable_move_اندازه_events = false;
 
-    if (enterMaximized) {
-        WIN_MaximizeWindow(_this, window);
+    إذا (enterMaximized) {
+        WIN_Maximize_کړکۍ(_this, کړکۍ);
     }
 
-    if (!fullscreen && data && data->hicon) {
+    إذا (!fullscreen && معلومات && معلومات->hicon) {
         // Reset the icon for the window when returning from fullscreen mode
-        SendMessage(hwnd, WM_SETICON, ICON_SMALL, 0);
-        SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)data->hicon);
+        Send_پیغام(hwnd, WM_SETICON, ICON_SMALL, 0);
+        Send_پیغام(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)معلومات->hicon);
     }
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (int)fullscreen, x, y, w, h);
-#endif
+#که_تعریف_شوی HIGHDPI_DEBUG
+    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (صحيح)fullscreen, x, y, w, h);
+#د_که_پای
 
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    return SDL_FULLSCREEN_SUCCEEDED;
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    أرجع SDL_FULLSCREEN_SUCCEEDED;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+فراغ WIN_Update_کړکۍ_ICCProfile(SDL_کړکۍ *کړکۍ, bool send_event)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    SDL_Display_معلومات *displaydata = SDL_Get_Display_Driver_معلومات_For_کړکۍ(کړکۍ);
 
-    if (displaydata) {
-        HDC hdc = CreateDCW(displaydata->DeviceName, NULL, NULL, NULL);
-        if (hdc) {
-            WCHAR fileName[MAX_PATH];
-            DWORD fileNameSize = SDL_arraysize(fileName);
-            if (GetICMProfileW(hdc, &fileNameSize, fileName)) {
+    إذا (displaydata) {
+        HDC hdc = CreateDCW(displaydata->DeviceName, عدم, عدم, عدم);
+        إذا (hdc) {
+            WCHAR fileName[MAX_لار];
+            DWORD file_Name_اندازه = SDL_arraysize(fileName);
+            إذا (GetICMProfileW(hdc, &file_Name_اندازه, fileName)) {
                 // fileNameSize includes '\0' on return
-                if (!data->ICMFileName ||
-                    SDL_wcscmp(data->ICMFileName, fileName) != 0) {
-                    SDL_free(data->ICMFileName);
-                    data->ICMFileName = SDL_wcsdup(fileName);
-                    if (send_event) {
-                        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+                إذا (!معلومات->ICMFileName ||
+                    SDL_wcscmp(معلومات->ICMFileName, fileName) != 0) {
+                    SDL_free(معلومات->ICMFileName);
+                    معلومات->ICMFileName = SDL_wcsdup(fileName);
+                    إذا (send_event) {
+                        SDL_Send_کړکۍ_Event(کړکۍ, SDL_EVENT_کړکۍ_ICCPROF_بدل_شوی, 0, 0);
                     }
                 }
             }
@@ -1416,30 +1416,30 @@ void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
     }
 }
 
-void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+فراغ *WIN_Get_کړکۍ_ICCProfile(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, size_t *اندازه)
 {
-    SDL_WindowData *data = window->internal;
-    char *filename_utf8;
-    void *iccProfileData = NULL;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    حرف *filename_utf8;
+    فراغ *icc_Profile_معلومات = عدم;
 
-    filename_utf8 = WIN_StringToUTF8W(data->ICMFileName);
-    if (filename_utf8) {
-        iccProfileData = SDL_LoadFile(filename_utf8, size);
-        if (!iccProfileData) {
-            SDL_SetError("Could not open ICC profile");
+    filename_utf8 = WIN_String_منزل_UTF8_W(معلومات->ICMFileName);
+    إذا (filename_utf8) {
+        icc_Profile_معلومات = SDL_بارول_File(filename_utf8, اندازه);
+        إذا (!icc_Profile_معلومات) {
+            SDL_سېټ_Error("Could not open ICC profile");
         }
         SDL_free(filename_utf8);
     }
-    return iccProfileData;
+    أرجع icc_Profile_معلومات;
 }
 
-static void WIN_GrabKeyboard(SDL_Window *window)
+ساكن فراغ WIN_GrabKeyboard(SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
     HMODULE module;
 
-    if (data->keyboard_hook) {
-        return;
+    إذا (معلومات->keyboard_hook) {
+        أرجع;
     }
 
     /* SetWindowsHookEx() needs to know which module contains the hook we
@@ -1448,15 +1448,15 @@ static void WIN_GrabKeyboard(SDL_Window *window)
        this nice API that will go through the loaded modules and find the
        one containing our code.
     */
-    if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+    إذا (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_پته,
                            (LPTSTR)WIN_KeyboardHookProc,
                            &module)) {
-        return;
+        أرجع;
     }
 
     // Capture a snapshot of the current keyboard state before the hook
-    if (!GetKeyboardState(data->videodata->pre_hook_key_state)) {
-        return;
+    إذا (!GetKeyboardState(معلومات->videodata->pre_hook_کلی_state)) {
+        أرجع;
     }
 
     /* To grab the keyboard, we have to install a low-level keyboard hook to
@@ -1464,122 +1464,122 @@ static void WIN_GrabKeyboard(SDL_Window *window)
        all key events on the system is rather invasive, but it's what Microsoft
        actually documents that you do to capture these.
     */
-    data->keyboard_hook = SetWindowsHookEx(WH_KEYBOARD_LL, WIN_KeyboardHookProc, module, 0);
+    معلومات->keyboard_hook = سېټ_Windows_Hook_Ex(WH_KEYBOARD_LL, WIN_KeyboardHookProc, module, 0);
 }
 
-void WIN_UngrabKeyboard(SDL_Window *window)
+فراغ WIN_UngrabKeyboard(SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
 
-    if (data->keyboard_hook) {
-        UnhookWindowsHookEx(data->keyboard_hook);
-        data->keyboard_hook = NULL;
+    إذا (معلومات->keyboard_hook) {
+        UnhookWindowsHookEx(معلومات->keyboard_hook);
+        معلومات->keyboard_hook = عدم;
     }
 }
 
-bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_سېټ_کړکۍ_Mouse_Rect(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    WIN_UpdateClipCursor(window);
-    return true;
+    WIN_UpdateClipCursor(کړکۍ);
+    أرجع true;
 }
 
-bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool WIN_سېټ_کړکۍ_Mouse_Grab(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool grabbed)
 {
-    WIN_UpdateClipCursor(window);
-    return true;
+    WIN_UpdateClipCursor(کړکۍ);
+    أرجع true;
 }
 
-bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool WIN_سېټ_کړکۍ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool grabbed)
 {
-    if (grabbed) {
-        WIN_GrabKeyboard(window);
-    } else {
-        WIN_UngrabKeyboard(window);
+    إذا (grabbed) {
+        WIN_GrabKeyboard(کړکۍ);
+    } وإلا {
+        WIN_UngrabKeyboard(کړکۍ);
     }
 
-    return true;
+    أرجع true;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_Destroy_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    CleanupWindowData(_this, window);
+    Cleanup_کړکۍ_معلومات(_this, کړکۍ);
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+فراغ WIN_On_کړکۍ_Enter(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
 
-    if (!data || !data->hwnd) {
+    إذا (!معلومات || !معلومات->hwnd) {
         // The window wasn't fully initialized
-        return;
+        أرجع;
     }
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+    إذا (کړکۍ->flags & SDL_کړکۍ_ALWAYS_ON_سر) {
+        WIN_سېټ_کړکۍ_Position_دننی(کړکۍ, معلومات->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
     }
 }
 
-static BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
+ساكن BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
 {
-    return GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
-           ClientToScreen(hwnd, (LPPOINT)rect) &&   // POINT( left , top )
-           ClientToScreen(hwnd, (LPPOINT)rect + 1); // POINT( right , bottom )
+    أرجع GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
+           Client_منزل_Screen(hwnd, (LPPOINT)rect) &&   // POINT( left , top )
+           Client_منزل_Screen(hwnd, (LPPOINT)rect + 1); // POINT( right , bottom )
 }
 
-void WIN_UnclipCursorForWindow(SDL_Window *window) {
-    SDL_WindowData *data = window->internal;
+فراغ WIN_Unclip_Cursor_For_کړکۍ(SDL_کړکۍ *کړکۍ) {
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
     RECT rect;
-    if (GetClipCursor(&rect) && SDL_memcmp(&rect, &data->cursor_clipped_rect, sizeof(rect)) == 0) {
-        ClipCursor(NULL);
-        SDL_zero(data->cursor_clipped_rect);
+    إذا (GetClipCursor(&rect) && SDL_memcmp(&rect, &معلومات->cursor_clipped_rect, حجم(rect)) == 0) {
+        ClipCursor(عدم);
+        SDL_zero(معلومات->cursor_clipped_rect);
     }
 }
 
-void WIN_UpdateClipCursor(SDL_Window *window)
+فراغ WIN_UpdateClipCursor(SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *videodata = data->videodata;
-    if (data->in_title_click || data->focus_click_pending || data->postpone_clipcursor) {
-        return;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    SDL_Video_معلومات *videodata = معلومات->videodata;
+    إذا (معلومات->دننه_title_click || معلومات->focus_click_pending || معلومات->postpone_clipcursor) {
+        أرجع;
     }
 
-    SDL_Rect mouse_rect = window->mouse_rect;
+    SDL_Rect mouse_rect = کړکۍ->mouse_rect;
     bool win_mouse_rect = (mouse_rect.w > 0 && mouse_rect.h > 0);
-    bool win_have_focus = (window->flags & SDL_WINDOW_INPUT_FOCUS);
-    bool win_is_grabbed = (window->flags & SDL_WINDOW_MOUSE_GRABBED);
-    bool win_in_relmode = (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE);
-    bool cursor_confine = win_in_relmode || win_is_grabbed || win_mouse_rect;
+    bool win_have_focus = (کړکۍ->flags & SDL_کړکۍ_ننوت_FOCUS);
+    bool win_is_grabbed = (کړکۍ->flags & SDL_کړکۍ_MOUSE_GRABBED);
+    bool win_دننه_relmode = (کړکۍ->flags & SDL_کړکۍ_MOUSE_RELATIVE_ډېرپېښ);
+    bool cursor_confine = win_دننه_relmode || win_is_grabbed || win_mouse_rect;
 
     // This is verbatim translation of the old logic,
     // but I don't quite get what it's trying to do.
     // A clean-room implementation according to MSDN
     // documentation of GetClipCursor is provided in
     // a commented-out block below.
-    if (!win_have_focus || !cursor_confine) {
+    إذا (!win_have_focus || !cursor_confine) {
         SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
         RECT current;
-        if (!GetClipCursor(&current)) {
-            return;
+        إذا (!GetClipCursor(&current)) {
+            أرجع;
         }
-        if (videodevice && (
-            current.left != videodevice->desktop_bounds.x ||
-            current.top  != videodevice->desktop_bounds.y
+        إذا (videodevice && (
+            current.کیڼ != videodevice->desktop_bounds.x ||
+            current.سر  != videodevice->desktop_bounds.y
         )) {
-            POINT first, second;
-            first.x  = current.left;
-            first.y  = current.top;
-            second.x = current.right  - 1;
-            second.y = current.bottom - 1;
-            if (!PtInRect(&data->cursor_clipped_rect, first) ||
-                !PtInRect(&data->cursor_clipped_rect, second)) {
-                return;
+            ټکی_2 لومړی, دوهم;
+            لومړی.x  = current.کیڼ;
+            لومړی.y  = current.سر;
+            دوهم.x = current.ښی  - 1;
+            دوهم.y = current.bottom - 1;
+            إذا (!Pt_دننه_Rect(&معلومات->cursor_clipped_rect, لومړی) ||
+                !Pt_دننه_Rect(&معلومات->cursor_clipped_rect, دوهم)) {
+                أرجع;
             }
         }
-        ClipCursor(NULL);
-        SDL_zero(data->cursor_clipped_rect);
-        return;
+        ClipCursor(عدم);
+        SDL_zero(معلومات->cursor_clipped_rect);
+        أرجع;
     }
 
     // if (!win_have_focus || !cursor_confine) {
@@ -1597,35 +1597,35 @@ void WIN_UpdateClipCursor(SDL_Window *window)
     // }
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    bool lock_to_ctr = (mouse->relative_mode && mouse->relative_mode_center);
+    bool قلف_منزل_ctr = (mouse->relative_ډېرپېښ && mouse->relative_ډېرپېښ_center);
 
     RECT client;
-    if (!GetClientScreenRect(data->hwnd, &client)) {
-        return;
+    إذا (!GetClientScreenRect(معلومات->hwnd, &client)) {
+        أرجع;
     }
 
-    RECT target = client;
-    if (lock_to_ctr) {
-        LONG cx = (client.left + client.right ) / 2;
-        LONG cy = (client.top  + client.bottom) / 2;
-        target = data->cursor_ctrlock_rect;
-        target.left   += cx;
-        target.right  += cx;
-        target.top    += cy;
-        target.bottom += cy;
-    } else if (win_mouse_rect) {
+    RECT موخه = client;
+    إذا (قلف_منزل_ctr) {
+        LONG cx = (client.کیڼ + client.ښی ) / 2;
+        LONG cy = (client.سر  + client.bottom) / 2;
+        موخه = معلومات->cursor_ctrlock_rect;
+        موخه.کیڼ   += cx;
+        موخه.ښی  += cx;
+        موخه.سر    += cy;
+        موخه.bottom += cy;
+    } وإلا إذا (win_mouse_rect) {
         RECT custom, overlap;
-        custom.left   = client.left + mouse_rect.x;
-        custom.top    = client.top  + mouse_rect.y;
-        custom.right  = client.left + mouse_rect.x + mouse_rect.w;
-        custom.bottom = client.top  + mouse_rect.y + mouse_rect.h;
-        if (IntersectRect(&overlap, &client, &custom)) {
-            target = overlap;
-        } else if (!win_is_grabbed) {
-            WIN_UnclipCursorForWindow(window);
-            return;
+        custom.کیڼ   = client.کیڼ + mouse_rect.x;
+        custom.سر    = client.سر  + mouse_rect.y;
+        custom.ښی  = client.کیڼ + mouse_rect.x + mouse_rect.w;
+        custom.bottom = client.سر  + mouse_rect.y + mouse_rect.h;
+        إذا (IntersectRect(&overlap, &client, &custom)) {
+            موخه = overlap;
+        } وإلا إذا (!win_is_grabbed) {
+            WIN_Unclip_Cursor_For_کړکۍ(کړکۍ);
+            أرجع;
         }
-    } else if (videodata->dpi_unaware_context_declared) {
+    } وإلا إذا (videodata->dpi_unaware_context_declared) {
         /* Windows has a rounding bug when a DPI unaware context and fractional scale value
          * are used that will cause the cursor coordinates to jitter across a confining edge
          * while dragging along it, which can cause spurious pointer enter/leave events when the
@@ -1636,247 +1636,247 @@ void WIN_UpdateClipCursor(SDL_Window *window)
          */
 
         // Temporarily set the thread to per-monitor awareness v2 to get the display DPI.
-        if (videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            HMONITOR hmon = MonitorFromWindow(data->hwnd, MONITOR_DEFAULTTONEAREST);
-            if (hmon) {
+        إذا (videodata->سېټ_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_فی_MONITOR_AWARE_V2)) {
+            HMONITOR hmon = Monitor_From_کړکۍ(معلومات->hwnd, MONITOR_DEFAULTTONEAREST);
+            إذا (hmon) {
                 UINT hdpi_uint, vdpi_uint;
-                if (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-                    const float scale = (float)hdpi_uint / (float)USER_DEFAULT_SCREEN_DPI;
-                    if (scale != SDL_floorf(scale)) {
-                        if (target.left < target.right) {
-                            target.left += 1;
+                إذا (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+                    ثابت عائم scale = (عائم)hdpi_uint / (عائم)USER_DEFAULT_SCREEN_DPI;
+                    إذا (scale != SDL_floorf(scale)) {
+                        إذا (موخه.کیڼ < موخه.ښی) {
+                            موخه.کیڼ += 1;
                         }
-                        if (target.right > target.left) {
-                            target.right -= 1;
+                        إذا (موخه.ښی > موخه.کیڼ) {
+                            موخه.ښی -= 1;
                         }
-                        if (target.top < target.bottom) {
-                            target.top += 1;
+                        إذا (موخه.سر < موخه.bottom) {
+                            موخه.سر += 1;
                         }
-                        if (target.bottom > target.top) {
-                            target.bottom -= 1;
+                        إذا (موخه.bottom > موخه.سر) {
+                            موخه.bottom -= 1;
                         }
                     }
                 }
             }
-            videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
+            videodata->سېټ_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_UNAWARE);
         }
     }
 
-    if (GetClipCursor(&client) &&
-        0 != SDL_memcmp(&target, &client, sizeof(client)) &&
-        ClipCursor(&target)) {
-        data->cursor_clipped_rect = target; // ClipCursor may fail if rect beyond screen
+    إذا (GetClipCursor(&client) &&
+        0 != SDL_memcmp(&موخه, &client, حجم(client)) &&
+        ClipCursor(&موخه)) {
+        معلومات->cursor_clipped_rect = موخه; // ClipCursor may fail if rect beyond screen
     }
 }
 
-bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool WIN_سېټ_کړکۍ_موندنه_Test(SDL_کړکۍ *کړکۍ, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    أرجع true; // just succeed, the real work is done elsewhere.
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool WIN_سېټ_کړکۍ_Opacity(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, عائم opacity)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    return false;
-#else
-    const SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+#إذا defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    أرجع false;
+#وإلا
+    ثابت SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    HWND hwnd = معلومات->hwnd;
+    ثابت LONG style = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
 
-    if (opacity == 1.0f) {
+    إذا (opacity == 1.0f) {
         // want it fully opaque, just mark it unlayered if necessary.
-        if (style & WS_EX_LAYERED) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        إذا (style & WS_EX_LAYERED) {
+            إذا (سېټ_کړکۍ_Long(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
+                أرجع WIN_سېټ_Error("SetWindowLong()");
             }
         }
-    } else {
-        const BYTE alpha = (BYTE)((int)(opacity * 255.0f));
+    } وإلا {
+        ثابت BYTE alpha = (BYTE)((صحيح)(opacity * 255.0f));
         // want it transparent, mark it layered if necessary.
-        if (!(style & WS_EX_LAYERED)) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        إذا (!(style & WS_EX_LAYERED)) {
+            إذا (سېټ_کړکۍ_Long(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
+                أرجع WIN_سېټ_Error("SetWindowLong()");
             }
         }
 
-        if (SetLayeredWindowAttributes(hwnd, 0, alpha, LWA_ALPHA) == 0) {
-            return WIN_SetError("SetLayeredWindowAttributes()");
+        إذا (سېټ_Layered_کړکۍ_ځانګړتیاوې(hwnd, 0, alpha, LWA_ALPHA) == 0) {
+            أرجع WIN_سېټ_Error("SetLayeredWindowAttributes()");
         }
     }
 
-    return true;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    أرجع true;
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static const char *SDLGetClipboardFormatName(UINT cf, char *text, int len)
+ساكن ثابت حرف *SDLGetClipboardFormatName(UINT cf, حرف *متن, صحيح len)
 {
-    switch (cf) {
-    case CF_TEXT:
-        return "CF_TEXT";
-    case CF_BITMAP:
-        return "CF_BITMAP";
-    case CF_METAFILEPICT:
-        return "CF_METAFILEPICT";
-    case CF_SYLK:
-        return "CF_SYLK";
-    case CF_DIF:
-        return "CF_DIF";
-    case CF_TIFF:
-        return "CF_TIFF";
-    case CF_OEMTEXT:
-        return "CF_OEMTEXT";
-    case CF_DIB:
-        return "CF_DIB";
-    case CF_PALETTE:
-        return "CF_PALETTE";
-    case CF_PENDATA:
-        return "CF_PENDATA";
-    case CF_RIFF:
-        return "CF_RIFF";
-    case CF_WAVE:
-        return "CF_WAVE";
-    case CF_UNICODETEXT:
-        return "CF_UNICODETEXT";
-    case CF_ENHMETAFILE:
-        return "CF_ENHMETAFILE";
-    case CF_HDROP:
-        return "CF_HDROP";
-    case CF_LOCALE:
-        return "CF_LOCALE";
-    case CF_DIBV5:
-        return "CF_DIBV5";
-    case CF_OWNERDISPLAY:
-        return "CF_OWNERDISPLAY";
-    case CF_DSPTEXT:
-        return "CF_DSPTEXT";
-    case CF_DSPBITMAP:
-        return "CF_DSPBITMAP";
-    case CF_DSPMETAFILEPICT:
-        return "CF_DSPMETAFILEPICT";
-    case CF_DSPENHMETAFILE:
-        return "CF_DSPENHMETAFILE";
-    default:
-        if (GetClipboardFormatNameA(cf, text, len)) {
-            return text;
-        } else {
-            return NULL;
+    بدل (cf) {
+    حالة CF_متن:
+        أرجع "CF_TEXT";
+    حالة CF_BITMAP:
+        أرجع "CF_BITMAP";
+    حالة CF_METAFILEPICT:
+        أرجع "CF_METAFILEPICT";
+    حالة CF_SYLK:
+        أرجع "CF_SYLK";
+    حالة CF_DIF:
+        أرجع "CF_DIF";
+    حالة CF_TIFF:
+        أرجع "CF_TIFF";
+    حالة CF_OEMTEXT:
+        أرجع "CF_OEMTEXT";
+    حالة CF_DIB:
+        أرجع "CF_DIB";
+    حالة CF_PALETTE:
+        أرجع "CF_PALETTE";
+    حالة CF_PENDATA:
+        أرجع "CF_PENDATA";
+    حالة CF_RIFF:
+        أرجع "CF_RIFF";
+    حالة CF_WAVE:
+        أرجع "CF_WAVE";
+    حالة CF_UNICODETEXT:
+        أرجع "CF_UNICODETEXT";
+    حالة CF_ENHMETAFILE:
+        أرجع "CF_ENHMETAFILE";
+    حالة CF_HDROP:
+        أرجع "CF_HDROP";
+    حالة CF_LOCALE:
+        أرجع "CF_LOCALE";
+    حالة CF_DIBV5:
+        أرجع "CF_DIBV5";
+    حالة CF_OWNERDISPLAY:
+        أرجع "CF_OWNERDISPLAY";
+    حالة CF_DSPTEXT:
+        أرجع "CF_DSPTEXT";
+    حالة CF_DSPBITMAP:
+        أرجع "CF_DSPBITMAP";
+    حالة CF_DSPMETAFILEPICT:
+        أرجع "CF_DSPMETAFILEPICT";
+    حالة CF_DSPENHMETAFILE:
+        أرجع "CF_DSPENHMETAFILE";
+    افتراضي:
+        إذا (GetClipboardFormatNameA(cf, متن, len)) {
+            أرجع متن;
+        } وإلا {
+            أرجع عدم;
         }
     }
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_AddRef(SDLDropTarget *target)
+ساكن STDMETHODIMP_(ULONG) SDLDrop_موخه_جمع_کړه_Ref(SDLDrop_موخه *موخه)
 {
-    return ++target->refcount;
+    أرجع ++موخه->refcount;
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_Release(SDLDropTarget *target)
+ساكن STDMETHODIMP_(ULONG) SDLDrop_موخه_Release(SDLDrop_موخه *موخه)
 {
-    --target->refcount;
-    if (target->refcount == 0) {
-        SDL_free(target);
-        return 0;
+    --موخه->refcount;
+    إذا (موخه->refcount == 0) {
+        SDL_free(موخه);
+        أرجع 0;
     }
-    return target->refcount;
+    أرجع موخه->refcount;
 }
 
-static STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID riid, PVOID *ppv)
+ساكن STDMETHODIMP SDLDrop_موخه_Query_Interface(SDLDrop_موخه *موخه, REFIID riid, PVOID *ppv)
 {
-    if (ppv == NULL) {
-        return E_INVALIDARG;
+    إذا (ppv == عدم) {
+        أرجع E_INVALIDARG;
     }
 
-    *ppv = NULL;
-    if (WIN_IsEqualIID(riid, &IID_IUnknown) ||
-        WIN_IsEqualIID(riid, &IID_IDropTarget)) {
-        *ppv = (void *)target;
+    *ppv = عدم;
+    إذا (WIN_IsEqualIID(riid, &IID_IUnknown) ||
+        WIN_IsEqualIID(riid, &IID_IDrop_موخه)) {
+        *ppv = (فراغ *)موخه;
     }
-    if (*ppv) {
-        SDLDropTarget_AddRef(target);
-        return S_OK;
+    إذا (*ppv) {
+        SDLDrop_موخه_جمع_کړه_Ref(موخه);
+        أرجع S_OK;
     }
-    return E_NOINTERFACE;
+    أرجع E_NOINTERFACE;
 }
 
-static STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
-                                            IDataObject *pDataObject, DWORD grfKeyState,
+ساكن STDMETHODIMP SDLDrop_موخه_Drag_Enter(SDLDrop_موخه *موخه,
+                                            IDataObject *p_معلومات_Object, DWORD grf_کلی_State,
                                             POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                  ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
-    POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    ټکی_2 pnt = { pt.x, pt.y };
+    إذا (Screen_منزل_Client(موخه->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
+                     ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, موخه->کړکۍ->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(موخه->کړکۍ, pnt.x, pnt.y);
+    } وإلا {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    أرجع S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
-                                           DWORD grfKeyState,
+ساكن STDMETHODIMP SDLDrop_موخه_Drag_Over(SDLDrop_موخه *موخه,
+                                           DWORD grf_کلی_State,
                                            POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                  ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
-    POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    ټکی_2 pnt = { pt.x, pt.y };
+    إذا (Screen_منزل_Client(موخه->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
+                     ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, موخه->کړکۍ->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(موخه->کړکۍ, pnt.x, pnt.y);
+    } وإلا {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    أرجع S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
+ساكن STDMETHODIMP SDLDrop_موخه_Drag_Leave(SDLDrop_موخه *موخه)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                  ". In DragLeave");
-    SDL_SendDropComplete(target->window);
-    return S_OK;
+    SDL_SendDropComplete(موخه->کړکۍ);
+    أرجع S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
-                                       IDataObject *pDataObject, DWORD grfKeyState,
+ساكن STDMETHODIMP SDLDrop_موخه_Drop(SDLDrop_موخه *موخه,
+                                       IDataObject *p_معلومات_Object, DWORD grf_کلی_State,
                                        POINTL pt, DWORD *pdwEffect)
 {
     *pdwEffect = DROPEFFECT_COPY;
-    POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    ټکی_2 pnt = { pt.x, pt.y };
+    إذا (Screen_منزل_Client(موخه->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
+                     ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, موخه->کړکۍ->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(موخه->کړکۍ, pnt.x, pnt.y);
+    } وإلا {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
 
     {
         IEnumFORMATETC *pEnumFormatEtc;
         HRESULT hres;
-        hres = pDataObject->lpVtbl->EnumFormatEtc(pDataObject, DATADIR_GET, &pEnumFormatEtc);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        hres = p_معلومات_Object->lpVtbl->EnumFormatEtc(p_معلومات_Object, DATADIR_GET, &pEnumFormatEtc);
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                      ". In Drop for EnumFormatEtc, HRESULT is %08" SDL_PRIxSLONG, hres);
-        if (hres == S_OK) {
+        إذا (hres == S_OK) {
             FORMATETC fetc;
-            while (pEnumFormatEtc->lpVtbl->Next(pEnumFormatEtc, 1, &fetc, NULL) == S_OK) {
-                char name[257] = { 0 };
-                const char *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
-                if (cfnm) {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            طالما (pEnumFormatEtc->lpVtbl->بل_3(pEnumFormatEtc, 1, &fetc, عدم) == S_OK) {
+                حرف name[257] = { 0 };
+                ثابت حرف *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
+                إذا (cfnm) {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                  ". In Drop, Supported format is %08x, '%s'", fetc.cfFormat, cfnm);
-                } else {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                } وإلا {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                  ". In Drop, Supported format is %08x, Predefined", fetc.cfFormat);
                 }
             }
@@ -1885,94 +1885,94 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
 
     {
         FORMATETC fetc;
-        fetc.cfFormat = target->format_file;
-        fetc.ptd = NULL;
+        fetc.cfFormat = موخه->format_file;
+        fetc.ptd = عدم;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/uri-list";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ثابت حرف *format_mime = "text/uri-list";
+        إذا (SUCCEEDED(p_معلومات_Object->lpVtbl->Query_Get_معلومات(p_معلومات_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_معلومات_Object->lpVtbl->Get_معلومات(p_معلومات_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            إذا (SUCCEEDED(hres)) {
+                ثابت size_t bsize = Global_اندازه(med.hGlobal);
+                ثابت فراغ *بفر_2 = (فراغ *)Global_قلف(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        if (SDL_URIToLocal(token, token) >= 0) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (بینښه اوږد)bsize, بفر_2);
+                إذا (بفر_2) {
+                    حرف *متن = (حرف *)SDL_malloc(bsize + حجم(Uint32));
+                    SDL_memcpy((Uint8 *)متن, بفر_2, bsize);
+                    SDL_memset((Uint8 *)متن + bsize, 0, حجم(Uint32));
+                    حرف *saveptr = عدم;
+                    حرف *token = SDL_strtok_r(متن, "\r\n", &saveptr);
+                    طالما (token != عدم) {
+                        إذا (SDL_URIToLocal(token, token) >= 0) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                            SDL_SendDropFile(target->window, NULL, token);
+                                         (بینښه اوږد)SDL_strlen(token), (بینښه اوږد)bsize, token);
+                            SDL_SendDropFile(موخه->کړکۍ, عدم, token);
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(عدم, "\r\n", &saveptr);
                     }
-                    SDL_free(text);
+                    SDL_free(متن);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(موخه->کړکۍ);
+                أرجع S_OK;
             }
         }
     }
 
     {
         FORMATETC fetc;
-        fetc.cfFormat = target->format_text;
-        fetc.ptd = NULL;
+        fetc.cfFormat = موخه->format_متن;
+        fetc.ptd = عدم;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/plain;charset=utf-8";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ثابت حرف *format_mime = "text/plain;charset=utf-8";
+        إذا (SUCCEEDED(p_معلومات_Object->lpVtbl->Query_Get_معلومات(p_معلومات_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_معلومات_Object->lpVtbl->Get_معلومات(p_معلومات_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            إذا (SUCCEEDED(hres)) {
+                ثابت size_t bsize = Global_اندازه(med.hGlobal);
+                ثابت فراغ *بفر_2 = (فراغ *)Global_قلف(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (بینښه اوږد)bsize, بفر_2);
+                إذا (بفر_2) {
+                    حرف *متن = (حرف *)SDL_malloc(bsize + حجم(Uint32));
+                    SDL_memcpy((Uint8 *)متن, بفر_2, bsize);
+                    SDL_memset((Uint8 *)متن + bsize, 0, حجم(Uint32));
+                    حرف *saveptr = عدم;
+                    حرف *token = SDL_strtok_r(متن, "\r\n", &saveptr);
+                    طالما (token != عدم) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (بینښه اوږد)SDL_strlen(token), (بینښه اوږد)bsize, token);
+                        SDL_Send_Drop_متن(موخه->کړکۍ, (حرف *)token);
+                        token = SDL_strtok_r(عدم, "\r\n", &saveptr);
                     }
-                    SDL_free(text);
+                    SDL_free(متن);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(موخه->کړکۍ);
+                أرجع S_OK;
             }
         }
     }
@@ -1980,99 +1980,99 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_UNICODETEXT;
-        fetc.ptd = NULL;
+        fetc.ptd = عدم;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_UNICODETEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ثابت حرف *format_mime = "CF_UNICODETEXT";
+        إذا (SUCCEEDED(p_معلومات_Object->lpVtbl->Query_Get_معلومات(p_معلومات_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_معلومات_Object->lpVtbl->Get_معلومات(p_معلومات_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            إذا (SUCCEEDED(hres)) {
+                ثابت size_t bsize = Global_اندازه(med.hGlobal);
+                ثابت فراغ *بفر_2 = (فراغ *)Global_قلف(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    buffer = WIN_StringToUTF8W((const wchar_t *)buffer);
-                    if (buffer) {
-                        const size_t lbuffer = SDL_strlen((const char *)buffer);
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (بینښه اوږد)bsize, بفر_2);
+                إذا (بفر_2) {
+                    بفر_2 = WIN_String_منزل_UTF8_W((ثابت wchar_t *)بفر_2);
+                    إذا (بفر_2) {
+                        ثابت size_t lbuffer = SDL_strlen((ثابت حرف *)بفر_2);
+                        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                      ". In Drop Text for StringToUTF8, format %08x '%s', memory (%lu) %p",
-                                     fetc.cfFormat, format_mime, (unsigned long)lbuffer, buffer);
-                        char *text = (char *)SDL_malloc(lbuffer + sizeof(Uint32));
-                        SDL_memcpy((Uint8 *)text, buffer, lbuffer);
-                        SDL_memset((Uint8 *)text + lbuffer, 0, sizeof(Uint32));
-                        char *saveptr = NULL;
-                        char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                        while (token != NULL) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                                     fetc.cfFormat, format_mime, (بینښه اوږد)lbuffer, بفر_2);
+                        حرف *متن = (حرف *)SDL_malloc(lbuffer + حجم(Uint32));
+                        SDL_memcpy((Uint8 *)متن, بفر_2, lbuffer);
+                        SDL_memset((Uint8 *)متن + lbuffer, 0, حجم(Uint32));
+                        حرف *saveptr = عدم;
+                        حرف *token = SDL_strtok_r(متن, "\r\n", &saveptr);
+                        طالما (token != عدم) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                          ". In Drop Text, text (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)lbuffer, token);
-                            SDL_SendDropText(target->window, (char *)token);
-                            token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                         (بینښه اوږد)SDL_strlen(token), (بینښه اوږد)lbuffer, token);
+                            SDL_Send_Drop_متن(موخه->کړکۍ, (حرف *)token);
+                            token = SDL_strtok_r(عدم, "\r\n", &saveptr);
                         }
-                        SDL_free(text);
-                        SDL_free((void *)buffer);
+                        SDL_free(متن);
+                        SDL_free((فراغ *)بفر_2);
                     }
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(موخه->کړکۍ);
+                أرجع S_OK;
             }
         }
     }
 
     {
         FORMATETC fetc;
-        fetc.cfFormat = CF_TEXT;
-        fetc.ptd = NULL;
+        fetc.cfFormat = CF_متن;
+        fetc.ptd = عدم;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_TEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ثابت حرف *format_mime = "CF_TEXT";
+        إذا (SUCCEEDED(p_معلومات_Object->lpVtbl->Query_Get_معلومات(p_معلومات_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_معلومات_Object->lpVtbl->Get_معلومات(p_معلومات_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            إذا (SUCCEEDED(hres)) {
+                ثابت size_t bsize = Global_اندازه(med.hGlobal);
+                ثابت فراغ *بفر_2 = (فراغ *)Global_قلف(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (بینښه اوږد)bsize, بفر_2);
+                إذا (بفر_2) {
+                    حرف *متن = (حرف *)SDL_malloc(bsize + حجم(Uint32));
+                    SDL_memcpy((Uint8 *)متن, بفر_2, bsize);
+                    SDL_memset((Uint8 *)متن + bsize, 0, حجم(Uint32));
+                    حرف *saveptr = عدم;
+                    حرف *token = SDL_strtok_r(متن, "\r\n", &saveptr);
+                    طالما (token != عدم) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (بینښه اوږد)SDL_strlen(token), (بینښه اوږد)bsize, token);
+                        SDL_Send_Drop_متن(موخه->کړکۍ, (حرف *)token);
+                        token = SDL_strtok_r(عدم, "\r\n", &saveptr);
                     }
-                    SDL_free(text);
+                    SDL_free(متن);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(موخه->کړکۍ);
+                أرجع S_OK;
             }
         }
     }
@@ -2080,269 +2080,269 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_HDROP;
-        fetc.ptd = NULL;
+        fetc.ptd = عدم;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_HDROP";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ثابت حرف *format_mime = "CF_HDROP";
+        إذا (SUCCEEDED(p_معلومات_Object->lpVtbl->Query_Get_معلومات(p_معلومات_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_معلومات_Object->lpVtbl->Get_معلومات(p_معلومات_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                HDROP drop = (HDROP)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            إذا (SUCCEEDED(hres)) {
+                ثابت size_t bsize = Global_اندازه(med.hGlobal);
+                HDROP drop = (HDROP)Global_قلف(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, drop);
-                UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-                for (UINT i = 0; i < count; ++i) {
-                    UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
-                    LPTSTR buffer = (LPTSTR)SDL_malloc(size * sizeof(TCHAR));
-                    if (buffer) {
-                        if (DragQueryFile(drop, i, buffer, size)) {
-                            char *file = WIN_StringToUTF8(buffer);
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (بینښه اوږد)bsize, drop);
+                UINT شمېر = DragQueryFile(drop, 0xFFFFFFFF, عدم, 0);
+                لكل (UINT i = 0; i < شمېر; ++i) {
+                    UINT اندازه = DragQueryFile(drop, i, عدم, 0) + 1;
+                    LPTSTR بفر_2 = (LPTSTR)SDL_malloc(اندازه * حجم(TCHAR));
+                    إذا (بفر_2) {
+                        إذا (DragQueryFile(drop, i, بفر_2, اندازه)) {
+                            حرف *file = WIN_String_منزل_UTF8(بفر_2);
+                            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(file), (unsigned long)bsize, file);
-                            SDL_SendDropFile(target->window, NULL, file);
+                                         (بینښه اوږد)SDL_strlen(file), (بینښه اوږد)bsize, file);
+                            SDL_SendDropFile(موخه->کړکۍ, عدم, file);
                             SDL_free(file);
                         }
-                        SDL_free(buffer);
+                        SDL_free(بفر_2);
                     }
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(موخه->کړکۍ);
+                أرجع S_OK;
             }
         }
     }
 
-    SDL_SendDropComplete(target->window);
-    return S_OK;
+    SDL_SendDropComplete(موخه->کړکۍ);
+    أرجع S_OK;
 }
 
-static void *vtDropTarget[] = {
-    (void *)(SDLDropTarget_QueryInterface),
-    (void *)(SDLDropTarget_AddRef),
-    (void *)(SDLDropTarget_Release),
-    (void *)(SDLDropTarget_DragEnter),
-    (void *)(SDLDropTarget_DragOver),
-    (void *)(SDLDropTarget_DragLeave),
-    (void *)(SDLDropTarget_Drop)
+ساكن فراغ *vt_Drop_موخه[] = {
+    (فراغ *)(SDLDrop_موخه_Query_Interface),
+    (فراغ *)(SDLDrop_موخه_جمع_کړه_Ref),
+    (فراغ *)(SDLDrop_موخه_Release),
+    (فراغ *)(SDLDrop_موخه_Drag_Enter),
+    (فراغ *)(SDLDrop_موخه_Drag_Over),
+    (فراغ *)(SDLDrop_موخه_Drag_Leave),
+    (فراغ *)(SDLDrop_موخه_Drop)
 };
 
-void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
+فراغ WIN_AcceptDragAndDrop(SDL_کړکۍ *کړکۍ, bool accept)
 {
-    SDL_WindowData *data = window->internal;
-    if (data->videodata->oleinitialized) {
-        if (accept && !data->drop_target) {
-            SDLDropTarget *drop_target = (SDLDropTarget *)SDL_calloc(1, sizeof(SDLDropTarget));
-            if (drop_target != NULL) {
-                drop_target->lpVtbl = vtDropTarget;
-                drop_target->window = window;
-                drop_target->hwnd = data->hwnd;
-                drop_target->format_file = RegisterClipboardFormatW(L"text/uri-list");
-                drop_target->format_text = RegisterClipboardFormatW(L"text/plain;charset=utf-8");
-                data->drop_target = drop_target;
-                SDLDropTarget_AddRef(drop_target);
-                RegisterDragDrop(data->hwnd, (LPDROPTARGET)drop_target);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    إذا (معلومات->videodata->oleinitialized) {
+        إذا (accept && !معلومات->drop_موخه) {
+            SDLDrop_موخه *drop_موخه = (SDLDrop_موخه *)SDL_calloc(1, حجم(SDLDrop_موخه));
+            إذا (drop_موخه != عدم) {
+                drop_موخه->lpVtbl = vt_Drop_موخه;
+                drop_موخه->کړکۍ = کړکۍ;
+                drop_موخه->hwnd = معلومات->hwnd;
+                drop_موخه->format_file = ثبتوونکی_Clipboard_Format_W(L"text/uri-list");
+                drop_موخه->format_متن = ثبتوونکی_Clipboard_Format_W(L"text/plain;charset=utf-8");
+                معلومات->drop_موخه = drop_موخه;
+                SDLDrop_موخه_جمع_کړه_Ref(drop_موخه);
+                ثبتوونکی_Drag_Drop(معلومات->hwnd, (LPDROPTARGET)drop_موخه);
+                SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                              ". In Accept Drag and Drop, window %u, enabled Full OLE IDropTarget",
-                             window->id);
+                             کړکۍ->id);
             }
-        } else if (!accept && data->drop_target) {
-            RevokeDragDrop(data->hwnd);
-            SDLDropTarget_Release(data->drop_target);
-            data->drop_target = NULL;
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        } وإلا إذا (!accept && معلومات->drop_موخه) {
+            RevokeDragDrop(معلومات->hwnd);
+            SDLDrop_موخه_Release(معلومات->drop_موخه);
+            معلومات->drop_موخه = عدم;
+            SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                          ". In Accept Drag and Drop, window %u, disabled Full OLE IDropTarget",
-                         window->id);
+                         کړکۍ->id);
         }
-    } else {
-        DragAcceptFiles(data->hwnd, accept ? TRUE : FALSE);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } وإلا {
+        DragAcceptFiles(معلومات->hwnd, accept ? TRUE : FALSE);
+        SDL_LogTrace(SDL_LOG_CATEGORY_ننوت,
                      ". In Accept Drag and Drop, window %u, %s Fallback WM_DROPFILES",
-                     window->id, (accept ? "enabled" : "disabled"));
+                     کړکۍ->id, (accept ? "enabled" : "disabled"));
     }
 }
 
-bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool WIN_Flash_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_FlashOperation operation)
 {
     FLASHWINFO desc;
 
     SDL_zero(desc);
-    desc.cbSize = sizeof(desc);
-    desc.hwnd = window->internal->hwnd;
-    switch (operation) {
-    case SDL_FLASH_CANCEL:
+    desc.cb_اندازه = حجم(desc);
+    desc.hwnd = کړکۍ->دننی->hwnd;
+    بدل (operation) {
+    حالة SDL_FLASH_CANCEL:
         desc.dwFlags = FLASHW_STOP;
-        break;
-    case SDL_FLASH_BRIEFLY:
+        اكسر;
+    حالة SDL_FLASH_BRIEFLY:
         desc.dwFlags = FLASHW_TRAY;
-        desc.uCount = 1;
-        break;
-    case SDL_FLASH_UNTIL_FOCUSED:
+        desc.u_شمېر = 1;
+        اكسر;
+    حالة SDL_FLASH_UNTIL_FOCUSED:
         desc.dwFlags = (FLASHW_TRAY | FLASHW_TIMERNOFG);
-        break;
-    default:
-        return SDL_Unsupported();
+        اكسر;
+    افتراضي:
+        أرجع SDL_Unsupported();
     }
 
-    FlashWindowEx(&desc);
+    Flash_کړکۍ_Ex(&desc);
 
-    return true;
+    أرجع true;
 }
 
-bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Apply_کړکۍ_پرمختګ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *data = window->internal;
-    if (!data->taskbar_button_created) {
-        return true;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    إذا (!معلومات->taskbar_button_created) {
+        أرجع true;
     }
 
-    if (window->progress_state == SDL_PROGRESS_STATE_NONE && !data->videodata->taskbar_list) {
-        return true;
+    إذا (کړکۍ->پرمختګ_state == SDL_پرمختګ_STATE_NONE && !معلومات->videodata->taskbar_list) {
+        أرجع true;
     }
 
-    ITaskbarList3 *taskbar_list = GetTaskbarList(window);
-    if (!taskbar_list) {
-        return false;
+    ITaskbarList3 *taskbar_list = GetTaskbarList(کړکۍ);
+    إذا (!taskbar_list) {
+        أرجع false;
     }
 
     TBPFLAG tbpFlags;
-    switch (window->progress_state) {
-    case SDL_PROGRESS_STATE_NONE:
+    بدل (کړکۍ->پرمختګ_state) {
+    حالة SDL_پرمختګ_STATE_NONE:
         tbpFlags = TBPF_NOPROGRESS;
-        break;
-    case SDL_PROGRESS_STATE_INDETERMINATE:
+        اكسر;
+    حالة SDL_پرمختګ_STATE_INDETERMINATE:
         tbpFlags = TBPF_INDETERMINATE;
-        break;
-    case SDL_PROGRESS_STATE_NORMAL:
-        tbpFlags = TBPF_NORMAL;
-        break;
-    case SDL_PROGRESS_STATE_PAUSED:
+        اكسر;
+    حالة SDL_پرمختګ_STATE_نورمال:
+        tbpFlags = TBPF_نورمال;
+        اكسر;
+    حالة SDL_پرمختګ_STATE_PAUSED:
         tbpFlags = TBPF_PAUSED;
-        break;
-    case SDL_PROGRESS_STATE_ERROR:
+        اكسر;
+    حالة SDL_پرمختګ_STATE_ERROR:
         tbpFlags = TBPF_ERROR;
-        break;
-    default:
-        return SDL_SetError("Parameter 'state' is not supported");
+        اكسر;
+    افتراضي:
+        أرجع SDL_سېټ_Error("Parameter 'state' is not supported");
     }
 
-    HRESULT ret = taskbar_list->lpVtbl->SetProgressState(taskbar_list, data->hwnd, tbpFlags);
-    if (FAILED(ret)) {
-        return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressState()", ret);
+    HRESULT ret = taskbar_list->lpVtbl->سېټ_پرمختګ_State(taskbar_list, معلومات->hwnd, tbpFlags);
+    إذا (FAILED(ret)) {
+        أرجع WIN_سېټ_Error_From_HRESULT("ITaskbarList3::SetProgressState()", ret);
     }
 
-    if (window->progress_state >= SDL_PROGRESS_STATE_NORMAL) {
-        ret = taskbar_list->lpVtbl->SetProgressValue(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_value * 10000.f), 10000);
-        if (FAILED(ret)) {
-            return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressValue()", ret);
+    إذا (کړکۍ->پرمختګ_state >= SDL_پرمختګ_STATE_نورمال) {
+        ret = taskbar_list->lpVtbl->سېټ_پرمختګ_ارزښت(taskbar_list, معلومات->hwnd, (ULONGLONG)(کړکۍ->پرمختګ_ارزښت * 10000.f), 10000);
+        إذا (FAILED(ret)) {
+            أرجع WIN_سېټ_Error_From_HRESULT("ITaskbarList3::SetProgressValue()", ret);
         }
     }
-#endif
-    return true;
+#د_که_پای
+    أرجع true;
 }
 
-void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+فراغ WIN_Show_کړکۍ_System_Menu(SDL_کړکۍ *کړکۍ, صحيح x, صحيح y)
 {
-    const SDL_WindowData *data = window->internal;
-    POINT pt;
+    ثابت SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    ټکی_2 pt;
 
     pt.x = x;
     pt.y = y;
-    ClientToScreen(data->hwnd, &pt);
-    SendMessage(data->hwnd, WM_POPUPSYSTEMMENU, 0, MAKELPARAM(pt.x, pt.y));
+    Client_منزل_Screen(معلومات->hwnd, &pt);
+    Send_پیغام(معلومات->hwnd, WM_POPUPSYSTEMMENU, 0, MAKELPARAM(pt.x, pt.y));
 }
 
-bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool WIN_سېټ_کړکۍ_Focusable(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool focusable)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        SDL_WindowData *data = window->internal;
-        HWND hwnd = data->hwnd;
-        const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+    إذا (!SDL_کړکۍ_IS_POPUP(کړکۍ)) {
+        SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+        HWND hwnd = معلومات->hwnd;
+        ثابت LONG style = Get_کړکۍ_Long(hwnd, GWL_EXSTYLE);
 
         SDL_assert(style != 0);
 
-        if (focusable) {
-            if (style & WS_EX_NOACTIVATE) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        إذا (focusable) {
+            إذا (style & WS_EX_NOACTIVATE) {
+                إذا (سېټ_کړکۍ_Long(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
+                    أرجع WIN_سېټ_Error("SetWindowLong()");
                 }
             }
-        } else {
-            if (!(style & WS_EX_NOACTIVATE)) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        } وإلا {
+            إذا (!(style & WS_EX_NOACTIVATE)) {
+                إذا (سېټ_کړکۍ_Long(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
+                    أرجع WIN_سېټ_Error("SetWindowLong()");
                 }
             }
         }
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                WIN_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    WIN_SetKeyboardFocus(window, true);
+    } وإلا إذا (کړکۍ->flags & SDL_کړکۍ_POPUP_MENU) {
+        إذا (!(کړکۍ->flags & SDL_کړکۍ_HIDDEN)) {
+            إذا (!focusable && (کړکۍ->flags & SDL_کړکۍ_ننوت_FOCUS)) {
+                SDL_کړکۍ *new_focus;
+                ثابت bool سېټ_focus = SDL_ShouldRelinquishPopupFocus(کړکۍ, &new_focus);
+                WIN_سېټ_Keyboard_Focus(new_focus, سېټ_focus);
+            } وإلا إذا (focusable) {
+                إذا (SDL_ShouldFocusPopup(کړکۍ)) {
+                    WIN_سېټ_Keyboard_Focus(کړکۍ, true);
                 }
             }
         }
 
-        return true;
+        أرجع true;
     }
 
-    return true;
+    أرجع true;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent)
+bool WIN_سېټ_کړکۍ_پلار(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_کړکۍ *پلار)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *child_data = window->internal;
-    const LONG_PTR parent_hwnd = (LONG_PTR)(parent ? parent->internal->hwnd : NULL);
-    const DWORD style = GetWindowLong(child_data->hwnd, GWL_STYLE);
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_کړکۍ_معلومات *ماشوم_معلومات = کړکۍ->دننی;
+    ثابت LONG_PTR پلار_hwnd = (LONG_PTR)(پلار ? پلار->دننی->hwnd : عدم);
+    ثابت DWORD style = Get_کړکۍ_Long(ماشوم_معلومات->hwnd, GWL_STYLE);
 
-    if (!(style & WS_CHILD)) {
+    إذا (!(style & WS_ماشوم)) {
         /* Despite the name, this changes the *owner* of a toplevel window, not
          * the parent of a child window.
          *
          * https://devblogs.microsoft.com/oldnewthing/20100315-00/?p=14613
          */
-        SetWindowLongPtr(child_data->hwnd, GWLP_HWNDPARENT, parent_hwnd);
-    } else {
-        SetParent(child_data->hwnd, (HWND)parent_hwnd);
+        سېټ_کړکۍ_Long_Ptr(ماشوم_معلومات->hwnd, GWLP_HWNDPARENT, پلار_hwnd);
+    } وإلا {
+        سېټ_پلار(ماشوم_معلومات->hwnd, (HWND)پلار_hwnd);
     }
-#endif /*!defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)*/
+#د_که_پای /*!defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)*/
 
-    return true;
+    أرجع true;
 }
 
-bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool WIN_سېټ_کړکۍ_Modal(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, bool modal)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    const HWND parent_hwnd = window->parent->internal->hwnd;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ثابت HWND پلار_hwnd = کړکۍ->پلار->دننی->hwnd;
 
-    if (modal) {
+    إذا (modal) {
         // Disable the parent window.
-        EnableWindow(parent_hwnd, FALSE);
-    } else if (!(window->flags & SDL_WINDOW_HIDDEN)) {
+        Enable_کړکۍ(پلار_hwnd, FALSE);
+    } وإلا إذا (!(کړکۍ->flags & SDL_کړکۍ_HIDDEN)) {
         // Re-enable the parent window
-        EnableWindow(parent_hwnd, TRUE);
+        Enable_کړکۍ(پلار_hwnd, TRUE);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#د_که_پای // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    أرجع true;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#د_که_پای // SDL_VIDEO_DRIVER_WINDOWS

@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowsrawinput_h_
-#define SDL_windowsrawinput_h_
+#که_نه_تعریف_شوی SDL_windowsrawinput_h_
+#تعریف_کړه SDL_windowsrawinput_h_
 
-extern void WIN_QuitRawInput(SDL_VideoDevice *_this);
-extern bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled);
+خارجي فراغ WIN_Quit_Raw_ننوت(SDL_VideoDevice *_this);
+خارجي bool WIN_سېټ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled);
+خارجي bool WIN_سېټ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled);
+خارجي bool WIN_سېټ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled);
+خارجي bool WIN_سېټ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled);
+خارجي bool WIN_سېټ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled);
 
-#endif // SDL_windowsrawinput_h_
+#د_که_پای // SDL_windowsrawinput_h_

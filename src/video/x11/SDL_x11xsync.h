@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11xsync_h_
-#define SDL_x11xsync_h_
+#که_نه_تعریف_شوی SDL_x11xsync_h_
+#تعریف_کړه SDL_x11xsync_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#که_تعریف_شوی SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+خارجي فراغ X11_InitXsync(SDL_VideoDevice *_this);
+خارجي bool X11_XsyncIsInitialized(فراغ);
+خارجي bool X11_InitResizeSync(SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_غړی_Resize_Sync(SDL_کړکۍ *کړکۍ);
+خارجي فراغ X11_HandleSyncRequest(SDL_کړکۍ *کړکۍ, XClient_پیغام_Event *event);
+خارجي فراغ X11_HandleConfigure(SDL_کړکۍ *کړکۍ, XConfigureEvent *event);
+خارجي فراغ X11_HandlePresent(SDL_کړکۍ *کړکۍ);
 
-#endif // SDL_VIDEO_DRIVER_X11_XSYNC
+#د_که_پای // SDL_VIDEO_DRIVER_X11_XSYNC
 
-#endif // SDL_x11xsync_h_
+#د_که_پای // SDL_x11xsync_h_

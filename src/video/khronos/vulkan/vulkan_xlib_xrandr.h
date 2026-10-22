@@ -1,5 +1,5 @@
-#ifndef VULKAN_XLIB_XRANDR_H_
-#define VULKAN_XLIB_XRANDR_H_ 1
+#که_نه_تعریف_شوی VULKAN_XLIB_XRANDR_H_
+#تعریف_کړه VULKAN_XLIB_XRANDR_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,40 +13,40 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
 
 
 // VK_EXT_acquire_xlib_display is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_acquire_xlib_display 1
+#تعریف_کړه VK_EXT_acquire_xlib_display 1
 
-#define VK_EXT_ACQUIRE_XLIB_DISPLAY_SPEC_VERSION 1
-#define VK_EXT_ACQUIRE_XLIB_DISPLAY_EXTENSION_NAME "VK_EXT_acquire_xlib_display"
+#تعریف_کړه VK_EXT_ACQUIRE_XLIB_DISPLAY_SPEC_نسخه 1
+#تعریف_کړه VK_EXT_ACQUIRE_XLIB_DISPLAY_EXTENSION_NAME "VK_EXT_acquire_xlib_display"
 
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireXlibDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, VkDisplayKHR display);
-typedef VkResult (VKAPI_PTR *PFN_vkGetRandROutputDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkAcquireXlibDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, VkDisplayKHR display);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkGetRandROutputDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireXlibDisplayEXT(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkAcquireXlibDisplayEXT(
     VkPhysicalDevice                            physicalDevice,
     Display*                                    dpy,
     VkDisplayKHR                                display);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetRandROutputDisplayEXT(
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkGetRandROutputDisplayEXT(
     VkPhysicalDevice                            physicalDevice,
     Display*                                    dpy,
     RROutput                                    rrOutput,
     VkDisplayKHR*                               pDisplay);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
-#endif
+#د_که_پای

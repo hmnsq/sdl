@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_waylandmouse_h_
-#define SDL_waylandmouse_h_
+#که_نه_تعریف_شوی SDL_waylandmouse_h_
+#تعریف_کړه SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
-#endif // 0
+خارجي فراغ Wayland_InitMouse(SDL_Video_معلومات *معلومات);
+خارجي فراغ Wayland_FiniMouse(SDL_Video_معلومات *معلومات);
+خارجي فراغ Wayland_Seat_Update_اشاره_ګر_Cursor(SDL_WaylandSeat *seat);
+خارجي فراغ Wayland_Seat_سېټ_Default_Cursor(SDL_WaylandSeat *seat);
+خارجي فراغ Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+خارجي فراغ Wayland_Display_Update_اشاره_ګر_Focused_Scale(SDL_کړکۍ_معلومات *updated_کړکۍ);
+خارجي فراغ Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+خارجي فراغ Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_کړکۍ_معلومات *کړکۍ, عائم x, عائم y);
+خارجي فراغ Wayland_Cursor_State_سېټ_چوکاټ_Callback(SDL_WaylandCursorState *state, فراغ *userdata);
+خارجي فراغ Wayland_Cursor_State_Destroy_چوکاټ_Callback(SDL_WaylandCursorState *state);
+خارجي فراغ Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#إذا 0  // TODO RECONNECT: See waylandvideo.c for more information!
+خارجي فراغ Wayland_RecreateCursors(فراغ);
+#د_که_پای // 0
 
-#endif
+#د_که_پای

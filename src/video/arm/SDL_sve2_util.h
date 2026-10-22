@@ -19,77 +19,77 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_SVE2_UTIL_H
-#define SDL_SVE2_UTIL_H
+#که_نه_تعریف_شوی SDL_SVE2_UTIL_H
+#تعریف_کړه SDL_SVE2_UTIL_H
 
-#undef SVE_0_CONNECT2
-#undef SVE_0_CONNECT3
-#undef SVE_0_CONNECT4
-#undef SVE_0_CONNECT5
-#undef SVE_0_CONNECT6
-#undef SVE_0_CONNECT7
-#undef SVE_0_CONNECT8
-#undef SVE_0_CONNECT9
+#تعریف_لغوه SVE_0_CONNECT2
+#تعریف_لغوه SVE_0_CONNECT3
+#تعریف_لغوه SVE_0_CONNECT4
+#تعریف_لغوه SVE_0_CONNECT5
+#تعریف_لغوه SVE_0_CONNECT6
+#تعریف_لغوه SVE_0_CONNECT7
+#تعریف_لغوه SVE_0_CONNECT8
+#تعریف_لغوه SVE_0_CONNECT9
 
-#undef SVE_CONNECT2
-#undef SVE_CONNECT3
-#undef SVE_CONNECT4
-#undef SVE_CONNECT5
-#undef SVE_CONNECT6
-#undef SVE_CONNECT7
-#undef SVE_CONNECT8
-#undef SVE_CONNECT9
-#undef ALT_SVE_CONNECT2
+#تعریف_لغوه SVE_CONNECT2
+#تعریف_لغوه SVE_CONNECT3
+#تعریف_لغوه SVE_CONNECT4
+#تعریف_لغوه SVE_CONNECT5
+#تعریف_لغوه SVE_CONNECT6
+#تعریف_لغوه SVE_CONNECT7
+#تعریف_لغوه SVE_CONNECT8
+#تعریف_لغوه SVE_CONNECT9
+#تعریف_لغوه ALT_SVE_CONNECT2
 
-#undef SVE_SAFE_NAME
+#تعریف_لغوه SVE_خوندي_NAME
 
-#undef SVE_CONNECT
+#تعریف_لغوه SVE_CONNECT
 
-#define SVE_0_CONNECT2(ma_A, ma_B)             ma_A##ma_B
-#define SVE_0_CONNECT3(ma_A, ma_B, ma_C)       ma_A##ma_B##ma_C
-#define SVE_0_CONNECT4(ma_A, ma_B, ma_C, ma_D) ma_A##ma_B##ma_C##ma_D
-#define SVE_0_CONNECT5(ma_A, ma_B, ma_C, ma_D, ma_E) \
+#تعریف_کړه SVE_0_CONNECT2(ma_A, ma_B)             ma_A##ma_B
+#تعریف_کړه SVE_0_CONNECT3(ma_A, ma_B, ma_C)       ma_A##ma_B##ma_C
+#تعریف_کړه SVE_0_CONNECT4(ma_A, ma_B, ma_C, ma_D) ma_A##ma_B##ma_C##ma_D
+#تعریف_کړه SVE_0_CONNECT5(ma_A, ma_B, ma_C, ma_D, ma_E) \
     ma_A##ma_B##ma_C##ma_D##ma_E
-#define SVE_0_CONNECT6(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F) \
+#تعریف_کړه SVE_0_CONNECT6(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F) \
     ma_A##ma_B##ma_C##ma_D##ma_E##ma_F
-#define SVE_0_CONNECT7(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G) \
+#تعریف_کړه SVE_0_CONNECT7(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G) \
     ma_A##ma_B##ma_C##ma_D##ma_E##ma_F##ma_G
-#define SVE_0_CONNECT8(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H) \
+#تعریف_کړه SVE_0_CONNECT8(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H) \
     ma_A##ma_B##ma_C##ma_D##ma_E##ma_F##ma_G##ma_H
-#define SVE_0_CONNECT9(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H, ma_I) \
+#تعریف_کړه SVE_0_CONNECT9(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H, ma_I) \
     ma_A##ma_B##ma_C##ma_D##ma_E##ma_F##ma_G##ma_H##ma_I
 
-#define ALT_SVE_CONNECT2(ma_A, ma_B)   SVE_0_CONNECT2(ma_A, ma_B)
-#define SVE_CONNECT2(ma_A, ma_B)       SVE_0_CONNECT2(ma_A, ma_B)
-#define SVE_CONNECT3(ma_A, ma_B, ma_C) SVE_0_CONNECT3(ma_A, ma_B, ma_C)
-#define SVE_CONNECT4(ma_A, ma_B, ma_C, ma_D) \
+#تعریف_کړه ALT_SVE_CONNECT2(ma_A, ma_B)   SVE_0_CONNECT2(ma_A, ma_B)
+#تعریف_کړه SVE_CONNECT2(ma_A, ma_B)       SVE_0_CONNECT2(ma_A, ma_B)
+#تعریف_کړه SVE_CONNECT3(ma_A, ma_B, ma_C) SVE_0_CONNECT3(ma_A, ma_B, ma_C)
+#تعریف_کړه SVE_CONNECT4(ma_A, ma_B, ma_C, ma_D) \
     SVE_0_CONNECT4(ma_A, ma_B, ma_C, ma_D)
-#define SVE_CONNECT5(ma_A, ma_B, ma_C, ma_D, ma_E) \
+#تعریف_کړه SVE_CONNECT5(ma_A, ma_B, ma_C, ma_D, ma_E) \
     SVE_0_CONNECT5(ma_A, ma_B, ma_C, ma_D, ma_E)
-#define SVE_CONNECT6(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F) \
+#تعریف_کړه SVE_CONNECT6(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F) \
     SVE_0_CONNECT6(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F)
-#define SVE_CONNECT7(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G) \
+#تعریف_کړه SVE_CONNECT7(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G) \
     SVE_0_CONNECT7(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G)
-#define SVE_CONNECT8(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H) \
+#تعریف_کړه SVE_CONNECT8(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H) \
     SVE_0_CONNECT8(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H)
-#define SVE_CONNECT9(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H, ma_I) \
+#تعریف_کړه SVE_CONNECT9(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H, ma_I) \
     SVE_0_CONNECT9(ma_A, ma_B, ma_C, ma_D, ma_E, ma_F, ma_G, ma_H, ma_I)
 
-#define SVE_CONNECT(...)          \
+#تعریف_کړه SVE_CONNECT(...)          \
     ALT_SVE_CONNECT2(SVE_CONNECT, \
-                     SVE_VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__)
+                     SVE_VA_عدد_دلیلونه(__VA_ARGS__))(__VA_ARGS__)
 
-#ifndef SVE_VA_NUM_ARGS_IMPL
-#define SVE_VA_NUM_ARGS_IMPL(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, \
+#که_نه_تعریف_شوی SVE_VA_عدد_دلیلونه_IMPL
+#تعریف_کړه SVE_VA_عدد_دلیلونه_IMPL(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, \
                              _12, _13, _14, _15, _16, ma_N, ...) ma_N
-#endif
+#د_که_پای
 
-#ifndef SVE_VA_NUM_ARGS
-#define SVE_VA_NUM_ARGS(...)                                              \
-    SVE_VA_NUM_ARGS_IMPL(0, ##__VA_ARGS__, 16, 15, 14, 13, 12, 11, 10, 9, \
+#که_نه_تعریف_شوی SVE_VA_عدد_دلیلونه
+#تعریف_کړه SVE_VA_عدد_دلیلونه(...)                                              \
+    SVE_VA_عدد_دلیلونه_IMPL(0, ##__VA_ARGS__, 16, 15, 14, 13, 12, 11, 10, 9, \
                          8, 7, 6, 5, 4, 3, 2, 1, 0)
-#endif
+#د_که_پای
 
-#define SVE_SAFE_NAME(ma_NAME) SVE_CONNECT3(ma_, ma_NAME, ma_LINEma_)
+#تعریف_کړه SVE_خوندي_NAME(ma_NAME) SVE_CONNECT3(ma_, ma_NAME, ma_LINEma_)
 
-#endif /* SDL_SVE2_UTIL_H */
+#د_که_پای /* SDL_SVE2_UTIL_H */

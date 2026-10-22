@@ -19,51 +19,51 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#که_تعریف_شوی SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#ضمن <3ds.h>
 
-#include "SDL_n3dsswkb.h"
+#ضمن "SDL_n3dsswkb.h"
 
-static SwkbdState sw_keyboard;
-static const size_t BUFFER_SIZE = 256;
+ساكن SwkbdState sw_keyboard;
+ساكن ثابت size_t بفر_اندازه_3 = 256;
 
-void N3DS_SwkbInit(void)
+فراغ N3DS_SwkbInit(فراغ)
 {
-    swkbdInit(&sw_keyboard, SWKBD_TYPE_NORMAL, 2, -1);
+    swkbdInit(&sw_keyboard, SWKBD_TYPE_نورمال, 2, -1);
 }
 
-void N3DS_SwkbPoll(void)
+فراغ N3DS_SwkbPoll(فراغ)
 {
-    return;
+    أرجع;
 }
 
-void N3DS_SwkbQuit(void)
+فراغ N3DS_SwkbQuit(فراغ)
 {
-    return;
+    أرجع;
 }
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    أرجع true;
 }
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool N3_DS_پیل_متن_ننوت(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ, SDL_PropertiesID props)
 {
-    char buffer[BUFFER_SIZE];
+    حرف بفر_2[بفر_اندازه_3];
     SwkbdButton button_pressed;
-    button_pressed = swkbdInputText(&sw_keyboard, buffer, BUFFER_SIZE);
-    if (button_pressed == SWKBD_BUTTON_CONFIRM) {
-        SDL_SendKeyboardText(buffer);
+    button_pressed = swkbd_ننوت_متن(&sw_keyboard, بفر_2, بفر_اندازه_3);
+    إذا (button_pressed == SWKBD_BUTTON_CONFIRM) {
+        SDL_Send_Keyboard_متن(بفر_2);
     }
-    return true;
+    أرجع true;
 }
 
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool N3_DS_Stop_متن_ننوت(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    return true;
+    أرجع true;
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#د_که_پای // SDL_VIDEO_DRIVER_N3DS

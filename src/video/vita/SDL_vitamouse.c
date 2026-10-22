@@ -18,88 +18,88 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#که_تعریف_شوی SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#ضمن <psp2/kernel/processmgr.h>
+#ضمن <psp2/ctrl.h>
+#ضمن <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamouse_c.h"
-#include "../../events/SDL_mouse_c.h"
+#ضمن "SDL_vitavideo.h"
+#ضمن "SDL_vitamouse_c.h"
+#ضمن "../../events/SDL_mouse_c.h"
 
 SceHidMouseReport m_reports[SCE_HID_MAX_REPORT];
-int mouse_hid_handle = 0;
+صحيح mouse_hid_handle = 0;
 Uint8 prev_buttons = 0;
 
-void VITA_InitMouse(void)
+فراغ VITA_InitMouse(فراغ)
 {
     sceHidMouseEnumerate(&mouse_hid_handle, 1);
 
-    if (mouse_hid_handle > 0) {
-        SDL_AddMouse((SDL_MouseID)mouse_hid_handle, NULL);
+    إذا (mouse_hid_handle > 0) {
+        SDL_جمع_کړه_Mouse((SDL_MouseID)mouse_hid_handle, عدم);
     }
 }
 
-void VITA_PollMouse(void)
+فراغ VITA_PollMouse(فراغ)
 {
     // We skip polling mouse if no window is created
-    if (!Vita_Window) {
-        return;
+    إذا (!Vita_کړکۍ) {
+        أرجع;
     }
 
-    if (mouse_hid_handle > 0) {
+    إذا (mouse_hid_handle > 0) {
         SDL_MouseID mouseID = (SDL_MouseID)mouse_hid_handle;
-        int numReports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
-        if (numReports > 0) {
-            for (int i = 0; i <= numReports - 1; i++) {
-                Uint8 changed_buttons = m_reports[i].buttons ^ prev_buttons;
+        صحيح عدد_Reports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
+        إذا (عدد_Reports > 0) {
+            لكل (صحيح i = 0; i <= عدد_Reports - 1; i++) {
+                Uint8 بدل_شوی_buttons = m_reports[i].buttons ^ prev_buttons;
 
-                if (changed_buttons & 0x1) {
-                    if (prev_buttons & 0x1)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, true);
+                إذا (بدل_شوی_buttons & 0x1) {
+                    إذا (prev_buttons & 0x1)
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_کیڼ, false);
+                    وإلا
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_کیڼ, true);
                 }
-                if (changed_buttons & 0x2) {
-                    if (prev_buttons & 0x2)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, true);
+                إذا (بدل_شوی_buttons & 0x2) {
+                    إذا (prev_buttons & 0x2)
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_ښی, false);
+                    وإلا
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_ښی, true);
                 }
-                if (changed_buttons & 0x4) {
-                    if (prev_buttons & 0x4)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, true);
+                إذا (بدل_شوی_buttons & 0x4) {
+                    إذا (prev_buttons & 0x4)
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_منځ, false);
+                    وإلا
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_منځ, true);
                 }
-                if (changed_buttons & 0x8) {
-                    if (prev_buttons & 0x8)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, true);
+                إذا (بدل_شوی_buttons & 0x8) {
+                    إذا (prev_buttons & 0x8)
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_X1, false);
+                    وإلا
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_X1, true);
                 }
-                if (changed_buttons & 0x10) {
-                    if (prev_buttons & 0x10)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, true);
+                إذا (بدل_شوی_buttons & 0x10) {
+                    إذا (prev_buttons & 0x10)
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_X2, false);
+                    وإلا
+                        SDL_SendMouseButton(0, Vita_کړکۍ, mouseID, SDL_BUTTON_X2, true);
                 }
 
                 prev_buttons = m_reports[i].buttons;
 
-                if (m_reports[i].rel_x || m_reports[i].rel_y) {
-                    SDL_SendMouseMotion(0, Vita_Window, mouseID, true, (float)m_reports[i].rel_x, (float)m_reports[i].rel_y);
+                إذا (m_reports[i].rel_x || m_reports[i].rel_y) {
+                    SDL_SendMouseMotion(0, Vita_کړکۍ, mouseID, true, (عائم)m_reports[i].rel_x, (عائم)m_reports[i].rel_y);
                 }
 
-                if (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
-                    SDL_SendMouseWheel(0, Vita_Window, mouseID, m_reports[i].tilt, m_reports[i].wheel, SDL_MOUSEWHEEL_NORMAL);
+                إذا (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
+                    SDL_SendMouseWheel(0, Vita_کړکۍ, mouseID, m_reports[i].tilt, m_reports[i].wheel, SDL_MOUSEWHEEL_نورمال);
                 }
             }
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#د_که_پای // SDL_VIDEO_DRIVER_VITA

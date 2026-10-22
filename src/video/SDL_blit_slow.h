@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_blit_slow_h_
-#define SDL_blit_slow_h_
+#که_نه_تعریف_شوی SDL_blit_slow_h_
+#تعریف_کړه SDL_blit_slow_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern void SDL_Blit_Slow(SDL_BlitInfo *info);
-extern void SDL_Blit_Slow_Float(SDL_BlitInfo *info);
+خارجي فراغ SDL_Blit_Slow(SDL_BlitInfo *info);
+خارجي فراغ SDL_Blit_Slow_Float(SDL_BlitInfo *info);
 
-#endif // SDL_blit_slow_h_
+#د_که_پای // SDL_blit_slow_h_

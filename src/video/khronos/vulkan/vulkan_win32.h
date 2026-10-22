@@ -1,5 +1,5 @@
-#ifndef VULKAN_WIN32_H_
-#define VULKAN_WIN32_H_ 1
+#که_نه_تعریف_شوی VULKAN_WIN32_H_
+#تعریف_کړه VULKAN_WIN32_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,384 +13,384 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+خارجي "C" {
+#د_که_پای
 
 
 
 // VK_KHR_win32_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_win32_surface 1
+#تعریف_کړه VK_KHR_win32_surface 1
 
-#define VK_KHR_WIN32_SURFACE_SPEC_VERSION 6
-#define VK_KHR_WIN32_SURFACE_EXTENSION_NAME "VK_KHR_win32_surface"
+#تعریف_کړه VK_KHR_WIN32_SURFACE_SPEC_نسخه 6
+#تعریف_کړه VK_KHR_WIN32_SURFACE_EXTENSION_NAME "VK_KHR_win32_surface"
 
-typedef VkFlags VkWin32SurfaceCreateFlagsKHR;
+تعريفنوع VkFlags VkWin32SurfaceCreateFlagsKHR;
 
-typedef struct VkWin32SurfaceCreateInfoKHR {
+تعريفنوع بنية VkWin32SurfaceCreateInfoKHR {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ثابت فراغ*                     p_بل;
     VkWin32SurfaceCreateFlagsKHR    flags;
     HINSTANCE                       hinstance;
     HWND                            hwnd;
 } VkWin32SurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, ثابت VkWin32SurfaceCreateInfoKHR* pCreateInfo, ثابت Vk_ویش_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t کتار_Family_شاخص);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateWin32SurfaceKHR(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkCreateWin32SurfaceKHR(
     VkInstance                                  instance,
-    const VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
+    ثابت Vk_ویش_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWin32PresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex);
-#endif
-#endif
+    uint32_t                                    کتار_Family_شاخص);
+#د_که_پای
+#د_که_پای
 
 
 // VK_KHR_external_memory_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_memory_win32 1
+#تعریف_کړه VK_KHR_external_حافظه_win32 1
 
-#define VK_KHR_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_KHR_external_memory_win32"
+#تعریف_کړه VK_KHR_EXTERNAL_حافظه_WIN32_SPEC_نسخه 1
+#تعریف_کړه VK_KHR_EXTERNAL_حافظه_WIN32_EXTENSION_NAME "VK_KHR_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoKHR {
+تعريفنوع بنية Vk_Import_حافظه_Win32_Handle_Info_KHR {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
+    ثابت فراغ*                           p_بل;
+    Vk_External_حافظه_Handle_Type_Flag_بټونه    handleType;
     HANDLE                                handle;
     LPCWSTR                               name;
-} VkImportMemoryWin32HandleInfoKHR;
+} Vk_Import_حافظه_Win32_Handle_Info_KHR;
 
-typedef struct VkExportMemoryWin32HandleInfoKHR {
+تعريفنوع بنية Vk_Export_حافظه_Win32_Handle_Info_KHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ثابت فراغ*                   p_بل;
+    ثابت SECURITY_ځانګړتیاوې*    p_ځانګړتیاوې;
     DWORD                         dwAccess;
     LPCWSTR                       name;
-} VkExportMemoryWin32HandleInfoKHR;
+} Vk_Export_حافظه_Win32_Handle_Info_KHR;
 
-typedef struct VkMemoryWin32HandlePropertiesKHR {
+تعريفنوع بنية Vk_حافظه_Win32_Handle_Properties_KHR {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryWin32HandlePropertiesKHR;
+    فراغ*              p_بل;
+    uint32_t           حافظه_Type_بټونه;
+} Vk_حافظه_Win32_Handle_Properties_KHR;
 
-typedef struct VkMemoryGetWin32HandleInfoKHR {
+تعريفنوع بنية Vk_حافظه_Get_Win32_Handle_Info_KHR {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetWin32HandleInfoKHR;
+    ثابت فراغ*                           p_بل;
+    Vk_Device_حافظه                        حافظه;
+    Vk_External_حافظه_Handle_Type_Flag_بټونه    handleType;
+} Vk_حافظه_Get_Win32_Handle_Info_KHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleKHR)(VkDevice device, const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandlePropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle, VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Get_حافظه_Win32_Handle_KHR)(VkDevice device, ثابت Vk_حافظه_Get_Win32_Handle_Info_KHR* pGetWin32HandleInfo, HANDLE* pHandle);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Get_حافظه_Win32_Handle_Properties_KHR)(VkDevice device, Vk_External_حافظه_Handle_Type_Flag_بټونه handleType, HANDLE handle, Vk_حافظه_Win32_Handle_Properties_KHR* p_حافظه_Win32_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleKHR(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Get_حافظه_Win32_Handle_KHR(
     VkDevice                                    device,
-    const VkMemoryGetWin32HandleInfoKHR*        pGetWin32HandleInfo,
+    ثابت Vk_حافظه_Get_Win32_Handle_Info_KHR*        pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Get_حافظه_Win32_Handle_Properties_KHR(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
+    Vk_External_حافظه_Handle_Type_Flag_بټونه          handleType,
     HANDLE                                      handle,
-    VkMemoryWin32HandlePropertiesKHR*           pMemoryWin32HandleProperties);
-#endif
-#endif
+    Vk_حافظه_Win32_Handle_Properties_KHR*           p_حافظه_Win32_Handle_Properties);
+#د_که_پای
+#د_که_پای
 
 
 // VK_KHR_win32_keyed_mutex is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_win32_keyed_mutex 1
+#تعریف_کړه VK_KHR_win32_keyed_mutex 1
 
-#define VK_KHR_WIN32_KEYED_MUTEX_SPEC_VERSION 1
-#define VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_KHR_win32_keyed_mutex"
+#تعریف_کړه VK_KHR_WIN32_KEYED_MUTEX_SPEC_نسخه 1
+#تعریف_کړه VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_KHR_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoKHR {
+تعريفنوع بنية VkWin32KeyedMutexAcquireReleaseInfoKHR {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeouts;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ثابت فراغ*              p_بل;
+    uint32_t                 acquire_شمېر;
+    ثابت Vk_Device_حافظه*    pAcquireSyncs;
+    ثابت uint64_t*          p_Acquire_کلیګانې;
+    ثابت uint32_t*          pAcquireTimeouts;
+    uint32_t                 release_شمېر;
+    ثابت Vk_Device_حافظه*    pReleaseSyncs;
+    ثابت uint64_t*          p_Release_کلیګانې;
 } VkWin32KeyedMutexAcquireReleaseInfoKHR;
 
 
 
 // VK_KHR_external_semaphore_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_semaphore_win32 1
+#تعریف_کړه VK_KHR_external_semaphore_win32 1
 
-#define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME "VK_KHR_external_semaphore_win32"
+#تعریف_کړه VK_KHR_EXTERNAL_SEMAPHORE_WIN32_SPEC_نسخه 1
+#تعریف_کړه VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME "VK_KHR_external_semaphore_win32"
 
-typedef struct VkImportSemaphoreWin32HandleInfoKHR {
+تعريفنوع بنية VkImportSemaphoreWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ثابت فراغ*                              p_بل;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_بټونه    handleType;
     HANDLE                                   handle;
     LPCWSTR                                  name;
 } VkImportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkExportSemaphoreWin32HandleInfoKHR {
+تعريفنوع بنية VkExportSemaphoreWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ثابت فراغ*                   p_بل;
+    ثابت SECURITY_ځانګړتیاوې*    p_ځانګړتیاوې;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkD3D12FenceSubmitInfoKHR {
+تعريفنوع بنية VkD3D12FenceSubmitInfoKHR {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           waitSemaphoreValuesCount;
-    const uint64_t*    pWaitSemaphoreValues;
-    uint32_t           signalSemaphoreValuesCount;
-    const uint64_t*    pSignalSemaphoreValues;
+    ثابت فراغ*        p_بل;
+    uint32_t           wait_Semaphore_ارزښتونه_شمېر;
+    ثابت uint64_t*    p_Wait_Semaphore_ارزښتونه;
+    uint32_t           signal_Semaphore_ارزښتونه_شمېر;
+    ثابت uint64_t*    p_Signal_Semaphore_ارزښتونه;
 } VkD3D12FenceSubmitInfoKHR;
 
-typedef struct VkSemaphoreGetWin32HandleInfoKHR {
+تعريفنوع بنية VkSemaphoreGetWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ثابت فراغ*                              p_بل;
     VkSemaphore                              semaphore;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_بټونه    handleType;
 } VkSemaphoreGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, ثابت VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, ثابت VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
+    ثابت VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
+    ثابت VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
 
 // VK_KHR_external_fence_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_fence_win32 1
+#تعریف_کړه VK_KHR_external_fence_win32 1
 
-#define VK_KHR_EXTERNAL_FENCE_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_FENCE_WIN32_EXTENSION_NAME "VK_KHR_external_fence_win32"
+#تعریف_کړه VK_KHR_EXTERNAL_FENCE_WIN32_SPEC_نسخه 1
+#تعریف_کړه VK_KHR_EXTERNAL_FENCE_WIN32_EXTENSION_NAME "VK_KHR_external_fence_win32"
 
-typedef struct VkImportFenceWin32HandleInfoKHR {
+تعريفنوع بنية VkImportFenceWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ثابت فراغ*                          p_بل;
     VkFence                              fence;
     VkFenceImportFlags                   flags;
-    VkExternalFenceHandleTypeFlagBits    handleType;
+    Vk_External_Fence_Handle_Type_Flag_بټونه    handleType;
     HANDLE                               handle;
     LPCWSTR                              name;
 } VkImportFenceWin32HandleInfoKHR;
 
-typedef struct VkExportFenceWin32HandleInfoKHR {
+تعريفنوع بنية VkExportFenceWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ثابت فراغ*                   p_بل;
+    ثابت SECURITY_ځانګړتیاوې*    p_ځانګړتیاوې;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportFenceWin32HandleInfoKHR;
 
-typedef struct VkFenceGetWin32HandleInfoKHR {
+تعريفنوع بنية VkFenceGetWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ثابت فراغ*                          p_بل;
     VkFence                              fence;
-    VkExternalFenceHandleTypeFlagBits    handleType;
+    Vk_External_Fence_Handle_Type_Flag_بټونه    handleType;
 } VkFenceGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, ثابت VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, ثابت VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportFenceWin32HandleKHR(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkImportFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceWin32HandleKHR(
+    ثابت VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkGetFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
+    ثابت VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
 
 // VK_NV_external_memory_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_external_memory_win32 1
+#تعریف_کړه VK_NV_external_حافظه_win32 1
 
-#define VK_NV_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
-#define VK_NV_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_NV_external_memory_win32"
+#تعریف_کړه VK_NV_EXTERNAL_حافظه_WIN32_SPEC_نسخه 1
+#تعریف_کړه VK_NV_EXTERNAL_حافظه_WIN32_EXTENSION_NAME "VK_NV_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoNV {
+تعريفنوع بنية Vk_Import_حافظه_Win32_Handle_Info_NV {
     VkStructureType                      sType;
-    const void*                          pNext;
-    VkExternalMemoryHandleTypeFlagsNV    handleType;
+    ثابت فراغ*                          p_بل;
+    Vk_External_حافظه_Handle_Type_Flags_NV    handleType;
     HANDLE                               handle;
-} VkImportMemoryWin32HandleInfoNV;
+} Vk_Import_حافظه_Win32_Handle_Info_NV;
 
-typedef struct VkExportMemoryWin32HandleInfoNV {
+تعريفنوع بنية Vk_Export_حافظه_Win32_Handle_Info_NV {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ثابت فراغ*                   p_بل;
+    ثابت SECURITY_ځانګړتیاوې*    p_ځانګړتیاوې;
     DWORD                         dwAccess;
-} VkExportMemoryWin32HandleInfoNV;
+} Vk_Export_حافظه_Win32_Handle_Info_NV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleNV)(VkDevice device, VkDeviceMemory memory, VkExternalMemoryHandleTypeFlagsNV handleType, HANDLE* pHandle);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Get_حافظه_Win32_Handle_NV)(VkDevice device, Vk_Device_حافظه حافظه, Vk_External_حافظه_Handle_Type_Flags_NV handleType, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleNV(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Get_حافظه_Win32_Handle_NV(
     VkDevice                                    device,
-    VkDeviceMemory                              memory,
-    VkExternalMemoryHandleTypeFlagsNV           handleType,
+    Vk_Device_حافظه                              حافظه,
+    Vk_External_حافظه_Handle_Type_Flags_NV           handleType,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
 
 // VK_NV_win32_keyed_mutex is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_win32_keyed_mutex 1
+#تعریف_کړه VK_NV_win32_keyed_mutex 1
 
-#define VK_NV_WIN32_KEYED_MUTEX_SPEC_VERSION 2
-#define VK_NV_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_NV_win32_keyed_mutex"
+#تعریف_کړه VK_NV_WIN32_KEYED_MUTEX_SPEC_نسخه 2
+#تعریف_کړه VK_NV_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_NV_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoNV {
+تعريفنوع بنية VkWin32KeyedMutexAcquireReleaseInfoNV {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeoutMilliseconds;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ثابت فراغ*              p_بل;
+    uint32_t                 acquire_شمېر;
+    ثابت Vk_Device_حافظه*    pAcquireSyncs;
+    ثابت uint64_t*          p_Acquire_کلیګانې;
+    ثابت uint32_t*          pAcquireTimeoutMilliseconds;
+    uint32_t                 release_شمېر;
+    ثابت Vk_Device_حافظه*    pReleaseSyncs;
+    ثابت uint64_t*          p_Release_کلیګانې;
 } VkWin32KeyedMutexAcquireReleaseInfoNV;
 
 
 
 // VK_EXT_full_screen_exclusive is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_full_screen_exclusive 1
+#تعریف_کړه VK_EXT_ډک_screen_exclusive 1
 
-#define VK_EXT_FULL_SCREEN_EXCLUSIVE_SPEC_VERSION 4
-#define VK_EXT_FULL_SCREEN_EXCLUSIVE_EXTENSION_NAME "VK_EXT_full_screen_exclusive"
+#تعریف_کړه VK_EXT_ډک_SCREEN_EXCLUSIVE_SPEC_نسخه 4
+#تعریف_کړه VK_EXT_ډک_SCREEN_EXCLUSIVE_EXTENSION_NAME "VK_EXT_full_screen_exclusive"
 
-typedef enum VkFullScreenExclusiveEXT {
-    VK_FULL_SCREEN_EXCLUSIVE_DEFAULT_EXT = 0,
-    VK_FULL_SCREEN_EXCLUSIVE_ALLOWED_EXT = 1,
-    VK_FULL_SCREEN_EXCLUSIVE_DISALLOWED_EXT = 2,
-    VK_FULL_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT = 3,
-    VK_FULL_SCREEN_EXCLUSIVE_MAX_ENUM_EXT = 0x7FFFFFFF
-} VkFullScreenExclusiveEXT;
+تعريفنوع تعداد Vk_ډک_Screen_Exclusive_EXT {
+    VK_ډک_SCREEN_EXCLUSIVE_DEFAULT_EXT = 0,
+    VK_ډک_SCREEN_EXCLUSIVE_ALLOWED_EXT = 1,
+    VK_ډک_SCREEN_EXCLUSIVE_DISALLOWED_EXT = 2,
+    VK_ډک_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT = 3,
+    VK_ډک_SCREEN_EXCLUSIVE_MAX_ENUM_EXT = 0x7FFFFFFF
+} Vk_ډک_Screen_Exclusive_EXT;
 
-typedef struct VkSurfaceFullScreenExclusiveInfoEXT {
+تعريفنوع بنية Vk_Surface_ډک_Screen_Exclusive_Info_EXT {
     VkStructureType             sType;
-    void*                       pNext;
-    VkFullScreenExclusiveEXT    fullScreenExclusive;
-} VkSurfaceFullScreenExclusiveInfoEXT;
+    فراغ*                       p_بل;
+    Vk_ډک_Screen_Exclusive_EXT    ډک_Screen_Exclusive;
+} Vk_Surface_ډک_Screen_Exclusive_Info_EXT;
 
-typedef struct VkSurfaceCapabilitiesFullScreenExclusiveEXT {
+تعريفنوع بنية Vk_Surface_Capabilities_ډک_Screen_Exclusive_EXT {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           fullScreenExclusiveSupported;
-} VkSurfaceCapabilitiesFullScreenExclusiveEXT;
+    فراغ*              p_بل;
+    VkBool32           ډک_Screen_Exclusive_Supported;
+} Vk_Surface_Capabilities_ډک_Screen_Exclusive_EXT;
 
-typedef struct VkSurfaceFullScreenExclusiveWin32InfoEXT {
+تعريفنوع بنية Vk_Surface_ډک_Screen_Exclusive_Win32_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_بل;
     HMONITOR           hmonitor;
-} VkSurfaceFullScreenExclusiveWin32InfoEXT;
+} Vk_Surface_ډک_Screen_Exclusive_Win32_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes);
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkReleaseFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevice device, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, VkDeviceGroupPresentModeFlagsKHR* pModes);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, ثابت VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* p_Present_ډېرپېښ_شمېر, Vk_Present_ډېرپېښ_KHR* pPresentModes);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Acquire_ډک_Screen_Exclusive_ډېرپېښ_EXT)(VkDevice device, VkSwapchainKHR swapchain);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Release_ډک_Screen_Exclusive_ډېرپېښ_EXT)(VkDevice device, VkSwapchainKHR swapchain);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vk_Get_Device_ډله_Surface_Present_Modes2_EXT)(VkDevice device, ثابت VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, Vk_Device_ډله_Present_ډېرپېښ_Flags_KHR* pModes);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
     VkPhysicalDevice                            physicalDevice,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    uint32_t*                                   pPresentModeCount,
-    VkPresentModeKHR*                           pPresentModes);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireFullScreenExclusiveModeEXT(
+    ثابت VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    uint32_t*                                   p_Present_ډېرپېښ_شمېر,
+    Vk_Present_ډېرپېښ_KHR*                           pPresentModes);
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Acquire_ډک_Screen_Exclusive_ډېرپېښ_EXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkReleaseFullScreenExclusiveModeEXT(
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Release_ډک_Screen_Exclusive_ډېرپېښ_EXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetDeviceGroupSurfacePresentModes2EXT(
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vk_Get_Device_ډله_Surface_Present_Modes2_EXT(
     VkDevice                                    device,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    VkDeviceGroupPresentModeFlagsKHR*           pModes);
-#endif
-#endif
+    ثابت VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    Vk_Device_ډله_Present_ډېرپېښ_Flags_KHR*           pModes);
+#د_که_پای
+#د_که_پای
 
 
 // VK_NV_acquire_winrt_display is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_acquire_winrt_display 1
+#تعریف_کړه VK_NV_acquire_winrt_display 1
 
-#define VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_VERSION 1
-#define VK_NV_ACQUIRE_WINRT_DISPLAY_EXTENSION_NAME "VK_NV_acquire_winrt_display"
+#تعریف_کړه VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_نسخه 1
+#تعریف_کړه VK_NV_ACQUIRE_WINRT_DISPLAY_EXTENSION_NAME "VK_NV_acquire_winrt_display"
 
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
-typedef VkResult (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
+تعريفنوع Vk_پایله (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
 
-#ifndef VK_NO_PROTOTYPES
+#که_نه_تعریف_شوی VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireWinrtDisplayNV(
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkAcquireWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     VkDisplayKHR                                display);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetWinrtDisplayNV(
+#د_که_پای
+#که_نه_تعریف_شوی VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_پایله VKAPI_CALL vkGetWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    deviceRelativeId,
     VkDisplayKHR*                               pDisplay);
-#endif
-#endif
+#د_که_پای
+#د_که_پای
 
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
 }
-#endif
+#د_که_پای
 
-#endif
+#د_که_پای

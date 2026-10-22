@@ -18,48 +18,48 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_rpivideo.h"
-#include "SDL_rpiopengles.h"
+#ضمن "SDL_rpivideo.h"
+#ضمن "SDL_rpiopengles.h"
 
 // EGL implementation of SDL OpenGL support
 
-void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+فراغ RPI_GLES_سېټ_Default_Profile_Config(SDL_VideoDevice *_this)
 {
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
+    _this->gl_config.profile_ماسک = SDL_GL_CONTEXT_PROFILE_ES;
+    _this->gl_config.major_نسخه = 2;
+    _this->gl_config.minor_نسخه = 0;
 }
 
-bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool RPI_GLES_بارول_Library(SDL_VideoDevice *_this, ثابت حرف *لار)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    أرجع SDL_EGL_بارول_Library(_this, لار, EGL_DEFAULT_DISPLAY);
 }
 
-bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool RPI_GLES_بدلون_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *wdata = window->internal;
+    SDL_کړکۍ_معلومات *wdata = کړکۍ->دننی;
 
-    if (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, wdata->egl_surface))) {
+    إذا (!(_this->egl_معلومات->egl_بدلون_Buffers(_this->egl_معلومات->egl_display, wdata->egl_surface))) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "eglSwapBuffers failed.");
-        return true;
+        أرجع true;
     }
 
     /* Wait immediately for vsync (as if we only had two buffers), for low input-lag scenarios.
      * Run your SDL program with "SDL_RPI_DOUBLE_BUFFER=1 <program_name>" to enable this. */
-    if (wdata->double_buffer) {
-        SDL_LockMutex(wdata->vsync_cond_mutex);
+    إذا (wdata->double_بفر) {
+        SDL_قلف_Mutex(wdata->vsync_cond_mutex);
         SDL_WaitCondition(wdata->vsync_cond, wdata->vsync_cond_mutex);
         SDL_UnlockMutex(wdata->vsync_cond_mutex);
     }
 
-    return true;
+    أرجع true;
 }
 
 SDL_EGL_CreateContext_impl(RPI)
 SDL_EGL_MakeCurrent_impl(RPI)
 
-#endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
+#د_که_پای // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL

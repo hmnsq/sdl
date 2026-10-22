@@ -18,144 +18,144 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_x11video.h"
-#include "SDL_x11opengles.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11xsync.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11opengles.h"
+#ضمن "SDL_x11opengl.h"
+#ضمن "SDL_x11xsync.h"
 
-#ifndef EGL_PLATFORM_X11_KHR
-#define EGL_PLATFORM_X11_KHR 0x31D5
-#endif
+#که_نه_تعریف_شوی EGL_PLATFORM_X11_KHR
+#تعریف_کړه EGL_PLATFORM_X11_KHR 0x31D5
+#د_که_پای
 
 // EGL implementation of SDL OpenGL support
 
-void X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+فراغ X11_GLES_سېټ_Default_Profile_Config(SDL_VideoDevice *_this)
 {
     _this->gl_config.egl_platform = EGL_PLATFORM_X11_KHR;
 }
 
-bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool X11_GLES_بارول_Library(SDL_VideoDevice *_this, ثابت حرف *لار)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_معلومات *معلومات = _this->دننی;
 
     // If the profile requested is not GL ES, switch over to X11_GL functions
-    if ((_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES) &&
+    إذا ((_this->gl_config.profile_ماسک != SDL_GL_CONTEXT_PROFILE_ES) &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#ifdef SDL_VIDEO_OPENGL_GLX
+#که_تعریف_شوی SDL_VIDEO_OPENGL_GLX
         X11_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = X11_GL_LoadLibrary;
-        _this->GL_GetProcAddress = X11_GL_GetProcAddress;
+        _this->GL_بارول_Library = X11_GL_بارول_Library;
+        _this->GL_Get_Proc_پته = X11_GL_Get_Proc_پته;
         _this->GL_UnloadLibrary = X11_GL_UnloadLibrary;
         _this->GL_CreateContext = X11_GL_CreateContext;
         _this->GL_MakeCurrent = X11_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = X11_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = X11_GL_GetSwapInterval;
-        _this->GL_SwapWindow = X11_GL_SwapWindow;
+        _this->GL_سېټ_بدلون_Interval = X11_GL_سېټ_بدلون_Interval;
+        _this->GL_Get_بدلون_Interval = X11_GL_Get_بدلون_Interval;
+        _this->GL_بدلون_کړکۍ = X11_GL_بدلون_کړکۍ;
         _this->GL_DestroyContext = X11_GL_DestroyContext;
-        return X11_GL_LoadLibrary(_this, path);
-#else
-        return SDL_SetError("SDL not configured with OpenGL/GLX support");
-#endif
+        أرجع X11_GL_بارول_Library(_this, لار);
+#وإلا
+        أرجع SDL_سېټ_Error("SDL not configured with OpenGL/GLX support");
+#د_که_پای
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType)data->display);
+    أرجع SDL_EGL_بارول_Library(_this, لار, (NativeDisplayType)معلومات->display);
 }
 
-XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent)
+XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, صحيح screen, bool transparent)
 {
 
-    XVisualInfo *egl_visualinfo = NULL;
+    XVisualInfo *egl_visualinfo = عدم;
     EGLint visual_id = 0;
-    XVisualInfo vi_in;
-    int out_count = 0;
+    XVisualInfo vi_دننه;
+    صحيح بهر_شمېر = 0;
 
-    if (!_this->egl_data) {
+    إذا (!_this->egl_معلومات) {
         // The EGL library wasn't loaded, SDL_GetError() should have info
-        return NULL;
+        أرجع عدم;
     }
 
-    if (_this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
-                                            _this->egl_data->egl_config,
+    إذا (_this->egl_معلومات->eglGetConfigAttrib(_this->egl_معلومات->egl_display,
+                                            _this->egl_معلومات->egl_config,
                                             EGL_NATIVE_VISUAL_ID,
                                             &visual_id) == EGL_FALSE) {
         visual_id = 0;
     }
-    if (visual_id != 0) {
-        vi_in.screen = screen;
-        vi_in.visualid = visual_id;
-        egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-        if (transparent && egl_visualinfo) {
+    إذا (visual_id != 0) {
+        vi_دننه.screen = screen;
+        vi_دننه.visualid = visual_id;
+        egl_visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ماسک | VisualIDMask, &vi_دننه, &بهر_شمېر);
+        إذا (transparent && egl_visualinfo) {
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, egl_visualinfo);
-            if (!SDL_ISPIXELFORMAT_ALPHA(format)) {
+            إذا (!SDL_ISPIXELFORMAT_ALPHA(format)) {
                 // not transparent!
                 X11_XFree(egl_visualinfo);
-                egl_visualinfo = NULL;
+                egl_visualinfo = عدم;
             }
         }
     }
     
-    if(!egl_visualinfo) {
+    إذا(!egl_visualinfo) {
         // Use the default visual when all else fails
-        vi_in.screen = screen;
+        vi_دننه.screen = screen;
         egl_visualinfo = X11_XGetVisualInfo(display,
-                                            VisualScreenMask,
-                                            &vi_in, &out_count);
+                                            Visual_Screen_ماسک,
+                                            &vi_دننه, &بهر_شمېر);
 
         // Return the first transparent Visual
-        if (transparent) {
-            int i;
-            for (i = 0; i < out_count; i++) {
+        إذا (transparent) {
+            صحيح i;
+            لكل (i = 0; i < بهر_شمېر; i++) {
                 XVisualInfo *v = &egl_visualinfo[i];
                 Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
+                إذا (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
                     // re-request it to have a copy that can be X11_XFree'ed later
-                    vi_in.screen = screen;
-                    vi_in.visualid = v->visualid;
+                    vi_دننه.screen = screen;
+                    vi_دننه.visualid = v->visualid;
                     X11_XFree(egl_visualinfo);
-                    egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-                    return egl_visualinfo;
+                    egl_visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ماسک | VisualIDMask, &vi_دننه, &بهر_شمېر);
+                    أرجع egl_visualinfo;
                 }
             }
         }
     }
-    return egl_visualinfo;
+    أرجع egl_visualinfo;
 }
 
-SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
     SDL_GLContext context;
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    Display *display = معلومات->videodata->display;
 
     X11_XSync(display, False);
-    context = SDL_EGL_CreateContext(_this, data->egl_surface);
+    context = SDL_EGL_CreateContext(_this, معلومات->egl_surface);
     X11_XSync(display, False);
 
-    return context;
+    أرجع context;
 }
 
-SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    SDL_WindowData *data = window->internal;
-    return data->egl_surface;
+    SDL_کړکۍ_معلومات *معلومات = کړکۍ->دننی;
+    أرجع معلومات->egl_surface;
 }
 
-bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_GLES_بدلون_کړکۍ(SDL_VideoDevice *_this, SDL_کړکۍ *کړکۍ)
 {
-    const bool ret = SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);                       \
+    ثابت bool ret = SDL_EGL_بدلون_Buffers(_this, کړکۍ->دننی->egl_surface);                       \
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#که_تعریف_شوی SDL_VIDEO_DRIVER_X11_XSYNC
+    X11_HandlePresent(کړکۍ);
+#د_که_پای /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-    return ret;
+    أرجع ret;
 }
 
 SDL_EGL_MakeCurrent_impl(X11)
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_OPENGL_EGL
+#د_که_پای // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_OPENGL_EGL
 

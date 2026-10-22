@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_openharmonymouse_h_
-#define SDL_openharmonymouse_h_
+#که_نه_تعریف_شوی SDL_openharmonymouse_h_
+#تعریف_کړه SDL_openharmonymouse_h_
 
-#include "SDL_openharmonyvideo.h"
+#ضمن "SDL_openharmonyvideo.h"
 
-extern void OPENHARMONY_InitMouse(void);
-extern void OPENHARMONY_QuitMouse(void);
+خارجي فراغ OPENHARMONY_InitMouse(فراغ);
+خارجي فراغ OPENHARMONY_QuitMouse(فراغ);
 
-#endif // SDL_openharmonymouse_h_
+#د_که_پای // SDL_openharmonymouse_h_
