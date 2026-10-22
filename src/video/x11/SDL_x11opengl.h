@@ -18,18 +18,18 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_x11opengl_h_
 #define SDL_x11opengl_h_
 
 #ifdef SDL_VIDEO_OPENGL_GLX
-#include <SDL3/SDL_opengl.h>
-#include <GL/glx.h>
+#ضمن <SDL3/SDL_opengl.h>
+#ضمن <GL/glx.h>
 
-typedef void (*__GLXextFuncPtr)(void);
+تعريفنوع فراغ (*__GLXextFuncPtr)(فراغ);
 
-typedef enum SDL_GLSwapIntervalTearBehavior
+تعريفنوع تعداد SDL_GLSwapIntervalTearBehavior
 {
     SDL_SWAPINTERVALTEAR_UNTESTED,
     SDL_SWAPINTERVALTEAR_UNKNOWN,
@@ -37,9 +37,9 @@ typedef enum SDL_GLSwapIntervalTearBehavior
     SDL_SWAPINTERVALTEAR_NVIDIA
 } SDL_GLSwapIntervalTearBehavior;
 
-struct SDL_GLDriverData
+بنية SDL_GLDriverData
 {
-    int errorBase, eventBase;
+    صحيح errorBase, eventBase;
 
     bool HAS_GLX_EXT_visual_rating;
     bool HAS_GLX_EXT_visual_info;
@@ -53,44 +53,44 @@ struct SDL_GLDriverData
        implementation supports GLX_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    بنية
     {
-        int major;
-        int minor;
+        صحيح major;
+        صحيح minor;
     } es_profile_max_supported_version;
 
     SDL_GLSwapIntervalTearBehavior swap_interval_tear_behavior;
 
-    Bool (*glXQueryExtension)(Display *, int *, int *);
-    __GLXextFuncPtr (*glXGetProcAddress)(const GLubyte *);
-    XVisualInfo *(*glXChooseVisual)(Display *, int, int *);
+    Bool (*glXQueryExtension)(Display *, صحيح *, صحيح *);
+    __GLXextFuncPtr (*glXGetProcAddress)(ثابت GLubyte *);
+    XVisualInfo *(*glXChooseVisual)(Display *, صحيح, صحيح *);
     GLXContext (*glXCreateContext)(Display *, XVisualInfo *, GLXContext, Bool);
-    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
-    GLXFBConfig *(*glXChooseFBConfig)(Display *, int, const int *, int *);
+    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, ثابت صحيح *);
+    GLXFBConfig *(*glXChooseFBConfig)(Display *, صحيح, ثابت صحيح *, صحيح *);
     XVisualInfo *(*glXGetVisualFromFBConfig)(Display *, GLXFBConfig);
-    void (*glXDestroyContext)(Display *, GLXContext);
+    فراغ (*glXDestroyContext)(Display *, GLXContext);
     Bool (*glXMakeCurrent)(Display *, GLXDrawable, GLXContext);
-    void (*glXSwapBuffers)(Display *, GLXDrawable);
-    void (*glXQueryDrawable)(Display *, GLXDrawable, int, unsigned int *);
-    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, int);
-    int (*glXSwapIntervalSGI)(int);
-    int (*glXSwapIntervalMESA)(int);
-    int (*glXGetSwapIntervalMESA)(void);
+    فراغ (*glXSwapBuffers)(Display *, GLXDrawable);
+    فراغ (*glXQueryDrawable)(Display *, GLXDrawable, صحيح, unsigned صحيح *);
+    فراغ (*glXSwapIntervalEXT)(Display *, GLXDrawable, صحيح);
+    صحيح (*glXSwapIntervalSGI)(صحيح);
+    صحيح (*glXSwapIntervalMESA)(صحيح);
+    صحيح (*glXGetSwapIntervalMESA)(فراغ);
 };
 
 // OpenGL functions
-extern bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool X11_GL_UseEGL(SDL_VideoDevice *_this);
-extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
-extern SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+خارجي bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, ثابت حرف *path);
+خارجي SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي فراغ X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي bool X11_GL_UseEGL(SDL_VideoDevice *_this);
+خارجي XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, صحيح screen, bool transparent);
+خارجي SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
 #endif // SDL_VIDEO_OPENGL_GLX
 

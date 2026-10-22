@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_cocoamodes_h_
 #define SDL_cocoamodes_h_
 
-struct SDL_DisplayData
+بنية SDL_DisplayData
 {
     CGDirectDisplayID display;
     SDL_Rect usable_bounds;
 };
 
-struct SDL_DisplayModeData
+بنية SDL_DisplayModeData
 {
     CFMutableArrayRef modes;
 };
 
-extern void Cocoa_InitModes(SDL_VideoDevice *_this);
-extern void Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
-extern bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool Cocoa_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void Cocoa_QuitModes(SDL_VideoDevice *_this);
-extern SDL_VideoDisplay *Cocoa_FindSDLDisplayByCGDirectDisplayID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
+خارجي فراغ Cocoa_InitModes(SDL_VideoDevice *_this);
+خارجي فراغ Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
+خارجي bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجي bool Cocoa_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+خارجي فراغ Cocoa_QuitModes(SDL_VideoDevice *_this);
+خارجي SDL_VideoDisplay *Cocoa_FindSDLDisplayByCGDirectDisplayID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
 
 #endif // SDL_cocoamodes_h_

@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_HAVE_BLIT_1
 
-#include "SDL_surface_c.h"
-#include "SDL_sysvideo.h"
+#ضمن "SDL_surface_c.h"
+#ضمن "SDL_sysvideo.h"
 
 // Functions to blit from 8-bit surfaces to other surfaces
 
-static void Blit1to1(SDL_BlitInfo *info)
+ساكن فراغ Blit1to1(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    صحيح c;
 #endif
-    int width, height;
+    صحيح width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    صحيح srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -45,7 +45,7 @@ static void Blit1to1(SDL_BlitInfo *info)
     dstskip = info->dst_skip;
     map = info->table;
 
-    while (height--) {
+    طالما (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
@@ -56,8 +56,8 @@ static void Blit1to1(SDL_BlitInfo *info)
             src++;
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width; c; --c) {
+#وإلا
+        لكل (c = width; c; --c) {
             *dst = map[*src];
             dst++;
             src++;
@@ -70,23 +70,23 @@ static void Blit1to1(SDL_BlitInfo *info)
 
 // This is now endian dependent
 #ifndef USE_DUFFS_LOOP
-#if (SDL_BYTEORDER == SDL_LIL_ENDIAN)
+#إذا (SDL_BYTEORDER == SDL_LIL_ENDIAN)
 #define HI 1
 #define LO 0
-#else // ( SDL_BYTEORDER == SDL_BIG_ENDIAN )
+#وإلا // ( SDL_BYTEORDER == SDL_BIG_ENDIAN )
 #define HI 0
 #define LO 1
 #endif
 #endif
-static void Blit1to2(SDL_BlitInfo *info)
+ساكن فراغ Blit1to2(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    صحيح c;
 #endif
-    int width, height;
+    صحيح width, height;
     Uint8 *src, *dst;
     Uint16 *map;
-    int srcskip, dstskip;
+    صحيح srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -98,7 +98,7 @@ static void Blit1to2(SDL_BlitInfo *info)
     map = (Uint16 *)info->table;
 
 #ifdef USE_DUFFS_LOOP
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
@@ -110,22 +110,22 @@ static void Blit1to2(SDL_BlitInfo *info)
         src += srcskip;
         dst += dstskip;
     }
-#else
+#وإلا
     // Memory align at 4-byte boundary, if necessary
-    if ((long)dst & 0x03) {
+    إذا ((long)dst & 0x03) {
         // Don't do anything if width is 0
-        if (width == 0) {
-            return;
+        إذا (width == 0) {
+            أرجع;
         }
         --width;
 
-        while (height--) {
+        طالما (height--) {
             // Perform copy alignment
             *(Uint16 *)dst = map[*src++];
             dst += 2;
 
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            لكل (c = width / 4; c; --c) {
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
@@ -134,28 +134,28 @@ static void Blit1to2(SDL_BlitInfo *info)
                 dst += 4;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            بدل (width & 3) {
+            حالة 3:
                 *(Uint16 *)dst = map[*src++];
                 dst += 2;
                 SDL_FALLTHROUGH;
-            case 2:
+            حالة 2:
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
-                break;
-            case 1:
+                اكسر;
+            حالة 1:
                 *(Uint16 *)dst = map[*src++];
                 dst += 2;
-                break;
+                اكسر;
             }
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } وإلا {
+        طالما (height--) {
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            لكل (c = width / 4; c; --c) {
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
@@ -164,20 +164,20 @@ static void Blit1to2(SDL_BlitInfo *info)
                 dst += 4;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            بدل (width & 3) {
+            حالة 3:
                 *(Uint16 *)dst = map[*src++];
                 dst += 2;
                 SDL_FALLTHROUGH;
-            case 2:
+            حالة 2:
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
-                break;
-            case 1:
+                اكسر;
+            حالة 1:
                 *(Uint16 *)dst = map[*src++];
                 dst += 2;
-                break;
+                اكسر;
             }
             src += srcskip;
             dst += dstskip;
@@ -186,15 +186,15 @@ static void Blit1to2(SDL_BlitInfo *info)
 #endif // USE_DUFFS_LOOP
 }
 
-static void Blit1to3(SDL_BlitInfo *info)
+ساكن فراغ Blit1to3(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    صحيح c;
 #endif
-    int o;
-    int width, height;
+    صحيح o;
+    صحيح width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    صحيح srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -205,7 +205,7 @@ static void Blit1to3(SDL_BlitInfo *info)
     dstskip = info->dst_skip;
     map = info->table;
 
-    while (height--) {
+    طالما (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
@@ -219,8 +219,8 @@ static void Blit1to3(SDL_BlitInfo *info)
             dst += 3;
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width; c; --c) {
+#وإلا
+        لكل (c = width; c; --c) {
             o = *src * 4;
             dst[0] = map[o++];
             dst[1] = map[o++];
@@ -234,15 +234,15 @@ static void Blit1to3(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to4(SDL_BlitInfo *info)
+ساكن فراغ Blit1to4(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    صحيح c;
 #endif
-    int width, height;
+    صحيح width, height;
     Uint8 *src;
     Uint32 *map, *dst;
-    int srcskip, dstskip;
+    صحيح srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -253,28 +253,28 @@ static void Blit1to4(SDL_BlitInfo *info)
     dstskip = info->dst_skip / 4;
     map = (Uint32 *)info->table;
 
-    while (height--) {
+    طالما (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
             *dst++ = map[*src++];
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width / 4; c; --c) {
+#وإلا
+        لكل (c = width / 4; c; --c) {
             *dst++ = map[*src++];
             *dst++ = map[*src++];
             *dst++ = map[*src++];
             *dst++ = map[*src++];
         }
-        switch (width & 3) {
-        case 3:
+        بدل (width & 3) {
+        حالة 3:
             *dst++ = map[*src++];
             SDL_FALLTHROUGH;
-        case 2:
+        حالة 2:
             *dst++ = map[*src++];
             SDL_FALLTHROUGH;
-        case 1:
+        حالة 1:
             *dst++ = map[*src++];
         }
 #endif // USE_DUFFS_LOOP
@@ -283,23 +283,23 @@ static void Blit1to4(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to1Key(SDL_BlitInfo *info)
+ساكن فراغ Blit1to1_کونچي(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    صحيح dstskip = info->dst_skip;
     Uint8 *palmap = info->table;
     Uint32 ckey = info->colorkey;
 
-    if (palmap) {
-        while (height--) {
+    إذا (palmap) {
+        طالما (height--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                if ( *src != ckey ) {
+                إذا ( *src != ckey ) {
                   *dst = palmap[*src];
                 }
                 dst++;
@@ -310,12 +310,12 @@ static void Blit1to1Key(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } وإلا {
+        طالما (height--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                if ( *src != ckey ) {
+                إذا ( *src != ckey ) {
                   *dst = *src;
                 }
                 dst++;
@@ -329,25 +329,25 @@ static void Blit1to1Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to2Key(SDL_BlitInfo *info)
+ساكن فراغ Blit1to2_کونچي(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint16 *dstp = (Uint16 *)info->dst;
-    int dstskip = info->dst_skip;
+    صحيح dstskip = info->dst_skip;
     Uint16 *palmap = (Uint16 *)info->table;
     Uint32 ckey = info->colorkey;
 
     // Set up some basic variables
     dstskip /= 2;
 
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
-            if ( *src != ckey ) {
+            إذا ( *src != ckey ) {
                 *dstp=palmap[*src];
             }
             src++;
@@ -360,23 +360,23 @@ static void Blit1to2Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to3Key(SDL_BlitInfo *info)
+ساكن فراغ Blit1to3_کونچي(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    صحيح dstskip = info->dst_skip;
     Uint8 *palmap = info->table;
     Uint32 ckey = info->colorkey;
-    int o;
+    صحيح o;
 
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
-            if ( *src != ckey ) {
+            إذا ( *src != ckey ) {
                 o = *src * 4;
                 dst[0] = palmap[o++];
                 dst[1] = palmap[o++];
@@ -392,25 +392,25 @@ static void Blit1to3Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to4Key(SDL_BlitInfo *info)
+ساكن فراغ Blit1to4_کونچي(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint32 *dstp = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip;
+    صحيح dstskip = info->dst_skip;
     Uint32 *palmap = (Uint32 *)info->table;
     Uint32 ckey = info->colorkey;
 
     // Set up some basic variables
     dstskip /= 4;
 
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
-            if ( *src != ckey ) {
+            إذا ( *src != ckey ) {
                 *dstp = palmap[*src];
             }
             src++;
@@ -423,26 +423,26 @@ static void Blit1to4Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1toNAlpha(SDL_BlitInfo *info)
+ساكن فراغ Blit1toNAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    const SDL_Color *srcpal = info->src_pal->colors;
-    int dstbpp;
+    صحيح dstskip = info->dst_skip;
+    ثابت SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ثابت SDL_Color *srcpal = info->src_pal->colors;
+    صحيح dstbpp;
     Uint32 pixelvalue;
     unsigned sR, sG, sB, sA;
     unsigned dR, dG, dB, dA;
-    const unsigned A = info->a;
+    ثابت unsigned A = info->a;
 
     // Set up some basic variables
     dstbpp = dstfmt->bytes_per_pixel;
 
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
@@ -463,31 +463,31 @@ static void Blit1toNAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1toNAlphaKey(SDL_BlitInfo *info)
+ساكن فراغ Blit1to_NAlpha_کونچي(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    صحيح width = info->dst_w;
+    صحيح height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    صحيح srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    const SDL_Color *srcpal = info->src_pal->colors;
+    صحيح dstskip = info->dst_skip;
+    ثابت SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ثابت SDL_Color *srcpal = info->src_pal->colors;
     Uint32 ckey = info->colorkey;
-    int dstbpp;
+    صحيح dstbpp;
     Uint32 pixelvalue;
     unsigned sR, sG, sB, sA;
     unsigned dR, dG, dB, dA;
-    const unsigned A = info->a;
+    ثابت unsigned A = info->a;
 
     // Set up some basic variables
     dstbpp = dstfmt->bytes_per_pixel;
 
-    while (height--) {
+    طالما (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
-            if ( *src != ckey ) {
+            إذا ( *src != ckey ) {
                 sR = srcpal[*src].r;
                 sG = srcpal[*src].g;
                 sB = srcpal[*src].b;
@@ -506,58 +506,58 @@ static void Blit1toNAlphaKey(SDL_BlitInfo *info)
     }
 }
 
-static const SDL_BlitFunc one_blit[] = {
-    (SDL_BlitFunc)NULL, Blit1to1, Blit1to2, Blit1to3, Blit1to4
+ساكن ثابت SDL_BlitFunc one_blit[] = {
+    (SDL_BlitFunc)عدم, Blit1to1, Blit1to2, Blit1to3, Blit1to4
 };
 
-static const SDL_BlitFunc one_blitkey[] = {
-    (SDL_BlitFunc)NULL, Blit1to1Key, Blit1to2Key, Blit1to3Key, Blit1to4Key
+ساكن ثابت SDL_BlitFunc one_blitkey[] = {
+    (SDL_BlitFunc)عدم, Blit1to1_کونچي, Blit1to2_کونچي, Blit1to3_کونچي, Blit1to4_کونچي
 };
 
 SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
 {
-    int which;
+    صحيح which;
 
-    if (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
+    إذا (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
         which = 0;
-    } else {
+    } وإلا {
         which = SDL_BYTESPERPIXEL(surface->map.info.dst_fmt->format);
     }
 
-    switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
-    case 0:
-        if (which < SDL_arraysize(one_blit)) {
-            return one_blit[which];
+    بدل (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
+    حالة 0:
+        إذا (which < SDL_arraysize(one_blit)) {
+            أرجع one_blit[which];
         }
-        break;
+        اكسر;
 
-    case SDL_COPY_COLORKEY:
-        if (which < SDL_arraysize(one_blitkey)) {
-            return one_blitkey[which];
+    حالة SDL_COPY_COLORKEY:
+        إذا (which < SDL_arraysize(one_blitkey)) {
+            أرجع one_blitkey[which];
         }
-        break;
+        اكسر;
 
-    case SDL_COPY_COLORKEY | SDL_COPY_BLEND:  // this is not super-robust but handles a specific case we found sdl12-compat.
-        if (surface->map.info.a == 255) {
-            if (which < SDL_arraysize(one_blitkey)) {
-                return one_blitkey[which];
+    حالة SDL_COPY_COLORKEY | SDL_COPY_BLEND:  // this is not super-robust but handles a specific case we found sdl12-compat.
+        إذا (surface->map.info.a == 255) {
+            إذا (which < SDL_arraysize(one_blitkey)) {
+                أرجع one_blitkey[which];
             }
-        } else {
-            return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+        } وإلا {
+            أرجع which >= 2 ? Blit1to_NAlpha_کونچي : (SDL_BlitFunc)عدم;
         }
-        break;
+        اكسر;
 
-    case SDL_COPY_BLEND:
-    case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+    حالة SDL_COPY_BLEND:
+    حالة SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
         /* Supporting 8bpp->8bpp alpha is doable but requires lots of
            tables which consume space and takes time to precompute,
            so is better left to the user */
-        return which >= 2 ? Blit1toNAlpha : (SDL_BlitFunc)NULL;
+        أرجع which >= 2 ? Blit1toNAlpha : (SDL_BlitFunc)عدم;
 
-    case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-        return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+    حالة SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
+        أرجع which >= 2 ? Blit1to_NAlpha_کونچي : (SDL_BlitFunc)عدم;
     }
-    return (SDL_BlitFunc)NULL;
+    أرجع (SDL_BlitFunc)عدم;
 }
 
 #endif // SDL_HAVE_BLIT_1
