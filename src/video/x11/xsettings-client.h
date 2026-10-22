@@ -25,25 +25,25 @@
 #define XSETTINGS_CLIENT_H
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif /* __cplusplus */
 
-typedef struct _XSettingsBuffer  XSettingsBuffer;
-typedef struct _XSettingsColor   XSettingsColor;
-typedef struct _XSettingsList    XSettingsList;
-typedef struct _XSettingsSetting XSettingsSetting;
+प्रकारनिर्देश संरचना _XSettingsBuffer  XSettingsBuffer;
+प्रकारनिर्देश संरचना _XSettingsColor   XSettingsColor;
+प्रकारनिर्देश संरचना _XSettingsList    XSettingsList;
+प्रकारनिर्देश संरचना _XSettingsSetting XSettingsSetting;
 
 /* Types of settings possible. Enum values correspond to
  * protocol values.
  */
-typedef enum
+प्रकारनिर्देश गणना
 {
   XSETTINGS_TYPE_INT     = 0,
   XSETTINGS_TYPE_STRING  = 1,
   XSETTINGS_TYPE_COLOR   = 2
 } XSettingsType;
 
-typedef enum
+प्रकारनिर्देश गणना
 {
   XSETTINGS_SUCCESS,
   XSETTINGS_NO_MEM,
@@ -53,97 +53,97 @@ typedef enum
   XSETTINGS_DUPLICATE_ENTRY
 } XSettingsResult;
 
-struct _XSettingsBuffer
+संरचना _XSettingsBuffer
 {
-  char byte_order;
-  size_t len;
-  unsigned char *data;
-  unsigned char *pos;
+  वर्ण byte_order;
+  माप_प्रकार len;
+  अचिन्हित वर्ण *data;
+  अचिन्हित वर्ण *pos;
 };
 
-struct _XSettingsColor
+संरचना _XSettingsColor
 {
-  unsigned short red, green, blue, alpha;
+  अचिन्हित लघु red, green, blue, alpha;
 };
 
-struct _XSettingsList
+संरचना _XSettingsList
 {
   XSettingsSetting *setting;
   XSettingsList *next;
 };
 
-struct _XSettingsSetting
+संरचना _XSettingsSetting
 {
-  char *name;
+  वर्ण *name;
   XSettingsType type;
 
-  union {
-    int v_int;
-    char *v_string;
+  सङ्घ {
+    पूर्णाङ्क v_int;
+    वर्ण *v_string;
     XSettingsColor v_color;
   } data;
 
-  unsigned long last_change_serial;
+  अचिन्हित दीर्घ last_change_serial;
 };
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
-void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+शून्य              xsettings_setting_free  (XSettingsSetting *setting);
+पूर्णाङ्क               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
-void              xsettings_list_free   (XSettingsList     *list);
+शून्य              xsettings_list_free   (XSettingsList     *list);
 XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
-XSettingsResult   xsettings_list_insert (XSettingsList    **list,
+XSettingsResult   xsettings_list_जोड़ो (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
-                                         const char        *name);
+                                         ध्रुव वर्ण        *name);
 XSettingsResult   xsettings_list_delete (XSettingsList    **list,
-                                         const char        *name);
+                                         ध्रुव वर्ण        *name);
 
-char xsettings_byte_order (void);
+वर्ण xsettings_byte_order (शून्य);
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-typedef struct _XSettingsClient XSettingsClient;
+प्रकारनिर्देश संरचना _XSettingsClient XSettingsClient;
 
-typedef enum
+प्रकारनिर्देश गणना
 {
   XSETTINGS_ACTION_NEW,
   XSETTINGS_ACTION_CHANGED,
   XSETTINGS_ACTION_DELETED
 } XSettingsAction;
 
-typedef void (*XSettingsNotifyFunc) (const char       *name,
+प्रकारनिर्देश शून्य (*XSettingsNotifyFunc) (ध्रुव वर्ण       *name,
                                      XSettingsAction   action,
                                      XSettingsSetting *setting,
-                                     void             *cb_data);
-typedef Bool (*XSettingsWatchFunc)  (Window            window,
+                                     शून्य             *cb_data);
+प्रकारनिर्देश Bool (*XSettingsWatchFunc)  (Window            window,
                                      Bool              is_start,
-                                     long              mask,
-                                     void             *cb_data);
-typedef void (*XSettingsGrabFunc)   (Display          *display);
+                                     दीर्घ              mask,
+                                     शून्य             *cb_data);
+प्रकारनिर्देश शून्य (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   पूर्णाङ्क                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
-                                                   void                *cb_data);
+                                                   शून्य                *cb_data);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       पूर्णाङ्क                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
-                                                       void                *cb_data,
+                                                       शून्य                *cb_data,
                                                        XSettingsGrabFunc    grab,
                                                        XSettingsGrabFunc    ungrab);
-void             xsettings_client_set_grab_func   (XSettingsClient     *client,
+शून्य             xsettings_client_set_grab_func   (XSettingsClient     *client,
                                                    XSettingsGrabFunc    grab);
-void             xsettings_client_set_ungrab_func (XSettingsClient     *client,
+शून्य             xsettings_client_set_ungrab_func (XSettingsClient     *client,
                                                    XSettingsGrabFunc    ungrab);
-void             xsettings_client_destroy         (XSettingsClient     *client);
+शून्य             xsettings_client_destroy         (XSettingsClient     *client);
 Bool             xsettings_client_process_event   (XSettingsClient     *client,
-                                                   const XEvent        *xev);
+                                                   ध्रुव XEvent        *xev);
 XSettingsResult  xsettings_client_get_setting     (XSettingsClient     *client,
-                                                   const char          *name,
+                                                   ध्रुव वर्ण          *name,
                                                    XSettingsSetting   **setting);
 
 #ifdef __cplusplus

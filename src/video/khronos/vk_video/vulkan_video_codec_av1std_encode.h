@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 
@@ -22,34 +22,34 @@ extern "C" {
 // vulkan_video_codec_av1std_encode is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_av1std_encode 1
 
-#include "vulkan_video_codec_av1std.h"
+#अन्तर्भाव "vulkan_video_codec_av1std.h"
 
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_encode"
 
-typedef struct StdVideoEncodeAV1DecoderModelInfo {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1DecoderModelInfo {
     uint8_t     buffer_delay_length_minus_1;
     uint8_t     buffer_removal_time_length_minus_1;
     uint8_t     frame_presentation_time_length_minus_1;
     uint8_t     reserved1;
-    uint32_t    num_units_in_decoding_tick;
+    uint32_t    अंक_units_in_decoding_tick;
 } StdVideoEncodeAV1DecoderModelInfo;
 
-typedef struct StdVideoEncodeAV1ExtensionHeader {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1ExtensionHeader {
     uint8_t    temporal_id;
     uint8_t    spatial_id;
 } StdVideoEncodeAV1ExtensionHeader;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfoFlags {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1OperatingPointInfoFlags {
     uint32_t    decoder_model_present_for_this_op : 1;
-    uint32_t    low_delay_mode_flag : 1;
+    uint32_t    निचला_delay_mode_flag : 1;
     uint32_t    initial_display_delay_present_for_this_op : 1;
     uint32_t    reserved : 29;
 } StdVideoEncodeAV1OperatingPointInfoFlags;
 
-typedef struct StdVideoEncodeAV1OperatingPointInfo {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1OperatingPointInfo {
     StdVideoEncodeAV1OperatingPointInfoFlags    flags;
     uint16_t                                    operating_point_idc;
     uint8_t                                     seq_level_idx;
@@ -59,7 +59,7 @@ typedef struct StdVideoEncodeAV1OperatingPointInfo {
     uint8_t                                     initial_display_delay_minus_1;
 } StdVideoEncodeAV1OperatingPointInfo;
 
-typedef struct StdVideoEncodeAV1PictureInfoFlags {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
@@ -71,7 +71,7 @@ typedef struct StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    buffer_removal_time_present_flag : 1;
     uint32_t    allow_intrabc : 1;
     uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_ऊपरी_precision_mv : 1;
     uint32_t    is_motion_mode_switchable : 1;
     uint32_t    use_ref_frame_mvs : 1;
     uint32_t    disable_frame_end_update_cdf : 1;
@@ -92,7 +92,7 @@ typedef struct StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    reserved : 3;
 } StdVideoEncodeAV1PictureInfoFlags;
 
-typedef struct StdVideoEncodeAV1PictureInfo {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1PictureInfo {
     StdVideoEncodeAV1PictureInfoFlags          flags;
     StdVideoAV1FrameType                       frame_type;
     uint32_t                                   frame_presentation_time;
@@ -107,34 +107,34 @@ typedef struct StdVideoEncodeAV1PictureInfo {
     StdVideoAV1TxMode                          TxMode;
     uint8_t                                    delta_q_res;
     uint8_t                                    delta_lf_res;
-    uint8_t                                    ref_order_hint[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                                    ref_order_hint[STD_VIDEO_AV1_अंक_REF_FRAMES];
     int8_t                                     ref_frame_idx[STD_VIDEO_AV1_REFS_PER_FRAME];
     uint8_t                                    reserved1[3];
     uint32_t                                   delta_frame_id_minus_1[STD_VIDEO_AV1_REFS_PER_FRAME];
-    const StdVideoAV1TileInfo*                 pTileInfo;
-    const StdVideoAV1Quantization*             pQuantization;
-    const StdVideoAV1Segmentation*             pSegmentation;
-    const StdVideoAV1LoopFilter*               pLoopFilter;
-    const StdVideoAV1CDEF*                     pCDEF;
-    const StdVideoAV1LoopRestoration*          pLoopRestoration;
-    const StdVideoAV1GlobalMotion*             pGlobalMotion;
-    const StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
-    const uint32_t*                            pBufferRemovalTimes;
+    ध्रुव StdVideoAV1TileInfo*                 pTileInfo;
+    ध्रुव StdVideoAV1Quantization*             pQuantization;
+    ध्रुव StdVideoAV1Segmentation*             pSegmentation;
+    ध्रुव StdVideoAV1LoopFilter*               pLoopFilter;
+    ध्रुव StdVideoAV1CDEF*                     pCDEF;
+    ध्रुव StdVideoAV1LoopRestoration*          pLoopRestoration;
+    ध्रुव StdVideoAV1GlobalMotion*             pGlobalMotion;
+    ध्रुव StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
+    ध्रुव uint32_t*                            pBufferRemovalTimes;
 } StdVideoEncodeAV1PictureInfo;
 
-typedef struct StdVideoEncodeAV1ReferenceInfoFlags {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1ReferenceInfoFlags {
     uint32_t    disable_frame_end_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeAV1ReferenceInfo {
+प्रकारनिर्देश संरचना StdVideoEncodeAV1ReferenceInfo {
     StdVideoEncodeAV1ReferenceInfoFlags        flags;
     uint32_t                                   RefFrameId;
     StdVideoAV1FrameType                       frame_type;
     uint8_t                                    OrderHint;
     uint8_t                                    reserved1[3];
-    const StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
+    ध्रुव StdVideoEncodeAV1ExtensionHeader*    pExtensionHeader;
 } StdVideoEncodeAV1ReferenceInfo;
 
 
