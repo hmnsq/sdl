@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_x11xtest_h_
 #define SDL_x11xtest_h_
 
-extern void X11_InitXTest(SDL_VideoDevice *_this);
-extern bool X11_XTestIsInitialized(void);
-extern bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y);
+बाह्य शून्य X11_InitXTest(SDL_VideoDevice *_this);
+बाह्य bool X11_XTestIsInitialized(शून्य);
+बाह्य bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, भिन्न x, भिन्न y);
 
 #endif // SDL_x11xtest_h_

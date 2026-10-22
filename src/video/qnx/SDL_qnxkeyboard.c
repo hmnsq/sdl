@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "SDL3/SDL_scancode.h"
-#include "SDL3/SDL_events.h"
-#include "SDL_qnx.h"
-#include <sys/keycodes.h>
+#अन्तर्भाव "SDL_internal.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "SDL3/SDL_scancode.h"
+#अन्तर्भाव "SDL3/SDL_events.h"
+#अन्तर्भाव "SDL_qnx.h"
+#अन्तर्भाव <sys/keycodes.h>
 
 /**
  * A map that translates Screen key names to SDL scan codes.
  * This map is incomplete, but should include most major keys.
  */
-static int key_to_sdl[] = {
+स्थिर पूर्णाङ्क कुंजी_to_sdl[] = {
     [KEYCODE_SPACE] = SDL_SCANCODE_SPACE,
     [KEYCODE_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE,
     [KEYCODE_COMMA] = SDL_SCANCODE_COMMA,
@@ -49,9 +49,9 @@ static int key_to_sdl[] = {
     [KEYCODE_NINE] = SDL_SCANCODE_9,
     [KEYCODE_SEMICOLON] = SDL_SCANCODE_SEMICOLON,
     [KEYCODE_EQUAL] = SDL_SCANCODE_EQUALS,
-    [KEYCODE_LEFT_BRACKET] = SDL_SCANCODE_LEFTBRACKET,
+    [KEYCODE_बायाँ_BRACKET] = SDL_SCANCODE_LEFTBRACKET,
     [KEYCODE_BACK_SLASH] = SDL_SCANCODE_BACKSLASH,
-    [KEYCODE_RIGHT_BRACKET] = SDL_SCANCODE_RIGHTBRACKET,
+    [KEYCODE_दायाँ_BRACKET] = SDL_SCANCODE_RIGHTBRACKET,
     [KEYCODE_GRAVE] = SDL_SCANCODE_GRAVE,
     [KEYCODE_A] = SDL_SCANCODE_A,
     [KEYCODE_B] = SDL_SCANCODE_B,
@@ -81,27 +81,27 @@ static int key_to_sdl[] = {
     [KEYCODE_Z] = SDL_SCANCODE_Z,
     [KEYCODE_UP] = SDL_SCANCODE_UP,
     [KEYCODE_DOWN] = SDL_SCANCODE_DOWN,
-    [KEYCODE_LEFT] = SDL_SCANCODE_LEFT,
+    [KEYCODE_बायाँ] = SDL_SCANCODE_बायाँ,
     [KEYCODE_PG_UP] = SDL_SCANCODE_PAGEUP,
     [KEYCODE_PG_DOWN] = SDL_SCANCODE_PAGEDOWN,
     [KEYCODE_PRINT] = SDL_SCANCODE_PRINTSCREEN,
     [KEYCODE_SCROLL_LOCK] = SDL_SCANCODE_SCROLLLOCK,
     [KEYCODE_PAUSE] = SDL_SCANCODE_PAUSE,
-    [KEYCODE_INSERT] = SDL_SCANCODE_INSERT,
+    [KEYCODE_जोड़ो] = SDL_SCANCODE_जोड़ो,
     [KEYCODE_HOME] = SDL_SCANCODE_HOME,
     [KEYCODE_DELETE] = SDL_SCANCODE_DELETE,
     [KEYCODE_END] = SDL_SCANCODE_END,
-    [KEYCODE_NUM_LOCK] = SDL_SCANCODE_NUMLOCKCLEAR,
-    [KEYCODE_RIGHT] = SDL_SCANCODE_RIGHT,
+    [KEYCODE_अंक_LOCK] = SDL_SCANCODE_NUMLOCKCLEAR,
+    [KEYCODE_दायाँ] = SDL_SCANCODE_दायाँ,
     [KEYCODE_RETURN] = SDL_SCANCODE_RETURN,
     [KEYCODE_TAB] = SDL_SCANCODE_TAB,
     [KEYCODE_ESCAPE] = SDL_SCANCODE_ESCAPE,
-    [KEYCODE_LEFT_CTRL] = SDL_SCANCODE_LCTRL,
-    [KEYCODE_RIGHT_CTRL] = SDL_SCANCODE_RCTRL,
-    [KEYCODE_LEFT_SHIFT] = SDL_SCANCODE_LSHIFT,
-    [KEYCODE_RIGHT_SHIFT] = SDL_SCANCODE_RSHIFT,
-    [KEYCODE_LEFT_ALT] = SDL_SCANCODE_LALT,
-    [KEYCODE_RIGHT_ALT] = SDL_SCANCODE_RALT,
+    [KEYCODE_बायाँ_CTRL] = SDL_SCANCODE_LCTRL,
+    [KEYCODE_दायाँ_CTRL] = SDL_SCANCODE_RCTRL,
+    [KEYCODE_बायाँ_SHIFT] = SDL_SCANCODE_LSHIFT,
+    [KEYCODE_दायाँ_SHIFT] = SDL_SCANCODE_RSHIFT,
+    [KEYCODE_बायाँ_ALT] = SDL_SCANCODE_LALT,
+    [KEYCODE_दायाँ_ALT] = SDL_SCANCODE_RALT,
     [KEYCODE_BACKSPACE] = SDL_SCANCODE_BACKSPACE,
     [KEYCODE_CAPS_LOCK] = SDL_SCANCODE_CAPSLOCK,
     [KEYCODE_F1] = SDL_SCANCODE_F1,
@@ -121,13 +121,13 @@ static int key_to_sdl[] = {
     [KEYCODE_KP_MINUS] = SDL_SCANCODE_KP_MINUS,
     [KEYCODE_KP_PLUS] = SDL_SCANCODE_KP_PLUS,
     [KEYCODE_KP_ENTER] = SDL_SCANCODE_KP_ENTER,
-    [KEYCODE_KP_INSERT] = SDL_SCANCODE_KP_0,
+    [KEYCODE_KP_जोड़ो] = SDL_SCANCODE_KP_0,
     [KEYCODE_KP_END] = SDL_SCANCODE_KP_1,
     [KEYCODE_KP_DOWN] = SDL_SCANCODE_KP_2,
     [KEYCODE_KP_PG_DOWN] = SDL_SCANCODE_KP_3,
-    [KEYCODE_KP_LEFT] = SDL_SCANCODE_KP_4,
+    [KEYCODE_KP_बायाँ] = SDL_SCANCODE_KP_4,
     [KEYCODE_KP_FIVE] = SDL_SCANCODE_KP_5,
-    [KEYCODE_KP_RIGHT] = SDL_SCANCODE_KP_6,
+    [KEYCODE_KP_दायाँ] = SDL_SCANCODE_KP_6,
     [KEYCODE_KP_HOME] = SDL_SCANCODE_KP_7,
     [KEYCODE_KP_UP] = SDL_SCANCODE_KP_8,
     [KEYCODE_KP_PG_UP] = SDL_SCANCODE_KP_9,
@@ -148,7 +148,7 @@ static int key_to_sdl[] = {
     [KEYCODE_VOLUME_DOWN] = SDL_SCANCODE_VOLUMEDOWN,
     [KEYCODE_SYSREQ] = SDL_SCANCODE_SYSREQ,
     [KEYCODE_AC_CANCEL] = SDL_SCANCODE_CANCEL,
-    [KEYCODE_AC_SEARCH] = SDL_SCANCODE_AC_SEARCH,
+    [KEYCODE_AC_खोज] = SDL_SCANCODE_AC_खोज,
     [KEYCODE_AC_HOME] = SDL_SCANCODE_AC_HOME,
     [KEYCODE_AC_BACK] = SDL_SCANCODE_AC_BACK,
     [KEYCODE_AC_FORWARD] = SDL_SCANCODE_AC_FORWARD,
@@ -163,55 +163,55 @@ static int key_to_sdl[] = {
  * Called from the event dispatcher when a keyboard event is encountered.
  * Translates the event such that it can be handled by SDL.
  */
-void handleKeyboardEvent(screen_event_t event)
+शून्य handleKeyboardEvent(screen_event_t event)
 {
-    int             val;
-    int             cap;
-    char            ascii_text[2];
+    पूर्णाङ्क             val;
+    पूर्णाङ्क             cap;
+    वर्ण            ascii_text[2];
     SDL_Scancode    scancode;
 
     // Get the key value.
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
-        return;
+    यदि (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
+        प्रत्यागम;
     }
 
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
-        return;
+    यदि (screen_get_event_property_iv(event, SCREEN_PROPERTY_कुंजी_CAP, &cap) < 0) {
+        प्रत्यागम;
     }
 
     // Skip unrecognized keys.
-    if ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
-        return;
+    यदि ((val < 0) || (val >= SDL_arraysize(कुंजी_to_sdl))) {
+        प्रत्यागम;
     }
 
     // Translate to an SDL scan code.
-    scancode = key_to_sdl[val];
-    if (scancode == 0) {
-        return;
+    scancode = कुंजी_to_sdl[val];
+    यदि (scancode == 0) {
+        प्रत्यागम;
     }
 
     // Get event flags (key state).
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
-        return;
+    यदि (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
+        प्रत्यागम;
     }
 
     // Propagate the event to SDL.
     // FIXME:
     // Need to handle more key states (such as key combinations).
-    if (val & KEY_DOWN) {
-        SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, true);
+    यदि (val & कुंजी_DOWN) {
+        SDL_Send_Keyboard_कुंजी(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, true);
 
         // TODO: To simplify, we're ignoring keycodes that aren't just ascii.
-        if ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
+        यदि ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
             ascii_text[0] = cap;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
-        } else if ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
+        } अन्यथा यदि ((KEYCODE_PC_कुंजियाँ <= val) && (val < KEYCODE_CONSUMER_कुंजियाँ)) {
             ascii_text[0] = val & 0xFF;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
         }
-    } else {
-        SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, false);
+    } अन्यथा {
+        SDL_Send_Keyboard_कुंजी(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, false);
     }
 }

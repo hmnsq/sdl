@@ -24,28 +24,28 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_uikitvulkan_h_
 #define SDL_uikitvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_vulkan_internal.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_UIKIT)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_UIKIT)
 
-extern bool UIKit_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void UIKit_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *UIKit_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool UIKit_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+बाह्य bool UIKit_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ध्रुव वर्ण *path);
+बाह्य शून्य UIKit_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य वर्ण ध्रुव * ध्रुव *UIKit_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गिनती);
+बाह्य bool UIKit_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                SDL_Window *window,
                                VkInstance instance,
-                               const struct VkAllocationCallbacks *allocator,
+                               ध्रुव संरचना VkAllocationCallbacks *allocator,
                                VkSurfaceKHR *surface);
-extern void UIKit_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य शून्य UIKit_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                  VkInstance instance,
                                  VkSurfaceKHR surface,
-                                 const struct VkAllocationCallbacks *allocator);
+                                 ध्रुव संरचना VkAllocationCallbacks *allocator);
 
 #endif
 

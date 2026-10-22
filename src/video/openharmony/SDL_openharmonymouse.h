@@ -22,9 +22,9 @@
 #ifndef SDL_openharmonymouse_h_
 #define SDL_openharmonymouse_h_
 
-#include "SDL_openharmonyvideo.h"
+#अन्तर्भाव "SDL_openharmonyvideo.h"
 
-extern void OPENHARMONY_InitMouse(void);
-extern void OPENHARMONY_QuitMouse(void);
+बाह्य शून्य OPENHARMONY_InitMouse(शून्य);
+बाह्य शून्य OPENHARMONY_QuitMouse(शून्य);
 
 #endif // SDL_openharmonymouse_h_
