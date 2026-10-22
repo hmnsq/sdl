@@ -18,43 +18,43 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
 #ifdef SDL_VIDEO_DRIVER_NGAGE
 
-#include "SDL_ngagevideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_ngagevideo.h"
 
 #define NGAGE_VIDEO_DRIVER_NAME "N-Gage"
 
-static void NGAGE_DeleteDevice(SDL_VideoDevice *device);
-static bool NGAGE_VideoInit(SDL_VideoDevice *device);
-static void NGAGE_VideoQuit(SDL_VideoDevice *device);
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_DeleteDevice(SDL_VideoDevice *device);
+ସ୍ଥିର bool NGAGE_VideoInit(SDL_VideoDevice *device);
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_VideoQuit(SDL_VideoDevice *device);
 
-static bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *display, SDL_Rect *rect);
-static bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *display);
+ସ୍ଥିର bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *display, SDL_Rect *rect);
+ସ୍ଥିର bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *display);
 
-static void NGAGE_PumpEvents(SDL_VideoDevice *device);
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_PumpEvents(SDL_VideoDevice *device);
 
-static bool NGAGE_SuspendScreenSaver(SDL_VideoDevice *device);
+ସ୍ଥିର bool NGAGE_SuspendScreenSaver(SDL_VideoDevice *device);
 
-static SDL_VideoDevice *NGAGE_CreateDevice(void)
+ସ୍ଥିର SDL_VideoDevice *NGAGE_CreateDevice(ଶୂନ୍ୟ)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *phdata;
 
     // Initialize all variables that we clean on shutdown.
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
+    device = (SDL_VideoDevice *)SDL_calloc(1, ଆକାର(SDL_VideoDevice));
+    ଯଦି (!device) {
         SDL_OutOfMemory();
-        return (SDL_VideoDevice *)0;
+        ଫେରନ୍ତୁ (SDL_VideoDevice *)0;
     }
 
     // Initialize internal N-Gage specific data.
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_VideoData *)SDL_calloc(1, ଆକାର(SDL_VideoData));
+    ଯଦି (!phdata) {
         SDL_OutOfMemory();
         SDL_free(device);
-        return (SDL_VideoDevice *)0;
+        ଫେରନ୍ତୁ (SDL_VideoDevice *)0;
     }
 
     device->internal = phdata;
@@ -71,11 +71,11 @@ static SDL_VideoDevice *NGAGE_CreateDevice(void)
 
     device->SuspendScreenSaver = NGAGE_SuspendScreenSaver;
 
-    device->free = NGAGE_DeleteDevice;
+    device->ମୁକ୍ତ = NGAGE_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ଫେରନ୍ତୁ device;
 }
 
 VideoBootStrap NGAGE_bootstrap = {
@@ -85,18 +85,18 @@ VideoBootStrap NGAGE_bootstrap = {
     0
 };
 
-static void NGAGE_DeleteDevice(SDL_VideoDevice *device)
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static bool NGAGE_VideoInit(SDL_VideoDevice *device)
+ସ୍ଥିର bool NGAGE_VideoInit(SDL_VideoDevice *device)
 {
     SDL_VideoData *phdata = (SDL_VideoData *)device->internal;
 
-    if (!phdata) {
-        return false;
+    ଯଦି (!phdata) {
+        ଫେରନ୍ତୁ false;
     }
 
     SDL_zero(phdata->mode);
@@ -110,27 +110,27 @@ static bool NGAGE_VideoInit(SDL_VideoDevice *device)
     phdata->display.name = "N-Gage";
     phdata->display.desktop_mode = phdata->mode;
 
-    if (SDL_AddVideoDisplay(&phdata->display, false) == 0) {
-        return false;
+    ଯଦି (SDL_AddVideoDisplay(&phdata->display, false) == 0) {
+        ଫେରନ୍ତୁ false;
     }
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-static void NGAGE_VideoQuit(SDL_VideoDevice *device)
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_VideoQuit(SDL_VideoDevice *device)
 {
     SDL_VideoData *phdata = (SDL_VideoData *)device->internal;
 
-    if (phdata) {
+    ଯଦି (phdata) {
         SDL_zero(phdata->mode);
         SDL_zero(phdata->display);
     }
 }
 
-static bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *display, SDL_Rect *rect)
+ସ୍ଥିର bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (!display) {
-        return false;
+    ଯଦି (!display) {
+        ଫେରନ୍ତୁ false;
     }
 
     rect->x = 0;
@@ -138,10 +138,10 @@ static bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *di
     rect->w = display->current_mode->w;
     rect->h = display->current_mode->h;
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-static bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *display)
+ସ୍ଥିର bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *display)
 {
     SDL_VideoData *phdata = (SDL_VideoData *)device->internal;
     SDL_DisplayMode mode;
@@ -152,24 +152,24 @@ static bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *dis
     mode.refresh_rate = phdata->mode.refresh_rate;
     mode.format = phdata->mode.format;
 
-    if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-        return false;
+    ଯଦି (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        ଫେରନ୍ତୁ false;
     }
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-#include "../../render/ngage/SDL_render_ngage_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../render/ngage/SDL_render_ngage_c.h"
 
-static void NGAGE_PumpEvents(SDL_VideoDevice *device)
+ସ୍ଥିର ଶୂନ୍ୟ NGAGE_PumpEvents(SDL_VideoDevice *device)
 {
     NGAGE_PumpEventsInternal();
 }
 
-static bool NGAGE_SuspendScreenSaver(SDL_VideoDevice *device)
+ସ୍ଥିର bool NGAGE_SuspendScreenSaver(SDL_VideoDevice *device)
 {
     NGAGE_SuspendScreenSaverInternal(device->suspend_screensaver);
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_NGAGE

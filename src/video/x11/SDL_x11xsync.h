@@ -19,20 +19,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_x11xsync_h_
 #define SDL_x11xsync_h_
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_InitXsync(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool X11_XsyncIsInitialized(ଶୂନ୍ୟ);
+ବାହ୍ୟ bool X11_InitResizeSync(SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_TermResizeSync(SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_HandlePresent(SDL_Window *window);
 
 #endif // SDL_VIDEO_DRIVER_X11_XSYNC
 

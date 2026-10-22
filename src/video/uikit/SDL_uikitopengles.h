@@ -21,19 +21,19 @@
 #ifndef SDL_uikitopengles_
 #define SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ଯଦି defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
-extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+ବାହ୍ୟ bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                                 SDL_GLContext context);
-extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+ବାହ୍ୟ bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ବାହ୍ୟ SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, ଅଚଳ ଅକ୍ଷର *proc);
+ବାହ୍ୟ bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, ଅଚଳ ଅକ୍ଷର *path);
 
-extern void UIKit_GL_RestoreCurrentContext(void);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_GL_RestoreCurrentContext(ଶୂନ୍ୟ);
 
 #endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 

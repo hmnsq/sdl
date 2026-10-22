@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DUMMY
 
 /* Being a null driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_events_c.h"
 
-#include "SDL_nullvideo.h"
-#include "SDL_nullevents_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_nullvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_nullevents_c.h"
 
-void DUMMY_PumpEvents(SDL_VideoDevice *_this)
+ଶୂନ୍ୟ DUMMY_PumpEvents(SDL_VideoDevice *_this)
 {
     // do nothing.
 }

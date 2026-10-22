@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DUMMY
 
@@ -37,68 +37,68 @@
  *  SDL video driver.  Renamed to "DUMMY" by Sam Lantinga.
  */
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_pixels_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_events_c.h"
+#ifdef SDL_ନିବେଶ_LINUXEV
+#ଅନ୍ତର୍ଭାଵ "../../core/linux/SDL_evdev.h"
 #endif
 
-#include "SDL_nullvideo.h"
-#include "SDL_nullevents_c.h"
-#include "SDL_nullframebuffer_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_nullvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_nullevents_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_nullframebuffer_c.h"
 
 #define DUMMYVID_DRIVER_NAME       "dummy"
 #define DUMMYVID_DRIVER_EVDEV_NAME "evdev"
 
 // Initialization/Query functions
-static bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this);
-static bool DUMMY_VideoInit(SDL_VideoDevice *_this);
-static void DUMMY_VideoQuit(SDL_VideoDevice *_this);
-#ifdef SDL_INPUT_LINUXEV
-static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this);
-static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
+ସ୍ଥିର bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this);
+ସ୍ଥିର bool DUMMY_VideoInit(SDL_VideoDevice *_this);
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_VideoQuit(SDL_VideoDevice *_this);
+#ifdef SDL_ନିବେଶ_LINUXEV
+ସ୍ଥିର bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this);
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
 #endif
 
-static bool DUMMY_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+ସ୍ଥିର bool DUMMY_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->pending.x, window->pending.y);
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-static void DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
 }
 
 // DUMMY driver bootstrap functions
 
-static bool DUMMY_Available(const char *drivername)
+ସ୍ଥିର bool DUMMY_Available(ଅଚଳ ଅକ୍ଷର *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    ଅଚଳ ଅକ୍ଷର *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    ଯଦି (hint && SDL_strstr(hint, drivername) != ଖାଲି) {
+        ଫେରନ୍ତୁ true;
     }
-    return false;
+    ଫେରନ୍ତୁ false;
 }
 
-static void DUMMY_DeleteDevice(SDL_VideoDevice *device)
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
+ସ୍ଥିର SDL_VideoDevice *DUMMY_InternalCreateDevice(ଅଚଳ ଅକ୍ଷର *enable_hint)
 {
     SDL_VideoDevice *device;
 
-    if (!DUMMY_Available(enable_hint)) {
-        return NULL;
+    ଯଦି (!DUMMY_Available(enable_hint)) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ଆକାର(SDL_VideoDevice));
+    ଯଦି (!device) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
     // Set the function pointers
@@ -110,69 +110,69 @@ static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
     device->CreateWindowFramebuffer = SDL_DUMMY_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = SDL_DUMMY_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_DUMMY_DestroyWindowFramebuffer;
-    device->free = DUMMY_DeleteDevice;
+    device->ମୁକ୍ତ = DUMMY_DeleteDevice;
 
-    return device;
+    ଫେରନ୍ତୁ device;
 }
 
-static SDL_VideoDevice *DUMMY_CreateDevice(void)
+ସ୍ଥିର SDL_VideoDevice *DUMMY_CreateDevice(ଶୂନ୍ୟ)
 {
-    return DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
+    ଫେରନ୍ତୁ DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
 }
 
 VideoBootStrap DUMMY_bootstrap = {
     DUMMYVID_DRIVER_NAME, "SDL dummy video driver",
     DUMMY_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    ଖାଲି, // no ShowMessageBox implementation
     false
 };
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_ନିବେଶ_LINUXEV
 
-static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
+ସ୍ଥିର bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    ଯଦି (!DUMMY_VideoInitCommon(_this)) {
+        ଫେରନ୍ତୁ false;
     }
 
     SDL_EVDEV_Init();
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this)
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_EVDEV_Quit();
 }
 
-static void DUMMY_EVDEV_Poll(SDL_VideoDevice *_this)
+ସ୍ଥିର ଶୂନ୍ୟ DUMMY_EVDEV_Poll(SDL_VideoDevice *_this)
 {
-    (void)_this;
+    (ଶୂନ୍ୟ)_this;
     SDL_EVDEV_Poll();
 }
 
-static SDL_VideoDevice *DUMMY_EVDEV_CreateDevice(void)
+ସ୍ଥିର SDL_VideoDevice *DUMMY_EVDEV_CreateDevice(ଶୂନ୍ୟ)
 {
     SDL_VideoDevice *device = DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_EVDEV_NAME);
-    if (device) {
+    ଯଦି (device) {
         device->VideoInit = DUMMY_EVDEV_VideoInit;
         device->VideoQuit = DUMMY_EVDEV_VideoQuit;
         device->PumpEvents = DUMMY_EVDEV_Poll;
     }
-    return device;
+    ଫେରନ୍ତୁ device;
 }
 
 VideoBootStrap DUMMY_evdev_bootstrap = {
     DUMMYVID_DRIVER_EVDEV_NAME, "SDL dummy video driver with evdev",
     DUMMY_EVDEV_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    ଖାଲି, // no ShowMessageBox implementation
     false
 };
 
 #endif // SDL_INPUT_LINUXEV
 
-static bool DUMMY_SetRelativeMouseMode(bool enabled)
+ସ୍ଥିର bool DUMMY_SetRelativeMouseMode(bool enabled)
 {
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
 bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
@@ -184,24 +184,24 @@ bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    ଯଦି (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        ଫେରନ୍ତୁ false;
     }
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
 bool DUMMY_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    ଯଦି (!DUMMY_VideoInitCommon(_this)) {
+        ଫେରନ୍ତୁ false;
     }
 
     SDL_GetMouse()->SetRelativeMouseMode = DUMMY_SetRelativeMouseMode;
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-void DUMMY_VideoQuit(SDL_VideoDevice *_this)
+ଶୂନ୍ୟ DUMMY_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 

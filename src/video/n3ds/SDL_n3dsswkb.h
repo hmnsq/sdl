@@ -22,15 +22,15 @@
 #ifndef SDL_n3dskeyboard_h_
 #define SDL_n3dskeyboard_h_
 
-#include "../../events/SDL_events_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_events_c.h"
 
-void N3DS_SwkbInit();
-void N3DS_SwkbPoll();
-void N3DS_SwkbQuit();
+ଶୂନ୍ୟ N3DS_SwkbInit();
+ଶୂନ୍ୟ N3DS_SwkbPoll();
+ଶୂନ୍ୟ N3DS_SwkbQuit();
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
+bool N3_DS_Start_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool N3_DS_Stop_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_n3dskeyboard_h_

@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_waylandmouse_h_
 #define SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_InitMouse(SDL_VideoData *data);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_FiniMouse(SDL_VideoData *data);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, ଦଶମିକ x, ଦଶମିକ y);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, ଶୂନ୍ୟ *userdata);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#ଯଦି 0  // TODO RECONNECT: See waylandvideo.c for more information!
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_RecreateCursors(ଶୂନ୍ୟ);
 #endif // 0
 
 #endif

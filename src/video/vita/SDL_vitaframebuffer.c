@@ -18,52 +18,52 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_vitavideo.h"
 
-#include <psp2/kernel/sysmem.h>
+#ଅନ୍ତର୍ଭାଵ <psp2/kernel/sysmem.h>
 
 #define SCREEN_W             960
 #define SCREEN_H             544
 #define ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
 #define DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
 
-void *vita_gpu_alloc(unsigned int type, unsigned int size, SceUID *uid)
+ଶୂନ୍ୟ *vita_gpu_alloc(unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା type, unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା size, SceUID *uid)
 {
-    void *mem;
+    ଶୂନ୍ୟ *mem;
 
-    if (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
+    ଯଦି (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
         size = ALIGN(size, 256 * 1024);
-    } else {
+    } ଅନ୍ୟଥା {
         size = ALIGN(size, 4 * 1024);
     }
 
-    *uid = sceKernelAllocMemBlock("gpu_mem", type, size, NULL);
+    *uid = sceKernelAllocMemBlock("gpu_mem", type, size, ଖାଲି);
 
-    if (*uid < 0) {
-        return NULL;
+    ଯଦି (*uid < 0) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    if (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
-        return NULL;
+    ଯଦି (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    return mem;
+    ଫେରନ୍ତୁ mem;
 }
 
-void vita_gpu_free(SceUID uid)
+ଶୂନ୍ୟ vita_gpu_free(SceUID uid)
 {
-    void *mem = NULL;
-    if (sceKernelGetMemBlockBase(uid, &mem) < 0) {
-        return;
+    ଶୂନ୍ୟ *mem = ଖାଲି;
+    ଯଦି (sceKernelGetMemBlockBase(uid, &mem) < 0) {
+        ଫେରନ୍ତୁ;
     }
     sceKernelFreeMemBlock(uid);
 }
 
-bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, ଶୂନ୍ୟ **pixels, ପୂର୍ଣ୍ଣସଂଖ୍ୟା *pitch)
 {
     SDL_WindowData *data = window->internal;
     SceDisplayFrameBuf framebuf;
@@ -80,7 +80,7 @@ bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SD
     SDL_memset(data->buffer, 0x0, SCREEN_W * SCREEN_H * 4);
 
     SDL_zero(framebuf);
-    framebuf.size = sizeof(SceDisplayFrameBuf);
+    framebuf.size = ଆକାର(SceDisplayFrameBuf);
     framebuf.base = data->buffer;
     framebuf.pitch = SCREEN_W;
     framebuf.pixelformat = DISPLAY_PIXEL_FORMAT;
@@ -90,27 +90,27 @@ bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SD
 
     *pixels = data->buffer;
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ଅଚଳ SDL_Rect *rects, ପୂର୍ଣ୍ଣସଂଖ୍ୟା numrects)
 {
     // do nothing
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+ଶୂନ୍ୟ VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!data) {
+    ଯଦି (!data) {
         // The window wasn't fully initialized
-        return;
+        ଫେରନ୍ତୁ;
     }
 
     vita_gpu_free(data->buffer_uid);
-    data->buffer = NULL;
-    return;
+    data->buffer = ଖାଲି;
+    ଫେରନ୍ତୁ;
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA

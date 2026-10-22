@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_waylandkeyboard_h_
 #define SDL_waylandkeyboard_h_
 
-extern bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
-extern void Wayland_QuitKeyboard(SDL_VideoDevice *_this);
-extern bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat);
-extern bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_QuitKeyboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool Wayland_Start_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ବାହ୍ୟ bool Wayland_Stop_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ bool Wayland_Update_Text_ନିବେଶ_Area(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_Seat_Update_Text_ନିବେଶ(SDL_WaylandSeat *seat);
+ବାହ୍ୟ bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
 #endif // SDL_waylandkeyboard_h_

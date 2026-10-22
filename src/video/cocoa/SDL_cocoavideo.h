@@ -18,47 +18,47 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_cocoavideo_h_
 #define SDL_cocoavideo_h_
 
-#include <SDL3/SDL_opengl.h>
+#ଅନ୍ତର୍ଭାଵ <SDL3/SDL_opengl.h>
 
-#include <ApplicationServices/ApplicationServices.h>
-#include <IOKit/pwr_mgt/IOPMLib.h>
-#include <Cocoa/Cocoa.h>
+#ଅନ୍ତର୍ଭାଵ <ApplicationServices/ApplicationServices.h>
+#ଅନ୍ତର୍ଭାଵ <IOKit/pwr_mgt/IOPMLib.h>
+#ଅନ୍ତର୍ଭାଵ <Cocoa/Cocoa.h>
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
-#include "SDL_cocoaclipboard.h"
-#include "SDL_cocoaevents.h"
-#include "SDL_cocoakeyboard.h"
-#include "SDL_cocoamodes.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoawindow.h"
-#include "SDL_cocoapen.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoaclipboard.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoaevents.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoakeyboard.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoamodes.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoamouse.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoaopengl.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoawindow.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_cocoapen.h"
 
 // Private display data
 
 @class SDL3TranslatorResponder;
 
-typedef enum
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ଗଣନା
 {
     OptionAsAltNone,
-    OptionAsAltOnlyLeft,
-    OptionAsAltOnlyRight,
+    Option_As_Alt_Only_ବାମ,
+    Option_As_Alt_Only_ଡାହାଣ,
     OptionAsAltBoth,
 } OptionAsAlt;
 
 @interface SDL_CocoaVideoData : NSObject
-@property(nonatomic) int allow_spaces;
-@property(nonatomic) int trackpad_is_touch_only;
-@property(nonatomic) unsigned int modifierFlags;
-@property(nonatomic) void *key_layout;
+@property(nonatomic) ପୂର୍ଣ୍ଣସଂଖ୍ୟା allow_spaces;
+@property(nonatomic) ପୂର୍ଣ୍ଣସଂଖ୍ୟା trackpad_is_touch_only;
+@property(nonatomic) unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା modifierFlags;
+@property(nonatomic) ଶୂନ୍ୟ *ଚାବି_layout;
 @property(nonatomic) SDL3TranslatorResponder *fieldEdit;
-@property(nonatomic) NSInteger clipboard_count;
+@property(nonatomic) NSInteger clipboard_ଗଣନା;
 @property(nonatomic) IOPMAssertionID screensaver_assertion;
 @property(nonatomic) SDL_Mutex *swaplock;
 @property(nonatomic) OptionAsAlt option_as_alt;
@@ -66,7 +66,7 @@ typedef enum
 @end
 
 // Utility functions
-extern SDL_SystemTheme Cocoa_GetSystemTheme(void);
-extern NSImage *Cocoa_CreateImage(SDL_Surface *surface);
+ବାହ୍ୟ SDL_SystemTheme Cocoa_GetSystemTheme(ଶୂନ୍ୟ);
+ବାହ୍ୟ NSImage *Cocoa_CreateImage(SDL_Surface *surface);
 
 #endif // SDL_cocoavideo_h_

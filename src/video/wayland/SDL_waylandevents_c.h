@@ -19,89 +19,89 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_waylandevents_h_
 #define SDL_waylandevents_h_
 
-#include "../../events/SDL_keymap_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_pen_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_keymap_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_mouse_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_pen_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylanddatamanager.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandwindow.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylanddatamanager.h"
 
-enum SDL_WaylandAxisEvent
+ଗଣନା SDL_WaylandAxisEvent
 {
     SDL_WAYLAND_AXIS_EVENT_CONTINUOUS = 0,
     SDL_WAYLAND_AXIS_EVENT_DISCRETE,
     SDL_WAYLAND_AXIS_EVENT_VALUE120
 };
 
-typedef struct
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା
 {
     Sint32 repeat_rate;     // Repeat rate in range of [1, 1000] character(s) per second
     Sint32 repeat_delay_ms; // Time to first repeat event in milliseconds
 
-    Uint32 key;               // Key code of the repeating key
+    Uint32 ଚାବି;               // Key code of the repeating key
     Uint32 scancode;          // Scancode of the repeating key
     Uint32 keyboard_id;       // ID of the source keyboard
     Uint32 wl_press_time_ms;  // Key press time as reported by the Wayland API in milliseconds
     Uint64 base_time_ns;      // Key press time as reported by the Wayland API in nanoseconds
     Uint64 sdl_press_time_ns; // Key press time expressed in SDL ticks
     Uint64 next_repeat_ns;    // Next repeat event in nanoseconds
-    char text[8];
+    ଅକ୍ଷର text[8];
 } SDL_WaylandKeyboardRepeat;
 
-typedef struct SDL_WaylandCursorState
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା SDL_WaylandCursorState
 {
     SDL_CursorData *current_cursor;
-    struct wp_cursor_shape_device_v1 *cursor_shape;
-    struct wl_surface *surface;
-    struct wp_viewport *viewport;
+    ସଂରଚନା wp_cursor_shape_device_v1 *cursor_shape;
+    ସଂରଚନା wl_surface *surface;
+    ସଂରଚନା wp_viewport *viewport;
 
-    double scale;
+    ଦ୍ୱିଗୁଣ scale;
 
     // Pointer to the internal data for system cursors.
-    void *system_cursor_handle;
+    ଶୂନ୍ୟ *system_cursor_handle;
 
     // The cursor animation thread lock must be held when modifying this.
-    struct wl_callback *frame_callback;
+    ସଂରଚନା wl_callback *frame_callback;
 
     Uint64 last_frame_callback_time_ms;
     Uint32 current_frame_time_ms;
 
     // 0 or greater if a buffer is attached, -1 if in the reset state.
-    int current_frame;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା current_frame;
 
     SDL_HitTestResult hit_test_result;
 } SDL_WaylandCursorState;
 
-typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା SDL_WaylandPenTool  // a stylus, etc, on a tablet.
 {
     SDL_PenID instance_id;
     SDL_PenInfo info;
     SDL_WindowData *focus;
-    struct zwp_tablet_tool_v2 *wltool;
+    ସଂରଚନା zwp_tablet_tool_v2 *wltool;
     Uint32 proximity_serial;
 
-    struct
+    ସଂରଚନା
     {
-        float x;
-        float y;
+        ଦଶମିକ x;
+        ଦଶମିକ y;
 
-        float axes[SDL_PEN_AXIS_COUNT];
+        ଦଶମିକ axes[SDL_PEN_AXIS_ଗଣନା];
         Uint32 axes_set;
 
-        enum
+        ଗଣନା
         {
             WAYLAND_TABLET_TOOL_BUTTON_NONE = 0,
             WAYLAND_TABLET_TOOL_BUTTON_DOWN,
             WAYLAND_TABLET_TOOL_BUTTON_UP
         } buttons[3];
 
-        enum
+        ଗଣନା
         {
             WAYLAND_TABLET_TOOL_STATE_NONE = 0,
             WAYLAND_TABLET_TOOL_STATE_DOWN,
@@ -115,30 +115,30 @@ typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
     } frame;
 
     SDL_WaylandCursorState cursor_state;
-    struct wl_list link;
+    ସଂରଚନା wl_list link;
 } SDL_WaylandPenTool;
 
-typedef struct SDL_WaylandSeat
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା SDL_WaylandSeat
 {
     SDL_VideoData *display;
-    struct wl_seat *wl_seat;
+    ସଂରଚନା wl_seat *wl_seat;
     SDL_WaylandDataDevice *data_device;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
-    char *name;
-    struct wl_list link;
+    ଅକ୍ଷର *name;
+    ସଂରଚନା wl_list link;
 
     Uint32 last_implicit_grab_serial; // The serial of the last implicit grab event for window activation and selection data.
     Uint32 registry_id;               // The ID of the Wayland seat object,
 
-    struct
+    ସଂରଚନା
     {
-        struct wl_keyboard *wl_keyboard;
-        struct zwp_input_timestamps_v1 *timestamps;
-        struct zwp_keyboard_shortcuts_inhibitor_v1 *key_inhibitor;
+        ସଂରଚନା wl_keyboard *wl_keyboard;
+        ସଂରଚନା zwp_ନିବେଶ_timestamps_v1 *timestamps;
+        ସଂରଚନା zwp_keyboard_shortcuts_inhibitor_v1 *ଚାବି_inhibitor;
         SDL_WindowData *focus;
         SDL_Keymap **sdl_keymap;
-        struct wl_array reserved_scancodes;
-        char *current_locale;
+        ସଂରଚନା wl_array reserved_scancodes;
+        ଅକ୍ଷର *current_locale;
 
         SDL_WaylandKeyboardRepeat repeat;
         Uint64 highres_timestamp_ns;
@@ -150,15 +150,15 @@ typedef struct SDL_WaylandSeat
         SDL_KeyboardID sdl_id;
         bool is_virtual;
 
-        struct
+        ସଂରଚନା
         {
-            struct xkb_keymap *keymap;
-            struct xkb_state *state;
-            struct xkb_compose_table *compose_table;
-            struct xkb_compose_state *compose_state;
+            ସଂରଚନା xkb_keymap *keymap;
+            ସଂରଚନା xkb_state *state;
+            ସଂରଚନା xkb_compose_table *compose_table;
+            ସଂରଚନା xkb_compose_state *compose_state;
 
             // Current keyboard layout (aka 'group')
-            xkb_layout_index_t num_layouts;
+            xkb_layout_index_t ଅଙ୍କ_layouts;
             xkb_layout_index_t current_layout;
 
             // Modifier bitshift values
@@ -168,7 +168,7 @@ typedef struct SDL_WaylandSeat
             xkb_mod_mask_t gui_mask;
             xkb_mod_mask_t level3_mask;
             xkb_mod_mask_t level5_mask;
-            xkb_mod_mask_t num_mask;
+            xkb_mod_mask_t ଅଙ୍କ_mask;
             xkb_mod_mask_t caps_mask;
 
             // Current system modifier flags
@@ -178,17 +178,17 @@ typedef struct SDL_WaylandSeat
         } xkb;
     } keyboard;
 
-    struct
+    ସଂରଚନା
     {
-        struct wl_pointer *wl_pointer;
-        struct zwp_relative_pointer_v1 *relative_pointer;
-        struct zwp_input_timestamps_v1 *timestamps;
-        struct zwp_locked_pointer_v1 *locked_pointer;
-        struct zwp_confined_pointer_v1 *confined_pointer;
-        struct zwp_pointer_gesture_pinch_v1 *gesture_pinch;
+        ସଂରଚନା wl_pointer *wl_pointer;
+        ସଂରଚନା zwp_relative_pointer_v1 *relative_pointer;
+        ସଂରଚନା zwp_ନିବେଶ_timestamps_v1 *timestamps;
+        ସଂରଚନା zwp_locked_pointer_v1 *locked_pointer;
+        ସଂରଚନା zwp_confined_pointer_v1 *confined_pointer;
+        ସଂରଚନା zwp_pointer_gesture_pinch_v1 *gesture_pinch;
 
         SDL_WindowData *focus;
-        struct wl_surface *focus_surface;
+        ସଂରଚନା wl_surface *focus_surface;
 
         // According to the spec, a seat can only have one active gesture of any type at a time.
         SDL_WindowData *gesture_focus;
@@ -202,7 +202,7 @@ typedef struct SDL_WaylandSeat
         SDL_MouseID sdl_id;
 
         // Information about axis events on the current frame
-        struct
+        ସଂରଚନା
         {
             bool have_absolute;
             bool have_relative;
@@ -212,13 +212,13 @@ typedef struct SDL_WaylandSeat
             Uint32 buttons_pressed;
             Uint32 buttons_released;
 
-            struct
+            ସଂରଚନା
             {
                 wl_fixed_t sx;
                 wl_fixed_t sy;
             } absolute;
 
-            struct
+            ସଂରଚନା
             {
                 wl_fixed_t dx;
                 wl_fixed_t dy;
@@ -226,19 +226,19 @@ typedef struct SDL_WaylandSeat
                 wl_fixed_t dy_unaccel;
             } relative;
 
-            struct
+            ସଂରଚନା
             {
-                enum SDL_WaylandAxisEvent x_axis_type;
-                float x;
+                ଗଣନା SDL_WaylandAxisEvent x_axis_type;
+                ଦଶମିକ x;
 
-                enum SDL_WaylandAxisEvent y_axis_type;
-                float y;
+                ଗଣନା SDL_WaylandAxisEvent y_axis_type;
+                ଦଶମିକ y;
 
                 SDL_MouseWheelDirection direction;
             } axis;
 
-            struct wl_surface *enter_surface;
-            struct wl_surface *leave_surface;
+            ସଂରଚନା wl_surface *enter_surface;
+            ସଂରଚନା wl_surface *leave_surface;
 
             // Event timestamp in nanoseconds
             Uint64 timestamp_ns;
@@ -247,53 +247,53 @@ typedef struct SDL_WaylandSeat
         SDL_WaylandCursorState cursor_state;
     } pointer;
 
-    struct
+    ସଂରଚନା
     {
-        struct wl_touch *wl_touch;
-        struct zwp_input_timestamps_v1 *timestamps;
+        ସଂରଚନା wl_touch *wl_touch;
+        ସଂରଚନା zwp_ନିବେଶ_timestamps_v1 *timestamps;
         Uint64 highres_timestamp_ns;
-        struct wl_list points;
+        ସଂରଚନା wl_list points;
     } touch;
 
-    struct
+    ସଂରଚନା
     {
-        struct zwp_text_input_v3 *zwp_text_input;
-        SDL_Rect text_input_rect;
-        int text_input_cursor;
+        ସଂରଚନା zwp_text_ନିବେଶ_v3 *zwp_text_ନିବେଶ;
+        SDL_Rect text_ନିବେଶ_rect;
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା text_ନିବେଶ_cursor;
         bool enabled;
         bool has_preedit;
-    } text_input;
+    } text_ନିବେଶ;
 
-    struct
+    ସଂରଚନା
     {
-        struct zwp_tablet_seat_v2 *wl_tablet_seat;
-        struct wl_list tool_list;
+        ସଂରଚନା zwp_tablet_seat_v2 *wl_tablet_seat;
+        ସଂରଚନା wl_list tool_list;
     } tablet;
 } SDL_WaylandSeat;
 
 
-extern Uint64 Wayland_GetTouchTimestamp(struct SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms);
+ବାହ୍ୟ Uint64 Wayland_GetTouchTimestamp(ସଂରଚନା SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms);
 
-extern void Wayland_PumpEvents(SDL_VideoDevice *_this);
-extern void Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_PumpEvents(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
-extern void Wayland_DisplayInitInputTimestampManager(SDL_VideoData *display);
-extern void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display);
-extern void Wayland_DisplayInitPointerGestureManager(SDL_VideoData *display);
-extern void Wayland_DisplayInitTabletManager(SDL_VideoData *display);
-extern void Wayland_DisplayInitDataDeviceManager(SDL_VideoData *display);
-extern void Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_Display_Init_ନିବେଶ_Timestamp_Manager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayInitPointerGestureManager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayInitTabletManager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayInitDataDeviceManager(SDL_VideoData *display);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *display);
 
-extern void Wayland_DisplayInitTextInputManager(SDL_VideoData *d, uint32_t id);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_Display_Init_Text_ନିବେଶ_Manager(SDL_VideoData *d, uint32_t id);
 
-extern void Wayland_DisplayCreateSeat(SDL_VideoData *display, struct wl_seat *wl_seat, Uint32 id);
-extern void Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayCreateSeat(SDL_VideoData *display, ସଂରଚନା wl_seat *wl_seat, Uint32 id);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down);
 
-extern void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerGrabs(SDL_VideoData *display, SDL_WindowData *window);
-extern void Wayland_DisplayUpdateKeyboardGrabs(SDL_VideoData *display, SDL_WindowData *window);
-extern void Wayland_DisplayRemoveWindowReferencesFromSeats(SDL_VideoData *display, SDL_WindowData *window);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayUpdatePointerGrabs(SDL_VideoData *display, SDL_WindowData *window);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayUpdateKeyboardGrabs(SDL_VideoData *display, SDL_WindowData *window);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DisplayRemoveWindowReferencesFromSeats(SDL_VideoData *display, SDL_WindowData *window);
 
 /* The implicit grab serial needs to be updated on:
  * - Gaining keyboard focus
@@ -303,6 +303,6 @@ extern void Wayland_DisplayRemoveWindowReferencesFromSeats(SDL_VideoData *displa
  * - Tablet tool down
  * - Tablet tool button down/up
  */
-extern void Wayland_UpdateImplicitGrabSerial(SDL_WaylandSeat *seat, Uint32 serial);
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_UpdateImplicitGrabSerial(SDL_WaylandSeat *seat, Uint32 serial);
 
 #endif // SDL_waylandevents_h_

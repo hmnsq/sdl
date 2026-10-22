@@ -22,17 +22,17 @@
 #ifndef SDL_sve2_blit_A_h_
 #define SDL_sve2_blit_A_h_
 
-#include "../../SDL_internal.h"
-#include "../SDL_blit.h"
+#ଅନ୍ତର୍ଭାଵ "../../SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_blit.h"
 
 #ifdef SDL_SVE2_INTRINSICS
 
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+ଶୂନ୍ୟ Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+ଶୂନ୍ୟ Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
 
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
+ଶୂନ୍ୟ Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
 
-size_t SDL_GetSVEVectorSize(void);
+size_t SDL_GetSVEVectorSize(ଶୂନ୍ୟ);
 
 #endif /* SDL_SVE2_INTRINSICS */
 

@@ -22,18 +22,18 @@
 #ifndef SDL_dosmouse_h_
 #define SDL_dosmouse_h_
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+ସଂରଚନା SDL_CursorData
 {
     SDL_Surface *surface;
     SDL_Surface *converted_surface;
     Uint32 converted_palette_version;
-    int hot_x, hot_y;
-    int w, h;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା hot_x, hot_y;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା w, h;
 };
 
-extern void DOSVESA_InitMouse(SDL_VideoDevice *_this);
-extern void DOSVESA_QuitMouse(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ DOSVESA_InitMouse(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ DOSVESA_QuitMouse(SDL_VideoDevice *_this);
 
 #endif // SDL_dosmouse_h_

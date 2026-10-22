@@ -22,14 +22,14 @@
 #ifndef SDL_dosmodes_h_
 #define SDL_dosmodes_h_
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
-extern bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
-extern bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode);
-extern bool DOSVESA_SupportsVESA(void);
-extern void DOSVESA_FreeVESAInfo(void);
-extern Uint32 DOSVESA_GetVESATotalMemory(void);
-extern const char *DOSVESA_GetGPUName(void);
+ବାହ୍ୟ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
+ବାହ୍ୟ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode);
+ବାହ୍ୟ bool DOSVESA_SupportsVESA(ଶୂନ୍ୟ);
+ବାହ୍ୟ ଶୂନ୍ୟ DOSVESA_FreeVESAInfo(ଶୂନ୍ୟ);
+ବାହ୍ୟ Uint32 DOSVESA_GetVESATotalMemory(ଶୂନ୍ୟ);
+ବାହ୍ୟ ଅଚଳ ଅକ୍ଷର *DOSVESA_GetGPUName(ଶୂନ୍ୟ);
 
 // VGA DAC (Digital-to-Analog Converter) ports for palette programming
 #define VGA_DAC_PIXEL_MASK  0x3C6 // pixel mask register (read/write, VGA-only)

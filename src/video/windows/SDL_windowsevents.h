@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_windowsevents_h_
 #define SDL_windowsevents_h_
 
-extern LPTSTR SDL_Appname;
-extern Uint32 SDL_Appstyle;
-extern HINSTANCE SDL_Instance;
+ବାହ୍ୟ LPTSTR SDL_Appname;
+ବାହ୍ୟ Uint32 SDL_Appstyle;
+ବାହ୍ୟ HINSTANCE SDL_Instance;
 
-extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
-extern void WIN_PumpEvents(SDL_VideoDevice *_this);
-extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
-extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+ବାହ୍ୟ LRESULT CALLBACK WIN_KeyboardHookProc(ପୂର୍ଣ୍ଣସଂଖ୍ୟା nCode, WPARAM wParam, LPARAM lParam);
+ବାହ୍ୟ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT ସନ୍ଦେଶ, WPARAM wParam, LPARAM lParam);
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_Poll_Raw_ନିବେଶ(SDL_VideoDevice *_this, Uint64 poll_start);
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_PumpEvents(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 #endif // SDL_windowsevents_h_

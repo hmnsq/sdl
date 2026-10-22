@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandutil.h"
-#include "xdg-activation-v1-client-protocol.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandevents_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandutil.h"
+#ଅନ୍ତର୍ଭାଵ "xdg-activation-v1-client-protocol.h"
 
-#include "../../notification/SDL_notification_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../notification/SDL_notification_c.h"
 
 #define WAYLAND_HANDLE_PREFIX "wayland:"
 
-typedef struct Wayland_ActivationParams
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା Wayland_ActivationParams
 {
-    char **token;
+    ଅକ୍ଷର **token;
     bool done;
 } Wayland_ActivationParams;
 
-static void handle_xdg_activation_done(void *data, struct xdg_activation_token_v1 *xdg_activation_token_v1, const char *token)
+ସ୍ଥିର ଶୂନ୍ୟ handle_xdg_activation_done(ଶୂନ୍ୟ *data, ସଂରଚନା xdg_activation_token_v1 *xdg_activation_token_v1, ଅଚଳ ଅକ୍ଷର *token)
 {
     Wayland_ActivationParams *activation_params = (Wayland_ActivationParams *)data;
     *activation_params->token = SDL_strdup(token);
@@ -45,87 +45,87 @@ static void handle_xdg_activation_done(void *data, struct xdg_activation_token_v
     xdg_activation_token_v1_destroy(xdg_activation_token_v1);
 }
 
-static const struct xdg_activation_token_v1_listener xdg_activation_listener = {
+ସ୍ଥିର ଅଚଳ ସଂରଚନା xdg_activation_token_v1_listener xdg_activation_listener = {
     handle_xdg_activation_done
 };
 
-bool Wayland_GetActivationTokenForExport(SDL_VideoDevice *_this, char **token, char **window_id)
+bool Wayland_GetActivationTokenForExport(SDL_VideoDevice *_this, ଅକ୍ଷର **token, ଅକ୍ଷର **window_id)
 {
-    if (!_this || !token) {
-        return false;
+    ଯଦି (!_this || !token) {
+        ଫେରନ୍ତୁ false;
     }
 
     SDL_VideoData *viddata = _this->internal;
 
     SDL_WaylandSeat *seat = viddata->last_implicit_grab_seat;
-    SDL_WindowData *focus = NULL;
+    SDL_WindowData *focus = ଖାଲି;
 
-    if (seat) {
+    ଯଦି (seat) {
         focus = seat->keyboard.focus;
-        if (!focus) {
+        ଯଦି (!focus) {
             focus = seat->pointer.focus;
         }
     }
 
-    const char *xdg_activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
-    if (!xdg_activation_token) {
+    ଅଚଳ ଅକ୍ଷର *xdg_activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
+    ଯଦି (!xdg_activation_token) {
         xdg_activation_token = SDL_GetNotificationActivationToken();
     }
-    if (xdg_activation_token) {
+    ଯଦି (xdg_activation_token) {
         *token = SDL_strdup(xdg_activation_token);
-        if (!*token) {
-            return false;
+        ଯଦି (!*token) {
+            ଫେରନ୍ତୁ false;
         }
 
         // Unset the envvar after claiming the token.
         SDL_unsetenv_unsafe("XDG_ACTIVATION_TOKEN");
-    } else if (viddata->activation_manager) {
-        struct wl_surface *requesting_surface = focus ? focus->surface : NULL;
+    } ଅନ୍ୟଥା ଯଦି (viddata->activation_manager) {
+        ସଂରଚନା wl_surface *requesting_surface = focus ? focus->surface : ଖାଲି;
         Wayland_ActivationParams params = {
             .token = token,
             .done = false
         };
 
-        struct wl_event_queue *activation_token_queue = Wayland_DisplayCreateQueue(viddata->display, "SDL Activation Token Generation Queue");
+        ସଂରଚନା wl_event_queue *activation_token_queue = Wayland_DisplayCreateQueue(viddata->display, "SDL Activation Token Generation Queue");
 
-        struct wl_proxy *activation_manager_wrapper = WAYLAND_wl_proxy_create_wrapper(viddata->activation_manager);
+        ସଂରଚନା wl_proxy *activation_manager_wrapper = WAYLAND_wl_proxy_create_wrapper(viddata->activation_manager);
         WAYLAND_wl_proxy_set_queue(activation_manager_wrapper, activation_token_queue);
-        struct xdg_activation_token_v1 *activation_token = xdg_activation_v1_get_activation_token((struct xdg_activation_v1 *)activation_manager_wrapper);
+        ସଂରଚନା xdg_activation_token_v1 *activation_token = xdg_activation_v1_get_activation_token((ସଂରଚନା xdg_activation_v1 *)activation_manager_wrapper);
         xdg_activation_token_v1_add_listener(activation_token, &xdg_activation_listener, &params);
 
-        if (requesting_surface) {
+        ଯଦି (requesting_surface) {
             // This specifies the surface from which the activation request is originating, not the activation target surface.
             xdg_activation_token_v1_set_surface(activation_token, requesting_surface);
         }
-        if (seat && seat->wl_seat) {
+        ଯଦି (seat && seat->wl_seat) {
             xdg_activation_token_v1_set_serial(activation_token, seat->last_implicit_grab_serial, seat->wl_seat);
         }
-        if (focus && focus->app_id) {
+        ଯଦି (focus && focus->app_id) {
             // Set the app ID for external use.
             xdg_activation_token_v1_set_app_id(activation_token, focus->app_id);
         }
         xdg_activation_token_v1_commit(activation_token);
 
-        while (!params.done) {
+        ଯେତେବେଳେ (!params.done) {
             WAYLAND_wl_display_dispatch_queue(viddata->display, activation_token_queue);
         }
         WAYLAND_wl_proxy_wrapper_destroy(activation_manager_wrapper);
         WAYLAND_wl_event_queue_destroy(activation_token_queue);
 
-        if (!*token) {
-            return false;
+        ଯଦି (!*token) {
+            ଫେରନ୍ତୁ false;
         }
     }
 
-    if (focus && window_id) {
-        const char *id = SDL_GetStringProperty(focus->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, NULL);
-        if (id) {
-            const size_t len = SDL_strlen(id) + sizeof(WAYLAND_HANDLE_PREFIX) + 1;
+    ଯଦି (focus && window_id) {
+        ଅଚଳ ଅକ୍ଷର *id = SDL_GetStringProperty(focus->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, ଖାଲି);
+        ଯଦି (id) {
+            ଅଚଳ size_t len = SDL_strlen(id) + ଆକାର(WAYLAND_HANDLE_PREFIX) + 1;
             *window_id = SDL_malloc(len);
-            if (!*window_id) {
+            ଯଦି (!*window_id) {
                 SDL_free(*token);
-                *token = NULL;
-                return false;
+                *token = ଖାଲି;
+                ଫେରନ୍ତୁ false;
             }
 
             SDL_strlcpy(*window_id, WAYLAND_HANDLE_PREFIX, len);
@@ -133,7 +133,7 @@ bool Wayland_GetActivationTokenForExport(SDL_VideoDevice *_this, char **token, c
         }
     }
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

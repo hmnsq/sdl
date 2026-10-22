@@ -19,65 +19,65 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ଯଦି defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_x11video.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+ସ୍ଥିର bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+ଶୂନ୍ୟ X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#ଯଦି 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା event, error;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    ଯଦି (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        ଫେରନ୍ତୁ;
     }
 
     xtest_initialized = true;
 #endif
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(ଶୂନ୍ୟ)
 {
-    return xtest_initialized;
+    ଫେରନ୍ତୁ xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, ଦଶମିକ x, ଦଶମିକ y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    ଯଦି (!X11_XTestIsInitialized()) {
+        ଫେରନ୍ତୁ false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    ଯଦି (!displaydata) {
+        ଫେରନ୍ତୁ false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା motion_x = (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)SDL_roundf(x);
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା motion_y = (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)SDL_roundf(y);
+    ଯଦି (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    ଯଦି (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        ଫେରନ୍ତୁ false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    ଫେରନ୍ତୁ true;
+#ଅନ୍ୟଥା
+    ଫେରନ୍ତୁ false;
 #endif
 }
 

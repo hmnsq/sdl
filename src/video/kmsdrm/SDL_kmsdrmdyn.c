@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM
 
 #define DEBUG_DYNAMIC_KMSDRM 0
 
-#include "SDL_kmsdrmdyn.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmdyn.h"
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
 
@@ -36,80 +36,80 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
 )
 
-typedef struct
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା
 {
-    void *lib;
-    const char *libname;
+    ଶୂନ୍ୟ *lib;
+    ଅଚଳ ଅକ୍ଷର *libname;
 } kmsdrmdynlib;
 
 #ifndef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM
-#define SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM NULL
+#define SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM ଖାଲି
 #endif
 
-static kmsdrmdynlib kmsdrmlibs[] = {
-    { NULL, SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM },
-    { NULL, SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC }
+ସ୍ଥିର kmsdrmdynlib kmsdrmlibs[] = {
+    { ଖାଲି, SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM },
+    { ଖାଲି, SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC }
 };
 
-static void *KMSDRM_GetSym(const char *fnname, int *pHasModule, bool required)
+ସ୍ଥିର ଶୂନ୍ୟ *KMSDRM_GetSym(ଅଚଳ ଅକ୍ଷର *fnname, ପୂର୍ଣ୍ଣସଂଖ୍ୟା *pHasModule, bool required)
 {
-    int i;
-    void *fn = NULL;
-    for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-        if (kmsdrmlibs[i].lib) {
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା i;
+    ଶୂନ୍ୟ *fn = ଖାଲି;
+    ପାଇଁ (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+        ଯଦି (kmsdrmlibs[i].lib) {
             fn = SDL_LoadFunction(kmsdrmlibs[i].lib, fnname);
-            if (fn) {
-                break;
+            ଯଦି (fn) {
+                ଭାଙ୍ଗ;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_KMSDRM
-    if (fn)
+#ଯଦି DEBUG_DYNAMIC_KMSDRM
+    ଯଦି (fn)
         SDL_Log("KMSDRM: Found '%s' in %s (%p)", fnname, kmsdrmlibs[i].libname, fn);
-    else
+    ଅନ୍ୟଥା
         SDL_Log("KMSDRM: Symbol '%s' NOT FOUND!", fnname);
 #endif
 
-    if (!fn && required) {
+    ଯଦି (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    ଫେରନ୍ତୁ fn;
 }
 
 #endif // SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_KMSDRM_MODULE(modname)          int SDL_KMSDRM_HAVE_##modname = 0;
-#define SDL_KMSDRM_SYM(rc, fn, params)      SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = NULL;
-#define SDL_KMSDRM_SYM_CONST(type, name)    SDL_DYNKMSDRMCONST_##name KMSDRM_##name = NULL;
-#define SDL_KMSDRM_SYM_OPT(rc, fn, params)  SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = NULL;
-#include "SDL_kmsdrmsym.h"
+#define SDL_KMSDRM_MODULE(modname)          ପୂର୍ଣ୍ଣସଂଖ୍ୟା SDL_KMSDRM_HAVE_##modname = 0;
+#define SDL_KMSDRM_SYM(rc, fn, params)      SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = ଖାଲି;
+#define SDL_KMSDRM_SYM_CONST(type, name)    SDL_DYNKMSDRMCONST_##name KMSDRM_##name = ଖାଲି;
+#define SDL_KMSDRM_SYM_OPT(rc, fn, params)  SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = ଖାଲି;
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmsym.h"
 
-static int kmsdrm_load_refcount = 0;
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା kmsdrm_load_refcount = 0;
 
-void SDL_KMSDRM_UnloadSymbols(void)
+ଶୂନ୍ୟ SDL_KMSDRM_UnloadSymbols(ଶୂନ୍ୟ)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (kmsdrm_load_refcount > 0) {
-        if (--kmsdrm_load_refcount == 0) {
+    ଯଦି (kmsdrm_load_refcount > 0) {
+        ଯଦି (--kmsdrm_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-            int i;
+            ପୂର୍ଣ୍ଣସଂଖ୍ୟା i;
 #endif
 
             // set all the function pointers to NULL.
 #define SDL_KMSDRM_MODULE(modname)          SDL_KMSDRM_HAVE_##modname = 0;
-#define SDL_KMSDRM_SYM(rc, fn, params)      KMSDRM_##fn = NULL;
-#define SDL_KMSDRM_SYM_CONST(type, name)    KMSDRM_##name = NULL;
-#define SDL_KMSDRM_SYM_OPT(rc, fn, params)  KMSDRM_##fn = NULL;
-#include "SDL_kmsdrmsym.h"
+#define SDL_KMSDRM_SYM(rc, fn, params)      KMSDRM_##fn = ଖାଲି;
+#define SDL_KMSDRM_SYM_CONST(type, name)    KMSDRM_##name = ଖାଲି;
+#define SDL_KMSDRM_SYM_OPT(rc, fn, params)  KMSDRM_##fn = ଖାଲି;
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmsym.h"
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-            for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-                if (kmsdrmlibs[i].lib) {
+            ପାଇଁ (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+                ଯଦି (kmsdrmlibs[i].lib) {
                     SDL_UnloadObject(kmsdrmlibs[i].lib);
-                    kmsdrmlibs[i].lib = NULL;
+                    kmsdrmlibs[i].lib = ଖାଲି;
                 }
             }
 #endif
@@ -118,51 +118,51 @@ void SDL_KMSDRM_UnloadSymbols(void)
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_KMSDRM_LoadSymbols(void)
+bool SDL_KMSDRM_LoadSymbols(ଶୂନ୍ୟ)
 {
     bool result = true; // always succeed if not using Dynamic KMSDRM stuff.
 
     // deal with multiple modules needing these symbols...
-    if (kmsdrm_load_refcount++ == 0) {
+    ଯଦି (kmsdrm_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-            if (kmsdrmlibs[i].libname) {
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା i;
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା *thismod = ଖାଲି;
+        ପାଇଁ (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+            ଯଦି (kmsdrmlibs[i].libname) {
                 kmsdrmlibs[i].lib = SDL_LoadObject(kmsdrmlibs[i].libname);
             }
         }
 
 #define SDL_KMSDRM_MODULE(modname) SDL_KMSDRM_HAVE_##modname = 1; // default yes
-#include "SDL_kmsdrmsym.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmsym.h"
 
 #define SDL_KMSDRM_MODULE(modname)          thismod = &SDL_KMSDRM_HAVE_##modname;
 #define SDL_KMSDRM_SYM(rc, fn, params)      KMSDRM_##fn = (SDL_DYNKMSDRMFN_##fn)KMSDRM_GetSym(#fn, thismod, true);
 #define SDL_KMSDRM_SYM_CONST(type, name)    KMSDRM_##name = *(SDL_DYNKMSDRMCONST_##name *)KMSDRM_GetSym(#name, thismod, true);
 #define SDL_KMSDRM_SYM_OPT(rc, fn, params)  KMSDRM_##fn = (SDL_DYNKMSDRMFN_##fn)KMSDRM_GetSym(#fn, thismod, false);
-#include "SDL_kmsdrmsym.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmsym.h"
 
-        if ((SDL_KMSDRM_HAVE_LIBDRM) && (SDL_KMSDRM_HAVE_GBM)) {
+        ଯଦି ((SDL_KMSDRM_HAVE_LIBDRM) && (SDL_KMSDRM_HAVE_GBM)) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } ଅନ୍ୟଥା {
             // in case something got loaded...
             SDL_KMSDRM_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic KMSDRM
+#ଅନ୍ୟଥା // no dynamic KMSDRM
 
 #define SDL_KMSDRM_MODULE(modname)          SDL_KMSDRM_HAVE_##modname = 1; // default yes
 #define SDL_KMSDRM_SYM(rc, fn, params)      KMSDRM_##fn = fn;
 #define SDL_KMSDRM_SYM_CONST(type, name)    KMSDRM_##name = name;
 #define SDL_KMSDRM_SYM_OPT(rc, fn, params)  KMSDRM_##fn = fn;
-#include "SDL_kmsdrmsym.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_kmsdrmsym.h"
 
 #endif
     }
 
-    return result;
+    ଫେରନ୍ତୁ result;
 }
 
 #endif // SDL_VIDEO_DRIVER_KMSDRM

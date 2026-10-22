@@ -18,165 +18,165 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
-#include "SDL_vulkan_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_vulkan_internal.h"
 
 #ifdef SDL_VIDEO_VULKAN
 
-const char *SDL_Vulkan_GetResultString(VkResult result)
+ଅଚଳ ଅକ୍ଷର *SDL_Vulkan_GetResultString(VkResult result)
 {
-    switch ((int)result) {
-    case VK_SUCCESS:
-        return "VK_SUCCESS";
-    case VK_NOT_READY:
-        return "VK_NOT_READY";
-    case VK_TIMEOUT:
-        return "VK_TIMEOUT";
-    case VK_EVENT_SET:
-        return "VK_EVENT_SET";
-    case VK_EVENT_RESET:
-        return "VK_EVENT_RESET";
-    case VK_INCOMPLETE:
-        return "VK_INCOMPLETE";
-    case VK_ERROR_OUT_OF_HOST_MEMORY:
-        return "VK_ERROR_OUT_OF_HOST_MEMORY";
-    case VK_ERROR_OUT_OF_DEVICE_MEMORY:
-        return "VK_ERROR_OUT_OF_DEVICE_MEMORY";
-    case VK_ERROR_INITIALIZATION_FAILED:
-        return "VK_ERROR_INITIALIZATION_FAILED";
-    case VK_ERROR_DEVICE_LOST:
-        return "VK_ERROR_DEVICE_LOST";
-    case VK_ERROR_MEMORY_MAP_FAILED:
-        return "VK_ERROR_MEMORY_MAP_FAILED";
-    case VK_ERROR_LAYER_NOT_PRESENT:
-        return "VK_ERROR_LAYER_NOT_PRESENT";
-    case VK_ERROR_EXTENSION_NOT_PRESENT:
-        return "VK_ERROR_EXTENSION_NOT_PRESENT";
-    case VK_ERROR_FEATURE_NOT_PRESENT:
-        return "VK_ERROR_FEATURE_NOT_PRESENT";
-    case VK_ERROR_INCOMPATIBLE_DRIVER:
-        return "VK_ERROR_INCOMPATIBLE_DRIVER";
-    case VK_ERROR_TOO_MANY_OBJECTS:
-        return "VK_ERROR_TOO_MANY_OBJECTS";
-    case VK_ERROR_FORMAT_NOT_SUPPORTED:
-        return "VK_ERROR_FORMAT_NOT_SUPPORTED";
-    case VK_ERROR_FRAGMENTED_POOL:
-        return "VK_ERROR_FRAGMENTED_POOL";
-    case VK_ERROR_UNKNOWN:
-        return "VK_ERROR_UNKNOWN";
-    case VK_ERROR_OUT_OF_POOL_MEMORY:
-        return "VK_ERROR_OUT_OF_POOL_MEMORY";
-    case VK_ERROR_INVALID_EXTERNAL_HANDLE:
-        return "VK_ERROR_INVALID_EXTERNAL_HANDLE";
-    case VK_ERROR_FRAGMENTATION:
-        return "VK_ERROR_FRAGMENTATION";
-    case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
-        return "VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS";
-    case VK_ERROR_SURFACE_LOST_KHR:
-        return "VK_ERROR_SURFACE_LOST_KHR";
-    case VK_ERROR_NATIVE_WINDOW_IN_USE_KHR:
-        return "VK_ERROR_NATIVE_WINDOW_IN_USE_KHR";
-    case VK_SUBOPTIMAL_KHR:
-        return "VK_SUBOPTIMAL_KHR";
-    case VK_ERROR_OUT_OF_DATE_KHR:
-        return "VK_ERROR_OUT_OF_DATE_KHR";
-    case VK_ERROR_INCOMPATIBLE_DISPLAY_KHR:
-        return "VK_ERROR_INCOMPATIBLE_DISPLAY_KHR";
-    case VK_ERROR_VALIDATION_FAILED_EXT:
-        return "VK_ERROR_VALIDATION_FAILED_EXT";
-    case VK_ERROR_INVALID_SHADER_NV:
-        return "VK_ERROR_INVALID_SHADER_NV";
-#if VK_HEADER_VERSION >= 135 && VK_HEADER_VERSION < 162
-    case VK_ERROR_INCOMPATIBLE_VERSION_KHR:
-        return "VK_ERROR_INCOMPATIBLE_VERSION_KHR";
+    ବାଛ ((ପୂର୍ଣ୍ଣସଂଖ୍ୟା)result) {
+    ସ୍ଥିତି VK_SUCCESS:
+        ଫେରନ୍ତୁ "VK_SUCCESS";
+    ସ୍ଥିତି VK_NOT_READY:
+        ଫେରନ୍ତୁ "VK_NOT_READY";
+    ସ୍ଥିତି VK_TIMEOUT:
+        ଫେରନ୍ତୁ "VK_TIMEOUT";
+    ସ୍ଥିତି VK_EVENT_SET:
+        ଫେରନ୍ତୁ "VK_EVENT_SET";
+    ସ୍ଥିତି VK_EVENT_RESET:
+        ଫେରନ୍ତୁ "VK_EVENT_RESET";
+    ସ୍ଥିତି VK_INCOMPLETE:
+        ଫେରନ୍ତୁ "VK_INCOMPLETE";
+    ସ୍ଥିତି VK_ERROR_OUT_OF_HOST_MEMORY:
+        ଫେରନ୍ତୁ "VK_ERROR_OUT_OF_HOST_MEMORY";
+    ସ୍ଥିତି VK_ERROR_OUT_OF_DEVICE_MEMORY:
+        ଫେରନ୍ତୁ "VK_ERROR_OUT_OF_DEVICE_MEMORY";
+    ସ୍ଥିତି VK_ERROR_INITIALIZATION_FAILED:
+        ଫେରନ୍ତୁ "VK_ERROR_INITIALIZATION_FAILED";
+    ସ୍ଥିତି VK_ERROR_DEVICE_LOST:
+        ଫେରନ୍ତୁ "VK_ERROR_DEVICE_LOST";
+    ସ୍ଥିତି VK_ERROR_MEMORY_MAP_FAILED:
+        ଫେରନ୍ତୁ "VK_ERROR_MEMORY_MAP_FAILED";
+    ସ୍ଥିତି VK_ERROR_LAYER_NOT_PRESENT:
+        ଫେରନ୍ତୁ "VK_ERROR_LAYER_NOT_PRESENT";
+    ସ୍ଥିତି VK_ERROR_EXTENSION_NOT_PRESENT:
+        ଫେରନ୍ତୁ "VK_ERROR_EXTENSION_NOT_PRESENT";
+    ସ୍ଥିତି VK_ERROR_FEATURE_NOT_PRESENT:
+        ଫେରନ୍ତୁ "VK_ERROR_FEATURE_NOT_PRESENT";
+    ସ୍ଥିତି VK_ERROR_INCOMPATIBLE_DRIVER:
+        ଫେରନ୍ତୁ "VK_ERROR_INCOMPATIBLE_DRIVER";
+    ସ୍ଥିତି VK_ERROR_TOO_MANY_OBJECTS:
+        ଫେରନ୍ତୁ "VK_ERROR_TOO_MANY_OBJECTS";
+    ସ୍ଥିତି VK_ERROR_FORMAT_NOT_SUPPORTED:
+        ଫେରନ୍ତୁ "VK_ERROR_FORMAT_NOT_SUPPORTED";
+    ସ୍ଥିତି VK_ERROR_FRAGMENTED_POOL:
+        ଫେରନ୍ତୁ "VK_ERROR_FRAGMENTED_POOL";
+    ସ୍ଥିତି VK_ERROR_UNKNOWN:
+        ଫେରନ୍ତୁ "VK_ERROR_UNKNOWN";
+    ସ୍ଥିତି VK_ERROR_OUT_OF_POOL_MEMORY:
+        ଫେରନ୍ତୁ "VK_ERROR_OUT_OF_POOL_MEMORY";
+    ସ୍ଥିତି VK_ERROR_INVALID_EXTERNAL_HANDLE:
+        ଫେରନ୍ତୁ "VK_ERROR_INVALID_EXTERNAL_HANDLE";
+    ସ୍ଥିତି VK_ERROR_FRAGMENTATION:
+        ଫେରନ୍ତୁ "VK_ERROR_FRAGMENTATION";
+    ସ୍ଥିତି VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
+        ଫେରନ୍ତୁ "VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS";
+    ସ୍ଥିତି VK_ERROR_SURFACE_LOST_KHR:
+        ଫେରନ୍ତୁ "VK_ERROR_SURFACE_LOST_KHR";
+    ସ୍ଥିତି VK_ERROR_NATIVE_WINDOW_IN_USE_KHR:
+        ଫେରନ୍ତୁ "VK_ERROR_NATIVE_WINDOW_IN_USE_KHR";
+    ସ୍ଥିତି VK_SUBOPTIMAL_KHR:
+        ଫେରନ୍ତୁ "VK_SUBOPTIMAL_KHR";
+    ସ୍ଥିତି VK_ERROR_OUT_OF_DATE_KHR:
+        ଫେରନ୍ତୁ "VK_ERROR_OUT_OF_DATE_KHR";
+    ସ୍ଥିତି VK_ERROR_INCOMPATIBLE_DISPLAY_KHR:
+        ଫେରନ୍ତୁ "VK_ERROR_INCOMPATIBLE_DISPLAY_KHR";
+    ସ୍ଥିତି VK_ERROR_VALIDATION_FAILED_EXT:
+        ଫେରନ୍ତୁ "VK_ERROR_VALIDATION_FAILED_EXT";
+    ସ୍ଥିତି VK_ERROR_INVALID_SHADER_NV:
+        ଫେରନ୍ତୁ "VK_ERROR_INVALID_SHADER_NV";
+#ଯଦି VK_HEADER_VERSION >= 135 && VK_HEADER_VERSION < 162
+    ସ୍ଥିତି VK_ERROR_INCOMPATIBLE_VERSION_KHR:
+        ଫେରନ୍ତୁ "VK_ERROR_INCOMPATIBLE_VERSION_KHR";
 #endif
-    case VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT:
-        return "VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT";
-    case VK_ERROR_NOT_PERMITTED_EXT:
-        return "VK_ERROR_NOT_PERMITTED_EXT";
-    case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
-        return "VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT";
-    case VK_THREAD_IDLE_KHR:
-        return "VK_THREAD_IDLE_KHR";
-    case VK_THREAD_DONE_KHR:
-        return "VK_THREAD_DONE_KHR";
-    case VK_OPERATION_DEFERRED_KHR:
-        return "VK_OPERATION_DEFERRED_KHR";
-    case VK_OPERATION_NOT_DEFERRED_KHR:
-        return "VK_OPERATION_NOT_DEFERRED_KHR";
-    case VK_PIPELINE_COMPILE_REQUIRED_EXT:
-        return "VK_PIPELINE_COMPILE_REQUIRED_EXT";
-    default:
-        break;
+    ସ୍ଥିତି VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT:
+        ଫେରନ୍ତୁ "VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT";
+    ସ୍ଥିତି VK_ERROR_NOT_PERMITTED_EXT:
+        ଫେରନ୍ତୁ "VK_ERROR_NOT_PERMITTED_EXT";
+    ସ୍ଥିତି VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
+        ଫେରନ୍ତୁ "VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT";
+    ସ୍ଥିତି VK_THREAD_IDLE_KHR:
+        ଫେରନ୍ତୁ "VK_THREAD_IDLE_KHR";
+    ସ୍ଥିତି VK_THREAD_DONE_KHR:
+        ଫେରନ୍ତୁ "VK_THREAD_DONE_KHR";
+    ସ୍ଥିତି VK_OPERATION_DEFERRED_KHR:
+        ଫେରନ୍ତୁ "VK_OPERATION_DEFERRED_KHR";
+    ସ୍ଥିତି VK_OPERATION_NOT_DEFERRED_KHR:
+        ଫେରନ୍ତୁ "VK_OPERATION_NOT_DEFERRED_KHR";
+    ସ୍ଥିତି VK_PIPELINE_COMPILE_REQUIRED_EXT:
+        ଫେରନ୍ତୁ "VK_PIPELINE_COMPILE_REQUIRED_EXT";
+    ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
+        ଭାଙ୍ଗ;
     }
-    if (result < 0) {
-        return "VK_ERROR_<Unknown>";
+    ଯଦି (result < 0) {
+        ଫେରନ୍ତୁ "VK_ERROR_<Unknown>";
     }
-    return "VK_<Unknown>";
+    ଫେରନ୍ତୁ "VK_<Unknown>";
 }
 
 VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
-    Uint32 *extensionCount)
+    Uint32 *extension_ଗଣନା)
 {
-    Uint32 count = 0;
-    VkResult rc = vkEnumerateInstanceExtensionProperties(NULL, &count, NULL);
+    Uint32 ଗଣନା_2 = 0;
+    VkResult rc = vkEnumerateInstanceExtensionProperties(ଖାଲି, &ଗଣନା_2, ଖାଲି);
     VkExtensionProperties *result;
 
-    if (rc == VK_ERROR_INCOMPATIBLE_DRIVER) {
+    ଯଦି (rc == VK_ERROR_INCOMPATIBLE_DRIVER) {
         // Avoid the ERR_MAX_STRLEN limit by passing part of the message as a string argument.
         SDL_SetError(
             "You probably don't have a working Vulkan driver installed. %s %s %s(%d)",
             "Getting Vulkan extensions failed:",
             "vkEnumerateInstanceExtensionProperties returned",
             SDL_Vulkan_GetResultString(rc),
-            (int)rc);
-        return NULL;
-    } else if (rc != VK_SUCCESS) {
+            (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)rc);
+        ଫେରନ୍ତୁ ଖାଲି;
+    } ଅନ୍ୟଥା ଯଦି (rc != VK_SUCCESS) {
         SDL_SetError(
             "Getting Vulkan extensions failed: vkEnumerateInstanceExtensionProperties returned "
             "%s(%d)",
             SDL_Vulkan_GetResultString(rc),
-            (int)rc);
-        return NULL;
+            (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)rc);
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    if (count == 0) {
-        result = (VkExtensionProperties *)SDL_calloc(1, sizeof(VkExtensionProperties)); // so we can return non-null
-    } else {
-        result = (VkExtensionProperties *)SDL_calloc(count, sizeof(VkExtensionProperties));
+    ଯଦି (ଗଣନା_2 == 0) {
+        result = (VkExtensionProperties *)SDL_calloc(1, ଆକାର(VkExtensionProperties)); // so we can return non-null
+    } ଅନ୍ୟଥା {
+        result = (VkExtensionProperties *)SDL_calloc(ଗଣନା_2, ଆକାର(VkExtensionProperties));
     }
 
-    if (!result) {
-        return NULL;
+    ଯଦି (!result) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    rc = vkEnumerateInstanceExtensionProperties(NULL, &count, result);
-    if (rc != VK_SUCCESS) {
+    rc = vkEnumerateInstanceExtensionProperties(ଖାଲି, &ଗଣନା_2, result);
+    ଯଦି (rc != VK_SUCCESS) {
         SDL_SetError(
             "Getting Vulkan extensions failed: vkEnumerateInstanceExtensionProperties returned "
             "%s(%d)",
             SDL_Vulkan_GetResultString(rc),
-            (int)rc);
+            (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)rc);
         SDL_free(result);
-        return NULL;
+        ଫେରନ୍ତୁ ଖାଲି;
     }
-    *extensionCount = count;
-    return result;
+    *extension_ଗଣନା = ଗଣନା_2;
+    ଫେରନ୍ତୁ result;
 }
 
 // Alpha modes, in order of preference
-static const VkDisplayPlaneAlphaFlagBitsKHR alphaModes[4] = {
+ସ୍ଥିର ଅଚଳ VkDisplayPlaneAlphaFlagBitsKHR alphaModes[4] = {
     VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR,
     VK_DISPLAY_PLANE_ALPHA_GLOBAL_BIT_KHR,
     VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_BIT_KHR,
     VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_PREMULTIPLIED_BIT_KHR,
 };
 
-bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
+bool SDL_Vulkan_Display_CreateSurface(ଶୂନ୍ୟ *vkGetInstanceProcAddr_,
                                       VkInstance instance,
-                                      const struct VkAllocationCallbacks *allocator,
+                                      ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator,
                                       VkSurfaceKHR *surface)
 {
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
@@ -193,13 +193,13 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
 #undef VULKAN_INSTANCE_FUNCTION
     VkDisplaySurfaceCreateInfoKHR createInfo;
     VkResult rc;
-    uint32_t physicalDeviceCount = 0;
-    VkPhysicalDevice *physicalDevices = NULL;
+    uint32_t physical_Device_ଗଣନା = 0;
+    VkPhysicalDevice *physicalDevices = ଖାଲି;
     uint32_t physicalDeviceIndex;
-    const char *chosenDisplayId;
-    int displayId = 0; // Counting from physical device 0, display 0
+    ଅଚଳ ଅକ୍ଷର *chosenDisplayId;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା displayId = 0; // Counting from physical device 0, display 0
 
-    if (!vkEnumeratePhysicalDevices ||
+    ଯଦି (!vkEnumeratePhysicalDevices ||
         !vkGetPhysicalDeviceDisplayPropertiesKHR ||
         !vkGetDisplayModePropertiesKHR ||
         !vkGetPhysicalDeviceDisplayPlanePropertiesKHR ||
@@ -207,77 +207,77 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
         !vkGetDisplayPlaneSupportedDisplaysKHR ||
         !vkCreateDisplayPlaneSurfaceKHR) {
         SDL_SetError(VK_KHR_DISPLAY_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
-        goto error;
+        ଯାଅ error;
     }
     chosenDisplayId = SDL_GetHint(SDL_HINT_VULKAN_DISPLAY);
-    if (chosenDisplayId) {
+    ଯଦି (chosenDisplayId) {
         displayId = SDL_atoi(chosenDisplayId);
     }
 
     // Enumerate physical devices
-    rc = vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, NULL);
-    if (rc != VK_SUCCESS) {
+    rc = vkEnumeratePhysicalDevices(instance, &physical_Device_ଗଣନା, ଖାଲି);
+    ଯଦି (rc != VK_SUCCESS) {
         SDL_SetError("Could not enumerate Vulkan physical devices");
-        goto error;
+        ଯାଅ error;
     }
 
-    if (physicalDeviceCount == 0) {
+    ଯଦି (physical_Device_ଗଣନା == 0) {
         SDL_SetError("No Vulkan physical devices");
-        goto error;
+        ଯାଅ error;
     }
 
-    physicalDevices = (VkPhysicalDevice *)SDL_malloc(sizeof(VkPhysicalDevice) * physicalDeviceCount);
-    if (!physicalDevices) {
-        goto error;
+    physicalDevices = (VkPhysicalDevice *)SDL_malloc(ଆକାର(VkPhysicalDevice) * physical_Device_ଗଣନା);
+    ଯଦି (!physicalDevices) {
+        ଯାଅ error;
     }
 
-    rc = vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, physicalDevices);
-    if (rc != VK_SUCCESS) {
+    rc = vkEnumeratePhysicalDevices(instance, &physical_Device_ଗଣନା, physicalDevices);
+    ଯଦି (rc != VK_SUCCESS) {
         SDL_SetError("Error enumerating physical devices");
-        goto error;
+        ଯାଅ error;
     }
 
-    for (physicalDeviceIndex = 0; physicalDeviceIndex < physicalDeviceCount; physicalDeviceIndex++) {
+    ପାଇଁ (physicalDeviceIndex = 0; physicalDeviceIndex < physical_Device_ଗଣନା; physicalDeviceIndex++) {
         VkPhysicalDevice physicalDevice = physicalDevices[physicalDeviceIndex];
-        uint32_t displayPropertiesCount = 0;
-        VkDisplayPropertiesKHR *displayProperties = NULL;
-        uint32_t displayModePropertiesCount = 0;
-        VkDisplayModePropertiesKHR *displayModeProperties = NULL;
-        int bestMatchIndex = -1;
+        uint32_t display_Properties_ଗଣନା = 0;
+        VkDisplayPropertiesKHR *displayProperties = ଖାଲି;
+        uint32_t display_Mode_Properties_ଗଣନା = 0;
+        VkDisplayModePropertiesKHR *displayModeProperties = ଖାଲି;
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା bestMatchIndex = -1;
         uint32_t refreshRate = 0;
         uint32_t i;
-        uint32_t displayPlanePropertiesCount = 0;
-        int planeIndex = -1;
+        uint32_t display_Plane_Properties_ଗଣନା = 0;
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା planeIndex = -1;
         VkDisplayKHR display;
-        VkDisplayPlanePropertiesKHR *displayPlaneProperties = NULL;
+        VkDisplayPlanePropertiesKHR *displayPlaneProperties = ଖାଲି;
         VkExtent2D extent;
         VkDisplayPlaneCapabilitiesKHR planeCaps = { 0 };
 
         // Get information about the physical displays
-        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &displayPropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayPropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &display_Properties_ଗଣନା, ଖାଲି);
+        ଯଦି (rc != VK_SUCCESS || display_Properties_ଗଣନା == 0) {
             // This device has no physical device display properties, move on to next.
-            continue;
+            ଜାରି;
         }
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display properties for device %u: %u",
-                     physicalDeviceIndex, displayPropertiesCount);
+                     physicalDeviceIndex, display_Properties_ଗଣନା);
 
-        if (displayId < 0 || (uint32_t)displayId >= displayPropertiesCount) {
+        ଯଦି (displayId < 0 || (uint32_t)displayId >= display_Properties_ଗଣନା) {
             // Display id specified was higher than number of available displays, move to next physical device.
-            displayId -= displayPropertiesCount;
-            continue;
+            displayId -= display_Properties_ଗଣନା;
+            ଜାରି;
         }
 
-        displayProperties = (VkDisplayPropertiesKHR *)SDL_malloc(sizeof(VkDisplayPropertiesKHR) * displayPropertiesCount);
-        if (!displayProperties) {
-            goto error;
+        displayProperties = (VkDisplayPropertiesKHR *)SDL_malloc(ଆକାର(VkDisplayPropertiesKHR) * display_Properties_ଗଣନା);
+        ଯଦି (!displayProperties) {
+            ଯାଅ error;
         }
 
-        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &displayPropertiesCount, displayProperties);
-        if (rc != VK_SUCCESS || displayPropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &display_Properties_ଗଣନା, displayProperties);
+        ଯଦି (rc != VK_SUCCESS || display_Properties_ଗଣନା == 0) {
             SDL_free(displayProperties);
             SDL_SetError("Error enumerating physical device displays");
-            goto error;
+            ଯାଅ error;
         }
 
         display = displayProperties[displayId].display;
@@ -286,31 +286,31 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
                      displayProperties[displayId].displayName, extent.width, extent.height);
 
         SDL_free(displayProperties);
-        displayProperties = NULL;
+        displayProperties = ଖାଲି;
 
         // Get display mode properties for the chosen display
-        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &displayModePropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayModePropertiesCount == 0) {
+        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &display_Mode_Properties_ଗଣନା, ଖାଲି);
+        ଯଦି (rc != VK_SUCCESS || display_Mode_Properties_ଗଣନା == 0) {
             SDL_SetError("Error enumerating display modes");
-            goto error;
+            ଯାଅ error;
         }
-        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display modes: %u", displayModePropertiesCount);
+        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display modes: %u", display_Mode_Properties_ଗଣନା);
 
-        displayModeProperties = (VkDisplayModePropertiesKHR *)SDL_malloc(sizeof(VkDisplayModePropertiesKHR) * displayModePropertiesCount);
-        if (!displayModeProperties) {
-            goto error;
+        displayModeProperties = (VkDisplayModePropertiesKHR *)SDL_malloc(ଆକାର(VkDisplayModePropertiesKHR) * display_Mode_Properties_ଗଣନା);
+        ଯଦି (!displayModeProperties) {
+            ଯାଅ error;
         }
 
-        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &displayModePropertiesCount, displayModeProperties);
-        if (rc != VK_SUCCESS || displayModePropertiesCount == 0) {
+        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &display_Mode_Properties_ଗଣନା, displayModeProperties);
+        ଯଦି (rc != VK_SUCCESS || display_Mode_Properties_ଗଣନା == 0) {
             SDL_SetError("Error enumerating display modes");
             SDL_free(displayModeProperties);
-            goto error;
+            ଯାଅ error;
         }
 
         // Try to find a display mode that matches the native resolution
-        for (i = 0; i < displayModePropertiesCount; ++i) {
-            if (displayModeProperties[i].parameters.visibleRegion.width == extent.width &&
+        ପାଇଁ (i = 0; i < display_Mode_Properties_ଗଣନା; ++i) {
+            ଯଦି (displayModeProperties[i].parameters.visibleRegion.width == extent.width &&
                 displayModeProperties[i].parameters.visibleRegion.height == extent.height &&
                 displayModeProperties[i].parameters.refreshRate > refreshRate) {
                 bestMatchIndex = i;
@@ -318,10 +318,10 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
             }
         }
 
-        if (bestMatchIndex < 0) {
+        ଯଦି (bestMatchIndex < 0) {
             SDL_SetError("Found no matching display mode");
             SDL_free(displayModeProperties);
-            goto error;
+            ଯାଅ error;
         }
 
         SDL_zero(createInfo);
@@ -332,122 +332,122 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
                      refreshRate);
 
         SDL_free(displayModeProperties);
-        displayModeProperties = NULL;
+        displayModeProperties = ଖାଲି;
 
         // Try to find a plane index that supports our display
-        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &displayPlanePropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayPlanePropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &display_Plane_Properties_ଗଣନା, ଖାଲି);
+        ଯଦି (rc != VK_SUCCESS || display_Plane_Properties_ଗଣନା == 0) {
             SDL_SetError("Error enumerating display planes");
-            goto error;
+            ଯାଅ error;
         }
-        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display planes: %u", displayPlanePropertiesCount);
+        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display planes: %u", display_Plane_Properties_ଗଣନା);
 
-        displayPlaneProperties = (VkDisplayPlanePropertiesKHR *)SDL_malloc(sizeof(VkDisplayPlanePropertiesKHR) * displayPlanePropertiesCount);
-        if (!displayPlaneProperties) {
-            goto error;
+        displayPlaneProperties = (VkDisplayPlanePropertiesKHR *)SDL_malloc(ଆକାର(VkDisplayPlanePropertiesKHR) * display_Plane_Properties_ଗଣନା);
+        ଯଦି (!displayPlaneProperties) {
+            ଯାଅ error;
         }
 
-        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &displayPlanePropertiesCount, displayPlaneProperties);
-        if (rc != VK_SUCCESS || displayPlanePropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &display_Plane_Properties_ଗଣନା, displayPlaneProperties);
+        ଯଦି (rc != VK_SUCCESS || display_Plane_Properties_ଗଣନା == 0) {
             SDL_SetError("Error enumerating display plane properties");
             SDL_free(displayPlaneProperties);
-            goto error;
+            ଯାଅ error;
         }
 
-        for (i = 0; i < displayPlanePropertiesCount; ++i) {
-            uint32_t planeSupportedDisplaysCount = 0;
-            VkDisplayKHR *planeSupportedDisplays = NULL;
+        ପାଇଁ (i = 0; i < display_Plane_Properties_ଗଣନା; ++i) {
+            uint32_t plane_Supported_Displays_ଗଣନା = 0;
+            VkDisplayKHR *planeSupportedDisplays = ଖାଲି;
             uint32_t j;
 
             // Check if plane is attached to a display, if not, continue.
-            if (displayPlaneProperties[i].currentDisplay == VK_NULL_HANDLE) {
-                continue;
+            ଯଦି (displayPlaneProperties[i].currentDisplay == VK_NULL_HANDLE) {
+                ଜାରି;
             }
 
             // Check supported displays for this plane.
-            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &planeSupportedDisplaysCount, NULL);
-            if (rc != VK_SUCCESS || planeSupportedDisplaysCount == 0) {
-                continue; // No supported displays, on to next plane.
+            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &plane_Supported_Displays_ଗଣନା, ଖାଲି);
+            ଯଦି (rc != VK_SUCCESS || plane_Supported_Displays_ଗଣନା == 0) {
+                ଜାରି; // No supported displays, on to next plane.
             }
 
-            SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of supported displays for plane %u: %u", i, planeSupportedDisplaysCount);
+            SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of supported displays for plane %u: %u", i, plane_Supported_Displays_ଗଣନା);
 
-            planeSupportedDisplays = (VkDisplayKHR *)SDL_malloc(sizeof(VkDisplayKHR) * planeSupportedDisplaysCount);
-            if (!planeSupportedDisplays) {
+            planeSupportedDisplays = (VkDisplayKHR *)SDL_malloc(ଆକାର(VkDisplayKHR) * plane_Supported_Displays_ଗଣନା);
+            ଯଦି (!planeSupportedDisplays) {
                 SDL_free(displayPlaneProperties);
-                goto error;
+                ଯାଅ error;
             }
 
-            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &planeSupportedDisplaysCount, planeSupportedDisplays);
-            if (rc != VK_SUCCESS || planeSupportedDisplaysCount == 0) {
+            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &plane_Supported_Displays_ଗଣନା, planeSupportedDisplays);
+            ଯଦି (rc != VK_SUCCESS || plane_Supported_Displays_ଗଣନା == 0) {
                 SDL_SetError("Error enumerating supported displays, or no supported displays");
                 SDL_free(planeSupportedDisplays);
                 SDL_free(displayPlaneProperties);
-                goto error;
+                ଯାଅ error;
             }
 
-            for (j = 0; j < planeSupportedDisplaysCount && planeSupportedDisplays[j] != display; ++j) {
+            ପାଇଁ (j = 0; j < plane_Supported_Displays_ଗଣନା && planeSupportedDisplays[j] != display; ++j) {
             }
 
             SDL_free(planeSupportedDisplays);
-            planeSupportedDisplays = NULL;
+            planeSupportedDisplays = ଖାଲି;
 
-            if (j == planeSupportedDisplaysCount) {
+            ଯଦି (j == plane_Supported_Displays_ଗଣନା) {
                 // This display is not supported for this plane, move on.
-                continue;
+                ଜାରି;
             }
 
             rc = vkGetDisplayPlaneCapabilitiesKHR(physicalDevice, createInfo.displayMode, i, &planeCaps);
-            if (rc != VK_SUCCESS) {
+            ଯଦି (rc != VK_SUCCESS) {
                 SDL_SetError("Error getting display plane capabilities");
                 SDL_free(displayPlaneProperties);
-                goto error;
+                ଯାଅ error;
             }
 
             // Check if plane fulfills extent requirements.
-            if (extent.width >= planeCaps.minDstExtent.width && extent.height >= planeCaps.minDstExtent.height &&
+            ଯଦି (extent.width >= planeCaps.minDstExtent.width && extent.height >= planeCaps.minDstExtent.height &&
                 extent.width <= planeCaps.maxDstExtent.width && extent.height <= planeCaps.maxDstExtent.height) {
                 // If it does, choose this plane.
                 SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Choosing plane %u, minimum extent %ux%u maximum extent %ux%u", i,
                              planeCaps.minDstExtent.width, planeCaps.minDstExtent.height,
                              planeCaps.maxDstExtent.width, planeCaps.maxDstExtent.height);
                 planeIndex = i;
-                break;
+                ଭାଙ୍ଗ;
             }
         }
 
-        if (planeIndex < 0) {
+        ଯଦି (planeIndex < 0) {
             SDL_SetError("No plane supports the selected resolution");
             SDL_free(displayPlaneProperties);
-            goto error;
+            ଯାଅ error;
         }
 
         createInfo.planeIndex = planeIndex;
-        createInfo.planeStackIndex = displayPlaneProperties[planeIndex].currentStackIndex;
+        createInfo.plane_ଗଦା_Index = displayPlaneProperties[planeIndex].current_ଗଦା_Index;
         SDL_free(displayPlaneProperties);
-        displayPlaneProperties = NULL;
+        displayPlaneProperties = ଖାଲି;
 
         // Find a supported alpha mode. Not all planes support OPAQUE
         createInfo.alphaMode = VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR;
-        for (i = 0; i < SDL_arraysize(alphaModes); i++) {
-            if (planeCaps.supportedAlpha & alphaModes[i]) {
+        ପାଇଁ (i = 0; i < SDL_arraysize(alphaModes); i++) {
+            ଯଦି (planeCaps.supportedAlpha & alphaModes[i]) {
                 createInfo.alphaMode = alphaModes[i];
-                break;
+                ଭାଙ୍ଗ;
             }
         }
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Chose alpha mode 0x%x", createInfo.alphaMode);
 
         // Found a match, finally! Fill in extent, and break from loop
         createInfo.imageExtent = extent;
-        break;
+        ଭାଙ୍ଗ;
     }
 
     SDL_free(physicalDevices);
-    physicalDevices = NULL;
+    physicalDevices = ଖାଲି;
 
-    if (physicalDeviceIndex == physicalDeviceCount) {
+    ଯଦି (physicalDeviceIndex == physical_Device_ଗଣନା) {
         SDL_SetError("No usable displays found or requested display out of range");
-        goto error;
+        ଯାଅ error;
     }
 
     createInfo.sType = VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR;
@@ -455,22 +455,22 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
     createInfo.globalAlpha = 1.0f;
 
     rc = vkCreateDisplayPlaneSurfaceKHR(instance, &createInfo, allocator, surface);
-    if (rc != VK_SUCCESS) {
+    ଯଦି (rc != VK_SUCCESS) {
         SDL_SetError("vkCreateDisplayPlaneSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(rc));
-        goto error;
+        ଯାଅ error;
     }
     SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Created surface");
-    return true;
+    ଫେରନ୍ତୁ true;
 
 error:
     SDL_free(physicalDevices);
-    return false;
+    ଫେରନ୍ତୁ false;
 }
 
-void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr_,
+ଶୂନ୍ୟ SDL_Vulkan_DestroySurface_Internal(ଶୂନ୍ୟ *vkGetInstanceProcAddr_,
                                         VkInstance instance,
                                         VkSurfaceKHR surface,
-                                        const struct VkAllocationCallbacks *allocator)
+                                        ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator)
 {
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)vkGetInstanceProcAddr_;
@@ -479,7 +479,7 @@ void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr_,
             instance,
             "vkDestroySurfaceKHR");
 
-    if (vkDestroySurfaceKHR) {
+    ଯଦି (vkDestroySurfaceKHR) {
         vkDestroySurfaceKHR(instance, surface, allocator);
     }
 }

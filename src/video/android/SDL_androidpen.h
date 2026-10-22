@@ -18,8 +18,8 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
-#include "SDL_androidvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_androidvideo.h"
 
-extern void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_OnPen(SDL_Window *window, ପୂର୍ଣ୍ଣସଂଖ୍ୟା pen_id_in, SDL_PenDeviceType device_type, ପୂର୍ଣ୍ଣସଂଖ୍ୟା button, ପୂର୍ଣ୍ଣସଂଖ୍ୟା action, ଦଶମିକ x, ଦଶମିକ y, ଦଶମିକ p);

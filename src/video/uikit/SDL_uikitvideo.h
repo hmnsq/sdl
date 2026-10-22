@@ -21,11 +21,11 @@
 #ifndef SDL_uikitvideo_h_
 #define SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
 #ifdef __OBJC__
 
-#include <UIKit/UIKit.h>
+#ଅନ୍ତର୍ଭାଵ <UIKit/UIKit.h>
 
 @interface SDL_UIKitVideoData : NSObject
 
@@ -36,28 +36,28 @@
 @end
 
 #ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
+ବାହ୍ୟ CGRect UIKit_ComputeViewFrame(SDL_Window *window);
+#ଅନ୍ୟଥା
+ବାହ୍ୟ CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
 #endif
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+ବାହ୍ୟ API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(ଶୂନ୍ୟ);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_SetGameControllerInteraction(bool enabled);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
+#ଯଦି !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+ବାହ୍ୟ UIInterfaceOrientation UIKit_GetInterfaceOrientation(ଶୂନ୍ୟ);
 #endif
 
 #endif // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_ForceUpdateHomeIndicator(ଶୂନ୍ୟ);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+ବାହ୍ୟ bool UIKit_IsSystemVersionAtLeast(ଦ୍ୱିଗୁଣ version);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+ବାହ୍ୟ SDL_SystemTheme UIKit_GetSystemTheme(ଶୂନ୍ୟ);
 
 #endif // SDL_uikitvideo_h_

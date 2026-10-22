@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_NGAGE
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
 #ifndef _SDL_ngagevideo_h
 #define _SDL_ngagevideo_h
 
-typedef struct SDL_VideoData
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା SDL_VideoData
 {
     SDL_DisplayMode mode;
     SDL_VideoDisplay display;

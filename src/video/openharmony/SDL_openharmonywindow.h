@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_openharmonywindow_h_
 #define SDL_openharmonywindow_h_
 
-#include "../../core/openharmony/SDL_openharmony.h"
-#include "../SDL_egl_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../core/openharmony/SDL_openharmony.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_egl_c.h"
 
-extern bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+ବାହ୍ୟ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ବାହ୍ୟ ଶୂନ୍ୟ OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ବାହ୍ୟ ଶୂନ୍ୟ OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
 
-extern void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *OPENHARMONY_Window;
+ବାହ୍ୟ ଶୂନ୍ୟ OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ SDL_Window *OPENHARMONY_Window;
 
-struct SDL_WindowData
+ସଂରଚନା SDL_WindowData
 {
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା has_swap_interval;  // Save/Restore the swap interval / vsync
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା swap_interval;
 #endif
     bool backup_done;
-    void *native_xcomponent;
-    void *native_window;
+    ଶୂନ୍ୟ *native_xcomponent;
+    ଶୂନ୍ୟ *native_window;
 };
 
 #endif // SDL_openharmonywindow_h_

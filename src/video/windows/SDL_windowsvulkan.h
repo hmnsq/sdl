@@ -24,27 +24,27 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_windowsvulkan_h_
 #define SDL_windowsvulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#ଅନ୍ତର୍ଭାଵ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ଯଦି defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-extern bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ବାହ୍ୟ bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ଅଚଳ ଅକ୍ଷର *path);
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଅକ୍ଷର ଅଚଳ * ଅଚଳ *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ଗଣନା_2);
+ବାହ୍ୟ bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                              SDL_Window *window,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ବାହ୍ୟ ଶୂନ୍ୟ WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
+                               ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator);
 bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,

@@ -19,23 +19,23 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RPI
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_rpivideo.h"
-#include "SDL_rpievents_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_events_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_keyboard_c.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_rpivideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_rpievents_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
+#ifdef SDL_ନିବେଶ_LINUXEV
+#ଅନ୍ତର୍ଭାଵ "../../core/linux/SDL_evdev.h"
 #endif
 
-void RPI_PumpEvents(SDL_VideoDevice *_this)
+ଶୂନ୍ୟ RPI_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_ନିବେଶ_LINUXEV
     SDL_EVDEV_Poll();
 #endif
 }

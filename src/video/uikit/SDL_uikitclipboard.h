@@ -21,13 +21,13 @@
 #ifndef SDL_uikitclipboard_h_
 #define SDL_uikitclipboard_h_
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
-extern bool UIKit_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *UIKit_GetClipboardText(SDL_VideoDevice *_this);
-extern bool UIKit_HasClipboardText(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool UIKit_SetClipboardText(SDL_VideoDevice *_this, ଅଚଳ ଅକ୍ଷର *text);
+ବାହ୍ୟ ଅକ୍ଷର *UIKit_GetClipboardText(SDL_VideoDevice *_this);
+ବାହ୍ୟ bool UIKit_HasClipboardText(SDL_VideoDevice *_this);
 
-extern void UIKit_InitClipboard(SDL_VideoDevice *_this);
-extern void UIKit_QuitClipboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_InitClipboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ UIKit_QuitClipboard(SDL_VideoDevice *_this);
 
 #endif // SDL_uikitclipboard_h_

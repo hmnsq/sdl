@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../core/unix/SDL_poll.h"
-#include "SDL_waylandeventthread.h"
-#include "SDL_waylandvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../../core/unix/SDL_poll.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandeventthread.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_waylandvideo.h"
 
-#include <errno.h>
+#ଅନ୍ତର୍ଭାଵ <errno.h>
 
-typedef enum Wayland_JobStatus
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ଗଣନା Wayland_JobStatus
 {
     JOB_STATUS_WAITING = 0,
     JOB_STATUS_RUNNING,
@@ -37,91 +37,91 @@ typedef enum Wayland_JobStatus
     JOB_STATUS_CANCELED
 } Wayland_JobStatus;
 
-typedef struct Wayland_Job
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା Wayland_Job
 {
     Wayland_JobThreadCallback callback;
-    void *userdata;
+    ଶୂନ୍ୟ *userdata;
     Wayland_JobID id;
     Wayland_JobStatus status;
 
-    struct wl_list link;
+    ସଂରଚନା wl_list link;
 } Wayland_Job;
 
-struct Wayland_JobThreadContext
+ସଂରଚନା Wayland_JobThreadContext
 {
     SDL_Thread *thread;
     SDL_Mutex *queue_lock;
     SDL_Mutex *completion_lock;
     SDL_Condition *cond;
-    struct wl_list jobs;
+    ସଂରଚନା wl_list jobs;
     Wayland_JobID id_counter;
     bool should_exit;
 };
 
-struct Wayland_EventThreadContext
+ସଂରଚନା Wayland_EventThreadContext
 {
     SDL_VideoData *wayland_data;
     SDL_Thread *thread;
-    struct wl_event_queue *queue;
+    ସଂରଚନା wl_event_queue *queue;
     SDL_Mutex *dispatch_lock;
     bool should_exit;
 };
 
-static void handle_event_thread_exit(void *data, struct wl_callback *wl_callback, uint32_t callback_data)
+ସ୍ଥିର ଶୂନ୍ୟ handle_event_thread_exit(ଶୂନ୍ୟ *data, ସଂରଚନା wl_callback *wl_callback, uint32_t callback_data)
 {
     Wayland_EventThreadContext *context = (Wayland_EventThreadContext *)data;
     wl_callback_destroy(wl_callback);
     context->should_exit = true;
 }
 
-static const struct wl_callback_listener event_thread_exit_listener = {
+ସ୍ଥିର ଅଚଳ ସଂରଚନା wl_callback_listener event_thread_exit_listener = {
     handle_event_thread_exit
 };
 
-static int SDLCALL Wayland_EventThreadFunc(void *data)
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା SDLCALL Wayland_EventThreadFunc(ଶୂନ୍ୟ *data)
 {
     Wayland_EventThreadContext *context = (Wayland_EventThreadContext *)data;
-    struct wl_display *display = context->wayland_data->display;
-    const int display_fd = WAYLAND_wl_display_get_fd(display);
-    int ret;
+    ସଂରଚନା wl_display *display = context->wayland_data->display;
+    ଅଚଳ ପୂର୍ଣ୍ଣସଂଖ୍ୟା display_fd = WAYLAND_wl_display_get_fd(display);
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା ret;
 
     /* The lock must be held whenever dispatching to avoid a race condition when adding
      * or destroying objects using the queue.
      *
      * Any error other than EAGAIN is fatal and causes the thread to exit.
      */
-    while (!context->should_exit) {
-        if (WAYLAND_wl_display_prepare_read_queue(display, context->queue) == 0) {
+    ଯେତେବେଳେ (!context->should_exit) {
+        ଯଦି (WAYLAND_wl_display_prepare_read_queue(display, context->queue) == 0) {
             Sint64 timeoutNS = -1;
 
             ret = WAYLAND_wl_display_flush(display);
 
-            if (ret < 0) {
-                if (errno == EAGAIN) {
+            ଯଦି (ret < 0) {
+                ଯଦି (errno == EAGAIN) {
                     // If the flush failed with EAGAIN, don't block as not to inhibit other threads from reading events.
                     timeoutNS = SDL_MS_TO_NS(1);
-                } else {
+                } ଅନ୍ୟଥା {
                     WAYLAND_wl_display_cancel_read(display);
-                    return -1;
+                    ଫେରନ୍ତୁ -1;
                 }
             }
 
             // Wait for a read/write operation to become possible.
             ret = SDL_IOReady(display_fd, SDL_IOR_READ, timeoutNS);
 
-            if (ret <= 0) {
+            ଯଦି (ret <= 0) {
                 WAYLAND_wl_display_cancel_read(display);
-                if (ret < 0) {
-                    return -1;
+                ଯଦି (ret < 0) {
+                    ଫେରନ୍ତୁ -1;
                 }
 
                 // Nothing to read, and woke to flush; try again.
-                continue;
+                ଜାରି;
             }
 
             ret = WAYLAND_wl_display_read_events(display);
-            if (ret == -1) {
-                return -1;
+            ଯଦି (ret == -1) {
+                ଫେରନ୍ତୁ -1;
             }
         }
 
@@ -129,82 +129,82 @@ static int SDLCALL Wayland_EventThreadFunc(void *data)
         ret = WAYLAND_wl_display_dispatch_queue_pending(display, context->queue);
         SDL_UnlockMutex(context->dispatch_lock);
 
-        if (ret < 0) {
-            return -1;
+        ଯଦି (ret < 0) {
+            ଫେରନ୍ତୁ -1;
         }
     }
 
-    return 0;
+    ଫେରନ୍ତୁ 0;
 }
 
-Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name)
+Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, ଅଚଳ ଅକ୍ଷର *queue_name)
 {
-    Wayland_EventThreadContext *context = SDL_calloc(1, sizeof(Wayland_EventThreadContext));
-    if (!context) {
-        return NULL;
+    Wayland_EventThreadContext *context = SDL_calloc(1, ଆକାର(Wayland_EventThreadContext));
+    ଯଦି (!context) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
     context->wayland_data = data;
     context->queue = Wayland_DisplayCreateQueue(data->display, queue_name);
-    if (!context->queue) {
-        goto cleanup;
+    ଯଦି (!context->queue) {
+        ଯାଅ cleanup;
     }
 
     context->dispatch_lock = SDL_CreateMutex();
-    if (!context->dispatch_lock) {
-        goto cleanup;
+    ଯଦି (!context->dispatch_lock) {
+        ଯାଅ cleanup;
     }
 
     context->thread = SDL_CreateThread(Wayland_EventThreadFunc, "wl_event_thread", context);
-    if (!context->thread) {
-        goto cleanup;
+    ଯଦି (!context->thread) {
+        ଯାଅ cleanup;
     }
 
-    return context;
+    ଫେରନ୍ତୁ context;
 
 cleanup:
-    if (context->dispatch_lock) {
+    ଯଦି (context->dispatch_lock) {
         SDL_DestroyMutex(context->dispatch_lock);
     }
 
-    if (context->queue) {
+    ଯଦି (context->queue) {
         WAYLAND_wl_event_queue_destroy(context->queue);
     }
 
     SDL_free(context);
-    return NULL;
+    ଫେରନ୍ତୁ ଖାଲି;
 }
 
-void Wayland_DestroyEventThread(Wayland_EventThreadContext *context)
+ଶୂନ୍ୟ Wayland_DestroyEventThread(Wayland_EventThreadContext *context)
 {
-    if (context) {
+    ଯଦି (context) {
         // Dispatch the exit event to unblock the thread and signal it to exit.
-        struct wl_display *display = context->wayland_data->display;
-        struct wl_proxy *display_wrapper = Wayland_CreateEventThreadProxyWrapper(context, display);
+        ସଂରଚନା wl_display *display = context->wayland_data->display;
+        ସଂରଚନା wl_proxy *display_wrapper = Wayland_CreateEventThreadProxyWrapper(context, display);
 
         SDL_LockMutex(context->dispatch_lock);
-        struct wl_callback *cb = wl_display_sync((struct wl_display *)display_wrapper);
+        ସଂରଚନା wl_callback *cb = wl_display_sync((ସଂରଚନା wl_display *)display_wrapper);
         wl_callback_add_listener(cb, &event_thread_exit_listener, context);
         SDL_UnlockMutex(context->dispatch_lock);
 
         WAYLAND_wl_proxy_wrapper_destroy(display_wrapper);
 
-        int ret = WAYLAND_wl_display_flush(display);
-        while (ret == -1 && errno == EAGAIN) {
+        ପୂର୍ଣ୍ଣସଂଖ୍ୟା ret = WAYLAND_wl_display_flush(display);
+        ଯେତେବେଳେ (ret == -1 && errno == EAGAIN) {
             // Shutting down the thread requires a successful flush.
             ret = SDL_IOReady(WAYLAND_wl_display_get_fd(display), SDL_IOR_WRITE, -1);
-            if (ret >= 0) {
+            ଯଦି (ret >= 0) {
                 ret = WAYLAND_wl_display_flush(display);
             }
         }
 
         // Avoid a warning if the flush failed due to a broken connection.
-        if (ret < 0) {
+        ଯଦି (ret < 0) {
             wl_callback_destroy(cb);
         }
 
         // Wait for the thread to return; it will exit automatically on a broken connection.
-        SDL_WaitThread(context->thread, NULL);
+        SDL_WaitThread(context->thread, ଖାଲି);
 
         WAYLAND_wl_event_queue_destroy(context->queue);
         SDL_DestroyMutex(context->dispatch_lock);
@@ -212,43 +212,43 @@ void Wayland_DestroyEventThread(Wayland_EventThreadContext *context)
     }
 }
 
-void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj)
+ଶୂନ୍ୟ *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, ଶୂନ୍ୟ *obj)
 {
-    struct wl_proxy *wrapper = WAYLAND_wl_proxy_create_wrapper(obj);
-    if (wrapper && context) {
+    ସଂରଚନା wl_proxy *wrapper = WAYLAND_wl_proxy_create_wrapper(obj);
+    ଯଦି (wrapper && context) {
         WAYLAND_wl_proxy_set_queue(wrapper, context->queue);
     }
 
-    return wrapper;
+    ଫେରନ୍ତୁ wrapper;
 }
 
-void Wayland_LockEventThread(Wayland_EventThreadContext *context)
+ଶୂନ୍ୟ Wayland_LockEventThread(Wayland_EventThreadContext *context)
 {
-    if (context) {
+    ଯଦି (context) {
         SDL_LockMutex(context->dispatch_lock);
     }
 }
 
-void Wayland_UnlockEventThread(Wayland_EventThreadContext *context)
+ଶୂନ୍ୟ Wayland_UnlockEventThread(Wayland_EventThreadContext *context)
 {
-    if (context) {
+    ଯଦି (context) {
         SDL_UnlockMutex(context->dispatch_lock);
     }
 }
 
-static int SDLCALL Wayland_JobThreadFunc(void *data)
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା SDLCALL Wayland_JobThreadFunc(ଶୂନ୍ୟ *data)
 {
     Wayland_JobThreadContext *context = (Wayland_JobThreadContext *)data;
 
     SDL_LockMutex(context->queue_lock);
-    while (!context->should_exit) {
-        if (WAYLAND_wl_list_empty(&context->jobs)) {
+    ଯେତେବେଳେ (!context->should_exit) {
+        ଯଦି (WAYLAND_wl_list_empty(&context->jobs)) {
             SDL_WaitCondition(context->cond, context->queue_lock);
         }
 
         Wayland_Job *job, *job_temp;
         wl_list_for_each_safe (job, job_temp, &context->jobs, link) {
-            if (job->status == JOB_STATUS_WAITING) {
+            ଯଦି (job->status == JOB_STATUS_WAITING) {
                 job->status = JOB_STATUS_RUNNING;
             }
 
@@ -256,12 +256,12 @@ static int SDLCALL Wayland_JobThreadFunc(void *data)
             SDL_UnlockMutex(context->queue_lock);
 
             // If the job was cancelled, just remove it.
-            if (job->status == JOB_STATUS_RUNNING) {
+            ଯଦି (job->status == JOB_STATUS_RUNNING) {
                 job->callback(job->userdata);
 
                 // Signal completion to the waiting thread.
                 SDL_LockMutex(context->completion_lock);
-                if (job->status == JOB_STATUS_SIGNAL_PENDING) {
+                ଯଦି (job->status == JOB_STATUS_SIGNAL_PENDING) {
                     SDL_SignalCondition(context->cond);
                 }
                 job->status = JOB_STATUS_SIGNALED;
@@ -276,75 +276,75 @@ static int SDLCALL Wayland_JobThreadFunc(void *data)
     }
     SDL_UnlockMutex(context->queue_lock);
 
-    return 0;
+    ଫେରନ୍ତୁ 0;
 }
 
-extern Wayland_JobThreadContext *Wayland_CreateJobThread()
+ବାହ୍ୟ Wayland_JobThreadContext *Wayland_CreateJobThread()
 {
-    Wayland_JobThreadContext *context = SDL_calloc(1, sizeof(Wayland_JobThreadContext));
-    if (!context) {
-        return NULL;
+    Wayland_JobThreadContext *context = SDL_calloc(1, ଆକାର(Wayland_JobThreadContext));
+    ଯଦି (!context) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
     WAYLAND_wl_list_init(&context->jobs);
 
     context->queue_lock = SDL_CreateMutex();
-    if (!context->queue_lock) {
-        goto cleanup;
+    ଯଦି (!context->queue_lock) {
+        ଯାଅ cleanup;
     }
 
     context->completion_lock = SDL_CreateMutex();
-    if (!context->completion_lock) {
-        goto cleanup;
+    ଯଦି (!context->completion_lock) {
+        ଯାଅ cleanup;
     }
 
     context->cond = SDL_CreateCondition();
-    if (!context->cond) {
-        goto cleanup;
+    ଯଦି (!context->cond) {
+        ଯାଅ cleanup;
     }
 
     context->thread = SDL_CreateThread(Wayland_JobThreadFunc, "wl_job_thread", context);
-    if (!context->thread) {
-        goto cleanup;
+    ଯଦି (!context->thread) {
+        ଯାଅ cleanup;
     }
 
-    return context;
+    ଫେରନ୍ତୁ context;
 
 cleanup:
-    if (context->queue_lock) {
+    ଯଦି (context->queue_lock) {
         SDL_DestroyMutex(context->queue_lock);
     }
 
-    if (context->completion_lock) {
+    ଯଦି (context->completion_lock) {
         SDL_DestroyMutex(context->completion_lock);
     }
 
-    if (context->cond) {
+    ଯଦି (context->cond) {
         SDL_DestroyCondition(context->cond);
     }
 
     SDL_free(context);
 
-    return NULL;
+    ଫେରନ୍ତୁ ଖାଲି;
 }
 
-static void job_thread_exit(void *data)
+ସ୍ଥିର ଶୂନ୍ୟ job_thread_exit(ଶୂନ୍ୟ *data)
 {
     Wayland_JobThreadContext *context = (Wayland_JobThreadContext *)data;
     context->should_exit = true;
 }
 
-extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context)
+ବାହ୍ୟ ଶୂନ୍ୟ Wayland_DestroyJobThread(Wayland_JobThreadContext *context)
 {
-    if (!context) {
-        return;
+    ଯଦି (!context) {
+        ଫେରନ୍ତୁ;
     }
 
     // Dispatch the exit job to unblock the thread and set the exit condition.
-    Wayland_JobThreadAddJob(context, job_thread_exit, context, NULL);
+    Wayland_JobThreadAddJob(context, job_thread_exit, context, ଖାଲି);
 
     // Wait for the thread to return; all jobs will be complete at this point.
-    SDL_WaitThread(context->thread, NULL);
+    SDL_WaitThread(context->thread, ଖାଲି);
 
     // Cleanup.
     SDL_DestroyCondition(context->cond);
@@ -353,64 +353,64 @@ extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context)
     SDL_free(context);
 }
 
-bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, void *userdata, Wayland_JobID *id)
+bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, ଶୂନ୍ୟ *userdata, Wayland_JobID *id)
 {
-    if (!callback) {
-        return false;
+    ଯଦି (!callback) {
+        ଫେରନ୍ତୁ false;
     }
 
-    if (context) {
+    ଯଦି (context) {
         SDL_LockMutex(context->queue_lock);
-        Wayland_Job *job = SDL_calloc(1, sizeof(Wayland_Job));
-        if (job) {
+        Wayland_Job *job = SDL_calloc(1, ଆକାର(Wayland_Job));
+        ଯଦି (job) {
             job->id = context->id_counter++;
-            if (id) {
+            ଯଦି (id) {
                 *id = job->id;
             }
 
             job->callback = callback;
             job->userdata = userdata;
 
-            WAYLAND_wl_list_insert(context->jobs.prev, &job->link);
+            WAYLAND_wl_list_ଭର୍ତ୍ତି(context->jobs.prev, &job->link);
 
             SDL_SignalCondition(context->cond);
             SDL_UnlockMutex(context->queue_lock);
 
-            return true;
+            ଫେରନ୍ତୁ true;
         }
 
         SDL_UnlockMutex(context->queue_lock);
-        return false;
-    } else {
+        ଫେରନ୍ତୁ false;
+    } ଅନ୍ୟଥା {
         // No thread? Just run the job.
         callback(userdata);
     }
 
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 
-void Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id)
+ଶୂନ୍ୟ Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id)
 {
-    if (!context) {
-        return;
+    ଯଦି (!context) {
+        ଫେରନ୍ତୁ;
     }
 
     SDL_LockMutex(context->queue_lock);
 
     Wayland_Job *job;
     wl_list_for_each (job, &context->jobs, link) {
-        if (job->id == id) {
+        ଯଦି (job->id == id) {
             SDL_LockMutex(context->completion_lock);
-            if (job->status == JOB_STATUS_WAITING) {
+            ଯଦି (job->status == JOB_STATUS_WAITING) {
                 // In the queue, waiting to run; mark as cancelled.
                 job->status = JOB_STATUS_CANCELED;
-            } else if (job->status == JOB_STATUS_RUNNING) {
+            } ଅନ୍ୟଥା ଯଦି (job->status == JOB_STATUS_RUNNING) {
                 // The job is running; wait for completion.
                 job->status = JOB_STATUS_SIGNAL_PENDING;
                 SDL_WaitCondition(context->cond, context->completion_lock);
             }
             SDL_UnlockMutex(context->completion_lock);
-            break;
+            ଭାଙ୍ଗ;
         }
     }
 

@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohoswindow_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohoswindow_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#define OH_MAX_TOUCH_POINTS_ସଂଖ୍ୟା sdl_ohoswindow_OH_MAX_TOUCH_POINTS_ସଂଖ୍ୟା
+#ଅନ୍ତର୍ଭାଵ <ace/xcomponent/native_interface_xcomponent.h>
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/openharmony/SDL_openharmony.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_keyboard_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_mouse_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../events/SDL_windowevents_c.h"
+#ଅନ୍ତର୍ଭାଵ "../../core/openharmony/SDL_openharmony.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonywindow.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_openharmonyvideo.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_openharmonyevents.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_openharmonywindow.h"
 
 
 // Currently only one window
-SDL_Window *OPENHARMONY_Window = NULL;
+SDL_Window *OPENHARMONY_Window = ଖାଲି;
 
 bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
@@ -51,20 +51,20 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     //    return false;
     //}
 
-    if (OPENHARMONY_Window) {
+    ଯଦି (OPENHARMONY_Window) {
         result = SDL_SetError("SDL on OpenHarmony (currently) only supports one window");
-        goto endfunction;
+        ଯାଅ endfunction;
     }
 
-    void *voidxcomp, *native_window;
+    ଶୂନ୍ୟ *voidxcomp, *native_window;
     SDL_OpenHarmonyGetNativeWindowPointers(&voidxcomp, &native_window);
     OH_NativeXComponent *native_xcomponent = (OH_NativeXComponent *) voidxcomp;
-    if (!native_xcomponent || !native_window) {
+    ଯଦି (!native_xcomponent || !native_window) {
         result = SDL_SetError("Don't have Native XComponent or Native Window");
-        goto endfunction;
+        ଯାଅ endfunction;
     }
 
-#if 0  // !!! FIXME
+#ଯଦି 0  // !!! FIXME
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 #endif
@@ -75,17 +75,17 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     // Adjust the window data to match the screen
     window->x = 0;
     window->y = 0;
-    window->w = (int) w;
-    window->h = (int) h;
+    window->w = (ପୂର୍ଣ୍ଣସଂଖ୍ୟା) w;
+    window->h = (ପୂର୍ଣ୍ଣସଂଖ୍ୟା) h;
 
     // One window, it always has focus
     SDL_SetMouseFocus(window);
     SDL_SetKeyboardFocus(window);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    data = (SDL_WindowData *)SDL_calloc(1, ଆକାର(*data));
+    ଯଦି (!data) {
         result = false;
-        goto endfunction;
+        ଯାଅ endfunction;
     }
 
     data->native_xcomponent = native_xcomponent;
@@ -96,19 +96,19 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ଯଦି (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
+        ଯଦି (data->egl_surface == EGL_NO_SURFACE) {
             SDL_free(data);
             result = false;
-            goto endfunction;
+            ଯାଅ endfunction;
         }
     }
     SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER, data->egl_surface);
 #endif
 
-#if 0  // !!! FIXME
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
+#ଯଦି 0  // !!! FIXME
+    SDL_SetWindowSafeAreaInsets(window, Android_Safe_Inset_ବାମ, Android_Safe_Inset_ଡାହାଣ, Android_Safe_Inset_ଶୀର୍ଷ, Android_SafeInsetBottom);
 #endif
 
     window->internal = data;
@@ -119,57 +119,57 @@ endfunction:
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_UnlockActivityMutex();
 
-    return result;
+    ଫେରନ୍ତୁ result;
 }
 
-void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ଶୂନ୍ୟ OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if 0  // !!! FIXME
+#ଯଦି 0  // !!! FIXME
     Android_JNI_SetActivityTitle(window->title);
 #endif
 }
 
 SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    if (window == OPENHARMONY_Window) {
-        const bool show_bars = (fullscreen == SDL_FULLSCREEN_OP_LEAVE);
-        if (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
-            return SDL_FULLSCREEN_FAILED;
+    ଯଦି (window == OPENHARMONY_Window) {
+        ଅଚଳ bool show_bars = (fullscreen == SDL_FULLSCREEN_OP_LEAVE);
+        ଯଦି (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
+            ଫେରନ୍ତୁ SDL_FULLSCREEN_FAILED;
         }
         // !!! FIXME: make sure this causes an XComponent resize event, that we can pick up later.
-        return SDL_FULLSCREEN_PENDING;
+        ଫେରନ୍ତୁ SDL_FULLSCREEN_PENDING;
     }
-    return SDL_FULLSCREEN_FAILED;
+    ଫେରନ୍ତୁ SDL_FULLSCREEN_FAILED;
 }
 
-void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ଶୂନ୍ୟ OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if 0  // !!! FIXME
+#ଯଦି 0  // !!! FIXME
     Android_JNI_MinimizeWindow();
 #endif
 }
 
-void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+ଶୂନ୍ୟ OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
 {
-#if 0  // !!! FIXME
+#ଯଦି 0  // !!! FIXME
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 #endif
 }
 
-void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ଶୂନ୍ୟ OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_LockActivityMutex();
 
-    if (window == OPENHARMONY_Window) {
-        OPENHARMONY_Window = NULL;
+    ଯଦି (window == OPENHARMONY_Window) {
+        OPENHARMONY_Window = ଖାଲି;
 
-        if (window->internal) {
+        ଯଦି (window->internal) {
             SDL_WindowData *data = window->internal;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
+            ଯଦି (data->egl_surface != EGL_NO_SURFACE) {
                 SDL_EGL_DestroySurface(_this, data->egl_surface);
             }
 #endif
@@ -177,7 +177,7 @@ void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
             // the XComponent and native window live past the SDL_Window; it can be reused for future windows.
 
             SDL_free(window->internal);
-            window->internal = NULL;
+            window->internal = ଖାଲି;
         }
     }
 

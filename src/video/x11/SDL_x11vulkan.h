@@ -18,31 +18,31 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_x11vulkan_h_
 #define SDL_x11vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#ଅନ୍ତର୍ଭାଵ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#ଯଦି defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
-typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା xcb_connection_t xcb_connection_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ବାହ୍ୟ bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ଅଚଳ ଅକ୍ଷର *path);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଅକ୍ଷର ଅଚଳ * ଅଚଳ *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ଗଣନା_2);
+ବାହ୍ୟ bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                              SDL_Window *window,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ବାହ୍ୟ ଶୂନ୍ୟ X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
-extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                               ଅଚଳ ସଂରଚନା VkAllocationCallbacks *allocator);
+ବାହ୍ୟ bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
                                            Uint32 queueFamilyIndex);

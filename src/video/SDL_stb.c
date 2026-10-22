@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
-#include "SDL_stb_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_yuv_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_stb_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_surface_c.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_yuv_c.h"
 
 /* STB image conversion */
 #ifndef SDL_DISABLE_STB
@@ -33,7 +33,7 @@
 ////////////////////////////////////////////////////////////////////////////
 #define malloc SDL_malloc
 #define realloc SDL_realloc
-#define free SDL_free
+#define ମୁକ୍ତ SDL_free
 #undef memcpy
 #define memcpy SDL_memcpy
 #undef memset
@@ -51,7 +51,7 @@
 #define STB_IMAGE_STATIC
 #define STBI_NO_THREAD_LOCALS
 #define STBI_FAILURE_USERMSG
-#if defined(SDL_NEON_INTRINSICS)
+#ଯଦି defined(SDL_NEON_INTRINSICS)
 #define STBI_NEON
 #endif
 #define STBI_ONLY_PNG
@@ -62,7 +62,7 @@
 #define STBI_NO_STDIO
 #define STBI_ASSERT SDL_assert
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#ଅନ୍ତର୍ଭାଵ "stb_image.h"
 
 ////////////////////////////////////////////////////////////////////////////
 #define MZ_ASSERT(x) SDL_assert(x)
@@ -70,22 +70,22 @@
 //#define memcpy SDL_memcpy
 //#undef memset
 //#define memset SDL_memset
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ଯଦି SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define MINIZ_LITTLE_ENDIAN 1
-#else
+#ଅନ୍ୟଥା
 #define MINIZ_LITTLE_ENDIAN 0
 #endif
 #define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 0
 #define MINIZ_SDL_NOUNUSED
-#include "miniz.h"
+#ଅନ୍ତର୍ଭାଵ "miniz.h"
 
 #undef memset
 #endif // SDL_HAVE_STB
 
 #ifdef SDL_HAVE_STB
-static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+ସ୍ଥିର bool SDL_ConvertPixels_MJPG_to_NV12(ପୂର୍ଣ୍ଣସଂଖ୍ୟା width, ପୂର୍ଣ୍ଣସଂଖ୍ୟା height, ଅଚଳ ଶୂନ୍ୟ *src, ପୂର୍ଣ୍ଣସଂଖ୍ୟା src_pitch, ଶୂନ୍ୟ *dst, ପୂର୍ଣ୍ଣସଂଖ୍ୟା dst_pitch)
 {
-    int w = 0, h = 0, format = 0;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା w = 0, h = 0, format = 0;
     stbi__context s;
     stbi__start_mem(&s, src, src_pitch);
 
@@ -93,7 +93,7 @@ static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *sr
     SDL_zero(ri);
     ri.bits_per_channel = 8;
     ri.channel_order = STBI_ORDER_RGB;
-    ri.num_channels = 0;
+    ri.ଅଙ୍କ_channels = 0;
 
     stbi__nv12 nv12;
     nv12.w = width;
@@ -102,23 +102,23 @@ static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *sr
     nv12.y = (stbi_uc *)dst;
     nv12.uv = nv12.y + (nv12.h * nv12.pitch);
 
-    void *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
-    if (!pixels) {
-        return false;
+    ଶୂନ୍ୟ *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
+    ଯଦି (!pixels) {
+        ଫେରନ୍ତୁ false;
     }
-    return true;
+    ଫେରନ୍ତୁ true;
 }
 #endif // SDL_HAVE_STB
 
-bool SDL_ConvertPixels_STB(int width, int height,
-                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_STB(ପୂର୍ଣ୍ଣସଂଖ୍ୟା width, ପୂର୍ଣ୍ଣସଂଖ୍ୟା height,
+                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ଅଚଳ ଶୂନ୍ୟ *src, ପୂର୍ଣ୍ଣସଂଖ୍ୟା src_pitch,
+                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ଶୂନ୍ୟ *dst, ପୂର୍ଣ୍ଣସଂଖ୍ୟା dst_pitch)
 {
 #ifdef SDL_HAVE_STB
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        if (dst_format == SDL_PIXELFORMAT_NV12) {
-            return SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
-        } else if (
+    ଯଦି (src_format == SDL_PIXELFORMAT_MJPG) {
+        ଯଦି (dst_format == SDL_PIXELFORMAT_NV12) {
+            ଫେରନ୍ତୁ SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
+        } ଅନ୍ୟଥା ଯଦି (
             dst_format == SDL_PIXELFORMAT_YV12 ||
             dst_format == SDL_PIXELFORMAT_IYUV ||
             dst_format == SDL_PIXELFORMAT_YUY2 ||
@@ -129,81 +129,81 @@ bool SDL_ConvertPixels_STB(int width, int height,
         ) {
             size_t temp_size = 0;
             size_t temp_pitch = 0;
-            if (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
-                return false;
+            ଯଦି (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
+                ଫେରନ୍ତୁ false;
             }
-            void *temp_pixels = SDL_malloc(temp_size);
-            if (!temp_pixels) {
-                return false;
+            ଶୂନ୍ୟ *temp_pixels = SDL_malloc(temp_size);
+            ଯଦି (!temp_pixels) {
+                ଫେରନ୍ତୁ false;
             }
 
-            if (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (int)temp_pitch)) {
+            ଯଦି (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)temp_pitch)) {
                 SDL_free(temp_pixels);
-                return false;
+                ଫେରନ୍ତୁ false;
             }
 
-            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (int)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
             SDL_free(temp_pixels);
-            return result;
+            ଫେରନ୍ତୁ result;
         }
     }
 
     bool result;
-    int w = 0, h = 0, format = 0;
-    int len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
-    void *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
-    if (!pixels) {
-        return false;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା w = 0, h = 0, format = 0;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
+    ଶୂନ୍ୟ *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
+    ଯଦି (!pixels) {
+        ଫେରନ୍ତୁ false;
     }
 
-    if (w == width && h == height) {
+    ଯଦି (w == width && h == height) {
         result = SDL_ConvertPixelsAndColorspace(w, h, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, pixels, width * 4, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else {
+    } ଅନ୍ୟଥା {
         result = SDL_SetError("Expected image size %dx%d, actual size %dx%d", width, height, w, h);
     }
     stbi_image_free(pixels);
 
-    return result;
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    ଫେରନ୍ତୁ result;
+#ଅନ୍ୟଥା
+    ଫେରନ୍ତୁ SDL_SetError("SDL not built with STB image support");
 #endif
 }
 
 #ifdef SDL_HAVE_STB
-static int IMG_LoadSTB_IO_read(void *user, char *data, int size)
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା IMG_LoadSTB_IO_read(ଶୂନ୍ୟ *user, ଅକ୍ଷର *data, ପୂର୍ଣ୍ଣସଂଖ୍ୟା size)
 {
     size_t amount = SDL_ReadIO((SDL_IOStream*)user, data, size);
-    return (int)amount;
+    ଫେରନ୍ତୁ (ପୂର୍ଣ୍ଣସଂଖ୍ୟା)amount;
 }
 
-static void IMG_LoadSTB_IO_skip(void *user, int n)
+ସ୍ଥିର ଶୂନ୍ୟ IMG_LoadSTB_IO_skip(ଶୂନ୍ୟ *user, ପୂର୍ଣ୍ଣସଂଖ୍ୟା n)
 {
     SDL_SeekIO((SDL_IOStream*)user, n, SDL_IO_SEEK_CUR);
 }
 
-static int IMG_LoadSTB_IO_eof(void *user)
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା IMG_LoadSTB_IO_eof(ଶୂନ୍ୟ *user)
 {
     SDL_IOStream *src = (SDL_IOStream*)user;
-    return SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
+    ଫେରନ୍ତୁ SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
 }
 
-static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
+ସ୍ଥିର SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
 {
     Sint64 start;
     Uint8 magic[26];
-    int w, h, format;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା w, h, format;
     stbi_uc *pixels;
     stbi_io_callbacks rw_callbacks;
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = ଖାଲି;
     bool use_palette = false;
-    unsigned int palette_colors[256];
+    unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା palette_colors[256];
 
     // src has already been validated
     start = SDL_TellIO(src);
 
-    if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-        const Uint8 PNG_COLOR_INDEXED = 3;
-        if (magic[0] == 0x89 &&
+    ଯଦି (SDL_ReadIO(src, magic, ଆକାର(magic)) == ଆକାର(magic)) {
+        ଅଚଳ Uint8 PNG_COLOR_INDEXED = 3;
+        ଯଦି (magic[0] == 0x89 &&
             magic[1] == 'P' &&
             magic[2] == 'N' &&
             magic[3] == 'G' &&
@@ -218,13 +218,13 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
     SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
 
     /* Load the image data */
-    rw_callbacks.read = IMG_LoadSTB_IO_read;
+    rw_callbacks.ପଠ = IMG_LoadSTB_IO_read;
     rw_callbacks.skip = IMG_LoadSTB_IO_skip;
     rw_callbacks.eof = IMG_LoadSTB_IO_eof;
     w = h = format = 0; /* silence warning */
-    if (use_palette) {
+    ଯଦି (use_palette) {
         /* Unused palette entries will be opaque white */
-        SDL_memset(palette_colors, 0xff, sizeof(palette_colors));
+        SDL_memset(palette_colors, 0xff, ଆକାର(palette_colors));
 
         pixels = stbi_load_from_callbacks_with_palette(
             &rw_callbacks,
@@ -234,7 +234,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             palette_colors,
             SDL_arraysize(palette_colors)
         );
-    } else {
+    } ଅନ୍ୟଥା {
         pixels = stbi_load_from_callbacks(
             &rw_callbacks,
             src,
@@ -244,12 +244,12 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             STBI_default
         );
     }
-    if (!pixels) {
+    ଯଦି (!pixels) {
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-        return NULL;
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    if (use_palette) {
+    ଯଦି (use_palette) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -257,35 +257,35 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w
         );
-        if (surface) {
+        ଯଦି (surface) {
             bool has_colorkey = false;
-            int colorkey_index = -1;
+            ପୂର୍ଣ୍ଣସଂଖ୍ୟା colorkey_index = -1;
             bool has_alpha = false;
             SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-            if (palette) {
-                int i;
+            ଯଦି (palette) {
+                ପୂର୍ଣ୍ଣସଂଖ୍ୟା i;
                 Uint8 *palette_bytes = (Uint8 *)palette_colors;
 
-                for (i = 0; i < palette->ncolors; i++) {
+                ପାଇଁ (i = 0; i < palette->ncolors; i++) {
                     palette->colors[i].r = *palette_bytes++;
                     palette->colors[i].g = *palette_bytes++;
                     palette->colors[i].b = *palette_bytes++;
                     palette->colors[i].a = *palette_bytes++;
-                    if (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
-                        if (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
+                    ଯଦି (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
+                        ଯଦି (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
                             has_colorkey = true;
                             colorkey_index = i;
-                        } else {
+                        } ଅନ୍ୟଥା {
                             /* Partial opacity or multiple colorkeys */
                             has_alpha = true;
                         }
                     }
                 }
             }
-            if (has_alpha) {
+            ଯଦି (has_alpha) {
                 SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
-            } else if (has_colorkey) {
-                SDL_SetSurfaceColorKey(surface, true, colorkey_index);
+            } ଅନ୍ୟଥା ଯଦି (has_colorkey) {
+                SDL_Set_Surface_Color_ଚାବି(surface, true, colorkey_index);
             }
 
             /* FIXME: This sucks. It'd be better to allocate the surface first, then
@@ -296,7 +296,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
+    } ଅନ୍ୟଥା ଯଦି (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -306,14 +306,14 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w * format
         );
-        if (surface) {
+        ଯଦି (surface) {
             /* Set a grayscale palette for gray images */
-            if (surface->format == SDL_PIXELFORMAT_INDEX8) {
+            ଯଦି (surface->format == SDL_PIXELFORMAT_INDEX8) {
                 SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-                if (palette) {
-                    int i;
+                ଯଦି (palette) {
+                    ପୂର୍ଣ୍ଣସଂଖ୍ୟା i;
 
-                    for (i = 0; i < palette->ncolors; i++) {
+                    ପାଇଁ (i = 0; i < palette->ncolors; i++) {
                         palette->colors[i].r = (Uint8)i;
                         palette->colors[i].g = (Uint8)i;
                         palette->colors[i].b = (Uint8)i;
@@ -329,16 +329,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey_alpha) {
+    } ଅନ୍ୟଥା ଯଦି (format == STBI_grey_alpha) {
         surface = SDL_CreateSurfaceUninitialized(w, h, SDL_PIXELFORMAT_RGBA32);
-        if (surface) {
+        ଯଦି (surface) {
             Uint8 *src_ptr = pixels;
             Uint8 *dst = (Uint8 *)surface->pixels;
-            int skip = surface->pitch - (surface->w * 4);
-            int row, col;
+            ପୂର୍ଣ୍ଣସଂଖ୍ୟା skip = surface->pitch - (surface->w * 4);
+            ପୂର୍ଣ୍ଣସଂଖ୍ୟା row, col;
 
-            for (row = 0; row < h; ++row) {
-                for (col = 0; col < w; ++col) {
+            ପାଇଁ (row = 0; row < h; ++row) {
+                ପାଇଁ (col = 0; col < w; ++col) {
                     Uint8 c = *src_ptr++;
                     Uint8 a = *src_ptr++;
                     *dst++ = c;
@@ -350,16 +350,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             }
             stbi_image_free(pixels);
         }
-    } else {
+    } ଅନ୍ୟଥା {
         SDL_SetError("Unknown image format: %d", format);
     }
 
-    if (!surface) {
+    ଯଦି (!surface) {
         /* The error message should already be set */
         stbi_image_free(pixels); /* calls SDL_free() */
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
-    return surface;
+    ଫେରନ୍ତୁ surface;
 }
 #endif // SDL_HAVE_STB
 
@@ -379,35 +379,35 @@ bool SDL_IsJPG(SDL_IOStream *src)
     /* Blame me, not Sam, if this doesn't work right. */
     /* And don't forget to report the problem to the the sdl list too! */
 
-    if (!src) {
-        return false;
+    ଯଦି (!src) {
+        ଫେରନ୍ତୁ false;
     }
 
     start = SDL_TellIO(src);
     is_JPG = false;
     in_scan = false;
-    if (SDL_ReadIO(src, magic, 2) == 2) {
-        if ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
+    ଯଦି (SDL_ReadIO(src, magic, 2) == 2) {
+        ଯଦି ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
             is_JPG = true;
-            while (is_JPG) {
-                if (SDL_ReadIO(src, magic, 2) != 2) {
+            ଯେତେବେଳେ (is_JPG) {
+                ଯଦି (SDL_ReadIO(src, magic, 2) != 2) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) && !in_scan ) {
+                } ଅନ୍ୟଥା ଯଦି ( (magic[0] != 0xFF) && !in_scan ) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
+                } ଅନ୍ୟଥା ଯଦି ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
                     /* Extra padding in JPEG (legal) */
                     /* or this is data and we are scanning */
                     SDL_SeekIO(src, -1, SDL_IO_SEEK_CUR);
-                } else if (magic[1] == 0xD9) {
+                } ଅନ୍ୟଥା ଯଦି (magic[1] == 0xD9) {
                     /* Got to end of good JPEG */
-                    break;
-                } else if ( in_scan && (magic[1] == 0x00) ) {
+                    ଭାଙ୍ଗ;
+                } ଅନ୍ୟଥା ଯଦି ( in_scan && (magic[1] == 0x00) ) {
                     /* This is an encoded 0xFF within the data */
-                } else if ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
+                } ଅନ୍ୟଥା ଯଦି ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
                     /* These have nothing else */
-                } else if (SDL_ReadIO(src, magic+2, 2) != 2) {
+                } ଅନ୍ୟଥା ଯଦି (SDL_ReadIO(src, magic+2, 2) != 2) {
                     is_JPG = false;
-                } else {
+                } ଅନ୍ୟଥା {
                     /* Yes, it's big-endian */
                     Sint64 innerStart;
                     Uint32 size;
@@ -415,15 +415,15 @@ bool SDL_IsJPG(SDL_IOStream *src)
                     innerStart = SDL_TellIO(src);
                     size = (magic[2] << 8) + magic[3];
                     end = SDL_SeekIO(src, size-2, SDL_IO_SEEK_CUR);
-                    if ( end != innerStart + size - 2 ) {
+                    ଯଦି ( end != innerStart + size - 2 ) {
                         is_JPG = false;
                     }
-                    if ( magic[1] == 0xDA ) {
+                    ଯଦି ( magic[1] == 0xDA ) {
                         /* Now comes the actual JPEG meat */
 #ifdef  FAST_IS_JPEG
                         /* Ok, I'm convinced.  It is a JPEG. */
-                        break;
-#else
+                        ଭାଙ୍ଗ;
+#ଅନ୍ୟଥା
                         /* I'm not convinced.  Prove it! */
                         in_scan = true;
 #endif
@@ -433,44 +433,44 @@ bool SDL_IsJPG(SDL_IOStream *src)
         }
     }
     SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-    return is_JPG;
+    ଫେରନ୍ତୁ is_JPG;
 }
 
 SDL_Surface *SDL_LoadJPG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = ଖାଲି;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        ଯାଅ done;
     }
 
-    if (!SDL_IsJPG(src)) {
+    ଯଦି (!SDL_IsJPG(src)) {
         SDL_SetError("File is not a JPEG file");
-        goto done;
+        ଯାଅ done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#ଅନ୍ୟଥା
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ଯଦି (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    ଫେରନ୍ତୁ surface;
 }
 
-SDL_Surface *SDL_LoadJPG(const char *file)
+SDL_Surface *SDL_LoadJPG(ଅଚଳ ଅକ୍ଷର *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ଯଦି (!stream) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    return SDL_LoadJPG_IO(stream, true);
+    ଫେରନ୍ତୁ SDL_LoadJPG_IO(stream, true);
 }
 
 bool SDL_IsPNG(SDL_IOStream *src)
@@ -481,9 +481,9 @@ bool SDL_IsPNG(SDL_IOStream *src)
 
     is_PNG = false;
     start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 0x89 &&
+    ଯଦି (start >= 0) {
+        ଯଦି (SDL_ReadIO(src, magic, ଆକାର(magic)) == ଆକାର(magic)) {
+            ଯଦି (magic[0] == 0x89 &&
                 magic[1] == 'P' &&
                 magic[2] == 'N' &&
                 magic[3] == 'G') {
@@ -493,77 +493,77 @@ bool SDL_IsPNG(SDL_IOStream *src)
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
 
-    return is_PNG;
+    ଫେରନ୍ତୁ is_PNG;
 }
 
 SDL_Surface *SDL_LoadPNG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = ଖାଲି;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        ଯାଅ done;
     }
 
-    if (!SDL_IsPNG(src)) {
+    ଯଦି (!SDL_IsPNG(src)) {
         SDL_SetError("File is not a PNG file");
-        goto done;
+        ଯାଅ done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#ଅନ୍ୟଥା
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ଯଦି (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    ଫେରନ୍ତୁ surface;
 }
 
-SDL_Surface *SDL_LoadPNG(const char *file)
+SDL_Surface *SDL_LoadPNG(ଅଚଳ ଅକ୍ଷର *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ଯଦି (!stream) {
+        ଫେରନ୍ତୁ ଖାଲି;
     }
 
-    return SDL_LoadPNG_IO(stream, true);
+    ଫେରନ୍ତୁ SDL_LoadPNG_IO(stream, true);
 }
 
 bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 {
     bool retval = false;
-    Uint8 *plte = NULL;
-    Uint8 *trns = NULL;
+    Uint8 *plte = ଖାଲି;
+    Uint8 *trns = ଖାଲି;
     bool free_surface = false;
 
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        goto done;
+        ଯାଅ done;
     }
     CHECK_PARAM(!dst) {
         SDL_InvalidParamError("dst");
-        goto done;
+        ଯାଅ done;
     }
 
 #ifdef SDL_HAVE_STB
-    int plte_size = 0;
-    int trns_size = 0;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା plte_size = 0;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା trns_size = 0;
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        if (!surface->palette) {
+    ଯଦି (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+        ଯଦି (!surface->palette) {
             SDL_SetError("Indexed surfaces must have a palette");
-            goto done;
+            ଯାଅ done;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_INDEX8) {
+        ଯଦି (surface->format != SDL_PIXELFORMAT_INDEX8) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_INDEX8);
-            if (!surface) {
-                goto done;
+            ଯଦି (!surface) {
+                ଯାଅ done;
             }
             free_surface = true;
         }
@@ -572,72 +572,72 @@ bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
         trns_size = surface->palette->ncolors;
         plte = (Uint8 *)SDL_malloc(plte_size);
         trns = (Uint8 *)SDL_malloc(trns_size);
-        if (!plte || !trns) {
-            goto done;
+        ଯଦି (!plte || !trns) {
+            ଯାଅ done;
         }
         SDL_Color *colors = surface->palette->colors;
-        for (int i = 0; i < surface->palette->ncolors; ++i) {
+        ପାଇଁ (ପୂର୍ଣ୍ଣସଂଖ୍ୟା i = 0; i < surface->palette->ncolors; ++i) {
             plte[i * 3 + 0] = colors[i].r;
             plte[i * 3 + 1] = colors[i].g;
             plte[i * 3 + 2] = colors[i].b;
             trns[i] = colors[i].a;
         }
-    } else {
-        if (surface->format != SDL_PIXELFORMAT_RGBA32) {
+    } ଅନ୍ୟଥା {
+        ଯଦି (surface->format != SDL_PIXELFORMAT_RGBA32) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-            if (!surface) {
-                goto done;
+            ଯଦି (!surface) {
+                ଯାଅ done;
             }
             free_surface = true;
         }
     }
 
     size_t size = 0;
-    void *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
-    if (png) {
-        if (SDL_WriteIO(dst, png, size)) {
+    ଶୂନ୍ୟ *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
+    ଯଦି (png) {
+        ଯଦି (SDL_WriteIO(dst, png, size)) {
             retval = true;
         }
         mz_free(png); /* calls SDL_free() */
-    } else {
+    } ଅନ୍ୟଥା {
         SDL_SetError("Failed to convert and save image");
     }
 
-#else
+#ଅନ୍ୟଥା
     SDL_SetError("SDL not built with STB image support");
 #endif
 
 done:
-    if (free_surface) {
+    ଯଦି (free_surface) {
         SDL_DestroySurface(surface);
     }
     SDL_free(plte);
     SDL_free(trns);
 
-    if (dst && closeio) {
+    ଯଦି (dst && closeio) {
         retval &= SDL_CloseIO(dst);
     }
-    return retval;
+    ଫେରନ୍ତୁ retval;
 }
 
-bool SDL_SavePNG(SDL_Surface *surface, const char *file)
+bool SDL_SavePNG(SDL_Surface *surface, ଅଚଳ ଅକ୍ଷର *file)
 {
 #ifdef SDL_HAVE_STB
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ଫେରନ୍ତୁ SDL_InvalidParamError("surface");
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
-        return SDL_SetError("Indexed surfaces must have a palette");
+    ଯଦି (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
+        ଫେରନ୍ତୁ SDL_SetError("Indexed surfaces must have a palette");
     }
     SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    ଯଦି (!stream) {
+        ଫେରନ୍ତୁ false;
     }
 
-    return SDL_SavePNG_IO(surface, stream, true);
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    ଫେରନ୍ତୁ SDL_SavePNG_IO(surface, stream, true);
+#ଅନ୍ୟଥା
+    ଫେରନ୍ତୁ SDL_SetError("SDL not built with STB image support");
 #endif
 }

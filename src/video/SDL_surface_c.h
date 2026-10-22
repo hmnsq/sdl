@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_surface_c_h_
 #define SDL_surface_c_h_
 
 // Useful functions and variables from SDL_surface.c
 
-#include "SDL_blit.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_blit.h"
 
 // Surface internal flags
-typedef Uint32 SDL_SurfaceDataFlags;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା Uint32 SDL_SurfaceDataFlags;
 
 #define SDL_INTERNAL_SURFACE_DONTFREE   0x00000001u /**< Surface is referenced internally */
-#define SDL_INTERNAL_SURFACE_STACK      0x00000002u /**< Surface is allocated on the stack */
+#define SDL_INTERNAL_SURFACE_ଗଦା      0x00000002u /**< Surface is allocated on the stack */
 #define SDL_INTERNAL_SURFACE_RLEACCEL   0x00000004u /**< Surface is RLE encoded */
 
 // Surface internal data definition
-struct SDL_Surface
+ସଂରଚନା SDL_Surface
 {
     // Public API definition
     SDL_SurfaceFlags flags;     /**< The flags of the surface, read-only */
     SDL_PixelFormat format;     /**< The format of the surface, read-only */
-    int w;                      /**< The width of the surface, read-only. */
-    int h;                      /**< The height of the surface, read-only. */
-    int pitch;                  /**< The distance in bytes between rows of pixels, read-only */
-    void *pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା w;                      /**< The width of the surface, read-only. */
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା h;                      /**< The height of the surface, read-only. */
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା pitch;                  /**< The distance in bytes between rows of pixels, read-only */
+    ଶୂନ୍ୟ *pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
 
-    int refcount;               /**< Application reference count, used when freeing surface */
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା refcount;               /**< Application reference count, used when freeing surface */
 
-    void *reserved;             /**< Reserved for internal use */
+    ଶୂନ୍ୟ *reserved;             /**< Reserved for internal use */
 
     // Private API definition
 
@@ -58,7 +58,7 @@ struct SDL_Surface
     SDL_PropertiesID props;
 
     /** detailed format for this surface */
-    const SDL_PixelFormatDetails *fmt;
+    ଅଚଳ SDL_PixelFormatDetails *fmt;
 
     /** Pixel colorspace */
     SDL_Colorspace colorspace;
@@ -67,11 +67,11 @@ struct SDL_Surface
     SDL_Palette *palette;
 
     /** Alternate representation of images */
-    int num_images;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା ଅଙ୍କ_images;
     SDL_Surface **images;
 
     /** information needed for surfaces requiring locks */
-    int locked;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା locked;
 
     /** clipping information */
     SDL_Rect clip_rect;
@@ -80,23 +80,23 @@ struct SDL_Surface
     SDL_BlitMap map;
 
     /** Original pixels when RLE is enabled */
-    void *saved_pixels;
+    ଶୂନ୍ୟ *saved_pixels;
 };
 
 // Surface functions
-extern bool SDL_SurfaceValid(SDL_Surface *surface);
-extern void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface);
-extern bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, int width, int height, size_t *size, size_t *pitch, bool minimalPitch);
-extern float SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace);
-extern float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace);
-extern float SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace);
-extern float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace);
-extern SDL_Surface *SDL_CreateSurfaceZeroed(int width, int height, SDL_PixelFormat format);
-extern SDL_Surface *SDL_CreateSurfaceUninitialized(int width, int height, SDL_PixelFormat format);
-extern SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale);
-extern SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format);
-extern bool SDL_IsBMP(SDL_IOStream *src);
-extern bool SDL_IsJPG(SDL_IOStream *src);
-extern bool SDL_IsPNG(SDL_IOStream *src);
+ବାହ୍ୟ bool SDL_SurfaceValid(SDL_Surface *surface);
+ବାହ୍ୟ ଶୂନ୍ୟ SDL_UpdateSurfaceLockFlag(SDL_Surface *surface);
+ବାହ୍ୟ bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, ପୂର୍ଣ୍ଣସଂଖ୍ୟା width, ପୂର୍ଣ୍ଣସଂଖ୍ୟା height, size_t *size, size_t *pitch, bool minimalPitch);
+ବାହ୍ୟ ଦଶମିକ SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace);
+ବାହ୍ୟ ଦଶମିକ SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace);
+ବାହ୍ୟ ଦଶମିକ SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace);
+ବାହ୍ୟ ଦଶମିକ SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace);
+ବାହ୍ୟ SDL_Surface *SDL_CreateSurfaceZeroed(ପୂର୍ଣ୍ଣସଂଖ୍ୟା width, ପୂର୍ଣ୍ଣସଂଖ୍ୟା height, SDL_PixelFormat format);
+ବାହ୍ୟ SDL_Surface *SDL_CreateSurfaceUninitialized(ପୂର୍ଣ୍ଣସଂଖ୍ୟା width, ପୂର୍ଣ୍ଣସଂଖ୍ୟା height, SDL_PixelFormat format);
+ବାହ୍ୟ SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, ଦଶମିକ display_scale);
+ବାହ୍ୟ SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, ଅଚଳ SDL_Rect *rect, SDL_PixelFormat format);
+ବାହ୍ୟ bool SDL_IsBMP(SDL_IOStream *src);
+ବାହ୍ୟ bool SDL_IsJPG(SDL_IOStream *src);
+ବାହ୍ୟ bool SDL_IsPNG(SDL_IOStream *src);
 
 #endif // SDL_surface_c_h_

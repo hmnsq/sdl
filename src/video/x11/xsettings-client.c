@@ -22,26 +22,26 @@
  * Author:  Owen Taylor, Red Hat, Inc.
  */
 
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_x11video.h"
 
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ଅନ୍ତର୍ଭାଵ <limits.h>
+#ଅନ୍ତର୍ଭାଵ <stdio.h>
+#ଅନ୍ତର୍ଭାଵ <stdlib.h>
+#ଅନ୍ତର୍ଭାଵ <string.h>
 
-#include "xsettings-client.h"
+#ଅନ୍ତର୍ଭାଵ "xsettings-client.h"
 
-struct _XSettingsClient
+ସଂରଚନା _XSettingsClient
 {
   Display *display;
-  int screen;
+  ପୂର୍ଣ୍ଣସଂଖ୍ୟା screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
-  void *cb_data;
+  ଶୂନ୍ୟ *cb_data;
 
   XSettingsGrabFunc grab;
   XSettingsGrabFunc ungrab;
@@ -54,44 +54,44 @@ struct _XSettingsClient
   XSettingsList *settings;
 };
 
-static void
+ସ୍ଥିର ଶୂନ୍ୟ
 notify_changes (XSettingsClient *client,
                 XSettingsList   *old_list)
 {
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  ଯଦି (!client->notify)
+    ଫେରନ୍ତୁ;
 
-  while (old_iter || new_iter)
+  ଯେତେବେଳେ (old_iter || new_iter)
     {
-      int cmp;
+      ପୂର୍ଣ୍ଣସଂଖ୍ୟା cmp;
 
-      if (old_iter && new_iter)
+      ଯଦି (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      ଅନ୍ୟଥା ଯଦି (old_iter)
         cmp = -1;
-      else
+      ଅନ୍ୟଥା
         cmp = 1;
 
-      if (cmp < 0)
+      ଯଦି (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
-                          NULL,
+                          ଖାଲି,
                           client->cb_data);
         }
-      else if (cmp == 0)
+      ଅନ୍ୟଥା ଯଦି (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          ଯଦି (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
                             XSETTINGS_ACTION_CHANGED,
                             new_iter->setting,
                             client->cb_data);
         }
-      else
+      ଅନ୍ୟଥା
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
@@ -99,44 +99,44 @@ notify_changes (XSettingsClient *client,
                           client->cb_data);
         }
 
-      if (old_iter)
+      ଯଦି (old_iter)
         old_iter = old_iter->next;
-      if (new_iter)
+      ଯଦି (new_iter)
         new_iter = new_iter->next;
     }
 }
 
-static int
+ସ୍ଥିର ପୂର୍ଣ୍ଣସଂଖ୍ୟା
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  ଫେରନ୍ତୁ True;
 }
 
-static char local_byte_order = '\0';
+ସ୍ଥିର ଅକ୍ଷର local_byte_order = '\0';
 
-#define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
+#define BYTES_ବାମ(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
 
-static XSettingsResult
+ସ୍ଥିର XSettingsResult
 fetch_card16 (XSettingsBuffer *buffer,
               CARD16          *result)
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  ଯଦି (BYTES_ବାମ (buffer) < 2)
+    ଫେରନ୍ତୁ XSETTINGS_ACCESS;
 
   x = *(CARD16 *)buffer->pos;
   buffer->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
+  ଯଦି (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  ଅନ୍ୟଥା
     *result = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  ଫେରନ୍ତୁ XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+ସ୍ଥିର XSettingsResult
 fetch_ushort (XSettingsBuffer *buffer,
               unsigned short  *result)
 {
@@ -144,59 +144,59 @@ fetch_ushort (XSettingsBuffer *buffer,
   XSettingsResult r;
 
   r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
+  ଯଦି (r == XSETTINGS_SUCCESS)
     *result = x;
 
-  return r;
+  ଫେରନ୍ତୁ r;
 }
 
-static XSettingsResult
+ସ୍ଥିର XSettingsResult
 fetch_card32 (XSettingsBuffer *buffer,
               CARD32          *result)
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  ଯଦି (BYTES_ବାମ (buffer) < 4)
+    ଫେରନ୍ତୁ XSETTINGS_ACCESS;
 
   x = *(CARD32 *)buffer->pos;
   buffer->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
+  ଯଦି (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  ଅନ୍ୟଥା
     *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  ଫେରନ୍ତୁ XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+ସ୍ଥିର XSettingsResult
 fetch_card8 (XSettingsBuffer *buffer,
              CARD8           *result)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  ଯଦି (BYTES_ବାମ (buffer) < 1)
+    ଫେରନ୍ତୁ XSETTINGS_ACCESS;
 
   *result = *(CARD8 *)buffer->pos;
   buffer->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  ଫେରନ୍ତୁ XSETTINGS_SUCCESS;
 }
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-static XSettingsList *
-parse_settings (unsigned char *data,
+ସ୍ଥିର XSettingsList *
+parse_settings (unsigned ଅକ୍ଷର *data,
                 size_t         len)
 {
   XSettingsBuffer buffer;
   XSettingsResult result = XSETTINGS_SUCCESS;
-  XSettingsList *settings = NULL;
+  XSettingsList *settings = ଖାଲି;
   CARD32 serial;
   CARD32 n_entries;
   CARD32 i;
-  XSettingsSetting *setting = NULL;
-  char buffer_byte_order = '\0';
+  XSettingsSetting *setting = ଖାଲି;
+  ଅକ୍ଷର buffer_byte_order = '\0';
 
   local_byte_order = xsettings_byte_order ();
 
@@ -204,27 +204,27 @@ parse_settings (unsigned char *data,
   buffer.len = len;
   buffer.byte_order = '\0';
 
-  result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
+  result = fetch_card8 (&buffer, (unsigned ଅକ୍ଷର *) &buffer_byte_order);
+  ଯଦି (buffer_byte_order != MSBFirst &&
       buffer_byte_order != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
       result = XSETTINGS_FAILED;
-      goto out;
+      ଯାଅ out;
     }
 
   buffer.byte_order = buffer_byte_order;
   buffer.pos += 3;
 
   result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ଯଦି (result != XSETTINGS_SUCCESS)
+    ଯାଅ out;
 
   result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ଯଦି (result != XSETTINGS_SUCCESS)
+    ଯାଅ out;
 
-  for (i = 0; i < n_entries; i++)
+  ପାଇଁ (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
@@ -232,35 +232,35 @@ parse_settings (unsigned char *data,
       size_t pad_len;
 
       result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ଯଦି (result != XSETTINGS_SUCCESS)
+        ଯାଅ out;
 
       buffer.pos += 1;
 
       result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ଯଦି (result != XSETTINGS_SUCCESS)
+        ଯାଅ out;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      ଯଦି (BYTES_ବାମ (&buffer) < pad_len)
         {
           result = XSETTINGS_ACCESS;
-          goto out;
+          ଯାଅ out;
         }
 
-      setting = malloc (sizeof *setting);
-      if (!setting)
+      setting = malloc (ଆକାର *setting);
+      ଯଦି (!setting)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          ଯାଅ out;
         }
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
       setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      ଯଦି (!setting->name)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          ଯାଅ out;
         }
 
       memcpy (setting->name, buffer.pos, name_len);
@@ -268,144 +268,144 @@ parse_settings (unsigned char *data,
       buffer.pos += pad_len;
 
       result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ଯଦି (result != XSETTINGS_SUCCESS)
+        ଯାଅ out;
       setting->last_change_serial = v_int;
 
-      switch (type)
+      ବାଛ (type)
         {
-        case XSETTINGS_TYPE_INT:
+        ସ୍ଥିତି XSETTINGS_TYPE_INT:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
 
           setting->data.v_int = (INT32)v_int;
-          break;
-        case XSETTINGS_TYPE_STRING:
+          ଭାଙ୍ଗ;
+        ସ୍ଥିତି XSETTINGS_TYPE_STRING:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
-              BYTES_LEFT (&buffer) < pad_len)
+          ଯଦି (v_int + 1 == 0 || /* Guard against wrap-around */
+              BYTES_ବାମ (&buffer) < pad_len)
             {
               result = XSETTINGS_ACCESS;
-              goto out;
+              ଯାଅ out;
             }
 
           setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          ଯଦି (!setting->data.v_string)
             {
               result = XSETTINGS_NO_MEM;
-              goto out;
+              ଯାଅ out;
             }
 
           memcpy (setting->data.v_string, buffer.pos, v_int);
           setting->data.v_string[v_int] = '\0';
           buffer.pos += pad_len;
 
-          break;
-        case XSETTINGS_TYPE_COLOR:
+          ଭାଙ୍ଗ;
+        ସ୍ଥିତି XSETTINGS_TYPE_COLOR:
           result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
           result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ଯଦି (result != XSETTINGS_SUCCESS)
+            ଯାଅ out;
 
-          break;
-        default:
+          ଭାଙ୍ଗ;
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
           /* Quietly ignore unknown types */
-          break;
+          ଭାଙ୍ଗ;
         }
 
       setting->type = type;
 
-      result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      result = xsettings_list_ଭର୍ତ୍ତି (&settings, setting);
+      ଯଦି (result != XSETTINGS_SUCCESS)
+        ଯାଅ out;
 
-      setting = NULL;
+      setting = ଖାଲି;
     }
 
  out:
 
-  if (result != XSETTINGS_SUCCESS)
+  ଯଦି (result != XSETTINGS_SUCCESS)
     {
-      switch (result)
+      ବାଛ (result)
         {
-        case XSETTINGS_NO_MEM:
+        ସ୍ଥିତି XSETTINGS_NO_MEM:
           fprintf(stderr, "Out of memory reading XSETTINGS property\n");
-          break;
-        case XSETTINGS_ACCESS:
+          ଭାଙ୍ଗ;
+        ସ୍ଥିତି XSETTINGS_ACCESS:
           fprintf(stderr, "Invalid XSETTINGS property (read off end)\n");
-          break;
-        case XSETTINGS_DUPLICATE_ENTRY:
+          ଭାଙ୍ଗ;
+        ସ୍ଥିତି XSETTINGS_DUPLICATE_ENTRY:
           fprintf (stderr, "Duplicate XSETTINGS entry for '%s'\n", setting->name);
           SDL_FALLTHROUGH;
-        case XSETTINGS_FAILED:
+        ସ୍ଥିତି XSETTINGS_FAILED:
           SDL_FALLTHROUGH;
-        case XSETTINGS_SUCCESS:
+        ସ୍ଥିତି XSETTINGS_SUCCESS:
           SDL_FALLTHROUGH;
-        case XSETTINGS_NO_ENTRY:
-          break;
+        ସ୍ଥିତି XSETTINGS_NO_ENTRY:
+          ଭାଙ୍ଗ;
         }
 
-      if (setting)
+      ଯଦି (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
-      settings = NULL;
+      settings = ଖାଲି;
 
     }
 
-  return settings;
+  ଫେରନ୍ତୁ settings;
 }
 
-static void
+ସ୍ଥିର ଶୂନ୍ୟ
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
-  unsigned long n_items;
+  ପୂର୍ଣ୍ଣସଂଖ୍ୟା format;
+  unsigned long n_ବସ୍ତୁଗୁଡ଼ିକ;
   unsigned long bytes_after;
-  unsigned char *data;
-  int result;
+  unsigned ଅକ୍ଷର *data;
+  ପୂର୍ଣ୍ଣସଂଖ୍ୟା result;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  ପୂର୍ଣ୍ଣସଂଖ୍ୟା (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
-  client->settings = NULL;
+  client->settings = ଖାଲି;
 
-  if (client->manager_window)
+  ଯଦି (client->manager_window)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
       result = X11_XGetWindowProperty (client->display, client->manager_window,
                                        client->xsettings_atom, 0, LONG_MAX,
                                        False, client->xsettings_atom,
-                                       &type, &format, &n_items, &bytes_after, &data);
+                                       &type, &format, &n_ବସ୍ତୁଗୁଡ଼ିକ, &bytes_after, &data);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      ଯଦି (result == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          ଯଦି (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          ଅନ୍ୟଥା ଯଦି (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
-            client->settings = parse_settings (data, n_items);
+          ଅନ୍ୟଥା
+            client->settings = parse_settings (data, n_ବସ୍ତୁଗୁଡ଼ିକ);
 
           X11_XFree (data);
         }
@@ -415,7 +415,7 @@ read_settings (XSettingsClient *client)
   xsettings_list_free (old_list);
 }
 
-static void
+ସ୍ଥିର ଶୂନ୍ୟ
 add_events (Display *display,
             Window   window,
             long     mask)
@@ -423,36 +423,36 @@ add_events (Display *display,
   XWindowAttributes attr;
 
   X11_XGetWindowAttributes (display, window, &attr);
-  X11_XSelectInput (display, window, attr.your_event_mask | mask);
+  X11_XSelect_ନିବେଶ (display, window, attr.your_event_mask | mask);
 }
 
-static void
+ସ୍ଥିର ଶୂନ୍ୟ
 check_manager_window (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
+  ଯଦି (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
-  if (client->grab)
+  ଯଦି (client->grab)
     client->grab (client->display);
-  else
+  ଅନ୍ୟଥା
     X11_XGrabServer (client->display);
 
   client->manager_window = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
-    X11_XSelectInput (client->display, client->manager_window,
+  ଯଦି (client->manager_window)
+    X11_XSelect_ନିବେଶ (client->display, client->manager_window,
                       PropertyChangeMask | StructureNotifyMask);
 
-  if (client->ungrab)
+  ଯଦି (client->ungrab)
     client->ungrab (client->display);
-  else
+  ଅନ୍ୟଥା
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  ଯଦି (client->manager_window && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
+      ଯଦି (!client->watch (client->manager_window, True,
                           PropertyChangeMask | StructureNotifyMask,
                           client->cb_data))
         {
@@ -460,7 +460,7 @@ check_manager_window (XSettingsClient *client)
            * after we ungrabbed
            */
           client->manager_window = None;
-          return;
+          ଫେରନ୍ତୁ;
         }
     }
 
@@ -470,32 +470,32 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      ପୂର୍ଣ୍ଣସଂଖ୍ୟା                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
-                      void                *cb_data)
+                      ଶୂନ୍ୟ                *cb_data)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
-                                               NULL, NULL);
+  ଫେରନ୍ତୁ xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
+                                               ଖାଲି, ଖାଲି);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      ପୂର୍ଣ୍ଣସଂଖ୍ୟା                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
-                                      void                *cb_data,
+                                      ଶୂନ୍ୟ                *cb_data,
                                       XSettingsGrabFunc    grab,
                                       XSettingsGrabFunc    ungrab)
 {
   XSettingsClient *client;
-  char buffer[256];
-  char *atom_names[3];
+  ଅକ୍ଷର buffer[256];
+  ଅକ୍ଷର *atom_names[3];
   Atom atoms[3];
 
-  client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  client = malloc (ଆକାର *client);
+  ଯଦି (!client)
+    ଫେରନ୍ତୁ ଖାଲି;
 
   client->display = display;
   client->screen = screen;
@@ -506,16 +506,16 @@ xsettings_client_new_with_grab_funcs (Display             *display,
   client->ungrab = ungrab;
 
   client->manager_window = None;
-  client->settings = NULL;
+  client->settings = ଖାଲି;
 
-  SDL_snprintf(buffer, sizeof(buffer), "_XSETTINGS_S%d", screen);
+  SDL_snprintf(buffer, ଆକାର(buffer), "_XSETTINGS_S%d", screen);
   atom_names[0] = buffer;
   atom_names[1] = "_XSETTINGS_SETTINGS";
   atom_names[2] = "MANAGER";
 
 #ifdef HAVE_XINTERNATOMS
   XInternAtoms (display, atom_names, 3, False, atoms);
-#else
+#ଅନ୍ୟଥା
   atoms[0] = X11_XInternAtom (display, atom_names[0], False);
   atoms[1] = X11_XInternAtom (display, atom_names[1], False);
   atoms[2] = X11_XInternAtom (display, atom_names[2], False);
@@ -527,94 +527,94 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
   /* Select on StructureNotify so we get MANAGER events
    */
-  add_events (display, RootWindow (display, screen), StructureNotifyMask);
+  add_events (display, ମୂଳ_Window (display, screen), StructureNotifyMask);
 
-  if (client->watch)
-    client->watch (RootWindow (display, screen), True, StructureNotifyMask,
+  ଯଦି (client->watch)
+    client->watch (ମୂଳ_Window (display, screen), True, StructureNotifyMask,
                    client->cb_data);
 
   check_manager_window (client);
 
-  return client;
+  ଫେରନ୍ତୁ client;
 }
 
 
-void
+ଶୂନ୍ୟ
 xsettings_client_set_grab_func   (XSettingsClient      *client,
                                   XSettingsGrabFunc     grab)
 {
   client->grab = grab;
 }
 
-void
+ଶୂନ୍ୟ
 xsettings_client_set_ungrab_func (XSettingsClient      *client,
                                   XSettingsGrabFunc     ungrab)
 {
   client->ungrab = ungrab;
 }
 
-void
+ଶୂନ୍ୟ
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
-    client->watch (RootWindow (client->display, client->screen),
+  ଯଦି (client->watch)
+    client->watch (ମୂଳ_Window (client->display, client->screen),
                    False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
+  ଯଦି (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
   xsettings_list_free (client->settings);
-  free (client);
+  ମୁକ୍ତ (client);
 }
 
 XSettingsResult
 xsettings_client_get_setting (XSettingsClient   *client,
-                              const char        *name,
+                              ଅଚଳ ଅକ୍ଷର        *name,
                               XSettingsSetting **setting)
 {
-  XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  XSettingsSetting *ସନ୍ଧାନ = xsettings_list_lookup (client->settings, name);
+  ଯଦି (ସନ୍ଧାନ)
     {
-      *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      *setting = xsettings_setting_copy (ସନ୍ଧାନ);
+      ଫେରନ୍ତୁ *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  ଅନ୍ୟଥା
+    ଫେରନ୍ତୁ XSETTINGS_NO_ENTRY;
 }
 
 Bool
 xsettings_client_process_event (XSettingsClient *client,
-                                const XEvent    *xev)
+                                ଅଚଳ XEvent    *xev)
 {
   /* The checks here will not unlikely cause us to reread
    * the properties from the manager window a number of
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  ଯଦି (xev->xany.window == ମୂଳ_Window (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
+      ଯଦି (xev->xany.type == ClientMessage &&
           xev->xclient.message_type == client->manager_atom &&
           xev->xclient.data.l[1] == client->selection_atom)
         {
           check_manager_window (client);
-          return True;
+          ଫେରନ୍ତୁ True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  ଅନ୍ୟଥା ଯଦି (xev->xany.window == client->manager_window)
     {
-      if (xev->xany.type == DestroyNotify)
+      ଯଦି (xev->xany.type == DestroyNotify)
         {
           check_manager_window (client);
-          return False;
+          ଫେରନ୍ତୁ False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      ଅନ୍ୟଥା ଯଦି (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          ଫେରନ୍ତୁ True;
         }
     }
 
-  return False;
+  ଫେରନ୍ତୁ False;
 }
 
 XSettingsSetting *
@@ -623,234 +623,234 @@ xsettings_setting_copy (XSettingsSetting *setting)
   XSettingsSetting *result;
   size_t str_len;
 
-  result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  result = malloc (ଆକାର *result);
+  ଯଦି (!result)
+    ଫେରନ୍ତୁ ଖାଲି;
 
   str_len = strlen (setting->name);
   result->name = malloc (str_len + 1);
-  if (!result->name)
-    goto err;
+  ଯଦି (!result->name)
+    ଯାଅ err;
 
   memcpy (result->name, setting->name, str_len + 1);
 
   result->type = setting->type;
 
-  switch (setting->type)
+  ବାଛ (setting->type)
     {
-    case XSETTINGS_TYPE_INT:
+    ସ୍ଥିତି XSETTINGS_TYPE_INT:
       result->data.v_int = setting->data.v_int;
-      break;
-    case XSETTINGS_TYPE_COLOR:
+      ଭାଙ୍ଗ;
+    ସ୍ଥିତି XSETTINGS_TYPE_COLOR:
       result->data.v_color = setting->data.v_color;
-      break;
-    case XSETTINGS_TYPE_STRING:
+      ଭାଙ୍ଗ;
+    ସ୍ଥିତି XSETTINGS_TYPE_STRING:
       str_len = strlen (setting->data.v_string);
       result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
-        goto err;
+      ଯଦି (!result->data.v_string)
+        ଯାଅ err;
 
       memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
-      break;
+      ଭାଙ୍ଗ;
     }
 
   result->last_change_serial = setting->last_change_serial;
 
-  return result;
+  ଫେରନ୍ତୁ result;
 
  err:
-  free(result->name); // This should NOT be SDL_free()
-  free(result); // This should NOT be SDL_free()
+  ମୁକ୍ତ(result->name); // This should NOT be SDL_free()
+  ମୁକ୍ତ(result); // This should NOT be SDL_free()
 
-  return NULL;
+  ଫେରନ୍ତୁ ଖାଲି;
 }
 
 XSettingsList *
 xsettings_list_copy (XSettingsList *list)
 {
-  XSettingsList *new = NULL;
+  XSettingsList *new = ଖାଲି;
   XSettingsList *old_iter = list;
-  XSettingsList *new_iter = NULL;
+  XSettingsList *new_iter = ଖାଲି;
 
-  while (old_iter)
+  ଯେତେବେଳେ (old_iter)
     {
-      XSettingsList *new_node;
+      XSettingsList *new_ଗଣ୍ଠି;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
-        goto error;
+      new_ଗଣ୍ଠି = malloc (ଆକାର *new_ଗଣ୍ଠି);
+      ଯଦି (!new_ଗଣ୍ଠି)
+        ଯାଅ error;
 
-      new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      new_ଗଣ୍ଠି->setting = xsettings_setting_copy (old_iter->setting);
+      ଯଦି (!new_ଗଣ୍ଠି->setting)
         {
-          free (new_node);
-          goto error;
+          ମୁକ୍ତ (new_ଗଣ୍ଠି);
+          ଯାଅ error;
         }
 
-      if (new_iter)
-        new_iter->next = new_node;
-      else
+      ଯଦି (new_iter)
+        new_iter->next = new_ଗଣ୍ଠି;
+      ଅନ୍ୟଥା
         {
-          new = new_node;
-          new->next = NULL;
+          new = new_ଗଣ୍ଠି;
+          new->next = ଖାଲି;
         }
 
 
-      new_iter = new_node;
+      new_iter = new_ଗଣ୍ଠି;
 
       old_iter = old_iter->next;
     }
 
-  return new;
+  ଫେରନ୍ତୁ new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  ଫେରନ୍ତୁ ଖାଲି;
 }
 
-int
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  ଯଦି (setting_a->type != setting_b->type)
+    ଫେରନ୍ତୁ 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  ଯଦି (strcmp (setting_a->name, setting_b->name) != 0)
+    ଫେରନ୍ତୁ 0;
 
-  switch (setting_a->type)
+  ବାଛ (setting_a->type)
     {
-    case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
-    case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
+    ସ୍ଥିତି XSETTINGS_TYPE_INT:
+      ଫେରନ୍ତୁ setting_a->data.v_int == setting_b->data.v_int;
+    ସ୍ଥିତି XSETTINGS_TYPE_COLOR:
+      ଫେରନ୍ତୁ (setting_a->data.v_color.red == setting_b->data.v_color.red &&
               setting_a->data.v_color.green == setting_b->data.v_color.green &&
               setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
               setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
-    case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+    ସ୍ଥିତି XSETTINGS_TYPE_STRING:
+      ଫେରନ୍ତୁ strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
     }
 
-  return 0;
+  ଫେରନ୍ତୁ 0;
 }
 
-void
+ଶୂନ୍ୟ
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
-    free (setting->data.v_string);
+  ଯଦି (setting->type == XSETTINGS_TYPE_STRING)
+    ମୁକ୍ତ (setting->data.v_string);
 
-  free(setting->name); // This should NOT be SDL_free()
-  free(setting); // This should NOT be SDL_free()
+  ମୁକ୍ତ(setting->name); // This should NOT be SDL_free()
+  ମୁକ୍ତ(setting); // This should NOT be SDL_free()
 }
 
-void
+ଶୂନ୍ୟ
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  ଯେତେବେଳେ (list)
     {
       XSettingsList *next = list->next;
 
       xsettings_setting_free (list->setting);
-      free (list);
+      ମୁକ୍ତ (list);
 
       list = next;
     }
 }
 
 XSettingsResult
-xsettings_list_insert (XSettingsList    **list,
+xsettings_list_ଭର୍ତ୍ତି (XSettingsList    **list,
                        XSettingsSetting  *setting)
 {
-  XSettingsList *node;
+  XSettingsList *ଗଣ୍ଠି;
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = ଖାଲି;
 
-  node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
-  node->setting = setting;
+  ଗଣ୍ଠି = malloc (ଆକାର *ଗଣ୍ଠି);
+  ଯଦି (!ଗଣ୍ଠି)
+    ଫେରନ୍ତୁ XSETTINGS_NO_MEM;
+  ଗଣ୍ଠି->setting = setting;
 
   iter = *list;
-  while (iter)
+  ଯେତେବେଳେ (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      ପୂର୍ଣ୍ଣସଂଖ୍ୟା cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
-        break;
-      else if (cmp == 0)
+      ଯଦି (cmp < 0)
+        ଭାଙ୍ଗ;
+      ଅନ୍ୟଥା ଯଦି (cmp == 0)
         {
-          free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          ମୁକ୍ତ (ଗଣ୍ଠି);
+          ଫେରନ୍ତୁ XSETTINGS_DUPLICATE_ENTRY;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  if (last)
-    last->next = node;
-  else
-    *list = node;
+  ଯଦି (last)
+    last->next = ଗଣ୍ଠି;
+  ଅନ୍ୟଥା
+    *list = ଗଣ୍ଠି;
 
-  node->next = iter;
+  ଗଣ୍ଠି->next = iter;
 
-  return XSETTINGS_SUCCESS;
+  ଫେରନ୍ତୁ XSETTINGS_SUCCESS;
 }
 
 XSettingsResult
 xsettings_list_delete (XSettingsList **list,
-                       const char     *name)
+                       ଅଚଳ ଅକ୍ଷର     *name)
 {
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = ଖାଲି;
 
   iter = *list;
-  while (iter)
+  ଯେତେବେଳେ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      ଯଦି (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
+          ଯଦି (last)
             last->next = iter->next;
-          else
+          ଅନ୍ୟଥା
             *list = iter->next;
 
           xsettings_setting_free (iter->setting);
-          free (iter);
+          ମୁକ୍ତ (iter);
 
-          return XSETTINGS_SUCCESS;
+          ଫେରନ୍ତୁ XSETTINGS_SUCCESS;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  return XSETTINGS_FAILED;
+  ଫେରନ୍ତୁ XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
 xsettings_list_lookup (XSettingsList *list,
-                       const char    *name)
+                       ଅଚଳ ଅକ୍ଷର    *name)
 {
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  ଯେତେବେଳେ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      ଯଦି (strcmp (name, iter->setting->name) == 0)
+        ଫେରନ୍ତୁ iter->setting;
 
       iter = iter->next;
     }
 
-  return NULL;
+  ଫେରନ୍ତୁ ଖାଲି;
 }
 
-char
-xsettings_byte_order (void)
+ଅକ୍ଷର
+xsettings_byte_order (ଶୂନ୍ୟ)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  ଫେରନ୍ତୁ (*(ଅକ୍ଷର *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
 #endif /* SDL_VIDEO_DRIVER_X11 */

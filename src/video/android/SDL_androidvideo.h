@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_androidvideo_h_
 #define SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ଅନ୍ତର୍ଭାଵ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetScreenResolution(ପୂର୍ଣ୍ଣସଂଖ୍ୟା surfaceWidth, ପୂର୍ଣ୍ଣସଂଖ୍ୟା surfaceHeight, ପୂର୍ଣ୍ଣସଂଖ୍ୟା deviceWidth, ପୂର୍ଣ୍ଣସଂଖ୍ୟା deviceHeight, ଦଶମିକ density, ଦଶମିକ rate);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetScreenHDRHeadroom(ଦଶମିକ headroom);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetFormat(ପୂର୍ଣ୍ଣସଂଖ୍ୟା format_wanted, ପୂର୍ଣ୍ଣସଂଖ୍ୟା format_got);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetOrientation(SDL_DisplayOrientation orientation);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SendResize(SDL_Window *window);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetWindowSafeAreaInsets(ପୂର୍ଣ୍ଣସଂଖ୍ୟା ବାମ, ପୂର୍ଣ୍ଣସଂଖ୍ୟା ଡାହାଣ, ପୂର୍ଣ୍ଣସଂଖ୍ୟା ଶୀର୍ଷ, ପୂର୍ଣ୍ଣସଂଖ୍ୟା bottom);
+ବାହ୍ୟ ଶୂନ୍ୟ Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+ସଂରଚନା SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା isPaused;
+    ପୂର୍ଣ୍ଣସଂଖ୍ୟା isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_SurfaceWidth;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_SurfaceHeight;
+ବାହ୍ୟ ଦଶମିକ Android_ScreenDensity;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_Safe_Inset_ବାମ;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_Safe_Inset_ଡାହାଣ;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_Safe_Inset_ଶୀର୍ଷ;
+ବାହ୍ୟ ପୂର୍ଣ୍ଣସଂଖ୍ୟା Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

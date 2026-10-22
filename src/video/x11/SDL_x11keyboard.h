@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ଅନ୍ତର୍ଭାଵ "SDL_internal.h"
 
 #ifndef SDL_x11keyboard_h_
 #define SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ bool X11_InitKeyboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_QuitKeyboard(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_Create_ନିବେଶ_Context(SDL_WindowData *data);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_Destroy_ନିବେଶ_Context(SDL_WindowData *data);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_ClearComposition(SDL_WindowData *data);
+ବାହ୍ୟ bool X11_Start_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ବାହ୍ୟ bool X11_Stop_Text_ନିବେଶ(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ bool X11_Update_Text_ନିବେଶ_Area(SDL_VideoDevice *_this, SDL_Window *window);
+ବାହ୍ୟ bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ବାହ୍ୟ ଶୂନ୍ୟ X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11keyboard_h_
