@@ -18,328 +18,328 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#অন্তর্ভাব "SDL_x11video.h"
 
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_scancode_tables_c.h"
+#অন্তর্ভাব "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাব "../../events/SDL_scancode_tables_c.h"
 
-#include <X11/keysym.h>
+#অন্তর্ভাব <X11/keysym.h>
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-#include <X11/XKBlib.h>
+#অন্তর্ভাব <X11/XKBlib.h>
 #endif
 
-#include "../../events/imKStoUCS.h"
-#include "../../events/SDL_keysym_to_scancode_c.h"
-#include "../../events/SDL_keysym_to_keycode_c.h"
+#অন্তর্ভাব "../../events/imKStoUCS.h"
+#অন্তর্ভাব "../../events/SDL_keysym_to_scancode_c.h"
+#অন্তর্ভাব "../../events/SDL_keysym_to_keycode_c.h"
 
 #ifdef X_HAVE_UTF8_STRING
-#include <locale.h>
+#অন্তর্ভাব <locale.h>
 #endif
 
-static SDL_ScancodeTable scancode_set[] = {
+স্থির SDL_ScancodeTable scancode_set[] = {
     SDL_SCANCODE_TABLE_DARWIN,
     SDL_SCANCODE_TABLE_XFREE86_1,
     SDL_SCANCODE_TABLE_XFREE86_2,
     SDL_SCANCODE_TABLE_XVNC,
 };
 
-static bool X11_ScancodeIsRemappable(SDL_Scancode scancode)
+স্থির bool X11_ScancodeIsRemappable(SDL_Scancode scancode)
 {
     /*
      * XKB remappings can assign different keysyms for these scancodes, but
      * as these keys are in fixed positions, the scancodes themselves shouldn't
      * be switched. Mark them as not being remappable.
      */
-    switch (scancode) {
-    case SDL_SCANCODE_ESCAPE:
-    case SDL_SCANCODE_CAPSLOCK:
-    case SDL_SCANCODE_NUMLOCKCLEAR:
-    case SDL_SCANCODE_LSHIFT:
-    case SDL_SCANCODE_RSHIFT:
-    case SDL_SCANCODE_LCTRL:
-    case SDL_SCANCODE_RCTRL:
-    case SDL_SCANCODE_LALT:
-    case SDL_SCANCODE_RALT:
-    case SDL_SCANCODE_LGUI:
-    case SDL_SCANCODE_RGUI:
-        return false;
-    default:
-        return true;
+    নির্বাচন (scancode) {
+    ক্ষেত্র SDL_SCANCODE_ESCAPE:
+    ক্ষেত্র SDL_SCANCODE_CAPSLOCK:
+    ক্ষেত্র SDL_SCANCODE_NUMLOCKCLEAR:
+    ক্ষেত্র SDL_SCANCODE_LSHIFT:
+    ক্ষেত্র SDL_SCANCODE_RSHIFT:
+    ক্ষেত্র SDL_SCANCODE_LCTRL:
+    ক্ষেত্র SDL_SCANCODE_RCTRL:
+    ক্ষেত্র SDL_SCANCODE_LALT:
+    ক্ষেত্র SDL_SCANCODE_RALT:
+    ক্ষেত্র SDL_SCANCODE_LGUI:
+    ক্ষেত্র SDL_SCANCODE_RGUI:
+        ফেরত false;
+    পূর্বনির্ধারিত:
+        ফেরত true;
     }
 }
 
-static KeySym X11_KeyCodeToSym(SDL_VideoDevice *_this, KeyCode keycode, unsigned int group, unsigned int level)
+স্থির চাবি_Sym X11_চাবি_Code_To_Sym(SDL_VideoDevice *_this, চাবি_Code_2 keycode, unsigned পূর্ণসংখ্যা group, unsigned পূর্ণসংখ্যা level)
 {
-    SDL_VideoData *data = _this->internal;
-    KeySym keysym;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
+    চাবি_Sym keysym;
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    if (data->keyboard.xkb_enabled) {
-        keysym = X11_XkbKeycodeToKeysym(data->display, keycode, group, level);
-    } else
+    যদি (তথ্য->keyboard.xkb_enabled) {
+        keysym = X11_XkbKeycodeToKeysym(তথ্য->display, keycode, group, level);
+    } অন্যথা
 #endif
     {
         // TODO: Handle groups on the legacy path.
-        if (keycode >= data->keyboard.core.min_keycode && keycode <= data->keyboard.core.max_keycode) {
-            keysym = data->keyboard.core.keysym_map[(keycode - data->keyboard.core.min_keycode) * data->keyboard.core.keysyms_per_key];
-        } else {
-            keysym = NoSymbol;
+        যদি (keycode >= তথ্য->keyboard.core.min_keycode && keycode <= তথ্য->keyboard.core.max_keycode) {
+            keysym = তথ্য->keyboard.core.keysym_map[(keycode - তথ্য->keyboard.core.min_keycode) * তথ্য->keyboard.core.keysyms_per_চাবি];
+        } অন্যথা {
+            keysym = No_প্রতীক;
         }
     }
 
-    return keysym;
+    ফেরত keysym;
 }
 
 // This function only correctly maps letters and numbers for keyboards in US QWERTY layout
-static SDL_Scancode X11_KeyCodeToSDLScancode(SDL_VideoDevice *_this, KeyCode keycode)
+স্থির SDL_Scancode X11_চাবি_Code_To_SDLScancode(SDL_VideoDevice *_this, চাবি_Code_2 keycode)
 {
-    const KeySym keysym = X11_KeyCodeToSym(_this, keycode, 0, 0);
+    ধ্রুবক চাবি_Sym keysym = X11_চাবি_Code_To_Sym(_this, keycode, 0, 0);
 
-    if (keysym == NoSymbol) {
-        return SDL_SCANCODE_UNKNOWN;
+    যদি (keysym == No_প্রতীক) {
+        ফেরত SDL_SCANCODE_UNKNOWN;
     }
 
-    return SDL_GetScancodeFromKeySym(keysym, keycode);
+    ফেরত SDL_Get_Scancode_From_চাবি_Sym(keysym, keycode);
 }
 
 #ifdef X_HAVE_UTF8_STRING
-static bool X11_InitIM(SDL_VideoData *videodata);
+স্থির bool X11_InitIM(SDL_Video_তথ্য *videodata);
 
-static void im_instantiate_handler(Display *display, XPointer clientData, XPointer callData)
+স্থির শূন্য im_instantiate_handler(Display *display, XPointer client_তথ্য, XPointer call_তথ্য)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)clientData;
+    SDL_Video_তথ্য *videodata = (SDL_Video_তথ্য *)client_তথ্য;
 
-    if (X11_InitIM(videodata)) {
-        X11_XUnregisterIMInstantiateCallback(videodata->display, NULL, NULL, NULL, im_instantiate_handler, clientData);
+    যদি (X11_InitIM(videodata)) {
+        X11_XUnregisterIMInstantiateCallback(videodata->display, ফাঁকা, ফাঁকা, ফাঁকা, im_instantiate_handler, client_তথ্য);
     }
 }
 
-static void im_destroyed_handler(XIM im, XPointer clientData, XPointer callData)
+স্থির শূন্য im_destroyed_handler(XIM im, XPointer client_তথ্য, XPointer call_তথ্য)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)clientData;
+    SDL_Video_তথ্য *videodata = (SDL_Video_তথ্য *)client_তথ্য;
 
-    videodata->im = NULL;
-    X11_XRegisterIMInstantiateCallback(videodata->display, NULL, NULL, NULL, im_instantiate_handler, clientData);
+    videodata->im = ফাঁকা;
+    X11_XRegisterIMInstantiateCallback(videodata->display, ফাঁকা, ফাঁকা, ফাঁকা, im_instantiate_handler, client_তথ্য);
 }
 
-static bool X11_InitIM(SDL_VideoData *videodata)
+স্থির bool X11_InitIM(SDL_Video_তথ্য *videodata)
 {
     /* Set the locale, and call XSetLocaleModifiers before XOpenIM so that
      * Compose keys will work correctly.
      */
-    char *prev_locale = setlocale(LC_ALL, NULL);
-    char *prev_xmods = X11_XSetLocaleModifiers(NULL);
+    অক্ষর *পূর্ব_locale = setlocale(LC_ALL, ফাঁকা);
+    অক্ষর *পূর্ব_xmods = X11_XSetLocaleModifiers(ফাঁকা);
 
-    if (prev_locale) {
-        prev_locale = SDL_strdup(prev_locale);
+    যদি (পূর্ব_locale) {
+        পূর্ব_locale = SDL_strdup(পূর্ব_locale);
     }
 
-    if (prev_xmods) {
-        prev_xmods = SDL_strdup(prev_xmods);
+    যদি (পূর্ব_xmods) {
+        পূর্ব_xmods = SDL_strdup(পূর্ব_xmods);
     }
 
-    (void)setlocale(LC_ALL, "");
+    (শূন্য)setlocale(LC_ALL, "");
     X11_XSetLocaleModifiers("");
 
-    XIM im = X11_XOpenIM(videodata->display, NULL, NULL, NULL);
+    XIM im = X11_XOpenIM(videodata->display, ফাঁকা, ফাঁকা, ফাঁকা);
 
     /* Reset the locale + X locale modifiers back to how they were,
      * locale first because the X locale modifiers depend on it.
      */
-    (void)setlocale(LC_ALL, prev_locale);
-    X11_XSetLocaleModifiers(prev_xmods);
+    (শূন্য)setlocale(LC_ALL, পূর্ব_locale);
+    X11_XSetLocaleModifiers(পূর্ব_xmods);
 
-    SDL_free(prev_locale);
-    SDL_free(prev_xmods);
+    SDL_free(পূর্ব_locale);
+    SDL_free(পূর্ব_xmods);
 
-    if (im) {
+    যদি (im) {
         videodata->im = im;
 
         XIMCallback destroyed_callback;
-        destroyed_callback.client_data = (XPointer)videodata;
+        destroyed_callback.client_তথ্য_2 = (XPointer)videodata;
         destroyed_callback.callback = (XIMProc)im_destroyed_handler;
 
-        X11_XSetIMValues(im, XNDestroyCallback, &destroyed_callback, (char *)NULL);
+        X11_XSetIMValues(im, XNDestroyCallback, &destroyed_callback, (অক্ষর *)ফাঁকা);
 
         /* Attach the new IC to any existing windows.
          *
          * If we wound up here before any old input contexts were destroyed,
          * they will be recreated in the IC destroyed callback.
          */
-        for (int i = 0; i < videodata->numwindows; ++i) {
-            SDL_WindowData *w = videodata->windowlist[i];
-            if (!w->ic) {
-                X11_CreateInputContext(w);
+        জন্য (পূর্ণসংখ্যা i = 0; i < videodata->numwindows; ++i) {
+            SDL_Window_তথ্য *w = videodata->windowlist[i];
+            যদি (!w->ic) {
+                X11_Create_প্রবেশ_Context(w);
             }
         }
 
-        return true;
+        ফেরত true;
     }
 
-    return false;
+    ফেরত false;
 }
 #endif // X_HAVE_UTF8_STRING
 
 bool X11_InitKeyboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    int i = 0;
-    int j = 0;
-    int min_keycode, max_keycode;
-    struct
+    SDL_Video_তথ্য *তথ্য = _this->internal;
+    পূর্ণসংখ্যা i = 0;
+    পূর্ণসংখ্যা j = 0;
+    পূর্ণসংখ্যা min_keycode, max_keycode;
+    কাঠামো
     {
         SDL_Scancode scancode;
-        KeySym keysym;
-        int value;
+        চাবি_Sym keysym;
+        পূর্ণসংখ্যা মান;
     } fingerprint[] = {
         { SDL_SCANCODE_HOME, XK_Home, 0 },
         { SDL_SCANCODE_PAGEUP, XK_Prior, 0 },
         { SDL_SCANCODE_UP, XK_Up, 0 },
-        { SDL_SCANCODE_LEFT, XK_Left, 0 },
+        { SDL_SCANCODE_বাম, XK_বাম, 0 },
         { SDL_SCANCODE_DELETE, XK_Delete, 0 },
         { SDL_SCANCODE_KP_ENTER, XK_KP_Enter, 0 },
     };
-    int best_distance;
-    int best_index;
-    int distance;
+    পূর্ণসংখ্যা best_distance;
+    পূর্ণসংখ্যা best_সূচক;
+    পূর্ণসংখ্যা distance;
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    int xkb_major = XkbMajorVersion;
-    int xkb_minor = XkbMinorVersion;
+    পূর্ণসংখ্যা xkb_major = XkbMajorVersion;
+    পূর্ণসংখ্যা xkb_minor = XkbMinorVersion;
 
-    if (X11_XkbQueryExtension(data->display, NULL, &data->keyboard.xkb.event, NULL, &xkb_major, &xkb_minor)) {
+    যদি (X11_XkbQueryExtension(তথ্য->display, ফাঁকা, &তথ্য->keyboard.xkb.event, ফাঁকা, &xkb_major, &xkb_minor)) {
         Bool xkb_repeat = 0;
-        data->keyboard.xkb_enabled = true;
-        data->keyboard.xkb.desc_ptr = X11_XkbGetMap(data->display, XkbAllClientInfoMask, XkbUseCoreKbd);
+        তথ্য->keyboard.xkb_enabled = true;
+        তথ্য->keyboard.xkb.desc_ptr = X11_XkbGetMap(তথ্য->display, XkbAllClientInfoMask, XkbUseCoreKbd);
 
         // This will remove KeyRelease events for held keys.
-        X11_XkbSetDetectableAutoRepeat(data->display, True, &xkb_repeat);
+        X11_XkbSetDetectableAutoRepeat(তথ্য->display, True, &xkb_repeat);
 
         // Enable the key mapping and state events.
-        X11_XkbSelectEvents(data->display, XkbUseCoreKbd,
+        X11_XkbSelectEvents(তথ্য->display, XkbUseCoreKbd,
                             XkbNewKeyboardNotifyMask | XkbMapNotifyMask | XkbStateNotifyMask,
                             XkbNewKeyboardNotifyMask | XkbMapNotifyMask | XkbStateNotifyMask);
-        X11_XkbSelectEventDetails(data->display, XkbUseCoreKbd, XkbStateNotify, XkbGroupStateMask | XkbModifierStateMask, XkbGroupStateMask | XkbModifierStateMask);
-    } else
+        X11_XkbSelectEventDetails(তথ্য->display, XkbUseCoreKbd, XkbStateNotify, XkbGroupStateMask | XkbModifierStateMask, XkbGroupStateMask | XkbModifierStateMask);
+    } অন্যথা
 #endif
     {
         // If XKB isn't available, initialize the legacy path.
-        X11_XDisplayKeycodes(data->display, &data->keyboard.core.min_keycode, &data->keyboard.core.max_keycode);
-        data->keyboard.core.keysym_map = X11_XGetKeyboardMapping(data->display, data->keyboard.core.min_keycode,
-                                                              data->keyboard.core.max_keycode - data->keyboard.core.min_keycode,
-                                                              &data->keyboard.core.keysyms_per_key);
+        X11_XDisplayKeycodes(তথ্য->display, &তথ্য->keyboard.core.min_keycode, &তথ্য->keyboard.core.max_keycode);
+        তথ্য->keyboard.core.keysym_map = X11_XGetKeyboardMapping(তথ্য->display, তথ্য->keyboard.core.min_keycode,
+                                                              তথ্য->keyboard.core.max_keycode - তথ্য->keyboard.core.min_keycode,
+                                                              &তথ্য->keyboard.core.keysyms_per_চাবি);
     }
 
     // Open a connection to the X input manager
 #ifdef X_HAVE_UTF8_STRING
-    if (SDL_X11_HAVE_UTF8) {
-        if (!X11_InitIM(data)) {
-            X11_XRegisterIMInstantiateCallback(data->display, NULL, NULL, NULL, im_instantiate_handler, (XPointer)data);
+    যদি (SDL_X11_HAVE_UTF8) {
+        যদি (!X11_InitIM(তথ্য)) {
+            X11_XRegisterIMInstantiateCallback(তথ্য->display, ফাঁকা, ফাঁকা, ফাঁকা, im_instantiate_handler, (XPointer)তথ্য);
         }
     }
 #endif
     // Try to determine which scancodes are being used based on fingerprint
     best_distance = SDL_arraysize(fingerprint) + 1;
-    best_index = -1;
-    X11_XDisplayKeycodes(data->display, &min_keycode, &max_keycode);
-    for (i = 0; i < SDL_arraysize(fingerprint); ++i) {
-        fingerprint[i].value = X11_XKeysymToKeycode(data->display, fingerprint[i].keysym) - min_keycode;
+    best_সূচক = -1;
+    X11_XDisplayKeycodes(তথ্য->display, &min_keycode, &max_keycode);
+    জন্য (i = 0; i < SDL_arraysize(fingerprint); ++i) {
+        fingerprint[i].মান = X11_XKeysymToKeycode(তথ্য->display, fingerprint[i].keysym) - min_keycode;
     }
-    for (i = 0; i < SDL_arraysize(scancode_set); ++i) {
-        int table_size;
-        const SDL_Scancode *table = SDL_GetScancodeTable(scancode_set[i], &table_size);
+    জন্য (i = 0; i < SDL_arraysize(scancode_set); ++i) {
+        পূর্ণসংখ্যা table_আকার;
+        ধ্রুবক SDL_Scancode *table = SDL_GetScancodeTable(scancode_set[i], &table_আকার);
 
         distance = 0;
-        for (j = 0; j < SDL_arraysize(fingerprint); ++j) {
-            if (fingerprint[j].value < 0 || fingerprint[j].value >= table_size) {
+        জন্য (j = 0; j < SDL_arraysize(fingerprint); ++j) {
+            যদি (fingerprint[j].মান < 0 || fingerprint[j].মান >= table_আকার) {
                 distance += 1;
-            } else if (table[fingerprint[j].value] != fingerprint[j].scancode) {
+            } অন্যথা যদি (table[fingerprint[j].মান] != fingerprint[j].scancode) {
                 distance += 1;
             }
         }
-        if (distance < best_distance) {
+        যদি (distance < best_distance) {
             best_distance = distance;
-            best_index = i;
+            best_সূচক = i;
         }
     }
-    if (best_index < 0 || best_distance > 2) {
+    যদি (best_সূচক < 0 || best_distance > 2) {
         // This is likely to be SDL_SCANCODE_TABLE_XFREE86_2 with remapped keys, double check a rarely remapped value
-        int fingerprint_value = X11_XKeysymToKeycode(data->display, 0x1008FF5B /* XF86Documents */) - min_keycode;
-        if (fingerprint_value == 235) {
-            for (i = 0; i < SDL_arraysize(scancode_set); ++i) {
-                if (scancode_set[i] == SDL_SCANCODE_TABLE_XFREE86_2) {
-                    best_index = i;
+        পূর্ণসংখ্যা fingerprint_মান = X11_XKeysymToKeycode(তথ্য->display, 0x1008FF5B /* XF86Documents */) - min_keycode;
+        যদি (fingerprint_মান == 235) {
+            জন্য (i = 0; i < SDL_arraysize(scancode_set); ++i) {
+                যদি (scancode_set[i] == SDL_SCANCODE_TABLE_XFREE86_2) {
+                    best_সূচক = i;
                     best_distance = 0;
-                    break;
+                    বিরতি;
                 }
             }
         }
     }
-    if (best_index >= 0 && best_distance <= 2) {
-        int table_size;
-        const SDL_Scancode *table = SDL_GetScancodeTable(scancode_set[best_index], &table_size);
+    যদি (best_সূচক >= 0 && best_distance <= 2) {
+        পূর্ণসংখ্যা table_আকার;
+        ধ্রুবক SDL_Scancode *table = SDL_GetScancodeTable(scancode_set[best_সূচক], &table_আকার);
 
 #ifdef DEBUG_KEYBOARD
-        SDL_Log("Using scancode set %d, min_keycode = %d, max_keycode = %d, table_size = %d", best_index, min_keycode, max_keycode, table_size);
+        SDL_Log("Using scancode set %d, min_keycode = %d, max_keycode = %d, table_size = %d", best_সূচক, min_keycode, max_keycode, table_আকার);
 #endif
         // This should never happen, but just in case...
-        if (table_size > (SDL_arraysize(data->keyboard.key_layout) - min_keycode)) {
-            table_size = (SDL_arraysize(data->keyboard.key_layout) - min_keycode);
+        যদি (table_আকার > (SDL_arraysize(তথ্য->keyboard.চাবি_layout) - min_keycode)) {
+            table_আকার = (SDL_arraysize(তথ্য->keyboard.চাবি_layout) - min_keycode);
         }
-        SDL_memcpy(&data->keyboard.key_layout[min_keycode], table, sizeof(SDL_Scancode) * table_size);
+        SDL_memcpy(&তথ্য->keyboard.চাবি_layout[min_keycode], table, আকার(SDL_Scancode) * table_আকার);
 
         /* Scancodes represent physical locations on the keyboard, unaffected by keyboard mapping.
            However, there are a number of extended scancodes that have no standard location, so use
            the X11 mapping for all non-character keys.
          */
-        for (i = min_keycode; i <= max_keycode; ++i) {
-            SDL_Scancode scancode = X11_KeyCodeToSDLScancode(_this, i);
+        জন্য (i = min_keycode; i <= max_keycode; ++i) {
+            SDL_Scancode scancode = X11_চাবি_Code_To_SDLScancode(_this, i);
 #ifdef DEBUG_KEYBOARD
             {
-                KeySym sym;
-                sym = X11_KeyCodeToSym(_this, (KeyCode)i, 0);
+                চাবি_Sym sym;
+                sym = X11_চাবি_Code_To_Sym(_this, (চাবি_Code_2)i, 0);
                 SDL_Log("code = %d, sym = 0x%X (%s) ", i - min_keycode,
-                        (unsigned int)sym, sym == NoSymbol ? "NoSymbol" : X11_XKeysymToString(sym));
+                        (unsigned পূর্ণসংখ্যা)sym, sym == No_প্রতীক ? "NoSymbol" : X11_XKeysymToString(sym));
             }
 #endif
-            if (scancode == data->keyboard.key_layout[i]) {
-                continue;
+            যদি (scancode == তথ্য->keyboard.চাবি_layout[i]) {
+                চালু;
             }
-            if ((SDL_GetKeymapKeycode(NULL, scancode, SDL_KMOD_NONE) & (SDLK_SCANCODE_MASK | SDLK_EXTENDED_MASK)) && X11_ScancodeIsRemappable(scancode)) {
+            যদি ((SDL_GetKeymapKeycode(ফাঁকা, scancode, SDL_KMOD_NONE) & (SDLK_SCANCODE_MASK | SDLK_EXTENDED_MASK)) && X11_ScancodeIsRemappable(scancode)) {
                 // Not a character key and the scancode is safe to remap
 #ifdef DEBUG_KEYBOARD
-                SDL_Log("Changing scancode, was %d (%s), now %d (%s)", data->key_layout[i], SDL_GetScancodeName(data->key_layout[i]), scancode, SDL_GetScancodeName(scancode));
+                SDL_Log("Changing scancode, was %d (%s), now %d (%s)", তথ্য->চাবি_layout[i], SDL_GetScancodeName(তথ্য->চাবি_layout[i]), scancode, SDL_GetScancodeName(scancode));
 #endif
-                data->keyboard.key_layout[i] = scancode;
+                তথ্য->keyboard.চাবি_layout[i] = scancode;
             }
         }
-    } else {
+    } অন্যথা {
 #ifdef DEBUG_SCANCODES
         SDL_Log("Keyboard layout unknown, please report the following to the SDL forums/mailing list (https://discourse.libsdl.org/):");
 #endif
 
         // Determine key_layout - only works on US QWERTY layout
-        for (i = min_keycode; i <= max_keycode; ++i) {
-            SDL_Scancode scancode = X11_KeyCodeToSDLScancode(_this, i);
+        জন্য (i = min_keycode; i <= max_keycode; ++i) {
+            SDL_Scancode scancode = X11_চাবি_Code_To_SDLScancode(_this, i);
 #ifdef DEBUG_SCANCODES
             {
-                KeySym sym;
-                sym = X11_KeyCodeToSym(_this, (KeyCode)i, 0);
+                চাবি_Sym sym;
+                sym = X11_চাবি_Code_To_Sym(_this, (চাবি_Code_2)i, 0);
                 SDL_Log("code = %d, sym = 0x%X (%s) ", i - min_keycode,
-                        (unsigned int)sym, sym == NoSymbol ? "NoSymbol" : X11_XKeysymToString(sym));
+                        (unsigned পূর্ণসংখ্যা)sym, sym == No_প্রতীক ? "NoSymbol" : X11_XKeysymToString(sym));
             }
-            if (scancode == SDL_SCANCODE_UNKNOWN) {
+            যদি (scancode == SDL_SCANCODE_UNKNOWN) {
                 SDL_Log("scancode not found");
-            } else {
+            } অন্যথা {
                 SDL_Log("scancode = %d (%s)", scancode, SDL_GetScancodeName(scancode));
             }
 #endif
-            data->keyboard.key_layout[i] = scancode;
+            তথ্য->keyboard.চাবি_layout[i] = scancode;
         }
     }
 
@@ -349,181 +349,181 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
 
     X11_ReconcileKeyboardState(_this);
 
-    return true;
+    ফেরত true;
 }
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-static unsigned int X11_GetXkbVirtualModifierMask(SDL_VideoDevice *_this, const char *vmod_name)
+স্থির unsigned পূর্ণসংখ্যা X11_GetXkbVirtualModifierMask(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *vmod_name)
 {
-    SDL_VideoData *videodata = _this->internal;
-    unsigned int mod_mask = 0;
+    SDL_Video_তথ্য *videodata = _this->internal;
+    unsigned পূর্ণসংখ্যা mod_mask = 0;
 
-    const Atom vmod = X11_XInternAtom(videodata->display, vmod_name, True);
-    if (vmod != None) {
-        for (int i = 0; i < XkbNumVirtualMods; ++i) {
-            if (vmod == videodata->keyboard.xkb.desc_ptr->names->vmods[i]) {
+    ধ্রুবক Atom vmod = X11_XInternAtom(videodata->display, vmod_name, True);
+    যদি (vmod != None) {
+        জন্য (পূর্ণসংখ্যা i = 0; i < Xkb_অঙ্ক_Virtual_Mods; ++i) {
+            যদি (vmod == videodata->keyboard.xkb.desc_ptr->names->vmods[i]) {
                 mod_mask = videodata->keyboard.xkb.desc_ptr->server->vmods[i];
-                break;
+                বিরতি;
             }
         }
     }
 
-    return mod_mask;
+    ফেরত mod_mask;
 }
 #endif
 
-static unsigned X11_GetXModifierMask(SDL_VideoDevice *_this, SDL_Scancode scancode)
+স্থির unsigned X11_GetXModifierMask(SDL_VideoDevice *_this, SDL_Scancode scancode)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
     Display *display = videodata->display;
-    unsigned int mod_mask = 0;
+    unsigned পূর্ণসংখ্যা mod_mask = 0;
 
     XModifierKeymap *xmods = X11_XGetModifierMapping(display);
-    unsigned int n = xmods->max_keypermod;
-    for (int i = 3; i < 8; i++) {
-        for (int j = 0; j < n; j++) {
-            const KeyCode kc = xmods->modifiermap[i * n + j];
-            if (videodata->keyboard.key_layout[kc] == scancode) {
+    unsigned পূর্ণসংখ্যা n = xmods->max_keypermod;
+    জন্য (পূর্ণসংখ্যা i = 3; i < 8; i++) {
+        জন্য (পূর্ণসংখ্যা j = 0; j < n; j++) {
+            ধ্রুবক চাবি_Code_2 kc = xmods->modifiermap[i * n + j];
+            যদি (videodata->keyboard.চাবি_layout[kc] == scancode) {
                 mod_mask = 1 << i;
-                break;
+                বিরতি;
             }
         }
     }
     X11_XFreeModifiermap(xmods);
 
-    return mod_mask;
+    ফেরত mod_mask;
 }
 
-static void X11_AddKeymapEntry(SDL_Keymap *keymap, Uint32 xkeycode, KeySym xkeysym, SDL_Scancode sdl_scancode, SDL_Keymod sdl_mod_mask)
+স্থির শূন্য X11_AddKeymapEntry(SDL_Keymap *keymap, Uint32 xkeycode, চাবি_Sym xkeysym, SDL_Scancode sdl_scancode, SDL_Keymod sdl_mod_mask)
 {
-    SDL_Keycode keycode = SDL_GetKeyCodeFromKeySym(xkeysym, xkeycode, sdl_mod_mask);
+    SDL_Keycode keycode = SDL_Get_চাবি_Code_From_চাবি_Sym(xkeysym, xkeycode, sdl_mod_mask);
 
-    if (!keycode) {
-        switch (sdl_scancode) {
-        case SDL_SCANCODE_RETURN:
+    যদি (!keycode) {
+        নির্বাচন (sdl_scancode) {
+        ক্ষেত্র SDL_SCANCODE_RETURN:
             keycode = SDLK_RETURN;
-            break;
-        case SDL_SCANCODE_ESCAPE:
+            বিরতি;
+        ক্ষেত্র SDL_SCANCODE_ESCAPE:
             keycode = SDLK_ESCAPE;
-            break;
-        case SDL_SCANCODE_BACKSPACE:
+            বিরতি;
+        ক্ষেত্র SDL_SCANCODE_BACKSPACE:
             keycode = SDLK_BACKSPACE;
-            break;
-        case SDL_SCANCODE_DELETE:
+            বিরতি;
+        ক্ষেত্র SDL_SCANCODE_DELETE:
             keycode = SDLK_DELETE;
-            break;
-        default:
+            বিরতি;
+        পূর্বনির্ধারিত:
             keycode = SDL_SCANCODE_TO_KEYCODE(sdl_scancode);
-            break;
+            বিরতি;
         }
     }
 
     SDL_SetKeymapEntry(keymap, sdl_scancode, sdl_mod_mask, keycode);
 }
 
-void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
+শূন্য X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    if (data->keyboard.xkb_enabled) {
+    যদি (তথ্য->keyboard.xkb_enabled) {
         XkbStateRec state;
 
-        for (unsigned int i = 0; i < XkbNumKbdGroups; ++i) {
-            SDL_DestroyKeymap(data->keyboard.xkb.keymaps[i]);
-            data->keyboard.xkb.keymaps[i] = NULL;
+        জন্য (unsigned পূর্ণসংখ্যা i = 0; i < Xkb_অঙ্ক_Kbd_Groups; ++i) {
+            SDL_DestroyKeymap(তথ্য->keyboard.xkb.keymaps[i]);
+            তথ্য->keyboard.xkb.keymaps[i] = ফাঁকা;
         }
 
-        X11_XkbGetNames(data->display, XkbVirtualModNamesMask, data->keyboard.xkb.desc_ptr);
-        X11_XkbGetUpdatedMap(data->display, XkbAllClientInfoMask | XkbVirtualModsMask, data->keyboard.xkb.desc_ptr);
+        X11_XkbGetNames(তথ্য->display, XkbVirtualModNamesMask, তথ্য->keyboard.xkb.desc_ptr);
+        X11_XkbGetUpdatedMap(তথ্য->display, XkbAllClientInfoMask | XkbVirtualModsMask, তথ্য->keyboard.xkb.desc_ptr);
 
-        if (X11_XkbGetState(data->display, XkbUseCoreKbd, &state) == Success) {
-            data->keyboard.xkb.current_group = state.group;
+        যদি (X11_XkbGetState(তথ্য->display, XkbUseCoreKbd, &state) == Success) {
+            তথ্য->keyboard.xkb.current_group = state.group;
         }
 
-        data->keyboard.alt_mask = X11_GetXkbVirtualModifierMask(_this, "Alt");
-        if (!data->keyboard.alt_mask) {
-            data->keyboard.alt_mask = X11_GetXkbVirtualModifierMask(_this, "Meta");
+        তথ্য->keyboard.alt_mask = X11_GetXkbVirtualModifierMask(_this, "Alt");
+        যদি (!তথ্য->keyboard.alt_mask) {
+            তথ্য->keyboard.alt_mask = X11_GetXkbVirtualModifierMask(_this, "Meta");
         }
-        data->keyboard.gui_mask = X11_GetXkbVirtualModifierMask(_this, "Super");
-        data->keyboard.level3_mask = X11_GetXkbVirtualModifierMask(_this, "LevelThree");
-        data->keyboard.level5_mask = X11_GetXkbVirtualModifierMask(_this, "LevelFive");
-        data->keyboard.numlock_mask = X11_GetXkbVirtualModifierMask(_this, "NumLock");
-        data->keyboard.scrolllock_mask = X11_GetXkbVirtualModifierMask(_this, "ScrollLock");
+        তথ্য->keyboard.gui_mask = X11_GetXkbVirtualModifierMask(_this, "Super");
+        তথ্য->keyboard.level3_mask = X11_GetXkbVirtualModifierMask(_this, "LevelThree");
+        তথ্য->keyboard.level5_mask = X11_GetXkbVirtualModifierMask(_this, "LevelFive");
+        তথ্য->keyboard.numlock_mask = X11_GetXkbVirtualModifierMask(_this, "NumLock");
+        তথ্য->keyboard.scrolllock_mask = X11_GetXkbVirtualModifierMask(_this, "ScrollLock");
 
-        for (unsigned int i = 0; i < XkbNumKbdGroups; ++i) {
-            data->keyboard.xkb.keymaps[i] = SDL_CreateKeymap(false);
-            if (!data->keyboard.xkb.keymaps[i]) {
-                for (unsigned int j = 0; j < i; ++j) {
-                    SDL_DestroyKeymap(data->keyboard.xkb.keymaps[i]);
-                    data->keyboard.xkb.keymaps[j] = NULL;
+        জন্য (unsigned পূর্ণসংখ্যা i = 0; i < Xkb_অঙ্ক_Kbd_Groups; ++i) {
+            তথ্য->keyboard.xkb.keymaps[i] = SDL_CreateKeymap(false);
+            যদি (!তথ্য->keyboard.xkb.keymaps[i]) {
+                জন্য (unsigned পূর্ণসংখ্যা j = 0; j < i; ++j) {
+                    SDL_DestroyKeymap(তথ্য->keyboard.xkb.keymaps[i]);
+                    তথ্য->keyboard.xkb.keymaps[j] = ফাঁকা;
                 }
 
-                return;
+                ফেরত;
             }
         }
 
         // Only the shift, alt, level 3, level 5 and caps lock modifiers affect SDL keymaps.
-        const Uint32 valid_mod_mask = ShiftMask | LockMask | data->keyboard.alt_mask | data->keyboard.level3_mask | data->keyboard.level5_mask;
+        ধ্রুবক Uint32 valid_mod_mask = ShiftMask | LockMask | তথ্য->keyboard.alt_mask | তথ্য->keyboard.level3_mask | তথ্য->keyboard.level5_mask;
 
-        for (Uint32 xkeycode = data->keyboard.xkb.desc_ptr->min_key_code; xkeycode < data->keyboard.xkb.desc_ptr->max_key_code; ++xkeycode) {
-            const SDL_Scancode scancode = data->keyboard.key_layout[xkeycode];
-            if (scancode == SDL_SCANCODE_UNKNOWN) {
-                continue;
+        জন্য (Uint32 xkeycode = তথ্য->keyboard.xkb.desc_ptr->min_চাবি_code; xkeycode < তথ্য->keyboard.xkb.desc_ptr->max_চাবি_code; ++xkeycode) {
+            ধ্রুবক SDL_Scancode scancode = তথ্য->keyboard.চাবি_layout[xkeycode];
+            যদি (scancode == SDL_SCANCODE_UNKNOWN) {
+                চালু;
             }
 
-            for (Uint32 group = 0; group < XkbNumKbdGroups; ++group) {
-                SDL_Keymap *keymap = data->keyboard.xkb.keymaps[group];
+            জন্য (Uint32 group = 0; group < Xkb_অঙ্ক_Kbd_Groups; ++group) {
+                SDL_Keymap *keymap = তথ্য->keyboard.xkb.keymaps[group];
 
                 Uint32 effective_group = group;
-                const unsigned char max_key_group = XkbKeyNumGroups(data->keyboard.xkb.desc_ptr, xkeycode);
-                const unsigned char key_group_info = XkbKeyGroupInfo(data->keyboard.xkb.desc_ptr, xkeycode);
+                ধ্রুবক unsigned অক্ষর max_চাবি_group = Xkb_চাবি_অঙ্ক_Groups(তথ্য->keyboard.xkb.desc_ptr, xkeycode);
+                ধ্রুবক unsigned অক্ষর চাবি_group_info = Xkb_চাবি_Group_Info(তথ্য->keyboard.xkb.desc_ptr, xkeycode);
 
-                if (max_key_group && effective_group >= max_key_group) {
-                    const unsigned char action = XkbOutOfRangeGroupAction(key_group_info);
+                যদি (max_চাবি_group && effective_group >= max_চাবি_group) {
+                    ধ্রুবক unsigned অক্ষর action = XkbOutOfRangeGroupAction(চাবি_group_info);
 
-                    switch (action) {
-                    default:
-                        effective_group %= max_key_group;
-                        break;
-                    case XkbClampIntoRange:
-                        effective_group = max_key_group - 1;
-                        break;
-                    case XkbRedirectIntoRange:
-                        effective_group = XkbOutOfRangeGroupNumber(key_group_info);
-                        if (effective_group >= max_key_group) {
+                    নির্বাচন (action) {
+                    পূর্বনির্ধারিত:
+                        effective_group %= max_চাবি_group;
+                        বিরতি;
+                    ক্ষেত্র XkbClampIntoRange:
+                        effective_group = max_চাবি_group - 1;
+                        বিরতি;
+                    ক্ষেত্র XkbRedirectIntoRange:
+                        effective_group = Xkb_Out_Of_Range_Group_সংখ্যা(চাবি_group_info);
+                        যদি (effective_group >= max_চাবি_group) {
                             effective_group = 0;
                         }
-                        break;
+                        বিরতি;
                     }
                 }
 
-                XkbKeyTypePtr key_type = XkbKeyKeyType(data->keyboard.xkb.desc_ptr, xkeycode, effective_group);
+                Xkb_চাবি_Type_Ptr চাবি_type = Xkb_চাবি_চাবি_Type(তথ্য->keyboard.xkb.desc_ptr, xkeycode, effective_group);
 
-                for (Uint32 level = 0; level < key_type->num_levels; ++level) {
-                    const KeySym keysym = X11_KeyCodeToSym(_this, xkeycode, effective_group, level);
+                জন্য (Uint32 level = 0; level < চাবি_type->অঙ্ক_levels; ++level) {
+                    ধ্রুবক চাবি_Sym keysym = X11_চাবি_Code_To_Sym(_this, xkeycode, effective_group, level);
 
-                    if (keysym != NoSymbol) {
-                        bool key_added = false;
+                    যদি (keysym != No_প্রতীক) {
+                        bool চাবি_added = false;
 
-                        for (int map_idx = 0; map_idx < key_type->map_count; ++map_idx) {
-                            if (key_type->map[map_idx].active && key_type->map[map_idx].level == level) {
-                                const unsigned int xkb_mod_mask = key_type->map[map_idx].mods.mask;
-                                if ((xkb_mod_mask | valid_mod_mask) == valid_mod_mask) {
-                                    const SDL_Keymod sdl_mod_mask = (xkb_mod_mask & ShiftMask ? SDL_KMOD_SHIFT : 0) |
+                        জন্য (পূর্ণসংখ্যা map_idx = 0; map_idx < চাবি_type->map_গুনতি; ++map_idx) {
+                            যদি (চাবি_type->map[map_idx].active && চাবি_type->map[map_idx].level == level) {
+                                ধ্রুবক unsigned পূর্ণসংখ্যা xkb_mod_mask = চাবি_type->map[map_idx].mods.mask;
+                                যদি ((xkb_mod_mask | valid_mod_mask) == valid_mod_mask) {
+                                    ধ্রুবক SDL_Keymod sdl_mod_mask = (xkb_mod_mask & ShiftMask ? SDL_KMOD_SHIFT : 0) |
                                                                     (xkb_mod_mask & LockMask ? SDL_KMOD_CAPS : 0) |
-                                                                    (xkb_mod_mask & data->keyboard.alt_mask ? SDL_KMOD_ALT : 0) |
-                                                                    (xkb_mod_mask & data->keyboard.level3_mask ? SDL_KMOD_MODE : 0) |
-                                                                    (xkb_mod_mask & data->keyboard.level5_mask ? SDL_KMOD_LEVEL5 : 0);
+                                                                    (xkb_mod_mask & তথ্য->keyboard.alt_mask ? SDL_KMOD_ALT : 0) |
+                                                                    (xkb_mod_mask & তথ্য->keyboard.level3_mask ? SDL_KMOD_MODE : 0) |
+                                                                    (xkb_mod_mask & তথ্য->keyboard.level5_mask ? SDL_KMOD_LEVEL5 : 0);
 
                                     X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, sdl_mod_mask);
-                                    key_added = true;
+                                    চাবি_added = true;
                                 }
                             }
                         }
 
                         // Add the unmodified key for level 0.
-                        if (!level && !key_added) {
+                        যদি (!level && !চাবি_added) {
                             X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, 0);
                         }
                     }
@@ -531,292 +531,292 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
             }
         }
 
-        SDL_SetKeymap(data->keyboard.xkb.keymaps[data->keyboard.xkb.current_group], send_event);
-    } else
+        SDL_SetKeymap(তথ্য->keyboard.xkb.keymaps[তথ্য->keyboard.xkb.current_group], send_event);
+    } অন্যথা
 #endif
     {
         SDL_Keymap *keymap = SDL_CreateKeymap(true);
-        if (!keymap) {
-            return;
+        যদি (!keymap) {
+            ফেরত;
         }
 
-        if (send_event) {
-            if (data->keyboard.core.keysym_map) {
-                X11_XFree(data->keyboard.core.keysym_map);
+        যদি (send_event) {
+            যদি (তথ্য->keyboard.core.keysym_map) {
+                X11_XFree(তথ্য->keyboard.core.keysym_map);
             }
-            X11_XDisplayKeycodes(data->display, &data->keyboard.core.min_keycode, &data->keyboard.core.max_keycode);
-            data->keyboard.core.keysym_map = X11_XGetKeyboardMapping(data->display, data->keyboard.core.min_keycode,
-                                                                     data->keyboard.core.max_keycode - data->keyboard.core.min_keycode,
-                                                                     &data->keyboard.core.keysyms_per_key);
+            X11_XDisplayKeycodes(তথ্য->display, &তথ্য->keyboard.core.min_keycode, &তথ্য->keyboard.core.max_keycode);
+            তথ্য->keyboard.core.keysym_map = X11_XGetKeyboardMapping(তথ্য->display, তথ্য->keyboard.core.min_keycode,
+                                                                     তথ্য->keyboard.core.max_keycode - তথ্য->keyboard.core.min_keycode,
+                                                                     &তথ্য->keyboard.core.keysyms_per_চাবি);
         }
 
-        for (Uint32 xkeycode = data->keyboard.core.min_keycode; xkeycode <= data->keyboard.core.max_keycode; ++xkeycode) {
-            const SDL_Scancode scancode = data->keyboard.key_layout[xkeycode];
-            if (scancode == SDL_SCANCODE_UNKNOWN) {
-                continue;
+        জন্য (Uint32 xkeycode = তথ্য->keyboard.core.min_keycode; xkeycode <= তথ্য->keyboard.core.max_keycode; ++xkeycode) {
+            ধ্রুবক SDL_Scancode scancode = তথ্য->keyboard.চাবি_layout[xkeycode];
+            যদি (scancode == SDL_SCANCODE_UNKNOWN) {
+                চালু;
             }
 
-            const KeySym keysym = X11_KeyCodeToSym(_this, xkeycode, 0, 0);
-            if (keysym != NoSymbol) {
+            ধ্রুবক চাবি_Sym keysym = X11_চাবি_Code_To_Sym(_this, xkeycode, 0, 0);
+            যদি (keysym != No_প্রতীক) {
                 X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, 0);
             }
         }
 
-        data->keyboard.alt_mask = Mod1Mask; // Alt or Meta
-        data->keyboard.gui_mask = Mod4Mask; // Super
-        data->keyboard.level3_mask = Mod5Mask; // Note: Not a typo, Mod5 = level 3 shift, and Mod3 = level 5 shift.
-        data->keyboard.level5_mask = Mod3Mask;
-        data->keyboard.numlock_mask = X11_GetXModifierMask(_this, SDL_SCANCODE_NUMLOCKCLEAR);
-        data->keyboard.scrolllock_mask = X11_GetXModifierMask(_this, SDL_SCANCODE_SCROLLLOCK);
+        তথ্য->keyboard.alt_mask = Mod1Mask; // Alt or Meta
+        তথ্য->keyboard.gui_mask = Mod4Mask; // Super
+        তথ্য->keyboard.level3_mask = Mod5Mask; // Note: Not a typo, Mod5 = level 3 shift, and Mod3 = level 5 shift.
+        তথ্য->keyboard.level5_mask = Mod3Mask;
+        তথ্য->keyboard.numlock_mask = X11_GetXModifierMask(_this, SDL_SCANCODE_NUMLOCKCLEAR);
+        তথ্য->keyboard.scrolllock_mask = X11_GetXModifierMask(_this, SDL_SCANCODE_SCROLLLOCK);
 
         SDL_SetKeymap(keymap, send_event);
     }
 }
 
-void X11_QuitKeyboard(SDL_VideoDevice *_this)
+শূন্য X11_QuitKeyboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
 #ifdef X_HAVE_UTF8_STRING
-    if (data->im) {
-        X11_XCloseIM(data->im);
-        data->im = NULL;
-    } else {
-        X11_XUnregisterIMInstantiateCallback(data->display, NULL, NULL, NULL, im_instantiate_handler, (XPointer)data);
+    যদি (তথ্য->im) {
+        X11_XCloseIM(তথ্য->im);
+        তথ্য->im = ফাঁকা;
+    } অন্যথা {
+        X11_XUnregisterIMInstantiateCallback(তথ্য->display, ফাঁকা, ফাঁকা, ফাঁকা, im_instantiate_handler, (XPointer)তথ্য);
     }
 #endif // X_HAVE_UTF8_STRING
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    if (data->keyboard.xkb_enabled) {
-        for (int i = 0; i < XkbNumKbdGroups; ++i) {
-            SDL_DestroyKeymap(data->keyboard.xkb.keymaps[i]);
-            data->keyboard.xkb.keymaps[i] = NULL;
+    যদি (তথ্য->keyboard.xkb_enabled) {
+        জন্য (পূর্ণসংখ্যা i = 0; i < Xkb_অঙ্ক_Kbd_Groups; ++i) {
+            SDL_DestroyKeymap(তথ্য->keyboard.xkb.keymaps[i]);
+            তথ্য->keyboard.xkb.keymaps[i] = ফাঁকা;
         }
 
-        if (data->keyboard.xkb_enabled) {
-            X11_XkbFreeKeyboard(data->keyboard.xkb.desc_ptr, 0, True);
-            data->keyboard.xkb.desc_ptr = NULL;
+        যদি (তথ্য->keyboard.xkb_enabled) {
+            X11_XkbFreeKeyboard(তথ্য->keyboard.xkb.desc_ptr, 0, True);
+            তথ্য->keyboard.xkb.desc_ptr = ফাঁকা;
         }
-    } else
+    } অন্যথা
 #endif
-        if (data->keyboard.core.keysym_map) {
-        X11_XFree(data->keyboard.core.keysym_map);
-        data->keyboard.core.keysym_map = NULL;
+        যদি (তথ্য->keyboard.core.keysym_map) {
+        X11_XFree(তথ্য->keyboard.core.keysym_map);
+        তথ্য->keyboard.core.keysym_map = ফাঁকা;
     }
 }
 
-void X11_ClearComposition(SDL_WindowData *data)
+শূন্য X11_ClearComposition(SDL_Window_তথ্য *তথ্য)
 {
-    if (data->preedit_length > 0) {
-        data->preedit_text[0] = '\0';
-        data->preedit_length = 0;
+    যদি (তথ্য->preedit_দৈর্ঘ্য > 0) {
+        তথ্য->preedit_text[0] = '\0';
+        তথ্য->preedit_দৈর্ঘ্য = 0;
     }
 
-    if (data->ime_needs_clear_composition) {
+    যদি (তথ্য->ime_needs_clear_composition) {
         SDL_SendEditingText("", 0, 0);
-        data->ime_needs_clear_composition = false;
+        তথ্য->ime_needs_clear_composition = false;
     }
 }
 
-static void X11_SendEditingEvent(SDL_WindowData *data)
+স্থির শূন্য X11_SendEditingEvent(SDL_Window_তথ্য *তথ্য)
 {
-    if (data->preedit_length == 0) {
-        X11_ClearComposition(data);
-        return;
+    যদি (তথ্য->preedit_দৈর্ঘ্য == 0) {
+        X11_ClearComposition(তথ্য);
+        ফেরত;
     }
 
     bool in_highlight = false;
-    int start = -1, length = 0, i;
-    for (i = 0; i < data->preedit_length; ++i) {
-        if (data->preedit_feedback[i] & (XIMReverse | XIMHighlight)) {
-            if (start < 0) {
+    পূর্ণসংখ্যা start = -1, দৈর্ঘ্য = 0, i;
+    জন্য (i = 0; i < তথ্য->preedit_দৈর্ঘ্য; ++i) {
+        যদি (তথ্য->preedit_feedback[i] & (XIMReverse | XIMHighlight)) {
+            যদি (start < 0) {
                 start = i;
                 in_highlight = true;
             }
-        } else if (in_highlight) {
+        } অন্যথা যদি (in_highlight) {
             // Found the end of the highlight
-            break;
+            বিরতি;
         }
     }
-    if (in_highlight) {
-        length = (i - start);
-    } else {
-        start = SDL_clamp(data->preedit_cursor, 0, data->preedit_length);
+    যদি (in_highlight) {
+        দৈর্ঘ্য = (i - start);
+    } অন্যথা {
+        start = SDL_clamp(তথ্য->preedit_cursor, 0, তথ্য->preedit_দৈর্ঘ্য);
     }
-    SDL_SendEditingText(data->preedit_text, start, length);
+    SDL_SendEditingText(তথ্য->preedit_text, start, দৈর্ঘ্য);
 
-    data->ime_needs_clear_composition = true;
+    তথ্য->ime_needs_clear_composition = true;
 }
 
 #ifdef X_HAVE_UTF8_STRING
-static int preedit_start_callback(XIC xic, XPointer client_data, XPointer call_data)
+স্থির পূর্ণসংখ্যা preedit_start_callback(XIC xic, XPointer client_তথ্য_2, XPointer call_তথ্য_2)
 {
     // No limit on preedit text length
-    return -1;
+    ফেরত -1;
 }
 
-static void preedit_done_callback(XIC xic, XPointer client_data, XPointer call_data)
+স্থির শূন্য preedit_done_callback(XIC xic, XPointer client_তথ্য_2, XPointer call_তথ্য_2)
 {
 }
 
-static void preedit_draw_callback(XIC xic, XPointer client_data, XIMPreeditDrawCallbackStruct *call_data)
+স্থির শূন্য preedit_draw_callback(XIC xic, XPointer client_তথ্য_2, XIMPreeditDrawCallbackStruct *call_তথ্য_2)
 {
-    SDL_WindowData *data = (SDL_WindowData *)client_data;
-    int chg_first = SDL_clamp(call_data->chg_first, 0, data->preedit_length);
-    int chg_length = SDL_clamp(call_data->chg_length, 0, data->preedit_length - chg_first);
+    SDL_Window_তথ্য *তথ্য = (SDL_Window_তথ্য *)client_তথ্য_2;
+    পূর্ণসংখ্যা chg_first = SDL_clamp(call_তথ্য_2->chg_first, 0, তথ্য->preedit_দৈর্ঘ্য);
+    পূর্ণসংখ্যা chg_দৈর্ঘ্য = SDL_clamp(call_তথ্য_2->chg_দৈর্ঘ্য, 0, তথ্য->preedit_দৈর্ঘ্য - chg_first);
 
-    const char *start = data->preedit_text;
-    if (chg_length > 0) {
+    ধ্রুবক অক্ষর *start = তথ্য->preedit_text;
+    যদি (chg_দৈর্ঘ্য > 0) {
         // Delete text in range
-        for (int i = 0; start && *start && i < chg_first; ++i) {
-            SDL_StepUTF8(&start, NULL);
+        জন্য (পূর্ণসংখ্যা i = 0; start && *start && i < chg_first; ++i) {
+            SDL_StepUTF8(&start, ফাঁকা);
         }
 
-        const char *end = start;
-        for (int i = 0; end && *end && i < chg_length; ++i) {
-            SDL_StepUTF8(&end, NULL);
+        ধ্রুবক অক্ষর *end = start;
+        জন্য (পূর্ণসংখ্যা i = 0; end && *end && i < chg_দৈর্ঘ্য; ++i) {
+            SDL_StepUTF8(&end, ফাঁকা);
         }
 
-        if (end > start) {
-            SDL_memmove((char *)start, end, SDL_strlen(end) + 1);
-            if ((chg_first + chg_length) > data->preedit_length) {
-                SDL_memmove(&data->preedit_feedback[chg_first], &data->preedit_feedback[chg_first + chg_length], (data->preedit_length - chg_first - chg_length) * sizeof(*data->preedit_feedback));
+        যদি (end > start) {
+            SDL_memmove((অক্ষর *)start, end, SDL_strlen(end) + 1);
+            যদি ((chg_first + chg_দৈর্ঘ্য) > তথ্য->preedit_দৈর্ঘ্য) {
+                SDL_memmove(&তথ্য->preedit_feedback[chg_first], &তথ্য->preedit_feedback[chg_first + chg_দৈর্ঘ্য], (তথ্য->preedit_দৈর্ঘ্য - chg_first - chg_দৈর্ঘ্য) * আকার(*তথ্য->preedit_feedback));
             }
         }
-        data->preedit_length -= chg_length;
+        তথ্য->preedit_দৈর্ঘ্য -= chg_দৈর্ঘ্য;
     }
 
-    XIMText *text = call_data->text;
-    if (text) {
+    XIMText *text = call_তথ্য_2->text;
+    যদি (text) {
         // Insert text in range
         SDL_assert(!text->encoding_is_wchar);
 
         // The text length isn't calculated as directed by the spec, recalculate it now
-        if (text->string.multi_byte) {
-            text->length = SDL_utf8strlen(text->string.multi_byte);
+        যদি (text->string.multi_byte) {
+            text->দৈর্ঘ্য = SDL_utf8strlen(text->string.multi_byte);
         }
 
-        size_t string_size = SDL_strlen(text->string.multi_byte);
-        size_t size = string_size + 1;
-        if (data->preedit_text) {
-            size += SDL_strlen(data->preedit_text);
+        size_t string_আকার = SDL_strlen(text->string.multi_byte);
+        size_t আকার_2 = string_আকার + 1;
+        যদি (তথ্য->preedit_text) {
+            আকার_2 += SDL_strlen(তথ্য->preedit_text);
         }
-        char *preedit_text = (char *)SDL_malloc(size * sizeof(*preedit_text));
-        if (preedit_text) {
-            size_t pre_size = (start - data->preedit_text);
-            size_t post_size = start ? SDL_strlen(start) : 0;
-            if (pre_size > 0) {
-                SDL_memcpy(&preedit_text[0], data->preedit_text, pre_size);
+        অক্ষর *preedit_text = (অক্ষর *)SDL_malloc(আকার_2 * আকার(*preedit_text));
+        যদি (preedit_text) {
+            size_t pre_আকার = (start - তথ্য->preedit_text);
+            size_t post_আকার = start ? SDL_strlen(start) : 0;
+            যদি (pre_আকার > 0) {
+                SDL_memcpy(&preedit_text[0], তথ্য->preedit_text, pre_আকার);
             }
-            SDL_memcpy(&preedit_text[pre_size], text->string.multi_byte, string_size);
-            if (post_size > 0) {
-                SDL_memcpy(&preedit_text[pre_size + string_size], start, post_size);
+            SDL_memcpy(&preedit_text[pre_আকার], text->string.multi_byte, string_আকার);
+            যদি (post_আকার > 0) {
+                SDL_memcpy(&preedit_text[pre_আকার + string_আকার], start, post_আকার);
             }
-            preedit_text[size - 1] = '\0';
-        }
-
-        size_t feedback_size = data->preedit_length + text->length;
-        XIMFeedback *feedback = (XIMFeedback *)SDL_malloc(feedback_size * sizeof(*feedback));
-        if (feedback) {
-            size_t pre_size = (size_t)chg_first;
-            size_t post_size = (size_t)data->preedit_length - pre_size;
-            if (pre_size > 0) {
-                SDL_memcpy(&feedback[0], data->preedit_feedback, pre_size * sizeof(*feedback));
-            }
-            SDL_memcpy(&feedback[pre_size], text->feedback, text->length * sizeof(*feedback));
-            if (post_size > 0) {
-                SDL_memcpy(&feedback[pre_size + text->length], &data->preedit_feedback[pre_size], post_size * sizeof(*feedback));
-            }
+            preedit_text[আকার_2 - 1] = '\0';
         }
 
-        if (preedit_text && feedback) {
-            SDL_free(data->preedit_text);
-            data->preedit_text = preedit_text;
+        size_t feedback_আকার = তথ্য->preedit_দৈর্ঘ্য + text->দৈর্ঘ্য;
+        XIMFeedback *feedback = (XIMFeedback *)SDL_malloc(feedback_আকার * আকার(*feedback));
+        যদি (feedback) {
+            size_t pre_আকার = (size_t)chg_first;
+            size_t post_আকার = (size_t)তথ্য->preedit_দৈর্ঘ্য - pre_আকার;
+            যদি (pre_আকার > 0) {
+                SDL_memcpy(&feedback[0], তথ্য->preedit_feedback, pre_আকার * আকার(*feedback));
+            }
+            SDL_memcpy(&feedback[pre_আকার], text->feedback, text->দৈর্ঘ্য * আকার(*feedback));
+            যদি (post_আকার > 0) {
+                SDL_memcpy(&feedback[pre_আকার + text->দৈর্ঘ্য], &তথ্য->preedit_feedback[pre_আকার], post_আকার * আকার(*feedback));
+            }
+        }
 
-            SDL_free(data->preedit_feedback);
-            data->preedit_feedback = feedback;
+        যদি (preedit_text && feedback) {
+            SDL_free(তথ্য->preedit_text);
+            তথ্য->preedit_text = preedit_text;
 
-            data->preedit_length += text->length;
-        } else {
+            SDL_free(তথ্য->preedit_feedback);
+            তথ্য->preedit_feedback = feedback;
+
+            তথ্য->preedit_দৈর্ঘ্য += text->দৈর্ঘ্য;
+        } অন্যথা {
             SDL_free(preedit_text);
             SDL_free(feedback);
         }
     }
 
-    data->preedit_cursor = call_data->caret;
+    তথ্য->preedit_cursor = call_তথ্য_2->caret;
 
 #ifdef DEBUG_XIM
-    if (call_data->chg_length > 0) {
-        SDL_Log("Draw callback deleted %d characters at %d", call_data->chg_length, call_data->chg_first);
+    যদি (call_তথ্য_2->chg_দৈর্ঘ্য > 0) {
+        SDL_Log("Draw callback deleted %d characters at %d", call_তথ্য_2->chg_দৈর্ঘ্য, call_তথ্য_2->chg_first);
     }
-    if (text) {
-        SDL_Log("Draw callback inserted %s at %d, caret: %d", text->string.multi_byte, call_data->chg_first, call_data->caret);
+    যদি (text) {
+        SDL_Log("Draw callback inserted %s at %d, caret: %d", text->string.multi_byte, call_তথ্য_2->chg_first, call_তথ্য_2->caret);
     }
-    SDL_Log("Pre-edit text: %s", data->preedit_text);
+    SDL_Log("Pre-edit text: %s", তথ্য->preedit_text);
 #endif
 
-    X11_SendEditingEvent(data);
+    X11_SendEditingEvent(তথ্য);
 }
 
-static void preedit_caret_callback(XIC xic, XPointer client_data, XIMPreeditCaretCallbackStruct *call_data)
+স্থির শূন্য preedit_caret_callback(XIC xic, XPointer client_তথ্য_2, XIMPreeditCaretCallbackStruct *call_তথ্য_2)
 {
-    SDL_WindowData *data = (SDL_WindowData *)client_data;
+    SDL_Window_তথ্য *তথ্য = (SDL_Window_তথ্য *)client_তথ্য_2;
 
-    switch (call_data->direction) {
-    case XIMAbsolutePosition:
-        if (call_data->position != data->preedit_cursor) {
-            data->preedit_cursor = call_data->position;
-            X11_SendEditingEvent(data);
+    নির্বাচন (call_তথ্য_2->direction) {
+    ক্ষেত্র XIMAbsolutePosition:
+        যদি (call_তথ্য_2->position != তথ্য->preedit_cursor) {
+            তথ্য->preedit_cursor = call_তথ্য_2->position;
+            X11_SendEditingEvent(তথ্য);
         }
-        break;
-    case XIMDontChange:
-        break;
-    default:
+        বিরতি;
+    ক্ষেত্র XIMDontChange:
+        বিরতি;
+    পূর্বনির্ধারিত:
         // Not currently supported
-        break;
+        বিরতি;
     }
 }
 
-static void ic_destroyed_handler(XIC ic, XPointer clientData, XPointer callData)
+স্থির শূন্য ic_destroyed_handler(XIC ic, XPointer client_তথ্য, XPointer call_তথ্য)
 {
-    SDL_WindowData *data = (SDL_WindowData *)clientData;
-    data->ic = NULL;
-    X11_DestroyInputContext(data);
+    SDL_Window_তথ্য *তথ্য = (SDL_Window_তথ্য *)client_তথ্য;
+    তথ্য->ic = ফাঁকা;
+    X11_Destroy_প্রবেশ_Context(তথ্য);
 
     // If the IM was already recreated, create a new IC.
-    if (data->videodata->im) {
-        X11_CreateInputContext(data);
+    যদি (তথ্য->videodata->im) {
+        X11_Create_প্রবেশ_Context(তথ্য);
     }
 }
 #endif // X_HAVE_UTF8_STRING
 
-void X11_CreateInputContext(SDL_WindowData *data)
+শূন্য X11_Create_প্রবেশ_Context(SDL_Window_তথ্য *তথ্য)
 {
 #ifdef X_HAVE_UTF8_STRING
-    SDL_VideoData *videodata = data->videodata;
+    SDL_Video_তথ্য *videodata = তথ্য->videodata;
 
-    if (SDL_X11_HAVE_UTF8 && videodata->im) {
-        const char *hint = SDL_GetHint(SDL_HINT_IME_IMPLEMENTED_UI);
+    যদি (SDL_X11_HAVE_UTF8 && videodata->im) {
+        ধ্রুবক অক্ষর *hint = SDL_GetHint(SDL_HINT_IME_IMPLEMENTED_UI);
 
         XIMCallback destroyed_callback;
-        destroyed_callback.client_data = (XPointer)data;
+        destroyed_callback.client_তথ্য_2 = (XPointer)তথ্য;
         destroyed_callback.callback = (XIMProc)ic_destroyed_handler;
 
-        if (hint && SDL_strstr(hint, "composition")) {
+        যদি (hint && SDL_strstr(hint, "composition")) {
             XIMCallback draw_callback;
-            draw_callback.client_data = (XPointer)data;
+            draw_callback.client_তথ্য_2 = (XPointer)তথ্য;
             draw_callback.callback = (XIMProc)preedit_draw_callback;
 
             XIMCallback start_callback;
-            start_callback.client_data = (XPointer)data;
+            start_callback.client_তথ্য_2 = (XPointer)তথ্য;
             start_callback.callback = (XIMProc)preedit_start_callback;
 
             XIMCallback done_callback;
-            done_callback.client_data = (XPointer)data;
+            done_callback.client_তথ্য_2 = (XPointer)তথ্য;
             done_callback.callback = (XIMProc)preedit_done_callback;
 
             XIMCallback caret_callback;
-            caret_callback.client_data = (XPointer)data;
+            caret_callback.client_তথ্য_2 = (XPointer)তথ্য;
             caret_callback.callback = (XIMProc)preedit_caret_callback;
 
             XVaNestedList attr = X11_XVaCreateNestedList(0,
@@ -824,148 +824,148 @@ void X11_CreateInputContext(SDL_WindowData *data)
                                                          XNPreeditDoneCallback, &done_callback,
                                                          XNPreeditDrawCallback, &draw_callback,
                                                          XNPreeditCaretCallback, &caret_callback,
-                                                         NULL);
-            if (attr) {
-                data->ic = X11_XCreateIC(videodata->im,
+                                                         ফাঁকা);
+            যদি (attr) {
+                তথ্য->ic = X11_XCreateIC(videodata->im,
                                          XNInputStyle, XIMPreeditCallbacks | XIMStatusCallbacks,
                                          XNPreeditAttributes, attr,
-                                         XNClientWindow, data->xwindow,
+                                         XNClientWindow, তথ্য->xwindow,
                                          XNDestroyCallback, &destroyed_callback,
-                                         NULL);
+                                         ফাঁকা);
                 X11_XFree(attr);
             }
         }
-        if (!data->ic) {
-            data->ic = X11_XCreateIC(videodata->im,
+        যদি (!তথ্য->ic) {
+            তথ্য->ic = X11_XCreateIC(videodata->im,
                                      XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
-                                     XNClientWindow, data->xwindow,
+                                     XNClientWindow, তথ্য->xwindow,
                                      XNDestroyCallback, &destroyed_callback,
-                                     NULL);
+                                     ফাঁকা);
         }
-        data->xim_spot.x = -1;
-        data->xim_spot.y = -1;
+        তথ্য->xim_spot.x = -1;
+        তথ্য->xim_spot.y = -1;
     }
 #endif // X_HAVE_UTF8_STRING
 }
 
 
-void X11_DestroyInputContext(SDL_WindowData *data)
+শূন্য X11_Destroy_প্রবেশ_Context(SDL_Window_তথ্য *তথ্য)
 {
 #ifdef X_HAVE_UTF8_STRING
-    if (data->ic) {
-        X11_XDestroyIC(data->ic);
-        data->ic = NULL;
+    যদি (তথ্য->ic) {
+        X11_XDestroyIC(তথ্য->ic);
+        তথ্য->ic = ফাঁকা;
     }
-    SDL_free(data->preedit_text);
-    SDL_free(data->preedit_feedback);
-    data->preedit_text = NULL;
-    data->preedit_feedback = NULL;
+    SDL_free(তথ্য->preedit_text);
+    SDL_free(তথ্য->preedit_feedback);
+    তথ্য->preedit_text = ফাঁকা;
+    তথ্য->preedit_feedback = ফাঁকা;
 #endif
 }
 
-static void X11_ResetXIM(SDL_VideoDevice *_this, SDL_Window *window)
+স্থির শূন্য X11_ResetXIM(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef X_HAVE_UTF8_STRING
-    SDL_WindowData *data = window->internal;
+    SDL_Window_তথ্য *তথ্য = window->internal;
 
-    if (data && data->ic) {
+    যদি (তথ্য && তথ্য->ic) {
         // Clear any partially entered dead keys
-        char *contents = X11_Xutf8ResetIC(data->ic);
-        if (contents) {
+        অক্ষর *contents = X11_Xutf8ResetIC(তথ্য->ic);
+        যদি (contents) {
             X11_XFree(contents);
         }
     }
 #endif // X_HAVE_UTF8_STRING
 }
 
-bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool X11_Start_Text_প্রবেশ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     X11_ResetXIM(_this, window);
 
-    return X11_UpdateTextInputArea(_this, window);
+    ফেরত X11_Update_Text_প্রবেশ_Area(_this, window);
 }
 
-bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Stop_Text_প্রবেশ(SDL_VideoDevice *_this, SDL_Window *window)
 {
     X11_ResetXIM(_this, window);
-    return true;
+    ফেরত true;
 }
 
-bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Update_Text_প্রবেশ_Area(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef X_HAVE_UTF8_STRING
-    SDL_WindowData *data = window->internal;
+    SDL_Window_তথ্য *তথ্য = window->internal;
 
-    if (data && data->ic) {
+    যদি (তথ্য && তথ্য->ic) {
         XPoint spot;
-        spot.x = window->text_input_rect.x + window->text_input_cursor;
-        spot.y = window->text_input_rect.y + window->text_input_rect.h;
-        if (spot.x != data->xim_spot.x || spot.y != data->xim_spot.y) {
-            XVaNestedList attr = X11_XVaCreateNestedList(0, XNSpotLocation, &spot, NULL);
-            if (attr) {
-                X11_XSetICValues(data->ic, XNPreeditAttributes, attr, NULL);
+        spot.x = window->text_প্রবেশ_rect.x + window->text_প্রবেশ_cursor;
+        spot.y = window->text_প্রবেশ_rect.y + window->text_প্রবেশ_rect.h;
+        যদি (spot.x != তথ্য->xim_spot.x || spot.y != তথ্য->xim_spot.y) {
+            XVaNestedList attr = X11_XVaCreateNestedList(0, XNSpotLocation, &spot, ফাঁকা);
+            যদি (attr) {
+                X11_XSetICValues(তথ্য->ic, XNPreeditAttributes, attr, ফাঁকা);
                 X11_XFree(attr);
             }
-            SDL_copyp(&data->xim_spot, &spot);
+            SDL_copyp(&তথ্য->xim_spot, &spot);
         }
     }
 #endif
-    return true;
+    ফেরত true;
 }
 
 bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
-    return videodata->use_steam_screen_keyboard;
+    SDL_Video_তথ্য *videodata = _this->internal;
+    ফেরত videodata->use_steam_screen_keyboard;
 }
 
-void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+শূন্য X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
 
-    if (videodata->use_steam_screen_keyboard) {
+    যদি (videodata->use_steam_screen_keyboard) {
         /* For more documentation of the URL parameters, see:
          * https://partner.steamgames.com/doc/api/ISteamUtils#ShowFloatingGamepadTextInput
          */
-        const int k_EFloatingGamepadTextInputModeModeSingleLine = 0;    // Enter dismisses the keyboard
-        const int k_EFloatingGamepadTextInputModeModeMultipleLines = 1; // User needs to explicitly dismiss the keyboard
-        const int k_EFloatingGamepadTextInputModeModeEmail = 2;         // Keyboard is displayed in a special mode that makes it easier to enter emails
-        const int k_EFloatingGamepadTextInputModeModeNumeric = 3;       // Numeric keypad is shown
-        char deeplink[128];
-        int mode;
+        ধ্রুবক পূর্ণসংখ্যা k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Single_সারি = 0;    // Enter dismisses the keyboard
+        ধ্রুবক পূর্ণসংখ্যা k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Multiple_সারিগুলি = 1; // User needs to explicitly dismiss the keyboard
+        ধ্রুবক পূর্ণসংখ্যা k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Email = 2;         // Keyboard is displayed in a special mode that makes it easier to enter emails
+        ধ্রুবক পূর্ণসংখ্যা k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Numeric = 3;       // Numeric keypad is shown
+        অক্ষর deeplink[128];
+        পূর্ণসংখ্যা mode;
 
-        switch (SDL_GetTextInputType(props)) {
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-            mode = k_EFloatingGamepadTextInputModeModeEmail;
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-            mode = k_EFloatingGamepadTextInputModeModeNumeric;
-            break;
-        default:
-            if (SDL_GetTextInputMultiline(props)) {
-                mode = k_EFloatingGamepadTextInputModeModeMultipleLines;
-            } else {
-                mode = k_EFloatingGamepadTextInputModeModeSingleLine;
+        নির্বাচন (SDL_Get_Text_প্রবেশ_Type(props)) {
+        ক্ষেত্র SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+            mode = k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Email;
+            বিরতি;
+        ক্ষেত্র SDL_TEXTINPUT_TYPE_সংখ্যা:
+        ক্ষেত্র SDL_TEXTINPUT_TYPE_সংখ্যা_PASSWORD_HIDDEN:
+        ক্ষেত্র SDL_TEXTINPUT_TYPE_সংখ্যা_PASSWORD_VISIBLE:
+            mode = k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Numeric;
+            বিরতি;
+        পূর্বনির্ধারিত:
+            যদি (SDL_Get_Text_প্রবেশ_Multiline(props)) {
+                mode = k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Multiple_সারিগুলি;
+            } অন্যথা {
+                mode = k_EFloating_Gamepad_Text_প্রবেশ_Mode_Mode_Single_সারি;
             }
-            break;
+            বিরতি;
         }
-        (void)SDL_snprintf(deeplink, sizeof(deeplink),
+        (শূন্য)SDL_snprintf(deeplink, আকার(deeplink),
                            "steam://open/keyboard?XPosition=%i&YPosition=%i&Width=%i&Height=%i&Mode=%d",
-                           window->text_input_rect.x, window->text_input_rect.y,
-                           window->text_input_rect.w, window->text_input_rect.h,
+                           window->text_প্রবেশ_rect.x, window->text_প্রবেশ_rect.y,
+                           window->text_প্রবেশ_rect.w, window->text_প্রবেশ_rect.h,
                            mode);
         SDL_OpenURL(deeplink);
         SDL_SendScreenKeyboardShown();
     }
 }
 
-void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
 
-    if (videodata->use_steam_screen_keyboard) {
+    যদি (videodata->use_steam_screen_keyboard) {
         SDL_OpenURL("steam://close/keyboard");
         SDL_SendScreenKeyboardHidden();
     }

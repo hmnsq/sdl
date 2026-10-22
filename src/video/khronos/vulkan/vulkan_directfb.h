@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,33 +25,33 @@ extern "C" {
 #define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
 #define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
 
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+প্রকারলেখ VkFlags VkDirectFBSurfaceCreateFlagsEXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+প্রকারলেখ কাঠামো VkDirectFBSurfaceCreateInfoEXT {
     VkStructureType                    sType;
-    const void*                        pNext;
+    ধ্রুবক শূন্য*                        p_পরবর্তী;
     VkDirectFBSurfaceCreateFlagsEXT    flags;
     IDirectFB*                         dfb;
     IDirectFBSurface*                  surface;
 } VkDirectFBSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, ধ্রুবক VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_সূচক, IDirectFB* dfb);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateDirectFBSurfaceEXT(
     VkInstance                                  instance,
-    const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceDirectFBPresentationSupportEXT(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    queue_Family_সূচক,
     IDirectFB*                                  dfb);
 #endif
 #endif

@@ -19,41 +19,41 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DOSVESA
 
 // SDL internals
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাব "../../events/SDL_mouse_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
 
 // DOS declarations
-#include "SDL_dosevents_c.h"
-#include "SDL_dosframebuffer_c.h"
-#include "SDL_dosmodes.h"
-#include "SDL_dosmouse.h"
-#include "SDL_dosvideo.h"
+#অন্তর্ভাব "SDL_dosevents_c.h"
+#অন্তর্ভাব "SDL_dosframebuffer_c.h"
+#অন্তর্ভাব "SDL_dosmodes.h"
+#অন্তর্ভাব "SDL_dosmouse.h"
+#অন্তর্ভাব "SDL_dosvideo.h"
 
 // Apply a display mode for a window: set the hardware mode, store it as
 // the window's requested fullscreen mode, and update window dimensions.
-static void DOSVESA_ApplyModeForWindow(SDL_VideoDisplay *display, SDL_Window *window, SDL_DisplayMode *mode)
+স্থির শূন্য DOSVESA_ApplyModeForWindow(SDL_VideoDisplay *display, SDL_Window *window, SDL_DisplayMode *mode)
 {
     SDL_SetDisplayModeForDisplay(display, mode);
 
-    if (mode) {
+    যদি (mode) {
         SDL_copyp(&window->requested_fullscreen_mode, mode);
         window->floating.w = window->windowed.w = window->w = mode->w;
         window->floating.h = window->windowed.h = window->h = mode->h;
     }
 }
 
-static bool DOSVESA_CreateWindow(SDL_VideoDevice *device, SDL_Window *window, SDL_PropertiesID create_props)
+স্থির bool DOSVESA_CreateWindow(SDL_VideoDevice *device, SDL_Window *window, SDL_PropertiesID create_props)
 {
     // Allocate window internal data
-    SDL_WindowData *wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    SDL_Window_তথ্য *wdata = (SDL_Window_তথ্য *)SDL_calloc(1, আকার(SDL_Window_তথ্য));
+    যদি (!wdata) {
+        ফেরত false;
     }
 
     // Setup driver data for this window
@@ -65,40 +65,40 @@ static bool DOSVESA_CreateWindow(SDL_VideoDevice *device, SDL_Window *window, SD
 
     {
         SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-        if (!display) {
-            return true;
+        যদি (!display) {
+            ফেরত true;
         }
 
-        SDL_DisplayMode *mode = NULL;
+        SDL_DisplayMode *mode = ফাঁকা;
         SDL_DisplayMode closest;
-        if (window->requested_fullscreen_mode.internal) {
+        যদি (window->requested_fullscreen_mode.internal) {
             // App explicitly set a fullscreen mode.
             mode = &window->requested_fullscreen_mode;
-        } else if (window->floating.w > 0 && window->floating.h > 0) {
-            if (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
+        } অন্যথা যদি (window->floating.w > 0 && window->floating.h > 0) {
+            যদি (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
                 mode = &closest;
             }
         }
-        if (!mode) {
-            return true;
+        যদি (!mode) {
+            ফেরত true;
         }
 
         DOSVESA_ApplyModeForWindow(display, window, mode);
     }
 
-    return true;
+    ফেরত true;
 }
 
-static void DOSVESA_SetWindowSize(SDL_VideoDevice *device, SDL_Window *window)
+স্থির শূন্য DOSVESA_Set_Window_আকার(SDL_VideoDevice *device, SDL_Window *window)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    if (!display) {
-        return;
+    যদি (!display) {
+        ফেরত;
     }
 
     SDL_DisplayMode closest;
-    SDL_DisplayMode *mode = NULL;
-    if (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
+    SDL_DisplayMode *mode = ফাঁকা;
+    যদি (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
         mode = &closest;
     }
 
@@ -111,28 +111,28 @@ static void DOSVESA_SetWindowSize(SDL_VideoDevice *device, SDL_Window *window)
 // Critical for performance: this function must be implemented and as simple
 // as possible to avoid slowdowns during calls to SDL_UpdateWindowSurface().
 // A few pointer dereferences here can cost 10% of performance easily.
-static void DOSVESA_GetWindowSizeInPixels(SDL_VideoDevice *device, SDL_Window *window, int *w, int *h)
+স্থির শূন্য DOSVESA_Get_Window_আকার_In_Pixels(SDL_VideoDevice *device, SDL_Window *window, পূর্ণসংখ্যা *w, পূর্ণসংখ্যা *h)
 {
     *w = window->w;
     *h = window->h;
 }
 
-static void DOSVESA_DestroyWindow(SDL_VideoDevice *device, SDL_Window *window)
+স্থির শূন্য DOSVESA_DestroyWindow(SDL_VideoDevice *device, SDL_Window *window)
 {
     SDL_free(window->internal);
-    window->internal = NULL;
+    window->internal = ফাঁকা;
 }
 
-static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
+স্থির bool DOSVESA_VideoInit(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
+    SDL_Video_তথ্য *তথ্য = device->internal;
 
     // Verify that the "fat DS" nearptr trick is active. Without it,
     // DOS_PhysicalToLinear() produces garbage pointers and we crash.
     // SDL_RunApp() enables this automatically; if the app defined
     // SDL_MAIN_HANDLED it must call __djgpp_nearptr_enable() itself.
-    if (__djgpp_conventional_base == 0) {
-        return SDL_SetError("DOSVESA: __djgpp_nearptr_enable() was not called. "
+    যদি (__djgpp_conventional_base == 0) {
+        ফেরত SDL_SetError("DOSVESA: __djgpp_nearptr_enable() was not called. "
                             "Did you define SDL_MAIN_HANDLED without enabling the fat DS trick?");
     }
 
@@ -147,18 +147,18 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
 
     SDL_VideoDisplay vdisplay;
     SDL_zero(vdisplay);
-    SDL_memcpy(&vdisplay.desktop_mode, &mode, sizeof(mode));
-    vdisplay.name = (char *)DOSVESA_GetGPUName();
+    SDL_memcpy(&vdisplay.desktop_mode, &mode, আকার(mode));
+    vdisplay.name = (অক্ষর *)DOSVESA_GetGPUName();
     SDL_DisplayID display_id = SDL_AddVideoDisplay(&vdisplay, false);
-    if (!display_id) {
-        return false;
+    যদি (!display_id) {
+        ফেরত false;
     }
 
-    SDL_zero(data->current_mode);
+    SDL_zero(তথ্য->current_mode);
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(display_id);
-    if (!display || !DOSVESA_GetDisplayModes(device, display)) {
-        return false;
+    যদি (!display || !DOSVESA_GetDisplayModes(device, display)) {
+        ফেরত false;
     }
 
     // Pick a sensible default desktop mode. This determines the window
@@ -166,13 +166,13 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     // that want something else should call SDL_SetWindowFullscreenMode.
     {
         SDL_DisplayMode closest;
-        if (SDL_GetClosestFullscreenDisplayMode(display_id, 640, 480, 0.0f, false, &closest)) {
+        যদি (SDL_GetClosestFullscreenDisplayMode(display_id, 640, 480, 0.0f, false, &closest)) {
             // Deep-copy the mode into desktop_mode. We need our own
             // internal allocation because SDL frees desktop_mode.internal
             // and fullscreen_modes[].internal independently.
-            SDL_DisplayModeData *desktop_internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*desktop_internal));
-            if (desktop_internal) {
-                SDL_copyp(desktop_internal, (const SDL_DisplayModeData *)closest.internal);
+            SDL_Display_Mode_তথ্য *desktop_internal = (SDL_Display_Mode_তথ্য *)SDL_malloc(আকার(*desktop_internal));
+            যদি (desktop_internal) {
+                SDL_copyp(desktop_internal, (ধ্রুবক SDL_Display_Mode_তথ্য *)closest.internal);
                 SDL_copyp(&display->desktop_mode, &closest);
                 display->desktop_mode.internal = desktop_internal;
             }
@@ -188,10 +188,10 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
         SDL_zero(regs);
         regs.x.ax = 0x4F03; // VBE Get Current Mode
         __dpmi_int(0x10, &regs);
-        if (regs.x.ax == 0x004F) {
-            data->original_vbe_mode = regs.x.bx;
-        } else {
-            data->original_vbe_mode = 0x03; // assume text mode
+        যদি (regs.x.ax == 0x004F) {
+            তথ্য->original_vbe_mode = regs.x.bx;
+        } অন্যথা {
+            তথ্য->original_vbe_mode = 0x03; // assume text mode
         }
 
         // Save VBE state via VBE function 0x4F04 so we can do a full restore later.
@@ -201,12 +201,12 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
         regs.x.dx = 0x00; // subfunction 0: get state buffer size
         regs.x.cx = 0x0F; // save all state: hardware + BIOS data + DAC + SVGA
         __dpmi_int(0x10, &regs);
-        if (regs.x.ax == 0x004F) {
+        যদি (regs.x.ax == 0x004F) {
             // regs.x.bx contains size in 64-byte blocks.
-            Uint32 state_size = (Uint32)regs.x.bx * 64;
+            Uint32 state_আকার = (Uint32)regs.x.bx * 64;
             _go32_dpmi_seginfo state_seginfo;
-            void *state_buf = DOS_AllocateConventionalMemory(state_size, &state_seginfo);
-            if (state_buf) {
+            শূন্য *state_buf = DOS_AllocateConventionalMemory(state_আকার, &state_seginfo);
+            যদি (state_buf) {
                 // Step 2: save state (subfunction 0x01) into conventional memory buffer.
                 SDL_zero(regs);
                 regs.x.ax = 0x4F04;
@@ -215,13 +215,13 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
                 regs.x.es = DOS_LinearToPhysical(state_buf) / 16;
                 regs.x.bx = DOS_LinearToPhysical(state_buf) & 0xF;
                 __dpmi_int(0x10, &regs);
-                if (regs.x.ax == 0x004F) {
+                যদি (regs.x.ax == 0x004F) {
                     // Copy state from conventional memory to our heap so we
                     // can free the low-memory buffer now.
-                    data->vbe_state_buffer = SDL_malloc(state_size);
-                    if (data->vbe_state_buffer) {
-                        SDL_memcpy(data->vbe_state_buffer, state_buf, state_size);
-                        data->vbe_state_buffer_size = state_size;
+                    তথ্য->vbe_state_বাফার = SDL_malloc(state_আকার);
+                    যদি (তথ্য->vbe_state_বাফার) {
+                        SDL_memcpy(তথ্য->vbe_state_বাফার, state_buf, state_আকার);
+                        তথ্য->vbe_state_বাফার_আকার = state_আকার;
                     }
                 }
                 DOS_FreeConventionalMemory(&state_seginfo);
@@ -232,24 +232,24 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     DOSVESA_InitMouse(device);
     DOSVESA_InitKeyboard(device);
 
-    return true;
+    ফেরত true;
 }
 
-static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
+স্থির শূন্য DOSVESA_VideoQuit(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
+    SDL_Video_তথ্য *তথ্য = device->internal;
 
-    if (data->mapping.size) {
-        __dpmi_free_physical_address_mapping(&data->mapping); // dump existing video mapping.
-        SDL_zero(data->mapping);
+    যদি (তথ্য->mapping.আকার_2) {
+        __dpmi_free_physical_address_mapping(&তথ্য->mapping); // dump existing video mapping.
+        SDL_zero(তথ্য->mapping);
     }
 
     // Restore saved VBE state if available.
-    if (data->vbe_state_buffer && data->vbe_state_buffer_size > 0) {
+    যদি (তথ্য->vbe_state_বাফার && তথ্য->vbe_state_বাফার_আকার > 0) {
         _go32_dpmi_seginfo restore_seginfo;
-        void *restore_buf = DOS_AllocateConventionalMemory(data->vbe_state_buffer_size, &restore_seginfo);
-        if (restore_buf) {
-            SDL_memcpy(restore_buf, data->vbe_state_buffer, data->vbe_state_buffer_size);
+        শূন্য *restore_buf = DOS_AllocateConventionalMemory(তথ্য->vbe_state_বাফার_আকার, &restore_seginfo);
+        যদি (restore_buf) {
+            SDL_memcpy(restore_buf, তথ্য->vbe_state_বাফার, তথ্য->vbe_state_বাফার_আকার);
             __dpmi_regs regs;
             SDL_zero(regs);
             regs.x.ax = 0x4F04;
@@ -260,9 +260,9 @@ static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
             __dpmi_int(0x10, &regs);
             DOS_FreeConventionalMemory(&restore_seginfo);
         }
-        SDL_free(data->vbe_state_buffer);
-        data->vbe_state_buffer = NULL;
-        data->vbe_state_buffer_size = 0;
+        SDL_free(তথ্য->vbe_state_বাফার);
+        তথ্য->vbe_state_বাফার = ফাঁকা;
+        তথ্য->vbe_state_বাফার_আকার = 0;
     }
 
     // Restore the original video mode.
@@ -271,85 +271,85 @@ static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
         bool restored = false;
 
         // Try VBE mode restore first (only works on VBE 1.2+).
-        if (data->original_vbe_mode != 0x03) {
+        যদি (তথ্য->original_vbe_mode != 0x03) {
             SDL_zero(regs);
             regs.x.ax = 0x4F02;
-            regs.x.bx = data->original_vbe_mode;
+            regs.x.bx = তথ্য->original_vbe_mode;
             __dpmi_int(0x10, &regs);
             restored = (regs.x.ax == 0x004F);
         }
 
         // Fall back to standard BIOS text mode (works on any VGA).
-        if (!restored) {
+        যদি (!restored) {
             SDL_zero(regs);
             regs.x.ax = 0x0003;
             __dpmi_int(0x10, &regs);
         }
     }
 
-    SDL_zero(data->current_mode);
+    SDL_zero(তথ্য->current_mode);
 
     DOSVESA_QuitMouse(device);
     DOSVESA_QuitKeyboard(device);
 }
 
-static void DOSVESA_Destroy(SDL_VideoDevice *device)
+স্থির শূন্য DOSVESA_Destroy(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
-    SDL_free(data->vbe_state_buffer);
+    SDL_Video_তথ্য *তথ্য = device->internal;
+    SDL_free(তথ্য->vbe_state_বাফার);
     SDL_free(device->internal);
     SDL_free(device);
     DOSVESA_FreeVESAInfo();
 }
 
-static SDL_VideoDevice *DOSVESA_CreateDevice(void)
+স্থির SDL_VideoDevice *DOSVESA_CreateDevice(শূন্য)
 {
-    if (!DOSVESA_SupportsVESA()) {
-        return NULL;
+    যদি (!DOSVESA_SupportsVESA()) {
+        ফেরত ফাঁকা;
     }
 
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
+    SDL_Video_তথ্য *phdata;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, আকার(SDL_VideoDevice));
+    যদি (!device) {
+        ফেরত ফাঁকা;
     }
 
     // Initialize internal data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_তথ্য *)SDL_calloc(1, আকার(SDL_Video_তথ্য));
+    যদি (!phdata) {
         SDL_free(device);
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
     device->internal = phdata;
-    device->free = DOSVESA_Destroy;
+    device->মুক্ত = DOSVESA_Destroy;
     device->VideoInit = DOSVESA_VideoInit;
     device->VideoQuit = DOSVESA_VideoQuit;
     device->GetDisplayModes = DOSVESA_GetDisplayModes;
     device->SetDisplayMode = DOSVESA_SetDisplayMode;
     device->CreateSDLWindow = DOSVESA_CreateWindow;
-    device->SetWindowSize = DOSVESA_SetWindowSize;
+    device->Set_Window_আকার = DOSVESA_Set_Window_আকার;
     device->DestroyWindow = DOSVESA_DestroyWindow;
     device->CreateWindowFramebuffer = DOSVESA_CreateWindowFramebuffer;
     device->SetWindowFramebufferVSync = DOSVESA_SetWindowFramebufferVSync;
     device->GetWindowFramebufferVSync = DOSVESA_GetWindowFramebufferVSync;
     device->UpdateWindowFramebuffer = DOSVESA_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = DOSVESA_DestroyWindowFramebuffer;
-    device->GetWindowSizeInPixels = DOSVESA_GetWindowSizeInPixels;
+    device->Get_Window_আকার_In_Pixels = DOSVESA_Get_Window_আকার_In_Pixels;
     device->PumpEvents = DOSVESA_PumpEvents;
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ফেরত device;
 }
 
 VideoBootStrap DOSVESA_bootstrap = {
     "vesa",
     "DOS VESA Video Driver",
     DOSVESA_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    ফাঁকা, // no ShowMessageBox implementation
     false
 };
 

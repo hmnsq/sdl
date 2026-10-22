@@ -19,72 +19,72 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "../../SDL_list.h"
-#include "SDL_x11video.h"
+#অন্তর্ভাব "../../SDL_list.h"
+#অন্তর্ভাব "SDL_x11video.h"
 #ifdef SDL_USE_LIBDBUS
-#include "../../core/linux/SDL_system_theme.h"
+#অন্তর্ভাব "../../core/linux/SDL_system_theme.h"
 #endif
 #ifdef HAVE_FRIBIDI_H
-#include "../../core/unix/SDL_fribidi.h"
+#অন্তর্ভাব "../../core/unix/SDL_fribidi.h"
 #endif
-#include "SDL_x11dyn.h"
-#include "SDL_x11toolkit.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11modes.h"
-#include "xsettings-client.h"
-#include <X11/keysym.h>
-#include <locale.h>
+#অন্তর্ভাব "SDL_x11dyn.h"
+#অন্তর্ভাব "SDL_x11toolkit.h"
+#অন্তর্ভাব "SDL_x11settings.h"
+#অন্তর্ভাব "SDL_x11modes.h"
+#অন্তর্ভাব "xsettings-client.h"
+#অন্তর্ভাব <X11/keysym.h>
+#অন্তর্ভাব <locale.h>
 
 #define SDL_SET_LOCALE 1
 #define SDL_GRAB 1
 
-typedef enum SDL_ToolkitTextTypeX11
+প্রকারলেখ গণনা SDL_ToolkitTextTypeX11
 {
     SDL_TOOLKIT_TEXT_TYPE_X11_GENERIC,
     SDL_TOOLKIT_TEXT_TYPE_X11_THAI
 } SDL_ToolkitTextTypeX11;
 
 #ifdef HAVE_LIBTHAI_H
-typedef struct SDL_ToolkitThaiOverlayX11
+প্রকারলেখ কাঠামো SDL_ToolkitThaiOverlayX11
 {
-    bool top;
-    char *str;
+    bool শীর্ষ;
+    অক্ষর *str;
     size_t sz;
     SDL_Rect rect;
 } SDL_ToolkitThaiOverlayX11;
 #endif
 
-typedef struct SDL_ToolkitTextElementX11
+প্রকারলেখ কাঠামো SDL_ToolkitTextElementX11
 {
     SDL_ToolkitTextTypeX11 type;
-    char *str;
+    অক্ষর *str;
     size_t sz;
     SDL_Rect rect;
-    int font_h;
-    void (*str_free)(void *);
+    পূর্ণসংখ্যা font_h;
+    শূন্য (*str_free)(শূন্য *);
 #ifdef HAVE_LIBTHAI_H
-    SDL_ListNode *thai_overlays;
+    SDL_List_গ্রন্থি *thai_overlays;
 #endif
 } SDL_ToolkitTextElementX11;
 
-typedef struct SDL_ToolkitIconControlX11
+প্রকারলেখ কাঠামো SDL_ToolkitIconControlX11
 {
     SDL_ToolkitControlX11 parent;
 
     /* Icon type */
     SDL_MessageBoxFlags flags;
-    char icon_char;
+    অক্ষর icon_char;
 
     /* Font */
     XFontStruct *icon_char_font;
-    int icon_char_x;
-    int icon_char_y;
-    int icon_char_a;
-    int icon_char_h;
+    পূর্ণসংখ্যা icon_char_x;
+    পূর্ণসংখ্যা icon_char_y;
+    পূর্ণসংখ্যা icon_char_a;
+    পূর্ণসংখ্যা icon_char_h;
 
     /* Colors */
     XColor xcolor_black;
@@ -96,32 +96,32 @@ typedef struct SDL_ToolkitIconControlX11
     XColor xcolor_bg_shadow;
 } SDL_ToolkitIconControlX11;
 
-typedef struct SDL_ToolkitButtonControlX11
+প্রকারলেখ কাঠামো SDL_ToolkitButtonControlX11
 {
     SDL_ToolkitControlX11 parent;
 
-    /* Data */
-    const SDL_MessageBoxButtonData *data;
+    /*তথ্য*/
+    ধ্রুবক SDL_Message_Box_Button_তথ্য *তথ্য;
 
     /* Text */
-    SDL_ListNode *text;
+    SDL_List_গ্রন্থি *text;
     SDL_Rect text_rect;
     
     /* Callback */
-    void *cb_data;
-    void (*cb)(struct SDL_ToolkitControlX11 *, void *);
+    শূন্য *cb_তথ্য;
+    শূন্য (*cb)(কাঠামো SDL_ToolkitControlX11 *, শূন্য *);
 } SDL_ToolkitButtonControlX11;
 
-typedef struct SDL_ToolkitLabelControlLineX11
+প্রকারলেখ কাঠামো SDL_Toolkit_Label_Control_সারি_X11
 {
-    SDL_ListNode *text;
+    SDL_List_গ্রন্থি *text;
     SDL_Rect rect;
 #ifdef HAVE_FRIBIDI_H
     FriBidiParType par;
 #endif
-} SDL_ToolkitLabelControlLineX11;
+} SDL_Toolkit_Label_Control_সারি_X11;
 
-typedef struct SDL_ToolkitLabelControlX11
+প্রকারলেখ কাঠামো SDL_ToolkitLabelControlX11
 {
     SDL_ToolkitControlX11 parent;
 
@@ -135,36 +135,36 @@ typedef struct SDL_ToolkitLabelControlX11
     bool *free_lines;
     FriBidiParType *par_types;
 #endif*/
-    SDL_ToolkitLabelControlLineX11 *lines;
+    SDL_Toolkit_Label_Control_সারি_X11 *সারিগুলি;
     size_t sz;
 } SDL_ToolkitLabelControlX11;
 
-typedef struct SDL_ToolkitMenuBarControlX11
+প্রকারলেখ কাঠামো SDL_ToolkitMenuBarControlX11
 {
     SDL_ToolkitControlX11 parent;
 
-    SDL_ListNode *menu_items;
+    SDL_List_গ্রন্থি *menu_বস্তুসমূহ;
 } SDL_ToolkitMenuBarControlX11;
 
-typedef struct SDL_ToolkitMenuControlX11
+প্রকারলেখ কাঠামো SDL_ToolkitMenuControlX11
 {
     SDL_ToolkitControlX11 parent;
 
-    SDL_ListNode *menu_items;
+    SDL_List_গ্রন্থি *menu_বস্তুসমূহ;
     XColor xcolor_check_bg;
 } SDL_ToolkitMenuControlX11;
 
 /* Font for icon control */
-static const char *g_IconFont = "-*-*-bold-r-normal-*-%d-*-*-*-*-*-iso8859-1[33 88 105]";
-#define G_ICONFONT_SIZE 22
+স্থির ধ্রুবক অক্ষর *g_IconFont = "-*-*-bold-r-normal-*-%d-*-*-*-*-*-iso8859-1[33 88 105]";
+#define G_ICONFONT_আকার 22
 
 /* General UI font */
-static const char g_ToolkitFontLatin1[] =
+স্থির ধ্রুবক অক্ষর g_ToolkitFontLatin1[] =
     "-*-*-medium-r-normal--0-%d-*-*-p-0-iso8859-1";
-static const char g_ToolkitFontLatin1Fallback[] =
+স্থির ধ্রুবক অক্ষর g_ToolkitFontLatin1Fallback[] =
     "-*-*-*-*-*--*-*-*-*-*-*-iso8859-1";
 
-static const char *g_ToolkitFont[] = {
+স্থির ধ্রুবক অক্ষর *g_ToolkitFont[] = {
     "-*-*-medium-r-normal--*-%d-*-*-*-*-iso10646-1,*",  // explicitly unicode (iso10646-1)
     "-*-*-medium-r-*--*-%d-*-*-*-*-iso10646-1,*",  // explicitly unicode (iso10646-1)
     "-misc-*-*-*-*--*-*-*-*-*-*-iso10646-1,*",  // misc unicode (fix for some systems)
@@ -173,11 +173,11 @@ static const char *g_ToolkitFont[] = {
     "-*-*-medium-r-*--*-%d-*-*-*-*-iso8859-1,*",  // explicitly latin1, in case low-ASCII works out.
     "-misc-*-*-*-*--*-*-*-*-*-*-iso8859-1,*",  // misc latin1 (fix for some systems)
     "-*-*-*-*-*--*-*-*-*-*-*-iso8859-1,*",  // just give me anything latin1.
-    NULL
+    ফাঁকা
 };
-#define G_TOOLKITFONT_SIZE 140
+#define G_TOOLKITFONT_আকার 140
 
-static const SDL_MessageBoxColor g_default_colors[SDL_MESSAGEBOX_COLOR_COUNT] = {
+স্থির ধ্রুবক SDL_MessageBoxColor g_default_colors[SDL_MESSAGEBOX_COLOR_গুনতি] = {
     { 191, 184, 191 },    // SDL_MESSAGEBOX_COLOR_BACKGROUND,
     { 0, 0, 0 }, // SDL_MESSAGEBOX_COLOR_TEXT,
     { 127, 120, 127 }, // SDL_MESSAGEBOX_COLOR_BUTTON_BORDER,
@@ -186,7 +186,7 @@ static const SDL_MessageBoxColor g_default_colors[SDL_MESSAGEBOX_COLOR_COUNT] = 
 };
 
 #ifdef SDL_USE_LIBDBUS
-static const SDL_MessageBoxColor g_default_colors_dark[SDL_MESSAGEBOX_COLOR_COUNT] = {
+স্থির ধ্রুবক SDL_MessageBoxColor g_default_colors_dark[SDL_MESSAGEBOX_COLOR_গুনতি] = {
     { 20, 20, 20 },    // SDL_MESSAGEBOX_COLOR_BACKGROUND,
     { 192, 192, 192 }, // SDL_MESSAGEBOX_COLOR_TEXT,
     { 12, 12, 12 }, // SDL_MESSAGEBOX_COLOR_BUTTON_BORDER,
@@ -194,8 +194,8 @@ static const SDL_MessageBoxColor g_default_colors_dark[SDL_MESSAGEBOX_COLOR_COUN
     { 36, 36, 36 },  // SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED,
 };
 
-#if 0
-static const SDL_MessageBoxColor g_default_colors_dark_high_contrast[SDL_MESSAGEBOX_COLOR_COUNT] = {
+#যদি 0
+স্থির ধ্রুবক SDL_MessageBoxColor g_default_colors_dark_উপরের_contrast[SDL_MESSAGEBOX_COLOR_গুনতি] = {
     { 0, 0, 0 },    // SDL_MESSAGEBOX_COLOR_BACKGROUND,
     { 255, 255, 255 }, // SDL_MESSAGEBOX_COLOR_TEXT,
     { 20, 235, 255 }, // SDL_MESSAGEBOX_COLOR_BUTTON_BORDER,
@@ -203,7 +203,7 @@ static const SDL_MessageBoxColor g_default_colors_dark_high_contrast[SDL_MESSAGE
     { 125, 5, 125 },  // SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED,
 };
 
-static const SDL_MessageBoxColor g_default_colors_light_high_contrast[SDL_MESSAGEBOX_COLOR_COUNT] = {
+স্থির ধ্রুবক SDL_MessageBoxColor g_default_colors_light_উপরের_contrast[SDL_MESSAGEBOX_COLOR_গুনতি] = {
     { 255, 255, 255 },    // SDL_MESSAGEBOX_COLOR_BACKGROUND,
     { 0, 0, 0 }, // SDL_MESSAGEBOX_COLOR_TEXT,
     { 0, 0, 0 }, // SDL_MESSAGEBOX_COLOR_BUTTON_BORDER,
@@ -214,169 +214,169 @@ static const SDL_MessageBoxColor g_default_colors_light_high_contrast[SDL_MESSAG
 
 #endif
 
-static int g_shm_error;
-static int (*g_old_error_handler)(Display *, XErrorEvent *) = NULL;
+স্থির পূর্ণসংখ্যা g_shm_error;
+স্থির পূর্ণসংখ্যা (*g_old_error_handler)(Display *, XErrorEvent *) = ফাঁকা;
 
-static int X11Toolkit_SharedMemoryErrorHandler(Display *d, XErrorEvent *e)
+স্থির পূর্ণসংখ্যা X11Toolkit_SharedMemoryErrorHandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadAccess || e->error_code == BadRequest) {
+    যদি (e->error_code == BadAccess || e->error_code == BadRequest) {
         g_shm_error = True;
-        return 0;
+        ফেরত 0;
     }
-    return g_old_error_handler(d, e);
+    ফেরত g_old_error_handler(d, e);
 }
 
-static void X11Toolkit_InitWindowPixmap(SDL_ToolkitWindowX11 *data) {
-    if (data->pixmap) {
+স্থির শূন্য X11Toolkit_InitWindowPixmap(SDL_ToolkitWindowX11 *তথ্য) {
+    যদি (তথ্য->pixmap) {
 #ifndef NO_SHARED_MEMORY
-        if (!data->shm_pixmap) {
-            data->drawable = X11_XCreatePixmap(data->display, data->window, data->pixmap_width, data->pixmap_height, data->depth);
+        যদি (!তথ্য->shm_pixmap) {
+            তথ্য->drawable = X11_XCreatePixmap(তথ্য->display, তথ্য->window, তথ্য->pixmap_width, তথ্য->pixmap_height, তথ্য->depth);
         }
-#else
-        data->drawable = X11_XCreatePixmap(data->display, data->window, data->pixmap_width, data->pixmap_height, data->depth);
+#অন্যথা
+        তথ্য->drawable = X11_XCreatePixmap(তথ্য->display, তথ্য->window, তথ্য->pixmap_width, তথ্য->pixmap_height, তথ্য->depth);
 #endif
 #ifndef NO_SHARED_MEMORY
-        if (data->shm) {
-            data->image = X11_XShmCreateImage(data->display, data->visual, data->depth, ZPixmap, NULL, &data->shm_info, data->pixmap_width, data->pixmap_height);
-            if (data->image) {
-                data->shm_bytes_per_line = data->image->bytes_per_line;
+        যদি (তথ্য->shm) {
+            তথ্য->image = X11_XShmCreateImage(তথ্য->display, তথ্য->visual, তথ্য->depth, ZPixmap, ফাঁকা, &তথ্য->shm_info, তথ্য->pixmap_width, তথ্য->pixmap_height);
+            যদি (তথ্য->image) {
+                তথ্য->shm_bytes_per_সারি = তথ্য->image->bytes_per_সারি;
 
-                data->shm_info.shmid = shmget(IPC_PRIVATE, data->image->bytes_per_line * data->image->height, IPC_CREAT | 0777);
-                if (data->shm_info.shmid < 0) {
-                    XDestroyImage(data->image);
-                    data->image = NULL;
-                    data->shm = false;
-                    return;
+                তথ্য->shm_info.shmid = shmget(IPC_PRIVATE, তথ্য->image->bytes_per_সারি * তথ্য->image->height, IPC_CREAT | 0777);
+                যদি (তথ্য->shm_info.shmid < 0) {
+                    XDestroyImage(তথ্য->image);
+                    তথ্য->image = ফাঁকা;
+                    তথ্য->shm = false;
+                    ফেরত;
                 }
 
-                data->shm_info.readOnly = False;
-                data->shm_info.shmaddr = data->image->data = (char *)shmat(data->shm_info.shmid, NULL, 0);
-                if (((signed char *)data->shm_info.shmaddr) == (signed char *)-1) {
-                    XDestroyImage(data->image);
-                    data->shm = false;
-                    data->image = NULL;
-                    return;
+                তথ্য->shm_info.readOnly = False;
+                তথ্য->shm_info.shmaddr = তথ্য->image->তথ্য = (অক্ষর *)shmat(তথ্য->shm_info.shmid, ফাঁকা, 0);
+                যদি (((signed অক্ষর *)তথ্য->shm_info.shmaddr) == (signed অক্ষর *)-1) {
+                    XDestroyImage(তথ্য->image);
+                    তথ্য->shm = false;
+                    তথ্য->image = ফাঁকা;
+                    ফেরত;
                 }
 
                 g_shm_error = False;
                 g_old_error_handler = X11_XSetErrorHandler(X11Toolkit_SharedMemoryErrorHandler);
-                X11_XShmAttach(data->display, &data->shm_info);
-                X11_XSync(data->display, False);
+                X11_XShmAttach(তথ্য->display, &তথ্য->shm_info);
+                X11_XSync(তথ্য->display, False);
                 X11_XSetErrorHandler(g_old_error_handler);
-                if (g_shm_error) {
-                    XDestroyImage(data->image);
-                    shmdt(data->shm_info.shmaddr);
-                    shmctl(data->shm_info.shmid, IPC_RMID, NULL);
-                    data->image = NULL;
-                    data->shm = false;
-                    return;
+                যদি (g_shm_error) {
+                    XDestroyImage(তথ্য->image);
+                    shmdt(তথ্য->shm_info.shmaddr);
+                    shmctl(তথ্য->shm_info.shmid, IPC_RMID, ফাঁকা);
+                    তথ্য->image = ফাঁকা;
+                    তথ্য->shm = false;
+                    ফেরত;
                 }
 
-                if (data->shm_pixmap) {
-                    data->drawable = X11_XShmCreatePixmap(data->display, data->window, data->shm_info.shmaddr, &data->shm_info, data->pixmap_width, data->pixmap_height, data->depth);
-                    if (data->drawable == None) {
-                        data->shm_pixmap = False;
-                    } else {
-                        XDestroyImage(data->image);
-                        data->image = NULL;
+                যদি (তথ্য->shm_pixmap) {
+                    তথ্য->drawable = X11_XShmCreatePixmap(তথ্য->display, তথ্য->window, তথ্য->shm_info.shmaddr, &তথ্য->shm_info, তথ্য->pixmap_width, তথ্য->pixmap_height, তথ্য->depth);
+                    যদি (তথ্য->drawable == None) {
+                        তথ্য->shm_pixmap = False;
+                    } অন্যথা {
+                        XDestroyImage(তথ্য->image);
+                        তথ্য->image = ফাঁকা;
                     }
                 }
 
-                shmctl(data->shm_info.shmid, IPC_RMID, NULL);
-            } else {
-                data->shm = false;
+                shmctl(তথ্য->shm_info.shmid, IPC_RMID, ফাঁকা);
+            } অন্যথা {
+                তথ্য->shm = false;
             }
         }
 #endif
     }
 }
 
-static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
+স্থির শূন্য X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
 {    
     window->thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_NONE;
     window->thai_font = SDL_TOOLKIT_THAI_FONT_X11_CELL;
 #ifdef X_HAVE_UTF8_STRING
     window->utf8 = true;
-    window->font_set = NULL;
-    if (SDL_X11_HAVE_UTF8) {
-        char **missing = NULL;
-        int num_missing = 0;
-        int i_font;
-        window->font_struct = NULL;
-        for (i_font = 0; g_ToolkitFont[i_font]; ++i_font) {
-            char *font;
+    window->font_set = ফাঁকা;
+    যদি (SDL_X11_HAVE_UTF8) {
+        অক্ষর **missing = ফাঁকা;
+        পূর্ণসংখ্যা অঙ্ক_missing = 0;
+        পূর্ণসংখ্যা i_font;
+        window->font_struct = ফাঁকা;
+        জন্য (i_font = 0; g_ToolkitFont[i_font]; ++i_font) {
+            অক্ষর *font;
 
-            if (SDL_strstr(g_ToolkitFont[i_font], "%d")) {
+            যদি (SDL_strstr(g_ToolkitFont[i_font], "%d")) {
                 try_load_font:
-                SDL_asprintf(&font, g_ToolkitFont[i_font], G_TOOLKITFONT_SIZE * window->iscale);
-                window->font_set = X11_XCreateFontSet(window->display, font, &missing, &num_missing, NULL);
+                SDL_asprintf(&font, g_ToolkitFont[i_font], G_TOOLKITFONT_আকার * window->iscale);
+                window->font_set = X11_XCreateFontSet(window->display, font, &missing, &অঙ্ক_missing, ফাঁকা);
                 SDL_free(font);
 
-                if (!window->font_set) {
-                    if (window->scale != 0 && window->iscale > 0) {
-                        window->iscale = (int)SDL_ceilf(window->scale);
+                যদি (!window->font_set) {
+                    যদি (window->scale != 0 && window->iscale > 0) {
+                        window->iscale = (পূর্ণসংখ্যা)SDL_ceilf(window->scale);
                         window->scale = 0;
-                    } else {
+                    } অন্যথা {
                         window->iscale--;
                     }
-                    goto try_load_font;
+                    যাও try_load_font;
                 }
-            } else {
-                window->font_set = X11_XCreateFontSet(window->display, g_ToolkitFont[i_font], &missing, &num_missing, NULL);
+            } অন্যথা {
+                window->font_set = X11_XCreateFontSet(window->display, g_ToolkitFont[i_font], &missing, &অঙ্ক_missing, ফাঁকা);
             }
 
-            if (missing) {
+            যদি (missing) {
                 X11_XFreeStringList(missing);
             }
 
-            if (window->font_set) {
-                break;
+            যদি (window->font_set) {
+                বিরতি;
             }
         }
 
-        if (!window->font_set) {
-            goto load_font_traditional;
-        } else {
+        যদি (!window->font_set) {
+            যাও load_font_traditional;
+        } অন্যথা {
             XFontStruct **font_structs;
-            char **font_names;
-            int font_sz;
-            int i;
+            অক্ষর **font_names;
+            পূর্ণসংখ্যা font_sz;
+            পূর্ণসংখ্যা i;
             
 #ifdef HAVE_FRIBIDI_H
             window->do_shaping = !X11_XContextDependentDrawing(window->font_set);
 #endif
             /* TODO: What to do the XFontSet happens to have more than one Thai font? */
             font_sz = X11_XFontsOfFontSet(window->font_set, &font_structs, &font_names);
-            for (i = 0; i < font_sz; i++) {
+            জন্য (i = 0; i < font_sz; i++) {
                 SDL_ToolkitThaiEncodingX11 thai_encoding;
                 
                 thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_NONE;
-                if (SDL_strstr(font_names[i], "tis620-0")) {
+                যদি (SDL_strstr(font_names[i], "tis620-0")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS;
-                } else if (SDL_strstr(font_names[i], "tis620-1")) {
+                } অন্যথা যদি (SDL_strstr(font_names[i], "tis620-1")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS_MAC;
-                } else if (SDL_strstr(font_names[i], "tis620-2")) {
+                } অন্যথা যদি (SDL_strstr(font_names[i], "tis620-2")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS_WIN;
-                } else if (SDL_strstr(font_names[i], "iso8859-11")) {
+                } অন্যথা যদি (SDL_strstr(font_names[i], "iso8859-11")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_8859;
-                } else if (SDL_strstr(font_names[i], "iso10646-1")) {
+                } অন্যথা যদি (SDL_strstr(font_names[i], "iso10646-1")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_UNICODE;
                 }
                                                 
                 /* TODO: Set encoding to none if the font does not actually have any Thai codepoints */
-                if (thai_encoding != SDL_TOOLKIT_THAI_ENCODING_X11_NONE) {
+                যদি (thai_encoding != SDL_TOOLKIT_THAI_ENCODING_X11_NONE) {
                     XFontStruct *font_struct;
 
                     /* We have to load the font again because the font_struct supplied by FontsOfFontSet does not have the per_char member set */
                     font_struct = X11_XLoadQueryFont(window->display, font_names[i]);
-                    if (font_struct) {
-                        if (font_struct->per_char) {
-                            int glyphs_sz;
-                            int j;
+                    যদি (font_struct) {
+                        যদি (font_struct->per_char) {
+                            পূর্ণসংখ্যা glyphs_sz;
+                            পূর্ণসংখ্যা j;
 
                             glyphs_sz = (font_struct->max_char_or_byte2 - font_struct->min_char_or_byte2 + 1) * (font_struct->max_byte1 - font_struct->min_byte1 + 1);
-                            for (j = 0; j < glyphs_sz; j++) {
-                                if (font_struct->per_char[j].lbearing < 0) {
+                            জন্য (j = 0; j < glyphs_sz; j++) {
+                                যদি (font_struct->per_char[j].lbearing < 0) {
                                     window->thai_font = SDL_TOOLKIT_THAI_FONT_X11_OFFSET;
                                 }
                             }
@@ -388,110 +388,110 @@ static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
                 window->thai_encoding = thai_encoding;
             } 
         }
-    } else
+    } অন্যথা
 #endif
     {
-        char *font;
+        অক্ষর *font;
 
         load_font_traditional:
         window->utf8 = false;
-        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * window->iscale);
+        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_আকার * window->iscale);
         window->font_struct = X11_XLoadQueryFont(window->display, font);
         SDL_free(font);
-        if (!window->font_struct) {
-            if (window->iscale > 0) {
-                if (window->scale != 0) {
-                    window->iscale = (int)SDL_ceilf(window->scale);
+        যদি (!window->font_struct) {
+            যদি (window->iscale > 0) {
+                যদি (window->scale != 0) {
+                    window->iscale = (পূর্ণসংখ্যা)SDL_ceilf(window->scale);
                     window->scale = 0;
-                } else {
+                } অন্যথা {
                     window->iscale--;
                 }
-                goto load_font_traditional;
-            } else {
+                যাও load_font_traditional;
+            } অন্যথা {
                 window->font_struct = X11_XLoadQueryFont(window->display, g_ToolkitFontLatin1Fallback);
             }
         }
     }
 }
 
-static void X11Toolkit_SettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+স্থির শূন্য X11Toolkit_SettingsNotify(ধ্রুবক অক্ষর *name, XSettingsAction action, XSettingsSetting *setting, শূন্য *তথ্য)
 {
     SDL_ToolkitWindowX11 *window;
-    int i;
+    পূর্ণসংখ্যা i;
 
-    window = data;
+    window = তথ্য;
 
-    if (window->xsettings_first_time) {
-        return;
+    যদি (window->xsettings_first_time) {
+        ফেরত;
     }
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    যদি (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         bool dbe_already_setup = false;
         bool pixmap_already_setup = false;
 
-        if (window->pixmap) {
+        যদি (window->pixmap) {
             pixmap_already_setup = true;
-        } else {
+        } অন্যথা {
             dbe_already_setup = true;
         }
 
         /* set scale vars */
         window->scale = X11_GetGlobalContentScale(window->display, window->xsettings);
-        window->iscale = (int)SDL_ceilf(window->scale);
-        if (window->scale < 1) {
+        window->iscale = (পূর্ণসংখ্যা)SDL_ceilf(window->scale);
+        যদি (window->scale < 1) {
             window->scale = 1;
         }
-        if (SDL_roundf(window->scale) == window->scale) {
+        যদি (SDL_roundf(window->scale) == window->scale) {
             window->scale = 0;
         }
 
         /* setup fonts */
 #ifdef X_HAVE_UTF8_STRING
-        if (window->font_set) {
+        যদি (window->font_set) {
             X11_XFreeFontSet(window->display, window->font_set);
         }
 #endif
-        if (window->font_struct) {
+        যদি (window->font_struct) {
             X11_XFreeFont(window->display, window->font_struct);
         }
 
         X11Toolkit_InitWindowFonts(window);
 
         /* set up window */
-        if (window->scale != 0) {
+        যদি (window->scale != 0) {
             window->window_width = SDL_lroundf((window->window_width/window->iscale) * window->scale);
             window->window_height = SDL_lroundf((window->window_height/window->iscale) * window->scale);
             window->pixmap_width = window->window_width;
             window->pixmap_height = window->window_height;
             window->pixmap = true;
-        } else {
+        } অন্যথা {
             window->pixmap = false;
         }
 
-        if (window->pixmap) {
-            if (!pixmap_already_setup) {
+        যদি (window->pixmap) {
+            যদি (!pixmap_already_setup) {
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-                if (SDL_X11_HAVE_XDBE && window->xdbe) {
-                    X11_XdbeDeallocateBackBufferName(window->display, window->buf);
+                যদি (SDL_X11_HAVE_XDBE && window->xdbe) {
+                    X11_Xdbe_Deallocate_Back_বাফার_Name(window->display, window->buf);
                 }
 #endif
             }
             X11_XFreePixmap(window->display, window->drawable);
             X11Toolkit_InitWindowPixmap(window);
-        } else {
-            if (!dbe_already_setup) {
+        } অন্যথা {
+            যদি (!dbe_already_setup) {
                 X11_XFreePixmap(window->display, window->drawable);
 #ifndef NO_SHARED_MEMORY
-                if (window->image) {
+                যদি (window->image) {
                     XDestroyImage(window->image);
-                    window->image = NULL;
+                    window->image = ফাঁকা;
                 }
 #endif
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-                if (SDL_X11_HAVE_XDBE && window->xdbe) {
-                    window->buf = X11_XdbeAllocateBackBufferName(window->display, window->window, XdbeUndefined);
+                যদি (SDL_X11_HAVE_XDBE && window->xdbe) {
+                    window->buf = X11_Xdbe_Allocate_Back_বাফার_Name(window->display, window->window, XdbeUndefined);
                     window->drawable = window->buf;
                 }
 #endif
@@ -499,73 +499,73 @@ static void X11Toolkit_SettingsNotify(const char *name, XSettingsAction action, 
         }
 
         /* notify controls */
-        for (i = 0; i < window->controls_sz; i++) {
-            window->controls[i]->do_size = true;
+        জন্য (i = 0; i < window->controls_sz; i++) {
+            window->controls[i]->do_আকার = true;
 
-            if (window->controls[i]->func_on_scale_change) {
+            যদি (window->controls[i]->func_on_scale_change) {
                 window->controls[i]->func_on_scale_change(window->controls[i]);
             }
 
-            if (window->controls[i]->func_calc_size) {
-                window->controls[i]->func_calc_size(window->controls[i]);
+            যদি (window->controls[i]->func_calc_আকার) {
+                window->controls[i]->func_calc_আকার(window->controls[i]);
             }
 
-            window->controls[i]->do_size = false;
+            window->controls[i]->do_আকার = false;
         }
 
         /* notify cb */
-        if (window->cb_on_scale_change) {
-            window->cb_on_scale_change(window, window->cb_data);
+        যদি (window->cb_on_scale_change) {
+            window->cb_on_scale_change(window, window->cb_তথ্য);
         }
 
         /* update ev scales */
-        if (!window->pixmap) {
+        যদি (!window->pixmap) {
             window->ev_scale = window->ev_iscale = 1;
-        } else {
+        } অন্যথা {
             window->ev_scale = window->scale;
             window->ev_iscale = window->iscale;
         }
     }
 }
 
-static void X11Toolkit_GetTextWidthHeightForFont(XFontStruct *font, const char *str, int nbytes, int *pwidth, int *pheight, int *ascent, int *font_height)
+স্থির শূন্য X11Toolkit_GetTextWidthHeightForFont(XFontStruct *font, ধ্রুবক অক্ষর *str, পূর্ণসংখ্যা nbytes, পূর্ণসংখ্যা *pwidth, পূর্ণসংখ্যা *pheight, পূর্ণসংখ্যা *ascent, পূর্ণসংখ্যা *font_height)
 {
     XCharStruct text_structure;
-    int font_direction, font_ascent, font_descent;
+    পূর্ণসংখ্যা font_direction, font_ascent, font_descent;
     
     X11_XTextExtents(font, str, nbytes, &font_direction, &font_ascent, &font_descent, &text_structure);
     *pwidth = text_structure.width;
     *pheight = text_structure.ascent + text_structure.descent;
     *ascent = text_structure.ascent;
-    if (font_height) {
+    যদি (font_height) {
        *font_height = font_ascent + font_descent;
     }
 }
 
-static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char *str, int nbytes, int *pwidth, int *pheight, int *ascent, int *descent, int *font_height)
+স্থির শূন্য X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *তথ্য, ধ্রুবক অক্ষর *str, পূর্ণসংখ্যা nbytes, পূর্ণসংখ্যা *pwidth, পূর্ণসংখ্যা *pheight, পূর্ণসংখ্যা *ascent, পূর্ণসংখ্যা *descent, পূর্ণসংখ্যা *font_height)
 {
 #ifdef X_HAVE_UTF8_STRING
-    if (data->utf8) {
+    যদি (তথ্য->utf8) {
         XRectangle overall_ink, overall_logical;
 
-        X11_Xutf8TextExtents(data->font_set, str, nbytes, &overall_ink, &overall_logical);
+        X11_Xutf8TextExtents(তথ্য->font_set, str, nbytes, &overall_ink, &overall_logical);
         *pwidth = overall_logical.width;
         *pheight = overall_logical.height;
         *ascent = -overall_logical.y;
         *descent = overall_logical.height - *ascent;
 
-        if (font_height) {
+        যদি (font_height) {
             XFontSetExtents *extents;
 
-            extents = X11_XExtentsOfFontSet(data->font_set);
+            extents = X11_XExtentsOfFontSet(তথ্য->font_set);
             *font_height = extents->max_logical_extent.height;
         }
-    } else
+    } অন্যথা
 #endif
     {
         XCharStruct text_structure;
-        int font_direction, font_ascent, font_descent;
-        X11_XTextExtents(data->font_struct, str, nbytes,
+        পূর্ণসংখ্যা font_direction, font_ascent, font_descent;
+        X11_XTextExtents(তথ্য->font_struct, str, nbytes,
                          &font_direction, &font_ascent, &font_descent,
                          &text_structure);
         *pwidth = text_structure.width;
@@ -573,41 +573,41 @@ static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char
         *ascent = text_structure.ascent;
         *descent = text_structure.descent;
 
-        if (font_height) {
+        যদি (font_height) {
             *font_height = font_ascent + font_descent;
         }
     }
 }
 
 #ifdef HAVE_FRIBIDI_H
-SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt, size_t sz, FriBidiParType *par)
-#else
-SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt, size_t sz)
+SDL_List_গ্রন্থি *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *তথ্য, অক্ষর *txt, size_t sz, FriBidiParType *par)
+#অন্যথা
+SDL_List_গ্রন্থি *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *তথ্য, অক্ষর *txt, size_t sz)
 #endif
 {
-    SDL_ListNode *list;
-    char *str;
-    char *buffer;
+    SDL_List_গ্রন্থি *list;
+    অক্ষর *str;
+    অক্ষর *বাফার_2;
     Uint32 cp;
     bool thai;
     bool free_txt;
     
     free_txt = false;
-    list = NULL;
+    list = ফাঁকা;
     thai = 0;
     str = txt;
-    buffer = SDL_malloc(1);
-    buffer[0] = 0;
+    বাফার_2 = SDL_malloc(1);
+    বাফার_2[0] = 0;
     
 #ifdef HAVE_FRIBIDI_H
-    if (par) {
+    যদি (par) {
         *par = FRIBIDI_PAR_LTR;
     }
-    if (data->fribidi) {
-        char *fstr;
+    যদি (তথ্য->fribidi) {
+        অক্ষর *fstr;
                 
-        fstr = SDL_FriBidi_Process(data->fribidi, str, sz, data->do_shaping, par);
-        if (fstr) {
+        fstr = SDL_FriBidi_Process(তথ্য->fribidi, str, sz, তথ্য->do_shaping, par);
+        যদি (fstr) {
             txt = fstr;
             str = fstr;
             sz = SDL_strlen(str);
@@ -616,80 +616,80 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
     }
 #endif        
 
-    while (1) {
-        char *new;
-        char utf8[5];
+    যখন (1) {
+        অক্ষর *new;
+        অক্ষর utf8[5];
         size_t csz;
         bool cond;
 
         SDL_zeroa(utf8);
-        cp = SDL_StepUTF8((const char **)&str, &sz);
+        cp = SDL_StepUTF8((ধ্রুবক অক্ষর **)&str, &sz);
         cond = (0xe00 <= cp && cp <= 0xe7f) ? true : false;
-        if (cp == 0 || cond == (thai ? false : true)) {
+        যদি (cp == 0 || cond == (thai ? false : true)) {
             SDL_ToolkitTextElementX11 *element;
             
-            element = SDL_malloc(sizeof(SDL_ToolkitTextElementX11));
-            if (thai) {
+            element = SDL_malloc(আকার(SDL_ToolkitTextElementX11));
+            যদি (thai) {
                 element->type = SDL_TOOLKIT_TEXT_TYPE_X11_THAI;
-            } else {
+            } অন্যথা {
                 element->type = SDL_TOOLKIT_TEXT_TYPE_X11_GENERIC;
             }
-            element->str = SDL_strdup(buffer);
-            element->sz = SDL_strlen(buffer);
+            element->str = SDL_strdup(বাফার_2);
+            element->sz = SDL_strlen(বাফার_2);
             element->str_free = SDL_free;
             
             SDL_ListAdd(&list, element);
             
-            SDL_free(buffer);
-            buffer = SDL_malloc(1);
-            buffer[0] = 0;
+            SDL_free(বাফার_2);
+            বাফার_2 = SDL_malloc(1);
+            বাফার_2[0] = 0;
             thai = thai ? false : true;
         }
 
-        if (!cp) {
-            break;
+        যদি (!cp) {
+            বিরতি;
         }
         
         SDL_UCS4ToUTF8(cp, utf8);
-        csz = SDL_strlen(buffer) + SDL_strlen(utf8) + 1;
+        csz = SDL_strlen(বাফার_2) + SDL_strlen(utf8) + 1;
         new = SDL_malloc(csz);
-        SDL_strlcpy(new, buffer, csz);
+        SDL_strlcpy(new, বাফার_2, csz);
         SDL_strlcat(new, utf8, csz);
-        SDL_free(buffer);
-        buffer = new;
+        SDL_free(বাফার_2);
+        বাফার_2 = new;
     }
 
-    SDL_free(buffer);
-    if (free_txt) {
+    SDL_free(বাফার_2);
+    যদি (free_txt) {
         SDL_free(txt);
     }
-    return list;
+    ফেরত list;
 }
 
-void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list)
+শূন্য X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *তথ্য, SDL_List_গ্রন্থি *list)
 {
-    SDL_ListNode *cursor;
-    SDL_ToolkitTextElementX11 *prev;
-    int temp;
+    SDL_List_গ্রন্থি *cursor;
+    SDL_ToolkitTextElementX11 *পূর্ব;
+    পূর্ণসংখ্যা অস্থায়ী;
     
     /* Shape and calculate bounding box */
     cursor = list;
-    while (cursor) {
+    যখন (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
 #ifdef HAVE_LIBTHAI_H
-        element->thai_overlays = NULL;
+        element->thai_overlays = ফাঁকা;
 #endif
-        if (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
-            if (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
-                X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, NULL);
-            } else {
+        যদি (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
+            যদি (তথ্য->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
+                X11Toolkit_GetTextWidthHeight(তথ্য, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &অস্থায়ী, ফাঁকা);
+            } অন্যথা {
 #ifdef HAVE_LIBTHAI_H
-                if (data->th) {
-                    struct thcell_t *cells;
-                    char *tis_str;
-                    char *base_tis_str;
+                যদি (তথ্য->th) {
+                    কাঠামো thcell_t *cells;
+                    অক্ষর *tis_str;
+                    অক্ষর *base_tis_str;
                     size_t cells_sz;
                     size_t base_tis_str_sz;
                     size_t tis_str_sz;
@@ -697,42 +697,42 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
                     tis_str = SDL_iconv_string("TIS-620", "UTF-8", element->str, element->sz);
                     cells_sz = tis_str_sz = SDL_strlen(tis_str);
                     
-                    cells = SDL_calloc(cells_sz, sizeof(struct thcell_t));
-                    data->th->make_cells((const thchar_t *)tis_str, tis_str_sz, cells, &cells_sz, 0);
+                    cells = SDL_calloc(cells_sz, আকার(কাঠামো thcell_t));
+                    তথ্য->th->make_cells((ধ্রুবক thchar_t *)tis_str, tis_str_sz, cells, &cells_sz, 0);
 
                     base_tis_str_sz = cells_sz;
                     base_tis_str = SDL_malloc(base_tis_str_sz + 1);
-                    for (temp = 0; temp < cells_sz; temp++) {
-                        base_tis_str[temp] = cells[temp].base;
+                    জন্য (অস্থায়ী = 0; অস্থায়ী < cells_sz; অস্থায়ী++) {
+                        base_tis_str[অস্থায়ী] = cells[অস্থায়ী].base;
                         
-                        if (cells[temp].hilo) {
+                        যদি (cells[অস্থায়ী].hilo) {
                             SDL_ToolkitThaiOverlayX11 *overlay;
-                            char *pre;
-                            int temp2;
+                            অক্ষর *pre;
+                            পূর্ণসংখ্যা temp2;
                             
-                            overlay = SDL_malloc(sizeof(SDL_ToolkitThaiOverlayX11));
-                            pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, temp);
-                            overlay->str = SDL_iconv_string("UTF-8", "TIS-620", (const char *)&cells[temp].hilo, 1);
+                            overlay = SDL_malloc(আকার(SDL_ToolkitThaiOverlayX11));
+                            pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, অস্থায়ী);
+                            overlay->str = SDL_iconv_string("UTF-8", "TIS-620", (ধ্রুবক অক্ষর *)&cells[অস্থায়ী].hilo, 1);
                             overlay->sz = SDL_strlen(overlay->str);
-                            overlay->top = false;
-                            X11Toolkit_GetTextWidthHeight(data, pre, SDL_strlen(pre), &overlay->rect.x, &temp2, &temp2, &temp2, NULL);
-                            X11Toolkit_GetTextWidthHeight(data, overlay->str, overlay->sz, &overlay->rect.w, &overlay->rect.h, &overlay->rect.y, &temp2, NULL);
+                            overlay->শীর্ষ = false;
+                            X11Toolkit_GetTextWidthHeight(তথ্য, pre, SDL_strlen(pre), &overlay->rect.x, &temp2, &temp2, &temp2, ফাঁকা);
+                            X11Toolkit_GetTextWidthHeight(তথ্য, overlay->str, overlay->sz, &overlay->rect.w, &overlay->rect.h, &overlay->rect.y, &temp2, ফাঁকা);
                             SDL_ListAdd(&element->thai_overlays, overlay);
                             SDL_free(pre);
                         }
                         
-                        if (cells[temp].top) {
+                        যদি (cells[অস্থায়ী].শীর্ষ) {
                             SDL_ToolkitThaiOverlayX11 *overlay;
-                            char *pre;
-                            int temp2;
+                            অক্ষর *pre;
+                            পূর্ণসংখ্যা temp2;
                             
-                            overlay = SDL_malloc(sizeof(SDL_ToolkitThaiOverlayX11));
-                            pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, temp);
-                            overlay->str = SDL_iconv_string("UTF-8", "TIS-620", (const char *)&cells[temp].top, 1);
+                            overlay = SDL_malloc(আকার(SDL_ToolkitThaiOverlayX11));
+                            pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, অস্থায়ী);
+                            overlay->str = SDL_iconv_string("UTF-8", "TIS-620", (ধ্রুবক অক্ষর *)&cells[অস্থায়ী].শীর্ষ, 1);
                             overlay->sz = SDL_strlen(overlay->str);
-                            overlay->top = true;
-                            X11Toolkit_GetTextWidthHeight(data, pre, SDL_strlen(pre), &overlay->rect.x, &temp2, &temp2, &temp2, NULL);
-                            X11Toolkit_GetTextWidthHeight(data, overlay->str, overlay->sz, &overlay->rect.w, &overlay->rect.h, &overlay->rect.y, &temp2, NULL);
+                            overlay->শীর্ষ = true;
+                            X11Toolkit_GetTextWidthHeight(তথ্য, pre, SDL_strlen(pre), &overlay->rect.x, &temp2, &temp2, &temp2, ফাঁকা);
+                            X11Toolkit_GetTextWidthHeight(তথ্য, overlay->str, overlay->sz, &overlay->rect.w, &overlay->rect.h, &overlay->rect.y, &temp2, ফাঁকা);
                             SDL_ListAdd(&element->thai_overlays, overlay);
                             SDL_free(pre);
                         }
@@ -742,120 +742,120 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
                     element->str_free(element->str);
                     element->str = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, base_tis_str_sz);
                     element->sz = SDL_strlen(element->str);
-                    X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, &element->font_h);
+                    X11Toolkit_GetTextWidthHeight(তথ্য, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &অস্থায়ী, &element->font_h);
 
                     SDL_free(tis_str);
                     SDL_free(cells);                
                     SDL_free(base_tis_str);
                 }
-#else
-                X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, &element->font_h);
+#অন্যথা
+                X11Toolkit_GetTextWidthHeight(তথ্য, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &অস্থায়ী, &element->font_h);
 #endif            
             }
-        } else {
-            X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, &element->font_h);
+        } অন্যথা {
+            X11Toolkit_GetTextWidthHeight(তথ্য, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &অস্থায়ী, &element->font_h);
         }
         
-        cursor = cursor->next;
+        cursor = cursor->পরবর্তী;
     }
     
     /* Add offsets */
-    prev = NULL;
+    পূর্ব = ফাঁকা;
     cursor = list;
-    while (cursor) {
+    যখন (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;        
-        if (prev) {
-            element->rect.x = prev->rect.x + prev->rect.w;
-        } else {
+        যদি (পূর্ব) {
+            element->rect.x = পূর্ব->rect.x + পূর্ব->rect.w;
+        } অন্যথা {
             element->rect.x = 0;
         }
         
-        prev = element;
-        cursor = cursor->next;
+        পূর্ব = element;
+        cursor = cursor->পরবর্তী;
     }
 }
 
 
-void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list, int x, int y)
+শূন্য X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *তথ্য, SDL_List_গ্রন্থি *list, পূর্ণসংখ্যা x, পূর্ণসংখ্যা y)
 {
-    SDL_ListNode *cursor;
+    SDL_List_গ্রন্থি *cursor;
     
     cursor = list;
     
-    while (cursor) {
+    যখন (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
-        if (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
-            if (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
+        যদি (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
+            যদি (তথ্য->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
 #ifdef X_HAVE_UTF8_STRING
-                if (data->utf8) {
-                    X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-                } else
+                যদি (তথ্য->utf8) {
+                    X11_Xutf8DrawString(তথ্য->display, তথ্য->drawable, তথ্য->font_set, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+                } অন্যথা
 #endif
                 {
-                    X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+                    X11_XDrawString(তথ্য->display, তথ্য->drawable, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
                 }
-            } else {    
+            } অন্যথা {    
 #ifdef HAVE_LIBTHAI_H
-                SDL_ListNode *overlay_cursor;
+                SDL_List_গ্রন্থি *overlay_cursor;
                     
                 /* Draw the base string */
 #ifdef X_HAVE_UTF8_STRING
-                if (data->utf8) {
-                    X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-                } else
+                যদি (তথ্য->utf8) {
+                    X11_Xutf8DrawString(তথ্য->display, তথ্য->drawable, তথ্য->font_set, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+                } অন্যথা
 #endif
                 {
-                    X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+                    X11_XDrawString(তথ্য->display, তথ্য->drawable, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
                 }                        
                 
                 /* Draw overlays */
                 overlay_cursor = element->thai_overlays;
-                while (overlay_cursor) {
+                যখন (overlay_cursor) {
                     SDL_ToolkitThaiOverlayX11 *overlay;
                     
                     overlay = overlay_cursor->entry;
 #ifdef X_HAVE_UTF8_STRING
-                    if (data->utf8) {
-                        X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x + overlay->rect.x, y + overlay->rect.y, overlay->str, overlay->sz);
-                    } else
+                    যদি (তথ্য->utf8) {
+                        X11_Xutf8DrawString(তথ্য->display, তথ্য->drawable, তথ্য->font_set, তথ্য->ctx, x + element->rect.x + overlay->rect.x, y + overlay->rect.y, overlay->str, overlay->sz);
+                    } অন্যথা
 #endif
                     {
-                        X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x + overlay->rect.x, y + element->rect.y + overlay->rect.y, overlay->str, overlay->sz);
+                        X11_XDrawString(তথ্য->display, তথ্য->drawable, তথ্য->ctx, x + element->rect.x + overlay->rect.x, y + element->rect.y + overlay->rect.y, overlay->str, overlay->sz);
                     }                        
                             
-                    overlay_cursor = overlay_cursor->next;
+                    overlay_cursor = overlay_cursor->পরবর্তী;
                 }
 #endif                
             }
-        } else {
+        } অন্যথা {
 #ifdef X_HAVE_UTF8_STRING
-            if (data->utf8) {
-                X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-            } else
+            যদি (তথ্য->utf8) {
+                X11_Xutf8DrawString(তথ্য->display, তথ্য->drawable, তথ্য->font_set, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+            } অন্যথা
 #endif
             {
-                X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
+                X11_XDrawString(তথ্য->display, তথ্য->drawable, তথ্য->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
             }
         }
         
-        cursor = cursor->next;
+        cursor = cursor->পরবর্তী;
     }
 }
 
-int X11Toolkit_GetTextElementsRect(SDL_ListNode *list, SDL_Rect *out)
+পূর্ণসংখ্যা X11Toolkit_GetTextElementsRect(SDL_List_গ্রন্থি *list, SDL_Rect *out)
 {
-    SDL_ListNode *cursor;
-    int ret;
+    SDL_List_গ্রন্থি *cursor;
+    পূর্ণসংখ্যা ret;
     
     ret = 0;
     out->x = out->y = 0;
     out->w = out->h = 0;
     cursor = list;
-    while (cursor) {
+    যখন (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
@@ -864,165 +864,165 @@ int X11Toolkit_GetTextElementsRect(SDL_ListNode *list, SDL_Rect *out)
         out->h = SDL_max(out->h, element->rect.h);
         ret = SDL_max(ret, element->font_h);
         
-        cursor = cursor->next;
+        cursor = cursor->পরবর্তী;
     }
     
-    return ret;
+    ফেরত ret;
 }
 
-void X11Toolkit_FreeTextElementsListContents(SDL_ListNode *list)
+শূন্য X11Toolkit_FreeTextElementsListContents(SDL_List_গ্রন্থি *list)
 {
-    SDL_ListNode *cursor;
+    SDL_List_গ্রন্থি *cursor;
     
     cursor = list;
-    while (cursor) {
+    যখন (cursor) {
         SDL_ToolkitTextElementX11 *element;
 #ifdef HAVE_LIBTHAI_H
-        SDL_ListNode *overlay_cursor;
+        SDL_List_গ্রন্থি *overlay_cursor;
 #endif
 
         element = cursor->entry;
         
-        if (element->str_free) {
+        যদি (element->str_free) {
             element->str_free(element->str);
         }
         
 #ifdef HAVE_LIBTHAI_H        
         overlay_cursor = element->thai_overlays;
-        while (overlay_cursor) {
+        যখন (overlay_cursor) {
             SDL_ToolkitThaiOverlayX11 *overlay;
                     
             overlay = overlay_cursor->entry;
             SDL_free(overlay->str);
             SDL_free(overlay);
-            overlay_cursor = overlay_cursor->next;
+            overlay_cursor = overlay_cursor->পরবর্তী;
         }
         SDL_ListClear(&element->thai_overlays);
 #endif
         
         SDL_free(element);
         
-        cursor = cursor->next;
+        cursor = cursor->পরবর্তী;
     }
 }
 
 #define X11Toolkit_FreeTextElements(x) X11Toolkit_FreeTextElementsListContents(x); SDL_ListClear(&x)
  
-static bool X11Toolkit_ShouldFlipUI(void) 
+স্থির bool X11Toolkit_ShouldFlipUI(শূন্য) 
 {
     SDL_Locale **current_locales;
-    static const SDL_Locale rtl_locales[] = {
-        { "ar", NULL, },
+    স্থির ধ্রুবক SDL_Locale rtl_locales[] = {
+        { "ar", ফাঁকা, },
         { "fa", "AF", },
         { "fa", "IR", },
-        { "he", NULL, },
-        { "iw", NULL, },
-        { "yi", NULL, },
-        { "ur", NULL, },
-        { "ug", NULL, },
-        { "kd", NULL, },
+        { "he", ফাঁকা, },
+        { "iw", ফাঁকা, },
+        { "yi", ফাঁকা, },
+        { "ur", ফাঁকা, },
+        { "ug", ফাঁকা, },
+        { "kd", ফাঁকা, },
         { "pk", "PK", },
-        { "ps", NULL, }
+        { "ps", ফাঁকা, }
     }; 
-    int current_locales_sz;
-    int i;
+    পূর্ণসংখ্যা current_locales_sz;
+    পূর্ণসংখ্যা i;
 
     current_locales = SDL_GetPreferredLocales(&current_locales_sz);
-    if (current_locales_sz <= 0) {
-        return false;        
+    যদি (current_locales_sz <= 0) {
+        ফেরত false;        
     }
-    for (i = 0; i < SDL_arraysize(rtl_locales); ++i) {
-        if (SDL_startswith(current_locales[0]->language, rtl_locales[i].language)) {
-            if (!rtl_locales[i].country) {
-                return true;
-            } else {
-                return SDL_startswith(current_locales[0]->country, rtl_locales[i].country);
+    জন্য (i = 0; i < SDL_arraysize(rtl_locales); ++i) {
+        যদি (SDL_startswith(current_locales[0]->language, rtl_locales[i].language)) {
+            যদি (!rtl_locales[i].country) {
+                ফেরত true;
+            } অন্যথা {
+                ফেরত SDL_startswith(current_locales[0]->country, rtl_locales[i].country);
             }
         }
     }
     
-    return false;
+    ফেরত false;
 }
 
-SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, const SDL_MessageBoxColor *colorhints, bool create_new_display)
+SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, ধ্রুবক SDL_MessageBoxColor *colorhints, bool create_new_display)
 {
     SDL_ToolkitWindowX11 *window;
-    int i;
+    পূর্ণসংখ্যা i;
 #ifdef SDL_USE_LIBDBUS
     SDL_SystemTheme theme;
 #endif
-    #define ErrorFreeRetNull(x, y) SDL_SetError(x); SDL_free(y); return NULL
-    #define ErrorCloseFreeRetNull(x, y, z) X11_XCloseDisplay(z->display); SDL_SetError(x, y); SDL_free(z); return NULL
+    #define ErrorFreeRetNull(x, y) SDL_SetError(x); SDL_free(y); ফেরত ফাঁকা
+    #define ErrorCloseFreeRetNull(x, y, z) X11_XCloseDisplay(z->display); SDL_SetError(x, y); SDL_free(z); ফেরত ফাঁকা
 
-    if (!SDL_X11_LoadSymbols()) {
-        return NULL;
+    যদি (!SDL_X11_LoadSymbols()) {
+        ফেরত ফাঁকা;
     }
 
     // This code could get called from multiple threads maybe?
     X11_XInitThreads();
 
-    window = (SDL_ToolkitWindowX11 *)SDL_malloc(sizeof(SDL_ToolkitWindowX11));
-    if (!window) {
+    window = (SDL_ToolkitWindowX11 *)SDL_malloc(আকার(SDL_ToolkitWindowX11));
+    যদি (!window) {
         SDL_SetError("Unable to allocate toolkit window structure");
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
     window->mode = mode;
     window->tk_parent = tkparent;
 
-#if SDL_SET_LOCALE
-    if (mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
-        window->origlocale = setlocale(LC_ALL, NULL);
-        if (window->origlocale) {
+#যদি SDL_SET_LOCALE
+    যদি (mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+        window->origlocale = setlocale(LC_ALL, ফাঁকা);
+        যদি (window->origlocale) {
             window->origlocale = SDL_strdup(window->origlocale);
-            if (!window->origlocale) {
+            যদি (!window->origlocale) {
                 SDL_free(window);
-                return NULL;
+                ফেরত ফাঁকা;
             }
-            (void)setlocale(LC_ALL, "");
+            (শূন্য)setlocale(LC_ALL, "");
         }
     }
 #endif
 
-    window->parent_device = NULL;
-    if (create_new_display) {
-        window->display = X11_XOpenDisplay(NULL);
+    window->parent_device = ফাঁকা;
+    যদি (create_new_display) {
+        window->display = X11_XOpenDisplay(ফাঁকা);
         window->display_close = true;
-        if (!window->display) {
+        যদি (!window->display) {
             ErrorFreeRetNull("Couldn't open X11 display", window);
         }
-    } else {
-        if (parent) {
+    } অন্যথা {
+        যদি (parent) {
             window->parent_device = SDL_GetVideoDevice();
             window->display = window->parent_device->internal->display;
             window->display_close = false;
-        } else if (tkparent) {
+        } অন্যথা যদি (tkparent) {
             window->display = tkparent->display;
             window->display_close = false;
-        } else {
-            window->display = X11_XOpenDisplay(NULL);
+        } অন্যথা {
+            window->display = X11_XOpenDisplay(ফাঁকা);
             window->display_close = true;
-            if (!window->display) {
+            যদি (!window->display) {
                 ErrorFreeRetNull("Couldn't open X11 display", window);
             }
         }
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    int xrandr_event_base, xrandr_error_base;
+    পূর্ণসংখ্যা xrandr_event_base, xrandr_error_base;
     window->xrandr = X11_XRRQueryExtension(window->display, &xrandr_event_base, &xrandr_error_base);
 #endif
 
 #ifndef NO_SHARED_MEMORY
     window->shm_pixmap = False;
     window->shm = X11_XShmQueryExtension(window->display) ? SDL_X11_HAVE_SHM : false;
-    if (window->shm) {
-        int major;
-        int minor;
+    যদি (window->shm) {
+        পূর্ণসংখ্যা major;
+        পূর্ণসংখ্যা minor;
 
         X11_XShmQueryVersion(window->display, &major, &minor, &window->shm_pixmap);
-        if (window->shm_pixmap) {
-            if (X11_XShmPixmapFormat(window->display) != ZPixmap) {
+        যদি (window->shm_pixmap) {
+            যদি (X11_XShmPixmapFormat(window->display) != ZPixmap) {
                 window->shm_pixmap = False;
             }
         }
@@ -1032,14 +1032,14 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     /* Scale/Xsettings */
     window->pixmap = false;
     window->xsettings_first_time = true;
-    window->xsettings = xsettings_client_new(window->display, DefaultScreen(window->display), X11Toolkit_SettingsNotify, NULL, window);
+    window->xsettings = xsettings_client_new(window->display, DefaultScreen(window->display), X11Toolkit_SettingsNotify, ফাঁকা, window);
     window->xsettings_first_time = false;
     window->scale = X11_GetGlobalContentScale(window->display, window->xsettings);
-    if (window->scale < 1) {
+    যদি (window->scale < 1) {
         window->scale = 1;
     }
-    window->iscale = (int)SDL_ceilf(window->scale);
-    if (SDL_roundf(window->scale) == window->scale) {
+    window->iscale = (পূর্ণসংখ্যা)SDL_ceilf(window->scale);
+    যদি (SDL_roundf(window->scale) == window->scale) {
         window->scale = 0;
     }
 
@@ -1049,36 +1049,36 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     /* Color hints */
 #ifdef SDL_USE_LIBDBUS
     theme = SDL_SYSTEM_THEME_LIGHT;
-    if (SDL_SystemTheme_Init()) {
+    যদি (SDL_SystemTheme_Init()) {
         theme = SDL_SystemTheme_Get();
     }
 #endif
 
-    if (!colorhints) {
+    যদি (!colorhints) {
 #ifdef SDL_USE_LIBDBUS
-        switch (theme) {
-            case SDL_SYSTEM_THEME_DARK:
+        নির্বাচন (theme) {
+            ক্ষেত্র SDL_SYSTEM_THEME_DARK:
                 colorhints = g_default_colors_dark;
-                break;
-#if 0
-            case SDL_SYSTEM_THEME_LIGHT_HIGH_CONTRAST:
-                colorhints = g_default_colors_light_high_contrast;
-                break;
-            case SDL_SYSTEM_THEME_DARK_HIGH_CONTRAST:
-                colorhints = g_default_colors_dark_high_contrast;
-                break;
+                বিরতি;
+#যদি 0
+            ক্ষেত্র SDL_SYSTEM_THEME_LIGHT_উপরের_CONTRAST:
+                colorhints = g_default_colors_light_উপরের_contrast;
+                বিরতি;
+            ক্ষেত্র SDL_SYSTEM_THEME_DARK_উপরের_CONTRAST:
+                colorhints = g_default_colors_dark_উপরের_contrast;
+                বিরতি;
 #endif
-            default:
+            পূর্বনির্ধারিত:
                 colorhints = g_default_colors;
         }
-#else
+#অন্যথা
         colorhints = g_default_colors;
 #endif
     }
     window->color_hints = colorhints;
 
     /* Convert colors to 16 bpc XColor format */
-    for (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
+    জন্য (i = 0; i < SDL_MESSAGEBOX_COLOR_গুনতি; i++) {
         window->xcolor[i].flags = DoRed|DoGreen|DoBlue;
         window->xcolor[i].red = colorhints[i].r * 257;
         window->xcolor[i].green = colorhints[i].g * 257;
@@ -1113,20 +1113,20 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
 
     /* Screen */
     window->parent = parent;
-    if (parent) {
-        SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(parent);
+    যদি (parent) {
+        SDL_Display_তথ্য *displaydata = SDL_Get_Display_Driver_তথ্য_For_Window(parent);
         window->screen = displaydata->screen;
-    } else {
+    } অন্যথা {
         window->screen = DefaultScreen(window->display);
     }
 
     /* Visuals */
-    if (mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+    যদি (mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
         window->visual = parent->internal->visual;
         window->cmap = parent->internal->colormap;
         X11_GetVisualInfoFromVisual(window->display, window->visual, &window->vi);
         window->depth = window->vi.depth;
-    } else {
+    } অন্যথা {
         window->visual = DefaultVisual(window->display, window->screen);
         window->cmap = DefaultColormap(window->display, window->screen);
         window->depth = DefaultDepth(window->display, window->screen);
@@ -1134,7 +1134,7 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     }
 
     /* Allocate colors */
-    for (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
+    জন্য (i = 0; i < SDL_MESSAGEBOX_COLOR_গুনতি; i++) {
         X11_XAllocColor(window->display, window->cmap, &window->xcolor[i]);
     }
     X11_XAllocColor(window->display, window->cmap, &window->xcolor_bevel_l1);
@@ -1145,14 +1145,14 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
 
     /* Control list */
     window->has_focus = false;
-    window->controls = NULL;
+    window->controls = ফাঁকা;
     window->controls_sz = 0;
     window->dyn_controls_sz = 0;
-    window->fiddled_control = NULL;
-    window->dyn_controls = NULL;
+    window->fiddled_control = ফাঁকা;
+    window->dyn_controls = ফাঁকা;
 
     /* Menu windows */
-    window->popup_windows = NULL;
+    window->popup_windows = ফাঁকা;
 
     /* BIDI engine */
 #ifdef HAVE_FRIBIDI_H
@@ -1166,101 +1166,101 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     /* Interface direction */
     window->flip_interface = X11Toolkit_ShouldFlipUI();
     
-    return window;
+    ফেরত window;
 }
 
-static void X11Toolkit_AddControlToWindow(SDL_ToolkitWindowX11 *window, SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_AddControlToWindow(SDL_ToolkitWindowX11 *window, SDL_ToolkitControlX11 *control) {
     /* Add to controls list */
     window->controls_sz++;
-    if (window->controls_sz == 1) {
-        window->controls = (struct SDL_ToolkitControlX11 **)SDL_malloc(sizeof(struct SDL_ToolkitControlX11 *));
-    } else {
-        window->controls = (struct SDL_ToolkitControlX11 **)SDL_realloc(window->controls, sizeof(struct SDL_ToolkitControlX11 *) * window->controls_sz);
+    যদি (window->controls_sz == 1) {
+        window->controls = (কাঠামো SDL_ToolkitControlX11 **)SDL_malloc(আকার(কাঠামো SDL_ToolkitControlX11 *));
+    } অন্যথা {
+        window->controls = (কাঠামো SDL_ToolkitControlX11 **)SDL_realloc(window->controls, আকার(কাঠামো SDL_ToolkitControlX11 *) * window->controls_sz);
     }
     window->controls[window->controls_sz - 1] = control;
 
     /* If dynamic, add it to the dynamic controls list too */
-    if (control->dynamic) {
+    যদি (control->dynamic) {
         window->dyn_controls_sz++;
-        if (window->dyn_controls_sz == 1) {
-            window->dyn_controls = (struct SDL_ToolkitControlX11 **)SDL_malloc(sizeof(struct SDL_ToolkitControlX11 *));
-        } else {
-            window->dyn_controls = (struct SDL_ToolkitControlX11 **)SDL_realloc(window->dyn_controls, sizeof(struct SDL_ToolkitControlX11 *) * window->dyn_controls_sz);
+        যদি (window->dyn_controls_sz == 1) {
+            window->dyn_controls = (কাঠামো SDL_ToolkitControlX11 **)SDL_malloc(আকার(কাঠামো SDL_ToolkitControlX11 *));
+        } অন্যথা {
+            window->dyn_controls = (কাঠামো SDL_ToolkitControlX11 **)SDL_realloc(window->dyn_controls, আকার(কাঠামো SDL_ToolkitControlX11 *) * window->dyn_controls_sz);
         }
         window->dyn_controls[window->dyn_controls_sz - 1] = control;
     }
 
     /* If selected, set currently focused control to it */
-    if (control->selected) {
+    যদি (control->selected) {
         window->focused_control = control;
     }
 }
 
-bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx, int cy, char *title)
+bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *তথ্য, পূর্ণসংখ্যা w, পূর্ণসংখ্যা h, পূর্ণসংখ্যা cx, পূর্ণসংখ্যা cy, অক্ষর *title)
 {
-    int x, y;
+    পূর্ণসংখ্যা x, y;
     XSizeHints *sizehints;
     XSetWindowAttributes wnd_attr;
     Atom _NET_WM_WINDOW_TYPE, _NET_WM_WINDOW_TYPE_DIALOG, _NET_WM_WINDOW_TYPE_DROPDOWN_MENU, _NET_WM_WINDOW_TYPE_TOOLTIP;
-    SDL_WindowData *windowdata = NULL;
-    Display *display = data->display;
+    SDL_Window_তথ্য *windowdata = ফাঁকা;
+    Display *display = তথ্য->display;
     XGCValues ctx_vals;
-    Window root_win;
+    Window মূল_win;
     Window parent_win;
     unsigned long gcflags = GCForeground | GCBackground;
     unsigned long valuemask;
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
 #ifdef XRANDR_DISABLED_BY_DEFAULT
-    const bool use_xrandr_by_default = false;
-#else
-    const bool use_xrandr_by_default = true;
+    ধ্রুবক bool use_xrandr_by_default = false;
+#অন্যথা
+    ধ্রুবক bool use_xrandr_by_default = true;
 #endif
 #endif
 
-    if (data->scale == 0) {
-        data->window_width = w;
-        data->window_height = h;
-    } else {
-        data->window_width = SDL_lroundf((w/data->iscale) * data->scale);
-        data->window_height = SDL_lroundf((h/data->iscale) * data->scale);
-        data->pixmap_width = w;
-        data->pixmap_height = h;
-        data->pixmap = true;
+    যদি (তথ্য->scale == 0) {
+        তথ্য->window_width = w;
+        তথ্য->window_height = h;
+    } অন্যথা {
+        তথ্য->window_width = SDL_lroundf((w/তথ্য->iscale) * তথ্য->scale);
+        তথ্য->window_height = SDL_lroundf((h/তথ্য->iscale) * তথ্য->scale);
+        তথ্য->pixmap_width = w;
+        তথ্য->pixmap_height = h;
+        তথ্য->pixmap = true;
     }
 
-    if (data->parent) {
-        windowdata = data->parent->internal;
+    যদি (তথ্য->parent) {
+        windowdata = তথ্য->parent->internal;
     }
 
     valuemask = CWEventMask | CWColormap;
-    data->event_mask = ExposureMask |
-                       ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask |
+    তথ্য->event_mask = ExposureMask |
+                       ButtonPressMask | ButtonReleaseMask | চাবি_Press_Mask | চাবি_Release_Mask |
                        StructureNotifyMask | FocusChangeMask | PointerMotionMask;
-    wnd_attr.event_mask = data->event_mask;
-    wnd_attr.colormap = data->cmap;
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+    wnd_attr.event_mask = তথ্য->event_mask;
+    wnd_attr.colormap = তথ্য->cmap;
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || তথ্য->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         valuemask |= CWOverrideRedirect | CWSaveUnder;
         wnd_attr.save_under = True;
         wnd_attr.override_redirect = True;
     }
-    root_win = RootWindow(display, data->screen);
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+    মূল_win = মূল_Window(display, তথ্য->screen);
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
         parent_win = windowdata->xwindow;
-    } else {
-        parent_win = root_win;
+    } অন্যথা {
+        parent_win = মূল_win;
     }
 
-    data->window = X11_XCreateWindow(
+    তথ্য->window = X11_XCreateWindow(
         display, parent_win,
         0, 0,
-        data->window_width, data->window_height,
-        0, data->depth, InputOutput, data->visual,
+        তথ্য->window_width, তথ্য->window_height,
+        0, তথ্য->depth, প্রবেশ_Output, তথ্য->visual,
         valuemask, &wnd_attr);
-    if (data->window == None) {
-        return SDL_SetError("Couldn't create X window");
+    যদি (তথ্য->window == None) {
+        ফেরত SDL_SetError("Couldn't create X window");
     }
 
-    if (windowdata && data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+    যদি (windowdata && তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
         Atom _NET_WM_STATE = X11_XInternAtom(display, "_NET_WM_STATE", False);
         Atom stateatoms[16];
         size_t statecount = 0;
@@ -1271,565 +1271,565 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
         stateatoms[statecount++] = X11_XInternAtom(display, "_NET_WM_STATE_FOCUSED", False);
         stateatoms[statecount++] = X11_XInternAtom(display, "_NET_WM_STATE_MODAL", False);
         SDL_assert(statecount <= SDL_arraysize(stateatoms));
-        X11_XChangeProperty(display, data->window, _NET_WM_STATE, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)stateatoms, statecount);
+        X11_XChangeProperty(display, তথ্য->window, _NET_WM_STATE, XA_ATOM, 32,
+                            PropModeReplace, (unsigned অক্ষর *)stateatoms, statecount);
     }
 
-    if (windowdata && data->mode != SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
-        X11_XSetTransientForHint(display, data->window, windowdata->xwindow);
+    যদি (windowdata && তথ্য->mode != SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+        X11_XSetTransientForHint(display, তথ্য->window, windowdata->xwindow);
     }
 
-    if (data->tk_parent) {
-        X11_XSetTransientForHint(display, data->window, data->tk_parent->window);
+    যদি (তথ্য->tk_parent) {
+        X11_XSetTransientForHint(display, তথ্য->window, তথ্য->tk_parent->window);
     }
 
-    SDL_X11_SetWindowTitle(display, data->window, title);
+    SDL_X11_SetWindowTitle(display, তথ্য->window, title);
 
     // Let the window manager the type of the window
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_DIALOG = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_DIALOG", False);
-        X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
+        X11_XChangeProperty(display, তথ্য->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                             PropModeReplace,
-                            (unsigned char *)&_NET_WM_WINDOW_TYPE_DIALOG, 1);
-    } else if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU) {
+                            (unsigned অক্ষর *)&_NET_WM_WINDOW_TYPE_DIALOG, 1);
+    } অন্যথা যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_DROPDOWN_MENU = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_DROPDOWN_MENU", False);
-        X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
+        X11_XChangeProperty(display, তথ্য->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                             PropModeReplace,
-                            (unsigned char *)&_NET_WM_WINDOW_TYPE_DROPDOWN_MENU, 1);
-    } else if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+                            (unsigned অক্ষর *)&_NET_WM_WINDOW_TYPE_DROPDOWN_MENU, 1);
+    } অন্যথা যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_TOOLTIP = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_TOOLTIP", False);
-        X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
+        X11_XChangeProperty(display, তথ্য->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                             PropModeReplace,
-                            (unsigned char *)&_NET_WM_WINDOW_TYPE_TOOLTIP, 1);
+                            (unsigned অক্ষর *)&_NET_WM_WINDOW_TYPE_TOOLTIP, 1);
     }
 
     // Allow the window to be deleted by the window manager
-    data->wm_delete_message = X11_XInternAtom(display, "WM_DELETE_WINDOW", False);
-    X11_XSetWMProtocols(display, data->window, &data->wm_delete_message, 1);
-    data->wm_protocols = X11_XInternAtom(display, "WM_PROTOCOLS", False);
+    তথ্য->wm_delete_message = X11_XInternAtom(display, "WM_DELETE_WINDOW", False);
+    X11_XSetWMProtocols(display, তথ্য->window, &তথ্য->wm_delete_message, 1);
+    তথ্য->wm_protocols = X11_XInternAtom(display, "WM_PROTOCOLS", False);
 
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || তথ্য->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         x = cx;
         y = cy;
-        goto MOVEWINDOW;
+        যাও MOVEWINDOW;
     }
-    if (windowdata) {
+    যদি (windowdata) {
         XWindowAttributes attrib;
         Window dummy;
 
         X11_XGetWindowAttributes(display, windowdata->xwindow, &attrib);
-        x = attrib.x + (attrib.width - data->window_width) / 2;
-        y = attrib.y + (attrib.height - data->window_height) / 3;
-        X11_XTranslateCoordinates(display, windowdata->xwindow, RootWindow(display, data->screen), x, y, &x, &y, &dummy);
-    } else {
-        const SDL_VideoDevice *dev = SDL_GetVideoDevice();
-        if (dev && dev->displays && dev->num_displays > 0) {
-            const SDL_VideoDisplay *dpy = dev->displays[0];
-            const SDL_DisplayData *dpydata = dpy->internal;
-            x = dpydata->x + ((dpy->current_mode->w - data->window_width) / 2);
-            y = dpydata->y + ((dpy->current_mode->h - data->window_height) / 3);
+        x = attrib.x + (attrib.width - তথ্য->window_width) / 2;
+        y = attrib.y + (attrib.height - তথ্য->window_height) / 3;
+        X11_XTranslateCoordinates(display, windowdata->xwindow, মূল_Window(display, তথ্য->screen), x, y, &x, &y, &dummy);
+    } অন্যথা {
+        ধ্রুবক SDL_VideoDevice *dev = SDL_GetVideoDevice();
+        যদি (dev && dev->displays && dev->অঙ্ক_displays > 0) {
+            ধ্রুবক SDL_VideoDisplay *dpy = dev->displays[0];
+            ধ্রুবক SDL_Display_তথ্য *dpydata = dpy->internal;
+            x = dpydata->x + ((dpy->current_mode->w - তথ্য->window_width) / 2);
+            y = dpydata->y + ((dpy->current_mode->h - তথ্য->window_height) / 3);
         }
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-        else if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, use_xrandr_by_default) && data->xrandr) {
+        অন্যথা যদি (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, use_xrandr_by_default) && তথ্য->xrandr) {
             XRRScreenResources *screen_res;
             XRRCrtcInfo *crtc_info;
             RROutput default_out;
 
-            screen_res = X11_XRRGetScreenResourcesCurrent(display, root_win);
-            if (!screen_res) {
-                goto NOXRANDR;
+            screen_res = X11_XRRGetScreenResourcesCurrent(display, মূল_win);
+            যদি (!screen_res) {
+                যাও NOXRANDR;
             }
 
-            default_out = X11_XRRGetOutputPrimary(display, root_win);
-            if (default_out != None) {
+            default_out = X11_XRRGetOutputPrimary(display, মূল_win);
+            যদি (default_out != None) {
                 XRROutputInfo *out_info;
 
                 out_info = X11_XRRGetOutputInfo(display, screen_res, default_out);
-                if (out_info->connection != RR_Connected) {
+                যদি (out_info->connection != RR_Connected) {
                     X11_XRRFreeOutputInfo(out_info);
-                    goto FIRSTOUTPUTXRANDR;
+                    যাও FIRSTOUTPUTXRANDR;
                 }
 
-                if (out_info->crtc != None) {
+                যদি (out_info->crtc != None) {
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtc);
-                } else if (out_info->ncrtc > 0) {
+                } অন্যথা যদি (out_info->ncrtc > 0) {
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtcs[0]);
-                } else {
-                    crtc_info = NULL;
+                } অন্যথা {
+                    crtc_info = ফাঁকা;
                 }
                 
-                if (crtc_info) {
-                    x = (crtc_info->width - data->window_width) / 2;
-                    y = (crtc_info->height - data->window_height) / 3;
+                যদি (crtc_info) {
+                    x = (crtc_info->width - তথ্য->window_width) / 2;
+                    y = (crtc_info->height - তথ্য->window_height) / 3;
                     X11_XRRFreeOutputInfo(out_info);
                     X11_XRRFreeCrtcInfo(crtc_info);
                     X11_XRRFreeScreenResources(screen_res);
-                } else {
+                } অন্যথা {
                     X11_XRRFreeOutputInfo(out_info);
-                    goto NOXRANDR;
+                    যাও NOXRANDR;
                 }
-            } else {
+            } অন্যথা {
                     FIRSTOUTPUTXRANDR:
-                    if (screen_res->noutput > 0) {
+                    যদি (screen_res->noutput > 0) {
                         XRROutputInfo *out_info;
 
                         out_info = X11_XRRGetOutputInfo(display, screen_res, screen_res->outputs[0]);
-                        if (!out_info) {
-                            goto FIRSTCRTCXRANDR;
+                        যদি (!out_info) {
+                            যাও FIRSTCRTCXRANDR;
                         }
 
-                        if (out_info->crtc != None) {
+                        যদি (out_info->crtc != None) {
                             crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtc);
-                        } else if (out_info->ncrtc > 0) {
+                        } অন্যথা যদি (out_info->ncrtc > 0) {
                             crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtcs[0]);
-                        } else {
-                            crtc_info = NULL;
+                        } অন্যথা {
+                            crtc_info = ফাঁকা;
                         }
 
-                        if (!crtc_info) {
+                        যদি (!crtc_info) {
                             X11_XRRFreeOutputInfo(out_info);
-                            goto FIRSTCRTCXRANDR;
+                            যাও FIRSTCRTCXRANDR;
                         }
 
-                        x = (crtc_info->width - data->window_width) / 2;
-                        y = (crtc_info->height - data->window_height) / 3;
+                        x = (crtc_info->width - তথ্য->window_width) / 2;
+                        y = (crtc_info->height - তথ্য->window_height) / 3;
                         X11_XRRFreeOutputInfo(out_info);
                         X11_XRRFreeCrtcInfo(crtc_info);
                         X11_XRRFreeScreenResources(screen_res);
-                        goto MOVEWINDOW;
+                        যাও MOVEWINDOW;
                     }
 
                     FIRSTCRTCXRANDR:
-                    if (!screen_res->ncrtc) {
+                    যদি (!screen_res->ncrtc) {
                         X11_XRRFreeScreenResources(screen_res);
-                        goto NOXRANDR;
+                        যাও NOXRANDR;
                     }
 
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, screen_res->crtcs[0]);
-                    if (crtc_info) {
-                        x = (crtc_info->width - data->window_width) / 2;
-                        y = (crtc_info->height - data->window_height) / 3;
+                    যদি (crtc_info) {
+                        x = (crtc_info->width - তথ্য->window_width) / 2;
+                        y = (crtc_info->height - তথ্য->window_height) / 3;
                         X11_XRRFreeCrtcInfo(crtc_info);
                         X11_XRRFreeScreenResources(screen_res);
-                    } else {
+                    } অন্যথা {
                         X11_XRRFreeScreenResources(screen_res);
-                        goto NOXRANDR;
+                        যাও NOXRANDR;
                     }
             }
         }
 #endif
-        else {
+        অন্যথা {
             // oh well. This will misposition on a multi-head setup. Init first next time.
             NOXRANDR:
-            x = (DisplayWidth(display, data->screen) - data->window_width) / 2;
-            y = (DisplayHeight(display, data->screen) - data->window_height) / 3;
+            x = (DisplayWidth(display, তথ্য->screen) - তথ্য->window_width) / 2;
+            y = (DisplayHeight(display, তথ্য->screen) - তথ্য->window_height) / 3;
         }
     }
     MOVEWINDOW:
-    X11_XMoveWindow(display, data->window, x, y);
-    data->window_x = x;
-    data->window_y = y;
+    X11_XMoveWindow(display, তথ্য->window, x, y);
+    তথ্য->window_x = x;
+    তথ্য->window_y = y;
 
-    sizehints = X11_XAllocSizeHints();
-    if (sizehints) {
-        sizehints->flags = USPosition | USSize | PMaxSize | PMinSize;
+    sizehints = X11_XAlloc_আকার_Hints();
+    যদি (sizehints) {
+        sizehints->flags = USPosition | USSize | PMax_আকার | PMin_আকার;
         sizehints->x = x;
         sizehints->y = y;
-        sizehints->width = data->window_width;
-        sizehints->height = data->window_height;
+        sizehints->width = তথ্য->window_width;
+        sizehints->height = তথ্য->window_height;
 
-        sizehints->min_width = sizehints->max_width = data->window_width;
-        sizehints->min_height = sizehints->max_height = data->window_height;
+        sizehints->min_width = sizehints->max_width = তথ্য->window_width;
+        sizehints->min_height = sizehints->max_height = তথ্য->window_height;
 
-        X11_XSetWMNormalHints(display, data->window, sizehints);
+        X11_XSetWMNormalHints(display, তথ্য->window, sizehints);
 
         X11_XFree(sizehints);
     }
 
-    X11_XMapRaised(display, data->window);
+    X11_XMapRaised(display, তথ্য->window);
 
-    data->drawable = data->window;
+    তথ্য->drawable = তথ্য->window;
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
     // Initialise a back buffer for double buffering
-    if (SDL_X11_HAVE_XDBE && !data->pixmap) {
-        int xdbe_major, xdbe_minor;
-        if (X11_XdbeQueryExtension(display, &xdbe_major, &xdbe_minor) != 0) {
-            data->xdbe = true;
-            data->buf = X11_XdbeAllocateBackBufferName(display, data->window, XdbeUndefined);
-            data->drawable = data->buf;
-        } else {
-            data->xdbe = false;
+    যদি (SDL_X11_HAVE_XDBE && !তথ্য->pixmap) {
+        পূর্ণসংখ্যা xdbe_major, xdbe_minor;
+        যদি (X11_XdbeQueryExtension(display, &xdbe_major, &xdbe_minor) != 0) {
+            তথ্য->xdbe = true;
+            তথ্য->buf = X11_Xdbe_Allocate_Back_বাফার_Name(display, তথ্য->window, XdbeUndefined);
+            তথ্য->drawable = তথ্য->buf;
+        } অন্যথা {
+            তথ্য->xdbe = false;
         }
     }
 #endif
 
-    X11Toolkit_InitWindowPixmap(data);
+    X11Toolkit_InitWindowPixmap(তথ্য);
 
     SDL_zero(ctx_vals);
-    ctx_vals.foreground = data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
-    ctx_vals.background = data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
-    if (!data->utf8) {
+    ctx_vals.foreground = তথ্য->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
+    ctx_vals.background = তথ্য->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
+    যদি (!তথ্য->utf8) {
         gcflags |= GCFont;
-        ctx_vals.font = data->font_struct->fid;
+        ctx_vals.font = তথ্য->font_struct->fid;
     }
-    data->ctx = X11_XCreateGC(data->display, data->drawable, gcflags, &ctx_vals);
-    if (data->ctx == None) {
-        return SDL_SetError("Couldn't create graphics context");
-    }
-
-    data->close = false;
-    data->key_control_esc = data->key_control_enter = NULL;
-    if (!data->pixmap) {
-        data->ev_scale = data->ev_iscale = 1;
-    } else {
-        data->ev_scale = data->scale;
-        data->ev_iscale = data->iscale;
+    তথ্য->ctx = X11_XCreateGC(তথ্য->display, তথ্য->drawable, gcflags, &ctx_vals);
+    যদি (তথ্য->ctx == None) {
+        ফেরত SDL_SetError("Couldn't create graphics context");
     }
 
-#if SDL_GRAB
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
-        X11_XGrabPointer(display, data->window, False, ButtonPressMask | ButtonReleaseMask | PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
-        X11_XGrabKeyboard(display, data->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
+    তথ্য->close = false;
+    তথ্য->চাবি_control_esc = তথ্য->চাবি_control_enter = ফাঁকা;
+    যদি (!তথ্য->pixmap) {
+        তথ্য->ev_scale = তথ্য->ev_iscale = 1;
+    } অন্যথা {
+        তথ্য->ev_scale = তথ্য->scale;
+        তথ্য->ev_iscale = তথ্য->iscale;
+    }
+
+#যদি SDL_GRAB
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || তথ্য->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+        X11_XGrabPointer(display, তথ্য->window, False, ButtonPressMask | ButtonReleaseMask | PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
+        X11_XGrabKeyboard(display, তথ্য->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
     }
 #endif
 
-    return true;
+    ফেরত true;
 }
 
-static void X11Toolkit_DrawWindow(SDL_ToolkitWindowX11 *data) {
+স্থির শূন্য X11Toolkit_DrawWindow(SDL_ToolkitWindowX11 *তথ্য) {
     SDL_Rect rect;
-    int i;
+    পূর্ণসংখ্যা i;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
-        X11_XdbeBeginIdiom(data->display);
+    যদি (SDL_X11_HAVE_XDBE && তথ্য->xdbe && !তথ্য->pixmap) {
+        X11_XdbeBeginIdiom(তথ্য->display);
     }
 #endif
 
-    X11_XSetForeground(data->display, data->ctx, data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel);
-    if (data->pixmap) {
-        X11_XFillRectangle(data->display, data->drawable, data->ctx, 0, 0, data->pixmap_width, data->pixmap_height);
-    } else {
-        X11_XFillRectangle(data->display, data->drawable, data->ctx, 0, 0, data->window_width, data->window_height);
+    X11_XSetForeground(তথ্য->display, তথ্য->ctx, তথ্য->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel);
+    যদি (তথ্য->pixmap) {
+        X11_XFillRectangle(তথ্য->display, তথ্য->drawable, তথ্য->ctx, 0, 0, তথ্য->pixmap_width, তথ্য->pixmap_height);
+    } অন্যথা {
+        X11_XFillRectangle(তথ্য->display, তথ্য->drawable, তথ্য->ctx, 0, 0, তথ্য->window_width, তথ্য->window_height);
     }
 
-    for (i = 0; i < data->controls_sz; i++) {
+    জন্য (i = 0; i < তথ্য->controls_sz; i++) {
         SDL_ToolkitControlX11 *control;
 
-        control = data->controls[i];
-        if (control) {
-            if (control->func_draw) {
+        control = তথ্য->controls[i];
+        যদি (control) {
+            যদি (control->func_draw) {
                 control->func_draw(control);
             }
         }
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
+    যদি (SDL_X11_HAVE_XDBE && তথ্য->xdbe && !তথ্য->pixmap) {
         XdbeSwapInfo swap_info;
-        swap_info.swap_window = data->window;
+        swap_info.swap_window = তথ্য->window;
         swap_info.swap_action = XdbeUndefined;
-        X11_XdbeSwapBuffers(data->display, &swap_info, 1);
-        X11_XdbeEndIdiom(data->display);
+        X11_XdbeSwapBuffers(তথ্য->display, &swap_info, 1);
+        X11_XdbeEndIdiom(তথ্য->display);
     }
 #endif
 
-    if (data->pixmap) {
+    যদি (তথ্য->pixmap) {
         SDL_Surface *scale_surface;
 
         rect.x = rect.y = 0;
-        rect.w = data->window_width;
-        rect.h = data->window_height;
+        rect.w = তথ্য->window_width;
+        rect.h = তথ্য->window_height;
 #ifndef NO_SHARED_MEMORY
-        if (data->shm) {
-            if (data->shm_pixmap) {
-                X11_XFlush(data->display);
-                X11_XSync(data->display, false);
-                scale_surface = SDL_CreateSurfaceFrom(data->pixmap_width, data->pixmap_height, X11_GetPixelFormatFromVisualInfo(data->display, &data->vi), data->shm_info.shmaddr, data->shm_bytes_per_line);
-                SDL_BlitSurfaceScaled(scale_surface, NULL, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
+        যদি (তথ্য->shm) {
+            যদি (তথ্য->shm_pixmap) {
+                X11_XFlush(তথ্য->display);
+                X11_XSync(তথ্য->display, false);
+                scale_surface = SDL_CreateSurfaceFrom(তথ্য->pixmap_width, তথ্য->pixmap_height, X11_GetPixelFormatFromVisualInfo(তথ্য->display, &তথ্য->vi), তথ্য->shm_info.shmaddr, তথ্য->shm_bytes_per_সারি);
+                SDL_BlitSurfaceScaled(scale_surface, ফাঁকা, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
                 SDL_DestroySurface(scale_surface);
-                X11_XCopyArea(data->display, data->drawable, data->window, data->ctx, 0, 0, data->window_width, data->window_height, 0, 0);
-            } else {
-                X11_XShmGetImage(data->display, data->drawable, data->image, 0, 0, AllPlanes);
-                scale_surface = SDL_CreateSurfaceFrom(data->pixmap_width, data->pixmap_height, X11_GetPixelFormatFromVisualInfo(data->display, &data->vi), data->image->data, data->image->bytes_per_line);
-                SDL_BlitSurfaceScaled(scale_surface, NULL, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
-                X11_XShmPutImage(data->display, data->window, data->ctx, data->image, 0, 0, 0, 0, data->window_width, data->window_height, False);
+                X11_XCopyArea(তথ্য->display, তথ্য->drawable, তথ্য->window, তথ্য->ctx, 0, 0, তথ্য->window_width, তথ্য->window_height, 0, 0);
+            } অন্যথা {
+                X11_XShmGetImage(তথ্য->display, তথ্য->drawable, তথ্য->image, 0, 0, AllPlanes);
+                scale_surface = SDL_CreateSurfaceFrom(তথ্য->pixmap_width, তথ্য->pixmap_height, X11_GetPixelFormatFromVisualInfo(তথ্য->display, &তথ্য->vi), তথ্য->image->তথ্য, তথ্য->image->bytes_per_সারি);
+                SDL_BlitSurfaceScaled(scale_surface, ফাঁকা, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
+                X11_XShmPutImage(তথ্য->display, তথ্য->window, তথ্য->ctx, তথ্য->image, 0, 0, 0, 0, তথ্য->window_width, তথ্য->window_height, False);
             }
-        } else
+        } অন্যথা
 #endif
         {
             XImage *image;
 
-            image = X11_XGetImage(data->display, data->drawable, 0, 0 , data->pixmap_width, data->pixmap_height, AllPlanes, ZPixmap);
-            scale_surface = SDL_CreateSurfaceFrom(data->pixmap_width, data->pixmap_height, X11_GetPixelFormatFromVisualInfo(data->display, &data->vi), image->data, image->bytes_per_line);
-            SDL_BlitSurfaceScaled(scale_surface, NULL, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
-            X11_XPutImage(data->display, data->window, data->ctx, image, 0, 0, 0, 0, data->window_width, data->window_height);
+            image = X11_XGetImage(তথ্য->display, তথ্য->drawable, 0, 0 , তথ্য->pixmap_width, তথ্য->pixmap_height, AllPlanes, ZPixmap);
+            scale_surface = SDL_CreateSurfaceFrom(তথ্য->pixmap_width, তথ্য->pixmap_height, X11_GetPixelFormatFromVisualInfo(তথ্য->display, &তথ্য->vi), image->তথ্য, image->bytes_per_সারি);
+            SDL_BlitSurfaceScaled(scale_surface, ফাঁকা, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
+            X11_XPutImage(তথ্য->display, তথ্য->window, তথ্য->ctx, image, 0, 0, 0, 0, তথ্য->window_width, তথ্য->window_height);
 
             XDestroyImage(image);
             SDL_DestroySurface(scale_surface);
         }
     }
 
-    X11_XFlush(data->display);
+    X11_XFlush(তথ্য->display);
 }
 
-static SDL_ToolkitControlX11 *X11Toolkit_GetControlMouseIsOn(SDL_ToolkitWindowX11 *data, int x, int y)
+স্থির SDL_ToolkitControlX11 *X11Toolkit_GetControlMouseIsOn(SDL_ToolkitWindowX11 *তথ্য, পূর্ণসংখ্যা x, পূর্ণসংখ্যা y)
 {
-    int i;
+    পূর্ণসংখ্যা i;
 
-    for (i = 0; i < data->controls_sz; i++) {
-        SDL_Rect *rect = &data->controls[i]->rect;
-        if ((x >= rect->x) &&
+    জন্য (i = 0; i < তথ্য->controls_sz; i++) {
+        SDL_Rect *rect = &তথ্য->controls[i]->rect;
+        যদি ((x >= rect->x) &&
             (x <= (rect->x + rect->w)) &&
             (y >= rect->y) &&
             (y <= (rect->y + rect->h))) {
-            return data->controls[i];
+            ফেরত তথ্য->controls[i];
         }
     }
 
-    return NULL;
+    ফেরত ফাঁকা;
 }
 
 // NOLINTNEXTLINE(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
-static Bool X11Toolkit_EventTest(Display *display, XEvent *event, XPointer arg)
+স্থির Bool X11Toolkit_EventTest(Display *display, XEvent *event, XPointer arg)
 {
-    SDL_ToolkitWindowX11 *data = (SDL_ToolkitWindowX11 *)arg;
+    SDL_ToolkitWindowX11 *তথ্য = (SDL_ToolkitWindowX11 *)arg;
 
-    if (event->xany.display != data->display) {
-        return False;
+    যদি (event->xany.display != তথ্য->display) {
+        ফেরত False;
     }
 
-    if (event->xany.window == data->window) {
-        return True;
+    যদি (event->xany.window == তথ্য->window) {
+        ফেরত True;
     }
 
-    return False;
+    ফেরত False;
 }
 
-void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
+শূন্য X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *তথ্য, XEvent *e) {
     /* If X11_XFilterEvent returns True, then some input method has filtered the
         event, and the client should discard the event. */
-    if ((e->type != Expose) && X11_XFilterEvent(e, None)) {
-        return;
+    যদি ((e->type != Expose) && X11_XFilterEvent(e, None)) {
+        ফেরত;
     }
 
-    data->draw = false;
-    data->e = e;
+    তথ্য->draw = false;
+    তথ্য->e = e;
 
-    switch (e->type) {
-        case Expose:
-            data->draw = true;
-            break;
-        case ClientMessage:
-            if (e->xclient.message_type == data->wm_protocols &&
+    নির্বাচন (e->type) {
+        ক্ষেত্র Expose:
+            তথ্য->draw = true;
+            বিরতি;
+        ক্ষেত্র ClientMessage:
+            যদি (e->xclient.message_type == তথ্য->wm_protocols &&
                 e->xclient.format == 32 &&
-                e->xclient.data.l[0] == data->wm_delete_message) {
-                data->close = true;
+                e->xclient.তথ্য.l[0] == তথ্য->wm_delete_message) {
+                তথ্য->close = true;
             }
-            break;
-        case FocusIn:
-            data->has_focus = true;
-            break;
-        case FocusOut:
-            data->has_focus = false;
-            if (data->fiddled_control) {
-                data->fiddled_control->selected = false;
+            বিরতি;
+        ক্ষেত্র FocusIn:
+            তথ্য->has_focus = true;
+            বিরতি;
+        ক্ষেত্র FocusOut:
+            তথ্য->has_focus = false;
+            যদি (তথ্য->fiddled_control) {
+                তথ্য->fiddled_control->selected = false;
             }
-            data->fiddled_control = NULL;
-            for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
-                data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
+            তথ্য->fiddled_control = ফাঁকা;
+            জন্য (তথ্য->ev_i = 0; তথ্য->ev_i < তথ্য->controls_sz; তথ্য->ev_i++) {
+                তথ্য->controls[তথ্য->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
             }
-            break;
-        case MotionNotify:
-            if (data->has_focus) {
-                data->previous_control = data->fiddled_control;
-                data->fiddled_control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->previous_control) {
-                    data->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-                    if (data->previous_control->func_on_state_change) {
-                        data->previous_control->func_on_state_change(data->previous_control);
+            বিরতি;
+        ক্ষেত্র MotionNotify:
+            যদি (তথ্য->has_focus) {
+                তথ্য->previous_control = তথ্য->fiddled_control;
+                তথ্য->fiddled_control = X11Toolkit_GetControlMouseIsOn(তথ্য, SDL_lroundf((e->xbutton.x/ তথ্য->ev_scale)* তথ্য->ev_iscale), SDL_lroundf((e->xbutton.y/ তথ্য->ev_scale)* তথ্য->ev_iscale));
+                যদি (তথ্য->previous_control) {
+                    তথ্য->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
+                    যদি (তথ্য->previous_control->func_on_state_change) {
+                        তথ্য->previous_control->func_on_state_change(তথ্য->previous_control);
                     }
-                    data->draw = true;
+                    তথ্য->draw = true;
                 }
-                if (data->fiddled_control) {
-                    if (data->fiddled_control->dynamic) {
-                        data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_HOVER;
-                        if (data->fiddled_control->func_on_state_change) {
-                            data->fiddled_control->func_on_state_change(data->fiddled_control);
+                যদি (তথ্য->fiddled_control) {
+                    যদি (তথ্য->fiddled_control->dynamic) {
+                        তথ্য->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_HOVER;
+                        যদি (তথ্য->fiddled_control->func_on_state_change) {
+                            তথ্য->fiddled_control->func_on_state_change(তথ্য->fiddled_control);
                         }
-                        data->draw = true;
-                    } else {
-                        data->fiddled_control = NULL;
+                        তথ্য->draw = true;
+                    } অন্যথা {
+                        তথ্য->fiddled_control = ফাঁকা;
                     }
                 }
             }
-            break;
-        case ButtonPress:
-            data->previous_control = data->fiddled_control;
-            if (data->previous_control) {
-                data->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-                if (data->previous_control->func_on_state_change) {
-                    data->previous_control->func_on_state_change(data->previous_control);
+            বিরতি;
+        ক্ষেত্র ButtonPress:
+            তথ্য->previous_control = তথ্য->fiddled_control;
+            যদি (তথ্য->previous_control) {
+                তথ্য->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
+                যদি (তথ্য->previous_control->func_on_state_change) {
+                    তথ্য->previous_control->func_on_state_change(তথ্য->previous_control);
                 }
-                data->draw = true;
+                তথ্য->draw = true;
             }
-            if (e->xbutton.button == Button1) {
-                data->fiddled_control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->fiddled_control) {
-                    data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD;
-                    if (data->fiddled_control->func_on_state_change) {
-                        data->fiddled_control->func_on_state_change(data->fiddled_control);
+            যদি (e->xbutton.button == Button1) {
+                তথ্য->fiddled_control = X11Toolkit_GetControlMouseIsOn(তথ্য, SDL_lroundf((e->xbutton.x/ তথ্য->ev_scale)* তথ্য->ev_iscale), SDL_lroundf((e->xbutton.y/ তথ্য->ev_scale)* তথ্য->ev_iscale));
+                যদি (তথ্য->fiddled_control) {
+                    তথ্য->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD;
+                    যদি (তথ্য->fiddled_control->func_on_state_change) {
+                        তথ্য->fiddled_control->func_on_state_change(তথ্য->fiddled_control);
                     }
-                    data->draw = true;
+                    তথ্য->draw = true;
                 }
             }
-            break;
-        case ButtonRelease:
-            if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
-                int cx;
-                int cy;
+            বিরতি;
+        ক্ষেত্র ButtonRelease:
+            যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || তথ্য->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+                পূর্ণসংখ্যা cx;
+                পূর্ণসংখ্যা cy;
 
                 cx = e->xbutton.x;
                 cy = e->xbutton.y;
 
-                if (cy < 0 || cx < 0) {
-                    data->close = true;
+                যদি (cy < 0 || cx < 0) {
+                    তথ্য->close = true;
                 }
 
-                if (cy > data->window_height || cx > data->window_width) {
-                    data->close = true;
+                যদি (cy > তথ্য->window_height || cx > তথ্য->window_width) {
+                    তথ্য->close = true;
                 }
             }
 
-            if ((e->xbutton.button == Button1) && (data->fiddled_control)) {
+            যদি ((e->xbutton.button == Button1) && (তথ্য->fiddled_control)) {
                 SDL_ToolkitControlX11 *control;
 
-                control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->fiddled_control == control) {
-                    data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
-                    if (data->fiddled_control->func_on_state_change) {
-                        data->fiddled_control->func_on_state_change(data->fiddled_control);
+                control = X11Toolkit_GetControlMouseIsOn(তথ্য, SDL_lroundf((e->xbutton.x/ তথ্য->ev_scale)* তথ্য->ev_iscale), SDL_lroundf((e->xbutton.y/ তথ্য->ev_scale)* তথ্য->ev_iscale));
+                যদি (তথ্য->fiddled_control == control) {
+                    তথ্য->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
+                    যদি (তথ্য->fiddled_control->func_on_state_change) {
+                        তথ্য->fiddled_control->func_on_state_change(তথ্য->fiddled_control);
                     }
-                    data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-                    data->draw = true;
+                    তথ্য->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
+                    তথ্য->draw = true;
                 }
             }
-            break;
-        case KeyPress:
-            data->last_key_pressed = X11_XLookupKeysym(&e->xkey, 0);
+            বিরতি;
+        ক্ষেত্র চাবি_Press:
+            তথ্য->last_চাবি_pressed = X11_XLookupKeysym(&e->xkey, 0);
 
-            if (data->last_key_pressed == XK_Escape) {
-                for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
-                    if(data->controls[data->ev_i]->is_default_esc) {
-                        data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
-                        data->draw = true;
-                        data->key_control_esc = data->controls[data->ev_i];
+            যদি (তথ্য->last_চাবি_pressed == XK_Escape) {
+                জন্য (তথ্য->ev_i = 0; তথ্য->ev_i < তথ্য->controls_sz; তথ্য->ev_i++) {
+                    যদি(তথ্য->controls[তথ্য->ev_i]->is_default_esc) {
+                        তথ্য->controls[তথ্য->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
+                        তথ্য->draw = true;
+                        তথ্য->চাবি_control_esc = তথ্য->controls[তথ্য->ev_i];
                     }
                 }
-            } else if ((data->last_key_pressed == XK_Return) || (data->last_key_pressed == XK_KP_Enter)) {
-                for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
-                    if(data->controls[data->ev_i]->selected) {
-                        data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
-                        data->draw = true;
-                        data->key_control_enter = data->controls[data->ev_i];
+            } অন্যথা যদি ((তথ্য->last_চাবি_pressed == XK_Return) || (তথ্য->last_চাবি_pressed == XK_KP_Enter)) {
+                জন্য (তথ্য->ev_i = 0; তথ্য->ev_i < তথ্য->controls_sz; তথ্য->ev_i++) {
+                    যদি(তথ্য->controls[তথ্য->ev_i]->selected) {
+                        তথ্য->controls[তথ্য->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
+                        তথ্য->draw = true;
+                        তথ্য->চাবি_control_enter = তথ্য->controls[তথ্য->ev_i];
                     }
                 }
             }
-            break;
-        case KeyRelease:
+            বিরতি;
+        ক্ষেত্র চাবি_Release:
         {
-            KeySym key = X11_XLookupKeysym(&e->xkey, 0);
+            চাবি_Sym চাবি = X11_XLookupKeysym(&e->xkey, 0);
 
             // If this is a key release for something we didn't get the key down for, then bail.
-            if (key != data->last_key_pressed) {
-                break;
+            যদি (চাবি != তথ্য->last_চাবি_pressed) {
+                বিরতি;
             }
 
-            if (key == XK_Escape) {
-                if (data->key_control_esc) {
-                    if (data->key_control_esc->func_on_state_change) {
-                        data->key_control_esc->func_on_state_change(data->key_control_esc);
+            যদি (চাবি == XK_Escape) {
+                যদি (তথ্য->চাবি_control_esc) {
+                    যদি (তথ্য->চাবি_control_esc->func_on_state_change) {
+                        তথ্য->চাবি_control_esc->func_on_state_change(তথ্য->চাবি_control_esc);
                     }
                 }
-            } else if ((key == XK_Return) || (key == XK_KP_Enter)) {
-                if (data->key_control_enter) {
-                    if (data->key_control_enter->func_on_state_change) {
-                        data->key_control_enter->func_on_state_change(data->key_control_enter);
+            } অন্যথা যদি ((চাবি == XK_Return) || (চাবি == XK_KP_Enter)) {
+                যদি (তথ্য->চাবি_control_enter) {
+                    যদি (তথ্য->চাবি_control_enter->func_on_state_change) {
+                        তথ্য->চাবি_control_enter->func_on_state_change(তথ্য->চাবি_control_enter);
                     }
                 }
-            } else if (key == XK_Tab || key == XK_Left || key == XK_Right) {
-                if (data->focused_control) {
-                    data->focused_control->selected = false;
+            } অন্যথা যদি (চাবি == XK_Tab || চাবি == XK_বাম || চাবি == XK_ডান) {
+                যদি (তথ্য->focused_control) {
+                    তথ্য->focused_control->selected = false;
                 }
-                data->draw = true;
-                for (data->ev_i = 0; data->ev_i < data->dyn_controls_sz; data->ev_i++) {
-                    if (data->dyn_controls[data->ev_i] == data->focused_control) {
-                        int next_index;
+                তথ্য->draw = true;
+                জন্য (তথ্য->ev_i = 0; তথ্য->ev_i < তথ্য->dyn_controls_sz; তথ্য->ev_i++) {
+                    যদি (তথ্য->dyn_controls[তথ্য->ev_i] == তথ্য->focused_control) {
+                        পূর্ণসংখ্যা পরবর্তী_সূচক;
 
-                        if (key == XK_Left) {
-                            next_index = data->ev_i - 1;
-                        } else {
-                            next_index = data->ev_i + 1;
+                        যদি (চাবি == XK_বাম) {
+                            পরবর্তী_সূচক = তথ্য->ev_i - 1;
+                        } অন্যথা {
+                            পরবর্তী_সূচক = তথ্য->ev_i + 1;
                         }
-                        if ((next_index >= data->dyn_controls_sz) || (next_index < 0)) {
-                            if (key == XK_Right || key == XK_Left) {
-                                next_index = data->ev_i;
-                            } else {
-                                next_index = 0;
+                        যদি ((পরবর্তী_সূচক >= তথ্য->dyn_controls_sz) || (পরবর্তী_সূচক < 0)) {
+                            যদি (চাবি == XK_ডান || চাবি == XK_বাম) {
+                                পরবর্তী_সূচক = তথ্য->ev_i;
+                            } অন্যথা {
+                                পরবর্তী_সূচক = 0;
                             }
                         }
-                        data->focused_control = data->dyn_controls[next_index];
-                        data->focused_control->selected = true;
-                        break;
+                        তথ্য->focused_control = তথ্য->dyn_controls[পরবর্তী_সূচক];
+                        তথ্য->focused_control->selected = true;
+                        বিরতি;
                     }
                 }
             }
-            break;
+            বিরতি;
         }
     }
 
-    if (data->draw) {
-        X11Toolkit_DrawWindow(data);
+    যদি (তথ্য->draw) {
+        X11Toolkit_DrawWindow(তথ্য);
     }
 }
 
-void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data) {
-   while (!data->close) {
+শূন্য X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *তথ্য) {
+   যখন (!তথ্য->close) {
         XEvent e;
 
         /* Process settings events */
-        X11_XPeekEvent(data->display, &e);
-        if (data->xsettings) {
-            xsettings_client_process_event(data->xsettings, &e);
+        X11_XPeekEvent(তথ্য->display, &e);
+        যদি (তথ্য->xsettings) {
+            xsettings_client_process_event(তথ্য->xsettings, &e);
         }
 
         /* Do actual event loop */
-        X11_XIfEvent(data->display, &e, X11Toolkit_EventTest, (XPointer)data);
-        X11Toolkit_ProcessWindowEvents(data, &e);
+        X11_XIfEvent(তথ্য->display, &e, X11Toolkit_EventTest, (XPointer)তথ্য);
+        X11Toolkit_ProcessWindowEvents(তথ্য, &e);
     }
 }
 
 
-void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, int w, int h) {
-    if (!data->pixmap) {
-        data->window_width = w;
-        data->window_height = h;
-    } else {
-        data->window_width = SDL_lroundf((w/data->iscale) * data->scale);
-        data->window_height = SDL_lroundf((h/data->iscale) * data->scale);
-        data->pixmap_width = w;
-        data->pixmap_height = h;
-        X11_XFreePixmap(data->display, data->drawable);
-        X11Toolkit_InitWindowPixmap(data);
+শূন্য X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *তথ্য, পূর্ণসংখ্যা w, পূর্ণসংখ্যা h) {
+    যদি (!তথ্য->pixmap) {
+        তথ্য->window_width = w;
+        তথ্য->window_height = h;
+    } অন্যথা {
+        তথ্য->window_width = SDL_lroundf((w/তথ্য->iscale) * তথ্য->scale);
+        তথ্য->window_height = SDL_lroundf((h/তথ্য->iscale) * তথ্য->scale);
+        তথ্য->pixmap_width = w;
+        তথ্য->pixmap_height = h;
+        X11_XFreePixmap(তথ্য->display, তথ্য->drawable);
+        X11Toolkit_InitWindowPixmap(তথ্য);
     }
 
-    X11_XResizeWindow(data->display, data->window, data->window_width, data->window_height);
+    X11_XResizeWindow(তথ্য->display, তথ্য->window, তথ্য->window_width, তথ্য->window_height);
 }
 
-static void X11Toolkit_DestroyIconControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DestroyIconControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitIconControlX11 *icon_control;
 
     icon_control = (SDL_ToolkitIconControlX11 *)control;
@@ -1837,7 +1837,7 @@ static void X11Toolkit_DestroyIconControl(SDL_ToolkitControlX11 *control) {
     SDL_free(control);
 }
 
-static void X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitIconControlX11 *icon_control;
 
     icon_control = (SDL_ToolkitIconControlX11 *)control;
@@ -1846,32 +1846,32 @@ static void X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
     X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_bg_shadow.pixel);
     X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x + (2 * control->window->iscale), control->rect.y + (2* control->window->iscale), control->rect.w, control->rect.h, 0, 360 * 64);
 
-    switch (icon_control->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-        case SDL_MESSAGEBOX_ERROR:
+    নির্বাচন (icon_control->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+        ক্ষেত্র SDL_MESSAGEBOX_ERROR:
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_red_darker.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x, control->rect.y, control->rect.w, control->rect.h, 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_red.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x+(1* control->window->iscale), control->rect.y+(1* control->window->iscale), control->rect.w-(2* control->window->iscale), control->rect.h-(2* control->window->iscale), 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_white.pixel);
-                break;
-        case SDL_MESSAGEBOX_WARNING:
+                বিরতি;
+        ক্ষেত্র SDL_MESSAGEBOX_WARNING:
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_black.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x, control->rect.y, control->rect.w, control->rect.h, 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_yellow.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x+(1* control->window->iscale), control->rect.y+(1* control->window->iscale), control->rect.w-(2* control->window->iscale), control->rect.h-(2* control->window->iscale), 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_black.pixel);
-                break;
-        case SDL_MESSAGEBOX_INFORMATION:
+                বিরতি;
+        ক্ষেত্র SDL_MESSAGEBOX_INFORMATION:
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_white.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x, control->rect.y, control->rect.w, control->rect.h, 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_blue.pixel);
                 X11_XFillArc(control->window->display, control->window->drawable, control->window->ctx, control->rect.x+(1* control->window->iscale), control->rect.y+(1* control->window->iscale), control->rect.w-(2* control->window->iscale), control->rect.h-(2* control->window->iscale), 0, 360 * 64);
                 X11_XSetForeground(control->window->display, control->window->ctx, icon_control->xcolor_white.pixel);
-                break;
+                বিরতি;
     }
     X11_XSetFont(control->window->display, control->window->ctx, icon_control->icon_char_font->fid);
     X11_XDrawString(control->window->display, control->window->drawable, control->window->ctx, control->rect.x + icon_control->icon_char_x, control->rect.y + icon_control->icon_char_y, &icon_control->icon_char, 1);
-    if (!control->window->utf8) {
+    যদি (!control->window->utf8) {
         X11_XSetFont(control->window->display, control->window->ctx, control->window->font_struct->fid);
     }
 
@@ -1879,13 +1879,13 @@ static void X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
     control->rect.h += 2 * control->window->iscale;
 }
 
-static void X11Toolkit_CalculateIconControl(SDL_ToolkitControlX11 *base_control) {
+স্থির শূন্য X11Toolkit_CalculateIconControl(SDL_ToolkitControlX11 *base_control) {
     SDL_ToolkitIconControlX11 *control;
-    int icon_char_w;
-    int icon_wh;
+    পূর্ণসংখ্যা icon_char_w;
+    পূর্ণসংখ্যা icon_wh;
 
     control = (SDL_ToolkitIconControlX11 *)base_control;
-    X11Toolkit_GetTextWidthHeightForFont(control->icon_char_font, &control->icon_char, 1, &icon_char_w, &control->icon_char_h, &control->icon_char_a, NULL);
+    X11Toolkit_GetTextWidthHeightForFont(control->icon_char_font, &control->icon_char, 1, &icon_char_w, &control->icon_char_h, &control->icon_char_a, ফাঁকা);
     base_control->rect.w = icon_char_w;
     base_control->rect.h = control->icon_char_h;
     icon_wh = SDL_max(icon_char_w, control->icon_char_h) + SDL_TOOLKIT_X11_ELEMENT_PADDING * 2 * base_control->window->iscale;
@@ -1899,17 +1899,17 @@ static void X11Toolkit_CalculateIconControl(SDL_ToolkitControlX11 *base_control)
     base_control->rect.h += 2 * base_control->window->iscale;
 }
 
-static void X11Toolkit_OnIconControlScaleChange(SDL_ToolkitControlX11 *base_control) {
+স্থির শূন্য X11Toolkit_OnIconControlScaleChange(SDL_ToolkitControlX11 *base_control) {
     SDL_ToolkitIconControlX11 *control;
-    char *font;
+    অক্ষর *font;
 
     control = (SDL_ToolkitIconControlX11 *)base_control;
     X11_XFreeFont(base_control->window->display, control->icon_char_font);
-    SDL_asprintf(&font, g_IconFont, G_ICONFONT_SIZE * base_control->window->iscale);
+    SDL_asprintf(&font, g_IconFont, G_ICONFONT_আকার * base_control->window->iscale);
     control->icon_char_font = X11_XLoadQueryFont(base_control->window->display, font);
     SDL_free(font);
-    if (!control->icon_char_font) {
-        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * base_control->window->iscale);
+    যদি (!control->icon_char_font) {
+        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_আকার * base_control->window->iscale);
         control->icon_char_font = X11_XLoadQueryFont(base_control->window->display, font);
         SDL_free(font);
     }
@@ -1918,22 +1918,22 @@ static void X11Toolkit_OnIconControlScaleChange(SDL_ToolkitControlX11 *base_cont
 SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window, SDL_MessageBoxFlags flags) {
     SDL_ToolkitIconControlX11 *control;
     SDL_ToolkitControlX11 *base_control;
-    char *font;
+    অক্ষর *font;
 
     /* Create control struct */
-    control = (SDL_ToolkitIconControlX11 *)SDL_malloc(sizeof(SDL_ToolkitIconControlX11));
+    control = (SDL_ToolkitIconControlX11 *)SDL_malloc(আকার(SDL_ToolkitIconControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    যদি (!control) {
         SDL_SetError("Unable to allocate icon control structure");
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
     /* Fill out struct */
     base_control->window = window;
     base_control->func_draw = X11Toolkit_DrawIconControl;
     base_control->func_free = X11Toolkit_DestroyIconControl;
-    base_control->func_on_state_change = NULL;
-    base_control->func_calc_size = X11Toolkit_CalculateIconControl;
+    base_control->func_on_state_change = ফাঁকা;
+    base_control->func_calc_আকার = X11Toolkit_CalculateIconControl;
     base_control->func_on_scale_change = X11Toolkit_OnIconControlScaleChange;
     base_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
     base_control->selected = false;
@@ -1943,22 +1943,22 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     control->flags = flags;
 
     /* Load font */
-    SDL_asprintf(&font, g_IconFont, G_ICONFONT_SIZE * window->iscale);
+    SDL_asprintf(&font, g_IconFont, G_ICONFONT_আকার * window->iscale);
     control->icon_char_font = X11_XLoadQueryFont(window->display, font);
     SDL_free(font);
-    if (!control->icon_char_font) {
-        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * window->iscale);
+    যদি (!control->icon_char_font) {
+        SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_আকার * window->iscale);
         control->icon_char_font = X11_XLoadQueryFont(window->display, font);
         SDL_free(font);
-        if (!control->icon_char_font) {
+        যদি (!control->icon_char_font) {
             SDL_free(control);
-            return NULL;
+            ফেরত ফাঁকা;
         }
     }
 
     /* Set colors */
-    switch (flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-    case SDL_MESSAGEBOX_ERROR:
+    নির্বাচন (flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+    ক্ষেত্র SDL_MESSAGEBOX_ERROR:
         control->icon_char = 'X';
         control->xcolor_white.flags = DoRed|DoGreen|DoBlue;
         control->xcolor_white.red = 65535;
@@ -1975,8 +1975,8 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_white);
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_red);
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_red_darker);
-        break;
-    case SDL_MESSAGEBOX_WARNING:
+        বিরতি;
+    ক্ষেত্র SDL_MESSAGEBOX_WARNING:
         control->icon_char = '!';
         control->xcolor_black.flags = DoRed|DoGreen|DoBlue;
         control->xcolor_black.red = 0;
@@ -1988,8 +1988,8 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
         control->xcolor_yellow.blue = 0;
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_black);
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_yellow);
-        break;
-    case SDL_MESSAGEBOX_INFORMATION:
+        বিরতি;
+    ক্ষেত্র SDL_MESSAGEBOX_INFORMATION:
         control->icon_char = 'i';
         control->xcolor_white.flags = DoRed|DoGreen|DoBlue;
         control->xcolor_white.red = 65535;
@@ -2001,34 +2001,34 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
         control->xcolor_blue.blue = 65535;
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_white);
         X11_XAllocColor(window->display, window->cmap, &control->xcolor_blue);
-        break;
-    default:
+        বিরতি;
+    পূর্বনির্ধারিত:
         X11_XFreeFont(window->display, control->icon_char_font);
         SDL_free(control);
-        return NULL;
+        ফেরত ফাঁকা;
     }
     control->xcolor_bg_shadow.flags = DoRed|DoGreen|DoBlue;
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red > 32896) {
+    যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red > 32896) {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red == 0) {
+    } অন্যথা যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red == 0) {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red + 9000, 0, 65535);
-    } else {
+    } অন্যথা {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red - 3000, 0, 65535);
     }
 
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green > 32896) {
+    যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green > 32896) {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green == 0) {
+    } অন্যথা যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green == 0) {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green + 9000, 0, 65535);
-    } else {
+    } অন্যথা {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green - 3000, 0, 65535);
     }
 
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue > 32896) {
+    যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue > 32896) {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue == 0) {
+    } অন্যথা যদি (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue == 0) {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue + 9000, 0, 65535);
-    } else {
+    } অন্যথা {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue - 3000, 0, 65535);
     }
     X11_XAllocColor(window->display, window->cmap, &control->xcolor_bg_shadow);
@@ -2037,24 +2037,24 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     X11Toolkit_CalculateIconControl(base_control);
 
     X11Toolkit_AddControlToWindow(window, base_control);
-    return base_control;
+    ফেরত base_control;
 }
 
-bool X11Toolkit_NotifyControlOfSizeChange(SDL_ToolkitControlX11 *control) {
-    if (control->func_calc_size) {
-        control->func_calc_size(control);
-        return true;
-    } else {
-        return false;
+bool X11_Toolkit_Notify_Control_Of_আকার_Change(SDL_ToolkitControlX11 *control) {
+    যদি (control->func_calc_আকার) {
+        control->func_calc_আকার(control);
+        ফেরত true;
+    } অন্যথা {
+        ফেরত false;
     }
 }
 
-static void X11Toolkit_CalculateButtonControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_CalculateButtonControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
     X11Toolkit_GetTextElementsRect(button_control->text, &button_control->text_rect);
-    if (control->do_size) {
+    যদি (control->do_আকার) {
         control->rect.w = SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * 2 * control->window->iscale + button_control->text_rect.w;
         control->rect.h = SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * 2 * control->window->iscale + button_control->text_rect.h;
     }
@@ -2063,14 +2063,14 @@ static void X11Toolkit_CalculateButtonControl(SDL_ToolkitControlX11 *control) {
 }
 
 
-static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
 
     X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor[SDL_MESSAGEBOX_COLOR_TEXT].pixel);
     /* Draw bevel */
-    if (control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED || control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD) {
+    যদি (control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED || control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD) {
             X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
             X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2095,8 +2095,8 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
             X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                control->rect.x + 2 * control->window->iscale, control->rect.y + 2 * control->window->iscale,
                                control->rect.w - 4 * control->window->iscale, control->rect.h - 4 * control->window->iscale);
-        } else {
-            if (control->selected) {
+        } অন্যথা {
+            যদি (control->selected) {
                 X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2121,7 +2121,7 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x + 3 * control->window->iscale, control->rect.y + 3 * control->window->iscale,
                                    control->rect.w - 6 * control->window->iscale, control->rect.h - 6 * control->window->iscale);
-            } else {
+            } অন্যথা {
                 X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2153,16 +2153,16 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
     X11Toolkit_DrawTextElements(control->window, button_control->text, control->rect.x + button_control->text_rect.x, control->rect.y + button_control->text_rect.y);
 }
 
-static void X11Toolkit_OnButtonControlStateChange(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_OnButtonControlStateChange(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
-    if (button_control->cb && control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED) {
-        button_control->cb(control, button_control->cb_data);
+    যদি (button_control->cb && control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED) {
+        button_control->cb(control, button_control->cb_তথ্য);
     }
 }
 
-static void X11Toolkit_DestroyButtonControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DestroyButtonControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
@@ -2172,258 +2172,258 @@ static void X11Toolkit_DestroyButtonControl(SDL_ToolkitControlX11 *control) {
     SDL_free(control);
 }
 
-SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, const SDL_MessageBoxButtonData *data) {
+SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, ধ্রুবক SDL_Message_Box_Button_তথ্য *তথ্য) {
     SDL_ToolkitButtonControlX11 *control;
     SDL_ToolkitControlX11 *base_control;
 
-    control = (SDL_ToolkitButtonControlX11 *)SDL_malloc(sizeof(SDL_ToolkitButtonControlX11));
+    control = (SDL_ToolkitButtonControlX11 *)SDL_malloc(আকার(SDL_ToolkitButtonControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    যদি (!control) {
         SDL_SetError("Unable to allocate button control structure");
-        return NULL;
+        ফেরত ফাঁকা;
     }
     base_control->window = window;
     base_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-    base_control->func_calc_size = X11Toolkit_CalculateButtonControl;
+    base_control->func_calc_আকার = X11Toolkit_CalculateButtonControl;
     base_control->func_draw = X11Toolkit_DrawButtonControl;
     base_control->func_on_state_change = X11Toolkit_OnButtonControlStateChange;
     base_control->func_free = X11Toolkit_DestroyButtonControl;
-    base_control->func_on_scale_change = NULL;
+    base_control->func_on_scale_change = ফাঁকা;
     base_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
     base_control->selected = false;
     base_control->dynamic = true;
     base_control->is_default_enter = false;
     base_control->is_default_esc = false;
-    if (data->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+    যদি (তথ্য->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
         base_control->is_default_esc = true;
     }
-    if (data->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+    যদি (তথ্য->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
         base_control->is_default_enter = true;
         base_control->selected = true;
     }
-    control->cb = NULL;
-    control->data = data;
+    control->cb = ফাঁকা;
+    control->তথ্য = তথ্য;
 #ifdef HAVE_FRIBIDI_H
-    control->text = X11Toolkit_MakeTextElements(base_control->window, (char *)control->data->text, SDL_strlen(control->data->text), NULL);
-#else 
-    control->text = X11Toolkit_MakeTextElements(base_control->window, (char *)control->data->text, SDL_strlen(control->data->text));
+    control->text = X11Toolkit_MakeTextElements(base_control->window, (অক্ষর *)control->তথ্য->text, SDL_strlen(control->তথ্য->text), ফাঁকা);
+#অন্যথা 
+    control->text = X11Toolkit_MakeTextElements(base_control->window, (অক্ষর *)control->তথ্য->text, SDL_strlen(control->তথ্য->text));
 #endif
     X11Toolkit_ShapeTextElements(base_control->window, control->text);
     
-    base_control->do_size = true;
+    base_control->do_আকার = true;
     X11Toolkit_CalculateButtonControl(base_control);
-    base_control->do_size = false;
+    base_control->do_আকার = false;
 
     X11Toolkit_AddControlToWindow(window, base_control);
-    return base_control;
+    ফেরত base_control;
 }
 
-void X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, void *data, void (*cb)(struct SDL_ToolkitControlX11 *, void *)) {
+শূন্য X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, শূন্য *তথ্য, শূন্য (*cb)(কাঠামো SDL_ToolkitControlX11 *, শূন্য *)) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
-    button_control->cb_data = data;
+    button_control->cb_তথ্য = তথ্য;
     button_control->cb = cb;
 }
 
-const SDL_MessageBoxButtonData *X11Toolkit_GetButtonControlData(SDL_ToolkitControlX11 *control) {
+ধ্রুবক SDL_Message_Box_Button_তথ্য *X11_Toolkit_Get_Button_Control_তথ্য(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
-    return button_control->data;
+    ফেরত button_control->তথ্য;
 }
 
-void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data) {
-    int i;
+শূন্য X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *তথ্য) {
+    পূর্ণসংখ্যা i;
 
-    if (!data) {
-        return;
+    যদি (!তথ্য) {
+        ফেরত;
     }
 
-#if SDL_GRAB
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
-        X11_XUngrabPointer(data->display, CurrentTime);
-        X11_XUngrabKeyboard(data->display, CurrentTime);
+#যদি SDL_GRAB
+    যদি (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || তথ্য->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+        X11_XUngrabPointer(তথ্য->display, CurrentTime);
+        X11_XUngrabKeyboard(তথ্য->display, CurrentTime);
     }
 #endif
 
-    for (i = 0; i < data->controls_sz; i++) {
-        if (data->controls[i]->func_free) {
-            data->controls[i]->func_free(data->controls[i]);
+    জন্য (i = 0; i < তথ্য->controls_sz; i++) {
+        যদি (তথ্য->controls[i]->func_free) {
+            তথ্য->controls[i]->func_free(তথ্য->controls[i]);
         }
     }
-    SDL_free(data->controls);
-    SDL_free(data->dyn_controls);
+    SDL_free(তথ্য->controls);
+    SDL_free(তথ্য->dyn_controls);
 
-    if (data->popup_windows) {
-        SDL_ListClear(&data->popup_windows);
+    যদি (তথ্য->popup_windows) {
+        SDL_ListClear(&তথ্য->popup_windows);
     }
 
-    if (data->pixmap) {
-        X11_XFreePixmap(data->display, data->drawable);
+    যদি (তথ্য->pixmap) {
+        X11_XFreePixmap(তথ্য->display, তথ্য->drawable);
     }
 
 #ifndef NO_SHARED_MEMORY
-    if (data->pixmap && data->shm) {
-        X11_XShmDetach(data->display, &data->shm_info);
-        if (!data->shm_pixmap) {
-            XDestroyImage(data->image);
+    যদি (তথ্য->pixmap && তথ্য->shm) {
+        X11_XShmDetach(তথ্য->display, &তথ্য->shm_info);
+        যদি (!তথ্য->shm_pixmap) {
+            XDestroyImage(তথ্য->image);
         }
-        shmdt(data->shm_info.shmaddr);
+        shmdt(তথ্য->shm_info.shmaddr);
     }
 #endif
 
 #ifdef X_HAVE_UTF8_STRING
-    if (data->font_set) {
-        X11_XFreeFontSet(data->display, data->font_set);
-        data->font_set = NULL;
+    যদি (তথ্য->font_set) {
+        X11_XFreeFontSet(তথ্য->display, তথ্য->font_set);
+        তথ্য->font_set = ফাঁকা;
     }
 #endif
 
-    if (data->font_struct) {
-        X11_XFreeFont(data->display, data->font_struct);
-        data->font_struct = NULL;
+    যদি (তথ্য->font_struct) {
+        X11_XFreeFont(তথ্য->display, তথ্য->font_struct);
+        তথ্য->font_struct = ফাঁকা;
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
-        X11_XdbeDeallocateBackBufferName(data->display, data->buf);
+    যদি (SDL_X11_HAVE_XDBE && তথ্য->xdbe && !তথ্য->pixmap) {
+        X11_Xdbe_Deallocate_Back_বাফার_Name(তথ্য->display, তথ্য->buf);
     }
 #endif
 
-    if (data->xsettings) {
-        xsettings_client_destroy(data->xsettings);
+    যদি (তথ্য->xsettings) {
+        xsettings_client_destroy(তথ্য->xsettings);
     }
 
-    X11_XFreeGC(data->display, data->ctx);
+    X11_XFreeGC(তথ্য->display, তথ্য->ctx);
 
-    if (data->display) {
-        if (data->window != None) {
-            X11_XWithdrawWindow(data->display, data->window, data->screen);
-            X11_XDestroyWindow(data->display, data->window);
-            data->window = None;
+    যদি (তথ্য->display) {
+        যদি (তথ্য->window != None) {
+            X11_XWithdrawWindow(তথ্য->display, তথ্য->window, তথ্য->screen);
+            X11_XDestroyWindow(তথ্য->display, তথ্য->window);
+            তথ্য->window = None;
         }
 
-        if (data->display_close) {
-            X11_XCloseDisplay(data->display);
+        যদি (তথ্য->display_close) {
+            X11_XCloseDisplay(তথ্য->display);
         }
-        data->display = NULL;
+        তথ্য->display = ফাঁকা;
     }
 
-#if SDL_SET_LOCALE
-    if (data->origlocale && (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG)) {
-        (void)setlocale(LC_ALL, data->origlocale);
-        SDL_free(data->origlocale);
+#যদি SDL_SET_LOCALE
+    যদি (তথ্য->origlocale && (তথ্য->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG)) {
+        (শূন্য)setlocale(LC_ALL, তথ্য->origlocale);
+        SDL_free(তথ্য->origlocale);
     }
 #endif
 
 #ifdef HAVE_FRIBIDI_H
-    SDL_FriBidi_Destroy(data->fribidi);
+    SDL_FriBidi_Destroy(তথ্য->fribidi);
 #endif
 
 #ifdef HAVE_LIBTHAI_H
-    SDL_LibThai_Destroy(data->th);
+    SDL_LibThai_Destroy(তথ্য->th);
 #endif
 
-    SDL_free(data);
+    SDL_free(তথ্য);
 }
 
-static int X11Toolkit_CountLinesOfText(const char *text)
+স্থির পূর্ণসংখ্যা X11_Toolkit_গুনতি_সারিগুলি_Of_Text(ধ্রুবক অক্ষর *text)
 {
-    int result = 0;
-    while (text && *text) {
-        const char *lf = SDL_strchr(text, '\n');
-        result++; // even without an endline, this counts as a line.
-        text = lf ? lf + 1 : NULL;
+    পূর্ণসংখ্যা ফলাফল = 0;
+    যখন (text && *text) {
+        ধ্রুবক অক্ষর *lf = SDL_strchr(text, '\n');
+        ফলাফল++; // even without an endline, this counts as a line.
+        text = lf ? lf + 1 : ফাঁকা;
     }
-    return result;
+    ফেরত ফলাফল;
 }
 
-static void X11Toolkit_DrawLabelControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DrawLabelControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
-    int i;
+    পূর্ণসংখ্যা i;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
     X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor[SDL_MESSAGEBOX_COLOR_TEXT].pixel);
-    for (i = 0; i < label_control->sz; i++) {
-        X11Toolkit_DrawTextElements(control->window, label_control->lines[i].text, control->rect.x + label_control->lines[i].rect.x, control->rect.y + label_control->lines[i].rect.y);
+    জন্য (i = 0; i < label_control->sz; i++) {
+        X11Toolkit_DrawTextElements(control->window, label_control->সারিগুলি[i].text, control->rect.x + label_control->সারিগুলি[i].rect.x, control->rect.y + label_control->সারিগুলি[i].rect.y);
     }
 }
 
-static void X11Toolkit_DestroyLabelControl(SDL_ToolkitControlX11 *control) {
+স্থির শূন্য X11Toolkit_DestroyLabelControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
-    int i;
+    পূর্ণসংখ্যা i;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
-    for (i = 0; i < label_control->sz; i++) {
-        X11Toolkit_FreeTextElements(label_control->lines[i].text);
+    জন্য (i = 0; i < label_control->sz; i++) {
+        X11Toolkit_FreeTextElements(label_control->সারিগুলি[i].text);
     }
-    SDL_free(label_control->lines);
+    SDL_free(label_control->সারিগুলি);
     SDL_free(label_control);
 }
 
-static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control) {
+স্থির শূন্য X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control) {
     SDL_ToolkitLabelControlX11 *control;
-    int i;
+    পূর্ণসংখ্যা i;
 
     control = (SDL_ToolkitLabelControlX11 *)base_control;
     
-    if (base_control->do_size) {
+    যদি (base_control->do_আকার) {
         base_control->rect.w = 0;
         base_control->rect.h = 0;
     }
     
-    for (i = 0; i < control->sz; i++) {
-        int font_h;
+    জন্য (i = 0; i < control->sz; i++) {
+        পূর্ণসংখ্যা font_h;
         
-        font_h = X11Toolkit_GetTextElementsRect(control->lines[i].text, &control->lines[i].rect);
+        font_h = X11Toolkit_GetTextElementsRect(control->সারিগুলি[i].text, &control->সারিগুলি[i].rect);
         
-        if (base_control->do_size) {
-            base_control->rect.w = SDL_max(base_control->rect.w, control->lines[i].rect.w);
+        যদি (base_control->do_আকার) {
+            base_control->rect.w = SDL_max(base_control->rect.w, control->সারিগুলি[i].rect.w);
         }
         
-        if (i > 0) {
-            control->lines[i].rect.y = font_h + control->lines[i - 1].rect.y;
-        } else {
-            control->lines[i].rect.y = 0;
+        যদি (i > 0) {
+            control->সারিগুলি[i].rect.y = font_h + control->সারিগুলি[i - 1].rect.y;
+        } অন্যথা {
+            control->সারিগুলি[i].rect.y = 0;
         }
     }
 
 #ifdef HAVE_FRIBIDI_H
-    if (base_control->window->fribidi) {
+    যদি (base_control->window->fribidi) {
         FriBidiParType first_ndn_dir;
-        int last_ndn;
+        পূর্ণসংখ্যা last_ndn;
     
         first_ndn_dir = FRIBIDI_PAR_LTR;
-        for (i = 0; i < control->sz; i++) {
-            if (control->lines[i].par != FRIBIDI_PAR_ON) {
-                first_ndn_dir = control->lines[i].par;
+        জন্য (i = 0; i < control->sz; i++) {
+            যদি (control->সারিগুলি[i].par != FRIBIDI_PAR_ON) {
+                first_ndn_dir = control->সারিগুলি[i].par;
             }
         }
 
         last_ndn = -1;
-        for (i = 0; i < control->sz; i++) {
-            switch (control->lines[i].par) {
-                case FRIBIDI_PAR_LTR:
-                    control->lines[i].rect.x = 0;
+        জন্য (i = 0; i < control->sz; i++) {
+            নির্বাচন (control->সারিগুলি[i].par) {
+                ক্ষেত্র FRIBIDI_PAR_LTR:
+                    control->সারিগুলি[i].rect.x = 0;
                     last_ndn = i;
-                    break;
-                case FRIBIDI_PAR_RTL:
-                    control->lines[i].rect.x = base_control->rect.w - control->lines[i].rect.w;
+                    বিরতি;
+                ক্ষেত্র FRIBIDI_PAR_RTL:
+                    control->সারিগুলি[i].rect.x = base_control->rect.w - control->সারিগুলি[i].rect.w;
                     last_ndn = i;
-                    break;
-                default:
-                    if (last_ndn != -1) {
-                        if (control->lines[last_ndn].par == FRIBIDI_PAR_RTL) {
-                            control->lines[i].rect.x = base_control->rect.w - control->lines[i].rect.w;
-                        } else {
-                            control->lines[i].rect.x = 0;
+                    বিরতি;
+                পূর্বনির্ধারিত:
+                    যদি (last_ndn != -1) {
+                        যদি (control->সারিগুলি[last_ndn].par == FRIBIDI_PAR_RTL) {
+                            control->সারিগুলি[i].rect.x = base_control->rect.w - control->সারিগুলি[i].rect.w;
+                        } অন্যথা {
+                            control->সারিগুলি[i].rect.x = 0;
                         }
-                    } else {
-                        if (first_ndn_dir == FRIBIDI_PAR_RTL) {
-                            control->lines[i].rect.x = base_control->rect.w - control->lines[i].rect.w;
-                        } else {
-                            control->lines[i].rect.x = 0;
+                    } অন্যথা {
+                        যদি (first_ndn_dir == FRIBIDI_PAR_RTL) {
+                            control->সারিগুলি[i].rect.x = base_control->rect.w - control->সারিগুলি[i].rect.w;
+                        } অন্যথা {
+                            control->সারিগুলি[i].rect.x = 0;
                         }
                     }
             }
@@ -2431,35 +2431,35 @@ static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control
     }
 #endif
     
-    if (base_control->do_size && control->sz) {
-        base_control->rect.h = control->lines[control->sz - 1].rect.y + control->lines[control->sz - 1].rect.h;
+    যদি (base_control->do_আকার && control->sz) {
+        base_control->rect.h = control->সারিগুলি[control->sz - 1].rect.y + control->সারিগুলি[control->sz - 1].rect.h;
     }
 }
 
-SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8) {
+SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, অক্ষর *utf8) {
     SDL_ToolkitLabelControlX11 *control;
     SDL_ToolkitControlX11 *base_control;
-    int i;
+    পূর্ণসংখ্যা i;
     
-    if (!utf8) {
-        return NULL;
+    যদি (!utf8) {
+        ফেরত ফাঁকা;
     }
  
-    if (!SDL_strcmp(utf8, "")) {
-        return NULL;
+    যদি (!SDL_strcmp(utf8, "")) {
+        ফেরত ফাঁকা;
     }   
-    control = (SDL_ToolkitLabelControlX11 *)SDL_malloc(sizeof(SDL_ToolkitLabelControlX11));
+    control = (SDL_ToolkitLabelControlX11 *)SDL_malloc(আকার(SDL_ToolkitLabelControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    যদি (!control) {
         SDL_SetError("Unable to allocate label control structure");
-        return NULL;
+        ফেরত ফাঁকা;
     }
     base_control->window = window;
     base_control->func_draw = X11Toolkit_DrawLabelControl;
-    base_control->func_on_state_change = NULL;
-    base_control->func_calc_size = X11Toolkit_CalculateLabelControl;
+    base_control->func_on_state_change = ফাঁকা;
+    base_control->func_calc_আকার = X11Toolkit_CalculateLabelControl;
     base_control->func_free  = X11Toolkit_DestroyLabelControl;
-    base_control->func_on_scale_change = NULL;
+    base_control->func_on_scale_change = ফাঁকা;
     base_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
     base_control->selected = false;
     base_control->dynamic = false;
@@ -2468,49 +2468,49 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *windo
     base_control->is_default_enter = false;
     base_control->is_default_esc = false;
     
-    control->sz = X11Toolkit_CountLinesOfText(utf8);
-    control->lines = SDL_calloc(control->sz, sizeof(SDL_ToolkitLabelControlLineX11));
-    for (i = 0; i < control->sz; i++) {
-        const char *lf = SDL_strchr(utf8, '\n');
-        const int length = lf ? (lf - utf8) : SDL_strlen(utf8);
-        int sz;
+    control->sz = X11_Toolkit_গুনতি_সারিগুলি_Of_Text(utf8);
+    control->সারিগুলি = SDL_calloc(control->sz, আকার(SDL_Toolkit_Label_Control_সারি_X11));
+    জন্য (i = 0; i < control->sz; i++) {
+        ধ্রুবক অক্ষর *lf = SDL_strchr(utf8, '\n');
+        ধ্রুবক পূর্ণসংখ্যা দৈর্ঘ্য = lf ? (lf - utf8) : SDL_strlen(utf8);
+        পূর্ণসংখ্যা sz;
         
-        sz = length;
-        if (lf && (lf > utf8) && (lf[-1] == '\r')) {
+        sz = দৈর্ঘ্য;
+        যদি (lf && (lf > utf8) && (lf[-1] == '\r')) {
             sz--;
         }
 
 #ifdef HAVE_FRIBIDI_H
-        control->lines[i].text = X11Toolkit_MakeTextElements(base_control->window, (char *)utf8, sz, &control->lines[i].par);
-#else 
-        control->lines[i].text = X11Toolkit_MakeTextElements(base_control->window, (char *)utf8, sz);
+        control->সারিগুলি[i].text = X11Toolkit_MakeTextElements(base_control->window, (অক্ষর *)utf8, sz, &control->সারিগুলি[i].par);
+#অন্যথা 
+        control->সারিগুলি[i].text = X11Toolkit_MakeTextElements(base_control->window, (অক্ষর *)utf8, sz);
 #endif
-        X11Toolkit_ShapeTextElements(base_control->window, control->lines[i].text);
+        X11Toolkit_ShapeTextElements(base_control->window, control->সারিগুলি[i].text);
 
-        utf8 += length + 1;
-        if (!lf) {
-            break;
+        utf8 += দৈর্ঘ্য + 1;
+        যদি (!lf) {
+            বিরতি;
         }
     }
 
-    base_control->do_size = true;
+    base_control->do_আকার = true;
     X11Toolkit_CalculateLabelControl(base_control);
-    base_control->do_size = false;
+    base_control->do_আকার = false;
     X11Toolkit_AddControlToWindow(window, base_control);
 
-    return base_control;
+    ফেরত base_control;
 }
 
-int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control) {
+পূর্ণসংখ্যা X11_Toolkit_Get_Label_Control_First_সারি_Height(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
 
-    return label_control->lines[0].rect.h;
+    ফেরত label_control->সারিগুলি[0].rect.h;
 }
 
-void X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data) {
-    data->close = true;
+শূন্য X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *তথ্য) {
+    তথ্য->close = true;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

@@ -12,7 +12,7 @@
 **
 */
 
-#include "openxr.h"
+#অন্তর্ভাব "openxr.h"
 
 /*
 This file contains expansion macros (X Macros) for OpenXR structures that have a parent type.
@@ -41,70 +41,70 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrEventDataBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
+#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Event_তথ্য_Base_Header(_avail, _unavail) \
+    impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Event_তথ্য_Base_Header_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
-    _avail(XrEventDataEventsLost, XR_TYPE_EVENT_DATA_EVENTS_LOST) \
-    _avail(XrEventDataInstanceLossPending, XR_TYPE_EVENT_DATA_INSTANCE_LOSS_PENDING) \
-    _avail(XrEventDataSessionStateChanged, XR_TYPE_EVENT_DATA_SESSION_STATE_CHANGED) \
-    _avail(XrEventDataReferenceSpaceChangePending, XR_TYPE_EVENT_DATA_REFERENCE_SPACE_CHANGE_PENDING) \
-    _avail(XrEventDataInteractionProfileChanged, XR_TYPE_EVENT_DATA_INTERACTION_PROFILE_CHANGED) \
-    _avail(XrEventDataVisibilityMaskChangedKHR, XR_TYPE_EVENT_DATA_VISIBILITY_MASK_CHANGED_KHR) \
-    _avail(XrEventDataPerfSettingsEXT, XR_TYPE_EVENT_DATA_PERF_SETTINGS_EXT) \
-    _avail(XrEventDataMainSessionVisibilityChangedEXTX, XR_TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX) \
-    _avail(XrEventDataDisplayRefreshRateChangedFB, XR_TYPE_EVENT_DATA_DISPLAY_REFRESH_RATE_CHANGED_FB) \
-    _avail(XrEventDataViveTrackerConnectedHTCX, XR_TYPE_EVENT_DATA_VIVE_TRACKER_CONNECTED_HTCX) \
-    _avail(XrEventDataSpatialAnchorCreateCompleteFB, XR_TYPE_EVENT_DATA_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSetStatusCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SET_STATUS_COMPLETE_FB) \
-    _avail(XrEventDataPassthroughStateChangedFB, XR_TYPE_EVENT_DATA_PASSTHROUGH_STATE_CHANGED_FB) \
-    _avail(XrEventDataMarkerTrackingUpdateVARJO, XR_TYPE_EVENT_DATA_MARKER_TRACKING_UPDATE_VARJO) \
-    _avail(XrEventDataLocalizationChangedML, XR_TYPE_EVENT_DATA_LOCALIZATION_CHANGED_ML) \
-    _avail(XrEventDataSpaceQueryResultsAvailableFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_RESULTS_AVAILABLE_FB) \
-    _avail(XrEventDataSpaceQueryCompleteFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceEraseCompleteFB, XR_TYPE_EVENT_DATA_SPACE_ERASE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceShareCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SHARE_COMPLETE_FB) \
-    _avail(XrEventDataSceneCaptureCompleteFB, XR_TYPE_EVENT_DATA_SCENE_CAPTURE_COMPLETE_FB) \
-    _avail(XrEventDataVirtualKeyboardCommitTextMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META) \
-    _avail(XrEventDataVirtualKeyboardBackspaceMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META) \
-    _avail(XrEventDataVirtualKeyboardEnterMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_ENTER_META) \
-    _avail(XrEventDataVirtualKeyboardShownMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_SHOWN_META) \
-    _avail(XrEventDataVirtualKeyboardHiddenMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_HIDDEN_META) \
-    _avail(XrEventDataSpaceListSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_LIST_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceDiscoveryResultsAvailableMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_RESULTS_AVAILABLE_META) \
-    _avail(XrEventDataSpaceDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataSpacesSaveResultMETA, XR_TYPE_EVENT_DATA_SPACES_SAVE_RESULT_META) \
-    _avail(XrEventDataSpacesEraseResultMETA, XR_TYPE_EVENT_DATA_SPACES_ERASE_RESULT_META) \
-    _avail(XrEventDataPassthroughLayerResumedMETA, XR_TYPE_EVENT_DATA_PASSTHROUGH_LAYER_RESUMED_META) \
-    _avail(XrEventDataShareSpacesCompleteMETA, XR_TYPE_EVENT_DATA_SHARE_SPACES_COMPLETE_META) \
-    _avail(XrEventDataInteractionRenderModelsChangedEXT, XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT) \
-    _avail(XrEventDataSenseDataProviderStateChangedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_PROVIDER_STATE_CHANGED_BD) \
-    _avail(XrEventDataSenseDataUpdatedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_UPDATED_BD) \
-    _avail(XrEventDataRecommendedResolutionChangedANDROID, XR_TYPE_EVENT_DATA_RECOMMENDED_RESOLUTION_CHANGED_ANDROID) \
-    _avail(XrEventDataUserPresenceChangedEXT, XR_TYPE_EVENT_DATA_USER_PRESENCE_CHANGED_EXT) \
-    _avail(XrEventDataHeadsetFitChangedML, XR_TYPE_EVENT_DATA_HEADSET_FIT_CHANGED_ML) \
-    _avail(XrEventDataEyeCalibrationChangedML, XR_TYPE_EVENT_DATA_EYE_CALIBRATION_CHANGED_ML) \
-    _avail(XrEventDataBoundaryVisibilityChangedMETA, XR_TYPE_EVENT_DATA_BOUNDARY_VISIBILITY_CHANGED_META) \
-    _avail(XrEventDataStartColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStopColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStartColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataColocationDiscoveryResultMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_RESULT_META) \
-    _avail(XrEventDataColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataStopColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataImageTrackingLostANDROID, XR_TYPE_EVENT_DATA_IMAGE_TRACKING_LOST_ANDROID) \
-    _avail(XrEventDataSpatialDiscoveryRecommendedEXT, XR_TYPE_EVENT_DATA_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
-    _avail(XrEventDataGeospatialTrackerStateChangedANDROID, XR_TYPE_EVENT_DATA_GEOSPATIAL_TRACKER_STATE_CHANGED_ANDROID) \
-    _avail(XrEventDataSpatialContainerClosedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_CLOSED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataSpatialContainerInteractableChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_INTERACTABLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsModeRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_MODE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataViewConfigurationViewsChangedEXT, XR_TYPE_EVENT_DATA_VIEW_CONFIGURATION_VIEWS_CHANGED_EXT) \
+#define impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Event_তথ্য_Base_Header_CORE(_avail, _unavail) \
+    _avail(Xr_Event_তথ্য_Events_Lost, XR_TYPE_EVENT_তথ্য_EVENTS_LOST) \
+    _avail(Xr_Event_তথ্য_Instance_Loss_Pending, XR_TYPE_EVENT_তথ্য_INSTANCE_LOSS_PENDING) \
+    _avail(Xr_Event_তথ্য_Session_State_Changed, XR_TYPE_EVENT_তথ্য_SESSION_STATE_CHANGED) \
+    _avail(Xr_Event_তথ্য_Reference_Space_Change_Pending, XR_TYPE_EVENT_তথ্য_REFERENCE_SPACE_CHANGE_PENDING) \
+    _avail(Xr_Event_তথ্য_Interaction_Profile_Changed, XR_TYPE_EVENT_তথ্য_INTERACTION_PROFILE_CHANGED) \
+    _avail(Xr_Event_তথ্য_Visibility_Mask_Changed_KHR, XR_TYPE_EVENT_তথ্য_VISIBILITY_MASK_CHANGED_KHR) \
+    _avail(Xr_Event_তথ্য_Perf_Settings_EXT, XR_TYPE_EVENT_তথ্য_PERF_SETTINGS_EXT) \
+    _avail(Xr_Event_তথ্য_Main_Session_Visibility_Changed_EXTX, XR_TYPE_EVENT_তথ্য_MAIN_SESSION_VISIBILITY_CHANGED_EXTX) \
+    _avail(Xr_Event_তথ্য_Display_Refresh_Rate_Changed_FB, XR_TYPE_EVENT_তথ্য_DISPLAY_REFRESH_RATE_CHANGED_FB) \
+    _avail(Xr_Event_তথ্য_Vive_Tracker_Connected_HTCX, XR_TYPE_EVENT_তথ্য_VIVE_TRACKER_CONNECTED_HTCX) \
+    _avail(Xr_Event_তথ্য_Spatial_Anchor_Create_Complete_FB, XR_TYPE_EVENT_তথ্য_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Set_Status_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_SET_STATUS_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Passthrough_State_Changed_FB, XR_TYPE_EVENT_তথ্য_PASSTHROUGH_STATE_CHANGED_FB) \
+    _avail(Xr_Event_তথ্য_Marker_Tracking_Update_VARJO, XR_TYPE_EVENT_তথ্য_MARKER_TRACKING_UPDATE_VARJO) \
+    _avail(Xr_Event_তথ্য_Localization_Changed_ML, XR_TYPE_EVENT_তথ্য_LOCALIZATION_CHANGED_ML) \
+    _avail(Xr_Event_তথ্য_Space_Query_Results_Available_FB, XR_TYPE_EVENT_তথ্য_SPACE_QUERY_RESULTS_AVAILABLE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Query_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_QUERY_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Save_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Erase_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_ERASE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Share_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_SHARE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Scene_Capture_Complete_FB, XR_TYPE_EVENT_তথ্য_SCENE_CAPTURE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Virtual_Keyboard_Commit_Text_META, XR_TYPE_EVENT_তথ্য_VIRTUAL_KEYBOARD_COMMIT_TEXT_META) \
+    _avail(Xr_Event_তথ্য_Virtual_Keyboard_Backspace_META, XR_TYPE_EVENT_তথ্য_VIRTUAL_KEYBOARD_BACKSPACE_META) \
+    _avail(Xr_Event_তথ্য_Virtual_Keyboard_Enter_META, XR_TYPE_EVENT_তথ্য_VIRTUAL_KEYBOARD_ENTER_META) \
+    _avail(Xr_Event_তথ্য_Virtual_Keyboard_Shown_META, XR_TYPE_EVENT_তথ্য_VIRTUAL_KEYBOARD_SHOWN_META) \
+    _avail(Xr_Event_তথ্য_Virtual_Keyboard_Hidden_META, XR_TYPE_EVENT_তথ্য_VIRTUAL_KEYBOARD_HIDDEN_META) \
+    _avail(Xr_Event_তথ্য_Space_List_Save_Complete_FB, XR_TYPE_EVENT_তথ্য_SPACE_LIST_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_তথ্য_Space_Discovery_Results_Available_META, XR_TYPE_EVENT_তথ্য_SPACE_DISCOVERY_RESULTS_AVAILABLE_META) \
+    _avail(Xr_Event_তথ্য_Space_Discovery_Complete_META, XR_TYPE_EVENT_তথ্য_SPACE_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Spaces_Save_ফলাফল_META, XR_TYPE_EVENT_তথ্য_SPACES_SAVE_ফলাফল_META) \
+    _avail(Xr_Event_তথ্য_Spaces_Erase_ফলাফল_META, XR_TYPE_EVENT_তথ্য_SPACES_ERASE_ফলাফল_META) \
+    _avail(Xr_Event_তথ্য_Passthrough_Layer_Resumed_META, XR_TYPE_EVENT_তথ্য_PASSTHROUGH_LAYER_RESUMED_META) \
+    _avail(Xr_Event_তথ্য_Share_Spaces_Complete_META, XR_TYPE_EVENT_তথ্য_SHARE_SPACES_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Interaction_Render_Models_Changed_EXT, XR_TYPE_EVENT_তথ্য_INTERACTION_RENDER_MODELS_CHANGED_EXT) \
+    _avail(Xr_Event_তথ্য_Sense_তথ্য_Provider_State_Changed_BD, XR_TYPE_EVENT_তথ্য_SENSE_তথ্য_PROVIDER_STATE_CHANGED_BD) \
+    _avail(Xr_Event_তথ্য_Sense_তথ্য_Updated_BD, XR_TYPE_EVENT_তথ্য_SENSE_তথ্য_UPDATED_BD) \
+    _avail(Xr_Event_তথ্য_Recommended_Resolution_Changed_ANDROID, XR_TYPE_EVENT_তথ্য_RECOMMENDED_RESOLUTION_CHANGED_ANDROID) \
+    _avail(Xr_Event_তথ্য_User_Presence_Changed_EXT, XR_TYPE_EVENT_তথ্য_USER_PRESENCE_CHANGED_EXT) \
+    _avail(Xr_Event_তথ্য_Headset_Fit_Changed_ML, XR_TYPE_EVENT_তথ্য_HEADSET_FIT_CHANGED_ML) \
+    _avail(Xr_Event_তথ্য_Eye_Calibration_Changed_ML, XR_TYPE_EVENT_তথ্য_EYE_CALIBRATION_CHANGED_ML) \
+    _avail(Xr_Event_তথ্য_Boundary_Visibility_Changed_META, XR_TYPE_EVENT_তথ্য_BOUNDARY_VISIBILITY_CHANGED_META) \
+    _avail(Xr_Event_তথ্য_Start_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_তথ্য_START_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Stop_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_তথ্য_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_তথ্য_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Start_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_তথ্য_START_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Colocation_Discovery_ফলাফল_META, XR_TYPE_EVENT_তথ্য_COLOCATION_DISCOVERY_ফলাফল_META) \
+    _avail(Xr_Event_তথ্য_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_তথ্য_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Stop_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_তথ্য_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_তথ্য_Image_Tracking_Lost_ANDROID, XR_TYPE_EVENT_তথ্য_IMAGE_TRACKING_LOST_ANDROID) \
+    _avail(Xr_Event_তথ্য_Spatial_Discovery_Recommended_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
+    _avail(Xr_Event_তথ্য_Geospatial_Tracker_State_Changed_ANDROID, XR_TYPE_EVENT_তথ্য_GEOSPATIAL_TRACKER_STATE_CHANGED_ANDROID) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Closed_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_CLOSED_EXT) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Bounds_Changed_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_BOUNDS_CHANGED_EXT) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Visible_Changed_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_VISIBLE_CHANGED_EXT) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Visible_Request_Denied_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Interactable_Changed_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_INTERACTABLE_CHANGED_EXT) \
+    _avail(Xr_Event_তথ্য_Spatial_Container_Bounds_Mode_Request_Denied_EXT, XR_TYPE_EVENT_তথ্য_SPATIAL_CONTAINER_BOUNDS_MODE_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_তথ্য_View_Configuration_Views_Changed_EXT, XR_TYPE_EVENT_তথ্য_VIEW_CONFIGURATION_VIEWS_CHANGED_EXT) \
 
 
 
@@ -141,61 +141,61 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_CORE(_avail, _unavail) \
 
 
-#if defined(XR_USE_GRAPHICS_API_D3D11)
+#যদি defined(XR_USE_GRAPHICS_API_D3D11)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
     _avail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_D3D12)
+#যদি defined(XR_USE_GRAPHICS_API_D3D12)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
     _avail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_METAL)
+#যদি defined(XR_USE_GRAPHICS_API_METAL)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _avail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _unavail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL)
+#যদি defined(XR_USE_GRAPHICS_API_OPENGL)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#যদি defined(XR_USE_GRAPHICS_API_OPENGL_ES)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
+#যদি defined(XR_USE_GRAPHICS_API_VULKAN)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
@@ -215,11 +215,11 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
     _avail(XrLoaderInitInfoPropertiesEXT, XR_TYPE_LOADER_INIT_INFO_PROPERTIES_EXT) \
 
 
-#if defined(XR_USE_PLATFORM_ANDROID)
+#যদি defined(XR_USE_PLATFORM_ANDROID)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
@@ -255,31 +255,31 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
     _avail(XrSwapchainStateFoveationFB, XR_TYPE_SWAPCHAIN_STATE_FOVEATION_FB) \
 
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#যদি defined(XR_USE_GRAPHICS_API_OPENGL_ES)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
 #endif
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
+#যদি defined(XR_USE_GRAPHICS_API_VULKAN)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
 #endif
 
-#if defined(XR_USE_PLATFORM_ANDROID)
+#যদি defined(XR_USE_PLATFORM_ANDROID)
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
-#else
+#অন্যথা
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
@@ -314,7 +314,7 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
     _avail(XrSpatialAnchorsPublishCompletionML, XR_TYPE_SPATIAL_ANCHORS_PUBLISH_COMPLETION_ML) \
     _avail(XrSpatialAnchorsDeleteCompletionML, XR_TYPE_SPATIAL_ANCHORS_DELETE_COMPLETION_ML) \
     _avail(XrSpatialAnchorsUpdateExpirationCompletionML, XR_TYPE_SPATIAL_ANCHORS_UPDATE_EXPIRATION_COMPLETION_ML) \
-    _avail(XrSenseDataQueryCompletionBD, XR_TYPE_SENSE_DATA_QUERY_COMPLETION_BD) \
+    _avail(Xr_Sense_তথ্য_Query_Completion_BD, XR_TYPE_SENSE_তথ্য_QUERY_COMPLETION_BD) \
     _avail(XrFutureCompletionEXT, XR_TYPE_FUTURE_COMPLETION_EXT) \
     _avail(XrSpatialAnchorCreateCompletionBD, XR_TYPE_SPATIAL_ANCHOR_CREATE_COMPLETION_BD) \
     _avail(XrWorldMeshStateRequestCompletionML, XR_TYPE_WORLD_MESH_STATE_REQUEST_COMPLETION_ML) \
@@ -462,7 +462,7 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD()
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
     _avail(XrCameraSupportedCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraSupportedCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+    _avail(Xr_Camera_Supported_Capability_তথ্য_Transfer_Type_BD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_তথ্য_TRANSFER_TYPE_BD) \
     _avail(XrCameraSupportedCapabilityImageFormatBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraSupportedCapabilityCameraModelBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -478,7 +478,7 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD()
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
     _avail(XrCameraCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+    _avail(Xr_Camera_Capability_তথ্য_Transfer_Type_BD, XR_TYPE_CAMERA_CAPABILITY_তথ্য_TRANSFER_TYPE_BD) \
     _avail(XrCameraCapabilityImageFormatBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraCapabilityCameraModelBD, XR_TYPE_CAMERA_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -487,13 +487,13 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraImageDataBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
+#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Camera_Image_তথ্য_Base_Header_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Camera_Image_তথ্য_Base_Header_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraImageDataRawBufferBD, XR_TYPE_CAMERA_IMAGE_DATA_RAW_BUFFER_BD) \
+#define impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_Xr_Camera_Image_তথ্য_Base_Header_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Image_তথ্য_Raw_বাফার_BD, XR_TYPE_CAMERA_IMAGE_তথ্য_RAW_বাফার_BD) \
 
 
 
@@ -506,7 +506,7 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID()
 #define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID_CORE(_avail, _unavail) \
-    _avail(XrGoogleCloudAuthInfoApiKeyANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID) \
+    _avail(Xr_Google_Cloud_Auth_Info_Api_চাবি_ANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_চাবি_ANDROID) \
     _avail(XrGoogleCloudAuthInfoTokenANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID) \
     _avail(XrGoogleCloudAuthInfoKeylessANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID) \
 

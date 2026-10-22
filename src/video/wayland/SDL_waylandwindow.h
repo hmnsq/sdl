@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_waylandwindow_h_
 #define SDL_waylandwindow_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_touch_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandshmbuffer.h"
+#অন্তর্ভাব "SDL_waylandvideo.h"
+#অন্তর্ভাব "SDL_waylandshmbuffer.h"
 
-struct SDL_WindowData
+কাঠামো SDL_Window_তথ্য
 {
     SDL_Window *sdlwindow;
-    SDL_VideoData *waylandData;
-    struct wl_surface *surface;
-    struct wl_callback *gles_swap_frame_callback;
-    struct wl_event_queue *gles_swap_frame_event_queue;
-    struct wl_surface *gles_swap_frame_surface_wrapper;
-    struct wl_callback *surface_frame_callback;
+    SDL_Video_তথ্য *wayland_তথ্য;
+    কাঠামো wl_surface *surface;
+    কাঠামো wl_callback *gles_swap_frame_callback;
+    কাঠামো wl_event_queue *gles_swap_frame_event_queue;
+    কাঠামো wl_surface *gles_swap_frame_surface_wrapper;
+    কাঠামো wl_callback *surface_frame_callback;
 
-    union
+    সংঘ
     {
 #ifdef HAVE_LIBDECOR_H
-        struct
+        কাঠামো
         {
-            struct libdecor_frame *frame;
+            কাঠামো libdecor_frame *frame;
         } libdecor;
 #endif
-        struct
+        কাঠামো
         {
-            struct xdg_surface *surface;
-            union
+            কাঠামো xdg_surface *surface;
+            সংঘ
             {
-                struct
+                কাঠামো
                 {
-                    struct xdg_toplevel *xdg_toplevel;
+                    কাঠামো xdg_toplevel *xdg_toplevel;
                 } toplevel;
-                struct
+                কাঠামো
                 {
-                    struct xdg_popup *xdg_popup;
-                    struct xdg_positioner *xdg_positioner;
+                    কাঠামো xdg_popup *xdg_popup;
+                    কাঠামো xdg_positioner *xdg_positioner;
                 } popup;
             };
 
             Uint32 serial;
         } xdg;
     } shell_surface;
-    enum
+    গণনা
     {
         WAYLAND_SHELL_SURFACE_TYPE_UNKNOWN = 0,
         WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL,
@@ -75,7 +75,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR,
         WAYLAND_SHELL_SURFACE_TYPE_CUSTOM
     } shell_surface_type;
-    enum
+    গণনা
     {
         WAYLAND_SHELL_SURFACE_STATUS_HIDDEN = 0,
         WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE,
@@ -83,7 +83,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING,
         WAYLAND_SHELL_SURFACE_STATUS_SHOWN
     } shell_surface_status;
-    enum
+    গণনা
     {
         WAYLAND_WM_CAPS_WINDOW_MENU = 0x01,
         WAYLAND_WM_CAPS_MAXIMIZE = 0x02,
@@ -95,141 +95,141 @@ struct SDL_WindowData
                               WAYLAND_WM_CAPS_FULLSCREEN |
                               WAYLAND_WM_CAPS_MINIMIZE
     } wm_caps;
-    enum
+    গণনা
     {
-        WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
-        WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
-        WAYLAND_TOPLEVEL_CONSTRAINED_TOP = 0x04,
+        WAYLAND_TOPLEVEL_CONSTRAINED_বাম = 0x01,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ডান = 0x02,
+        WAYLAND_TOPLEVEL_CONSTRAINED_শীর্ষ = 0x04,
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
-    enum
+    গণনা
     {
         WAYLAND_RESIZE_EDGE_LR = 0x01,
         WAYLAND_RESIZE_EDGE_TB = 0x02,
         WAYLAND_RESIZE_EDGE_CORNER = WAYLAND_RESIZE_EDGE_LR | WAYLAND_RESIZE_EDGE_TB,
     } resize_edge;
 
-    struct wl_egl_window *egl_window;
+    কাঠামো wl_egl_window *egl_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
 #endif
-    struct zxdg_toplevel_decoration_v1 *server_decoration;
-    struct zwp_idle_inhibitor_v1 *idle_inhibitor;
-    struct xdg_activation_token_v1 *activation_token;
-    struct wp_viewport *viewport;
-    struct wp_fractional_scale_v1 *fractional_scale;
-    struct zxdg_exported_v2 *exported;
-    struct xdg_dialog_v1 *xdg_dialog_v1;
-    struct wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
-    struct xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
-    struct frog_color_managed_surface *frog_color_managed_surface;
-    struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
-    struct xdg_toplevel_session_v1 *xdg_toplevel_session;
+    কাঠামো zxdg_toplevel_decoration_v1 *server_decoration;
+    কাঠামো zwp_idle_inhibitor_v1 *idle_inhibitor;
+    কাঠামো xdg_activation_token_v1 *activation_token;
+    কাঠামো wp_viewport *viewport;
+    কাঠামো wp_fractional_scale_v1 *fractional_scale;
+    কাঠামো zxdg_exported_v2 *exported;
+    কাঠামো xdg_dialog_v1 *xdg_dialog_v1;
+    কাঠামো wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
+    কাঠামো xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
+    কাঠামো frog_color_managed_surface *frog_color_managed_surface;
+    কাঠামো wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
+    কাঠামো xdg_toplevel_session_v1 *xdg_toplevel_session;
 
-    struct Wayland_ColorInfoState *color_info_state;
+    কাঠামো Wayland_ColorInfoState *color_info_state;
 
     SDL_AtomicInt swap_interval_ready;
 
-    SDL_DisplayData **outputs;
-    int num_outputs;
+    SDL_Display_তথ্য **outputs;
+    পূর্ণসংখ্যা অঙ্ক_outputs;
 
-    char *app_id;
-    char *session_id;
-    double scale_factor;
+    অক্ষর *app_id;
+    অক্ষর *session_id;
+    দ্বিগুণ scale_factor;
 
-    struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    কাঠামো wl_বাফার **icon_buffers;
+    পূর্ণসংখ্যা icon_বাফার_গুনতি;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    পূর্ণসংখ্যা keyboard_focus_গুনতি;
+    পূর্ণসংখ্যা pointer_focus_গুনতি;
+    পূর্ণসংখ্যা active_touch_গুনতি;
 
-    struct
+    কাঠামো
     {
-        double x;
-        double y;
+        দ্বিগুণ x;
+        দ্বিগুণ y;
     } pointer_scale;
 
     // The in-flight window size request.
-    struct
+    কাঠামো
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        পূর্ণসংখ্যা logical_width;
+        পূর্ণসংখ্যা logical_height;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        পূর্ণসংখ্যা pixel_width;
+        পূর্ণসংখ্যা pixel_height;
     } requested;
 
     // The current size of the window and drawable backing store.
-    struct
+    কাঠামো
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        পূর্ণসংখ্যা logical_width;
+        পূর্ণসংখ্যা logical_height;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        পূর্ণসংখ্যা pixel_width;
+        পূর্ণসংখ্যা pixel_height;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        পূর্ণসংখ্যা viewport_width;
+        পূর্ণসংখ্যা viewport_height;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
-    struct
+    কাঠামো
     {
-        int width;
-        int height;
+        পূর্ণসংখ্যা width;
+        পূর্ণসংখ্যা height;
         bool insets_apply;
     } last_configure;
 
     // System enforced window size limits.
-    struct
+    কাঠামো
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        পূর্ণসংখ্যা min_width;
+        পূর্ণসংখ্যা min_height;
     } system_limits;
 
-    struct
+    কাঠামো
     {
-        int width;
-        int height;
+        পূর্ণসংখ্যা width;
+        পূর্ণসংখ্যা height;
     } toplevel_bounds;
 
-    struct
+    কাঠামো
     {
-        struct wl_surface *surface;
-        struct wl_subsurface *subsurface;
-        struct wl_buffer *buffer;
-        struct wp_viewport *viewport;
+        কাঠামো wl_surface *surface;
+        কাঠামো wl_subsurface *subsurface;
+        কাঠামো wl_বাফার *বাফার_2;
+        কাঠামো wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        পূর্ণসংখ্যা offset_x;
+        পূর্ণসংখ্যা offset_y;
 
         bool mapped;
         bool opaque;
     } mask;
 
-    struct
+    কাঠামো
     {
-        int hint;
-        int purpose;
+        পূর্ণসংখ্যা hint;
+        পূর্ণসংখ্যা purpose;
         bool active;
-    } text_input_props;
+    } text_প্রবেশ_props;
 
     SDL_Rect explicit_geometry;
     SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
+    পূর্ণসংখ্যা pending_state_deadline_গুনতি;
     Uint64 last_focus_event_time_ns;
     Uint64 last_resize_event_time_ns;
-    int icc_fd;
-    Uint32 icc_size;
+    পূর্ণসংখ্যা icc_fd;
+    Uint32 icc_আকার;
     bool floating;
     bool suspended;
     bool resizing;
@@ -245,54 +245,54 @@ struct SDL_WindowData
     bool show_hide_sync_required;
     bool scale_to_display;
     bool reparenting_required;
-    bool double_buffer;
+    bool double_বাফার;
     bool accepts_drag_and_drop;
     bool enable_insets;
 
-    SDL_HitTestResult hit_test_result;
+    SDL_Hit_Test_ফলাফল hit_test_ফলাফল;
 
-    struct wl_list external_window_list_link;
+    কাঠামো wl_list external_window_list_link;
 };
 
-extern void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
-extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
-extern void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
+বাহ্যিক শূন্য Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক SDL_Fullscreen_ফলাফল Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+বাহ্যিক শূন্য Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+বাহ্যিক bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+বাহ্যিক শূন্য Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+বাহ্যিক শূন্য Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+বাহ্যিক bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+বাহ্যিক bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_Set_Window_আকার(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_Set_Window_Minimum_আকার(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_Set_Window_Maximum_আকার(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_Get_Window_আকার_In_Pixels(SDL_VideoDevice *_this, SDL_Window *window, পূর্ণসংখ্যা *w, পূর্ণসংখ্যা *h);
+বাহ্যিক SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
+বাহ্যিক bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+বাহ্যিক bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, দশমিক opacity);
+বাহ্যিক শূন্য Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য Wayland_ShowWindowSystemMenu(SDL_Window *window, পূর্ণসংখ্যা x, পূর্ণসংখ্যা y);
+বাহ্যিক শূন্য Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
+বাহ্যিক bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
+বাহ্যিক bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+বাহ্যিক দশমিক Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক শূন্য *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *আকার_2);
+বাহ্যিক শূন্য Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
 
-extern bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
+বাহ্যিক bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
+বাহ্যিক bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
+বাহ্যিক bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
 
-extern void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data);
-extern void Wayland_UpdateWindowPosition(SDL_Window *window);
+বাহ্যিক শূন্য Wayland_RemoveOutputFromWindow(SDL_Window_তথ্য *window, SDL_Display_তথ্য *display_তথ্য);
+বাহ্যিক শূন্য Wayland_UpdateWindowPosition(SDL_Window *window);
 
 #endif // SDL_waylandwindow_h_

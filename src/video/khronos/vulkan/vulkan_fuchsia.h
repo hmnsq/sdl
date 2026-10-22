@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_VERSION 1
 #define VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
 
-typedef VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
+প্রকারলেখ VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
 
-typedef struct VkImagePipeSurfaceCreateInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkImagePipeSurfaceCreateInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ধ্রুবক শূন্য*                             p_পরবর্তী;
     VkImagePipeSurfaceCreateFlagsFUCHSIA    flags;
     zx_handle_t                             imagePipeHandle;
 } VkImagePipeSurfaceCreateInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, ধ্রুবক VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
     VkInstance                                  instance,
-    const VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -55,40 +55,40 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
 #define VK_FUCHSIA_EXTERNAL_MEMORY_SPEC_VERSION 1
 #define VK_FUCHSIA_EXTERNAL_MEMORY_EXTENSION_NAME "VK_FUCHSIA_external_memory"
 
-typedef struct VkImportMemoryZirconHandleInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkImportMemoryZirconHandleInfoFUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ধ্রুবক শূন্য*                           p_পরবর্তী;
     VkExternalMemoryHandleTypeFlagBits    handleType;
     zx_handle_t                           handle;
 } VkImportMemoryZirconHandleInfoFUCHSIA;
 
-typedef struct VkMemoryZirconHandlePropertiesFUCHSIA {
+প্রকারলেখ কাঠামো VkMemoryZirconHandlePropertiesFUCHSIA {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint32_t           memoryTypeBits;
 } VkMemoryZirconHandlePropertiesFUCHSIA;
 
-typedef struct VkMemoryGetZirconHandleInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkMemoryGetZirconHandleInfoFUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ধ্রুবক শূন্য*                           p_পরবর্তী;
     VkDeviceMemory                        memory;
     VkExternalMemoryHandleTypeFlagBits    handleType;
 } VkMemoryGetZirconHandleInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandleFUCHSIA)(VkDevice device, const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle, VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetMemoryZirconHandleFUCHSIA)(VkDevice device, ধ্রুবক VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle, VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandleFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetMemoryZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkMemoryGetZirconHandleInfoFUCHSIA*   pGetZirconHandleInfo,
+    ধ্রুবক VkMemoryGetZirconHandleInfoFUCHSIA*   pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
     VkDevice                                    device,
     VkExternalMemoryHandleTypeFlagBits          handleType,
     zx_handle_t                                 zirconHandle,
@@ -103,53 +103,53 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
 #define VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_VERSION 1
 #define VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
 
-typedef struct VkImportSemaphoreZirconHandleInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkImportSemaphoreZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ধ্রুবক শূন্য*                              p_পরবর্তী;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
     VkExternalSemaphoreHandleTypeFlagBits    handleType;
     zx_handle_t                              zirconHandle;
 } VkImportSemaphoreZirconHandleInfoFUCHSIA;
 
-typedef struct VkSemaphoreGetZirconHandleInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkSemaphoreGetZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ধ্রুবক শূন্য*                              p_পরবর্তী;
     VkSemaphore                              semaphore;
     VkExternalSemaphoreHandleTypeFlagBits    handleType;
 } VkSemaphoreGetZirconHandleInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, ধ্রুবক VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, ধ্রুবক VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+    ধ্রুবক VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
+    ধ্রুবক VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
 #endif
 #endif
 
 
 // VK_FUCHSIA_buffer_collection is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_buffer_collection 1
+#define VK_FUCHSIA_বাফার_collection 1
 
-VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBufferCollectionFUCHSIA)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(Vk_বাফার_Collection_FUCHSIA)
 
-#define VK_FUCHSIA_BUFFER_COLLECTION_SPEC_VERSION 2
-#define VK_FUCHSIA_BUFFER_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
+#define VK_FUCHSIA_বাফার_COLLECTION_SPEC_VERSION 2
+#define VK_FUCHSIA_বাফার_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
 
-typedef VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
+প্রকারলেখ VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
 
-typedef enum VkImageConstraintsInfoFlagBitsFUCHSIA {
+প্রকারলেখ গণনা VkImageConstraintsInfoFlagBitsFUCHSIA {
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_RARELY_FUCHSIA = 0x00000001,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_OFTEN_FUCHSIA = 0x00000002,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_RARELY_FUCHSIA = 0x00000004,
@@ -157,134 +157,134 @@ typedef enum VkImageConstraintsInfoFlagBitsFUCHSIA {
     VK_IMAGE_CONSTRAINTS_INFO_PROTECTED_OPTIONAL_FUCHSIA = 0x00000010,
     VK_IMAGE_CONSTRAINTS_INFO_FLAG_BITS_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
 } VkImageConstraintsInfoFlagBitsFUCHSIA;
-typedef VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
+প্রকারলেখ VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
 
-typedef struct VkBufferCollectionCreateInfoFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Collection_Create_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
     zx_handle_t        collectionToken;
-} VkBufferCollectionCreateInfoFUCHSIA;
+} Vk_বাফার_Collection_Create_Info_FUCHSIA;
 
-typedef struct VkImportMemoryBufferCollectionFUCHSIA {
+প্রকারলেখ কাঠামো Vk_Import_Memory_বাফার_Collection_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkImportMemoryBufferCollectionFUCHSIA;
+    ধ্রুবক শূন্য*                  p_পরবর্তী;
+    Vk_বাফার_Collection_FUCHSIA    collection;
+    uint32_t                     সূচক;
+} Vk_Import_Memory_বাফার_Collection_FUCHSIA;
 
-typedef struct VkBufferCollectionImageCreateInfoFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Collection_Image_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionImageCreateInfoFUCHSIA;
+    ধ্রুবক শূন্য*                  p_পরবর্তী;
+    Vk_বাফার_Collection_FUCHSIA    collection;
+    uint32_t                     সূচক;
+} Vk_বাফার_Collection_Image_Create_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionConstraintsInfoFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Collection_Constraints_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           minBufferCount;
-    uint32_t           maxBufferCount;
-    uint32_t           minBufferCountForCamping;
-    uint32_t           minBufferCountForDedicatedSlack;
-    uint32_t           minBufferCountForSharedSlack;
-} VkBufferCollectionConstraintsInfoFUCHSIA;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
+    uint32_t           min_বাফার_গুনতি;
+    uint32_t           max_বাফার_গুনতি;
+    uint32_t           min_বাফার_গুনতি_For_Camping;
+    uint32_t           min_বাফার_গুনতি_For_Dedicated_Slack;
+    uint32_t           min_বাফার_গুনতি_For_Shared_Slack;
+} Vk_বাফার_Collection_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferConstraintsInfoFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Constraints_Info_FUCHSIA {
     VkStructureType                             sType;
-    const void*                                 pNext;
-    VkBufferCreateInfo                          createInfo;
+    ধ্রুবক শূন্য*                                 p_পরবর্তী;
+    Vk_বাফার_Create_Info                          createInfo;
     VkFormatFeatureFlags                        requiredFormatFeatures;
-    VkBufferCollectionConstraintsInfoFUCHSIA    bufferCollectionConstraints;
-} VkBufferConstraintsInfoFUCHSIA;
+    Vk_বাফার_Collection_Constraints_Info_FUCHSIA    বাফার_Collection_Constraints;
+} Vk_বাফার_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionBufferCreateInfoFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Collection_বাফার_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionBufferCreateInfoFUCHSIA;
+    ধ্রুবক শূন্য*                  p_পরবর্তী;
+    Vk_বাফার_Collection_FUCHSIA    collection;
+    uint32_t                     সূচক;
+} Vk_বাফার_Collection_বাফার_Create_Info_FUCHSIA;
 
-typedef struct VkSysmemColorSpaceFUCHSIA {
+প্রকারলেখ কাঠামো VkSysmemColorSpaceFUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
     uint32_t           colorSpace;
 } VkSysmemColorSpaceFUCHSIA;
 
-typedef struct VkBufferCollectionPropertiesFUCHSIA {
+প্রকারলেখ কাঠামো Vk_বাফার_Collection_Properties_FUCHSIA {
     VkStructureType                  sType;
-    void*                            pNext;
+    শূন্য*                            p_পরবর্তী;
     uint32_t                         memoryTypeBits;
-    uint32_t                         bufferCount;
-    uint32_t                         createInfoIndex;
+    uint32_t                         বাফার_গুনতি;
+    uint32_t                         create_Info_সূচক;
     uint64_t                         sysmemPixelFormat;
     VkFormatFeatureFlags             formatFeatures;
-    VkSysmemColorSpaceFUCHSIA        sysmemColorSpaceIndex;
+    VkSysmemColorSpaceFUCHSIA        sysmem_Color_Space_সূচক;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
     VkChromaLocation                 suggestedXChromaOffset;
     VkChromaLocation                 suggestedYChromaOffset;
-} VkBufferCollectionPropertiesFUCHSIA;
+} Vk_বাফার_Collection_Properties_FUCHSIA;
 
-typedef struct VkImageFormatConstraintsInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkImageFormatConstraintsInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ধ্রুবক শূন্য*                             p_পরবর্তী;
     VkImageCreateInfo                       imageCreateInfo;
     VkFormatFeatureFlags                    requiredFormatFeatures;
     VkImageFormatConstraintsFlagsFUCHSIA    flags;
     uint64_t                                sysmemPixelFormat;
-    uint32_t                                colorSpaceCount;
-    const VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
+    uint32_t                                color_Space_গুনতি;
+    ধ্রুবক VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
 } VkImageFormatConstraintsInfoFUCHSIA;
 
-typedef struct VkImageConstraintsInfoFUCHSIA {
+প্রকারলেখ কাঠামো VkImageConstraintsInfoFUCHSIA {
     VkStructureType                               sType;
-    const void*                                   pNext;
-    uint32_t                                      formatConstraintsCount;
-    const VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
-    VkBufferCollectionConstraintsInfoFUCHSIA      bufferCollectionConstraints;
+    ধ্রুবক শূন্য*                                   p_পরবর্তী;
+    uint32_t                                      format_Constraints_গুনতি;
+    ধ্রুবক VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
+    Vk_বাফার_Collection_Constraints_Info_FUCHSIA      বাফার_Collection_Constraints;
     VkImageConstraintsInfoFlagsFUCHSIA            flags;
 } VkImageConstraintsInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateBufferCollectionFUCHSIA)(VkDevice device, const VkBufferCollectionCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBufferCollectionFUCHSIA* pCollection);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionImageConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionBufferConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo);
-typedef void (VKAPI_PTR *PFN_vkDestroyBufferCollectionFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkAllocationCallbacks* pAllocator);
-typedef VkResult (VKAPI_PTR *PFN_vkGetBufferCollectionPropertiesFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, VkBufferCollectionPropertiesFUCHSIA* pProperties);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Create_বাফার_Collection_FUCHSIA)(VkDevice device, ধ্রুবক Vk_বাফার_Collection_Create_Info_FUCHSIA* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, Vk_বাফার_Collection_FUCHSIA* pCollection);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Set_বাফার_Collection_Image_Constraints_FUCHSIA)(VkDevice device, Vk_বাফার_Collection_FUCHSIA collection, ধ্রুবক VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Set_বাফার_Collection_বাফার_Constraints_FUCHSIA)(VkDevice device, Vk_বাফার_Collection_FUCHSIA collection, ধ্রুবক Vk_বাফার_Constraints_Info_FUCHSIA* p_বাফার_Constraints_Info);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vk_Destroy_বাফার_Collection_FUCHSIA)(VkDevice device, Vk_বাফার_Collection_FUCHSIA collection, ধ্রুবক VkAllocationCallbacks* pAllocator);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Get_বাফার_Collection_Properties_FUCHSIA)(VkDevice device, Vk_বাফার_Collection_FUCHSIA collection, Vk_বাফার_Collection_Properties_FUCHSIA* pProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferCollectionFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Create_বাফার_Collection_FUCHSIA(
     VkDevice                                    device,
-    const VkBufferCollectionCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
-    VkBufferCollectionFUCHSIA*                  pCollection);
+    ধ্রুবক Vk_বাফার_Collection_Create_Info_FUCHSIA*  pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
+    Vk_বাফার_Collection_FUCHSIA*                  pCollection);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionImageConstraintsFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Set_বাফার_Collection_Image_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
+    Vk_বাফার_Collection_FUCHSIA                   collection,
+    ধ্রুবক VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionBufferConstraintsFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Set_বাফার_Collection_বাফার_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkBufferConstraintsInfoFUCHSIA*       pBufferConstraintsInfo);
+    Vk_বাফার_Collection_FUCHSIA                   collection,
+    ধ্রুবক Vk_বাফার_Constraints_Info_FUCHSIA*       p_বাফার_Constraints_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyBufferCollectionFUCHSIA(
+VKAPI_ATTR শূন্য VKAPI_CALL vk_Destroy_বাফার_Collection_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkAllocationCallbacks*                pAllocator);
+    Vk_বাফার_Collection_FUCHSIA                   collection,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetBufferCollectionPropertiesFUCHSIA(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Get_বাফার_Collection_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    VkBufferCollectionPropertiesFUCHSIA*        pProperties);
+    Vk_বাফার_Collection_FUCHSIA                   collection,
+    Vk_বাফার_Collection_Properties_FUCHSIA*        pProperties);
 #endif
 #endif
 

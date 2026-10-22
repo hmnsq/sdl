@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,9 +25,9 @@ extern "C" {
 #define VK_KHR_PORTABILITY_SUBSET_SPEC_VERSION 1
 #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
 
-typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
+প্রকারলেখ কাঠামো VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           constantAlphaColorBlendFactors;
     VkBool32           events;
     VkBool32           imageViewFormatReinterpretation;
@@ -45,10 +45,10 @@ typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkBool32           vertexAttributeAccessBeyondStride;
 } VkPhysicalDevicePortabilitySubsetFeaturesKHR;
 
-typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
+প্রকারলেখ কাঠামো VkPhysicalDevicePortabilitySubsetPropertiesKHR {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           minVertexInputBindingStrideAlignment;
+    শূন্য*              p_পরবর্তী;
+    uint32_t           min_Vertex_প্রবেশ_Binding_Stride_Alignment;
 } VkPhysicalDevicePortabilitySubsetPropertiesKHR;
 
 
@@ -58,132 +58,132 @@ typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
 
 #define VK_AMDX_SHADER_ENQUEUE_SPEC_VERSION 2
 #define VK_AMDX_SHADER_ENQUEUE_EXTENSION_NAME "VK_AMDX_shader_enqueue"
-#define VK_SHADER_INDEX_UNUSED_AMDX       (~0U)
+#define VK_SHADER_সূচক_UNUSED_AMDX       (~0U)
 
-typedef struct VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
+প্রকারলেখ কাঠামো VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           shaderEnqueue;
     VkBool32           shaderMeshEnqueue;
 } VkPhysicalDeviceShaderEnqueueFeaturesAMDX;
 
-typedef struct VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
+প্রকারলেখ কাঠামো VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint32_t           maxExecutionGraphDepth;
     uint32_t           maxExecutionGraphShaderOutputNodes;
-    uint32_t           maxExecutionGraphShaderPayloadSize;
-    uint32_t           maxExecutionGraphShaderPayloadCount;
+    uint32_t           max_Execution_Graph_Shader_Payload_আকার;
+    uint32_t           max_Execution_Graph_Shader_Payload_গুনতি;
     uint32_t           executionGraphDispatchAddressAlignment;
-    uint32_t           maxExecutionGraphWorkgroupCount[3];
+    uint32_t           max_Execution_Graph_Workgroup_গুনতি[3];
     uint32_t           maxExecutionGraphWorkgroups;
 } VkPhysicalDeviceShaderEnqueuePropertiesAMDX;
 
-typedef struct VkExecutionGraphPipelineScratchSizeAMDX {
+প্রকারলেখ কাঠামো Vk_Execution_Graph_Pipeline_Scratch_আকার_AMDX {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       minSize;
-    VkDeviceSize       maxSize;
-    VkDeviceSize       sizeGranularity;
-} VkExecutionGraphPipelineScratchSizeAMDX;
+    শূন্য*              p_পরবর্তী;
+    Vk_Device_আকার       min_আকার;
+    Vk_Device_আকার       max_আকার_2;
+    Vk_Device_আকার       আকার_Granularity;
+} Vk_Execution_Graph_Pipeline_Scratch_আকার_AMDX;
 
-typedef struct VkExecutionGraphPipelineCreateInfoAMDX {
+প্রকারলেখ কাঠামো VkExecutionGraphPipelineCreateInfoAMDX {
     VkStructureType                           sType;
-    const void*                               pNext;
+    ধ্রুবক শূন্য*                               p_পরবর্তী;
     VkPipelineCreateFlags                     flags;
-    uint32_t                                  stageCount;
-    const VkPipelineShaderStageCreateInfo*    pStages;
-    const VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
+    uint32_t                                  stage_গুনতি;
+    ধ্রুবক VkPipelineShaderStageCreateInfo*    pStages;
+    ধ্রুবক VkPipelineLibraryCreateInfoKHR*     pLibraryInfo;
     VkPipelineLayout                          layout;
     VkPipeline                                basePipelineHandle;
-    int32_t                                   basePipelineIndex;
+    int32_t                                   base_Pipeline_সূচক;
 } VkExecutionGraphPipelineCreateInfoAMDX;
 
-typedef union VkDeviceOrHostAddressConstAMDX {
+প্রকারলেখ সংঘ VkDeviceOrHostAddressConstAMDX {
     VkDeviceAddress    deviceAddress;
-    const void*        hostAddress;
+    ধ্রুবক শূন্য*        hostAddress;
 } VkDeviceOrHostAddressConstAMDX;
 
-typedef struct VkDispatchGraphInfoAMDX {
-    uint32_t                          nodeIndex;
-    uint32_t                          payloadCount;
+প্রকারলেখ কাঠামো VkDispatchGraphInfoAMDX {
+    uint32_t                          গ্রন্থি_সূচক_2;
+    uint32_t                          payload_গুনতি;
     VkDeviceOrHostAddressConstAMDX    payloads;
     uint64_t                          payloadStride;
 } VkDispatchGraphInfoAMDX;
 
-typedef struct VkDispatchGraphCountInfoAMDX {
-    uint32_t                          count;
+প্রকারলেখ কাঠামো Vk_Dispatch_Graph_গুনতি_Info_AMDX {
+    uint32_t                          গুনতি;
     VkDeviceOrHostAddressConstAMDX    infos;
     uint64_t                          stride;
-} VkDispatchGraphCountInfoAMDX;
+} Vk_Dispatch_Graph_গুনতি_Info_AMDX;
 
-typedef struct VkPipelineShaderStageNodeCreateInfoAMDX {
+প্রকারলেখ কাঠামো Vk_Pipeline_Shader_Stage_গ্রন্থি_Create_Info_AMDX {
       VkStructureType    sType;
-    const void*          pNext;
-    const char*          pName;
-    uint32_t             index;
-} VkPipelineShaderStageNodeCreateInfoAMDX;
+    ধ্রুবক শূন্য*          p_পরবর্তী;
+    ধ্রুবক অক্ষর*          pName;
+    uint32_t             সূচক;
+} Vk_Pipeline_Shader_Stage_গ্রন্থি_Create_Info_AMDX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateExecutionGraphPipelinesAMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        createInfoCount, const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos, const VkAllocationCallbacks*    pAllocator, VkPipeline*               pPipelines);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineScratchSizeAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, VkExecutionGraphPipelineScratchSizeAMDX*        pSizeInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetExecutionGraphPipelineNodeIndexAMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, const VkPipelineShaderStageNodeCreateInfoAMDX*  pNodeInfo, uint32_t*                                       pNodeIndex);
-typedef void (VKAPI_PTR *PFN_vkCmdInitializeGraphScratchMemoryAMDX)(VkCommandBuffer                                 commandBuffer, VkPipeline                                      executionGraph, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, const VkDispatchGraphCountInfoAMDX*             pCountInfo);
-typedef void (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectCountAMDX)(VkCommandBuffer                                 commandBuffer, VkDeviceAddress                                 scratch, VkDeviceSize                                    scratchSize, VkDeviceAddress                                 countInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateExecutionGraphPipelinesAMDX)(VkDevice                                        device, VkPipelineCache pipelineCache, uint32_t                                        create_Info_গুনতি, ধ্রুবক VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos, ধ্রুবক VkAllocationCallbacks*    pAllocator, VkPipeline*               pPipelines);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Get_Execution_Graph_Pipeline_Scratch_আকার_AMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, Vk_Execution_Graph_Pipeline_Scratch_আকার_AMDX*        p_আকার_Info);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Get_Execution_Graph_Pipeline_গ্রন্থি_সূচক_AMDX)(VkDevice                                        device, VkPipeline                                      executionGraph, ধ্রুবক Vk_Pipeline_Shader_Stage_গ্রন্থি_Create_Info_AMDX*  p_গ্রন্থি_Info, uint32_t*                                       p_গ্রন্থি_সূচক);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkCmdInitializeGraphScratchMemoryAMDX)(Vk_Command_বাফার                                 command_বাফার, VkPipeline                                      executionGraph, VkDeviceAddress                                 scratch, Vk_Device_আকার                                    scratch_আকার);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkCmdDispatchGraphAMDX)(Vk_Command_বাফার                                 command_বাফার, VkDeviceAddress                                 scratch, Vk_Device_আকার                                    scratch_আকার, ধ্রুবক Vk_Dispatch_Graph_গুনতি_Info_AMDX*             p_গুনতি_Info);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkCmdDispatchGraphIndirectAMDX)(Vk_Command_বাফার                                 command_বাফার, VkDeviceAddress                                 scratch, Vk_Device_আকার                                    scratch_আকার, ধ্রুবক Vk_Dispatch_Graph_গুনতি_Info_AMDX*             p_গুনতি_Info);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vk_Cmd_Dispatch_Graph_Indirect_গুনতি_AMDX)(Vk_Command_বাফার                                 command_বাফার, VkDeviceAddress                                 scratch, Vk_Device_আকার                                    scratch_আকার, VkDeviceAddress                                 গুনতি_Info);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateExecutionGraphPipelinesAMDX(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateExecutionGraphPipelinesAMDX(
     VkDevice                                    device,
     VkPipelineCache                             pipelineCache,
-    uint32_t                                    createInfoCount,
-    const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
-    const VkAllocationCallbacks*                pAllocator,
+    uint32_t                                    create_Info_গুনতি,
+    ধ্রুবক VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkPipeline*                                 pPipelines);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineScratchSizeAMDX(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Get_Execution_Graph_Pipeline_Scratch_আকার_AMDX(
     VkDevice                                    device,
     VkPipeline                                  executionGraph,
-    VkExecutionGraphPipelineScratchSizeAMDX*    pSizeInfo);
+    Vk_Execution_Graph_Pipeline_Scratch_আকার_AMDX*    p_আকার_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetExecutionGraphPipelineNodeIndexAMDX(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Get_Execution_Graph_Pipeline_গ্রন্থি_সূচক_AMDX(
     VkDevice                                    device,
     VkPipeline                                  executionGraph,
-    const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo,
-    uint32_t*                                   pNodeIndex);
+    ধ্রুবক Vk_Pipeline_Shader_Stage_গ্রন্থি_Create_Info_AMDX* p_গ্রন্থি_Info,
+    uint32_t*                                   p_গ্রন্থি_সূচক);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdInitializeGraphScratchMemoryAMDX(
-    VkCommandBuffer                             commandBuffer,
+VKAPI_ATTR শূন্য VKAPI_CALL vkCmdInitializeGraphScratchMemoryAMDX(
+    Vk_Command_বাফার                             command_বাফার,
     VkPipeline                                  executionGraph,
     VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize);
+    Vk_Device_আকার                                scratch_আকার);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphAMDX(
-    VkCommandBuffer                             commandBuffer,
+VKAPI_ATTR শূন্য VKAPI_CALL vkCmdDispatchGraphAMDX(
+    Vk_Command_বাফার                             command_বাফার,
     VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
+    Vk_Device_আকার                                scratch_আকার,
+    ধ্রুবক Vk_Dispatch_Graph_গুনতি_Info_AMDX*         p_গুনতি_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectAMDX(
-    VkCommandBuffer                             commandBuffer,
+VKAPI_ATTR শূন্য VKAPI_CALL vkCmdDispatchGraphIndirectAMDX(
+    Vk_Command_বাফার                             command_বাফার,
     VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    const VkDispatchGraphCountInfoAMDX*         pCountInfo);
+    Vk_Device_আকার                                scratch_আকার,
+    ধ্রুবক Vk_Dispatch_Graph_গুনতি_Info_AMDX*         p_গুনতি_Info);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchGraphIndirectCountAMDX(
-    VkCommandBuffer                             commandBuffer,
+VKAPI_ATTR শূন্য VKAPI_CALL vk_Cmd_Dispatch_Graph_Indirect_গুনতি_AMDX(
+    Vk_Command_বাফার                             command_বাফার,
     VkDeviceAddress                             scratch,
-    VkDeviceSize                                scratchSize,
-    VkDeviceAddress                             countInfo);
+    Vk_Device_আকার                                scratch_আকার,
+    VkDeviceAddress                             গুনতি_Info);
 #endif
 #endif
 
@@ -197,23 +197,23 @@ VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCudaFunctionNV)
 #define VK_NV_CUDA_KERNEL_LAUNCH_SPEC_VERSION 2
 #define VK_NV_CUDA_KERNEL_LAUNCH_EXTENSION_NAME "VK_NV_cuda_kernel_launch"
 
-typedef struct VkCudaModuleCreateInfoNV {
+প্রকারলেখ কাঠামো VkCudaModuleCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
-    size_t             dataSize;
-    const void*        pData;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
+    size_t             তথ্য_আকার_2;
+    ধ্রুবক শূন্য*        p_তথ্য;
 } VkCudaModuleCreateInfoNV;
 
-typedef struct VkCudaFunctionCreateInfoNV {
+প্রকারলেখ কাঠামো VkCudaFunctionCreateInfoNV {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
     VkCudaModuleNV     module;
-    const char*        pName;
+    ধ্রুবক অক্ষর*        pName;
 } VkCudaFunctionCreateInfoNV;
 
-typedef struct VkCudaLaunchInfoNV {
+প্রকারলেখ কাঠামো VkCudaLaunchInfoNV {
     VkStructureType        sType;
-    const void*            pNext;
+    ধ্রুবক শূন্য*            p_পরবর্তী;
     VkCudaFunctionNV       function;
     uint32_t               gridDimX;
     uint32_t               gridDimY;
@@ -222,72 +222,72 @@ typedef struct VkCudaLaunchInfoNV {
     uint32_t               blockDimY;
     uint32_t               blockDimZ;
     uint32_t               sharedMemBytes;
-    size_t                 paramCount;
-    const void* const *    pParams;
-    size_t                 extraCount;
-    const void* const *    pExtras;
+    size_t                 param_গুনতি;
+    ধ্রুবক শূন্য* ধ্রুবক *    pParams;
+    size_t                 extra_গুনতি;
+    ধ্রুবক শূন্য* ধ্রুবক *    pExtras;
 } VkCudaLaunchInfoNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
+প্রকারলেখ কাঠামো VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           cudaKernelLaunchFeatures;
 } VkPhysicalDeviceCudaKernelLaunchFeaturesNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
+প্রকারলেখ কাঠামো VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint32_t           computeCapabilityMinor;
     uint32_t           computeCapabilityMajor;
 } VkPhysicalDeviceCudaKernelLaunchPropertiesNV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule);
-typedef VkResult (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* pCacheSize, void* pCacheData);
-typedef VkResult (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, const VkCudaFunctionCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkCudaFunctionNV* pFunction);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
-typedef void (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(VkCommandBuffer commandBuffer, const VkCudaLaunchInfoNV* pLaunchInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateCudaModuleNV)(VkDevice device, ধ্রুবক VkCudaModuleCreateInfoNV* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetCudaModuleCacheNV)(VkDevice device, VkCudaModuleNV module, size_t* p_Cache_আকার, শূন্য* p_Cache_তথ্য);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateCudaFunctionNV)(VkDevice device, ধ্রুবক VkCudaFunctionCreateInfoNV* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkCudaFunctionNV* pFunction);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkDestroyCudaModuleNV)(VkDevice device, VkCudaModuleNV module, ধ্রুবক VkAllocationCallbacks* pAllocator);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkDestroyCudaFunctionNV)(VkDevice device, VkCudaFunctionNV function, ধ্রুবক VkAllocationCallbacks* pAllocator);
+প্রকারলেখ শূন্য (VKAPI_PTR *PFN_vkCmdCudaLaunchKernelNV)(Vk_Command_বাফার command_বাফার, ধ্রুবক VkCudaLaunchInfoNV* pLaunchInfo);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaModuleNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateCudaModuleNV(
     VkDevice                                    device,
-    const VkCudaModuleCreateInfoNV*             pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkCudaModuleCreateInfoNV*             pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkCudaModuleNV*                             pModule);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetCudaModuleCacheNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetCudaModuleCacheNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
-    size_t*                                     pCacheSize,
-    void*                                       pCacheData);
+    size_t*                                     p_Cache_আকার,
+    শূন্য*                                       p_Cache_তথ্য);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateCudaFunctionNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateCudaFunctionNV(
     VkDevice                                    device,
-    const VkCudaFunctionCreateInfoNV*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkCudaFunctionCreateInfoNV*           pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkCudaFunctionNV*                           pFunction);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaModuleNV(
+VKAPI_ATTR শূন্য VKAPI_CALL vkDestroyCudaModuleNV(
     VkDevice                                    device,
     VkCudaModuleNV                              module,
-    const VkAllocationCallbacks*                pAllocator);
+    ধ্রুবক VkAllocationCallbacks*                pAllocator);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyCudaFunctionNV(
+VKAPI_ATTR শূন্য VKAPI_CALL vkDestroyCudaFunctionNV(
     VkDevice                                    device,
     VkCudaFunctionNV                            function,
-    const VkAllocationCallbacks*                pAllocator);
+    ধ্রুবক VkAllocationCallbacks*                pAllocator);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
-    VkCommandBuffer                             commandBuffer,
-    const VkCudaLaunchInfoNV*                   pLaunchInfo);
+VKAPI_ATTR শূন্য VKAPI_CALL vkCmdCudaLaunchKernelNV(
+    Vk_Command_বাফার                             command_বাফার,
+    ধ্রুবক VkCudaLaunchInfoNV*                   pLaunchInfo);
 #endif
 #endif
 
@@ -298,43 +298,43 @@ VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
 #define VK_NV_DISPLACEMENT_MICROMAP_SPEC_VERSION 2
 #define VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME "VK_NV_displacement_micromap"
 
-typedef enum VkDisplacementMicromapFormatNV {
+প্রকারলেখ গণনা VkDisplacementMicromapFormatNV {
     VK_DISPLACEMENT_MICROMAP_FORMAT_64_TRIANGLES_64_BYTES_NV = 1,
     VK_DISPLACEMENT_MICROMAP_FORMAT_256_TRIANGLES_128_BYTES_NV = 2,
     VK_DISPLACEMENT_MICROMAP_FORMAT_1024_TRIANGLES_128_BYTES_NV = 3,
     VK_DISPLACEMENT_MICROMAP_FORMAT_MAX_ENUM_NV = 0x7FFFFFFF
 } VkDisplacementMicromapFormatNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapFeaturesNV {
+প্রকারলেখ কাঠামো VkPhysicalDeviceDisplacementMicromapFeaturesNV {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           displacementMicromap;
 } VkPhysicalDeviceDisplacementMicromapFeaturesNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapPropertiesNV {
+প্রকারলেখ কাঠামো VkPhysicalDeviceDisplacementMicromapPropertiesNV {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint32_t           maxDisplacementMicromapSubdivisionLevel;
 } VkPhysicalDeviceDisplacementMicromapPropertiesNV;
 
-typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
+প্রকারলেখ কাঠামো VkAccelerationStructureTrianglesDisplacementMicromapNV {
     VkStructureType                     sType;
-    void*                               pNext;
+    শূন্য*                               p_পরবর্তী;
     VkFormat                            displacementBiasAndScaleFormat;
     VkFormat                            displacementVectorFormat;
-    VkDeviceOrHostAddressConstKHR       displacementBiasAndScaleBuffer;
-    VkDeviceSize                        displacementBiasAndScaleStride;
-    VkDeviceOrHostAddressConstKHR       displacementVectorBuffer;
-    VkDeviceSize                        displacementVectorStride;
+    VkDeviceOrHostAddressConstKHR       displacement_Bias_And_Scale_বাফার;
+    Vk_Device_আকার                        displacementBiasAndScaleStride;
+    VkDeviceOrHostAddressConstKHR       displacement_Vector_বাফার;
+    Vk_Device_আকার                        displacementVectorStride;
     VkDeviceOrHostAddressConstKHR       displacedMicromapPrimitiveFlags;
-    VkDeviceSize                        displacedMicromapPrimitiveFlagsStride;
-    VkIndexType                         indexType;
-    VkDeviceOrHostAddressConstKHR       indexBuffer;
-    VkDeviceSize                        indexStride;
+    Vk_Device_আকার                        displacedMicromapPrimitiveFlagsStride;
+    Vk_সূচক_Type                         সূচক_Type;
+    VkDeviceOrHostAddressConstKHR       সূচক_বাফার_2;
+    Vk_Device_আকার                        সূচক_Stride;
     uint32_t                            baseTriangle;
-    uint32_t                            usageCountsCount;
-    const VkMicromapUsageEXT*           pUsageCounts;
-    const VkMicromapUsageEXT* const*    ppUsageCounts;
+    uint32_t                            usage_Counts_গুনতি;
+    ধ্রুবক VkMicromapUsageEXT*           pUsageCounts;
+    ধ্রুবক VkMicromapUsageEXT* ধ্রুবক*    ppUsageCounts;
     VkMicromapEXT                       micromap;
 } VkAccelerationStructureTrianglesDisplacementMicromapNV;
 
@@ -348,28 +348,28 @@ typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX 128U
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX 128U
 
-typedef enum VkCompressedTriangleFormatAMDX {
+প্রকারলেখ গণনা VkCompressedTriangleFormatAMDX {
     VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_AMDX = 0,
     VK_COMPRESSED_TRIANGLE_FORMAT_MAX_ENUM_AMDX = 0x7FFFFFFF
 } VkCompressedTriangleFormatAMDX;
 
-typedef struct VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
+প্রকারলেখ কাঠামো VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           denseGeometryFormat;
 } VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX;
 
-typedef struct VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
+প্রকারলেখ কাঠামো Vk_Acceleration_Structure_Dense_Geometry_Format_Triangles_তথ্য_AMDX {
     VkStructureType                   sType;
-    const void*                       pNext;
-    VkDeviceOrHostAddressConstKHR     compressedData;
-    VkDeviceSize                      dataSize;
-    uint32_t                          numTriangles;
-    uint32_t                          numVertices;
-    uint32_t                          maxPrimitiveIndex;
-    uint32_t                          maxGeometryIndex;
+    ধ্রুবক শূন্য*                       p_পরবর্তী;
+    VkDeviceOrHostAddressConstKHR     compressed_তথ্য;
+    Vk_Device_আকার                      তথ্য_আকার_2;
+    uint32_t                          অঙ্ক_Triangles;
+    uint32_t                          অঙ্ক_Vertices;
+    uint32_t                          max_Primitive_সূচক;
+    uint32_t                          max_Geometry_সূচক;
     VkCompressedTriangleFormatAMDX    format;
-} VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX;
+} Vk_Acceleration_Structure_Dense_Geometry_Format_Triangles_তথ্য_AMDX;
 
 
 #ifdef __cplusplus

@@ -18,15 +18,15 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_offscreenopengles_h
 #define SDL_offscreenopengles_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#যদি defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../SDL_egl_c.h"
 
 #define OFFSCREEN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
@@ -34,10 +34,10 @@
 #define OFFSCREEN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 #define OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path);
+বাহ্যিক SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+বাহ্যিক bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
 

@@ -18,72 +18,72 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_windowevents_c.h"
+#অন্তর্ভাব "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#অন্তর্ভাব "SDL_offscreenwindow.h"
 
 bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_Window_তথ্য *offscreen_window = (SDL_Window_তথ্য *)SDL_calloc(1, আকার(SDL_Window_তথ্য));
 
-    if (!offscreen_window) {
-        return false;
+    যদি (!offscreen_window) {
+        ফেরত false;
     }
 
     window->internal = offscreen_window;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
+    যদি (window->x == SDL_WINDOWPOS_UNDEFINED) {
         window->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
+    যদি (window->y == SDL_WINDOWPOS_UNDEFINED) {
         window->y = 0;
     }
 
     offscreen_window->sdl_window = window;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    যদি (window->flags & SDL_WINDOW_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        যদি (!_this->egl_তথ্য) {
+            ফেরত SDL_SetError("Cannot create an OPENGL window invalid egl_data");
         }
 
         offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
-                                _this->egl_data->egl_display);
+        যদি (offscreen_window->egl_surface == EGL_NO_SURFACE) {
+            ফেরত SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
+                                _this->egl_তথ্য->egl_display);
         }
-    } else {
+    } অন্যথা {
         offscreen_window->egl_surface = EGL_NO_SURFACE;
     }
 #endif // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    ফেরত true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_Window_তথ্য *offscreen_window = window->internal;
 
-    if (offscreen_window) {
+    যদি (offscreen_window) {
 #ifdef SDL_VIDEO_OPENGL_EGL
         SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
 #endif
         SDL_free(offscreen_window);
     }
 
-    window->internal = NULL;
+    window->internal = ফাঁকা;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য OFFSCREEN_Set_Window_আকার(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
 }

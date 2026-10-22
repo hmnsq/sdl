@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_emscriptenvideo_h_
 #define SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_touch_c.h"
+#অন্তর্ভাব <emscripten/emscripten.h>
+#অন্তর্ভাব <emscripten/html5.h>
 
-struct SDL_WindowData
+কাঠামো SDL_Window_তথ্য
 {
     SDL_Window *window;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    পূর্ণসংখ্যা non_fill_document_width;
+    পূর্ণসংখ্যা non_fill_document_height;
 
-    char *canvas_id;
-    char *keyboard_element;
+    অক্ষর *canvas_id;
+    অক্ষর *keyboard_element;
 
-    float pixel_ratio;
+    দশমিক pixel_ratio;
 
-    bool external_size;
+    bool external_আকার;
 
     Uint32 fullscreen_mode_flags;
     bool fullscreen_resize;
@@ -54,9 +54,9 @@ struct SDL_WindowData
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+বাহ্যিক SDL_Window *Emscripten_fill_document_window;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_ShouldSetSwapInterval(পূর্ণসংখ্যা interval);
+পূর্ণসংখ্যা Emscripten_GetPendingSwapInterval(শূন্য);
 
 #endif // SDL_emscriptenvideo_h_

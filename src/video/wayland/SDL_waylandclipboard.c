@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylanddatamanager.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandclipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#অন্তর্ভাব "SDL_waylanddatamanager.h"
+#অন্তর্ভাব "SDL_waylandevents_c.h"
+#অন্তর্ভাব "SDL_waylandclipboard.h"
+#অন্তর্ভাব "../SDL_clipboard_c.h"
+#অন্তর্ভাব "../../events/SDL_events_c.h"
 
-bool Wayland_SetClipboardData(SDL_VideoDevice *_this)
+bool Wayland_Set_Clipboard_তথ্য(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result = false;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->last_implicit_grab_seat;
+    bool ফলাফল = false;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    যদি (!seat && !WAYLAND_wl_list_empty(&video_তথ্য->seat_list)) {
+        seat = wl_container_of(video_তথ্য->seat_list.পরবর্তী, seat, link);
     }
 
-    video_data->current_data_offer_seat = seat;
+    video_তথ্য->current_তথ্য_offer_seat = seat;
 
-    if (seat && seat->data_device) {
+    যদি (seat && seat->তথ্য_device) {
         /* Clear references to the clipboard held by other seats, as they are about to become invalid.
          * For the target seat, the new source data is set before clearing the old source, as some
          * clipboard managers prefer this behavior.
          */
         SDL_WaylandSeat *s;
-        wl_list_for_each (s, &video_data->seat_list, link) {
-            if (s->data_device) {
-                if (s != seat) {
-                    Wayland_DataSourceDestroy(s->data_device->selection_source);
-                    s->data_device->selection_source = NULL;
+        wl_list_for_each (s, &video_তথ্য->seat_list, link) {
+            যদি (s->তথ্য_device) {
+                যদি (s != seat) {
+                    Wayland_তথ্য_Source_Destroy(s->তথ্য_device->selection_source);
+                    s->তথ্য_device->selection_source = ফাঁকা;
                 }
 
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                Wayland_তথ্য_Offer_Destroy(s->তথ্য_device->selection_offer);
+                s->তথ্য_device->selection_offer = ফাঁকা;
             }
         }
 
-        SDL_WaylandDataDevice *data_device = seat->data_device;
+        SDL_Wayland_তথ্য_Device *তথ্য_device = seat->তথ্য_device;
 
-        if (_this->clipboard_callback && _this->clipboard_mime_types) {
-            SDL_WaylandDataSource *source = Wayland_DataSourceCreate(video_data);
-            Wayland_DataSourceSetCallback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
+        যদি (_this->clipboard_callback && _this->clipboard_mime_types) {
+            SDL_Wayland_তথ্য_Source *source = Wayland_তথ্য_Source_Create(video_তথ্য);
+            Wayland_তথ্য_Source_Set_Callback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
 
-            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types);
-            if (!result) {
-                Wayland_DataSourceDestroy(source);
+            ফলাফল = Wayland_তথ্য_Device_Set_Selection_Source(তথ্য_device, source, (ধ্রুবক অক্ষর **)_this->clipboard_mime_types, _this->অঙ্ক_clipboard_mime_types);
+            যদি (!ফলাফল) {
+                Wayland_তথ্য_Source_Destroy(source);
             }
-        } else {
-            Wayland_DataSourceDestroy(data_device->selection_source);
-            data_device->selection_source = NULL;
-            result = true;
+        } অন্যথা {
+            Wayland_তথ্য_Source_Destroy(তথ্য_device->selection_source);
+            তথ্য_device->selection_source = ফাঁকা;
+            ফলাফল = true;
         }
     }
 
-    return result;
+    ফেরত ফলাফল;
 }
 
-void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+শূন্য *Wayland_Get_Clipboard_তথ্য(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *mime_type, size_t *দৈর্ঘ্য)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    void *buffer = NULL;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->current_তথ্য_offer_seat;
+    শূন্য *বাফার_2 = ফাঁকা;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            buffer = SDL_GetInternalClipboardData(_this, mime_type, length);
-        } else if (Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type)) {
-            buffer = Wayland_DataOfferReceive(data_device->selection_offer, mime_type, length);
+    যদি (seat && seat->তথ্য_device) {
+        SDL_Wayland_তথ্য_Device *তথ্য_device = seat->তথ্য_device;
+        যদি (তথ্য_device->selection_source) {
+            বাফার_2 = SDL_Get_Internal_Clipboard_তথ্য(_this, mime_type, দৈর্ঘ্য);
+        } অন্যথা যদি (Wayland_তথ্য_Offer_Has_MIME(তথ্য_device->selection_offer, mime_type)) {
+            বাফার_2 = Wayland_তথ্য_Offer_Receive(তথ্য_device->selection_offer, mime_type, দৈর্ঘ্য);
         }
     }
 
-    return buffer;
+    ফেরত বাফার_2;
 }
 
-bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool Wayland_Has_Clipboard_তথ্য(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *mime_type)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    bool result = false;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->current_তথ্য_offer_seat;
+    bool ফলাফল = false;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            result = SDL_HasInternalClipboardData(_this, mime_type);
-        } else {
-            result = Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type);
+    যদি (seat && seat->তথ্য_device) {
+        SDL_Wayland_তথ্য_Device *তথ্য_device = seat->তথ্য_device;
+        যদি (তথ্য_device->selection_source) {
+            ফলাফল = SDL_Has_Internal_Clipboard_তথ্য(_this, mime_type);
+        } অন্যথা {
+            ফলাফল = Wayland_তথ্য_Offer_Has_MIME(তথ্য_device->selection_offer, mime_type);
         }
     }
-    return result;
+    ফেরত ফলাফল;
 }
 
-static const char *const text_mime_types[] = {
+স্থির ধ্রুবক অক্ষর *ধ্রুবক text_mime_types[] = {
     TEXT_MIME,
     "text/plain",
     "TEXT",
@@ -122,96 +122,96 @@ static const char *const text_mime_types[] = {
     "STRING"
 };
 
-const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ধ্রুবক অক্ষর *ধ্রুবক *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *অঙ্ক_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *অঙ্ক_mime_types = SDL_arraysize(text_mime_types);
+    ফেরত text_mime_types;
 }
 
-bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *text)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->last_implicit_grab_seat;
+    bool ফলাফল;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    যদি (!seat && !WAYLAND_wl_list_empty(&video_তথ্য->seat_list)) {
+        seat = wl_container_of(video_তথ্য->seat_list.পরবর্তী, seat, link);
     }
 
-    video_data->current_primary_selection_seat = seat;
+    video_তথ্য->current_primary_selection_seat = seat;
 
-    if (seat && seat->primary_selection_device) {
+    যদি (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (text[0] != '\0') {
-            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_data);
+        যদি (text[0] != '\0') {
+            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_তথ্য);
             Wayland_PrimarySelectionSourceSetCallback(source, SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text));
 
-            result = Wayland_PrimarySelectionDeviceSetSelection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
-            if (!result) {
+            ফলাফল = Wayland_PrimarySelectionDeviceSetSelection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
+            যদি (!ফলাফল) {
                 Wayland_PrimarySelectionSourceDestroy(source);
             }
-        } else {
+        } অন্যথা {
             Wayland_PrimarySelectionSourceDestroy(seat->primary_selection_device->selection_source);
-            seat->primary_selection_device->selection_source = NULL;
-            result = true;
+            seat->primary_selection_device->selection_source = ফাঁকা;
+            ফলাফল = true;
         }
-    } else {
-        result = SDL_SetError("Primary selection not supported");
+    } অন্যথা {
+        ফলাফল = SDL_SetError("Primary selection not supported");
     }
-    return result;
+    ফেরত ফলাফল;
 }
 
-char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
+অক্ষর *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    char *text = NULL;
-    size_t length = 0;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->current_primary_selection_seat;
+    অক্ষর *text = ফাঁকা;
+    size_t দৈর্ঘ্য = 0;
 
-    if (seat && seat->primary_selection_device) {
+    যদি (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            text = Wayland_PrimarySelectionSourceGetData(primary_selection_device->selection_source, TEXT_MIME, &length);
-        } else {
-            for (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
-                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &length);
-                    break;
+        যদি (primary_selection_device->selection_source) {
+            text = Wayland_Primary_Selection_Source_Get_তথ্য(primary_selection_device->selection_source, TEXT_MIME, &দৈর্ঘ্য);
+        } অন্যথা {
+            জন্য (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
+                যদি (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
+                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &দৈর্ঘ্য);
+                    বিরতি;
                 }
             }
         }
     }
 
-    if (!text) {
+    যদি (!text) {
         text = SDL_strdup("");
     }
 
-    return text;
+    ফেরত text;
 }
 
 bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    bool result = false;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
+    SDL_WaylandSeat *seat = video_তথ্য->current_primary_selection_seat;
+    bool ফলাফল = false;
 
-    if (seat && seat->primary_selection_device) {
+    যদি (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            result = true;
-        } else {
-            size_t mime_count = 0;
-            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_count);
-            for (size_t i = 0; i < mime_count; i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
-                    result = true;
-                    break;
+        যদি (primary_selection_device->selection_source) {
+            ফলাফল = true;
+        } অন্যথা {
+            size_t mime_গুনতি = 0;
+            ধ্রুবক অক্ষর *ধ্রুবক *mime_types = Wayland_GetTextMimeTypes(_this, &mime_গুনতি);
+            জন্য (size_t i = 0; i < mime_গুনতি; i++) {
+                যদি (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
+                    ফলাফল = true;
+                    বিরতি;
                 }
             }
         }
     }
-    return result;
+    ফেরত ফলাফল;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

@@ -19,29 +19,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11xsync.h"
-#include "../../SDL_hints_c.h"
+#অন্তর্ভাব "SDL_x11video.h"
+#অন্তর্ভাব "SDL_x11xsync.h"
+#অন্তর্ভাব "../../SDL_hints_c.h"
 
 // GLX implementation of SDL OpenGL support
 
 #ifdef SDL_VIDEO_OPENGL_GLX
-#include "SDL_x11opengles.h"
+#অন্তর্ভাব "SDL_x11opengles.h"
 
-#if defined(SDL_PLATFORM_IRIX) || defined(SDL_PLATFORM_NETBSD) || defined(SDL_PLATFORM_OPENBSD)
+#যদি defined(SDL_PLATFORM_IRIX) || defined(SDL_PLATFORM_NETBSD) || defined(SDL_PLATFORM_OPENBSD)
 /*
  * IRIX doesn't have a GL library versioning system.
  * NetBSD and OpenBSD have different GL library versions depending on how
  * the library was installed.
  */
 #define DEFAULT_OPENGL "libGL.so"
-#elif defined(SDL_PLATFORM_MACOS)
+#নতুবা_যদি defined(SDL_PLATFORM_MACOS)
 #define DEFAULT_OPENGL "/opt/X11/lib/libGL.1.dylib"
-#else
+#অন্যথা
 #define DEFAULT_OPENGL "libGL.so.1"
 #endif
 
@@ -78,12 +78,12 @@
 #define GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB 0x0002
 
 // Typedef for the GL 3.0 context creation function
-typedef GLXContext (*PFNGLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,
+প্রকারলেখ GLXContext (*PFNGLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,
                                                         GLXFBConfig config,
                                                         GLXContext
                                                             share_context,
                                                         Bool direct,
-                                                        const int
+                                                        ধ্রুবক পূর্ণসংখ্যা
                                                             *attrib_list);
 #endif
 
@@ -150,20 +150,20 @@ typedef GLXContext (*PFNGLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,
 #endif
 
 #define OPENGL_REQUIRES_DLOPEN
-#if defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
-#include <dlfcn.h>
+#যদি defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
+#অন্তর্ভাব <dlfcn.h>
 #define GL_LoadObject(X) dlopen(X, (RTLD_NOW | RTLD_GLOBAL))
 #define GL_LoadFunction  dlsym
 #define GL_UnloadObject  dlclose
-#else
+#অন্যথা
 #define GL_LoadObject   SDL_LoadObject
 #define GL_LoadFunction SDL_LoadFunction
 #define GL_UnloadObject SDL_UnloadObject
 #endif
 
-static void X11_GL_InitExtensions(SDL_VideoDevice *_this);
+স্থির শূন্য X11_GL_InitExtensions(SDL_VideoDevice *_this);
 
-static bool X11_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *path)
+স্থির bool X11_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path)
 {
 #ifdef SDL_VIDEO_OPENGL_EGL
     X11_GL_UnloadLibrary(_this);
@@ -177,94 +177,94 @@ static bool X11_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *p
     _this->GL_SwapWindow = X11_GLES_SwapWindow;
     _this->GL_DestroyContext = X11_GLES_DestroyContext;
     _this->GL_GetEGLSurface = X11_GLES_GetEGLSurface;
-    return X11_GLES_LoadLibrary(_this, path);
-#else
-    return SDL_SetError("SDL not configured with EGL support");
+    ফেরত X11_GLES_LoadLibrary(_this, path);
+#অন্যথা
+    ফেরত SDL_SetError("SDL not configured with EGL support");
 #endif
 }
 
-bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path)
 {
     Display *display;
     SDL_SharedObject *handle;
 
-    if (_this->gl_data) {
-        return SDL_SetError("OpenGL context already created");
+    যদি (_this->gl_তথ্য) {
+        ফেরত SDL_SetError("OpenGL context already created");
     }
 
-    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
+    যদি ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
         SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false)) {
-        return X11_GL_LoadLibrary_EGLFallback(_this, path);
+        ফেরত X11_GL_LoadLibrary_EGLFallback(_this, path);
     }
 
     // Load the OpenGL library
-    if (path == NULL) {
+    যদি (path == ফাঁকা) {
         path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
-    if (path == NULL) {
+    যদি (path == ফাঁকা) {
         path = DEFAULT_OPENGL;
     }
     _this->gl_config.dll_handle = GL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-#if defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
+    যদি (!_this->gl_config.dll_handle) {
+#যদি defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
         SDL_SetError("Failed loading %s: %s", path, dlerror());
 #endif
-        return false;
+        ফেরত false;
     }
     SDL_strlcpy(_this->gl_config.driver_path, path,
                 SDL_arraysize(_this->gl_config.driver_path));
 
     // Allocate OpenGL memory
-    _this->gl_data =
-        (struct SDL_GLDriverData *)SDL_calloc(1,
-                                              sizeof(struct
-                                                     SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_তথ্য =
+        (কাঠামো SDL_GLDriver_তথ্য *)SDL_calloc(1,
+                                              আকার(কাঠামো
+                                                     SDL_GLDriver_তথ্য));
+    যদি (!_this->gl_তথ্য) {
+        ফেরত false;
     }
 
     // Load function pointers
     handle = _this->gl_config.dll_handle;
-    _this->gl_data->glXQueryExtension =
-        (Bool(*)(Display *, int *, int *))
+    _this->gl_তথ্য->glXQueryExtension =
+        (Bool(*)(Display *, পূর্ণসংখ্যা *, পূর্ণসংখ্যা *))
             GL_LoadFunction(handle, "glXQueryExtension");
-    _this->gl_data->glXGetProcAddress =
-        (__GLXextFuncPtr (*)(const GLubyte *))
+    _this->gl_তথ্য->glXGetProcAddress =
+        (__GLXextFuncPtr (*)(ধ্রুবক GLubyte *))
             GL_LoadFunction(handle, "glXGetProcAddressARB");
-    _this->gl_data->glXChooseVisual =
-        (XVisualInfo * (*)(Display *, int, int *))
+    _this->gl_তথ্য->glXChooseVisual =
+        (XVisualInfo * (*)(Display *, পূর্ণসংখ্যা, পূর্ণসংখ্যা *))
             X11_GL_GetProcAddress(_this, "glXChooseVisual");
-    _this->gl_data->glXCreateContext =
-        (GLXContext(*)(Display *, XVisualInfo *, GLXContext, int))
+    _this->gl_তথ্য->glXCreateContext =
+        (GLXContext(*)(Display *, XVisualInfo *, GLXContext, পূর্ণসংখ্যা))
             X11_GL_GetProcAddress(_this, "glXCreateContext");
-    _this->gl_data->glXDestroyContext =
-        (void (*)(Display *, GLXContext))
+    _this->gl_তথ্য->glXDestroyContext =
+        (শূন্য (*)(Display *, GLXContext))
             X11_GL_GetProcAddress(_this, "glXDestroyContext");
-    _this->gl_data->glXMakeCurrent =
-        (int (*)(Display *, GLXDrawable, GLXContext))
+    _this->gl_তথ্য->glXMakeCurrent =
+        (পূর্ণসংখ্যা (*)(Display *, GLXDrawable, GLXContext))
             X11_GL_GetProcAddress(_this, "glXMakeCurrent");
-    _this->gl_data->glXSwapBuffers =
-        (void (*)(Display *, GLXDrawable))
+    _this->gl_তথ্য->glXSwapBuffers =
+        (শূন্য (*)(Display *, GLXDrawable))
             X11_GL_GetProcAddress(_this, "glXSwapBuffers");
-    _this->gl_data->glXQueryDrawable =
-        (void (*)(Display *, GLXDrawable, int, unsigned int *))
+    _this->gl_তথ্য->glXQueryDrawable =
+        (শূন্য (*)(Display *, GLXDrawable, পূর্ণসংখ্যা, unsigned পূর্ণসংখ্যা *))
             X11_GL_GetProcAddress(_this, "glXQueryDrawable");
 
-    if (!_this->gl_data->glXQueryExtension ||
-        !_this->gl_data->glXChooseVisual ||
-        !_this->gl_data->glXCreateContext ||
-        !_this->gl_data->glXDestroyContext ||
-        !_this->gl_data->glXMakeCurrent ||
-        !_this->gl_data->glXSwapBuffers) {
-        return SDL_SetError("Could not retrieve OpenGL functions");
+    যদি (!_this->gl_তথ্য->glXQueryExtension ||
+        !_this->gl_তথ্য->glXChooseVisual ||
+        !_this->gl_তথ্য->glXCreateContext ||
+        !_this->gl_তথ্য->glXDestroyContext ||
+        !_this->gl_তথ্য->glXMakeCurrent ||
+        !_this->gl_তথ্য->glXSwapBuffers) {
+        ফেরত SDL_SetError("Could not retrieve OpenGL functions");
     }
 
     display = _this->internal->display;
-    if (!_this->gl_data->glXQueryExtension(display, &_this->gl_data->errorBase, &_this->gl_data->eventBase)) {
-        return SDL_SetError("GLX is not supported");
+    যদি (!_this->gl_তথ্য->glXQueryExtension(display, &_this->gl_তথ্য->errorBase, &_this->gl_তথ্য->eventBase)) {
+        ফেরত SDL_SetError("GLX is not supported");
     }
 
-    _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNTESTED;
+    _this->gl_তথ্য->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNTESTED;
 
     // Initialize extensions
     /* See lengthy comment about the inc/dec in
@@ -276,52 +276,52 @@ bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     /* If we need a GL ES context and there's no
      * GLX_EXT_create_context_es2_profile extension, switch over to X11_GLES functions
      */
-    if (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+    যদি (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
          SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) &&
         X11_GL_UseEGL(_this)) {
-        return X11_GL_LoadLibrary_EGLFallback(_this, NULL);
+        ফেরত X11_GL_LoadLibrary_EGLFallback(_this, ফাঁকা);
     }
 
-    return true;
+    ফেরত true;
 }
 
-SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *proc)
 {
-    if (_this->gl_data->glXGetProcAddress) {
-        return _this->gl_data->glXGetProcAddress((const GLubyte *)proc);
+    যদি (_this->gl_তথ্য->glXGetProcAddress) {
+        ফেরত _this->gl_তথ্য->glXGetProcAddress((ধ্রুবক GLubyte *)proc);
     }
-    return GL_LoadFunction(_this->gl_config.dll_handle, proc);
+    ফেরত GL_LoadFunction(_this->gl_config.dll_handle, proc);
 }
 
-void X11_GL_UnloadLibrary(SDL_VideoDevice *_this)
+শূন্য X11_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     /* Don't actually unload the library, since it may have registered
      * X11 shutdown hooks, per the notes at:
      * http://dri.sourceforge.net/doc/DRIuserguide.html
      */
-#if 0
+#যদি 0
     GL_UnloadObject(_this->gl_config.dll_handle);
-    _this->gl_config.dll_handle = NULL;
+    _this->gl_config.dll_handle = ফাঁকা;
 #endif
 
     // Free OpenGL memory
-    SDL_free(_this->gl_data);
-    _this->gl_data = NULL;
+    SDL_free(_this->gl_তথ্য);
+    _this->gl_তথ্য = ফাঁকা;
 }
 
-static bool HasExtension(const char *extension, const char *extensions)
+স্থির bool HasExtension(ধ্রুবক অক্ষর *extension, ধ্রুবক অক্ষর *extensions)
 {
-    const char *start;
-    const char *where, *terminator;
+    ধ্রুবক অক্ষর *start;
+    ধ্রুবক অক্ষর *where, *terminator;
 
-    if (!extensions) {
-        return false;
+    যদি (!extensions) {
+        ফেরত false;
     }
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    যদি (where || *extension == '\0') {
+        ফেরত false;
     }
 
     /* It takes a bit of care to be fool-proof about parsing the
@@ -330,64 +330,64 @@ static bool HasExtension(const char *extension, const char *extensions)
 
     start = extensions;
 
-    for (;;) {
+    জন্য (;;) {
         where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+        যদি (!where) {
+            বিরতি;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == start || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        যদি (where == start || *(where - 1) == ' ') {
+            যদি (*terminator == ' ' || *terminator == '\0') {
+                ফেরত true;
             }
         }
 
         start = terminator;
     }
-    return false;
+    ফেরত false;
 }
 
-static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
+স্থির শূন্য X11_GL_InitExtensions(SDL_VideoDevice *_this)
 {
     Display *display = _this->internal->display;
-    const int screen = DefaultScreen(display);
-    XVisualInfo *vinfo = NULL;
+    ধ্রুবক পূর্ণসংখ্যা screen = DefaultScreen(display);
+    XVisualInfo *vinfo = ফাঁকা;
     Window w = 0;
-    GLXContext prev_ctx = NULL;
-    GLXDrawable prev_drawable = 0;
-    GLXContext context = NULL;
-    const char *(*glXQueryExtensionsStringFunc)(Display *, int);
-    const char *extensions;
+    GLXContext পূর্ব_ctx = ফাঁকা;
+    GLXDrawable পূর্ব_drawable = 0;
+    GLXContext context = ফাঁকা;
+    ধ্রুবক অক্ষর *(*glXQueryExtensionsStringFunc)(Display *, পূর্ণসংখ্যা);
+    ধ্রুবক অক্ষর *extensions;
 
     vinfo = X11_GL_GetVisual(_this, display, screen, false);
-    if (vinfo) {
-        GLXContext (*glXGetCurrentContextFunc)(void) =
-            (GLXContext(*)(void))
+    যদি (vinfo) {
+        GLXContext (*glXGetCurrentContextFunc)(শূন্য) =
+            (GLXContext(*)(শূন্য))
                 X11_GL_GetProcAddress(_this, "glXGetCurrentContext");
 
-        GLXDrawable (*glXGetCurrentDrawableFunc)(void) =
-            (GLXDrawable(*)(void))
+        GLXDrawable (*glXGetCurrentDrawableFunc)(শূন্য) =
+            (GLXDrawable(*)(শূন্য))
                 X11_GL_GetProcAddress(_this, "glXGetCurrentDrawable");
 
-        if (glXGetCurrentContextFunc && glXGetCurrentDrawableFunc) {
+        যদি (glXGetCurrentContextFunc && glXGetCurrentDrawableFunc) {
             XSetWindowAttributes xattr;
-            prev_ctx = glXGetCurrentContextFunc();
-            prev_drawable = glXGetCurrentDrawableFunc();
+            পূর্ব_ctx = glXGetCurrentContextFunc();
+            পূর্ব_drawable = glXGetCurrentDrawableFunc();
 
             xattr.background_pixel = 0;
             xattr.border_pixel = 0;
             xattr.colormap =
-                X11_XCreateColormap(display, RootWindow(display, screen),
+                X11_XCreateColormap(display, মূল_Window(display, screen),
                                     vinfo->visual, AllocNone);
-            w = X11_XCreateWindow(display, RootWindow(display, screen), 0, 0,
-                                  32, 32, 0, vinfo->depth, InputOutput, vinfo->visual,
+            w = X11_XCreateWindow(display, মূল_Window(display, screen), 0, 0,
+                                  32, 32, 0, vinfo->depth, প্রবেশ_Output, vinfo->visual,
                                   (CWBackPixel | CWBorderPixel | CWColormap), &xattr);
 
-            context = _this->gl_data->glXCreateContext(display, vinfo,
-                                                       NULL, True);
-            if (context) {
-                _this->gl_data->glXMakeCurrent(display, w, context);
+            context = _this->gl_তথ্য->glXCreateContext(display, vinfo,
+                                                       ফাঁকা, True);
+            যদি (context) {
+                _this->gl_তথ্য->glXMakeCurrent(display, w, context);
             }
         }
 
@@ -395,105 +395,105 @@ static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
     }
 
     glXQueryExtensionsStringFunc =
-        (const char *(*)(Display *, int))X11_GL_GetProcAddress(_this,
+        (ধ্রুবক অক্ষর *(*)(Display *, পূর্ণসংখ্যা))X11_GL_GetProcAddress(_this,
                                                                "glXQueryExtensionsString");
-    if (glXQueryExtensionsStringFunc) {
+    যদি (glXQueryExtensionsStringFunc) {
         extensions = glXQueryExtensionsStringFunc(display, screen);
-    } else {
-        extensions = NULL;
+    } অন্যথা {
+        extensions = ফাঁকা;
     }
 
     // Check for GLX_EXT_swap_control(_tear)
-    _this->gl_data->HAS_GLX_EXT_swap_control_tear = false;
-    if (HasExtension("GLX_EXT_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalEXT =
-            (void (*)(Display *, GLXDrawable, int))
+    _this->gl_তথ্য->HAS_GLX_EXT_swap_control_tear = false;
+    যদি (HasExtension("GLX_EXT_swap_control", extensions)) {
+        _this->gl_তথ্য->glXSwapIntervalEXT =
+            (শূন্য (*)(Display *, GLXDrawable, পূর্ণসংখ্যা))
                 X11_GL_GetProcAddress(_this, "glXSwapIntervalEXT");
-        if (HasExtension("GLX_EXT_swap_control_tear", extensions)) {
-            _this->gl_data->HAS_GLX_EXT_swap_control_tear = true;
+        যদি (HasExtension("GLX_EXT_swap_control_tear", extensions)) {
+            _this->gl_তথ্য->HAS_GLX_EXT_swap_control_tear = true;
         }
     }
 
     // Check for GLX_MESA_swap_control
-    if (HasExtension("GLX_MESA_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalMESA =
-            (int (*)(int))X11_GL_GetProcAddress(_this, "glXSwapIntervalMESA");
-        _this->gl_data->glXGetSwapIntervalMESA =
-            (int (*)(void))X11_GL_GetProcAddress(_this,
+    যদি (HasExtension("GLX_MESA_swap_control", extensions)) {
+        _this->gl_তথ্য->glXSwapIntervalMESA =
+            (পূর্ণসংখ্যা (*)(পূর্ণসংখ্যা))X11_GL_GetProcAddress(_this, "glXSwapIntervalMESA");
+        _this->gl_তথ্য->glXGetSwapIntervalMESA =
+            (পূর্ণসংখ্যা (*)(শূন্য))X11_GL_GetProcAddress(_this,
                                                  "glXGetSwapIntervalMESA");
     }
 
     // Check for GLX_SGI_swap_control
-    if (HasExtension("GLX_SGI_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalSGI =
-            (int (*)(int))X11_GL_GetProcAddress(_this, "glXSwapIntervalSGI");
+    যদি (HasExtension("GLX_SGI_swap_control", extensions)) {
+        _this->gl_তথ্য->glXSwapIntervalSGI =
+            (পূর্ণসংখ্যা (*)(পূর্ণসংখ্যা))X11_GL_GetProcAddress(_this, "glXSwapIntervalSGI");
     }
 
     // Check for GLX_ARB_create_context
-    if (HasExtension("GLX_ARB_create_context", extensions)) {
-        _this->gl_data->glXCreateContextAttribsARB =
-            (GLXContext(*)(Display *, GLXFBConfig, GLXContext, Bool, const int *))
+    যদি (HasExtension("GLX_ARB_create_context", extensions)) {
+        _this->gl_তথ্য->glXCreateContextAttribsARB =
+            (GLXContext(*)(Display *, GLXFBConfig, GLXContext, Bool, ধ্রুবক পূর্ণসংখ্যা *))
                 X11_GL_GetProcAddress(_this, "glXCreateContextAttribsARB");
-        _this->gl_data->glXChooseFBConfig =
-            (GLXFBConfig * (*)(Display *, int, const int *, int *))
+        _this->gl_তথ্য->glXChooseFBConfig =
+            (GLXFBConfig * (*)(Display *, পূর্ণসংখ্যা, ধ্রুবক পূর্ণসংখ্যা *, পূর্ণসংখ্যা *))
                 X11_GL_GetProcAddress(_this, "glXChooseFBConfig");
-        _this->gl_data->glXGetVisualFromFBConfig =
+        _this->gl_তথ্য->glXGetVisualFromFBConfig =
             (XVisualInfo * (*)(Display *, GLXFBConfig))
                 X11_GL_GetProcAddress(_this, "glXGetVisualFromFBConfig");
     }
 
     // Check for GLX_EXT_visual_rating
-    if (HasExtension("GLX_EXT_visual_rating", extensions)) {
-        _this->gl_data->HAS_GLX_EXT_visual_rating = true;
+    যদি (HasExtension("GLX_EXT_visual_rating", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_EXT_visual_rating = true;
     }
 
     // Check for GLX_EXT_visual_info
-    if (HasExtension("GLX_EXT_visual_info", extensions)) {
-        _this->gl_data->HAS_GLX_EXT_visual_info = true;
+    যদি (HasExtension("GLX_EXT_visual_info", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_EXT_visual_info = true;
     }
 
     // Check for GLX_EXT_create_context_es2_profile
-    if (HasExtension("GLX_EXT_create_context_es2_profile", extensions)) {
+    যদি (HasExtension("GLX_EXT_create_context_es2_profile", extensions)) {
         // this wants to call glGetString(), so it needs a context.
         // !!! FIXME: it would be nice not to make a context here though!
-        if (context) {
+        যদি (context) {
             SDL_GL_DeduceMaxSupportedESProfile(
-                &_this->gl_data->es_profile_max_supported_version.major,
-                &_this->gl_data->es_profile_max_supported_version.minor);
+                &_this->gl_তথ্য->es_profile_max_supported_version.major,
+                &_this->gl_তথ্য->es_profile_max_supported_version.minor);
         }
     }
 
     // Check for GLX_ARB_context_flush_control
-    if (HasExtension("GLX_ARB_context_flush_control", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_context_flush_control = true;
+    যদি (HasExtension("GLX_ARB_context_flush_control", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_ARB_context_flush_control = true;
     }
 
     // Check for GLX_ARB_create_context_robustness
-    if (HasExtension("GLX_ARB_create_context_robustness", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_create_context_robustness = true;
+    যদি (HasExtension("GLX_ARB_create_context_robustness", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_ARB_create_context_robustness = true;
     }
 
     // Check for GLX_ARB_create_context_no_error
-    if (HasExtension("GLX_ARB_create_context_no_error", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_create_context_no_error = true;
+    যদি (HasExtension("GLX_ARB_create_context_no_error", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_ARB_create_context_no_error = true;
     }
 
     // Check for GLX_ARB_framebuffer_sRGB
-    if (HasExtension("GLX_ARB_framebuffer_sRGB", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_framebuffer_sRGB = true;
-    } else if (HasExtension("GLX_EXT_framebuffer_sRGB", extensions)) {   // same thing.
-        _this->gl_data->HAS_GLX_ARB_framebuffer_sRGB = true;
+    যদি (HasExtension("GLX_ARB_framebuffer_sRGB", extensions)) {
+        _this->gl_তথ্য->HAS_GLX_ARB_framebuffer_sRGB = true;
+    } অন্যথা যদি (HasExtension("GLX_EXT_framebuffer_sRGB", extensions)) {   // same thing.
+        _this->gl_তথ্য->HAS_GLX_ARB_framebuffer_sRGB = true;
     }
 
-    if (context) {
-        _this->gl_data->glXMakeCurrent(display, None, NULL);
-        _this->gl_data->glXDestroyContext(display, context);
-        if (prev_ctx && prev_drawable) {
-            _this->gl_data->glXMakeCurrent(display, prev_drawable, prev_ctx);
+    যদি (context) {
+        _this->gl_তথ্য->glXMakeCurrent(display, None, ফাঁকা);
+        _this->gl_তথ্য->glXDestroyContext(display, context);
+        যদি (পূর্ব_ctx && পূর্ব_drawable) {
+            _this->gl_তথ্য->glXMakeCurrent(display, পূর্ব_drawable, পূর্ব_ctx);
         }
     }
 
-    if (w) {
+    যদি (w) {
         X11_XDestroyWindow(display, w);
     }
     X11_PumpEvents(_this);
@@ -506,121 +506,121 @@ static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
  *  In case of failure, if that pointer is not NULL, set that pointer to None
  *  and try again.
  */
-static int X11_GL_GetAttributes(SDL_VideoDevice *_this, Display *display, int screen, int *attribs, int size, Bool for_FBConfig, int **_pvistypeattr, bool transparent)
+স্থির পূর্ণসংখ্যা X11_GL_GetAttributes(SDL_VideoDevice *_this, Display *display, পূর্ণসংখ্যা screen, পূর্ণসংখ্যা *attribs, পূর্ণসংখ্যা আকার_2, Bool for_FBConfig, পূর্ণসংখ্যা **_pvistypeattr, bool transparent)
 {
-    int i = 0;
-    const int MAX_ATTRIBUTES = 64;
-    int *pvistypeattr = NULL;
+    পূর্ণসংখ্যা i = 0;
+    ধ্রুবক পূর্ণসংখ্যা MAX_ATTRIBUTES = 64;
+    পূর্ণসংখ্যা *pvistypeattr = ফাঁকা;
 
     // assert buffer is large enough to hold all SDL attributes.
-    SDL_assert(size >= MAX_ATTRIBUTES);
+    SDL_assert(আকার_2 >= MAX_ATTRIBUTES);
 
     // Setup our GLX attributes according to the gl_config.
-    if (for_FBConfig) {
+    যদি (for_FBConfig) {
         attribs[i++] = GLX_RENDER_TYPE;
-        if (_this->gl_config.floatbuffers) {
+        যদি (_this->gl_config.floatbuffers) {
             attribs[i++] = GLX_RGBA_FLOAT_BIT_ARB;
-        } else {
+        } অন্যথা {
             attribs[i++] = GLX_RGBA_BIT;
         }
-    } else {
+    } অন্যথা {
         attribs[i++] = GLX_RGBA;
     }
-    attribs[i++] = GLX_RED_SIZE;
-    attribs[i++] = _this->gl_config.red_size;
-    attribs[i++] = GLX_GREEN_SIZE;
-    attribs[i++] = _this->gl_config.green_size;
-    attribs[i++] = GLX_BLUE_SIZE;
-    attribs[i++] = _this->gl_config.blue_size;
+    attribs[i++] = GLX_RED_আকার;
+    attribs[i++] = _this->gl_config.red_আকার;
+    attribs[i++] = GLX_GREEN_আকার;
+    attribs[i++] = _this->gl_config.green_আকার;
+    attribs[i++] = GLX_BLUE_আকার;
+    attribs[i++] = _this->gl_config.blue_আকার;
 
-    if (_this->gl_config.alpha_size) {
-        attribs[i++] = GLX_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.alpha_size;
+    যদি (_this->gl_config.alpha_আকার) {
+        attribs[i++] = GLX_ALPHA_আকার;
+        attribs[i++] = _this->gl_config.alpha_আকার;
     }
 
-    if (_this->gl_config.double_buffer) {
+    যদি (_this->gl_config.double_বাফার) {
         attribs[i++] = GLX_DOUBLEBUFFER;
-        if (for_FBConfig) {
+        যদি (for_FBConfig) {
             attribs[i++] = True;
         }
     }
 
-    attribs[i++] = GLX_DEPTH_SIZE;
-    attribs[i++] = _this->gl_config.depth_size;
+    attribs[i++] = GLX_DEPTH_আকার;
+    attribs[i++] = _this->gl_config.depth_আকার;
 
-    if (_this->gl_config.stencil_size) {
-        attribs[i++] = GLX_STENCIL_SIZE;
-        attribs[i++] = _this->gl_config.stencil_size;
+    যদি (_this->gl_config.stencil_আকার) {
+        attribs[i++] = GLX_STENCIL_আকার;
+        attribs[i++] = _this->gl_config.stencil_আকার;
     }
 
-    if (_this->gl_config.accum_red_size) {
-        attribs[i++] = GLX_ACCUM_RED_SIZE;
-        attribs[i++] = _this->gl_config.accum_red_size;
+    যদি (_this->gl_config.accum_red_আকার) {
+        attribs[i++] = GLX_ACCUM_RED_আকার;
+        attribs[i++] = _this->gl_config.accum_red_আকার;
     }
 
-    if (_this->gl_config.accum_green_size) {
-        attribs[i++] = GLX_ACCUM_GREEN_SIZE;
-        attribs[i++] = _this->gl_config.accum_green_size;
+    যদি (_this->gl_config.accum_green_আকার) {
+        attribs[i++] = GLX_ACCUM_GREEN_আকার;
+        attribs[i++] = _this->gl_config.accum_green_আকার;
     }
 
-    if (_this->gl_config.accum_blue_size) {
-        attribs[i++] = GLX_ACCUM_BLUE_SIZE;
-        attribs[i++] = _this->gl_config.accum_blue_size;
+    যদি (_this->gl_config.accum_blue_আকার) {
+        attribs[i++] = GLX_ACCUM_BLUE_আকার;
+        attribs[i++] = _this->gl_config.accum_blue_আকার;
     }
 
-    if (_this->gl_config.accum_alpha_size) {
-        attribs[i++] = GLX_ACCUM_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.accum_alpha_size;
+    যদি (_this->gl_config.accum_alpha_আকার) {
+        attribs[i++] = GLX_ACCUM_ALPHA_আকার;
+        attribs[i++] = _this->gl_config.accum_alpha_আকার;
     }
 
-    if (_this->gl_config.stereo) {
+    যদি (_this->gl_config.stereo) {
         attribs[i++] = GLX_STEREO;
-        if (for_FBConfig) {
+        যদি (for_FBConfig) {
             attribs[i++] = True;
         }
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    যদি (_this->gl_config.multisamplebuffers) {
         attribs[i++] = GLX_SAMPLE_BUFFERS_ARB;
         attribs[i++] = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    যদি (_this->gl_config.multisamplesamples) {
         attribs[i++] = GLX_SAMPLES_ARB;
         attribs[i++] = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_config.floatbuffers) {
+    যদি (_this->gl_config.floatbuffers) {
         attribs[i++] = GLX_RENDER_TYPE;
         attribs[i++] = GLX_RGBA_FLOAT_TYPE_ARB;
     }
 
-    if (_this->gl_data->HAS_GLX_ARB_framebuffer_sRGB) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+    যদি (_this->gl_তথ্য->HAS_GLX_ARB_framebuffer_sRGB) {
+        ধ্রুবক অক্ষর *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        যদি (srgbhint && *srgbhint) {
+            যদি (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } অন্যথা {
                 attribs[i++] = GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 attribs[i++] = SDL_GetStringBoolean(srgbhint, false) ? True : False;  // always needed, for_FBConfig or not!
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
+        } অন্যথা যদি (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
             attribs[i++] = GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB;
             attribs[i++] = True; // always needed, for_FBConfig or not!
         }
     }
 
-    if (_this->gl_config.accelerated >= 0 &&
-        _this->gl_data->HAS_GLX_EXT_visual_rating) {
+    যদি (_this->gl_config.accelerated >= 0 &&
+        _this->gl_তথ্য->HAS_GLX_EXT_visual_rating) {
         attribs[i++] = GLX_VISUAL_CAVEAT_EXT;
         attribs[i++] = _this->gl_config.accelerated ? GLX_NONE_EXT : GLX_SLOW_VISUAL_EXT;
     }
 
     // Un-wanted when we request a transparent buffer
-    if (!transparent) {
+    যদি (!transparent) {
         /* If we're supposed to use DirectColor visuals, and we've got the
            EXT_visual_info extension, then add GLX_X_VISUAL_TYPE_EXT. */
-        if (X11_UseDirectColorVisuals() && _this->gl_data->HAS_GLX_EXT_visual_info) {
+        যদি (X11_UseDirectColorVisuals() && _this->gl_তথ্য->HAS_GLX_EXT_visual_info) {
             pvistypeattr = &attribs[i];
             attribs[i++] = GLX_X_VISUAL_TYPE_EXT;
             attribs[i++] = GLX_DIRECT_COLOR_EXT;
@@ -631,226 +631,226 @@ static int X11_GL_GetAttributes(SDL_VideoDevice *_this, Display *display, int sc
 
     SDL_assert(i <= MAX_ATTRIBUTES);
 
-    if (_pvistypeattr) {
+    যদি (_pvistypeattr) {
         *_pvistypeattr = pvistypeattr;
     }
 
-    return i;
+    ফেরত i;
 }
 
 //get the first transparent Visual
-static XVisualInfo *X11_GL_GetTransparentVisualInfo(Display *display, int screen)
+স্থির XVisualInfo *X11_GL_GetTransparentVisualInfo(Display *display, পূর্ণসংখ্যা screen)
 {
-    XVisualInfo *visualinfo = NULL;
+    XVisualInfo *visualinfo = ফাঁকা;
     XVisualInfo vi_in;
-    int out_count = 0;
+    পূর্ণসংখ্যা out_গুনতি = 0;
 
     vi_in.screen = screen;
-    visualinfo = X11_XGetVisualInfo(display, VisualScreenMask, &vi_in, &out_count);
-    if (visualinfo != NULL) {
-        int i = 0;
-        for (i = 0; i < out_count; i++) {
+    visualinfo = X11_XGetVisualInfo(display, VisualScreenMask, &vi_in, &out_গুনতি);
+    যদি (visualinfo != ফাঁকা) {
+        পূর্ণসংখ্যা i = 0;
+        জন্য (i = 0; i < out_গুনতি; i++) {
             XVisualInfo *v = &visualinfo[i];
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
-            if (SDL_ISPIXELFORMAT_ALPHA(format)) {
+            যদি (SDL_ISPIXELFORMAT_ALPHA(format)) {
                 vi_in.screen = screen;
                 vi_in.visualid = v->visualid;
                 X11_XFree(visualinfo);
-                visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-                break;
+                visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_গুনতি);
+                বিরতি;
             }
         }
     }
-    return visualinfo;
+    ফেরত visualinfo;
 }
 
-XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent)
+XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, পূর্ণসংখ্যা screen, bool transparent)
 {
     // 64 seems nice.
-    int attribs[64];
-    XVisualInfo *vinfo = NULL;
-    int *pvistypeattr = NULL;
+    পূর্ণসংখ্যা attribs[64];
+    XVisualInfo *vinfo = ফাঁকা;
+    পূর্ণসংখ্যা *pvistypeattr = ফাঁকা;
 
-    if (!_this->gl_data) {
+    যদি (!_this->gl_তথ্য) {
         // The OpenGL library wasn't loaded, SDL_GetError() should have info
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    if (_this->gl_data->glXChooseFBConfig &&
-        _this->gl_data->glXGetVisualFromFBConfig) {
-        GLXFBConfig *framebuffer_config = NULL;
-        int fbcount = 0;
+    যদি (_this->gl_তথ্য->glXChooseFBConfig &&
+        _this->gl_তথ্য->glXGetVisualFromFBConfig) {
+        GLXFBConfig *framebuffer_config = ফাঁকা;
+        পূর্ণসংখ্যা fbcount = 0;
 
         X11_GL_GetAttributes(_this, display, screen, attribs, 64, true, &pvistypeattr, transparent);
-        framebuffer_config = _this->gl_data->glXChooseFBConfig(display, screen, attribs, &fbcount);
-        if (!framebuffer_config && (pvistypeattr != NULL)) {
+        framebuffer_config = _this->gl_তথ্য->glXChooseFBConfig(display, screen, attribs, &fbcount);
+        যদি (!framebuffer_config && (pvistypeattr != ফাঁকা)) {
             *pvistypeattr = None;
-            framebuffer_config = _this->gl_data->glXChooseFBConfig(display, screen, attribs, &fbcount);
+            framebuffer_config = _this->gl_তথ্য->glXChooseFBConfig(display, screen, attribs, &fbcount);
         }
 
-        if (transparent) {
+        যদি (transparent) {
             // Return the first transparent Visual
-            int i;
-            for (i = 0; i < fbcount; i++) {
+            পূর্ণসংখ্যা i;
+            জন্য (i = 0; i < fbcount; i++) {
                 Uint32 format;
-                vinfo = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
+                vinfo = _this->gl_তথ্য->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
                 format = X11_GetPixelFormatFromVisualInfo(display, vinfo);
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
+                যদি (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
                     X11_XFree(framebuffer_config);
-                    framebuffer_config = NULL;
-                    break;
+                    framebuffer_config = ফাঁকা;
+                    বিরতি;
                 }
                 X11_XFree(vinfo);
-                vinfo = NULL;
+                vinfo = ফাঁকা;
             }
         }
 
-        if (framebuffer_config) {
-            vinfo = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[0]);
+        যদি (framebuffer_config) {
+            vinfo = _this->gl_তথ্য->glXGetVisualFromFBConfig(display, framebuffer_config[0]);
         }
 
         X11_XFree(framebuffer_config);
     }
 
-    if (!vinfo) {
+    যদি (!vinfo) {
         X11_GL_GetAttributes(_this, display, screen, attribs, 64, false, &pvistypeattr, transparent);
-        vinfo = _this->gl_data->glXChooseVisual(display, screen, attribs);
+        vinfo = _this->gl_তথ্য->glXChooseVisual(display, screen, attribs);
 
-        if (!vinfo && (pvistypeattr != NULL)) {
+        যদি (!vinfo && (pvistypeattr != ফাঁকা)) {
             *pvistypeattr = None;
-            vinfo = _this->gl_data->glXChooseVisual(display, screen, attribs);
+            vinfo = _this->gl_তথ্য->glXChooseVisual(display, screen, attribs);
         }
     }
 
-    if (transparent && vinfo) {
+    যদি (transparent && vinfo) {
         Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo);
-        if (!SDL_ISPIXELFORMAT_ALPHA(format)) {
+        যদি (!SDL_ISPIXELFORMAT_ALPHA(format)) {
             // not transparent!
             XVisualInfo *visualinfo = X11_GL_GetTransparentVisualInfo(display, screen);
-            if (visualinfo != NULL) {
+            যদি (visualinfo != ফাঁকা) {
                 X11_XFree(vinfo);
                 vinfo = visualinfo;
             }
         }
     }
 
-    if (!vinfo) {
+    যদি (!vinfo) {
         SDL_SetError("Couldn't find matching GLX visual");
     }
-    return vinfo;
+    ফেরত vinfo;
 }
 
-static int (*handler)(Display *, XErrorEvent *) = NULL;
-static const char *errorHandlerOperation = NULL;
-static int errorBase = 0;
-static int errorCode = 0;
-static int X11_GL_ErrorHandler(Display *d, XErrorEvent *e)
+স্থির পূর্ণসংখ্যা (*handler)(Display *, XErrorEvent *) = ফাঁকা;
+স্থির ধ্রুবক অক্ষর *errorHandlerOperation = ফাঁকা;
+স্থির পূর্ণসংখ্যা errorBase = 0;
+স্থির পূর্ণসংখ্যা errorCode = 0;
+স্থির পূর্ণসংখ্যা X11_GL_ErrorHandler(Display *d, XErrorEvent *e)
 {
-    char *x11_error = NULL;
-    char x11_error_locale[256];
+    অক্ষর *x11_error = ফাঁকা;
+    অক্ষর x11_error_locale[256];
 
     errorCode = e->error_code;
-    if (X11_XGetErrorText(d, errorCode, x11_error_locale, sizeof(x11_error_locale)) == Success) {
+    যদি (X11_XGetErrorText(d, errorCode, x11_error_locale, আকার(x11_error_locale)) == Success) {
         x11_error = SDL_iconv_string("UTF-8", "", x11_error_locale, SDL_strlen(x11_error_locale) + 1);
     }
 
-    if (x11_error) {
+    যদি (x11_error) {
         SDL_SetError("Could not %s: %s", errorHandlerOperation, x11_error);
         SDL_free(x11_error);
-    } else {
+    } অন্যথা {
         SDL_SetError("Could not %s: %i (Base %i)", errorHandlerOperation, errorCode, errorBase);
     }
 
-    return 0;
+    ফেরত 0;
 }
 
 bool X11_GL_UseEGL(SDL_VideoDevice *_this)
 {
-    SDL_assert(_this->gl_data != NULL);
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+    SDL_assert(_this->gl_তথ্য != ফাঁকা);
+    যদি (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
         // use of EGL has been requested, even for desktop GL
-        return true;
+        ফেরত true;
     }
 
     SDL_assert(_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
-    return (SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) || _this->gl_config.major_version == 1 // No GLX extension for OpenGL ES 1.x profiles.
-            || _this->gl_config.major_version > _this->gl_data->es_profile_max_supported_version.major || (_this->gl_config.major_version == _this->gl_data->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_data->es_profile_max_supported_version.minor));
+    ফেরত (SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) || _this->gl_config.major_version == 1 // No GLX extension for OpenGL ES 1.x profiles.
+            || _this->gl_config.major_version > _this->gl_তথ্য->es_profile_max_supported_version.major || (_this->gl_config.major_version == _this->gl_তথ্য->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_তথ্য->es_profile_max_supported_version.minor));
 }
 
 SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int screen = SDL_GetDisplayDriverDataForWindow(window)->screen;
+    SDL_Window_তথ্য *তথ্য = window->internal;
+    Display *display = তথ্য->videodata->display;
+    পূর্ণসংখ্যা screen = SDL_Get_Display_Driver_তথ্য_For_Window(window)->screen;
     XWindowAttributes xattr;
     XVisualInfo v, *vinfo;
-    int n;
-    SDL_GLContext context = NULL;
+    পূর্ণসংখ্যা n;
+    SDL_GLContext context = ফাঁকা;
     GLXContext share_context;
-    const int transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
+    ধ্রুবক পূর্ণসংখ্যা transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
 
-    if (_this->gl_config.share_with_current_context) {
+    যদি (_this->gl_config.share_with_current_context) {
         share_context = (GLXContext)SDL_GL_GetCurrentContext();
-    } else {
-        share_context = NULL;
+    } অন্যথা {
+        share_context = ফাঁকা;
     }
 
     // We do this to create a clean separation between X and GLX errors.
     X11_XSync(display, False);
     errorHandlerOperation = "create GL context";
-    errorBase = _this->gl_data->errorBase;
+    errorBase = _this->gl_তথ্য->errorBase;
     errorCode = Success;
     handler = X11_XSetErrorHandler(X11_GL_ErrorHandler);
-    X11_XGetWindowAttributes(display, data->xwindow, &xattr);
+    X11_XGetWindowAttributes(display, তথ্য->xwindow, &xattr);
     v.screen = screen;
     v.visualid = X11_XVisualIDFromVisual(xattr.visual);
     vinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &v, &n);
-    if (vinfo) {
-        if (_this->gl_config.major_version < 3 &&
+    যদি (vinfo) {
+        যদি (_this->gl_config.major_version < 3 &&
             _this->gl_config.profile_mask == 0 &&
             _this->gl_config.flags == 0 && !transparent) {
             // Create legacy context
             context =
-                (SDL_GLContext)_this->gl_data->glXCreateContext(display, vinfo, share_context, True);
-        } else {
+                (SDL_GLContext)_this->gl_তথ্য->glXCreateContext(display, vinfo, share_context, True);
+        } অন্যথা {
             // max 14 attributes plus terminator
-            int attribs[15] = {
+            পূর্ণসংখ্যা attribs[15] = {
                 GLX_CONTEXT_MAJOR_VERSION_ARB,
                 _this->gl_config.major_version,
                 GLX_CONTEXT_MINOR_VERSION_ARB,
                 _this->gl_config.minor_version,
                 0
             };
-            int iattr = 4;
+            পূর্ণসংখ্যা iattr = 4;
 
             // SDL profile bits match GLX profile bits
-            if (_this->gl_config.profile_mask != 0) {
+            যদি (_this->gl_config.profile_mask != 0) {
                 attribs[iattr++] = GLX_CONTEXT_PROFILE_MASK_ARB;
                 attribs[iattr++] = _this->gl_config.profile_mask;
             }
 
             // SDL flags match GLX flags
-            if (_this->gl_config.flags != 0) {
+            যদি (_this->gl_config.flags != 0) {
                 attribs[iattr++] = GLX_CONTEXT_FLAGS_ARB;
                 attribs[iattr++] = _this->gl_config.flags;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
+            যদি ((_this->gl_তথ্য->HAS_GLX_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
                 attribs[iattr++] = GLX_CONTEXT_RELEASE_BEHAVIOR_ARB;
                 attribs[iattr++] =
                     _this->gl_config.release_behavior ? GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB : GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
+            যদি ((_this->gl_তথ্য->HAS_GLX_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
                 attribs[iattr++] = GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB;
                 attribs[iattr++] =
                     _this->gl_config.reset_notification ? GLX_LOSE_CONTEXT_ON_RESET_ARB : GLX_NO_RESET_NOTIFICATION_ARB;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
+            যদি ((_this->gl_তথ্য->HAS_GLX_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
                 attribs[iattr++] = GLX_CONTEXT_OPENGL_NO_ERROR_ARB;
                 attribs[iattr++] = _this->gl_config.no_error;
             }
@@ -858,52 +858,52 @@ SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             attribs[iattr++] = 0;
 
             // Get a pointer to the context creation function for GL 3.0
-            if (!_this->gl_data->glXCreateContextAttribsARB) {
+            যদি (!_this->gl_তথ্য->glXCreateContextAttribsARB) {
                 SDL_SetError("OpenGL 3.0 and later are not supported by this system");
-            } else {
-                int glxAttribs[64];
+            } অন্যথা {
+                পূর্ণসংখ্যা glxAttribs[64];
 
                 // Create a GL 3.x context
-                GLXFBConfig *framebuffer_config = NULL;
-                int fbcount = 0;
-                int *pvistypeattr = NULL;
+                GLXFBConfig *framebuffer_config = ফাঁকা;
+                পূর্ণসংখ্যা fbcount = 0;
+                পূর্ণসংখ্যা *pvistypeattr = ফাঁকা;
 
                 X11_GL_GetAttributes(_this, display, screen, glxAttribs, 64, true, &pvistypeattr, transparent);
 
-                if (_this->gl_data->glXChooseFBConfig) {
-                    framebuffer_config = _this->gl_data->glXChooseFBConfig(display,
+                যদি (_this->gl_তথ্য->glXChooseFBConfig) {
+                    framebuffer_config = _this->gl_তথ্য->glXChooseFBConfig(display,
                                                                            DefaultScreen(display), glxAttribs,
                                                                            &fbcount);
 
-                    if (!framebuffer_config && (pvistypeattr != NULL)) {
+                    যদি (!framebuffer_config && (pvistypeattr != ফাঁকা)) {
                         *pvistypeattr = None;
-                        framebuffer_config = _this->gl_data->glXChooseFBConfig(display,
+                        framebuffer_config = _this->gl_তথ্য->glXChooseFBConfig(display,
                                                                                DefaultScreen(display), glxAttribs,
                                                                                &fbcount);
                     }
 
-                    if (transparent && (framebuffer_config != NULL)) {
-                        int i;
-                        for (i = 0; i < fbcount; i++) {
-                            XVisualInfo *vinfo_temp = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
-                            if ( vinfo_temp != NULL) {
-                                Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo_temp);
-                                if (SDL_ISPIXELFORMAT_ALPHA(format)) {
+                    যদি (transparent && (framebuffer_config != ফাঁকা)) {
+                        পূর্ণসংখ্যা i;
+                        জন্য (i = 0; i < fbcount; i++) {
+                            XVisualInfo *vinfo_অস্থায়ী = _this->gl_তথ্য->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
+                            যদি ( vinfo_অস্থায়ী != ফাঁকা) {
+                                Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo_অস্থায়ী);
+                                যদি (SDL_ISPIXELFORMAT_ALPHA(format)) {
                                     // found!
-                                    context = (SDL_GLContext)_this->gl_data->glXCreateContextAttribsARB(display,
+                                    context = (SDL_GLContext)_this->gl_তথ্য->glXCreateContextAttribsARB(display,
                                                                                                         framebuffer_config[i],
                                                                                                         share_context, True, attribs);
                                     X11_XFree(framebuffer_config);
-                                    framebuffer_config = NULL;
-                                    X11_XFree(vinfo_temp);
-                                    break;
+                                    framebuffer_config = ফাঁকা;
+                                    X11_XFree(vinfo_অস্থায়ী);
+                                    বিরতি;
                                 }
-                                X11_XFree(vinfo_temp);
+                                X11_XFree(vinfo_অস্থায়ী);
                             }
                         }
                     }
-                    if (framebuffer_config) {
-                        context = (SDL_GLContext)_this->gl_data->glXCreateContextAttribsARB(display,
+                    যদি (framebuffer_config) {
+                        context = (SDL_GLContext)_this->gl_তথ্য->glXCreateContextAttribsARB(display,
                                                                              framebuffer_config[0],
                                                                              share_context, True, attribs);
                         X11_XFree(framebuffer_config);
@@ -916,19 +916,19 @@ SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     X11_XSync(display, False);
     X11_XSetErrorHandler(handler);
 
-    if (!context) {
-        if (errorCode == Success) {
+    যদি (!context) {
+        যদি (errorCode == Success) {
             SDL_SetError("Could not create GL context");
         }
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    if (!X11_GL_MakeCurrent(_this, window, context)) {
+    যদি (!X11_GL_MakeCurrent(_this, window, context)) {
         X11_GL_DestroyContext(_this, context);
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    return context;
+    ফেরত context;
 }
 
 bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
@@ -937,28 +937,28 @@ bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContex
     Window drawable =
         (context ? window->internal->xwindow : None);
     GLXContext glx_context = (GLXContext)context;
-    int rc;
+    পূর্ণসংখ্যা rc;
 
-    if (!_this->gl_data) {
-        return SDL_SetError("OpenGL not initialized");
+    যদি (!_this->gl_তথ্য) {
+        ফেরত SDL_SetError("OpenGL not initialized");
     }
 
     // We do this to create a clean separation between X and GLX errors.
     X11_XSync(display, False);
     errorHandlerOperation = "make GL context current";
-    errorBase = _this->gl_data->errorBase;
+    errorBase = _this->gl_তথ্য->errorBase;
     errorCode = Success;
     handler = X11_XSetErrorHandler(X11_GL_ErrorHandler);
-    rc = _this->gl_data->glXMakeCurrent(display, drawable, glx_context);
+    rc = _this->gl_তথ্য->glXMakeCurrent(display, drawable, glx_context);
     X11_XSetErrorHandler(handler);
 
-    if (errorCode != Success) { // uhoh, an X error was thrown!
-        return false;              // the error handler called SDL_SetError() already.
-    } else if (!rc) {           // glXMakeCurrent() failed without throwing an X error
-        return SDL_SetError("Unable to make GL context current");
+    যদি (errorCode != Success) { // uhoh, an X error was thrown!
+        ফেরত false;              // the error handler called SDL_SetError() already.
+    } অন্যথা যদি (!rc) {           // glXMakeCurrent() failed without throwing an X error
+        ফেরত SDL_SetError("Unable to make GL context current");
     }
 
-    return true;
+    ফেরত true;
 }
 
 /*
@@ -969,16 +969,16 @@ bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContex
    with 0 as an argument.
 */
 
-static int swapinterval = 0;
-bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+স্থির পূর্ণসংখ্যা swapinterval = 0;
+bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা interval)
 {
-    bool result = false;
+    bool ফলাফল = false;
 
-    if ((interval < 0) && (!_this->gl_data->HAS_GLX_EXT_swap_control_tear)) {
-        return SDL_SetError("Negative swap interval unsupported in this GL");
-    } else if (_this->gl_data->glXSwapIntervalEXT) {
+    যদি ((interval < 0) && (!_this->gl_তথ্য->HAS_GLX_EXT_swap_control_tear)) {
+        ফেরত SDL_SetError("Negative swap interval unsupported in this GL");
+    } অন্যথা যদি (_this->gl_তথ্য->glXSwapIntervalEXT) {
         Display *display = _this->internal->display;
-        const SDL_WindowData *windowdata = SDL_GL_GetCurrentWindow()->internal;
+        ধ্রুবক SDL_Window_তথ্য *windowdata = SDL_GL_GetCurrentWindow()->internal;
 
         Window drawable = windowdata->xwindow;
 
@@ -990,46 +990,46 @@ bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
          * it has the wrong value cached. To work around it, we just run a no-op
          * update to the current value.
          */
-        int currentInterval = 0;
+        পূর্ণসংখ্যা currentInterval = 0;
         X11_GL_GetSwapInterval(_this, &currentInterval);
-        _this->gl_data->glXSwapIntervalEXT(display, drawable, currentInterval);
-        _this->gl_data->glXSwapIntervalEXT(display, drawable, interval);
-        result = true;
+        _this->gl_তথ্য->glXSwapIntervalEXT(display, drawable, currentInterval);
+        _this->gl_তথ্য->glXSwapIntervalEXT(display, drawable, interval);
+        ফলাফল = true;
         swapinterval = interval;
-    } else if (_this->gl_data->glXSwapIntervalMESA) {
-        const int rc = _this->gl_data->glXSwapIntervalMESA(interval);
-        if (rc == 0) {
+    } অন্যথা যদি (_this->gl_তথ্য->glXSwapIntervalMESA) {
+        ধ্রুবক পূর্ণসংখ্যা rc = _this->gl_তথ্য->glXSwapIntervalMESA(interval);
+        যদি (rc == 0) {
             swapinterval = interval;
-            result = true;
-        } else {
-            result = SDL_SetError("glXSwapIntervalMESA failed");
+            ফলাফল = true;
+        } অন্যথা {
+            ফলাফল = SDL_SetError("glXSwapIntervalMESA failed");
         }
-    } else if (_this->gl_data->glXSwapIntervalSGI) {
-        const int rc = _this->gl_data->glXSwapIntervalSGI(interval);
-        if (rc == 0) {
+    } অন্যথা যদি (_this->gl_তথ্য->glXSwapIntervalSGI) {
+        ধ্রুবক পূর্ণসংখ্যা rc = _this->gl_তথ্য->glXSwapIntervalSGI(interval);
+        যদি (rc == 0) {
             swapinterval = interval;
-            result = true;
-        } else {
-            result = SDL_SetError("glXSwapIntervalSGI failed");
+            ফলাফল = true;
+        } অন্যথা {
+            ফলাফল = SDL_SetError("glXSwapIntervalSGI failed");
         }
-    } else {
-        return SDL_Unsupported();
+    } অন্যথা {
+        ফেরত SDL_Unsupported();
     }
-    return result;
+    ফেরত ফলাফল;
 }
 
-static SDL_GLSwapIntervalTearBehavior CheckSwapIntervalTearBehavior(SDL_VideoDevice *_this, Window drawable, unsigned int current_val, unsigned int current_allow_late)
+স্থির SDL_GLSwapIntervalTearBehavior CheckSwapIntervalTearBehavior(SDL_VideoDevice *_this, Window drawable, unsigned পূর্ণসংখ্যা current_val, unsigned পূর্ণসংখ্যা current_allow_late)
 {
     /* Mesa and Nvidia interpret GLX_EXT_swap_control_tear differently, as of this writing, so
         figure out which behavior we have.
        Technical details: https://github.com/libsdl-org/SDL/issues/8004#issuecomment-1819603282 */
-    if (_this->gl_data->swap_interval_tear_behavior == SDL_SWAPINTERVALTEAR_UNTESTED) {
-        if (!_this->gl_data->HAS_GLX_EXT_swap_control_tear) {
-            _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
-        } else {
+    যদি (_this->gl_তথ্য->swap_interval_tear_behavior == SDL_SWAPINTERVALTEAR_UNTESTED) {
+        যদি (!_this->gl_তথ্য->HAS_GLX_EXT_swap_control_tear) {
+            _this->gl_তথ্য->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
+        } অন্যথা {
             Display *display = _this->internal->display;
-            unsigned int allow_late_swap_tearing = 22;
-            int original_val = (int) current_val;
+            unsigned পূর্ণসংখ্যা allow_late_swap_tearing = 22;
+            পূর্ণসংখ্যা original_val = (পূর্ণসংখ্যা) current_val;
 
             /*
              * This is a workaround for a bug in NVIDIA drivers. Bug has been reported
@@ -1039,92 +1039,92 @@ static SDL_GLSwapIntervalTearBehavior CheckSwapIntervalTearBehavior(SDL_VideoDev
              * it has the wrong value cached. To work around it, we just run a no-op
              * update to the current value.
              */
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, current_val);
+            _this->gl_তথ্য->glXSwapIntervalEXT(display, drawable, current_val);
 
             // set it to no swap interval and see how it affects GLX_LATE_SWAPS_TEAR_EXT...
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, 0);
-            _this->gl_data->glXQueryDrawable(display, drawable, GLX_LATE_SWAPS_TEAR_EXT, &allow_late_swap_tearing);
+            _this->gl_তথ্য->glXSwapIntervalEXT(display, drawable, 0);
+            _this->gl_তথ্য->glXQueryDrawable(display, drawable, GLX_LATE_SWAPS_TEAR_EXT, &allow_late_swap_tearing);
 
-            if (allow_late_swap_tearing == 0) { // GLX_LATE_SWAPS_TEAR_EXT says whether late swapping is currently in use
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_NVIDIA;
-                if (current_allow_late) {
+            যদি (allow_late_swap_tearing == 0) { // GLX_LATE_SWAPS_TEAR_EXT says whether late swapping is currently in use
+                _this->gl_তথ্য->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_NVIDIA;
+                যদি (current_allow_late) {
                     original_val = -original_val;
                 }
-            } else if (allow_late_swap_tearing == 1) {  // GLX_LATE_SWAPS_TEAR_EXT says whether the Drawable can use late swapping at all
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_MESA;
-            } else {  // unexpected outcome!
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
+            } অন্যথা যদি (allow_late_swap_tearing == 1) {  // GLX_LATE_SWAPS_TEAR_EXT says whether the Drawable can use late swapping at all
+                _this->gl_তথ্য->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_MESA;
+            } অন্যথা {  // unexpected outcome!
+                _this->gl_তথ্য->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
             }
 
             // set us back to what it was originally...
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, original_val);
+            _this->gl_তথ্য->glXSwapIntervalEXT(display, drawable, original_val);
         }
     }
 
-    return _this->gl_data->swap_interval_tear_behavior;
+    ফেরত _this->gl_তথ্য->swap_interval_tear_behavior;
 }
 
 
-bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা *interval)
 {
-    if (_this->gl_data->glXSwapIntervalEXT) {
+    যদি (_this->gl_তথ্য->glXSwapIntervalEXT) {
         Display *display = _this->internal->display;
-        const SDL_WindowData *windowdata = SDL_GL_GetCurrentWindow()->internal;
+        ধ্রুবক SDL_Window_তথ্য *windowdata = SDL_GL_GetCurrentWindow()->internal;
         Window drawable = windowdata->xwindow;
-        unsigned int allow_late_swap_tearing = 0;
-        unsigned int val = 0;
+        unsigned পূর্ণসংখ্যা allow_late_swap_tearing = 0;
+        unsigned পূর্ণসংখ্যা val = 0;
 
-        if (_this->gl_data->HAS_GLX_EXT_swap_control_tear) {
+        যদি (_this->gl_তথ্য->HAS_GLX_EXT_swap_control_tear) {
             allow_late_swap_tearing = 22;  // set this to nonsense.
-            _this->gl_data->glXQueryDrawable(display, drawable,
+            _this->gl_তথ্য->glXQueryDrawable(display, drawable,
                                              GLX_LATE_SWAPS_TEAR_EXT,
                                              &allow_late_swap_tearing);
         }
 
-        _this->gl_data->glXQueryDrawable(display, drawable,
+        _this->gl_তথ্য->glXQueryDrawable(display, drawable,
                                          GLX_SWAP_INTERVAL_EXT, &val);
 
-        *interval = (int)val;
+        *interval = (পূর্ণসংখ্যা)val;
 
-        switch (CheckSwapIntervalTearBehavior(_this, drawable, val, allow_late_swap_tearing)) {
-            case SDL_SWAPINTERVALTEAR_MESA:
-                *interval = (int)val;  // unsigned int cast to signed that generates negative value if necessary.
-                break;
+        নির্বাচন (CheckSwapIntervalTearBehavior(_this, drawable, val, allow_late_swap_tearing)) {
+            ক্ষেত্র SDL_SWAPINTERVALTEAR_MESA:
+                *interval = (পূর্ণসংখ্যা)val;  // unsigned int cast to signed that generates negative value if necessary.
+                বিরতি;
 
-            case SDL_SWAPINTERVALTEAR_NVIDIA:
-            default:
-                if ((allow_late_swap_tearing) && (val > 0)) {
-                    *interval = -((int)val);
+            ক্ষেত্র SDL_SWAPINTERVALTEAR_NVIDIA:
+            পূর্বনির্ধারিত:
+                যদি ((allow_late_swap_tearing) && (val > 0)) {
+                    *interval = -((পূর্ণসংখ্যা)val);
                 }
-                break;
+                বিরতি;
         }
 
-        return true;
-    } else if (_this->gl_data->glXGetSwapIntervalMESA) {
-        int val = _this->gl_data->glXGetSwapIntervalMESA();
-        if (val == GLX_BAD_CONTEXT) {
-            return SDL_SetError("GLX_BAD_CONTEXT");
+        ফেরত true;
+    } অন্যথা যদি (_this->gl_তথ্য->glXGetSwapIntervalMESA) {
+        পূর্ণসংখ্যা val = _this->gl_তথ্য->glXGetSwapIntervalMESA();
+        যদি (val == GLX_BAD_CONTEXT) {
+            ফেরত SDL_SetError("GLX_BAD_CONTEXT");
         }
         *interval = val;
-        return true;
-    } else {
+        ফেরত true;
+    } অন্যথা {
         *interval = swapinterval;
-        return true;
+        ফেরত true;
     }
 }
 
 bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_Window_তথ্য *তথ্য = window->internal;
+    Display *display = তথ্য->videodata->display;
 
-    _this->gl_data->glXSwapBuffers(display, data->xwindow);
+    _this->gl_তথ্য->glXSwapBuffers(display, তথ্য->xwindow);
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(data->window);
+    X11_HandlePresent(তথ্য->window);
 #endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-    return true;
+    ফেরত true;
 }
 
 bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -1132,12 +1132,12 @@ bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
     Display *display = _this->internal->display;
     GLXContext glx_context = (GLXContext)context;
 
-    if (!_this->gl_data) {
-        return true;
+    যদি (!_this->gl_তথ্য) {
+        ফেরত true;
     }
-    _this->gl_data->glXDestroyContext(display, glx_context);
+    _this->gl_তথ্য->glXDestroyContext(display, glx_context);
     X11_XSync(display, False);
-    return true;
+    ফেরত true;
 }
 
 #endif // SDL_VIDEO_OPENGL_GLX

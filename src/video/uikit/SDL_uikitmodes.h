@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_uikitmodes_h_
 #define SDL_uikitmodes_h_
 
-#include "SDL_uikitvideo.h"
+#অন্তর্ভাব "SDL_uikitvideo.h"
 
-@interface SDL_UIKitDisplayData : NSObject
+@interface SDL_UIKit_Display_তথ্য : NSObject
 
 #ifndef SDL_PLATFORM_VISIONOS
 - (instancetype)initWithScreen:(UIScreen *)screen;
@@ -34,7 +34,7 @@
 
 @end
 
-@interface SDL_UIKitDisplayModeData : NSObject
+@interface SDL_UIKit_Display_Mode_তথ্য : NSObject
 #ifndef SDL_PLATFORM_VISIONOS
 @property(nonatomic, strong) UIScreenMode *uiscreenmode;
 #endif
@@ -42,18 +42,18 @@
 @end
 
 #ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
+বাহ্যিক bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
 #endif
 
-extern bool UIKit_InitModes(SDL_VideoDevice *_this);
+বাহ্যিক bool UIKit_InitModes(SDL_VideoDevice *_this);
 #ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_AddDisplay(UIScreen *uiscreen, bool send_event);
-extern void UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
+বাহ্যিক bool UIKit_AddDisplay(UIScreen *uiscreen, bool send_event);
+বাহ্যিক শূন্য UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
 #endif
-extern bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool UIKit_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void UIKit_QuitModes(SDL_VideoDevice *_this);
-extern bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+বাহ্যিক bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+বাহ্যিক bool UIKit_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+বাহ্যিক শূন্য UIKit_QuitModes(SDL_VideoDevice *_this);
+বাহ্যিক bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 
 // because visionOS does not have a screen
 // we create a fake display to maintain compatibility.

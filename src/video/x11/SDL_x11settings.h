@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_x11settings_h_
 #define SDL_x11settings_h_
 
-#include <X11/Xlib.h>
-#include "xsettings-client.h"
+#অন্তর্ভাব <X11/Xlib.h>
+#অন্তর্ভাব "xsettings-client.h"
 
 #define SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR "Gdk/WindowScalingFactor"
 #define SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
 #define SDL_XSETTINGS_XFT_DPI "Xft/DPI"
 
-typedef struct X11_SettingsData {
+প্রকারলেখ কাঠামো X11_Settings_তথ্য {
     XSettingsClient *xsettings;
-} SDLX11_SettingsData;
+} SDLX11_Settings_তথ্য;
 
-extern void X11_InitXsettings(SDL_VideoDevice *_this);
-extern void X11_QuitXsettings(SDL_VideoDevice *_this);
-extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+বাহ্যিক শূন্য X11_InitXsettings(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য X11_QuitXsettings(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ধ্রুবক XEvent *xevent);
+বাহ্যিক পূর্ণসংখ্যা X11_Get_Xsettings_Int_চাবি(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *চাবি, পূর্ণসংখ্যা fallback_মান);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+বাহ্যিক পূর্ণসংখ্যা X11_Get_Xsettings_Client_Int_চাবি(XSettingsClient *client, ধ্রুবক অক্ষর *চাবি, পূর্ণসংখ্যা fallback_মান);
 
 #endif // SDL_x11settings_h_

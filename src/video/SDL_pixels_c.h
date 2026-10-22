@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_pixels_c_h_
 #define SDL_pixels_c_h_
 
 // Useful functions and variables from SDL_pixel.c
 
-#include "SDL_blit.h"
+#অন্তর্ভাব "SDL_blit.h"
 
 // The value, in nits, of scRGB 1.0
 #define SCRGB_NITS  80.0f
@@ -35,30 +35,30 @@
 
 
 // Pixel format functions
-extern void SDL_Get8888AlphaMaskAndShift(const SDL_PixelFormatDetails *fmt, Uint32 *mask, Uint32 *shift);
-extern SDL_Colorspace SDL_GetDefaultColorspaceForFormat(SDL_PixelFormat pixel_format);
-extern void SDL_QuitPixelFormatDetails(void);
+বাহ্যিক শূন্য SDL_Get8888AlphaMaskAndShift(ধ্রুবক SDL_PixelFormatDetails *fmt, Uint32 *mask, Uint32 *shift);
+বাহ্যিক SDL_Colorspace SDL_GetDefaultColorspaceForFormat(SDL_PixelFormat pixel_format);
+বাহ্যিক শূন্য SDL_QuitPixelFormatDetails(শূন্য);
 
 // Colorspace conversion functions
-extern float SDL_sRGBtoLinear(float v);
-extern float SDL_sRGBfromLinear(float v);
-extern float SDL_PQtoNits(float v);
-extern float SDL_PQfromNits(float v);
-extern const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, int w, int h, int bits_per_pixel);
-extern const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_ColorPrimaries dst);
-extern void SDL_ConvertColorPrimaries(float *fR, float *fG, float *fB, const float *matrix);
-extern void SDL_ConvertColor709to2020(float *fR, float *fG, float *fB);
+বাহ্যিক দশমিক SDL_sRGBtoLinear(দশমিক v);
+বাহ্যিক দশমিক SDL_sRGBfromLinear(দশমিক v);
+বাহ্যিক দশমিক SDL_PQtoNits(দশমিক v);
+বাহ্যিক দশমিক SDL_PQfromNits(দশমিক v);
+বাহ্যিক ধ্রুবক দশমিক *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, পূর্ণসংখ্যা w, পূর্ণসংখ্যা h, পূর্ণসংখ্যা bits_per_pixel);
+বাহ্যিক ধ্রুবক দশমিক *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_ColorPrimaries dst);
+বাহ্যিক শূন্য SDL_ConvertColorPrimaries(দশমিক *fR, দশমিক *fG, দশমিক *fB, ধ্রুবক দশমিক *matrix);
+বাহ্যিক শূন্য SDL_ConvertColor709to2020(দশমিক *fR, দশমিক *fG, দশমিক *fB);
 
 // Blit mapping functions
-extern bool SDL_ValidateMap(SDL_Surface *src, SDL_Surface *dst);
-extern void SDL_InvalidateMap(SDL_BlitMap *map);
-extern bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst);
+বাহ্যিক bool SDL_ValidateMap(SDL_Surface *src, SDL_Surface *dst);
+বাহ্যিক শূন্য SDL_InvalidateMap(SDL_BlitMap *map);
+বাহ্যিক bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst);
 
 // Miscellaneous functions
-extern bool SDL_IsSamePalette(const SDL_Palette *src, const SDL_Palette *dst);
-extern void SDL_DitherPalette(SDL_Palette *palette);
-extern Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const SDL_Palette *pal);
-extern void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel);
-extern SDL_Surface *SDL_DuplicatePixels(int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, int pitch);
+বাহ্যিক bool SDL_IsSamePalette(ধ্রুবক SDL_Palette *src, ধ্রুবক SDL_Palette *dst);
+বাহ্যিক শূন্য SDL_DitherPalette(SDL_Palette *palette);
+বাহ্যিক Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, ধ্রুবক SDL_Palette *pal);
+বাহ্যিক শূন্য SDL_DetectPalette(ধ্রুবক SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel);
+বাহ্যিক SDL_Surface *SDL_DuplicatePixels(পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, SDL_PixelFormat format, SDL_Colorspace colorspace, শূন্য *pixels, পূর্ণসংখ্যা pitch);
 
 #endif // SDL_pixels_c_h_

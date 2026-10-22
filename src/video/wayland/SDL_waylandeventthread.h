@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_waylandeventthread_h_
 #define SDL_waylandeventthread_h_
 
-#include "../SDL_sysvideo.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
 
-typedef struct Wayland_EventThreadContext Wayland_EventThreadContext;
-typedef struct Wayland_JobThreadContext Wayland_JobThreadContext;
-typedef void (*Wayland_JobThreadCallback)(void *userdata);
-typedef Uint32 Wayland_JobID;
+প্রকারলেখ কাঠামো Wayland_EventThreadContext Wayland_EventThreadContext;
+প্রকারলেখ কাঠামো Wayland_JobThreadContext Wayland_JobThreadContext;
+প্রকারলেখ শূন্য (*Wayland_JobThreadCallback)(শূন্য *userdata);
+প্রকারলেখ Uint32 Wayland_JobID;
 
-extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name);
-extern void Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
-extern void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj);
-extern void Wayland_LockEventThread(Wayland_EventThreadContext *context);
-extern void Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
+বাহ্যিক Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_Video_তথ্য *তথ্য, ধ্রুবক অক্ষর *queue_name);
+বাহ্যিক শূন্য Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
+বাহ্যিক শূন্য *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, শূন্য *obj);
+বাহ্যিক শূন্য Wayland_LockEventThread(Wayland_EventThreadContext *context);
+বাহ্যিক শূন্য Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
 
-extern Wayland_JobThreadContext *Wayland_CreateJobThread();
-extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
-extern bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, void *userdata, Wayland_JobID *id);
-extern void Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
+বাহ্যিক Wayland_JobThreadContext *Wayland_CreateJobThread();
+বাহ্যিক শূন্য Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
+বাহ্যিক bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, শূন্য *userdata, Wayland_JobID *id);
+বাহ্যিক শূন্য Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
 
 #endif // SDL_waylandeventthread_h_

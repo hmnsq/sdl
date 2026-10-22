@@ -18,18 +18,18 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_x11opengl_h_
 #define SDL_x11opengl_h_
 
 #ifdef SDL_VIDEO_OPENGL_GLX
-#include <SDL3/SDL_opengl.h>
-#include <GL/glx.h>
+#অন্তর্ভাব <SDL3/SDL_opengl.h>
+#অন্তর্ভাব <GL/glx.h>
 
-typedef void (*__GLXextFuncPtr)(void);
+প্রকারলেখ শূন্য (*__GLXextFuncPtr)(শূন্য);
 
-typedef enum SDL_GLSwapIntervalTearBehavior
+প্রকারলেখ গণনা SDL_GLSwapIntervalTearBehavior
 {
     SDL_SWAPINTERVALTEAR_UNTESTED,
     SDL_SWAPINTERVALTEAR_UNKNOWN,
@@ -37,9 +37,9 @@ typedef enum SDL_GLSwapIntervalTearBehavior
     SDL_SWAPINTERVALTEAR_NVIDIA
 } SDL_GLSwapIntervalTearBehavior;
 
-struct SDL_GLDriverData
+কাঠামো SDL_GLDriver_তথ্য
 {
-    int errorBase, eventBase;
+    পূর্ণসংখ্যা errorBase, eventBase;
 
     bool HAS_GLX_EXT_visual_rating;
     bool HAS_GLX_EXT_visual_info;
@@ -53,44 +53,44 @@ struct SDL_GLDriverData
        implementation supports GLX_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    কাঠামো
     {
-        int major;
-        int minor;
+        পূর্ণসংখ্যা major;
+        পূর্ণসংখ্যা minor;
     } es_profile_max_supported_version;
 
     SDL_GLSwapIntervalTearBehavior swap_interval_tear_behavior;
 
-    Bool (*glXQueryExtension)(Display *, int *, int *);
-    __GLXextFuncPtr (*glXGetProcAddress)(const GLubyte *);
-    XVisualInfo *(*glXChooseVisual)(Display *, int, int *);
+    Bool (*glXQueryExtension)(Display *, পূর্ণসংখ্যা *, পূর্ণসংখ্যা *);
+    __GLXextFuncPtr (*glXGetProcAddress)(ধ্রুবক GLubyte *);
+    XVisualInfo *(*glXChooseVisual)(Display *, পূর্ণসংখ্যা, পূর্ণসংখ্যা *);
     GLXContext (*glXCreateContext)(Display *, XVisualInfo *, GLXContext, Bool);
-    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
-    GLXFBConfig *(*glXChooseFBConfig)(Display *, int, const int *, int *);
+    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, ধ্রুবক পূর্ণসংখ্যা *);
+    GLXFBConfig *(*glXChooseFBConfig)(Display *, পূর্ণসংখ্যা, ধ্রুবক পূর্ণসংখ্যা *, পূর্ণসংখ্যা *);
     XVisualInfo *(*glXGetVisualFromFBConfig)(Display *, GLXFBConfig);
-    void (*glXDestroyContext)(Display *, GLXContext);
+    শূন্য (*glXDestroyContext)(Display *, GLXContext);
     Bool (*glXMakeCurrent)(Display *, GLXDrawable, GLXContext);
-    void (*glXSwapBuffers)(Display *, GLXDrawable);
-    void (*glXQueryDrawable)(Display *, GLXDrawable, int, unsigned int *);
-    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, int);
-    int (*glXSwapIntervalSGI)(int);
-    int (*glXSwapIntervalMESA)(int);
-    int (*glXGetSwapIntervalMESA)(void);
+    শূন্য (*glXSwapBuffers)(Display *, GLXDrawable);
+    শূন্য (*glXQueryDrawable)(Display *, GLXDrawable, পূর্ণসংখ্যা, unsigned পূর্ণসংখ্যা *);
+    শূন্য (*glXSwapIntervalEXT)(Display *, GLXDrawable, পূর্ণসংখ্যা);
+    পূর্ণসংখ্যা (*glXSwapIntervalSGI)(পূর্ণসংখ্যা);
+    পূর্ণসংখ্যা (*glXSwapIntervalMESA)(পূর্ণসংখ্যা);
+    পূর্ণসংখ্যা (*glXGetSwapIntervalMESA)(শূন্য);
 };
 
 // OpenGL functions
-extern bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool X11_GL_UseEGL(SDL_VideoDevice *_this);
-extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
-extern SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+বাহ্যিক bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path);
+বাহ্যিক SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *proc);
+বাহ্যিক শূন্য X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্যিক bool X11_GL_UseEGL(SDL_VideoDevice *_this);
+বাহ্যিক XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, পূর্ণসংখ্যা screen, bool transparent);
+বাহ্যিক SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+বাহ্যিক bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা interval);
+বাহ্যিক bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা *interval);
+বাহ্যিক bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
 #endif // SDL_VIDEO_OPENGL_GLX
 

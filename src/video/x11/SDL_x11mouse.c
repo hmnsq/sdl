@@ -18,85 +18,85 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include <X11/cursorfont.h>
-#include "SDL_x11video.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xtest.h"
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
+#অন্তর্ভাব <X11/cursorfont.h>
+#অন্তর্ভাব "SDL_x11video.h"
+#অন্তর্ভাব "SDL_x11mouse.h"
+#অন্তর্ভাব "SDL_x11xinput2.h"
+#অন্তর্ভাব "SDL_x11xtest.h"
+#অন্তর্ভাব "../SDL_video_c.h"
+#অন্তর্ভাব "../../events/SDL_mouse_c.h"
 
-struct SDL_CursorData
+কাঠামো SDL_Cursor_তথ্য
 {
     Cursor cursor;
 };
 
 // FIXME: Find a better place to put this...
-static Cursor x11_empty_cursor = None;
-static bool x11_cursor_visible = true;
+স্থির Cursor x11_empty_cursor = None;
+স্থির bool x11_cursor_visible = true;
 
-static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_LEFT + 1];
+স্থির SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_বাম + 1];
 
-static Display *GetDisplay(void)
+স্থির Display *GetDisplay(শূন্য)
 {
-    return SDL_GetVideoDevice()->internal->display;
+    ফেরত SDL_GetVideoDevice()->internal->display;
 }
 
-static Cursor X11_CreateEmptyCursor(void)
+স্থির Cursor X11_CreateEmptyCursor(শূন্য)
 {
-    if (x11_empty_cursor == None) {
+    যদি (x11_empty_cursor == None) {
         Display *display = GetDisplay();
-        char data[1];
+        অক্ষর তথ্য[1];
         XColor color;
         Pixmap pixmap;
 
-        SDL_zeroa(data);
+        SDL_zeroa(তথ্য);
         color.red = color.green = color.blue = 0;
-        pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                           data, 1, 1);
-        if (pixmap) {
+        pixmap = X11_XCreate_Bitmap_From_তথ্য(display, Default_মূল_Window(display),
+                                           তথ্য, 1, 1);
+        যদি (pixmap) {
             x11_empty_cursor = X11_XCreatePixmapCursor(display, pixmap, pixmap,
                                                        &color, &color, 0, 0);
             X11_XFreePixmap(display, pixmap);
         }
     }
-    return x11_empty_cursor;
+    ফেরত x11_empty_cursor;
 }
 
-static void X11_DestroyEmptyCursor(void)
+স্থির শূন্য X11_DestroyEmptyCursor(শূন্য)
 {
-    if (x11_empty_cursor != None) {
+    যদি (x11_empty_cursor != None) {
         X11_XFreeCursor(GetDisplay(), x11_empty_cursor);
         x11_empty_cursor = None;
     }
 }
 
-static SDL_Cursor *X11_CreateCursorAndData(Cursor x11_cursor)
+স্থির SDL_Cursor *X11_Create_Cursor_And_তথ্য(Cursor x11_cursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, আকার(*cursor));
+    যদি (cursor) {
+        SDL_Cursor_তথ্য *তথ্য = (SDL_Cursor_তথ্য *)SDL_calloc(1, আকার(*তথ্য));
+        যদি (!তথ্য) {
             SDL_free(cursor);
-            return NULL;
+            ফেরত ফাঁকা;
         }
-        data->cursor = x11_cursor;
-        cursor->internal = data;
+        তথ্য->cursor = x11_cursor;
+        cursor->internal = তথ্য;
     }
-    return cursor;
+    ফেরত cursor;
 }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-static XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, int hot_x, int hot_y, Uint32 delay)
+স্থির XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y, Uint32 delay)
 {
     XcursorImage *image = X11_XcursorImageCreate(surface->w, surface->h);
-    if (!image) {
+    যদি (!image) {
         SDL_OutOfMemory();
-        return NULL;
+        ফেরত ফাঁকা;
     }
     image->xhot = hot_x;
     image->yhot = hot_y;
@@ -109,37 +109,37 @@ static XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, int hot_x, int
                          SDL_PIXELFORMAT_ARGB8888, image->pixels,
                          surface->w * 4, false);
 
-    return image;
+    ফেরত image;
 }
 
-static Cursor X11_CreateXCursorCursor(SDL_Surface *surface, int hot_x, int hot_y)
+স্থির Cursor X11_CreateXCursorCursor(SDL_Surface *surface, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y)
 {
     Cursor cursor = None;
     XcursorImage *image = X11_CreateXCursorImage(surface, hot_x, hot_y, 0);
 
-    if (image) {
+    যদি (image) {
         cursor = X11_XcursorImageLoadCursor(GetDisplay(), image);
         X11_XcursorImageDestroy(image);
     }
 
-    return cursor;
+    ফেরত cursor;
 }
 
-static Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+স্থির Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, পূর্ণসংখ্যা অঙ্ক_frames, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y)
 {
     Cursor cursor = None;
     XcursorImages *images;
 
-    images = X11_XcursorImagesCreate(num_frames);
-    if (!images) {
+    images = X11_XcursorImagesCreate(অঙ্ক_frames);
+    যদি (!images) {
         SDL_OutOfMemory();
-        return None;
+        ফেরত None;
     }
 
-    for (int i = 0; i < num_frames; ++i) {
+    জন্য (পূর্ণসংখ্যা i = 0; i < অঙ্ক_frames; ++i) {
         XcursorImage *image = X11_CreateXCursorImage(frames[i].surface, hot_x, hot_y, frames[i].duration);
-        if (!image) {
-            goto cleanup;
+        যদি (!image) {
+            যাও cleanup;
         }
 
         images->images[i] = image;
@@ -150,54 +150,54 @@ static Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, int n
 
 cleanup:
     X11_XcursorImagesDestroy(images);
-    return cursor;
+    ফেরত cursor;
 }
 #endif // SDL_VIDEO_DRIVER_X11_XCURSOR
 
-static Cursor X11_CreatePixmapCursor(SDL_Surface *surface, int hot_x, int hot_y)
+স্থির Cursor X11_CreatePixmapCursor(SDL_Surface *surface, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y)
 {
     Display *display = GetDisplay();
     XColor fg, bg;
     Cursor cursor = None;
     Uint32 *ptr;
-    Uint8 *data_bits, *mask_bits;
-    Pixmap data_pixmap, mask_pixmap;
-    int x, y;
-    unsigned int rfg, gfg, bfg, rbg, gbg, bbg, fgBits, bgBits;
+    Uint8 *তথ্য_bits, *mask_bits;
+    Pixmap তথ্য_pixmap, mask_pixmap;
+    পূর্ণসংখ্যা x, y;
+    unsigned পূর্ণসংখ্যা rfg, gfg, bfg, rbg, gbg, bbg, fgBits, bgBits;
     size_t width_bytes = ((surface->w + 7) & ~((size_t)7)) / 8;
 
-    data_bits = SDL_calloc(1, surface->h * width_bytes);
-    if (!data_bits) {
-        return None;
+    তথ্য_bits = SDL_calloc(1, surface->h * width_bytes);
+    যদি (!তথ্য_bits) {
+        ফেরত None;
     }
 
     mask_bits = SDL_calloc(1, surface->h * width_bytes);
-    if (!mask_bits) {
-        SDL_free(data_bits);
-        return None;
+    যদি (!mask_bits) {
+        SDL_free(তথ্য_bits);
+        ফেরত None;
     }
 
     // Code below assumes ARGB pixel format
     SDL_assert(surface->format == SDL_PIXELFORMAT_ARGB8888);
 
     rfg = gfg = bfg = rbg = gbg = bbg = fgBits = bgBits = 0;
-    for (y = 0; y < surface->h; ++y) {
+    জন্য (y = 0; y < surface->h; ++y) {
         ptr = (Uint32 *)((Uint8 *)surface->pixels + y * surface->pitch);
-        for (x = 0; x < surface->w; ++x) {
-            int alpha = (*ptr >> 24) & 0xff;
-            int red = (*ptr >> 16) & 0xff;
-            int green = (*ptr >> 8) & 0xff;
-            int blue = (*ptr >> 0) & 0xff;
-            if (alpha > 25) {
+        জন্য (x = 0; x < surface->w; ++x) {
+            পূর্ণসংখ্যা alpha = (*ptr >> 24) & 0xff;
+            পূর্ণসংখ্যা red = (*ptr >> 16) & 0xff;
+            পূর্ণসংখ্যা green = (*ptr >> 8) & 0xff;
+            পূর্ণসংখ্যা blue = (*ptr >> 0) & 0xff;
+            যদি (alpha > 25) {
                 mask_bits[y * width_bytes + x / 8] |= (0x01 << (x % 8));
 
-                if ((red + green + blue) > 0x40) {
+                যদি ((red + green + blue) > 0x40) {
                     fgBits++;
                     rfg += red;
                     gfg += green;
                     bfg += blue;
-                    data_bits[y * width_bytes + x / 8] |= (0x01 << (x % 8));
-                } else {
+                    তথ্য_bits[y * width_bytes + x / 8] |= (0x01 << (x % 8));
+                } অন্যথা {
                     bgBits++;
                     rbg += red;
                     gbg += green;
@@ -208,162 +208,162 @@ static Cursor X11_CreatePixmapCursor(SDL_Surface *surface, int hot_x, int hot_y)
         }
     }
 
-    if (fgBits) {
+    যদি (fgBits) {
         fg.red = rfg * 257 / fgBits;
         fg.green = gfg * 257 / fgBits;
         fg.blue = bfg * 257 / fgBits;
-    } else {
+    } অন্যথা {
         fg.red = fg.green = fg.blue = 0;
     }
 
-    if (bgBits) {
+    যদি (bgBits) {
         bg.red = rbg * 257 / bgBits;
         bg.green = gbg * 257 / bgBits;
         bg.blue = bbg * 257 / bgBits;
-    } else {
+    } অন্যথা {
         bg.red = bg.green = bg.blue = 0;
     }
 
-    data_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                            (char *)data_bits,
+    তথ্য_pixmap = X11_XCreate_Bitmap_From_তথ্য(display, Default_মূল_Window(display),
+                                            (অক্ষর *)তথ্য_bits,
                                             surface->w, surface->h);
-    mask_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                            (char *)mask_bits,
+    mask_pixmap = X11_XCreate_Bitmap_From_তথ্য(display, Default_মূল_Window(display),
+                                            (অক্ষর *)mask_bits,
                                             surface->w, surface->h);
-    cursor = X11_XCreatePixmapCursor(display, data_pixmap, mask_pixmap,
+    cursor = X11_XCreatePixmapCursor(display, তথ্য_pixmap, mask_pixmap,
                                      &fg, &bg, hot_x, hot_y);
-    X11_XFreePixmap(display, data_pixmap);
+    X11_XFreePixmap(display, তথ্য_pixmap);
     X11_XFreePixmap(display, mask_pixmap);
-    SDL_free(data_bits);
+    SDL_free(তথ্য_bits);
     SDL_free(mask_bits);
 
-    return cursor;
+    ফেরত cursor;
 }
 
-static SDL_Cursor *X11_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+স্থির SDL_Cursor *X11_CreateCursor(SDL_Surface *surface, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y)
 {
     Cursor x11_cursor = None;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
+    যদি (SDL_X11_HAVE_XCURSOR) {
         x11_cursor = X11_CreateXCursorCursor(surface, hot_x, hot_y);
     }
 #endif
-    if (x11_cursor == None) {
+    যদি (x11_cursor == None) {
         x11_cursor = X11_CreatePixmapCursor(surface, hot_x, hot_y);
     }
-    return X11_CreateCursorAndData(x11_cursor);
+    ফেরত X11_Create_Cursor_And_তথ্য(x11_cursor);
 }
 
-static SDL_Cursor *X11_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+স্থির SDL_Cursor *X11_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, পূর্ণসংখ্যা অঙ্ক_frames, পূর্ণসংখ্যা hot_x, পূর্ণসংখ্যা hot_y)
 {
     Cursor x11_cursor = None;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
-        x11_cursor = X11_CreateAnimatedXCursorCursor(frames, num_frames, hot_x, hot_y);
+    যদি (SDL_X11_HAVE_XCURSOR) {
+        x11_cursor = X11_CreateAnimatedXCursorCursor(frames, অঙ্ক_frames, hot_x, hot_y);
     }
 #endif
-    if (x11_cursor == None) {
+    যদি (x11_cursor == None) {
         x11_cursor = X11_CreatePixmapCursor(frames[0].surface, hot_x, hot_y);
     }
 
-    return X11_CreateCursorAndData(x11_cursor);
+    ফেরত X11_Create_Cursor_And_তথ্য(x11_cursor);
 }
 
-static unsigned int GetLegacySystemCursorShape(SDL_SystemCursor id)
+স্থির unsigned পূর্ণসংখ্যা GetLegacySystemCursorShape(SDL_SystemCursor id)
 {
-    switch (id) {
+    নির্বাচন (id) {
         // X Font Cursors reference:
         // http://tronche.com/gui/x/xlib/appendix/b/
-        case SDL_SYSTEM_CURSOR_DEFAULT: return XC_left_ptr;
-        case SDL_SYSTEM_CURSOR_TEXT: return XC_xterm;
-        case SDL_SYSTEM_CURSOR_WAIT: return XC_watch;
-        case SDL_SYSTEM_CURSOR_CROSSHAIR: return XC_tcross;
-        case SDL_SYSTEM_CURSOR_PROGRESS: return XC_watch;
-        case SDL_SYSTEM_CURSOR_NWSE_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_NESW_RESIZE: return XC_top_right_corner;
-        case SDL_SYSTEM_CURSOR_EW_RESIZE: return XC_sb_h_double_arrow;
-        case SDL_SYSTEM_CURSOR_NS_RESIZE: return XC_sb_v_double_arrow;
-        case SDL_SYSTEM_CURSOR_MOVE: return XC_fleur;
-        case SDL_SYSTEM_CURSOR_NOT_ALLOWED: return XC_pirate;
-        case SDL_SYSTEM_CURSOR_POINTER: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_NW_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_N_RESIZE: return XC_top_side;
-        case SDL_SYSTEM_CURSOR_NE_RESIZE: return XC_top_right_corner;
-        case SDL_SYSTEM_CURSOR_E_RESIZE: return XC_right_side;
-        case SDL_SYSTEM_CURSOR_SE_RESIZE: return XC_bottom_right_corner;
-        case SDL_SYSTEM_CURSOR_S_RESIZE: return XC_bottom_side;
-        case SDL_SYSTEM_CURSOR_SW_RESIZE: return XC_bottom_left_corner;
-        case SDL_SYSTEM_CURSOR_W_RESIZE: return XC_left_side;
-        case SDL_SYSTEM_CURSOR_CONTEXT_MENU: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_HELP: return XC_question_arrow;
-        case SDL_SYSTEM_CURSOR_CELL: return XC_cross;
-        case SDL_SYSTEM_CURSOR_VERTICAL_TEXT: return XC_xterm;
-        case SDL_SYSTEM_CURSOR_ALIAS: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COPY: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_NO_DROP: return XC_pirate;
-        case SDL_SYSTEM_CURSOR_GRAB: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_GRABBING: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COL_RESIZE: return XC_sb_h_double_arrow;
-        case SDL_SYSTEM_CURSOR_ROW_RESIZE: return XC_sb_v_double_arrow;
-        case SDL_SYSTEM_CURSOR_ALL_SCROLL: return XC_fleur;
-        case SDL_SYSTEM_CURSOR_ZOOM_IN: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_ZOOM_OUT: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COUNT: break;  // so the compiler might notice if an enum value is missing here.
+        ক্ষেত্র SDL_SYSTEM_CURSOR_DEFAULT: ফেরত XC_বাম_ptr;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_TEXT: ফেরত XC_xterm;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_WAIT: ফেরত XC_watch;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_CROSSHAIR: ফেরত XC_tcross;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_PROGRESS: ফেরত XC_watch;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NWSE_RESIZE: ফেরত XC_শীর্ষ_বাম_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NESW_RESIZE: ফেরত XC_শীর্ষ_ডান_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_EW_RESIZE: ফেরত XC_sb_h_double_arrow;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NS_RESIZE: ফেরত XC_sb_v_double_arrow;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_MOVE: ফেরত XC_fleur;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NOT_ALLOWED: ফেরত XC_pirate;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_POINTER: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NW_RESIZE: ফেরত XC_শীর্ষ_বাম_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_N_RESIZE: ফেরত XC_শীর্ষ_side;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NE_RESIZE: ফেরত XC_শীর্ষ_ডান_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_E_RESIZE: ফেরত XC_ডান_side;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_SE_RESIZE: ফেরত XC_bottom_ডান_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_S_RESIZE: ফেরত XC_bottom_side;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_SW_RESIZE: ফেরত XC_bottom_বাম_corner;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_W_RESIZE: ফেরত XC_বাম_side;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_CONTEXT_MENU: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_HELP: ফেরত XC_question_arrow;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_CELL: ফেরত XC_cross;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_VERTICAL_TEXT: ফেরত XC_xterm;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_ALIAS: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_COPY: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_NO_DROP: ফেরত XC_pirate;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_GRAB: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_GRABBING: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_COL_RESIZE: ফেরত XC_sb_h_double_arrow;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_ROW_RESIZE: ফেরত XC_sb_v_double_arrow;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_ALL_SCROLL: ফেরত XC_fleur;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_ZOOM_IN: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_ZOOM_OUT: ফেরত XC_hand2;
+        ক্ষেত্র SDL_SYSTEM_CURSOR_গুনতি: বিরতি;  // so the compiler might notice if an enum value is missing here.
     }
 
     SDL_assert(0);
-    return 0;
+    ফেরত 0;
 }
 
-static SDL_Cursor *X11_CreateSystemCursor(SDL_SystemCursor id)
+স্থির SDL_Cursor *X11_CreateSystemCursor(SDL_SystemCursor id)
 {
-    SDL_Cursor *cursor = NULL;
+    SDL_Cursor *cursor = ফাঁকা;
     Display *dpy = GetDisplay();
     Cursor x11_cursor = None;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
-        x11_cursor = X11_XcursorLibraryLoadCursor(dpy, SDL_GetCSSCursorName(id, NULL));
+    যদি (SDL_X11_HAVE_XCURSOR) {
+        x11_cursor = X11_XcursorLibraryLoadCursor(dpy, SDL_GetCSSCursorName(id, ফাঁকা));
     }
 #endif
 
-    if (x11_cursor == None) {
+    যদি (x11_cursor == None) {
         x11_cursor = X11_XCreateFontCursor(dpy, GetLegacySystemCursorShape(id));
     }
 
-    if (x11_cursor != None) {
-        cursor = X11_CreateCursorAndData(x11_cursor);
+    যদি (x11_cursor != None) {
+        cursor = X11_Create_Cursor_And_তথ্য(x11_cursor);
     }
 
-    return cursor;
+    ফেরত cursor;
 }
 
-static SDL_Cursor *X11_CreateDefaultCursor(void)
+স্থির SDL_Cursor *X11_CreateDefaultCursor(শূন্য)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return X11_CreateSystemCursor(id);
+    ফেরত X11_CreateSystemCursor(id);
 }
 
-static void X11_FreeCursor(SDL_Cursor *cursor)
+স্থির শূন্য X11_FreeCursor(SDL_Cursor *cursor)
 {
     Cursor x11_cursor = cursor->internal->cursor;
 
-    if (x11_cursor != None) {
+    যদি (x11_cursor != None) {
         X11_XFreeCursor(GetDisplay(), x11_cursor);
     }
     SDL_free(cursor->internal);
     SDL_free(cursor);
 }
 
-static bool X11_ShowCursor(SDL_Cursor *cursor)
+স্থির bool X11_ShowCursor(SDL_Cursor *cursor)
 {
     Cursor x11_cursor = 0;
 
-    if (cursor) {
+    যদি (cursor) {
         x11_cursor = cursor->internal->cursor;
-    } else {
+    } অন্যথা {
         x11_cursor = X11_CreateEmptyCursor();
     }
 
@@ -375,177 +375,177 @@ static bool X11_ShowCursor(SDL_Cursor *cursor)
 
         x11_cursor_visible = !!cursor;
 
-        for (window = video->windows; window; window = window->next) {
-            SDL_WindowData *data = window->internal;
-            if (data) {
-                if (x11_cursor != None) {
-                    X11_XDefineCursor(display, data->xwindow, x11_cursor);
-                } else {
-                    X11_XUndefineCursor(display, data->xwindow);
+        জন্য (window = video->windows; window; window = window->পরবর্তী) {
+            SDL_Window_তথ্য *তথ্য = window->internal;
+            যদি (তথ্য) {
+                যদি (x11_cursor != None) {
+                    X11_XDefineCursor(display, তথ্য->xwindow, x11_cursor);
+                } অন্যথা {
+                    X11_XUndefineCursor(display, তথ্য->xwindow);
                 }
             }
         }
         X11_XFlush(display);
     }
-    return true;
+    ফেরত true;
 }
 
-static void X11_WarpMouseInternal(Window xwindow, float x, float y)
+স্থির শূন্য X11_WarpMouseInternal(Window xwindow, দশমিক x, দশমিক y)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice()->internal;
+    SDL_Video_তথ্য *videodata = SDL_GetVideoDevice()->internal;
     Display *display = videodata->display;
     bool warp_hack = false;
 
     // XWayland will only warp the cursor if it is hidden, so this workaround is required.
-    if (videodata->is_xwayland && x11_cursor_visible) {
+    যদি (videodata->is_xwayland && x11_cursor_visible) {
         warp_hack = true;
     }
 
-    if (warp_hack) {
-        X11_ShowCursor(NULL);
+    যদি (warp_hack) {
+        X11_ShowCursor(ফাঁকা);
     }
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    int deviceid = 0;
-    if (X11_Xinput2IsInitialized()) {
+    পূর্ণসংখ্যা deviceid = 0;
+    যদি (X11_Xinput2IsInitialized()) {
         /* It seems XIWarpPointer() doesn't work correctly on multi-head setups:
          * https://developer.blender.org/rB165caafb99c6846e53d11c4e966990aaffc06cea
          */
-        if (ScreenCount(display) == 1) {
+        যদি (Screen_গুনতি(display) == 1) {
             X11_XIGetClientPointer(display, None, &deviceid);
         }
     }
-    if (deviceid != 0) {
+    যদি (deviceid != 0) {
         SDL_assert(SDL_X11_HAVE_XINPUT2);
         X11_XIWarpPointer(display, deviceid, None, xwindow, 0.0, 0.0, 0, 0, x, y);
-    } else
+    } অন্যথা
 #endif
     {
-        X11_XWarpPointer(display, None, xwindow, 0, 0, 0, 0, (int)x, (int)y);
+        X11_XWarpPointer(display, None, xwindow, 0, 0, 0, 0, (পূর্ণসংখ্যা)x, (পূর্ণসংখ্যা)y);
     }
 
-    if (warp_hack) {
+    যদি (warp_hack) {
         X11_ShowCursor(SDL_GetCursor());
     }
     X11_XSync(display, False);
     videodata->global_mouse_changed = true;
 }
 
-static bool X11_WarpMouse(SDL_Window *window, float x, float y)
+স্থির bool X11_WarpMouse(SDL_Window *window, দশমিক x, দশমিক y)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_তথ্য *তথ্য = window->internal;
 
-    if (X11_WarpMouseXTest(SDL_GetVideoDevice(), window, x, y)) {
-        return true;
+    যদি (X11_WarpMouseXTest(SDL_GetVideoDevice(), window, x, y)) {
+        ফেরত true;
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XFIXES
     // If we have no barrier, we need to warp
-    if (data->pointer_barrier_active == false) {
-        X11_WarpMouseInternal(data->xwindow, x, y);
+    যদি (তথ্য->pointer_barrier_active == false) {
+        X11_WarpMouseInternal(তথ্য->xwindow, x, y);
     }
-#else
-    X11_WarpMouseInternal(data->xwindow, x, y);
+#অন্যথা
+    X11_WarpMouseInternal(তথ্য->xwindow, x, y);
 #endif
-    return true;
+    ফেরত true;
 }
 
-static bool X11_WarpMouseGlobal(float x, float y)
+স্থির bool X11_WarpMouseGlobal(দশমিক x, দশমিক y)
 {
-    if (X11_WarpMouseXTest(SDL_GetVideoDevice(), NULL, x, y)) {
-        return true;
+    যদি (X11_WarpMouseXTest(SDL_GetVideoDevice(), ফাঁকা, x, y)) {
+        ফেরত true;
     }
 
-    X11_WarpMouseInternal(DefaultRootWindow(GetDisplay()), x, y);
-    return true;
+    X11_WarpMouseInternal(Default_মূল_Window(GetDisplay()), x, y);
+    ফেরত true;
 }
 
-static bool X11_SetRelativeMouseMode(bool enabled)
+স্থির bool X11_SetRelativeMouseMode(bool enabled)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return SDL_Unsupported();
+    যদি (!X11_Xinput2IsInitialized()) {
+        ফেরত SDL_Unsupported();
     }
-    return true;
+    ফেরত true;
 }
 
-static bool X11_CaptureMouse(SDL_Window *window)
+স্থির bool X11_CaptureMouse(SDL_Window *window)
 {
     Display *display = GetDisplay();
     SDL_Window *mouse_focus = SDL_GetMouseFocus();
 
-    if (window) {
-        SDL_WindowData *data = window->internal;
+    যদি (window) {
+        SDL_Window_তথ্য *তথ্য = window->internal;
 
         /* If XInput2 is handling the pointer input, non-confinement grabs will always fail with 'AlreadyGrabbed',
          * since the pointer is being grabbed by XInput2.
          */
-        if (!data->xinput2_mouse_enabled || data->mouse_grabbed) {
-            const unsigned int mask = ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask;
-            Window confined = (data->mouse_grabbed ? data->xwindow : None);
-            const int rc = X11_XGrabPointer(display, data->xwindow, False,
+        যদি (!তথ্য->xinput2_mouse_enabled || তথ্য->mouse_grabbed) {
+            ধ্রুবক unsigned পূর্ণসংখ্যা mask = ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask;
+            Window confined = (তথ্য->mouse_grabbed ? তথ্য->xwindow : None);
+            ধ্রুবক পূর্ণসংখ্যা rc = X11_XGrabPointer(display, তথ্য->xwindow, False,
                                             mask, GrabModeAsync, GrabModeAsync,
                                             confined, None, CurrentTime);
-            if (rc != GrabSuccess) {
-                return SDL_SetError("X server refused mouse capture");
+            যদি (rc != GrabSuccess) {
+                ফেরত SDL_SetError("X server refused mouse capture");
             }
 
-            if (data->mouse_grabbed) {
+            যদি (তথ্য->mouse_grabbed) {
                 // XGrabPointer can warp the cursor when confining, so update the coordinates.
-                data->videodata->global_mouse_changed = true;
+                তথ্য->videodata->global_mouse_changed = true;
             }
         }
-    } else if (mouse_focus) {
+    } অন্যথা যদি (mouse_focus) {
         SDL_UpdateWindowGrab(mouse_focus);
-    } else {
+    } অন্যথা {
         X11_XUngrabPointer(display, CurrentTime);
     }
 
     X11_XSync(display, False);
 
-    return true;
+    ফেরত true;
 }
 
-static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
+স্থির SDL_MouseButtonFlags X11_GetGlobalMouseState(দশমিক *x, দশমিক *y)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice()->internal;
+    SDL_Video_তথ্য *videodata = SDL_GetVideoDevice()->internal;
     SDL_DisplayID *displays;
     Display *display = GetDisplay();
-    int i;
+    পূর্ণসংখ্যা i;
 
     // !!! FIXME: should we XSync() here first?
 
-    if (!X11_Xinput2IsInitialized()) {
+    যদি (!X11_Xinput2IsInitialized()) {
         videodata->global_mouse_changed = true;
     }
 
     // check if we have this cached since XInput last saw the mouse move.
     // !!! FIXME: can we just calculate this from XInput's events?
-    if (videodata->global_mouse_changed) {
-        displays = SDL_GetDisplays(NULL);
-        if (displays) {
-            for (i = 0; displays[i]; ++i) {
-                SDL_DisplayData *data = SDL_GetDisplayDriverData(displays[i]);
-                if (data) {
-                    Window root, child;
-                    int rootx, rooty, winx, winy;
-                    unsigned int mask;
-                    if (X11_XQueryPointer(display, RootWindow(display, data->screen), &root, &child, &rootx, &rooty, &winx, &winy, &mask)) {
-                        XWindowAttributes root_attrs;
+    যদি (videodata->global_mouse_changed) {
+        displays = SDL_GetDisplays(ফাঁকা);
+        যদি (displays) {
+            জন্য (i = 0; displays[i]; ++i) {
+                SDL_Display_তথ্য *তথ্য = SDL_Get_Display_Driver_তথ্য(displays[i]);
+                যদি (তথ্য) {
+                    Window মূল, child;
+                    পূর্ণসংখ্যা rootx, rooty, winx, winy;
+                    unsigned পূর্ণসংখ্যা mask;
+                    যদি (X11_XQueryPointer(display, মূল_Window(display, তথ্য->screen), &মূল, &child, &rootx, &rooty, &winx, &winy, &mask)) {
+                        XWindowAttributes মূল_attrs;
                         SDL_MouseButtonFlags buttons = 0;
                         buttons |= (mask & Button1Mask) ? SDL_BUTTON_LMASK : 0;
                         buttons |= (mask & Button2Mask) ? SDL_BUTTON_MMASK : 0;
                         buttons |= (mask & Button3Mask) ? SDL_BUTTON_RMASK : 0;
                         // Use the SDL state for the extended buttons - it's better than nothing
-                        buttons |= (SDL_GetMouseState(NULL, NULL) & (SDL_BUTTON_X1MASK | SDL_BUTTON_X2MASK));
+                        buttons |= (SDL_GetMouseState(ফাঁকা, ফাঁকা) & (SDL_BUTTON_X1MASK | SDL_BUTTON_X2MASK));
                         /* SDL_DisplayData->x,y point to screen origin, and adding them to mouse coordinates relative to root window doesn't do the right thing
                          * (observed on dual monitor setup with primary display being the rightmost one - mouse was offset to the right).
                          *
                          * Adding root position to root-relative coordinates seems to be a better way to get absolute position. */
-                        X11_XGetWindowAttributes(display, root, &root_attrs);
-                        videodata->global_mouse_position.x = root_attrs.x + rootx;
-                        videodata->global_mouse_position.y = root_attrs.y + rooty;
+                        X11_XGetWindowAttributes(display, মূল, &মূল_attrs);
+                        videodata->global_mouse_position.x = মূল_attrs.x + rootx;
+                        videodata->global_mouse_position.y = মূল_attrs.y + rooty;
                         videodata->global_mouse_buttons = buttons;
                         videodata->global_mouse_changed = false;
-                        break;
+                        বিরতি;
                     }
                 }
             }
@@ -555,12 +555,12 @@ static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
 
     SDL_assert(!videodata->global_mouse_changed); // The pointer wasn't on any X11 screen?!
 
-    *x = (float)videodata->global_mouse_position.x;
-    *y = (float)videodata->global_mouse_position.y;
-    return videodata->global_mouse_buttons;
+    *x = (দশমিক)videodata->global_mouse_position.x;
+    *y = (দশমিক)videodata->global_mouse_position.y;
+    ফেরত videodata->global_mouse_buttons;
 }
 
-void X11_InitMouse(SDL_VideoDevice *_this)
+শূন্য X11_InitMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -575,19 +575,19 @@ void X11_InitMouse(SDL_VideoDevice *_this)
     mouse->CaptureMouse = X11_CaptureMouse;
     mouse->GetGlobalMouseState = X11_GetGlobalMouseState;
 
-    SDL_HitTestResult r = SDL_HITTEST_NORMAL;
-    while (r <= SDL_HITTEST_RESIZE_LEFT) {
-        switch (r) {
-        case SDL_HITTEST_NORMAL: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
-        case SDL_HITTEST_DRAGGABLE: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
-        case SDL_HITTEST_RESIZE_TOPLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_TOP: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); break;
-        case SDL_HITTEST_RESIZE_TOPRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE); break;
-        case SDL_HITTEST_RESIZE_RIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOM: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_LEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); break;
+    SDL_Hit_Test_ফলাফল r = SDL_HITTEST_NORMAL;
+    যখন (r <= SDL_HITTEST_RESIZE_বাম) {
+        নির্বাচন (r) {
+        ক্ষেত্র SDL_HITTEST_NORMAL: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); বিরতি;
+        ক্ষেত্র SDL_HITTEST_DRAGGABLE: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_TOPLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_শীর্ষ: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_TOPRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_ডান: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_BOTTOMRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_BOTTOM: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_BOTTOMLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE); বিরতি;
+        ক্ষেত্র SDL_HITTEST_RESIZE_বাম: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); বিরতি;
         }
         r++;
     }
@@ -595,23 +595,23 @@ void X11_InitMouse(SDL_VideoDevice *_this)
     SDL_SetDefaultCursor(X11_CreateDefaultCursor());
 }
 
-void X11_QuitMouse(SDL_VideoDevice *_this)
+শূন্য X11_QuitMouse(SDL_VideoDevice *_this)
 {
-    for (int i = 0; i < SDL_arraysize(sys_cursors); i++) {
-        if (sys_cursors[i]) {
+    জন্য (পূর্ণসংখ্যা i = 0; i < SDL_arraysize(sys_cursors); i++) {
+        যদি (sys_cursors[i]) {
             X11_FreeCursor(sys_cursors[i]);
-            sys_cursors[i] = NULL;
+            sys_cursors[i] = ফাঁকা;
         }
     }
 
     X11_DestroyEmptyCursor();
 }
 
-void X11_SetHitTestCursor(SDL_HitTestResult rc)
+শূন্য X11_SetHitTestCursor(SDL_Hit_Test_ফলাফল rc)
 {
-    if (rc == SDL_HITTEST_NORMAL || rc == SDL_HITTEST_DRAGGABLE) {
+    যদি (rc == SDL_HITTEST_NORMAL || rc == SDL_HITTEST_DRAGGABLE) {
         SDL_RedrawCursor();
-    } else {
+    } অন্যথা {
         X11_ShowCursor(sys_cursors[rc]);
     }
 }

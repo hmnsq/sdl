@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_N3DS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dsevents_c.h"
-#include "SDL_n3dsframebuffer_c.h"
-#include "SDL_n3dsswkb.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "SDL_n3dsevents_c.h"
+#অন্তর্ভাব "SDL_n3dsframebuffer_c.h"
+#অন্তর্ভাব "SDL_n3dsswkb.h"
+#অন্তর্ভাব "SDL_n3dstouch.h"
+#অন্তর্ভাব "SDL_n3dsvideo.h"
 
 #define N3DSVID_DRIVER_NAME "n3ds"
 
-static SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen);
+স্থির SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen);
 
-static bool N3DS_VideoInit(SDL_VideoDevice *_this);
-static void N3DS_VideoQuit(SDL_VideoDevice *_this);
-static bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-static bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-static bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-static void N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+স্থির bool N3DS_VideoInit(SDL_VideoDevice *_this);
+স্থির শূন্য N3DS_VideoQuit(SDL_VideoDevice *_this);
+স্থির bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+স্থির bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+স্থির bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+স্থির bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+স্থির শূন্য N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
-struct SDL_DisplayData
+কাঠামো SDL_Display_তথ্য
 {
     gfxScreen_t screen;
 };
 
-struct SDL_DisplayModeData
+কাঠামো SDL_Display_Mode_তথ্য
 {
     GSPGPU_FramebufferFormat fmt;
 };
 
-static const struct
+স্থির ধ্রুবক কাঠামো
 {
     SDL_PixelFormat pixfmt;
     GSPGPU_FramebufferFormat gspfmt;
@@ -65,28 +65,28 @@ static const struct
 
 // N3DS driver bootstrap functions
 
-static void N3DS_DeleteDevice(SDL_VideoDevice *device)
+স্থির শূন্য N3DS_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *N3DS_CreateDevice(void)
+স্থির SDL_VideoDevice *N3DS_CreateDevice(শূন্য)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
+    SDL_Video_তথ্য *phdata;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, আকার(SDL_VideoDevice));
+    যদি (!device) {
+        ফেরত ফাঁকা;
     }
 
     // Initialize internal data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_তথ্য *)SDL_calloc(1, আকার(SDL_Video_তথ্য));
+    যদি (!phdata) {
         SDL_free(device);
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
     device->internal = phdata;
@@ -102,8 +102,8 @@ static SDL_VideoDevice *N3DS_CreateDevice(void)
     device->DestroyWindow = N3DS_DestroyWindow;
 
     device->HasScreenKeyboardSupport = N3DS_HasScreenKeyboardSupport;
-    device->StartTextInput = N3DS_StartTextInput;
-    device->StopTextInput = N3DS_StopTextInput;
+    device->Start_Text_প্রবেশ = N3_DS_Start_Text_প্রবেশ;
+    device->Stop_Text_প্রবেশ = N3_DS_Stop_Text_প্রবেশ;
 
     device->PumpEvents = N3DS_PumpEvents;
 
@@ -111,66 +111,66 @@ static SDL_VideoDevice *N3DS_CreateDevice(void)
     device->UpdateWindowFramebuffer = SDL_N3DS_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_N3DS_DestroyWindowFramebuffer;
 
-    device->free = N3DS_DeleteDevice;
+    device->মুক্ত = N3DS_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ফেরত device;
 }
 
-VideoBootStrap N3DS_bootstrap = { N3DSVID_DRIVER_NAME, "N3DS Video Driver", N3DS_CreateDevice, NULL, /* no ShowMessageBox implementation */ false };
+VideoBootStrap N3DS_bootstrap = { N3DSVID_DRIVER_NAME, "N3DS Video Driver", N3DS_CreateDevice, ফাঁকা, /* no ShowMessageBox implementation */ false };
 
-static bool N3DS_VideoInit(SDL_VideoDevice *_this)
+স্থির bool N3DS_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_তথ্য *internal = (SDL_Video_তথ্য *)_this->internal;
 
     gfxInit(GSP_RGBA8_OES, GSP_RGBA8_OES, false);
     hidInit();
 
-    internal->top_display = AddN3DSDisplay(GFX_TOP);
+    internal->শীর্ষ_display = AddN3DSDisplay(GFX_শীর্ষ);
     internal->touch_display = AddN3DSDisplay(GFX_BOTTOM);
 
     N3DS_InitTouch();
     N3DS_SwkbInit();
 
-    return true;
+    ফেরত true;
 }
 
-static SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen)
+স্থির SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen)
 {
     SDL_DisplayMode mode;
-    SDL_DisplayModeData *modedata;
+    SDL_Display_Mode_তথ্য *modedata;
     SDL_VideoDisplay display;
-    SDL_DisplayData *display_driver_data = SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!display_driver_data) {
-        return 0;
+    SDL_Display_তথ্য *display_driver_তথ্য = SDL_calloc(1, আকার(SDL_Display_তথ্য));
+    যদি (!display_driver_তথ্য) {
+        ফেরত 0;
     }
 
     SDL_zero(mode);
     SDL_zero(display);
 
-    display_driver_data->screen = screen;
+    display_driver_তথ্য->screen = screen;
 
-    modedata = SDL_malloc(sizeof(SDL_DisplayModeData));
-    if (!modedata) {
-        return 0;
+    modedata = SDL_malloc(আকার(SDL_Display_Mode_তথ্য));
+    যদি (!modedata) {
+        ফেরত 0;
     }
 
-    mode.w = (screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
+    mode.w = (screen == GFX_শীর্ষ) ? GSP_SCREEN_HEIGHT_শীর্ষ : GSP_SCREEN_HEIGHT_BOTTOM;
     mode.h = GSP_SCREEN_WIDTH;
     mode.refresh_rate = 60.0f;
     mode.format = SDL_PIXELFORMAT_RGBA8888;
     mode.internal = modedata;
     modedata->fmt = GSP_RGBA8_OES;
 
-    display.name = (screen == GFX_TOP) ? "N3DS top screen" : "N3DS bottom screen";
+    display.name = (screen == GFX_শীর্ষ) ? "N3DS top screen" : "N3DS bottom screen";
     display.desktop_mode = mode;
-    display.internal = display_driver_data;
+    display.internal = display_driver_তথ্য;
 
-    return SDL_AddVideoDisplay(&display, false);
+    ফেরত SDL_AddVideoDisplay(&display, false);
 }
 
-static void N3DS_VideoQuit(SDL_VideoDevice *_this)
+স্থির শূন্য N3DS_VideoQuit(SDL_VideoDevice *_this)
 {
     N3DS_SwkbQuit();
     N3DS_QuitTouch();
@@ -179,76 +179,76 @@ static void N3DS_VideoQuit(SDL_VideoDevice *_this)
     gfxExit();
 }
 
-static bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+স্থির bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *modedata;
+    SDL_Display_তথ্য *displaydata = display->internal;
+    SDL_Display_Mode_তথ্য *modedata;
     SDL_DisplayMode mode;
-    int i;
+    পূর্ণসংখ্যা i;
 
-    for (i = 0; i < SDL_arraysize(format_map); i++) {
-        modedata = SDL_malloc(sizeof(SDL_DisplayModeData));
-        if (!modedata)
-            continue;
+    জন্য (i = 0; i < SDL_arraysize(format_map); i++) {
+        modedata = SDL_malloc(আকার(SDL_Display_Mode_তথ্য));
+        যদি (!modedata)
+            চালু;
 
         SDL_zero(mode);
-        mode.w = (displaydata->screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
+        mode.w = (displaydata->screen == GFX_শীর্ষ) ? GSP_SCREEN_HEIGHT_শীর্ষ : GSP_SCREEN_HEIGHT_BOTTOM;
         mode.h = GSP_SCREEN_WIDTH;
         mode.refresh_rate = 60.0f;
         mode.format = format_map[i].pixfmt;
         mode.internal = modedata;
         modedata->fmt = format_map[i].gspfmt;
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        যদি (!SDL_AddFullscreenDisplayMode(display, &mode)) {
             SDL_free(modedata);
         }
     }
 
-    return true;
+    ফেরত true;
 }
 
-static bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+স্থির bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *modedata = mode->internal;
+    SDL_Display_তথ্য *displaydata = display->internal;
+    SDL_Display_Mode_তথ্য *modedata = mode->internal;
 
     gfxSetScreenFormat(displaydata->screen, modedata->fmt);
-    return true;
+    ফেরত true;
 }
 
-static bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+স্থির bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_DisplayData *driver_data = display->internal;
+    SDL_Display_তথ্য *driver_তথ্য = display->internal;
 
-    if (!driver_data) {
-        return false;
+    যদি (!driver_তথ্য) {
+        ফেরত false;
     }
 
     rect->x = 0;
-    rect->y = (driver_data->screen == GFX_TOP) ? 0 : GSP_SCREEN_WIDTH;
+    rect->y = (driver_তথ্য->screen == GFX_শীর্ষ) ? 0 : GSP_SCREEN_WIDTH;
     rect->w = display->current_mode->w;
     rect->h = display->current_mode->h;
-    return true;
+    ফেরত true;
 }
 
-static bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+স্থির bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_DisplayData *display_data;
-    SDL_WindowData *window_data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!window_data) {
-        return false;
+    SDL_Display_তথ্য *display_তথ্য;
+    SDL_Window_তথ্য *window_তথ্য_2 = (SDL_Window_তথ্য *)SDL_calloc(1, আকার(SDL_Window_তথ্য));
+    যদি (!window_তথ্য_2) {
+        ফেরত false;
     }
-    display_data = SDL_GetDisplayDriverDataForWindow(window);
-    window_data->screen = display_data->screen;
-    window->internal = window_data;
+    display_তথ্য = SDL_Get_Display_Driver_তথ্য_For_Window(window);
+    window_তথ্য_2->screen = display_তথ্য->screen;
+    window->internal = window_তথ্য_2;
     SDL_SetKeyboardFocus(window);
-    return true;
+    ফেরত true;
 }
 
-static void N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+স্থির শূন্য N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (!window) {
-        return;
+    যদি (!window) {
+        ফেরত;
     }
     SDL_free(window->internal);
 }

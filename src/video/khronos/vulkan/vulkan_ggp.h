@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
 
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+প্রকারলেখ VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
 
-typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
+প্রকারলেখ কাঠামো VkStreamDescriptorSurfaceCreateInfoGGP {
     VkStructureType                            sType;
-    const void*                                pNext;
+    ধ্রুবক শূন্য*                                p_পরবর্তী;
     VkStreamDescriptorSurfaceCreateFlagsGGP    flags;
     GgpStreamDescriptor                        streamDescriptor;
 } VkStreamDescriptorSurfaceCreateInfoGGP;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, ধ্রুবক VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
     VkInstance                                  instance,
-    const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -55,9 +55,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
 #define VK_GGP_FRAME_TOKEN_SPEC_VERSION   1
 #define VK_GGP_FRAME_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
 
-typedef struct VkPresentFrameTokenGGP {
+প্রকারলেখ কাঠামো VkPresentFrameTokenGGP {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
     GgpFrameToken      frameToken;
 } VkPresentFrameTokenGGP;
 

@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_MVK_MACOS_SURFACE_SPEC_VERSION 3
 #define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 
-typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
+প্রকারলেখ VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+প্রকারলেখ কাঠামো VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ধ্রুবক শূন্য*                     p_পরবর্তী;
     VkMacOSSurfaceCreateFlagsMVK    flags;
-    const void*                     pView;
+    ধ্রুবক শূন্য*                     pView;
 } VkMacOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, ধ্রুবক VkMacOSSurfaceCreateInfoMVK* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateMacOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

@@ -24,7 +24,7 @@
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-extern bool Wayland_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+বাহ্যিক bool Wayland_ShowMessageBox(ধ্রুবক SDL_Message_Box_তথ্য *messageboxdata, পূর্ণসংখ্যা *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND
 

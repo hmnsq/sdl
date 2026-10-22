@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_vivanteplatform_h_
 #define SDL_vivanteplatform_h_
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE
 
-#include "SDL_vivantevideo.h"
+#অন্তর্ভাব "SDL_vivantevideo.h"
 
 #ifdef CAVIUM
 #define VIVANTE_PLATFORM_CAVIUM
-#elif defined(MARVELL)
+#নতুবা_যদি defined(MARVELL)
 #define VIVANTE_PLATFORM_MARVELL
-#else
+#অন্যথা
 #define VIVANTE_PLATFORM_GENERIC
 #endif
 
-extern bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this);
-extern char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
-extern void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
-extern void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
+বাহ্যিক bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this);
+বাহ্যিক অক্ষর *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
 
 #endif // SDL_VIDEO_DRIVER_VIVANTE
 

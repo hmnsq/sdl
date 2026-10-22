@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_cocoamouse_h_
 #define SDL_cocoamouse_h_
 
-#include "SDL_cocoavideo.h"
+#অন্তর্ভাব "SDL_cocoavideo.h"
 
-extern bool Cocoa_InitMouse(SDL_VideoDevice *_this);
-extern NSWindow *Cocoa_GetMouseFocus(void);
-extern void Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
-extern void Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
-extern void Cocoa_QuitMouse(SDL_VideoDevice *_this);
+বাহ্যিক bool Cocoa_InitMouse(SDL_VideoDevice *_this);
+বাহ্যিক NSWindow *Cocoa_GetMouseFocus(শূন্য);
+বাহ্যিক শূন্য Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
+বাহ্যিক শূন্য Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
+বাহ্যিক শূন্য Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
+বাহ্যিক শূন্য Cocoa_QuitMouse(SDL_VideoDevice *_this);
 
-extern void Cocoa_InitGCMouse(void);
-extern bool Cocoa_GCMouseRelativeMode(void);
-extern bool Cocoa_HasGCMouse(void);
-extern void Cocoa_QuitGCMouse(void);
+বাহ্যিক শূন্য Cocoa_InitGCMouse(শূন্য);
+বাহ্যিক bool Cocoa_GCMouseRelativeMode(শূন্য);
+বাহ্যিক bool Cocoa_HasGCMouse(শূন্য);
+বাহ্যিক শূন্য Cocoa_QuitGCMouse(শূন্য);
 
-struct SDL_CursorData
+কাঠামো SDL_Cursor_তথ্য
 {
     NSTimer *frameTimer;
-    int current_frame;
+    পূর্ণসংখ্যা current_frame;
 
-    int num_cursors;
-    struct
+    পূর্ণসংখ্যা অঙ্ক_cursors;
+    কাঠামো
     {
-        void *cursor;
+        শূন্য *cursor;
         Uint32 duration;
     } frames[];
 };
 
-typedef struct
+প্রকারলেখ কাঠামো
 {
     // Whether we've seen a cursor warp since the last move event.
     bool seenWarp;
@@ -60,7 +60,7 @@ typedef struct
     // What location we last saw the cursor move to.
     CGFloat lastMoveX;
     CGFloat lastMoveY;
-} SDL_MouseData;
+} SDL_Mouse_তথ্য;
 
 @interface NSCursor (InvisibleCursor)
 + (NSCursor *)invisibleCursor;

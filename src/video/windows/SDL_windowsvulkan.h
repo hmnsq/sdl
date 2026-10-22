@@ -24,31 +24,31 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_windowsvulkan_h_
 #define SDL_windowsvulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#অন্তর্ভাব <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#যদি defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-extern bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+বাহ্যিক bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path);
+বাহ্যিক শূন্য WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্যিক অক্ষর ধ্রুবক * ধ্রুবক *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *গুনতি);
+বাহ্যিক bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                              SDL_Window *window,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ধ্রুবক কাঠামো VkAllocationCallbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+বাহ্যিক শূন্য WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
+                               ধ্রুবক কাঠামো VkAllocationCallbacks *allocator);
 bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex);
+                                           Uint32 queue_Family_সূচক);
 
 #endif
 

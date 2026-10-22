@@ -19,35 +19,35 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_KMSDRM_mouse_h_
 #define SDL_KMSDRM_mouse_h_
 
-#include <gbm.h>
+#অন্তর্ভাব <gbm.h>
 
 #define MAX_CURSOR_W 512
 #define MAX_CURSOR_H 512
 
-struct SDL_CursorData
+কাঠামো SDL_Cursor_তথ্য
 {
-    int hot_x, hot_y;
-    int w, h;
+    পূর্ণসংখ্যা hot_x, hot_y;
+    পূর্ণসংখ্যা w, h;
 
     /* The buffer where we store the mouse bitmap ready to be used.
        We get it ready and filled in CreateCursor(), and copy it
        to a GBM BO in ShowCursor().*/
-    uint32_t *buffer;
-    size_t buffer_size;
-    size_t buffer_pitch;
+    uint32_t *বাফার_2;
+    size_t বাফার_আকার;
+    size_t বাফার_pitch;
 
 };
 
-extern void KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern void KMSDRM_QuitMouse(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+বাহ্যিক শূন্য KMSDRM_QuitMouse(SDL_VideoDevice *_this);
 
-extern bool KMSDRM_CreateCursorBO(SDL_VideoDisplay *display);
-extern void KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern void KMSDRM_InitCursor(void);
+বাহ্যিক bool KMSDRM_CreateCursorBO(SDL_VideoDisplay *display);
+বাহ্যিক শূন্য KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+বাহ্যিক শূন্য KMSDRM_InitCursor(শূন্য);
 
 #endif // SDL_KMSDRM_mouse_h_

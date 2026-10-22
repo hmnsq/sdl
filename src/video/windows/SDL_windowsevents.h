@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_windowsevents_h_
 #define SDL_windowsevents_h_
 
-extern LPTSTR SDL_Appname;
-extern Uint32 SDL_Appstyle;
-extern HINSTANCE SDL_Instance;
+বাহ্যিক LPTSTR SDL_Appname;
+বাহ্যিক Uint32 SDL_Appstyle;
+বাহ্যিক HINSTANCE SDL_Instance;
 
-extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
-extern void WIN_PumpEvents(SDL_VideoDevice *_this);
-extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
-extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+বাহ্যিক LRESULT CALLBACK WIN_KeyboardHookProc(পূর্ণসংখ্যা nCode, WPARAM wParam, LPARAM lParam);
+বাহ্যিক LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT বার্তা, WPARAM wParam, LPARAM lParam);
+বাহ্যিক শূন্য WIN_Poll_Raw_প্রবেশ(SDL_VideoDevice *_this, Uint64 poll_start);
+বাহ্যিক শূন্য WIN_PumpEvents(SDL_VideoDevice *_this);
+বাহ্যিক শূন্য WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
+বাহ্যিক শূন্য WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক পূর্ণসংখ্যা WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 #endif // SDL_windowsevents_h_

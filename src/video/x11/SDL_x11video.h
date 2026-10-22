@@ -18,56 +18,56 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_x11video_h_
 #define SDL_x11video_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keymap_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_keymap_c.h"
 
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
+#অন্তর্ভাব "../../core/linux/SDL_dbus.h"
+#অন্তর্ভাব "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#অন্তর্ভাব "SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#অন্তর্ভাব "SDL_x11clipboard.h"
+#অন্তর্ভাব "SDL_x11events.h"
+#অন্তর্ভাব "SDL_x11keyboard.h"
+#অন্তর্ভাব "SDL_x11modes.h"
+#অন্তর্ভাব "SDL_x11mouse.h"
+#অন্তর্ভাব "SDL_x11opengl.h"
+#অন্তর্ভাব "SDL_x11settings.h"
+#অন্তর্ভাব "SDL_x11window.h"
+#অন্তর্ভাব "SDL_x11vulkan.h"
 
 // Private display data
 
-struct SDL_VideoData
+কাঠামো SDL_Video_তথ্য
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
-    SDL_WindowData **windowlist;
-    int windowlistlength;
+    পূর্ণসংখ্যা numwindows;
+    SDL_Window_তথ্য **windowlist;
+    পূর্ণসংখ্যা windowlistlength;
     XID window_group;
     Window clipboard_window;
-    SDLX11_ClipboardData clipboard;
-    SDLX11_ClipboardData primary_selection;
+    SDLX11_Clipboard_তথ্য clipboard;
+    SDLX11_Clipboard_তথ্য primary_selection;
 #ifdef SDL_VIDEO_DRIVER_X11_XFIXES
     SDL_Window *active_cursor_confined_window;
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
     Window xsettings_window;
-    SDLX11_SettingsData xsettings_data;
+    SDLX11_Settings_তথ্য xsettings_তথ্য;
 
     // This is true for ICCCM2.0-compliant window managers
     bool net_wm;
 
     // Useful atoms
-    struct {
+    কাঠামো {
         Atom WM_PROTOCOLS;
         Atom WM_DELETE_WINDOW;
         Atom WM_NAME;
@@ -91,7 +91,7 @@ struct SDL_VideoData
         Atom _NET_WM_ICON;
         Atom _NET_WM_PING;
         Atom _NET_WM_SYNC_REQUEST;
-        Atom _NET_WM_SYNC_REQUEST_COUNTER;
+        Atom NET_WM_SYNC_REQUEST_গণক;
         Atom _NET_WM_WINDOW_OPACITY;
         Atom _NET_WM_USER_TIME;
         Atom _NET_ACTIVE_WINDOW;
@@ -138,35 +138,35 @@ struct SDL_VideoData
     Uint32 global_mouse_buttons;
 
     unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
+    unsigned long xinput_last_চাবি_serial;
+    পূর্ণসংখ্যা xinput_last_keyboard_device;
+    পূর্ণসংখ্যা xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
 
-    int xrandr_event_base;
-    struct
+    পূর্ণসংখ্যা xrandr_event_base;
+    কাঠামো
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode চাবি_layout[256];
 
-        union
+        সংঘ
         {
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+            কাঠামো
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
+                SDL_Keymap *keymaps[Xkb_অঙ্ক_Kbd_Groups];
                 unsigned long last_map_serial;
-                int event;
+                পূর্ণসংখ্যা event;
                 Uint32 current_group;
             } xkb; // Modern XKB keyboard handling
 #endif
-            struct
+            কাঠামো
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                চাবি_Sym *keysym_map;
+                পূর্ণসংখ্যা keysyms_per_চাবি;
+                পূর্ণসংখ্যা min_keycode;
+                পূর্ণসংখ্যা max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
@@ -196,6 +196,6 @@ struct SDL_VideoData
     bool is_xwayland;
 };
 
-extern bool X11_UseDirectColorVisuals(void);
+বাহ্যিক bool X11_UseDirectColorVisuals(শূন্য);
 
 #endif // SDL_x11video_h_

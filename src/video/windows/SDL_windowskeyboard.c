@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#যদি defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
+#অন্তর্ভাব "SDL_windowsvideo.h"
 
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/scancodes_windows.h"
+#অন্তর্ভাব "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাব "../../events/scancodes_windows.h"
 
-#include <imm.h>
-#include <oleauto.h>
+#অন্তর্ভাব <imm.h>
+#অন্তর্ভাব <oleauto.h>
 
 #ifndef SDL_DISABLE_WINDOWS_IME
-#if 0
+#যদি 0
 #define SDL_DebugIMELog SDL_Log
-#else
+#অন্যথা
 #define SDL_DebugIMELog(...)
 #endif
-static bool IME_Init(SDL_VideoData *videodata, SDL_Window *window);
-static void IME_Enable(SDL_VideoData *videodata, HWND hwnd);
-static void IME_Disable(SDL_VideoData *videodata, HWND hwnd);
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
-static void IME_ClearComposition(SDL_VideoData *videodata);
-static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd);
-static void IME_Quit(SDL_VideoData *videodata);
-#else
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
+স্থির bool IME_Init(SDL_Video_তথ্য *videodata, SDL_Window *window);
+স্থির শূন্য IME_Enable(SDL_Video_তথ্য *videodata, HWND hwnd);
+স্থির শূন্য IME_Disable(SDL_Video_তথ্য *videodata, HWND hwnd);
+স্থির শূন্য IME_Set_Text_প্রবেশ_Area(SDL_Video_তথ্য *videodata, HWND hwnd, ধ্রুবক SDL_Rect *rect, পূর্ণসংখ্যা cursor);
+স্থির শূন্য IME_ClearComposition(SDL_Video_তথ্য *videodata);
+স্থির শূন্য IME_GetCandidateList(SDL_Video_তথ্য *videodata, HWND hwnd);
+স্থির শূন্য IME_Quit(SDL_Video_তথ্য *videodata);
+#অন্যথা
+স্থির শূন্য IME_Set_Text_প্রবেশ_Area(SDL_Video_তথ্য *videodata, HWND hwnd, ধ্রুবক SDL_Rect *rect, পূর্ণসংখ্যা cursor);
 #endif // !SDL_DISABLE_WINDOWS_IME
 
 #ifndef MAPVK_VK_TO_VSC
@@ -57,56 +57,56 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
 /* Building keymaps is expensive, so keep a reasonably-sized LRU cache to
  * enable fast switching between commonly used ones.
  */
-static struct WIN_KeymapCache
+স্থির কাঠামো WIN_KeymapCache
 {
     HKL keyboard_layout;
     SDL_Keymap *keymap;
 } keymap_cache[4];
 
-static int keymap_cache_size;
+স্থির পূর্ণসংখ্যা keymap_cache_আকার;
 
-static SDL_Keymap *WIN_GetCachedKeymap(HKL layout)
+স্থির SDL_Keymap *WIN_GetCachedKeymap(HKL layout)
 {
-    SDL_Keymap *keymap = NULL;
-    for (int i = 0; i < keymap_cache_size; ++i) {
-        if (keymap_cache[i].keyboard_layout == layout) {
+    SDL_Keymap *keymap = ফাঁকা;
+    জন্য (পূর্ণসংখ্যা i = 0; i < keymap_cache_আকার; ++i) {
+        যদি (keymap_cache[i].keyboard_layout == layout) {
             keymap = keymap_cache[i].keymap;
 
             // Move the map to the front of the list.
-            if (i) {
-                SDL_memmove(keymap_cache + 1, keymap_cache, sizeof(struct WIN_KeymapCache) * i);
+            যদি (i) {
+                SDL_memmove(keymap_cache + 1, keymap_cache, আকার(কাঠামো WIN_KeymapCache) * i);
                 keymap_cache[0].keyboard_layout = layout;
                 keymap_cache[0].keymap = keymap;
             }
-            break;
+            বিরতি;
         }
     }
-    return keymap;
+    ফেরত keymap;
 }
 
-static void WIN_CacheKeymap(HKL layout, SDL_Keymap *keymap)
+স্থির শূন্য WIN_CacheKeymap(HKL layout, SDL_Keymap *keymap)
 {
     // If the cache is full, evict the last keymap.
-    if (keymap_cache_size == SDL_arraysize(keymap_cache)) {
-        SDL_DestroyKeymap(keymap_cache[--keymap_cache_size].keymap);
+    যদি (keymap_cache_আকার == SDL_arraysize(keymap_cache)) {
+        SDL_DestroyKeymap(keymap_cache[--keymap_cache_আকার].keymap);
     }
 
     // Move all elements down by one.
-    if (keymap_cache_size) {
-        SDL_memmove(keymap_cache + 1, keymap_cache, sizeof(struct WIN_KeymapCache) * keymap_cache_size);
+    যদি (keymap_cache_আকার) {
+        SDL_memmove(keymap_cache + 1, keymap_cache, আকার(কাঠামো WIN_KeymapCache) * keymap_cache_আকার);
     }
 
     keymap_cache[0].keyboard_layout = layout;
     keymap_cache[0].keymap = keymap;
-    ++keymap_cache_size;
+    ++keymap_cache_আকার;
 }
 
-static SDL_Keymap *WIN_BuildKeymap(void)
+স্থির SDL_Keymap *WIN_BuildKeymap(শূন্য)
 {
     SDL_Scancode scancode;
     BYTE keyboardState[256] = { 0 };
-    WCHAR buffer[16];
-    const SDL_Keymod mods[] = {
+    WCHAR বাফার_2[16];
+    ধ্রুবক SDL_Keymod mods[] = {
         SDL_KMOD_NONE,
         SDL_KMOD_SHIFT,
         SDL_KMOD_CAPS,
@@ -117,43 +117,43 @@ static SDL_Keymap *WIN_BuildKeymap(void)
         (SDL_KMOD_MODE | SDL_KMOD_SHIFT | SDL_KMOD_CAPS)
     };
 
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_চাবিগুলি();
 
     SDL_Keymap *keymap = SDL_CreateKeymap(false);
-    if (!keymap) {
-        return NULL;
+    যদি (!keymap) {
+        ফেরত ফাঁকা;
     }
 
-    for (int m = 0; m < SDL_arraysize(mods); ++m) {
-        for (int i = 0; i < SDL_arraysize(windows_scancode_table); i++) {
-            int vk, sc, result;
+    জন্য (পূর্ণসংখ্যা m = 0; m < SDL_arraysize(mods); ++m) {
+        জন্য (পূর্ণসংখ্যা i = 0; i < SDL_arraysize(windows_scancode_table); i++) {
+            পূর্ণসংখ্যা vk, sc, ফলাফল;
             Uint32 *ch = 0;
 
             // Make sure this scancode is a valid character scancode
             scancode = windows_scancode_table[i];
-            if (scancode == SDL_SCANCODE_UNKNOWN ||
+            যদি (scancode == SDL_SCANCODE_UNKNOWN ||
                 scancode == SDL_SCANCODE_DELETE ||
-                (SDL_GetKeymapKeycode(NULL, scancode, SDL_KMOD_NONE) & SDLK_SCANCODE_MASK)) {
+                (SDL_GetKeymapKeycode(ফাঁকা, scancode, SDL_KMOD_NONE) & SDLK_SCANCODE_MASK)) {
 
                 // The Colemak mapping swaps Backspace and CapsLock
-                if (mods[m] == SDL_KMOD_NONE &&
+                যদি (mods[m] == SDL_KMOD_NONE &&
                     (scancode == SDL_SCANCODE_CAPSLOCK ||
                      scancode == SDL_SCANCODE_BACKSPACE)) {
-                    vk = LOBYTE(MapVirtualKey(i, MAPVK_VSC_TO_VK));
-                    if (vk == VK_CAPITAL) {
+                    vk = LOBYTE(Map_Virtual_চাবি(i, MAPVK_VSC_TO_VK));
+                    যদি (vk == VK_CAPITAL) {
                         SDL_SetKeymapEntry(keymap, scancode, mods[m], SDLK_CAPSLOCK);
-                    } else if (vk == VK_BACK) {
+                    } অন্যথা যদি (vk == VK_BACK) {
                         SDL_SetKeymapEntry(keymap, scancode, mods[m], SDLK_BACKSPACE);
                     }
                 }
-                continue;
+                চালু;
             }
 
             // Unpack the single byte index to make the scan code.
             sc = MAKEWORD(i & 0x7f, (i & 0x80) ? 0xe0 : 0x00);
-            vk = LOBYTE(MapVirtualKey(sc, MAPVK_VSC_TO_VK));
-            if (!vk) {
-                continue;
+            vk = LOBYTE(Map_Virtual_চাবি(sc, MAPVK_VSC_TO_VK));
+            যদি (!vk) {
+                চালু;
             }
 
             // Update the keyboard state for the modifiers
@@ -162,40 +162,40 @@ static SDL_Keymap *WIN_BuildKeymap(void)
             keyboardState[VK_CONTROL] = (mods[m] & SDL_KMOD_MODE) ? 0x80 : 0x00;
             keyboardState[VK_MENU] = (mods[m] & SDL_KMOD_MODE) ? 0x80 : 0x00;
 
-            result = ToUnicode(vk, sc, keyboardState, buffer, 16, 0);
-            buffer[SDL_abs(result)] = 0;
+            ফলাফল = ToUnicode(vk, sc, keyboardState, বাফার_2, 16, 0);
+            বাফার_2[SDL_abs(ফলাফল)] = 0;
 
             // Convert UTF-16 to UTF-32 code points
-            ch = (Uint32 *)SDL_iconv_string("UTF-32LE", "UTF-16LE", (const char *)buffer, (SDL_abs(result) + 1) * sizeof(WCHAR));
-            if (ch) {
+            ch = (Uint32 *)SDL_iconv_string("UTF-32LE", "UTF-16LE", (ধ্রুবক অক্ষর *)বাফার_2, (SDL_abs(ফলাফল) + 1) * আকার(WCHAR));
+            যদি (ch) {
                 /* Windows keyboard layouts can emit several UTF-32 code points on a single key press.
                  * Use <U+FFFD REPLACEMENT CHARACTER> since we cannot fit into single SDL_Keycode value in SDL keymap.
                  * See https://kbdlayout.info/features/ligatures for a list of such keys. */
                 SDL_SetKeymapEntry(keymap, scancode, mods[m], ch[1] == 0 ? ch[0] : 0xfffd);
                 SDL_free(ch);
-            } else {
+            } অন্যথা {
                 // The default keymap doesn't have any SDL_KMOD_MODE entries, so we don't need to override them
-                if (!(mods[m] & SDL_KMOD_MODE)) {
+                যদি (!(mods[m] & SDL_KMOD_MODE)) {
                     SDL_SetKeymapEntry(keymap, scancode, mods[m], SDLK_UNKNOWN);
                 }
             }
 
-            if (result < 0) {
-                WIN_ResetDeadKeys();
+            যদি (ফলাফল < 0) {
+                WIN_Reset_Dead_চাবিগুলি();
             }
         }
     }
 
-    return keymap;
+    ফেরত keymap;
 }
 
-void WIN_UpdateKeymap(bool send_event)
+শূন্য WIN_UpdateKeymap(bool send_event)
 {
     HKL layout = GetKeyboardLayout(0);
     SDL_Keymap *keymap = WIN_GetCachedKeymap(layout);
-    if (!keymap) {
+    যদি (!keymap) {
         keymap = WIN_BuildKeymap();
-        if (keymap) {
+        যদি (keymap) {
             WIN_CacheKeymap(layout, keymap);
         }
     }
@@ -204,14 +204,14 @@ void WIN_UpdateKeymap(bool send_event)
 }
 
 // Alphabetic scancodes for PC keyboards
-void WIN_InitKeyboard(SDL_VideoDevice *_this)
+শূন্য WIN_InitKeyboard(SDL_VideoDevice *_this)
 {
 #ifndef SDL_DISABLE_WINDOWS_IME
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
-    data->ime_candlistindexbase = 1;
-    data->ime_composition_length = 32 * sizeof(WCHAR);
-    data->ime_composition = (WCHAR *)SDL_calloc(data->ime_composition_length, sizeof(WCHAR));
+    তথ্য->ime_candlistindexbase = 1;
+    তথ্য->ime_composition_দৈর্ঘ্য = 32 * আকার(WCHAR);
+    তথ্য->ime_composition = (WCHAR *)SDL_calloc(তথ্য->ime_composition_দৈর্ঘ্য, আকার(WCHAR));
 #endif // !SDL_DISABLE_WINDOWS_IME
 
     // Build and bind the current keymap.
@@ -222,32 +222,32 @@ void WIN_InitKeyboard(SDL_VideoDevice *_this)
     SDL_SetScancodeName(SDL_SCANCODE_RGUI, "Right Windows");
 
     // Are system caps/num/scroll lock active? Set our state to match.
-    SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-    SDL_ToggleModState(SDL_KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? true : false);
-    SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_CAPS, (Get_চাবি_State(VK_CAPITAL) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_অঙ্ক, (Get_চাবি_State(VK_NUMLOCK) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_SCROLL, (Get_চাবি_State(VK_SCROLL) & 0x0001) ? true : false);
 }
 
-void WIN_QuitKeyboard(SDL_VideoDevice *_this)
+শূন্য WIN_QuitKeyboard(SDL_VideoDevice *_this)
 {
 #ifndef SDL_DISABLE_WINDOWS_IME
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
-    IME_Quit(data);
+    IME_Quit(তথ্য);
 
-    if (data->ime_composition) {
-        SDL_free(data->ime_composition);
-        data->ime_composition = NULL;
+    যদি (তথ্য->ime_composition) {
+        SDL_free(তথ্য->ime_composition);
+        তথ্য->ime_composition = ফাঁকা;
     }
 #endif // !SDL_DISABLE_WINDOWS_IME
 
-    for (int i = 0; i < keymap_cache_size; ++i) {
+    জন্য (পূর্ণসংখ্যা i = 0; i < keymap_cache_আকার; ++i) {
         SDL_DestroyKeymap(keymap_cache[i].keymap);
     }
     SDL_zeroa(keymap_cache);
-    keymap_cache_size = 0;
+    keymap_cache_আকার = 0;
 }
 
-void WIN_ResetDeadKeys(void)
+শূন্য WIN_Reset_Dead_চাবিগুলি(শূন্য)
 {
     /*
     if a deadkey has been typed, but not the next character (which the deadkey might modify),
@@ -255,91 +255,91 @@ void WIN_ResetDeadKeys(void)
     see: http://archives.miloush.net/michkap/archive/2006/09/10/748775.html
     */
     BYTE keyboardState[256];
-    WCHAR buffer[16];
-    int vk, sc, result, i;
+    WCHAR বাফার_2[16];
+    পূর্ণসংখ্যা vk, sc, ফলাফল, i;
 
-    if (!GetKeyboardState(keyboardState)) {
-        return;
+    যদি (!GetKeyboardState(keyboardState)) {
+        ফেরত;
     }
 
     vk = VK_SPACE;
-    sc = MapVirtualKey(vk, MAPVK_VK_TO_VSC);
-    if (sc == 0) {
+    sc = Map_Virtual_চাবি(vk, MAPVK_VK_TO_VSC);
+    যদি (sc == 0) {
         // the keyboard doesn't have this key
-        return;
+        ফেরত;
     }
 
-    for (i = 0; i < 5; i++) {
-        result = ToUnicode(vk, sc, keyboardState, buffer, 16, 0);
-        if (result > 0) {
+    জন্য (i = 0; i < 5; i++) {
+        ফলাফল = ToUnicode(vk, sc, keyboardState, বাফার_2, 16, 0);
+        যদি (ফলাফল > 0) {
             // success
-            return;
+            ফেরত;
         }
     }
 }
 
-bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool WIN_Start_Text_প্রবেশ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_চাবিগুলি();
 
 #ifndef SDL_DISABLE_WINDOWS_IME
     HWND hwnd = window->internal->hwnd;
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
     IME_Init(videodata, window);
     IME_Enable(videodata, hwnd);
 
-    WIN_UpdateTextInputArea(_this, window);
+    WIN_Update_Text_প্রবেশ_Area(_this, window);
 #endif // !SDL_DISABLE_WINDOWS_IME
 
-    return true;
+    ফেরত true;
 }
 
-bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Stop_Text_প্রবেশ(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_চাবিগুলি();
 
 #ifndef SDL_DISABLE_WINDOWS_IME
     HWND hwnd = window->internal->hwnd;
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
     IME_Init(videodata, window);
     IME_Disable(videodata, hwnd);
 #endif // !SDL_DISABLE_WINDOWS_IME
 
-    return true;
+    ফেরত true;
 }
 
-bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Update_Text_প্রবেশ_Area(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_WindowData *data = window->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
+    SDL_Window_তথ্য *তথ্য = window->internal;
 
-    IME_SetTextInputArea(videodata, data->hwnd, &window->text_input_rect, window->text_input_cursor);
-    return true;
+    IME_Set_Text_প্রবেশ_Area(videodata, তথ্য->hwnd, &window->text_প্রবেশ_rect, window->text_প্রবেশ_cursor);
+    ফেরত true;
 }
 
 bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifndef SDL_DISABLE_WINDOWS_IME
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
 
     IME_ClearComposition(videodata);
 #endif
-    return true;
+    ফেরত true;
 }
 
 #ifdef SDL_DISABLE_WINDOWS_IME
 
-bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
+bool WIN_HandleIMEMessage(HWND hwnd, UINT বার্তা, WPARAM wParam, LPARAM *lParam, SDL_Video_তথ্য *videodata)
 {
-    return false;
+    ফেরত false;
 }
 
-void WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
+শূন্য WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
 {
-    return;
+    ফেরত;
 }
 
-#else
+#অন্যথা
 
 #define LANG_CHT MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL)
 #define LANG_CHS MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED)
@@ -376,36 +376,36 @@ void WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
 #define PRIMLANG()     ((WORD)PRIMARYLANGID(LANG()))
 #define SUBLANG()      SUBLANGID(LANG())
 
-static void IME_UpdateInputLocale(SDL_VideoData *videodata);
-static void IME_SetWindow(SDL_VideoData *videodata, SDL_Window *window);
-static void IME_SetupAPI(SDL_VideoData *videodata);
-static DWORD IME_GetId(SDL_VideoData *videodata, UINT uIndex);
-static void IME_SendEditingEvent(SDL_VideoData *videodata);
-static void IME_SendClearComposition(SDL_VideoData *videodata);
+স্থির শূন্য IME_Update_প্রবেশ_Locale(SDL_Video_তথ্য *videodata);
+স্থির শূন্য IME_SetWindow(SDL_Video_তথ্য *videodata, SDL_Window *window);
+স্থির শূন্য IME_SetupAPI(SDL_Video_তথ্য *videodata);
+স্থির DWORD IME_GetId(SDL_Video_তথ্য *videodata, UINT u_সূচক);
+স্থির শূন্য IME_SendEditingEvent(SDL_Video_তথ্য *videodata);
+স্থির শূন্য IME_SendClearComposition(SDL_Video_তথ্য *videodata);
 
-static bool IME_Init(SDL_VideoData *videodata, SDL_Window *window)
+স্থির bool IME_Init(SDL_Video_তথ্য *videodata, SDL_Window *window)
 {
     HWND hwnd = window->internal->hwnd;
 
-    if (videodata->ime_initialized) {
-        return true;
+    যদি (videodata->ime_initialized) {
+        ফেরত true;
     }
 
-    const char *hint = SDL_GetHint(SDL_HINT_IME_IMPLEMENTED_UI);
-    if (hint && SDL_strstr(hint, "composition")) {
+    ধ্রুবক অক্ষর *hint = SDL_GetHint(SDL_HINT_IME_IMPLEMENTED_UI);
+    যদি (hint && SDL_strstr(hint, "composition")) {
         videodata->ime_internal_composition = true;
     }
-    if (hint && SDL_strstr(hint, "candidates")) {
+    যদি (hint && SDL_strstr(hint, "candidates")) {
         videodata->ime_internal_candidates = true;
     }
 
     videodata->ime_hwnd_main = hwnd;
     videodata->ime_initialized = true;
     videodata->ime_himm32 = SDL_LoadObject("imm32.dll");
-    if (!videodata->ime_himm32) {
+    যদি (!videodata->ime_himm32) {
         videodata->ime_available = false;
         SDL_ClearError();
-        return true;
+        ফেরত true;
     }
     /* *INDENT-OFF* */ // clang-format off
     videodata->ImmLockIMC = (LPINPUTCONTEXT2 (WINAPI *)(HIMC))SDL_LoadFunction(videodata->ime_himm32, "ImmLockIMC");
@@ -417,80 +417,80 @@ static bool IME_Init(SDL_VideoData *videodata, SDL_Window *window)
     IME_SetWindow(videodata, window);
     videodata->ime_himc = ImmGetContext(hwnd);
     ImmReleaseContext(hwnd, videodata->ime_himc);
-    if (!videodata->ime_himc) {
+    যদি (!videodata->ime_himc) {
         videodata->ime_available = false;
         IME_Disable(videodata, hwnd);
-        return true;
+        ফেরত true;
     }
     videodata->ime_available = true;
-    IME_UpdateInputLocale(videodata);
+    IME_Update_প্রবেশ_Locale(videodata);
     IME_SetupAPI(videodata);
-    IME_UpdateInputLocale(videodata);
+    IME_Update_প্রবেশ_Locale(videodata);
     IME_Disable(videodata, hwnd);
-    return true;
+    ফেরত true;
 }
 
-static void IME_Enable(SDL_VideoData *videodata, HWND hwnd)
+স্থির শূন্য IME_Enable(SDL_Video_তথ্য *videodata, HWND hwnd)
 {
-    if (!videodata->ime_initialized || !videodata->ime_hwnd_current) {
-        return;
+    যদি (!videodata->ime_initialized || !videodata->ime_hwnd_current) {
+        ফেরত;
     }
 
-    if (!videodata->ime_available) {
+    যদি (!videodata->ime_available) {
         IME_Disable(videodata, hwnd);
-        return;
+        ফেরত;
     }
-    if (videodata->ime_hwnd_current == videodata->ime_hwnd_main) {
+    যদি (videodata->ime_hwnd_current == videodata->ime_hwnd_main) {
         ImmAssociateContext(videodata->ime_hwnd_current, videodata->ime_himc);
     }
 
     videodata->ime_enabled = true;
-    IME_UpdateInputLocale(videodata);
+    IME_Update_প্রবেশ_Locale(videodata);
 }
 
-static void IME_Disable(SDL_VideoData *videodata, HWND hwnd)
+স্থির শূন্য IME_Disable(SDL_Video_তথ্য *videodata, HWND hwnd)
 {
-    if (!videodata->ime_initialized || !videodata->ime_hwnd_current) {
-        return;
+    যদি (!videodata->ime_initialized || !videodata->ime_hwnd_current) {
+        ফেরত;
     }
 
     IME_ClearComposition(videodata);
-    if (videodata->ime_hwnd_current == videodata->ime_hwnd_main) {
+    যদি (videodata->ime_hwnd_current == videodata->ime_hwnd_main) {
         ImmAssociateContext(videodata->ime_hwnd_current, (HIMC)0);
     }
 
     videodata->ime_enabled = false;
 }
 
-static void IME_Quit(SDL_VideoData *videodata)
+স্থির শূন্য IME_Quit(SDL_Video_তথ্য *videodata)
 {
-    if (!videodata->ime_initialized) {
-        return;
+    যদি (!videodata->ime_initialized) {
+        ফেরত;
     }
 
-    if (videodata->ime_hwnd_main) {
+    যদি (videodata->ime_hwnd_main) {
         ImmAssociateContext(videodata->ime_hwnd_main, videodata->ime_himc);
     }
 
     videodata->ime_hwnd_main = 0;
     videodata->ime_himc = 0;
-    if (videodata->ime_himm32) {
+    যদি (videodata->ime_himm32) {
         SDL_UnloadObject(videodata->ime_himm32);
         videodata->ime_himm32 = 0;
     }
-    for (int i = 0; i < videodata->ime_candcount; ++i) {
+    জন্য (পূর্ণসংখ্যা i = 0; i < videodata->ime_candcount; ++i) {
         SDL_free(videodata->ime_candidates[i]);
-        videodata->ime_candidates[i] = NULL;
+        videodata->ime_candidates[i] = ফাঁকা;
     }
     videodata->ime_initialized = false;
 }
 
-static void IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
+স্থির শূন্য IME_GetReadingString(SDL_Video_তথ্য *videodata, HWND hwnd)
 {
     DWORD id = 0;
     HIMC himc = 0;
-    WCHAR buffer[16];
-    WCHAR *s = buffer;
+    WCHAR বাফার_2[16];
+    WCHAR *s = বাফার_2;
     DWORD len = 0;
     INT err = 0;
     BOOL vertical = FALSE;
@@ -499,81 +499,81 @@ static void IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
     videodata->ime_readingstring[0] = 0;
 
     id = IME_GetId(videodata, 0);
-    if (!id) {
-        return;
+    যদি (!id) {
+        ফেরত;
     }
 
     himc = ImmGetContext(hwnd);
-    if (!himc) {
-        return;
+    যদি (!himc) {
+        ফেরত;
     }
 
-    if (videodata->GetReadingString) {
+    যদি (videodata->GetReadingString) {
         len = videodata->GetReadingString(himc, 0, 0, &err, &vertical, &maxuilen);
-        if (len) {
-            if (len > SDL_arraysize(buffer)) {
-                len = SDL_arraysize(buffer);
+        যদি (len) {
+            যদি (len > SDL_arraysize(বাফার_2)) {
+                len = SDL_arraysize(বাফার_2);
             }
 
             len = videodata->GetReadingString(himc, len, s, &err, &vertical, &maxuilen);
         }
         SDL_wcslcpy(videodata->ime_readingstring, s, len);
-    } else {
+    } অন্যথা {
         LPINPUTCONTEXT2 lpimc = videodata->ImmLockIMC(himc);
         LPBYTE p = 0;
         s = 0;
-        switch (id) {
-        case IMEID_CHT_VER42:
-        case IMEID_CHT_VER43:
-        case IMEID_CHT_VER44:
+        নির্বাচন (id) {
+        ক্ষেত্র IMEID_CHT_VER42:
+        ক্ষেত্র IMEID_CHT_VER43:
+        ক্ষেত্র IMEID_CHT_VER44:
             p = *(LPBYTE *)((LPBYTE)videodata->ImmLockIMCC(lpimc->hPrivate) + 24);
-            if (!p) {
-                break;
+            যদি (!p) {
+                বিরতি;
             }
 
             len = *(DWORD *)(p + 7 * 4 + 32 * 4);
             s = (WCHAR *)(p + 56);
-            break;
-        case IMEID_CHT_VER51:
-        case IMEID_CHT_VER52:
-        case IMEID_CHS_VER53:
+            বিরতি;
+        ক্ষেত্র IMEID_CHT_VER51:
+        ক্ষেত্র IMEID_CHT_VER52:
+        ক্ষেত্র IMEID_CHS_VER53:
             p = *(LPBYTE *)((LPBYTE)videodata->ImmLockIMCC(lpimc->hPrivate) + 4);
-            if (!p) {
-                break;
+            যদি (!p) {
+                বিরতি;
             }
 
             p = *(LPBYTE *)(p + 1 * 4 + 5 * 4);
-            if (!p) {
-                break;
+            যদি (!p) {
+                বিরতি;
             }
 
             len = *(DWORD *)(p + 1 * 4 + (16 * 2 + 2 * 4) + 5 * 4 + 16 * 2);
             s = (WCHAR *)(p + 1 * 4 + (16 * 2 + 2 * 4) + 5 * 4);
-            break;
-        case IMEID_CHS_VER41:
+            বিরতি;
+        ক্ষেত্র IMEID_CHS_VER41:
         {
-            int offset = (IME_GetId(videodata, 1) >= 0x00000002) ? 8 : 7;
+            পূর্ণসংখ্যা offset = (IME_GetId(videodata, 1) >= 0x00000002) ? 8 : 7;
             p = *(LPBYTE *)((LPBYTE)videodata->ImmLockIMCC(lpimc->hPrivate) + offset * 4);
-            if (!p) {
-                break;
+            যদি (!p) {
+                বিরতি;
             }
 
             len = *(DWORD *)(p + 7 * 4 + 16 * 2 * 4);
             s = (WCHAR *)(p + 6 * 4 + 16 * 2 * 1);
-        } break;
-        case IMEID_CHS_VER42:
+        } বিরতি;
+        ক্ষেত্র IMEID_CHS_VER42:
             p = *(LPBYTE *)((LPBYTE)videodata->ImmLockIMCC(lpimc->hPrivate) + 1 * 4 + 1 * 4 + 6 * 4);
-            if (!p) {
-                break;
+            যদি (!p) {
+                বিরতি;
             }
 
             len = *(DWORD *)(p + 1 * 4 + (16 * 2 + 2 * 4) + 5 * 4 + 16 * 2);
             s = (WCHAR *)(p + 1 * 4 + (16 * 2 + 2 * 4) + 5 * 4);
-            break;
+            বিরতি;
         }
-        if (s) {
-            size_t size = SDL_min((size_t)(len + 1), SDL_arraysize(videodata->ime_readingstring));
-            SDL_wcslcpy(videodata->ime_readingstring, s, size);
+        যদি (s) {
+            size_t আকার_2 = SDL_min((size_t)(len + 1), SDL_arraysize(videodata->ime_readingstring));
+            SDL_wcslcpy(videodata->ime_readingstring, s, আকার_2);
         }
 
         videodata->ImmUnlockIMCC(lpimc->hPrivate);
@@ -583,69 +583,69 @@ static void IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
     IME_SendEditingEvent(videodata);
 }
 
-static void IME_InputLangChanged(SDL_VideoData *videodata)
+স্থির শূন্য IME_প্রবেশ_Lang_Changed(SDL_Video_তথ্য *videodata)
 {
     UINT lang = PRIMLANG();
-    IME_UpdateInputLocale(videodata);
+    IME_Update_প্রবেশ_Locale(videodata);
 
     IME_SetupAPI(videodata);
-    if (lang != PRIMLANG()) {
+    যদি (lang != PRIMLANG()) {
         IME_ClearComposition(videodata);
     }
 }
 
-static DWORD IME_GetId(SDL_VideoData *videodata, UINT uIndex)
+স্থির DWORD IME_GetId(SDL_Video_তথ্য *videodata, UINT u_সূচক)
 {
-    static HKL hklprev = 0;
-    static DWORD dwRet[2] = { 0 };
-    DWORD dwVerSize = 0;
-    LPVOID lpVerBuffer = 0;
-    LPVOID lpVerData = 0;
-    UINT cbVerData = 0;
-    char szTemp[256];
+    স্থির HKL hklprev = 0;
+    স্থির DWORD dwRet[2] = { 0 };
+    DWORD dw_Ver_আকার = 0;
+    LPVOID lp_Ver_বাফার = 0;
+    LPVOID lp_Ver_তথ্য = 0;
+    UINT cb_Ver_তথ্য = 0;
+    অক্ষর sz_অস্থায়ী[256];
     HKL hkl = 0;
     DWORD dwLang = 0;
-    SDL_assert(uIndex < SDL_arraysize(dwRet));
+    SDL_assert(u_সূচক < SDL_arraysize(dwRet));
 
     hkl = videodata->ime_hkl;
-    if (hklprev == hkl) {
-        return dwRet[uIndex];
+    যদি (hklprev == hkl) {
+        ফেরত dwRet[u_সূচক];
     }
     hklprev = hkl;
 
-    SDL_assert(uIndex == 0);
+    SDL_assert(u_সূচক == 0);
     dwLang = ((DWORD_PTR)hkl & 0xffff);
     // FIXME: What does this do?
-    if (videodata->ime_internal_candidates && dwLang == LANG_CHT) {
+    যদি (videodata->ime_internal_candidates && dwLang == LANG_CHT) {
         dwRet[0] = IMEID_CHT_VER_VISTA;
         dwRet[1] = 0;
-        return dwRet[0];
+        ফেরত dwRet[0];
     }
-    if (hkl != CHT_HKL_NEW_PHONETIC && hkl != CHT_HKL_NEW_CHANG_JIE && hkl != CHT_HKL_NEW_QUICK && hkl != CHT_HKL_HK_CANTONESE && hkl != CHS_HKL) {
+    যদি (hkl != CHT_HKL_NEW_PHONETIC && hkl != CHT_HKL_NEW_CHANG_JIE && hkl != CHT_HKL_NEW_QUICK && hkl != CHT_HKL_HK_CANTONESE && hkl != CHS_HKL) {
         dwRet[0] = dwRet[1] = 0;
-        return dwRet[0];
+        ফেরত dwRet[0];
     }
-    if (!ImmGetIMEFileNameA(hkl, szTemp, sizeof(szTemp) - 1)) {
+    যদি (!ImmGetIMEFileNameA(hkl, sz_অস্থায়ী, আকার(sz_অস্থায়ী) - 1)) {
         dwRet[0] = dwRet[1] = 0;
-        return dwRet[0];
+        ফেরত dwRet[0];
     }
-    if (!videodata->GetReadingString) {
+    যদি (!videodata->GetReadingString) {
 #define LCID_INVARIANT MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT)
-        if (CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, szTemp, -1, CHT_IMEFILENAME1, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, szTemp, -1, CHT_IMEFILENAME2, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, szTemp, -1, CHT_IMEFILENAME3, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, szTemp, -1, CHS_IMEFILENAME1, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, szTemp, -1, CHS_IMEFILENAME2, -1) != 2) {
+        যদি (CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, sz_অস্থায়ী, -1, CHT_IMEFILENAME1, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, sz_অস্থায়ী, -1, CHT_IMEFILENAME2, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, sz_অস্থায়ী, -1, CHT_IMEFILENAME3, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, sz_অস্থায়ী, -1, CHS_IMEFILENAME1, -1) != 2 && CompareStringA(LCID_INVARIANT, NORM_IGNORECASE, sz_অস্থায়ী, -1, CHS_IMEFILENAME2, -1) != 2) {
             dwRet[0] = dwRet[1] = 0;
-            return dwRet[0];
+            ফেরত dwRet[0];
         }
 #undef LCID_INVARIANT
-        dwVerSize = GetFileVersionInfoSizeA(szTemp, NULL);
-        if (dwVerSize) {
-            lpVerBuffer = SDL_malloc(dwVerSize);
-            if (lpVerBuffer) {
-                if (GetFileVersionInfoA(szTemp, 0, dwVerSize, lpVerBuffer)) {
-                    if (VerQueryValueA(lpVerBuffer, "\\", &lpVerData, &cbVerData)) {
-#define pVerFixedInfo ((VS_FIXEDFILEINFO FAR *)lpVerData)
+        dw_Ver_আকার = Get_File_Version_Info_আকার_A(sz_অস্থায়ী, ফাঁকা);
+        যদি (dw_Ver_আকার) {
+            lp_Ver_বাফার = SDL_malloc(dw_Ver_আকার);
+            যদি (lp_Ver_বাফার) {
+                যদি (GetFileVersionInfoA(sz_অস্থায়ী, 0, dw_Ver_আকার, lp_Ver_বাফার)) {
+                    যদি (Ver_Query_মান_A(lp_Ver_বাফার, "\\", &lp_Ver_তথ্য, &cb_Ver_তথ্য)) {
+#define pVerFixedInfo ((VS_FIXEDFILEINFO FAR *)lp_Ver_তথ্য)
                         DWORD dwVer = pVerFixedInfo->dwFileVersionMS;
                         dwVer = (dwVer & 0x00ff0000) << 8 | (dwVer & 0x000000ff) << 16;
-                        if ((videodata->GetReadingString) ||
+                        যদি ((videodata->GetReadingString) ||
                             ((dwLang == LANG_CHT) && (dwVer == MAKEIMEVERSION(4, 2) ||
                                                       dwVer == MAKEIMEVERSION(4, 3) ||
                                                       dwVer == MAKEIMEVERSION(4, 4) ||
@@ -658,36 +658,36 @@ static DWORD IME_GetId(SDL_VideoData *videodata, UINT uIndex)
                                                       dwVer == MAKEIMEVERSION(5, 3)))) {
                             dwRet[0] = dwVer | dwLang;
                             dwRet[1] = pVerFixedInfo->dwFileVersionLS;
-                            SDL_free(lpVerBuffer);
-                            return dwRet[0];
+                            SDL_free(lp_Ver_বাফার);
+                            ফেরত dwRet[0];
                         }
 #undef pVerFixedInfo
                     }
                 }
             }
-            SDL_free(lpVerBuffer);
+            SDL_free(lp_Ver_বাফার);
         }
     }
     dwRet[0] = dwRet[1] = 0;
-    return dwRet[0];
+    ফেরত dwRet[0];
 }
 
-static void IME_SetupAPI(SDL_VideoData *videodata)
+স্থির শূন্য IME_SetupAPI(SDL_Video_তথ্য *videodata)
 {
-    char ime_file[MAX_PATH + 1];
+    অক্ষর ime_file[MAX_PATH + 1];
     SDL_SharedObject *hime = 0;
     HKL hkl = 0;
-    videodata->GetReadingString = NULL;
-    videodata->ShowReadingWindow = NULL;
+    videodata->GetReadingString = ফাঁকা;
+    videodata->ShowReadingWindow = ফাঁকা;
 
     hkl = videodata->ime_hkl;
-    if (!ImmGetIMEFileNameA(hkl, ime_file, sizeof(ime_file) - 1)) {
-        return;
+    যদি (!ImmGetIMEFileNameA(hkl, ime_file, আকার(ime_file) - 1)) {
+        ফেরত;
     }
 
     hime = SDL_LoadObject(ime_file);
-    if (!hime) {
-        return;
+    যদি (!hime) {
+        ফেরত;
     }
 
     /* *INDENT-OFF* */ // clang-format off
@@ -697,42 +697,42 @@ static void IME_SetupAPI(SDL_VideoData *videodata)
         SDL_LoadFunction(hime, "ShowReadingWindow");
     /* *INDENT-ON* */ // clang-format on
 
-    if (videodata->ShowReadingWindow) {
+    যদি (videodata->ShowReadingWindow) {
         HIMC himc = ImmGetContext(videodata->ime_hwnd_current);
-        if (himc) {
+        যদি (himc) {
             videodata->ShowReadingWindow(himc, FALSE);
             ImmReleaseContext(videodata->ime_hwnd_current, himc);
         }
     }
 }
 
-static void IME_SetWindow(SDL_VideoData *videodata, SDL_Window *window)
+স্থির শূন্য IME_SetWindow(SDL_Video_তথ্য *videodata, SDL_Window *window)
 {
     HWND hwnd = window->internal->hwnd;
 
-    if (hwnd != videodata->ime_hwnd_current) {
+    যদি (hwnd != videodata->ime_hwnd_current) {
         videodata->ime_hwnd_current = hwnd;
         SDL_zero(videodata->ime_composition_area);
         SDL_zero(videodata->ime_candidate_area);
     }
 
-    IME_SetTextInputArea(videodata, hwnd, &window->text_input_rect, window->text_input_cursor);
+    IME_Set_Text_প্রবেশ_Area(videodata, hwnd, &window->text_প্রবেশ_rect, window->text_প্রবেশ_cursor);
 }
 
 #endif
 
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor)
+স্থির শূন্য IME_Set_Text_প্রবেশ_Area(SDL_Video_তথ্য *videodata, HWND hwnd, ধ্রুবক SDL_Rect *rect, পূর্ণসংখ্যা cursor)
 {
     HIMC himc;
 
     himc = ImmGetContext(hwnd);
-    if (himc) {
+    যদি (himc) {
         COMPOSITIONFORM cof;
         CANDIDATEFORM caf;
-        int font_height = rect->h;
+        পূর্ণসংখ্যা font_height = rect->h;
 
         LOGFONTW font;
-        if (ImmGetCompositionFontW(himc, &font)) {
+        যদি (ImmGetCompositionFontW(himc, &font)) {
             font_height = font.lfHeight;
         }
 
@@ -740,25 +740,25 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
         cof.dwStyle = CFS_RECT;
         cof.ptCurrentPos.x = rect->x + cursor;
         cof.ptCurrentPos.y = rect->y + (rect->h - font_height) / 2;
-        cof.rcArea.left = rect->x;
-        cof.rcArea.right = (LONG)rect->x + rect->w;
-        cof.rcArea.top = rect->y;
+        cof.rcArea.বাম = rect->x;
+        cof.rcArea.ডান = (LONG)rect->x + rect->w;
+        cof.rcArea.শীর্ষ = rect->y;
         cof.rcArea.bottom = (LONG)rect->y + rect->h;
-        if (SDL_memcmp(&cof, &videodata->ime_composition_area, sizeof(cof)) != 0) {
+        যদি (SDL_memcmp(&cof, &videodata->ime_composition_area, আকার(cof)) != 0) {
             SDL_copyp(&videodata->ime_composition_area, &cof);
             ImmSetCompositionWindow(himc, &cof);
         }
 
         SDL_zero(caf);
-        caf.dwIndex = 0;
+        caf.dw_সূচক = 0;
         caf.dwStyle = CFS_EXCLUDE;
         caf.ptCurrentPos.x = rect->x + cursor;
         caf.ptCurrentPos.y = rect->y;
-        caf.rcArea.left = rect->x;
-        caf.rcArea.right = (LONG)rect->x + rect->w;
-        caf.rcArea.top = rect->y;
+        caf.rcArea.বাম = rect->x;
+        caf.rcArea.ডান = (LONG)rect->x + rect->w;
+        caf.rcArea.শীর্ষ = rect->y;
         caf.rcArea.bottom = (LONG)rect->y + rect->h;
-        if (SDL_memcmp(&caf, &videodata->ime_candidate_area, sizeof(caf)) != 0) {
+        যদি (SDL_memcmp(&caf, &videodata->ime_candidate_area, আকার(caf)) != 0) {
             SDL_copyp(&videodata->ime_candidate_area, &caf);
             ImmSetCandidateWindow(himc, &caf);
         }
@@ -769,12 +769,12 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
 
 #ifndef SDL_DISABLE_WINDOWS_IME
 
-static void IME_UpdateInputLocale(SDL_VideoData *videodata)
+স্থির শূন্য IME_Update_প্রবেশ_Locale(SDL_Video_তথ্য *videodata)
 {
     HKL hklnext = GetKeyboardLayout(0);
 
-    if (hklnext == videodata->ime_hkl) {
-        return;
+    যদি (hklnext == videodata->ime_hkl) {
+        ফেরত;
     }
 
     videodata->ime_hkl = hklnext;
@@ -782,102 +782,102 @@ static void IME_UpdateInputLocale(SDL_VideoData *videodata)
     videodata->ime_candlistindexbase = (videodata->ime_hkl == CHT_HKL_DAYI) ? 0 : 1;
 }
 
-static void IME_ClearComposition(SDL_VideoData *videodata)
+স্থির শূন্য IME_ClearComposition(SDL_Video_তথ্য *videodata)
 {
     HIMC himc = 0;
-    if (!videodata->ime_initialized) {
-        return;
+    যদি (!videodata->ime_initialized) {
+        ফেরত;
     }
 
     himc = ImmGetContext(videodata->ime_hwnd_current);
-    if (!himc) {
-        return;
+    যদি (!himc) {
+        ফেরত;
     }
 
     ImmNotifyIME(himc, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-    ImmSetCompositionString(himc, SCS_SETSTR, TEXT(""), sizeof(TCHAR), TEXT(""), sizeof(TCHAR));
+    ImmSetCompositionString(himc, SCS_SETSTR, TEXT(""), আকার(TCHAR), TEXT(""), আকার(TCHAR));
 
     ImmNotifyIME(himc, NI_CLOSECANDIDATE, 0, 0);
     ImmReleaseContext(videodata->ime_hwnd_current, himc);
     IME_SendClearComposition(videodata);
 }
 
-static void IME_GetCompositionString(SDL_VideoData *videodata, HIMC himc, LPARAM *lParam, DWORD string)
+স্থির শূন্য IME_GetCompositionString(SDL_Video_তথ্য *videodata, HIMC himc, LPARAM *lParam, DWORD string)
 {
-    LONG length;
+    LONG দৈর্ঘ্য;
     DWORD dwLang = ((DWORD_PTR)videodata->ime_hkl & 0xffff);
 
-    if (*lParam & GCS_CURSORPOS) {
+    যদি (*lParam & GCS_CURSORPOS) {
         videodata->ime_cursor = LOWORD(ImmGetCompositionStringW(himc, GCS_CURSORPOS, 0, 0));
     }
     videodata->ime_selected_start = 0;
-    videodata->ime_selected_length = 0;
+    videodata->ime_selected_দৈর্ঘ্য = 0;
     SDL_DebugIMELog("Cursor = %d", videodata->ime_cursor);
 
-    length = ImmGetCompositionStringW(himc, string, NULL, 0);
-    if (length > 0 && videodata->ime_composition_length < length) {
+    দৈর্ঘ্য = ImmGetCompositionStringW(himc, string, ফাঁকা, 0);
+    যদি (দৈর্ঘ্য > 0 && videodata->ime_composition_দৈর্ঘ্য < দৈর্ঘ্য) {
         SDL_free(videodata->ime_composition);
 
-        videodata->ime_composition = (WCHAR *)SDL_malloc(length + sizeof(WCHAR));
-        videodata->ime_composition_length = length;
+        videodata->ime_composition = (WCHAR *)SDL_malloc(দৈর্ঘ্য + আকার(WCHAR));
+        videodata->ime_composition_দৈর্ঘ্য = দৈর্ঘ্য;
     }
 
-    length = ImmGetCompositionStringW(himc, string, videodata->ime_composition, videodata->ime_composition_length);
-    if (length < 0) {
-        length = 0;
+    দৈর্ঘ্য = ImmGetCompositionStringW(himc, string, videodata->ime_composition, videodata->ime_composition_দৈর্ঘ্য);
+    যদি (দৈর্ঘ্য < 0) {
+        দৈর্ঘ্য = 0;
     }
-    length /= sizeof(WCHAR);
+    দৈর্ঘ্য /= আকার(WCHAR);
 
-    if (!(*lParam & GCS_CURSORPOS)) {
+    যদি (!(*lParam & GCS_CURSORPOS)) {
         // If the IME doesn't support GCS_CURSORPOS, default the cursor to the end of the composition.
-        videodata->ime_cursor = length;
+        videodata->ime_cursor = দৈর্ঘ্য;
     }
 
-    if ((dwLang == LANG_CHT || dwLang == LANG_CHS) &&
+    যদি ((dwLang == LANG_CHT || dwLang == LANG_CHS) &&
         videodata->ime_cursor > 0 &&
-        videodata->ime_cursor < (int)(videodata->ime_composition_length / sizeof(WCHAR)) &&
+        videodata->ime_cursor < (পূর্ণসংখ্যা)(videodata->ime_composition_দৈর্ঘ্য / আকার(WCHAR)) &&
         (videodata->ime_composition[0] == 0x3000 || videodata->ime_composition[0] == 0x0020)) {
         // Traditional Chinese IMEs add a placeholder U+3000
         // Simplified Chinese IMEs seem to add a placeholder U+0020 sometimes
-        for (int i = videodata->ime_cursor + 1; i < length; ++i) {
+        জন্য (পূর্ণসংখ্যা i = videodata->ime_cursor + 1; i < দৈর্ঘ্য; ++i) {
             videodata->ime_composition[i - 1] = videodata->ime_composition[i];
         }
-        --length;
+        --দৈর্ঘ্য;
     }
 
-    videodata->ime_composition[length] = 0;
+    videodata->ime_composition[দৈর্ঘ্য] = 0;
 
-    length = ImmGetCompositionStringW(himc, GCS_COMPATTR, NULL, 0);
-    if (length > 0) {
-        Uint8 *attributes = (Uint8 *)SDL_malloc(length);
-        if (attributes) {
-            int start = 0;
-            int end = 0;
+    দৈর্ঘ্য = ImmGetCompositionStringW(himc, GCS_COMPATTR, ফাঁকা, 0);
+    যদি (দৈর্ঘ্য > 0) {
+        Uint8 *attributes = (Uint8 *)SDL_malloc(দৈর্ঘ্য);
+        যদি (attributes) {
+            পূর্ণসংখ্যা start = 0;
+            পূর্ণসংখ্যা end = 0;
 
-            length = ImmGetCompositionString(himc, GCS_COMPATTR, attributes, length);
-            if (length < 0) {
-                length = 0;
+            দৈর্ঘ্য = ImmGetCompositionString(himc, GCS_COMPATTR, attributes, দৈর্ঘ্য);
+            যদি (দৈর্ঘ্য < 0) {
+                দৈর্ঘ্য = 0;
             }
 
-            for (LONG i = 0; i < length; ++i) {
+            জন্য (LONG i = 0; i < দৈর্ঘ্য; ++i) {
                 SDL_DebugIMELog("attrib[%d] = %d", i, attributes[i]);
             }
 
-            for (start = 0; start < length; ++start) {
-                if (attributes[start] == ATTR_TARGET_CONVERTED || attributes[start] == ATTR_TARGET_NOTCONVERTED) {
-                    break;
+            জন্য (start = 0; start < দৈর্ঘ্য; ++start) {
+                যদি (attributes[start] == ATTR_TARGET_CONVERTED || attributes[start] == ATTR_TARGET_NOTCONVERTED) {
+                    বিরতি;
                 }
             }
 
-            for (end = start; end < length; ++end) {
-                if (attributes[end] != ATTR_TARGET_CONVERTED && attributes[end] != ATTR_TARGET_NOTCONVERTED) {
-                    break;
+            জন্য (end = start; end < দৈর্ঘ্য; ++end) {
+                যদি (attributes[end] != ATTR_TARGET_CONVERTED && attributes[end] != ATTR_TARGET_NOTCONVERTED) {
+                    বিরতি;
                 }
             }
 
-            if (end > start) {
+            যদি (end > start) {
                 videodata->ime_selected_start = start;
-                videodata->ime_selected_length = end - start;
+                videodata->ime_selected_দৈর্ঘ্য = end - start;
             }
 
             SDL_free(attributes);
@@ -885,9 +885,9 @@ static void IME_GetCompositionString(SDL_VideoData *videodata, HIMC himc, LPARAM
     }
 }
 
-static void IME_SendInputEvent(SDL_VideoData *videodata)
+স্থির শূন্য IME_Send_প্রবেশ_Event(SDL_Video_তথ্য *videodata)
 {
-    char *s = 0;
+    অক্ষর *s = 0;
     s = WIN_StringToUTF8W(videodata->ime_composition);
     SDL_SendKeyboardText(s);
     SDL_free(s);
@@ -897,145 +897,145 @@ static void IME_SendInputEvent(SDL_VideoData *videodata)
     videodata->ime_cursor = 0;
 }
 
-static void IME_SendEditingEvent(SDL_VideoData *videodata)
+স্থির শূন্য IME_SendEditingEvent(SDL_Video_তথ্য *videodata)
 {
-    char *s = NULL;
-    WCHAR *buffer = NULL;
-    size_t size = videodata->ime_composition_length;
-    if (videodata->ime_readingstring[0]) {
+    অক্ষর *s = ফাঁকা;
+    WCHAR *বাফার_2 = ফাঁকা;
+    size_t আকার_2 = videodata->ime_composition_দৈর্ঘ্য;
+    যদি (videodata->ime_readingstring[0]) {
         size_t len = SDL_min(SDL_wcslen(videodata->ime_composition), (size_t)videodata->ime_cursor);
 
-        size += sizeof(videodata->ime_readingstring);
-        buffer = (WCHAR *)SDL_malloc(size + sizeof(WCHAR));
-        if (!buffer) {
-            return;
+        আকার_2 += আকার(videodata->ime_readingstring);
+        বাফার_2 = (WCHAR *)SDL_malloc(আকার_2 + আকার(WCHAR));
+        যদি (!বাফার_2) {
+            ফেরত;
         }
-        buffer[0] = 0;
+        বাফার_2[0] = 0;
 
-        SDL_wcslcpy(buffer, videodata->ime_composition, len + 1);
-        SDL_wcslcat(buffer, videodata->ime_readingstring, size);
-        SDL_wcslcat(buffer, &videodata->ime_composition[len], size);
-    } else {
-        buffer = (WCHAR *)SDL_malloc(size + sizeof(WCHAR));
-        if (!buffer) {
-            return;
+        SDL_wcslcpy(বাফার_2, videodata->ime_composition, len + 1);
+        SDL_wcslcat(বাফার_2, videodata->ime_readingstring, আকার_2);
+        SDL_wcslcat(বাফার_2, &videodata->ime_composition[len], আকার_2);
+    } অন্যথা {
+        বাফার_2 = (WCHAR *)SDL_malloc(আকার_2 + আকার(WCHAR));
+        যদি (!বাফার_2) {
+            ফেরত;
         }
-        buffer[0] = 0;
-        SDL_wcslcpy(buffer, videodata->ime_composition, size);
+        বাফার_2[0] = 0;
+        SDL_wcslcpy(বাফার_2, videodata->ime_composition, আকার_2);
     }
 
-    s = WIN_StringToUTF8W(buffer);
-    if (s) {
-        if (videodata->ime_readingstring[0]) {
-            SDL_SendEditingText(s, videodata->ime_cursor, (int)SDL_wcslen(videodata->ime_readingstring));
-        } else if (videodata->ime_cursor == videodata->ime_selected_start) {
-            SDL_SendEditingText(s, videodata->ime_selected_start, videodata->ime_selected_length);
-        } else {
+    s = WIN_StringToUTF8W(বাফার_2);
+    যদি (s) {
+        যদি (videodata->ime_readingstring[0]) {
+            SDL_SendEditingText(s, videodata->ime_cursor, (পূর্ণসংখ্যা)SDL_wcslen(videodata->ime_readingstring));
+        } অন্যথা যদি (videodata->ime_cursor == videodata->ime_selected_start) {
+            SDL_SendEditingText(s, videodata->ime_selected_start, videodata->ime_selected_দৈর্ঘ্য);
+        } অন্যথা {
             SDL_SendEditingText(s, videodata->ime_cursor, 0);
         }
-        if (*s) {
+        যদি (*s) {
             videodata->ime_needs_clear_composition = true;
         }
         SDL_free(s);
     }
-    SDL_free(buffer);
+    SDL_free(বাফার_2);
 }
 
-static void IME_SendClearComposition(SDL_VideoData *videodata)
+স্থির শূন্য IME_SendClearComposition(SDL_Video_তথ্য *videodata)
 {
-    if (videodata->ime_needs_clear_composition) {
+    যদি (videodata->ime_needs_clear_composition) {
         SDL_SendEditingText("", 0, 0);
         videodata->ime_needs_clear_composition = false;
     }
 }
 
-static bool IME_OpenCandidateList(SDL_VideoData *videodata)
+স্থির bool IME_OpenCandidateList(SDL_Video_তথ্য *videodata)
 {
     videodata->ime_candidates_open = true;
     videodata->ime_candcount = 0;
-    return true;
+    ফেরত true;
 }
 
-static void IME_AddCandidate(SDL_VideoData *videodata, UINT i, LPCWSTR candidate)
+স্থির শূন্য IME_AddCandidate(SDL_Video_তথ্য *videodata, UINT i, LPCWSTR candidate)
 {
-    if (videodata->ime_candidates[i]) {
+    যদি (videodata->ime_candidates[i]) {
         SDL_free(videodata->ime_candidates[i]);
-        videodata->ime_candidates[i] = NULL;
+        videodata->ime_candidates[i] = ফাঁকা;
     }
 
     SDL_COMPILE_TIME_ASSERT(IME_CANDIDATE_INDEXING_REQUIRES, MAX_CANDLIST == 10);
-    char *candidate_utf8 = WIN_StringToUTF8W(candidate);
+    অক্ষর *candidate_utf8 = WIN_StringToUTF8W(candidate);
     SDL_asprintf(&videodata->ime_candidates[i], "%d %s", ((i + videodata->ime_candlistindexbase) % 10), candidate_utf8);
     SDL_free(candidate_utf8);
 
     videodata->ime_candcount = (i + 1);
 }
 
-static void IME_SendCandidateList(SDL_VideoData *videodata)
+স্থির শূন্য IME_SendCandidateList(SDL_Video_তথ্য *videodata)
 {
     SDL_SendEditingTextCandidates(videodata->ime_candidates, videodata->ime_candcount, videodata->ime_candsel, videodata->ime_horizontal_candidates);
 }
 
-static void IME_CloseCandidateList(SDL_VideoData *videodata)
+স্থির শূন্য IME_CloseCandidateList(SDL_Video_তথ্য *videodata)
 {
     videodata->ime_candidates_open = false;
 
-    if (videodata->ime_candcount > 0) {
-        for (int i = 0; i < videodata->ime_candcount; ++i) {
+    যদি (videodata->ime_candcount > 0) {
+        জন্য (পূর্ণসংখ্যা i = 0; i < videodata->ime_candcount; ++i) {
             SDL_free(videodata->ime_candidates[i]);
-            videodata->ime_candidates[i] = NULL;
+            videodata->ime_candidates[i] = ফাঁকা;
         }
         videodata->ime_candcount = 0;
 
-        SDL_SendEditingTextCandidates(NULL, 0, -1, false);
+        SDL_SendEditingTextCandidates(ফাঁকা, 0, -1, false);
     }
 }
 
-static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd)
+স্থির শূন্য IME_GetCandidateList(SDL_Video_তথ্য *videodata, HWND hwnd)
 {
     HIMC himc;
-    DWORD size;
+    DWORD আকার_2;
     LPCANDIDATELIST cand_list;
     bool has_candidates = false;
 
     himc = ImmGetContext(hwnd);
-    if (himc) {
-        size = ImmGetCandidateListW(himc, 0, NULL, 0);
-        if (size != 0) {
-            cand_list = (LPCANDIDATELIST)SDL_malloc(size);
-            if (cand_list != NULL) {
-                size = ImmGetCandidateListW(himc, 0, cand_list, size);
-                if (size != 0) {
-                    if (IME_OpenCandidateList(videodata)) {
+    যদি (himc) {
+        আকার_2 = ImmGetCandidateListW(himc, 0, ফাঁকা, 0);
+        যদি (আকার_2 != 0) {
+            cand_list = (LPCANDIDATELIST)SDL_malloc(আকার_2);
+            যদি (cand_list != ফাঁকা) {
+                আকার_2 = ImmGetCandidateListW(himc, 0, cand_list, আকার_2);
+                যদি (আকার_2 != 0) {
+                    যদি (IME_OpenCandidateList(videodata)) {
                         UINT i, j;
                         UINT page_start = 0;
-                        UINT page_size = 0;
+                        UINT page_আকার = 0;
 
                         videodata->ime_candsel = cand_list->dwSelection;
 
-                        if (LANG() == LANG_CHS && IME_GetId(videodata, 0)) {
-                            const UINT maxcandchar = 18;
+                        যদি (LANG() == LANG_CHS && IME_GetId(videodata, 0)) {
+                            ধ্রুবক UINT maxcandchar = 18;
                             size_t cchars = 0;
 
-                            for (i = 0; i < cand_list->dwCount; ++i) {
+                            জন্য (i = 0; i < cand_list->dw_গুনতি; ++i) {
                                 size_t len = SDL_wcslen((LPWSTR)((DWORD_PTR)cand_list + cand_list->dwOffset[i])) + 1;
-                                if (len + cchars > maxcandchar) {
-                                    if (i > cand_list->dwSelection) {
-                                        break;
+                                যদি (len + cchars > maxcandchar) {
+                                    যদি (i > cand_list->dwSelection) {
+                                        বিরতি;
                                     }
 
                                     page_start = i;
                                     cchars = len;
-                                } else {
+                                } অন্যথা {
                                     cchars += len;
                                 }
                             }
-                            page_size = i - page_start;
-                        } else {
-                            page_size = SDL_min(cand_list->dwPageSize == 0 ? MAX_CANDLIST : cand_list->dwPageSize, MAX_CANDLIST);
-                            page_start = (cand_list->dwSelection / page_size) * page_size;
+                            page_আকার = i - page_start;
+                        } অন্যথা {
+                            page_আকার = SDL_min(cand_list->dw_Page_আকার == 0 ? MAX_CANDLIST : cand_list->dw_Page_আকার, MAX_CANDLIST);
+                            page_start = (cand_list->dwSelection / page_আকার) * page_আকার;
                         }
-                        for (i = page_start, j = 0; (DWORD)i < cand_list->dwCount && j < page_size; i++, j++) {
+                        জন্য (i = page_start, j = 0; (DWORD)i < cand_list->dw_গুনতি && j < page_আকার; i++, j++) {
                             LPCWSTR candidate = (LPCWSTR)((DWORD_PTR)cand_list + cand_list->dwOffset[i]);
                             IME_AddCandidate(videodata, j, candidate);
                         }
@@ -1050,78 +1050,78 @@ static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd)
         ImmReleaseContext(hwnd, himc);
     }
 
-    if (!has_candidates) {
+    যদি (!has_candidates) {
         IME_CloseCandidateList(videodata);
     }
 }
 
-bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
+bool WIN_HandleIMEMessage(HWND hwnd, UINT বার্তা, WPARAM wParam, LPARAM *lParam, SDL_Video_তথ্য *videodata)
 {
     bool trap = false;
     HIMC himc = 0;
 
-    if (msg == WM_IME_SETCONTEXT) {
+    যদি (বার্তা == WM_IME_SETCONTEXT) {
         SDL_DebugIMELog("WM_IME_SETCONTEXT");
 
         LPARAM element_mask;
         element_mask = ISC_SHOWUIALL;
-        if (videodata->ime_internal_composition) {
+        যদি (videodata->ime_internal_composition) {
             element_mask &= ~ISC_SHOWUICOMPOSITIONWINDOW;
         }
-        if (videodata->ime_internal_candidates) {
+        যদি (videodata->ime_internal_candidates) {
             element_mask &= ~ISC_SHOWUIALLCANDIDATEWINDOW;
         }
         *lParam &= element_mask;
 
-        return false;
-    } else if (msg == WM_IME_STARTCOMPOSITION) {
+        ফেরত false;
+    } অন্যথা যদি (বার্তা == WM_IME_STARTCOMPOSITION) {
         SDL_DebugIMELog("WM_IME_STARTCOMPOSITION");
-        if (videodata->ime_internal_composition) {
+        যদি (videodata->ime_internal_composition) {
             videodata->ime_cursor = 0;
             // Windows may still display a composition dialog even with
             // ISC_SHOWUICOMPOSITIONWINDOW cleared, so trap the message
             // here to prevent that (even when the IME is disabled).
-            return true;
+            ফেরত true;
         }
     }
 
-    if (!videodata->ime_initialized || !videodata->ime_available || !videodata->ime_enabled) {
-        return false;
+    যদি (!videodata->ime_initialized || !videodata->ime_available || !videodata->ime_enabled) {
+        ফেরত false;
     }
 
-    switch (msg) {
-    case WM_KEYDOWN:
-        if (wParam == VK_PROCESSKEY) {
+    নির্বাচন (বার্তা) {
+    ক্ষেত্র WM_KEYDOWN:
+        যদি (wParam == VK_PROCESSKEY) {
             SDL_DebugIMELog("WM_KEYDOWN VK_PROCESSKEY");
             trap = true;
-        } else {
+        } অন্যথা {
             SDL_DebugIMELog("WM_KEYDOWN normal");
         }
-        break;
-    case WM_SYSKEYDOWN:
-        if (wParam == VK_PROCESSKEY) {
+        বিরতি;
+    ক্ষেত্র WM_SYSKEYDOWN:
+        যদি (wParam == VK_PROCESSKEY) {
             SDL_DebugIMELog("WM_SYSKEYDOWN VK_PROCESSKEY");
             trap = true;
-        } else {
+        } অন্যথা {
             SDL_DebugIMELog("WM_SYSKEYDOWN normal");
         }
-        break;
-    case WM_INPUTLANGCHANGE:
+        বিরতি;
+    ক্ষেত্র WM_INPUTLANGCHANGE:
         SDL_DebugIMELog("WM_INPUTLANGCHANGE");
-        IME_InputLangChanged(videodata);
-        break;
-    case WM_IME_COMPOSITION:
+        IME_প্রবেশ_Lang_Changed(videodata);
+        বিরতি;
+    ক্ষেত্র WM_IME_COMPOSITION:
         SDL_DebugIMELog("WM_IME_COMPOSITION %x", lParam);
-        if (videodata->ime_internal_composition) {
+        যদি (videodata->ime_internal_composition) {
             trap = true;
             himc = ImmGetContext(hwnd);
-            if (*lParam & GCS_RESULTSTR) {
+            যদি (*lParam & GCS_RESULTSTR) {
                 SDL_DebugIMELog("GCS_RESULTSTR");
                 IME_GetCompositionString(videodata, himc, lParam, GCS_RESULTSTR);
                 IME_SendClearComposition(videodata);
-                IME_SendInputEvent(videodata);
+                IME_Send_প্রবেশ_Event(videodata);
             }
-            if (*lParam & GCS_COMPSTR) {
+            যদি (*lParam & GCS_COMPSTR) {
                 SDL_DebugIMELog("GCS_COMPSTR");
                 videodata->ime_readingstring[0] = 0;
                 IME_GetCompositionString(videodata, himc, lParam, GCS_COMPSTR);
@@ -1129,93 +1129,93 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
             }
             ImmReleaseContext(hwnd, himc);
         }
-        break;
-    case WM_IME_ENDCOMPOSITION:
+        বিরতি;
+    ক্ষেত্র WM_IME_ENDCOMPOSITION:
         SDL_DebugIMELog("WM_IME_ENDCOMPOSITION");
-        if (videodata->ime_internal_composition) {
+        যদি (videodata->ime_internal_composition) {
             trap = true;
             videodata->ime_composition[0] = 0;
             videodata->ime_readingstring[0] = 0;
             videodata->ime_cursor = 0;
             videodata->ime_selected_start = 0;
-            videodata->ime_selected_length = 0;
+            videodata->ime_selected_দৈর্ঘ্য = 0;
             IME_SendClearComposition(videodata);
         }
-        break;
-    case WM_IME_NOTIFY:
+        বিরতি;
+    ক্ষেত্র WM_IME_NOTIFY:
         SDL_DebugIMELog("WM_IME_NOTIFY %x", wParam);
-        switch (wParam) {
-        case IMN_SETCOMPOSITIONWINDOW:
+        নির্বাচন (wParam) {
+        ক্ষেত্র IMN_SETCOMPOSITIONWINDOW:
             SDL_DebugIMELog("IMN_SETCOMPOSITIONWINDOW");
-            break;
-        case IMN_SETCOMPOSITIONFONT:
+            বিরতি;
+        ক্ষেত্র IMN_SETCOMPOSITIONFONT:
             SDL_DebugIMELog("IMN_SETCOMPOSITIONFONT");
-            break;
-        case IMN_SETCANDIDATEPOS:
+            বিরতি;
+        ক্ষেত্র IMN_SETCANDIDATEPOS:
             SDL_DebugIMELog("IMN_SETCANDIDATEPOS");
-            break;
-        case IMN_SETCONVERSIONMODE:
-        case IMN_SETOPENSTATUS:
+            বিরতি;
+        ক্ষেত্র IMN_SETCONVERSIONMODE:
+        ক্ষেত্র IMN_SETOPENSTATUS:
             SDL_DebugIMELog("%s", wParam == IMN_SETCONVERSIONMODE ? "IMN_SETCONVERSIONMODE" : "IMN_SETOPENSTATUS");
-            IME_UpdateInputLocale(videodata);
-            break;
-        case IMN_OPENCANDIDATE:
-        case IMN_CHANGECANDIDATE:
+            IME_Update_প্রবেশ_Locale(videodata);
+            বিরতি;
+        ক্ষেত্র IMN_OPENCANDIDATE:
+        ক্ষেত্র IMN_CHANGECANDIDATE:
             SDL_DebugIMELog("%s", wParam == IMN_OPENCANDIDATE ? "IMN_OPENCANDIDATE" : "IMN_CHANGECANDIDATE");
-            if (videodata->ime_internal_candidates) {
+            যদি (videodata->ime_internal_candidates) {
                 trap = true;
                 videodata->ime_update_candidates = true;
             }
-            break;
-        case IMN_CLOSECANDIDATE:
+            বিরতি;
+        ক্ষেত্র IMN_CLOSECANDIDATE:
             SDL_DebugIMELog("IMN_CLOSECANDIDATE");
-            if (videodata->ime_internal_candidates) {
+            যদি (videodata->ime_internal_candidates) {
                 trap = true;
                 videodata->ime_update_candidates = false;
                 IME_CloseCandidateList(videodata);
             }
-            break;
-        case IMN_PRIVATE:
+            বিরতি;
+        ক্ষেত্র IMN_PRIVATE:
         {
             DWORD dwId = IME_GetId(videodata, 0);
             SDL_DebugIMELog("IMN_PRIVATE %u", dwId);
             IME_GetReadingString(videodata, hwnd);
-            switch (dwId) {
-            case IMEID_CHT_VER42:
-            case IMEID_CHT_VER43:
-            case IMEID_CHT_VER44:
-            case IMEID_CHS_VER41:
-            case IMEID_CHS_VER42:
-                if (*lParam == 1 || *lParam == 2) {
+            নির্বাচন (dwId) {
+            ক্ষেত্র IMEID_CHT_VER42:
+            ক্ষেত্র IMEID_CHT_VER43:
+            ক্ষেত্র IMEID_CHT_VER44:
+            ক্ষেত্র IMEID_CHS_VER41:
+            ক্ষেত্র IMEID_CHS_VER42:
+                যদি (*lParam == 1 || *lParam == 2) {
                     trap = true;
                 }
 
-                break;
-            case IMEID_CHT_VER50:
-            case IMEID_CHT_VER51:
-            case IMEID_CHT_VER52:
-            case IMEID_CHT_VER60:
-            case IMEID_CHS_VER53:
-                if (*lParam == 16 || *lParam == 17 || *lParam == 26 || *lParam == 27 || *lParam == 28) {
+                বিরতি;
+            ক্ষেত্র IMEID_CHT_VER50:
+            ক্ষেত্র IMEID_CHT_VER51:
+            ক্ষেত্র IMEID_CHT_VER52:
+            ক্ষেত্র IMEID_CHT_VER60:
+            ক্ষেত্র IMEID_CHS_VER53:
+                যদি (*lParam == 16 || *lParam == 17 || *lParam == 26 || *lParam == 27 || *lParam == 28) {
                     trap = true;
                 }
-                break;
+                বিরতি;
             }
-        } break;
-        default:
+        } বিরতি;
+        পূর্বনির্ধারিত:
             trap = true;
-            break;
+            বিরতি;
         }
-        break;
+        বিরতি;
     }
-    return trap;
+    ফেরত trap;
 }
 
-void WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
+শূন্য WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
 
-    if (videodata->ime_update_candidates) {
+    যদি (videodata->ime_update_candidates) {
         IME_GetCandidateList(videodata, videodata->ime_hwnd_current);
         videodata->ime_update_candidates = false;
     }

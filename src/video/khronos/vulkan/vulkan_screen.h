@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,54 +25,54 @@ extern "C" {
 #define VK_QNX_SCREEN_SURFACE_SPEC_VERSION 1
 #define VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
 
-typedef VkFlags VkScreenSurfaceCreateFlagsQNX;
+প্রকারলেখ VkFlags VkScreenSurfaceCreateFlagsQNX;
 
-typedef struct VkScreenSurfaceCreateInfoQNX {
+প্রকারলেখ কাঠামো VkScreenSurfaceCreateInfoQNX {
     VkStructureType                  sType;
-    const void*                      pNext;
+    ধ্রুবক শূন্য*                      p_পরবর্তী;
     VkScreenSurfaceCreateFlagsQNX    flags;
-    struct _screen_context*          context;
-    struct _screen_window*           window;
+    কাঠামো _screen_context*          context;
+    কাঠামো _screen_window*           window;
 } VkScreenSurfaceCreateInfoQNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, const VkScreenSurfaceCreateInfoQNX* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct _screen_window* window);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, ধ্রুবক VkScreenSurfaceCreateInfoQNX* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_সূচক, কাঠামো _screen_window* window);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateScreenSurfaceQNX(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateScreenSurfaceQNX(
     VkInstance                                  instance,
-    const VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct _screen_window*                      window);
+    uint32_t                                    queue_Family_সূচক,
+    কাঠামো _screen_window*                      window);
 #endif
 #endif
 
 
 // VK_QNX_external_memory_screen_buffer is a preprocessor guard. Do not pass it to API calls.
-#define VK_QNX_external_memory_screen_buffer 1
+#define VK_QNX_external_memory_screen_বাফার 1
 
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_SPEC_VERSION 1
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
+#define VK_QNX_EXTERNAL_MEMORY_SCREEN_বাফার_SPEC_VERSION 1
+#define VK_QNX_EXTERNAL_MEMORY_SCREEN_বাফার_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
 
-typedef struct VkScreenBufferPropertiesQNX {
+প্রকারলেখ কাঠামো Vk_Screen_বাফার_Properties_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
+    শূন্য*              p_পরবর্তী;
+    Vk_Device_আকার       allocation_আকার;
     uint32_t           memoryTypeBits;
-} VkScreenBufferPropertiesQNX;
+} Vk_Screen_বাফার_Properties_QNX;
 
-typedef struct VkScreenBufferFormatPropertiesQNX {
+প্রকারলেখ কাঠামো Vk_Screen_বাফার_Format_Properties_QNX {
     VkStructureType                  sType;
-    void*                            pNext;
+    শূন্য*                            p_পরবর্তী;
     VkFormat                         format;
     uint64_t                         externalFormat;
     uint64_t                         screenUsage;
@@ -82,36 +82,36 @@ typedef struct VkScreenBufferFormatPropertiesQNX {
     VkSamplerYcbcrRange              suggestedYcbcrRange;
     VkChromaLocation                 suggestedXChromaOffset;
     VkChromaLocation                 suggestedYChromaOffset;
-} VkScreenBufferFormatPropertiesQNX;
+} Vk_Screen_বাফার_Format_Properties_QNX;
 
-typedef struct VkImportScreenBufferInfoQNX {
+প্রকারলেখ কাঠামো Vk_Import_Screen_বাফার_Info_QNX {
     VkStructureType           sType;
-    const void*               pNext;
-    struct _screen_buffer*    buffer;
-} VkImportScreenBufferInfoQNX;
+    ধ্রুবক শূন্য*               p_পরবর্তী;
+    কাঠামো screen_বাফার*    বাফার_2;
+} Vk_Import_Screen_বাফার_Info_QNX;
 
-typedef struct VkExternalFormatQNX {
+প্রকারলেখ কাঠামো VkExternalFormatQNX {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint64_t           externalFormat;
 } VkExternalFormatQNX;
 
-typedef struct VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
+প্রকারলেখ কাঠামো Vk_Physical_Device_External_Memory_Screen_বাফার_Features_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           screenBufferImport;
-} VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX;
+    শূন্য*              p_পরবর্তী;
+    VkBool32           screen_বাফার_Import;
+} Vk_Physical_Device_External_Memory_Screen_বাফার_Features_QNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vk_Get_Screen_বাফার_Properties_QNX)(VkDevice device, ধ্রুবক কাঠামো screen_বাফার* বাফার_2, Vk_Screen_বাফার_Properties_QNX* pProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vk_Get_Screen_বাফার_Properties_QNX(
     VkDevice                                    device,
-    const struct _screen_buffer*                buffer,
-    VkScreenBufferPropertiesQNX*                pProperties);
+    ধ্রুবক কাঠামো screen_বাফার*                বাফার_2,
+    Vk_Screen_বাফার_Properties_QNX*                pProperties);
 #endif
 #endif
 

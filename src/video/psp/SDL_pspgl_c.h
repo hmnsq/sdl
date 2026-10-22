@@ -22,29 +22,29 @@
 #ifndef SDL_pspgl_c_h_
 #define SDL_pspgl_c_h_
 
-#include <GLES/egl.h>
-#include <GLES/gl.h>
+#অন্তর্ভাব <GLES/egl.h>
+#অন্তর্ভাব <GLES/gl.h>
 
-#include "SDL_pspvideo.h"
+#অন্তর্ভাব "SDL_pspvideo.h"
 
-typedef struct SDL_GLDriverData
+প্রকারলেখ কাঠামো SDL_GLDriver_তথ্য
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
+} SDL_GLDriver_তথ্য;
 
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
+বাহ্যিক SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *proc);
+বাহ্যিক bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+বাহ্যিক শূন্য PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
 
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্যিক SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+বাহ্যিক bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path);
+বাহ্যিক শূন্য PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্যিক bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা interval);
+বাহ্যিক bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা *interval);
 
 #endif // SDL_pspgl_c_h_

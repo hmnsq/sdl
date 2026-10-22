@@ -2,7 +2,7 @@
 #define __egl_h_ 1
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 /*
@@ -17,7 +17,7 @@ extern "C" {
 ** Khronos $Git commit SHA1: e80a2e0050 $ on $Git commit date: 2026-03-19 06:21:49 +0100 $
 */
 
-#include <EGL/eglplatform.h>
+#অন্তর্ভাব <EGL/eglplatform.h>
 
 #ifndef EGL_EGL_PROTOTYPES
 #define EGL_EGL_PROTOTYPES 1
@@ -36,15 +36,15 @@ extern "C" {
 
 #ifndef EGL_VERSION_1_0
 #define EGL_VERSION_1_0 1
-typedef unsigned int EGLBoolean;
-typedef void *EGLDisplay;
-#include <KHR/khrplatform.h>
-#include <EGL/eglplatform.h>
-typedef void *EGLConfig;
-typedef void *EGLSurface;
-typedef void *EGLContext;
-typedef void (*__eglMustCastToProperFunctionPointerType)(void);
-#define EGL_ALPHA_SIZE                    0x3021
+প্রকারলেখ unsigned পূর্ণসংখ্যা EGLBoolean;
+প্রকারলেখ শূন্য *EGLDisplay;
+#অন্তর্ভাব <KHR/khrplatform.h>
+#অন্তর্ভাব <EGL/eglplatform.h>
+প্রকারলেখ শূন্য *EGLConfig;
+প্রকারলেখ শূন্য *EGLSurface;
+প্রকারলেখ শূন্য *EGLContext;
+প্রকারলেখ শূন্য (*__eglMustCastToProperFunctionPointerType)(শূন্য);
+#define EGL_ALPHA_আকার                    0x3021
 #define EGL_BAD_ACCESS                    0x3002
 #define EGL_BAD_ALLOC                     0x3003
 #define EGL_BAD_ATTRIBUTE                 0x3004
@@ -57,17 +57,17 @@ typedef void (*__eglMustCastToProperFunctionPointerType)(void);
 #define EGL_BAD_NATIVE_WINDOW             0x300B
 #define EGL_BAD_PARAMETER                 0x300C
 #define EGL_BAD_SURFACE                   0x300D
-#define EGL_BLUE_SIZE                     0x3022
-#define EGL_BUFFER_SIZE                   0x3020
+#define EGL_BLUE_আকার                     0x3022
+#define EGL_বাফার_আকার                   0x3020
 #define EGL_CONFIG_CAVEAT                 0x3027
 #define EGL_CONFIG_ID                     0x3028
 #define EGL_CORE_NATIVE_ENGINE            0x305B
-#define EGL_DEPTH_SIZE                    0x3025
+#define EGL_DEPTH_আকার                    0x3025
 #define EGL_DONT_CARE                     EGL_CAST(EGLint,-1)
 #define EGL_DRAW                          0x3059
 #define EGL_EXTENSIONS                    0x3055
 #define EGL_FALSE                         0
-#define EGL_GREEN_SIZE                    0x3023
+#define EGL_GREEN_আকার                    0x3023
 #define EGL_HEIGHT                        0x3056
 #define EGL_LARGEST_PBUFFER               0x3058
 #define EGL_LEVEL                         0x3029
@@ -86,16 +86,16 @@ typedef void (*__eglMustCastToProperFunctionPointerType)(void);
 #define EGL_PBUFFER_BIT                   0x0001
 #define EGL_PIXMAP_BIT                    0x0002
 #define EGL_READ                          0x305A
-#define EGL_RED_SIZE                      0x3024
+#define EGL_RED_আকার                      0x3024
 #define EGL_SAMPLES                       0x3031
 #define EGL_SAMPLE_BUFFERS                0x3032
 #define EGL_SLOW_CONFIG                   0x3050
-#define EGL_STENCIL_SIZE                  0x3026
+#define EGL_STENCIL_আকার                  0x3026
 #define EGL_SUCCESS                       0x3000
 #define EGL_SURFACE_TYPE                  0x3033
-#define EGL_TRANSPARENT_BLUE_VALUE        0x3035
-#define EGL_TRANSPARENT_GREEN_VALUE       0x3036
-#define EGL_TRANSPARENT_RED_VALUE         0x3037
+#define EGL_TRANSPARENT_BLUE_মান        0x3035
+#define EGL_TRANSPARENT_GREEN_মান       0x3036
+#define EGL_TRANSPARENT_RED_মান         0x3037
 #define EGL_TRANSPARENT_RGB               0x3052
 #define EGL_TRANSPARENT_TYPE              0x3034
 #define EGL_TRUE                          1
@@ -103,61 +103,61 @@ typedef void (*__eglMustCastToProperFunctionPointerType)(void);
 #define EGL_VERSION                       0x3054
 #define EGL_WIDTH                         0x3057
 #define EGL_WINDOW_BIT                    0x0004
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLCOPYBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
-typedef EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPIXMAPSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGSPROC) (EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETCURRENTDISPLAYPROC) (void);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLGETCURRENTSURFACEPROC) (EGLint readdraw);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
-typedef EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (void);
-typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const char *procname);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
-typedef const char *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
-#if EGL_EGL_PROTOTYPES
-EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, ধ্রুবক EGLint *attrib_list, EGLConfig *configs, EGLint config_আকার, EGLint *অঙ্ক_config);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLCOPYBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
+প্রকারলেখ EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, ধ্রুবক EGLint *attrib_list);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERSURFACEPROC) (EGLDisplay dpy, EGLConfig config, ধ্রুবক EGLint *attrib_list);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPIXMAPSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, ধ্রুবক EGLint *attrib_list);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, ধ্রুবক EGLint *attrib_list);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGATTRIBPROC) (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *মান);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLGETCONFIGSPROC) (EGLDisplay dpy, EGLConfig *configs, EGLint config_আকার, EGLint *অঙ্ক_config);
+প্রকারলেখ EGLDisplay (EGLAPIENTRYP PFNEGLGETCURRENTDISPLAYPROC) (শূন্য);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLGETCURRENTSURFACEPROC) (EGLint readdraw);
+প্রকারলেখ EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
+প্রকারলেখ EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (শূন্য);
+প্রকারলেখ __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (ধ্রুবক অক্ষর *procname);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface পঠ, EGLContext ctx);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLQUERYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *মান);
+প্রকারলেখ ধ্রুবক অক্ষর *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLQUERYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *মান);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (শূন্য);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
+#যদি EGL_EGL_PROTOTYPES
+EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig (EGLDisplay dpy, ধ্রুবক EGLint *attrib_list, EGLConfig *configs, EGLint config_আকার, EGLint *অঙ্ক_config);
 EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers (EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
-EGLAPI EGLContext EGLAPIENTRY eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
-EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferSurface (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
-EGLAPI EGLSurface EGLAPIENTRY eglCreatePixmapSurface (EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list);
-EGLAPI EGLSurface EGLAPIENTRY eglCreateWindowSurface (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list);
+EGLAPI EGLContext EGLAPIENTRY eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, ধ্রুবক EGLint *attrib_list);
+EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferSurface (EGLDisplay dpy, EGLConfig config, ধ্রুবক EGLint *attrib_list);
+EGLAPI EGLSurface EGLAPIENTRY eglCreatePixmapSurface (EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, ধ্রুবক EGLint *attrib_list);
+EGLAPI EGLSurface EGLAPIENTRY eglCreateWindowSurface (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, ধ্রুবক EGLint *attrib_list);
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroyContext (EGLDisplay dpy, EGLContext ctx);
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroySurface (EGLDisplay dpy, EGLSurface surface);
-EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigAttrib (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
-EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigs (EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-EGLAPI EGLDisplay EGLAPIENTRY eglGetCurrentDisplay (void);
+EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigAttrib (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *মান);
+EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigs (EGLDisplay dpy, EGLConfig *configs, EGLint config_আকার, EGLint *অঙ্ক_config);
+EGLAPI EGLDisplay EGLAPIENTRY eglGetCurrentDisplay (শূন্য);
 EGLAPI EGLSurface EGLAPIENTRY eglGetCurrentSurface (EGLint readdraw);
 EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay (EGLNativeDisplayType display_id);
-EGLAPI EGLint EGLAPIENTRY eglGetError (void);
-EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY eglGetProcAddress (const char *procname);
+EGLAPI EGLint EGLAPIENTRY eglGetError (শূন্য);
+EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY eglGetProcAddress (ধ্রুবক অক্ষর *procname);
 EGLAPI EGLBoolean EGLAPIENTRY eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor);
-EGLAPI EGLBoolean EGLAPIENTRY eglMakeCurrent (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
-EGLAPI EGLBoolean EGLAPIENTRY eglQueryContext (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
-EGLAPI const char *EGLAPIENTRY eglQueryString (EGLDisplay dpy, EGLint name);
-EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
+EGLAPI EGLBoolean EGLAPIENTRY eglMakeCurrent (EGLDisplay dpy, EGLSurface draw, EGLSurface পঠ, EGLContext ctx);
+EGLAPI EGLBoolean EGLAPIENTRY eglQueryContext (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *মান);
+EGLAPI ধ্রুবক অক্ষর *EGLAPIENTRY eglQueryString (EGLDisplay dpy, EGLint name);
+EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *মান);
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapBuffers (EGLDisplay dpy, EGLSurface surface);
 EGLAPI EGLBoolean EGLAPIENTRY eglTerminate (EGLDisplay dpy);
-EGLAPI EGLBoolean EGLAPIENTRY eglWaitGL (void);
+EGLAPI EGLBoolean EGLAPIENTRY eglWaitGL (শূন্য);
 EGLAPI EGLBoolean EGLAPIENTRY eglWaitNative (EGLint engine);
 #endif
 #endif /* EGL_VERSION_1_0 */
 
 #ifndef EGL_VERSION_1_1
 #define EGL_VERSION_1_1 1
-#define EGL_BACK_BUFFER                   0x3084
+#define EGL_BACK_বাফার                   0x3084
 #define EGL_BIND_TO_TEXTURE_RGB           0x3039
 #define EGL_BIND_TO_TEXTURE_RGBA          0x303A
 #define EGL_CONTEXT_LOST                  0x300E
@@ -171,38 +171,38 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitNative (EGLint engine);
 #define EGL_TEXTURE_RGB                   0x305D
 #define EGL_TEXTURE_RGBA                  0x305E
 #define EGL_TEXTURE_TARGET                0x3081
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLBINDTEXIMAGEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETEXIMAGEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSURFACEATTRIBPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
-#if EGL_EGL_PROTOTYPES
-EGLAPI EGLBoolean EGLAPIENTRY eglBindTexImage (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
-EGLAPI EGLBoolean EGLAPIENTRY eglReleaseTexImage (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
-EGLAPI EGLBoolean EGLAPIENTRY eglSurfaceAttrib (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLBINDTEXIMAGEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint বাফার_2);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETEXIMAGEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint বাফার_2);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLSURFACEATTRIBPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint মান);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
+#যদি EGL_EGL_PROTOTYPES
+EGLAPI EGLBoolean EGLAPIENTRY eglBindTexImage (EGLDisplay dpy, EGLSurface surface, EGLint বাফার_2);
+EGLAPI EGLBoolean EGLAPIENTRY eglReleaseTexImage (EGLDisplay dpy, EGLSurface surface, EGLint বাফার_2);
+EGLAPI EGLBoolean EGLAPIENTRY eglSurfaceAttrib (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint মান);
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapInterval (EGLDisplay dpy, EGLint interval);
 #endif
 #endif /* EGL_VERSION_1_1 */
 
 #ifndef EGL_VERSION_1_2
 #define EGL_VERSION_1_2 1
-typedef unsigned int EGLenum;
-typedef void *EGLClientBuffer;
+প্রকারলেখ unsigned পূর্ণসংখ্যা EGLenum;
+প্রকারলেখ শূন্য *EGLClient_বাফার;
 #define EGL_ALPHA_FORMAT                  0x3088
 #define EGL_ALPHA_FORMAT_NONPRE           0x308B
 #define EGL_ALPHA_FORMAT_PRE              0x308C
-#define EGL_ALPHA_MASK_SIZE               0x303E
-#define EGL_BUFFER_PRESERVED              0x3094
-#define EGL_BUFFER_DESTROYED              0x3095
+#define EGL_ALPHA_MASK_আকার               0x303E
+#define EGL_বাফার_PRESERVED              0x3094
+#define EGL_বাফার_DESTROYED              0x3095
 #define EGL_CLIENT_APIS                   0x308D
 #define EGL_COLORSPACE                    0x3087
 #define EGL_COLORSPACE_sRGB               0x3089
 #define EGL_COLORSPACE_LINEAR             0x308A
-#define EGL_COLOR_BUFFER_TYPE             0x303F
+#define EGL_COLOR_বাফার_TYPE             0x303F
 #define EGL_CONTEXT_CLIENT_TYPE           0x3097
 #define EGL_DISPLAY_SCALING               10000
 #define EGL_HORIZONTAL_RESOLUTION         0x3090
-#define EGL_LUMINANCE_BUFFER              0x308F
-#define EGL_LUMINANCE_SIZE                0x303D
+#define EGL_LUMINANCE_বাফার              0x308F
+#define EGL_LUMINANCE_আকার                0x303D
 #define EGL_OPENGL_ES_BIT                 0x0001
 #define EGL_OPENVG_BIT                    0x0002
 #define EGL_OPENGL_ES_API                 0x30A0
@@ -210,23 +210,23 @@ typedef void *EGLClientBuffer;
 #define EGL_OPENVG_IMAGE                  0x3096
 #define EGL_PIXEL_ASPECT_RATIO            0x3092
 #define EGL_RENDERABLE_TYPE               0x3040
-#define EGL_RENDER_BUFFER                 0x3086
-#define EGL_RGB_BUFFER                    0x308E
-#define EGL_SINGLE_BUFFER                 0x3085
+#define EGL_RENDER_বাফার                 0x3086
+#define EGL_RGB_বাফার                    0x308E
+#define EGL_SINGLE_বাফার                 0x3085
 #define EGL_SWAP_BEHAVIOR                 0x3093
 #define EGL_UNKNOWN                       EGL_CAST(EGLint,-1)
 #define EGL_VERTICAL_RESOLUTION           0x3091
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
-typedef EGLenum (EGLAPIENTRYP PFNEGLQUERYAPIPROC) (void);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC) (EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETHREADPROC) (void);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITCLIENTPROC) (void);
-#if EGL_EGL_PROTOTYPES
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLBINDAPIPROC) (EGLenum api);
+প্রকারলেখ EGLenum (EGLAPIENTRYP PFNEGLQUERYAPIPROC) (শূন্য);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC) (EGLDisplay dpy, EGLenum buftype, EGLClient_বাফার বাফার_2, EGLConfig config, ধ্রুবক EGLint *attrib_list);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETHREADPROC) (শূন্য);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLWAITCLIENTPROC) (শূন্য);
+#যদি EGL_EGL_PROTOTYPES
 EGLAPI EGLBoolean EGLAPIENTRY eglBindAPI (EGLenum api);
-EGLAPI EGLenum EGLAPIENTRY eglQueryAPI (void);
-EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferFromClientBuffer (EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
-EGLAPI EGLBoolean EGLAPIENTRY eglReleaseThread (void);
-EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void);
+EGLAPI EGLenum EGLAPIENTRY eglQueryAPI (শূন্য);
+EGLAPI EGLSurface EGLAPIENTRY egl_Create_Pbuffer_From_Client_বাফার (EGLDisplay dpy, EGLenum buftype, EGLClient_বাফার বাফার_2, EGLConfig config, ধ্রুবক EGLint *attrib_list);
+EGLAPI EGLBoolean EGLAPIENTRY eglReleaseThread (শূন্য);
+EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (শূন্য);
 #endif
 #endif /* EGL_VERSION_1_2 */
 
@@ -256,18 +256,18 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void);
 #define EGL_OPENGL_API                    0x30A2
 #define EGL_OPENGL_BIT                    0x0008
 #define EGL_SWAP_BEHAVIOR_PRESERVED_BIT   0x0400
-typedef EGLContext (EGLAPIENTRYP PFNEGLGETCURRENTCONTEXTPROC) (void);
-#if EGL_EGL_PROTOTYPES
-EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext (void);
+প্রকারলেখ EGLContext (EGLAPIENTRYP PFNEGLGETCURRENTCONTEXTPROC) (শূন্য);
+#যদি EGL_EGL_PROTOTYPES
+EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext (শূন্য);
 #endif
 #endif /* EGL_VERSION_1_4 */
 
 #ifndef EGL_VERSION_1_5
 #define EGL_VERSION_1_5 1
-typedef void *EGLSync;
-typedef intptr_t EGLAttrib;
-typedef khronos_utime_nanoseconds_t EGLTime;
-typedef void *EGLImage;
+প্রকারলেখ শূন্য *EGLSync;
+প্রকারলেখ intptr_t EGLAttrib;
+প্রকারলেখ khronos_utime_nanoseconds_t EGLTime;
+প্রকারলেখ শূন্য *EGLImage;
 #define EGL_CONTEXT_MAJOR_VERSION         0x3098
 #define EGL_CONTEXT_MINOR_VERSION         0x30FB
 #define EGL_CONTEXT_OPENGL_PROFILE_MASK   0x30FD
@@ -311,26 +311,26 @@ typedef void *EGLImage;
 #define EGL_GL_TEXTURE_CUBE_MAP_NEGATIVE_Z 0x30B8
 #define EGL_IMAGE_PRESERVED               0x30D2
 #define EGL_NO_IMAGE                      EGL_CAST(EGLImage,0)
-typedef EGLSync (EGLAPIENTRYP PFNEGLCREATESYNCPROC) (EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCPROC) (EGLDisplay dpy, EGLSync sync);
-typedef EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCPROC) (EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLGETSYNCATTRIBPROC) (EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *value);
-typedef EGLImage (EGLAPIENTRYP PFNEGLCREATEIMAGEPROC) (EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLAttrib *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYIMAGEPROC) (EGLDisplay dpy, EGLImage image);
-typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, void *native_window, const EGLAttrib *attrib_list);
-typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC) (EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLAttrib *attrib_list);
-typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITSYNCPROC) (EGLDisplay dpy, EGLSync sync, EGLint flags);
-#if EGL_EGL_PROTOTYPES
-EGLAPI EGLSync EGLAPIENTRY eglCreateSync (EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
+প্রকারলেখ EGLSync (EGLAPIENTRYP PFNEGLCREATESYNCPROC) (EGLDisplay dpy, EGLenum type, ধ্রুবক EGLAttrib *attrib_list);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYSYNCPROC) (EGLDisplay dpy, EGLSync sync);
+প্রকারলেখ EGLint (EGLAPIENTRYP PFNEGLCLIENTWAITSYNCPROC) (EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLGETSYNCATTRIBPROC) (EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *মান);
+প্রকারলেখ EGLImage (EGLAPIENTRYP PFNEGLCREATEIMAGEPROC) (EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClient_বাফার বাফার_2, ধ্রুবক EGLAttrib *attrib_list);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLDESTROYIMAGEPROC) (EGLDisplay dpy, EGLImage image);
+প্রকারলেখ EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform, শূন্য *native_display, ধ্রুবক EGLAttrib *attrib_list);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, শূন্য *native_window, ধ্রুবক EGLAttrib *attrib_list);
+প্রকারলেখ EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC) (EGLDisplay dpy, EGLConfig config, শূন্য *native_pixmap, ধ্রুবক EGLAttrib *attrib_list);
+প্রকারলেখ EGLBoolean (EGLAPIENTRYP PFNEGLWAITSYNCPROC) (EGLDisplay dpy, EGLSync sync, EGLint flags);
+#যদি EGL_EGL_PROTOTYPES
+EGLAPI EGLSync EGLAPIENTRY eglCreateSync (EGLDisplay dpy, EGLenum type, ধ্রুবক EGLAttrib *attrib_list);
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroySync (EGLDisplay dpy, EGLSync sync);
 EGLAPI EGLint EGLAPIENTRY eglClientWaitSync (EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
-EGLAPI EGLBoolean EGLAPIENTRY eglGetSyncAttrib (EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *value);
-EGLAPI EGLImage EGLAPIENTRY eglCreateImage (EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLAttrib *attrib_list);
+EGLAPI EGLBoolean EGLAPIENTRY eglGetSyncAttrib (EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *মান);
+EGLAPI EGLImage EGLAPIENTRY eglCreateImage (EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClient_বাফার বাফার_2, ধ্রুবক EGLAttrib *attrib_list);
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroyImage (EGLDisplay dpy, EGLImage image);
-EGLAPI EGLDisplay EGLAPIENTRY eglGetPlatformDisplay (EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
-EGLAPI EGLSurface EGLAPIENTRY eglCreatePlatformWindowSurface (EGLDisplay dpy, EGLConfig config, void *native_window, const EGLAttrib *attrib_list);
-EGLAPI EGLSurface EGLAPIENTRY eglCreatePlatformPixmapSurface (EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLAttrib *attrib_list);
+EGLAPI EGLDisplay EGLAPIENTRY eglGetPlatformDisplay (EGLenum platform, শূন্য *native_display, ধ্রুবক EGLAttrib *attrib_list);
+EGLAPI EGLSurface EGLAPIENTRY eglCreatePlatformWindowSurface (EGLDisplay dpy, EGLConfig config, শূন্য *native_window, ধ্রুবক EGLAttrib *attrib_list);
+EGLAPI EGLSurface EGLAPIENTRY eglCreatePlatformPixmapSurface (EGLDisplay dpy, EGLConfig config, শূন্য *native_pixmap, ধ্রুবক EGLAttrib *attrib_list);
 EGLAPI EGLBoolean EGLAPIENTRY eglWaitSync (EGLDisplay dpy, EGLSync sync, EGLint flags);
 #endif
 #endif /* EGL_VERSION_1_5 */

@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/android/SDL_android.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাব "../../events/SDL_mouse_c.h"
+#অন্তর্ভাব "../../events/SDL_windowevents_c.h"
+#অন্তর্ভাব "../../core/android/SDL_android.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidwindow.h"
+#অন্তর্ভাব "SDL_androidvideo.h"
+#অন্তর্ভাব "SDL_androidevents.h"
+#অন্তর্ভাব "SDL_androidwindow.h"
 
 
 // Currently only one window
-SDL_Window *Android_Window = NULL;
+SDL_Window *Android_Window = ফাঁকা;
 
 bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    bool result = true;
+    SDL_Window_তথ্য *তথ্য;
+    bool ফলাফল = true;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return false;
+    যদি (!Android_WaitActiveAndLockActivity()) {
+        ফেরত false;
     }
 
-    if (Android_Window) {
-        result = SDL_SetError("Android only supports one window");
-        goto endfunction;
+    যদি (Android_Window) {
+        ফলাফল = SDL_SetError("Android only supports one window");
+        যাও endfunction;
     }
 
     // Set orientation
@@ -63,63 +63,63 @@ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     SDL_SetMouseFocus(window);
     SDL_SetKeyboardFocus(window);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        result = false;
-        goto endfunction;
+    তথ্য = (SDL_Window_তথ্য *)SDL_calloc(1, আকার(*তথ্য));
+    যদি (!তথ্য) {
+        ফলাফল = false;
+        যাও endfunction;
     }
 
-    data->native_window = Android_JNI_GetNativeWindow();
-    if (!data->native_window) {
-        SDL_free(data);
-        result = SDL_SetError("Could not fetch native window");
-        goto endfunction;
+    তথ্য->native_window = Android_JNI_GetNativeWindow();
+    যদি (!তথ্য->native_window) {
+        SDL_free(তথ্য);
+        ফলাফল = SDL_SetError("Could not fetch native window");
+        যাও endfunction;
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, data->native_window);
+    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, তথ্য->native_window);
 
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
+    যদি (window->flags & SDL_WINDOW_OPENGL) {
+        তথ্য->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)তথ্য->native_window);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            ANativeWindow_release(data->native_window);
-            SDL_free(data);
-            result = false;
-            goto endfunction;
+        যদি (তথ্য->egl_surface == EGL_NO_SURFACE) {
+            ANativeWindow_release(তথ্য->native_window);
+            SDL_free(তথ্য);
+            ফলাফল = false;
+            যাও endfunction;
         }
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER, data->egl_surface);
+    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER, তথ্য->egl_surface);
 #endif
 
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
+    SDL_SetWindowSafeAreaInsets(window, Android_Safe_Inset_বাম, Android_Safe_Inset_ডান, Android_Safe_Inset_শীর্ষ, Android_SafeInsetBottom);
 
-    window->internal = data;
+    window->internal = তথ্য;
     Android_Window = window;
 
 endfunction:
 
     Android_UnlockActivityMutex();
 
-    return result;
+    ফেরত ফলাফল;
 }
 
-void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_JNI_SetActivityTitle(window->title);
 }
 
-SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_ফলাফল Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
-        SDL_WindowData *data;
-        int old_w, old_h, new_w, new_h;
+    যদি (window == Android_Window) {
+        SDL_Window_তথ্য *তথ্য;
+        পূর্ণসংখ্যা old_w, old_h, new_w, new_h;
 
         // If the window is being destroyed don't change visible state
-        if (!window->is_destroying) {
+        যদি (!window->is_destroying) {
             Android_JNI_SetWindowStyle(fullscreen);
         }
 
@@ -129,29 +129,29 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * Samsung DeX or Chromebooks or other windowed Android environments, our window may
          * still not be the full display size.
          */
-        if (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
-            goto endfunction;
+        যদি (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
+            যাও endfunction;
         }
 
-        data = window->internal;
-        if (!data || !data->native_window) {
-            if (data && !data->native_window) {
+        তথ্য = window->internal;
+        যদি (!তথ্য || !তথ্য->native_window) {
+            যদি (তথ্য && !তথ্য->native_window) {
                 SDL_SetError("Missing native window");
             }
-            goto endfunction;
+            যাও endfunction;
         }
 
         old_w = window->w;
         old_h = window->h;
 
-        new_w = ANativeWindow_getWidth(data->native_window);
-        new_h = ANativeWindow_getHeight(data->native_window);
+        new_w = ANativeWindow_getWidth(তথ্য->native_window);
+        new_h = ANativeWindow_getHeight(তথ্য->native_window);
 
-        if (new_w < 0 || new_h < 0) {
+        যদি (new_w < 0 || new_h < 0) {
             SDL_SetError("ANativeWindow_getWidth/Height() fails");
         }
 
-        if (old_w != new_w || old_h != new_h) {
+        যদি (old_w != new_w || old_h != new_h) {
             SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, new_w, new_h);
         }
     }
@@ -160,41 +160,41 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    ফেরত SDL_FULLSCREEN_SUCCEEDED;
 }
 
-void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_JNI_MinimizeWindow();
 }
 
-void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+শূন্য Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
 {
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 }
 
-void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
-        Android_Window = NULL;
+    যদি (window == Android_Window) {
+        Android_Window = ফাঁকা;
 
-        if (window->internal) {
-            SDL_WindowData *data = window->internal;
+        যদি (window->internal) {
+            SDL_Window_তথ্য *তথ্য = window->internal;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
-                SDL_EGL_DestroySurface(_this, data->egl_surface);
+            যদি (তথ্য->egl_surface != EGL_NO_SURFACE) {
+                SDL_EGL_DestroySurface(_this, তথ্য->egl_surface);
             }
 #endif
 
-            if (data->native_window) {
-                ANativeWindow_release(data->native_window);
+            যদি (তথ্য->native_window) {
+                ANativeWindow_release(তথ্য->native_window);
             }
             SDL_free(window->internal);
-            window->internal = NULL;
+            window->internal = ফাঁকা;
         }
     }
 

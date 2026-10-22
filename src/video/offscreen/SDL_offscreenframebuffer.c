@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_offscreenframebuffer_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../../SDL_properties_c.h"
+#অন্তর্ভাব "SDL_offscreenframebuffer_c.h"
 
 #define OFFSCREEN_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, শূন্য **pixels, পূর্ণসংখ্যা *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    ধ্রুবক SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    পূর্ণসংখ্যা w, h;
 
     // Create a new framebuffer
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_Window_আকার_In_Pixels(window, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    যদি (!surface) {
+        ফেরত false;
     }
 
     // Save the info and return!
@@ -48,30 +48,30 @@ bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *w
     *pixels = surface->pixels;
     *pitch = surface->pitch;
 
-    return true;
+    ফেরত true;
 }
 
-bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ধ্রুবক SDL_Rect *rects, পূর্ণসংখ্যা numrects)
 {
-    static int frame_number;
+    স্থির পূর্ণসংখ্যা frame_সংখ্যা;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find offscreen surface for window");
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, ফাঁকা);
+    যদি (!surface) {
+        ফেরত SDL_SetError("Couldn't find offscreen surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    যদি (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
+        অক্ষর file[128];
+        (শূন্য)SDL_snprintf(file, আকার(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_GetWindowID(window), ++frame_সংখ্যা);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    ফেরত true;
 }
 
-void SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE);
 }

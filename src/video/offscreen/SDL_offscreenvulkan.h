@@ -18,20 +18,20 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifndef SDL_offscreenvulkan_h
 #define SDL_offscreenvulkan_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
+#যদি defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
 
-#include "../SDL_sysvideo.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
 
-extern bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-extern void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+বাহ্যিক bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path);
+বাহ্যিক শূন্য OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্যিক অক্ষর ধ্রুবক *ধ্রুবক *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *গুনতি);
+বাহ্যিক bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, ধ্রুবক কাঠামো VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
+বাহ্যিক শূন্য OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, ধ্রুবক কাঠামো VkAllocationCallbacks *allocator);
 
 #endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
 

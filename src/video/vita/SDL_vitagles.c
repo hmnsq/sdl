@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PIB)
-#include <stdlib.h>
-#include <string.h>
+#যদি defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PIB)
+#অন্তর্ভাব <stdlib.h>
+#অন্তর্ভাব <string.h>
 
-#include "SDL_vitavideo.h"
+#অন্তর্ভাব "SDL_vitavideo.h"
 
 /*****************************************************************************/
 // SDL OpenGL/OpenGL ES functions
 /*****************************************************************************/
 #define EGLCHK(stmt)                           \
-    do {                                       \
+    করো {                                       \
         EGLint err;                            \
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
+        যদি (err != EGL_SUCCESS) {              \
             SDL_SetError("EGL error %d", err); \
-            return NULL;                          \
+            ফেরত ফাঁকা;                          \
         }                                      \
-    } while (0)
+    } যখন (0)
 
-void VITA_GLES_KeyboardCallback(ScePigletPreSwapData *data)
+শূন্য VITA_GLES_KeyboardCallback(Sce_Piglet_Pre_Swap_তথ্য *তথ্য)
 {
     SceCommonDialogUpdateParam commonDialogParam;
     SDL_zero(commonDialogParam);
-    commonDialogParam.renderTarget.colorFormat = data->colorFormat;
-    commonDialogParam.renderTarget.surfaceType = data->surfaceType;
-    commonDialogParam.renderTarget.colorSurfaceData = data->colorSurfaceData;
-    commonDialogParam.renderTarget.depthSurfaceData = data->depthSurfaceData;
-    commonDialogParam.renderTarget.width = data->width;
-    commonDialogParam.renderTarget.height = data->height;
-    commonDialogParam.renderTarget.strideInPixels = data->strideInPixels;
-    commonDialogParam.displaySyncObject = data->displaySyncObject;
+    commonDialogParam.renderTarget.colorFormat = তথ্য->colorFormat;
+    commonDialogParam.renderTarget.surfaceType = তথ্য->surfaceType;
+    commonDialogParam.renderTarget.color_Surface_তথ্য = তথ্য->color_Surface_তথ্য;
+    commonDialogParam.renderTarget.depth_Surface_তথ্য = তথ্য->depth_Surface_তথ্য;
+    commonDialogParam.renderTarget.width = তথ্য->width;
+    commonDialogParam.renderTarget.height = তথ্য->height;
+    commonDialogParam.renderTarget.strideInPixels = তথ্য->strideInPixels;
+    commonDialogParam.displaySyncObject = তথ্য->displaySyncObject;
 
     sceCommonDialogUpdate(&commonDialogParam);
 }
 
-bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *path)
 {
     pibInit(PIB_SHACCCG | PIB_GET_PROC_ADDR_CORE);
-    return true;
+    ফেরত true;
 }
 
-SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, ধ্রুবক অক্ষর *proc)
 {
-    return eglGetProcAddress(proc);
+    ফেরত eglGetProcAddress(proc);
 }
 
-void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+শূন্য VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    eglTerminate(_this->gl_data->display);
+    eglTerminate(_this->gl_তথ্য->display);
 }
 
-static EGLint width = 960;
-static EGLint height = 544;
+স্থির EGLint width = 960;
+স্থির EGLint height = 544;
 
 SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
 
-    SDL_WindowData *wdata = window->internal;
+    SDL_Window_তথ্য *wdata = window->internal;
 
     EGLint attribs[32];
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     EGLConfig config;
-    EGLint num_configs;
+    EGLint অঙ্ক_configs;
     PFNEGLPIGLETVITASETPRESWAPCALLBACKSCEPROC preSwapCallback;
-    int i;
+    পূর্ণসংখ্যা i;
 
-    const EGLint contextAttribs[] = {
+    ধ্রুবক EGLint contextAttribs[] = {
         EGL_CONTEXT_CLIENT_VERSION, 2,
         EGL_NONE
     };
 
     EGLCHK(display = eglGetDisplay(0));
 
-    EGLCHK(eglInitialize(display, NULL, NULL));
+    EGLCHK(eglInitialize(display, ফাঁকা, ফাঁকা));
     wdata->uses_gles = true;
     window->flags |= SDL_WINDOW_FULLSCREEN;
 
     EGLCHK(eglBindAPI(EGL_OPENGL_ES_API));
 
     i = 0;
-    attribs[i++] = EGL_RED_SIZE;
+    attribs[i++] = EGL_RED_আকার;
     attribs[i++] = 8;
-    attribs[i++] = EGL_GREEN_SIZE;
+    attribs[i++] = EGL_GREEN_আকার;
     attribs[i++] = 8;
-    attribs[i++] = EGL_BLUE_SIZE;
+    attribs[i++] = EGL_BLUE_আকার;
     attribs[i++] = 8;
-    attribs[i++] = EGL_DEPTH_SIZE;
+    attribs[i++] = EGL_DEPTH_আকার;
     attribs[i++] = 0;
-    attribs[i++] = EGL_ALPHA_SIZE;
+    attribs[i++] = EGL_ALPHA_আকার;
     attribs[i++] = 8;
-    attribs[i++] = EGL_STENCIL_SIZE;
+    attribs[i++] = EGL_STENCIL_আকার;
     attribs[i++] = 0;
 
     attribs[i++] = EGL_SURFACE_TYPE;
@@ -128,14 +128,14 @@ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window
 
     attribs[i++] = EGL_NONE;
 
-    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
+    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &অঙ্ক_configs));
 
-    if (num_configs == 0) {
+    যদি (অঙ্ক_configs == 0) {
         SDL_SetError("No valid EGL configs for requested mode");
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    EGLCHK(surface = eglCreateWindowSurface(display, config, VITA_WINDOW_960X544, NULL));
+    EGLCHK(surface = eglCreateWindowSurface(display, config, VITA_WINDOW_960X544, ফাঁকা));
 
     EGLCHK(context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs));
 
@@ -144,73 +144,73 @@ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window
     EGLCHK(eglQuerySurface(display, surface, EGL_WIDTH, &width));
     EGLCHK(eglQuerySurface(display, surface, EGL_HEIGHT, &height));
 
-    _this->gl_data->display = display;
-    _this->gl_data->context = context;
-    _this->gl_data->surface = surface;
+    _this->gl_তথ্য->display = display;
+    _this->gl_তথ্য->context = context;
+    _this->gl_তথ্য->surface = surface;
 
     preSwapCallback = (PFNEGLPIGLETVITASETPRESWAPCALLBACKSCEPROC)eglGetProcAddress("eglPigletVitaSetPreSwapCallbackSCE");
     preSwapCallback(VITA_GLES_KeyboardCallback);
 
-    return context;
+    ফেরত context;
 }
 
 bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
-                        _this->gl_data->surface, _this->gl_data->context)) {
-        return SDL_SetError("Unable to make EGL context current");
+    যদি (!eglMakeCurrent(_this->gl_তথ্য->display, _this->gl_তথ্য->surface,
+                        _this->gl_তথ্য->surface, _this->gl_তথ্য->context)) {
+        ফেরত SDL_SetError("Unable to make EGL context current");
     }
-    return true;
+    ফেরত true;
 }
 
-bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা interval)
 {
     EGLBoolean status;
-    status = eglSwapInterval(_this->gl_data->display, interval);
-    if (status == EGL_TRUE) {
+    status = eglSwapInterval(_this->gl_তথ্য->display, interval);
+    যদি (status == EGL_TRUE) {
         // Return success to upper level
-        _this->gl_data->swapinterval = interval;
-        return true;
+        _this->gl_তথ্য->swapinterval = interval;
+        ফেরত true;
     }
     // Failed to set swap interval
-    return SDL_SetError("Unable to set the EGL swap interval");
+    ফেরত SDL_SetError("Unable to set the EGL swap interval");
 }
 
-bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণসংখ্যা *interval)
 {
-    *interval = _this->gl_data->swapinterval;
-    return true;
+    *interval = _this->gl_তথ্য->swapinterval;
+    ফেরত true;
 }
 
 bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
-        return SDL_SetError("eglSwapBuffers() failed");
+    যদি (!eglSwapBuffers(_this->gl_তথ্য->display, _this->gl_তথ্য->surface)) {
+        ফেরত SDL_SetError("eglSwapBuffers() failed");
     }
-    return true;
+    ফেরত true;
 }
 
 bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_VideoData *phdata = _this->internal;
+    SDL_Video_তথ্য *phdata = _this->internal;
     EGLBoolean status;
 
-    if (phdata->egl_initialized != true) {
-        return SDL_SetError("VITA: GLES initialization failed, no OpenGL ES support");
+    যদি (phdata->egl_initialized != true) {
+        ফেরত SDL_SetError("VITA: GLES initialization failed, no OpenGL ES support");
     }
 
     // Check if OpenGL ES connection has been initialized
-    if (_this->gl_data->display != EGL_NO_DISPLAY) {
-        if (context != EGL_NO_CONTEXT) {
-            status = eglDestroyContext(_this->gl_data->display, context);
-            if (status != EGL_TRUE) {
+    যদি (_this->gl_তথ্য->display != EGL_NO_DISPLAY) {
+        যদি (context != EGL_NO_CONTEXT) {
+            status = eglDestroyContext(_this->gl_তথ্য->display, context);
+            যদি (status != EGL_TRUE) {
                 // Error during OpenGL ES context destroying
-                return SDL_SetError("VITA: OpenGL ES context destroy error");
+                ফেরত SDL_SetError("VITA: OpenGL ES context destroy error");
             }
         }
     }
 
-    return true;
+    ফেরত true;
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA

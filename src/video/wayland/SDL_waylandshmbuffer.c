@@ -19,26 +19,26 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#অন্তর্ভাব <errno.h>
+#অন্তর্ভাব <fcntl.h>
+#অন্তর্ভাব <limits.h>
+#অন্তর্ভাব <signal.h>
+#অন্তর্ভাব <sys/mman.h>
+#অন্তর্ভাব <unistd.h>
 
-#include "SDL_waylandshmbuffer.h"
-#include "SDL_waylandvideo.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
+#অন্তর্ভাব "SDL_waylandshmbuffer.h"
+#অন্তর্ভাব "SDL_waylandvideo.h"
+#অন্তর্ভাব "single-pixel-buffer-v1-client-protocol.h"
 
-static bool SetTempFileSize(int fd, off_t size)
+স্থির bool Set_অস্থায়ী_File_আকার(পূর্ণসংখ্যা fd, off_t আকার_2)
 {
 #ifdef HAVE_POSIX_FALLOCATE
     sigset_t set, old_set;
-    int ret;
+    পূর্ণসংখ্যা ret;
 
     /* SIGALRM can potentially block a large posix_fallocate() operation
      * from succeeding, so block it.
@@ -47,167 +47,167 @@ static bool SetTempFileSize(int fd, off_t size)
     sigaddset(&set, SIGALRM);
     sigprocmask(SIG_BLOCK, &set, &old_set);
 
-    do {
-        ret = posix_fallocate(fd, 0, size);
-    } while (ret == EINTR);
+    করো {
+        ret = posix_fallocate(fd, 0, আকার_2);
+    } যখন (ret == EINTR);
 
-    sigprocmask(SIG_SETMASK, &old_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_set, ফাঁকা);
 
-    if (ret == 0) {
-        return true;
-    } else if (ret != EINVAL && errno != EOPNOTSUPP) {
-        return false;
+    যদি (ret == 0) {
+        ফেরত true;
+    } অন্যথা যদি (ret != EINVAL && errno != EOPNOTSUPP) {
+        ফেরত false;
     }
 #endif
 
-    if (ftruncate(fd, size) < 0) {
-        return false;
+    যদি (ftruncate(fd, আকার_2) < 0) {
+        ফেরত false;
     }
-    return true;
+    ফেরত true;
 }
 
-static int CreateTempFD(off_t size)
+স্থির পূর্ণসংখ্যা Create_অস্থায়ী_FD(off_t আকার_2)
 {
-    int fd;
+    পূর্ণসংখ্যা fd;
 
 #ifdef HAVE_MEMFD_CREATE
     fd = memfd_create("SDL", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (fd >= 0) {
+    যদি (fd >= 0) {
         fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
-    } else
+    } অন্যথা
 #endif
     {
-        static const char template[] = "/sdl-shared-XXXXXX";
-        const char *xdg_path;
-        char tmp_path[PATH_MAX];
+        স্থির ধ্রুবক অক্ষর template[] = "/sdl-shared-XXXXXX";
+        ধ্রুবক অক্ষর *xdg_path;
+        অক্ষর tmp_path[PATH_MAX];
 
         xdg_path = SDL_getenv("XDG_RUNTIME_DIR");
-        if (!xdg_path) {
-            return -1;
+        যদি (!xdg_path) {
+            ফেরত -1;
         }
 
         SDL_strlcpy(tmp_path, xdg_path, PATH_MAX);
         SDL_strlcat(tmp_path, template, PATH_MAX);
 
         fd = mkostemp(tmp_path, O_CLOEXEC);
-        if (fd < 0) {
-            return -1;
+        যদি (fd < 0) {
+            ফেরত -1;
         }
 
         // Need to manually unlink the temp files, or they can persist after close and fill up the temp storage.
         unlink(tmp_path);
     }
 
-    if (!SetTempFileSize(fd, size)) {
+    যদি (!Set_অস্থায়ী_File_আকার(fd, আকার_2)) {
         close(fd);
-        return -1;
+        ফেরত -1;
     }
 
-    return fd;
+    ফেরত fd;
 }
 
-static void buffer_handle_release(void *data, struct wl_buffer *wl_buffer)
+স্থির শূন্য বাফার_handle_release(শূন্য *তথ্য, কাঠামো wl_বাফার *wl_বাফার)
 {
     // NOP
 }
 
-static struct wl_buffer_listener buffer_listener = {
-    buffer_handle_release
+স্থির কাঠামো wl_বাফার_listener বাফার_listener = {
+    বাফার_handle_release
 };
 
-struct Wayland_SHMPool
+কাঠামো Wayland_SHMPool
 {
-    struct wl_shm_pool *shm_pool;
-    void *shm_pool_memory;
-    int shm_pool_size;
-    int offset;
+    কাঠামো wl_shm_pool *shm_pool;
+    শূন্য *shm_pool_memory;
+    পূর্ণসংখ্যা shm_pool_আকার;
+    পূর্ণসংখ্যা offset;
 };
 
-Wayland_SHMPool *Wayland_AllocSHMPool(int size)
+Wayland_SHMPool *Wayland_AllocSHMPool(পূর্ণসংখ্যা আকার_2)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *data = vd->internal;
+    SDL_Video_তথ্য *তথ্য = vd->internal;
 
-    if (size <= 0) {
-        return NULL;
+    যদি (আকার_2 <= 0) {
+        ফেরত ফাঁকা;
     }
 
-    Wayland_SHMPool *shmPool = SDL_calloc(1, sizeof(Wayland_SHMPool));
-    if (!shmPool) {
-        return NULL;
+    Wayland_SHMPool *shmPool = SDL_calloc(1, আকার(Wayland_SHMPool));
+    যদি (!shmPool) {
+        ফেরত ফাঁকা;
     }
 
-    shmPool->shm_pool_size = (size + 15) & (~15);
+    shmPool->shm_pool_আকার = (আকার_2 + 15) & (~15);
 
-    const int shm_fd = CreateTempFD(shmPool->shm_pool_size);
-    if (shm_fd < 0) {
+    ধ্রুবক পূর্ণসংখ্যা shm_fd = Create_অস্থায়ী_FD(shmPool->shm_pool_আকার);
+    যদি (shm_fd < 0) {
         SDL_free(shmPool);
         SDL_SetError("Creating SHM buffer failed.");
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    shmPool->shm_pool_memory = mmap(NULL, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shmPool->shm_pool_memory == MAP_FAILED) {
-        shmPool->shm_pool_memory = NULL;
+    shmPool->shm_pool_memory = mmap(ফাঁকা, shmPool->shm_pool_আকার, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    যদি (shmPool->shm_pool_memory == MAP_FAILED) {
+        shmPool->shm_pool_memory = ফাঁকা;
         close(shm_fd);
         SDL_free(shmPool);
         SDL_SetError("mmap() failed.");
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    shmPool->shm_pool = wl_shm_create_pool(data->shm, shm_fd, shmPool->shm_pool_size);
+    shmPool->shm_pool = wl_shm_create_pool(তথ্য->shm, shm_fd, shmPool->shm_pool_আকার);
     close(shm_fd);
 
-    return shmPool;
+    ফেরত shmPool;
 }
 
-struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data)
+কাঠামো wl_বাফার *Wayland_Alloc_বাফার_From_Pool(Wayland_SHMPool *shmPool, পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, শূন্য **তথ্য)
 {
-    const Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
+    ধ্রুবক Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
 
-    if (!shmPool || !width || !height || !data) {
-        return NULL;
+    যদি (!shmPool || !width || !height || !তথ্য) {
+        ফেরত ফাঁকা;
     }
 
-    *data = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
-    struct wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
-    wl_buffer_add_listener(buffer, &buffer_listener, shmPool);
+    *তথ্য = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
+    কাঠামো wl_বাফার *বাফার_2 = wl_shm_pool_create_বাফার(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
+    wl_বাফার_add_listener(বাফার_2, &বাফার_listener, shmPool);
 
     shmPool->offset += width * height * 4;
 
-    return buffer;
+    ফেরত বাফার_2;
 }
 
-void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
+শূন্য Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
 {
-    if (shmPool) {
+    যদি (shmPool) {
         wl_shm_pool_destroy(shmPool->shm_pool);
-        munmap(shmPool->shm_pool_memory, shmPool->shm_pool_size);
+        munmap(shmPool->shm_pool_memory, shmPool->shm_pool_আকার);
         SDL_free(shmPool);
     }
 }
 
-struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
+কাঠামো wl_বাফার *Wayland_Create_Single_Pixel_বাফার(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
+    SDL_Video_তথ্য *viddata = SDL_GetVideoDevice()->internal;
 
     // The single-pixel buffer protocol is preferred, as the compositor can choose an optimal format.
-    if (viddata->single_pixel_buffer_manager) {
-        return wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
-    } else {
+    যদি (viddata->single_pixel_বাফার_manager) {
+        ফেরত wp_single_pixel_বাফার_manager_v1_create_u32_rgba_বাফার(viddata->single_pixel_বাফার_manager, r, g, b, a);
+    } অন্যথা {
         Wayland_SHMPool *pool = Wayland_AllocSHMPool(4);
-        if (!pool) {
-            return NULL;
+        যদি (!pool) {
+            ফেরত ফাঁকা;
         }
 
-        void *mem;
-        struct wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
+        শূন্য *mem;
+        কাঠামো wl_বাফার *wl_বাফার = Wayland_Alloc_বাফার_From_Pool(pool, 1, 1, &mem);
 
-        const Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
-        SDL_memcpy(mem, pixel, sizeof(pixel));
+        ধ্রুবক Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
+        SDL_memcpy(mem, pixel, আকার(pixel));
 
         Wayland_ReleaseSHMPool(pool);
-        return wl_buffer;
+        ফেরত wl_বাফার;
     }
 }
 

@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_NN_VI_SURFACE_SPEC_VERSION     1
 #define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+প্রকারলেখ VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+প্রকারলেখ কাঠামো VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    ধ্রুবক শূন্য*                 p_পরবর্তী;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    শূন্য*                       window;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, ধ্রুবক VkViSurfaceCreateInfoNN* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkViSurfaceCreateInfoNN*              pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

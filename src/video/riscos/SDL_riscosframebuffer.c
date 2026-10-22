@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "SDL_riscosframebuffer_c.h"
+#অন্তর্ভাব "SDL_riscosvideo.h"
+#অন্তর্ভাব "SDL_riscoswindow.h"
 
-#include <kernel.h>
-#include <swis.h>
+#অন্তর্ভাব <kernel.h>
+#অন্তর্ভাব <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, শূন্য **pixels, পূর্ণসংখ্যা *pitch)
 {
-    SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    SDL_Window_তথ্য *internal = window->internal;
+    ধ্রুবক অক্ষর *sprite_name = "display";
+    unsigned পূর্ণসংখ্যা sprite_mode;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
-    const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    ধ্রুবক SDL_DisplayMode *mode;
+    পূর্ণসংখ্যা আকার_2;
+    পূর্ণসংখ্যা w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_Window_আকার_In_Pixels(window, &w, &h);
 
     // Free the old framebuffer surface
     RISCOS_DestroyWindowFramebuffer(_this, window);
 
     // Create a new one
     mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
+    যদি ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
         *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+        sprite_mode = (unsigned পূর্ণসংখ্যা)mode->internal;
+    } অন্যথা {
         *format = SDL_PIXELFORMAT_XBGR8888;
         sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
@@ -60,68 +60,68 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
-    internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    আকার_2 = আকার(sprite_area) + আকার(sprite_header) + ((*pitch) * h);
+    internal->fb_area = SDL_malloc(আকার_2);
+    যদি (!internal->fb_area) {
+        ফেরত false;
     }
 
-    internal->fb_area->size = size;
-    internal->fb_area->count = 0;
+    internal->fb_area->আকার_2 = আকার_2;
+    internal->fb_area->গুনতি = 0;
     internal->fb_area->start = 16;
     internal->fb_area->end = 16;
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (পূর্ণসংখ্যা)internal->fb_area;
+    regs.r[2] = (পূর্ণসংখ্যা)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
     regs.r[6] = sprite_mode;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
+    যদি (error) {
         SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+        ফেরত SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
     internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
     *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
 
-    return true;
+    ফেরত true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ধ্রুবক SDL_Rect *rects, পূর্ণসংখ্যা numrects)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_Window_তথ্য *internal = window->internal;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (পূর্ণসংখ্যা)internal->fb_area;
+    regs.r[2] = (পূর্ণসংখ্যা)internal->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    যদি (error) {
+        ফেরত SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    ফেরত true;
 }
 
-void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_Window_তথ্য *internal = window->internal;
 
-    if (internal->fb_area) {
+    যদি (internal->fb_area) {
         SDL_free(internal->fb_area);
-        internal->fb_area = NULL;
+        internal->fb_area = ফাঁকা;
     }
-    internal->fb_sprite = NULL;
+    internal->fb_sprite = ফাঁকা;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

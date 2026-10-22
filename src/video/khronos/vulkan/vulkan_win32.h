@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -25,33 +25,33 @@ extern "C" {
 #define VK_KHR_WIN32_SURFACE_SPEC_VERSION 6
 #define VK_KHR_WIN32_SURFACE_EXTENSION_NAME "VK_KHR_win32_surface"
 
-typedef VkFlags VkWin32SurfaceCreateFlagsKHR;
+প্রকারলেখ VkFlags VkWin32SurfaceCreateFlagsKHR;
 
-typedef struct VkWin32SurfaceCreateInfoKHR {
+প্রকারলেখ কাঠামো VkWin32SurfaceCreateInfoKHR {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ধ্রুবক শূন্য*                     p_পরবর্তী;
     VkWin32SurfaceCreateFlagsKHR    flags;
     HINSTANCE                       hinstance;
     HWND                            hwnd;
 } VkWin32SurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, ধ্রুবক VkWin32SurfaceCreateInfoKHR* pCreateInfo, ধ্রুবক VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+প্রকারলেখ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_সূচক);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateWin32SurfaceKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkCreateWin32SurfaceKHR(
     VkInstance                                  instance,
-    const VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ধ্রুবক VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
+    ধ্রুবক VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWin32PresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex);
+    uint32_t                                    queue_Family_সূচক);
 #endif
 #endif
 
@@ -62,49 +62,49 @@ VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWin32PresentationSupportKHR(
 #define VK_KHR_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
 #define VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_KHR_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkImportMemoryWin32HandleInfoKHR {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ধ্রুবক শূন্য*                           p_পরবর্তী;
     VkExternalMemoryHandleTypeFlagBits    handleType;
     HANDLE                                handle;
     LPCWSTR                               name;
 } VkImportMemoryWin32HandleInfoKHR;
 
-typedef struct VkExportMemoryWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkExportMemoryWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ধ্রুবক শূন্য*                   p_পরবর্তী;
+    ধ্রুবক SECURITY_ATTRIBUTES*    pAttributes;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportMemoryWin32HandleInfoKHR;
 
-typedef struct VkMemoryWin32HandlePropertiesKHR {
+প্রকারলেখ কাঠামো VkMemoryWin32HandlePropertiesKHR {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     uint32_t           memoryTypeBits;
 } VkMemoryWin32HandlePropertiesKHR;
 
-typedef struct VkMemoryGetWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkMemoryGetWin32HandleInfoKHR {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ধ্রুবক শূন্য*                           p_পরবর্তী;
     VkDeviceMemory                        memory;
     VkExternalMemoryHandleTypeFlagBits    handleType;
 } VkMemoryGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleKHR)(VkDevice device, const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandlePropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle, VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetMemoryWin32HandleKHR)(VkDevice device, ধ্রুবক VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetMemoryWin32HandlePropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle, VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetMemoryWin32HandleKHR(
     VkDevice                                    device,
-    const VkMemoryGetWin32HandleInfoKHR*        pGetWin32HandleInfo,
+    ধ্রুবক VkMemoryGetWin32HandleInfoKHR*        pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
     VkDevice                                    device,
     VkExternalMemoryHandleTypeFlagBits          handleType,
     HANDLE                                      handle,
@@ -119,16 +119,16 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
 #define VK_KHR_WIN32_KEYED_MUTEX_SPEC_VERSION 1
 #define VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_KHR_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoKHR {
+প্রকারলেখ কাঠামো VkWin32KeyedMutexAcquireReleaseInfoKHR {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeouts;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ধ্রুবক শূন্য*              p_পরবর্তী;
+    uint32_t                 acquire_গুনতি;
+    ধ্রুবক VkDeviceMemory*    pAcquireSyncs;
+    ধ্রুবক uint64_t*          p_Acquire_চাবিগুলি;
+    ধ্রুবক uint32_t*          pAcquireTimeouts;
+    uint32_t                 release_গুনতি;
+    ধ্রুবক VkDeviceMemory*    pReleaseSyncs;
+    ধ্রুবক uint64_t*          p_Release_চাবিগুলি;
 } VkWin32KeyedMutexAcquireReleaseInfoKHR;
 
 
@@ -139,9 +139,9 @@ typedef struct VkWin32KeyedMutexAcquireReleaseInfoKHR {
 #define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_SPEC_VERSION 1
 #define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME "VK_KHR_external_semaphore_win32"
 
-typedef struct VkImportSemaphoreWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkImportSemaphoreWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ধ্রুবক শূন্য*                              p_পরবর্তী;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
     VkExternalSemaphoreHandleTypeFlagBits    handleType;
@@ -149,45 +149,45 @@ typedef struct VkImportSemaphoreWin32HandleInfoKHR {
     LPCWSTR                                  name;
 } VkImportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkExportSemaphoreWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkExportSemaphoreWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ধ্রুবক শূন্য*                   p_পরবর্তী;
+    ধ্রুবক SECURITY_ATTRIBUTES*    pAttributes;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkD3D12FenceSubmitInfoKHR {
+প্রকারলেখ কাঠামো VkD3D12FenceSubmitInfoKHR {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           waitSemaphoreValuesCount;
-    const uint64_t*    pWaitSemaphoreValues;
-    uint32_t           signalSemaphoreValuesCount;
-    const uint64_t*    pSignalSemaphoreValues;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
+    uint32_t           wait_Semaphore_মানসমূহ_গুনতি;
+    ধ্রুবক uint64_t*    p_Wait_Semaphore_মানসমূহ;
+    uint32_t           signal_Semaphore_মানসমূহ_গুনতি;
+    ধ্রুবক uint64_t*    p_Signal_Semaphore_মানসমূহ;
 } VkD3D12FenceSubmitInfoKHR;
 
-typedef struct VkSemaphoreGetWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkSemaphoreGetWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ধ্রুবক শূন্য*                              p_পরবর্তী;
     VkSemaphore                              semaphore;
     VkExternalSemaphoreHandleTypeFlagBits    handleType;
 } VkSemaphoreGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, ধ্রুবক VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, ধ্রুবক VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
+    ধ্রুবক VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
+    ধ্রুবক VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
 #endif
 #endif
@@ -199,9 +199,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
 #define VK_KHR_EXTERNAL_FENCE_WIN32_SPEC_VERSION 1
 #define VK_KHR_EXTERNAL_FENCE_WIN32_EXTENSION_NAME "VK_KHR_external_fence_win32"
 
-typedef struct VkImportFenceWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkImportFenceWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ধ্রুবক শূন্য*                          p_পরবর্তী;
     VkFence                              fence;
     VkFenceImportFlags                   flags;
     VkExternalFenceHandleTypeFlagBits    handleType;
@@ -209,36 +209,36 @@ typedef struct VkImportFenceWin32HandleInfoKHR {
     LPCWSTR                              name;
 } VkImportFenceWin32HandleInfoKHR;
 
-typedef struct VkExportFenceWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkExportFenceWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ধ্রুবক শূন্য*                   p_পরবর্তী;
+    ধ্রুবক SECURITY_ATTRIBUTES*    pAttributes;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportFenceWin32HandleInfoKHR;
 
-typedef struct VkFenceGetWin32HandleInfoKHR {
+প্রকারলেখ কাঠামো VkFenceGetWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ধ্রুবক শূন্য*                          p_পরবর্তী;
     VkFence                              fence;
     VkExternalFenceHandleTypeFlagBits    handleType;
 } VkFenceGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, ধ্রুবক VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, ধ্রুবক VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportFenceWin32HandleKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkImportFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
+    ধ্রুবক VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceWin32HandleKHR(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
+    ধ্রুবক VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
 #endif
 #endif
@@ -250,27 +250,27 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceWin32HandleKHR(
 #define VK_NV_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
 #define VK_NV_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_NV_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoNV {
+প্রকারলেখ কাঠামো VkImportMemoryWin32HandleInfoNV {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ধ্রুবক শূন্য*                          p_পরবর্তী;
     VkExternalMemoryHandleTypeFlagsNV    handleType;
     HANDLE                               handle;
 } VkImportMemoryWin32HandleInfoNV;
 
-typedef struct VkExportMemoryWin32HandleInfoNV {
+প্রকারলেখ কাঠামো VkExportMemoryWin32HandleInfoNV {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ধ্রুবক শূন্য*                   p_পরবর্তী;
+    ধ্রুবক SECURITY_ATTRIBUTES*    pAttributes;
     DWORD                         dwAccess;
 } VkExportMemoryWin32HandleInfoNV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleNV)(VkDevice device, VkDeviceMemory memory, VkExternalMemoryHandleTypeFlagsNV handleType, HANDLE* pHandle);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetMemoryWin32HandleNV)(VkDevice device, VkDeviceMemory memory, VkExternalMemoryHandleTypeFlagsNV handleType, HANDLE* pHandle);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetMemoryWin32HandleNV(
     VkDevice                                    device,
     VkDeviceMemory                              memory,
     VkExternalMemoryHandleTypeFlagsNV           handleType,
@@ -285,16 +285,16 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleNV(
 #define VK_NV_WIN32_KEYED_MUTEX_SPEC_VERSION 2
 #define VK_NV_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_NV_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoNV {
+প্রকারলেখ কাঠামো VkWin32KeyedMutexAcquireReleaseInfoNV {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeoutMilliseconds;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ধ্রুবক শূন্য*              p_পরবর্তী;
+    uint32_t                 acquire_গুনতি;
+    ধ্রুবক VkDeviceMemory*    pAcquireSyncs;
+    ধ্রুবক uint64_t*          p_Acquire_চাবিগুলি;
+    ধ্রুবক uint32_t*          pAcquireTimeoutMilliseconds;
+    uint32_t                 release_গুনতি;
+    ধ্রুবক VkDeviceMemory*    pReleaseSyncs;
+    ধ্রুবক uint64_t*          p_Release_চাবিগুলি;
 } VkWin32KeyedMutexAcquireReleaseInfoNV;
 
 
@@ -305,7 +305,7 @@ typedef struct VkWin32KeyedMutexAcquireReleaseInfoNV {
 #define VK_EXT_FULL_SCREEN_EXCLUSIVE_SPEC_VERSION 4
 #define VK_EXT_FULL_SCREEN_EXCLUSIVE_EXTENSION_NAME "VK_EXT_full_screen_exclusive"
 
-typedef enum VkFullScreenExclusiveEXT {
+প্রকারলেখ গণনা VkFullScreenExclusiveEXT {
     VK_FULL_SCREEN_EXCLUSIVE_DEFAULT_EXT = 0,
     VK_FULL_SCREEN_EXCLUSIVE_ALLOWED_EXT = 1,
     VK_FULL_SCREEN_EXCLUSIVE_DISALLOWED_EXT = 2,
@@ -313,53 +313,53 @@ typedef enum VkFullScreenExclusiveEXT {
     VK_FULL_SCREEN_EXCLUSIVE_MAX_ENUM_EXT = 0x7FFFFFFF
 } VkFullScreenExclusiveEXT;
 
-typedef struct VkSurfaceFullScreenExclusiveInfoEXT {
+প্রকারলেখ কাঠামো VkSurfaceFullScreenExclusiveInfoEXT {
     VkStructureType             sType;
-    void*                       pNext;
+    শূন্য*                       p_পরবর্তী;
     VkFullScreenExclusiveEXT    fullScreenExclusive;
 } VkSurfaceFullScreenExclusiveInfoEXT;
 
-typedef struct VkSurfaceCapabilitiesFullScreenExclusiveEXT {
+প্রকারলেখ কাঠামো VkSurfaceCapabilitiesFullScreenExclusiveEXT {
     VkStructureType    sType;
-    void*              pNext;
+    শূন্য*              p_পরবর্তী;
     VkBool32           fullScreenExclusiveSupported;
 } VkSurfaceCapabilitiesFullScreenExclusiveEXT;
 
-typedef struct VkSurfaceFullScreenExclusiveWin32InfoEXT {
+প্রকারলেখ কাঠামো VkSurfaceFullScreenExclusiveWin32InfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ধ্রুবক শূন্য*        p_পরবর্তী;
     HMONITOR           hmonitor;
 } VkSurfaceFullScreenExclusiveWin32InfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes);
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkReleaseFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevice device, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, VkDeviceGroupPresentModeFlagsKHR* pModes);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, ধ্রুবক VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* p_Present_Mode_গুনতি, VkPresentModeKHR* pPresentModes);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkAcquireFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkReleaseFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevice device, ধ্রুবক VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, VkDeviceGroupPresentModeFlagsKHR* pModes);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
     VkPhysicalDevice                            physicalDevice,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    uint32_t*                                   pPresentModeCount,
+    ধ্রুবক VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    uint32_t*                                   p_Present_Mode_গুনতি,
     VkPresentModeKHR*                           pPresentModes);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireFullScreenExclusiveModeEXT(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkAcquireFullScreenExclusiveModeEXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkReleaseFullScreenExclusiveModeEXT(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkReleaseFullScreenExclusiveModeEXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetDeviceGroupSurfacePresentModes2EXT(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetDeviceGroupSurfacePresentModes2EXT(
     VkDevice                                    device,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    ধ্রুবক VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
     VkDeviceGroupPresentModeFlagsKHR*           pModes);
 #endif
 #endif
@@ -371,18 +371,18 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetDeviceGroupSurfacePresentModes2EXT(
 #define VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_VERSION 1
 #define VK_NV_ACQUIRE_WINRT_DISPLAY_EXTENSION_NAME "VK_NV_acquire_winrt_display"
 
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
-typedef VkResult (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
+প্রকারলেখ Vk_ফলাফল (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireWinrtDisplayNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkAcquireWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     VkDisplayKHR                                display);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetWinrtDisplayNV(
+VKAPI_ATTR Vk_ফলাফল VKAPI_CALL vkGetWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    deviceRelativeId,
     VkDisplayKHR*                               pDisplay);

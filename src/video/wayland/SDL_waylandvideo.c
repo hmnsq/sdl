@@ -19,111 +19,111 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../core/linux/SDL_system_theme.h"
-#include "../../core/linux/SDL_progressbar.h"
-#include "../../events/SDL_events_c.h"
+#অন্তর্ভাব "../../core/linux/SDL_system_theme.h"
+#অন্তর্ভাব "../../core/linux/SDL_progressbar.h"
+#অন্তর্ভাব "../../events/SDL_events_c.h"
 
-#include "SDL_waylandclipboard.h"
-#include "SDL_waylandcolor.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandkeyboard.h"
-#include "SDL_waylandmessagebox.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandopengles.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandvulkan.h"
-#include "SDL_waylandwindow.h"
+#অন্তর্ভাব "SDL_waylandclipboard.h"
+#অন্তর্ভাব "SDL_waylandcolor.h"
+#অন্তর্ভাব "SDL_waylandevents_c.h"
+#অন্তর্ভাব "SDL_waylandkeyboard.h"
+#অন্তর্ভাব "SDL_waylandmessagebox.h"
+#অন্তর্ভাব "SDL_waylandmouse.h"
+#অন্তর্ভাব "SDL_waylandopengles.h"
+#অন্তর্ভাব "SDL_waylandvideo.h"
+#অন্তর্ভাব "SDL_waylandvulkan.h"
+#অন্তর্ভাব "SDL_waylandwindow.h"
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <xkbcommon/xkbcommon.h>
+#অন্তর্ভাব <fcntl.h>
+#অন্তর্ভাব <sys/types.h>
+#অন্তর্ভাব <unistd.h>
+#অন্তর্ভাব <errno.h>
+#অন্তর্ভাব <xkbcommon/xkbcommon.h>
 
-#include <wayland-util.h>
+#অন্তর্ভাব <wayland-util.h>
 
-#include "alpha-modifier-v1-client-protocol.h"
-#include "cursor-shape-v1-client-protocol.h"
-#include "fractional-scale-v1-client-protocol.h"
-#include "frog-color-management-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "input-timestamps-unstable-v1-client-protocol.h"
-#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
-#include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
-#include "relative-pointer-unstable-v1-client-protocol.h"
-#include "tablet-v2-client-protocol.h"
-#include "text-input-unstable-v3-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
-#include "xdg-dialog-v1-client-protocol.h"
-#include "xdg-foreign-unstable-v2-client-protocol.h"
-#include "xdg-output-unstable-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "xdg-toplevel-icon-v1-client-protocol.h"
-#include "color-management-v1-client-protocol.h"
-#include "pointer-warp-v1-client-protocol.h"
-#include "pointer-gestures-unstable-v1-client-protocol.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
-#include "xdg-session-management-v1-client-protocol.h"
-#include "xdg-toplevel-tag-v1-client-protocol.h"
+#অন্তর্ভাব "alpha-modifier-v1-client-protocol.h"
+#অন্তর্ভাব "cursor-shape-v1-client-protocol.h"
+#অন্তর্ভাব "fractional-scale-v1-client-protocol.h"
+#অন্তর্ভাব "frog-color-management-v1-client-protocol.h"
+#অন্তর্ভাব "idle-inhibit-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "input-timestamps-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "pointer-constraints-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "primary-selection-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "relative-pointer-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "tablet-v2-client-protocol.h"
+#অন্তর্ভাব "text-input-unstable-v3-client-protocol.h"
+#অন্তর্ভাব "viewporter-client-protocol.h"
+#অন্তর্ভাব "xdg-activation-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-decoration-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-dialog-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-foreign-unstable-v2-client-protocol.h"
+#অন্তর্ভাব "xdg-output-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-shell-client-protocol.h"
+#অন্তর্ভাব "xdg-toplevel-icon-v1-client-protocol.h"
+#অন্তর্ভাব "color-management-v1-client-protocol.h"
+#অন্তর্ভাব "pointer-warp-v1-client-protocol.h"
+#অন্তর্ভাব "pointer-gestures-unstable-v1-client-protocol.h"
+#অন্তর্ভাব "single-pixel-buffer-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-session-management-v1-client-protocol.h"
+#অন্তর্ভাব "xdg-toplevel-tag-v1-client-protocol.h"
 
 #ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
+#অন্তর্ভাব <libdecor.h>
 #endif
 
 #define WAYLANDVID_DRIVER_NAME "wayland"
 
 // Clamp core protocol versions on older versions of libwayland.
-#if SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
+#যদি SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
 #define SDL_WL_COMPOSITOR_VERSION 6
-#else
+#অন্যথা
 #define SDL_WL_COMPOSITOR_VERSION 4
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
+#যদি SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
 #define SDL_WL_SEAT_VERSION 11
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
+#নতুবা_যদি SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_SEAT_VERSION 10
-#elif SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
+#নতুবা_যদি SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
 #define SDL_WL_SEAT_VERSION 9
-#elif SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
+#নতুবা_যদি SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
 #define SDL_WL_SEAT_VERSION 8
-#else
+#অন্যথা
 #define SDL_WL_SEAT_VERSION 5
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
+#যদি SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
 #define SDL_WL_OUTPUT_VERSION 4
-#else
+#অন্যথা
 #define SDL_WL_OUTPUT_VERSION 3
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
+#যদি SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_SHM_VERSION 2
-#else
+#অন্যথা
 #define SDL_WL_SHM_VERSION 1
 #endif
 
 // The SDL libwayland-client minimum is 1.18, which supports version 3.
-#define SDL_WL_DATA_DEVICE_VERSION 3
+#define SDL_WL_তথ্য_DEVICE_VERSION 3
 
 // wl_fixes was introduced in 1.24.0
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
+#যদি SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
 #define SDL_WL_FIXES_VERSION 2
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
+#নতুবা_যদি SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_FIXES_VERSION 1
 #endif
 
 #ifdef SDL_USE_LIBDBUS
-#include "../../core/linux/SDL_dbus.h"
+#অন্তর্ভাব "../../core/linux/SDL_dbus.h"
 
-#define DISPLAY_INFO_NODE   "org.gnome.Mutter.DisplayConfig"
+#define DISPLAY_INFO_গ্রন্থি   "org.gnome.Mutter.DisplayConfig"
 #define DISPLAY_INFO_PATH   "/org/gnome/Mutter/DisplayConfig"
 #define DISPLAY_INFO_METHOD "GetCurrentState"
 #endif
@@ -131,141 +131,141 @@
 /* GNOME doesn't expose displays in any particular order, but we can find the
  * primary display and its logical coordinates via a DBus method.
  */
-static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
+স্থির bool Wayland_GetGNOMEPrimaryDisplayCoordinates(পূর্ণসংখ্যা *x, পূর্ণসংখ্যা *y)
 {
 #ifdef SDL_USE_LIBDBUS
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    if (dbus == NULL) {
-        return false;
+    যদি (dbus == ফাঁকা) {
+        ফেরত false;
     }
-    DBusMessage *reply = NULL;
+    DBusMessage *reply = ফাঁকা;
     DBusMessageIter iter[3];
-    DBusMessage *msg = dbus->message_new_method_call(DISPLAY_INFO_NODE,
+    DBusMessage *বার্তা = dbus->message_new_method_call(DISPLAY_INFO_গ্রন্থি,
                                                      DISPLAY_INFO_PATH,
-                                                     DISPLAY_INFO_NODE,
+                                                     DISPLAY_INFO_গ্রন্থি,
                                                      DISPLAY_INFO_METHOD);
 
-    if (msg) {
-        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
-        dbus->message_unref(msg);
+    যদি (বার্তা) {
+        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, বার্তা, DBUS_TIMEOUT_USE_DEFAULT, ফাঁকা);
+        dbus->message_unref(বার্তা);
     }
 
-    if (reply) {
+    যদি (reply) {
         // Serial (don't care)
         dbus->message_iter_init(reply, &iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
-            goto error;
+        যদি (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
+            যাও error;
         }
 
         // Physical monitor array (don't care)
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->message_iter_পরবর্তী(&iter[0]);
+        যদি (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            যাও error;
         }
 
         // Logical monitor array of structs
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->message_iter_পরবর্তী(&iter[0]);
+        যদি (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            যাও error;
         }
 
         // First logical monitor struct
         dbus->message_iter_recurse(&iter[0], &iter[1]);
-        if (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
-            goto error;
+        যদি (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
+            যাও error;
         }
 
-        do {
-            int logical_x, logical_y;
+        করো {
+            পূর্ণসংখ্যা logical_x, logical_y;
             dbus_bool_t primary;
 
             // Logical X
             dbus->message_iter_recurse(&iter[1], &iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            যদি (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                যাও error;
             }
             dbus->message_iter_get_basic(&iter[2], &logical_x);
 
             // Logical Y
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            dbus->message_iter_পরবর্তী(&iter[2]);
+            যদি (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                যাও error;
             }
             dbus->message_iter_get_basic(&iter[2], &logical_y);
 
             // Scale (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
-                goto error;
+            dbus->message_iter_পরবর্তী(&iter[2]);
+            যদি (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
+                যাও error;
             }
 
             // Transform (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
-                goto error;
+            dbus->message_iter_পরবর্তী(&iter[2]);
+            যদি (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
+                যাও error;
             }
 
             // Primary display boolean
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
-                goto error;
+            dbus->message_iter_পরবর্তী(&iter[2]);
+            যদি (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
+                যাও error;
             }
             dbus->message_iter_get_basic(&iter[2], &primary);
 
-            if (primary) {
+            যদি (primary) {
                 *x = logical_x;
                 *y = logical_y;
 
                 // We found the primary display: success.
                 dbus->message_unref(reply);
-                return true;
+                ফেরত true;
             }
-        } while (dbus->message_iter_next(&iter[1]));
+        } যখন (dbus->message_iter_পরবর্তী(&iter[1]));
     }
 
 error:
-    if (reply) {
+    যদি (reply) {
         dbus->message_unref(reply);
     }
 #endif
-    return false;
+    ফেরত false;
 }
 
 // Sort the list of displays into a deterministic order
-static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
+স্থির পূর্ণসংখ্যা SDLCALL Wayland_DisplayPositionCompare(ধ্রুবক শূন্য *a, ধ্রুবক শূন্য *b)
 {
-    const SDL_DisplayData *da = *(SDL_DisplayData **)a;
-    const SDL_DisplayData *db = *(SDL_DisplayData **)b;
-    const bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
-    const bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
+    ধ্রুবক SDL_Display_তথ্য *da = *(SDL_Display_তথ্য **)a;
+    ধ্রুবক SDL_Display_তথ্য *db = *(SDL_Display_তথ্য **)b;
+    ধ্রুবক bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
+    ধ্রুবক bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
 
     // Sort the display at 0,0 to be beginning of the list, as that will be the fallback primary.
-    if (a_at_origin && !b_at_origin) {
-        return -1;
+    যদি (a_at_origin && !b_at_origin) {
+        ফেরত -1;
     }
-    if (b_at_origin && !a_at_origin) {
-        return 1;
+    যদি (b_at_origin && !a_at_origin) {
+        ফেরত 1;
     }
 
-    if (da->logical.x < db->logical.x) {
-        return -1;
+    যদি (da->logical.x < db->logical.x) {
+        ফেরত -1;
     }
-    if (da->logical.x > db->logical.x) {
-        return 1;
+    যদি (da->logical.x > db->logical.x) {
+        ফেরত 1;
     }
-    if (da->logical.y < db->logical.y) {
-        return -1;
+    যদি (da->logical.y < db->logical.y) {
+        ফেরত -1;
     }
-    if (da->logical.y > db->logical.y) {
-        return 1;
+    যদি (da->logical.y > db->logical.y) {
+        ফেরত 1;
     }
 
     // If no position information is available, use the connector name.
-    if (da->wl_output_name && db->wl_output_name) {
-        return SDL_strcmp(da->wl_output_name, db->wl_output_name);
+    যদি (da->wl_output_name && db->wl_output_name) {
+        ফেরত SDL_strcmp(da->wl_output_name, db->wl_output_name);
     }
 
-    return 0;
+    ফেরত 0;
 }
 
 /* Wayland doesn't have the native concept of a primary display, but there are clients that
@@ -282,46 +282,46 @@ static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
  * - Higher refresh is preferred (ignoring small differences)
  * - Lower scale values are preferred (larger display)
  */
-static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
+স্থির পূর্ণসংখ্যা Wayland_GetPrimaryDisplay(SDL_Video_তথ্য *vid)
 {
-    static const int REFRESH_DELTA = 4000;
+    স্থির ধ্রুবক পূর্ণসংখ্যা REFRESH_DELTA = 4000;
 
     // Query the DBus interface to see if the coordinates of the primary display are exposed.
-    int x, y;
-    if (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
-        for (int i = 0; i < vid->output_count; ++i) {
-            if (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
-                return i;
+    পূর্ণসংখ্যা x, y;
+    যদি (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
+        জন্য (পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+            যদি (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
+                ফেরত i;
             }
         }
     }
 
     // Otherwise, choose the 'best' display.
-    int best_width = 0;
-    int best_height = 0;
-    double best_scale = 0.0;
-    float best_headroom = 0.0f;
-    int best_refresh = 0;
+    পূর্ণসংখ্যা best_width = 0;
+    পূর্ণসংখ্যা best_height = 0;
+    দ্বিগুণ best_scale = 0.0;
+    দশমিক best_headroom = 0.0f;
+    পূর্ণসংখ্যা best_refresh = 0;
     bool best_is_landscape = false;
-    int best_index = 0;
+    পূর্ণসংখ্যা best_সূচক = 0;
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        const SDL_DisplayData *d = vid->output_list[i];
-        const bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
+    জন্য (পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+        ধ্রুবক SDL_Display_তথ্য *d = vid->output_list[i];
+        ধ্রুবক bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
         bool have_new_best = false;
 
-        if (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
+        যদি (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
             have_new_best = true;
-        } else if (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
-            if (d->pixel.width > best_width || d->pixel.height > best_height) {
+        } অন্যথা যদি (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
+            যদি (d->pixel.width > best_width || d->pixel.height > best_height) {
                 have_new_best = true;
-            } else if (d->pixel.width == best_width && d->pixel.height == best_height) {
-                if (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
+            } অন্যথা যদি (d->pixel.width == best_width && d->pixel.height == best_height) {
+                যদি (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
                     have_new_best = true;
-                } else if (d->HDR.HDR_headroom == best_headroom) {
-                    if (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
+                } অন্যথা যদি (d->HDR.HDR_headroom == best_headroom) {
+                    যদি (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
                         have_new_best = true;
-                    } else if (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
+                    } অন্যথা যদি (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
                         // Prefer a lower scale display if the difference in refresh rate is small.
                         have_new_best = true;
                     }
@@ -329,56 +329,56 @@ static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
             }
         }
 
-        if (have_new_best) {
+        যদি (have_new_best) {
             best_width = d->pixel.width;
             best_height = d->pixel.height;
             best_scale = d->scale_factor;
             best_headroom = d->HDR.HDR_headroom;
             best_refresh = d->refresh;
             best_is_landscape = is_landscape;
-            best_index = i;
+            best_সূচক = i;
         }
     }
 
-    return best_index;
+    ফেরত best_সূচক;
 }
 
-static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
+স্থির শূন্য Wayland_SortOutputsByPriorityHint(SDL_Video_তথ্য *vid)
 {
-    const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
+    ধ্রুবক অক্ষর *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
 
-    if (name_hint) {
-        char *saveptr;
-        char *str = SDL_strdup(name_hint);
-        SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_count);
+    যদি (name_hint) {
+        অক্ষর *saveptr;
+        অক্ষর *str = SDL_strdup(name_hint);
+        SDL_Display_তথ্য **sorted_list = SDL_malloc(আকার(SDL_Display_তথ্য *) * vid->output_গুনতি);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        যদি (str && sorted_list) {
+            পূর্ণসংখ্যা sorted_সূচক = 0;
 
             // Sort the requested displays to the front of the list.
-            const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < vid->output_count; ++i) {
-                    SDL_DisplayData *d = vid->output_list[i];
-                    if (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
-                        sorted_list[sorted_index++] = d;
-                        vid->output_list[i] = NULL;
-                        break;
+            ধ্রুবক অক্ষর *token = SDL_strtok_r(str, ",", &saveptr);
+            যখন (token) {
+                জন্য (পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+                    SDL_Display_তথ্য *d = vid->output_list[i];
+                    যদি (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
+                        sorted_list[sorted_সূচক++] = d;
+                        vid->output_list[i] = ফাঁকা;
+                        বিরতি;
                     }
                 }
 
-                token = SDL_strtok_r(NULL, ",", &saveptr);
+                token = SDL_strtok_r(ফাঁকা, ",", &saveptr);
             }
 
             // Append the remaining outputs to the end of the list.
-            for (int i = 0; i < vid->output_count; ++i) {
-                if (vid->output_list[i]) {
-                    sorted_list[sorted_index++] = vid->output_list[i];
+            জন্য (পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+                যদি (vid->output_list[i]) {
+                    sorted_list[sorted_সূচক++] = vid->output_list[i];
                 }
             }
 
             // Copy the sorted list to the output list.
-            SDL_memcpy(vid->output_list, sorted_list, sizeof(SDL_DisplayData *) * vid->output_count);
+            SDL_memcpy(vid->output_list, sorted_list, আকার(SDL_Display_তথ্য *) * vid->output_গুনতি);
         }
 
         SDL_free(str);
@@ -386,7 +386,7 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
+স্থির শূন্য Wayland_DeriveOutputPixelCoordinates(SDL_Video_তথ্য *vid)
 {
     /* Ensure outputs are not overlapping in the pixel coordinate space.
      *
@@ -397,26 +397,26 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
      *
      * Patches for a more sophisticated algorithm are welcome.
      */
-    for ( int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
+    জন্য ( পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *d = vid->output_list[i];
         d->pixel.x = d->logical.x;
         d->pixel.y = d->logical.y;
     }
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d1 = vid->output_list[i];
-        if (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
-            const int x_adj = d1->pixel.width - d1->logical.width;
-            const int y_adj = d1->pixel.height - d1->logical.height;
+    জন্য (পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *d1 = vid->output_list[i];
+        যদি (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
+            ধ্রুবক পূর্ণসংখ্যা x_adj = d1->pixel.width - d1->logical.width;
+            ধ্রুবক পূর্ণসংখ্যা y_adj = d1->pixel.height - d1->logical.height;
 
             // Don't adjust for scale values less than 1.0.
-            if (x_adj > 0 && y_adj > 0) {
-                for (int j = 0; j < vid->output_count; ++j) {
-                    SDL_DisplayData *d2 = vid->output_list[j];
-                    if (d2->logical.x > d1->logical.x) {
+            যদি (x_adj > 0 && y_adj > 0) {
+                জন্য (পূর্ণসংখ্যা j = 0; j < vid->output_গুনতি; ++j) {
+                    SDL_Display_তথ্য *d2 = vid->output_list[j];
+                    যদি (d2->logical.x > d1->logical.x) {
                         d2->pixel.x += x_adj;
                     }
-                    if (d2->logical.y > d1->logical.y) {
+                    যদি (d2->logical.y > d1->logical.y) {
                         d2->pixel.y += y_adj;
                     }
                 }
@@ -425,21 +425,21 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_SortOutputs(SDL_VideoData *vid)
+স্থির শূন্য Wayland_SortOutputs(SDL_Video_তথ্য *vid)
 {
     // Sort by position or connector name, so the order of outputs is deterministic.
-    SDL_qsort(vid->output_list, vid->output_count, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
+    SDL_qsort(vid->output_list, vid->output_গুনতি, আকার(SDL_Display_তথ্য *), Wayland_DisplayPositionCompare);
 
     // Derive the output pixel coordinates if scale to display is enabled.
-    if (vid->scale_to_display_enabled) {
+    যদি (vid->scale_to_display_enabled) {
         Wayland_DeriveOutputPixelCoordinates(vid);
     }
 
     // Find a suitable primary display and move it to the front of the list.
-    const int primary_index = Wayland_GetPrimaryDisplay(vid);
-    if (primary_index) {
-        SDL_DisplayData *primary = vid->output_list[primary_index];
-        SDL_memmove(&vid->output_list[1], &vid->output_list[0], sizeof(SDL_DisplayData *) * primary_index);
+    ধ্রুবক পূর্ণসংখ্যা primary_সূচক = Wayland_GetPrimaryDisplay(vid);
+    যদি (primary_সূচক) {
+        SDL_Display_তথ্য *primary = vid->output_list[primary_সূচক];
+        SDL_memmove(&vid->output_list[1], &vid->output_list[0], আকার(SDL_Display_তথ্য *) * primary_সূচক);
         vid->output_list[0] = primary;
     }
 
@@ -447,189 +447,189 @@ static void Wayland_SortOutputs(SDL_VideoData *vid)
     Wayland_SortOutputsByPriorityHint(vid);
 }
 
-static void Wayland_RefreshWindowPositions()
+স্থির শূন্য Wayland_RefreshWindowPositions()
 {
     SDL_VideoDevice *vid = SDL_GetVideoDevice();
 
-    for (SDL_Window *w = vid->windows; w; w = w->next) {
+    জন্য (SDL_Window *w = vid->windows; w; w = w->পরবর্তী) {
         Wayland_UpdateWindowPosition(w);
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output);
+স্থির শূন্য handle_wl_output_done(শূন্য *তথ্য, কাঠামো wl_output *output);
 
 // Initialization/Query functions
-static bool Wayland_VideoInit(SDL_VideoDevice *_this);
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-static void Wayland_VideoQuit(SDL_VideoDevice *_this);
+স্থির bool Wayland_VideoInit(SDL_VideoDevice *_this);
+স্থির bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+স্থির শূন্য Wayland_VideoQuit(SDL_VideoDevice *_this);
 
-static const char *SDL_WAYLAND_surface_tag = "sdl-window";
-static const char *SDL_WAYLAND_output_tag = "sdl-output";
+স্থির ধ্রুবক অক্ষর *SDL_WAYLAND_surface_tag = "sdl-window";
+স্থির ধ্রুবক অক্ষর *SDL_WAYLAND_output_tag = "sdl-output";
 
-void SDL_WAYLAND_register_surface(struct wl_surface *surface)
+শূন্য SDL_WAYLAND_register_surface(কাঠামো wl_surface *surface)
 {
-    wl_proxy_set_tag((struct wl_proxy *)surface, &SDL_WAYLAND_surface_tag);
+    wl_proxy_set_tag((কাঠামো wl_proxy *)surface, &SDL_WAYLAND_surface_tag);
 }
 
-void SDL_WAYLAND_register_output(struct wl_output *output)
+শূন্য SDL_WAYLAND_register_output(কাঠামো wl_output *output)
 {
-    wl_proxy_set_tag((struct wl_proxy *)output, &SDL_WAYLAND_output_tag);
+    wl_proxy_set_tag((কাঠামো wl_proxy *)output, &SDL_WAYLAND_output_tag);
 }
 
-bool SDL_WAYLAND_own_surface(struct wl_surface *surface)
+bool SDL_WAYLAND_own_surface(কাঠামো wl_surface *surface)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
+    ফেরত wl_proxy_get_tag((কাঠামো wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
 }
 
-bool SDL_WAYLAND_own_output(struct wl_output *output)
+bool SDL_WAYLAND_own_output(কাঠামো wl_output *output)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)output) == &SDL_WAYLAND_output_tag;
+    ফেরত wl_proxy_get_tag((কাঠামো wl_proxy *)output) == &SDL_WAYLAND_output_tag;
 }
 
 /* External surfaces may have their own user data attached, the modification of which
  * can cause problems with external toolkits. Instead, external windows are kept in
  * their own list, and a search is conducted to find a matching surface.
  */
-static struct wl_list external_window_list;
+স্থির কাঠামো wl_list external_window_list;
 
-void Wayland_AddWindowDataToExternalList(SDL_WindowData *data)
+শূন্য Wayland_Add_Window_তথ্য_To_External_List(SDL_Window_তথ্য *তথ্য)
 {
-    WAYLAND_wl_list_insert(&external_window_list, &data->external_window_list_link);
+    WAYLAND_wl_list_ঢোকাও(&external_window_list, &তথ্য->external_window_list_link);
 }
 
-void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data)
+শূন্য Wayland_Remove_Window_তথ্য_From_External_List(SDL_Window_তথ্য *তথ্য)
 {
-    WAYLAND_wl_list_remove(&data->external_window_list_link);
+    WAYLAND_wl_list_remove(&তথ্য->external_window_list_link);
 }
 
-SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface)
+SDL_Window_তথ্য *Wayland_Get_Window_তথ্য_For_Owned_Surface(কাঠামো wl_surface *surface)
 {
-    if (SDL_WAYLAND_own_surface(surface)) {
-        return (SDL_WindowData *)wl_surface_get_user_data(surface);
-    } else if (!WAYLAND_wl_list_empty(&external_window_list)) {
-        SDL_WindowData *p;
+    যদি (SDL_WAYLAND_own_surface(surface)) {
+        ফেরত (SDL_Window_তথ্য *)wl_surface_get_user_তথ্য(surface);
+    } অন্যথা যদি (!WAYLAND_wl_list_empty(&external_window_list)) {
+        SDL_Window_তথ্য *p;
         wl_list_for_each (p, &external_window_list, external_window_list_link) {
-            if (p->surface == surface) {
-                return p;
+            যদি (p->surface == surface) {
+                ফেরত p;
             }
         }
     }
 
-    return NULL;
+    ফেরত ফাঁকা;
 }
 
-struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name)
+কাঠামো wl_event_queue *Wayland_DisplayCreateQueue(কাঠামো wl_display *display, ধ্রুবক অক্ষর *name)
 {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-    if (WAYLAND_wl_display_create_queue_with_name) {
-        return WAYLAND_wl_display_create_queue_with_name(display, name);
+    যদি (WAYLAND_wl_display_create_queue_with_name) {
+        ফেরত WAYLAND_wl_display_create_queue_with_name(display, name);
     }
-#elif SDL_WAYLAND_CHECK_VERSION(1, 23, 0)
-    return WAYLAND_wl_display_create_queue_with_name(display, name);
+#নতুবা_যদি SDL_WAYLAND_CHECK_VERSION(1, 23, 0)
+    ফেরত WAYLAND_wl_display_create_queue_with_name(display, name);
 #endif
-    return WAYLAND_wl_display_create_queue(display);
+    ফেরত WAYLAND_wl_display_create_queue(display);
 }
 
-static void Wayland_DeleteDevice(SDL_VideoDevice *device)
+স্থির শূন্য Wayland_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
-    if (data->display && !data->display_externally_owned) {
-        WAYLAND_wl_display_disconnect(data->display);
+    SDL_Video_তথ্য *তথ্য = device->internal;
+    যদি (তথ্য->display && !তথ্য->display_externally_owned) {
+        WAYLAND_wl_display_disconnect(তথ্য->display);
         SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER);
     }
-    SDL_free(data);
+    SDL_free(তথ্য);
     SDL_free(device);
     SDL_WAYLAND_UnloadSymbols();
 }
 
-typedef struct
+প্রকারলেখ কাঠামো
 {
     bool has_fifo_v1;
-    struct wl_fixes *wl_fixes;
-} SDL_WaylandPreferredData;
+    কাঠামো wl_fixes *wl_fixes;
+} SDL_Wayland_Preferred_তথ্য;
 
-static void wayland_preferred_check_handle_global(void *data, struct wl_registry *registry, uint32_t id,
-                                                  const char *interface, uint32_t version)
+স্থির শূন্য wayland_preferred_check_handle_global(শূন্য *তথ্য, কাঠামো wl_registry *registry, uint32_t id,
+                                                  ধ্রুবক অক্ষর *interface, uint32_t version)
 {
-    SDL_WaylandPreferredData *d = data;
+    SDL_Wayland_Preferred_তথ্য *d = তথ্য;
 
-    if (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
+    যদি (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
         d->has_fifo_v1 = true;
     }
 #ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+    অন্যথা যদি (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
         d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
     }
 #endif
 }
 
-static void wayland_preferred_check_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+স্থির শূন্য wayland_preferred_check_remove_global(শূন্য *তথ্য, কাঠামো wl_registry *registry, uint32_t id)
 {
-    SDL_WaylandPreferredData *d = (SDL_WaylandPreferredData *)data;
+    SDL_Wayland_Preferred_তথ্য *d = (SDL_Wayland_Preferred_তথ্য *)তথ্য;
 
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    যদি (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener preferred_registry_listener = {
+স্থির ধ্রুবক কাঠামো wl_registry_listener preferred_registry_listener = {
     wayland_preferred_check_handle_global,
     wayland_preferred_check_remove_global
 };
 
-static bool Wayland_IsPreferred(struct wl_display *display)
+স্থির bool Wayland_IsPreferred(কাঠামো wl_display *display)
 {
-    struct wl_registry *registry = wl_display_get_registry(display);
-    SDL_WaylandPreferredData preferred_data = { 0 };
+    কাঠামো wl_registry *registry = wl_display_get_registry(display);
+    SDL_Wayland_Preferred_তথ্য preferred_তথ্য = { 0 };
 
-    if (!registry) {
+    যদি (!registry) {
         SDL_SetError("Failed to get the Wayland registry");
-        return false;
+        ফেরত false;
     }
 
-    wl_registry_add_listener(registry, &preferred_registry_listener, &preferred_data);
+    wl_registry_add_listener(registry, &preferred_registry_listener, &preferred_তথ্য);
 
     WAYLAND_wl_display_roundtrip(display);
 
-    if (preferred_data.wl_fixes) {
-        wl_fixes_destroy_registry(preferred_data.wl_fixes, registry);
-        wl_fixes_destroy(preferred_data.wl_fixes);
+    যদি (preferred_তথ্য.wl_fixes) {
+        wl_fixes_destroy_registry(preferred_তথ্য.wl_fixes, registry);
+        wl_fixes_destroy(preferred_তথ্য.wl_fixes);
     }
     wl_registry_destroy(registry);
 
-    if (!preferred_data.has_fifo_v1) {
+    যদি (!preferred_তথ্য.has_fifo_v1) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "This compositor lacks support for the fifo-v1 protocol; falling back to XWayland for GPU performance reasons (set SDL_VIDEO_DRIVER=wayland to override)");
     }
-    return preferred_data.has_fifo_v1;
+    ফেরত preferred_তথ্য.has_fifo_v1;
 }
 
-static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
+স্থির SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
-    struct wl_display *display = SDL_GetPointerProperty(SDL_GetGlobalProperties(),
-                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, NULL);
+    SDL_Video_তথ্য *তথ্য;
+    কাঠামো wl_display *display = SDL_GetPointerProperty(SDL_GetGlobalProperties(),
+                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, ফাঁকা);
     bool display_is_external = !!display;
 
     // Are we trying to connect to, or are currently in, a Wayland session?
-    if (!SDL_getenv("WAYLAND_DISPLAY")) {
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") != 0) {
+    যদি (!SDL_getenv("WAYLAND_DISPLAY")) {
+        ধ্রুবক অক্ষর *session = SDL_getenv("XDG_SESSION_TYPE");
+        যদি (session && SDL_strcasecmp(session, "wayland") != 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Wayland initialization failed: no Wayland session available");
-            return NULL;
+            ফেরত ফাঁকা;
         }
     }
 
-    if (!SDL_WAYLAND_LoadSymbols()) {
-        return NULL;
+    যদি (!SDL_WAYLAND_LoadSymbols()) {
+        ফেরত ফাঁকা;
     }
 
-    if (!display) {
-        display = WAYLAND_wl_display_connect(NULL);
-        if (!display) {
+    যদি (!display) {
+        display = WAYLAND_wl_display_connect(ফাঁকা);
+        যদি (!display) {
             SDL_WAYLAND_UnloadSymbols();
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the Wayland display server: %s", strerror(errno));
-            return NULL;
+            ফেরত ফাঁকা;
         }
     }
 
@@ -638,47 +638,47 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
      * fifo-v1's existence, so we don't regress GPU-bound performance
      * and frame-pacing by default due to swapchain starvation.
      */
-    if (require_preferred_protocols && !Wayland_IsPreferred(display)) {
-        if (!display_is_external) {
+    যদি (require_preferred_protocols && !Wayland_IsPreferred(display)) {
+        যদি (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        if (!display_is_external) {
+    তথ্য = SDL_calloc(1, আকার(*তথ্য));
+    যদি (!তথ্য) {
+        যদি (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    data->initializing = true;
-    data->display = display;
-    data->display_externally_owned = display_is_external;
-    data->scale_to_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, false);
-    WAYLAND_wl_list_init(&data->seat_list);
+    তথ্য->initializing = true;
+    তথ্য->display = display;
+    তথ্য->display_externally_owned = display_is_external;
+    তথ্য->scale_to_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, false);
+    WAYLAND_wl_list_init(&তথ্য->seat_list);
     WAYLAND_wl_list_init(&external_window_list);
 
     // Initialize all variables that we clean on shutdown
-    device = SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        SDL_free(data);
-        if (!display_is_external) {
+    device = SDL_calloc(1, আকার(SDL_VideoDevice));
+    যদি (!device) {
+        SDL_free(তথ্য);
+        যদি (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    if (!display_is_external) {
+    যদি (!display_is_external) {
         SDL_SetPointerProperty(SDL_GetGlobalProperties(),
                                SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, display);
     }
 
-    device->internal = data;
+    device->internal = তথ্য;
 
     // Set the function pointers
     device->VideoInit = Wayland_VideoInit;
@@ -718,16 +718,16 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->SetWindowBordered = Wayland_SetWindowBordered;
     device->SetWindowResizable = Wayland_SetWindowResizable;
     device->SetWindowPosition = Wayland_SetWindowPosition;
-    device->SetWindowSize = Wayland_SetWindowSize;
+    device->Set_Window_আকার = Wayland_Set_Window_আকার;
     device->SetWindowAspectRatio = Wayland_SetWindowAspectRatio;
-    device->SetWindowMinimumSize = Wayland_SetWindowMinimumSize;
-    device->SetWindowMaximumSize = Wayland_SetWindowMaximumSize;
+    device->Set_Window_Minimum_আকার = Wayland_Set_Window_Minimum_আকার;
+    device->Set_Window_Maximum_আকার = Wayland_Set_Window_Maximum_আকার;
     device->SetWindowParent = Wayland_SetWindowParent;
     device->SetWindowModal = Wayland_SetWindowModal;
     device->SetWindowOpacity = Wayland_SetWindowOpacity;
     device->SetWindowTitle = Wayland_SetWindowTitle;
     device->SetWindowIcon = Wayland_SetWindowIcon;
-    device->GetWindowSizeInPixels = Wayland_GetWindowSizeInPixels;
+    device->Get_Window_আকার_In_Pixels = Wayland_Get_Window_আকার_In_Pixels;
     device->GetWindowContentScale = Wayland_GetWindowContentScale;
     device->GetWindowICCProfile = Wayland_GetWindowICCProfile;
     device->GetDisplayForWindow = Wayland_GetDisplayForWindow;
@@ -745,17 +745,17 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->AcceptDragAndDrop = Wayland_AcceptDragAndDrop;
 
 #ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+    যদি (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
 #endif
 
     device->GetTextMimeTypes = Wayland_GetTextMimeTypes;
-    device->SetClipboardData = Wayland_SetClipboardData;
-    device->GetClipboardData = Wayland_GetClipboardData;
-    device->HasClipboardData = Wayland_HasClipboardData;
-    device->StartTextInput = Wayland_StartTextInput;
-    device->StopTextInput = Wayland_StopTextInput;
-    device->UpdateTextInputArea = Wayland_UpdateTextInputArea;
+    device->Set_Clipboard_তথ্য = Wayland_Set_Clipboard_তথ্য;
+    device->Get_Clipboard_তথ্য = Wayland_Get_Clipboard_তথ্য;
+    device->Has_Clipboard_তথ্য = Wayland_Has_Clipboard_তথ্য;
+    device->Start_Text_প্রবেশ = Wayland_Start_Text_প্রবেশ;
+    device->Stop_Text_প্রবেশ = Wayland_Stop_Text_প্রবেশ;
+    device->Update_Text_প্রবেশ_Area = Wayland_Update_Text_প্রবেশ_Area;
 
 #ifdef SDL_VIDEO_VULKAN
     device->Vulkan_LoadLibrary = Wayland_Vulkan_LoadLibrary;
@@ -766,7 +766,7 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->Vulkan_GetPresentationSupport = Wayland_Vulkan_GetPresentationSupport;
 #endif
 
-    device->free = Wayland_DeleteDevice;
+    device->মুক্ত = Wayland_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED |
                           VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
@@ -774,17 +774,17 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
                           VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES |
                           VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES;
 
-    return device;
+    ফেরত device;
 }
 
-static SDL_VideoDevice *Wayland_Preferred_CreateDevice(void)
+স্থির SDL_VideoDevice *Wayland_Preferred_CreateDevice(শূন্য)
 {
-    return Wayland_CreateDevice(true);
+    ফেরত Wayland_CreateDevice(true);
 }
 
-static SDL_VideoDevice *Wayland_Fallback_CreateDevice(void)
+স্থির SDL_VideoDevice *Wayland_Fallback_CreateDevice(শূন্য)
 {
-    return Wayland_CreateDevice(false);
+    ফেরত Wayland_CreateDevice(false);
 }
 
 VideoBootStrap Wayland_preferred_bootstrap = {
@@ -801,9 +801,9 @@ VideoBootStrap Wayland_bootstrap = {
     false
 };
 
-static void handle_xdg_output_logical_position(void *data, struct zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
+স্থির শূন্য handle_xdg_output_logical_position(শূন্য *তথ্য, কাঠামো zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
     internal->logical.x = x;
@@ -811,47 +811,47 @@ static void handle_xdg_output_logical_position(void *data, struct zxdg_output_v1
     internal->has_logical_position = true;
 }
 
-static void handle_xdg_output_logical_size(void *data, struct zxdg_output_v1 *xdg_output, int32_t width, int32_t height)
+স্থির শূন্য handle_xdg_output_logical_আকার(শূন্য *তথ্য, কাঠামো zxdg_output_v1 *xdg_output, int32_t width, int32_t height)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
     internal->logical.width = width;
     internal->logical.height = height;
-    internal->has_logical_size = true;
+    internal->has_logical_আকার = true;
 }
 
-static void handle_xdg_output_done(void *data, struct zxdg_output_v1 *xdg_output)
+স্থির শূন্য handle_xdg_output_done(শূন্য *তথ্য, কাঠামো zxdg_output_v1 *xdg_output)
 {
-    SDL_DisplayData *internal = data;
+    SDL_Display_তথ্য *internal = তথ্য;
 
     /*
      * xdg-output.done events are deprecated and only apply below version 3 of the protocol.
      * A wl-output.done event will be emitted in version 3 or higher.
      */
-    if (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
-        handle_wl_output_done(data, internal->output);
+    যদি (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
+        handle_wl_output_done(তথ্য, internal->output);
     }
 }
 
-static void handle_xdg_output_name(void *data, struct zxdg_output_v1 *xdg_output, const char *name)
+স্থির শূন্য handle_xdg_output_name(শূন্য *তথ্য, কাঠামো zxdg_output_v1 *xdg_output, ধ্রুবক অক্ষর *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
+    যদি (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
         internal->display == 0) {
         SDL_free(internal->wl_output_name);
         internal->wl_output_name = SDL_strdup(name);
     }
 }
 
-static void handle_xdg_output_description(void *data, struct zxdg_output_v1 *xdg_output, const char *description)
+স্থির শূন্য handle_xdg_output_description(শূন্য *তথ্য, কাঠামো zxdg_output_v1 *xdg_output, ধ্রুবক অক্ষর *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
+    যদি (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
         internal->display == 0) {
         // xdg-output descriptions, if available, supersede wl-output model names.
         SDL_free(internal->placeholder.name);
@@ -859,24 +859,24 @@ static void handle_xdg_output_description(void *data, struct zxdg_output_v1 *xdg
     }
 }
 
-static const struct zxdg_output_v1_listener xdg_output_listener = {
+স্থির ধ্রুবক কাঠামো zxdg_output_v1_listener xdg_output_listener = {
     handle_xdg_output_logical_position,
-    handle_xdg_output_logical_size,
+    handle_xdg_output_logical_আকার,
     handle_xdg_output_done,
     handle_xdg_output_name,
     handle_xdg_output_description,
 };
 
-static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int native_height)
+স্থির শূন্য AddEmulatedModes(SDL_Display_তথ্য *dispdata, পূর্ণসংখ্যা native_width, পূর্ণসংখ্যা native_height)
 {
-    struct EmulatedMode
+    কাঠামো EmulatedMode
     {
-        int w;
-        int h;
+        পূর্ণসংখ্যা w;
+        পূর্ণসংখ্যা h;
     };
 
     // Resolution lists courtesy of XWayland
-    const struct EmulatedMode mode_list[] = {
+    ধ্রুবক কাঠামো EmulatedMode mode_list[] = {
         // 16:9 (1.77)
         { 7680, 4320 },
         { 6144, 3160 },
@@ -917,27 +917,27 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
         { 640, 480 }
     };
 
-    int i;
+    পূর্ণসংখ্যা i;
     SDL_DisplayMode mode;
     SDL_VideoDisplay *dpy = dispdata->display ? SDL_GetVideoDisplay(dispdata->display) : &dispdata->placeholder;
-    const bool rot_90 = native_width < native_height; // Reverse width/height for portrait displays.
+    ধ্রুবক bool rot_90 = native_width < native_height; // Reverse width/height for portrait displays.
 
-    for (i = 0; i < SDL_arraysize(mode_list); ++i) {
+    জন্য (i = 0; i < SDL_arraysize(mode_list); ++i) {
         SDL_zero(mode);
         mode.format = dpy->desktop_mode.format;
         mode.refresh_rate_numerator = dpy->desktop_mode.refresh_rate_numerator;
         mode.refresh_rate_denominator = dpy->desktop_mode.refresh_rate_denominator;
 
-        if (rot_90) {
+        যদি (rot_90) {
             mode.w = mode_list[i].h;
             mode.h = mode_list[i].w;
-        } else {
+        } অন্যথা {
             mode.w = mode_list[i].w;
             mode.h = mode_list[i].h;
         }
 
         // Only add modes that are smaller than the native mode.
-        if ((mode.w < native_width && mode.h < native_height) ||
+        যদি ((mode.w < native_width && mode.h < native_height) ||
             (mode.w < native_width && mode.h == native_height) ||
             (mode.w == native_width && mode.h < native_height)) {
             SDL_AddFullscreenDisplayMode(dpy, &mode);
@@ -945,14 +945,14 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
     }
 }
 
-static void handle_wl_output_geometry(void *data, struct wl_output *output, int x, int y,
-                                      int physical_width, int physical_height, int subpixel,
-                                      const char *make, const char *model, int transform)
+স্থির শূন্য handle_wl_output_geometry(শূন্য *তথ্য, কাঠামো wl_output *output, পূর্ণসংখ্যা x, পূর্ণসংখ্যা y,
+                                      পূর্ণসংখ্যা physical_width, পূর্ণসংখ্যা physical_height, পূর্ণসংখ্যা subpixel,
+                                      ধ্রুবক অক্ষর *make, ধ্রুবক অক্ষর *model, পূর্ণসংখ্যা transform)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     // Apply the change from wl-output only if xdg-output is not supported
-    if (!internal->has_logical_position) {
+    যদি (!internal->has_logical_position) {
         internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
         internal->logical.x = x;
         internal->logical.y = y;
@@ -961,17 +961,17 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
     internal->physical.height_mm = physical_height;
 
     // The model is only used for the output name if wl_output or xdg-output haven't provided a description.
-    if (internal->display == 0 && !internal->placeholder.name) {
+    যদি (internal->display == 0 && !internal->placeholder.name) {
         internal->placeholder.name = SDL_strdup(model);
     }
 
     internal->transform = transform;
 #define TF_CASE(in, out)                                 \
-    case WL_OUTPUT_TRANSFORM_##in:                       \
+    ক্ষেত্র WL_OUTPUT_TRANSFORM_##in:                       \
         internal->orientation = SDL_ORIENTATION_##out; \
-        break;
-    if (internal->physical.width_mm >= internal->physical.height_mm) {
-        switch (transform) {
+        বিরতি;
+    যদি (internal->physical.width_mm >= internal->physical.height_mm) {
+        নির্বাচন (transform) {
             TF_CASE(NORMAL, LANDSCAPE)
             TF_CASE(90, PORTRAIT)
             TF_CASE(180, LANDSCAPE_FLIPPED)
@@ -981,8 +981,8 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_180, LANDSCAPE)
             TF_CASE(FLIPPED_270, PORTRAIT)
         }
-    } else {
-        switch (transform) {
+    } অন্যথা {
+        নির্বাচন (transform) {
             TF_CASE(NORMAL, PORTRAIT)
             TF_CASE(90, LANDSCAPE)
             TF_CASE(180, PORTRAIT_FLIPPED)
@@ -996,12 +996,12 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
 #undef TF_CASE
 }
 
-static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t flags,
-                                  int width, int height, int refresh)
+স্থির শূন্য handle_wl_output_mode(শূন্য *তথ্য, কাঠামো wl_output *output, uint32_t flags,
+                                  পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, পূর্ণসংখ্যা refresh)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
-    if (flags & WL_OUTPUT_MODE_CURRENT) {
+    যদি (flags & WL_OUTPUT_MODE_CURRENT) {
         internal->geometry_changed |= internal->pixel.width != width || internal->pixel.height != height;
         internal->pixel.width = width;
         internal->pixel.height = height;
@@ -1010,7 +1010,7 @@ static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t
          * Don't rotate this yet, wl-output coordinates are transformed in
          * handle_done and xdg-output coordinates are pre-transformed.
          */
-        if (!internal->has_logical_size) {
+        যদি (!internal->has_logical_আকার) {
             internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
             internal->logical.width = width;
             internal->logical.height = height;
@@ -1020,11 +1020,11 @@ static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output)
+স্থির শূন্য handle_wl_output_done(শূন্য *তথ্য, কাঠামো wl_output *output)
 {
-    const bool mode_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION, true);
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
-    SDL_VideoData *video = internal->videodata;
+    ধ্রুবক bool mode_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION, true);
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
+    SDL_Video_তথ্য *video = internal->videodata;
     SDL_DisplayMode native_mode, desktop_mode;
 
     /*
@@ -1033,17 +1033,17 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
      *
      * All required events must be received before proceeding.
      */
-    const int event_await_count = 1 + (internal->xdg_output != NULL);
+    ধ্রুবক পূর্ণসংখ্যা event_await_গুনতি = 1 + (internal->xdg_output != ফাঁকা);
 
-    internal->wl_output_done_count = SDL_min(internal->wl_output_done_count + 1, event_await_count + 1);
+    internal->wl_output_done_গুনতি = SDL_min(internal->wl_output_done_গুনতি + 1, event_await_গুনতি + 1);
 
-    if (internal->wl_output_done_count < event_await_count) {
-        return;
+    যদি (internal->wl_output_done_গুনতি < event_await_গুনতি) {
+        ফেরত;
     }
 
     // If the display was already created, reset and rebuild the mode list.
     SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(internal->display);
-    if (dpy) {
+    যদি (dpy) {
         SDL_ResetFullscreenDisplayModes(dpy);
     }
 
@@ -1052,29 +1052,29 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     native_mode.format = SDL_PIXELFORMAT_XRGB8888;
 
     // Transform the pixel values, if necessary.
-    if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
+    যদি (internal->transform & WL_OUTPUT_TRANSFORM_90) {
         native_mode.w = internal->pixel.height;
         native_mode.h = internal->pixel.width;
-    } else {
+    } অন্যথা {
         native_mode.w = internal->pixel.width;
         native_mode.h = internal->pixel.height;
     }
     native_mode.refresh_rate_numerator = internal->refresh;
     native_mode.refresh_rate_denominator = 1000;
 
-    if (internal->has_logical_size) { // If xdg-output is present...
-        if (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
+    যদি (internal->has_logical_আকার) { // If xdg-output is present...
+        যদি (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
             // ...and the compositor scales the logical viewport...
-            if (video->viewporter) {
+            যদি (video->viewporter) {
                 // ...and viewports are supported, calculate the true scale of the output.
-                internal->scale_factor = (double)native_mode.w / (double)internal->logical.width;
-            } else {
+                internal->scale_factor = (দ্বিগুণ)native_mode.w / (দ্বিগুণ)internal->logical.width;
+            } অন্যথা {
                 // ...otherwise, the 'native' pixel values are a multiple of the logical screen size.
                 internal->scale_factor = internal->integer_scale_factor;
                 internal->pixel.width = internal->logical.width * internal->integer_scale_factor;
                 internal->pixel.height = internal->logical.height * internal->integer_scale_factor;
             }
-        } else {
+        } অন্যথা {
             /* ...and the output viewport is not scaled in the global compositing
              * space, the output dimensions need to be divided by the scale factor.
              *
@@ -1084,7 +1084,7 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
             internal->logical.width /= internal->integer_scale_factor;
             internal->logical.height /= internal->integer_scale_factor;
         }
-    } else {
+    } অন্যথা {
         /* Calculate the points from the pixel values, if xdg-output isn't present.
          * Use the native mode pixel values since they are pre-transformed.
          */
@@ -1097,11 +1097,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     SDL_zero(desktop_mode);
     desktop_mode.format = SDL_PIXELFORMAT_XRGB8888;
 
-    if (!video->scale_to_display_enabled) {
+    যদি (!video->scale_to_display_enabled) {
         desktop_mode.w = internal->logical.width;
         desktop_mode.h = internal->logical.height;
-        desktop_mode.pixel_density = (float)internal->scale_factor;
-    } else {
+        desktop_mode.pixel_density = (দশমিক)internal->scale_factor;
+    } অন্যথা {
         desktop_mode.w = native_mode.w;
         desktop_mode.h = native_mode.h;
         desktop_mode.pixel_density = 1.0f;
@@ -1110,31 +1110,31 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     desktop_mode.refresh_rate_numerator = internal->refresh;
     desktop_mode.refresh_rate_denominator = 1000;
 
-    if (internal->display > 0) {
+    যদি (internal->display > 0) {
         dpy = SDL_GetVideoDisplay(internal->display);
-    } else {
+    } অন্যথা {
         dpy = &internal->placeholder;
     }
 
-    if (video->scale_to_display_enabled) {
-        SDL_SetDisplayContentScale(dpy, (float)internal->scale_factor);
+    যদি (video->scale_to_display_enabled) {
+        SDL_SetDisplayContentScale(dpy, (দশমিক)internal->scale_factor);
     }
 
     // Set the desktop display mode.
     SDL_SetDesktopDisplayMode(dpy, &desktop_mode);
 
     // Expose the unscaled, native resolution if the scale is 1.0 or viewports are available...
-    if (internal->scale_factor == 1.0 || video->viewporter) {
+    যদি (internal->scale_factor == 1.0 || video->viewporter) {
         SDL_AddFullscreenDisplayMode(dpy, &native_mode);
-        if (native_mode.w != desktop_mode.w ||
+        যদি (native_mode.w != desktop_mode.w ||
             native_mode.h != desktop_mode.h) {
             SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
         }
-    } else {
+    } অন্যথা {
         // ...otherwise expose the integer scaled variants of the desktop resolution down to 1.
         desktop_mode.pixel_density = 1.0f;
 
-        for (int i = (int)internal->scale_factor; i > 0; --i) {
+        জন্য (পূর্ণসংখ্যা i = (পূর্ণসংখ্যা)internal->scale_factor; i > 0; --i) {
             desktop_mode.w = internal->logical.width * i;
             desktop_mode.h = internal->logical.height * i;
             SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
@@ -1142,16 +1142,16 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     }
 
     // Add emulated modes if wp_viewporter is supported and mode emulation is enabled.
-    if (video->viewporter && mode_emulation_enabled) {
+    যদি (video->viewporter && mode_emulation_enabled) {
         // The transformed display pixel width/height must be used here.
         AddEmulatedModes(internal, native_mode.w, native_mode.h);
     }
 
-    if (internal->display == 0) {
+    যদি (internal->display == 0) {
         // First time getting display info, initialize the VideoDisplay
-        if (internal->physical.width_mm >= internal->physical.height_mm) {
+        যদি (internal->physical.width_mm >= internal->physical.height_mm) {
             internal->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
-        } else {
+        } অন্যথা {
             internal->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
         }
         internal->placeholder.current_orientation = internal->orientation;
@@ -1161,11 +1161,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
         SDL_SetPointerProperty(internal->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER, internal->output);
 
         // During initialization, the displays will be added after enumeration is complete.
-        if (!video->initializing) {
-            if (video->wp_color_manager_v1) {
+        যদি (!video->initializing) {
+            যদি (video->wp_color_manager_v1) {
                 Wayland_GetColorInfoForOutput(internal, false);
             }
-            if (video->scale_to_display_enabled) {
+            যদি (video->scale_to_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
@@ -1175,11 +1175,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
             SDL_free(internal->placeholder.name);
             SDL_zero(internal->placeholder);
         }
-    } else {
+    } অন্যথা {
         SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, internal->orientation, 0);
 
-        if (internal->geometry_changed) {
-            if (video->scale_to_display_enabled) {
+        যদি (internal->geometry_changed) {
+            যদি (video->scale_to_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
@@ -1191,32 +1191,32 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     internal->geometry_changed = false;
 }
 
-static void handle_wl_output_scale(void *data, struct wl_output *output, int32_t factor)
+স্থির শূন্য handle_wl_output_scale(শূন্য *তথ্য, কাঠামো wl_output *output, int32_t factor)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
     internal->integer_scale_factor = factor;
 }
 
-static void handle_wl_output_name(void *data, struct wl_output *wl_output, const char *name)
+স্থির শূন্য handle_wl_output_name(শূন্য *তথ্য, কাঠামো wl_output *wl_output, ধ্রুবক অক্ষর *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
     SDL_free(internal->wl_output_name);
     internal->wl_output_name = SDL_strdup(name);
 }
 
-static void handle_wl_output_description(void *data, struct wl_output *wl_output, const char *description)
+স্থির শূন্য handle_wl_output_description(শূন্য *তথ্য, কাঠামো wl_output *wl_output, ধ্রুবক অক্ষর *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *internal = (SDL_Display_তথ্য *)তথ্য;
 
-    if (internal->display == 0) {
+    যদি (internal->display == 0) {
         // The description, if available, supersedes the model name.
         SDL_free(internal->placeholder.name);
         internal->placeholder.name = SDL_strdup(description);
     }
 }
 
-static const struct wl_output_listener output_listener = {
+স্থির ধ্রুবক কাঠামো wl_output_listener output_listener = {
     handle_wl_output_geometry,   // Version 1
     handle_wl_output_mode,       // Version 1
     handle_wl_output_done,       // Version 2
@@ -1225,422 +1225,422 @@ static const struct wl_output_listener output_listener = {
     handle_wl_output_description // Version 4
 };
 
-static void handle_output_image_description_changed(void *data,
-                                                    struct wp_color_management_output_v1 *wp_color_management_output_v1)
+স্থির শূন্য handle_output_image_description_changed(শূন্য *তথ্য,
+                                                    কাঠামো wp_color_management_output_v1 *wp_color_management_output_v1)
 {
-    SDL_DisplayData *display = (SDL_DisplayData *)data;
+    SDL_Display_তথ্য *display = (SDL_Display_তথ্য *)তথ্য;
     Wayland_GetColorInfoForOutput(display, false);
 }
 
-static const struct wp_color_management_output_v1_listener wp_color_management_output_listener = {
+স্থির ধ্রুবক কাঠামো wp_color_management_output_v1_listener wp_color_management_output_listener = {
     handle_output_image_description_changed
 };
 
-static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
+স্থির bool Wayland_add_display(SDL_Video_তথ্য *d, uint32_t id, uint32_t version)
 {
-    struct wl_output *output;
-    SDL_DisplayData *data;
+    কাঠামো wl_output *output;
+    SDL_Display_তথ্য *তথ্য;
 
     output = wl_registry_bind(d->registry, id, &wl_output_interface, version);
-    if (!output) {
-        return SDL_SetError("Failed to retrieve output.");
+    যদি (!output) {
+        ফেরত SDL_SetError("Failed to retrieve output.");
     }
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(*data));
-    data->videodata = d;
-    data->output = output;
-    data->registry_id = id;
-    data->scale_factor = 1.0f;
-    data->integer_scale_factor = 1;
+    তথ্য = (SDL_Display_তথ্য *)SDL_calloc(1, আকার(*তথ্য));
+    তথ্য->videodata = d;
+    তথ্য->output = output;
+    তথ্য->registry_id = id;
+    তথ্য->scale_factor = 1.0f;
+    তথ্য->integer_scale_factor = 1;
 
-    wl_output_add_listener(output, &output_listener, data);
+    wl_output_add_listener(output, &output_listener, তথ্য);
     SDL_WAYLAND_register_output(output);
 
     // Keep a list of outputs for sorting and deferred protocol initialization.
-    if (d->output_count == d->output_max) {
+    যদি (d->output_গুনতি == d->output_max) {
         d->output_max += 4;
-        d->output_list = SDL_realloc(d->output_list, sizeof(SDL_DisplayData *) * d->output_max);
+        d->output_list = SDL_realloc(d->output_list, আকার(SDL_Display_তথ্য *) * d->output_max);
     }
-    d->output_list[d->output_count++] = data;
+    d->output_list[d->output_গুনতি++] = তথ্য;
 
-    if (data->videodata->xdg_output_manager) {
-        data->xdg_output = zxdg_output_manager_v1_get_xdg_output(data->videodata->xdg_output_manager, output);
-        zxdg_output_v1_add_listener(data->xdg_output, &xdg_output_listener, data);
+    যদি (তথ্য->videodata->xdg_output_manager) {
+        তথ্য->xdg_output = zxdg_output_manager_v1_get_xdg_output(তথ্য->videodata->xdg_output_manager, output);
+        zxdg_output_v1_add_listener(তথ্য->xdg_output, &xdg_output_listener, তথ্য);
     }
-    if (data->videodata->wp_color_manager_v1) {
-        data->wp_color_management_output = wp_color_manager_v1_get_output(data->videodata->wp_color_manager_v1, output);
-        wp_color_management_output_v1_add_listener(data->wp_color_management_output, &wp_color_management_output_listener, data);
+    যদি (তথ্য->videodata->wp_color_manager_v1) {
+        তথ্য->wp_color_management_output = wp_color_manager_v1_get_output(তথ্য->videodata->wp_color_manager_v1, output);
+        wp_color_management_output_v1_add_listener(তথ্য->wp_color_management_output, &wp_color_management_output_listener, তথ্য);
 
         // If not initializing, this will be queried synchronously in wl_output.done.
-        if (d->initializing) {
-            Wayland_GetColorInfoForOutput(data, true);
+        যদি (d->initializing) {
+            Wayland_GetColorInfoForOutput(তথ্য, true);
         }
     }
-    return true;
+    ফেরত true;
 }
 
-static void Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
+স্থির শূন্য Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
 {
-    if (display) {
-        SDL_DisplayData *display_data = display->internal;
+    যদি (display) {
+        SDL_Display_তথ্য *display_তথ্য = display->internal;
 
         /* A preceding surface leave event is not guaranteed when an output is removed,
          * so ensure that no window continues to hold a reference to a removed output.
          */
-        for (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->next) {
-            Wayland_RemoveOutputFromWindow(window->internal, display_data);
+        জন্য (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->পরবর্তী) {
+            Wayland_RemoveOutputFromWindow(window->internal, display_তথ্য);
         }
 
-        SDL_free(display_data->wl_output_name);
+        SDL_free(display_তথ্য->wl_output_name);
 
-        if (display_data->wp_color_management_output) {
-            Wayland_FreeColorInfoState(display_data->color_info_state);
-            wp_color_management_output_v1_destroy(display_data->wp_color_management_output);
+        যদি (display_তথ্য->wp_color_management_output) {
+            Wayland_FreeColorInfoState(display_তথ্য->color_info_state);
+            wp_color_management_output_v1_destroy(display_তথ্য->wp_color_management_output);
         }
 
-        if (display_data->xdg_output) {
-            zxdg_output_v1_destroy(display_data->xdg_output);
+        যদি (display_তথ্য->xdg_output) {
+            zxdg_output_v1_destroy(display_তথ্য->xdg_output);
         }
 
-        if (wl_output_get_version(display_data->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
-            wl_output_release(display_data->output);
-        } else {
-            wl_output_destroy(display_data->output);
+        যদি (wl_output_get_version(display_তথ্য->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
+            wl_output_release(display_তথ্য->output);
+        } অন্যথা {
+            wl_output_destroy(display_তথ্য->output);
         }
 
         SDL_DelVideoDisplay(display->id, send_event);
     }
 }
 
-static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
+স্থির শূন্য Wayland_FinalizeDisplays(SDL_Video_তথ্য *vid)
 {
     Wayland_SortOutputs(vid);
 
-    for(int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
+    জন্য(পূর্ণসংখ্যা i = 0; i < vid->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *d = vid->output_list[i];
         d->display = SDL_AddVideoDisplay(&d->placeholder, false);
         SDL_free(d->placeholder.name);
         SDL_zero(d->placeholder);
     }
 }
 
-static void Wayland_init_xdg_output(SDL_VideoData *d)
+স্থির শূন্য Wayland_init_xdg_output(SDL_Video_তথ্য *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    জন্য (পূর্ণসংখ্যা i = 0; i < d->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *disp = d->output_list[i];
         disp->xdg_output = zxdg_output_manager_v1_get_xdg_output(disp->videodata->xdg_output_manager, disp->output);
         zxdg_output_v1_add_listener(disp->xdg_output, &xdg_output_listener, disp);
     }
 }
 
-static void Wayland_InitColorManager(SDL_VideoData *d)
+স্থির শূন্য Wayland_InitColorManager(SDL_Video_তথ্য *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    জন্য (পূর্ণসংখ্যা i = 0; i < d->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *disp = d->output_list[i];
         disp->wp_color_management_output = wp_color_manager_v1_get_output(disp->videodata->wp_color_manager_v1, disp->output);
         wp_color_management_output_v1_add_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
         Wayland_GetColorInfoForOutput(disp, true);
     }
 }
 
-static void handle_xdg_session_created(void *data, struct xdg_session_v1 *xdg_session_v1, const char *id)
+স্থির শূন্য handle_xdg_session_created(শূন্য *তথ্য, কাঠামো xdg_session_v1 *xdg_session_v1, ধ্রুবক অক্ষর *id)
 {
     SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, id);
 }
 
-static void handle_xdg_session_restored(void *data, struct xdg_session_v1 *xdg_session_v1)
+স্থির শূন্য handle_xdg_session_restored(শূন্য *তথ্য, কাঠামো xdg_session_v1 *xdg_session_v1)
 {
     // NOP
 }
 
-static void handle_xdg_session_replaced(void *data, struct xdg_session_v1 *xdg_session_v1)
+স্থির শূন্য handle_xdg_session_replaced(শূন্য *তথ্য, কাঠামো xdg_session_v1 *xdg_session_v1)
 {
     SDL_VideoDevice *viddev = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = data;
+    SDL_Video_তথ্য *viddata = তথ্য;
 
     // Clean up all session objects, as they have become inert, and should be destroyed.
-    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
+    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ফাঁকা);
 
-    for (SDL_Window *w = viddev->windows; w; w = w->next) {
-        SDL_WindowData *d = w->internal;
+    জন্য (SDL_Window *w = viddev->windows; w; w = w->পরবর্তী) {
+        SDL_Window_তথ্য *d = w->internal;
 
-        if (d->xdg_toplevel_session) {
+        যদি (d->xdg_toplevel_session) {
             xdg_toplevel_session_v1_destroy(d->xdg_toplevel_session);
-            d->xdg_toplevel_session = NULL;
+            d->xdg_toplevel_session = ফাঁকা;
 
             SDL_free(d->session_id);
-            d->session_id = NULL;
+            d->session_id = ফাঁকা;
         }
     }
 
-    if (viddata->xdg_session) {
+    যদি (viddata->xdg_session) {
         xdg_session_v1_destroy(viddata->xdg_session);
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = ফাঁকা;
     }
 }
 
-static const struct xdg_session_v1_listener xdg_session_listener = {
+স্থির ধ্রুবক কাঠামো xdg_session_v1_listener xdg_session_listener = {
     .created  = handle_xdg_session_created,
     .restored = handle_xdg_session_restored,
     .replaced = handle_xdg_session_replaced
 };
 
-void Wayland_CreateSession(SDL_VideoData *viddata)
+শূন্য Wayland_CreateSession(SDL_Video_তথ্য *viddata)
 {
-    if (!viddata->xdg_session_manager) {
+    যদি (!viddata->xdg_session_manager) {
         // Set the ID string to null if session management is not available.
-        SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        return;
+        SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ফাঁকা);
+        ফেরত;
     }
 
     // Register a new session, if one does not yet exist.
-    if (!viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (session_id) {
-            if (*session_id == '\0') {
+    যদি (!viddata->xdg_session) {
+        ধ্রুবক অক্ষর *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ফাঁকা);
+        যদি (session_id) {
+            যদি (*session_id == '\0') {
                 // Create a new session if the ID string is empty.
-                session_id = NULL;
+                session_id = ফাঁকা;
             }
 
-            const enum xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
+            ধ্রুবক গণনা xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
             viddata->xdg_session = xdg_session_manager_v1_get_session(viddata->xdg_session_manager, reason, session_id);
             xdg_session_v1_add_listener(viddata->xdg_session, &xdg_session_listener, viddata);
         }
     }
 }
 
-static void Wayland_SessionDestroy(SDL_VideoData *viddata)
+স্থির শূন্য Wayland_SessionDestroy(SDL_Video_তথ্য *viddata)
 {
     // If the session string was cleared, remove the session.
-    if (viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (!session_id || *session_id == '\0') {
+    যদি (viddata->xdg_session) {
+        ধ্রুবক অক্ষর *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ফাঁকা);
+        যদি (!session_id || *session_id == '\0') {
             xdg_session_v1_remove(viddata->xdg_session);
 
             WAYLAND_wl_display_roundtrip(viddata->display);
-        } else {
+        } অন্যথা {
             xdg_session_v1_destroy(viddata->xdg_session);
         }
 
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = ফাঁকা;
     }
 }
 
-static void handle_xdg_wm_base_ping(void *data, struct xdg_wm_base *xdg, uint32_t serial)
+স্থির শূন্য handle_xdg_wm_base_ping(শূন্য *তথ্য, কাঠামো xdg_wm_base *xdg, uint32_t serial)
 {
     xdg_wm_base_pong(xdg, serial);
 }
 
-static const struct xdg_wm_base_listener _xdg_wm_base_listener = {
+স্থির ধ্রুবক কাঠামো xdg_wm_base_listener _xdg_wm_base_listener = {
     handle_xdg_wm_base_ping
 };
 
 #ifdef HAVE_LIBDECOR_H
-static void libdecor_error(struct libdecor *context,
-                           enum libdecor_error error,
-                           const char *message)
+স্থির শূন্য libdecor_error(কাঠামো libdecor *context,
+                           গণনা libdecor_error error,
+                           ধ্রুবক অক্ষর *message)
 {
     SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "libdecor error (%d): %s", error, message);
 }
 
-static struct libdecor_interface libdecor_interface = {
+স্থির কাঠামো libdecor_interface libdecor_interface = {
     libdecor_error
 };
 #endif
 
-static void handle_registry_global(void *data, struct wl_registry *registry, uint32_t id,
-                                   const char *interface, uint32_t version)
+স্থির শূন্য handle_registry_global(শূন্য *তথ্য, কাঠামো wl_registry *registry, uint32_t id,
+                                   ধ্রুবক অক্ষর *interface, uint32_t version)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_তথ্য *d = তথ্য;
 
-    if (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
+    যদি (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
         d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_VERSION, version));
-    } else if (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
         d->subcompositor = wl_registry_bind(d->registry, id, &wl_subcompositor_interface, 1);
-    } else if (SDL_strcmp(interface, wl_output_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wl_output_interface.name) == 0) {
         Wayland_add_display(d, id, SDL_min(version, SDL_WL_OUTPUT_VERSION));
-    } else if (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
-        struct wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_VERSION, version));
+    } অন্যথা যদি (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
+        কাঠামো wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_VERSION, version));
         Wayland_DisplayCreateSeat(d, seat, id);
-    } else if (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
         d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_base_interface, SDL_min(version, 7));
-        xdg_wm_base_add_listener(d->shell.xdg, &_xdg_wm_base_listener, NULL);
-    } else if (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
+        xdg_wm_base_add_listener(d->shell.xdg, &_xdg_wm_base_listener, ফাঁকা);
+    } অন্যথা যদি (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
         d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_VERSION, version));
-    } else if (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
         d->relative_pointer_manager = wl_registry_bind(d->registry, id, &zwp_relative_pointer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
         d->pointer_constraints = wl_registry_bind(d->registry, id, &zwp_pointer_constraints_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
-        d->key_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
+        d->চাবি_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
         d->idle_inhibit_manager = wl_registry_bind(d->registry, id, &zwp_idle_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
         d->activation_manager = wl_registry_bind(d->registry, id, &xdg_activation_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
-        d->text_input_manager = wl_registry_bind(d->registry, id, &zwp_text_input_manager_v3_interface, 1);
-        Wayland_DisplayInitTextInputManager(d, id);
-    } else if (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
-        d->data_device_manager = wl_registry_bind(d->registry, id, &wl_data_device_manager_interface, SDL_min(3, version));
-        Wayland_DisplayInitDataDeviceManager(d);
-    } else if (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_text_প্রবেশ_manager_v3_interface.name) == 0) {
+        d->text_প্রবেশ_manager = wl_registry_bind(d->registry, id, &zwp_text_প্রবেশ_manager_v3_interface, 1);
+        Wayland_Display_Init_Text_প্রবেশ_Manager(d, id);
+    } অন্যথা যদি (SDL_strcmp(interface, wl_তথ্য_device_manager_interface.name) == 0) {
+        d->তথ্য_device_manager = wl_registry_bind(d->registry, id, &wl_তথ্য_device_manager_interface, SDL_min(3, version));
+        Wayland_Display_Init_তথ্য_Device_Manager(d);
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
         d->primary_selection_device_manager = wl_registry_bind(d->registry, id, &zwp_primary_selection_device_manager_v1_interface, 1);
         Wayland_DisplayInitPrimarySelectionDeviceManager(d);
-    } else if (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
         d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, version));
-    } else if (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
         d->tablet_manager = wl_registry_bind(d->registry, id, &zwp_tablet_manager_v2_interface, 1);
         Wayland_DisplayInitTabletManager(d);
-    } else if (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
         version = SDL_min(version, 3); // Versions 1 through 3 are supported.
         d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, version);
         Wayland_init_xdg_output(d);
-    } else if (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
         d->viewporter = wl_registry_bind(d->registry, id, &wp_viewporter_interface, 1);
-    } else if (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         d->fractional_scale_manager = wl_registry_bind(d->registry, id, &wp_fractional_scale_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
-        d->input_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_input_timestamps_manager_v1_interface, 1);
-        Wayland_DisplayInitInputTimestampManager(d);
-    } else if (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_প্রবেশ_timestamps_manager_v1_interface.name) == 0) {
+        d->প্রবেশ_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_প্রবেশ_timestamps_manager_v1_interface, 1);
+        Wayland_Display_Init_প্রবেশ_Timestamp_Manager(d);
+    } অন্যথা যদি (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
         d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(version, 2));
         Wayland_DisplayInitCursorShapeManager(d);
-    } else if (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
         d->zxdg_exporter_v2 = wl_registry_bind(d->registry, id, &zxdg_exporter_v2_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
         d->xdg_wm_dialog_v1 = wl_registry_bind(d->registry, id, &xdg_wm_dialog_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
         d->wp_alpha_modifier_v1 = wl_registry_bind(d->registry, id, &wp_alpha_modifier_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_icon_manager_v1 = wl_registry_bind(d->registry, id, &xdg_toplevel_icon_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
         d->frog_color_management_factory_v1 = wl_registry_bind(d->registry, id, &frog_color_management_factory_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
         d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(version, 2));
         Wayland_InitColorManager(d);
-    } else if (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
         d->wp_pointer_warp_v1 = wl_registry_bind(d->registry, id, &wp_pointer_warp_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
         d->zwp_pointer_gestures = wl_registry_bind(d->registry, id, &zwp_pointer_gestures_v1_interface, SDL_min(version, 3));
         Wayland_DisplayInitPointerGestureManager(d);
-    } else if (SDL_strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
-        d->single_pixel_buffer_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_buffer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, wp_single_pixel_বাফার_manager_v1_interface.name) == 0) {
+        d->single_pixel_বাফার_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_বাফার_manager_v1_interface, 1);
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
         d->xdg_session_manager = wl_registry_bind(d->registry, id, &xdg_session_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
+    } অন্যথা যদি (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_tag_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_tag_manager_v1_interface, 1);
     }
 #ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+    অন্যথা যদি (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
         d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
     }
 #endif
 }
 
-static void handle_registry_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+স্থির শূন্য handle_registry_remove_global(শূন্য *তথ্য, কাঠামো wl_registry *registry, uint32_t id)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_তথ্য *d = তথ্য;
 
     // We don't get an interface, just an ID, so check outputs and seats.
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
-        if (disp->registry_id == id) {
+    জন্য (পূর্ণসংখ্যা i = 0; i < d->output_গুনতি; ++i) {
+        SDL_Display_তথ্য *disp = d->output_list[i];
+        যদি (disp->registry_id == id) {
             Wayland_free_display(SDL_GetVideoDisplay(disp->display), true);
 
-            if (i < d->output_count) {
-                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_count - i - 1));
+            যদি (i < d->output_গুনতি) {
+                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], আকার(SDL_Display_তথ্য *) * (d->output_গুনতি - i - 1));
             }
 
-            d->output_count--;
-            goto ack_remove;
+            d->output_গুনতি--;
+            যাও ack_remove;
         }
     }
 
-    SDL_WaylandSeat *seat, *temp;
-    wl_list_for_each_safe (seat, temp, &d->seat_list, link) {
-        if (seat->registry_id == id) {
+    SDL_WaylandSeat *seat, *অস্থায়ী;
+    wl_list_for_each_safe (seat, অস্থায়ী, &d->seat_list, link) {
+        যদি (seat->registry_id == id) {
             Wayland_SeatDestroy(seat, false);
-            goto ack_remove;
+            যাও ack_remove;
         }
     }
 
 ack_remove:
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    যদি (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener registry_listener = {
+স্থির ধ্রুবক কাঠামো wl_registry_listener registry_listener = {
     handle_registry_global,
     handle_registry_remove_global
 };
 
 #ifdef HAVE_LIBDECOR_H
-static bool should_use_libdecor(SDL_VideoData *data, bool ignore_xdg)
+স্থির bool should_use_libdecor(SDL_Video_তথ্য *তথ্য, bool ignore_xdg)
 {
-    if (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
-        return false;
+    যদি (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
+        ফেরত false;
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
-        return true;
+    যদি (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
+        ফেরত true;
     }
 
-    if (ignore_xdg) {
-        return true;
+    যদি (ignore_xdg) {
+        ফেরত true;
     }
 
-    if (data->decoration_manager) {
-        return false;
+    যদি (তথ্য->decoration_manager) {
+        ফেরত false;
     }
 
-    return true;
+    ফেরত true;
 }
 
-static void LibdecorNew(SDL_VideoData *data)
+স্থির শূন্য LibdecorNew(SDL_Video_তথ্য *তথ্য)
 {
-    data->shell.libdecor = libdecor_new(data->display, &libdecor_interface);
+    তথ্য->shell.libdecor = libdecor_new(তথ্য->display, &libdecor_interface);
 }
 
 // Called in another thread, but the UI thread is blocked in SDL_WaitThread
 // during that time, so it should be OK to dereference data without locks
-static int SDLCALL LibdecorNewInThread(void *data)
+স্থির পূর্ণসংখ্যা SDLCALL LibdecorNewInThread(শূন্য *তথ্য)
 {
-    LibdecorNew((SDL_VideoData *)data);
-    return 0;
+    LibdecorNew((SDL_Video_তথ্য *)তথ্য);
+    ফেরত 0;
 }
 #endif
 
 #ifdef HAVE_GETRESUID
 #define SDL_getresuid getresuid
-#else
+#অন্যথা
 // Non-POSIX, but Linux and some BSDs have it.
 // To reduce the number of code paths, if getresuid() isn't available at
 // compile-time, we behave as though it existed but failed at runtime.
-static inline int SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
+স্থির অন্তঃরেখ পূর্ণসংখ্যা SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
     errno = ENOSYS;
-    return -1;
+    ফেরত -1;
 }
 #endif
 
 #ifdef HAVE_GETRESGID
 #define SDL_getresgid getresgid
-#else
+#অন্যথা
 // Same as getresuid() but for the primary group
-static inline int SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
+স্থির অন্তঃরেখ পূর্ণসংখ্যা SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
     errno = ENOSYS;
-    return -1;
+    ফেরত -1;
 }
 #endif
 
-bool CanUseGtk(void)
+bool CanUseGtk(শূন্য)
 {
     // "Real", "effective" and "saved" IDs: see e.g. Linux credentials(7)
     uid_t ruid = -1, euid = -1, suid = -1;
     gid_t rgid = -1, egid = -1, sgid = -1;
 
-    if (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
+    যদি (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to hint");
-        return false;
+        ফেরত false;
     }
 
     // This is intended to match the check in gtkmain.c, rather than being
@@ -1648,382 +1648,382 @@ bool CanUseGtk(void)
     // we don't use Linux getauxval() or prctl PR_GET_DUMPABLE,
     // BSD issetugid(), or similar OS-specific detection
 
-    if (SDL_getresuid(&ruid, &euid, &suid) != 0) {
+    যদি (SDL_getresuid(&ruid, &euid, &suid) != 0) {
         ruid = suid = getuid();
         euid = geteuid();
     }
 
-    if (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
+    যদি (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
         rgid = sgid = getgid();
         egid = getegid();
     }
 
     // Real ID != effective ID means we are setuid or setgid:
     // GTK will refuse to initialize, and instead will call exit().
-    if (ruid != euid || rgid != egid) {
+    যদি (ruid != euid || rgid != egid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to setuid/setgid");
-        return false;
+        ফেরত false;
     }
 
     // Real ID != saved ID means we are setuid or setgid, we previously
     // dropped privileges, but we can regain them; this protects against
     // accidents but does not protect against arbitrary code execution.
     // Again, GTK will refuse to initialize if this is the case.
-    if (ruid != suid || rgid != sgid) {
+    যদি (ruid != suid || rgid != sgid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to saved uid/gid");
-        return false;
+        ফেরত false;
     }
 
-    return true;
+    ফেরত true;
 }
 
-bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg)
+bool Wayland_LoadLibdecor(SDL_Video_তথ্য *তথ্য, bool ignore_xdg)
 {
 #ifdef HAVE_LIBDECOR_H
-    if (data->shell.libdecor != NULL) {
-        return true; // Already loaded!
+    যদি (তথ্য->shell.libdecor != ফাঁকা) {
+        ফেরত true; // Already loaded!
     }
-    if (should_use_libdecor(data, ignore_xdg)) {
-        if (CanUseGtk()) {
-            LibdecorNew(data);
-        } else {
+    যদি (should_use_libdecor(তথ্য, ignore_xdg)) {
+        যদি (CanUseGtk()) {
+            LibdecorNew(তথ্য);
+        } অন্যথা {
             // Intentionally initialize libdecor in a non-main thread
             // so that it will not use its GTK plugin, but instead will
             // fall back to the Cairo or dummy plugin
-            SDL_Thread *thread = SDL_CreateThread(LibdecorNewInThread, "SDL_LibdecorNew", (void *)data);
+            SDL_Thread *thread = SDL_CreateThread(LibdecorNewInThread, "SDL_LibdecorNew", (শূন্য *)তথ্য);
             // Note that the other thread now "owns" data until we have
             // waited for it, so don't touch data here
-            SDL_WaitThread(thread, NULL);
+            SDL_WaitThread(thread, ফাঁকা);
         }
 
-        return data->shell.libdecor != NULL;
+        ফেরত তথ্য->shell.libdecor != ফাঁকা;
     }
 #endif
-    return false;
+    ফেরত false;
 }
 
 bool Wayland_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
-    data->event_thread_context = Wayland_CreateEventThread(data, "SDL Event Thread Queue");
-    if (!data->event_thread_context) {
+    তথ্য->event_thread_context = Wayland_CreateEventThread(তথ্য, "SDL Event Thread Queue");
+    যদি (!তথ্য->event_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create event thread context");
     }
 
-    data->job_thread_context = Wayland_CreateJobThread();
-    if (!data->job_thread_context) {
+    তথ্য->job_thread_context = Wayland_CreateJobThread();
+    যদি (!তথ্য->job_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create job thread context");
     }
 
-    data->xkb_context = WAYLAND_xkb_context_new(0);
-    if (!data->xkb_context) {
-        return SDL_SetError("Failed to create XKB context");
+    তথ্য->xkb_context = WAYLAND_xkb_context_new(0);
+    যদি (!তথ্য->xkb_context) {
+        ফেরত SDL_SetError("Failed to create XKB context");
     }
 
-    data->registry = wl_display_get_registry(data->display);
-    if (!data->registry) {
-        return SDL_SetError("Failed to get the Wayland registry");
+    তথ্য->registry = wl_display_get_registry(তথ্য->display);
+    যদি (!তথ্য->registry) {
+        ফেরত SDL_SetError("Failed to get the Wayland registry");
     }
 
-    wl_registry_add_listener(data->registry, &registry_listener, data);
+    wl_registry_add_listener(তথ্য->registry, &registry_listener, তথ্য);
 
     // First roundtrip to receive all registry objects.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(তথ্য->display);
 
     // Require viewports and xdg-output for display scaling.
-    if (data->scale_to_display_enabled) {
-        if (!data->viewporter) {
+    যদি (তথ্য->scale_to_display_enabled) {
+        যদি (!তথ্য->viewporter) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'wp_viewporter' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            তথ্য->scale_to_display_enabled = false;
         }
-        if (!data->xdg_output_manager) {
+        যদি (!তথ্য->xdg_output_manager) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'zxdg_output_manager_v1' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            তথ্য->scale_to_display_enabled = false;
         }
     }
 
     // Now that we have all the protocols, load libdecor if applicable
-    Wayland_LoadLibdecor(data, false);
+    Wayland_LoadLibdecor(তথ্য, false);
 
     // Second roundtrip to receive all output events.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(তথ্য->display);
 
-    Wayland_FinalizeDisplays(data);
+    Wayland_FinalizeDisplays(তথ্য);
 
-    Wayland_InitMouse(data);
+    Wayland_InitMouse(তথ্য);
     Wayland_InitKeyboard(_this);
 
-    if (data->primary_selection_device_manager) {
+    যদি (তথ্য->primary_selection_device_manager) {
         _this->SetPrimarySelectionText = Wayland_SetPrimarySelectionText;
         _this->GetPrimarySelectionText = Wayland_GetPrimarySelectionText;
         _this->HasPrimarySelectionText = Wayland_HasPrimarySelectionText;
     }
 
-    data->initializing = false;
+    তথ্য->initializing = false;
 
-    return true;
+    ফেরত true;
 }
 
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+স্থির bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *internal = display->internal;
+    SDL_Video_তথ্য *viddata = _this->internal;
+    SDL_Display_তথ্য *internal = display->internal;
 
-    if (!viddata->scale_to_display_enabled) {
+    যদি (!viddata->scale_to_display_enabled) {
         rect->x = internal->logical.x;
         rect->y = internal->logical.y;
-    } else {
+    } অন্যথা {
         rect->x = internal->pixel.x;
         rect->y = internal->pixel.y;
     }
 
     // When an emulated, exclusive fullscreen window has focus, treat the mode dimensions as the display bounds.
-    if (display->fullscreen_window &&
+    যদি (display->fullscreen_window &&
         display->fullscreen_window->fullscreen_exclusive &&
         display->fullscreen_window->internal->active &&
         display->fullscreen_window->current_fullscreen_mode.w != 0 &&
         display->fullscreen_window->current_fullscreen_mode.h != 0) {
         rect->w = display->fullscreen_window->current_fullscreen_mode.w;
         rect->h = display->fullscreen_window->current_fullscreen_mode.h;
-    } else {
-        if (!viddata->scale_to_display_enabled) {
+    } অন্যথা {
+        যদি (!viddata->scale_to_display_enabled) {
             rect->w = display->current_mode->w;
             rect->h = display->current_mode->h;
-        } else if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
+        } অন্যথা যদি (internal->transform & WL_OUTPUT_TRANSFORM_90) {
             rect->w = internal->pixel.height;
             rect->h = internal->pixel.width;
-        } else {
+        } অন্যথা {
             rect->w = internal->pixel.width;
             rect->h = internal->pixel.height;
         }
     }
-    return true;
+    ফেরত true;
 }
 
-static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
+স্থির শূন্য Wayland_VideoCleanup(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
     SDL_WaylandSeat *seat, *tmp;
 
-    Wayland_SessionDestroy(data);
+    Wayland_SessionDestroy(তথ্য);
 
-    for (int i = _this->num_displays - 1; i >= 0; --i) {
+    জন্য (পূর্ণসংখ্যা i = _this->অঙ্ক_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         Wayland_free_display(display, false);
     }
-    SDL_free(data->output_list);
+    SDL_free(তথ্য->output_list);
 
-    wl_list_for_each_safe (seat, tmp, &data->seat_list, link) {
+    wl_list_for_each_safe (seat, tmp, &তথ্য->seat_list, link) {
         Wayland_SeatDestroy(seat, true);
     }
 
-    Wayland_FiniMouse(data);
+    Wayland_FiniMouse(তথ্য);
     Wayland_QuitKeyboard(_this);
 
-    Wayland_DestroyEventThread(data->event_thread_context);
-    data->event_thread_context = NULL;
+    Wayland_DestroyEventThread(তথ্য->event_thread_context);
+    তথ্য->event_thread_context = ফাঁকা;
 
-    Wayland_DestroyJobThread(data->job_thread_context);
-    data->job_thread_context = NULL;
+    Wayland_DestroyJobThread(তথ্য->job_thread_context);
+    তথ্য->job_thread_context = ফাঁকা;
 
-    if (data->pointer_constraints) {
-        zwp_pointer_constraints_v1_destroy(data->pointer_constraints);
-        data->pointer_constraints = NULL;
+    যদি (তথ্য->pointer_constraints) {
+        zwp_pointer_constraints_v1_destroy(তথ্য->pointer_constraints);
+        তথ্য->pointer_constraints = ফাঁকা;
     }
 
-    if (data->relative_pointer_manager) {
-        zwp_relative_pointer_manager_v1_destroy(data->relative_pointer_manager);
-        data->relative_pointer_manager = NULL;
+    যদি (তথ্য->relative_pointer_manager) {
+        zwp_relative_pointer_manager_v1_destroy(তথ্য->relative_pointer_manager);
+        তথ্য->relative_pointer_manager = ফাঁকা;
     }
 
-    if (data->activation_manager) {
-        xdg_activation_v1_destroy(data->activation_manager);
-        data->activation_manager = NULL;
+    যদি (তথ্য->activation_manager) {
+        xdg_activation_v1_destroy(তথ্য->activation_manager);
+        তথ্য->activation_manager = ফাঁকা;
     }
 
-    if (data->idle_inhibit_manager) {
-        zwp_idle_inhibit_manager_v1_destroy(data->idle_inhibit_manager);
-        data->idle_inhibit_manager = NULL;
+    যদি (তথ্য->idle_inhibit_manager) {
+        zwp_idle_inhibit_manager_v1_destroy(তথ্য->idle_inhibit_manager);
+        তথ্য->idle_inhibit_manager = ফাঁকা;
     }
 
-    if (data->key_inhibitor_manager) {
-        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->key_inhibitor_manager);
-        data->key_inhibitor_manager = NULL;
+    যদি (তথ্য->চাবি_inhibitor_manager) {
+        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(তথ্য->চাবি_inhibitor_manager);
+        তথ্য->চাবি_inhibitor_manager = ফাঁকা;
     }
 
-    if (data->text_input_manager) {
-        zwp_text_input_manager_v3_destroy(data->text_input_manager);
-        data->text_input_manager = NULL;
+    যদি (তথ্য->text_প্রবেশ_manager) {
+        zwp_text_প্রবেশ_manager_v3_destroy(তথ্য->text_প্রবেশ_manager);
+        তথ্য->text_প্রবেশ_manager = ফাঁকা;
     }
 
-    if (data->xkb_context) {
-        WAYLAND_xkb_context_unref(data->xkb_context);
-        data->xkb_context = NULL;
+    যদি (তথ্য->xkb_context) {
+        WAYLAND_xkb_context_unref(তথ্য->xkb_context);
+        তথ্য->xkb_context = ফাঁকা;
     }
 
-    if (data->tablet_manager) {
-        zwp_tablet_manager_v2_destroy((struct zwp_tablet_manager_v2 *)data->tablet_manager);
-        data->tablet_manager = NULL;
+    যদি (তথ্য->tablet_manager) {
+        zwp_tablet_manager_v2_destroy((কাঠামো zwp_tablet_manager_v2 *)তথ্য->tablet_manager);
+        তথ্য->tablet_manager = ফাঁকা;
     }
 
-    if (data->data_device_manager) {
-        wl_data_device_manager_destroy(data->data_device_manager);
-        data->data_device_manager = NULL;
+    যদি (তথ্য->তথ্য_device_manager) {
+        wl_তথ্য_device_manager_destroy(তথ্য->তথ্য_device_manager);
+        তথ্য->তথ্য_device_manager = ফাঁকা;
     }
 
-    if (data->shm) {
-        if (wl_shm_get_version(data->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
-            wl_shm_release(data->shm);
-        } else {
-            wl_shm_destroy(data->shm);
+    যদি (তথ্য->shm) {
+        যদি (wl_shm_get_version(তথ্য->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
+            wl_shm_release(তথ্য->shm);
+        } অন্যথা {
+            wl_shm_destroy(তথ্য->shm);
         }
-        data->shm = NULL;
+        তথ্য->shm = ফাঁকা;
     }
 
-    if (data->shell.xdg) {
-        xdg_wm_base_destroy(data->shell.xdg);
-        data->shell.xdg = NULL;
+    যদি (তথ্য->shell.xdg) {
+        xdg_wm_base_destroy(তথ্য->shell.xdg);
+        তথ্য->shell.xdg = ফাঁকা;
     }
 
-    if (data->decoration_manager) {
-        zxdg_decoration_manager_v1_destroy(data->decoration_manager);
-        data->decoration_manager = NULL;
+    যদি (তথ্য->decoration_manager) {
+        zxdg_decoration_manager_v1_destroy(তথ্য->decoration_manager);
+        তথ্য->decoration_manager = ফাঁকা;
     }
 
-    if (data->xdg_output_manager) {
-        zxdg_output_manager_v1_destroy(data->xdg_output_manager);
-        data->xdg_output_manager = NULL;
+    যদি (তথ্য->xdg_output_manager) {
+        zxdg_output_manager_v1_destroy(তথ্য->xdg_output_manager);
+        তথ্য->xdg_output_manager = ফাঁকা;
     }
 
-    if (data->viewporter) {
-        wp_viewporter_destroy(data->viewporter);
-        data->viewporter = NULL;
+    যদি (তথ্য->viewporter) {
+        wp_viewporter_destroy(তথ্য->viewporter);
+        তথ্য->viewporter = ফাঁকা;
     }
 
-    if (data->primary_selection_device_manager) {
-        zwp_primary_selection_device_manager_v1_destroy(data->primary_selection_device_manager);
-        data->primary_selection_device_manager = NULL;
+    যদি (তথ্য->primary_selection_device_manager) {
+        zwp_primary_selection_device_manager_v1_destroy(তথ্য->primary_selection_device_manager);
+        তথ্য->primary_selection_device_manager = ফাঁকা;
     }
 
-    if (data->fractional_scale_manager) {
-        wp_fractional_scale_manager_v1_destroy(data->fractional_scale_manager);
-        data->fractional_scale_manager = NULL;
+    যদি (তথ্য->fractional_scale_manager) {
+        wp_fractional_scale_manager_v1_destroy(তথ্য->fractional_scale_manager);
+        তথ্য->fractional_scale_manager = ফাঁকা;
     }
 
-    if (data->input_timestamps_manager) {
-        zwp_input_timestamps_manager_v1_destroy(data->input_timestamps_manager);
-        data->input_timestamps_manager = NULL;
+    যদি (তথ্য->প্রবেশ_timestamps_manager) {
+        zwp_প্রবেশ_timestamps_manager_v1_destroy(তথ্য->প্রবেশ_timestamps_manager);
+        তথ্য->প্রবেশ_timestamps_manager = ফাঁকা;
     }
 
-    if (data->cursor_shape_manager) {
-        wp_cursor_shape_manager_v1_destroy(data->cursor_shape_manager);
-        data->cursor_shape_manager = NULL;
+    যদি (তথ্য->cursor_shape_manager) {
+        wp_cursor_shape_manager_v1_destroy(তথ্য->cursor_shape_manager);
+        তথ্য->cursor_shape_manager = ফাঁকা;
     }
 
-    if (data->zxdg_exporter_v2) {
-        zxdg_exporter_v2_destroy(data->zxdg_exporter_v2);
-        data->zxdg_exporter_v2 = NULL;
+    যদি (তথ্য->zxdg_exporter_v2) {
+        zxdg_exporter_v2_destroy(তথ্য->zxdg_exporter_v2);
+        তথ্য->zxdg_exporter_v2 = ফাঁকা;
     }
 
-    if (data->xdg_wm_dialog_v1) {
-        xdg_wm_dialog_v1_destroy(data->xdg_wm_dialog_v1);
-        data->xdg_wm_dialog_v1 = NULL;
+    যদি (তথ্য->xdg_wm_dialog_v1) {
+        xdg_wm_dialog_v1_destroy(তথ্য->xdg_wm_dialog_v1);
+        তথ্য->xdg_wm_dialog_v1 = ফাঁকা;
     }
 
-    if (data->wp_alpha_modifier_v1) {
-        wp_alpha_modifier_v1_destroy(data->wp_alpha_modifier_v1);
-        data->wp_alpha_modifier_v1 = NULL;
+    যদি (তথ্য->wp_alpha_modifier_v1) {
+        wp_alpha_modifier_v1_destroy(তথ্য->wp_alpha_modifier_v1);
+        তথ্য->wp_alpha_modifier_v1 = ফাঁকা;
     }
 
-    if (data->xdg_toplevel_icon_manager_v1) {
-        xdg_toplevel_icon_manager_v1_destroy(data->xdg_toplevel_icon_manager_v1);
-        data->xdg_toplevel_icon_manager_v1 = NULL;
+    যদি (তথ্য->xdg_toplevel_icon_manager_v1) {
+        xdg_toplevel_icon_manager_v1_destroy(তথ্য->xdg_toplevel_icon_manager_v1);
+        তথ্য->xdg_toplevel_icon_manager_v1 = ফাঁকা;
     }
 
-    if (data->frog_color_management_factory_v1) {
-        frog_color_management_factory_v1_destroy(data->frog_color_management_factory_v1);
-        data->frog_color_management_factory_v1 = NULL;
+    যদি (তথ্য->frog_color_management_factory_v1) {
+        frog_color_management_factory_v1_destroy(তথ্য->frog_color_management_factory_v1);
+        তথ্য->frog_color_management_factory_v1 = ফাঁকা;
     }
 
-    if (data->wp_color_manager_v1) {
-        wp_color_manager_v1_destroy(data->wp_color_manager_v1);
-        data->wp_color_manager_v1 = NULL;
+    যদি (তথ্য->wp_color_manager_v1) {
+        wp_color_manager_v1_destroy(তথ্য->wp_color_manager_v1);
+        তথ্য->wp_color_manager_v1 = ফাঁকা;
     }
 
-    if (data->wp_pointer_warp_v1) {
-        wp_pointer_warp_v1_destroy(data->wp_pointer_warp_v1);
-        data->wp_pointer_warp_v1 = NULL;
+    যদি (তথ্য->wp_pointer_warp_v1) {
+        wp_pointer_warp_v1_destroy(তথ্য->wp_pointer_warp_v1);
+        তথ্য->wp_pointer_warp_v1 = ফাঁকা;
     }
 
-    if (data->zwp_pointer_gestures) {
-        if (zwp_pointer_gestures_v1_get_version(data->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
-            zwp_pointer_gestures_v1_release(data->zwp_pointer_gestures);
-        } else {
-            zwp_pointer_gestures_v1_destroy(data->zwp_pointer_gestures);
+    যদি (তথ্য->zwp_pointer_gestures) {
+        যদি (zwp_pointer_gestures_v1_get_version(তথ্য->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
+            zwp_pointer_gestures_v1_release(তথ্য->zwp_pointer_gestures);
+        } অন্যথা {
+            zwp_pointer_gestures_v1_destroy(তথ্য->zwp_pointer_gestures);
         }
-        data->zwp_pointer_gestures = NULL;
+        তথ্য->zwp_pointer_gestures = ফাঁকা;
     }
 
-    if (data->single_pixel_buffer_manager) {
-        wp_single_pixel_buffer_manager_v1_destroy(data->single_pixel_buffer_manager);
-        data->single_pixel_buffer_manager = NULL;
+    যদি (তথ্য->single_pixel_বাফার_manager) {
+        wp_single_pixel_বাফার_manager_v1_destroy(তথ্য->single_pixel_বাফার_manager);
+        তথ্য->single_pixel_বাফার_manager = ফাঁকা;
     }
 
-    if (data->xdg_session_manager) {
-        xdg_session_manager_v1_destroy(data->xdg_session_manager);
-        data->xdg_session_manager = NULL;
+    যদি (তথ্য->xdg_session_manager) {
+        xdg_session_manager_v1_destroy(তথ্য->xdg_session_manager);
+        তথ্য->xdg_session_manager = ফাঁকা;
     }
 
-    if (data->xdg_toplevel_tag_manager) {
-        xdg_toplevel_tag_manager_v1_destroy(data->xdg_toplevel_tag_manager);
-        data->xdg_toplevel_tag_manager = NULL;
+    যদি (তথ্য->xdg_toplevel_tag_manager) {
+        xdg_toplevel_tag_manager_v1_destroy(তথ্য->xdg_toplevel_tag_manager);
+        তথ্য->xdg_toplevel_tag_manager = ফাঁকা;
     }
 
-    if (data->subcompositor) {
-        wl_subcompositor_destroy(data->subcompositor);
-        data->subcompositor = NULL;
+    যদি (তথ্য->subcompositor) {
+        wl_subcompositor_destroy(তথ্য->subcompositor);
+        তথ্য->subcompositor = ফাঁকা;
     }
 
-    if (data->compositor) {
-        wl_compositor_destroy(data->compositor);
-        data->compositor = NULL;
+    যদি (তথ্য->compositor) {
+        wl_compositor_destroy(তথ্য->compositor);
+        তথ্য->compositor = ফাঁকা;
     }
 
-    if (data->registry) {
-        if (data->wl_fixes) {
-            wl_fixes_destroy_registry(data->wl_fixes, data->registry);
-            wl_fixes_destroy(data->wl_fixes);
-            data->wl_fixes = NULL;
+    যদি (তথ্য->registry) {
+        যদি (তথ্য->wl_fixes) {
+            wl_fixes_destroy_registry(তথ্য->wl_fixes, তথ্য->registry);
+            wl_fixes_destroy(তথ্য->wl_fixes);
+            তথ্য->wl_fixes = ফাঁকা;
         }
-        wl_registry_destroy(data->registry);
-        data->registry = NULL;
+        wl_registry_destroy(তথ্য->registry);
+        তথ্য->registry = ফাঁকা;
     }
 }
 
-static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
+স্থির bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 {
-#if 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
-    SDL_VideoData *data = _this->internal;
+#যদি 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
+    SDL_Video_তথ্য *তথ্য = _this->internal;
 
-    SDL_Window *window = NULL;
+    SDL_Window *window = ফাঁকা;
 
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
     SDL_Window *current_window = SDL_GL_GetCurrentWindow();
 
-    SDL_GL_MakeCurrent(NULL, NULL);
+    SDL_GL_MakeCurrent(ফাঁকা, ফাঁকা);
     Wayland_VideoCleanup(_this);
 
     SDL_ResetKeyboard();
     SDL_ResetMouse();
-    if (WAYLAND_wl_display_reconnect(data->display) < 0) {
-        return false;
+    যদি (WAYLAND_wl_display_reconnect(তথ্য->display) < 0) {
+        ফেরত false;
     }
 
     Wayland_VideoInit(_this);
 
     window = _this->windows;
-    while (window) {
+    যখন (window) {
         /* We're going to cheat _just_ for a second and strip the OpenGL flag.
          * The Wayland driver actually forces it in CreateWindow, and
          * RecreateWindow does a bunch of unloading/loading of libGL, so just
@@ -2034,23 +2034,23 @@ static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
         window->flags &= ~SDL_WINDOW_OPENGL;
 
         SDL_RecreateWindow(window, window->flags);
-        window = window->next;
+        window = window->পরবর্তী;
     }
 
     Wayland_RecreateCursors();
 
-    if (current_window && current_ctx) {
+    যদি (current_window && current_ctx) {
         SDL_GL_MakeCurrent (current_window, current_ctx);
     }
-    return true;
-#else
-    return false;
+    ফেরত true;
+#অন্যথা
+    ফেরত false;
 #endif // 0
 }
 
 bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
+    SDL_Video_তথ্য *video_তথ্য = _this->internal;
 
     /* Something has failed with the Wayland connection -- for example,
      * the compositor may have shut down and closed its end of the socket,
@@ -2058,32 +2058,32 @@ bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
      *
      * Try to recover once, then quit.
      */
-    if (video_data->display_disconnected) {
-        return false;
+    যদি (video_তথ্য->display_disconnected) {
+        ফেরত false;
     }
 
-    if (Wayland_VideoReconnect(_this)) {
-        return true;
+    যদি (Wayland_VideoReconnect(_this)) {
+        ফেরত true;
     }
 
-    video_data->display_disconnected = true;
+    video_তথ্য->display_disconnected = true;
     SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Wayland display connection closed by server (fatal)");
 
     // Only send a single quit message, as application shutdown might call SDL_PumpEvents().
     SDL_SendQuit();
 
-    return false;
+    ফেরত false;
 }
 
-void Wayland_VideoQuit(SDL_VideoDevice *_this)
+শূন্য Wayland_VideoQuit(SDL_VideoDevice *_this)
 {
     Wayland_VideoCleanup(_this);
 
 #ifdef HAVE_LIBDECOR_H
-    SDL_VideoData *data = _this->internal;
-    if (data->shell.libdecor) {
-        libdecor_unref(data->shell.libdecor);
-        data->shell.libdecor = NULL;
+    SDL_Video_তথ্য *তথ্য = _this->internal;
+    যদি (তথ্য->shell.libdecor) {
+        libdecor_unref(তথ্য->shell.libdecor);
+        তথ্য->shell.libdecor = ফাঁকা;
     }
 #endif
 }

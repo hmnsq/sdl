@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
 
@@ -22,41 +22,41 @@ extern "C" {
 // vulkan_video_codec_h265std_decode is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_h265std_decode 1
 
-#include "vulkan_video_codec_h265std.h"
+#অন্তর্ভাব "vulkan_video_codec_h265std.h"
 
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h265_decode"
-#define STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE 8U
+#define STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_আকার 8U
 
-typedef struct StdVideoDecodeH265PictureInfoFlags {
+প্রকারলেখ কাঠামো StdVideoDecodeH265PictureInfoFlags {
     uint32_t    IrapPicFlag : 1;
     uint32_t    IdrPicFlag  : 1;
     uint32_t    IsReference : 1;
     uint32_t    short_term_ref_pic_set_sps_flag : 1;
 } StdVideoDecodeH265PictureInfoFlags;
 
-typedef struct StdVideoDecodeH265PictureInfo {
+প্রকারলেখ কাঠামো StdVideoDecodeH265PictureInfo {
     StdVideoDecodeH265PictureInfoFlags    flags;
     uint8_t                               sps_video_parameter_set_id;
     uint8_t                               pps_seq_parameter_set_id;
     uint8_t                               pps_pic_parameter_set_id;
-    uint8_t                               NumDeltaPocsOfRefRpsIdx;
+    uint8_t                               অঙ্ক_Delta_Pocs_Of_Ref_Rps_Idx;
     int32_t                               PicOrderCntVal;
-    uint16_t                              NumBitsForSTRefPicSetInSlice;
+    uint16_t                              অঙ্ক_Bits_For_STRef_Pic_Set_In_Slice;
     uint16_t                              reserved;
-    uint8_t                               RefPicSetStCurrBefore[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE];
-    uint8_t                               RefPicSetStCurrAfter[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE];
-    uint8_t                               RefPicSetLtCurr[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE];
+    uint8_t                               RefPicSetStCurrBefore[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_আকার];
+    uint8_t                               RefPicSetStCurrAfter[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_আকার];
+    uint8_t                               RefPicSetLtCurr[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_আকার];
 } StdVideoDecodeH265PictureInfo;
 
-typedef struct StdVideoDecodeH265ReferenceInfoFlags {
+প্রকারলেখ কাঠামো StdVideoDecodeH265ReferenceInfoFlags {
     uint32_t    used_for_long_term_reference : 1;
     uint32_t    unused_for_reference : 1;
 } StdVideoDecodeH265ReferenceInfoFlags;
 
-typedef struct StdVideoDecodeH265ReferenceInfo {
+প্রকারলেখ কাঠামো StdVideoDecodeH265ReferenceInfo {
     StdVideoDecodeH265ReferenceInfoFlags    flags;
     int32_t                                 PicOrderCntVal;
 } StdVideoDecodeH265ReferenceInfo;

@@ -3,7 +3,7 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
 
-typedef enum
+প্রকারলেখ গণনা
 {
     YCBCR_601_FULL,
     YCBCR_601_LIMITED,

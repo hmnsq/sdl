@@ -22,15 +22,15 @@
 #ifndef SDL_yuv_c_h_
 #define SDL_yuv_c_h_
 
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 // YUV conversion functions
 
-extern bool SDL_ConvertPixels_YUV_to_RGB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_RGB_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_YUV_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+বাহ্যিক bool SDL_ConvertPixels_YUV_to_RGB(পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ধ্রুবক শূন্য *src, পূর্ণসংখ্যা src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, শূন্য *dst, পূর্ণসংখ্যা dst_pitch);
+বাহ্যিক bool SDL_ConvertPixels_RGB_to_YUV(পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ধ্রুবক শূন্য *src, পূর্ণসংখ্যা src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, শূন্য *dst, পূর্ণসংখ্যা dst_pitch);
+বাহ্যিক bool SDL_ConvertPixels_YUV_to_YUV(পূর্ণসংখ্যা width, পূর্ণসংখ্যা height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ধ্রুবক শূন্য *src, পূর্ণসংখ্যা src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, শূন্য *dst, পূর্ণসংখ্যা dst_pitch);
 
 
-extern bool SDL_CalculateYUVSize(SDL_PixelFormat format, int w, int h, size_t *size, size_t *pitch);
+বাহ্যিক bool SDL_CalculateYUVSize(SDL_PixelFormat format, পূর্ণসংখ্যা w, পূর্ণসংখ্যা h, size_t *আকার_2, size_t *pitch);
 
 #endif // SDL_yuv_c_h_

@@ -18,65 +18,65 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11framebuffer.h"
-#include "SDL_x11xsync.h"
+#অন্তর্ভাব "SDL_x11video.h"
+#অন্তর্ভাব "SDL_x11framebuffer.h"
+#অন্তর্ভাব "SDL_x11xsync.h"
 
 #ifndef NO_SHARED_MEMORY
 
 // Shared memory error handler routine
-static int shm_error;
-static int (*X_handler)(Display *, XErrorEvent *) = NULL;
-static int shm_errhandler(Display *d, XErrorEvent *e)
+স্থির পূর্ণসংখ্যা shm_error;
+স্থির পূর্ণসংখ্যা (*X_handler)(Display *, XErrorEvent *) = ফাঁকা;
+স্থির পূর্ণসংখ্যা shm_errhandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadAccess || e->error_code == BadRequest) {
+    যদি (e->error_code == BadAccess || e->error_code == BadRequest) {
         shm_error = True;
-        return 0;
+        ফেরত 0;
     }
-    return X_handler(d, e);
+    ফেরত X_handler(d, e);
 }
 
-static bool have_mitshm(Display *dpy)
+স্থির bool have_mitshm(Display *dpy)
 {
     // Only use shared memory on local X servers
-    return X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
+    ফেরত X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
 }
 
 #endif // !NO_SHARED_MEMORY
 
 bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format,
-                                void **pixels, int *pitch)
+                                শূন্য **pixels, পূর্ণসংখ্যা *pitch)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_Window_তথ্য *তথ্য = window->internal;
+    Display *display = তথ্য->videodata->display;
     XGCValues gcv;
     XVisualInfo vinfo;
-    int w, h;
+    পূর্ণসংখ্যা w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_Window_আকার_In_Pixels(window, &w, &h);
 
     // Free the old framebuffer surface
     X11_DestroyWindowFramebuffer(_this, window);
 
     // Create the graphics context for drawing
     gcv.graphics_exposures = False;
-    data->gc = X11_XCreateGC(display, data->xwindow, GCGraphicsExposures, &gcv);
-    if (!data->gc) {
-        return SDL_SetError("Couldn't create graphics context");
+    তথ্য->gc = X11_XCreateGC(display, তথ্য->xwindow, GCGraphicsExposures, &gcv);
+    যদি (!তথ্য->gc) {
+        ফেরত SDL_SetError("Couldn't create graphics context");
     }
 
     // Find out the pixel format and depth
-    if (!X11_GetVisualInfoFromVisual(display, data->visual, &vinfo)) {
-        return SDL_SetError("Couldn't get window visual information");
+    যদি (!X11_GetVisualInfoFromVisual(display, তথ্য->visual, &vinfo)) {
+        ফেরত SDL_SetError("Couldn't get window visual information");
     }
 
     *format = X11_GetPixelFormatFromVisualInfo(display, &vinfo);
-    if (*format == SDL_PIXELFORMAT_UNKNOWN) {
-        return SDL_SetError("Unknown window pixel format");
+    যদি (*format == SDL_PIXELFORMAT_UNKNOWN) {
+        ফেরত SDL_SetError("Unknown window pixel format");
     }
 
     // Calculate pitch
@@ -84,177 +84,177 @@ bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
 
     // Create the actual image
 #ifndef NO_SHARED_MEMORY
-    if (have_mitshm(display)) {
-        XShmSegmentInfo *shminfo = &data->shminfo;
+    যদি (have_mitshm(display)) {
+        XShmSegmentInfo *shminfo = &তথ্য->shminfo;
 
         shminfo->shmid = shmget(IPC_PRIVATE, (size_t)h * (*pitch), IPC_CREAT | 0777);
-        if (shminfo->shmid >= 0) {
-            shminfo->shmaddr = (char *)shmat(shminfo->shmid, NULL, 0);
+        যদি (shminfo->shmid >= 0) {
+            shminfo->shmaddr = (অক্ষর *)shmat(shminfo->shmid, ফাঁকা, 0);
             shminfo->readOnly = False;
-            if (shminfo->shmaddr != (char *)-1) {
+            যদি (shminfo->shmaddr != (অক্ষর *)-1) {
                 shm_error = False;
                 X_handler = X11_XSetErrorHandler(shm_errhandler);
                 X11_XShmAttach(display, shminfo);
                 X11_XSync(display, False);
                 X11_XSetErrorHandler(X_handler);
-                if (shm_error) {
+                যদি (shm_error) {
                     shmdt(shminfo->shmaddr);
                 }
-            } else {
+            } অন্যথা {
                 shm_error = True;
             }
-            shmctl(shminfo->shmid, IPC_RMID, NULL);
-        } else {
+            shmctl(shminfo->shmid, IPC_RMID, ফাঁকা);
+        } অন্যথা {
             shm_error = True;
         }
-        if (!shm_error) {
-            data->ximage = X11_XShmCreateImage(display, data->visual,
+        যদি (!shm_error) {
+            তথ্য->ximage = X11_XShmCreateImage(display, তথ্য->visual,
                                                vinfo.depth, ZPixmap,
                                                shminfo->shmaddr, shminfo,
                                                w, h);
-            if (!data->ximage) {
+            যদি (!তথ্য->ximage) {
                 X11_XShmDetach(display, shminfo);
                 X11_XSync(display, False);
                 shmdt(shminfo->shmaddr);
-            } else {
+            } অন্যথা {
                 // Done!
-                data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
-                data->use_mitshm = true;
+                তথ্য->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
+                তথ্য->use_mitshm = true;
                 *pixels = shminfo->shmaddr;
-                return true;
+                ফেরত true;
             }
         }
     }
 #endif // not NO_SHARED_MEMORY
 
     *pixels = SDL_malloc((size_t)h * (*pitch));
-    if (!*pixels) {
-        return false;
+    যদি (!*pixels) {
+        ফেরত false;
     }
 
-    data->ximage = X11_XCreateImage(display, data->visual,
-                                    vinfo.depth, ZPixmap, 0, (char *)(*pixels),
+    তথ্য->ximage = X11_XCreateImage(display, তথ্য->visual,
+                                    vinfo.depth, ZPixmap, 0, (অক্ষর *)(*pixels),
                                     w, h, 32, 0);
-    if (!data->ximage) {
+    যদি (!তথ্য->ximage) {
         SDL_free(*pixels);
-        return SDL_SetError("Couldn't create XImage");
+        ফেরত SDL_SetError("Couldn't create XImage");
     }
-    data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
-    return true;
+    তথ্য->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
+    ফেরত true;
 }
 
-bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
-                                int numrects)
+bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ধ্রুবক SDL_Rect *rects,
+                                পূর্ণসংখ্যা numrects)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int i;
-    int x, y, w, h;
-    int window_w, window_h;
+    SDL_Window_তথ্য *তথ্য = window->internal;
+    Display *display = তথ্য->videodata->display;
+    পূর্ণসংখ্যা i;
+    পূর্ণসংখ্যা x, y, w, h;
+    পূর্ণসংখ্যা window_w, window_h;
 
-    SDL_GetWindowSizeInPixels(window, &window_w, &window_h);
+    SDL_Get_Window_আকার_In_Pixels(window, &window_w, &window_h);
 
 #ifndef NO_SHARED_MEMORY
-    if (data->use_mitshm) {
-        for (i = 0; i < numrects; ++i) {
+    যদি (তথ্য->use_mitshm) {
+        জন্য (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            যদি (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                চালু;
             }
-            if (x < 0) {
+            যদি (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            যদি (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
+            যদি (x + w > window_w) {
                 w = window_w - x;
             }
-            if (y + h > window_h) {
+            যদি (y + h > window_h) {
                 h = window_h - y;
             }
 
-            X11_XShmPutImage(display, data->xwindow, data->gc, data->ximage,
+            X11_XShmPutImage(display, তথ্য->xwindow, তথ্য->gc, তথ্য->ximage,
                              x, y, x, y, w, h, False);
         }
-    } else
+    } অন্যথা
 #endif // !NO_SHARED_MEMORY
     {
-        for (i = 0; i < numrects; ++i) {
+        জন্য (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            যদি (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                চালু;
             }
-            if (x < 0) {
+            যদি (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            যদি (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
+            যদি (x + w > window_w) {
                 w = window_w - x;
             }
-            if (y + h > window_h) {
+            যদি (y + h > window_h) {
                 h = window_h - y;
             }
 
-            X11_XPutImage(display, data->xwindow, data->gc, data->ximage,
+            X11_XPutImage(display, তথ্য->xwindow, তথ্য->gc, তথ্য->ximage,
                           x, y, x, y, w, h);
         }
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(data->window);
+    X11_HandlePresent(তথ্য->window);
 #endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
     X11_XSync(display, False);
 
-    return true;
+    ফেরত true;
 }
 
-void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+শূন্য X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_Window_তথ্য *তথ্য = window->internal;
     Display *display;
 
-    if (!data) {
+    যদি (!তথ্য) {
         // The window wasn't fully initialized
-        return;
+        ফেরত;
     }
 
-    display = data->videodata->display;
+    display = তথ্য->videodata->display;
 
-    if (data->ximage) {
-        XDestroyImage(data->ximage);
+    যদি (তথ্য->ximage) {
+        XDestroyImage(তথ্য->ximage);
 
 #ifndef NO_SHARED_MEMORY
-        if (data->use_mitshm) {
-            X11_XShmDetach(display, &data->shminfo);
+        যদি (তথ্য->use_mitshm) {
+            X11_XShmDetach(display, &তথ্য->shminfo);
             X11_XSync(display, False);
-            shmdt(data->shminfo.shmaddr);
-            data->use_mitshm = false;
+            shmdt(তথ্য->shminfo.shmaddr);
+            তথ্য->use_mitshm = false;
         }
 #endif // !NO_SHARED_MEMORY
 
-        data->ximage = NULL;
+        তথ্য->ximage = ফাঁকা;
     }
-    if (data->gc) {
-        X11_XFreeGC(display, data->gc);
-        data->gc = NULL;
+    যদি (তথ্য->gc) {
+        X11_XFreeGC(display, তথ্য->gc);
+        তথ্য->gc = ফাঁকা;
     }
 }
 

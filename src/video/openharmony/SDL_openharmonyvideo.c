@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাব "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
 // HarmonyOS/OpenHarmony SDL video driver implementation
 
-#include <window_manager/oh_display_manager.h>
+#অন্তর্ভাব <window_manager/oh_display_manager.h>
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohosvideo_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohosvideo_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#define OH_MAX_TOUCH_POINTS_সংখ্যা sdl_ohosvideo_OH_MAX_TOUCH_POINTS_সংখ্যা
+#অন্তর্ভাব <ace/xcomponent/native_interface_xcomponent.h>
 
 // !!! FIXME: move stuff in from Android code
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_windowevents_c.h"
+#অন্তর্ভাব "../SDL_sysvideo.h"
+#অন্তর্ভাব "../SDL_pixels_c.h"
+#অন্তর্ভাব "../../events/SDL_events_c.h"
+#অন্তর্ভাব "../../events/SDL_windowevents_c.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyopengl.h"
-#include "SDL_openharmonyclipboard.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonykeyboard.h"
-#include "SDL_openharmonymouse.h"
+#অন্তর্ভাব "SDL_openharmonyvideo.h"
+#অন্তর্ভাব "SDL_openharmonyopengl.h"
+#অন্তর্ভাব "SDL_openharmonyclipboard.h"
+#অন্তর্ভাব "SDL_openharmonyevents.h"
+#অন্তর্ভাব "SDL_openharmonykeyboard.h"
+#অন্তর্ভাব "SDL_openharmonymouse.h"
 //#include "SDL_openharmonytouch.h"
-#include "SDL_openharmonywindow.h"
-#include "SDL_openharmonyvulkan.h"
+#অন্তর্ভাব "SDL_openharmonywindow.h"
+#অন্তর্ভাব "SDL_openharmonyvulkan.h"
 //#include "SDL_openharmonymessagebox.h"
 
 #define OPENHARMONY_VID_DRIVER_NAME "openharmony"
 
-#include "../SDL_egl_c.h"
+#অন্তর্ভাব "../SDL_egl_c.h"
 #define OPENHARMONY_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define OPENHARMONY_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
 #define OPENHARMONY_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
@@ -59,45 +59,45 @@
 #define OPENHARMONY_GLES_DestroyContext   SDL_EGL_DestroyContext
 
 
-static OH_NativeXComponent *native_xcomponent = NULL;
-static void *native_window = NULL;
+স্থির OH_NativeXComponent *native_xcomponent = ফাঁকা;
+স্থির শূন্য *native_window = ফাঁকা;
 
-void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window)
+শূন্য SDL_OpenHarmonyGetNativeWindowPointers(শূন্য **xcomponent, শূন্য **window)
 {
-    *xcomponent = (void *) native_xcomponent;
-    *window = (void *) native_window;
+    *xcomponent = (শূন্য *) native_xcomponent;
+    *window = (শূন্য *) native_window;
 }
 
-void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window)
+শূন্য SDL_OpenHarmonyVideoSurfaceDestroyed(শূন্য *component, শূন্য *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
-    native_xcomponent = NULL;
-    native_window = NULL;
+    native_xcomponent = ফাঁকা;
+    native_window = ফাঁকা;
 }
 
-void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window)
+শূন্য SDL_OpenHarmonyVideoSurfaceChanged(শূন্য *component, শূন্য *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
     uint64_t w, h;
-    OH_NativeXComponent_GetXComponentSize(native_xcomponent, native_window, &w, &h);
-    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (int) w, (int) h);
+    OH_Native_XComponent_Get_XComponent_আকার(native_xcomponent, native_window, &w, &h);
+    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (পূর্ণসংখ্যা) w, (পূর্ণসংখ্যা) h);
 }
 
-void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window)
+শূন্য SDL_OpenHarmonyVideoSurfaceCreated(শূন্য *component, শূন্য *window)
 {
-    SDL_assert(native_xcomponent == NULL);  // right now we assume one surface, one window.
+    SDL_assert(native_xcomponent == ফাঁকা);  // right now we assume one surface, one window.
     native_xcomponent = (OH_NativeXComponent *) component;
     native_window = window;
 }
 
-static bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
+স্থির bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
+    ফেরত SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
 }
 
-static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
+স্থির bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_তথ্য *videodata = _this->internal;
 
     videodata->isPaused = false;
     videodata->isPausing = false;
@@ -106,59 +106,59 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
     // !!! FIXME:  through a USB-C to HDMI adapter, or maybe there will be separate "outer" screens vs
     // !!! FIXME:  an internal foldable one, but for now let's just get _something_ on _any_ display.
     uint64_t dispid64 = 0;
-    if (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
-        return SDL_SetError("Couldn't get default display id");
+    যদি (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
+        ফেরত SDL_SetError("Couldn't get default display id");
     }
-    const uint32_t dispid = (uint32_t) dispid64;
+    ধ্রুবক uint32_t dispid = (uint32_t) dispid64;
 
-    NativeDisplayManager_DisplayInfo *dispinfo = NULL;
-    if (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
-        return SDL_SetError("Couldn't get default display info");
+    NativeDisplayManager_DisplayInfo *dispinfo = ফাঁকা;
+    যদি (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
+        ফেরত SDL_SetError("Couldn't get default display info");
     }
 
     SDL_DisplayMode mode;
     SDL_zero(mode);
     mode.format = SDL_PIXELFORMAT_BGRA8888;  // !!! FIXME
-    mode.w = (int) dispinfo->physicalWidth;
-    mode.h = (int) dispinfo->physicalHeight;
-    mode.refresh_rate = (float) dispinfo->refreshRate;
+    mode.w = (পূর্ণসংখ্যা) dispinfo->physicalWidth;
+    mode.h = (পূর্ণসংখ্যা) dispinfo->physicalHeight;
+    mode.refresh_rate = (দশমিক) dispinfo->refreshRate;
     mode.pixel_density = 1.0f;
 
-    const NativeDisplayManager_Rotation rotation = dispinfo->rotation;
-    const NativeDisplayManager_Orientation orientation = dispinfo->orientation;
+    ধ্রুবক NativeDisplayManager_Rotation rotation = dispinfo->rotation;
+    ধ্রুবক NativeDisplayManager_Orientation orientation = dispinfo->orientation;
 
     OH_NativeDisplayManager_DestroyDisplay(dispinfo);
 
-    const SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    ধ্রুবক SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
+    যদি (displayID == 0) {
+        ফেরত false;
     }
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    switch (orientation) {
-        case DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; break;
-        case DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; break;
-        case DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; break;
-        case DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; break;
-        default: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; break;
+    নির্বাচন (orientation) {
+        ক্ষেত্র DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; বিরতি;
+        ক্ষেত্র DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; বিরতি;
+        ক্ষেত্র DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; বিরতি;
+        ক্ষেত্র DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; বিরতি;
+        পূর্বনির্ধারিত: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; বিরতি;
     }
 
     // !!! FIXME: this is probably wrong, I think on OpenHarmony phones/tablets, these are setting both orientation and rotation, and this works out because most people are launching apps while holding the phone in portrait mode (0 rotation).
     // !!! FIXME: if I'm right, we should decide if this is a phone/tablet screen and just set the natural orientation to portrait and then use this code to calculate current orientation.
-    if (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else {
+    যদি (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
+        স্থির ধ্রুবক SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
+        SDL_assert(((পূর্ণসংখ্যা) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(পূর্ণসংখ্যা) display->natural_orientation];
+    } অন্যথা যদি (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
+        স্থির ধ্রুবক SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
+        SDL_assert(((পূর্ণসংখ্যা) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(পূর্ণসংখ্যা) display->natural_orientation];
+    } অন্যথা যদি (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
+        স্থির ধ্রুবক SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
+        SDL_assert(((পূর্ণসংখ্যা) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(পূর্ণসংখ্যা) display->natural_orientation];
+    } অন্যথা {
         display->current_orientation = display->natural_orientation;
     }
 
@@ -168,51 +168,51 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 
 
 // !!! FIXME
-#if 0
+#যদি 0
     OPENHARMONY_InitTouch();
     OPENHARMONY_InitMouse();
 #endif
     OPENHARMONY_InitClipboard(_this);
 
     // We're done!
-    return true;
+    ফেরত true;
 }
 
-void OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
+শূন্য OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
 {
     OPENHARMONY_QuitClipboard(_this);
 
 // !!! FIXME
-#if 0
+#যদি 0
     OPENHARMONY_QuitMouse();
     OPENHARMONY_QuitTouch();
 #endif
 }
 
-static void OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
+স্থির শূন্য OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
+স্থির SDL_VideoDevice *OPENHARMONY_CreateDevice(শূন্য)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_তথ্য *তথ্য;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, আকার(SDL_VideoDevice));
+    যদি (!device) {
+        ফেরত ফাঁকা;
     }
 
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    তথ্য = (SDL_Video_তথ্য *)SDL_calloc(1, আকার(SDL_Video_তথ্য));
+    যদি (!তথ্য) {
         SDL_free(device);
-        return NULL;
+        ফেরত ফাঁকা;
     }
 
-    device->internal = data;
+    device->internal = তথ্য;
     device->system_theme = SDL_GetOpenHarmonySystemTheme();
 
     // Set the function pointers
@@ -226,7 +226,7 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
     device->SetWindowResizable = OPENHARMONY_SetWindowResizable;
     device->DestroyWindow = OPENHARMONY_DestroyWindow;
 
-    device->free = OPENHARMONY_DeleteDevice;
+    device->মুক্ত = OPENHARMONY_DeleteDevice;
 
     // GL pointers
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -267,13 +267,13 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    ফেরত device;
 }
 
 VideoBootStrap OPENHARMONY_bootstrap = {
     OPENHARMONY_VID_DRIVER_NAME, "SDL OpenHarmony/HarmonyOS video driver",
     OPENHARMONY_CreateDevice,
-    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ NULL,
+    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ ফাঁকা,
     false
 };
 
