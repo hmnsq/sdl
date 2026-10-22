@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -25,27 +25,27 @@ extern "C" {
 #define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
 #define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
 
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+തരനിർവചനം VkFlags VkDirectFBSurfaceCreateFlagsEXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+തരനിർവചനം ഘടന VkDirectFBSurfaceCreateInfoEXT {
     VkStructureType                    sType;
-    const void*                        pNext;
+    സ്ഥിരം ശൂന്യം*                        pNext;
     VkDirectFBSurfaceCreateFlagsEXT    flags;
     IDirectFB*                         dfb;
     IDirectFBSurface*                  surface;
 } VkDirectFBSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, സ്ഥിരം VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
     VkInstance                                  instance,
-    const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES

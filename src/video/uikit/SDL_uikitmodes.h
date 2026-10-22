@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_uikitmodes_h_
 #define SDL_uikitmodes_h_
 
-#include "SDL_uikitvideo.h"
+#അന്തര്ഭാവ "SDL_uikitvideo.h"
 
 @interface SDL_UIKitDisplayData : NSObject
 
@@ -42,18 +42,18 @@
 @end
 
 #ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
+ബാഹ്യ bool UIKit_IsDisplayLandscape(UIScreen *uiscreen);
 #endif
 
-extern bool UIKit_InitModes(SDL_VideoDevice *_this);
+ബാഹ്യ bool UIKit_InitModes(SDL_VideoDevice *_this);
 #ifndef SDL_PLATFORM_VISIONOS
-extern bool UIKit_AddDisplay(UIScreen *uiscreen, bool send_event);
-extern void UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
+ബാഹ്യ bool UIKit_AddDisplay(UIScreen *uiscreen, bool send_event);
+ബാഹ്യ ശൂന്യം UIKit_DelDisplay(UIScreen *uiscreen, bool send_event);
 #endif
-extern bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool UIKit_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void UIKit_QuitModes(SDL_VideoDevice *_this);
-extern bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ബാഹ്യ bool UIKit_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ബാഹ്യ bool UIKit_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+ബാഹ്യ ശൂന്യം UIKit_QuitModes(SDL_VideoDevice *_this);
+ബാഹ്യ bool UIKit_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 
 // because visionOS does not have a screen
 // we create a fake display to maintain compatibility.

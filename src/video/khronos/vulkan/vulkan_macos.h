@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_MVK_MACOS_SURFACE_SPEC_VERSION 3
 #define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 
-typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
+തരനിർവചനം VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+തരനിർവചനം ഘടന VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
-    const void*                     pNext;
+    സ്ഥിരം ശൂന്യം*                     pNext;
     VkMacOSSurfaceCreateFlagsMVK    flags;
-    const void*                     pView;
+    സ്ഥിരം ശൂന്യം*                     pView;
 } VkMacOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, സ്ഥിരം VkMacOSSurfaceCreateInfoMVK* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

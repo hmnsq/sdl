@@ -23,18 +23,18 @@
 #define SDL_BMODES_H
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
-extern SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
+ബാഹ്യ SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
 
-extern bool HAIKU_InitModes(SDL_VideoDevice *_this);
-extern void HAIKU_QuitModes(SDL_VideoDevice *_this);
-extern bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+ബാഹ്യ bool HAIKU_InitModes(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം HAIKU_QuitModes(SDL_VideoDevice *_this);
+ബാഹ്യ bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ബാഹ്യ bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ബാഹ്യ bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
 
 #ifdef __cplusplus
 }

@@ -22,26 +22,26 @@
 #ifndef SDL_BOPENGL_H
 #define SDL_BOPENGL_H
 
-#if defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
+#എങ്കിൽ defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
-extern bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);      // FIXME
-extern SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc); // FIXME
-extern void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
-extern bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+ബാഹ്യ bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *path);      // FIXME
+ബാഹ്യ SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *proc); // FIXME
+ബാഹ്യ ശൂന്യം HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
+ബാഹ്യ bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                                 SDL_GLContext context);
-extern bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval); // TODO
-extern bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval); // TODO
-extern bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ബാഹ്യ bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ interval); // TODO
+ബാഹ്യ bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ *interval); // TODO
+ബാഹ്യ bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-extern void HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
 
 #ifdef __cplusplus
 }

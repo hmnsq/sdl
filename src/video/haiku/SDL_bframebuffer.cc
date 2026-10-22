@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_bframebuffer.h"
+#അന്തര്ഭാവ "SDL_bframebuffer.h"
 
-#include <AppKit.h>
-#include <InterfaceKit.h>
-#include "SDL_bmodes.h"
-#include "SDL_BWin.h"
+#അന്തര്ഭാവ <AppKit.h>
+#അന്തര്ഭാവ <InterfaceKit.h>
+#അന്തര്ഭാവ "SDL_bmodes.h"
+#അന്തര്ഭാവ "SDL_BWin.h"
 
-#include "../../core/haiku/SDL_BApp.h"
+#അന്തര്ഭാവ "../../core/haiku/SDL_BApp.h"
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+സ്ഥിതം SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
 {
-    return (SDL_BWin *)(window->internal);
+    തിരികെ (SDL_BWin *)(window->internal);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+സ്ഥിതം SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    തിരികെ SDL_Looper;
 }
 
-bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, void ** pixels, int *pitch)
+തർക്കം HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, ശൂന്യം ** pixels, പൂർണ്ണസംഖ്യ *pitch)
 {
     SDL_BWin *bwin = _ToBeWin(window);
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return false;
+    എങ്കിൽ (!bscreen.IsValid()) {
+        തിരികെ അസത്യം;
     }
 
     // Make sure we have exclusive access to frame buffer data
@@ -66,16 +66,16 @@ bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, 
     // Create the new bitmap object
     BBitmap *bitmap = bwin->GetBitmap();
 
-    if (bitmap) {
+    എങ്കിൽ (bitmap) {
         delete bitmap;
     }
-    bitmap = new BBitmap(bwin->Bounds(), (color_space)bmode.space,
-            false,    // Views not accepted
-            true);    // Contiguous memory required
+    bitmap = പുതിയ BBitmap(bwin->Bounds(), (color_space)bmode.space,
+            അസത്യം,    // Views not accepted
+            സത്യം);    // Contiguous memory required
 
-    if (bitmap->InitCheck() != B_OK) {
+    എങ്കിൽ (bitmap->InitCheck() != B_OK) {
         delete bitmap;
-        return SDL_SetError("Could not initialize back buffer!");
+        തിരികെ SDL_SetError("Could not initialize back buffer!");
     }
 
 
@@ -88,25 +88,25 @@ bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, 
     *pitch = bitmap->BytesPerRow();
 
     bwin->UnlockBuffer();
-    return true;
+    തിരികെ സത്യം;
 }
 
 
 
-bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window,
-                                      const SDL_Rect * rects, int numrects) {
-    if (!window) {
-        return true;
+തർക്കം HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window,
+                                      സ്ഥിരം SDL_Rect * rects, പൂർണ്ണസംഖ്യ numrects) {
+    എങ്കിൽ (!window) {
+        തിരികെ സത്യം;
     }
 
     SDL_BWin *bwin = _ToBeWin(window);
 
     bwin->PostMessage(BWIN_UPDATE_FRAMEBUFFER);
 
-    return true;
+    തിരികെ സത്യം;
 }
 
-void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window) {
+ശൂന്യം HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window) {
     SDL_BWin *bwin = _ToBeWin(window);
 
     bwin->LockBuffer();
@@ -114,7 +114,7 @@ void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window)
     // Free and clear the window buffer
     BBitmap *bitmap = bwin->GetBitmap();
     delete bitmap;
-    bwin->SetBitmap(NULL);
+    bwin->SetBitmap(ശൂന്യ);
 
     bwin->RemoveView();
 

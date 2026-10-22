@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
@@ -30,48 +30,48 @@
  * for automated testing.
  */
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
-#include "SDL_offscreenframebuffer_c.h"
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvulkan.h"
-#include "SDL_offscreenwindow.h"
+#അന്തര്ഭാവ "SDL_offscreenvideo.h"
+#അന്തര്ഭാവ "SDL_offscreenevents_c.h"
+#അന്തര്ഭാവ "SDL_offscreenframebuffer_c.h"
+#അന്തര്ഭാവ "SDL_offscreenopengles.h"
+#അന്തര്ഭാവ "SDL_offscreenvulkan.h"
+#അന്തര്ഭാവ "SDL_offscreenwindow.h"
 
 #define OFFSCREENVID_DRIVER_NAME "offscreen"
 
 // Initialization/Query functions
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
+സ്ഥിതം bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
+സ്ഥിതം bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+സ്ഥിതം ശൂന്യം OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
 
 // OFFSCREEN driver bootstrap functions
 
-static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
+സ്ഥിതം ശൂന്യം OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static bool OFFSCREEN_Available(const char *drivername)
+സ്ഥിതം bool OFFSCREEN_Available(സ്ഥിരം അക്ഷരം *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    സ്ഥിരം അക്ഷരം *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    എങ്കിൽ (hint && SDL_strstr(hint, drivername) != ശൂന്യ) {
+        തിരികെ true;
     }
-    return false;
+    തിരികെ false;
 }
 
-static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
+സ്ഥിതം SDL_VideoDevice *OFFSCREEN_CreateDevice(ശൂന്യം)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    എങ്കിൽ (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
+        തിരികെ ശൂന്യ;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, വലുപ്പം(SDL_VideoDevice));
+    എങ്കിൽ (!device) {
+        തിരികെ ശൂന്യ;
     }
 
     // General video
@@ -82,7 +82,7 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     device->CreateWindowFramebuffer = SDL_OFFSCREEN_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = SDL_OFFSCREEN_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_OFFSCREEN_DestroyWindowFramebuffer;
-    device->free = OFFSCREEN_DeleteDevice;
+    device->സ്വതന്ത്രം = OFFSCREEN_DeleteDevice;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
     // GL context
@@ -113,17 +113,17 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    തിരികെ device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
     OFFSCREENVID_DRIVER_NAME, "SDL offscreen video driver",
     OFFSCREEN_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    ശൂന്യ, // no ShowMessageBox implementation
     false
 };
 
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
+സ്ഥിതം bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
 
@@ -132,20 +132,20 @@ static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    എങ്കിൽ (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        തിരികെ false;
     }
 
     // We're done!
-    return true;
+    തിരികെ true;
 }
 
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+സ്ഥിതം bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    തിരികെ true;
 }
 
-void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
+ശൂന്യം OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 

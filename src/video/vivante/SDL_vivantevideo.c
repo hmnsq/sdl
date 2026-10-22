@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../../events/SDL_events_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
+#ifdef SDL_നിവേശം_LINUXEV
+#അന്തര്ഭാവ "../../core/linux/SDL_evdev.h"
 #endif
 
-#include "SDL_vivantevideo.h"
-#include "SDL_vivanteplatform.h"
-#include "SDL_vivanteopengles.h"
-#include "SDL_vivantevulkan.h"
+#അന്തര്ഭാവ "SDL_vivantevideo.h"
+#അന്തര്ഭാവ "SDL_vivanteplatform.h"
+#അന്തര്ഭാവ "SDL_vivanteopengles.h"
+#അന്തര്ഭാവ "SDL_vivantevulkan.h"
 
-static void VIVANTE_Destroy(SDL_VideoDevice *device)
+സ്ഥിതം ശൂന്യം VIVANTE_Destroy(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *VIVANTE_Create(void)
+സ്ഥിതം SDL_VideoDevice *VIVANTE_Create(ശൂന്യം)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, വലുപ്പം(SDL_VideoDevice));
+    എങ്കിൽ (!device) {
+        തിരികെ ശൂന്യ;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, വലുപ്പം(SDL_VideoData));
+    എങ്കിൽ (!data) {
         SDL_free(device);
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
     device->internal = data;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->അക്കം_displays = 0;
 
     // Set device free function
-    device->free = VIVANTE_Destroy;
+    device->സ്വതന്ത്രം = VIVANTE_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = VIVANTE_VideoInit;
@@ -100,14 +100,14 @@ static SDL_VideoDevice *VIVANTE_Create(void)
 
     device->PumpEvents = VIVANTE_PumpEvents;
 
-    return device;
+    തിരികെ device;
 }
 
 VideoBootStrap VIVANTE_bootstrap = {
     "vivante",
     "Vivante EGL Video Driver",
     VIVANTE_Create,
-    NULL, // no ShowMessageBox implementation
+    ശൂന്യ, // no ShowMessageBox implementation
     false
 };
 
@@ -115,18 +115,18 @@ VideoBootStrap VIVANTE_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
+സ്ഥിതം bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_VideoDisplay display;
     SDL_DisplayMode mode;
     SDL_DisplayData *data;
-    int pitch = 0, bpp = 0;
+    പൂർണ്ണസംഖ്യ pitch = 0, bpp = 0;
     unsigned long pixels = 0;
 
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
-        return false;
+    data = (SDL_DisplayData *)SDL_calloc(1, വലുപ്പം(SDL_DisplayData));
+    എങ്കിൽ (!data) {
+        തിരികെ false;
     }
 
     SDL_zero(mode);
@@ -135,21 +135,21 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 
     vdkGetDisplayInfo(data->native_display, &mode.w, &mode.h, &pixels, &pitch,
                       &bpp);
-#else
+#അല്ലെങ്കിൽ
     data->native_display = videodata->fbGetDisplayByIndex(0);
 
     videodata->fbGetDisplayInfo(data->native_display, &mode.w, &mode.h,
                                 &pixels, &pitch, &bpp);
 #endif // SDL_VIDEO_DRIVER_VIVANTE_VDK
 
-    switch (bpp) {
-    default: // Is another format used?
-    case 32:
+    തിരഞ്ഞെടുപ്പ് (bpp) {
+    സ്ഥിരസ്ഥിതി: // Is another format used?
+    അവസ്ഥ 32:
         mode.format = SDL_PIXELFORMAT_ARGB8888;
-        break;
-    case 16:
+        നിർത്തുക;
+    അവസ്ഥ 16:
         mode.format = SDL_PIXELFORMAT_RGB565;
-        break;
+        നിർത്തുക;
     }
     // FIXME: How do we query refresh rate?
     mode.refresh_rate = 60.0f;
@@ -158,10 +158,10 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     display.name = VIVANTE_GetDisplayName(_this);
     display.desktop_mode = mode;
     display.internal = data;
-    if (SDL_AddVideoDisplay(&display, false) == 0) {
-        return false;
+    എങ്കിൽ (SDL_AddVideoDisplay(&display, false) == 0) {
+        തിരികെ false;
     }
-    return true;
+    തിരികെ true;
 }
 
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
@@ -170,71 +170,71 @@ bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     videodata->vdk_private = vdkInitialize();
-    if (!videodata->vdk_private) {
-        return SDL_SetError("vdkInitialize() failed");
+    എങ്കിൽ (!videodata->vdk_private) {
+        തിരികെ SDL_SetError("vdkInitialize() failed");
     }
-#else
+#അല്ലെങ്കിൽ
     videodata->egl_handle = SDL_LoadObject("libEGL.so.1");
-    if (!videodata->egl_handle) {
+    എങ്കിൽ (!videodata->egl_handle) {
         videodata->egl_handle = SDL_LoadObject("libEGL.so");
-        if (!videodata->egl_handle) {
-            return false;
+        എങ്കിൽ (!videodata->egl_handle) {
+            തിരികെ false;
         }
     }
 #define LOAD_FUNC(TYPE, NAME)                                               \
     videodata->NAME = (TYPE)SDL_LoadFunction(videodata->egl_handle, #NAME); \
-    if (!videodata->NAME)                                                   \
-        return false;
+    എങ്കിൽ (!videodata->NAME)                                                   \
+        തിരികെ false;
 
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(void *), fbGetDisplay);
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(int), fbGetDisplayByIndex);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *), fbGetDisplayGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *, unsigned long *, int *, int *), fbGetDisplayInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
-    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, int, int, int, int), fbCreateWindow);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *), fbGetWindowGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *, int *, unsigned int *), fbGetWindowInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(ശൂന്യം *), fbGetDisplay);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(പൂർണ്ണസംഖ്യ), fbGetDisplayByIndex);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeDisplayType, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *), fbGetDisplayGeometry);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeDisplayType, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, unsigned long *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *), fbGetDisplayInfo);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
+    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ), fbCreateWindow);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeWindowType, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *), fbGetWindowGeometry);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeWindowType, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, പൂർണ്ണസംഖ്യ *, unsigned പൂർണ്ണസംഖ്യ *), fbGetWindowInfo);
+    LOAD_FUNC(ശൂന്യം (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
 #endif
 
-    if (!VIVANTE_SetupPlatform(_this)) {
-        return false;
+    എങ്കിൽ (!VIVANTE_SetupPlatform(_this)) {
+        തിരികെ false;
     }
 
-    if (!VIVANTE_AddVideoDisplays(_this)) {
-        return false;
+    എങ്കിൽ (!VIVANTE_AddVideoDisplays(_this)) {
+        തിരികെ false;
     }
 
     VIVANTE_UpdateDisplayScale(_this);
 
-#ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+#ifdef SDL_നിവേശം_LINUXEV
+    എങ്കിൽ (!SDL_EVDEV_Init()) {
+        തിരികെ false;
     }
 #endif
 
-    return true;
+    തിരികെ true;
 }
 
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
+ശൂന്യം VIVANTE_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_നിവേശം_LINUXEV
     SDL_EVDEV_Quit();
 #endif
 
     VIVANTE_CleanupPlatform(_this);
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    if (videodata->vdk_private) {
+    എങ്കിൽ (videodata->vdk_private) {
         vdkExit(videodata->vdk_private);
-        videodata->vdk_private = NULL;
+        videodata->vdk_private = ശൂന്യ;
     }
-#else
-    if (videodata->egl_handle) {
+#അല്ലെങ്കിൽ
+    എങ്കിൽ (videodata->egl_handle) {
         SDL_UnloadObject(videodata->egl_handle);
-        videodata->egl_handle = NULL;
+        videodata->egl_handle = ശൂന്യ;
     }
 #endif
 }
@@ -248,9 +248,9 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
 
     // Allocate window internal data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, വലുപ്പം(SDL_WindowData));
+    എങ്കിൽ (!data) {
+        തിരികെ false;
     }
 
     // Setup driver data for this window
@@ -261,57 +261,57 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     data->native_window = vdkCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#else
+#അല്ലെങ്കിൽ
     data->native_window = videodata->fbCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
 #endif
-    if (!data->native_window) {
-        return SDL_SetError("VIVANTE: Can't create native window");
+    എങ്കിൽ (!data->native_window) {
+        തിരികെ SDL_SetError("VIVANTE: Can't create native window");
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER, data->native_window);
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    എങ്കിൽ (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("VIVANTE: Can't create EGL surface");
+        എങ്കിൽ (data->egl_surface == EGL_NO_SURFACE) {
+            തിരികെ SDL_SetError("VIVANTE: Can't create EGL surface");
         }
-    } else {
+    } അല്ലെങ്കിൽ {
         data->egl_surface = EGL_NO_SURFACE;
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER, data->egl_surface);
 #endif
 
     // Window has been successfully created
-    return true;
+    തിരികെ true;
 }
 
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_WindowData *data;
 
     data = window->internal;
-    if (data) {
+    എങ്കിൽ (data) {
 #ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
+        എങ്കിൽ (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
         }
 #endif
 
-        if (data->native_window) {
+        എങ്കിൽ (data->native_window) {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
             vdkDestroyWindow(data->native_window);
-#else
+#അല്ലെങ്കിൽ
             videodata->fbDestroyWindow(data->native_window);
 #endif
         }
 
         SDL_free(data);
     }
-    window->internal = NULL;
+    window->internal = ശൂന്യ;
 }
 
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
@@ -322,15 +322,15 @@ void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
-    return SDL_Unsupported();
+    തിരികെ SDL_Unsupported();
 }
 
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
 }
 
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
@@ -340,22 +340,22 @@ void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_SetKeyboardFocus(window);
 }
 
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
     vdkHideWindow(data->native_window);
 #endif
-    SDL_SetMouseFocus(NULL);
-    SDL_SetKeyboardFocus(NULL);
+    SDL_SetMouseFocus(ശൂന്യ);
+    SDL_SetKeyboardFocus(ശൂന്യ);
 }
 
 /*****************************************************************************/
 // SDL event functions
 /*****************************************************************************/
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this)
+ശൂന്യം VIVANTE_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_നിവേശം_LINUXEV
     SDL_EVDEV_Poll();
 #endif
 }

@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_windowskeyboard_h_
 #define SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം WIN_InitKeyboard(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം WIN_UpdateKeymap(bool send_event);
+ബാഹ്യ ശൂന്യം WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+ബാഹ്യ ശൂന്യം WIN_Reset_Dead_താക്കോലുകൾ(ശൂന്യം);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool WIN_Start_Text_നിവേശം(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ബാഹ്യ bool WIN_Stop_Text_നിവേശം(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool WIN_Update_Text_നിവേശം_Area(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+ബാഹ്യ bool WIN_HandleIMEMessage(HWND hwnd, UINT സന്ദേശം, WPARAM wParam, LPARAM *lParam, ഘടന SDL_VideoData *videodata);
+ബാഹ്യ ശൂന്യം WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
 #endif // SDL_windowskeyboard_h_

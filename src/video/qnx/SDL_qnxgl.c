@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "SDL_qnx.h"
+#അന്തര്ഭാവ "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_qnx.h"
 
-#include "../SDL_egl_c.h"
+#അന്തര്ഭാവ "../SDL_egl_c.h"
 
 /**
  * Detertmines the pixel format to use based on the current display and EGL
  * configuration.
  */
-int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
+പൂർണ്ണസംഖ്യ QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
 {
     EGLint buffer_bit_depth;
     EGLint alpha_bit_depth;
@@ -36,39 +36,39 @@ int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
     _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_BUFFER_SIZE, &buffer_bit_depth);
     _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_ALPHA_SIZE, &alpha_bit_depth);
 
-    switch (buffer_bit_depth) {
-        case 32:
-            return SCREEN_FORMAT_RGBX8888;
-        case 24:
-            return SCREEN_FORMAT_RGB888;
-        case 16:
-            switch (alpha_bit_depth) {
-                case 4:
-                    return SCREEN_FORMAT_RGBX4444;
-                case 1:
-                    return SCREEN_FORMAT_RGBA5551;
-                default:
-                    return SCREEN_FORMAT_RGB565;
+    തിരഞ്ഞെടുപ്പ് (buffer_bit_depth) {
+        അവസ്ഥ 32:
+            തിരികെ SCREEN_FORMAT_RGBX8888;
+        അവസ്ഥ 24:
+            തിരികെ SCREEN_FORMAT_RGB888;
+        അവസ്ഥ 16:
+            തിരഞ്ഞെടുപ്പ് (alpha_bit_depth) {
+                അവസ്ഥ 4:
+                    തിരികെ SCREEN_FORMAT_RGBX4444;
+                അവസ്ഥ 1:
+                    തിരികെ SCREEN_FORMAT_RGBA5551;
+                സ്ഥിരസ്ഥിതി:
+                    തിരികെ SCREEN_FORMAT_RGB565;
             }
-        default:
-            return 0;
+        സ്ഥിരസ്ഥിതി:
+            തിരികെ 0;
     }
 }
 
 /**
  * Initializes the EGL library.
  */
-bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path)
+bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *egl_path)
 {
-    return SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
+    തിരികെ SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
 }
 
 /**
  * Finds the address of an EGL extension function.
  */
-SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *proc)
 {
-    return SDL_EGL_GetProcAddressInternal(_this, proc);
+    തിരികെ SDL_EGL_GetProcAddressInternal(_this, proc);
 }
 
 /**
@@ -83,23 +83,23 @@ SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     context = SDL_EGL_CreateContext(_this, impl->egl_surface);
     impl->context = context;
 
-    return context;
+    തിരികെ context;
 }
 
 /**
  * Sets a new value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ interval)
 {
-    return SDL_EGL_SetSwapInterval(_this, interval);
+    തിരികെ SDL_EGL_SetSwapInterval(_this, interval);
 }
 
 /**
  * Gets the value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ *interval)
 {
-    return SDL_EGL_GetSwapInterval(_this, interval);
+    തിരികെ SDL_EGL_GetSwapInterval(_this, interval);
 }
 
 /**
@@ -109,22 +109,22 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
     {
-        if (impl->resize) {
+        എങ്കിൽ (impl->resize) {
             EGLSurface surface;
 
-            if (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
-                return false;
+            എങ്കിൽ (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
+                തിരികെ false;
             }
             SDL_EGL_DestroySurface(_this, impl->egl_surface);
 
             surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-            if (surface == EGL_NO_SURFACE) {
-                return false;
+            എങ്കിൽ (surface == EGL_NO_SURFACE) {
+                തിരികെ false;
             }
             SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, surface);
 
-            if (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
-                return false;
+            എങ്കിൽ (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
+                തിരികെ false;
             }
 
             impl->egl_surface = surface;
@@ -132,7 +132,7 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 
-    return SDL_EGL_SwapBuffers(_this, impl->egl_surface);
+    തിരികെ SDL_EGL_SwapBuffers(_this, impl->egl_surface);
 }
 
 /**
@@ -140,13 +140,13 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
  */
 bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    തിരികെ SDL_EGL_DestroyContext(_this, context);
 }
 
 /**
  * Terminates access to the EGL library.
  */
-void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+ശൂന്യം QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_EGL_UnloadLibrary(_this);
 }

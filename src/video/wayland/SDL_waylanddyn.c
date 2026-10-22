@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
 #define DEBUG_DYNAMIC_WAYLAND 0
 
-#include "SDL_waylanddyn.h"
+#അന്തര്ഭാവ "SDL_waylanddyn.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
@@ -67,93 +67,93 @@ SDL_ELF_NOTE_DLOPEN(
 )
 #endif
 
-typedef struct
+തരനിർവചനം ഘടന
 {
     SDL_SharedObject *lib;
-    const char *libname;
-    const char *hint;
+    സ്ഥിരം അക്ഷരം *libname;
+    സ്ഥിരം അക്ഷരം *hint;
     bool hint_default;
 } waylanddynlib;
 
-static waylanddynlib waylandlibs[] = {
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, NULL, false },
+സ്ഥിതം waylanddynlib waylandlibs[] = {
+    { ശൂന്യ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, ശൂന്യ, false },
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, NULL, false },
+    { ശൂന്യ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, ശൂന്യ, false },
 #endif
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, NULL, false },
+    { ശൂന്യ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, ശൂന്യ, false },
 #endif
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, NULL, false },
+    { ശൂന്യ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, ശൂന്യ, false },
 #endif
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
+    { ശൂന്യ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
 #endif
-    { NULL, NULL, NULL, false }
+    { ശൂന്യ, ശൂന്യ, ശൂന്യ, false }
 };
 
-static void *WAYLAND_GetSym(const char *fnname, int *pHasModule, bool required)
+സ്ഥിതം ശൂന്യം *WAYLAND_GetSym(സ്ഥിരം അക്ഷരം *fnname, പൂർണ്ണസംഖ്യ *pHasModule, bool required)
 {
-    void *fn = NULL;
+    ശൂന്യം *fn = ശൂന്യ;
     waylanddynlib *dynlib;
-    for (dynlib = waylandlibs; dynlib->libname; dynlib++) {
-        if (dynlib->lib) {
+    വേണ്ടി (dynlib = waylandlibs; dynlib->libname; dynlib++) {
+        എങ്കിൽ (dynlib->lib) {
             fn = SDL_LoadFunction(dynlib->lib, fnname);
-            if (fn) {
-                break;
+            എങ്കിൽ (fn) {
+                നിർത്തുക;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_WAYLAND
-    if (fn) {
+#എങ്കിൽ DEBUG_DYNAMIC_WAYLAND
+    എങ്കിൽ (fn) {
         SDL_Log("WAYLAND: Found '%s' in %s (%p)", fnname, dynlib->libname, fn);
-    } else {
+    } അല്ലെങ്കിൽ {
         SDL_Log("WAYLAND: Symbol '%s' NOT FOUND!", fnname);
     }
 #endif
 
-    if (!fn && required) {
+    എങ്കിൽ (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    തിരികെ fn;
 }
 
-#else
+#അല്ലെങ്കിൽ
 
-#include <wayland-egl.h>
+#അന്തര്ഭാവ <wayland-egl.h>
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_WAYLAND_MODULE(modname)         int SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#define SDL_WAYLAND_MODULE(modname)         പൂർണ്ണസംഖ്യ SDL_WAYLAND_HAVE_##modname = 0;
+#define SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = ശൂന്യ;
+#define SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = ശൂന്യ;
+#അന്തര്ഭാവ "SDL_waylandsym.h"
 
-static int wayland_load_refcount = 0;
+സ്ഥിതം പൂർണ്ണസംഖ്യ wayland_load_refcount = 0;
 
-void SDL_WAYLAND_UnloadSymbols(void)
+ശൂന്യം SDL_WAYLAND_UnloadSymbols(ശൂന്യം)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (wayland_load_refcount > 0) {
-        if (--wayland_load_refcount == 0) {
+    എങ്കിൽ (wayland_load_refcount > 0) {
+        എങ്കിൽ (--wayland_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            int i;
+            പൂർണ്ണസംഖ്യ i;
 #endif
 
             // set all the function pointers to NULL.
 #define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = ശൂന്യ;
+#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = ശൂന്യ;
+#അന്തര്ഭാവ "SDL_waylandsym.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-                if (waylandlibs[i].lib) {
+            വേണ്ടി (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+                എങ്കിൽ (waylandlibs[i].lib) {
                     SDL_UnloadObject(waylandlibs[i].lib);
-                    waylandlibs[i].lib = NULL;
+                    waylandlibs[i].lib = ശൂന്യ;
                 }
             }
 #endif
@@ -162,56 +162,56 @@ void SDL_WAYLAND_UnloadSymbols(void)
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_WAYLAND_LoadSymbols(void)
+bool SDL_WAYLAND_LoadSymbols(ശൂന്യം)
 {
     bool result = true; // always succeed if not using Dynamic WAYLAND stuff.
 
     // deal with multiple modules (dga, wayland, etc) needing these symbols...
-    if (wayland_load_refcount++ == 0) {
+    എങ്കിൽ (wayland_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-            if (waylandlibs[i].libname) {
-                if (waylandlibs[i].hint &&
+        പൂർണ്ണസംഖ്യ i;
+        പൂർണ്ണസംഖ്യ *thismod = ശൂന്യ;
+        വേണ്ടി (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+            എങ്കിൽ (waylandlibs[i].libname) {
+                എങ്കിൽ (waylandlibs[i].hint &&
                     !SDL_GetHintBoolean(waylandlibs[i].hint, waylandlibs[i].hint_default)) {
-                    continue;
+                    തുടരുക;
                 }
                 waylandlibs[i].lib = SDL_LoadObject(waylandlibs[i].libname);
             }
         }
 
 #define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; // default yes
-#include "SDL_waylandsym.h"
+#അന്തര്ഭാവ "SDL_waylandsym.h"
 
 #define SDL_WAYLAND_MODULE(modname)         thismod = &SDL_WAYLAND_HAVE_##modname;
 #define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, true);
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
-#include "SDL_waylandsym.h"
+#അന്തര്ഭാവ "SDL_waylandsym.h"
 
-        if (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
+        എങ്കിൽ (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
             SDL_WAYLAND_HAVE_WAYLAND_CURSOR &&
             SDL_WAYLAND_HAVE_WAYLAND_EGL &&
             SDL_WAYLAND_HAVE_WAYLAND_XKB) {
             // All required symbols loaded, only libdecor is optional.
             SDL_ClearError();
-        } else {
+        } അല്ലെങ്കിൽ {
             // in case something got loaded...
             SDL_WAYLAND_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic WAYLAND
+#അല്ലെങ്കിൽ // no dynamic WAYLAND
 
 #define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
 #define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = fn;
-#include "SDL_waylandsym.h"
+#അന്തര്ഭാവ "SDL_waylandsym.h"
 
 #endif
     }
 
-    return result;
+    തിരികെ result;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

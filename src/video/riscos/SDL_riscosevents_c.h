@@ -22,12 +22,12 @@
 #ifndef SDL_riscosevents_c_h_
 #define SDL_riscosevents_c_h_
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-#include "SDL_riscosvideo.h"
+#അന്തര്ഭാവ "SDL_riscosvideo.h"
 
-extern bool RISCOS_InitEvents(SDL_VideoDevice *_this);
-extern void RISCOS_PumpEvents(SDL_VideoDevice *_this);
-extern void RISCOS_QuitEvents(SDL_VideoDevice *_this);
+ബാഹ്യ bool RISCOS_InitEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം RISCOS_PumpEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം RISCOS_QuitEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_riscosevents_c_h_

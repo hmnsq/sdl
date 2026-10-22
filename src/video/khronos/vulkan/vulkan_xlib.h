@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -25,27 +25,27 @@ extern "C" {
 #define VK_KHR_XLIB_SURFACE_SPEC_VERSION  6
 #define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
 
-typedef VkFlags VkXlibSurfaceCreateFlagsKHR;
+തരനിർവചനം VkFlags VkXlibSurfaceCreateFlagsKHR;
 
-typedef struct VkXlibSurfaceCreateInfoKHR {
+തരനിർവചനം ഘടന VkXlibSurfaceCreateInfoKHR {
     VkStructureType                sType;
-    const void*                    pNext;
+    സ്ഥിരം ശൂന്യം*                    pNext;
     VkXlibSurfaceCreateFlagsKHR    flags;
     Display*                       dpy;
     Window                         window;
 } VkXlibSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, സ്ഥിരം VkXlibSurfaceCreateInfoKHR* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateXlibSurfaceKHR(
     VkInstance                                  instance,
-    const VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES

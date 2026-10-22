@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DOSVESA
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_dosvideo.h"
+#അന്തര്ഭാവ "../../events/SDL_events_c.h"
+#അന്തര്ഭാവ "../../events/SDL_keyboard_c.h"
+#അന്തര്ഭാവ "../../events/SDL_mouse_c.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "SDL_dosvideo.h"
 
-#include "../../core/dos/SDL_dos_scheduler.h"
-#include "SDL_dosevents_c.h"
+#അന്തര്ഭാവ "../../core/dos/SDL_dos_scheduler.h"
+#അന്തര്ഭാവ "SDL_dosevents_c.h"
 
 // PS/2 keyboard controller port
 #define KBD_DATA_PORT 0x60
@@ -48,7 +48,7 @@
 #define VGA_STATUS_VBLANK 0x08 // bit 3: vertical retrace active
 
 // Scancode table: https://www.plantation-productions.com/Webster/www.artofasm.com/DOS/pdf/apndxc.pdf
-static const SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode from the IRQ1 handler bitwise-ANDed against 0x7F.
+സ്ഥിതം സ്ഥിരം SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode from the IRQ1 handler bitwise-ANDed against 0x7F.
     /* 0x00 */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 */ SDL_SCANCODE_ESCAPE,
     /* 0x02 */ SDL_SCANCODE_1,
@@ -146,7 +146,7 @@ static const SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode
 };
 
 // Extended scancode table for keys prefixed with 0xE0
-static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the scancode byte following the 0xE0 prefix, masked with 0x7F.
+സ്ഥിതം സ്ഥിരം SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the scancode byte following the 0xE0 prefix, masked with 0x7F.
     /* 0x00 */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 */ SDL_SCANCODE_UNKNOWN,
     /* 0x02 */ SDL_SCANCODE_UNKNOWN,
@@ -226,15 +226,15 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
     /* 0x48 */ SDL_SCANCODE_UP,
     /* 0x49 */ SDL_SCANCODE_PAGEUP,
     /* 0x4A */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4B */ SDL_SCANCODE_LEFT,
+    /* 0x4B */ SDL_SCANCODE_ഇടത്,
     /* 0x4C */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4D */ SDL_SCANCODE_RIGHT,
+    /* 0x4D */ SDL_SCANCODE_വലത്,
     /* 0x4E */ SDL_SCANCODE_UNKNOWN,
     /* 0x4F */ SDL_SCANCODE_END,
 
     /* 0x50 */ SDL_SCANCODE_DOWN,
     /* 0x51 */ SDL_SCANCODE_PAGEDOWN,
-    /* 0x52 */ SDL_SCANCODE_INSERT,
+    /* 0x52 */ SDL_SCANCODE_തിരുകുക,
     /* 0x53 */ SDL_SCANCODE_DELETE,
     /* 0x54 */ SDL_SCANCODE_UNKNOWN,
     /* 0x55 */ SDL_SCANCODE_UNKNOWN,
@@ -248,25 +248,25 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
     /* 0x5D */ SDL_SCANCODE_APPLICATION
 };
 
-static Uint8 keyevents_ringbuffer[256];
-static int keyevents_head = 0;
-static int keyevents_tail = 0;
+സ്ഥിതം Uint8 keyevents_ringbuffer[256];
+സ്ഥിതം പൂർണ്ണസംഖ്യ keyevents_head = 0;
+സ്ഥിതം പൂർണ്ണസംഖ്യ keyevents_tail = 0;
 
-static void DOSVESA_DrainBIOSKeyboardBuffer(void)
+സ്ഥിതം ശൂന്യം DOSVESA_DrainBIOSKeyboardBuffer(ശൂന്യം)
 {
     __dpmi_regs regs;
-    for (;;) {
+    വേണ്ടി (;;) {
         regs.h.ah = 0x01; // BIOS: check for keystroke
         __dpmi_int(0x16, &regs);
-        if (regs.x.flags & 0x40) { // ZF set = buffer empty
-            break;
+        എങ്കിൽ (regs.x.flags & 0x40) { // ZF set = buffer empty
+            നിർത്തുക;
         }
         regs.h.ah = 0x00; // BIOS: read keystroke (removes it)
         __dpmi_int(0x16, &regs);
     }
 }
 
-void DOSVESA_PumpEvents(SDL_VideoDevice *device)
+ശൂന്യം DOSVESA_PumpEvents(SDL_VideoDevice *device)
 {
     /* Give cooperative threads a chance to run.  Audio mixing now runs
        in its own cooperative thread (via SDL's normal audio thread),
@@ -274,60 +274,60 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
        and anything else that is runnable. */
     DOS_Yield();
 
-    static bool is_extended = false;
-    static int pause_sequence_remaining = 0;
+    സ്ഥിതം bool is_extended = false;
+    സ്ഥിതം പൂർണ്ണസംഖ്യ pause_sequence_remaining = 0;
 
-    while (keyevents_head != keyevents_tail) {
-        const Uint8 event = keyevents_ringbuffer[keyevents_tail];
+    ആകുമ്പോൾ (keyevents_head != keyevents_tail) {
+        സ്ഥിരം Uint8 event = keyevents_ringbuffer[keyevents_tail];
         keyevents_tail = (keyevents_tail + 1) & (SDL_arraysize(keyevents_ringbuffer) - 1);
 
         // Handle remaining bytes of E1 Pause key sequence (E1 1D 45 E1 9D C5).
-        if (pause_sequence_remaining > 0) {
+        എങ്കിൽ (pause_sequence_remaining > 0) {
             pause_sequence_remaining--;
-            continue;
+            തുടരുക;
         }
 
         // Pause key sends a multi-byte sequence: E1 1D 45 E1 9D C5. Emit PAUSE press+release and consume the rest.
-        if (event == SCANCODE_PREFIX_PAUSE) {
+        എങ്കിൽ (event == SCANCODE_PREFIX_PAUSE) {
             pause_sequence_remaining = 5; // skip the next 5 bytes
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
-            continue;
+            SDL_Send_Keyboard_താക്കോൽ(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
+            SDL_Send_Keyboard_താക്കോൽ(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
+            തുടരുക;
         }
 
-        if (event == SCANCODE_PREFIX_EXTENDED) {
+        എങ്കിൽ (event == SCANCODE_PREFIX_EXTENDED) {
             is_extended = true;
-            continue;
+            തുടരുക;
         }
 
-        const int scancode = (int)(event & SCANCODE_MASK);
-        const bool pressed = ((event & SCANCODE_RELEASE) == 0);
+        സ്ഥിരം പൂർണ്ണസംഖ്യ scancode = (പൂർണ്ണസംഖ്യ)(event & SCANCODE_MASK);
+        സ്ഥിരം bool pressed = ((event & SCANCODE_RELEASE) == 0);
 
         SDL_Scancode sc = SDL_SCANCODE_UNKNOWN;
 
-        if (is_extended) {
+        എങ്കിൽ (is_extended) {
             is_extended = false;
-            if (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
+            എങ്കിൽ (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
                 sc = DOSVESA_ExtendedScancodeMapping[scancode];
             }
-        } else {
-            if (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
+        } അല്ലെങ്കിൽ {
+            എങ്കിൽ (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
                 sc = DOSVESA_ScancodeMapping[scancode];
             }
         }
 
-        if (sc != SDL_SCANCODE_UNKNOWN) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
+        എങ്കിൽ (sc != SDL_SCANCODE_UNKNOWN) {
+            SDL_Send_Keyboard_താക്കോൽ(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
 
             // Generate text input events for key-down on printable characters.
             // SDL keycodes below SDLK_SCANCODE_MASK are Unicode codepoints.
-            if (pressed) {
+            എങ്കിൽ (pressed) {
                 SDL_Keymod mod = SDL_GetModState();
-                if (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-                    SDL_Keycode keycode = SDL_GetKeyFromScancode(sc, mod, false);
-                    if (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((int)keycode)) {
-                        char text[5];
-                        char *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
+                എങ്കിൽ (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+                    SDL_Keycode keycode = SDL_Get_താക്കോൽ_From_Scancode(sc, mod, false);
+                    എങ്കിൽ (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((പൂർണ്ണസംഖ്യ)keycode)) {
+                        അക്ഷരം text[5];
+                        അക്ഷരം *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
                         *end = '\0';
                         SDL_SendKeyboardText(text);
                     }
@@ -341,44 +341,44 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
     DOSVESA_DrainBIOSKeyboardBuffer();
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
+    എങ്കിൽ (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
         __dpmi_regs regs;
 
         regs.x.ax = 0x3; // read mouse buttons and position.
         __dpmi_int(0x33, &regs);
-        const Uint16 buttons = (int)(Sint16)regs.x.bx;
+        സ്ഥിരം Uint16 buttons = (പൂർണ്ണസംഖ്യ)(Sint16)regs.x.bx;
 
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_LEFT, (buttons & (1 << 0)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_RIGHT, (buttons & (1 << 1)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_MIDDLE, (buttons & (1 << 2)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_ഇടത്, (buttons & (1 << 0)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_വലത്, (buttons & (1 << 1)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_നടുവ്, (buttons & (1 << 2)) != 0);
 
-        if (!mouse->relative_mode) {
-            const int x = (int)(Sint16)regs.x.cx; // part of function 0x3's return value.
-            const int y = (int)(Sint16)regs.x.dx;
+        എങ്കിൽ (!mouse->relative_mode) {
+            സ്ഥിരം പൂർണ്ണസംഖ്യ x = (പൂർണ്ണസംഖ്യ)(Sint16)regs.x.cx; // part of function 0x3's return value.
+            സ്ഥിരം പൂർണ്ണസംഖ്യ y = (പൂർണ്ണസംഖ്യ)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, x, y);
-        } else {
+        } അല്ലെങ്കിൽ {
             regs.x.ax = 0xB; // read motion counters
             __dpmi_int(0x33, &regs);
             // values returned here are -32768 to 32767
-            const SDL_VideoData *viddata = device->internal;
-            const float MICKEYS_PER_HPIXEL = viddata->mickeys_per_hpixel;
-            const float MICKEYS_PER_VPIXEL = viddata->mickeys_per_vpixel;
-            const int mickeys_x = (int)(Sint16)regs.x.cx;
-            const int mickeys_y = (int)(Sint16)regs.x.dx;
+            സ്ഥിരം SDL_VideoData *viddata = device->internal;
+            സ്ഥിരം ദശാംശം MICKEYS_PER_HPIXEL = viddata->mickeys_per_hpixel;
+            സ്ഥിരം ദശാംശം MICKEYS_PER_VPIXEL = viddata->mickeys_per_vpixel;
+            സ്ഥിരം പൂർണ്ണസംഖ്യ mickeys_x = (പൂർണ്ണസംഖ്യ)(Sint16)regs.x.cx;
+            സ്ഥിരം പൂർണ്ണസംഖ്യ mickeys_y = (പൂർണ്ണസംഖ്യ)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, true, mickeys_x / MICKEYS_PER_HPIXEL, mickeys_y / MICKEYS_PER_VPIXEL);
         }
     }
 }
 
-static void KeyboardIRQHandler(void) // this is wrapped in a thing that handles IRET, etc.
+സ്ഥിതം ശൂന്യം KeyboardIRQHandler(ശൂന്യം) // this is wrapped in a thing that handles IRET, etc.
 {
     keyevents_ringbuffer[keyevents_head] = inportb(KBD_DATA_PORT);
     keyevents_head = (keyevents_head + 1) & (SDL_arraysize(keyevents_ringbuffer) - 1);
     DOS_EndOfInterrupt(1);
 }
-static void KeyboardIRQHandler_End(void) {} // end-of-ISR label for memory locking
+സ്ഥിതം ശൂന്യം KeyboardIRQHandler_End(ശൂന്യം) {} // end-of-ISR label for memory locking
 
-void DOSVESA_InitKeyboard(SDL_VideoDevice *device)
+ശൂന്യം DOSVESA_InitKeyboard(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
 
@@ -391,7 +391,7 @@ void DOSVESA_InitKeyboard(SDL_VideoDevice *device)
     DOS_HookInterrupt(1, KeyboardIRQHandler, &data->keyboard_interrupt_hook);
 }
 
-void DOSVESA_QuitKeyboard(SDL_VideoDevice *device)
+ശൂന്യം DOSVESA_QuitKeyboard(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
     DOS_UnhookInterrupt(&data->keyboard_interrupt_hook, false);

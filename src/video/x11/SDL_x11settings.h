@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_x11settings_h_
 #define SDL_x11settings_h_
 
-#include <X11/Xlib.h>
-#include "xsettings-client.h"
+#അന്തര്ഭാവ <X11/Xlib.h>
+#അന്തര്ഭാവ "xsettings-client.h"
 
 #define SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR "Gdk/WindowScalingFactor"
 #define SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
 #define SDL_XSETTINGS_XFT_DPI "Xft/DPI"
 
-typedef struct X11_SettingsData {
+തരനിർവചനം ഘടന X11_SettingsData {
     XSettingsClient *xsettings;
 } SDLX11_SettingsData;
 
-extern void X11_InitXsettings(SDL_VideoDevice *_this);
-extern void X11_QuitXsettings(SDL_VideoDevice *_this);
-extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+ബാഹ്യ ശൂന്യം X11_InitXsettings(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം X11_QuitXsettings(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം X11_HandleXsettingsEvent(SDL_VideoDevice *_this, സ്ഥിരം XEvent *xevent);
+ബാഹ്യ പൂർണ്ണസംഖ്യ X11_Get_Xsettings_Int_താക്കോൽ(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *താക്കോൽ, പൂർണ്ണസംഖ്യ fallback_മൂല്യം);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+ബാഹ്യ പൂർണ്ണസംഖ്യ X11_Get_Xsettings_Client_Int_താക്കോൽ(XSettingsClient *client, സ്ഥിരം അക്ഷരം *താക്കോൽ, പൂർണ്ണസംഖ്യ fallback_മൂല്യം);
 
 #endif // SDL_x11settings_h_

@@ -22,10 +22,10 @@
 #ifndef SDL_dosevents_c_h_
 #define SDL_dosevents_c_h_
 
-#include "SDL_dosvideo.h"
+#അന്തര്ഭാവ "SDL_dosvideo.h"
 
-void DOSVESA_PumpEvents(SDL_VideoDevice *device);
-void DOSVESA_InitKeyboard(SDL_VideoDevice *device);
-void DOSVESA_QuitKeyboard(SDL_VideoDevice *device);
+ശൂന്യം DOSVESA_PumpEvents(SDL_VideoDevice *device);
+ശൂന്യം DOSVESA_InitKeyboard(SDL_VideoDevice *device);
+ശൂന്യം DOSVESA_QuitKeyboard(SDL_VideoDevice *device);
 
 #endif // SDL_dosevents_c_h_

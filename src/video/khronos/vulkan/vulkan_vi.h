@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_NN_VI_SURFACE_SPEC_VERSION     1
 #define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+തരനിർവചനം VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+തരനിർവചനം ഘടന VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    സ്ഥിരം ശൂന്യം*                 pNext;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    ശൂന്യം*                       window;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, സ്ഥിരം VkViSurfaceCreateInfoNN* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkViSurfaceCreateInfoNN*              pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

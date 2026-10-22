@@ -18,50 +18,50 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include <unistd.h> // For getpid() and readlink()
+#അന്തര്ഭാവ <unistd.h> // For getpid() and readlink()
 
-#include "../../core/linux/SDL_system_theme.h"
-#include "../../core/linux/SDL_progressbar.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../../core/linux/SDL_system_theme.h"
+#അന്തര്ഭാവ "../../core/linux/SDL_progressbar.h"
+#അന്തര്ഭാവ "../../events/SDL_keyboard_c.h"
+#അന്തര്ഭാവ "../../events/SDL_mouse_c.h"
+#അന്തര്ഭാവ "../SDL_pixels_c.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
-#include "SDL_x11framebuffer.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11messagebox.h"
-#include "SDL_x11shape.h"
-#include "SDL_x11xsync.h"
-#include "SDL_x11xtest.h"
+#അന്തര്ഭാവ "SDL_x11framebuffer.h"
+#അന്തര്ഭാവ "SDL_x11pen.h"
+#അന്തര്ഭാവ "SDL_x11touch.h"
+#അന്തര്ഭാവ "SDL_x11video.h"
+#അന്തര്ഭാവ "SDL_x11xfixes.h"
+#അന്തര്ഭാവ "SDL_x11xinput2.h"
+#അന്തര്ഭാവ "SDL_x11messagebox.h"
+#അന്തര്ഭാവ "SDL_x11shape.h"
+#അന്തര്ഭാവ "SDL_x11xsync.h"
+#അന്തര്ഭാവ "SDL_x11xtest.h"
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-#include "SDL_x11opengles.h"
+#അന്തര്ഭാവ "SDL_x11opengles.h"
 #endif
 
 // Initialization/Query functions
-static bool X11_VideoInit(SDL_VideoDevice *_this);
-static void X11_VideoQuit(SDL_VideoDevice *_this);
+സ്ഥിതം bool X11_VideoInit(SDL_VideoDevice *_this);
+സ്ഥിതം ശൂന്യം X11_VideoQuit(SDL_VideoDevice *_this);
 
 // X11 driver bootstrap functions
 
-static void X11_DeleteDevice(SDL_VideoDevice *device)
+സ്ഥിതം ശൂന്യം X11_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
-    if (device->vulkan_config.loader_handle) {
+    എങ്കിൽ (device->vulkan_config.loader_handle) {
         device->Vulkan_UnloadLibrary(device);
     }
-    if (data->display) {
+    എങ്കിൽ (data->display) {
         X11_XCloseDisplay(data->display);
     }
-    if (data->request_display) {
+    എങ്കിൽ (data->request_display) {
         X11_XCloseDisplay(data->request_display);
     }
     SDL_free(data->windowlist);
@@ -71,31 +71,31 @@ static void X11_DeleteDevice(SDL_VideoDevice *device)
     SDL_X11_UnloadSymbols();
 }
 
-static bool X11_IsXWayland(Display *d)
+സ്ഥിതം bool X11_IsXWayland(Display *d)
 {
-    int opcode, event, error;
-    return X11_XQueryExtension(d, "XWAYLAND", &opcode, &event, &error) == True;
+    പൂർണ്ണസംഖ്യ opcode, event, error;
+    തിരികെ X11_XQueryExtension(d, "XWAYLAND", &opcode, &event, &error) == True;
 }
 
-static bool X11_IsWSL(void)
+സ്ഥിതം bool X11_IsWSL(ശൂന്യം)
 {
 #ifdef SDL_PLATFORM_LINUX
-    if (SDL_GetPathInfo("/proc/sys/fs/binfmt_misc/WSLInterop", NULL) || SDL_GetPathInfo("/run/WSL", NULL)) { // if either of these exist, we're on WSL.
-         return true;
+    എങ്കിൽ (SDL_GetPathInfo("/proc/sys/fs/binfmt_misc/WSLInterop", ശൂന്യ) || SDL_GetPathInfo("/run/WSL", ശൂന്യ)) { // if either of these exist, we're on WSL.
+         തിരികെ true;
     }
 #endif
-    return false;
+    തിരികെ false;
 }
 
-static SDL_VideoDevice *X11_CreateDevice(void)
+സ്ഥിതം SDL_VideoDevice *X11_CreateDevice(ശൂന്യം)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
-    const char *display = NULL; // Use the DISPLAY environment variable
-    Display *x11_display = NULL;
+    സ്ഥിരം അക്ഷരം *display = ശൂന്യ; // Use the DISPLAY environment variable
+    Display *x11_display = ശൂന്യ;
 
-    if (!SDL_X11_LoadSymbols()) {
-        return NULL;
+    എങ്കിൽ (!SDL_X11_LoadSymbols()) {
+        തിരികെ ശൂന്യ;
     }
 
     /* Need for threading gl calls. This is also required for the proprietary
@@ -105,45 +105,45 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     // Open the display first to be sure that X11 is available
     x11_display = X11_XOpenDisplay(display);
 
-    if (!x11_display) {
+    എങ്കിൽ (!x11_display) {
         SDL_X11_UnloadSymbols();
 
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") == 0) {
+        സ്ഥിരം അക്ഷരം *session = SDL_getenv("XDG_SESSION_TYPE");
+        എങ്കിൽ (session && SDL_strcasecmp(session, "wayland") == 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the X11 (XWayland) display server");
-        } else {
+        } അല്ലെങ്കിൽ {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the X11 display server");
         }
 
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, വലുപ്പം(SDL_VideoDevice));
+    എങ്കിൽ (!device) {
+        തിരികെ ശൂന്യ;
     }
-    data = (struct SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (ഘടന SDL_VideoData *)SDL_calloc(1, വലുപ്പം(SDL_VideoData));
+    എങ്കിൽ (!data) {
         SDL_free(device);
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
     device->internal = data;
 
     data->global_mouse_changed = true;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    data->active_cursor_confined_window = NULL;
+    data->active_cursor_confined_window = ശൂന്യ;
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
 
     data->display = x11_display;
     data->request_display = X11_XOpenDisplay(display);
-    if (!data->request_display) {
+    എങ്കിൽ (!data->request_display) {
         X11_XCloseDisplay(data->display);
         SDL_free(device->internal);
         SDL_free(device);
         SDL_X11_UnloadSymbols();
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
 #ifdef X11_DEBUG
@@ -189,7 +189,7 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->RestoreWindow = X11_RestoreWindow;
     device->SetWindowBordered = X11_SetWindowBordered;
     device->SetWindowResizable = X11_SetWindowResizable;
-    device->SetWindowAlwaysOnTop = X11_SetWindowAlwaysOnTop;
+    device->Set_Window_Always_On_മുകൾ = X11_Set_Window_Always_On_മുകൾ;
     device->SetWindowFullscreen = X11_SetWindowFullscreen;
     device->SetWindowMouseGrab = X11_SetWindowMouseGrab;
     device->SetWindowKeyboardGrab = X11_SetWindowKeyboardGrab;
@@ -222,11 +222,11 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->GL_GetSwapInterval = X11_GL_GetSwapInterval;
     device->GL_SwapWindow = X11_GL_SwapWindow;
     device->GL_DestroyContext = X11_GL_DestroyContext;
-    device->GL_GetEGLSurface = NULL;
+    device->GL_GetEGLSurface = ശൂന്യ;
 #endif
 #ifdef SDL_VIDEO_OPENGL_EGL
 #ifdef SDL_VIDEO_OPENGL_GLX
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+    എങ്കിൽ (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
 #endif
         device->GL_LoadLibrary = X11_GLES_LoadLibrary;
         device->GL_GetProcAddress = X11_GLES_GetProcAddress;
@@ -251,14 +251,14 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->SetPrimarySelectionText = X11_SetPrimarySelectionText;
     device->GetPrimarySelectionText = X11_GetPrimarySelectionText;
     device->HasPrimarySelectionText = X11_HasPrimarySelectionText;
-    device->StartTextInput = X11_StartTextInput;
-    device->StopTextInput = X11_StopTextInput;
-    device->UpdateTextInputArea = X11_UpdateTextInputArea;
+    device->Start_Text_നിവേശം = X11_Start_Text_നിവേശം;
+    device->Stop_Text_നിവേശം = X11_Stop_Text_നിവേശം;
+    device->Update_Text_നിവേശം_Area = X11_Update_Text_നിവേശം_Area;
     device->HasScreenKeyboardSupport = X11_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = X11_ShowScreenKeyboard;
     device->HideScreenKeyboard = X11_HideScreenKeyboard;
 
-    device->free = X11_DeleteDevice;
+    device->സ്വതന്ത്രം = X11_DeleteDevice;
 
 #ifdef SDL_VIDEO_VULKAN
     device->Vulkan_LoadLibrary = X11_Vulkan_LoadLibrary;
@@ -270,7 +270,7 @@ static SDL_VideoDevice *X11_CreateDevice(void)
 #endif
 
 #ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+    എങ്കിൽ (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
 #endif
 
@@ -278,18 +278,18 @@ static SDL_VideoDevice *X11_CreateDevice(void)
                           VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
     data->is_xwayland = X11_IsXWayland(x11_display);
-    if (data->is_xwayland) {
+    എങ്കിൽ (data->is_xwayland) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "Detected XWayland");
 
         device->device_caps |= VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED |
                                VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
     }
-    if (X11_IsWSL()) {
+    എങ്കിൽ (X11_IsWSL()) {
         // On WSL, direct X11 is faster than using OpenGL for window framebuffers, so try to detect WSL and avoid texture framebuffer.
         device->device_caps &= ~VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
     }
 
-    return device;
+    തിരികെ device;
 }
 
 VideoBootStrap X11_bootstrap = {
@@ -299,28 +299,28 @@ VideoBootStrap X11_bootstrap = {
     false
 };
 
-static int (*handler)(Display *, XErrorEvent *) = NULL;
-static int X11_CheckWindowManagerErrorHandler(Display *d, XErrorEvent *e)
+സ്ഥിതം പൂർണ്ണസംഖ്യ (*handler)(Display *, XErrorEvent *) = ശൂന്യ;
+സ്ഥിതം പൂർണ്ണസംഖ്യ X11_CheckWindowManagerErrorHandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadWindow) {
-        return 0;
-    } else {
-        return handler(d, e);
+    എങ്കിൽ (e->error_code == BadWindow) {
+        തിരികെ 0;
+    } അല്ലെങ്കിൽ {
+        തിരികെ handler(d, e);
     }
 }
 
-static void X11_CheckWindowManager(SDL_VideoDevice *_this)
+സ്ഥിതം ശൂന്യം X11_CheckWindowManager(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     Display *display = data->display;
     Atom _NET_SUPPORTING_WM_CHECK;
-    int status, real_format;
+    പൂർണ്ണസംഖ്യ status, real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
-    unsigned char *propdata = NULL;
+    unsigned long ഇനങ്ങൾ_read = 0, ഇനങ്ങൾ_ഇടത് = 0;
+    unsigned അക്ഷരം *propdata = ശൂന്യ;
     Window wm_window = 0;
 #ifdef DEBUG_WINDOW_MANAGER
-    char *wm_name;
+    അക്ഷരം *wm_name;
 #endif
 
     // Set up a handler to gracefully catch errors
@@ -328,25 +328,25 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     handler = X11_XSetErrorHandler(X11_CheckWindowManagerErrorHandler);
 
     _NET_SUPPORTING_WM_CHECK = X11_XInternAtom(display, "_NET_SUPPORTING_WM_CHECK", False);
-    status = X11_XGetWindowProperty(display, DefaultRootWindow(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
-    if (status == Success) {
-        if (items_read) {
+    status = X11_XGetWindowProperty(display, Default_വേര്_Window(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &ഇനങ്ങൾ_read, &ഇനങ്ങൾ_ഇടത്, &propdata);
+    എങ്കിൽ (status == Success) {
+        എങ്കിൽ (ഇനങ്ങൾ_read) {
             wm_window = ((Window *)propdata)[0];
         }
-        if (propdata) {
+        എങ്കിൽ (propdata) {
             X11_XFree(propdata);
-            propdata = NULL;
+            propdata = ശൂന്യ;
         }
     }
 
-    if (wm_window) {
-        status = X11_XGetWindowProperty(display, wm_window, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status != Success || !items_read || wm_window != ((Window *)propdata)[0]) {
+    എങ്കിൽ (wm_window) {
+        status = X11_XGetWindowProperty(display, wm_window, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &ഇനങ്ങൾ_read, &ഇനങ്ങൾ_ഇടത്, &propdata);
+        എങ്കിൽ (status != Success || !ഇനങ്ങൾ_read || wm_window != ((Window *)propdata)[0]) {
             wm_window = None;
         }
-        if (status == Success && propdata) {
+        എങ്കിൽ (status == Success && propdata) {
             X11_XFree(propdata);
-            propdata = NULL;
+            propdata = ശൂന്യ;
         }
     }
 
@@ -354,11 +354,11 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     X11_XSync(display, False);
     X11_XSetErrorHandler(handler);
 
-    if (!wm_window) {
+    എങ്കിൽ (!wm_window) {
 #ifdef DEBUG_WINDOW_MANAGER
         SDL_Log("Couldn't get _NET_SUPPORTING_WM_CHECK property");
 #endif
-        return;
+        തിരികെ;
     }
     data->net_wm = true;
 
@@ -369,7 +369,7 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
 #endif
 }
 
-static bool X11_VideoInit(SDL_VideoDevice *_this)
+സ്ഥിതം bool X11_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
@@ -433,14 +433,14 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
     // Detect the window manager
     X11_CheckWindowManager(_this);
 
-    if (!X11_InitModes(_this)) {
-        return false;
+    എങ്കിൽ (!X11_InitModes(_this)) {
+        തിരികെ false;
     }
 
-    if (!X11_InitXinput2(_this)) {
+    എങ്കിൽ (!X11_InitXinput2(_this)) {
         // Assume a mouse and keyboard are attached
-        SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-        SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+        SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, ശൂന്യ);
+        SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, ശൂന്യ);
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XFIXES
@@ -461,8 +461,8 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
 #warning X server does not support UTF8_STRING, a feature introduced in 2000! This is likely to become a hard error in a future libSDL3.
 #endif
 
-    if (!X11_InitKeyboard(_this)) {
-        return false;
+    എങ്കിൽ (!X11_InitKeyboard(_this)) {
+        തിരികെ false;
     }
     X11_InitMouse(_this);
 
@@ -474,18 +474,18 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
     X11_XConvertSelection(data->display, data->atoms.CLIPBOARD, data->atoms.TARGETS,
             data->atoms.SDL_FORMATS, GetWindow(_this), CurrentTime);
 
-    return true;
+    തിരികെ true;
 }
 
-void X11_VideoQuit(SDL_VideoDevice *_this)
+ശൂന്യം X11_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
-    if (data->clipboard_window) {
+    എങ്കിൽ (data->clipboard_window) {
         X11_XDestroyWindow(data->display, data->clipboard_window);
     }
 
-    if (data->xsettings_window) {
+    എങ്കിൽ (data->xsettings_window) {
         X11_XDestroyWindow(data->display, data->xsettings_window);
     }
 
@@ -499,12 +499,12 @@ void X11_VideoQuit(SDL_VideoDevice *_this)
     X11_QuitXsettings(_this);
 }
 
-bool X11_UseDirectColorVisuals(void)
+bool X11_UseDirectColorVisuals(ശൂന്യം)
 {
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NODIRECTCOLOR, false)) {
-        return false;
+    എങ്കിൽ (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NODIRECTCOLOR, false)) {
+        തിരികെ false;
     }
-    return true;
+    തിരികെ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

@@ -19,94 +19,94 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_qnx.h"
-#include "../../events/SDL_mouse_c.h"
+#അന്തര്ഭാവ "SDL_internal.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "SDL_qnx.h"
+#അന്തര്ഭാവ "../../events/SDL_mouse_c.h"
 
-#include <errno.h>
+#അന്തര്ഭാവ <errno.h>
 
 
-static int SDLToScreenCursorShape(SDL_SystemCursor id)
+സ്ഥിതം പൂർണ്ണസംഖ്യ SDLToScreenCursorShape(SDL_SystemCursor id)
 {
     // This is reserved by screen, but still not used for anything.
-    int shape = -1;
+    പൂർണ്ണസംഖ്യ shape = -1;
 
-    switch(id)
+    തിരഞ്ഞെടുപ്പ്(id)
     {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-    case SDL_SYSTEM_CURSOR_NO_DROP:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_DEFAULT:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NO_DROP:
         shape = SCREEN_CURSOR_SHAPE_ARROW;
-        break;
-    case SDL_SYSTEM_CURSOR_TEXT:
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_TEXT:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
         shape = SCREEN_CURSOR_SHAPE_IBEAM;
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:
-    case SDL_SYSTEM_CURSOR_PROGRESS:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_WAIT:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_PROGRESS:
         shape = SCREEN_CURSOR_SHAPE_WAIT;
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-    case SDL_SYSTEM_CURSOR_CELL:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_CROSSHAIR:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_CELL:
         shape = SCREEN_CURSOR_SHAPE_CROSS;
-        break;
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-    case SDL_SYSTEM_CURSOR_MOVE:
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NESW_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_EW_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NS_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_MOVE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NW_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_N_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_NE_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_E_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_SE_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_S_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_SW_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_W_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_COL_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_ROW_RESIZE:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_ALL_SCROLL:
         shape = SCREEN_CURSOR_SHAPE_MOVE;
-        break;
-    case SDL_SYSTEM_CURSOR_POINTER:
-    case SDL_SYSTEM_CURSOR_HELP:
-    case SDL_SYSTEM_CURSOR_ALIAS:
-    case SDL_SYSTEM_CURSOR_COPY:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_POINTER:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_HELP:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_ALIAS:
+    അവസ്ഥ SDL_SYSTEM_CURSOR_COPY:
         shape = SCREEN_CURSOR_SHAPE_HAND;
-        break;
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_CONTEXT_MENU:
         shape = SCREEN_CURSOR_SHAPE_MENU;
-        break;
-    case SDL_SYSTEM_CURSOR_GRAB:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_GRAB:
         shape = SCREEN_CURSOR_SHAPE_GRAB;
-        break;
-    case SDL_SYSTEM_CURSOR_GRABBING:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_GRABBING:
         shape = SCREEN_CURSOR_SHAPE_GRABBING;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_ZOOM_IN:
         shape = SCREEN_CURSOR_SHAPE_ZOOM_IN;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
+        നിർത്തുക;
+    അവസ്ഥ SDL_SYSTEM_CURSOR_ZOOM_OUT:
         shape = SCREEN_CURSOR_SHAPE_ZOOM_OUT;
-        break;
-    default:
-        break;
+        നിർത്തുക;
+    സ്ഥിരസ്ഥിതി:
+        നിർത്തുക;
     }
-    return shape;
+    തിരികെ shape;
 }
 
-static SDL_Cursor *genericCreateCursor(int shape)
+സ്ഥിതം SDL_Cursor *genericCreateCursor(പൂർണ്ണസംഖ്യ shape)
 {
     SDL_Cursor          *cursor;
     SDL_CursorData      *impl;
     screen_session_t    session;
     screen_context_t    *context = getContext();
 
-    cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
-        impl = SDL_calloc(1, sizeof(SDL_CursorData));;
-        if (impl == NULL) {
+    cursor = SDL_calloc(1, വലുപ്പം(SDL_Cursor));
+    എങ്കിൽ (cursor) {
+        impl = SDL_calloc(1, വലുപ്പം(SDL_CursorData));;
+        എങ്കിൽ (impl == ശൂന്യ) {
             SDL_free(cursor);
             SDL_OutOfMemory();
         }
@@ -117,96 +117,96 @@ static SDL_Cursor *genericCreateCursor(int shape)
 
         impl->session = session;
         impl->is_visible = true;
-        cursor->internal = (void*)impl;
-    } else {
+        cursor->internal = (ശൂന്യം*)impl;
+    } അല്ലെങ്കിൽ {
         SDL_OutOfMemory();
     }
 
-    return cursor;
+    തിരികെ cursor;
 }
 
-static SDL_Cursor *createCursor(SDL_Surface * surface, int hot_x, int hot_y)
+സ്ഥിതം SDL_Cursor *createCursor(SDL_Surface * surface, പൂർണ്ണസംഖ്യ hot_x, പൂർണ്ണസംഖ്യ hot_y)
 {
-    return genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
+    തിരികെ genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
 }
 
-static SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
+സ്ഥിതം SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
 {
-    int shape = SDLToScreenCursorShape(id);
-    if (shape < 0) {
+    പൂർണ്ണസംഖ്യ shape = SDLToScreenCursorShape(id);
+    എങ്കിൽ (shape < 0) {
         SDL_assert(0);
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
-    return genericCreateCursor(shape);
+    തിരികെ genericCreateCursor(shape);
 }
 
-static bool showCursor(SDL_Cursor * cursor)
+സ്ഥിതം bool showCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData      *impl;
     screen_session_t    session;
-    int shape;
+    പൂർണ്ണസംഖ്യ shape;
 
     // SDL does not provide information about previous visibility to its
     // drivers. We need to track that ourselves.
-    if (cursor) {
+    എങ്കിൽ (cursor) {
         impl = (SDL_CursorData*)cursor->internal;
-        SDL_assert(impl != NULL);
-        if (impl->is_visible) {
-            return true;
+        SDL_assert(impl != ശൂന്യ);
+        എങ്കിൽ (impl->is_visible) {
+            തിരികെ true;
         }
         session = impl->session;
         shape = impl->realized_shape;
         impl->is_visible = true;
-    } else {
+    } അല്ലെങ്കിൽ {
         cursor = SDL_GetCursor();
-        if (cursor == NULL) {
-            return false;
+        എങ്കിൽ (cursor == ശൂന്യ) {
+            തിരികെ false;
         }
         impl = (SDL_CursorData*)cursor->internal;
-        SDL_assert(impl != NULL);
-        if (!impl->is_visible) {
-            return 0;
+        SDL_assert(impl != ശൂന്യ);
+        എങ്കിൽ (!impl->is_visible) {
+            തിരികെ 0;
         }
         session = impl->session;
         shape = SCREEN_CURSOR_SHAPE_NONE;
         impl->is_visible = false;
     }
 
-    if (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
-        return false;
+    എങ്കിൽ (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
+        തിരികെ false;
     }
 
-    return true;
+    തിരികെ true;
 }
 
-static void freeCursor(SDL_Cursor * cursor)
+സ്ഥിതം ശൂന്യം freeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *impl = (SDL_CursorData*)cursor->internal;
-    if (impl != NULL) {
+    എങ്കിൽ (impl != ശൂന്യ) {
         screen_destroy_session(impl->session);
         SDL_free(impl);
     }
     SDL_free(cursor);
 }
 
-static bool setRelativeMouseMode(bool enabled)
+സ്ഥിതം bool setRelativeMouseMode(bool enabled)
 {
     // We're tracking rel-position explicitly, but this is still needed so
     // SDL_SetRelativeMouseMode() & friends aren't a no-op.
     //
     // TODO: It may be possible to achieve this using SCREEN_PROPERTY_DISPLACEMENT instead.
-    return true;
+    തിരികെ true;
 }
 
-void initMouse(SDL_VideoDevice *_this)
+ശൂന്യം initMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse       *mouse = SDL_GetMouse();
     SDL_MouseData   *mouse_data;
 
-    mouse_data = (SDL_MouseData *)SDL_calloc(1, sizeof(SDL_MouseData));
-    if (mouse_data == NULL) {
-        return;
+    mouse_data = (SDL_MouseData *)SDL_calloc(1, വലുപ്പം(SDL_MouseData));
+    എങ്കിൽ (mouse_data == ശൂന്യ) {
+        തിരികെ;
     }
     SDL_zerop(mouse_data);
     mouse->internal = mouse_data;
@@ -218,5 +218,5 @@ void initMouse(SDL_VideoDevice *_this)
 
     mouse->SetRelativeMouseMode = setRelativeMouseMode;
 
-    SDL_SetDefaultCursor(createCursor(NULL, 0, 0));
+    SDL_SetDefaultCursor(createCursor(ശൂന്യ, 0, 0));
 }

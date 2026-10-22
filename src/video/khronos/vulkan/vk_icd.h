@@ -6,8 +6,8 @@
  */
 #pragma once
 
-#include "vulkan.h"
-#include <stdbool.h>
+#അന്തര്ഭാവ "vulkan.h"
+#അന്തര്ഭാവ <stdbool.h>
 
 // Loader-ICD version negotiation API.  Versions add the following features:
 //   Version 0 - Initial.  Doesn't support vk_icdGetInstanceProcAddr
@@ -40,34 +40,34 @@
 #define MIN_PHYS_DEV_EXTENSION_ICD_INTERFACE_VERSION 4
 
 // Old typedefs that don't follow a proper naming convention but are preserved for compatibility
-typedef VkResult(VKAPI_PTR *PFN_vkNegotiateLoaderICDInterfaceVersion)(uint32_t *pVersion);
+തരനിർവചനം VkResult(VKAPI_PTR *PFN_vkNegotiateLoaderICDInterfaceVersion)(uint32_t *pVersion);
 // This is defined in vk_layer.h which will be found by the loader, but if an ICD is building against this
 // file directly, it won't be found.
 #ifndef IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-typedef PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, const char *pName);
+തരനിർവചനം PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, സ്ഥിരം അക്ഷരം *pName);
 #define IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
 #endif
 
 // Typedefs for loader/ICD interface
-typedef VkResult (VKAPI_PTR *PFN_vk_icdNegotiateLoaderICDInterfaceVersion)(uint32_t* pVersion);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, const char* pName);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-typedef VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
-    uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vk_icdNegotiateLoaderICDInterfaceVersion)(uint32_t* pVersion);
+തരനിർവചനം PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, സ്ഥിരം അക്ഷരം* pName);
+തരനിർവചനം PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, സ്ഥിരം അക്ഷരം* pName);
+#എങ്കിൽ defined(VK_USE_PLATFORM_WIN32_KHR)
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
+    uint32_t* p_Physical_Device_എണ്ണം, VkPhysicalDevice* pPhysicalDevices);
 #endif
 
 // Prototypes for loader/ICD interface
-#if !defined(VK_NO_PROTOTYPES)
+#എങ്കിൽ !defined(VK_NO_PROTOTYPES)
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
     VKAPI_ATTR VkResult VKAPI_CALL vk_icdNegotiateLoaderICDInterfaceVersion(uint32_t* pVersion);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, const char* pName);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, സ്ഥിരം അക്ഷരം* pName);
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, സ്ഥിരം അക്ഷരം* pName);
+#എങ്കിൽ defined(VK_USE_PLATFORM_WIN32_KHR)
     VKAPI_ATTR VkResult VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
-        uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
+        uint32_t* p_Physical_Device_എണ്ണം, VkPhysicalDevice* pPhysicalDevices);
 #endif
 #ifdef __cplusplus
 }
@@ -82,26 +82,26 @@ extern "C" {
 
 #define ICD_LOADER_MAGIC 0x01CDC0DE
 
-typedef union {
+തരനിർവചനം സംഘം {
     uintptr_t loaderMagic;
-    void *loaderData;
+    ശൂന്യം *loaderData;
 } VK_LOADER_DATA;
 
-static inline void set_loader_magic_value(void *pNewObject) {
+സ്ഥിതം വരിയിൽ ശൂന്യം set_loader_magic_മൂല്യം(ശൂന്യം *pNewObject) {
     VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
     loader_info->loaderMagic = ICD_LOADER_MAGIC;
 }
 
-static inline bool valid_loader_magic_value(void *pNewObject) {
-    const VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
-    return (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
+സ്ഥിതം വരിയിൽ bool valid_loader_magic_മൂല്യം(ശൂന്യം *pNewObject) {
+    സ്ഥിരം VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
+    തിരികെ (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
 }
 
 /*
  * Windows and Linux ICDs will treat VkSurfaceKHR as a pointer to a struct that
  * contains the platform-specific connection and surface information.
  */
-typedef enum {
+തരനിർവചനം എണ്ണൽ {
     VK_ICD_WSI_PLATFORM_MIR,
     VK_ICD_WSI_PLATFORM_WAYLAND,
     VK_ICD_WSI_PLATFORM_WIN32,
@@ -120,12 +120,12 @@ typedef enum {
     VK_ICD_WSI_PLATFORM_FUCHSIA,
 } VkIcdWsiPlatform;
 
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdWsiPlatform platform;
 } VkIcdSurfaceBase;
 
 #ifdef VK_USE_PLATFORM_MIR_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     MirConnection *connection;
     MirSurface *mirSurface;
@@ -133,15 +133,15 @@ typedef struct {
 #endif  // VK_USE_PLATFORM_MIR_KHR
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    struct wl_display *display;
-    struct wl_surface *surface;
+    ഘടന wl_display *display;
+    ഘടന wl_surface *surface;
 } VkIcdSurfaceWayland;
 #endif  // VK_USE_PLATFORM_WAYLAND_KHR
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     HINSTANCE hinstance;
     HWND hwnd;
@@ -149,7 +149,7 @@ typedef struct {
 #endif  // VK_USE_PLATFORM_WIN32_KHR
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     xcb_connection_t *connection;
     xcb_window_t window;
@@ -157,7 +157,7 @@ typedef struct {
 #endif  // VK_USE_PLATFORM_XCB_KHR
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     Display *dpy;
     Window window;
@@ -165,7 +165,7 @@ typedef struct {
 #endif  // VK_USE_PLATFORM_XLIB_KHR
 
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     IDirectFB *dfb;
     IDirectFBSurface *surface;
@@ -173,72 +173,72 @@ typedef struct {
 #endif  // VK_USE_PLATFORM_DIRECTFB_EXT
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    struct ANativeWindow *window;
+    ഘടന ANativeWindow *window;
 } VkIcdSurfaceAndroid;
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    const void *pView;
+    സ്ഥിരം ശൂന്യം *pView;
 } VkIcdSurfaceMacOS;
 #endif  // VK_USE_PLATFORM_MACOS_MVK
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    const void *pView;
+    സ്ഥിരം ശൂന്യം *pView;
 } VkIcdSurfaceIOS;
 #endif  // VK_USE_PLATFORM_IOS_MVK
 
 #ifdef VK_USE_PLATFORM_GGP
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     GgpStreamDescriptor streamDescriptor;
 } VkIcdSurfaceGgp;
 #endif  // VK_USE_PLATFORM_GGP
 
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
     VkDisplayModeKHR displayMode;
     uint32_t planeIndex;
-    uint32_t planeStackIndex;
+    uint32_t plane_അട്ടി_Index;
     VkSurfaceTransformFlagBitsKHR transform;
-    float globalAlpha;
+    ദശാംശം globalAlpha;
     VkDisplayPlaneAlphaFlagBitsKHR alphaMode;
     VkExtent2D imageExtent;
 } VkIcdSurfaceDisplay;
 
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
 } VkIcdSurfaceHeadless;
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    const CAMetalLayer *pLayer;
+    സ്ഥിരം CAMetalLayer *pLayer;
 } VkIcdSurfaceMetal;
 #endif // VK_USE_PLATFORM_METAL_EXT
 
 #ifdef VK_USE_PLATFORM_VI_NN
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    void *window;
+    ശൂന്യം *window;
 } VkIcdSurfaceVi;
 #endif // VK_USE_PLATFORM_VI_NN
 
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-typedef struct {
+തരനിർവചനം ഘടന {
     VkIcdSurfaceBase base;
-    struct _screen_context *context;
-    struct _screen_window *window;
+    ഘടന _screen_context *context;
+    ഘടന _screen_window *window;
 } VkIcdSurfaceScreen;
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
-typedef struct {
+തരനിർവചനം ഘടന {
   VkIcdSurfaceBase base;
 } VkIcdSurfaceImagePipe;
 #endif // VK_USE_PLATFORM_FUCHSIA

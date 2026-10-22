@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -22,27 +22,27 @@ extern "C" {
 // VK_OHOS_external_memory is a preprocessor guard. Do not pass it to API calls.
 #define VK_OHOS_external_memory 1
 
-struct OH_NativeBuffer;
+ഘടന OH_NativeBuffer;
 
 #define VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
 #define VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
 
-typedef struct VkNativeBufferUsageOHOS {
+തരനിർവചനം ഘടന VkNativeBufferUsageOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    ശൂന്യം*              pNext;
     uint64_t           OHOSNativeBufferUsage;
 } VkNativeBufferUsageOHOS;
 
-typedef struct VkNativeBufferPropertiesOHOS {
+തരനിർവചനം ഘടന VkNativeBufferPropertiesOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    ശൂന്യം*              pNext;
     VkDeviceSize       allocationSize;
     uint32_t           memoryTypeBits;
 } VkNativeBufferPropertiesOHOS;
 
-typedef struct VkNativeBufferFormatPropertiesOHOS {
+തരനിർവചനം ഘടന VkNativeBufferFormatPropertiesOHOS {
     VkStructureType                  sType;
-    void*                            pNext;
+    ശൂന്യം*                            pNext;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
@@ -53,41 +53,41 @@ typedef struct VkNativeBufferFormatPropertiesOHOS {
     VkChromaLocation                 suggestedYChromaOffset;
 } VkNativeBufferFormatPropertiesOHOS;
 
-typedef struct VkImportNativeBufferInfoOHOS {
+തരനിർവചനം ഘടന VkImportNativeBufferInfoOHOS {
     VkStructureType            sType;
-    const void*                pNext;
-    struct OH_NativeBuffer*    buffer;
+    സ്ഥിരം ശൂന്യം*                pNext;
+    ഘടന OH_NativeBuffer*    buffer;
 } VkImportNativeBufferInfoOHOS;
 
-typedef struct VkMemoryGetNativeBufferInfoOHOS {
+തരനിർവചനം ഘടന VkMemoryGetNativeBufferInfoOHOS {
     VkStructureType    sType;
-    const void*        pNext;
+    സ്ഥിരം ശൂന്യം*        pNext;
     VkDeviceMemory     memory;
 } VkMemoryGetNativeBufferInfoOHOS;
 
-typedef struct VkExternalFormatOHOS {
+തരനിർവചനം ഘടന VkExternalFormatOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    ശൂന്യം*              pNext;
     uint64_t           externalFormat;
 } VkExternalFormatOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, സ്ഥിരം ഘടന OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, സ്ഥിരം VkMemoryGetNativeBufferInfoOHOS* pInfo, ഘടന OH_NativeBuffer** pBuffer);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetNativeBufferPropertiesOHOS(
     VkDevice                                    device,
-    const struct OH_NativeBuffer*               buffer,
+    സ്ഥിരം ഘടന OH_NativeBuffer*               buffer,
     VkNativeBufferPropertiesOHOS*               pProperties);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
     VkDevice                                    device,
-    const VkMemoryGetNativeBufferInfoOHOS*      pInfo,
-    struct OH_NativeBuffer**                    pBuffer);
+    സ്ഥിരം VkMemoryGetNativeBufferInfoOHOS*      pInfo,
+    ഘടന OH_NativeBuffer**                    pBuffer);
 #endif
 #endif
 
@@ -95,30 +95,30 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
 // VK_OHOS_surface is a preprocessor guard. Do not pass it to API calls.
 #define VK_OHOS_surface 1
 
-typedef struct NativeWindow OHNativeWindow;
+തരനിർവചനം ഘടന NativeWindow OHNativeWindow;
 
 #define VK_OHOS_SURFACE_SPEC_VERSION      1
 #define VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
 
-typedef VkFlags VkSurfaceCreateFlagsOHOS;
+തരനിർവചനം VkFlags VkSurfaceCreateFlagsOHOS;
 
-typedef struct VkSurfaceCreateInfoOHOS {
+തരനിർവചനം ഘടന VkSurfaceCreateInfoOHOS {
     VkStructureType             sType;
-    const void*                 pNext;
+    സ്ഥിരം ശൂന്യം*                 pNext;
     VkSurfaceCreateFlagsOHOS    flags;
     OHNativeWindow*             window;
 } VkSurfaceCreateInfoOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, സ്ഥിരം VkSurfaceCreateInfoOHOS* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateSurfaceOHOS(
     VkInstance                                  instance,
-    const VkSurfaceCreateInfoOHOS*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkSurfaceCreateInfoOHOS*              pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

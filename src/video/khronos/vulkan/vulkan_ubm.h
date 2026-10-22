@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
@@ -25,34 +25,34 @@ extern "C" {
 #define VK_SEC_UBM_SURFACE_SPEC_VERSION   1
 #define VK_SEC_UBM_SURFACE_EXTENSION_NAME "VK_SEC_ubm_surface"
 
-typedef VkFlags VkUbmSurfaceCreateFlagsSEC;
+തരനിർവചനം VkFlags VkUbmSurfaceCreateFlagsSEC;
 
-typedef struct VkUbmSurfaceCreateInfoSEC {
+തരനിർവചനം ഘടന VkUbmSurfaceCreateInfoSEC {
     VkStructureType               sType;
-    const void*                   pNext;
+    സ്ഥിരം ശൂന്യം*                   pNext;
     VkUbmSurfaceCreateFlagsSEC    flags;
-    struct ubm_device*            device;
-    struct ubm_surface*           surface;
+    ഘടന ubm_device*            device;
+    ഘടന ubm_surface*           surface;
 } VkUbmSurfaceCreateInfoSEC;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device);
+തരനിർവചനം VkResult (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, സ്ഥിരം VkUbmSurfaceCreateInfoSEC* pCreateInfo, സ്ഥിരം VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+തരനിർവചനം VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, ഘടന ubm_device* device);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateUbmSurfaceSEC(
     VkInstance                                  instance,
-    const VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    സ്ഥിരം VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
+    സ്ഥിരം VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceUbmPresentationSupportSEC(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
-    struct ubm_device*                          device);
+    ഘടന ubm_device*                          device);
 #endif
 #endif
 

@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
 // src/core/openharmony/SDL_openharmony.c calls these when it gets events from the system.
-extern void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchMouseEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchKeyEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchUIInputEvent(void *component, void *event, int32_t type);
+ബാഹ്യ ശൂന്യം SDL_OpenHarmonyDispatchTouchEvent(ശൂന്യം *component, ശൂന്യം *window);
+ബാഹ്യ ശൂന്യം SDL_OpenHarmonyDispatchMouseEvent(ശൂന്യം *component, ശൂന്യം *window);
+ബാഹ്യ ശൂന്യം SDL_Open_Harmony_Dispatch_താക്കോൽ_Event(ശൂന്യം *component, ശൂന്യം *window);
+ബാഹ്യ ശൂന്യം SDL_OpenHarmonyDispatchUIInputEvent(ശൂന്യം *component, ശൂന്യം *event, int32_t type);
 
-extern void OPENHARMONY_InitEvents(void);
-extern void OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitEvents(void);
+ബാഹ്യ ശൂന്യം OPENHARMONY_InitEvents(ശൂന്യം);
+ബാഹ്യ ശൂന്യം OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം OPENHARMONY_QuitEvents(ശൂന്യം);

@@ -22,22 +22,22 @@
 #ifndef __SDL_QNX_H__
 #define __SDL_QNX_H__
 
-#include "../SDL_sysvideo.h"
-#include <screen/screen.h>
-#include <EGL/egl.h>
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ <screen/screen.h>
+#അന്തര്ഭാവ <EGL/egl.h>
 
-typedef struct SDL_DisplayData
+തരനിർവചനം ഘടന SDL_DisplayData
 {
     screen_display_t screen_display;
 } SDL_DisplayData;
 
-typedef struct SDL_DisplayModeData
+തരനിർവചനം ഘടന SDL_DisplayModeData
 {
-    int                   screen_format;
+    പൂർണ്ണസംഖ്യ                   screen_format;
     screen_display_mode_t screen_display_mode;
 } SDL_DisplayModeData;
 
-typedef struct SDL_WindowData
+തരനിർവചനം ഘടന SDL_WindowData
 {
     screen_window_t window;
     EGLSurface      egl_surface;
@@ -46,44 +46,44 @@ typedef struct SDL_WindowData
     bool            has_focus;
 } SDL_WindowData;
 
-typedef struct SDL_CursorData
+തരനിർവചനം ഘടന SDL_CursorData
 {
     screen_session_t session;
-    int              realized_shape;
+    പൂർണ്ണസംഖ്യ              realized_shape;
     bool             is_visible;
 } SDL_CursorData;
 
-typedef struct SDL_MouseData
+തരനിർവചനം ഘടന SDL_MouseData
 {
-    int      x_prev;
-    int      y_prev;
+    പൂർണ്ണസംഖ്യ      x_prev;
+    പൂർണ്ണസംഖ്യ      y_prev;
 } SDL_MouseData;
 
-extern screen_context_t * getContext();
-extern screen_event_t * getEvent();
+ബാഹ്യ screen_context_t * getContext();
+ബാഹ്യ screen_event_t * getEvent();
 
-extern void handleKeyboardEvent(screen_event_t event);
-extern void handlePointerEvent(screen_event_t event);
+ബാഹ്യ ശൂന്യം handleKeyboardEvent(screen_event_t event);
+ബാഹ്യ ശൂന്യം handlePointerEvent(screen_event_t event);
 
 // extern bool glInitConfig(SDL_WindowData *impl, int *pformat);
-extern bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path);
-extern SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool QNX_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context);
-extern bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+ബാഹ്യ bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *egl_path);
+ബാഹ്യ SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *proc);
+ബാഹ്യ SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ interval);
+ബാഹ്യ bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ *interval);
+ബാഹ്യ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool QNX_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context);
+ബാഹ്യ bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ബാഹ്യ ശൂന്യം QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 
-extern SDL_PixelFormat screenToPixelFormat(int screen_format);
-extern bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+ബാഹ്യ SDL_PixelFormat screenToPixelFormat(പൂർണ്ണസംഖ്യ screen_format);
+ബാഹ്യ bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ബാഹ്യ bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ബാഹ്യ bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
 
-extern void initMouse(SDL_VideoDevice *_this);
-extern void quitMouse(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം initMouse(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം quitMouse(SDL_VideoDevice *_this);
 
-extern int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf);
+ബാഹ്യ പൂർണ്ണസംഖ്യ QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf);
 
 #endif

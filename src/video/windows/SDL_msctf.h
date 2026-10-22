@@ -22,7 +22,7 @@
 #ifndef SDL_msctf_h_
 #define SDL_msctf_h_
 
-#include <unknwn.h>
+#അന്തര്ഭാവ <unknwn.h>
 
 #define TF_INVALID_COOKIE            (0xffffffff)
 #define TF_IPSINK_FLAG_ACTIVE        0x0001
@@ -30,32 +30,32 @@
 
 /* *INDENT-OFF* */ // clang-format off
 
-typedef struct ITfThreadMgr ITfThreadMgr;
-typedef struct ITfDocumentMgr ITfDocumentMgr;
-typedef struct ITfClientId ITfClientId;
+തരനിർവചനം ഘടന ITfThreadMgr ITfThreadMgr;
+തരനിർവചനം ഘടന ITfDocumentMgr ITfDocumentMgr;
+തരനിർവചനം ഘടന ITfClientId ITfClientId;
 
-typedef struct IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
-typedef struct IEnumTfFunctionProviders IEnumTfFunctionProviders;
-typedef struct ITfFunctionProvider ITfFunctionProvider;
-typedef struct ITfCompartmentMgr ITfCompartmentMgr;
-typedef struct ITfContext ITfContext;
-typedef struct IEnumTfContexts IEnumTfContexts;
-typedef struct ITfUIElementSink ITfUIElementSink;
-typedef struct ITfUIElement ITfUIElement;
-typedef struct ITfUIElementMgr ITfUIElementMgr;
-typedef struct IEnumTfUIElements IEnumTfUIElements;
-typedef struct ITfThreadMgrEx ITfThreadMgrEx;
-typedef struct ITfCandidateListUIElement ITfCandidateListUIElement;
-typedef struct ITfReadingInformationUIElement ITfReadingInformationUIElement;
-typedef struct ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
-typedef struct ITfSource ITfSource;
+തരനിർവചനം ഘടന IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
+തരനിർവചനം ഘടന IEnumTfFunctionProviders IEnumTfFunctionProviders;
+തരനിർവചനം ഘടന ITfFunctionProvider ITfFunctionProvider;
+തരനിർവചനം ഘടന ITfCompartmentMgr ITfCompartmentMgr;
+തരനിർവചനം ഘടന ITfContext ITfContext;
+തരനിർവചനം ഘടന IEnumTfContexts IEnumTfContexts;
+തരനിർവചനം ഘടന ITfUIElementSink ITfUIElementSink;
+തരനിർവചനം ഘടന ITfUIElement ITfUIElement;
+തരനിർവചനം ഘടന ITfUIElementMgr ITfUIElementMgr;
+തരനിർവചനം ഘടന IEnumTfUIElements IEnumTfUIElements;
+തരനിർവചനം ഘടന ITfThreadMgrEx ITfThreadMgrEx;
+തരനിർവചനം ഘടന ITfCandidateListUIElement ITfCandidateListUIElement;
+തരനിർവചനം ഘടന ITfReadingInformationUIElement ITfReadingInformationUIElement;
+തരനിർവചനം ഘടന ITf_നിവേശം_Processor_Profile_Activation_Sink ITf_നിവേശം_Processor_Profile_Activation_Sink;
+തരനിർവചനം ഘടന ITfSource ITfSource;
 
-typedef DWORD TfClientId;
-typedef DWORD TfEditCookie;
+തരനിർവചനം DWORD TfClientId;
+തരനിർവചനം DWORD TfEditCookie;
 
-typedef struct ITfThreadMgrVtbl
+തരനിർവചനം ഘടന ITfThreadMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgr *, TfClientId *);
@@ -71,14 +71,14 @@ typedef struct ITfThreadMgrVtbl
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgr *, ITfCompartmentMgr **);
 } ITfThreadMgrVtbl;
 
-struct ITfThreadMgr
+ഘടന ITfThreadMgr
 {
-    const struct ITfThreadMgrVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfThreadMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfThreadMgrExVtbl
+തരനിർവചനം ഘടന ITfThreadMgrExVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgrEx *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgrEx *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgrEx *, TfClientId *);
@@ -96,32 +96,32 @@ typedef struct ITfThreadMgrExVtbl
     HRESULT (STDMETHODCALLTYPE *GetActiveFlags)(ITfThreadMgrEx *, DWORD *);
 } ITfThreadMgrExVtbl;
 
-struct ITfThreadMgrEx
+ഘടന ITfThreadMgrEx
 {
-    const struct ITfThreadMgrExVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfThreadMgrExVtbl *lpVtbl;
 };
 
-typedef struct ITfDocumentMgrVtbl
+തരനിർവചനം ഘടന ITfDocumentMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfDocumentMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *CreateContext)(ITfDocumentMgr *, TfClientId, DWORD, IUnknown *, ITfContext **, TfEditCookie *);
-    HRESULT (STDMETHODCALLTYPE *Push)(ITfDocumentMgr *, ITfContext *);
-    HRESULT (STDMETHODCALLTYPE *Pop)(ITfDocumentMgr *);
-    HRESULT (STDMETHODCALLTYPE *GetTop)(ITfDocumentMgr *, ITfContext **);
+    HRESULT (STDMETHODCALLTYPE *തള്ളുക_2)(ITfDocumentMgr *, ITfContext *);
+    HRESULT (STDMETHODCALLTYPE *എടുക്കുക_2)(ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *Get_മുകൾ)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *GetBase)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *EnumContexts)(ITfDocumentMgr *, IEnumTfContexts **);
 } ITfDocumentMgrVtbl;
 
-struct ITfDocumentMgr
+ഘടന ITfDocumentMgr
 {
-    const struct ITfDocumentMgrVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfDocumentMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementSinkVtbl
+തരനിർവചനം ഘടന ITfUIElementSinkVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementSink *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementSink *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementSink *, DWORD, BOOL *);
@@ -129,14 +129,14 @@ typedef struct ITfUIElementSinkVtbl
     HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementSink *, DWORD);
 } ITfUIElementSinkVtbl;
 
-struct ITfUIElementSink
+ഘടന ITfUIElementSink
 {
-    const struct ITfUIElementSinkVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfUIElementSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementMgrVtbl
+തരനിർവചനം ഘടന ITfUIElementMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementMgr *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementMgr *, ITfUIElement *, BOOL *, DWORD *);
@@ -146,14 +146,14 @@ typedef struct ITfUIElementMgrVtbl
     HRESULT (STDMETHODCALLTYPE *EnumUIElements)(ITfUIElementMgr *, IEnumTfUIElements **);
 } ITfUIElementMgrVtbl;
 
-struct ITfUIElementMgr
+ഘടന ITfUIElementMgr
 {
-    const struct ITfUIElementMgrVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfUIElementMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfCandidateListUIElementVtbl
+തരനിർവചനം ഘടന ITfCandidateListUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfCandidateListUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfCandidateListUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfCandidateListUIElement *, BSTR *);
@@ -162,7 +162,7 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfCandidateListUIElement *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetUpdatedFlags)(ITfCandidateListUIElement *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *GetDocumentMgr)(ITfCandidateListUIElement *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *GetCount)(ITfCandidateListUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_എണ്ണം)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetSelection)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetString)(ITfCandidateListUIElement *, UINT, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetPageIndex)(ITfCandidateListUIElement *, UINT *, UINT, UINT *);
@@ -170,14 +170,14 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *GetCurrentPage)(ITfCandidateListUIElement *, UINT *);
 } ITfCandidateListUIElementVtbl;
 
-struct ITfCandidateListUIElement
+ഘടന ITfCandidateListUIElement
 {
-    const struct ITfCandidateListUIElementVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfCandidateListUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfReadingInformationUIElementVtbl
+തരനിർവചനം ഘടന ITfReadingInformationUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfReadingInformationUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfReadingInformationUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfReadingInformationUIElement *, BSTR *);
@@ -192,14 +192,14 @@ typedef struct ITfReadingInformationUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsVerticalOrderPreferred)(ITfReadingInformationUIElement *, BOOL *);
 } ITfReadingInformationUIElementVtbl;
 
-struct ITfReadingInformationUIElement
+ഘടന ITfReadingInformationUIElement
 {
-    const struct ITfReadingInformationUIElementVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfReadingInformationUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementVtbl
+തരനിർവചനം ഘടന ITfUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfUIElement *, BSTR *);
@@ -208,37 +208,37 @@ typedef struct ITfUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfUIElement *, BOOL *);
 } ITfUIElementVtbl;
 
-struct ITfUIElement
+ഘടന ITfUIElement
 {
-    const struct ITfUIElementVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfInputProcessorProfileActivationSinkVtbl
+തരനിർവചനം ഘടന ITf_നിവേശം_Processor_Profile_Activation_Sink_Vtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfInputProcessorProfileActivationSink *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfInputProcessorProfileActivationSink *);
-    ULONG (STDMETHODCALLTYPE *Release)(ITfInputProcessorProfileActivationSink *);
-    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITfInputProcessorProfileActivationSink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITf_നിവേശം_Processor_Profile_Activation_Sink *, REFIID, ശൂന്യം **);
+    ULONG (STDMETHODCALLTYPE *AddRef)(ITf_നിവേശം_Processor_Profile_Activation_Sink *);
+    ULONG (STDMETHODCALLTYPE *Release)(ITf_നിവേശം_Processor_Profile_Activation_Sink *);
+    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITf_നിവേശം_Processor_Profile_Activation_Sink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
 
-} ITfInputProcessorProfileActivationSinkVtbl;
+} ITf_നിവേശം_Processor_Profile_Activation_Sink_Vtbl;
 
-struct ITfInputProcessorProfileActivationSink
+ഘടന ITf_നിവേശം_Processor_Profile_Activation_Sink
 {
-    const struct ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITf_നിവേശം_Processor_Profile_Activation_Sink_Vtbl *lpVtbl;
 };
 
-typedef struct ITfSourceVtbl
+തരനിർവചനം ഘടന ITfSourceVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, ശൂന്യം **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfSource *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfSource *);
     HRESULT (STDMETHODCALLTYPE *AdviseSink)(ITfSource *, REFIID, IUnknown *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITfSource *, DWORD);
 } ITfSourceVtbl;
 
-struct ITfSource
+ഘടന ITfSource
 {
-    const struct ITfSourceVtbl *lpVtbl;
+    സ്ഥിരം ഘടന ITfSourceVtbl *lpVtbl;
 };
 
 /* *INDENT-ON* */ // clang-format on

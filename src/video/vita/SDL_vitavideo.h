@@ -22,24 +22,24 @@
 #ifndef SDL_vitavideo_h
 #define SDL_vitavideo_h
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#അന്തര്ഭാവ "SDL_internal.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_egl_c.h"
 
-#include <psp2/types.h>
-#include <psp2/display.h>
-#include <psp2/ime_dialog.h>
-#include <psp2/sysmodule.h>
+#അന്തര്ഭാവ <psp2/types.h>
+#അന്തര്ഭാവ <psp2/display.h>
+#അന്തര്ഭാവ <psp2/ime_dialog.h>
+#അന്തര്ഭാവ <psp2/sysmodule.h>
 
 #ifdef SDL_VIDEO_VITA_PIB
-#include <psp2/gxm.h>
-#include <psp2/display.h>
-#include <pib.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-typedef struct SDL_GLDriverData
+#അന്തര്ഭാവ <psp2/gxm.h>
+#അന്തര്ഭാവ <psp2/display.h>
+#അന്തര്ഭാവ <pib.h>
+#അന്തര്ഭാവ <EGL/egl.h>
+#അന്തര്ഭാവ <EGL/eglext.h>
+#അന്തര്ഭാവ <GLES2/gl2.h>
+#അന്തര്ഭാവ <GLES2/gl2ext.h>
+തരനിർവചനം ഘടന SDL_GLDriverData
 {
     EGLDisplay display;
     EGLContext context;
@@ -48,7 +48,7 @@ typedef struct SDL_GLDriverData
 } SDL_GLDriverData;
 #endif
 
-struct SDL_VideoData
+ഘടന SDL_VideoData
 {
     bool egl_initialized; // OpenGL device initialization status
     uint32_t egl_refcount;    // OpenGL reference count
@@ -57,64 +57,64 @@ struct SDL_VideoData
     bool ime_active;
 };
 
-struct SDL_WindowData
+ഘടന SDL_WindowData
 {
     bool uses_gles;
     SceUID buffer_uid;
-    void *buffer;
+    ശൂന്യം *buffer;
 #ifdef SDL_VIDEO_VITA_PVR
     EGLSurface egl_surface;
     EGLContext egl_context;
 #endif
 };
 
-extern SDL_Window *Vita_Window;
+ബാഹ്യ SDL_Window *Vita_Window;
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool VITA_VideoInit(SDL_VideoDevice *_this);
-extern void VITA_VideoQuit(SDL_VideoDevice *_this);
-extern bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_VideoInit(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം VITA_VideoQuit(SDL_VideoDevice *_this);
+ബാഹ്യ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ബാഹ്യ ശൂന്യം VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+ബാഹ്യ ശൂന്യം VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 #ifdef SDL_VIDEO_VITA_PVR_OGL
 // OpenGL functions
-extern bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+ബാഹ്യ bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *path);
+ബാഹ്യ SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *proc);
 #endif
 
 // OpenGLES functions
-extern bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ബാഹ്യ bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *path);
+ബാഹ്യ SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *proc);
+ബാഹ്യ ശൂന്യം VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+ബാഹ്യ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+ബാഹ്യ bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ interval);
+ബാഹ്യ bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, പൂർണ്ണസംഖ്യ *interval);
+ബാഹ്യ bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 #endif
 
 // VITA on screen keyboard
-extern bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ബാഹ്യ ശൂന്യം VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern void VITA_PumpEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം VITA_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_vitavideo_h

@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE
 
-#include "SDL_vivanteplatform.h"
+#അന്തര്ഭാവ "SDL_vivanteplatform.h"
 
 #ifdef VIVANTE_PLATFORM_GENERIC
 
 bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this)
 {
-    return true;
+    തിരികെ true;
 }
 
-char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this)
+അക്ഷരം *VIVANTE_GetDisplayName(SDL_VideoDevice *_this)
 {
-    return NULL;
+    തിരികെ ശൂന്യ;
 }
 
-void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this)
+ശൂന്യം VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this)
 {
 }
 
-void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this)
+ശൂന്യം VIVANTE_CleanupPlatform(SDL_VideoDevice *_this)
 {
 }
 

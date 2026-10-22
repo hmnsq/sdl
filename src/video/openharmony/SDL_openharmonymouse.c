@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "SDL_openharmonymouse.h"
+#അന്തര്ഭാവ "SDL_openharmonymouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#അന്തര്ഭാവ "../../events/SDL_mouse_c.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#അന്തര്ഭാവ "../../core/openharmony/SDL_openharmony.h"
 
-static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
+സ്ഥിതം bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+തിരികെ false;
+#എങ്കിൽ 0
+    എങ്കിൽ (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    എങ്കിൽ (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        എങ്കിൽ (data->custom_cursor) {
+            എങ്കിൽ (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                തിരികെ SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } അല്ലെങ്കിൽ {
+            എങ്കിൽ (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                തിരികെ SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        തിരികെ true;
+    } അല്ലെങ്കിൽ {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        തിരികെ false;
     }
 #endif
 }
 
-void OPENHARMONY_InitMouse(void)
+ശൂന്യം OPENHARMONY_InitMouse(ശൂന്യം)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 //!!! FIXME:    mouse->CreateCursor = OPENHARMONY_CreateCursor;
@@ -67,7 +67,7 @@ void OPENHARMONY_InitMouse(void)
 //!!! FIXME:    SDL_SetDefaultCursor(OPENHARMONY_CreateDefaultCursor());
 }
 
-void OPENHARMONY_QuitMouse(void)
+ശൂന്യം OPENHARMONY_QuitMouse(ശൂന്യം)
 {
 //!!! FIXME:    OPENHARMONY_DestroyEmptyCursor();
 }

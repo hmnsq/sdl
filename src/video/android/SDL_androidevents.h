@@ -18,9 +18,9 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-extern void Android_InitEvents(void);
-extern void Android_PumpEvents(Sint64 timeoutNS);
-extern bool Android_WaitActiveAndLockActivity(void);
-extern void Android_QuitEvents(void);
+ബാഹ്യ ശൂന്യം Android_InitEvents(ശൂന്യം);
+ബാഹ്യ ശൂന്യം Android_PumpEvents(Sint64 timeoutNS);
+ബാഹ്യ bool Android_WaitActiveAndLockActivity(ശൂന്യം);
+ബാഹ്യ ശൂന്യം Android_QuitEvents(ശൂന്യം);

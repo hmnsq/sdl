@@ -18,89 +18,89 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../../events/SDL_events_c.h"
+#അന്തര്ഭാവ "../../events/SDL_events_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "scancodes_riscos.h"
+#അന്തര്ഭാവ "SDL_riscosvideo.h"
+#അന്തര്ഭാവ "SDL_riscosevents_c.h"
+#അന്തര്ഭാവ "scancodes_riscos.h"
 
-#include <kernel.h>
-#include <swis.h>
+#അന്തര്ഭാവ <kernel.h>
+#അന്തര്ഭാവ <swis.h>
 
-static SDL_Scancode SDL_RISCOS_translate_keycode(int keycode)
+സ്ഥിതം SDL_Scancode SDL_RISCOS_translate_keycode(പൂർണ്ണസംഖ്യ keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(riscos_scancode_table)) {
+    എങ്കിൽ (keycode < SDL_arraysize(riscos_scancode_table)) {
         scancode = riscos_scancode_table[keycode];
 
 #ifdef DEBUG_SCANCODES
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
+        എങ്കിൽ (scancode == SDL_SCANCODE_UNKNOWN) {
             SDL_Log("The key you just pressed is not recognized by SDL: %d", keycode);
         }
 #endif
     }
 
-    return scancode;
+    തിരികെ scancode;
 }
 
-void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
+ശൂന്യം RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
-    Uint8 key = 2;
-    int i;
+    Uint8 താക്കോൽ = 2;
+    പൂർണ്ണസംഖ്യ i;
 
     // Check for key releases
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        if (internal->key_pressed[i] != 255) {
-            if ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
-                SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, internal->key_pressed[i], SDL_RISCOS_translate_keycode(internal->key_pressed[i]), false);
-                internal->key_pressed[i] = 255;
+    വേണ്ടി (i = 0; i < RISCOS_MAX_താക്കോലുകൾ_PRESSED; i++) {
+        എങ്കിൽ (internal->താക്കോൽ_pressed[i] != 255) {
+            എങ്കിൽ ((_kernel_osbyte(129, internal->താക്കോൽ_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
+                SDL_Send_Keyboard_താക്കോൽ(0, SDL_DEFAULT_KEYBOARD_ID, internal->താക്കോൽ_pressed[i], SDL_RISCOS_translate_keycode(internal->താക്കോൽ_pressed[i]), false);
+                internal->താക്കോൽ_pressed[i] = 255;
             }
         }
     }
 
     // Check for key presses
-    while (key < 0xff) {
-        key = _kernel_osbyte(121, key + 1, 0) & 0xff;
-        switch (key) {
-        case 255:
+    ആകുമ്പോൾ (താക്കോൽ < 0xff) {
+        താക്കോൽ = _kernel_osbyte(121, താക്കോൽ + 1, 0) & 0xff;
+        തിരഞ്ഞെടുപ്പ് (താക്കോൽ) {
+        അവസ്ഥ 255:
         // Ignore mouse keys
-        case 9:
-        case 10:
-        case 11:
+        അവസ്ഥ 9:
+        അവസ്ഥ 10:
+        അവസ്ഥ 11:
         // Ignore keys with multiple INKEY codes
-        case 24:
-        case 40:
-        case 71:
-        case 87:
-            break;
+        അവസ്ഥ 24:
+        അവസ്ഥ 40:
+        അവസ്ഥ 71:
+        അവസ്ഥ 87:
+            നിർത്തുക;
 
-        default:
-            SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, key, SDL_RISCOS_translate_keycode(key), true);
+        സ്ഥിരസ്ഥിതി:
+            SDL_Send_Keyboard_താക്കോൽ(0, SDL_DEFAULT_KEYBOARD_ID, താക്കോൽ, SDL_RISCOS_translate_keycode(താക്കോൽ), true);
 
             // Record the press so we can detect release later.
-            for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-                if (internal->key_pressed[i] == key) {
-                    break;
+            വേണ്ടി (i = 0; i < RISCOS_MAX_താക്കോലുകൾ_PRESSED; i++) {
+                എങ്കിൽ (internal->താക്കോൽ_pressed[i] == താക്കോൽ) {
+                    നിർത്തുക;
                 }
-                if (internal->key_pressed[i] == 255) {
-                    internal->key_pressed[i] = key;
-                    break;
+                എങ്കിൽ (internal->താക്കോൽ_pressed[i] == 255) {
+                    internal->താക്കോൽ_pressed[i] = താക്കോൽ;
+                    നിർത്തുക;
                 }
             }
         }
     }
 }
 
-static const Uint8 mouse_button_map[] = {
-    SDL_BUTTON_RIGHT,
-    SDL_BUTTON_MIDDLE,
-    SDL_BUTTON_LEFT,
+സ്ഥിതം സ്ഥിരം Uint8 mouse_button_map[] = {
+    SDL_BUTTON_വലത്,
+    SDL_BUTTON_നടുവ്,
+    SDL_BUTTON_ഇടത്,
     SDL_BUTTON_X1,
     SDL_BUTTON_X2,
     SDL_BUTTON_X2 + 1,
@@ -108,16 +108,16 @@ static const Uint8 mouse_button_map[] = {
     SDL_BUTTON_X2 + 3
 };
 
-void RISCOS_PollMouse(SDL_VideoDevice *_this)
+ശൂന്യം RISCOS_PollMouse(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_Rect rect;
     _kernel_swi_regs regs;
-    int i, x, y, buttons;
+    പൂർണ്ണസംഖ്യ i, x, y, buttons;
 
-    if (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
-        return;
+    എങ്കിൽ (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
+        തിരികെ;
     }
 
     _kernel_swi(OS_Mouse, &regs, &regs);
@@ -125,12 +125,12 @@ void RISCOS_PollMouse(SDL_VideoDevice *_this)
     y = rect.h - (regs.r[1] >> 1);
     buttons = regs.r[2];
 
-    if (mouse->x != x || mouse->y != y) {
-        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (float)x, (float)y);
+    എങ്കിൽ (mouse->x != x || mouse->y != y) {
+        SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (ദശാംശം)x, (ദശാംശം)y);
     }
 
-    if (internal->last_mouse_buttons != buttons) {
-        for (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
+    എങ്കിൽ (internal->last_mouse_buttons != buttons) {
+        വേണ്ടി (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
             bool down = ((buttons & (1 << i)) != 0);
             SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, mouse_button_map[i], down);
         }
@@ -142,14 +142,14 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     _kernel_swi_regs regs;
-    int i, status;
+    പൂർണ്ണസംഖ്യ i, status;
 
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        internal->key_pressed[i] = 255;
+    വേണ്ടി (i = 0; i < RISCOS_MAX_താക്കോലുകൾ_PRESSED; i++) {
+        internal->താക്കോൽ_pressed[i] = 255;
     }
 
     status = (_kernel_osbyte(202, 0, 255) & 0xFF);
-    SDL_ToggleModState(SDL_KMOD_NUM, (status & (1 << 2)) ? false : true);
+    SDL_ToggleModState(SDL_KMOD_അക്കം, (status & (1 << 2)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_CAPS, (status & (1 << 4)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_SCROLL, (status & (1 << 1)) ? true : false);
 
@@ -159,16 +159,16 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
     // Disable escape.
     _kernel_osbyte(229, 1, 0);
 
-    return true;
+    തിരികെ true;
 }
 
-void RISCOS_PumpEvents(SDL_VideoDevice *_this)
+ശൂന്യം RISCOS_PumpEvents(SDL_VideoDevice *_this)
 {
     RISCOS_PollMouse(_this);
     RISCOS_PollKeyboard(_this);
 }
 
-void RISCOS_QuitEvents(SDL_VideoDevice *_this)
+ശൂന്യം RISCOS_QuitEvents(SDL_VideoDevice *_this)
 {
     // Re-enable escape.
     _kernel_osbyte(229, 0, 0);

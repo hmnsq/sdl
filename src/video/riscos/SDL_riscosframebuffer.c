@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "SDL_riscosframebuffer_c.h"
+#അന്തര്ഭാവ "SDL_riscosvideo.h"
+#അന്തര്ഭാവ "SDL_riscoswindow.h"
 
-#include <kernel.h>
-#include <swis.h>
+#അന്തര്ഭാവ <kernel.h>
+#അന്തര്ഭാവ <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, ശൂന്യം **pixels, പൂർണ്ണസംഖ്യ *pitch)
 {
     SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    സ്ഥിരം അക്ഷരം *sprite_name = "display";
+    unsigned പൂർണ്ണസംഖ്യ sprite_mode;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
-    const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    സ്ഥിരം SDL_DisplayMode *mode;
+    പൂർണ്ണസംഖ്യ size;
+    പൂർണ്ണസംഖ്യ w, h;
 
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
@@ -48,10 +48,10 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
 
     // Create a new one
     mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
+    എങ്കിൽ ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
         *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+        sprite_mode = (unsigned പൂർണ്ണസംഖ്യ)mode->internal;
+    } അല്ലെങ്കിൽ {
         *format = SDL_PIXELFORMAT_XBGR8888;
         sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
@@ -60,68 +60,68 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
+    size = വലുപ്പം(sprite_area) + വലുപ്പം(sprite_header) + ((*pitch) * h);
     internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    എങ്കിൽ (!internal->fb_area) {
+        തിരികെ false;
     }
 
     internal->fb_area->size = size;
-    internal->fb_area->count = 0;
+    internal->fb_area->എണ്ണം = 0;
     internal->fb_area->start = 16;
     internal->fb_area->end = 16;
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (പൂർണ്ണസംഖ്യ)internal->fb_area;
+    regs.r[2] = (പൂർണ്ണസംഖ്യ)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
     regs.r[6] = sprite_mode;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
+    എങ്കിൽ (error) {
         SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+        തിരികെ SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
     internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
     *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
 
-    return true;
+    തിരികെ true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, സ്ഥിരം SDL_Rect *rects, പൂർണ്ണസംഖ്യ numrects)
 {
     SDL_WindowData *internal = window->internal;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (പൂർണ്ണസംഖ്യ)internal->fb_area;
+    regs.r[2] = (പൂർണ്ണസംഖ്യ)internal->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    എങ്കിൽ (error) {
+        തിരികെ SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    തിരികെ true;
 }
 
-void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+ശൂന്യം RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *internal = window->internal;
 
-    if (internal->fb_area) {
+    എങ്കിൽ (internal->fb_area) {
         SDL_free(internal->fb_area);
-        internal->fb_area = NULL;
+        internal->fb_area = ശൂന്യ;
     }
-    internal->fb_sprite = NULL;
+    internal->fb_sprite = ശൂന്യ;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

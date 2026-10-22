@@ -14,14 +14,14 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
 
 
 // XR_VERSION_1_0 is a preprocessor guard. Do not pass it to API calls.
 #define XR_VERSION_1_0 1
-#include "openxr_platform_defines.h"
+#അന്തര്ഭാവ "openxr_platform_defines.h"
 #define XR_MAKE_VERSION(major, minor, patch) \
     ((((major) & 0xffffULL) << 48) | (((minor) & 0xffffULL) << 32) | ((patch) & 0xffffffffULL))
 
@@ -38,10 +38,10 @@ extern "C" {
 #define XR_MIN_COMPOSITION_LAYERS_SUPPORTED 16
 
 
-#if !defined(XR_NULL_HANDLE)
-#if (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
+#എങ്കിൽ !defined(XR_NULL_HANDLE)
+#എങ്കിൽ (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
     #define XR_NULL_HANDLE nullptr
-#else
+#അല്ലെങ്കിൽ
     #define XR_NULL_HANDLE 0
 #endif
 #endif
@@ -74,7 +74,7 @@ extern "C" {
 #define XR_FREQUENCY_UNSPECIFIED 0
 
 
-#define XR_MAX_EVENT_DATA_SIZE sizeof(XrEventDataBuffer)
+#define XR_MAX_EVENT_DATA_SIZE വലുപ്പം(XrEventDataBuffer)
 
 
 #define XR_EXTENSION_ENUM_BASE 1000000000
@@ -83,44 +83,44 @@ extern "C" {
 #define XR_EXTENSION_ENUM_STRIDE 1000
 
 
-#if !defined(XR_MAY_ALIAS)
-#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
+#എങ്കിൽ !defined(XR_MAY_ALIAS)
+#എങ്കിൽ defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
 #define XR_MAY_ALIAS __attribute__((__may_alias__))
-#else
+#അല്ലെങ്കിൽ
 #define XR_MAY_ALIAS
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_HANDLE)
-#if (XR_PTR_SIZE == 8)
-    #define XR_DEFINE_HANDLE(object) typedef struct object##_T* object;
-#else
-    #define XR_DEFINE_HANDLE(object) typedef uint64_t object;
+#എങ്കിൽ !defined(XR_DEFINE_HANDLE)
+#എങ്കിൽ (XR_PTR_SIZE == 8)
+    #define XR_DEFINE_HANDLE(object) തരനിർവചനം ഘടന object##_T* object;
+#അല്ലെങ്കിൽ
+    #define XR_DEFINE_HANDLE(object) തരനിർവചനം uint64_t object;
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_OPAQUE_64)
-    #if (XR_PTR_SIZE == 8)
-        #define XR_DEFINE_OPAQUE_64(object) typedef struct object##_T* object;
-    #else
-        #define XR_DEFINE_OPAQUE_64(object) typedef uint64_t object;
+#എങ്കിൽ !defined(XR_DEFINE_OPAQUE_64)
+    #എങ്കിൽ (XR_PTR_SIZE == 8)
+        #define XR_DEFINE_OPAQUE_64(object) തരനിർവചനം ഘടന object##_T* object;
+    #അല്ലെങ്കിൽ
+        #define XR_DEFINE_OPAQUE_64(object) തരനിർവചനം uint64_t object;
     #endif
 #endif
 
 
-#if !defined(XR_DEFINE_ATOM)
-    #define XR_DEFINE_ATOM(object) typedef uint64_t object;
+#എങ്കിൽ !defined(XR_DEFINE_ATOM)
+    #define XR_DEFINE_ATOM(object) തരനിർവചനം uint64_t object;
 #endif
 
-typedef uint64_t XrVersion;
-typedef uint64_t XrFlags64;
+തരനിർവചനം uint64_t XrVersion;
+തരനിർവചനം uint64_t XrFlags64;
 XR_DEFINE_ATOM(XrSystemId)
-typedef uint32_t XrBool32;
+തരനിർവചനം uint32_t XrBool32;
 XR_DEFINE_ATOM(XrPath)
-typedef int64_t XrTime;
-typedef int64_t XrDuration;
+തരനിർവചനം int64_t XrTime;
+തരനിർവചനം int64_t XrDuration;
 XR_DEFINE_HANDLE(XrInstance)
 XR_DEFINE_HANDLE(XrSession)
 XR_DEFINE_HANDLE(XrSpace)
@@ -144,7 +144,7 @@ XR_DEFINE_HANDLE(XrActionSet)
 #define XR_MAX_ACTION_NAME_SIZE           64
 #define XR_MAX_LOCALIZED_ACTION_NAME_SIZE 128
 
-typedef enum XrResult {
+തരനിർവചനം എണ്ണൽ XrResult {
     XR_SUCCESS = 0,
     XR_TIMEOUT_EXPIRED = 1,
     XR_SESSION_LOSS_PENDING = 3,
@@ -169,7 +169,7 @@ typedef enum XrResult {
     XR_ERROR_SESSION_LOST = -17,
     XR_ERROR_SYSTEM_INVALID = -18,
     XR_ERROR_PATH_INVALID = -19,
-    XR_ERROR_PATH_COUNT_EXCEEDED = -20,
+    XR_ERROR_PATH_എണ്ണം_EXCEEDED = -20,
     XR_ERROR_PATH_FORMAT_INVALID = -21,
     XR_ERROR_PATH_UNSUPPORTED = -22,
     XR_ERROR_LAYER_INVALID = -23,
@@ -206,7 +206,7 @@ typedef enum XrResult {
     XR_ERROR_ANDROID_THREAD_SETTINGS_FAILURE_KHR = -1000003001,
     XR_ERROR_CREATE_SPATIAL_ANCHOR_FAILED_MSFT = -1000039001,
     XR_ERROR_SECONDARY_VIEW_CONFIGURATION_TYPE_NOT_ENABLED_MSFT = -1000053000,
-    XR_ERROR_CONTROLLER_MODEL_KEY_INVALID_MSFT = -1000055000,
+    XR_ERROR_CONTROLLER_MODEL_താക്കോൽ_INVALID_MSFT = -1000055000,
     XR_ERROR_REPROJECTION_MODE_UNSUPPORTED_MSFT = -1000066000,
     XR_ERROR_COMPUTE_NEW_SCENE_NOT_COMPLETED_MSFT = -1000097000,
     XR_ERROR_SCENE_COMPONENT_ID_INVALID_MSFT = -1000097001,
@@ -226,7 +226,7 @@ typedef enum XrResult {
     XR_ERROR_NOT_PERMITTED_PASSTHROUGH_FB = -1000118003,
     XR_ERROR_INSUFFICIENT_RESOURCES_PASSTHROUGH_FB = -1000118004,
     XR_ERROR_UNKNOWN_PASSTHROUGH_FB = -1000118050,
-    XR_ERROR_RENDER_MODEL_KEY_INVALID_FB = -1000119000,
+    XR_ERROR_RENDER_MODEL_താക്കോൽ_INVALID_FB = -1000119000,
     XR_RENDER_MODEL_UNAVAILABLE_FB = 1000119020,
     XR_ERROR_MARKER_NOT_TRACKED_VARJO = -1000124000,
     XR_ERROR_MARKER_ID_INVALID_VARJO = -1000124001,
@@ -347,7 +347,7 @@ typedef enum XrResult {
     XR_RESULT_MAX_ENUM = 0x7FFFFFFF
 } XrResult;
 
-typedef enum XrStructureType {
+തരനിർവചനം എണ്ണൽ XrStructureType {
     XR_TYPE_UNKNOWN = 0,
     XR_TYPE_API_LAYER_PROPERTIES = 1,
     XR_TYPE_EXTENSION_PROPERTIES = 2,
@@ -397,7 +397,7 @@ typedef enum XrStructureType {
     XR_TYPE_SESSION_ACTION_SETS_ATTACH_INFO = 60,
     XR_TYPE_ACTIONS_SYNC_INFO = 61,
     XR_TYPE_BOUND_SOURCES_FOR_ACTION_ENUMERATE_INFO = 62,
-    XR_TYPE_INPUT_SOURCE_LOCALIZED_NAME_GET_INFO = 63,
+    XR_TYPE_നിവേശം_SOURCE_LOCALIZED_NAME_GET_INFO = 63,
     XR_TYPE_SPACES_LOCATE_INFO = 1000471000,
     XR_TYPE_SPACE_LOCATIONS = 1000471001,
     XR_TYPE_SPACE_VELOCITIES = 1000471002,
@@ -446,10 +446,10 @@ typedef enum XrStructureType {
     XR_TYPE_COMPOSITION_LAYER_ALPHA_BLEND_FB = 1000041001,
     XR_TYPE_VIEW_CONFIGURATION_DEPTH_RANGE_EXT = 1000046000,
     XR_TYPE_GRAPHICS_BINDING_EGL_MNDX = 1000048004,
-    XR_TYPE_SPATIAL_GRAPH_NODE_SPACE_CREATE_INFO_MSFT = 1000049000,
-    XR_TYPE_SPATIAL_GRAPH_STATIC_NODE_BINDING_CREATE_INFO_MSFT = 1000049001,
-    XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_GET_INFO_MSFT = 1000049002,
-    XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_MSFT = 1000049003,
+    XR_TYPE_SPATIAL_GRAPH_കണ്ണി_SPACE_CREATE_INFO_MSFT = 1000049000,
+    XR_TYPE_SPATIAL_GRAPH_STATIC_കണ്ണി_BINDING_CREATE_INFO_MSFT = 1000049001,
+    XR_TYPE_SPATIAL_GRAPH_കണ്ണി_BINDING_PROPERTIES_GET_INFO_MSFT = 1000049002,
+    XR_TYPE_SPATIAL_GRAPH_കണ്ണി_BINDING_PROPERTIES_MSFT = 1000049003,
     XR_TYPE_SYSTEM_HAND_TRACKING_PROPERTIES_EXT = 1000051000,
     XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT = 1000051001,
     XR_TYPE_HAND_JOINTS_LOCATE_INFO_EXT = 1000051002,
@@ -466,10 +466,10 @@ typedef enum XrStructureType {
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_FRAME_END_INFO_MSFT = 1000053003,
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_LAYER_INFO_MSFT = 1000053004,
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_SWAPCHAIN_CREATE_INFO_MSFT = 1000053005,
-    XR_TYPE_CONTROLLER_MODEL_KEY_STATE_MSFT = 1000055000,
-    XR_TYPE_CONTROLLER_MODEL_NODE_PROPERTIES_MSFT = 1000055001,
+    XR_TYPE_CONTROLLER_MODEL_താക്കോൽ_STATE_MSFT = 1000055000,
+    XR_TYPE_CONTROLLER_MODEL_കണ്ണി_PROPERTIES_MSFT = 1000055001,
     XR_TYPE_CONTROLLER_MODEL_PROPERTIES_MSFT = 1000055002,
-    XR_TYPE_CONTROLLER_MODEL_NODE_STATE_MSFT = 1000055003,
+    XR_TYPE_CONTROLLER_MODEL_കണ്ണി_STATE_MSFT = 1000055003,
     XR_TYPE_CONTROLLER_MODEL_STATE_MSFT = 1000055004,
     XR_TYPE_VIEW_CONFIGURATION_VIEW_FOV_EPIC = 1000059000,
     XR_TYPE_HOLOGRAPHIC_WINDOW_ATTACHMENT_MSFT = 1000063000,
@@ -659,7 +659,7 @@ typedef enum XrStructureType {
     XR_TYPE_VIRTUAL_KEYBOARD_ANIMATION_STATE_META = 1000219006,
     XR_TYPE_VIRTUAL_KEYBOARD_MODEL_ANIMATION_STATES_META = 1000219007,
     XR_TYPE_VIRTUAL_KEYBOARD_TEXTURE_DATA_META = 1000219009,
-    XR_TYPE_VIRTUAL_KEYBOARD_INPUT_INFO_META = 1000219010,
+    XR_TYPE_VIRTUAL_KEYBOARD_നിവേശം_INFO_META = 1000219010,
     XR_TYPE_VIRTUAL_KEYBOARD_TEXT_CONTEXT_CHANGE_INFO_META = 1000219011,
     XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META = 1000219014,
     XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META = 1000219015,
@@ -733,7 +733,7 @@ typedef enum XrStructureType {
     XR_TYPE_INTERACTION_RENDER_MODEL_IDS_ENUMERATE_INFO_EXT = 1000301000,
     XR_TYPE_INTERACTION_RENDER_MODEL_SUBACTION_PATH_INFO_EXT = 1000301001,
     XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT = 1000301002,
-    XR_TYPE_INTERACTION_RENDER_MODEL_TOP_LEVEL_USER_PATH_GET_INFO_EXT = 1000301003,
+    XR_TYPE_INTERACTION_RENDER_MODEL_മുകൾ_LEVEL_USER_PATH_GET_INFO_EXT = 1000301003,
     XR_TYPE_PASSTHROUGH_CREATE_INFO_HTC = 1000317001,
     XR_TYPE_PASSTHROUGH_COLOR_HTC = 1000317002,
     XR_TYPE_PASSTHROUGH_MESH_TRANSFORM_INFO_HTC = 1000317003,
@@ -1063,7 +1063,7 @@ typedef enum XrStructureType {
     XR_TYPE_SPATIAL_RAYCAST_INFO_ANDROID = 1000786001,
     XR_TYPE_SPATIAL_COMPONENT_RAYCAST_RESULT_LIST_ANDROID = 1000786002,
     XR_TYPE_SPATIAL_RAYCAST_SNAPSHOT_CREATE_INFO_ANDROID = 1000786003,
-    XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID = 1000787000,
+    XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_താക്കോൽ_ANDROID = 1000787000,
     XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID = 1000787001,
     XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID = 1000787002,
     XR_TYPE_GOOGLE_CLOUD_AUTH_ERROR_RESULT_ANDROID = 1000787003,
@@ -1130,20 +1130,20 @@ typedef enum XrStructureType {
     XR_STRUCTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrStructureType;
 
-typedef enum XrFormFactor {
+തരനിർവചനം എണ്ണൽ XrFormFactor {
     XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY = 1,
     XR_FORM_FACTOR_HANDHELD_DISPLAY = 2,
     XR_FORM_FACTOR_MAX_ENUM = 0x7FFFFFFF
 } XrFormFactor;
 
-typedef enum XrEnvironmentBlendMode {
+തരനിർവചനം എണ്ണൽ XrEnvironmentBlendMode {
     XR_ENVIRONMENT_BLEND_MODE_OPAQUE = 1,
     XR_ENVIRONMENT_BLEND_MODE_ADDITIVE = 2,
     XR_ENVIRONMENT_BLEND_MODE_ALPHA_BLEND = 3,
     XR_ENVIRONMENT_BLEND_MODE_MAX_ENUM = 0x7FFFFFFF
 } XrEnvironmentBlendMode;
 
-typedef enum XrViewConfigurationType {
+തരനിർവചനം എണ്ണൽ XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_MONO = 1,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO = 2,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO_WITH_FOVEATED_INSET = 1000037000,
@@ -1152,7 +1152,7 @@ typedef enum XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrViewConfigurationType;
 
-typedef enum XrReferenceSpaceType {
+തരനിർവചനം എണ്ണൽ XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_VIEW = 1,
     XR_REFERENCE_SPACE_TYPE_LOCAL = 2,
     XR_REFERENCE_SPACE_TYPE_STAGE = 3,
@@ -1166,23 +1166,23 @@ typedef enum XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrReferenceSpaceType;
 
-typedef enum XrEyeVisibility {
+തരനിർവചനം എണ്ണൽ XrEyeVisibility {
     XR_EYE_VISIBILITY_BOTH = 0,
-    XR_EYE_VISIBILITY_LEFT = 1,
-    XR_EYE_VISIBILITY_RIGHT = 2,
+    XR_EYE_VISIBILITY_ഇടത് = 1,
+    XR_EYE_VISIBILITY_വലത് = 2,
     XR_EYE_VISIBILITY_MAX_ENUM = 0x7FFFFFFF
 } XrEyeVisibility;
 
-typedef enum XrActionType {
-    XR_ACTION_TYPE_BOOLEAN_INPUT = 1,
-    XR_ACTION_TYPE_FLOAT_INPUT = 2,
-    XR_ACTION_TYPE_VECTOR2F_INPUT = 3,
-    XR_ACTION_TYPE_POSE_INPUT = 4,
+തരനിർവചനം എണ്ണൽ XrActionType {
+    XR_ACTION_TYPE_BOOLEAN_നിവേശം = 1,
+    XR_ACTION_TYPE_FLOAT_നിവേശം = 2,
+    XR_ACTION_TYPE_VECTOR2_F_നിവേശം = 3,
+    XR_ACTION_TYPE_POSE_നിവേശം = 4,
     XR_ACTION_TYPE_VIBRATION_OUTPUT = 100,
     XR_ACTION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrActionType;
 
-typedef enum XrSessionState {
+തരനിർവചനം എണ്ണൽ XrSessionState {
     XR_SESSION_STATE_UNKNOWN = 0,
     XR_SESSION_STATE_IDLE = 1,
     XR_SESSION_STATE_READY = 2,
@@ -1195,7 +1195,7 @@ typedef enum XrSessionState {
     XR_SESSION_STATE_MAX_ENUM = 0x7FFFFFFF
 } XrSessionState;
 
-typedef enum XrObjectType {
+തരനിർവചനം എണ്ണൽ XrObjectType {
     XR_OBJECT_TYPE_UNKNOWN = 0,
     XR_OBJECT_TYPE_INSTANCE = 1,
     XR_OBJECT_TYPE_SESSION = 2,
@@ -1205,7 +1205,7 @@ typedef enum XrObjectType {
     XR_OBJECT_TYPE_ACTION = 6,
     XR_OBJECT_TYPE_DEBUG_UTILS_MESSENGER_EXT = 1000019000,
     XR_OBJECT_TYPE_SPATIAL_ANCHOR_MSFT = 1000039000,
-    XR_OBJECT_TYPE_SPATIAL_GRAPH_NODE_BINDING_MSFT = 1000049000,
+    XR_OBJECT_TYPE_SPATIAL_GRAPH_കണ്ണി_BINDING_MSFT = 1000049000,
     XR_OBJECT_TYPE_HAND_TRACKER_EXT = 1000051000,
     XR_OBJECT_TYPE_BODY_TRACKER_FB = 1000076000,
     XR_OBJECT_TYPE_SCENE_OBSERVER_MSFT = 1000097000,
@@ -1267,506 +1267,506 @@ typedef enum XrObjectType {
     XR_OBJECT_TYPE_APP_CONSUMED_SWAPCHAIN_EXT = 1000877000,
     XR_OBJECT_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrObjectType;
-typedef XrFlags64 XrInstanceCreateFlags;
+തരനിർവചനം XrFlags64 XrInstanceCreateFlags;
 
 // Flag bits for XrInstanceCreateFlags
 
-typedef XrFlags64 XrSessionCreateFlags;
+തരനിർവചനം XrFlags64 XrSessionCreateFlags;
 
 // Flag bits for XrSessionCreateFlags
 
-typedef XrFlags64 XrSpaceLocationFlags;
+തരനിർവചനം XrFlags64 XrSpaceLocationFlags;
 
 // Flag bits for XrSpaceLocationFlags
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_VALID_BIT = 0x00000001;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_VALID_BIT = 0x00000002;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT = 0x00000004;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_TRACKED_BIT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_VALID_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_VALID_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_TRACKED_BIT = 0x00000008;
 
-typedef XrFlags64 XrSpaceVelocityFlags;
+തരനിർവചനം XrFlags64 XrSpaceVelocityFlags;
 
 // Flag bits for XrSpaceVelocityFlags
-static const XrSpaceVelocityFlags XR_SPACE_VELOCITY_LINEAR_VALID_BIT = 0x00000001;
-static const XrSpaceVelocityFlags XR_SPACE_VELOCITY_ANGULAR_VALID_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSpaceVelocityFlags XR_SPACE_VELOCITY_LINEAR_VALID_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSpaceVelocityFlags XR_SPACE_VELOCITY_ANGULAR_VALID_BIT = 0x00000002;
 
-typedef XrFlags64 XrSwapchainCreateFlags;
+തരനിർവചനം XrFlags64 XrSwapchainCreateFlags;
 
 // Flag bits for XrSwapchainCreateFlags
-static const XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_PROTECTED_CONTENT_BIT = 0x00000001;
-static const XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_PROTECTED_CONTENT_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT = 0x00000002;
 
-typedef XrFlags64 XrSwapchainUsageFlags;
+തരനിർവചനം XrFlags64 XrSwapchainUsageFlags;
 
 // Flag bits for XrSwapchainUsageFlags
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_COLOR_ATTACHMENT_BIT = 0x00000001;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT = 0x00000002;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_UNORDERED_ACCESS_BIT = 0x00000004;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_SRC_BIT = 0x00000008;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_DST_BIT = 0x00000010;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_SAMPLED_BIT = 0x00000020;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_MUTABLE_FORMAT_BIT = 0x00000040;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_MND = 0x00000080;  // alias of XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR = 0x00000080;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_COLOR_ATTACHMENT_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_UNORDERED_ACCESS_BIT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_SRC_BIT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_DST_BIT = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_SAMPLED_BIT = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_MUTABLE_FORMAT_BIT = 0x00000040;
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_നിവേശം_ATTACHMENT_BIT_MND = 0x00000080;  // alias of XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR
+സ്ഥിതം സ്ഥിരം XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_നിവേശം_ATTACHMENT_BIT_KHR = 0x00000080;
 
-typedef XrFlags64 XrCompositionLayerFlags;
+തരനിർവചനം XrFlags64 XrCompositionLayerFlags;
 
 // Flag bits for XrCompositionLayerFlags
 // XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT is deprecated and should not be used
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_UNPREMULTIPLIED_ALPHA_BIT = 0x00000004;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_INVERTED_ALPHA_BIT_EXT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerFlags XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerFlags XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerFlags XR_COMPOSITION_LAYER_UNPREMULTIPLIED_ALPHA_BIT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerFlags XR_COMPOSITION_LAYER_INVERTED_ALPHA_BIT_EXT = 0x00000008;
 
-typedef XrFlags64 XrViewStateFlags;
+തരനിർവചനം XrFlags64 XrViewStateFlags;
 
 // Flag bits for XrViewStateFlags
-static const XrViewStateFlags XR_VIEW_STATE_ORIENTATION_VALID_BIT = 0x00000001;
-static const XrViewStateFlags XR_VIEW_STATE_POSITION_VALID_BIT = 0x00000002;
-static const XrViewStateFlags XR_VIEW_STATE_ORIENTATION_TRACKED_BIT = 0x00000004;
-static const XrViewStateFlags XR_VIEW_STATE_POSITION_TRACKED_BIT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrViewStateFlags XR_VIEW_STATE_ORIENTATION_VALID_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrViewStateFlags XR_VIEW_STATE_POSITION_VALID_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrViewStateFlags XR_VIEW_STATE_ORIENTATION_TRACKED_BIT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrViewStateFlags XR_VIEW_STATE_POSITION_TRACKED_BIT = 0x00000008;
 
-typedef XrFlags64 XrInputSourceLocalizedNameFlags;
+തരനിർവചനം XrFlags64 Xr_നിവേശം_Source_Localized_Name_Flags;
 
 // Flag bits for XrInputSourceLocalizedNameFlags
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_USER_PATH_BIT = 0x00000001;
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT = 0x00000002;
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004;
+സ്ഥിതം സ്ഥിരം Xr_നിവേശം_Source_Localized_Name_Flags XR_നിവേശം_SOURCE_LOCALIZED_NAME_USER_PATH_BIT = 0x00000001;
+സ്ഥിതം സ്ഥിരം Xr_നിവേശം_Source_Localized_Name_Flags XR_നിവേശം_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT = 0x00000002;
+സ്ഥിതം സ്ഥിരം Xr_നിവേശം_Source_Localized_Name_Flags XR_നിവേശം_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004;
 
-typedef void (XRAPI_PTR *PFN_xrVoidFunction)(void);
-typedef struct XrApiLayerProperties {
+തരനിർവചനം ശൂന്യം (XRAPI_PTR *PFN_xrVoidFunction)(ശൂന്യം);
+തരനിർവചനം ഘടന XrApiLayerProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    അക്ഷരം                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
     XrVersion             specVersion;
     uint32_t              layerVersion;
-    char                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
+    അക്ഷരം                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
 } XrApiLayerProperties;
 
-typedef struct XrExtensionProperties {
+തരനിർവചനം ഘടന XrExtensionProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    അക്ഷരം                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
     uint32_t              extensionVersion;
 } XrExtensionProperties;
 
-typedef struct XrApplicationInfo {
-    char         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
+തരനിർവചനം ഘടന XrApplicationInfo {
+    അക്ഷരം         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
     uint32_t     applicationVersion;
-    char         engineName[XR_MAX_ENGINE_NAME_SIZE];
+    അക്ഷരം         engineName[XR_MAX_ENGINE_NAME_SIZE];
     uint32_t     engineVersion;
     XrVersion    apiVersion;
 } XrApplicationInfo;
 
-typedef struct XrInstanceCreateInfo {
+തരനിർവചനം ഘടന XrInstanceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrInstanceCreateFlags       createFlags;
     XrApplicationInfo           applicationInfo;
-    uint32_t                    enabledApiLayerCount;
-    const char* const*          enabledApiLayerNames;
-    uint32_t                    enabledExtensionCount;
-    const char* const*          enabledExtensionNames;
+    uint32_t                    enabled_Api_Layer_എണ്ണം;
+    സ്ഥിരം അക്ഷരം* സ്ഥിരം*          enabledApiLayerNames;
+    uint32_t                    enabled_Extension_എണ്ണം;
+    സ്ഥിരം അക്ഷരം* സ്ഥിരം*          enabledExtensionNames;
 } XrInstanceCreateInfo;
 
-typedef struct XrInstanceProperties {
+തരനിർവചനം ഘടന XrInstanceProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrVersion             runtimeVersion;
-    char                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
+    അക്ഷരം                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
 } XrInstanceProperties;
 
-typedef struct XrEventDataBuffer {
+തരനിർവചനം ഘടന XrEventDataBuffer {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint8_t                     varying[4000];
 } XrEventDataBuffer;
 
-typedef struct XrSystemGetInfo {
+തരനിർവചനം ഘടന XrSystemGetInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFormFactor                formFactor;
 } XrSystemGetInfo;
 
-typedef struct XrSystemGraphicsProperties {
+തരനിർവചനം ഘടന XrSystemGraphicsProperties {
     uint32_t    maxSwapchainImageHeight;
     uint32_t    maxSwapchainImageWidth;
-    uint32_t    maxLayerCount;
+    uint32_t    max_Layer_എണ്ണം;
 } XrSystemGraphicsProperties;
 
-typedef struct XrSystemTrackingProperties {
+തരനിർവചനം ഘടന XrSystemTrackingProperties {
     XrBool32    orientationTracking;
     XrBool32    positionTracking;
 } XrSystemTrackingProperties;
 
-typedef struct XrSystemProperties {
+തരനിർവചനം ഘടന XrSystemProperties {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ശൂന്യം* XR_MAY_ALIAS            next;
     XrSystemId                    systemId;
     uint32_t                      vendorId;
-    char                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
+    അക്ഷരം                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
     XrSystemGraphicsProperties    graphicsProperties;
     XrSystemTrackingProperties    trackingProperties;
 } XrSystemProperties;
 
-typedef struct XrSessionCreateInfo {
+തരനിർവചനം ഘടന XrSessionCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSessionCreateFlags        createFlags;
     XrSystemId                  systemId;
 } XrSessionCreateInfo;
 
-typedef struct XrQuaternionf {
-    float    x;
-    float    y;
-    float    z;
-    float    w;
+തരനിർവചനം ഘടന XrQuaternionf {
+    ദശാംശം    x;
+    ദശാംശം    y;
+    ദശാംശം    z;
+    ദശാംശം    w;
 } XrQuaternionf;
 
-typedef struct XrVector3f {
-    float    x;
-    float    y;
-    float    z;
+തരനിർവചനം ഘടന XrVector3f {
+    ദശാംശം    x;
+    ദശാംശം    y;
+    ദശാംശം    z;
 } XrVector3f;
 
-typedef struct XrPosef {
+തരനിർവചനം ഘടന XrPosef {
     XrQuaternionf    orientation;
     XrVector3f       position;
 } XrPosef;
 
-typedef struct XrReferenceSpaceCreateInfo {
+തരനിർവചനം ഘടന XrReferenceSpaceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrReferenceSpaceType        referenceSpaceType;
     XrPosef                     poseInReferenceSpace;
 } XrReferenceSpaceCreateInfo;
 
-typedef struct XrActionSpaceCreateInfo {
+തരനിർവചനം ഘടന XrActionSpaceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
     XrPosef                     poseInActionSpace;
 } XrActionSpaceCreateInfo;
 
-typedef struct XrSpaceLocation {
+തരനിർവചനം ഘടന XrSpaceLocation {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrSpaceLocation;
 
 // XrSpaceVelocity extends XrSpaceLocation
-typedef struct XrSpaceVelocity {
+തരനിർവചനം ഘടന XrSpaceVelocity {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrSpaceVelocity;
 
-typedef struct XrExtent2Df {
-    float    width;
-    float    height;
+തരനിർവചനം ഘടന XrExtent2Df {
+    ദശാംശം    width;
+    ദശാംശം    height;
 } XrExtent2Df;
 
-typedef struct XrViewConfigurationProperties {
+തരനിർവചനം ഘടന XrViewConfigurationProperties {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ശൂന്യം* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   fovMutable;
 } XrViewConfigurationProperties;
 
-typedef struct XrViewConfigurationView {
+തരനിർവചനം ഘടന XrViewConfigurationView {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              recommendedImageRectWidth;
     uint32_t              maxImageRectWidth;
     uint32_t              recommendedImageRectHeight;
     uint32_t              maxImageRectHeight;
-    uint32_t              recommendedSwapchainSampleCount;
-    uint32_t              maxSwapchainSampleCount;
+    uint32_t              recommended_Swapchain_Sample_എണ്ണം;
+    uint32_t              max_Swapchain_Sample_എണ്ണം;
 } XrViewConfigurationView;
 
-typedef struct XrSwapchainCreateInfo {
+തരനിർവചനം ഘടന XrSwapchainCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSwapchainCreateFlags      createFlags;
     XrSwapchainUsageFlags       usageFlags;
     int64_t                     format;
-    uint32_t                    sampleCount;
+    uint32_t                    sample_എണ്ണം;
     uint32_t                    width;
     uint32_t                    height;
-    uint32_t                    faceCount;
+    uint32_t                    face_എണ്ണം;
     uint32_t                    arraySize;
-    uint32_t                    mipCount;
+    uint32_t                    mip_എണ്ണം;
 } XrSwapchainCreateInfo;
 
-typedef struct XR_MAY_ALIAS XrSwapchainImageBaseHeader {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSwapchainImageBaseHeader {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSwapchainImageBaseHeader;
 
-typedef struct XrSwapchainImageAcquireInfo {
+തരനിർവചനം ഘടന XrSwapchainImageAcquireInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSwapchainImageAcquireInfo;
 
-typedef struct XrSwapchainImageWaitInfo {
+തരനിർവചനം ഘടന XrSwapchainImageWaitInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrDuration                  timeout;
 } XrSwapchainImageWaitInfo;
 
-typedef struct XrSwapchainImageReleaseInfo {
+തരനിർവചനം ഘടന XrSwapchainImageReleaseInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSwapchainImageReleaseInfo;
 
-typedef struct XrSessionBeginInfo {
+തരനിർവചനം ഘടന XrSessionBeginInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSessionBeginInfo;
 
-typedef struct XrFrameState {
+തരനിർവചനം ഘടന XrFrameState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                predictedDisplayTime;
     XrDuration            predictedDisplayPeriod;
     XrBool32              shouldRender;
 } XrFrameState;
 
-typedef struct XrFrameWaitInfo {
+തരനിർവചനം ഘടന XrFrameWaitInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrFrameWaitInfo;
 
-typedef struct XrFrameBeginInfo {
+തരനിർവചനം ഘടന XrFrameBeginInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrFrameBeginInfo;
 
-typedef struct XR_MAY_ALIAS XrCompositionLayerBaseHeader {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrCompositionLayerBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
 } XrCompositionLayerBaseHeader;
 
-typedef struct XrFrameEndInfo {
+തരനിർവചനം ഘടന XrFrameEndInfo {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
     XrEnvironmentBlendMode                        environmentBlendMode;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_എണ്ണം;
+    സ്ഥിരം XrCompositionLayerBaseHeader* സ്ഥിരം*    layers;
 } XrFrameEndInfo;
 
-typedef struct XrViewState {
+തരനിർവചനം ഘടന XrViewState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewStateFlags      viewStateFlags;
 } XrViewState;
 
-typedef struct XrViewLocateInfo {
+തരനിർവചനം ഘടന XrViewLocateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
     XrTime                      displayTime;
     XrSpace                     space;
 } XrViewLocateInfo;
 
-typedef struct XrFovf {
-    float    angleLeft;
-    float    angleRight;
-    float    angleUp;
-    float    angleDown;
+തരനിർവചനം ഘടന XrFovf {
+    ദശാംശം    angle_ഇടത്;
+    ദശാംശം    angle_വലത്;
+    ദശാംശം    angleUp;
+    ദശാംശം    angleDown;
 } XrFovf;
 
-typedef struct XrView {
+തരനിർവചനം ഘടന XrView {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrPosef               pose;
     XrFovf                fov;
 } XrView;
 
-typedef struct XrActionSetCreateInfo {
+തരനിർവചനം ഘടന XrActionSetCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    char                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
-    char                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    അക്ഷരം                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
+    അക്ഷരം                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
     uint32_t                    priority;
 } XrActionSetCreateInfo;
 
-typedef struct XrActionCreateInfo {
+തരനിർവചനം ഘടന XrActionCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    char                        actionName[XR_MAX_ACTION_NAME_SIZE];
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    അക്ഷരം                        actionName[XR_MAX_ACTION_NAME_SIZE];
     XrActionType                actionType;
-    uint32_t                    countSubactionPaths;
-    const XrPath*               subactionPaths;
-    char                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
+    uint32_t                    എണ്ണം_Subaction_Paths;
+    സ്ഥിരം XrPath*               subactionPaths;
+    അക്ഷരം                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
 } XrActionCreateInfo;
 
-typedef struct XrActionSuggestedBinding {
+തരനിർവചനം ഘടന XrActionSuggestedBinding {
     XrAction    action;
     XrPath      binding;
 } XrActionSuggestedBinding;
 
-typedef struct XrInteractionProfileSuggestedBinding {
+തരനിർവചനം ഘടന XrInteractionProfileSuggestedBinding {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrPath                             interactionProfile;
-    uint32_t                           countSuggestedBindings;
-    const XrActionSuggestedBinding*    suggestedBindings;
+    uint32_t                           എണ്ണം_Suggested_Bindings;
+    സ്ഥിരം XrActionSuggestedBinding*    suggestedBindings;
 } XrInteractionProfileSuggestedBinding;
 
-typedef struct XrSessionActionSetsAttachInfo {
+തരനിർവചനം ഘടന XrSessionActionSetsAttachInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    countActionSets;
-    const XrActionSet*          actionSets;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    എണ്ണം_Action_Sets;
+    സ്ഥിരം XrActionSet*          actionSets;
 } XrSessionActionSetsAttachInfo;
 
-typedef struct XrInteractionProfileState {
+തരനിർവചനം ഘടന XrInteractionProfileState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrPath                interactionProfile;
 } XrInteractionProfileState;
 
-typedef struct XrActionStateGetInfo {
+തരനിർവചനം ഘടന XrActionStateGetInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrActionStateGetInfo;
 
-typedef struct XrActionStateBoolean {
+തരനിർവചനം ഘടന XrActionStateBoolean {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateBoolean;
 
-typedef struct XrActionStateFloat {
+തരനിർവചനം ഘടന XrActionStateFloat {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 currentState;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                 currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateFloat;
 
-typedef struct XrVector2f {
-    float    x;
-    float    y;
+തരനിർവചനം ഘടന XrVector2f {
+    ദശാംശം    x;
+    ദശാംശം    y;
 } XrVector2f;
 
-typedef struct XrActionStateVector2f {
+തരനിർവചനം ഘടന XrActionStateVector2f {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrVector2f            currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateVector2f;
 
-typedef struct XrActionStatePose {
+തരനിർവചനം ഘടന XrActionStatePose {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              isActive;
 } XrActionStatePose;
 
-typedef struct XrActiveActionSet {
+തരനിർവചനം ഘടന XrActiveActionSet {
     XrActionSet    actionSet;
     XrPath         subactionPath;
 } XrActiveActionSet;
 
-typedef struct XrActionsSyncInfo {
+തരനിർവചനം ഘടന XrActionsSyncInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    countActiveActionSets;
-    const XrActiveActionSet*    activeActionSets;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    എണ്ണം_Active_Action_Sets;
+    സ്ഥിരം XrActiveActionSet*    activeActionSets;
 } XrActionsSyncInfo;
 
-typedef struct XrBoundSourcesForActionEnumerateInfo {
+തരനിർവചനം ഘടന XrBoundSourcesForActionEnumerateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAction                    action;
 } XrBoundSourcesForActionEnumerateInfo;
 
-typedef struct XrInputSourceLocalizedNameGetInfo {
+തരനിർവചനം ഘടന Xr_നിവേശം_Source_Localized_Name_Get_Info {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrPath                             sourcePath;
-    XrInputSourceLocalizedNameFlags    whichComponents;
-} XrInputSourceLocalizedNameGetInfo;
+    Xr_നിവേശം_Source_Localized_Name_Flags    whichComponents;
+} Xr_നിവേശം_Source_Localized_Name_Get_Info;
 
-typedef struct XR_MAY_ALIAS XrHapticBaseHeader {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrHapticBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrHapticBaseHeader;
 
-typedef struct XrHapticActionInfo {
+തരനിർവചനം ഘടന XrHapticActionInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrHapticActionInfo;
 
-typedef struct XR_MAY_ALIAS XrBaseInStructure {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrBaseInStructure {
     XrStructureType                    type;
-    const struct XrBaseInStructure*    next;
+    സ്ഥിരം ഘടന XrBaseInStructure*    next;
 } XrBaseInStructure;
 
-typedef struct XR_MAY_ALIAS XrBaseOutStructure {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrBaseOutStructure {
     XrStructureType               type;
-    struct XrBaseOutStructure*    next;
+    ഘടന XrBaseOutStructure*    next;
 } XrBaseOutStructure;
 
-typedef struct XrOffset2Di {
+തരനിർവചനം ഘടന XrOffset2Di {
     int32_t    x;
     int32_t    y;
 } XrOffset2Di;
 
-typedef struct XrExtent2Di {
+തരനിർവചനം ഘടന XrExtent2Di {
     int32_t    width;
     int32_t    height;
 } XrExtent2Di;
 
-typedef struct XrRect2Di {
+തരനിർവചനം ഘടന XrRect2Di {
     XrOffset2Di    offset;
     XrExtent2Di    extent;
 } XrRect2Di;
 
-typedef struct XrSwapchainSubImage {
+തരനിർവചനം ഘടന XrSwapchainSubImage {
     XrSwapchain    swapchain;
     XrRect2Di      imageRect;
     uint32_t       imageArrayIndex;
 } XrSwapchainSubImage;
 
-typedef struct XrCompositionLayerProjectionView {
+തരനിർവചനം ഘടന XrCompositionLayerProjectionView {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPosef                     pose;
     XrFovf                      fov;
     XrSwapchainSubImage         subImage;
 } XrCompositionLayerProjectionView;
 
-typedef struct XrCompositionLayerProjection {
+തരനിർവചനം ഘടന XrCompositionLayerProjection {
     XrStructureType                            type;
-    const void* XR_MAY_ALIAS                   next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                   next;
     XrCompositionLayerFlags                    layerFlags;
     XrSpace                                    space;
-    uint32_t                                   viewCount;
-    const XrCompositionLayerProjectionView*    views;
+    uint32_t                                   view_എണ്ണം;
+    സ്ഥിരം XrCompositionLayerProjectionView*    views;
 } XrCompositionLayerProjection;
 
-typedef struct XrCompositionLayerQuad {
+തരനിർവചനം ഘടന XrCompositionLayerQuad {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
@@ -1775,34 +1775,34 @@ typedef struct XrCompositionLayerQuad {
     XrExtent2Df                 size;
 } XrCompositionLayerQuad;
 
-typedef struct XR_MAY_ALIAS XrEventDataBaseHeader {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrEventDataBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEventDataBaseHeader;
 
-typedef struct XrEventDataEventsLost {
+തരനിർവചനം ഘടന XrEventDataEventsLost {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    lostEventCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    lost_Event_എണ്ണം;
 } XrEventDataEventsLost;
 
-typedef struct XrEventDataInstanceLossPending {
+തരനിർവചനം ഘടന XrEventDataInstanceLossPending {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      lossTime;
 } XrEventDataInstanceLossPending;
 
-typedef struct XrEventDataSessionStateChanged {
+തരനിർവചനം ഘടന XrEventDataSessionStateChanged {
      XrStructureType            type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrSessionState              state;
     XrTime                      time;
 } XrEventDataSessionStateChanged;
 
-typedef struct XrEventDataReferenceSpaceChangePending {
+തരനിർവചനം ഘടന XrEventDataReferenceSpaceChangePending {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrReferenceSpaceType        referenceSpaceType;
     XrTime                      changeTime;
@@ -1810,119 +1810,119 @@ typedef struct XrEventDataReferenceSpaceChangePending {
     XrPosef                     poseInPreviousSpace;
 } XrEventDataReferenceSpaceChangePending;
 
-typedef struct XrEventDataInteractionProfileChanged {
+തരനിർവചനം ഘടന XrEventDataInteractionProfileChanged {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSession                   session;
 } XrEventDataInteractionProfileChanged;
 
-typedef struct XrHapticVibration {
+തരനിർവചനം ഘടന XrHapticVibration {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrDuration                  duration;
-    float                       frequency;
-    float                       amplitude;
+    ദശാംശം                       frequency;
+    ദശാംശം                       amplitude;
 } XrHapticVibration;
 
-typedef struct XrOffset2Df {
-    float    x;
-    float    y;
+തരനിർവചനം ഘടന XrOffset2Df {
+    ദശാംശം    x;
+    ദശാംശം    y;
 } XrOffset2Df;
 
-typedef struct XrRect2Df {
+തരനിർവചനം ഘടന XrRect2Df {
     XrOffset2Df    offset;
     XrExtent2Df    extent;
 } XrRect2Df;
 
-typedef struct XrVector4f {
-    float    x;
-    float    y;
-    float    z;
-    float    w;
+തരനിർവചനം ഘടന XrVector4f {
+    ദശാംശം    x;
+    ദശാംശം    y;
+    ദശാംശം    z;
+    ദശാംശം    w;
 } XrVector4f;
 
-typedef struct XrColor4f {
-    float    r;
-    float    g;
-    float    b;
-    float    a;
+തരനിർവചനം ഘടന XrColor4f {
+    ദശാംശം    r;
+    ദശാംശം    g;
+    ദശാംശം    b;
+    ദശാംശം    a;
 } XrColor4f;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, const char* name, PFN_xrVoidFunction* function);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateApiLayerProperties)(uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrApiLayerProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(const char* layerName, uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrExtensionProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateInstance)(const XrInstanceCreateInfo* createInfo, XrInstance* instance);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyInstance)(XrInstance instance);
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProperties)(XrInstance instance, XrInstanceProperties* instanceProperties);
-typedef XrResult (XRAPI_PTR *PFN_xrPollEvent)(XrInstance instance, XrEventDataBuffer* eventData);
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE]);
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSystem)(XrInstance instance, const XrSystemGetInfo* getInfo, XrSystemId* systemId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSystemProperties)(XrInstance instance, XrSystemId systemId, XrSystemProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentBlendModes)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environmentBlendModeCapacityInput, uint32_t* environmentBlendModeCountOutput, XrEnvironmentBlendMode* environmentBlendModes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSession)(XrInstance instance, const XrSessionCreateInfo* createInfo, XrSession* session);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateReferenceSpaces)(XrSession session, uint32_t spaceCapacityInput, uint32_t* spaceCountOutput, XrReferenceSpaceType* spaces);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateReferenceSpace)(XrSession session, const XrReferenceSpaceCreateInfo* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrGetReferenceSpaceBoundsRect)(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df* bounds);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateActionSpace)(XrSession session, const XrActionSpaceCreateInfo* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpace)(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation* location);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpace)(XrSpace space);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurations)(XrInstance instance, XrSystemId systemId, uint32_t viewConfigurationTypeCapacityInput, uint32_t* viewConfigurationTypeCountOutput, XrViewConfigurationType* viewConfigurationTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetViewConfigurationProperties)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, XrViewConfigurationProperties* configurationProperties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurationViews)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t viewCapacityInput, uint32_t* viewCountOutput, XrViewConfigurationView* views);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats)(XrSession session, uint32_t formatCapacityInput, uint32_t* formatCountOutput, int64_t* formats);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSwapchain)(XrSession session, const XrSwapchainCreateInfo* createInfo, XrSwapchain* swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySwapchain)(XrSwapchain swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainImages)(XrSwapchain swapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo* acquireInfo, uint32_t* index);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageWaitInfo* waitInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo* releaseInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginSession)(XrSession session, const XrSessionBeginInfo* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndSession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestExitSession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitFrame)(XrSession session, const XrFrameWaitInfo* frameWaitInfo, XrFrameState* frameState);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession session, const XrFrameBeginInfo* frameBeginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndFrame)(XrSession session, const XrFrameEndInfo* frameEndInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateViews)(XrSession session, const XrViewLocateInfo* viewLocateInfo, XrViewState* viewState, uint32_t viewCapacityInput, uint32_t* viewCountOutput, XrView* views);
-typedef XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, const char* pathString, XrPath* path);
-typedef XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateActionSet)(XrInstance instance, const XrActionSetCreateInfo* createInfo, XrActionSet* actionSet);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyActionSet)(XrActionSet actionSet);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAction)(XrActionSet actionSet, const XrActionCreateInfo* createInfo, XrAction* action);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAction)(XrAction action);
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestInteractionProfileBindings)(XrInstance instance, const XrInteractionProfileSuggestedBinding* suggestedBindings);
-typedef XrResult (XRAPI_PTR *PFN_xrAttachSessionActionSets)(XrSession session, const XrSessionActionSetsAttachInfo* attachInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCurrentInteractionProfile)(XrSession session, XrPath topLevelUserPath, XrInteractionProfileState* interactionProfile);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateBoolean)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateBoolean* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateFloat)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateFloat* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateVector2f)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateVector2f* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStatePose)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStatePose* state);
-typedef XrResult (XRAPI_PTR *PFN_xrSyncActions)(XrSession session, const XrActionsSyncInfo* syncInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateBoundSourcesForAction)(XrSession session, const XrBoundSourcesForActionEnumerateInfo* enumerateInfo, uint32_t sourceCapacityInput, uint32_t* sourceCountOutput, XrPath* sources);
-typedef XrResult (XRAPI_PTR *PFN_xrGetInputSourceLocalizedName)(XrSession session, const XrInputSourceLocalizedNameGetInfo* getInfo, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo, const XrHapticBaseHeader* hapticFeedback);
-typedef XrResult (XRAPI_PTR *PFN_xrStopHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, സ്ഥിരം അക്ഷരം* name, PFN_xrVoidFunction* function);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateApiLayerProperties)(uint32_t property_Capacity_നിവേശം, uint32_t* property_എണ്ണം_Output, XrApiLayerProperties* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(സ്ഥിരം അക്ഷരം* layerName, uint32_t property_Capacity_നിവേശം, uint32_t* property_എണ്ണം_Output, XrExtensionProperties* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateInstance)(സ്ഥിരം XrInstanceCreateInfo* createInfo, XrInstance* instance);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyInstance)(XrInstance instance);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetInstanceProperties)(XrInstance instance, XrInstanceProperties* instanceProperties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPollEvent)(XrInstance instance, XrEventDataBuffer* eventData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult മൂല്യം, അക്ഷരം buffer[XR_MAX_RESULT_STRING_SIZE]);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType മൂല്യം, അക്ഷരം buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSystem)(XrInstance instance, സ്ഥിരം XrSystemGetInfo* getInfo, XrSystemId* systemId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSystemProperties)(XrInstance instance, XrSystemId systemId, XrSystemProperties* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentBlendModes)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environment_Blend_Mode_Capacity_നിവേശം, uint32_t* environment_Blend_Mode_എണ്ണം_Output, XrEnvironmentBlendMode* environmentBlendModes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSession)(XrInstance instance, സ്ഥിരം XrSessionCreateInfo* createInfo, XrSession* session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySession)(XrSession session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateReferenceSpaces)(XrSession session, uint32_t space_Capacity_നിവേശം, uint32_t* space_എണ്ണം_Output, XrReferenceSpaceType* spaces);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateReferenceSpace)(XrSession session, സ്ഥിരം XrReferenceSpaceCreateInfo* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetReferenceSpaceBoundsRect)(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df* bounds);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateActionSpace)(XrSession session, സ്ഥിരം XrActionSpaceCreateInfo* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateSpace)(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation* location);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpace)(XrSpace space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurations)(XrInstance instance, XrSystemId systemId, uint32_t view_Configuration_Type_Capacity_നിവേശം, uint32_t* view_Configuration_Type_എണ്ണം_Output, XrViewConfigurationType* viewConfigurationTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetViewConfigurationProperties)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, XrViewConfigurationProperties* configurationProperties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurationViews)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t view_Capacity_നിവേശം, uint32_t* view_എണ്ണം_Output, XrViewConfigurationView* views);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats)(XrSession session, uint32_t format_Capacity_നിവേശം, uint32_t* format_എണ്ണം_Output, int64_t* formats);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSwapchain)(XrSession session, സ്ഥിരം XrSwapchainCreateInfo* createInfo, XrSwapchain* swapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySwapchain)(XrSwapchain swapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainImages)(XrSwapchain swapchain, uint32_t image_Capacity_നിവേശം, uint32_t* image_എണ്ണം_Output, XrSwapchainImageBaseHeader* images);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAcquireSwapchainImage)(XrSwapchain swapchain, സ്ഥിരം XrSwapchainImageAcquireInfo* acquireInfo, uint32_t* index);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrWaitSwapchainImage)(XrSwapchain swapchain, സ്ഥിരം XrSwapchainImageWaitInfo* waitInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrReleaseSwapchainImage)(XrSwapchain swapchain, സ്ഥിരം XrSwapchainImageReleaseInfo* releaseInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrBeginSession)(XrSession session, സ്ഥിരം XrSessionBeginInfo* beginInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEndSession)(XrSession session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestExitSession)(XrSession session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrWaitFrame)(XrSession session, സ്ഥിരം XrFrameWaitInfo* frameWaitInfo, XrFrameState* frameState);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession session, സ്ഥിരം XrFrameBeginInfo* frameBeginInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEndFrame)(XrSession session, സ്ഥിരം XrFrameEndInfo* frameEndInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateViews)(XrSession session, സ്ഥിരം XrViewLocateInfo* viewLocateInfo, XrViewState* viewState, uint32_t view_Capacity_നിവേശം, uint32_t* view_എണ്ണം_Output, XrView* views);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, സ്ഥിരം അക്ഷരം* pathString, XrPath* path);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateActionSet)(XrInstance instance, സ്ഥിരം XrActionSetCreateInfo* createInfo, XrActionSet* actionSet);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyActionSet)(XrActionSet actionSet);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateAction)(XrActionSet actionSet, സ്ഥിരം XrActionCreateInfo* createInfo, XrAction* action);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyAction)(XrAction action);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSuggestInteractionProfileBindings)(XrInstance instance, സ്ഥിരം XrInteractionProfileSuggestedBinding* suggestedBindings);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAttachSessionActionSets)(XrSession session, സ്ഥിരം XrSessionActionSetsAttachInfo* attachInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetCurrentInteractionProfile)(XrSession session, XrPath മുകൾ_Level_User_Path, XrInteractionProfileState* interactionProfile);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetActionStateBoolean)(XrSession session, സ്ഥിരം XrActionStateGetInfo* getInfo, XrActionStateBoolean* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetActionStateFloat)(XrSession session, സ്ഥിരം XrActionStateGetInfo* getInfo, XrActionStateFloat* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetActionStateVector2f)(XrSession session, സ്ഥിരം XrActionStateGetInfo* getInfo, XrActionStateVector2f* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetActionStatePose)(XrSession session, സ്ഥിരം XrActionStateGetInfo* getInfo, XrActionStatePose* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSyncActions)(XrSession session, സ്ഥിരം XrActionsSyncInfo* syncInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateBoundSourcesForAction)(XrSession session, സ്ഥിരം XrBoundSourcesForActionEnumerateInfo* enumerateInfo, uint32_t source_Capacity_നിവേശം, uint32_t* source_എണ്ണം_Output, XrPath* sources);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Get_നിവേശം_Source_Localized_Name)(XrSession session, സ്ഥിരം Xr_നിവേശം_Source_Localized_Name_Get_Info* getInfo, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession session, സ്ഥിരം XrHapticActionInfo* hapticActionInfo, സ്ഥിരം XrHapticBaseHeader* hapticFeedback);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStopHapticFeedback)(XrSession session, സ്ഥിരം XrHapticActionInfo* hapticActionInfo);
 
 #ifndef XR_NO_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetInstanceProcAddr(
     XrInstance                                  instance,
-    const char*                                 name,
+    സ്ഥിരം അക്ഷരം*                                 name,
     PFN_xrVoidFunction*                         function);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateApiLayerProperties(
-    uint32_t                                    propertyCapacityInput,
-    uint32_t*                                   propertyCountOutput,
+    uint32_t                                    property_Capacity_നിവേശം,
+    uint32_t*                                   property_എണ്ണം_Output,
     XrApiLayerProperties*                       properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateInstanceExtensionProperties(
-    const char*                                 layerName,
-    uint32_t                                    propertyCapacityInput,
-    uint32_t*                                   propertyCountOutput,
+    സ്ഥിരം അക്ഷരം*                                 layerName,
+    uint32_t                                    property_Capacity_നിവേശം,
+    uint32_t*                                   property_എണ്ണം_Output,
     XrExtensionProperties*                      properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateInstance(
-    const XrInstanceCreateInfo*                 createInfo,
+    സ്ഥിരം XrInstanceCreateInfo*                 createInfo,
     XrInstance*                                 instance);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyInstance(
@@ -1938,17 +1938,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPollEvent(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString(
     XrInstance                                  instance,
-    XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
+    XrResult                                    മൂല്യം,
+    അക്ഷരം                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString(
     XrInstance                                  instance,
-    XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+    XrStructureType                             മൂല്യം,
+    അക്ഷരം                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSystem(
     XrInstance                                  instance,
-    const XrSystemGetInfo*                      getInfo,
+    സ്ഥിരം XrSystemGetInfo*                      getInfo,
     XrSystemId*                                 systemId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSystemProperties(
@@ -1960,13 +1960,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentBlendModes(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    environmentBlendModeCapacityInput,
-    uint32_t*                                   environmentBlendModeCountOutput,
+    uint32_t                                    environment_Blend_Mode_Capacity_നിവേശം,
+    uint32_t*                                   environment_Blend_Mode_എണ്ണം_Output,
     XrEnvironmentBlendMode*                     environmentBlendModes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSession(
     XrInstance                                  instance,
-    const XrSessionCreateInfo*                  createInfo,
+    സ്ഥിരം XrSessionCreateInfo*                  createInfo,
     XrSession*                                  session);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySession(
@@ -1974,13 +1974,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySession(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReferenceSpaces(
     XrSession                                   session,
-    uint32_t                                    spaceCapacityInput,
-    uint32_t*                                   spaceCountOutput,
+    uint32_t                                    space_Capacity_നിവേശം,
+    uint32_t*                                   space_എണ്ണം_Output,
     XrReferenceSpaceType*                       spaces);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateReferenceSpace(
     XrSession                                   session,
-    const XrReferenceSpaceCreateInfo*           createInfo,
+    സ്ഥിരം XrReferenceSpaceCreateInfo*           createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetReferenceSpaceBoundsRect(
@@ -1990,7 +1990,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetReferenceSpaceBoundsRect(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateActionSpace(
     XrSession                                   session,
-    const XrActionSpaceCreateInfo*              createInfo,
+    സ്ഥിരം XrActionSpaceCreateInfo*              createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpace(
@@ -2005,8 +2005,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpace(
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViewConfigurations(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    viewConfigurationTypeCapacityInput,
-    uint32_t*                                   viewConfigurationTypeCountOutput,
+    uint32_t                                    view_Configuration_Type_Capacity_നിവേശം,
+    uint32_t*                                   view_Configuration_Type_എണ്ണം_Output,
     XrViewConfigurationType*                    viewConfigurationTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetViewConfigurationProperties(
@@ -2019,19 +2019,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViewConfigurationViews(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    viewCapacityInput,
-    uint32_t*                                   viewCountOutput,
+    uint32_t                                    view_Capacity_നിവേശം,
+    uint32_t*                                   view_എണ്ണം_Output,
     XrViewConfigurationView*                    views);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainFormats(
     XrSession                                   session,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_നിവേശം,
+    uint32_t*                                   format_എണ്ണം_Output,
     int64_t*                                    formats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSwapchain(
     XrSession                                   session,
-    const XrSwapchainCreateInfo*                createInfo,
+    സ്ഥിരം XrSwapchainCreateInfo*                createInfo,
     XrSwapchain*                                swapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySwapchain(
@@ -2039,26 +2039,26 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySwapchain(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainImages(
     XrSwapchain                                 swapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_നിവേശം,
+    uint32_t*                                   image_എണ്ണം_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageAcquireInfo*          acquireInfo,
+    സ്ഥിരം XrSwapchainImageAcquireInfo*          acquireInfo,
     uint32_t*                                   index);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrWaitSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageWaitInfo*             waitInfo);
+    സ്ഥിരം XrSwapchainImageWaitInfo*             waitInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrReleaseSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageReleaseInfo*          releaseInfo);
+    സ്ഥിരം XrSwapchainImageReleaseInfo*          releaseInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginSession(
     XrSession                                   session,
-    const XrSessionBeginInfo*                   beginInfo);
+    സ്ഥിരം XrSessionBeginInfo*                   beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndSession(
     XrSession                                   session);
@@ -2068,40 +2068,40 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestExitSession(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrWaitFrame(
     XrSession                                   session,
-    const XrFrameWaitInfo*                      frameWaitInfo,
+    സ്ഥിരം XrFrameWaitInfo*                      frameWaitInfo,
     XrFrameState*                               frameState);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginFrame(
     XrSession                                   session,
-    const XrFrameBeginInfo*                     frameBeginInfo);
+    സ്ഥിരം XrFrameBeginInfo*                     frameBeginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndFrame(
     XrSession                                   session,
-    const XrFrameEndInfo*                       frameEndInfo);
+    സ്ഥിരം XrFrameEndInfo*                       frameEndInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateViews(
     XrSession                                   session,
-    const XrViewLocateInfo*                     viewLocateInfo,
+    സ്ഥിരം XrViewLocateInfo*                     viewLocateInfo,
     XrViewState*                                viewState,
-    uint32_t                                    viewCapacityInput,
-    uint32_t*                                   viewCountOutput,
+    uint32_t                                    view_Capacity_നിവേശം,
+    uint32_t*                                   view_എണ്ണം_Output,
     XrView*                                     views);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStringToPath(
     XrInstance                                  instance,
-    const char*                                 pathString,
+    സ്ഥിരം അക്ഷരം*                                 pathString,
     XrPath*                                     path);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPathToString(
     XrInstance                                  instance,
     XrPath                                      path,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateActionSet(
     XrInstance                                  instance,
-    const XrActionSetCreateInfo*                createInfo,
+    സ്ഥിരം XrActionSetCreateInfo*                createInfo,
     XrActionSet*                                actionSet);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyActionSet(
@@ -2109,7 +2109,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyActionSet(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAction(
     XrActionSet                                 actionSet,
-    const XrActionCreateInfo*                   createInfo,
+    സ്ഥിരം XrActionCreateInfo*                   createInfo,
     XrAction*                                   action);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAction(
@@ -2117,63 +2117,63 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAction(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestInteractionProfileBindings(
     XrInstance                                  instance,
-    const XrInteractionProfileSuggestedBinding* suggestedBindings);
+    സ്ഥിരം XrInteractionProfileSuggestedBinding* suggestedBindings);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAttachSessionActionSets(
     XrSession                                   session,
-    const XrSessionActionSetsAttachInfo*        attachInfo);
+    സ്ഥിരം XrSessionActionSetsAttachInfo*        attachInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCurrentInteractionProfile(
     XrSession                                   session,
-    XrPath                                      topLevelUserPath,
+    XrPath                                      മുകൾ_Level_User_Path,
     XrInteractionProfileState*                  interactionProfile);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateBoolean(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    സ്ഥിരം XrActionStateGetInfo*                 getInfo,
     XrActionStateBoolean*                       state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateFloat(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    സ്ഥിരം XrActionStateGetInfo*                 getInfo,
     XrActionStateFloat*                         state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateVector2f(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    സ്ഥിരം XrActionStateGetInfo*                 getInfo,
     XrActionStateVector2f*                      state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStatePose(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    സ്ഥിരം XrActionStateGetInfo*                 getInfo,
     XrActionStatePose*                          state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSyncActions(
     XrSession                                   session,
-    const XrActionsSyncInfo*                    syncInfo);
+    സ്ഥിരം XrActionsSyncInfo*                    syncInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateBoundSourcesForAction(
     XrSession                                   session,
-    const XrBoundSourcesForActionEnumerateInfo* enumerateInfo,
-    uint32_t                                    sourceCapacityInput,
-    uint32_t*                                   sourceCountOutput,
+    സ്ഥിരം XrBoundSourcesForActionEnumerateInfo* enumerateInfo,
+    uint32_t                                    source_Capacity_നിവേശം,
+    uint32_t*                                   source_എണ്ണം_Output,
     XrPath*                                     sources);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetInputSourceLocalizedName(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_നിവേശം_Source_Localized_Name(
     XrSession                                   session,
-    const XrInputSourceLocalizedNameGetInfo*    getInfo,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    സ്ഥിരം Xr_നിവേശം_Source_Localized_Name_Get_Info*    getInfo,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyHapticFeedback(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
-    const XrHapticBaseHeader*                   hapticFeedback);
+    സ്ഥിരം XrHapticActionInfo*                   hapticActionInfo,
+    സ്ഥിരം XrHapticBaseHeader*                   hapticFeedback);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopHapticFeedback(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo);
+    സ്ഥിരം XrHapticActionInfo*                   hapticActionInfo);
 #endif /* !XR_NO_PROTOTYPES */
 
 
@@ -2183,80 +2183,80 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopHapticFeedback(
 #define XR_API_VERSION_1_1 XR_MAKE_VERSION(1, 1, XR_VERSION_PATCH(XR_CURRENT_API_VERSION))
 
 #define XR_UUID_SIZE                      16
-typedef struct XrColor3f {
-    float    r;
-    float    g;
-    float    b;
+തരനിർവചനം ഘടന XrColor3f {
+    ദശാംശം    r;
+    ദശാംശം    g;
+    ദശാംശം    b;
 } XrColor3f;
 
-typedef struct XrExtent3Df {
-    float    width;
-    float    height;
-    float    depth;
+തരനിർവചനം ഘടന XrExtent3Df {
+    ദശാംശം    width;
+    ദശാംശം    height;
+    ദശാംശം    depth;
 } XrExtent3Df;
 
-typedef struct XrSpheref {
+തരനിർവചനം ഘടന XrSpheref {
     XrPosef    center;
-    float      radius;
+    ദശാംശം      radius;
 } XrSpheref;
 
-typedef struct XrBoxf {
+തരനിർവചനം ഘടന XrBoxf {
     XrPosef        center;
     XrExtent3Df    extents;
 } XrBoxf;
 
-typedef struct XrFrustumf {
+തരനിർവചനം ഘടന XrFrustumf {
     XrPosef    pose;
     XrFovf     fov;
-    float      nearZ;
-    float      farZ;
+    ദശാംശം      nearZ;
+    ദശാംശം      farZ;
 } XrFrustumf;
 
-typedef struct XrUuid {
+തരനിർവചനം ഘടന XrUuid {
     uint8_t    data[XR_UUID_SIZE];
 } XrUuid;
 
-typedef struct XrSpacesLocateInfo {
+തരനിർവചനം ഘടന XrSpacesLocateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
-    uint32_t                    spaceCount;
-    const XrSpace*              spaces;
+    uint32_t                    space_എണ്ണം;
+    സ്ഥിരം XrSpace*              spaces;
 } XrSpacesLocateInfo;
 
-typedef struct XrSpaceLocationData {
+തരനിർവചനം ഘടന XrSpaceLocationData {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrSpaceLocationData;
 
-typedef struct XrSpaceLocations {
+തരനിർവചനം ഘടന XrSpaceLocations {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
-    uint32_t                locationCount;
+    ശൂന്യം* XR_MAY_ALIAS      next;
+    uint32_t                location_എണ്ണം;
     XrSpaceLocationData*    locations;
 } XrSpaceLocations;
 
-typedef struct XrSpaceVelocityData {
+തരനിർവചനം ഘടന XrSpaceVelocityData {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrSpaceVelocityData;
 
 // XrSpaceVelocities extends XrSpaceLocations
-typedef struct XrSpaceVelocities {
+തരനിർവചനം ഘടന XrSpaceVelocities {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
-    uint32_t                velocityCount;
+    ശൂന്യം* XR_MAY_ALIAS      next;
+    uint32_t                velocity_എണ്ണം;
     XrSpaceVelocityData*    velocities;
 } XrSpaceVelocities;
 
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpaces)(XrSession session, const XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateSpaces)(XrSession session, സ്ഥിരം XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
 
 #ifndef XR_NO_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpaces(
     XrSession                                   session,
-    const XrSpacesLocateInfo*                   locateInfo,
+    സ്ഥിരം XrSpacesLocateInfo*                   locateInfo,
     XrSpaceLocations*                           spaceLocations);
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2265,9 +2265,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpaces(
 #define XR_KHR_composition_layer_cube 1
 #define XR_KHR_composition_layer_cube_SPEC_VERSION 8
 #define XR_KHR_COMPOSITION_LAYER_CUBE_EXTENSION_NAME "XR_KHR_composition_layer_cube"
-typedef struct XrCompositionLayerCubeKHR {
+തരനിർവചനം ഘടന XrCompositionLayerCubeKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
@@ -2283,14 +2283,14 @@ typedef struct XrCompositionLayerCubeKHR {
 #define XR_KHR_composition_layer_depth_SPEC_VERSION 6
 #define XR_KHR_COMPOSITION_LAYER_DEPTH_EXTENSION_NAME "XR_KHR_composition_layer_depth"
 // XrCompositionLayerDepthInfoKHR extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerDepthInfoKHR {
+തരനിർവചനം ഘടന XrCompositionLayerDepthInfoKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSwapchainSubImage         subImage;
-    float                       minDepth;
-    float                       maxDepth;
-    float                       nearZ;
-    float                       farZ;
+    ദശാംശം                       minDepth;
+    ദശാംശം                       maxDepth;
+    ദശാംശം                       nearZ;
+    ദശാംശം                       farZ;
 } XrCompositionLayerDepthInfoKHR;
 
 
@@ -2299,17 +2299,17 @@ typedef struct XrCompositionLayerDepthInfoKHR {
 #define XR_KHR_composition_layer_cylinder 1
 #define XR_KHR_composition_layer_cylinder_SPEC_VERSION 4
 #define XR_KHR_COMPOSITION_LAYER_CYLINDER_EXTENSION_NAME "XR_KHR_composition_layer_cylinder"
-typedef struct XrCompositionLayerCylinderKHR {
+തരനിർവചനം ഘടന XrCompositionLayerCylinderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
-    float                       centralAngle;
-    float                       aspectRatio;
+    ദശാംശം                       radius;
+    ദശാംശം                       centralAngle;
+    ദശാംശം                       aspectRatio;
 } XrCompositionLayerCylinderKHR;
 
 
@@ -2318,15 +2318,15 @@ typedef struct XrCompositionLayerCylinderKHR {
 #define XR_KHR_composition_layer_equirect 1
 #define XR_KHR_composition_layer_equirect_SPEC_VERSION 3
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT_EXTENSION_NAME "XR_KHR_composition_layer_equirect"
-typedef struct XrCompositionLayerEquirectKHR {
+തരനിർവചനം ഘടന XrCompositionLayerEquirectKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
+    ദശാംശം                       radius;
     XrVector2f                  scale;
     XrVector2f                  bias;
 } XrCompositionLayerEquirectKHR;
@@ -2338,32 +2338,32 @@ typedef struct XrCompositionLayerEquirectKHR {
 #define XR_KHR_visibility_mask_SPEC_VERSION 2
 #define XR_KHR_VISIBILITY_MASK_EXTENSION_NAME "XR_KHR_visibility_mask"
 
-typedef enum XrVisibilityMaskTypeKHR {
+തരനിർവചനം എണ്ണൽ XrVisibilityMaskTypeKHR {
     XR_VISIBILITY_MASK_TYPE_HIDDEN_TRIANGLE_MESH_KHR = 1,
     XR_VISIBILITY_MASK_TYPE_VISIBLE_TRIANGLE_MESH_KHR = 2,
-    XR_VISIBILITY_MASK_TYPE_LINE_LOOP_KHR = 3,
+    XR_VISIBILITY_MASK_TYPE_വരി_LOOP_KHR = 3,
     XR_VISIBILITY_MASK_TYPE_MAX_ENUM_KHR = 0x7FFFFFFF
 } XrVisibilityMaskTypeKHR;
-typedef struct XrVisibilityMaskKHR {
+തരനിർവചനം ഘടന XrVisibilityMaskKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector2f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint32_t*             indices;
 } XrVisibilityMaskKHR;
 
-typedef struct XrEventDataVisibilityMaskChangedKHR {
+തരനിർവചനം ഘടന XrEventDataVisibilityMaskChangedKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrViewConfigurationType     viewConfigurationType;
     uint32_t                    viewIndex;
 } XrEventDataVisibilityMaskChangedKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetVisibilityMaskKHR)(XrSession session, XrViewConfigurationType viewConfigurationType, uint32_t viewIndex, XrVisibilityMaskTypeKHR visibilityMaskType, XrVisibilityMaskKHR* visibilityMask);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetVisibilityMaskKHR)(XrSession session, XrViewConfigurationType viewConfigurationType, uint32_t viewIndex, XrVisibilityMaskTypeKHR visibilityMaskType, XrVisibilityMaskKHR* visibilityMask);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2382,9 +2382,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVisibilityMaskKHR(
 #define XR_KHR_composition_layer_color_scale_bias_SPEC_VERSION 5
 #define XR_KHR_COMPOSITION_LAYER_COLOR_SCALE_BIAS_EXTENSION_NAME "XR_KHR_composition_layer_color_scale_bias"
 // XrCompositionLayerColorScaleBiasKHR extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerColorScaleBiasKHR {
+തരനിർവചനം ഘടന XrCompositionLayerColorScaleBiasKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrColor4f                   colorScale;
     XrColor4f                   colorBias;
 } XrCompositionLayerColorScaleBiasKHR;
@@ -2395,17 +2395,17 @@ typedef struct XrCompositionLayerColorScaleBiasKHR {
 #define XR_KHR_loader_init 1
 #define XR_KHR_loader_init_SPEC_VERSION   2
 #define XR_KHR_LOADER_INIT_EXTENSION_NAME "XR_KHR_loader_init"
-typedef struct XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrLoaderInitInfoBaseHeaderKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrInitializeLoaderKHR)(const XrLoaderInitInfoBaseHeaderKHR* loaderInitInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrInitializeLoaderKHR)(സ്ഥിരം XrLoaderInitInfoBaseHeaderKHR* loaderInitInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrInitializeLoaderKHR(
-    const XrLoaderInitInfoBaseHeaderKHR*        loaderInitInfo);
+    സ്ഥിരം XrLoaderInitInfoBaseHeaderKHR*        loaderInitInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2414,18 +2414,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrInitializeLoaderKHR(
 #define XR_KHR_composition_layer_equirect2 1
 #define XR_KHR_composition_layer_equirect2_SPEC_VERSION 1
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT2_EXTENSION_NAME "XR_KHR_composition_layer_equirect2"
-typedef struct XrCompositionLayerEquirect2KHR {
+തരനിർവചനം ഘടന XrCompositionLayerEquirect2KHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
-    float                       centralHorizontalAngle;
-    float                       upperVerticalAngle;
-    float                       lowerVerticalAngle;
+    ദശാംശം                       radius;
+    ദശാംശം                       centralHorizontalAngle;
+    ദശാംശം                       upperVerticalAngle;
+    ദശാംശം                       lowerVerticalAngle;
 } XrCompositionLayerEquirect2KHR;
 
 
@@ -2434,17 +2434,17 @@ typedef struct XrCompositionLayerEquirect2KHR {
 #define XR_KHR_binding_modification 1
 #define XR_KHR_binding_modification_SPEC_VERSION 1
 #define XR_KHR_BINDING_MODIFICATION_EXTENSION_NAME "XR_KHR_binding_modification"
-typedef struct XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrBindingModificationBaseHeaderKHR;
 
 // XrBindingModificationsKHR extends XrInteractionProfileSuggestedBinding
-typedef struct XrBindingModificationsKHR {
+തരനിർവചനം ഘടന XrBindingModificationsKHR {
     XrStructureType                                     type;
-    const void* XR_MAY_ALIAS                            next;
-    uint32_t                                            bindingModificationCount;
-    const XrBindingModificationBaseHeaderKHR* const*    bindingModifications;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                            next;
+    uint32_t                                            binding_Modification_എണ്ണം;
+    സ്ഥിരം XrBindingModificationBaseHeaderKHR* സ്ഥിരം*    bindingModifications;
 } XrBindingModificationsKHR;
 
 
@@ -2454,45 +2454,45 @@ typedef struct XrBindingModificationsKHR {
 #define XR_KHR_extended_struct_name_lengths_SPEC_VERSION 2
 #define XR_KHR_EXTENDED_STRUCT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_struct_name_lengths"
 #define XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType മൂല്യം, അക്ഷരം buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString2KHR(
     XrInstance                                  instance,
-    XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+    XrStructureType                             മൂല്യം,
+    അക്ഷരം                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
 
 // XR_KHR_swapchain_usage_input_attachment_bit is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_swapchain_usage_input_attachment_bit 1
-#define XR_KHR_swapchain_usage_input_attachment_bit_SPEC_VERSION 3
-#define XR_KHR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_EXTENSION_NAME "XR_KHR_swapchain_usage_input_attachment_bit"
+#define XR_KHR_swapchain_usage_നിവേശം_attachment_bit 1
+#define XR_KHR_swapchain_usage_നിവേശം_attachment_bit_SPEC_VERSION 3
+#define XR_KHR_SWAPCHAIN_USAGE_നിവേശം_ATTACHMENT_BIT_EXTENSION_NAME "XR_KHR_swapchain_usage_input_attachment_bit"
 
 
 // XR_KHR_locate_spaces is a preprocessor guard. Do not pass it to API calls.
 #define XR_KHR_locate_spaces 1
 #define XR_KHR_locate_spaces_SPEC_VERSION 1
 #define XR_KHR_LOCATE_SPACES_EXTENSION_NAME "XR_KHR_locate_spaces"
-typedef XrSpacesLocateInfo XrSpacesLocateInfoKHR;
+തരനിർവചനം XrSpacesLocateInfo XrSpacesLocateInfoKHR;
 
-typedef XrSpaceLocationData XrSpaceLocationDataKHR;
+തരനിർവചനം XrSpaceLocationData XrSpaceLocationDataKHR;
 
-typedef XrSpaceLocations XrSpaceLocationsKHR;
+തരനിർവചനം XrSpaceLocations XrSpaceLocationsKHR;
 
-typedef XrSpaceVelocityData XrSpaceVelocityDataKHR;
+തരനിർവചനം XrSpaceVelocityData XrSpaceVelocityDataKHR;
 
-typedef XrSpaceVelocities XrSpaceVelocitiesKHR;
+തരനിർവചനം XrSpaceVelocities XrSpaceVelocitiesKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpacesKHR)(XrSession session, const XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateSpacesKHR)(XrSession session, സ്ഥിരം XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpacesKHR(
     XrSession                                   session,
-    const XrSpacesLocateInfo*                   locateInfo,
+    സ്ഥിരം XrSpacesLocateInfo*                   locateInfo,
     XrSpaceLocations*                           spaceLocations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -2502,15 +2502,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpacesKHR(
 #define XR_KHR_maintenance1 1
 #define XR_KHR_maintenance1_SPEC_VERSION  1
 #define XR_KHR_MAINTENANCE1_EXTENSION_NAME "XR_KHR_maintenance1"
-typedef XrColor3f XrColor3fKHR;
+തരനിർവചനം XrColor3f XrColor3fKHR;
 
-typedef XrExtent3Df XrExtent3DfKHR;
+തരനിർവചനം XrExtent3Df XrExtent3DfKHR;
 
-typedef XrSpheref XrSpherefKHR;
+തരനിർവചനം XrSpheref XrSpherefKHR;
 
-typedef XrBoxf XrBoxfKHR;
+തരനിർവചനം XrBoxf XrBoxfKHR;
 
-typedef XrFrustumf XrFrustumfKHR;
+തരനിർവചനം XrFrustumf XrFrustumfKHR;
 
 
 
@@ -2525,14 +2525,14 @@ typedef XrFrustumf XrFrustumfKHR;
 #define XR_KHR_extended_result_name_lengths_SPEC_VERSION 1
 #define XR_KHR_EXTENDED_RESULT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_result_name_lengths"
 #define XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult മൂല്യം, അക്ഷരം buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
     XrInstance                                  instance,
-    XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+    XrResult                                    മൂല്യം,
+    അക്ഷരം                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2542,43 +2542,43 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
 #define XR_EXT_performance_settings_SPEC_VERSION 4
 #define XR_EXT_PERFORMANCE_SETTINGS_EXTENSION_NAME "XR_EXT_performance_settings"
 
-typedef enum XrPerfSettingsDomainEXT {
+തരനിർവചനം എണ്ണൽ XrPerfSettingsDomainEXT {
     XR_PERF_SETTINGS_DOMAIN_CPU_EXT = 1,
     XR_PERF_SETTINGS_DOMAIN_GPU_EXT = 2,
     XR_PERF_SETTINGS_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsDomainEXT;
 
-typedef enum XrPerfSettingsSubDomainEXT {
+തരനിർവചനം എണ്ണൽ XrPerfSettingsSubDomainEXT {
     XR_PERF_SETTINGS_SUB_DOMAIN_COMPOSITING_EXT = 1,
     XR_PERF_SETTINGS_SUB_DOMAIN_RENDERING_EXT = 2,
     XR_PERF_SETTINGS_SUB_DOMAIN_THERMAL_EXT = 3,
     XR_PERF_SETTINGS_SUB_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsSubDomainEXT;
 
-typedef enum XrPerfSettingsLevelEXT {
+തരനിർവചനം എണ്ണൽ XrPerfSettingsLevelEXT {
     XR_PERF_SETTINGS_LEVEL_POWER_SAVINGS_EXT = 0,
-    XR_PERF_SETTINGS_LEVEL_SUSTAINED_LOW_EXT = 25,
-    XR_PERF_SETTINGS_LEVEL_SUSTAINED_HIGH_EXT = 50,
+    XR_PERF_SETTINGS_LEVEL_SUSTAINED_താഴെയുള്ള_EXT = 25,
+    XR_PERF_SETTINGS_LEVEL_SUSTAINED_മുകളിലെ_EXT = 50,
     XR_PERF_SETTINGS_LEVEL_BOOST_EXT = 75,
     XR_PERF_SETTINGS_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsLevelEXT;
 
-typedef enum XrPerfSettingsNotificationLevelEXT {
+തരനിർവചനം എണ്ണൽ XrPerfSettingsNotificationLevelEXT {
     XR_PERF_SETTINGS_NOTIF_LEVEL_NORMAL_EXT = 0,
     XR_PERF_SETTINGS_NOTIF_LEVEL_WARNING_EXT = 25,
     XR_PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED_EXT = 75,
     XR_PERF_SETTINGS_NOTIFICATION_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsNotificationLevelEXT;
-typedef struct XrEventDataPerfSettingsEXT {
+തരനിർവചനം ഘടന XrEventDataPerfSettingsEXT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrPerfSettingsDomainEXT               domain;
     XrPerfSettingsSubDomainEXT            subDomain;
     XrPerfSettingsNotificationLevelEXT    fromLevel;
     XrPerfSettingsNotificationLevelEXT    toLevel;
 } XrEventDataPerfSettingsEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPerfSettingsSetPerformanceLevelEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsLevelEXT level);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPerfSettingsSetPerformanceLevelEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsLevelEXT level);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2594,7 +2594,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPerfSettingsSetPerformanceLevelEXT(
 #define XR_EXT_thermal_query 1
 #define XR_EXT_thermal_query_SPEC_VERSION 2
 #define XR_EXT_THERMAL_QUERY_EXTENSION_NAME "XR_EXT_thermal_query"
-typedef XrResult (XRAPI_PTR *PFN_xrThermalGetTemperatureTrendEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsNotificationLevelEXT* notificationLevel, float* tempHeadroom, float* tempSlope);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrThermalGetTemperatureTrendEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsNotificationLevelEXT* notificationLevel, ദശാംശം* tempHeadroom, ദശാംശം* tempSlope);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2602,8 +2602,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrThermalGetTemperatureTrendEXT(
     XrSession                                   session,
     XrPerfSettingsDomainEXT                     domain,
     XrPerfSettingsNotificationLevelEXT*         notificationLevel,
-    float*                                      tempHeadroom,
-    float*                                      tempSlope);
+    ദശാംശം*                                      tempHeadroom,
+    ദശാംശം*                                      tempSlope);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2613,82 +2613,82 @@ XRAPI_ATTR XrResult XRAPI_CALL xrThermalGetTemperatureTrendEXT(
 XR_DEFINE_HANDLE(XrDebugUtilsMessengerEXT)
 #define XR_EXT_debug_utils_SPEC_VERSION   5
 #define XR_EXT_DEBUG_UTILS_EXTENSION_NAME "XR_EXT_debug_utils"
-typedef XrFlags64 XrDebugUtilsMessageSeverityFlagsEXT;
+തരനിർവചനം XrFlags64 XrDebugUtilsMessageSeverityFlagsEXT;
 
 // Flag bits for XrDebugUtilsMessageSeverityFlagsEXT
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT = 0x00000001;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT = 0x00000010;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT = 0x00000100;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT = 0x00001000;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT = 0x00000100;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT = 0x00001000;
 
-typedef XrFlags64 XrDebugUtilsMessageTypeFlagsEXT;
+തരനിർവചനം XrFlags64 XrDebugUtilsMessageTypeFlagsEXT;
 
 // Flag bits for XrDebugUtilsMessageTypeFlagsEXT
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT = 0x00000001;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT = 0x00000002;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT = 0x00000004;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_CONFORMANCE_BIT_EXT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_CONFORMANCE_BIT_EXT = 0x00000008;
 
-typedef struct XrDebugUtilsObjectNameInfoEXT {
+തരനിർവചനം ഘടന XrDebugUtilsObjectNameInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrObjectType                objectType;
     uint64_t                    objectHandle;
-    const char*                 objectName;
+    സ്ഥിരം അക്ഷരം*                 objectName;
 } XrDebugUtilsObjectNameInfoEXT;
 
-typedef struct XrDebugUtilsLabelEXT {
+തരനിർവചനം ഘടന XrDebugUtilsLabelEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 labelName;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    സ്ഥിരം അക്ഷരം*                 labelName;
 } XrDebugUtilsLabelEXT;
 
-typedef struct XrDebugUtilsMessengerCallbackDataEXT {
+തരനിർവചനം ഘടന XrDebugUtilsMessengerCallbackDataEXT {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
-    const char*                       messageId;
-    const char*                       functionName;
-    const char*                       message;
-    uint32_t                          objectCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
+    സ്ഥിരം അക്ഷരം*                       messageId;
+    സ്ഥിരം അക്ഷരം*                       functionName;
+    സ്ഥിരം അക്ഷരം*                       message;
+    uint32_t                          object_എണ്ണം;
     XrDebugUtilsObjectNameInfoEXT*    objects;
-    uint32_t                          sessionLabelCount;
+    uint32_t                          session_Label_എണ്ണം;
     XrDebugUtilsLabelEXT*             sessionLabels;
 } XrDebugUtilsMessengerCallbackDataEXT;
 
-typedef XrBool32 (XRAPI_PTR *PFN_xrDebugUtilsMessengerCallbackEXT)(
+തരനിർവചനം XrBool32 (XRAPI_PTR *PFN_xrDebugUtilsMessengerCallbackEXT)(
             XrDebugUtilsMessageSeverityFlagsEXT              messageSeverity,
             XrDebugUtilsMessageTypeFlagsEXT                  messageTypes,
-            const XrDebugUtilsMessengerCallbackDataEXT*      callbackData,
-            void*                                            userData);
+            സ്ഥിരം XrDebugUtilsMessengerCallbackDataEXT*      callbackData,
+            ശൂന്യം*                                            userData);
         
 
 // XrDebugUtilsMessengerCreateInfoEXT extends XrInstanceCreateInfo
-typedef struct XrDebugUtilsMessengerCreateInfoEXT {
+തരനിർവചനം ഘടന XrDebugUtilsMessengerCreateInfoEXT {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                next;
     XrDebugUtilsMessageSeverityFlagsEXT     messageSeverities;
     XrDebugUtilsMessageTypeFlagsEXT         messageTypes;
     PFN_xrDebugUtilsMessengerCallbackEXT    userCallback;
-    void* XR_MAY_ALIAS                      userData;
+    ശൂന്യം* XR_MAY_ALIAS                      userData;
 } XrDebugUtilsMessengerCreateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetDebugUtilsObjectNameEXT)(XrInstance instance, const XrDebugUtilsObjectNameInfoEXT* nameInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateDebugUtilsMessengerEXT)(XrInstance instance, const XrDebugUtilsMessengerCreateInfoEXT* createInfo, XrDebugUtilsMessengerEXT* messenger);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyDebugUtilsMessengerEXT)(XrDebugUtilsMessengerEXT messenger);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitDebugUtilsMessageEXT)(XrInstance instance, XrDebugUtilsMessageSeverityFlagsEXT messageSeverity, XrDebugUtilsMessageTypeFlagsEXT messageTypes, const XrDebugUtilsMessengerCallbackDataEXT* callbackData);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionBeginDebugUtilsLabelRegionEXT)(XrSession session, const XrDebugUtilsLabelEXT* labelInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionEndDebugUtilsLabelRegionEXT)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionInsertDebugUtilsLabelEXT)(XrSession session, const XrDebugUtilsLabelEXT* labelInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetDebugUtilsObjectNameEXT)(XrInstance instance, സ്ഥിരം XrDebugUtilsObjectNameInfoEXT* nameInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateDebugUtilsMessengerEXT)(XrInstance instance, സ്ഥിരം XrDebugUtilsMessengerCreateInfoEXT* createInfo, XrDebugUtilsMessengerEXT* messenger);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyDebugUtilsMessengerEXT)(XrDebugUtilsMessengerEXT messenger);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSubmitDebugUtilsMessageEXT)(XrInstance instance, XrDebugUtilsMessageSeverityFlagsEXT messageSeverity, XrDebugUtilsMessageTypeFlagsEXT messageTypes, സ്ഥിരം XrDebugUtilsMessengerCallbackDataEXT* callbackData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSessionBeginDebugUtilsLabelRegionEXT)(XrSession session, സ്ഥിരം XrDebugUtilsLabelEXT* labelInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSessionEndDebugUtilsLabelRegionEXT)(XrSession session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Session_തിരുകുക_Debug_Utils_Label_EXT)(XrSession session, സ്ഥിരം XrDebugUtilsLabelEXT* labelInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetDebugUtilsObjectNameEXT(
     XrInstance                                  instance,
-    const XrDebugUtilsObjectNameInfoEXT*        nameInfo);
+    സ്ഥിരം XrDebugUtilsObjectNameInfoEXT*        nameInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateDebugUtilsMessengerEXT(
     XrInstance                                  instance,
-    const XrDebugUtilsMessengerCreateInfoEXT*   createInfo,
+    സ്ഥിരം XrDebugUtilsMessengerCreateInfoEXT*   createInfo,
     XrDebugUtilsMessengerEXT*                   messenger);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDebugUtilsMessengerEXT(
@@ -2698,18 +2698,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSubmitDebugUtilsMessageEXT(
     XrInstance                                  instance,
     XrDebugUtilsMessageSeverityFlagsEXT         messageSeverity,
     XrDebugUtilsMessageTypeFlagsEXT             messageTypes,
-    const XrDebugUtilsMessengerCallbackDataEXT* callbackData);
+    സ്ഥിരം XrDebugUtilsMessengerCallbackDataEXT* callbackData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSessionBeginDebugUtilsLabelRegionEXT(
     XrSession                                   session,
-    const XrDebugUtilsLabelEXT*                 labelInfo);
+    സ്ഥിരം XrDebugUtilsLabelEXT*                 labelInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSessionEndDebugUtilsLabelRegionEXT(
     XrSession                                   session);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSessionInsertDebugUtilsLabelEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Session_തിരുകുക_Debug_Utils_Label_EXT(
     XrSession                                   session,
-    const XrDebugUtilsLabelEXT*                 labelInfo);
+    സ്ഥിരം XrDebugUtilsLabelEXT*                 labelInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2719,16 +2719,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSessionInsertDebugUtilsLabelEXT(
 #define XR_EXT_eye_gaze_interaction_SPEC_VERSION 2
 #define XR_EXT_EYE_GAZE_INTERACTION_EXTENSION_NAME "XR_EXT_eye_gaze_interaction"
 // XrSystemEyeGazeInteractionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemEyeGazeInteractionPropertiesEXT {
+തരനിർവചനം ഘടന XrSystemEyeGazeInteractionPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeGazeInteraction;
 } XrSystemEyeGazeInteractionPropertiesEXT;
 
 // XrEyeGazeSampleTimeEXT extends XrSpaceLocation
-typedef struct XrEyeGazeSampleTimeEXT {
+തരനിർവചനം ഘടന XrEyeGazeSampleTimeEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                time;
 } XrEyeGazeSampleTimeEXT;
 
@@ -2738,26 +2738,26 @@ typedef struct XrEyeGazeSampleTimeEXT {
 #define XR_EXTX_overlay 1
 #define XR_EXTX_overlay_SPEC_VERSION      5
 #define XR_EXTX_OVERLAY_EXTENSION_NAME    "XR_EXTX_overlay"
-typedef XrFlags64 XrOverlaySessionCreateFlagsEXTX;
+തരനിർവചനം XrFlags64 XrOverlaySessionCreateFlagsEXTX;
 
 // Flag bits for XrOverlaySessionCreateFlagsEXTX
 
-typedef XrFlags64 XrOverlayMainSessionFlagsEXTX;
+തരനിർവചനം XrFlags64 XrOverlayMainSessionFlagsEXTX;
 
 // Flag bits for XrOverlayMainSessionFlagsEXTX
-static const XrOverlayMainSessionFlagsEXTX XR_OVERLAY_MAIN_SESSION_ENABLED_COMPOSITION_LAYER_INFO_DEPTH_BIT_EXTX = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrOverlayMainSessionFlagsEXTX XR_OVERLAY_MAIN_SESSION_ENABLED_COMPOSITION_LAYER_INFO_DEPTH_BIT_EXTX = 0x00000001;
 
 // XrSessionCreateInfoOverlayEXTX extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoOverlayEXTX {
+തരനിർവചനം ഘടന XrSessionCreateInfoOverlayEXTX {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrOverlaySessionCreateFlagsEXTX    createFlags;
     uint32_t                           sessionLayersPlacement;
 } XrSessionCreateInfoOverlayEXTX;
 
-typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
+തരനിർവചനം ഘടന XrEventDataMainSessionVisibilityChangedEXTX {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrBool32                         visible;
     XrOverlayMainSessionFlagsEXTX    flags;
 } XrEventDataMainSessionVisibilityChangedEXTX;
@@ -2781,35 +2781,35 @@ typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
 XR_DEFINE_HANDLE(XrSpatialAnchorMSFT)
 #define XR_MSFT_spatial_anchor_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_MSFT_spatial_anchor"
-typedef struct XrSpatialAnchorCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     pose;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoMSFT;
 
-typedef struct XrSpatialAnchorSpaceCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSpatialAnchorSpaceCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialAnchorMSFT         anchor;
     XrPosef                     poseInAnchorSpace;
 } XrSpatialAnchorSpaceCreateInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorMSFT)(XrSession session, const XrSpatialAnchorCreateInfoMSFT* createInfo, XrSpatialAnchorMSFT* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceMSFT)(XrSession session, const XrSpatialAnchorSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorMSFT)(XrSpatialAnchorMSFT anchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorMSFT)(XrSession session, സ്ഥിരം XrSpatialAnchorCreateInfoMSFT* createInfo, XrSpatialAnchorMSFT* anchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceMSFT)(XrSession session, സ്ഥിരം XrSpatialAnchorSpaceCreateInfoMSFT* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorMSFT)(XrSpatialAnchorMSFT anchor);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoMSFT*        createInfo,
+    സ്ഥിരം XrSpatialAnchorCreateInfoMSFT*        createInfo,
     XrSpatialAnchorMSFT*                        anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorSpaceCreateInfoMSFT*   createInfo,
+    സ്ഥിരം XrSpatialAnchorSpaceCreateInfoMSFT*   createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorMSFT(
@@ -2822,15 +2822,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorMSFT(
 #define XR_FB_composition_layer_image_layout 1
 #define XR_FB_composition_layer_image_layout_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_IMAGE_LAYOUT_EXTENSION_NAME "XR_FB_composition_layer_image_layout"
-typedef XrFlags64 XrCompositionLayerImageLayoutFlagsFB;
+തരനിർവചനം XrFlags64 XrCompositionLayerImageLayoutFlagsFB;
 
 // Flag bits for XrCompositionLayerImageLayoutFlagsFB
-static const XrCompositionLayerImageLayoutFlagsFB XR_COMPOSITION_LAYER_IMAGE_LAYOUT_VERTICAL_FLIP_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerImageLayoutFlagsFB XR_COMPOSITION_LAYER_IMAGE_LAYOUT_VERTICAL_FLIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerImageLayoutFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerImageLayoutFB {
+തരനിർവചനം ഘടന XrCompositionLayerImageLayoutFB {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
     XrCompositionLayerImageLayoutFlagsFB    flags;
 } XrCompositionLayerImageLayoutFB;
 
@@ -2841,7 +2841,7 @@ typedef struct XrCompositionLayerImageLayoutFB {
 #define XR_FB_composition_layer_alpha_blend_SPEC_VERSION 3
 #define XR_FB_COMPOSITION_LAYER_ALPHA_BLEND_EXTENSION_NAME "XR_FB_composition_layer_alpha_blend"
 
-typedef enum XrBlendFactorFB {
+തരനിർവചനം എണ്ണൽ XrBlendFactorFB {
     XR_BLEND_FACTOR_ZERO_FB = 0,
     XR_BLEND_FACTOR_ONE_FB = 1,
     XR_BLEND_FACTOR_SRC_ALPHA_FB = 2,
@@ -2850,16 +2850,16 @@ typedef enum XrBlendFactorFB {
     XR_BLEND_FACTOR_ONE_MINUS_DST_ALPHA_FB = 5,
     XR_BLEND_FACTOR_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBlendFactorFB;
-typedef XrFlags64 XrCompositionLayerSecureContentFlagsFB;
+തരനിർവചനം XrFlags64 XrCompositionLayerSecureContentFlagsFB;
 
 // Flag bits for XrCompositionLayerSecureContentFlagsFB
-static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_EXCLUDE_LAYER_BIT_FB = 0x00000001;
-static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_REPLACE_LAYER_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_EXCLUDE_LAYER_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_REPLACE_LAYER_BIT_FB = 0x00000002;
 
 // XrCompositionLayerAlphaBlendFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerAlphaBlendFB {
+തരനിർവചനം ഘടന XrCompositionLayerAlphaBlendFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBlendFactorFB       srcFactorColor;
     XrBlendFactorFB       dstFactorColor;
     XrBlendFactorFB       srcFactorAlpha;
@@ -2885,13 +2885,13 @@ typedef struct XrCompositionLayerAlphaBlendFB {
 #define XR_EXT_view_configuration_depth_range_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_DEPTH_RANGE_EXTENSION_NAME "XR_EXT_view_configuration_depth_range"
 // XrViewConfigurationDepthRangeEXT extends XrViewConfigurationView
-typedef struct XrViewConfigurationDepthRangeEXT {
+തരനിർവചനം ഘടന XrViewConfigurationDepthRangeEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 recommendedNearZ;
-    float                 minNearZ;
-    float                 recommendedFarZ;
-    float                 maxFarZ;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                 recommendedNearZ;
+    ദശാംശം                 minNearZ;
+    ദശാംശം                 recommendedFarZ;
+    ദശാംശം                 maxFarZ;
 } XrViewConfigurationDepthRangeEXT;
 
 
@@ -2900,42 +2900,42 @@ typedef struct XrViewConfigurationDepthRangeEXT {
 #define XR_EXT_conformance_automation 1
 #define XR_EXT_conformance_automation_SPEC_VERSION 3
 #define XR_EXT_CONFORMANCE_AUTOMATION_EXTENSION_NAME "XR_EXT_conformance_automation"
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceActiveEXT)(XrSession session, XrPath interactionProfile, XrPath topLevelPath, XrBool32 isActive);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateBoolEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrBool32 state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateFloatEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, float state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateVector2fEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrVector2f state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceLocationEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrSpace space, XrPosef pose);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Set_നിവേശം_Device_Active_EXT)(XrSession session, XrPath interactionProfile, XrPath മുകൾ_Level_Path, XrBool32 isActive);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Set_നിവേശം_Device_State_Bool_EXT)(XrSession session, XrPath മുകൾ_Level_Path, XrPath നിവേശം_Source_Path, XrBool32 state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Set_നിവേശം_Device_State_Float_EXT)(XrSession session, XrPath മുകൾ_Level_Path, XrPath നിവേശം_Source_Path, ദശാംശം state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Set_നിവേശം_Device_State_Vector2f_EXT)(XrSession session, XrPath മുകൾ_Level_Path, XrPath നിവേശം_Source_Path, XrVector2f state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Set_നിവേശം_Device_Location_EXT)(XrSession session, XrPath മുകൾ_Level_Path, XrPath നിവേശം_Source_Path, XrSpace space, XrPosef pose);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceActiveEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_നിവേശം_Device_Active_EXT(
     XrSession                                   session,
     XrPath                                      interactionProfile,
-    XrPath                                      topLevelPath,
+    XrPath                                      മുകൾ_Level_Path,
     XrBool32                                    isActive);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateBoolEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_നിവേശം_Device_State_Bool_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      മുകൾ_Level_Path,
+    XrPath                                      നിവേശം_Source_Path,
     XrBool32                                    state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateFloatEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_നിവേശം_Device_State_Float_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
-    float                                       state);
+    XrPath                                      മുകൾ_Level_Path,
+    XrPath                                      നിവേശം_Source_Path,
+    ദശാംശം                                       state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateVector2fEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_നിവേശം_Device_State_Vector2f_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      മുകൾ_Level_Path,
+    XrPath                                      നിവേശം_Source_Path,
     XrVector2f                                  state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceLocationEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_നിവേശം_Device_Location_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      മുകൾ_Level_Path,
+    XrPath                                      നിവേശം_Source_Path,
     XrSpace                                     space,
     XrPosef                                     pose);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -2944,68 +2944,68 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceLocationEXT(
 
 // XR_MSFT_spatial_graph_bridge is a preprocessor guard. Do not pass it to API calls.
 #define XR_MSFT_spatial_graph_bridge 1
-XR_DEFINE_HANDLE(XrSpatialGraphNodeBindingMSFT)
+XR_DEFINE_HANDLE(Xr_Spatial_Graph_കണ്ണി_Binding_MSFT)
 #define XR_GUID_SIZE_MSFT                 16
 #define XR_MSFT_spatial_graph_bridge_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_GRAPH_BRIDGE_EXTENSION_NAME "XR_MSFT_spatial_graph_bridge"
 
-typedef enum XrSpatialGraphNodeTypeMSFT {
-    XR_SPATIAL_GRAPH_NODE_TYPE_STATIC_MSFT = 1,
-    XR_SPATIAL_GRAPH_NODE_TYPE_DYNAMIC_MSFT = 2,
-    XR_SPATIAL_GRAPH_NODE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
-} XrSpatialGraphNodeTypeMSFT;
-typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT {
+തരനിർവചനം എണ്ണൽ Xr_Spatial_Graph_കണ്ണി_Type_MSFT {
+    XR_SPATIAL_GRAPH_കണ്ണി_TYPE_STATIC_MSFT = 1,
+    XR_SPATIAL_GRAPH_കണ്ണി_TYPE_DYNAMIC_MSFT = 2,
+    XR_SPATIAL_GRAPH_കണ്ണി_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
+} Xr_Spatial_Graph_കണ്ണി_Type_MSFT;
+തരനിർവചനം ഘടന Xr_Spatial_Graph_കണ്ണി_Space_Create_Info_MSFT {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    XrSpatialGraphNodeTypeMSFT    nodeType;
-    uint8_t                       nodeId[XR_GUID_SIZE_MSFT];
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
+    Xr_Spatial_Graph_കണ്ണി_Type_MSFT    കണ്ണി_Type_2;
+    uint8_t                       കണ്ണി_Id[XR_GUID_SIZE_MSFT];
     XrPosef                       pose;
-} XrSpatialGraphNodeSpaceCreateInfoMSFT;
+} Xr_Spatial_Graph_കണ്ണി_Space_Create_Info_MSFT;
 
-typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT {
+തരനിർവചനം ഘടന Xr_Spatial_Graph_Static_കണ്ണി_Binding_Create_Info_MSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrTime                      time;
-} XrSpatialGraphStaticNodeBindingCreateInfoMSFT;
+} Xr_Spatial_Graph_Static_കണ്ണി_Binding_Create_Info_MSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT {
+തരനിർവചനം ഘടന Xr_Spatial_Graph_കണ്ണി_Binding_Properties_Get_Info_MSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-} XrSpatialGraphNodeBindingPropertiesGetInfoMSFT;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+} Xr_Spatial_Graph_കണ്ണി_Binding_Properties_Get_Info_MSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesMSFT {
+തരനിർവചനം ഘടന Xr_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint8_t               nodeId[XR_GUID_SIZE_MSFT];
-    XrPosef               poseInNodeSpace;
-} XrSpatialGraphNodeBindingPropertiesMSFT;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint8_t               കണ്ണി_Id[XR_GUID_SIZE_MSFT];
+    XrPosef               pose_In_കണ്ണി_Space;
+} Xr_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialGraphNodeSpaceMSFT)(XrSession session, const XrSpatialGraphNodeSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrTryCreateSpatialGraphStaticNodeBindingMSFT)(XrSession session, const XrSpatialGraphStaticNodeBindingCreateInfoMSFT* createInfo, XrSpatialGraphNodeBindingMSFT* nodeBinding);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialGraphNodeBindingMSFT)(XrSpatialGraphNodeBindingMSFT nodeBinding);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialGraphNodeBindingPropertiesMSFT)(XrSpatialGraphNodeBindingMSFT nodeBinding, const XrSpatialGraphNodeBindingPropertiesGetInfoMSFT* getInfo, XrSpatialGraphNodeBindingPropertiesMSFT* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Create_Spatial_Graph_കണ്ണി_Space_MSFT)(XrSession session, സ്ഥിരം Xr_Spatial_Graph_കണ്ണി_Space_Create_Info_MSFT* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Try_Create_Spatial_Graph_Static_കണ്ണി_Binding_MSFT)(XrSession session, സ്ഥിരം Xr_Spatial_Graph_Static_കണ്ണി_Binding_Create_Info_MSFT* createInfo, Xr_Spatial_Graph_കണ്ണി_Binding_MSFT* കണ്ണി_Binding);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Destroy_Spatial_Graph_കണ്ണി_Binding_MSFT)(Xr_Spatial_Graph_കണ്ണി_Binding_MSFT കണ്ണി_Binding);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Get_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT)(Xr_Spatial_Graph_കണ്ണി_Binding_MSFT കണ്ണി_Binding, സ്ഥിരം Xr_Spatial_Graph_കണ്ണി_Binding_Properties_Get_Info_MSFT* getInfo, Xr_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT* properties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialGraphNodeSpaceMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Create_Spatial_Graph_കണ്ണി_Space_MSFT(
     XrSession                                   session,
-    const XrSpatialGraphNodeSpaceCreateInfoMSFT* createInfo,
+    സ്ഥിരം Xr_Spatial_Graph_കണ്ണി_Space_Create_Info_MSFT* createInfo,
     XrSpace*                                    space);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrTryCreateSpatialGraphStaticNodeBindingMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Try_Create_Spatial_Graph_Static_കണ്ണി_Binding_MSFT(
     XrSession                                   session,
-    const XrSpatialGraphStaticNodeBindingCreateInfoMSFT* createInfo,
-    XrSpatialGraphNodeBindingMSFT*              nodeBinding);
+    സ്ഥിരം Xr_Spatial_Graph_Static_കണ്ണി_Binding_Create_Info_MSFT* createInfo,
+    Xr_Spatial_Graph_കണ്ണി_Binding_MSFT*              കണ്ണി_Binding);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialGraphNodeBindingMSFT(
-    XrSpatialGraphNodeBindingMSFT               nodeBinding);
+XRAPI_ATTR XrResult XRAPI_CALL xr_Destroy_Spatial_Graph_കണ്ണി_Binding_MSFT(
+    Xr_Spatial_Graph_കണ്ണി_Binding_MSFT               കണ്ണി_Binding);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialGraphNodeBindingPropertiesMSFT(
-    XrSpatialGraphNodeBindingMSFT               nodeBinding,
-    const XrSpatialGraphNodeBindingPropertiesGetInfoMSFT* getInfo,
-    XrSpatialGraphNodeBindingPropertiesMSFT*    properties);
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT(
+    Xr_Spatial_Graph_കണ്ണി_Binding_MSFT               കണ്ണി_Binding,
+    സ്ഥിരം Xr_Spatial_Graph_കണ്ണി_Binding_Properties_Get_Info_MSFT* getInfo,
+    Xr_Spatial_Graph_കണ്ണി_Binding_Properties_MSFT*    properties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -3019,19 +3019,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialGraphNodeBindingPropertiesMSFT(
 // XR_EXT_hand_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_EXT_hand_tracking 1
 
-#define XR_HAND_JOINT_COUNT_EXT 26
+#define XR_HAND_JOINT_എണ്ണം_EXT 26
 
 XR_DEFINE_HANDLE(XrHandTrackerEXT)
 #define XR_EXT_hand_tracking_SPEC_VERSION 4
 #define XR_EXT_HAND_TRACKING_EXTENSION_NAME "XR_EXT_hand_tracking"
 
-typedef enum XrHandEXT {
-    XR_HAND_LEFT_EXT = 1,
-    XR_HAND_RIGHT_EXT = 2,
+തരനിർവചനം എണ്ണൽ XrHandEXT {
+    XR_HAND_ഇടത്_EXT = 1,
+    XR_HAND_വലത്_EXT = 2,
     XR_HAND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandEXT;
 
-typedef enum XrHandJointEXT {
+തരനിർവചനം എണ്ണൽ XrHandJointEXT {
     XR_HAND_JOINT_PALM_EXT = 0,
     XR_HAND_JOINT_WRIST_EXT = 1,
     XR_HAND_JOINT_THUMB_METACARPAL_EXT = 2,
@@ -3043,11 +3043,11 @@ typedef enum XrHandJointEXT {
     XR_HAND_JOINT_INDEX_INTERMEDIATE_EXT = 8,
     XR_HAND_JOINT_INDEX_DISTAL_EXT = 9,
     XR_HAND_JOINT_INDEX_TIP_EXT = 10,
-    XR_HAND_JOINT_MIDDLE_METACARPAL_EXT = 11,
-    XR_HAND_JOINT_MIDDLE_PROXIMAL_EXT = 12,
-    XR_HAND_JOINT_MIDDLE_INTERMEDIATE_EXT = 13,
-    XR_HAND_JOINT_MIDDLE_DISTAL_EXT = 14,
-    XR_HAND_JOINT_MIDDLE_TIP_EXT = 15,
+    XR_HAND_JOINT_നടുവ്_METACARPAL_EXT = 11,
+    XR_HAND_JOINT_നടുവ്_PROXIMAL_EXT = 12,
+    XR_HAND_JOINT_നടുവ്_INTERMEDIATE_EXT = 13,
+    XR_HAND_JOINT_നടുവ്_DISTAL_EXT = 14,
+    XR_HAND_JOINT_നടുവ്_TIP_EXT = 15,
     XR_HAND_JOINT_RING_METACARPAL_EXT = 16,
     XR_HAND_JOINT_RING_PROXIMAL_EXT = 17,
     XR_HAND_JOINT_RING_INTERMEDIATE_EXT = 18,
@@ -3061,69 +3061,69 @@ typedef enum XrHandJointEXT {
     XR_HAND_JOINT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointEXT;
 
-typedef enum XrHandJointSetEXT {
+തരനിർവചനം എണ്ണൽ XrHandJointSetEXT {
     XR_HAND_JOINT_SET_DEFAULT_EXT = 0,
     XR_HAND_JOINT_SET_HAND_WITH_FOREARM_ULTRALEAP = 1000149000,
     XR_HAND_JOINT_SET_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointSetEXT;
 // XrSystemHandTrackingPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHandTrackingPropertiesEXT {
+തരനിർവചനം ഘടന XrSystemHandTrackingPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTracking;
 } XrSystemHandTrackingPropertiesEXT;
 
-typedef struct XrHandTrackerCreateInfoEXT {
+തരനിർവചനം ഘടന XrHandTrackerCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrHandEXT                   hand;
     XrHandJointSetEXT           handJointSet;
 } XrHandTrackerCreateInfoEXT;
 
-typedef struct XrHandJointsLocateInfoEXT {
+തരനിർവചനം ഘടന XrHandJointsLocateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrHandJointsLocateInfoEXT;
 
-typedef struct XrHandJointLocationEXT {
+തരനിർവചനം ഘടന XrHandJointLocationEXT {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
-    float                   radius;
+    ദശാംശം                   radius;
 } XrHandJointLocationEXT;
 
-typedef struct XrHandJointVelocityEXT {
+തരനിർവചനം ഘടന XrHandJointVelocityEXT {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrHandJointVelocityEXT;
 
-typedef struct XrHandJointLocationsEXT {
+തരനിർവചനം ഘടന XrHandJointLocationsEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ശൂന്യം* XR_MAY_ALIAS         next;
     XrBool32                   isActive;
-    uint32_t                   jointCount;
+    uint32_t                   joint_എണ്ണം;
     XrHandJointLocationEXT*    jointLocations;
 } XrHandJointLocationsEXT;
 
 // XrHandJointVelocitiesEXT extends XrHandJointLocationsEXT
-typedef struct XrHandJointVelocitiesEXT {
+തരനിർവചനം ഘടന XrHandJointVelocitiesEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   jointCount;
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    uint32_t                   joint_എണ്ണം;
     XrHandJointVelocityEXT*    jointVelocities;
 } XrHandJointVelocitiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateHandTrackerEXT)(XrSession session, const XrHandTrackerCreateInfoEXT* createInfo, XrHandTrackerEXT* handTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyHandTrackerEXT)(XrHandTrackerEXT handTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateHandJointsEXT)(XrHandTrackerEXT handTracker, const XrHandJointsLocateInfoEXT* locateInfo, XrHandJointLocationsEXT* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateHandTrackerEXT)(XrSession session, സ്ഥിരം XrHandTrackerCreateInfoEXT* createInfo, XrHandTrackerEXT* handTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyHandTrackerEXT)(XrHandTrackerEXT handTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateHandJointsEXT)(XrHandTrackerEXT handTracker, സ്ഥിരം XrHandJointsLocateInfoEXT* locateInfo, XrHandJointLocationsEXT* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateHandTrackerEXT(
     XrSession                                   session,
-    const XrHandTrackerCreateInfoEXT*           createInfo,
+    സ്ഥിരം XrHandTrackerCreateInfoEXT*           createInfo,
     XrHandTrackerEXT*                           handTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyHandTrackerEXT(
@@ -3131,7 +3131,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyHandTrackerEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateHandJointsEXT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandJointsLocateInfoEXT*            locateInfo,
+    സ്ഥിരം XrHandJointsLocateInfoEXT*            locateInfo,
     XrHandJointLocationsEXT*                    locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3142,56 +3142,56 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateHandJointsEXT(
 #define XR_MSFT_hand_tracking_mesh_SPEC_VERSION 4
 #define XR_MSFT_HAND_TRACKING_MESH_EXTENSION_NAME "XR_MSFT_hand_tracking_mesh"
 
-typedef enum XrHandPoseTypeMSFT {
+തരനിർവചനം എണ്ണൽ XrHandPoseTypeMSFT {
     XR_HAND_POSE_TYPE_TRACKED_MSFT = 0,
     XR_HAND_POSE_TYPE_REFERENCE_OPEN_PALM_MSFT = 1,
     XR_HAND_POSE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrHandPoseTypeMSFT;
 // XrSystemHandTrackingMeshPropertiesMSFT extends XrSystemProperties
-typedef struct XrSystemHandTrackingMeshPropertiesMSFT {
+തരനിർവചനം ഘടന XrSystemHandTrackingMeshPropertiesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTrackingMesh;
-    uint32_t              maxHandMeshIndexCount;
-    uint32_t              maxHandMeshVertexCount;
+    uint32_t              max_Hand_Mesh_Index_എണ്ണം;
+    uint32_t              max_Hand_Mesh_Vertex_എണ്ണം;
 } XrSystemHandTrackingMeshPropertiesMSFT;
 
-typedef struct XrHandMeshSpaceCreateInfoMSFT {
+തരനിർവചനം ഘടന XrHandMeshSpaceCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
     XrPosef                     poseInHandMeshSpace;
 } XrHandMeshSpaceCreateInfoMSFT;
 
-typedef struct XrHandMeshUpdateInfoMSFT {
+തരനിർവചനം ഘടന XrHandMeshUpdateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrHandPoseTypeMSFT          handPoseType;
 } XrHandMeshUpdateInfoMSFT;
 
-typedef struct XrHandMeshIndexBufferMSFT {
-    uint32_t     indexBufferKey;
-    uint32_t     indexCapacityInput;
-    uint32_t     indexCountOutput;
+തരനിർവചനം ഘടന XrHandMeshIndexBufferMSFT {
+    uint32_t     index_Buffer_താക്കോൽ;
+    uint32_t     index_Capacity_നിവേശം;
+    uint32_t     index_എണ്ണം_Output;
     uint32_t*    indices;
 } XrHandMeshIndexBufferMSFT;
 
-typedef struct XrHandMeshVertexMSFT {
+തരനിർവചനം ഘടന XrHandMeshVertexMSFT {
     XrVector3f    position;
     XrVector3f    normal;
 } XrHandMeshVertexMSFT;
 
-typedef struct XrHandMeshVertexBufferMSFT {
+തരനിർവചനം ഘടന XrHandMeshVertexBufferMSFT {
     XrTime                   vertexUpdateTime;
-    uint32_t                 vertexCapacityInput;
-    uint32_t                 vertexCountOutput;
+    uint32_t                 vertex_Capacity_നിവേശം;
+    uint32_t                 vertex_എണ്ണം_Output;
     XrHandMeshVertexMSFT*    vertices;
 } XrHandMeshVertexBufferMSFT;
 
-typedef struct XrHandMeshMSFT {
+തരനിർവചനം ഘടന XrHandMeshMSFT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ശൂന്യം* XR_MAY_ALIAS            next;
     XrBool32                      isActive;
     XrBool32                      indexBufferChanged;
     XrBool32                      vertexBufferChanged;
@@ -3200,25 +3200,25 @@ typedef struct XrHandMeshMSFT {
 } XrHandMeshMSFT;
 
 // XrHandPoseTypeInfoMSFT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandPoseTypeInfoMSFT {
+തരനിർവചനം ഘടന XrHandPoseTypeInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
 } XrHandPoseTypeInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateHandMeshSpaceMSFT)(XrHandTrackerEXT handTracker, const XrHandMeshSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateHandMeshMSFT)(XrHandTrackerEXT handTracker, const XrHandMeshUpdateInfoMSFT* updateInfo, XrHandMeshMSFT* handMesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateHandMeshSpaceMSFT)(XrHandTrackerEXT handTracker, സ്ഥിരം XrHandMeshSpaceCreateInfoMSFT* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateHandMeshMSFT)(XrHandTrackerEXT handTracker, സ്ഥിരം XrHandMeshUpdateInfoMSFT* updateInfo, XrHandMeshMSFT* handMesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateHandMeshSpaceMSFT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandMeshSpaceCreateInfoMSFT*        createInfo,
+    സ്ഥിരം XrHandMeshSpaceCreateInfoMSFT*        createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateHandMeshMSFT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandMeshUpdateInfoMSFT*             updateInfo,
+    സ്ഥിരം XrHandMeshUpdateInfoMSFT*             updateInfo,
     XrHandMeshMSFT*                             handMesh);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3229,49 +3229,49 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdateHandMeshMSFT(
 #define XR_MSFT_secondary_view_configuration_SPEC_VERSION 1
 #define XR_MSFT_SECONDARY_VIEW_CONFIGURATION_EXTENSION_NAME "XR_MSFT_secondary_view_configuration"
 // XrSecondaryViewConfigurationSessionBeginInfoMSFT extends XrSessionBeginInfo
-typedef struct XrSecondaryViewConfigurationSessionBeginInfoMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationSessionBeginInfoMSFT {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
-    uint32_t                          viewConfigurationCount;
-    const XrViewConfigurationType*    enabledViewConfigurationTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
+    uint32_t                          view_Configuration_എണ്ണം;
+    സ്ഥിരം XrViewConfigurationType*    enabledViewConfigurationTypes;
 } XrSecondaryViewConfigurationSessionBeginInfoMSFT;
 
-typedef struct XrSecondaryViewConfigurationStateMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationStateMSFT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ശൂന്യം* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   active;
 } XrSecondaryViewConfigurationStateMSFT;
 
 // XrSecondaryViewConfigurationFrameStateMSFT extends XrFrameState
-typedef struct XrSecondaryViewConfigurationFrameStateMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationFrameStateMSFT {
     XrStructureType                           type;
-    void* XR_MAY_ALIAS                        next;
-    uint32_t                                  viewConfigurationCount;
+    ശൂന്യം* XR_MAY_ALIAS                        next;
+    uint32_t                                  view_Configuration_എണ്ണം;
     XrSecondaryViewConfigurationStateMSFT*    viewConfigurationStates;
 } XrSecondaryViewConfigurationFrameStateMSFT;
 
-typedef struct XrSecondaryViewConfigurationLayerInfoMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationLayerInfoMSFT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrViewConfigurationType                       viewConfigurationType;
     XrEnvironmentBlendMode                        environmentBlendMode;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_എണ്ണം;
+    സ്ഥിരം XrCompositionLayerBaseHeader* സ്ഥിരം*    layers;
 } XrSecondaryViewConfigurationLayerInfoMSFT;
 
 // XrSecondaryViewConfigurationFrameEndInfoMSFT extends XrFrameEndInfo
-typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationFrameEndInfoMSFT {
     XrStructureType                                     type;
-    const void* XR_MAY_ALIAS                            next;
-    uint32_t                                            viewConfigurationCount;
-    const XrSecondaryViewConfigurationLayerInfoMSFT*    viewConfigurationLayersInfo;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                            next;
+    uint32_t                                            view_Configuration_എണ്ണം;
+    സ്ഥിരം XrSecondaryViewConfigurationLayerInfoMSFT*    viewConfigurationLayersInfo;
 } XrSecondaryViewConfigurationFrameEndInfoMSFT;
 
 // XrSecondaryViewConfigurationSwapchainCreateInfoMSFT extends XrSwapchainCreateInfo
-typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
 } XrSecondaryViewConfigurationSwapchainCreateInfoMSFT;
 
@@ -3286,74 +3286,74 @@ typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
 // XR_MSFT_controller_model is a preprocessor guard. Do not pass it to API calls.
 #define XR_MSFT_controller_model 1
 
-#define XR_NULL_CONTROLLER_MODEL_KEY_MSFT 0
+#define XR_NULL_CONTROLLER_MODEL_താക്കോൽ_MSFT 0
 
-XR_DEFINE_ATOM(XrControllerModelKeyMSFT)
-#define XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT 64
+XR_DEFINE_ATOM(Xr_Controller_Model_താക്കോൽ_MSFT)
+#define XR_MAX_CONTROLLER_MODEL_കണ്ണി_NAME_SIZE_MSFT 64
 #define XR_MSFT_controller_model_SPEC_VERSION 2
 #define XR_MSFT_CONTROLLER_MODEL_EXTENSION_NAME "XR_MSFT_controller_model"
-typedef struct XrControllerModelKeyStateMSFT {
+തരനിർവചനം ഘടന Xr_Controller_Model_താക്കോൽ_State_MSFT {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    XrControllerModelKeyMSFT    modelKey;
-} XrControllerModelKeyStateMSFT;
+    ശൂന്യം* XR_MAY_ALIAS          next;
+    Xr_Controller_Model_താക്കോൽ_MSFT    model_താക്കോൽ;
+} Xr_Controller_Model_താക്കോൽ_State_MSFT;
 
-typedef struct XrControllerModelNodePropertiesMSFT {
+തരനിർവചനം ഘടന Xr_Controller_Model_കണ്ണി_Properties_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  parentNodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-    char                  nodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-} XrControllerModelNodePropertiesMSFT;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    അക്ഷരം                  parent_കണ്ണി_Name[XR_MAX_CONTROLLER_MODEL_കണ്ണി_NAME_SIZE_MSFT];
+    അക്ഷരം                  കണ്ണി_Name[XR_MAX_CONTROLLER_MODEL_കണ്ണി_NAME_SIZE_MSFT];
+} Xr_Controller_Model_കണ്ണി_Properties_MSFT;
 
-typedef struct XrControllerModelPropertiesMSFT {
+തരനിർവചനം ഘടന XrControllerModelPropertiesMSFT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                nodeCapacityInput;
-    uint32_t                                nodeCountOutput;
-    XrControllerModelNodePropertiesMSFT*    nodeProperties;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
+    uint32_t                                കണ്ണി_Capacity_നിവേശം;
+    uint32_t                                കണ്ണി_എണ്ണം_Output;
+    Xr_Controller_Model_കണ്ണി_Properties_MSFT*    കണ്ണി_Properties;
 } XrControllerModelPropertiesMSFT;
 
-typedef struct XrControllerModelNodeStateMSFT {
+തരനിർവചനം ഘടന Xr_Controller_Model_കണ്ണി_State_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrPosef               nodePose;
-} XrControllerModelNodeStateMSFT;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    XrPosef               കണ്ണി_Pose;
+} Xr_Controller_Model_കണ്ണി_State_MSFT;
 
-typedef struct XrControllerModelStateMSFT {
+തരനിർവചനം ഘടന XrControllerModelStateMSFT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           nodeCapacityInput;
-    uint32_t                           nodeCountOutput;
-    XrControllerModelNodeStateMSFT*    nodeStates;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                           കണ്ണി_Capacity_നിവേശം;
+    uint32_t                           കണ്ണി_എണ്ണം_Output;
+    Xr_Controller_Model_കണ്ണി_State_MSFT*    കണ്ണി_States;
 } XrControllerModelStateMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelKeyMSFT)(XrSession session, XrPath topLevelUserPath, XrControllerModelKeyStateMSFT* controllerModelKeyState);
-typedef XrResult (XRAPI_PTR *PFN_xrLoadControllerModelMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelPropertiesMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, XrControllerModelPropertiesMSFT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelStateMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, XrControllerModelStateMSFT* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Get_Controller_Model_താക്കോൽ_MSFT)(XrSession session, XrPath മുകൾ_Level_User_Path, Xr_Controller_Model_താക്കോൽ_State_MSFT* controller_Model_താക്കോൽ_State);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLoadControllerModelMSFT)(XrSession session, Xr_Controller_Model_താക്കോൽ_MSFT model_താക്കോൽ, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, uint8_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetControllerModelPropertiesMSFT)(XrSession session, Xr_Controller_Model_താക്കോൽ_MSFT model_താക്കോൽ, XrControllerModelPropertiesMSFT* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetControllerModelStateMSFT)(XrSession session, Xr_Controller_Model_താക്കോൽ_MSFT model_താക്കോൽ, XrControllerModelStateMSFT* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelKeyMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Controller_Model_താക്കോൽ_MSFT(
     XrSession                                   session,
-    XrPath                                      topLevelUserPath,
-    XrControllerModelKeyStateMSFT*              controllerModelKeyState);
+    XrPath                                      മുകൾ_Level_User_Path,
+    Xr_Controller_Model_താക്കോൽ_State_MSFT*              controller_Model_താക്കോൽ_State);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLoadControllerModelMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    Xr_Controller_Model_താക്കോൽ_MSFT                    model_താക്കോൽ,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelPropertiesMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
+    Xr_Controller_Model_താക്കോൽ_MSFT                    model_താക്കോൽ,
     XrControllerModelPropertiesMSFT*            properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelStateMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
+    Xr_Controller_Model_താക്കോൽ_MSFT                    model_താക്കോൽ,
     XrControllerModelStateMSFT*                 state);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3370,9 +3370,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelStateMSFT(
 #define XR_EPIC_view_configuration_fov_SPEC_VERSION 2
 #define XR_EPIC_VIEW_CONFIGURATION_FOV_EXTENSION_NAME "XR_EPIC_view_configuration_fov"
 // XrViewConfigurationViewFovEPIC extends XrViewConfigurationView
-typedef struct XrViewConfigurationViewFovEPIC {
+തരനിർവചനം ഘടന XrViewConfigurationViewFovEPIC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFovf                      recommendedFov;
     XrFovf                      maxMutableFov;
 } XrViewConfigurationViewFovEPIC;
@@ -3384,7 +3384,7 @@ typedef struct XrViewConfigurationViewFovEPIC {
 #define XR_MSFT_composition_layer_reprojection_SPEC_VERSION 1
 #define XR_MSFT_COMPOSITION_LAYER_REPROJECTION_EXTENSION_NAME "XR_MSFT_composition_layer_reprojection"
 
-typedef enum XrReprojectionModeMSFT {
+തരനിർവചനം എണ്ണൽ XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_DEPTH_MSFT = 1,
     XR_REPROJECTION_MODE_PLANAR_FROM_DEPTH_MSFT = 2,
     XR_REPROJECTION_MODE_PLANAR_MANUAL_MSFT = 3,
@@ -3392,22 +3392,22 @@ typedef enum XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrReprojectionModeMSFT;
 // XrCompositionLayerReprojectionInfoMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionInfoMSFT {
+തരനിർവചനം ഘടന XrCompositionLayerReprojectionInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrReprojectionModeMSFT      reprojectionMode;
 } XrCompositionLayerReprojectionInfoMSFT;
 
 // XrCompositionLayerReprojectionPlaneOverrideMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionPlaneOverrideMSFT {
+തരനിർവചനം ഘടന XrCompositionLayerReprojectionPlaneOverrideMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVector3f                  position;
     XrVector3f                  normal;
     XrVector3f                  velocity;
 } XrCompositionLayerReprojectionPlaneOverrideMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateReprojectionModesMSFT)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t modeCapacityInput, uint32_t* modeCountOutput, XrReprojectionModeMSFT* modes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateReprojectionModesMSFT)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t mode_Capacity_നിവേശം, uint32_t* mode_എണ്ണം_Output, XrReprojectionModeMSFT* modes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -3415,8 +3415,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReprojectionModesMSFT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    modeCapacityInput,
-    uint32_t*                                   modeCountOutput,
+    uint32_t                                    mode_Capacity_നിവേശം,
+    uint32_t*                                   mode_എണ്ണം_Output,
     XrReprojectionModeMSFT*                     modes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3432,19 +3432,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReprojectionModesMSFT(
 #define XR_FB_swapchain_update_state 1
 #define XR_FB_swapchain_update_state_SPEC_VERSION 3
 #define XR_FB_SWAPCHAIN_UPDATE_STATE_EXTENSION_NAME "XR_FB_swapchain_update_state"
-typedef struct XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSwapchainStateBaseHeaderFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSwapchainFB)(XrSwapchain swapchain, const XrSwapchainStateBaseHeaderFB* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSwapchainStateFB)(XrSwapchain swapchain, XrSwapchainStateBaseHeaderFB* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSwapchainFB)(XrSwapchain swapchain, സ്ഥിരം XrSwapchainStateBaseHeaderFB* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSwapchainStateFB)(XrSwapchain swapchain, XrSwapchainStateBaseHeaderFB* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSwapchainFB(
     XrSwapchain                                 swapchain,
-    const XrSwapchainStateBaseHeaderFB*         state);
+    സ്ഥിരം XrSwapchainStateBaseHeaderFB*         state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSwapchainStateFB(
     XrSwapchain                                 swapchain,
@@ -3458,9 +3458,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSwapchainStateFB(
 #define XR_FB_composition_layer_secure_content_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_SECURE_CONTENT_EXTENSION_NAME "XR_FB_composition_layer_secure_content"
 // XrCompositionLayerSecureContentFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSecureContentFB {
+തരനിർവചനം ഘടന XrCompositionLayerSecureContentFB {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
     XrCompositionLayerSecureContentFlagsFB    flags;
 } XrCompositionLayerSecureContentFB;
 
@@ -3472,146 +3472,146 @@ XR_DEFINE_HANDLE(XrBodyTrackerFB)
 #define XR_FB_body_tracking_SPEC_VERSION  1
 #define XR_FB_BODY_TRACKING_EXTENSION_NAME "XR_FB_body_tracking"
 
-typedef enum XrBodyJointFB {
-    XR_BODY_JOINT_ROOT_FB = 0,
+തരനിർവചനം എണ്ണൽ XrBodyJointFB {
+    XR_BODY_JOINT_വേര്_FB = 0,
     XR_BODY_JOINT_HIPS_FB = 1,
     XR_BODY_JOINT_SPINE_LOWER_FB = 2,
-    XR_BODY_JOINT_SPINE_MIDDLE_FB = 3,
+    XR_BODY_JOINT_SPINE_നടുവ്_FB = 3,
     XR_BODY_JOINT_SPINE_UPPER_FB = 4,
     XR_BODY_JOINT_CHEST_FB = 5,
     XR_BODY_JOINT_NECK_FB = 6,
     XR_BODY_JOINT_HEAD_FB = 7,
-    XR_BODY_JOINT_LEFT_SHOULDER_FB = 8,
-    XR_BODY_JOINT_LEFT_SCAPULA_FB = 9,
-    XR_BODY_JOINT_LEFT_ARM_UPPER_FB = 10,
-    XR_BODY_JOINT_LEFT_ARM_LOWER_FB = 11,
-    XR_BODY_JOINT_LEFT_HAND_WRIST_TWIST_FB = 12,
-    XR_BODY_JOINT_RIGHT_SHOULDER_FB = 13,
-    XR_BODY_JOINT_RIGHT_SCAPULA_FB = 14,
-    XR_BODY_JOINT_RIGHT_ARM_UPPER_FB = 15,
-    XR_BODY_JOINT_RIGHT_ARM_LOWER_FB = 16,
-    XR_BODY_JOINT_RIGHT_HAND_WRIST_TWIST_FB = 17,
-    XR_BODY_JOINT_LEFT_HAND_PALM_FB = 18,
-    XR_BODY_JOINT_LEFT_HAND_WRIST_FB = 19,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_METACARPAL_FB = 20,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_PROXIMAL_FB = 21,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_DISTAL_FB = 22,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_TIP_FB = 23,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_METACARPAL_FB = 24,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_PROXIMAL_FB = 25,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_INTERMEDIATE_FB = 26,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_DISTAL_FB = 27,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_TIP_FB = 28,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_METACARPAL_FB = 29,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_PROXIMAL_FB = 30,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_INTERMEDIATE_FB = 31,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_DISTAL_FB = 32,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_TIP_FB = 33,
-    XR_BODY_JOINT_LEFT_HAND_RING_METACARPAL_FB = 34,
-    XR_BODY_JOINT_LEFT_HAND_RING_PROXIMAL_FB = 35,
-    XR_BODY_JOINT_LEFT_HAND_RING_INTERMEDIATE_FB = 36,
-    XR_BODY_JOINT_LEFT_HAND_RING_DISTAL_FB = 37,
-    XR_BODY_JOINT_LEFT_HAND_RING_TIP_FB = 38,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_METACARPAL_FB = 39,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_PROXIMAL_FB = 40,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_INTERMEDIATE_FB = 41,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_DISTAL_FB = 42,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_TIP_FB = 43,
-    XR_BODY_JOINT_RIGHT_HAND_PALM_FB = 44,
-    XR_BODY_JOINT_RIGHT_HAND_WRIST_FB = 45,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_METACARPAL_FB = 46,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_PROXIMAL_FB = 47,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_DISTAL_FB = 48,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_TIP_FB = 49,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_METACARPAL_FB = 50,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_PROXIMAL_FB = 51,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_INTERMEDIATE_FB = 52,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_DISTAL_FB = 53,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_TIP_FB = 54,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_METACARPAL_FB = 55,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_PROXIMAL_FB = 56,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_INTERMEDIATE_FB = 57,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_DISTAL_FB = 58,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_TIP_FB = 59,
-    XR_BODY_JOINT_RIGHT_HAND_RING_METACARPAL_FB = 60,
-    XR_BODY_JOINT_RIGHT_HAND_RING_PROXIMAL_FB = 61,
-    XR_BODY_JOINT_RIGHT_HAND_RING_INTERMEDIATE_FB = 62,
-    XR_BODY_JOINT_RIGHT_HAND_RING_DISTAL_FB = 63,
-    XR_BODY_JOINT_RIGHT_HAND_RING_TIP_FB = 64,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_METACARPAL_FB = 65,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_PROXIMAL_FB = 66,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_INTERMEDIATE_FB = 67,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_DISTAL_FB = 68,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_TIP_FB = 69,
-    XR_BODY_JOINT_COUNT_FB = 70,
+    XR_BODY_JOINT_ഇടത്_SHOULDER_FB = 8,
+    XR_BODY_JOINT_ഇടത്_SCAPULA_FB = 9,
+    XR_BODY_JOINT_ഇടത്_ARM_UPPER_FB = 10,
+    XR_BODY_JOINT_ഇടത്_ARM_LOWER_FB = 11,
+    XR_BODY_JOINT_ഇടത്_HAND_WRIST_TWIST_FB = 12,
+    XR_BODY_JOINT_വലത്_SHOULDER_FB = 13,
+    XR_BODY_JOINT_വലത്_SCAPULA_FB = 14,
+    XR_BODY_JOINT_വലത്_ARM_UPPER_FB = 15,
+    XR_BODY_JOINT_വലത്_ARM_LOWER_FB = 16,
+    XR_BODY_JOINT_വലത്_HAND_WRIST_TWIST_FB = 17,
+    XR_BODY_JOINT_ഇടത്_HAND_PALM_FB = 18,
+    XR_BODY_JOINT_ഇടത്_HAND_WRIST_FB = 19,
+    XR_BODY_JOINT_ഇടത്_HAND_THUMB_METACARPAL_FB = 20,
+    XR_BODY_JOINT_ഇടത്_HAND_THUMB_PROXIMAL_FB = 21,
+    XR_BODY_JOINT_ഇടത്_HAND_THUMB_DISTAL_FB = 22,
+    XR_BODY_JOINT_ഇടത്_HAND_THUMB_TIP_FB = 23,
+    XR_BODY_JOINT_ഇടത്_HAND_INDEX_METACARPAL_FB = 24,
+    XR_BODY_JOINT_ഇടത്_HAND_INDEX_PROXIMAL_FB = 25,
+    XR_BODY_JOINT_ഇടത്_HAND_INDEX_INTERMEDIATE_FB = 26,
+    XR_BODY_JOINT_ഇടത്_HAND_INDEX_DISTAL_FB = 27,
+    XR_BODY_JOINT_ഇടത്_HAND_INDEX_TIP_FB = 28,
+    XR_BODY_JOINT_ഇടത്_HAND_നടുവ്_METACARPAL_FB = 29,
+    XR_BODY_JOINT_ഇടത്_HAND_നടുവ്_PROXIMAL_FB = 30,
+    XR_BODY_JOINT_ഇടത്_HAND_നടുവ്_INTERMEDIATE_FB = 31,
+    XR_BODY_JOINT_ഇടത്_HAND_നടുവ്_DISTAL_FB = 32,
+    XR_BODY_JOINT_ഇടത്_HAND_നടുവ്_TIP_FB = 33,
+    XR_BODY_JOINT_ഇടത്_HAND_RING_METACARPAL_FB = 34,
+    XR_BODY_JOINT_ഇടത്_HAND_RING_PROXIMAL_FB = 35,
+    XR_BODY_JOINT_ഇടത്_HAND_RING_INTERMEDIATE_FB = 36,
+    XR_BODY_JOINT_ഇടത്_HAND_RING_DISTAL_FB = 37,
+    XR_BODY_JOINT_ഇടത്_HAND_RING_TIP_FB = 38,
+    XR_BODY_JOINT_ഇടത്_HAND_LITTLE_METACARPAL_FB = 39,
+    XR_BODY_JOINT_ഇടത്_HAND_LITTLE_PROXIMAL_FB = 40,
+    XR_BODY_JOINT_ഇടത്_HAND_LITTLE_INTERMEDIATE_FB = 41,
+    XR_BODY_JOINT_ഇടത്_HAND_LITTLE_DISTAL_FB = 42,
+    XR_BODY_JOINT_ഇടത്_HAND_LITTLE_TIP_FB = 43,
+    XR_BODY_JOINT_വലത്_HAND_PALM_FB = 44,
+    XR_BODY_JOINT_വലത്_HAND_WRIST_FB = 45,
+    XR_BODY_JOINT_വലത്_HAND_THUMB_METACARPAL_FB = 46,
+    XR_BODY_JOINT_വലത്_HAND_THUMB_PROXIMAL_FB = 47,
+    XR_BODY_JOINT_വലത്_HAND_THUMB_DISTAL_FB = 48,
+    XR_BODY_JOINT_വലത്_HAND_THUMB_TIP_FB = 49,
+    XR_BODY_JOINT_വലത്_HAND_INDEX_METACARPAL_FB = 50,
+    XR_BODY_JOINT_വലത്_HAND_INDEX_PROXIMAL_FB = 51,
+    XR_BODY_JOINT_വലത്_HAND_INDEX_INTERMEDIATE_FB = 52,
+    XR_BODY_JOINT_വലത്_HAND_INDEX_DISTAL_FB = 53,
+    XR_BODY_JOINT_വലത്_HAND_INDEX_TIP_FB = 54,
+    XR_BODY_JOINT_വലത്_HAND_നടുവ്_METACARPAL_FB = 55,
+    XR_BODY_JOINT_വലത്_HAND_നടുവ്_PROXIMAL_FB = 56,
+    XR_BODY_JOINT_വലത്_HAND_നടുവ്_INTERMEDIATE_FB = 57,
+    XR_BODY_JOINT_വലത്_HAND_നടുവ്_DISTAL_FB = 58,
+    XR_BODY_JOINT_വലത്_HAND_നടുവ്_TIP_FB = 59,
+    XR_BODY_JOINT_വലത്_HAND_RING_METACARPAL_FB = 60,
+    XR_BODY_JOINT_വലത്_HAND_RING_PROXIMAL_FB = 61,
+    XR_BODY_JOINT_വലത്_HAND_RING_INTERMEDIATE_FB = 62,
+    XR_BODY_JOINT_വലത്_HAND_RING_DISTAL_FB = 63,
+    XR_BODY_JOINT_വലത്_HAND_RING_TIP_FB = 64,
+    XR_BODY_JOINT_വലത്_HAND_LITTLE_METACARPAL_FB = 65,
+    XR_BODY_JOINT_വലത്_HAND_LITTLE_PROXIMAL_FB = 66,
+    XR_BODY_JOINT_വലത്_HAND_LITTLE_INTERMEDIATE_FB = 67,
+    XR_BODY_JOINT_വലത്_HAND_LITTLE_DISTAL_FB = 68,
+    XR_BODY_JOINT_വലത്_HAND_LITTLE_TIP_FB = 69,
+    XR_BODY_JOINT_എണ്ണം_FB = 70,
     XR_BODY_JOINT_NONE_FB = -1,
     XR_BODY_JOINT_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointFB;
 
-typedef enum XrBodyJointSetFB {
+തരനിർവചനം എണ്ണൽ XrBodyJointSetFB {
     XR_BODY_JOINT_SET_DEFAULT_FB = 0,
     XR_BODY_JOINT_SET_FULL_BODY_META = 1000274000,
     XR_BODY_JOINT_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointSetFB;
-typedef struct XrBodyJointLocationFB {
+തരനിർവചനം ഘടന XrBodyJointLocationFB {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationFB;
 
 // XrSystemBodyTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesFB {
+തരനിർവചനം ഘടന XrSystemBodyTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesFB;
 
-typedef struct XrBodyTrackerCreateInfoFB {
+തരനിർവചനം ഘടന XrBodyTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBodyJointSetFB            bodyJointSet;
 } XrBodyTrackerCreateInfoFB;
 
-typedef struct XrBodySkeletonJointFB {
+തരനിർവചനം ഘടന XrBodySkeletonJointFB {
     int32_t    joint;
     int32_t    parentJoint;
     XrPosef    pose;
 } XrBodySkeletonJointFB;
 
-typedef struct XrBodySkeletonFB {
+തരനിർവചനം ഘടന XrBodySkeletonFB {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  jointCount;
+    ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                  joint_എണ്ണം;
     XrBodySkeletonJointFB*    joints;
 } XrBodySkeletonFB;
 
-typedef struct XrBodyJointsLocateInfoFB {
+തരനിർവചനം ഘടന XrBodyJointsLocateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoFB;
 
-typedef struct XrBodyJointLocationsFB {
+തരനിർവചനം ഘടന XrBodyJointLocationsFB {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ശൂന്യം* XR_MAY_ALIAS        next;
     XrBool32                  isActive;
-    float                     confidence;
-    uint32_t                  jointCount;
+    ദശാംശം                     confidence;
+    uint32_t                  joint_എണ്ണം;
     XrBodyJointLocationFB*    jointLocations;
-    uint32_t                  skeletonChangedCount;
+    uint32_t                  skeleton_Changed_എണ്ണം;
     XrTime                    time;
 } XrBodyJointLocationsFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerFB)(XrSession session, const XrBodyTrackerCreateInfoFB* createInfo, XrBodyTrackerFB* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerFB)(XrBodyTrackerFB bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsFB)(XrBodyTrackerFB bodyTracker, const XrBodyJointsLocateInfoFB* locateInfo, XrBodyJointLocationsFB* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonFB)(XrBodyTrackerFB bodyTracker, XrBodySkeletonFB* skeleton);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerFB)(XrSession session, സ്ഥിരം XrBodyTrackerCreateInfoFB* createInfo, XrBodyTrackerFB* bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerFB)(XrBodyTrackerFB bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsFB)(XrBodyTrackerFB bodyTracker, സ്ഥിരം XrBodyJointsLocateInfoFB* locateInfo, XrBodyJointLocationsFB* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonFB)(XrBodyTrackerFB bodyTracker, XrBodySkeletonFB* skeleton);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerFB(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoFB*            createInfo,
+    സ്ഥിരം XrBodyTrackerCreateInfoFB*            createInfo,
     XrBodyTrackerFB*                            bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerFB(
@@ -3619,7 +3619,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsFB(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyJointsLocateInfoFB*             locateInfo,
+    സ്ഥിരം XrBodyJointsLocateInfoFB*             locateInfo,
     XrBodyJointLocationsFB*                     locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonFB(
@@ -3633,18 +3633,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonFB(
 #define XR_EXT_dpad_binding 1
 #define XR_EXT_dpad_binding_SPEC_VERSION  1
 #define XR_EXT_DPAD_BINDING_EXTENSION_NAME "XR_EXT_dpad_binding"
-typedef struct XrInteractionProfileDpadBindingEXT {
+തരനിർവചനം ഘടന XrInteractionProfileDpadBindingEXT {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrPath                       binding;
     XrActionSet                  actionSet;
-    float                        forceThreshold;
-    float                        forceThresholdReleased;
-    float                        centerRegion;
-    float                        wedgeAngle;
+    ദശാംശം                        forceThreshold;
+    ദശാംശം                        forceThresholdReleased;
+    ദശാംശം                        centerRegion;
+    ദശാംശം                        wedgeAngle;
     XrBool32                     isSticky;
-    const XrHapticBaseHeader*    onHaptic;
-    const XrHapticBaseHeader*    offHaptic;
+    സ്ഥിരം XrHapticBaseHeader*    onHaptic;
+    സ്ഥിരം XrHapticBaseHeader*    offHaptic;
 } XrInteractionProfileDpadBindingEXT;
 
 
@@ -3653,15 +3653,15 @@ typedef struct XrInteractionProfileDpadBindingEXT {
 #define XR_VALVE_analog_threshold 1
 #define XR_VALVE_analog_threshold_SPEC_VERSION 2
 #define XR_VALVE_ANALOG_THRESHOLD_EXTENSION_NAME "XR_VALVE_analog_threshold"
-typedef struct XrInteractionProfileAnalogThresholdVALVE {
+തരനിർവചനം ഘടന XrInteractionProfileAnalogThresholdVALVE {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrAction                     action;
     XrPath                       binding;
-    float                        onThreshold;
-    float                        offThreshold;
-    const XrHapticBaseHeader*    onHaptic;
-    const XrHapticBaseHeader*    offHaptic;
+    ദശാംശം                        onThreshold;
+    ദശാംശം                        offThreshold;
+    സ്ഥിരം XrHapticBaseHeader*    onHaptic;
+    സ്ഥിരം XrHapticBaseHeader*    offHaptic;
 } XrInteractionProfileAnalogThresholdVALVE;
 
 
@@ -3671,15 +3671,15 @@ typedef struct XrInteractionProfileAnalogThresholdVALVE {
 #define XR_EXT_hand_joints_motion_range_SPEC_VERSION 1
 #define XR_EXT_HAND_JOINTS_MOTION_RANGE_EXTENSION_NAME "XR_EXT_hand_joints_motion_range"
 
-typedef enum XrHandJointsMotionRangeEXT {
+തരനിർവചനം എണ്ണൽ XrHandJointsMotionRangeEXT {
     XR_HAND_JOINTS_MOTION_RANGE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_JOINTS_MOTION_RANGE_CONFORMING_TO_CONTROLLER_EXT = 2,
     XR_HAND_JOINTS_MOTION_RANGE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointsMotionRangeEXT;
 // XrHandJointsMotionRangeInfoEXT extends XrHandJointsLocateInfoEXT
-typedef struct XrHandJointsMotionRangeInfoEXT {
+തരനിർവചനം ഘടന XrHandJointsMotionRangeInfoEXT {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrHandJointsMotionRangeEXT    handJointsMotionRange;
 } XrHandJointsMotionRangeInfoEXT;
 
@@ -3698,9 +3698,9 @@ typedef struct XrHandJointsMotionRangeInfoEXT {
 
 
 // XR_MND_swapchain_usage_input_attachment_bit is a preprocessor guard. Do not pass it to API calls.
-#define XR_MND_swapchain_usage_input_attachment_bit 1
-#define XR_MND_swapchain_usage_input_attachment_bit_SPEC_VERSION 2
-#define XR_MND_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_EXTENSION_NAME "XR_MND_swapchain_usage_input_attachment_bit"
+#define XR_MND_swapchain_usage_നിവേശം_attachment_bit 1
+#define XR_MND_swapchain_usage_നിവേശം_attachment_bit_SPEC_VERSION 2
+#define XR_MND_SWAPCHAIN_USAGE_നിവേശം_ATTACHMENT_BIT_EXTENSION_NAME "XR_MND_swapchain_usage_input_attachment_bit"
 
 
 // XR_MSFT_scene_understanding is a preprocessor guard. Do not pass it to API calls.
@@ -3714,7 +3714,7 @@ typedef struct XrHandJointsMotionRangeInfoEXT {
 #define XR_MSFT_scene_understanding_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_EXTENSION_NAME "XR_MSFT_scene_understanding"
 
-typedef enum XrSceneComputeFeatureMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_PLANE_MSFT = 1,
     XR_SCENE_COMPUTE_FEATURE_PLANE_MESH_MSFT = 2,
     XR_SCENE_COMPUTE_FEATURE_VISUAL_MESH_MSFT = 3,
@@ -3724,14 +3724,14 @@ typedef enum XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeFeatureMSFT;
 
-typedef enum XrSceneComputeConsistencyMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneComputeConsistencyMSFT {
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_COMPLETE_MSFT = 1,
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_INCOMPLETE_FAST_MSFT = 2,
     XR_SCENE_COMPUTE_CONSISTENCY_OCCLUSION_OPTIMIZED_MSFT = 3,
     XR_SCENE_COMPUTE_CONSISTENCY_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeConsistencyMSFT;
 
-typedef enum XrMeshComputeLodMSFT {
+തരനിർവചനം എണ്ണൽ XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_COARSE_MSFT = 1,
     XR_MESH_COMPUTE_LOD_MEDIUM_MSFT = 2,
     XR_MESH_COMPUTE_LOD_FINE_MSFT = 3,
@@ -3739,7 +3739,7 @@ typedef enum XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrMeshComputeLodMSFT;
 
-typedef enum XrSceneComponentTypeMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_INVALID_MSFT = -1,
     XR_SCENE_COMPONENT_TYPE_OBJECT_MSFT = 1,
     XR_SCENE_COMPONENT_TYPE_PLANE_MSFT = 2,
@@ -3750,7 +3750,7 @@ typedef enum XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComponentTypeMSFT;
 
-typedef enum XrSceneObjectTypeMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_UNCATEGORIZED_MSFT = -1,
     XR_SCENE_OBJECT_TYPE_BACKGROUND_MSFT = 1,
     XR_SCENE_OBJECT_TYPE_WALL_MSFT = 2,
@@ -3761,147 +3761,147 @@ typedef enum XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneObjectTypeMSFT;
 
-typedef enum XrScenePlaneAlignmentTypeMSFT {
+തരനിർവചനം എണ്ണൽ XrScenePlaneAlignmentTypeMSFT {
     XR_SCENE_PLANE_ALIGNMENT_TYPE_NON_ORTHOGONAL_MSFT = 0,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_HORIZONTAL_MSFT = 1,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_VERTICAL_MSFT = 2,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrScenePlaneAlignmentTypeMSFT;
 
-typedef enum XrSceneComputeStateMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneComputeStateMSFT {
     XR_SCENE_COMPUTE_STATE_NONE_MSFT = 0,
     XR_SCENE_COMPUTE_STATE_UPDATING_MSFT = 1,
     XR_SCENE_COMPUTE_STATE_COMPLETED_MSFT = 2,
     XR_SCENE_COMPUTE_STATE_COMPLETED_WITH_ERROR_MSFT = 3,
     XR_SCENE_COMPUTE_STATE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeStateMSFT;
-typedef struct XrUuidMSFT {
+തരനിർവചനം ഘടന XrUuidMSFT {
     uint8_t    bytes[16];
 } XrUuidMSFT;
 
-typedef struct XrSceneObserverCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSceneObserverCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSceneObserverCreateInfoMSFT;
 
-typedef struct XrSceneCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSceneCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSceneCreateInfoMSFT;
 
-typedef struct XrSceneSphereBoundMSFT {
+തരനിർവചനം ഘടന XrSceneSphereBoundMSFT {
     XrVector3f    center;
-    float         radius;
+    ദശാംശം         radius;
 } XrSceneSphereBoundMSFT;
 
-typedef struct XrSceneOrientedBoxBoundMSFT {
+തരനിർവചനം ഘടന XrSceneOrientedBoxBoundMSFT {
     XrPosef       pose;
     XrVector3f    extents;
 } XrSceneOrientedBoxBoundMSFT;
 
-typedef struct XrSceneFrustumBoundMSFT {
+തരനിർവചനം ഘടന XrSceneFrustumBoundMSFT {
     XrPosef    pose;
     XrFovf     fov;
-    float      farDistance;
+    ദശാംശം      farDistance;
 } XrSceneFrustumBoundMSFT;
 
-typedef struct XrSceneBoundsMSFT {
+തരനിർവചനം ഘടന XrSceneBoundsMSFT {
     XrSpace                               space;
     XrTime                                time;
-    uint32_t                              sphereCount;
-    const XrSceneSphereBoundMSFT*         spheres;
-    uint32_t                              boxCount;
-    const XrSceneOrientedBoxBoundMSFT*    boxes;
-    uint32_t                              frustumCount;
-    const XrSceneFrustumBoundMSFT*        frustums;
+    uint32_t                              sphere_എണ്ണം;
+    സ്ഥിരം XrSceneSphereBoundMSFT*         spheres;
+    uint32_t                              box_എണ്ണം;
+    സ്ഥിരം XrSceneOrientedBoxBoundMSFT*    boxes;
+    uint32_t                              frustum_എണ്ണം;
+    സ്ഥിരം XrSceneFrustumBoundMSFT*        frustums;
 } XrSceneBoundsMSFT;
 
-typedef struct XrNewSceneComputeInfoMSFT {
+തരനിർവചനം ഘടന XrNewSceneComputeInfoMSFT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            requestedFeatureCount;
-    const XrSceneComputeFeatureMSFT*    requestedFeatures;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                            requested_Feature_എണ്ണം;
+    സ്ഥിരം XrSceneComputeFeatureMSFT*    requestedFeatures;
     XrSceneComputeConsistencyMSFT       consistency;
     XrSceneBoundsMSFT                   bounds;
 } XrNewSceneComputeInfoMSFT;
 
 // XrVisualMeshComputeLodInfoMSFT extends XrNewSceneComputeInfoMSFT
-typedef struct XrVisualMeshComputeLodInfoMSFT {
+തരനിർവചനം ഘടന XrVisualMeshComputeLodInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrMeshComputeLodMSFT        lod;
 } XrVisualMeshComputeLodInfoMSFT;
 
-typedef struct XrSceneComponentMSFT {
+തരനിർവചനം ഘടന XrSceneComponentMSFT {
     XrSceneComponentTypeMSFT    componentType;
     XrUuidMSFT                  id;
     XrUuidMSFT                  parentId;
     XrTime                      updateTime;
 } XrSceneComponentMSFT;
 
-typedef struct XrSceneComponentsMSFT {
+തരനിർവചനം ഘടന XrSceneComponentsMSFT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 componentCapacityInput;
-    uint32_t                 componentCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 component_Capacity_നിവേശം;
+    uint32_t                 component_എണ്ണം_Output;
     XrSceneComponentMSFT*    components;
 } XrSceneComponentsMSFT;
 
-typedef struct XrSceneComponentsGetInfoMSFT {
+തരനിർവചനം ഘടന XrSceneComponentsGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSceneComponentTypeMSFT    componentType;
 } XrSceneComponentsGetInfoMSFT;
 
-typedef struct XrSceneComponentLocationMSFT {
+തരനിർവചനം ഘടന XrSceneComponentLocationMSFT {
     XrSpaceLocationFlags    flags;
     XrPosef                 pose;
 } XrSceneComponentLocationMSFT;
 
-typedef struct XrSceneComponentLocationsMSFT {
+തരനിർവചനം ഘടന XrSceneComponentLocationsMSFT {
     XrStructureType                  type;
-    void* XR_MAY_ALIAS               next;
-    uint32_t                         locationCount;
+    ശൂന്യം* XR_MAY_ALIAS               next;
+    uint32_t                         location_എണ്ണം;
     XrSceneComponentLocationMSFT*    locations;
 } XrSceneComponentLocationsMSFT;
 
-typedef struct XrSceneComponentsLocateInfoMSFT {
+തരനിർവചനം ഘടന XrSceneComponentsLocateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
-    uint32_t                    componentIdCount;
-    const XrUuidMSFT*           componentIds;
+    uint32_t                    component_Id_എണ്ണം;
+    സ്ഥിരം XrUuidMSFT*           componentIds;
 } XrSceneComponentsLocateInfoMSFT;
 
-typedef struct XrSceneObjectMSFT {
+തരനിർവചനം ഘടന XrSceneObjectMSFT {
     XrSceneObjectTypeMSFT    objectType;
 } XrSceneObjectMSFT;
 
 // XrSceneObjectsMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneObjectsMSFT {
+തരനിർവചനം ഘടന XrSceneObjectsMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              sceneObjectCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              scene_Object_എണ്ണം;
     XrSceneObjectMSFT*    sceneObjects;
 } XrSceneObjectsMSFT;
 
 // XrSceneComponentParentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneComponentParentFilterInfoMSFT {
+തരനിർവചനം ഘടന XrSceneComponentParentFilterInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidMSFT                  parentId;
 } XrSceneComponentParentFilterInfoMSFT;
 
 // XrSceneObjectTypesFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneObjectTypesFilterInfoMSFT {
+തരനിർവചനം ഘടന XrSceneObjectTypesFilterInfoMSFT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        objectTypeCount;
-    const XrSceneObjectTypeMSFT*    objectTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                        object_Type_എണ്ണം;
+    സ്ഥിരം XrSceneObjectTypeMSFT*    objectTypes;
 } XrSceneObjectTypesFilterInfoMSFT;
 
-typedef struct XrScenePlaneMSFT {
+തരനിർവചനം ഘടന XrScenePlaneMSFT {
     XrScenePlaneAlignmentTypeMSFT    alignment;
     XrExtent2Df                      size;
     uint64_t                         meshBufferId;
@@ -3909,95 +3909,95 @@ typedef struct XrScenePlaneMSFT {
 } XrScenePlaneMSFT;
 
 // XrScenePlanesMSFT extends XrSceneComponentsMSFT
-typedef struct XrScenePlanesMSFT {
+തരനിർവചനം ഘടന XrScenePlanesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              scenePlaneCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              scene_Plane_എണ്ണം;
     XrScenePlaneMSFT*     scenePlanes;
 } XrScenePlanesMSFT;
 
 // XrScenePlaneAlignmentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrScenePlaneAlignmentFilterInfoMSFT {
+തരനിർവചനം ഘടന XrScenePlaneAlignmentFilterInfoMSFT {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
-    uint32_t                                alignmentCount;
-    const XrScenePlaneAlignmentTypeMSFT*    alignments;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                next;
+    uint32_t                                alignment_എണ്ണം;
+    സ്ഥിരം XrScenePlaneAlignmentTypeMSFT*    alignments;
 } XrScenePlaneAlignmentFilterInfoMSFT;
 
-typedef struct XrSceneMeshMSFT {
+തരനിർവചനം ഘടന XrSceneMeshMSFT {
     uint64_t    meshBufferId;
     XrBool32    supportsIndicesUint16;
 } XrSceneMeshMSFT;
 
 // XrSceneMeshesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMeshesMSFT {
+തരനിർവചനം ഘടന XrSceneMeshesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              sceneMeshCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              scene_Mesh_എണ്ണം;
     XrSceneMeshMSFT*      sceneMeshes;
 } XrSceneMeshesMSFT;
 
-typedef struct XrSceneMeshBuffersGetInfoMSFT {
+തരനിർവചനം ഘടന XrSceneMeshBuffersGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint64_t                    meshBufferId;
 } XrSceneMeshBuffersGetInfoMSFT;
 
-typedef struct XrSceneMeshBuffersMSFT {
+തരനിർവചനം ഘടന XrSceneMeshBuffersMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSceneMeshBuffersMSFT;
 
 // XrSceneMeshVertexBufferMSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshVertexBufferMSFT {
+തരനിർവചനം ഘടന XrSceneMeshVertexBufferMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector3f*           vertices;
 } XrSceneMeshVertexBufferMSFT;
 
 // XrSceneMeshIndicesUint32MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint32MSFT {
+തരനിർവചനം ഘടന XrSceneMeshIndicesUint32MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint32_t*             indices;
 } XrSceneMeshIndicesUint32MSFT;
 
 // XrSceneMeshIndicesUint16MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint16MSFT {
+തരനിർവചനം ഘടന XrSceneMeshIndicesUint16MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint16_t*             indices;
 } XrSceneMeshIndicesUint16MSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSceneComputeFeaturesMSFT)(XrInstance instance, XrSystemId systemId, uint32_t featureCapacityInput, uint32_t* featureCountOutput, XrSceneComputeFeatureMSFT* features);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneObserverMSFT)(XrSession session, const XrSceneObserverCreateInfoMSFT* createInfo, XrSceneObserverMSFT* sceneObserver);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneObserverMSFT)(XrSceneObserverMSFT sceneObserver);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrSceneCreateInfoMSFT* createInfo, XrSceneMSFT* scene);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMSFT)(XrSceneMSFT scene);
-typedef XrResult (XRAPI_PTR *PFN_xrComputeNewSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrNewSceneComputeInfoMSFT* computeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneComputeStateMSFT)(XrSceneObserverMSFT sceneObserver, XrSceneComputeStateMSFT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneComponentsMSFT)(XrSceneMSFT scene, const XrSceneComponentsGetInfoMSFT* getInfo, XrSceneComponentsMSFT* components);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSceneComponentsMSFT)(XrSceneMSFT scene, const XrSceneComponentsLocateInfoMSFT* locateInfo, XrSceneComponentLocationsMSFT* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT scene, const XrSceneMeshBuffersGetInfoMSFT* getInfo, XrSceneMeshBuffersMSFT* buffers);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSceneComputeFeaturesMSFT)(XrInstance instance, XrSystemId systemId, uint32_t feature_Capacity_നിവേശം, uint32_t* feature_എണ്ണം_Output, XrSceneComputeFeatureMSFT* features);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSceneObserverMSFT)(XrSession session, സ്ഥിരം XrSceneObserverCreateInfoMSFT* createInfo, XrSceneObserverMSFT* sceneObserver);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySceneObserverMSFT)(XrSceneObserverMSFT sceneObserver);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSceneMSFT)(XrSceneObserverMSFT sceneObserver, സ്ഥിരം XrSceneCreateInfoMSFT* createInfo, XrSceneMSFT* scene);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySceneMSFT)(XrSceneMSFT scene);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrComputeNewSceneMSFT)(XrSceneObserverMSFT sceneObserver, സ്ഥിരം XrNewSceneComputeInfoMSFT* computeInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSceneComputeStateMSFT)(XrSceneObserverMSFT sceneObserver, XrSceneComputeStateMSFT* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSceneComponentsMSFT)(XrSceneMSFT scene, സ്ഥിരം XrSceneComponentsGetInfoMSFT* getInfo, XrSceneComponentsMSFT* components);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateSceneComponentsMSFT)(XrSceneMSFT scene, സ്ഥിരം XrSceneComponentsLocateInfoMSFT* locateInfo, XrSceneComponentLocationsMSFT* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT scene, സ്ഥിരം XrSceneMeshBuffersGetInfoMSFT* getInfo, XrSceneMeshBuffersMSFT* buffers);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSceneComputeFeaturesMSFT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    featureCapacityInput,
-    uint32_t*                                   featureCountOutput,
+    uint32_t                                    feature_Capacity_നിവേശം,
+    uint32_t*                                   feature_എണ്ണം_Output,
     XrSceneComputeFeatureMSFT*                  features);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneObserverMSFT(
     XrSession                                   session,
-    const XrSceneObserverCreateInfoMSFT*        createInfo,
+    സ്ഥിരം XrSceneObserverCreateInfoMSFT*        createInfo,
     XrSceneObserverMSFT*                        sceneObserver);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneObserverMSFT(
@@ -4005,7 +4005,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneObserverMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrSceneCreateInfoMSFT*                createInfo,
+    സ്ഥിരം XrSceneCreateInfoMSFT*                createInfo,
     XrSceneMSFT*                                scene);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMSFT(
@@ -4013,7 +4013,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrComputeNewSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrNewSceneComputeInfoMSFT*            computeInfo);
+    സ്ഥിരം XrNewSceneComputeInfoMSFT*            computeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComputeStateMSFT(
     XrSceneObserverMSFT                         sceneObserver,
@@ -4021,17 +4021,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComputeStateMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComponentsMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneComponentsGetInfoMSFT*         getInfo,
+    സ്ഥിരം XrSceneComponentsGetInfoMSFT*         getInfo,
     XrSceneComponentsMSFT*                      components);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSceneComponentsMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneComponentsLocateInfoMSFT*      locateInfo,
+    സ്ഥിരം XrSceneComponentsLocateInfoMSFT*      locateInfo,
     XrSceneComponentLocationsMSFT*              locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMeshBuffersMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneMeshBuffersGetInfoMSFT*        getInfo,
+    സ്ഥിരം XrSceneMeshBuffersGetInfoMSFT*        getInfo,
     XrSceneMeshBuffersMSFT*                     buffers);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4041,37 +4041,37 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMeshBuffersMSFT(
 #define XR_MSFT_scene_understanding_serialization 1
 #define XR_MSFT_scene_understanding_serialization_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_SERIALIZATION_EXTENSION_NAME "XR_MSFT_scene_understanding_serialization"
-typedef struct XrSerializedSceneFragmentDataGetInfoMSFT {
+തരനിർവചനം ഘടന XrSerializedSceneFragmentDataGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidMSFT                  sceneFragmentId;
 } XrSerializedSceneFragmentDataGetInfoMSFT;
 
-typedef struct XrDeserializeSceneFragmentMSFT {
+തരനിർവചനം ഘടന XrDeserializeSceneFragmentMSFT {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    സ്ഥിരം uint8_t*    buffer;
 } XrDeserializeSceneFragmentMSFT;
 
-typedef struct XrSceneDeserializeInfoMSFT {
+തരനിർവചനം ഘടന XrSceneDeserializeInfoMSFT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 fragmentCount;
-    const XrDeserializeSceneFragmentMSFT*    fragments;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                                 fragment_എണ്ണം;
+    സ്ഥിരം XrDeserializeSceneFragmentMSFT*    fragments;
 } XrSceneDeserializeInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrDeserializeSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrSceneDeserializeInfoMSFT* deserializeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSerializedSceneFragmentDataMSFT)(XrSceneMSFT scene, const XrSerializedSceneFragmentDataGetInfoMSFT* getInfo, uint32_t countInput, uint32_t* readOutput, uint8_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDeserializeSceneMSFT)(XrSceneObserverMSFT sceneObserver, സ്ഥിരം XrSceneDeserializeInfoMSFT* deserializeInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSerializedSceneFragmentDataMSFT)(XrSceneMSFT scene, സ്ഥിരം XrSerializedSceneFragmentDataGetInfoMSFT* getInfo, uint32_t എണ്ണം_നിവേശം, uint32_t* readOutput, uint8_t* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrDeserializeSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrSceneDeserializeInfoMSFT*           deserializeInfo);
+    സ്ഥിരം XrSceneDeserializeInfoMSFT*           deserializeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSerializedSceneFragmentDataMSFT(
     XrSceneMSFT                                 scene,
-    const XrSerializedSceneFragmentDataGetInfoMSFT* getInfo,
-    uint32_t                                    countInput,
+    സ്ഥിരം XrSerializedSceneFragmentDataGetInfoMSFT* getInfo,
+    uint32_t                                    എണ്ണം_നിവേശം,
     uint32_t*                                   readOutput,
     uint8_t*                                    buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -4082,32 +4082,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSerializedSceneFragmentDataMSFT(
 #define XR_FB_display_refresh_rate 1
 #define XR_FB_display_refresh_rate_SPEC_VERSION 1
 #define XR_FB_DISPLAY_REFRESH_RATE_EXTENSION_NAME "XR_FB_display_refresh_rate"
-typedef struct XrEventDataDisplayRefreshRateChangedFB {
+തരനിർവചനം ഘടന XrEventDataDisplayRefreshRateChangedFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       fromDisplayRefreshRate;
-    float                       toDisplayRefreshRate;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       fromDisplayRefreshRate;
+    ദശാംശം                       toDisplayRefreshRate;
 } XrEventDataDisplayRefreshRateChangedFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateDisplayRefreshRatesFB)(XrSession session, uint32_t displayRefreshRateCapacityInput, uint32_t* displayRefreshRateCountOutput, float* displayRefreshRates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetDisplayRefreshRateFB)(XrSession session, float* displayRefreshRate);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestDisplayRefreshRateFB)(XrSession session, float displayRefreshRate);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateDisplayRefreshRatesFB)(XrSession session, uint32_t display_Refresh_Rate_Capacity_നിവേശം, uint32_t* display_Refresh_Rate_എണ്ണം_Output, ദശാംശം* displayRefreshRates);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetDisplayRefreshRateFB)(XrSession session, ദശാംശം* displayRefreshRate);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestDisplayRefreshRateFB)(XrSession session, ദശാംശം displayRefreshRate);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateDisplayRefreshRatesFB(
     XrSession                                   session,
-    uint32_t                                    displayRefreshRateCapacityInput,
-    uint32_t*                                   displayRefreshRateCountOutput,
-    float*                                      displayRefreshRates);
+    uint32_t                                    display_Refresh_Rate_Capacity_നിവേശം,
+    uint32_t*                                   display_Refresh_Rate_എണ്ണം_Output,
+    ദശാംശം*                                      displayRefreshRates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetDisplayRefreshRateFB(
     XrSession                                   session,
-    float*                                      displayRefreshRate);
+    ദശാംശം*                                      displayRefreshRate);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestDisplayRefreshRateFB(
     XrSession                                   session,
-    float                                       displayRefreshRate);
+    ദശാംശം                                       displayRefreshRate);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4122,27 +4122,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestDisplayRefreshRateFB(
 #define XR_HTCX_vive_tracker_interaction 1
 #define XR_HTCX_vive_tracker_interaction_SPEC_VERSION 3
 #define XR_HTCX_VIVE_TRACKER_INTERACTION_EXTENSION_NAME "XR_HTCX_vive_tracker_interaction"
-typedef struct XrViveTrackerPathsHTCX {
+തരനിർവചനം ഘടന XrViveTrackerPathsHTCX {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrPath                persistentPath;
     XrPath                rolePath;
 } XrViveTrackerPathsHTCX;
 
-typedef struct XrEventDataViveTrackerConnectedHTCX {
+തരനിർവചനം ഘടന XrEventDataViveTrackerConnectedHTCX {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViveTrackerPathsHTCX*     paths;
 } XrEventDataViveTrackerConnectedHTCX;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViveTrackerPathsHTCX)(XrInstance instance, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrViveTrackerPathsHTCX* paths);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateViveTrackerPathsHTCX)(XrInstance instance, uint32_t path_Capacity_നിവേശം, uint32_t* path_എണ്ണം_Output, XrViveTrackerPathsHTCX* paths);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViveTrackerPathsHTCX(
     XrInstance                                  instance,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    uint32_t                                    path_Capacity_നിവേശം,
+    uint32_t*                                   path_എണ്ണം_Output,
     XrViveTrackerPathsHTCX*                     paths);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4151,52 +4151,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViveTrackerPathsHTCX(
 // XR_HTC_facial_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_HTC_facial_tracking 1
 
-#define XR_FACIAL_EXPRESSION_EYE_COUNT_HTC 14
+#define XR_FACIAL_EXPRESSION_EYE_എണ്ണം_HTC 14
 
 
-#define XR_FACIAL_EXPRESSION_LIP_COUNT_HTC 37
+#define XR_FACIAL_EXPRESSION_LIP_എണ്ണം_HTC 37
 
 XR_DEFINE_HANDLE(XrFacialTrackerHTC)
 #define XR_HTC_facial_tracking_SPEC_VERSION 3
 #define XR_HTC_FACIAL_TRACKING_EXTENSION_NAME "XR_HTC_facial_tracking"
 
-typedef enum XrEyeExpressionHTC {
-    XR_EYE_EXPRESSION_LEFT_BLINK_HTC = 0,
-    XR_EYE_EXPRESSION_LEFT_WIDE_HTC = 1,
-    XR_EYE_EXPRESSION_RIGHT_BLINK_HTC = 2,
-    XR_EYE_EXPRESSION_RIGHT_WIDE_HTC = 3,
-    XR_EYE_EXPRESSION_LEFT_SQUEEZE_HTC = 4,
-    XR_EYE_EXPRESSION_RIGHT_SQUEEZE_HTC = 5,
-    XR_EYE_EXPRESSION_LEFT_DOWN_HTC = 6,
-    XR_EYE_EXPRESSION_RIGHT_DOWN_HTC = 7,
-    XR_EYE_EXPRESSION_LEFT_OUT_HTC = 8,
-    XR_EYE_EXPRESSION_RIGHT_IN_HTC = 9,
-    XR_EYE_EXPRESSION_LEFT_IN_HTC = 10,
-    XR_EYE_EXPRESSION_RIGHT_OUT_HTC = 11,
-    XR_EYE_EXPRESSION_LEFT_UP_HTC = 12,
-    XR_EYE_EXPRESSION_RIGHT_UP_HTC = 13,
+തരനിർവചനം എണ്ണൽ XrEyeExpressionHTC {
+    XR_EYE_EXPRESSION_ഇടത്_BLINK_HTC = 0,
+    XR_EYE_EXPRESSION_ഇടത്_WIDE_HTC = 1,
+    XR_EYE_EXPRESSION_വലത്_BLINK_HTC = 2,
+    XR_EYE_EXPRESSION_വലത്_WIDE_HTC = 3,
+    XR_EYE_EXPRESSION_ഇടത്_SQUEEZE_HTC = 4,
+    XR_EYE_EXPRESSION_വലത്_SQUEEZE_HTC = 5,
+    XR_EYE_EXPRESSION_ഇടത്_DOWN_HTC = 6,
+    XR_EYE_EXPRESSION_വലത്_DOWN_HTC = 7,
+    XR_EYE_EXPRESSION_ഇടത്_OUT_HTC = 8,
+    XR_EYE_EXPRESSION_വലത്_IN_HTC = 9,
+    XR_EYE_EXPRESSION_ഇടത്_IN_HTC = 10,
+    XR_EYE_EXPRESSION_വലത്_OUT_HTC = 11,
+    XR_EYE_EXPRESSION_ഇടത്_UP_HTC = 12,
+    XR_EYE_EXPRESSION_വലത്_UP_HTC = 13,
     XR_EYE_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrEyeExpressionHTC;
 
-typedef enum XrLipExpressionHTC {
-    XR_LIP_EXPRESSION_JAW_RIGHT_HTC = 0,
-    XR_LIP_EXPRESSION_JAW_LEFT_HTC = 1,
+തരനിർവചനം എണ്ണൽ XrLipExpressionHTC {
+    XR_LIP_EXPRESSION_JAW_വലത്_HTC = 0,
+    XR_LIP_EXPRESSION_JAW_ഇടത്_HTC = 1,
     XR_LIP_EXPRESSION_JAW_FORWARD_HTC = 2,
     XR_LIP_EXPRESSION_JAW_OPEN_HTC = 3,
     XR_LIP_EXPRESSION_MOUTH_APE_SHAPE_HTC = 4,
-    XR_LIP_EXPRESSION_MOUTH_UPPER_RIGHT_HTC = 5,
-    XR_LIP_EXPRESSION_MOUTH_UPPER_LEFT_HTC = 6,
-    XR_LIP_EXPRESSION_MOUTH_LOWER_RIGHT_HTC = 7,
-    XR_LIP_EXPRESSION_MOUTH_LOWER_LEFT_HTC = 8,
+    XR_LIP_EXPRESSION_MOUTH_UPPER_വലത്_HTC = 5,
+    XR_LIP_EXPRESSION_MOUTH_UPPER_ഇടത്_HTC = 6,
+    XR_LIP_EXPRESSION_MOUTH_LOWER_വലത്_HTC = 7,
+    XR_LIP_EXPRESSION_MOUTH_LOWER_ഇടത്_HTC = 8,
     XR_LIP_EXPRESSION_MOUTH_UPPER_OVERTURN_HTC = 9,
     XR_LIP_EXPRESSION_MOUTH_LOWER_OVERTURN_HTC = 10,
     XR_LIP_EXPRESSION_MOUTH_POUT_HTC = 11,
-    XR_LIP_EXPRESSION_MOUTH_RAISER_RIGHT_HTC = 12,
-    XR_LIP_EXPRESSION_MOUTH_RAISER_LEFT_HTC = 13,
-    XR_LIP_EXPRESSION_MOUTH_STRETCHER_RIGHT_HTC = 14,
-    XR_LIP_EXPRESSION_MOUTH_STRETCHER_LEFT_HTC = 15,
-    XR_LIP_EXPRESSION_CHEEK_PUFF_RIGHT_HTC = 16,
-    XR_LIP_EXPRESSION_CHEEK_PUFF_LEFT_HTC = 17,
+    XR_LIP_EXPRESSION_MOUTH_RAISER_വലത്_HTC = 12,
+    XR_LIP_EXPRESSION_MOUTH_RAISER_ഇടത്_HTC = 13,
+    XR_LIP_EXPRESSION_MOUTH_STRETCHER_വലത്_HTC = 14,
+    XR_LIP_EXPRESSION_MOUTH_STRETCHER_ഇടത്_HTC = 15,
+    XR_LIP_EXPRESSION_CHEEK_PUFF_വലത്_HTC = 16,
+    XR_LIP_EXPRESSION_CHEEK_PUFF_ഇടത്_HTC = 17,
     XR_LIP_EXPRESSION_CHEEK_SUCK_HTC = 18,
     XR_LIP_EXPRESSION_MOUTH_UPPER_UPRIGHT_HTC = 19,
     XR_LIP_EXPRESSION_MOUTH_UPPER_UPLEFT_HTC = 20,
@@ -4206,8 +4206,8 @@ typedef enum XrLipExpressionHTC {
     XR_LIP_EXPRESSION_MOUTH_LOWER_INSIDE_HTC = 24,
     XR_LIP_EXPRESSION_MOUTH_LOWER_OVERLAY_HTC = 25,
     XR_LIP_EXPRESSION_TONGUE_LONGSTEP1_HTC = 26,
-    XR_LIP_EXPRESSION_TONGUE_LEFT_HTC = 27,
-    XR_LIP_EXPRESSION_TONGUE_RIGHT_HTC = 28,
+    XR_LIP_EXPRESSION_TONGUE_ഇടത്_HTC = 27,
+    XR_LIP_EXPRESSION_TONGUE_വലത്_HTC = 28,
     XR_LIP_EXPRESSION_TONGUE_UP_HTC = 29,
     XR_LIP_EXPRESSION_TONGUE_DOWN_HTC = 30,
     XR_LIP_EXPRESSION_TONGUE_ROLL_HTC = 31,
@@ -4216,50 +4216,50 @@ typedef enum XrLipExpressionHTC {
     XR_LIP_EXPRESSION_TONGUE_UPLEFT_MORPH_HTC = 34,
     XR_LIP_EXPRESSION_TONGUE_DOWNRIGHT_MORPH_HTC = 35,
     XR_LIP_EXPRESSION_TONGUE_DOWNLEFT_MORPH_HTC = 36,
-    XR_LIP_EXPRESSION_MOUTH_SMILE_RIGHT_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_RIGHT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SMILE_LEFT_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_LEFT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SAD_RIGHT_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_RIGHT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SAD_LEFT_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_LEFT_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SMILE_വലത്_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_വലത്_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SMILE_ഇടത്_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_ഇടത്_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SAD_വലത്_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_വലത്_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SAD_ഇടത്_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_ഇടത്_HTC,
     XR_LIP_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrLipExpressionHTC;
 
-typedef enum XrFacialTrackingTypeHTC {
+തരനിർവചനം എണ്ണൽ XrFacialTrackingTypeHTC {
     XR_FACIAL_TRACKING_TYPE_EYE_DEFAULT_HTC = 1,
     XR_FACIAL_TRACKING_TYPE_LIP_DEFAULT_HTC = 2,
     XR_FACIAL_TRACKING_TYPE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFacialTrackingTypeHTC;
 // XrSystemFacialTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemFacialTrackingPropertiesHTC {
+തരനിർവചനം ഘടന XrSystemFacialTrackingPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportEyeFacialTracking;
     XrBool32              supportLipFacialTracking;
 } XrSystemFacialTrackingPropertiesHTC;
 
-typedef struct XrFacialExpressionsHTC {
+തരനിർവചനം ഘടന XrFacialExpressionsHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    isActive;
     XrTime                      sampleTime;
-    uint32_t                    expressionCount;
-    float*                      expressionWeightings;
+    uint32_t                    expression_എണ്ണം;
+    ദശാംശം*                      expressionWeightings;
 } XrFacialExpressionsHTC;
 
-typedef struct XrFacialTrackerCreateInfoHTC {
+തരനിർവചനം ഘടന XrFacialTrackerCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFacialTrackingTypeHTC     facialTrackingType;
 } XrFacialTrackerCreateInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFacialTrackerHTC)(XrSession session, const XrFacialTrackerCreateInfoHTC* createInfo, XrFacialTrackerHTC* facialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFacialTrackerHTC)(XrFacialTrackerHTC facialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionsHTC)(XrFacialTrackerHTC facialTracker, XrFacialExpressionsHTC* facialExpressions);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFacialTrackerHTC)(XrSession session, സ്ഥിരം XrFacialTrackerCreateInfoHTC* createInfo, XrFacialTrackerHTC* facialTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFacialTrackerHTC)(XrFacialTrackerHTC facialTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionsHTC)(XrFacialTrackerHTC facialTracker, XrFacialExpressionsHTC* facialExpressions);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFacialTrackerHTC(
     XrSession                                   session,
-    const XrFacialTrackerCreateInfoHTC*         createInfo,
+    സ്ഥിരം XrFacialTrackerCreateInfoHTC*         createInfo,
     XrFacialTrackerHTC*                         facialTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialTrackerHTC(
@@ -4295,7 +4295,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionsHTC(
 #define XR_FB_color_space_SPEC_VERSION    3
 #define XR_FB_COLOR_SPACE_EXTENSION_NAME  "XR_FB_color_space"
 
-typedef enum XrColorSpaceFB {
+തരനിർവചനം എണ്ണൽ XrColorSpaceFB {
     XR_COLOR_SPACE_UNMANAGED_FB = 0,
     XR_COLOR_SPACE_REC2020_FB = 1,
     XR_COLOR_SPACE_REC709_FB = 2,
@@ -4307,26 +4307,26 @@ typedef enum XrColorSpaceFB {
     XR_COLOR_SPACE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrColorSpaceFB;
 // XrSystemColorSpacePropertiesFB extends XrSystemProperties
-typedef struct XrSystemColorSpacePropertiesFB {
+തരനിർവചനം ഘടന XrSystemColorSpacePropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrColorSpaceFB        colorSpace;
 } XrSystemColorSpacePropertiesFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesFB)(XrSession session, uint32_t colorSpaceCapacityInput, uint32_t* colorSpaceCountOutput, XrColorSpaceFB* colorSpaces);
-typedef XrResult (XRAPI_PTR *PFN_xrSetColorSpaceFB)(XrSession session, const XrColorSpaceFB colorSpace);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesFB)(XrSession session, uint32_t color_Space_Capacity_നിവേശം, uint32_t* color_Space_എണ്ണം_Output, XrColorSpaceFB* colorSpaces);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetColorSpaceFB)(XrSession session, സ്ഥിരം XrColorSpaceFB colorSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesFB(
     XrSession                                   session,
-    uint32_t                                    colorSpaceCapacityInput,
-    uint32_t*                                   colorSpaceCountOutput,
+    uint32_t                                    color_Space_Capacity_നിവേശം,
+    uint32_t*                                   color_Space_എണ്ണം_Output,
     XrColorSpaceFB*                             colorSpaces);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetColorSpaceFB(
     XrSession                                   session,
-    const XrColorSpaceFB                        colorSpace);
+    സ്ഥിരം XrColorSpaceFB                        colorSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4335,44 +4335,44 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetColorSpaceFB(
 #define XR_FB_hand_tracking_mesh 1
 #define XR_FB_hand_tracking_mesh_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_MESH_EXTENSION_NAME "XR_FB_hand_tracking_mesh"
-typedef struct XrVector4sFB {
+തരനിർവചനം ഘടന XrVector4sFB {
     int16_t    x;
     int16_t    y;
     int16_t    z;
     int16_t    w;
 } XrVector4sFB;
 
-typedef struct XrHandTrackingMeshFB {
+തരനിർവചനം ഘടന XrHandTrackingMeshFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              jointCapacityInput;
-    uint32_t              jointCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              joint_Capacity_നിവേശം;
+    uint32_t              joint_എണ്ണം_Output;
     XrPosef*              jointBindPoses;
-    float*                jointRadii;
+    ദശാംശം*                jointRadii;
     XrHandJointEXT*       jointParents;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector3f*           vertexPositions;
     XrVector3f*           vertexNormals;
     XrVector2f*           vertexUVs;
     XrVector4sFB*         vertexBlendIndices;
     XrVector4f*           vertexBlendWeights;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     int16_t*              indices;
 } XrHandTrackingMeshFB;
 
 // XrHandTrackingScaleFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingScaleFB {
+തരനിർവചനം ഘടന XrHandTrackingScaleFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 sensorOutput;
-    float                 currentOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                 sensorOutput;
+    ദശാംശം                 currentOutput;
     XrBool32              overrideHandScale;
-    float                 overrideValueInput;
+    ദശാംശം                 override_മൂല്യം_നിവേശം;
 } XrHandTrackingScaleFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetHandMeshFB)(XrHandTrackerEXT handTracker, XrHandTrackingMeshFB* mesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetHandMeshFB)(XrHandTrackerEXT handTracker, XrHandTrackingMeshFB* mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -4387,52 +4387,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetHandMeshFB(
 #define XR_FB_hand_tracking_aim 1
 #define XR_FB_hand_tracking_aim_SPEC_VERSION 2
 #define XR_FB_HAND_TRACKING_AIM_EXTENSION_NAME "XR_FB_hand_tracking_aim"
-typedef XrFlags64 XrHandTrackingAimFlagsFB;
+തരനിർവചനം XrFlags64 XrHandTrackingAimFlagsFB;
 
 // Flag bits for XrHandTrackingAimFlagsFB
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_COMPUTED_BIT_FB = 0x00000001;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_VALID_BIT_FB = 0x00000002;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_INDEX_PINCHING_BIT_FB = 0x00000004;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MIDDLE_PINCHING_BIT_FB = 0x00000008;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_RING_PINCHING_BIT_FB = 0x00000010;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_LITTLE_PINCHING_BIT_FB = 0x00000020;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_SYSTEM_GESTURE_BIT_FB = 0x00000040;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_DOMINANT_HAND_BIT_FB = 0x00000080;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MENU_PRESSED_BIT_FB = 0x00000100;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_COMPUTED_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_VALID_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_INDEX_PINCHING_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_നടുവ്_PINCHING_BIT_FB = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_RING_PINCHING_BIT_FB = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_LITTLE_PINCHING_BIT_FB = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_SYSTEM_GESTURE_BIT_FB = 0x00000040;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_DOMINANT_HAND_BIT_FB = 0x00000080;
+സ്ഥിതം സ്ഥിരം XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MENU_PRESSED_BIT_FB = 0x00000100;
 
 // XrHandTrackingAimStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingAimStateFB {
+തരനിർവചനം ഘടന XrHandTrackingAimStateFB {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrHandTrackingAimFlagsFB    status;
     XrPosef                     aimPose;
-    float                       pinchStrengthIndex;
-    float                       pinchStrengthMiddle;
-    float                       pinchStrengthRing;
-    float                       pinchStrengthLittle;
+    ദശാംശം                       pinchStrengthIndex;
+    ദശാംശം                       pinch_Strength_നടുവ്;
+    ദശാംശം                       pinchStrengthRing;
+    ദശാംശം                       pinchStrengthLittle;
 } XrHandTrackingAimStateFB;
 
 
 
 // XR_FB_hand_tracking_capsules is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_hand_tracking_capsules 1
-#define XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB 2
-#define XR_HAND_TRACKING_CAPSULE_COUNT_FB 19
+#define XR_HAND_TRACKING_CAPSULE_POINT_എണ്ണം_FB 2
+#define XR_HAND_TRACKING_CAPSULE_എണ്ണം_FB 19
 #define XR_FB_hand_tracking_capsules_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_CAPSULES_EXTENSION_NAME "XR_FB_hand_tracking_capsules"
-#define XR_FB_HAND_TRACKING_CAPSULE_POINT_COUNT XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB
-#define XR_FB_HAND_TRACKING_CAPSULE_COUNT XR_HAND_TRACKING_CAPSULE_COUNT_FB
-typedef struct XrHandCapsuleFB {
-    XrVector3f        points[XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB];
-    float             radius;
+#define XR_FB_HAND_TRACKING_CAPSULE_POINT_എണ്ണം XR_HAND_TRACKING_CAPSULE_POINT_എണ്ണം_FB
+#define XR_FB_HAND_TRACKING_CAPSULE_എണ്ണം XR_HAND_TRACKING_CAPSULE_എണ്ണം_FB
+തരനിർവചനം ഘടന XrHandCapsuleFB {
+    XrVector3f        points[XR_HAND_TRACKING_CAPSULE_POINT_എണ്ണം_FB];
+    ദശാംശം             radius;
     XrHandJointEXT    joint;
 } XrHandCapsuleFB;
 
 // XrHandTrackingCapsulesStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingCapsulesStateFB {
+തരനിർവചനം ഘടന XrHandTrackingCapsulesStateFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrHandCapsuleFB       capsules[XR_HAND_TRACKING_CAPSULE_COUNT_FB];
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    XrHandCapsuleFB       capsules[XR_HAND_TRACKING_CAPSULE_എണ്ണം_FB];
 } XrHandTrackingCapsulesStateFB;
 
 
@@ -4443,7 +4443,7 @@ XR_DEFINE_ATOM(XrAsyncRequestIdFB)
 #define XR_FB_spatial_entity_SPEC_VERSION 3
 #define XR_FB_SPATIAL_ENTITY_EXTENSION_NAME "XR_FB_spatial_entity"
 
-typedef enum XrSpaceComponentTypeFB {
+തരനിർവചനം എണ്ണൽ XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_LOCATABLE_FB = 0,
     XR_SPACE_COMPONENT_TYPE_STORABLE_FB = 1,
     XR_SPACE_COMPONENT_TYPE_SHARABLE_FB = 2,
@@ -4457,49 +4457,49 @@ typedef enum XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceComponentTypeFB;
 // XrSystemSpatialEntityPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpatialEntityPropertiesFB {
+തരനിർവചനം ഘടന XrSystemSpatialEntityPropertiesFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpatialEntity;
 } XrSystemSpatialEntityPropertiesFB;
 
-typedef struct XrSpatialAnchorCreateInfoFB {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoFB;
 
-typedef struct XrSpaceComponentStatusSetInfoFB {
+തരനിർവചനം ഘടന XrSpaceComponentStatusSetInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
     XrBool32                    enabled;
     XrDuration                  timeout;
 } XrSpaceComponentStatusSetInfoFB;
 
-typedef struct XrSpaceComponentStatusFB {
+തരനിർവചനം ഘടന XrSpaceComponentStatusFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              enabled;
     XrBool32              changePending;
 } XrSpaceComponentStatusFB;
 
-typedef XrUuid XrUuidEXT;
+തരനിർവചനം XrUuid XrUuidEXT;
 
-typedef struct XrEventDataSpatialAnchorCreateCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpatialAnchorCreateCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
     XrUuidEXT                   uuid;
 } XrEventDataSpatialAnchorCreateCompleteFB;
 
-typedef struct XrEventDataSpaceSetStatusCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceSetStatusCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -4508,17 +4508,17 @@ typedef struct XrEventDataSpaceSetStatusCompleteFB {
     XrBool32                    enabled;
 } XrEventDataSpaceSetStatusCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFB)(XrSession session, const XrSpatialAnchorCreateInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceUuidFB)(XrSpace space, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpaceSupportedComponentsFB)(XrSpace space, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpaceComponentTypeFB* componentTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrSetSpaceComponentStatusFB)(XrSpace space, const XrSpaceComponentStatusSetInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceComponentStatusFB)(XrSpace space, XrSpaceComponentTypeFB componentType, XrSpaceComponentStatusFB* status);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFB)(XrSession session, സ്ഥിരം XrSpatialAnchorCreateInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceUuidFB)(XrSpace space, XrUuidEXT* uuid);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpaceSupportedComponentsFB)(XrSpace space, uint32_t component_Type_Capacity_നിവേശം, uint32_t* component_Type_എണ്ണം_Output, XrSpaceComponentTypeFB* componentTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetSpaceComponentStatusFB)(XrSpace space, സ്ഥിരം XrSpaceComponentStatusSetInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceComponentStatusFB)(XrSpace space, XrSpaceComponentTypeFB componentType, XrSpaceComponentStatusFB* status);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorFB(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoFB*          info,
+    സ്ഥിരം XrSpatialAnchorCreateInfoFB*          info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUuidFB(
@@ -4527,13 +4527,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUuidFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpaceSupportedComponentsFB(
     XrSpace                                     space,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_നിവേശം,
+    uint32_t*                                   component_Type_എണ്ണം_Output,
     XrSpaceComponentTypeFB*                     componentTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetSpaceComponentStatusFB(
     XrSpace                                     space,
-    const XrSpaceComponentStatusSetInfoFB*      info,
+    സ്ഥിരം XrSpaceComponentStatusSetInfoFB*      info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceComponentStatusFB(
@@ -4549,43 +4549,43 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceComponentStatusFB(
 XR_DEFINE_HANDLE(XrFoveationProfileFB)
 #define XR_FB_foveation_SPEC_VERSION      1
 #define XR_FB_FOVEATION_EXTENSION_NAME    "XR_FB_foveation"
-typedef XrFlags64 XrSwapchainCreateFoveationFlagsFB;
+തരനിർവചനം XrFlags64 XrSwapchainCreateFoveationFlagsFB;
 
 // Flag bits for XrSwapchainCreateFoveationFlagsFB
-static const XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_SCALED_BIN_BIT_FB = 0x00000001;
-static const XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_FRAGMENT_DENSITY_MAP_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_SCALED_BIN_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_FRAGMENT_DENSITY_MAP_BIT_FB = 0x00000002;
 
-typedef XrFlags64 XrSwapchainStateFoveationFlagsFB;
+തരനിർവചനം XrFlags64 XrSwapchainStateFoveationFlagsFB;
 
 // Flag bits for XrSwapchainStateFoveationFlagsFB
 
-typedef struct XrFoveationProfileCreateInfoFB {
+തരനിർവചനം ഘടന XrFoveationProfileCreateInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrFoveationProfileCreateInfoFB;
 
 // XrSwapchainCreateInfoFoveationFB extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoFoveationFB {
+തരനിർവചനം ഘടന XrSwapchainCreateInfoFoveationFB {
     XrStructureType                      type;
-    void* XR_MAY_ALIAS                   next;
+    ശൂന്യം* XR_MAY_ALIAS                   next;
     XrSwapchainCreateFoveationFlagsFB    flags;
 } XrSwapchainCreateInfoFoveationFB;
 
-typedef struct XrSwapchainStateFoveationFB {
+തരനിർവചനം ഘടന XrSwapchainStateFoveationFB {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
+    ശൂന്യം* XR_MAY_ALIAS                  next;
     XrSwapchainStateFoveationFlagsFB    flags;
     XrFoveationProfileFB                profile;
 } XrSwapchainStateFoveationFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFoveationProfileFB)(XrSession session, const XrFoveationProfileCreateInfoFB* createInfo, XrFoveationProfileFB* profile);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFoveationProfileFB)(XrFoveationProfileFB profile);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFoveationProfileFB)(XrSession session, സ്ഥിരം XrFoveationProfileCreateInfoFB* createInfo, XrFoveationProfileFB* profile);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFoveationProfileFB)(XrFoveationProfileFB profile);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFoveationProfileFB(
     XrSession                                   session,
-    const XrFoveationProfileCreateInfoFB*       createInfo,
+    സ്ഥിരം XrFoveationProfileCreateInfoFB*       createInfo,
     XrFoveationProfileFB*                       profile);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFoveationProfileFB(
@@ -4599,25 +4599,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFoveationProfileFB(
 #define XR_FB_foveation_configuration_SPEC_VERSION 1
 #define XR_FB_FOVEATION_CONFIGURATION_EXTENSION_NAME "XR_FB_foveation_configuration"
 
-typedef enum XrFoveationLevelFB {
+തരനിർവചനം എണ്ണൽ XrFoveationLevelFB {
     XR_FOVEATION_LEVEL_NONE_FB = 0,
-    XR_FOVEATION_LEVEL_LOW_FB = 1,
+    XR_FOVEATION_LEVEL_താഴെയുള്ള_FB = 1,
     XR_FOVEATION_LEVEL_MEDIUM_FB = 2,
-    XR_FOVEATION_LEVEL_HIGH_FB = 3,
+    XR_FOVEATION_LEVEL_മുകളിലെ_FB = 3,
     XR_FOVEATION_LEVEL_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationLevelFB;
 
-typedef enum XrFoveationDynamicFB {
+തരനിർവചനം എണ്ണൽ XrFoveationDynamicFB {
     XR_FOVEATION_DYNAMIC_DISABLED_FB = 0,
     XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_FB = 1,
     XR_FOVEATION_DYNAMIC_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationDynamicFB;
 // XrFoveationLevelProfileCreateInfoFB extends XrFoveationProfileCreateInfoFB
-typedef struct XrFoveationLevelProfileCreateInfoFB {
+തരനിർവചനം ഘടന XrFoveationLevelProfileCreateInfoFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrFoveationLevelFB      level;
-    float                   verticalOffset;
+    ദശാംശം                   verticalOffset;
     XrFoveationDynamicFB    dynamic;
 } XrFoveationLevelProfileCreateInfoFB;
 
@@ -4628,59 +4628,59 @@ typedef struct XrFoveationLevelProfileCreateInfoFB {
 #define XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB 128
 #define XR_FB_keyboard_tracking_SPEC_VERSION 1
 #define XR_FB_KEYBOARD_TRACKING_EXTENSION_NAME "XR_FB_keyboard_tracking"
-typedef XrFlags64 XrKeyboardTrackingFlagsFB;
+തരനിർവചനം XrFlags64 XrKeyboardTrackingFlagsFB;
 
 // Flag bits for XrKeyboardTrackingFlagsFB
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_EXISTS_BIT_FB = 0x00000001;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_LOCAL_BIT_FB = 0x00000002;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_REMOTE_BIT_FB = 0x00000004;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_CONNECTED_BIT_FB = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_EXISTS_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_LOCAL_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_REMOTE_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_CONNECTED_BIT_FB = 0x00000008;
 
-typedef XrFlags64 XrKeyboardTrackingQueryFlagsFB;
+തരനിർവചനം XrFlags64 XrKeyboardTrackingQueryFlagsFB;
 
 // Flag bits for XrKeyboardTrackingQueryFlagsFB
-static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT_FB = 0x00000002;
-static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004;
 
 // XrSystemKeyboardTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemKeyboardTrackingPropertiesFB {
+തരനിർവചനം ഘടന XrSystemKeyboardTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsKeyboardTracking;
 } XrSystemKeyboardTrackingPropertiesFB;
 
-typedef struct XrKeyboardTrackingDescriptionFB {
+തരനിർവചനം ഘടന XrKeyboardTrackingDescriptionFB {
     uint64_t                     trackedKeyboardId;
     XrVector3f                   size;
     XrKeyboardTrackingFlagsFB    flags;
-    char                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
+    അക്ഷരം                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
 } XrKeyboardTrackingDescriptionFB;
 
-typedef struct XrKeyboardSpaceCreateInfoFB {
+തരനിർവചനം ഘടന XrKeyboardSpaceCreateInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint64_t              trackedKeyboardId;
 } XrKeyboardSpaceCreateInfoFB;
 
-typedef struct XrKeyboardTrackingQueryFB {
+തരനിർവചനം ഘടന XrKeyboardTrackingQueryFB {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
+    ശൂന്യം* XR_MAY_ALIAS                next;
     XrKeyboardTrackingQueryFlagsFB    flags;
 } XrKeyboardTrackingQueryFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySystemTrackedKeyboardFB)(XrSession session, const XrKeyboardTrackingQueryFB* queryInfo, XrKeyboardTrackingDescriptionFB* keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateKeyboardSpaceFB)(XrSession session, const XrKeyboardSpaceCreateInfoFB* createInfo, XrSpace* keyboardSpace);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySystemTrackedKeyboardFB)(XrSession session, സ്ഥിരം XrKeyboardTrackingQueryFB* queryInfo, XrKeyboardTrackingDescriptionFB* keyboard);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateKeyboardSpaceFB)(XrSession session, സ്ഥിരം XrKeyboardSpaceCreateInfoFB* createInfo, XrSpace* keyboardSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySystemTrackedKeyboardFB(
     XrSession                                   session,
-    const XrKeyboardTrackingQueryFB*            queryInfo,
+    സ്ഥിരം XrKeyboardTrackingQueryFB*            queryInfo,
     XrKeyboardTrackingDescriptionFB*            keyboard);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateKeyboardSpaceFB(
     XrSession                                   session,
-    const XrKeyboardSpaceCreateInfoFB*          createInfo,
+    സ്ഥിരം XrKeyboardSpaceCreateInfoFB*          createInfo,
     XrSpace*                                    keyboardSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4692,42 +4692,42 @@ XR_DEFINE_HANDLE(XrTriangleMeshFB)
 #define XR_FB_triangle_mesh_SPEC_VERSION  2
 #define XR_FB_TRIANGLE_MESH_EXTENSION_NAME "XR_FB_triangle_mesh"
 
-typedef enum XrWindingOrderFB {
+തരനിർവചനം എണ്ണൽ XrWindingOrderFB {
     XR_WINDING_ORDER_UNKNOWN_FB = 0,
     XR_WINDING_ORDER_CW_FB = 1,
     XR_WINDING_ORDER_CCW_FB = 2,
     XR_WINDING_ORDER_MAX_ENUM_FB = 0x7FFFFFFF
 } XrWindingOrderFB;
-typedef XrFlags64 XrTriangleMeshFlagsFB;
+തരനിർവചനം XrFlags64 XrTriangleMeshFlagsFB;
 
 // Flag bits for XrTriangleMeshFlagsFB
-static const XrTriangleMeshFlagsFB XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrTriangleMeshFlagsFB XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001;
 
-typedef struct XrTriangleMeshCreateInfoFB {
+തരനിർവചനം ഘടന XrTriangleMeshCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTriangleMeshFlagsFB       flags;
     XrWindingOrderFB            windingOrder;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertexBuffer;
-    uint32_t                    triangleCount;
-    const uint32_t*             indexBuffer;
+    uint32_t                    vertex_എണ്ണം;
+    സ്ഥിരം XrVector3f*           vertexBuffer;
+    uint32_t                    triangle_എണ്ണം;
+    സ്ഥിരം uint32_t*             indexBuffer;
 } XrTriangleMeshCreateInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTriangleMeshFB)(XrSession session, const XrTriangleMeshCreateInfoFB* createInfo, XrTriangleMeshFB* outTriangleMesh);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTriangleMeshFB)(XrTriangleMeshFB mesh);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetVertexBufferFB)(XrTriangleMeshFB mesh, XrVector3f** outVertexBuffer);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetIndexBufferFB)(XrTriangleMeshFB mesh, uint32_t** outIndexBuffer);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginUpdateFB)(XrTriangleMeshFB mesh);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndUpdateFB)(XrTriangleMeshFB mesh, uint32_t vertexCount, uint32_t triangleCount);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginVertexBufferUpdateFB)(XrTriangleMeshFB mesh, uint32_t* outVertexCount);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndVertexBufferUpdateFB)(XrTriangleMeshFB mesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateTriangleMeshFB)(XrSession session, സ്ഥിരം XrTriangleMeshCreateInfoFB* createInfo, XrTriangleMeshFB* outTriangleMesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyTriangleMeshFB)(XrTriangleMeshFB mesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetVertexBufferFB)(XrTriangleMeshFB mesh, XrVector3f** outVertexBuffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetIndexBufferFB)(XrTriangleMeshFB mesh, uint32_t** outIndexBuffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginUpdateFB)(XrTriangleMeshFB mesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndUpdateFB)(XrTriangleMeshFB mesh, uint32_t vertex_എണ്ണം, uint32_t triangle_എണ്ണം);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginVertexBufferUpdateFB)(XrTriangleMeshFB mesh, uint32_t* out_Vertex_എണ്ണം);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndVertexBufferUpdateFB)(XrTriangleMeshFB mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTriangleMeshFB(
     XrSession                                   session,
-    const XrTriangleMeshCreateInfoFB*           createInfo,
+    സ്ഥിരം XrTriangleMeshCreateInfoFB*           createInfo,
     XrTriangleMeshFB*                           outTriangleMesh);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTriangleMeshFB(
@@ -4746,12 +4746,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshBeginUpdateFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshEndUpdateFB(
     XrTriangleMeshFB                            mesh,
-    uint32_t                                    vertexCount,
-    uint32_t                                    triangleCount);
+    uint32_t                                    vertex_എണ്ണം,
+    uint32_t                                    triangle_എണ്ണം);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshBeginVertexBufferUpdateFB(
     XrTriangleMeshFB                            mesh,
-    uint32_t*                                   outVertexCount);
+    uint32_t*                                   out_Vertex_എണ്ണം);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshEndVertexBufferUpdateFB(
     XrTriangleMeshFB                            mesh);
@@ -4768,73 +4768,73 @@ XR_DEFINE_HANDLE(XrGeometryInstanceFB)
 #define XR_FB_passthrough_SPEC_VERSION    5
 #define XR_FB_PASSTHROUGH_EXTENSION_NAME  "XR_FB_passthrough"
 
-typedef enum XrPassthroughLayerPurposeFB {
+തരനിർവചനം എണ്ണൽ XrPassthroughLayerPurposeFB {
     XR_PASSTHROUGH_LAYER_PURPOSE_RECONSTRUCTION_FB = 0,
     XR_PASSTHROUGH_LAYER_PURPOSE_PROJECTED_FB = 1,
     XR_PASSTHROUGH_LAYER_PURPOSE_TRACKED_KEYBOARD_HANDS_FB = 1000203001,
     XR_PASSTHROUGH_LAYER_PURPOSE_TRACKED_KEYBOARD_MASKED_HANDS_FB = 1000203002,
     XR_PASSTHROUGH_LAYER_PURPOSE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrPassthroughLayerPurposeFB;
-typedef XrFlags64 XrPassthroughCapabilityFlagsFB;
+തരനിർവചനം XrFlags64 XrPassthroughCapabilityFlagsFB;
 
 // Flag bits for XrPassthroughCapabilityFlagsFB
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_BIT_FB = 0x00000001;
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_COLOR_BIT_FB = 0x00000002;
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_LAYER_DEPTH_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_COLOR_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_LAYER_DEPTH_BIT_FB = 0x00000004;
 
-typedef XrFlags64 XrPassthroughFlagsFB;
+തരനിർവചനം XrFlags64 XrPassthroughFlagsFB;
 
 // Flag bits for XrPassthroughFlagsFB
-static const XrPassthroughFlagsFB XR_PASSTHROUGH_IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001;
-static const XrPassthroughFlagsFB XR_PASSTHROUGH_LAYER_DEPTH_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPassthroughFlagsFB XR_PASSTHROUGH_IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPassthroughFlagsFB XR_PASSTHROUGH_LAYER_DEPTH_BIT_FB = 0x00000002;
 
-typedef XrFlags64 XrPassthroughStateChangedFlagsFB;
+തരനിർവചനം XrFlags64 XrPassthroughStateChangedFlagsFB;
 
 // Flag bits for XrPassthroughStateChangedFlagsFB
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_REINIT_REQUIRED_BIT_FB = 0x00000001;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_NON_RECOVERABLE_ERROR_BIT_FB = 0x00000002;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RECOVERABLE_ERROR_BIT_FB = 0x00000004;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RESTORED_ERROR_BIT_FB = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_REINIT_REQUIRED_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_NON_RECOVERABLE_ERROR_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RECOVERABLE_ERROR_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RESTORED_ERROR_BIT_FB = 0x00000008;
 
 // XrSystemPassthroughPropertiesFB extends XrSystemProperties
-typedef struct XrSystemPassthroughPropertiesFB {
+തരനിർവചനം ഘടന XrSystemPassthroughPropertiesFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    supportsPassthrough;
 } XrSystemPassthroughPropertiesFB;
 
 // XrSystemPassthroughProperties2FB extends XrSystemProperties
-typedef struct XrSystemPassthroughProperties2FB {
+തരനിർവചനം ഘടന XrSystemPassthroughProperties2FB {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
     XrPassthroughCapabilityFlagsFB    capabilities;
 } XrSystemPassthroughProperties2FB;
 
-typedef struct XrPassthroughCreateInfoFB {
+തരനിർവചനം ഘടന XrPassthroughCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPassthroughFlagsFB        flags;
 } XrPassthroughCreateInfoFB;
 
-typedef struct XrPassthroughLayerCreateInfoFB {
+തരനിർവചനം ഘടന XrPassthroughLayerCreateInfoFB {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS       next;
     XrPassthroughFB                passthrough;
     XrPassthroughFlagsFB           flags;
     XrPassthroughLayerPurposeFB    purpose;
 } XrPassthroughLayerCreateInfoFB;
 
-typedef struct XrCompositionLayerPassthroughFB {
+തരനിർവചനം ഘടന XrCompositionLayerPassthroughFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     flags;
     XrSpace                     space;
     XrPassthroughLayerFB        layerHandle;
 } XrCompositionLayerPassthroughFB;
 
-typedef struct XrGeometryInstanceCreateInfoFB {
+തരനിർവചനം ഘടന XrGeometryInstanceCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
     XrTriangleMeshFB            mesh;
     XrSpace                     baseSpace;
@@ -4842,69 +4842,69 @@ typedef struct XrGeometryInstanceCreateInfoFB {
     XrVector3f                  scale;
 } XrGeometryInstanceCreateInfoFB;
 
-typedef struct XrGeometryInstanceTransformFB {
+തരനിർവചനം ഘടന XrGeometryInstanceTransformFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
     XrVector3f                  scale;
 } XrGeometryInstanceTransformFB;
 
-typedef struct XrPassthroughStyleFB {
+തരനിർവചനം ഘടന XrPassthroughStyleFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       textureOpacityFactor;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       textureOpacityFactor;
     XrColor4f                   edgeColor;
 } XrPassthroughStyleFB;
 
 // XrPassthroughColorMapMonoToRgbaFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToRgbaFB {
+തരനിർവചനം ഘടന XrPassthroughColorMapMonoToRgbaFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrColor4f                   textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToRgbaFB;
 
 // XrPassthroughColorMapMonoToMonoFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToMonoFB {
+തരനിർവചനം ഘടന XrPassthroughColorMapMonoToMonoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint8_t                     textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToMonoFB;
 
 // XrPassthroughBrightnessContrastSaturationFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughBrightnessContrastSaturationFB {
+തരനിർവചനം ഘടന XrPassthroughBrightnessContrastSaturationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       brightness;
-    float                       contrast;
-    float                       saturation;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       brightness;
+    ദശാംശം                       contrast;
+    ദശാംശം                       saturation;
 } XrPassthroughBrightnessContrastSaturationFB;
 
-typedef struct XrEventDataPassthroughStateChangedFB {
+തരനിർവചനം ഘടന XrEventDataPassthroughStateChangedFB {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrPassthroughStateChangedFlagsFB    flags;
 } XrEventDataPassthroughStateChangedFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughFB)(XrSession session, const XrPassthroughCreateInfoFB* createInfo, XrPassthroughFB* outPassthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughStartFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughPauseFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerFB)(XrSession session, const XrPassthroughLayerCreateInfoFB* createInfo, XrPassthroughLayerFB* outLayer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerPauseFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerResumeFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetStyleFB)(XrPassthroughLayerFB layer, const XrPassthroughStyleFB* style);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeometryInstanceFB)(XrSession session, const XrGeometryInstanceCreateInfoFB* createInfo, XrGeometryInstanceFB* outGeometryInstance);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyGeometryInstanceFB)(XrGeometryInstanceFB instance);
-typedef XrResult (XRAPI_PTR *PFN_xrGeometryInstanceSetTransformFB)(XrGeometryInstanceFB instance, const XrGeometryInstanceTransformFB* transformation);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePassthroughFB)(XrSession session, സ്ഥിരം XrPassthroughCreateInfoFB* createInfo, XrPassthroughFB* outPassthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughFB)(XrPassthroughFB passthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughStartFB)(XrPassthroughFB passthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughPauseFB)(XrPassthroughFB passthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerFB)(XrSession session, സ്ഥിരം XrPassthroughLayerCreateInfoFB* createInfo, XrPassthroughLayerFB* outLayer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerFB)(XrPassthroughLayerFB layer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughLayerPauseFB)(XrPassthroughLayerFB layer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughLayerResumeFB)(XrPassthroughLayerFB layer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetStyleFB)(XrPassthroughLayerFB layer, സ്ഥിരം XrPassthroughStyleFB* style);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateGeometryInstanceFB)(XrSession session, സ്ഥിരം XrGeometryInstanceCreateInfoFB* createInfo, XrGeometryInstanceFB* outGeometryInstance);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyGeometryInstanceFB)(XrGeometryInstanceFB instance);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGeometryInstanceSetTransformFB)(XrGeometryInstanceFB instance, സ്ഥിരം XrGeometryInstanceTransformFB* transformation);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughFB(
     XrSession                                   session,
-    const XrPassthroughCreateInfoFB*            createInfo,
+    സ്ഥിരം XrPassthroughCreateInfoFB*            createInfo,
     XrPassthroughFB*                            outPassthrough);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughFB(
@@ -4918,7 +4918,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughPauseFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughLayerFB(
     XrSession                                   session,
-    const XrPassthroughLayerCreateInfoFB*       createInfo,
+    സ്ഥിരം XrPassthroughLayerCreateInfoFB*       createInfo,
     XrPassthroughLayerFB*                       outLayer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerFB(
@@ -4932,11 +4932,11 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerResumeFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetStyleFB(
     XrPassthroughLayerFB                        layer,
-    const XrPassthroughStyleFB*                 style);
+    സ്ഥിരം XrPassthroughStyleFB*                 style);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeometryInstanceFB(
     XrSession                                   session,
-    const XrGeometryInstanceCreateInfoFB*       createInfo,
+    സ്ഥിരം XrGeometryInstanceCreateInfoFB*       createInfo,
     XrGeometryInstanceFB*                       outGeometryInstance);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeometryInstanceFB(
@@ -4944,7 +4944,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeometryInstanceFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGeometryInstanceSetTransformFB(
     XrGeometryInstanceFB                        instance,
-    const XrGeometryInstanceTransformFB*        transformation);
+    സ്ഥിരം XrGeometryInstanceTransformFB*        transformation);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4952,72 +4952,72 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGeometryInstanceSetTransformFB(
 // XR_FB_render_model is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_render_model 1
 
-#define XR_NULL_RENDER_MODEL_KEY_FB 0
+#define XR_NULL_RENDER_MODEL_താക്കോൽ_FB 0
 
-XR_DEFINE_ATOM(XrRenderModelKeyFB)
+XR_DEFINE_ATOM(Xr_Render_Model_താക്കോൽ_FB)
 #define XR_MAX_RENDER_MODEL_NAME_SIZE_FB  64
 #define XR_FB_render_model_SPEC_VERSION   4
 #define XR_FB_RENDER_MODEL_EXTENSION_NAME "XR_FB_render_model"
-typedef XrFlags64 XrRenderModelFlagsFB;
+തരനിർവചനം XrFlags64 XrRenderModelFlagsFB;
 
 // Flag bits for XrRenderModelFlagsFB
-static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001;
-static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002;
 
-typedef struct XrRenderModelPathInfoFB {
+തരനിർവചനം ഘടന XrRenderModelPathInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrPath                path;
 } XrRenderModelPathInfoFB;
 
-typedef struct XrRenderModelPropertiesFB {
+തരനിർവചനം ഘടന XrRenderModelPropertiesFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     uint32_t                vendorId;
-    char                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
-    XrRenderModelKeyFB      modelKey;
+    അക്ഷരം                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
+    Xr_Render_Model_താക്കോൽ_FB      model_താക്കോൽ;
     uint32_t                modelVersion;
     XrRenderModelFlagsFB    flags;
 } XrRenderModelPropertiesFB;
 
-typedef struct XrRenderModelBufferFB {
+തരനിർവചനം ഘടന XrRenderModelBufferFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              buffer_Capacity_നിവേശം;
+    uint32_t              buffer_എണ്ണം_Output;
     uint8_t*              buffer;
 } XrRenderModelBufferFB;
 
-typedef struct XrRenderModelLoadInfoFB {
+തരനിർവചനം ഘടന XrRenderModelLoadInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrRenderModelKeyFB    modelKey;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    Xr_Render_Model_താക്കോൽ_FB    model_താക്കോൽ;
 } XrRenderModelLoadInfoFB;
 
 // XrSystemRenderModelPropertiesFB extends XrSystemProperties
-typedef struct XrSystemRenderModelPropertiesFB {
+തരനിർവചനം ഘടന XrSystemRenderModelPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsRenderModelLoading;
 } XrSystemRenderModelPropertiesFB;
 
 // XrRenderModelCapabilitiesRequestFB extends XrRenderModelPropertiesFB
-typedef struct XrRenderModelCapabilitiesRequestFB {
+തരനിർവചനം ഘടന XrRenderModelCapabilitiesRequestFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrRenderModelFlagsFB    flags;
 } XrRenderModelCapabilitiesRequestFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelPathsFB)(XrSession session, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrRenderModelPathInfoFB* paths);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesFB)(XrSession session, XrPath path, XrRenderModelPropertiesFB* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrLoadRenderModelFB)(XrSession session, const XrRenderModelLoadInfoFB* info, XrRenderModelBufferFB* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelPathsFB)(XrSession session, uint32_t path_Capacity_നിവേശം, uint32_t* path_എണ്ണം_Output, XrRenderModelPathInfoFB* paths);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesFB)(XrSession session, XrPath path, XrRenderModelPropertiesFB* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLoadRenderModelFB)(XrSession session, സ്ഥിരം XrRenderModelLoadInfoFB* info, XrRenderModelBufferFB* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRenderModelPathsFB(
     XrSession                                   session,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    uint32_t                                    path_Capacity_നിവേശം,
+    uint32_t*                                   path_എണ്ണം_Output,
     XrRenderModelPathInfoFB*                    paths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesFB(
@@ -5027,7 +5027,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLoadRenderModelFB(
     XrSession                                   session,
-    const XrRenderModelLoadInfoFB*              info,
+    സ്ഥിരം XrRenderModelLoadInfoFB*              info,
     XrRenderModelBufferFB*                      buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5038,23 +5038,23 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLoadRenderModelFB(
 #define XR_VARJO_foveated_rendering_SPEC_VERSION 3
 #define XR_VARJO_FOVEATED_RENDERING_EXTENSION_NAME "XR_VARJO_foveated_rendering"
 // XrViewLocateFoveatedRenderingVARJO extends XrViewLocateInfo
-typedef struct XrViewLocateFoveatedRenderingVARJO {
+തരനിർവചനം ഘടന XrViewLocateFoveatedRenderingVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    foveatedRenderingActive;
 } XrViewLocateFoveatedRenderingVARJO;
 
 // XrFoveatedViewConfigurationViewVARJO extends XrViewConfigurationView
-typedef struct XrFoveatedViewConfigurationViewVARJO {
+തരനിർവചനം ഘടന XrFoveatedViewConfigurationViewVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              foveatedRenderingActive;
 } XrFoveatedViewConfigurationViewVARJO;
 
 // XrSystemFoveatedRenderingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
+തരനിർവചനം ഘടന XrSystemFoveatedRenderingPropertiesVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveatedRendering;
 } XrSystemFoveatedRenderingPropertiesVARJO;
 
@@ -5065,11 +5065,11 @@ typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
 #define XR_VARJO_composition_layer_depth_test_SPEC_VERSION 2
 #define XR_VARJO_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_VARJO_composition_layer_depth_test"
 // XrCompositionLayerDepthTestVARJO extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerDepthTestVARJO {
+തരനിർവചനം ഘടന XrCompositionLayerDepthTestVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       depthTestRangeNearZ;
-    float                       depthTestRangeFarZ;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       depthTestRangeNearZ;
+    ദശാംശം                       depthTestRangeFarZ;
 } XrCompositionLayerDepthTestVARJO;
 
 
@@ -5078,7 +5078,7 @@ typedef struct XrCompositionLayerDepthTestVARJO {
 #define XR_VARJO_environment_depth_estimation 1
 #define XR_VARJO_environment_depth_estimation_SPEC_VERSION 1
 #define XR_VARJO_ENVIRONMENT_DEPTH_ESTIMATION_EXTENSION_NAME "XR_VARJO_environment_depth_estimation"
-typedef XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthEstimationVARJO)(XrSession session, XrBool32 enabled);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthEstimationVARJO)(XrSession session, XrBool32 enabled);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5094,33 +5094,33 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthEstimationVARJO(
 #define XR_VARJO_marker_tracking_SPEC_VERSION 1
 #define XR_VARJO_MARKER_TRACKING_EXTENSION_NAME "XR_VARJO_marker_tracking"
 // XrSystemMarkerTrackingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesVARJO {
+തരനിർവചനം ഘടന XrSystemMarkerTrackingPropertiesVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
 } XrSystemMarkerTrackingPropertiesVARJO;
 
-typedef struct XrEventDataMarkerTrackingUpdateVARJO {
+തരനിർവചനം ഘടന XrEventDataMarkerTrackingUpdateVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
     XrBool32                    isActive;
     XrBool32                    isPredicted;
     XrTime                      time;
 } XrEventDataMarkerTrackingUpdateVARJO;
 
-typedef struct XrMarkerSpaceCreateInfoVARJO {
+തരനിർവചനം ഘടന XrMarkerSpaceCreateInfoVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
     XrPosef                     poseInMarkerSpace;
 } XrMarkerSpaceCreateInfoVARJO;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingVARJO)(XrSession session, XrBool32 enabled);
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingTimeoutVARJO)(XrSession session, uint64_t markerId, XrDuration timeout);
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingPredictionVARJO)(XrSession session, uint64_t markerId, XrBool32 enable);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerSizeVARJO)(XrSession session, uint64_t markerId, XrExtent2Df* size);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceVARJO)(XrSession session, const XrMarkerSpaceCreateInfoVARJO* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingVARJO)(XrSession session, XrBool32 enabled);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingTimeoutVARJO)(XrSession session, uint64_t markerId, XrDuration timeout);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingPredictionVARJO)(XrSession session, uint64_t markerId, XrBool32 enable);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkerSizeVARJO)(XrSession session, uint64_t markerId, XrExtent2Df* size);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceVARJO)(XrSession session, സ്ഥിരം XrMarkerSpaceCreateInfoVARJO* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5145,7 +5145,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerSizeVARJO(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceVARJO(
     XrSession                                   session,
-    const XrMarkerSpaceCreateInfoVARJO*         createInfo,
+    സ്ഥിരം XrMarkerSpaceCreateInfoVARJO*         createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5155,13 +5155,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceVARJO(
 #define XR_VARJO_view_offset 1
 #define XR_VARJO_view_offset_SPEC_VERSION 1
 #define XR_VARJO_VIEW_OFFSET_EXTENSION_NAME "XR_VARJO_view_offset"
-typedef XrResult (XRAPI_PTR *PFN_xrSetViewOffsetVARJO)(XrSession session, float offset);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetViewOffsetVARJO)(XrSession session, ദശാംശം offset);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetViewOffsetVARJO(
     XrSession                                   session,
-    float                                       offset);
+    ദശാംശം                                       offset);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5182,17 +5182,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetViewOffsetVARJO(
 #define XR_ML_frame_end_info 1
 #define XR_ML_frame_end_info_SPEC_VERSION 1
 #define XR_ML_FRAME_END_INFO_EXTENSION_NAME "XR_ML_frame_end_info"
-typedef XrFlags64 XrFrameEndInfoFlagsML;
+തരനിർവചനം XrFlags64 XrFrameEndInfoFlagsML;
 
 // Flag bits for XrFrameEndInfoFlagsML
-static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_PROTECTED_BIT_ML = 0x00000001;
-static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_VIGNETTE_BIT_ML = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrFrameEndInfoFlagsML XR_FRAME_END_INFO_PROTECTED_BIT_ML = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrFrameEndInfoFlagsML XR_FRAME_END_INFO_VIGNETTE_BIT_ML = 0x00000002;
 
 // XrFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrFrameEndInfoML {
+തരനിർവചനം ഘടന XrFrameEndInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       focusDistance;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       focusDistance;
     XrFrameEndInfoFlagsML       flags;
 } XrFrameEndInfoML;
 
@@ -5202,16 +5202,16 @@ typedef struct XrFrameEndInfoML {
 #define XR_ML_global_dimmer 1
 #define XR_ML_global_dimmer_SPEC_VERSION  1
 #define XR_ML_GLOBAL_DIMMER_EXTENSION_NAME "XR_ML_global_dimmer"
-typedef XrFlags64 XrGlobalDimmerFrameEndInfoFlagsML;
+തരനിർവചനം XrFlags64 XrGlobalDimmerFrameEndInfoFlagsML;
 
 // Flag bits for XrGlobalDimmerFrameEndInfoFlagsML
-static const XrGlobalDimmerFrameEndInfoFlagsML XR_GLOBAL_DIMMER_FRAME_END_INFO_ENABLED_BIT_ML = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrGlobalDimmerFrameEndInfoFlagsML XR_GLOBAL_DIMMER_FRAME_END_INFO_ENABLED_BIT_ML = 0x00000001;
 
 // XrGlobalDimmerFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrGlobalDimmerFrameEndInfoML {
+തരനിർവചനം ഘടന XrGlobalDimmerFrameEndInfoML {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    float                                dimmerValue;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
+    ദശാംശം                                dimmer_മൂല്യം;
     XrGlobalDimmerFrameEndInfoFlagsML    flags;
 } XrGlobalDimmerFrameEndInfoML;
 
@@ -5224,7 +5224,7 @@ XR_DEFINE_HANDLE(XrMarkerDetectorML)
 #define XR_ML_marker_understanding_SPEC_VERSION 1
 #define XR_ML_MARKER_UNDERSTANDING_EXTENSION_NAME "XR_ML_marker_understanding"
 
-typedef enum XrMarkerDetectorProfileML {
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_DEFAULT_ML = 0,
     XR_MARKER_DETECTOR_PROFILE_SPEED_ML = 1,
     XR_MARKER_DETECTOR_PROFILE_ACCURACY_ML = 2,
@@ -5234,7 +5234,7 @@ typedef enum XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorProfileML;
 
-typedef enum XrMarkerTypeML {
+തരനിർവചനം എണ്ണൽ XrMarkerTypeML {
     XR_MARKER_TYPE_ARUCO_ML = 0,
     XR_MARKER_TYPE_APRIL_TAG_ML = 1,
     XR_MARKER_TYPE_QR_ML = 2,
@@ -5244,7 +5244,7 @@ typedef enum XrMarkerTypeML {
     XR_MARKER_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerTypeML;
 
-typedef enum XrMarkerArucoDictML {
+തരനിർവചനം എണ്ണൽ XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_4X4_50_ML = 0,
     XR_MARKER_ARUCO_DICT_4X4_100_ML = 1,
     XR_MARKER_ARUCO_DICT_4X4_250_ML = 2,
@@ -5264,7 +5264,7 @@ typedef enum XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerArucoDictML;
 
-typedef enum XrMarkerAprilTagDictML {
+തരനിർവചനം എണ്ണൽ XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_16H5_ML = 0,
     XR_MARKER_APRIL_TAG_DICT_25H9_ML = 1,
     XR_MARKER_APRIL_TAG_DICT_36H10_ML = 2,
@@ -5272,28 +5272,28 @@ typedef enum XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerAprilTagDictML;
 
-typedef enum XrMarkerDetectorFpsML {
-    XR_MARKER_DETECTOR_FPS_LOW_ML = 0,
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorFpsML {
+    XR_MARKER_DETECTOR_FPS_താഴെയുള്ള_ML = 0,
     XR_MARKER_DETECTOR_FPS_MEDIUM_ML = 1,
-    XR_MARKER_DETECTOR_FPS_HIGH_ML = 2,
+    XR_MARKER_DETECTOR_FPS_മുകളിലെ_ML = 2,
     XR_MARKER_DETECTOR_FPS_MAX_ML = 3,
     XR_MARKER_DETECTOR_FPS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFpsML;
 
-typedef enum XrMarkerDetectorResolutionML {
-    XR_MARKER_DETECTOR_RESOLUTION_LOW_ML = 0,
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorResolutionML {
+    XR_MARKER_DETECTOR_RESOLUTION_താഴെയുള്ള_ML = 0,
     XR_MARKER_DETECTOR_RESOLUTION_MEDIUM_ML = 1,
-    XR_MARKER_DETECTOR_RESOLUTION_HIGH_ML = 2,
+    XR_MARKER_DETECTOR_RESOLUTION_മുകളിലെ_ML = 2,
     XR_MARKER_DETECTOR_RESOLUTION_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorResolutionML;
 
-typedef enum XrMarkerDetectorCameraML {
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorCameraML {
     XR_MARKER_DETECTOR_CAMERA_RGB_CAMERA_ML = 0,
     XR_MARKER_DETECTOR_CAMERA_WORLD_CAMERAS_ML = 1,
     XR_MARKER_DETECTOR_CAMERA_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCameraML;
 
-typedef enum XrMarkerDetectorCornerRefineMethodML {
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_NONE_ML = 0,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_SUBPIX_ML = 1,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_CONTOUR_ML = 2,
@@ -5301,7 +5301,7 @@ typedef enum XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCornerRefineMethodML;
 
-typedef enum XrMarkerDetectorFullAnalysisIntervalML {
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ML = 0,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_FAST_ML = 1,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MEDIUM_ML = 2,
@@ -5309,51 +5309,51 @@ typedef enum XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFullAnalysisIntervalML;
 
-typedef enum XrMarkerDetectorStatusML {
+തരനിർവചനം എണ്ണൽ XrMarkerDetectorStatusML {
     XR_MARKER_DETECTOR_STATUS_PENDING_ML = 0,
     XR_MARKER_DETECTOR_STATUS_READY_ML = 1,
     XR_MARKER_DETECTOR_STATUS_ERROR_ML = 2,
     XR_MARKER_DETECTOR_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorStatusML;
 // XrSystemMarkerUnderstandingPropertiesML extends XrSystemProperties
-typedef struct XrSystemMarkerUnderstandingPropertiesML {
+തരനിർവചനം ഘടന XrSystemMarkerUnderstandingPropertiesML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerUnderstanding;
 } XrSystemMarkerUnderstandingPropertiesML;
 
-typedef struct XrMarkerDetectorCreateInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorCreateInfoML {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrMarkerDetectorProfileML    profile;
     XrMarkerTypeML               markerType;
 } XrMarkerDetectorCreateInfoML;
 
 // XrMarkerDetectorArucoInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorArucoInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorArucoInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrMarkerArucoDictML         arucoDict;
 } XrMarkerDetectorArucoInfoML;
 
 // XrMarkerDetectorSizeInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorSizeInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorSizeInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       markerLength;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       markerLength;
 } XrMarkerDetectorSizeInfoML;
 
 // XrMarkerDetectorAprilTagInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorAprilTagInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorAprilTagInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrMarkerAprilTagDictML      aprilTagDict;
 } XrMarkerDetectorAprilTagInfoML;
 
 // XrMarkerDetectorCustomProfileInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorCustomProfileInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorCustomProfileInfoML {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
     XrMarkerDetectorFpsML                     fpsHint;
     XrMarkerDetectorResolutionML              resolutionHint;
     XrMarkerDetectorCameraML                  cameraHint;
@@ -5362,41 +5362,41 @@ typedef struct XrMarkerDetectorCustomProfileInfoML {
     XrMarkerDetectorFullAnalysisIntervalML    fullAnalysisIntervalHint;
 } XrMarkerDetectorCustomProfileInfoML;
 
-typedef struct XrMarkerDetectorSnapshotInfoML {
+തരനിർവചനം ഘടന XrMarkerDetectorSnapshotInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrMarkerDetectorSnapshotInfoML;
 
-typedef struct XrMarkerDetectorStateML {
+തരനിർവചനം ഘടന XrMarkerDetectorStateML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrMarkerDetectorStatusML    state;
 } XrMarkerDetectorStateML;
 
-typedef struct XrMarkerSpaceCreateInfoML {
+തരനിർവചനം ഘടന XrMarkerSpaceCreateInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrMarkerDetectorML          markerDetector;
     XrMarkerML                  marker;
     XrPosef                     poseInMarkerSpace;
 } XrMarkerSpaceCreateInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerDetectorML)(XrSession session, const XrMarkerDetectorCreateInfoML* createInfo, XrMarkerDetectorML* markerDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyMarkerDetectorML)(XrMarkerDetectorML markerDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrSnapshotMarkerDetectorML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorSnapshotInfoML* snapshotInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerDetectorStateML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorStateML* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkersML)(XrMarkerDetectorML markerDetector, uint32_t markerCapacityInput, uint32_t* markerCountOutput, XrMarkerML* markers);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerReprojectionErrorML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* reprojectionErrorMeters);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerLengthML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* meters);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerNumberML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint64_t* number);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceML)(XrSession session, const XrMarkerSpaceCreateInfoML* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateMarkerDetectorML)(XrSession session, സ്ഥിരം XrMarkerDetectorCreateInfoML* createInfo, XrMarkerDetectorML* markerDetector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyMarkerDetectorML)(XrMarkerDetectorML markerDetector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSnapshotMarkerDetectorML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorSnapshotInfoML* snapshotInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkerDetectorStateML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorStateML* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkersML)(XrMarkerDetectorML markerDetector, uint32_t marker_Capacity_നിവേശം, uint32_t* marker_എണ്ണം_Output, XrMarkerML* markers);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkerReprojectionErrorML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, ദശാംശം* reprojectionErrorMeters);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkerLengthML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, ദശാംശം* meters);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Get_Marker_സംഖ്യ_ML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint64_t* സംഖ്യ_2);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceML)(XrSession session, സ്ഥിരം XrMarkerSpaceCreateInfoML* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerDetectorML(
     XrSession                                   session,
-    const XrMarkerDetectorCreateInfoML*         createInfo,
+    സ്ഥിരം XrMarkerDetectorCreateInfoML*         createInfo,
     XrMarkerDetectorML*                         markerDetector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyMarkerDetectorML(
@@ -5412,35 +5412,35 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerDetectorStateML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkersML(
     XrMarkerDetectorML                          markerDetector,
-    uint32_t                                    markerCapacityInput,
-    uint32_t*                                   markerCountOutput,
+    uint32_t                                    marker_Capacity_നിവേശം,
+    uint32_t*                                   marker_എണ്ണം_Output,
     XrMarkerML*                                 markers);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerReprojectionErrorML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    float*                                      reprojectionErrorMeters);
+    ദശാംശം*                                      reprojectionErrorMeters);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerLengthML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    float*                                      meters);
+    ദശാംശം*                                      meters);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerNumberML(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Marker_സംഖ്യ_ML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    uint64_t*                                   number);
+    uint64_t*                                   സംഖ്യ_2);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerStringML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceML(
     XrSession                                   session,
-    const XrMarkerSpaceCreateInfoML*            createInfo,
+    സ്ഥിരം XrMarkerSpaceCreateInfoML*            createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5453,7 +5453,7 @@ XR_DEFINE_HANDLE(XrExportedLocalizationMapML)
 #define XR_ML_localization_map_SPEC_VERSION 1
 #define XR_ML_LOCALIZATION_MAP_EXTENSION_NAME "XR_ML_localization_map"
 
-typedef enum XrLocalizationMapStateML {
+തരനിർവചനം എണ്ണൽ XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_NOT_LOCALIZED_ML = 0,
     XR_LOCALIZATION_MAP_STATE_LOCALIZED_ML = 1,
     XR_LOCALIZATION_MAP_STATE_LOCALIZATION_PENDING_ML = 2,
@@ -5461,40 +5461,40 @@ typedef enum XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapStateML;
 
-typedef enum XrLocalizationMapTypeML {
+തരനിർവചനം എണ്ണൽ XrLocalizationMapTypeML {
     XR_LOCALIZATION_MAP_TYPE_ON_DEVICE_ML = 0,
     XR_LOCALIZATION_MAP_TYPE_CLOUD_ML = 1,
     XR_LOCALIZATION_MAP_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapTypeML;
 
-typedef enum XrLocalizationMapConfidenceML {
+തരനിർവചനം എണ്ണൽ XrLocalizationMapConfidenceML {
     XR_LOCALIZATION_MAP_CONFIDENCE_POOR_ML = 0,
     XR_LOCALIZATION_MAP_CONFIDENCE_FAIR_ML = 1,
     XR_LOCALIZATION_MAP_CONFIDENCE_GOOD_ML = 2,
     XR_LOCALIZATION_MAP_CONFIDENCE_EXCELLENT_ML = 3,
     XR_LOCALIZATION_MAP_CONFIDENCE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapConfidenceML;
-typedef XrFlags64 XrLocalizationMapErrorFlagsML;
+തരനിർവചനം XrFlags64 XrLocalizationMapErrorFlagsML;
 
 // Flag bits for XrLocalizationMapErrorFlagsML
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_UNKNOWN_BIT_ML = 0x00000001;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_OUT_OF_MAPPED_AREA_BIT_ML = 0x00000002;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_LOW_FEATURE_COUNT_BIT_ML = 0x00000004;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_EXCESSIVE_MOTION_BIT_ML = 0x00000008;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_LOW_LIGHT_BIT_ML = 0x00000010;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_HEADPOSE_BIT_ML = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_UNKNOWN_BIT_ML = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_OUT_OF_MAPPED_AREA_BIT_ML = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_താഴെയുള്ള_FEATURE_എണ്ണം_BIT_ML = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_EXCESSIVE_MOTION_BIT_ML = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_താഴെയുള്ള_LIGHT_BIT_ML = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_HEADPOSE_BIT_ML = 0x00000020;
 
-typedef struct XrLocalizationMapML {
+തരനിർവചനം ഘടന XrLocalizationMapML {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    char                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    അക്ഷരം                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
     XrUuidEXT                  mapUuid;
     XrLocalizationMapTypeML    mapType;
 } XrLocalizationMapML;
 
-typedef struct XrEventDataLocalizationChangedML {
+തരനിർവചനം ഘടന XrEventDataLocalizationChangedML {
      XrStructureType                 type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrSession                        session;
     XrLocalizationMapStateML         state;
     XrLocalizationMapML              map;
@@ -5502,63 +5502,63 @@ typedef struct XrEventDataLocalizationChangedML {
     XrLocalizationMapErrorFlagsML    errorFlags;
 } XrEventDataLocalizationChangedML;
 
-typedef struct XrLocalizationMapQueryInfoBaseHeaderML {
+തരനിർവചനം ഘടന XrLocalizationMapQueryInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrLocalizationMapQueryInfoBaseHeaderML;
 
-typedef struct XrMapLocalizationRequestInfoML {
+തരനിർവചനം ഘടന XrMapLocalizationRequestInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT                   mapUuid;
 } XrMapLocalizationRequestInfoML;
 
-typedef struct XrLocalizationMapImportInfoML {
+തരനിർവചനം ഘടന XrLocalizationMapImportInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    size;
-    char*                       data;
+    അക്ഷരം*                       data;
 } XrLocalizationMapImportInfoML;
 
-typedef struct XrLocalizationEnableEventsInfoML {
+തരനിർവചനം ഘടന XrLocalizationEnableEventsInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrLocalizationEnableEventsInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnableLocalizationEventsML)(XrSession session, const XrLocalizationEnableEventsInfoML * info);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryLocalizationMapsML)(XrSession session, const XrLocalizationMapQueryInfoBaseHeaderML* queryInfo, uint32_t mapCapacityInput, uint32_t * mapCountOutput, XrLocalizationMapML* maps);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestMapLocalizationML)(XrSession session, const XrMapLocalizationRequestInfoML* requestInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrImportLocalizationMapML)(XrSession session, const XrLocalizationMapImportInfoML* importInfo, XrUuidEXT* mapUuid);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateExportedLocalizationMapML)(XrSession session, const XrUuidEXT* mapUuid, XrExportedLocalizationMapML* map);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyExportedLocalizationMapML)(XrExportedLocalizationMapML map);
-typedef XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnableLocalizationEventsML)(XrSession session, സ്ഥിരം XrLocalizationEnableEventsInfoML * info);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQueryLocalizationMapsML)(XrSession session, സ്ഥിരം XrLocalizationMapQueryInfoBaseHeaderML* queryInfo, uint32_t map_Capacity_നിവേശം, uint32_t * map_എണ്ണം_Output, XrLocalizationMapML* maps);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestMapLocalizationML)(XrSession session, സ്ഥിരം XrMapLocalizationRequestInfoML* requestInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrImportLocalizationMapML)(XrSession session, സ്ഥിരം XrLocalizationMapImportInfoML* importInfo, XrUuidEXT* mapUuid);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateExportedLocalizationMapML)(XrSession session, സ്ഥിരം XrUuidEXT* mapUuid, XrExportedLocalizationMapML* map);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyExportedLocalizationMapML)(XrExportedLocalizationMapML map);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnableLocalizationEventsML(
     XrSession                                   session,
-    const XrLocalizationEnableEventsInfoML *    info);
+    സ്ഥിരം XrLocalizationEnableEventsInfoML *    info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQueryLocalizationMapsML(
     XrSession                                   session,
-    const XrLocalizationMapQueryInfoBaseHeaderML* queryInfo,
-    uint32_t                                    mapCapacityInput,
-    uint32_t *                                  mapCountOutput,
+    സ്ഥിരം XrLocalizationMapQueryInfoBaseHeaderML* queryInfo,
+    uint32_t                                    map_Capacity_നിവേശം,
+    uint32_t *                                  map_എണ്ണം_Output,
     XrLocalizationMapML*                        maps);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestMapLocalizationML(
     XrSession                                   session,
-    const XrMapLocalizationRequestInfoML*       requestInfo);
+    സ്ഥിരം XrMapLocalizationRequestInfoML*       requestInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrImportLocalizationMapML(
     XrSession                                   session,
-    const XrLocalizationMapImportInfoML*        importInfo,
+    സ്ഥിരം XrLocalizationMapImportInfoML*        importInfo,
     XrUuidEXT*                                  mapUuid);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateExportedLocalizationMapML(
     XrSession                                   session,
-    const XrUuidEXT*                            mapUuid,
+    സ്ഥിരം XrUuidEXT*                            mapUuid,
     XrExportedLocalizationMapML*                map);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyExportedLocalizationMapML(
@@ -5566,9 +5566,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyExportedLocalizationMapML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetExportedLocalizationMapDataML(
     XrExportedLocalizationMapML                 map,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5579,48 +5579,48 @@ XR_DEFINE_OPAQUE_64(XrFutureEXT)
 #define XR_ML_spatial_anchors_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_EXTENSION_NAME "XR_ML_spatial_anchors"
 
-typedef enum XrSpatialAnchorConfidenceML {
-    XR_SPATIAL_ANCHOR_CONFIDENCE_LOW_ML = 0,
+തരനിർവചനം എണ്ണൽ XrSpatialAnchorConfidenceML {
+    XR_SPATIAL_ANCHOR_CONFIDENCE_താഴെയുള്ള_ML = 0,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MEDIUM_ML = 1,
-    XR_SPATIAL_ANCHOR_CONFIDENCE_HIGH_ML = 2,
+    XR_SPATIAL_ANCHOR_CONFIDENCE_മുകളിലെ_ML = 2,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrSpatialAnchorConfidenceML;
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromPoseML {
+തരനിർവചനം ഘടന XrSpatialAnchorsCreateInfoFromPoseML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrPosef                     poseInBaseSpace;
     XrTime                      time;
 } XrSpatialAnchorsCreateInfoFromPoseML;
 
-typedef struct XrCreateSpatialAnchorsCompletionML {
+തരനിർവചനം ഘടന XrCreateSpatialAnchorsCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              spaceCount;
+    uint32_t              space_എണ്ണം;
     XrSpace*              spaces;
 } XrCreateSpatialAnchorsCompletionML;
 
-typedef struct XrSpatialAnchorStateML {
+തരനിർവചനം ഘടന XrSpatialAnchorStateML {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrSpatialAnchorConfidenceML    confidence;
 } XrSpatialAnchorStateML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsAsyncML)(XrSession session, const XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsCompleteML)(XrSession session, XrFutureEXT future, XrCreateSpatialAnchorsCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorStateML)(XrSpace anchor, XrSpatialAnchorStateML* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsAsyncML)(XrSession session, സ്ഥിരം XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsCompleteML)(XrSession session, XrFutureEXT future, XrCreateSpatialAnchorsCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorStateML)(XrSpace anchor, XrSpatialAnchorStateML* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsAsyncML(
     XrSession                                   session,
-    const XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo,
+    സ്ഥിരം XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsCompleteML(
@@ -5640,130 +5640,130 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorStateML(
 XR_DEFINE_HANDLE(XrSpatialAnchorsStorageML)
 #define XR_ML_spatial_anchors_storage_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_STORAGE_EXTENSION_NAME "XR_ML_spatial_anchors_storage"
-typedef struct XrSpatialAnchorsCreateStorageInfoML {
+തരനിർവചനം ഘടന XrSpatialAnchorsCreateStorageInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateStorageInfoML;
 
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsQueryInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsQueryInfoRadiusML {
+തരനിർവചനം ഘടന XrSpatialAnchorsQueryInfoRadiusML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrVector3f                  center;
     XrTime                      time;
-    float                       radius;
+    ദശാംശം                       radius;
 } XrSpatialAnchorsQueryInfoRadiusML;
 
-typedef struct XrSpatialAnchorsQueryCompletionML {
+തരനിർവചനം ഘടന XrSpatialAnchorsQueryCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              uuidCapacityInput;
-    uint32_t              uuidCountOutput;
+    uint32_t              uuid_Capacity_നിവേശം;
+    uint32_t              uuid_എണ്ണം_Output;
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsQueryCompletionML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromUuidsML {
+തരനിർവചനം ഘടന XrSpatialAnchorsCreateInfoFromUuidsML {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrSpatialAnchorsStorageML    storage;
-    uint32_t                     uuidCount;
-    const XrUuidEXT*             uuids;
+    uint32_t                     uuid_എണ്ണം;
+    സ്ഥിരം XrUuidEXT*             uuids;
 } XrSpatialAnchorsCreateInfoFromUuidsML;
 
-typedef struct XrSpatialAnchorsPublishInfoML {
+തരനിർവചനം ഘടന XrSpatialAnchorsPublishInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    anchorCount;
-    const XrSpace*              anchors;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    anchor_എണ്ണം;
+    സ്ഥിരം XrSpace*              anchors;
     uint64_t                    expiration;
 } XrSpatialAnchorsPublishInfoML;
 
-typedef struct XrSpatialAnchorsPublishCompletionML {
+തരനിർവചനം ഘടന XrSpatialAnchorsPublishCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              uuidCount;
+    uint32_t              uuid_എണ്ണം;
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsPublishCompletionML;
 
-typedef struct XrSpatialAnchorsDeleteInfoML {
+തരനിർവചനം ഘടന XrSpatialAnchorsDeleteInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_എണ്ണം;
+    സ്ഥിരം XrUuidEXT*            uuids;
 } XrSpatialAnchorsDeleteInfoML;
 
-typedef struct XrSpatialAnchorsDeleteCompletionML {
+തരനിർവചനം ഘടന XrSpatialAnchorsDeleteCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsDeleteCompletionML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationInfoML {
+തരനിർവചനം ഘടന XrSpatialAnchorsUpdateExpirationInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_എണ്ണം;
+    സ്ഥിരം XrUuidEXT*            uuids;
     uint64_t                    expiration;
 } XrSpatialAnchorsUpdateExpirationInfoML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionML {
+തരനിർവചനം ഘടന XrSpatialAnchorsUpdateExpirationCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsUpdateExpirationCompletionML;
 
-typedef struct XrSpatialAnchorCompletionResultML {
+തരനിർവചനം ഘടന XrSpatialAnchorCompletionResultML {
     XrUuidEXT    uuid;
     XrResult     result;
 } XrSpatialAnchorCompletionResultML;
 
 // XrSpatialAnchorsPublishCompletionDetailsML extends XrSpatialAnchorsPublishCompletionML
-typedef struct XrSpatialAnchorsPublishCompletionDetailsML {
+തരനിർവചനം ഘടന XrSpatialAnchorsPublishCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
+    uint32_t                              result_എണ്ണം;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsPublishCompletionDetailsML;
 
 // XrSpatialAnchorsDeleteCompletionDetailsML extends XrSpatialAnchorsDeleteCompletionML
-typedef struct XrSpatialAnchorsDeleteCompletionDetailsML {
+തരനിർവചനം ഘടന XrSpatialAnchorsDeleteCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
+    uint32_t                              result_എണ്ണം;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsDeleteCompletionDetailsML;
 
 // XrSpatialAnchorsUpdateExpirationCompletionDetailsML extends XrSpatialAnchorsUpdateExpirationCompletionML
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
+തരനിർവചനം ഘടന XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
+    uint32_t                              result_എണ്ണം;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsUpdateExpirationCompletionDetailsML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsStorageML)(XrSession session, const XrSpatialAnchorsCreateStorageInfoML* createInfo, XrSpatialAnchorsStorageML* storage);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorsStorageML)(XrSpatialAnchorsStorageML storage);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsQueryCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsPublishInfoML* publishInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsPublishCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsDeleteInfoML* deleteInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsDeleteCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsUpdateExpirationInfoML* updateInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsUpdateExpirationCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsStorageML)(XrSession session, സ്ഥിരം XrSpatialAnchorsCreateStorageInfoML* createInfo, XrSpatialAnchorsStorageML* storage);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorsStorageML)(XrSpatialAnchorsStorageML storage);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, സ്ഥിരം XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsQueryCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, സ്ഥിരം XrSpatialAnchorsPublishInfoML* publishInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsPublishCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, സ്ഥിരം XrSpatialAnchorsDeleteInfoML* deleteInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsDeleteCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationAsyncML)(XrSpatialAnchorsStorageML storage, സ്ഥിരം XrSpatialAnchorsUpdateExpirationInfoML* updateInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsUpdateExpirationCompletionML* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsStorageML(
     XrSession                                   session,
-    const XrSpatialAnchorsCreateStorageInfoML*  createInfo,
+    സ്ഥിരം XrSpatialAnchorsCreateStorageInfoML*  createInfo,
     XrSpatialAnchorsStorageML*                  storage);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorsStorageML(
@@ -5771,7 +5771,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorsStorageML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo,
+    സ്ഥിരം XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsCompleteML(
@@ -5781,7 +5781,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsPublishInfoML*        publishInfo,
+    സ്ഥിരം XrSpatialAnchorsPublishInfoML*        publishInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsCompleteML(
@@ -5791,7 +5791,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsDeleteInfoML*         deleteInfo,
+    സ്ഥിരം XrSpatialAnchorsDeleteInfoML*         deleteInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsCompleteML(
@@ -5801,7 +5801,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSpatialAnchorsExpirationAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsUpdateExpirationInfoML* updateInfo,
+    സ്ഥിരം XrSpatialAnchorsUpdateExpirationInfoML* updateInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSpatialAnchorsExpirationCompleteML(
@@ -5818,31 +5818,31 @@ XR_DEFINE_HANDLE(XrSpatialAnchorStoreConnectionMSFT)
 #define XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT 256
 #define XR_MSFT_spatial_anchor_persistence_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_MSFT_spatial_anchor_persistence"
-typedef struct XrSpatialAnchorPersistenceNameMSFT {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
+തരനിർവചനം ഘടന XrSpatialAnchorPersistenceNameMSFT {
+    അക്ഷരം    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
 } XrSpatialAnchorPersistenceNameMSFT;
 
-typedef struct XrSpatialAnchorPersistenceInfoMSFT {
+തരനിർവചനം ഘടന XrSpatialAnchorPersistenceInfoMSFT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrSpatialAnchorPersistenceNameMSFT    spatialAnchorPersistenceName;
     XrSpatialAnchorMSFT                   spatialAnchor;
 } XrSpatialAnchorPersistenceInfoMSFT;
 
-typedef struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
+തരനിർവചനം ഘടന XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrSpatialAnchorStoreConnectionMSFT    spatialAnchorStore;
     XrSpatialAnchorPersistenceNameMSFT    spatialAnchorPersistenceName;
 } XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorStoreConnectionMSFT)(XrSession session, XrSpatialAnchorStoreConnectionMSFT* spatialAnchorStore);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorStoreConnectionMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, const XrSpatialAnchorPersistenceInfoMSFT* spatialAnchorPersistenceInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedSpatialAnchorNamesMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, uint32_t spatialAnchorNameCapacityInput, uint32_t* spatialAnchorNameCountOutput, XrSpatialAnchorPersistenceNameMSFT* spatialAnchorNames);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPersistedNameMSFT)(XrSession session, const XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo, XrSpatialAnchorMSFT* spatialAnchor);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, const XrSpatialAnchorPersistenceNameMSFT* spatialAnchorPersistenceName);
-typedef XrResult (XRAPI_PTR *PFN_xrClearSpatialAnchorStoreMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorStoreConnectionMSFT)(XrSession session, XrSpatialAnchorStoreConnectionMSFT* spatialAnchorStore);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorStoreConnectionMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, സ്ഥിരം XrSpatialAnchorPersistenceInfoMSFT* spatialAnchorPersistenceInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedSpatialAnchorNamesMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, uint32_t spatial_Anchor_Name_Capacity_നിവേശം, uint32_t* spatial_Anchor_Name_എണ്ണം_Output, XrSpatialAnchorPersistenceNameMSFT* spatialAnchorNames);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPersistedNameMSFT)(XrSession session, സ്ഥിരം XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo, XrSpatialAnchorMSFT* spatialAnchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, സ്ഥിരം XrSpatialAnchorPersistenceNameMSFT* spatialAnchorPersistenceName);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrClearSpatialAnchorStoreMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5855,22 +5855,22 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorStoreConnectionMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    const XrSpatialAnchorPersistenceInfoMSFT*   spatialAnchorPersistenceInfo);
+    സ്ഥിരം XrSpatialAnchorPersistenceInfoMSFT*   spatialAnchorPersistenceInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePersistedSpatialAnchorNamesMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    uint32_t                                    spatialAnchorNameCapacityInput,
-    uint32_t*                                   spatialAnchorNameCountOutput,
+    uint32_t                                    spatial_Anchor_Name_Capacity_നിവേശം,
+    uint32_t*                                   spatial_Anchor_Name_എണ്ണം_Output,
     XrSpatialAnchorPersistenceNameMSFT*         spatialAnchorNames);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorFromPersistedNameMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo,
+    സ്ഥിരം XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo,
     XrSpatialAnchorMSFT*                        spatialAnchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    const XrSpatialAnchorPersistenceNameMSFT*   spatialAnchorPersistenceName);
+    സ്ഥിരം XrSpatialAnchorPersistenceNameMSFT*   spatialAnchorPersistenceName);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrClearSpatialAnchorStoreMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore);
@@ -5883,17 +5883,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrClearSpatialAnchorStoreMSFT(
 #define XR_MSFT_scene_marker_SPEC_VERSION 1
 #define XR_MSFT_SCENE_MARKER_EXTENSION_NAME "XR_MSFT_scene_marker"
 
-typedef enum XrSceneMarkerTypeMSFT {
+തരനിർവചനം എണ്ണൽ XrSceneMarkerTypeMSFT {
     XR_SCENE_MARKER_TYPE_QR_CODE_MSFT = 1,
     XR_SCENE_MARKER_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneMarkerTypeMSFT;
 
-typedef enum XrSceneMarkerQRCodeSymbolTypeMSFT {
-    XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_QR_CODE_MSFT = 1,
-    XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_MICRO_QR_CODE_MSFT = 2,
-    XR_SCENE_MARKER_QRCODE_SYMBOL_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
-} XrSceneMarkerQRCodeSymbolTypeMSFT;
-typedef struct XrSceneMarkerMSFT {
+തരനിർവചനം എണ്ണൽ Xr_Scene_Marker_QRCode_ചിഹ്നം_Type_MSFT {
+    XR_SCENE_MARKER_QR_CODE_ചിഹ്നം_TYPE_QR_CODE_MSFT = 1,
+    XR_SCENE_MARKER_QR_CODE_ചിഹ്നം_TYPE_MICRO_QR_CODE_MSFT = 2,
+    XR_SCENE_MARKER_QRCODE_ചിഹ്നം_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
+} Xr_Scene_Marker_QRCode_ചിഹ്നം_Type_MSFT;
+തരനിർവചനം ഘടന XrSceneMarkerMSFT {
     XrSceneMarkerTypeMSFT    markerType;
     XrTime                   lastSeenTime;
     XrOffset2Df              center;
@@ -5901,52 +5901,52 @@ typedef struct XrSceneMarkerMSFT {
 } XrSceneMarkerMSFT;
 
 // XrSceneMarkersMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkersMSFT {
+തരനിർവചനം ഘടന XrSceneMarkersMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    sceneMarkerCapacityInput;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    scene_Marker_Capacity_നിവേശം;
     XrSceneMarkerMSFT*          sceneMarkers;
 } XrSceneMarkersMSFT;
 
 // XrSceneMarkerTypeFilterMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneMarkerTypeFilterMSFT {
+തരനിർവചനം ഘടന XrSceneMarkerTypeFilterMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    markerTypeCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    marker_Type_എണ്ണം;
     XrSceneMarkerTypeMSFT*      markerTypes;
 } XrSceneMarkerTypeFilterMSFT;
 
-typedef struct XrSceneMarkerQRCodeMSFT {
-    XrSceneMarkerQRCodeSymbolTypeMSFT    symbolType;
+തരനിർവചനം ഘടന XrSceneMarkerQRCodeMSFT {
+    Xr_Scene_Marker_QRCode_ചിഹ്നം_Type_MSFT    ചിഹ്നം_Type;
     uint8_t                              version;
 } XrSceneMarkerQRCodeMSFT;
 
 // XrSceneMarkerQRCodesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkerQRCodesMSFT {
+തരനിർവചനം ഘടന XrSceneMarkerQRCodesMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    qrCodeCapacityInput;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    qr_Code_Capacity_നിവേശം;
     XrSceneMarkerQRCodeMSFT*    qrCodes;
 } XrSceneMarkerQRCodesMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT scene, സ്ഥിരം XrUuidMSFT* markerId, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, uint8_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, സ്ഥിരം XrUuidMSFT* markerId, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerRawDataMSFT(
     XrSceneMSFT                                 scene,
-    const XrUuidMSFT*                           markerId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrUuidMSFT*                           markerId,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
     XrSceneMSFT                                 scene,
-    const XrUuidMSFT*                           markerId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    സ്ഥിരം XrUuidMSFT*                           markerId,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5954,12 +5954,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
 // XR_ULTRALEAP_hand_tracking_forearm is a preprocessor guard. Do not pass it to API calls.
 #define XR_ULTRALEAP_hand_tracking_forearm 1
 
-#define XR_HAND_FOREARM_JOINT_COUNT_ULTRALEAP 27
+#define XR_HAND_FOREARM_JOINT_എണ്ണം_ULTRALEAP 27
 
 #define XR_ULTRALEAP_hand_tracking_forearm_SPEC_VERSION 1
 #define XR_ULTRALEAP_HAND_TRACKING_FOREARM_EXTENSION_NAME "XR_ULTRALEAP_hand_tracking_forearm"
 
-typedef enum XrHandForearmJointULTRALEAP {
+തരനിർവചനം എണ്ണൽ XrHandForearmJointULTRALEAP {
     XR_HAND_FOREARM_JOINT_PALM_ULTRALEAP = 0,
     XR_HAND_FOREARM_JOINT_WRIST_ULTRALEAP = 1,
     XR_HAND_FOREARM_JOINT_THUMB_METACARPAL_ULTRALEAP = 2,
@@ -5971,11 +5971,11 @@ typedef enum XrHandForearmJointULTRALEAP {
     XR_HAND_FOREARM_JOINT_INDEX_INTERMEDIATE_ULTRALEAP = 8,
     XR_HAND_FOREARM_JOINT_INDEX_DISTAL_ULTRALEAP = 9,
     XR_HAND_FOREARM_JOINT_INDEX_TIP_ULTRALEAP = 10,
-    XR_HAND_FOREARM_JOINT_MIDDLE_METACARPAL_ULTRALEAP = 11,
-    XR_HAND_FOREARM_JOINT_MIDDLE_PROXIMAL_ULTRALEAP = 12,
-    XR_HAND_FOREARM_JOINT_MIDDLE_INTERMEDIATE_ULTRALEAP = 13,
-    XR_HAND_FOREARM_JOINT_MIDDLE_DISTAL_ULTRALEAP = 14,
-    XR_HAND_FOREARM_JOINT_MIDDLE_TIP_ULTRALEAP = 15,
+    XR_HAND_FOREARM_JOINT_നടുവ്_METACARPAL_ULTRALEAP = 11,
+    XR_HAND_FOREARM_JOINT_നടുവ്_PROXIMAL_ULTRALEAP = 12,
+    XR_HAND_FOREARM_JOINT_നടുവ്_INTERMEDIATE_ULTRALEAP = 13,
+    XR_HAND_FOREARM_JOINT_നടുവ്_DISTAL_ULTRALEAP = 14,
+    XR_HAND_FOREARM_JOINT_നടുവ്_TIP_ULTRALEAP = 15,
     XR_HAND_FOREARM_JOINT_RING_METACARPAL_ULTRALEAP = 16,
     XR_HAND_FOREARM_JOINT_RING_PROXIMAL_ULTRALEAP = 17,
     XR_HAND_FOREARM_JOINT_RING_INTERMEDIATE_ULTRALEAP = 18,
@@ -5996,91 +5996,91 @@ typedef enum XrHandForearmJointULTRALEAP {
 #define XR_FB_spatial_entity_query_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_QUERY_EXTENSION_NAME "XR_FB_spatial_entity_query"
 
-typedef enum XrSpaceQueryActionFB {
+തരനിർവചനം എണ്ണൽ XrSpaceQueryActionFB {
     XR_SPACE_QUERY_ACTION_LOAD_FB = 0,
     XR_SPACE_QUERY_ACTION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceQueryActionFB;
 
-typedef enum XrSpaceStorageLocationFB {
+തരനിർവചനം എണ്ണൽ XrSpaceStorageLocationFB {
     XR_SPACE_STORAGE_LOCATION_INVALID_FB = 0,
     XR_SPACE_STORAGE_LOCATION_LOCAL_FB = 1,
     XR_SPACE_STORAGE_LOCATION_CLOUD_FB = 2,
     XR_SPACE_STORAGE_LOCATION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceStorageLocationFB;
-typedef struct XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpaceQueryInfoBaseHeaderFB;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpaceFilterInfoBaseHeaderFB;
 
-typedef struct XrSpaceQueryInfoFB {
+തരനിർവചനം ഘടന XrSpaceQueryInfoFB {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                next;
     XrSpaceQueryActionFB                    queryAction;
-    uint32_t                                maxResultCount;
+    uint32_t                                max_Result_എണ്ണം;
     XrDuration                              timeout;
-    const XrSpaceFilterInfoBaseHeaderFB*    filter;
-    const XrSpaceFilterInfoBaseHeaderFB*    excludeFilter;
+    സ്ഥിരം XrSpaceFilterInfoBaseHeaderFB*    filter;
+    സ്ഥിരം XrSpaceFilterInfoBaseHeaderFB*    excludeFilter;
 } XrSpaceQueryInfoFB;
 
 // XrSpaceStorageLocationFilterInfoFB extends XrSpaceFilterInfoBaseHeaderFB
-typedef struct XrSpaceStorageLocationFilterInfoFB {
+തരനിർവചനം ഘടന XrSpaceStorageLocationFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceStorageLocationFB    location;
 } XrSpaceStorageLocationFilterInfoFB;
 
-typedef struct XrSpaceUuidFilterInfoFB {
+തരനിർവചനം ഘടന XrSpaceUuidFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_എണ്ണം;
     XrUuidEXT*                  uuids;
 } XrSpaceUuidFilterInfoFB;
 
-typedef struct XrSpaceComponentFilterInfoFB {
+തരനിർവചനം ഘടന XrSpaceComponentFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceComponentFilterInfoFB;
 
-typedef struct XrSpaceQueryResultFB {
+തരനിർവചനം ഘടന XrSpaceQueryResultFB {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceQueryResultFB;
 
-typedef struct XrSpaceQueryResultsFB {
+തരനിർവചനം ഘടന XrSpaceQueryResultsFB {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 resultCapacityInput;
-    uint32_t                 resultCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 result_Capacity_നിവേശം;
+    uint32_t                 result_എണ്ണം_Output;
     XrSpaceQueryResultFB*    results;
 } XrSpaceQueryResultsFB;
 
-typedef struct XrEventDataSpaceQueryResultsAvailableFB {
+തരനിർവചനം ഘടന XrEventDataSpaceQueryResultsAvailableFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceQueryResultsAvailableFB;
 
-typedef struct XrEventDataSpaceQueryCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceQueryCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceQueryCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpacesFB)(XrSession session, const XrSpaceQueryInfoBaseHeaderFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceQueryResultsFB)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceQueryResultsFB* results);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySpacesFB)(XrSession session, സ്ഥിരം XrSpaceQueryInfoBaseHeaderFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceQueryResultsFB)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceQueryResultsFB* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpacesFB(
     XrSession                                   session,
-    const XrSpaceQueryInfoBaseHeaderFB*         info,
+    സ്ഥിരം XrSpaceQueryInfoBaseHeaderFB*         info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceQueryResultsFB(
@@ -6096,29 +6096,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceQueryResultsFB(
 #define XR_FB_spatial_entity_storage_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_EXTENSION_NAME "XR_FB_spatial_entity_storage"
 
-typedef enum XrSpacePersistenceModeFB {
+തരനിർവചനം എണ്ണൽ XrSpacePersistenceModeFB {
     XR_SPACE_PERSISTENCE_MODE_INVALID_FB = 0,
     XR_SPACE_PERSISTENCE_MODE_INDEFINITE_FB = 1,
     XR_SPACE_PERSISTENCE_MODE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpacePersistenceModeFB;
-typedef struct XrSpaceSaveInfoFB {
+തരനിർവചനം ഘടന XrSpaceSaveInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrSpaceStorageLocationFB    location;
     XrSpacePersistenceModeFB    persistenceMode;
 } XrSpaceSaveInfoFB;
 
-typedef struct XrSpaceEraseInfoFB {
+തരനിർവചനം ഘടന XrSpaceEraseInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrSpaceStorageLocationFB    location;
 } XrSpaceEraseInfoFB;
 
-typedef struct XrEventDataSpaceSaveCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceSaveCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -6126,9 +6126,9 @@ typedef struct XrEventDataSpaceSaveCompleteFB {
     XrSpaceStorageLocationFB    location;
 } XrEventDataSpaceSaveCompleteFB;
 
-typedef struct XrEventDataSpaceEraseCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceEraseCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -6136,19 +6136,19 @@ typedef struct XrEventDataSpaceEraseCompleteFB {
     XrSpaceStorageLocationFB    location;
 } XrEventDataSpaceEraseCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpaceFB)(XrSession session, const XrSpaceSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrEraseSpaceFB)(XrSession session, const XrSpaceEraseInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSaveSpaceFB)(XrSession session, സ്ഥിരം XrSpaceSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEraseSpaceFB)(XrSession session, സ്ഥിരം XrSpaceEraseInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceFB(
     XrSession                                   session,
-    const XrSpaceSaveInfoFB*                    info,
+    സ്ഥിരം XrSpaceSaveInfoFB*                    info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpaceFB(
     XrSession                                   session,
-    const XrSpaceEraseInfoFB*                   info,
+    സ്ഥിരം XrSpaceEraseInfoFB*                   info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6165,29 +6165,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpaceFB(
 XR_DEFINE_HANDLE(XrSpaceUserFB)
 #define XR_FB_spatial_entity_sharing_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_FB_spatial_entity_sharing"
-typedef struct XrSpaceShareInfoFB {
+തരനിർവചനം ഘടന XrSpaceShareInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    space_എണ്ണം;
     XrSpace*                    spaces;
-    uint32_t                    userCount;
+    uint32_t                    user_എണ്ണം;
     XrSpaceUserFB*              users;
 } XrSpaceShareInfoFB;
 
-typedef struct XrEventDataSpaceShareCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceShareCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceShareCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpacesFB)(XrSession session, const XrSpaceShareInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrShareSpacesFB)(XrSession session, സ്ഥിരം XrSpaceShareInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesFB(
     XrSession                                   session,
-    const XrSpaceShareInfoFB*                   info,
+    സ്ഥിരം XrSpaceShareInfoFB*                   info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6197,29 +6197,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesFB(
 #define XR_FB_space_warp 1
 #define XR_FB_space_warp_SPEC_VERSION     2
 #define XR_FB_SPACE_WARP_EXTENSION_NAME   "XR_FB_space_warp"
-typedef XrFlags64 XrCompositionLayerSpaceWarpInfoFlagsFB;
+തരനിർവചനം XrFlags64 XrCompositionLayerSpaceWarpInfoFlagsFB;
 
 // Flag bits for XrCompositionLayerSpaceWarpInfoFlagsFB
-static const XrCompositionLayerSpaceWarpInfoFlagsFB XR_COMPOSITION_LAYER_SPACE_WARP_INFO_FRAME_SKIP_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSpaceWarpInfoFlagsFB XR_COMPOSITION_LAYER_SPACE_WARP_INFO_FRAME_SKIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerSpaceWarpInfoFB extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerSpaceWarpInfoFB {
+തരനിർവചനം ഘടന XrCompositionLayerSpaceWarpInfoFB {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
     XrCompositionLayerSpaceWarpInfoFlagsFB    layerFlags;
     XrSwapchainSubImage                       motionVectorSubImage;
     XrPosef                                   appSpaceDeltaPose;
     XrSwapchainSubImage                       depthSubImage;
-    float                                     minDepth;
-    float                                     maxDepth;
-    float                                     nearZ;
-    float                                     farZ;
+    ദശാംശം                                     minDepth;
+    ദശാംശം                                     maxDepth;
+    ദശാംശം                                     nearZ;
+    ദശാംശം                                     farZ;
 } XrCompositionLayerSpaceWarpInfoFB;
 
 // XrSystemSpaceWarpPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpaceWarpPropertiesFB {
+തരനിർവചനം ഘടന XrSystemSpaceWarpPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
     uint32_t              recommendedMotionVectorImageRectHeight;
 } XrSystemSpaceWarpPropertiesFB;
@@ -6233,12 +6233,12 @@ typedef struct XrSystemSpaceWarpPropertiesFB {
 
 #define XR_FB_haptic_amplitude_envelope_SPEC_VERSION 1
 #define XR_FB_HAPTIC_AMPLITUDE_ENVELOPE_EXTENSION_NAME "XR_FB_haptic_amplitude_envelope"
-typedef struct XrHapticAmplitudeEnvelopeVibrationFB {
+തരനിർവചനം ഘടന XrHapticAmplitudeEnvelopeVibrationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrDuration                  duration;
-    uint32_t                    amplitudeCount;
-    const float*                amplitudes;
+    uint32_t                    amplitude_എണ്ണം;
+    സ്ഥിരം ദശാംശം*                amplitudes;
 } XrHapticAmplitudeEnvelopeVibrationFB;
 
 
@@ -6247,65 +6247,65 @@ typedef struct XrHapticAmplitudeEnvelopeVibrationFB {
 #define XR_FB_scene 1
 #define XR_FB_scene_SPEC_VERSION          4
 #define XR_FB_SCENE_EXTENSION_NAME        "XR_FB_scene"
-typedef XrFlags64 XrSemanticLabelsSupportFlagsFB;
+തരനിർവചനം XrFlags64 XrSemanticLabelsSupportFlagsFB;
 
 // Flag bits for XrSemanticLabelsSupportFlagsFB
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_MULTIPLE_SEMANTIC_LABELS_BIT_FB = 0x00000001;
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_DESK_TO_TABLE_MIGRATION_BIT_FB = 0x00000002;
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_INVISIBLE_WALL_FACE_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_MULTIPLE_SEMANTIC_LABELS_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_DESK_TO_TABLE_MIGRATION_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_INVISIBLE_WALL_FACE_BIT_FB = 0x00000004;
 
-typedef XrExtent3Df XrExtent3DfFB;
+തരനിർവചനം XrExtent3Df XrExtent3DfFB;
 
-typedef struct XrOffset3DfFB {
-    float    x;
-    float    y;
-    float    z;
+തരനിർവചനം ഘടന XrOffset3DfFB {
+    ദശാംശം    x;
+    ദശാംശം    y;
+    ദശാംശം    z;
 } XrOffset3DfFB;
 
-typedef struct XrRect3DfFB {
+തരനിർവചനം ഘടന XrRect3DfFB {
     XrOffset3DfFB    offset;
     XrExtent3DfFB    extent;
 } XrRect3DfFB;
 
-typedef struct XrSemanticLabelsFB {
+തരനിർവചനം ഘടന XrSemanticLabelsFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    bufferCapacityInput;
-    uint32_t                    bufferCountOutput;
-    char*                       buffer;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    buffer_Capacity_നിവേശം;
+    uint32_t                    buffer_എണ്ണം_Output;
+    അക്ഷരം*                       buffer;
 } XrSemanticLabelsFB;
 
-typedef struct XrRoomLayoutFB {
+തരനിർവചനം ഘടന XrRoomLayoutFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT                   floorUuid;
     XrUuidEXT                   ceilingUuid;
-    uint32_t                    wallUuidCapacityInput;
-    uint32_t                    wallUuidCountOutput;
+    uint32_t                    wall_Uuid_Capacity_നിവേശം;
+    uint32_t                    wall_Uuid_എണ്ണം_Output;
     XrUuidEXT*                  wallUuids;
 } XrRoomLayoutFB;
 
-typedef struct XrBoundary2DFB {
+തരനിർവചനം ഘടന XrBoundary2DFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCapacityInput;
-    uint32_t                    vertexCountOutput;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_Capacity_നിവേശം;
+    uint32_t                    vertex_എണ്ണം_Output;
     XrVector2f*                 vertices;
 } XrBoundary2DFB;
 
 // XrSemanticLabelsSupportInfoFB extends XrSemanticLabelsFB
-typedef struct XrSemanticLabelsSupportInfoFB {
+തരനിർവചനം ഘടന XrSemanticLabelsSupportInfoFB {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
     XrSemanticLabelsSupportFlagsFB    flags;
-    const char*                       recognizedLabels;
+    സ്ഥിരം അക്ഷരം*                       recognizedLabels;
 } XrSemanticLabelsSupportInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox2DFB)(XrSession session, XrSpace space, XrRect2Df* boundingBox2DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox3DFB)(XrSession session, XrSpace space, XrRect3DfFB* boundingBox3DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceSemanticLabelsFB)(XrSession session, XrSpace space, XrSemanticLabelsFB* semanticLabelsOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundary2DFB)(XrSession session, XrSpace space, XrBoundary2DFB* boundary2DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomLayoutFB)(XrSession session, XrSpace space, XrRoomLayoutFB* roomLayoutOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox2DFB)(XrSession session, XrSpace space, XrRect2Df* boundingBox2DOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox3DFB)(XrSession session, XrSpace space, XrRect3DfFB* boundingBox3DOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceSemanticLabelsFB)(XrSession session, XrSpace space, XrSemanticLabelsFB* semanticLabelsOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundary2DFB)(XrSession session, XrSpace space, XrBoundary2DFB* boundary2DOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomLayoutFB)(XrSession session, XrSpace space, XrRoomLayoutFB* roomLayoutOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6347,24 +6347,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomLayoutFB(
 #define XR_ALMALENCE_digital_lens_control 1
 #define XR_ALMALENCE_digital_lens_control_SPEC_VERSION 1
 #define XR_ALMALENCE_DIGITAL_LENS_CONTROL_EXTENSION_NAME "XR_ALMALENCE_digital_lens_control"
-typedef XrFlags64 XrDigitalLensControlFlagsALMALENCE;
+തരനിർവചനം XrFlags64 XrDigitalLensControlFlagsALMALENCE;
 
 // Flag bits for XrDigitalLensControlFlagsALMALENCE
-static const XrDigitalLensControlFlagsALMALENCE XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrDigitalLensControlFlagsALMALENCE XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001;
 
-typedef struct XrDigitalLensControlALMALENCE {
+തരനിർവചനം ഘടന XrDigitalLensControlALMALENCE {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrDigitalLensControlFlagsALMALENCE    flags;
 } XrDigitalLensControlALMALENCE;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetDigitalLensControlALMALENCE)(XrSession session, const XrDigitalLensControlALMALENCE* digitalLensControl);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetDigitalLensControlALMALENCE)(XrSession session, സ്ഥിരം XrDigitalLensControlALMALENCE* digitalLensControl);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetDigitalLensControlALMALENCE(
     XrSession                                   session,
-    const XrDigitalLensControlALMALENCE*        digitalLensControl);
+    സ്ഥിരം XrDigitalLensControlALMALENCE*        digitalLensControl);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -6373,27 +6373,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetDigitalLensControlALMALENCE(
 #define XR_FB_scene_capture 1
 #define XR_FB_scene_capture_SPEC_VERSION  1
 #define XR_FB_SCENE_CAPTURE_EXTENSION_NAME "XR_FB_scene_capture"
-typedef struct XrEventDataSceneCaptureCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSceneCaptureCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSceneCaptureCompleteFB;
 
-typedef struct XrSceneCaptureRequestInfoFB {
+തരനിർവചനം ഘടന XrSceneCaptureRequestInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    requestByteCount;
-    const char*                 request;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    request_Byte_എണ്ണം;
+    സ്ഥിരം അക്ഷരം*                 request;
 } XrSceneCaptureRequestInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSceneCaptureFB)(XrSession session, const XrSceneCaptureRequestInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestSceneCaptureFB)(XrSession session, സ്ഥിരം XrSceneCaptureRequestInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSceneCaptureFB(
     XrSession                                   session,
-    const XrSceneCaptureRequestInfoFB*          info,
+    സ്ഥിരം XrSceneCaptureRequestInfoFB*          info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6403,15 +6403,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestSceneCaptureFB(
 #define XR_FB_spatial_entity_container 1
 #define XR_FB_spatial_entity_container_SPEC_VERSION 2
 #define XR_FB_SPATIAL_ENTITY_CONTAINER_EXTENSION_NAME "XR_FB_spatial_entity_container"
-typedef struct XrSpaceContainerFB {
+തരനിർവചനം ഘടന XrSpaceContainerFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCapacityInput;
-    uint32_t                    uuidCountOutput;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_Capacity_നിവേശം;
+    uint32_t                    uuid_എണ്ണം_Output;
     XrUuidEXT*                  uuids;
 } XrSpaceContainerFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceContainerFB)(XrSession session, XrSpace space, XrSpaceContainerFB* spaceContainerOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceContainerFB)(XrSession session, XrSpace space, XrSpaceContainerFB* spaceContainerOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6428,37 +6428,37 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceContainerFB(
 #define XR_FOVEATION_CENTER_SIZE_META     2
 #define XR_META_foveation_eye_tracked_SPEC_VERSION 1
 #define XR_META_FOVEATION_EYE_TRACKED_EXTENSION_NAME "XR_META_foveation_eye_tracked"
-typedef XrFlags64 XrFoveationEyeTrackedProfileCreateFlagsMETA;
+തരനിർവചനം XrFlags64 XrFoveationEyeTrackedProfileCreateFlagsMETA;
 
 // Flag bits for XrFoveationEyeTrackedProfileCreateFlagsMETA
 
-typedef XrFlags64 XrFoveationEyeTrackedStateFlagsMETA;
+തരനിർവചനം XrFlags64 XrFoveationEyeTrackedStateFlagsMETA;
 
 // Flag bits for XrFoveationEyeTrackedStateFlagsMETA
-static const XrFoveationEyeTrackedStateFlagsMETA XR_FOVEATION_EYE_TRACKED_STATE_VALID_BIT_META = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrFoveationEyeTrackedStateFlagsMETA XR_FOVEATION_EYE_TRACKED_STATE_VALID_BIT_META = 0x00000001;
 
 // XrFoveationEyeTrackedProfileCreateInfoMETA extends XrFoveationLevelProfileCreateInfoFB
-typedef struct XrFoveationEyeTrackedProfileCreateInfoMETA {
+തരനിർവചനം ഘടന XrFoveationEyeTrackedProfileCreateInfoMETA {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                       next;
     XrFoveationEyeTrackedProfileCreateFlagsMETA    flags;
 } XrFoveationEyeTrackedProfileCreateInfoMETA;
 
-typedef struct XrFoveationEyeTrackedStateMETA {
+തരനിർവചനം ഘടന XrFoveationEyeTrackedStateMETA {
     XrStructureType                        type;
-    void* XR_MAY_ALIAS                     next;
+    ശൂന്യം* XR_MAY_ALIAS                     next;
     XrVector2f                             foveationCenter[XR_FOVEATION_CENTER_SIZE_META];
     XrFoveationEyeTrackedStateFlagsMETA    flags;
 } XrFoveationEyeTrackedStateMETA;
 
 // XrSystemFoveationEyeTrackedPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFoveationEyeTrackedPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemFoveationEyeTrackedPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveationEyeTracked;
 } XrSystemFoveationEyeTrackedPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetFoveationEyeTrackedStateMETA)(XrSession session, XrFoveationEyeTrackedStateMETA* foveationState);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFoveationEyeTrackedStateMETA)(XrSession session, XrFoveationEyeTrackedStateMETA* foveationState);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6478,7 +6478,7 @@ XR_DEFINE_HANDLE(XrFaceTrackerFB)
 #define XR_FB_face_tracking_SPEC_VERSION  1
 #define XR_FB_FACE_TRACKING_EXTENSION_NAME "XR_FB_face_tracking"
 
-typedef enum XrFaceExpressionFB {
+തരനിർവചനം എണ്ണൽ XrFaceExpressionFB {
     XR_FACE_EXPRESSION_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION_CHEEK_PUFF_L_FB = 2,
@@ -6495,17 +6495,17 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_EYES_CLOSED_R_FB = 13,
     XR_FACE_EXPRESSION_EYES_LOOK_DOWN_L_FB = 14,
     XR_FACE_EXPRESSION_EYES_LOOK_DOWN_R_FB = 15,
-    XR_FACE_EXPRESSION_EYES_LOOK_LEFT_L_FB = 16,
-    XR_FACE_EXPRESSION_EYES_LOOK_LEFT_R_FB = 17,
-    XR_FACE_EXPRESSION_EYES_LOOK_RIGHT_L_FB = 18,
-    XR_FACE_EXPRESSION_EYES_LOOK_RIGHT_R_FB = 19,
+    XR_FACE_EXPRESSION_EYES_LOOK_ഇടത്_L_FB = 16,
+    XR_FACE_EXPRESSION_EYES_LOOK_ഇടത്_R_FB = 17,
+    XR_FACE_EXPRESSION_EYES_LOOK_വലത്_L_FB = 18,
+    XR_FACE_EXPRESSION_EYES_LOOK_വലത്_R_FB = 19,
     XR_FACE_EXPRESSION_EYES_LOOK_UP_L_FB = 20,
     XR_FACE_EXPRESSION_EYES_LOOK_UP_R_FB = 21,
     XR_FACE_EXPRESSION_INNER_BROW_RAISER_L_FB = 22,
     XR_FACE_EXPRESSION_INNER_BROW_RAISER_R_FB = 23,
     XR_FACE_EXPRESSION_JAW_DROP_FB = 24,
-    XR_FACE_EXPRESSION_JAW_SIDEWAYS_LEFT_FB = 25,
-    XR_FACE_EXPRESSION_JAW_SIDEWAYS_RIGHT_FB = 26,
+    XR_FACE_EXPRESSION_JAW_SIDEWAYS_ഇടത്_FB = 25,
+    XR_FACE_EXPRESSION_JAW_SIDEWAYS_വലത്_FB = 26,
     XR_FACE_EXPRESSION_JAW_THRUST_FB = 27,
     XR_FACE_EXPRESSION_LID_TIGHTENER_L_FB = 28,
     XR_FACE_EXPRESSION_LID_TIGHTENER_R_FB = 29,
@@ -6532,8 +6532,8 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_LIPS_TOWARD_FB = 50,
     XR_FACE_EXPRESSION_LOWER_LIP_DEPRESSOR_L_FB = 51,
     XR_FACE_EXPRESSION_LOWER_LIP_DEPRESSOR_R_FB = 52,
-    XR_FACE_EXPRESSION_MOUTH_LEFT_FB = 53,
-    XR_FACE_EXPRESSION_MOUTH_RIGHT_FB = 54,
+    XR_FACE_EXPRESSION_MOUTH_ഇടത്_FB = 53,
+    XR_FACE_EXPRESSION_MOUTH_വലത്_FB = 54,
     XR_FACE_EXPRESSION_NOSE_WRINKLER_L_FB = 55,
     XR_FACE_EXPRESSION_NOSE_WRINKLER_R_FB = 56,
     XR_FACE_EXPRESSION_OUTER_BROW_RAISER_L_FB = 57,
@@ -6542,65 +6542,65 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_UPPER_LID_RAISER_R_FB = 60,
     XR_FACE_EXPRESSION_UPPER_LIP_RAISER_L_FB = 61,
     XR_FACE_EXPRESSION_UPPER_LIP_RAISER_R_FB = 62,
-    XR_FACE_EXPRESSION_COUNT_FB = 63,
+    XR_FACE_EXPRESSION_എണ്ണം_FB = 63,
     XR_FACE_EXPRESSION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionFB;
 
-typedef enum XrFaceExpressionSetFB {
+തരനിർവചനം എണ്ണൽ XrFaceExpressionSetFB {
     XR_FACE_EXPRESSION_SET_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSetFB;
 
-typedef enum XrFaceConfidenceFB {
+തരനിർവചനം എണ്ണൽ XrFaceConfidenceFB {
     XR_FACE_CONFIDENCE_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE_UPPER_FACE_FB = 1,
-    XR_FACE_CONFIDENCE_COUNT_FB = 2,
+    XR_FACE_CONFIDENCE_എണ്ണം_FB = 2,
     XR_FACE_CONFIDENCE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidenceFB;
 // XrSystemFaceTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesFB {
+തരനിർവചനം ഘടന XrSystemFaceTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFaceTrackingPropertiesFB;
 
-typedef struct XrFaceTrackerCreateInfoFB {
+തരനിർവചനം ഘടന XrFaceTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFaceExpressionSetFB       faceExpressionSet;
 } XrFaceTrackerCreateInfoFB;
 
-typedef struct XrFaceExpressionInfoFB {
+തരനിർവചനം ഘടന XrFaceExpressionInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfoFB;
 
-typedef struct XrFaceExpressionStatusFB {
+തരനിർവചനം ഘടന XrFaceExpressionStatusFB {
     XrBool32    isValid;
     XrBool32    isEyeFollowingBlendshapesValid;
 } XrFaceExpressionStatusFB;
 
-typedef struct XrFaceExpressionWeightsFB {
+തരനിർവചനം ഘടന XrFaceExpressionWeightsFB {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    uint32_t                    weightCount;
-    float*                      weights;
-    uint32_t                    confidenceCount;
-    float*                      confidences;
+    ശൂന്യം* XR_MAY_ALIAS          next;
+    uint32_t                    weight_എണ്ണം;
+    ദശാംശം*                      weights;
+    uint32_t                    confidence_എണ്ണം;
+    ദശാംശം*                      confidences;
     XrFaceExpressionStatusFB    status;
     XrTime                      time;
 } XrFaceExpressionWeightsFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerFB)(XrSession session, const XrFaceTrackerCreateInfoFB* createInfo, XrFaceTrackerFB* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerFB)(XrFaceTrackerFB faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeightsFB)(XrFaceTrackerFB faceTracker, const XrFaceExpressionInfoFB* expressionInfo, XrFaceExpressionWeightsFB* expressionWeights);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerFB)(XrSession session, സ്ഥിരം XrFaceTrackerCreateInfoFB* createInfo, XrFaceTrackerFB* faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerFB)(XrFaceTrackerFB faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeightsFB)(XrFaceTrackerFB faceTracker, സ്ഥിരം XrFaceExpressionInfoFB* expressionInfo, XrFaceExpressionWeightsFB* expressionWeights);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerFB(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoFB*            createInfo,
+    സ്ഥിരം XrFaceTrackerCreateInfoFB*            createInfo,
     XrFaceTrackerFB*                            faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerFB(
@@ -6608,7 +6608,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeightsFB(
     XrFaceTrackerFB                             faceTracker,
-    const XrFaceExpressionInfoFB*               expressionInfo,
+    സ്ഥിരം XrFaceExpressionInfoFB*               expressionInfo,
     XrFaceExpressionWeightsFB*                  expressionWeights);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6620,53 +6620,53 @@ XR_DEFINE_HANDLE(XrEyeTrackerFB)
 #define XR_FB_eye_tracking_social_SPEC_VERSION 1
 #define XR_FB_EYE_TRACKING_SOCIAL_EXTENSION_NAME "XR_FB_eye_tracking_social"
 
-typedef enum XrEyePositionFB {
-    XR_EYE_POSITION_LEFT_FB = 0,
-    XR_EYE_POSITION_RIGHT_FB = 1,
-    XR_EYE_POSITION_COUNT_FB = 2,
+തരനിർവചനം എണ്ണൽ XrEyePositionFB {
+    XR_EYE_POSITION_ഇടത്_FB = 0,
+    XR_EYE_POSITION_വലത്_FB = 1,
+    XR_EYE_POSITION_എണ്ണം_FB = 2,
     XR_EYE_POSITION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrEyePositionFB;
-typedef struct XrEyeGazeFB {
+തരനിർവചനം ഘടന XrEyeGazeFB {
     XrBool32    isValid;
     XrPosef     gazePose;
-    float       gazeConfidence;
+    ദശാംശം       gazeConfidence;
 } XrEyeGazeFB;
 
-typedef struct XrEyeTrackerCreateInfoFB {
+തരനിർവചനം ഘടന XrEyeTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoFB;
 
-typedef struct XrEyeGazesInfoFB {
+തരനിർവചനം ഘടന XrEyeGazesInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrEyeGazesInfoFB;
 
 // XrSystemEyeTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesFB {
+തരനിർവചനം ഘടന XrSystemEyeTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesFB;
 
-typedef struct XrEyeGazesFB {
+തരനിർവചനം ഘടന XrEyeGazesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrEyeGazeFB           gaze[XR_EYE_POSITION_COUNT_FB];
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    XrEyeGazeFB           gaze[XR_EYE_POSITION_എണ്ണം_FB];
     XrTime                time;
 } XrEyeGazesFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerFB)(XrSession session, const XrEyeTrackerCreateInfoFB* createInfo, XrEyeTrackerFB* eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerFB)(XrEyeTrackerFB eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetEyeGazesFB)(XrEyeTrackerFB eyeTracker, const XrEyeGazesInfoFB* gazeInfo, XrEyeGazesFB* eyeGazes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerFB)(XrSession session, സ്ഥിരം XrEyeTrackerCreateInfoFB* createInfo, XrEyeTrackerFB* eyeTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerFB)(XrEyeTrackerFB eyeTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetEyeGazesFB)(XrEyeTrackerFB eyeTracker, സ്ഥിരം XrEyeGazesInfoFB* gazeInfo, XrEyeGazesFB* eyeGazes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEyeTrackerFB(
     XrSession                                   session,
-    const XrEyeTrackerCreateInfoFB*             createInfo,
+    സ്ഥിരം XrEyeTrackerCreateInfoFB*             createInfo,
     XrEyeTrackerFB*                             eyeTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerFB(
@@ -6674,7 +6674,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetEyeGazesFB(
     XrEyeTrackerFB                              eyeTracker,
-    const XrEyeGazesInfoFB*                     gazeInfo,
+    സ്ഥിരം XrEyeGazesInfoFB*                     gazeInfo,
     XrEyeGazesFB*                               eyeGazes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6684,20 +6684,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetEyeGazesFB(
 #define XR_FB_passthrough_keyboard_hands 1
 #define XR_FB_passthrough_keyboard_hands_SPEC_VERSION 2
 #define XR_FB_PASSTHROUGH_KEYBOARD_HANDS_EXTENSION_NAME "XR_FB_passthrough_keyboard_hands"
-typedef struct XrPassthroughKeyboardHandsIntensityFB {
+തരനിർവചനം ഘടന XrPassthroughKeyboardHandsIntensityFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       leftHandIntensity;
-    float                       rightHandIntensity;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       ഇടത്_Hand_Intensity;
+    ദശാംശം                       വലത്_Hand_Intensity;
 } XrPassthroughKeyboardHandsIntensityFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetKeyboardHandsIntensityFB)(XrPassthroughLayerFB layer, const XrPassthroughKeyboardHandsIntensityFB* intensity);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetKeyboardHandsIntensityFB)(XrPassthroughLayerFB layer, സ്ഥിരം XrPassthroughKeyboardHandsIntensityFB* intensity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetKeyboardHandsIntensityFB(
     XrPassthroughLayerFB                        layer,
-    const XrPassthroughKeyboardHandsIntensityFB* intensity);
+    സ്ഥിരം XrPassthroughKeyboardHandsIntensityFB* intensity);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -6706,19 +6706,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetKeyboardHandsIntensityFB(
 #define XR_FB_composition_layer_settings 1
 #define XR_FB_composition_layer_settings_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_SETTINGS_EXTENSION_NAME "XR_FB_composition_layer_settings"
-typedef XrFlags64 XrCompositionLayerSettingsFlagsFB;
+തരനിർവചനം XrFlags64 XrCompositionLayerSettingsFlagsFB;
 
 // Flag bits for XrCompositionLayerSettingsFlagsFB
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SUPER_SAMPLING_BIT_FB = 0x00000001;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SUPER_SAMPLING_BIT_FB = 0x00000002;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SHARPENING_BIT_FB = 0x00000004;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SHARPENING_BIT_FB = 0x00000008;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_AUTO_LAYER_FILTER_BIT_META = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SUPER_SAMPLING_BIT_FB = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SUPER_SAMPLING_BIT_FB = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SHARPENING_BIT_FB = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SHARPENING_BIT_FB = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_AUTO_LAYER_FILTER_BIT_META = 0x00000020;
 
 // XrCompositionLayerSettingsFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSettingsFB {
+തരനിർവചനം ഘടന XrCompositionLayerSettingsFB {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrCompositionLayerSettingsFlagsFB    layerFlags;
 } XrCompositionLayerSettingsFB;
 
@@ -6737,31 +6737,31 @@ typedef struct XrCompositionLayerSettingsFB {
 
 #define XR_FB_haptic_pcm_SPEC_VERSION     1
 #define XR_FB_HAPTIC_PCM_EXTENSION_NAME   "XR_FB_haptic_pcm"
-typedef struct XrHapticPcmVibrationFB {
+തരനിർവചനം ഘടന XrHapticPcmVibrationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
-    const float*                buffer;
-    float                       sampleRate;
+    സ്ഥിരം ദശാംശം*                buffer;
+    ദശാംശം                       sampleRate;
     XrBool32                    append;
     uint32_t*                   samplesConsumed;
 } XrHapticPcmVibrationFB;
 
-typedef struct XrDevicePcmSampleRateStateFB {
+തരനിർവചനം ഘടന XrDevicePcmSampleRateStateFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 sampleRate;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                 sampleRate;
 } XrDevicePcmSampleRateStateFB;
 
-typedef XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
+തരനിർവചനം XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetDeviceSampleRateFB)(XrSession session, const XrHapticActionInfo* hapticActionInfo, XrDevicePcmSampleRateGetInfoFB* deviceSampleRate);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetDeviceSampleRateFB)(XrSession session, സ്ഥിരം XrHapticActionInfo* hapticActionInfo, XrDevicePcmSampleRateGetInfoFB* deviceSampleRate);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetDeviceSampleRateFB(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
+    സ്ഥിരം XrHapticActionInfo*                   hapticActionInfo,
     XrDevicePcmSampleRateGetInfoFB*             deviceSampleRate);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6771,32 +6771,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetDeviceSampleRateFB(
 #define XR_EXT_frame_synthesis 1
 #define XR_EXT_frame_synthesis_SPEC_VERSION 1
 #define XR_EXT_FRAME_SYNTHESIS_EXTENSION_NAME "XR_EXT_frame_synthesis"
-typedef XrFlags64 XrFrameSynthesisInfoFlagsEXT;
+തരനിർവചനം XrFlags64 XrFrameSynthesisInfoFlagsEXT;
 
 // Flag bits for XrFrameSynthesisInfoFlagsEXT
-static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_USE_2D_MOTION_VECTOR_BIT_EXT = 0x00000001;
-static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_REQUEST_RELAXED_FRAME_INTERVAL_BIT_EXT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_USE_2D_MOTION_VECTOR_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_REQUEST_RELAXED_FRAME_INTERVAL_BIT_EXT = 0x00000002;
 
 // XrFrameSynthesisInfoEXT extends XrCompositionLayerProjectionView
-typedef struct XrFrameSynthesisInfoEXT {
+തരനിർവചനം ഘടന XrFrameSynthesisInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
     XrFrameSynthesisInfoFlagsEXT    layerFlags;
     XrSwapchainSubImage             motionVectorSubImage;
     XrVector4f                      motionVectorScale;
     XrVector4f                      motionVectorOffset;
     XrPosef                         appSpaceDeltaPose;
     XrSwapchainSubImage             depthSubImage;
-    float                           minDepth;
-    float                           maxDepth;
-    float                           nearZ;
-    float                           farZ;
+    ദശാംശം                           minDepth;
+    ദശാംശം                           maxDepth;
+    ദശാംശം                           nearZ;
+    ദശാംശം                           farZ;
 } XrFrameSynthesisInfoEXT;
 
 // XrFrameSynthesisConfigViewEXT extends XrViewConfigurationView
-typedef struct XrFrameSynthesisConfigViewEXT {
+തരനിർവചനം ഘടന XrFrameSynthesisConfigViewEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
     uint32_t              recommendedMotionVectorImageRectHeight;
 } XrFrameSynthesisConfigViewEXT;
@@ -6808,7 +6808,7 @@ typedef struct XrFrameSynthesisConfigViewEXT {
 #define XR_FB_composition_layer_depth_test_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_FB_composition_layer_depth_test"
 
-typedef enum XrCompareOpFB {
+തരനിർവചനം എണ്ണൽ XrCompareOpFB {
     XR_COMPARE_OP_NEVER_FB = 0,
     XR_COMPARE_OP_LESS_FB = 1,
     XR_COMPARE_OP_EQUAL_FB = 2,
@@ -6820,9 +6820,9 @@ typedef enum XrCompareOpFB {
     XR_COMPARE_OP_MAX_ENUM_FB = 0x7FFFFFFF
 } XrCompareOpFB;
 // XrCompositionLayerDepthTestFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerDepthTestFB {
+തരനിർവചനം ഘടന XrCompositionLayerDepthTestFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    depthMask;
     XrCompareOpFB               compareOp;
 } XrCompositionLayerDepthTestFB;
@@ -6834,15 +6834,15 @@ typedef struct XrCompositionLayerDepthTestFB {
 #define XR_META_local_dimming_SPEC_VERSION 1
 #define XR_META_LOCAL_DIMMING_EXTENSION_NAME "XR_META_local_dimming"
 
-typedef enum XrLocalDimmingModeMETA {
+തരനിർവചനം എണ്ണൽ XrLocalDimmingModeMETA {
     XR_LOCAL_DIMMING_MODE_OFF_META = 0,
     XR_LOCAL_DIMMING_MODE_ON_META = 1,
     XR_LOCAL_DIMMING_MODE_MAX_ENUM_META = 0x7FFFFFFF
 } XrLocalDimmingModeMETA;
 // XrLocalDimmingFrameEndInfoMETA extends XrFrameEndInfo
-typedef struct XrLocalDimmingFrameEndInfoMETA {
+തരനിർവചനം ഘടന XrLocalDimmingFrameEndInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrLocalDimmingModeMETA      localDimmingMode;
 } XrLocalDimmingFrameEndInfoMETA;
 
@@ -6852,18 +6852,18 @@ typedef struct XrLocalDimmingFrameEndInfoMETA {
 #define XR_META_passthrough_preferences 1
 #define XR_META_passthrough_preferences_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_PREFERENCES_EXTENSION_NAME "XR_META_passthrough_preferences"
-typedef XrFlags64 XrPassthroughPreferenceFlagsMETA;
+തരനിർവചനം XrFlags64 XrPassthroughPreferenceFlagsMETA;
 
 // Flag bits for XrPassthroughPreferenceFlagsMETA
-static const XrPassthroughPreferenceFlagsMETA XR_PASSTHROUGH_PREFERENCE_DEFAULT_TO_ACTIVE_BIT_META = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPassthroughPreferenceFlagsMETA XR_PASSTHROUGH_PREFERENCE_DEFAULT_TO_ACTIVE_BIT_META = 0x00000001;
 
-typedef struct XrPassthroughPreferencesMETA {
+തരനിർവചനം ഘടന XrPassthroughPreferencesMETA {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrPassthroughPreferenceFlagsMETA    flags;
 } XrPassthroughPreferencesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetPassthroughPreferencesMETA)(XrSession session, XrPassthroughPreferencesMETA* preferences);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPassthroughPreferencesMETA)(XrSession session, XrPassthroughPreferencesMETA* preferences);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6881,152 +6881,152 @@ XR_DEFINE_HANDLE(XrVirtualKeyboardMETA)
 #define XR_META_virtual_keyboard_SPEC_VERSION 1
 #define XR_META_VIRTUAL_KEYBOARD_EXTENSION_NAME "XR_META_virtual_keyboard"
 
-typedef enum XrVirtualKeyboardLocationTypeMETA {
+തരനിർവചനം എണ്ണൽ XrVirtualKeyboardLocationTypeMETA {
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_CUSTOM_META = 0,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_FAR_META = 1,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_DIRECT_META = 2,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_MAX_ENUM_META = 0x7FFFFFFF
 } XrVirtualKeyboardLocationTypeMETA;
 
-typedef enum XrVirtualKeyboardInputSourceMETA {
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_LEFT_META = 1,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_RIGHT_META = 2,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_RAY_LEFT_META = 3,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_RAY_RIGHT_META = 4,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_DIRECT_LEFT_META = 5,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_DIRECT_RIGHT_META = 6,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_DIRECT_INDEX_TIP_LEFT_META = 7,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_DIRECT_INDEX_TIP_RIGHT_META = 8,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_MAX_ENUM_META = 0x7FFFFFFF
-} XrVirtualKeyboardInputSourceMETA;
-typedef XrFlags64 XrVirtualKeyboardInputStateFlagsMETA;
+തരനിർവചനം എണ്ണൽ Xr_Virtual_Keyboard_നിവേശം_Source_META {
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_CONTROLLER_RAY_ഇടത്_META = 1,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_CONTROLLER_RAY_വലത്_META = 2,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_HAND_RAY_ഇടത്_META = 3,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_HAND_RAY_വലത്_META = 4,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_CONTROLLER_DIRECT_ഇടത്_META = 5,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_CONTROLLER_DIRECT_വലത്_META = 6,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_HAND_DIRECT_INDEX_TIP_ഇടത്_META = 7,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_HAND_DIRECT_INDEX_TIP_വലത്_META = 8,
+    XR_VIRTUAL_KEYBOARD_നിവേശം_SOURCE_MAX_ENUM_META = 0x7FFFFFFF
+} Xr_Virtual_Keyboard_നിവേശം_Source_META;
+തരനിർവചനം XrFlags64 Xr_Virtual_Keyboard_നിവേശം_State_Flags_META;
 
 // Flag bits for XrVirtualKeyboardInputStateFlagsMETA
-static const XrVirtualKeyboardInputStateFlagsMETA XR_VIRTUAL_KEYBOARD_INPUT_STATE_PRESSED_BIT_META = 0x00000001;
+സ്ഥിതം സ്ഥിരം Xr_Virtual_Keyboard_നിവേശം_State_Flags_META XR_VIRTUAL_KEYBOARD_നിവേശം_STATE_PRESSED_BIT_META = 0x00000001;
 
 // XrSystemVirtualKeyboardPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemVirtualKeyboardPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemVirtualKeyboardPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsVirtualKeyboard;
 } XrSystemVirtualKeyboardPropertiesMETA;
 
-typedef struct XrVirtualKeyboardCreateInfoMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardCreateInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrVirtualKeyboardCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardSpaceCreateInfoMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardSpaceCreateInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
     XrSpace                              space;
     XrPosef                              poseInSpace;
 } XrVirtualKeyboardSpaceCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardLocationInfoMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardLocationInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
     XrSpace                              space;
     XrPosef                              poseInSpace;
-    float                                scale;
+    ദശാംശം                                scale;
 } XrVirtualKeyboardLocationInfoMETA;
 
-typedef struct XrVirtualKeyboardModelVisibilitySetInfoMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardModelVisibilitySetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrVirtualKeyboardModelVisibilitySetInfoMETA;
 
-typedef struct XrVirtualKeyboardAnimationStateMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardAnimationStateMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     int32_t               animationIndex;
-    float                 fraction;
+    ദശാംശം                 fraction;
 } XrVirtualKeyboardAnimationStateMETA;
 
-typedef struct XrVirtualKeyboardModelAnimationStatesMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardModelAnimationStatesMETA {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                stateCapacityInput;
-    uint32_t                                stateCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
+    uint32_t                                state_Capacity_നിവേശം;
+    uint32_t                                state_എണ്ണം_Output;
     XrVirtualKeyboardAnimationStateMETA*    states;
 } XrVirtualKeyboardModelAnimationStatesMETA;
 
-typedef struct XrVirtualKeyboardTextureDataMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardTextureDataMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              textureWidth;
     uint32_t              textureHeight;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    uint32_t              buffer_Capacity_നിവേശം;
+    uint32_t              buffer_എണ്ണം_Output;
     uint8_t*              buffer;
 } XrVirtualKeyboardTextureDataMETA;
 
-typedef struct XrVirtualKeyboardInputInfoMETA {
+തരനിർവചനം ഘടന Xr_Virtual_Keyboard_നിവേശം_Info_META {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
-    XrVirtualKeyboardInputSourceMETA        inputSource;
-    XrSpace                                 inputSpace;
-    XrPosef                                 inputPoseInSpace;
-    XrVirtualKeyboardInputStateFlagsMETA    inputState;
-} XrVirtualKeyboardInputInfoMETA;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                next;
+    Xr_Virtual_Keyboard_നിവേശം_Source_META        നിവേശം_Source;
+    XrSpace                                 നിവേശം_Space;
+    XrPosef                                 നിവേശം_Pose_In_Space;
+    Xr_Virtual_Keyboard_നിവേശം_State_Flags_META    നിവേശം_State;
+} Xr_Virtual_Keyboard_നിവേശം_Info_META;
 
-typedef struct XrVirtualKeyboardTextContextChangeInfoMETA {
+തരനിർവചനം ഘടന XrVirtualKeyboardTextContextChangeInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 textContext;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    സ്ഥിരം അക്ഷരം*                 textContext;
 } XrVirtualKeyboardTextContextChangeInfoMETA;
 
-typedef struct XrEventDataVirtualKeyboardCommitTextMETA {
+തരനിർവചനം ഘടന XrEventDataVirtualKeyboardCommitTextMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
-    char                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
+    അക്ഷരം                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
 } XrEventDataVirtualKeyboardCommitTextMETA;
 
-typedef struct XrEventDataVirtualKeyboardBackspaceMETA {
+തരനിർവചനം ഘടന XrEventDataVirtualKeyboardBackspaceMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardBackspaceMETA;
 
-typedef struct XrEventDataVirtualKeyboardEnterMETA {
+തരനിർവചനം ഘടന XrEventDataVirtualKeyboardEnterMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardEnterMETA;
 
-typedef struct XrEventDataVirtualKeyboardShownMETA {
+തരനിർവചനം ഘടന XrEventDataVirtualKeyboardShownMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardShownMETA;
 
-typedef struct XrEventDataVirtualKeyboardHiddenMETA {
+തരനിർവചനം ഘടന XrEventDataVirtualKeyboardHiddenMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardHiddenMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardMETA)(XrSession session, const XrVirtualKeyboardCreateInfoMETA* createInfo, XrVirtualKeyboardMETA* keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyVirtualKeyboardMETA)(XrVirtualKeyboardMETA keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardSpaceMETA)(XrSession session, XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardSpaceCreateInfoMETA* createInfo, XrSpace* keyboardSpace);
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestVirtualKeyboardLocationMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardLocationInfoMETA* locationInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardScaleMETA)(XrVirtualKeyboardMETA keyboard, float* scale);
-typedef XrResult (XRAPI_PTR *PFN_xrSetVirtualKeyboardModelVisibilityMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardModelAnimationStatesMETA)(XrVirtualKeyboardMETA keyboard, XrVirtualKeyboardModelAnimationStatesMETA* animationStates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardDirtyTexturesMETA)(XrVirtualKeyboardMETA keyboard, uint32_t textureIdCapacityInput, uint32_t* textureIdCountOutput, uint64_t* textureIds);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardTextureDataMETA)(XrVirtualKeyboardMETA keyboard, uint64_t textureId, XrVirtualKeyboardTextureDataMETA* textureData);
-typedef XrResult (XRAPI_PTR *PFN_xrSendVirtualKeyboardInputMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardInputInfoMETA* info, XrPosef* interactorRootPose);
-typedef XrResult (XRAPI_PTR *PFN_xrChangeVirtualKeyboardTextContextMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardMETA)(XrSession session, സ്ഥിരം XrVirtualKeyboardCreateInfoMETA* createInfo, XrVirtualKeyboardMETA* keyboard);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyVirtualKeyboardMETA)(XrVirtualKeyboardMETA keyboard);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardSpaceMETA)(XrSession session, XrVirtualKeyboardMETA keyboard, സ്ഥിരം XrVirtualKeyboardSpaceCreateInfoMETA* createInfo, XrSpace* keyboardSpace);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSuggestVirtualKeyboardLocationMETA)(XrVirtualKeyboardMETA keyboard, സ്ഥിരം XrVirtualKeyboardLocationInfoMETA* locationInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardScaleMETA)(XrVirtualKeyboardMETA keyboard, ദശാംശം* scale);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetVirtualKeyboardModelVisibilityMETA)(XrVirtualKeyboardMETA keyboard, സ്ഥിരം XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardModelAnimationStatesMETA)(XrVirtualKeyboardMETA keyboard, XrVirtualKeyboardModelAnimationStatesMETA* animationStates);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardDirtyTexturesMETA)(XrVirtualKeyboardMETA keyboard, uint32_t texture_Id_Capacity_നിവേശം, uint32_t* texture_Id_എണ്ണം_Output, uint64_t* textureIds);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardTextureDataMETA)(XrVirtualKeyboardMETA keyboard, uint64_t textureId, XrVirtualKeyboardTextureDataMETA* textureData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Send_Virtual_Keyboard_നിവേശം_META)(XrVirtualKeyboardMETA keyboard, സ്ഥിരം Xr_Virtual_Keyboard_നിവേശം_Info_META* info, XrPosef* interactor_വേര്_Pose);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrChangeVirtualKeyboardTextContextMETA)(XrVirtualKeyboardMETA keyboard, സ്ഥിരം XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateVirtualKeyboardMETA(
     XrSession                                   session,
-    const XrVirtualKeyboardCreateInfoMETA*      createInfo,
+    സ്ഥിരം XrVirtualKeyboardCreateInfoMETA*      createInfo,
     XrVirtualKeyboardMETA*                      keyboard);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyVirtualKeyboardMETA(
@@ -7035,20 +7035,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyVirtualKeyboardMETA(
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateVirtualKeyboardSpaceMETA(
     XrSession                                   session,
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardSpaceCreateInfoMETA* createInfo,
+    സ്ഥിരം XrVirtualKeyboardSpaceCreateInfoMETA* createInfo,
     XrSpace*                                    keyboardSpace);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestVirtualKeyboardLocationMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardLocationInfoMETA*    locationInfo);
+    സ്ഥിരം XrVirtualKeyboardLocationInfoMETA*    locationInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardScaleMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    float*                                      scale);
+    ദശാംശം*                                      scale);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetVirtualKeyboardModelVisibilityMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
+    സ്ഥിരം XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardModelAnimationStatesMETA(
     XrVirtualKeyboardMETA                       keyboard,
@@ -7056,8 +7056,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardModelAnimationStatesMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardDirtyTexturesMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    uint32_t                                    textureIdCapacityInput,
-    uint32_t*                                   textureIdCountOutput,
+    uint32_t                                    texture_Id_Capacity_നിവേശം,
+    uint32_t*                                   texture_Id_എണ്ണം_Output,
     uint64_t*                                   textureIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardTextureDataMETA(
@@ -7065,14 +7065,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardTextureDataMETA(
     uint64_t                                    textureId,
     XrVirtualKeyboardTextureDataMETA*           textureData);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSendVirtualKeyboardInputMETA(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Send_Virtual_Keyboard_നിവേശം_META(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardInputInfoMETA*       info,
-    XrPosef*                                    interactorRootPose);
+    സ്ഥിരം Xr_Virtual_Keyboard_നിവേശം_Info_META*       info,
+    XrPosef*                                    interactor_വേര്_Pose);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrChangeVirtualKeyboardTextContextMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
+    സ്ഥിരം XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7083,53 +7083,53 @@ XRAPI_ATTR XrResult XRAPI_CALL xrChangeVirtualKeyboardTextContextMETA(
 #define XR_OCULUS_external_camera_SPEC_VERSION 1
 #define XR_OCULUS_EXTERNAL_CAMERA_EXTENSION_NAME "XR_OCULUS_external_camera"
 
-typedef enum XrExternalCameraAttachedToDeviceOCULUS {
+തരനിർവചനം എണ്ണൽ XrExternalCameraAttachedToDeviceOCULUS {
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_NONE_OCULUS = 0,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_HMD_OCULUS = 1,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_LTOUCH_OCULUS = 2,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_RTOUCH_OCULUS = 3,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_MAX_ENUM_OCULUS = 0x7FFFFFFF
 } XrExternalCameraAttachedToDeviceOCULUS;
-typedef XrFlags64 XrExternalCameraStatusFlagsOCULUS;
+തരനിർവചനം XrFlags64 XrExternalCameraStatusFlagsOCULUS;
 
 // Flag bits for XrExternalCameraStatusFlagsOCULUS
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CONNECTED_BIT_OCULUS = 0x00000001;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATING_BIT_OCULUS = 0x00000002;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATION_FAILED_BIT_OCULUS = 0x00000004;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CONNECTED_BIT_OCULUS = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATING_BIT_OCULUS = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATION_FAILED_BIT_OCULUS = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010;
 
-typedef struct XrExternalCameraIntrinsicsOCULUS {
+തരനിർവചനം ഘടന XrExternalCameraIntrinsicsOCULUS {
     XrTime         lastChangeTime;
     XrFovf         fov;
-    float          virtualNearPlaneDistance;
-    float          virtualFarPlaneDistance;
+    ദശാംശം          virtualNearPlaneDistance;
+    ദശാംശം          virtualFarPlaneDistance;
     XrExtent2Di    imageSensorPixelResolution;
 } XrExternalCameraIntrinsicsOCULUS;
 
-typedef struct XrExternalCameraExtrinsicsOCULUS {
+തരനിർവചനം ഘടന XrExternalCameraExtrinsicsOCULUS {
     XrTime                                    lastChangeTime;
     XrExternalCameraStatusFlagsOCULUS         cameraStatusFlags;
     XrExternalCameraAttachedToDeviceOCULUS    attachedToDevice;
     XrPosef                                   relativePose;
 } XrExternalCameraExtrinsicsOCULUS;
 
-typedef struct XrExternalCameraOCULUS {
+തരനിർവചനം ഘടന XrExternalCameraOCULUS {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    char                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    അക്ഷരം                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
     XrExternalCameraIntrinsicsOCULUS    intrinsics;
     XrExternalCameraExtrinsicsOCULUS    extrinsics;
 } XrExternalCameraOCULUS;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateExternalCamerasOCULUS)(XrSession session, uint32_t cameraCapacityInput, uint32_t* cameraCountOutput, XrExternalCameraOCULUS* cameras);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateExternalCamerasOCULUS)(XrSession session, uint32_t camera_Capacity_നിവേശം, uint32_t* camera_എണ്ണം_Output, XrExternalCameraOCULUS* cameras);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateExternalCamerasOCULUS(
     XrSession                                   session,
-    uint32_t                                    cameraCapacityInput,
-    uint32_t*                                   cameraCountOutput,
+    uint32_t                                    camera_Capacity_നിവേശം,
+    uint32_t*                                   camera_എണ്ണം_Output,
     XrExternalCameraOCULUS*                     cameras);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7140,7 +7140,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateExternalCamerasOCULUS(
 #define XR_META_performance_metrics_SPEC_VERSION 2
 #define XR_META_PERFORMANCE_METRICS_EXTENSION_NAME "XR_META_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitMETA {
+തരനിർവചനം എണ്ണൽ XrPerformanceMetricsCounterUnitMETA {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_META = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_META = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_META = 2,
@@ -7148,44 +7148,44 @@ typedef enum XrPerformanceMetricsCounterUnitMETA {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_HERTZ_META = 4,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MAX_ENUM_META = 0x7FFFFFFF
 } XrPerformanceMetricsCounterUnitMETA;
-typedef XrFlags64 XrPerformanceMetricsCounterFlagsMETA;
+തരനിർവചനം XrFlags64 XrPerformanceMetricsCounterFlagsMETA;
 
 // Flag bits for XrPerformanceMetricsCounterFlagsMETA
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_ANY_VALUE_VALID_BIT_META = 0x00000001;
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_META = 0x00000002;
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_META = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_ANY_മൂല്യം_VALID_BIT_META = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_UINT_മൂല്യം_VALID_BIT_META = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_FLOAT_മൂല്യം_VALID_BIT_META = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateMETA {
+തരനിർവചനം ഘടന XrPerformanceMetricsStateMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrPerformanceMetricsStateMETA;
 
-typedef struct XrPerformanceMetricsCounterMETA {
+തരനിർവചനം ഘടന XrPerformanceMetricsCounterMETA {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                next;
     XrPerformanceMetricsCounterFlagsMETA    counterFlags;
     XrPerformanceMetricsCounterUnitMETA     counterUnit;
-    uint32_t                                uintValue;
-    float                                   floatValue;
+    uint32_t                                uint_മൂല്യം;
+    ദശാംശം                                   float_മൂല്യം;
 } XrPerformanceMetricsCounterMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsMETA)(XrInstance instance, uint32_t counterPathCapacityInput, uint32_t* counterPathCountOutput, XrPath* counterPaths);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateMETA)(XrSession session, const XrPerformanceMetricsStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateMETA)(XrSession session, XrPerformanceMetricsStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterMETA)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterMETA* counter);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsMETA)(XrInstance instance, uint32_t counter_Path_Capacity_നിവേശം, uint32_t* counter_Path_എണ്ണം_Output, XrPath* counterPaths);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateMETA)(XrSession session, സ്ഥിരം XrPerformanceMetricsStateMETA* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateMETA)(XrSession session, XrPerformanceMetricsStateMETA* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterMETA)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterMETA* counter);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePerformanceMetricsCounterPathsMETA(
     XrInstance                                  instance,
-    uint32_t                                    counterPathCapacityInput,
-    uint32_t*                                   counterPathCountOutput,
+    uint32_t                                    counter_Path_Capacity_നിവേശം,
+    uint32_t*                                   counter_Path_എണ്ണം_Output,
     XrPath*                                     counterPaths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPerformanceMetricsStateMETA(
     XrSession                                   session,
-    const XrPerformanceMetricsStateMETA*        state);
+    സ്ഥിരം XrPerformanceMetricsStateMETA*        state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPerformanceMetricsStateMETA(
     XrSession                                   session,
@@ -7203,28 +7203,28 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterMETA(
 #define XR_FB_spatial_entity_storage_batch 1
 #define XR_FB_spatial_entity_storage_batch_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_BATCH_EXTENSION_NAME "XR_FB_spatial_entity_storage_batch"
-typedef struct XrSpaceListSaveInfoFB {
+തരനിർവചനം ഘടന XrSpaceListSaveInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    space_എണ്ണം;
     XrSpace*                    spaces;
     XrSpaceStorageLocationFB    location;
 } XrSpaceListSaveInfoFB;
 
-typedef struct XrEventDataSpaceListSaveCompleteFB {
+തരനിർവചനം ഘടന XrEventDataSpaceListSaveCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceListSaveCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpaceListFB)(XrSession session, const XrSpaceListSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSaveSpaceListFB)(XrSession session, സ്ഥിരം XrSpaceListSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceListFB(
     XrSession                                   session,
-    const XrSpaceListSaveInfoFB*                info,
+    സ്ഥിരം XrSpaceListSaveInfoFB*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7238,24 +7238,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceListFB(
 
 // XR_FB_spatial_entity_user is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_spatial_entity_user 1
-typedef uint64_t XrSpaceUserIdFB;
+തരനിർവചനം uint64_t XrSpaceUserIdFB;
 #define XR_FB_spatial_entity_user_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_USER_EXTENSION_NAME "XR_FB_spatial_entity_user"
-typedef struct XrSpaceUserCreateInfoFB {
+തരനിർവചനം ഘടന XrSpaceUserCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceUserIdFB             userId;
 } XrSpaceUserCreateInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpaceUserFB)(XrSession session, const XrSpaceUserCreateInfoFB* info, XrSpaceUserFB* user);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceUserIdFB)(XrSpaceUserFB user, XrSpaceUserIdFB* userId);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpaceUserFB)(XrSpaceUserFB user);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpaceUserFB)(XrSession session, സ്ഥിരം XrSpaceUserCreateInfoFB* info, XrSpaceUserFB* user);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceUserIdFB)(XrSpaceUserFB user, XrSpaceUserIdFB* userId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpaceUserFB)(XrSpaceUserFB user);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpaceUserFB(
     XrSession                                   session,
-    const XrSpaceUserCreateInfoFB*              info,
+    സ്ഥിരം XrSpaceUserCreateInfoFB*              info,
     XrSpaceUserFB*                              user);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUserIdFB(
@@ -7273,9 +7273,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpaceUserFB(
 #define XR_META_headset_id_SPEC_VERSION   2
 #define XR_META_HEADSET_ID_EXTENSION_NAME "XR_META_headset_id"
 // XrSystemHeadsetIdPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemHeadsetIdPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemHeadsetIdPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT             id;
 } XrSystemHeadsetIdPropertiesMETA;
 
@@ -7286,71 +7286,71 @@ typedef struct XrSystemHeadsetIdPropertiesMETA {
 #define XR_META_spatial_entity_discovery_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_DISCOVERY_EXTENSION_NAME "XR_META_spatial_entity_discovery"
 // XrSystemSpaceDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpaceDiscoveryPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemSpaceDiscoveryPropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpaceDiscovery;
 } XrSystemSpaceDiscoveryPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpaceFilterBaseHeaderMETA;
 
-typedef struct XrSpaceDiscoveryInfoMETA {
+തരനിർവചനം ഘടന XrSpaceDiscoveryInfoMETA {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
-    uint32_t                                      filterCount;
-    const XrSpaceFilterBaseHeaderMETA* const *    filters;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
+    uint32_t                                      filter_എണ്ണം;
+    സ്ഥിരം XrSpaceFilterBaseHeaderMETA* സ്ഥിരം *    filters;
 } XrSpaceDiscoveryInfoMETA;
 
-typedef struct XrSpaceFilterUuidMETA {
+തരനിർവചനം ഘടന XrSpaceFilterUuidMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_എണ്ണം;
+    സ്ഥിരം XrUuidEXT*            uuids;
 } XrSpaceFilterUuidMETA;
 
-typedef struct XrSpaceFilterComponentMETA {
+തരനിർവചനം ഘടന XrSpaceFilterComponentMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceFilterComponentMETA;
 
-typedef struct XrSpaceDiscoveryResultMETA {
+തരനിർവചനം ഘടന XrSpaceDiscoveryResultMETA {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceDiscoveryResultMETA;
 
-typedef struct XrSpaceDiscoveryResultsMETA {
+തരനിർവചനം ഘടന XrSpaceDiscoveryResultsMETA {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
-    uint32_t                       resultCapacityInput;
-    uint32_t                       resultCountOutput;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                       result_Capacity_നിവേശം;
+    uint32_t                       result_എണ്ണം_Output;
     XrSpaceDiscoveryResultMETA*    results;
 } XrSpaceDiscoveryResultsMETA;
 
-typedef struct XrEventDataSpaceDiscoveryResultsAvailableMETA {
+തരനിർവചനം ഘടന XrEventDataSpaceDiscoveryResultsAvailableMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceDiscoveryResultsAvailableMETA;
 
-typedef struct XrEventDataSpaceDiscoveryCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataSpaceDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceDiscoveryCompleteMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrDiscoverSpacesMETA)(XrSession session, const XrSpaceDiscoveryInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceDiscoveryResultsMETA)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceDiscoveryResultsMETA* results);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDiscoverSpacesMETA)(XrSession session, സ്ഥിരം XrSpaceDiscoveryInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceDiscoveryResultsMETA)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceDiscoveryResultsMETA* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrDiscoverSpacesMETA(
     XrSession                                   session,
-    const XrSpaceDiscoveryInfoMETA*             info,
+    സ്ഥിരം XrSpaceDiscoveryInfoMETA*             info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceDiscoveryResultsMETA(
@@ -7371,27 +7371,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceDiscoveryResultsMETA(
 #define XR_META_recommended_layer_resolution 1
 #define XR_META_recommended_layer_resolution_SPEC_VERSION 1
 #define XR_META_RECOMMENDED_LAYER_RESOLUTION_EXTENSION_NAME "XR_META_recommended_layer_resolution"
-typedef struct XrRecommendedLayerResolutionMETA {
+തരനിർവചനം ഘടന XrRecommendedLayerResolutionMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrExtent2Di           recommendedImageDimensions;
     XrBool32              isValid;
 } XrRecommendedLayerResolutionMETA;
 
-typedef struct XrRecommendedLayerResolutionGetInfoMETA {
+തരനിർവചനം ഘടന XrRecommendedLayerResolutionGetInfoMETA {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    const XrCompositionLayerBaseHeader*    layer;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS               next;
+    സ്ഥിരം XrCompositionLayerBaseHeader*    layer;
     XrTime                                 predictedDisplayTime;
 } XrRecommendedLayerResolutionGetInfoMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetRecommendedLayerResolutionMETA)(XrSession session, const XrRecommendedLayerResolutionGetInfoMETA* info, XrRecommendedLayerResolutionMETA* resolution);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRecommendedLayerResolutionMETA)(XrSession session, സ്ഥിരം XrRecommendedLayerResolutionGetInfoMETA* info, XrRecommendedLayerResolutionMETA* resolution);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRecommendedLayerResolutionMETA(
     XrSession                                   session,
-    const XrRecommendedLayerResolutionGetInfoMETA* info,
+    സ്ഥിരം XrRecommendedLayerResolutionGetInfoMETA* info,
     XrRecommendedLayerResolutionMETA*           resolution);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7402,55 +7402,55 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRecommendedLayerResolutionMETA(
 #define XR_META_spatial_entity_persistence_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_PERSISTENCE_EXTENSION_NAME "XR_META_spatial_entity_persistence"
 // XrSystemSpacePersistencePropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpacePersistencePropertiesMETA {
+തരനിർവചനം ഘടന XrSystemSpacePersistencePropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpacePersistence;
 } XrSystemSpacePersistencePropertiesMETA;
 
-typedef struct XrSpacesSaveInfoMETA {
+തരനിർവചനം ഘടന XrSpacesSaveInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    space_എണ്ണം;
     XrSpace*                    spaces;
 } XrSpacesSaveInfoMETA;
 
-typedef struct XrEventDataSpacesSaveResultMETA {
+തരനിർവചനം ഘടന XrEventDataSpacesSaveResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpacesSaveResultMETA;
 
-typedef struct XrSpacesEraseInfoMETA {
+തരനിർവചനം ഘടന XrSpacesEraseInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    space_എണ്ണം;
     XrSpace*                    spaces;
-    uint32_t                    uuidCount;
+    uint32_t                    uuid_എണ്ണം;
     XrUuidEXT*                  uuids;
 } XrSpacesEraseInfoMETA;
 
-typedef struct XrEventDataSpacesEraseResultMETA {
+തരനിർവചനം ഘടന XrEventDataSpacesEraseResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpacesEraseResultMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpacesMETA)(XrSession session, const XrSpacesSaveInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrEraseSpacesMETA)(XrSession session, const XrSpacesEraseInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSaveSpacesMETA)(XrSession session, സ്ഥിരം XrSpacesSaveInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEraseSpacesMETA)(XrSession session, സ്ഥിരം XrSpacesEraseInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpacesMETA(
     XrSession                                   session,
-    const XrSpacesSaveInfoMETA*                 info,
+    സ്ഥിരം XrSpacesSaveInfoMETA*                 info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpacesMETA(
     XrSession                                   session,
-    const XrSpacesEraseInfoMETA*                info,
+    സ്ഥിരം XrSpacesEraseInfoMETA*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7462,63 +7462,63 @@ XR_DEFINE_HANDLE(XrPassthroughColorLutMETA)
 #define XR_META_passthrough_color_lut_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_COLOR_LUT_EXTENSION_NAME "XR_META_passthrough_color_lut"
 
-typedef enum XrPassthroughColorLutChannelsMETA {
+തരനിർവചനം എണ്ണൽ XrPassthroughColorLutChannelsMETA {
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGB_META = 1,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGBA_META = 2,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_MAX_ENUM_META = 0x7FFFFFFF
 } XrPassthroughColorLutChannelsMETA;
-typedef struct XrPassthroughColorLutDataMETA {
+തരനിർവചനം ഘടന XrPassthroughColorLutDataMETA {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    സ്ഥിരം uint8_t*    buffer;
 } XrPassthroughColorLutDataMETA;
 
-typedef struct XrPassthroughColorLutCreateInfoMETA {
+തരനിർവചനം ഘടന XrPassthroughColorLutCreateInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrPassthroughColorLutChannelsMETA    channels;
     uint32_t                             resolution;
     XrPassthroughColorLutDataMETA        data;
 } XrPassthroughColorLutCreateInfoMETA;
 
-typedef struct XrPassthroughColorLutUpdateInfoMETA {
+തരനിർവചനം ഘടന XrPassthroughColorLutUpdateInfoMETA {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrPassthroughColorLutDataMETA    data;
 } XrPassthroughColorLutUpdateInfoMETA;
 
 // XrPassthroughColorMapLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapLutMETA {
+തരനിർവചനം ഘടന XrPassthroughColorMapLutMETA {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    colorLut;
-    float                        weight;
+    ദശാംശം                        weight;
 } XrPassthroughColorMapLutMETA;
 
 // XrPassthroughColorMapInterpolatedLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapInterpolatedLutMETA {
+തരനിർവചനം ഘടന XrPassthroughColorMapInterpolatedLutMETA {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    sourceColorLut;
     XrPassthroughColorLutMETA    targetColorLut;
-    float                        weight;
+    ദശാംശം                        weight;
 } XrPassthroughColorMapInterpolatedLutMETA;
 
 // XrSystemPassthroughColorLutPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemPassthroughColorLutPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemPassthroughColorLutPropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    maxColorLutResolution;
 } XrSystemPassthroughColorLutPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughColorLutMETA)(XrPassthroughFB passthrough, const XrPassthroughColorLutCreateInfoMETA* createInfo, XrPassthroughColorLutMETA* colorLut);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdatePassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut, const XrPassthroughColorLutUpdateInfoMETA* updateInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePassthroughColorLutMETA)(XrPassthroughFB passthrough, സ്ഥിരം XrPassthroughColorLutCreateInfoMETA* createInfo, XrPassthroughColorLutMETA* colorLut);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdatePassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut, സ്ഥിരം XrPassthroughColorLutUpdateInfoMETA* updateInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughColorLutMETA(
     XrPassthroughFB                             passthrough,
-    const XrPassthroughColorLutCreateInfoMETA*  createInfo,
+    സ്ഥിരം XrPassthroughColorLutCreateInfoMETA*  createInfo,
     XrPassthroughColorLutMETA*                  colorLut);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughColorLutMETA(
@@ -7526,7 +7526,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughColorLutMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdatePassthroughColorLutMETA(
     XrPassthroughColorLutMETA                   colorLut,
-    const XrPassthroughColorLutUpdateInfoMETA*  updateInfo);
+    സ്ഥിരം XrPassthroughColorLutUpdateInfoMETA*  updateInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7535,29 +7535,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdatePassthroughColorLutMETA(
 #define XR_META_spatial_entity_mesh 1
 #define XR_META_spatial_entity_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_MESH_EXTENSION_NAME "XR_META_spatial_entity_mesh"
-typedef struct XrSpaceTriangleMeshGetInfoMETA {
+തരനിർവചനം ഘടന XrSpaceTriangleMeshGetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpaceTriangleMeshGetInfoMETA;
 
-typedef struct XrSpaceTriangleMeshMETA {
+തരനിർവചനം ഘടന XrSpaceTriangleMeshMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector3f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint32_t*             indices;
 } XrSpaceTriangleMeshMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceTriangleMeshMETA)(XrSpace space, const XrSpaceTriangleMeshGetInfoMETA* getInfo, XrSpaceTriangleMeshMETA* triangleMeshOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceTriangleMeshMETA)(XrSpace space, സ്ഥിരം XrSpaceTriangleMeshGetInfoMETA* getInfo, XrSpaceTriangleMeshMETA* triangleMeshOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceTriangleMeshMETA(
     XrSpace                                     space,
-    const XrSpaceTriangleMeshGetInfoMETA*       getInfo,
+    സ്ഥിരം XrSpaceTriangleMeshGetInfoMETA*       getInfo,
     XrSpaceTriangleMeshMETA*                    triangleMeshOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7574,99 +7574,99 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceTriangleMeshMETA(
 #define XR_META_body_tracking_full_body_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FULL_BODY_EXTENSION_NAME "XR_META_body_tracking_full_body"
 
-typedef enum XrFullBodyJointMETA {
-    XR_FULL_BODY_JOINT_ROOT_META = 0,
+തരനിർവചനം എണ്ണൽ XrFullBodyJointMETA {
+    XR_FULL_BODY_JOINT_വേര്_META = 0,
     XR_FULL_BODY_JOINT_HIPS_META = 1,
     XR_FULL_BODY_JOINT_SPINE_LOWER_META = 2,
-    XR_FULL_BODY_JOINT_SPINE_MIDDLE_META = 3,
+    XR_FULL_BODY_JOINT_SPINE_നടുവ്_META = 3,
     XR_FULL_BODY_JOINT_SPINE_UPPER_META = 4,
     XR_FULL_BODY_JOINT_CHEST_META = 5,
     XR_FULL_BODY_JOINT_NECK_META = 6,
     XR_FULL_BODY_JOINT_HEAD_META = 7,
-    XR_FULL_BODY_JOINT_LEFT_SHOULDER_META = 8,
-    XR_FULL_BODY_JOINT_LEFT_SCAPULA_META = 9,
-    XR_FULL_BODY_JOINT_LEFT_ARM_UPPER_META = 10,
-    XR_FULL_BODY_JOINT_LEFT_ARM_LOWER_META = 11,
-    XR_FULL_BODY_JOINT_LEFT_HAND_WRIST_TWIST_META = 12,
-    XR_FULL_BODY_JOINT_RIGHT_SHOULDER_META = 13,
-    XR_FULL_BODY_JOINT_RIGHT_SCAPULA_META = 14,
-    XR_FULL_BODY_JOINT_RIGHT_ARM_UPPER_META = 15,
-    XR_FULL_BODY_JOINT_RIGHT_ARM_LOWER_META = 16,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_WRIST_TWIST_META = 17,
-    XR_FULL_BODY_JOINT_LEFT_HAND_PALM_META = 18,
-    XR_FULL_BODY_JOINT_LEFT_HAND_WRIST_META = 19,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_METACARPAL_META = 20,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_PROXIMAL_META = 21,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_DISTAL_META = 22,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_TIP_META = 23,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_METACARPAL_META = 24,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_PROXIMAL_META = 25,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_INTERMEDIATE_META = 26,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_DISTAL_META = 27,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_TIP_META = 28,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_METACARPAL_META = 29,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_PROXIMAL_META = 30,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_INTERMEDIATE_META = 31,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_DISTAL_META = 32,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_TIP_META = 33,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_METACARPAL_META = 34,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_PROXIMAL_META = 35,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_INTERMEDIATE_META = 36,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_DISTAL_META = 37,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_TIP_META = 38,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_METACARPAL_META = 39,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_PROXIMAL_META = 40,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_INTERMEDIATE_META = 41,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_DISTAL_META = 42,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_TIP_META = 43,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_PALM_META = 44,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_WRIST_META = 45,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_METACARPAL_META = 46,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_PROXIMAL_META = 47,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_DISTAL_META = 48,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_TIP_META = 49,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_METACARPAL_META = 50,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_PROXIMAL_META = 51,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_INTERMEDIATE_META = 52,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_DISTAL_META = 53,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_TIP_META = 54,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_METACARPAL_META = 55,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_PROXIMAL_META = 56,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_INTERMEDIATE_META = 57,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_DISTAL_META = 58,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_TIP_META = 59,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_METACARPAL_META = 60,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_PROXIMAL_META = 61,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_INTERMEDIATE_META = 62,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_DISTAL_META = 63,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_TIP_META = 64,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_METACARPAL_META = 65,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_PROXIMAL_META = 66,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_INTERMEDIATE_META = 67,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_DISTAL_META = 68,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_TIP_META = 69,
-    XR_FULL_BODY_JOINT_LEFT_UPPER_LEG_META = 70,
-    XR_FULL_BODY_JOINT_LEFT_LOWER_LEG_META = 71,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_ANKLE_TWIST_META = 72,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_ANKLE_META = 73,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_SUBTALAR_META = 74,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_TRANSVERSE_META = 75,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_BALL_META = 76,
-    XR_FULL_BODY_JOINT_RIGHT_UPPER_LEG_META = 77,
-    XR_FULL_BODY_JOINT_RIGHT_LOWER_LEG_META = 78,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_ANKLE_TWIST_META = 79,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_ANKLE_META = 80,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_SUBTALAR_META = 81,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_TRANSVERSE_META = 82,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_BALL_META = 83,
-    XR_FULL_BODY_JOINT_COUNT_META = 84,
+    XR_FULL_BODY_JOINT_ഇടത്_SHOULDER_META = 8,
+    XR_FULL_BODY_JOINT_ഇടത്_SCAPULA_META = 9,
+    XR_FULL_BODY_JOINT_ഇടത്_ARM_UPPER_META = 10,
+    XR_FULL_BODY_JOINT_ഇടത്_ARM_LOWER_META = 11,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_WRIST_TWIST_META = 12,
+    XR_FULL_BODY_JOINT_വലത്_SHOULDER_META = 13,
+    XR_FULL_BODY_JOINT_വലത്_SCAPULA_META = 14,
+    XR_FULL_BODY_JOINT_വലത്_ARM_UPPER_META = 15,
+    XR_FULL_BODY_JOINT_വലത്_ARM_LOWER_META = 16,
+    XR_FULL_BODY_JOINT_വലത്_HAND_WRIST_TWIST_META = 17,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_PALM_META = 18,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_WRIST_META = 19,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_THUMB_METACARPAL_META = 20,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_THUMB_PROXIMAL_META = 21,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_THUMB_DISTAL_META = 22,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_THUMB_TIP_META = 23,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_INDEX_METACARPAL_META = 24,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_INDEX_PROXIMAL_META = 25,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_INDEX_INTERMEDIATE_META = 26,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_INDEX_DISTAL_META = 27,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_INDEX_TIP_META = 28,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_നടുവ്_METACARPAL_META = 29,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_നടുവ്_PROXIMAL_META = 30,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_നടുവ്_INTERMEDIATE_META = 31,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_നടുവ്_DISTAL_META = 32,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_നടുവ്_TIP_META = 33,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_RING_METACARPAL_META = 34,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_RING_PROXIMAL_META = 35,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_RING_INTERMEDIATE_META = 36,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_RING_DISTAL_META = 37,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_RING_TIP_META = 38,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_LITTLE_METACARPAL_META = 39,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_LITTLE_PROXIMAL_META = 40,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_LITTLE_INTERMEDIATE_META = 41,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_LITTLE_DISTAL_META = 42,
+    XR_FULL_BODY_JOINT_ഇടത്_HAND_LITTLE_TIP_META = 43,
+    XR_FULL_BODY_JOINT_വലത്_HAND_PALM_META = 44,
+    XR_FULL_BODY_JOINT_വലത്_HAND_WRIST_META = 45,
+    XR_FULL_BODY_JOINT_വലത്_HAND_THUMB_METACARPAL_META = 46,
+    XR_FULL_BODY_JOINT_വലത്_HAND_THUMB_PROXIMAL_META = 47,
+    XR_FULL_BODY_JOINT_വലത്_HAND_THUMB_DISTAL_META = 48,
+    XR_FULL_BODY_JOINT_വലത്_HAND_THUMB_TIP_META = 49,
+    XR_FULL_BODY_JOINT_വലത്_HAND_INDEX_METACARPAL_META = 50,
+    XR_FULL_BODY_JOINT_വലത്_HAND_INDEX_PROXIMAL_META = 51,
+    XR_FULL_BODY_JOINT_വലത്_HAND_INDEX_INTERMEDIATE_META = 52,
+    XR_FULL_BODY_JOINT_വലത്_HAND_INDEX_DISTAL_META = 53,
+    XR_FULL_BODY_JOINT_വലത്_HAND_INDEX_TIP_META = 54,
+    XR_FULL_BODY_JOINT_വലത്_HAND_നടുവ്_METACARPAL_META = 55,
+    XR_FULL_BODY_JOINT_വലത്_HAND_നടുവ്_PROXIMAL_META = 56,
+    XR_FULL_BODY_JOINT_വലത്_HAND_നടുവ്_INTERMEDIATE_META = 57,
+    XR_FULL_BODY_JOINT_വലത്_HAND_നടുവ്_DISTAL_META = 58,
+    XR_FULL_BODY_JOINT_വലത്_HAND_നടുവ്_TIP_META = 59,
+    XR_FULL_BODY_JOINT_വലത്_HAND_RING_METACARPAL_META = 60,
+    XR_FULL_BODY_JOINT_വലത്_HAND_RING_PROXIMAL_META = 61,
+    XR_FULL_BODY_JOINT_വലത്_HAND_RING_INTERMEDIATE_META = 62,
+    XR_FULL_BODY_JOINT_വലത്_HAND_RING_DISTAL_META = 63,
+    XR_FULL_BODY_JOINT_വലത്_HAND_RING_TIP_META = 64,
+    XR_FULL_BODY_JOINT_വലത്_HAND_LITTLE_METACARPAL_META = 65,
+    XR_FULL_BODY_JOINT_വലത്_HAND_LITTLE_PROXIMAL_META = 66,
+    XR_FULL_BODY_JOINT_വലത്_HAND_LITTLE_INTERMEDIATE_META = 67,
+    XR_FULL_BODY_JOINT_വലത്_HAND_LITTLE_DISTAL_META = 68,
+    XR_FULL_BODY_JOINT_വലത്_HAND_LITTLE_TIP_META = 69,
+    XR_FULL_BODY_JOINT_ഇടത്_UPPER_LEG_META = 70,
+    XR_FULL_BODY_JOINT_ഇടത്_LOWER_LEG_META = 71,
+    XR_FULL_BODY_JOINT_ഇടത്_FOOT_ANKLE_TWIST_META = 72,
+    XR_FULL_BODY_JOINT_ഇടത്_FOOT_ANKLE_META = 73,
+    XR_FULL_BODY_JOINT_ഇടത്_FOOT_SUBTALAR_META = 74,
+    XR_FULL_BODY_JOINT_ഇടത്_FOOT_TRANSVERSE_META = 75,
+    XR_FULL_BODY_JOINT_ഇടത്_FOOT_BALL_META = 76,
+    XR_FULL_BODY_JOINT_വലത്_UPPER_LEG_META = 77,
+    XR_FULL_BODY_JOINT_വലത്_LOWER_LEG_META = 78,
+    XR_FULL_BODY_JOINT_വലത്_FOOT_ANKLE_TWIST_META = 79,
+    XR_FULL_BODY_JOINT_വലത്_FOOT_ANKLE_META = 80,
+    XR_FULL_BODY_JOINT_വലത്_FOOT_SUBTALAR_META = 81,
+    XR_FULL_BODY_JOINT_വലത്_FOOT_TRANSVERSE_META = 82,
+    XR_FULL_BODY_JOINT_വലത്_FOOT_BALL_META = 83,
+    XR_FULL_BODY_JOINT_എണ്ണം_META = 84,
     XR_FULL_BODY_JOINT_NONE_META = 85,
     XR_FULL_BODY_JOINT_MAX_ENUM_META = 0x7FFFFFFF
 } XrFullBodyJointMETA;
 // XrSystemPropertiesBodyTrackingFullBodyMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
+തരനിർവചനം ഘടന XrSystemPropertiesBodyTrackingFullBodyMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFullBodyTracking;
 } XrSystemPropertiesBodyTrackingFullBodyMETA;
 
@@ -7682,9 +7682,9 @@ typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
 #define XR_META_passthrough_layer_resumed_event 1
 #define XR_META_passthrough_layer_resumed_event_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_LAYER_RESUMED_EVENT_EXTENSION_NAME "XR_META_passthrough_layer_resumed_event"
-typedef struct XrEventDataPassthroughLayerResumedMETA {
+തരനിർവചനം ഘടന XrEventDataPassthroughLayerResumedMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
 } XrEventDataPassthroughLayerResumedMETA;
 
@@ -7695,40 +7695,40 @@ typedef struct XrEventDataPassthroughLayerResumedMETA {
 #define XR_META_body_tracking_calibration_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_CALIBRATION_EXTENSION_NAME "XR_META_body_tracking_calibration"
 
-typedef enum XrBodyTrackingCalibrationStateMETA {
+തരനിർവചനം എണ്ണൽ XrBodyTrackingCalibrationStateMETA {
     XR_BODY_TRACKING_CALIBRATION_STATE_VALID_META = 1,
     XR_BODY_TRACKING_CALIBRATION_STATE_CALIBRATING_META = 2,
     XR_BODY_TRACKING_CALIBRATION_STATE_INVALID_META = 3,
     XR_BODY_TRACKING_CALIBRATION_STATE_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingCalibrationStateMETA;
 // XrBodyTrackingCalibrationStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingCalibrationStatusMETA {
+തരനിർവചനം ഘടന XrBodyTrackingCalibrationStatusMETA {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
     XrBodyTrackingCalibrationStateMETA    status;
 } XrBodyTrackingCalibrationStatusMETA;
 
-typedef struct XrBodyTrackingCalibrationInfoMETA {
+തരനിർവചനം ഘടന XrBodyTrackingCalibrationInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       bodyHeight;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       bodyHeight;
 } XrBodyTrackingCalibrationInfoMETA;
 
 // XrSystemPropertiesBodyTrackingCalibrationMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingCalibrationMETA {
+തരനിർവചനം ഘടന XrSystemPropertiesBodyTrackingCalibrationMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsHeightOverride;
 } XrSystemPropertiesBodyTrackingCalibrationMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestBodyTrackingCalibrationOverrideMETA)(XrBodyTrackerFB bodyTracker, const XrBodyTrackingCalibrationInfoMETA* calibrationInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrResetBodyTrackingCalibrationMETA)(XrBodyTrackerFB bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSuggestBodyTrackingCalibrationOverrideMETA)(XrBodyTrackerFB bodyTracker, സ്ഥിരം XrBodyTrackingCalibrationInfoMETA* calibrationInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrResetBodyTrackingCalibrationMETA)(XrBodyTrackerFB bodyTracker);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestBodyTrackingCalibrationOverrideMETA(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyTrackingCalibrationInfoMETA*    calibrationInfo);
+    സ്ഥിരം XrBodyTrackingCalibrationInfoMETA*    calibrationInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrResetBodyTrackingCalibrationMETA(
     XrBodyTrackerFB                             bodyTracker);
@@ -7741,32 +7741,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResetBodyTrackingCalibrationMETA(
 #define XR_META_body_tracking_fidelity_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FIDELITY_EXTENSION_NAME "XR_META_body_tracking_fidelity"
 
-typedef enum XrBodyTrackingFidelityMETA {
-    XR_BODY_TRACKING_FIDELITY_LOW_META = 1,
-    XR_BODY_TRACKING_FIDELITY_HIGH_META = 2,
+തരനിർവചനം എണ്ണൽ XrBodyTrackingFidelityMETA {
+    XR_BODY_TRACKING_FIDELITY_താഴെയുള്ള_META = 1,
+    XR_BODY_TRACKING_FIDELITY_മുകളിലെ_META = 2,
     XR_BODY_TRACKING_FIDELITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingFidelityMETA;
 // XrSystemPropertiesBodyTrackingFidelityMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFidelityMETA {
+തരനിർവചനം ഘടന XrSystemPropertiesBodyTrackingFidelityMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTrackingFidelity;
 } XrSystemPropertiesBodyTrackingFidelityMETA;
 
 // XrBodyTrackingFidelityStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingFidelityStatusMETA {
+തരനിർവചനം ഘടന XrBodyTrackingFidelityStatusMETA {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ശൂന്യം* XR_MAY_ALIAS            next;
     XrBodyTrackingFidelityMETA    fidelity;
 } XrBodyTrackingFidelityStatusMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestBodyTrackingFidelityMETA)(XrBodyTrackerFB bodyTracker, const XrBodyTrackingFidelityMETA fidelity);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestBodyTrackingFidelityMETA)(XrBodyTrackerFB bodyTracker, സ്ഥിരം XrBodyTrackingFidelityMETA fidelity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestBodyTrackingFidelityMETA(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyTrackingFidelityMETA            fidelity);
+    സ്ഥിരം XrBodyTrackingFidelityMETA            fidelity);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7777,7 +7777,7 @@ XR_DEFINE_HANDLE(XrFaceTracker2FB)
 #define XR_FB_face_tracking2_SPEC_VERSION 1
 #define XR_FB_FACE_TRACKING2_EXTENSION_NAME "XR_FB_face_tracking2"
 
-typedef enum XrFaceExpression2FB {
+തരനിർവചനം എണ്ണൽ XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION2_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION2_CHEEK_PUFF_L_FB = 2,
@@ -7794,17 +7794,17 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_EYES_CLOSED_R_FB = 13,
     XR_FACE_EXPRESSION2_EYES_LOOK_DOWN_L_FB = 14,
     XR_FACE_EXPRESSION2_EYES_LOOK_DOWN_R_FB = 15,
-    XR_FACE_EXPRESSION2_EYES_LOOK_LEFT_L_FB = 16,
-    XR_FACE_EXPRESSION2_EYES_LOOK_LEFT_R_FB = 17,
-    XR_FACE_EXPRESSION2_EYES_LOOK_RIGHT_L_FB = 18,
-    XR_FACE_EXPRESSION2_EYES_LOOK_RIGHT_R_FB = 19,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ഇടത്_L_FB = 16,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ഇടത്_R_FB = 17,
+    XR_FACE_EXPRESSION2_EYES_LOOK_വലത്_L_FB = 18,
+    XR_FACE_EXPRESSION2_EYES_LOOK_വലത്_R_FB = 19,
     XR_FACE_EXPRESSION2_EYES_LOOK_UP_L_FB = 20,
     XR_FACE_EXPRESSION2_EYES_LOOK_UP_R_FB = 21,
     XR_FACE_EXPRESSION2_INNER_BROW_RAISER_L_FB = 22,
     XR_FACE_EXPRESSION2_INNER_BROW_RAISER_R_FB = 23,
     XR_FACE_EXPRESSION2_JAW_DROP_FB = 24,
-    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_LEFT_FB = 25,
-    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_RIGHT_FB = 26,
+    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_ഇടത്_FB = 25,
+    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_വലത്_FB = 26,
     XR_FACE_EXPRESSION2_JAW_THRUST_FB = 27,
     XR_FACE_EXPRESSION2_LID_TIGHTENER_L_FB = 28,
     XR_FACE_EXPRESSION2_LID_TIGHTENER_R_FB = 29,
@@ -7831,8 +7831,8 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_LIPS_TOWARD_FB = 50,
     XR_FACE_EXPRESSION2_LOWER_LIP_DEPRESSOR_L_FB = 51,
     XR_FACE_EXPRESSION2_LOWER_LIP_DEPRESSOR_R_FB = 52,
-    XR_FACE_EXPRESSION2_MOUTH_LEFT_FB = 53,
-    XR_FACE_EXPRESSION2_MOUTH_RIGHT_FB = 54,
+    XR_FACE_EXPRESSION2_MOUTH_ഇടത്_FB = 53,
+    XR_FACE_EXPRESSION2_MOUTH_വലത്_FB = 54,
     XR_FACE_EXPRESSION2_NOSE_WRINKLER_L_FB = 55,
     XR_FACE_EXPRESSION2_NOSE_WRINKLER_R_FB = 56,
     XR_FACE_EXPRESSION2_OUTER_BROW_RAISER_L_FB = 57,
@@ -7848,71 +7848,71 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_TONGUE_BACK_DORSAL_VELAR_FB = 67,
     XR_FACE_EXPRESSION2_TONGUE_OUT_FB = 68,
     XR_FACE_EXPRESSION2_TONGUE_RETREAT_FB = 69,
-    XR_FACE_EXPRESSION2_COUNT_FB = 70,
+    XR_FACE_EXPRESSION2_എണ്ണം_FB = 70,
     XR_FACE_EXPRESSION_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpression2FB;
 
-typedef enum XrFaceExpressionSet2FB {
+തരനിർവചനം എണ്ണൽ XrFaceExpressionSet2FB {
     XR_FACE_EXPRESSION_SET2_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSet2FB;
 
-typedef enum XrFaceTrackingDataSource2FB {
+തരനിർവചനം എണ്ണൽ XrFaceTrackingDataSource2FB {
     XR_FACE_TRACKING_DATA_SOURCE2_VISUAL_FB = 0,
     XR_FACE_TRACKING_DATA_SOURCE2_AUDIO_FB = 1,
     XR_FACE_TRACKING_DATA_SOURCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceTrackingDataSource2FB;
 
-typedef enum XrFaceConfidence2FB {
+തരനിർവചനം എണ്ണൽ XrFaceConfidence2FB {
     XR_FACE_CONFIDENCE2_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE2_UPPER_FACE_FB = 1,
-    XR_FACE_CONFIDENCE2_COUNT_FB = 2,
+    XR_FACE_CONFIDENCE2_എണ്ണം_FB = 2,
     XR_FACE_CONFIDENCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidence2FB;
 // XrSystemFaceTrackingProperties2FB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingProperties2FB {
+തരനിർവചനം ഘടന XrSystemFaceTrackingProperties2FB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsVisualFaceTracking;
     XrBool32              supportsAudioFaceTracking;
 } XrSystemFaceTrackingProperties2FB;
 
-typedef struct XrFaceTrackerCreateInfo2FB {
+തരനിർവചനം ഘടന XrFaceTrackerCreateInfo2FB {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
     XrFaceExpressionSet2FB          faceExpressionSet;
-    uint32_t                        requestedDataSourceCount;
+    uint32_t                        requested_Data_Source_എണ്ണം;
     XrFaceTrackingDataSource2FB*    requestedDataSources;
 } XrFaceTrackerCreateInfo2FB;
 
-typedef struct XrFaceExpressionInfo2FB {
+തരനിർവചനം ഘടന XrFaceExpressionInfo2FB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfo2FB;
 
-typedef struct XrFaceExpressionWeights2FB {
+തരനിർവചനം ഘടന XrFaceExpressionWeights2FB {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       weightCount;
-    float*                         weights;
-    uint32_t                       confidenceCount;
-    float*                         confidences;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       weight_എണ്ണം;
+    ദശാംശം*                         weights;
+    uint32_t                       confidence_എണ്ണം;
+    ദശാംശം*                         confidences;
     XrBool32                       isValid;
     XrBool32                       isEyeFollowingBlendshapesValid;
     XrFaceTrackingDataSource2FB    dataSource;
     XrTime                         time;
 } XrFaceExpressionWeights2FB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTracker2FB)(XrSession session, const XrFaceTrackerCreateInfo2FB* createInfo, XrFaceTracker2FB* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTracker2FB)(XrFaceTracker2FB faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeights2FB)(XrFaceTracker2FB faceTracker, const XrFaceExpressionInfo2FB* expressionInfo, XrFaceExpressionWeights2FB* expressionWeights);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFaceTracker2FB)(XrSession session, സ്ഥിരം XrFaceTrackerCreateInfo2FB* createInfo, XrFaceTracker2FB* faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFaceTracker2FB)(XrFaceTracker2FB faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeights2FB)(XrFaceTracker2FB faceTracker, സ്ഥിരം XrFaceExpressionInfo2FB* expressionInfo, XrFaceExpressionWeights2FB* expressionWeights);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTracker2FB(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfo2FB*           createInfo,
+    സ്ഥിരം XrFaceTrackerCreateInfo2FB*           createInfo,
     XrFaceTracker2FB*                           faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTracker2FB(
@@ -7920,7 +7920,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTracker2FB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeights2FB(
     XrFaceTracker2FB                            faceTracker,
-    const XrFaceExpressionInfo2FB*              expressionInfo,
+    സ്ഥിരം XrFaceExpressionInfo2FB*              expressionInfo,
     XrFaceExpressionWeights2FB*                 expressionWeights);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7932,39 +7932,39 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeights2FB(
 #define XR_META_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_META_spatial_entity_sharing"
 #define XR_MAX_SPACES_PER_SHARE_REQUEST_META 32
 // XrSystemSpatialEntitySharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntitySharingPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemSpatialEntitySharingPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntitySharing;
 } XrSystemSpatialEntitySharingPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrShareSpacesRecipientBaseHeaderMETA;
 
-typedef struct XrShareSpacesInfoMETA {
+തരനിർവചനം ഘടന XrShareSpacesInfoMETA {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
-    uint32_t                                       spaceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                       next;
+    uint32_t                                       space_എണ്ണം;
     XrSpace*                                       spaces;
-    const XrShareSpacesRecipientBaseHeaderMETA*    recipientInfo;
+    സ്ഥിരം XrShareSpacesRecipientBaseHeaderMETA*    recipientInfo;
 } XrShareSpacesInfoMETA;
 
-typedef struct XrEventDataShareSpacesCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataShareSpacesCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataShareSpacesCompleteMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpacesMETA)(XrSession session, const XrShareSpacesInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrShareSpacesMETA)(XrSession session, സ്ഥിരം XrShareSpacesInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesMETA(
     XrSession                                   session,
-    const XrShareSpacesInfoMETA*                info,
+    സ്ഥിരം XrShareSpacesInfoMETA*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7976,93 +7976,93 @@ XR_DEFINE_HANDLE(XrEnvironmentDepthProviderMETA)
 XR_DEFINE_HANDLE(XrEnvironmentDepthSwapchainMETA)
 #define XR_META_environment_depth_SPEC_VERSION 2
 #define XR_META_ENVIRONMENT_DEPTH_EXTENSION_NAME "XR_META_environment_depth"
-typedef XrFlags64 XrEnvironmentDepthProviderCreateFlagsMETA;
+തരനിർവചനം XrFlags64 XrEnvironmentDepthProviderCreateFlagsMETA;
 
 // Flag bits for XrEnvironmentDepthProviderCreateFlagsMETA
 
-typedef XrFlags64 XrEnvironmentDepthSwapchainCreateFlagsMETA;
+തരനിർവചനം XrFlags64 XrEnvironmentDepthSwapchainCreateFlagsMETA;
 
 // Flag bits for XrEnvironmentDepthSwapchainCreateFlagsMETA
 
-typedef struct XrEnvironmentDepthProviderCreateInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthProviderCreateInfoMETA {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                     next;
     XrEnvironmentDepthProviderCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthProviderCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainCreateInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthSwapchainCreateInfoMETA {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrEnvironmentDepthSwapchainCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthSwapchainCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainStateMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthSwapchainStateMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              width;
     uint32_t              height;
 } XrEnvironmentDepthSwapchainStateMETA;
 
-typedef struct XrEnvironmentDepthImageAcquireInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthImageAcquireInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      displayTime;
 } XrEnvironmentDepthImageAcquireInfoMETA;
 
-typedef struct XrEnvironmentDepthImageViewMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthImageViewMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFovf                      fov;
     XrPosef                     pose;
 } XrEnvironmentDepthImageViewMETA;
 
-typedef struct XrEnvironmentDepthImageMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthImageMETA {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     uint32_t                           swapchainIndex;
-    float                              nearZ;
-    float                              farZ;
+    ദശാംശം                              nearZ;
+    ദശാംശം                              farZ;
     XrEnvironmentDepthImageViewMETA    views[2];
 } XrEnvironmentDepthImageMETA;
 
 // XrEnvironmentDepthImageTimestampMETA extends XrEnvironmentDepthImageMETA
-typedef struct XrEnvironmentDepthImageTimestampMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthImageTimestampMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      captureTime;
 } XrEnvironmentDepthImageTimestampMETA;
 
-typedef struct XrEnvironmentDepthHandRemovalSetInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentDepthHandRemovalSetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrEnvironmentDepthHandRemovalSetInfoMETA;
 
 // XrSystemEnvironmentDepthPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentDepthPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemEnvironmentDepthPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentDepth;
     XrBool32              supportsHandRemoval;
 } XrSystemEnvironmentDepthPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthProviderMETA)(XrSession session, const XrEnvironmentDepthProviderCreateInfoMETA* createInfo, XrEnvironmentDepthProviderMETA* environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrStartEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrStopEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo, XrEnvironmentDepthSwapchainMETA* swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthSwapchainMETA swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentDepthSwapchainImagesMETA)(XrEnvironmentDepthSwapchainMETA swapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrGetEnvironmentDepthSwapchainStateMETA)(XrEnvironmentDepthSwapchainMETA swapchain, XrEnvironmentDepthSwapchainStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo, XrEnvironmentDepthImageMETA* environmentDepthImage);
-typedef XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthHandRemovalMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthProviderMETA)(XrSession session, സ്ഥിരം XrEnvironmentDepthProviderCreateInfoMETA* createInfo, XrEnvironmentDepthProviderMETA* environmentDepthProvider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStopEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, സ്ഥിരം XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo, XrEnvironmentDepthSwapchainMETA* swapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthSwapchainMETA swapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentDepthSwapchainImagesMETA)(XrEnvironmentDepthSwapchainMETA swapchain, uint32_t image_Capacity_നിവേശം, uint32_t* image_എണ്ണം_Output, XrSwapchainImageBaseHeader* images);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetEnvironmentDepthSwapchainStateMETA)(XrEnvironmentDepthSwapchainMETA swapchain, XrEnvironmentDepthSwapchainStateMETA* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, സ്ഥിരം XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo, XrEnvironmentDepthImageMETA* environmentDepthImage);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthHandRemovalMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, സ്ഥിരം XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentDepthProviderMETA(
     XrSession                                   session,
-    const XrEnvironmentDepthProviderCreateInfoMETA* createInfo,
+    സ്ഥിരം XrEnvironmentDepthProviderCreateInfoMETA* createInfo,
     XrEnvironmentDepthProviderMETA*             environmentDepthProvider);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthProviderMETA(
@@ -8076,7 +8076,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopEnvironmentDepthProviderMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentDepthSwapchainMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo,
+    സ്ഥിരം XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo,
     XrEnvironmentDepthSwapchainMETA*            swapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthSwapchainMETA(
@@ -8084,8 +8084,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthSwapchainMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentDepthSwapchainImagesMETA(
     XrEnvironmentDepthSwapchainMETA             swapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_നിവേശം,
+    uint32_t*                                   image_എണ്ണം_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetEnvironmentDepthSwapchainStateMETA(
@@ -8094,12 +8094,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetEnvironmentDepthSwapchainStateMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireEnvironmentDepthImageMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo,
+    സ്ഥിരം XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo,
     XrEnvironmentDepthImageMETA*                environmentDepthImage);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthHandRemovalMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
+    സ്ഥിരം XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8116,104 +8116,104 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthHandRemovalMETA(
 XR_DEFINE_ATOM(XrRenderModelIdEXT)
 XR_DEFINE_HANDLE(XrRenderModelEXT)
 XR_DEFINE_HANDLE(XrRenderModelAssetEXT)
-#define XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT 64
+#define XR_MAX_RENDER_MODEL_ASSET_കണ്ണി_NAME_SIZE_EXT 64
 #define XR_EXT_render_model_SPEC_VERSION  1
 #define XR_EXT_RENDER_MODEL_EXTENSION_NAME "XR_EXT_render_model"
 #define XR_NULL_RENDER_MODEL_ID_EXT       0
-typedef struct XrRenderModelCreateInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrRenderModelIdEXT          renderModelId;
-    uint32_t                    gltfExtensionCount;
-    const char* const*          gltfExtensions;
+    uint32_t                    gltf_Extension_എണ്ണം;
+    സ്ഥിരം അക്ഷരം* സ്ഥിരം*          gltfExtensions;
 } XrRenderModelCreateInfoEXT;
 
-typedef struct XrRenderModelPropertiesGetInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelPropertiesGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrRenderModelPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelPropertiesEXT {
+തരനിർവചനം ഘടന XrRenderModelPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT             cacheId;
-    uint32_t              animatableNodeCount;
+    uint32_t              animatable_കണ്ണി_എണ്ണം;
 } XrRenderModelPropertiesEXT;
 
-typedef struct XrRenderModelSpaceCreateInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelSpaceCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrRenderModelEXT            renderModel;
 } XrRenderModelSpaceCreateInfoEXT;
 
-typedef struct XrRenderModelStateGetInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelStateGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      displayTime;
 } XrRenderModelStateGetInfoEXT;
 
-typedef struct XrRenderModelNodeStateEXT {
-    XrPosef     nodePose;
+തരനിർവചനം ഘടന Xr_Render_Model_കണ്ണി_State_EXT {
+    XrPosef     കണ്ണി_Pose;
     XrBool32    isVisible;
-} XrRenderModelNodeStateEXT;
+} Xr_Render_Model_കണ്ണി_State_EXT;
 
-typedef struct XrRenderModelStateEXT {
+തരനിർവചനം ഘടന XrRenderModelStateEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      nodeStateCount;
-    XrRenderModelNodeStateEXT*    nodeStates;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      കണ്ണി_State_എണ്ണം;
+    Xr_Render_Model_കണ്ണി_State_EXT*    കണ്ണി_States;
 } XrRenderModelStateEXT;
 
-typedef struct XrRenderModelAssetCreateInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelAssetCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT                   cacheId;
 } XrRenderModelAssetCreateInfoEXT;
 
-typedef struct XrRenderModelAssetDataGetInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelAssetDataGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrRenderModelAssetDataGetInfoEXT;
 
-typedef struct XrRenderModelAssetDataEXT {
+തരനിർവചനം ഘടന XrRenderModelAssetDataEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              buffer_Capacity_നിവേശം;
+    uint32_t              buffer_എണ്ണം_Output;
     uint8_t*              buffer;
 } XrRenderModelAssetDataEXT;
 
-typedef struct XrRenderModelAssetPropertiesGetInfoEXT {
+തരനിർവചനം ഘടന XrRenderModelAssetPropertiesGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrRenderModelAssetPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelAssetNodePropertiesEXT {
-    char    uniqueName[XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT];
-} XrRenderModelAssetNodePropertiesEXT;
+തരനിർവചനം ഘടന Xr_Render_Model_Asset_കണ്ണി_Properties_EXT {
+    അക്ഷരം    uniqueName[XR_MAX_RENDER_MODEL_ASSET_കണ്ണി_NAME_SIZE_EXT];
+} Xr_Render_Model_Asset_കണ്ണി_Properties_EXT;
 
-typedef struct XrRenderModelAssetPropertiesEXT {
+തരനിർവചനം ഘടന XrRenderModelAssetPropertiesEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                nodePropertyCount;
-    XrRenderModelAssetNodePropertiesEXT*    nodeProperties;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
+    uint32_t                                കണ്ണി_Property_എണ്ണം;
+    Xr_Render_Model_Asset_കണ്ണി_Properties_EXT*    കണ്ണി_Properties;
 } XrRenderModelAssetPropertiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelEXT)(XrSession session, const XrRenderModelCreateInfoEXT* createInfo, XrRenderModelEXT* renderModel);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelEXT)(XrRenderModelEXT renderModel);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesEXT)(XrRenderModelEXT renderModel, const XrRenderModelPropertiesGetInfoEXT* getInfo, XrRenderModelPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelSpaceEXT)(XrSession session, const XrRenderModelSpaceCreateInfoEXT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelAssetEXT)(XrSession session, const XrRenderModelAssetCreateInfoEXT* createInfo, XrRenderModelAssetEXT* asset);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelAssetEXT)(XrRenderModelAssetEXT asset);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetDataEXT)(XrRenderModelAssetEXT asset, const XrRenderModelAssetDataGetInfoEXT* getInfo, XrRenderModelAssetDataEXT* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetPropertiesEXT)(XrRenderModelAssetEXT asset, const XrRenderModelAssetPropertiesGetInfoEXT* getInfo, XrRenderModelAssetPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelStateEXT)(XrRenderModelEXT renderModel, const XrRenderModelStateGetInfoEXT* getInfo, XrRenderModelStateEXT* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateRenderModelEXT)(XrSession session, സ്ഥിരം XrRenderModelCreateInfoEXT* createInfo, XrRenderModelEXT* renderModel);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelEXT)(XrRenderModelEXT renderModel);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesEXT)(XrRenderModelEXT renderModel, സ്ഥിരം XrRenderModelPropertiesGetInfoEXT* getInfo, XrRenderModelPropertiesEXT* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateRenderModelSpaceEXT)(XrSession session, സ്ഥിരം XrRenderModelSpaceCreateInfoEXT* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateRenderModelAssetEXT)(XrSession session, സ്ഥിരം XrRenderModelAssetCreateInfoEXT* createInfo, XrRenderModelAssetEXT* asset);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelAssetEXT)(XrRenderModelAssetEXT asset);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetDataEXT)(XrRenderModelAssetEXT asset, സ്ഥിരം XrRenderModelAssetDataGetInfoEXT* getInfo, XrRenderModelAssetDataEXT* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetPropertiesEXT)(XrRenderModelAssetEXT asset, സ്ഥിരം XrRenderModelAssetPropertiesGetInfoEXT* getInfo, XrRenderModelAssetPropertiesEXT* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetRenderModelStateEXT)(XrRenderModelEXT renderModel, സ്ഥിരം XrRenderModelStateGetInfoEXT* getInfo, XrRenderModelStateEXT* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelEXT(
     XrSession                                   session,
-    const XrRenderModelCreateInfoEXT*           createInfo,
+    സ്ഥിരം XrRenderModelCreateInfoEXT*           createInfo,
     XrRenderModelEXT*                           renderModel);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelEXT(
@@ -8221,17 +8221,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesEXT(
     XrRenderModelEXT                            renderModel,
-    const XrRenderModelPropertiesGetInfoEXT*    getInfo,
+    സ്ഥിരം XrRenderModelPropertiesGetInfoEXT*    getInfo,
     XrRenderModelPropertiesEXT*                 properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelSpaceEXT(
     XrSession                                   session,
-    const XrRenderModelSpaceCreateInfoEXT*      createInfo,
+    സ്ഥിരം XrRenderModelSpaceCreateInfoEXT*      createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelAssetEXT(
     XrSession                                   session,
-    const XrRenderModelAssetCreateInfoEXT*      createInfo,
+    സ്ഥിരം XrRenderModelAssetCreateInfoEXT*      createInfo,
     XrRenderModelAssetEXT*                      asset);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelAssetEXT(
@@ -8239,17 +8239,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelAssetEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelAssetDataEXT(
     XrRenderModelAssetEXT                       asset,
-    const XrRenderModelAssetDataGetInfoEXT*     getInfo,
+    സ്ഥിരം XrRenderModelAssetDataGetInfoEXT*     getInfo,
     XrRenderModelAssetDataEXT*                  buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelAssetPropertiesEXT(
     XrRenderModelAssetEXT                       asset,
-    const XrRenderModelAssetPropertiesGetInfoEXT* getInfo,
+    സ്ഥിരം XrRenderModelAssetPropertiesGetInfoEXT* getInfo,
     XrRenderModelAssetPropertiesEXT*            properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelStateEXT(
     XrRenderModelEXT                            renderModel,
-    const XrRenderModelStateGetInfoEXT*         getInfo,
+    സ്ഥിരം XrRenderModelStateGetInfoEXT*         getInfo,
     XrRenderModelStateEXT*                      state);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -8259,52 +8259,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelStateEXT(
 #define XR_EXT_interaction_render_model 1
 #define XR_EXT_interaction_render_model_SPEC_VERSION 1
 #define XR_EXT_INTERACTION_RENDER_MODEL_EXTENSION_NAME "XR_EXT_interaction_render_model"
-typedef struct XrInteractionRenderModelIdsEnumerateInfoEXT {
+തരനിർവചനം ഘടന XrInteractionRenderModelIdsEnumerateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelIdsEnumerateInfoEXT;
 
-typedef struct XrInteractionRenderModelSubactionPathInfoEXT {
+തരനിർവചനം ഘടന XrInteractionRenderModelSubactionPathInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelSubactionPathInfoEXT;
 
-typedef struct XrInteractionRenderModelTopLevelUserPathGetInfoEXT {
+തരനിർവചനം ഘടന Xr_Interaction_Render_Model_മുകൾ_Level_User_Path_Get_Info_EXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    topLevelUserPathCount;
-    const XrPath*               topLevelUserPaths;
-} XrInteractionRenderModelTopLevelUserPathGetInfoEXT;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    മുകൾ_Level_User_Path_എണ്ണം;
+    സ്ഥിരം XrPath*               മുകൾ_Level_User_Paths;
+} Xr_Interaction_Render_Model_മുകൾ_Level_User_Path_Get_Info_EXT;
 
-typedef struct XrEventDataInteractionRenderModelsChangedEXT {
+തരനിർവചനം ഘടന XrEventDataInteractionRenderModelsChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEventDataInteractionRenderModelsChangedEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInteractionRenderModelIdsEXT)(XrSession session, const XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo, uint32_t renderModelIdCapacityInput, uint32_t* renderModelIdCountOutput, XrRenderModelIdEXT* renderModelIds);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelSubactionPathsEXT)(XrRenderModelEXT renderModel, const XrInteractionRenderModelSubactionPathInfoEXT* info, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrPath* paths);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPoseTopLevelUserPathEXT)(XrRenderModelEXT renderModel, const XrInteractionRenderModelTopLevelUserPathGetInfoEXT* info, XrPath* topLevelUserPath);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateInteractionRenderModelIdsEXT)(XrSession session, സ്ഥിരം XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo, uint32_t render_Model_Id_Capacity_നിവേശം, uint32_t* render_Model_Id_എണ്ണം_Output, XrRenderModelIdEXT* renderModelIds);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelSubactionPathsEXT)(XrRenderModelEXT renderModel, സ്ഥിരം XrInteractionRenderModelSubactionPathInfoEXT* info, uint32_t path_Capacity_നിവേശം, uint32_t* path_എണ്ണം_Output, XrPath* paths);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xr_Get_Render_Model_Pose_മുകൾ_Level_User_Path_EXT)(XrRenderModelEXT renderModel, സ്ഥിരം Xr_Interaction_Render_Model_മുകൾ_Level_User_Path_Get_Info_EXT* info, XrPath* മുകൾ_Level_User_Path);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateInteractionRenderModelIdsEXT(
     XrSession                                   session,
-    const XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo,
-    uint32_t                                    renderModelIdCapacityInput,
-    uint32_t*                                   renderModelIdCountOutput,
+    സ്ഥിരം XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo,
+    uint32_t                                    render_Model_Id_Capacity_നിവേശം,
+    uint32_t*                                   render_Model_Id_എണ്ണം_Output,
     XrRenderModelIdEXT*                         renderModelIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRenderModelSubactionPathsEXT(
     XrRenderModelEXT                            renderModel,
-    const XrInteractionRenderModelSubactionPathInfoEXT* info,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    സ്ഥിരം XrInteractionRenderModelSubactionPathInfoEXT* info,
+    uint32_t                                    path_Capacity_നിവേശം,
+    uint32_t*                                   path_എണ്ണം_Output,
     XrPath*                                     paths);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPoseTopLevelUserPathEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Render_Model_Pose_മുകൾ_Level_User_Path_EXT(
     XrRenderModelEXT                            renderModel,
-    const XrInteractionRenderModelTopLevelUserPathGetInfoEXT* info,
-    XrPath*                                     topLevelUserPath);
+    സ്ഥിരം Xr_Interaction_Render_Model_മുകൾ_Level_User_Path_Get_Info_EXT* info,
+    XrPath*                                     മുകൾ_Level_User_Path);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8320,24 +8320,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPoseTopLevelUserPathEXT(
 #define XR_QCOM_tracking_optimization_settings_SPEC_VERSION 2
 #define XR_QCOM_TRACKING_OPTIMIZATION_SETTINGS_EXTENSION_NAME "XR_QCOM_tracking_optimization_settings"
 
-typedef enum XrTrackingOptimizationSettingsDomainQCOM {
+തരനിർവചനം എണ്ണൽ XrTrackingOptimizationSettingsDomainQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_ALL_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrTrackingOptimizationSettingsDomainQCOM;
 
-typedef enum XrTrackingOptimizationSettingsHintQCOM {
+തരനിർവചനം എണ്ണൽ XrTrackingOptimizationSettingsHintQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_NONE_QCOM = 0,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORITIZATION_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORITIZATION_QCOM = 2,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORITIZATION_QCOM = 3,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORITIZATION_QCOM = 4,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_താഴെയുള്ള_POWER_PRIORITIZATION_QCOM = 3,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_മുകളിലെ_POWER_PRIORITIZATION_QCOM = 4,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORITIZATION_QCOM,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORITIZATION_QCOM,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORITIZATION_QCOM,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORITIZATION_QCOM,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_താഴെയുള്ള_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_താഴെയുള്ള_POWER_PRIORITIZATION_QCOM,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_മുകളിലെ_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_മുകളിലെ_POWER_PRIORITIZATION_QCOM,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrTrackingOptimizationSettingsHintQCOM;
-typedef XrResult (XRAPI_PTR *PFN_xrSetTrackingOptimizationSettingsHintQCOM)(XrSession session, XrTrackingOptimizationSettingsDomainQCOM domain, XrTrackingOptimizationSettingsHintQCOM hint);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetTrackingOptimizationSettingsHintQCOM)(XrSession session, XrTrackingOptimizationSettingsDomainQCOM domain, XrTrackingOptimizationSettingsHintQCOM hint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -8354,20 +8354,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTrackingOptimizationSettingsHintQCOM(
 #define XR_QCOM_hand_tracking_gesture_SPEC_VERSION 1
 #define XR_QCOM_HAND_TRACKING_GESTURE_EXTENSION_NAME "XR_QCOM_hand_tracking_gesture"
 
-typedef enum XrHandGestureTypeQCOM {
+തരനിർവചനം എണ്ണൽ XrHandGestureTypeQCOM {
     XR_HAND_GESTURE_TYPE_UNKNOWN_QCOM = -1,
     XR_HAND_GESTURE_TYPE_OPEN_HAND_QCOM = 0,
     XR_HAND_GESTURE_TYPE_GRAB_QCOM = 2,
     XR_HAND_GESTURE_TYPE_PINCH_QCOM = 7,
     XR_HAND_GESTURE_TYPE_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrHandGestureTypeQCOM;
-typedef struct XrHandGestureQCOM {
+തരനിർവചനം ഘടന XrHandGestureQCOM {
     XrHandGestureTypeQCOM    gesture;
-    float                    gestureRatio;
-    float                    flipRatio;
+    ദശാംശം                    gestureRatio;
+    ദശാംശം                    flipRatio;
 } XrHandGestureQCOM;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetHandGestureQCOM)(XrHandTrackerEXT handTracker, XrTime time, XrHandGestureQCOM* handGesture);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetHandGestureQCOM)(XrHandTrackerEXT handTracker, XrTime time, XrHandGestureQCOM* handGesture);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -8385,54 +8385,54 @@ XR_DEFINE_HANDLE(XrPassthroughHTC)
 #define XR_HTC_passthrough_SPEC_VERSION   1
 #define XR_HTC_PASSTHROUGH_EXTENSION_NAME "XR_HTC_passthrough"
 
-typedef enum XrPassthroughFormHTC {
+തരനിർവചനം എണ്ണൽ XrPassthroughFormHTC {
     XR_PASSTHROUGH_FORM_PLANAR_HTC = 0,
     XR_PASSTHROUGH_FORM_PROJECTED_HTC = 1,
     XR_PASSTHROUGH_FORM_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrPassthroughFormHTC;
-typedef struct XrPassthroughCreateInfoHTC {
+തരനിർവചനം ഘടന XrPassthroughCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPassthroughFormHTC        form;
 } XrPassthroughCreateInfoHTC;
 
-typedef struct XrPassthroughColorHTC {
+തരനിർവചനം ഘടന XrPassthroughColorHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       alpha;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       alpha;
 } XrPassthroughColorHTC;
 
 // XrPassthroughMeshTransformInfoHTC extends XrCompositionLayerPassthroughHTC
-typedef struct XrPassthroughMeshTransformInfoHTC {
+തരനിർവചനം ഘടന XrPassthroughMeshTransformInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertices;
-    uint32_t                    indexCount;
-    const uint32_t*             indices;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_എണ്ണം;
+    സ്ഥിരം XrVector3f*           vertices;
+    uint32_t                    index_എണ്ണം;
+    സ്ഥിരം uint32_t*             indices;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
     XrVector3f                  scale;
 } XrPassthroughMeshTransformInfoHTC;
 
-typedef struct XrCompositionLayerPassthroughHTC {
+തരനിർവചനം ഘടന XrCompositionLayerPassthroughHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrPassthroughHTC            passthrough;
     XrPassthroughColorHTC       color;
 } XrCompositionLayerPassthroughHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughHTC)(XrSession session, const XrPassthroughCreateInfoHTC* createInfo, XrPassthroughHTC* passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughHTC)(XrPassthroughHTC passthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePassthroughHTC)(XrSession session, സ്ഥിരം XrPassthroughCreateInfoHTC* createInfo, XrPassthroughHTC* passthrough);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughHTC)(XrPassthroughHTC passthrough);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughHTC(
     XrSession                                   session,
-    const XrPassthroughCreateInfoHTC*           createInfo,
+    സ്ഥിരം XrPassthroughCreateInfoHTC*           createInfo,
     XrPassthroughHTC*                           passthrough);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughHTC(
@@ -8446,7 +8446,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughHTC(
 #define XR_HTC_foveation_SPEC_VERSION     1
 #define XR_HTC_FOVEATION_EXTENSION_NAME   "XR_HTC_foveation"
 
-typedef enum XrFoveationModeHTC {
+തരനിർവചനം എണ്ണൽ XrFoveationModeHTC {
     XR_FOVEATION_MODE_DISABLE_HTC = 0,
     XR_FOVEATION_MODE_FIXED_HTC = 1,
     XR_FOVEATION_MODE_DYNAMIC_HTC = 2,
@@ -8454,56 +8454,56 @@ typedef enum XrFoveationModeHTC {
     XR_FOVEATION_MODE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFoveationModeHTC;
 
-typedef enum XrFoveationLevelHTC {
+തരനിർവചനം എണ്ണൽ XrFoveationLevelHTC {
     XR_FOVEATION_LEVEL_NONE_HTC = 0,
-    XR_FOVEATION_LEVEL_LOW_HTC = 1,
+    XR_FOVEATION_LEVEL_താഴെയുള്ള_HTC = 1,
     XR_FOVEATION_LEVEL_MEDIUM_HTC = 2,
-    XR_FOVEATION_LEVEL_HIGH_HTC = 3,
+    XR_FOVEATION_LEVEL_മുകളിലെ_HTC = 3,
     XR_FOVEATION_LEVEL_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFoveationLevelHTC;
-typedef XrFlags64 XrFoveationDynamicFlagsHTC;
+തരനിർവചനം XrFlags64 XrFoveationDynamicFlagsHTC;
 
 // Flag bits for XrFoveationDynamicFlagsHTC
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_BIT_HTC = 0x00000001;
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_CLEAR_FOV_ENABLED_BIT_HTC = 0x00000002;
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_FOCAL_CENTER_OFFSET_ENABLED_BIT_HTC = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_BIT_HTC = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_CLEAR_FOV_ENABLED_BIT_HTC = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_FOCAL_CENTER_OFFSET_ENABLED_BIT_HTC = 0x00000004;
 
-typedef struct XrFoveationApplyInfoHTC {
+തരനിർവചനം ഘടന XrFoveationApplyInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFoveationModeHTC          mode;
-    uint32_t                    subImageCount;
+    uint32_t                    sub_Image_എണ്ണം;
     XrSwapchainSubImage*        subImages;
 } XrFoveationApplyInfoHTC;
 
-typedef struct XrFoveationConfigurationHTC {
+തരനിർവചനം ഘടന XrFoveationConfigurationHTC {
     XrFoveationLevelHTC    level;
-    float                  clearFovDegree;
+    ദശാംശം                  clearFovDegree;
     XrVector2f             focalCenterOffset;
 } XrFoveationConfigurationHTC;
 
 // XrFoveationDynamicModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationDynamicModeInfoHTC {
+തരനിർവചനം ഘടന XrFoveationDynamicModeInfoHTC {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrFoveationDynamicFlagsHTC    dynamicFlags;
 } XrFoveationDynamicModeInfoHTC;
 
 // XrFoveationCustomModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationCustomModeInfoHTC {
+തരനിർവചനം ഘടന XrFoveationCustomModeInfoHTC {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
-    uint32_t                              configCount;
-    const XrFoveationConfigurationHTC*    configs;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
+    uint32_t                              config_എണ്ണം;
+    സ്ഥിരം XrFoveationConfigurationHTC*    configs;
 } XrFoveationCustomModeInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrApplyFoveationHTC)(XrSession session, const XrFoveationApplyInfoHTC* applyInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrApplyFoveationHTC)(XrSession session, സ്ഥിരം XrFoveationApplyInfoHTC* applyInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyFoveationHTC(
     XrSession                                   session,
-    const XrFoveationApplyInfoHTC*              applyInfo);
+    സ്ഥിരം XrFoveationApplyInfoHTC*              applyInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8514,32 +8514,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrApplyFoveationHTC(
 #define XR_HTC_anchor_SPEC_VERSION        1
 #define XR_HTC_ANCHOR_EXTENSION_NAME      "XR_HTC_anchor"
 // XrSystemAnchorPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemAnchorPropertiesHTC {
+തരനിർവചനം ഘടന XrSystemAnchorPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchor;
 } XrSystemAnchorPropertiesHTC;
 
-typedef struct XrSpatialAnchorNameHTC {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
+തരനിർവചനം ഘടന XrSpatialAnchorNameHTC {
+    അക്ഷരം    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
 } XrSpatialAnchorNameHTC;
 
-typedef struct XrSpatialAnchorCreateInfoHTC {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrSpatialAnchorNameHTC      name;
 } XrSpatialAnchorCreateInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorHTC)(XrSession session, const XrSpatialAnchorCreateInfoHTC* createInfo, XrSpace* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorNameHTC)(XrSpace anchor, XrSpatialAnchorNameHTC* name);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorHTC)(XrSession session, സ്ഥിരം XrSpatialAnchorCreateInfoHTC* createInfo, XrSpace* anchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorNameHTC)(XrSpace anchor, XrSpatialAnchorNameHTC* name);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorHTC(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoHTC*         createInfo,
+    സ്ഥിരം XrSpatialAnchorCreateInfoHTC*         createInfo,
     XrSpace*                                    anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorNameHTC(
@@ -8552,109 +8552,109 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorNameHTC(
 // XR_HTC_body_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_HTC_body_tracking 1
 
-#define XR_BODY_JOINT_COUNT_HTC 26
+#define XR_BODY_JOINT_എണ്ണം_HTC 26
 
 XR_DEFINE_HANDLE(XrBodyTrackerHTC)
 #define XR_HTC_body_tracking_SPEC_VERSION 1
 #define XR_HTC_BODY_TRACKING_EXTENSION_NAME "XR_HTC_body_tracking"
 
-typedef enum XrBodyJointHTC {
+തരനിർവചനം എണ്ണൽ XrBodyJointHTC {
     XR_BODY_JOINT_PELVIS_HTC = 0,
-    XR_BODY_JOINT_LEFT_HIP_HTC = 1,
-    XR_BODY_JOINT_LEFT_KNEE_HTC = 2,
-    XR_BODY_JOINT_LEFT_ANKLE_HTC = 3,
-    XR_BODY_JOINT_LEFT_FEET_HTC = 4,
-    XR_BODY_JOINT_RIGHT_HIP_HTC = 5,
-    XR_BODY_JOINT_RIGHT_KNEE_HTC = 6,
-    XR_BODY_JOINT_RIGHT_ANKLE_HTC = 7,
-    XR_BODY_JOINT_RIGHT_FEET_HTC = 8,
+    XR_BODY_JOINT_ഇടത്_HIP_HTC = 1,
+    XR_BODY_JOINT_ഇടത്_KNEE_HTC = 2,
+    XR_BODY_JOINT_ഇടത്_ANKLE_HTC = 3,
+    XR_BODY_JOINT_ഇടത്_FEET_HTC = 4,
+    XR_BODY_JOINT_വലത്_HIP_HTC = 5,
+    XR_BODY_JOINT_വലത്_KNEE_HTC = 6,
+    XR_BODY_JOINT_വലത്_ANKLE_HTC = 7,
+    XR_BODY_JOINT_വലത്_FEET_HTC = 8,
     XR_BODY_JOINT_WAIST_HTC = 9,
     XR_BODY_JOINT_SPINE_LOWER_HTC = 10,
-    XR_BODY_JOINT_SPINE_MIDDLE_HTC = 11,
-    XR_BODY_JOINT_SPINE_HIGH_HTC = 12,
+    XR_BODY_JOINT_SPINE_നടുവ്_HTC = 11,
+    XR_BODY_JOINT_SPINE_മുകളിലെ_HTC = 12,
     XR_BODY_JOINT_CHEST_HTC = 13,
     XR_BODY_JOINT_NECK_HTC = 14,
     XR_BODY_JOINT_HEAD_HTC = 15,
-    XR_BODY_JOINT_LEFT_CLAVICLE_HTC = 16,
-    XR_BODY_JOINT_LEFT_SCAPULA_HTC = 17,
-    XR_BODY_JOINT_LEFT_ARM_HTC = 18,
-    XR_BODY_JOINT_LEFT_ELBOW_HTC = 19,
-    XR_BODY_JOINT_LEFT_WRIST_HTC = 20,
-    XR_BODY_JOINT_RIGHT_CLAVICLE_HTC = 21,
-    XR_BODY_JOINT_RIGHT_SCAPULA_HTC = 22,
-    XR_BODY_JOINT_RIGHT_ARM_HTC = 23,
-    XR_BODY_JOINT_RIGHT_ELBOW_HTC = 24,
-    XR_BODY_JOINT_RIGHT_WRIST_HTC = 25,
+    XR_BODY_JOINT_ഇടത്_CLAVICLE_HTC = 16,
+    XR_BODY_JOINT_ഇടത്_SCAPULA_HTC = 17,
+    XR_BODY_JOINT_ഇടത്_ARM_HTC = 18,
+    XR_BODY_JOINT_ഇടത്_ELBOW_HTC = 19,
+    XR_BODY_JOINT_ഇടത്_WRIST_HTC = 20,
+    XR_BODY_JOINT_വലത്_CLAVICLE_HTC = 21,
+    XR_BODY_JOINT_വലത്_SCAPULA_HTC = 22,
+    XR_BODY_JOINT_വലത്_ARM_HTC = 23,
+    XR_BODY_JOINT_വലത്_ELBOW_HTC = 24,
+    XR_BODY_JOINT_വലത്_WRIST_HTC = 25,
     XR_BODY_JOINT_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointHTC;
 
-typedef enum XrBodyJointSetHTC {
+തരനിർവചനം എണ്ണൽ XrBodyJointSetHTC {
     XR_BODY_JOINT_SET_FULL_HTC = 0,
     XR_BODY_JOINT_SET_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointSetHTC;
 
-typedef enum XrBodyJointConfidenceHTC {
+തരനിർവചനം എണ്ണൽ XrBodyJointConfidenceHTC {
     XR_BODY_JOINT_CONFIDENCE_NONE_HTC = 0,
-    XR_BODY_JOINT_CONFIDENCE_LOW_HTC = 1,
-    XR_BODY_JOINT_CONFIDENCE_HIGH_HTC = 2,
+    XR_BODY_JOINT_CONFIDENCE_താഴെയുള്ള_HTC = 1,
+    XR_BODY_JOINT_CONFIDENCE_മുകളിലെ_HTC = 2,
     XR_BODY_JOINT_CONFIDENCE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointConfidenceHTC;
 // XrSystemBodyTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesHTC {
+തരനിർവചനം ഘടന XrSystemBodyTrackingPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesHTC;
 
-typedef struct XrBodyTrackerCreateInfoHTC {
+തരനിർവചനം ഘടന XrBodyTrackerCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBodyJointSetHTC           bodyJointSet;
 } XrBodyTrackerCreateInfoHTC;
 
-typedef struct XrBodyJointsLocateInfoHTC {
+തരനിർവചനം ഘടന XrBodyJointsLocateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoHTC;
 
-typedef struct XrBodyJointLocationHTC {
+തരനിർവചനം ഘടന XrBodyJointLocationHTC {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationHTC;
 
-typedef struct XrBodyJointLocationsHTC {
+തരനിർവചനം ഘടന XrBodyJointLocationsHTC {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrSpaceLocationFlags        combinedLocationFlags;
     XrBodyJointConfidenceHTC    confidenceLevel;
-    uint32_t                    jointLocationCount;
+    uint32_t                    joint_Location_എണ്ണം;
     XrBodyJointLocationHTC*     jointLocations;
     uint32_t                    skeletonGenerationId;
 } XrBodyJointLocationsHTC;
 
-typedef struct XrBodySkeletonJointHTC {
+തരനിർവചനം ഘടന XrBodySkeletonJointHTC {
     XrPosef    pose;
 } XrBodySkeletonJointHTC;
 
-typedef struct XrBodySkeletonHTC {
+തരനിർവചനം ഘടന XrBodySkeletonHTC {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   jointCount;
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    uint32_t                   joint_എണ്ണം;
     XrBodySkeletonJointHTC*    joints;
 } XrBodySkeletonHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerHTC)(XrSession session, const XrBodyTrackerCreateInfoHTC* createInfo, XrBodyTrackerHTC* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerHTC)(XrBodyTrackerHTC bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsHTC)(XrBodyTrackerHTC bodyTracker, const XrBodyJointsLocateInfoHTC* locateInfo, XrBodyJointLocationsHTC* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonHTC)(XrBodyTrackerHTC bodyTracker, XrSpace baseSpace, uint32_t skeletonGenerationId, XrBodySkeletonHTC* skeleton);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerHTC)(XrSession session, സ്ഥിരം XrBodyTrackerCreateInfoHTC* createInfo, XrBodyTrackerHTC* bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerHTC)(XrBodyTrackerHTC bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsHTC)(XrBodyTrackerHTC bodyTracker, സ്ഥിരം XrBodyJointsLocateInfoHTC* locateInfo, XrBodyJointLocationsHTC* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonHTC)(XrBodyTrackerHTC bodyTracker, XrSpace baseSpace, uint32_t skeletonGenerationId, XrBodySkeletonHTC* skeleton);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerHTC(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoHTC*           createInfo,
+    സ്ഥിരം XrBodyTrackerCreateInfoHTC*           createInfo,
     XrBodyTrackerHTC*                           bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerHTC(
@@ -8662,7 +8662,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerHTC(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsHTC(
     XrBodyTrackerHTC                            bodyTracker,
-    const XrBodyJointsLocateInfoHTC*            locateInfo,
+    സ്ഥിരം XrBodyJointsLocateInfoHTC*            locateInfo,
     XrBodyJointLocationsHTC*                    locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonHTC(
@@ -8678,17 +8678,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonHTC(
 #define XR_EXT_active_action_set_priority 1
 #define XR_EXT_active_action_set_priority_SPEC_VERSION 1
 #define XR_EXT_ACTIVE_ACTION_SET_PRIORITY_EXTENSION_NAME "XR_EXT_active_action_set_priority"
-typedef struct XrActiveActionSetPriorityEXT {
+തരനിർവചനം ഘടന XrActiveActionSetPriorityEXT {
     XrActionSet    actionSet;
     uint32_t       priorityOverride;
 } XrActiveActionSetPriorityEXT;
 
 // XrActiveActionSetPrioritiesEXT extends XrActionsSyncInfo
-typedef struct XrActiveActionSetPrioritiesEXT {
+തരനിർവചനം ഘടന XrActiveActionSetPrioritiesEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    uint32_t                               actionSetPriorityCount;
-    const XrActiveActionSetPriorityEXT*    actionSetPriorities;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS               next;
+    uint32_t                               action_Set_Priority_എണ്ണം;
+    സ്ഥിരം XrActiveActionSetPriorityEXT*    actionSetPriorities;
 } XrActiveActionSetPrioritiesEXT;
 
 
@@ -8698,40 +8698,40 @@ typedef struct XrActiveActionSetPrioritiesEXT {
 #define XR_MNDX_force_feedback_curl_SPEC_VERSION 1
 #define XR_MNDX_FORCE_FEEDBACK_CURL_EXTENSION_NAME "XR_MNDX_force_feedback_curl"
 
-typedef enum XrForceFeedbackCurlLocationMNDX {
+തരനിർവചനം എണ്ണൽ XrForceFeedbackCurlLocationMNDX {
     XR_FORCE_FEEDBACK_CURL_LOCATION_THUMB_CURL_MNDX = 0,
     XR_FORCE_FEEDBACK_CURL_LOCATION_INDEX_CURL_MNDX = 1,
-    XR_FORCE_FEEDBACK_CURL_LOCATION_MIDDLE_CURL_MNDX = 2,
+    XR_FORCE_FEEDBACK_CURL_LOCATION_നടുവ്_CURL_MNDX = 2,
     XR_FORCE_FEEDBACK_CURL_LOCATION_RING_CURL_MNDX = 3,
     XR_FORCE_FEEDBACK_CURL_LOCATION_LITTLE_CURL_MNDX = 4,
     XR_FORCE_FEEDBACK_CURL_LOCATION_MAX_ENUM_MNDX = 0x7FFFFFFF
 } XrForceFeedbackCurlLocationMNDX;
 // XrSystemForceFeedbackCurlPropertiesMNDX extends XrSystemProperties
-typedef struct XrSystemForceFeedbackCurlPropertiesMNDX {
+തരനിർവചനം ഘടന XrSystemForceFeedbackCurlPropertiesMNDX {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsForceFeedbackCurl;
 } XrSystemForceFeedbackCurlPropertiesMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationMNDX {
+തരനിർവചനം ഘടന XrForceFeedbackCurlApplyLocationMNDX {
     XrForceFeedbackCurlLocationMNDX    location;
-    float                              value;
+    ദശാംശം                              മൂല്യം;
 } XrForceFeedbackCurlApplyLocationMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationsMNDX {
+തരനിർവചനം ഘടന XrForceFeedbackCurlApplyLocationsMNDX {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 locationCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                                 location_എണ്ണം;
     XrForceFeedbackCurlApplyLocationMNDX*    locations;
 } XrForceFeedbackCurlApplyLocationsMNDX;
 
-typedef XrResult (XRAPI_PTR *PFN_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT handTracker, സ്ഥിരം XrForceFeedbackCurlApplyLocationsMNDX* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyForceFeedbackCurlMNDX(
     XrHandTrackerEXT                            handTracker,
-    const XrForceFeedbackCurlApplyLocationsMNDX* locations);
+    സ്ഥിരം XrForceFeedbackCurlApplyLocationsMNDX* locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8745,90 +8745,90 @@ XRAPI_ATTR XrResult XRAPI_CALL xrApplyForceFeedbackCurlMNDX(
 // XR_BD_body_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_BD_body_tracking 1
 
-#define XR_BODY_JOINT_COUNT_BD 24
+#define XR_BODY_JOINT_എണ്ണം_BD 24
 
 
-#define XR_BODY_JOINT_WITHOUT_ARM_COUNT_BD 16
+#define XR_BODY_JOINT_WITHOUT_ARM_എണ്ണം_BD 16
 
 XR_DEFINE_HANDLE(XrBodyTrackerBD)
 #define XR_BD_body_tracking_SPEC_VERSION  1
 #define XR_BD_BODY_TRACKING_EXTENSION_NAME "XR_BD_body_tracking"
 
-typedef enum XrBodyJointBD {
+തരനിർവചനം എണ്ണൽ XrBodyJointBD {
     XR_BODY_JOINT_PELVIS_BD = 0,
-    XR_BODY_JOINT_LEFT_HIP_BD = 1,
-    XR_BODY_JOINT_RIGHT_HIP_BD = 2,
+    XR_BODY_JOINT_ഇടത്_HIP_BD = 1,
+    XR_BODY_JOINT_വലത്_HIP_BD = 2,
     XR_BODY_JOINT_SPINE1_BD = 3,
-    XR_BODY_JOINT_LEFT_KNEE_BD = 4,
-    XR_BODY_JOINT_RIGHT_KNEE_BD = 5,
+    XR_BODY_JOINT_ഇടത്_KNEE_BD = 4,
+    XR_BODY_JOINT_വലത്_KNEE_BD = 5,
     XR_BODY_JOINT_SPINE2_BD = 6,
-    XR_BODY_JOINT_LEFT_ANKLE_BD = 7,
-    XR_BODY_JOINT_RIGHT_ANKLE_BD = 8,
+    XR_BODY_JOINT_ഇടത്_ANKLE_BD = 7,
+    XR_BODY_JOINT_വലത്_ANKLE_BD = 8,
     XR_BODY_JOINT_SPINE3_BD = 9,
-    XR_BODY_JOINT_LEFT_FOOT_BD = 10,
-    XR_BODY_JOINT_RIGHT_FOOT_BD = 11,
+    XR_BODY_JOINT_ഇടത്_FOOT_BD = 10,
+    XR_BODY_JOINT_വലത്_FOOT_BD = 11,
     XR_BODY_JOINT_NECK_BD = 12,
-    XR_BODY_JOINT_LEFT_COLLAR_BD = 13,
-    XR_BODY_JOINT_RIGHT_COLLAR_BD = 14,
+    XR_BODY_JOINT_ഇടത്_COLLAR_BD = 13,
+    XR_BODY_JOINT_വലത്_COLLAR_BD = 14,
     XR_BODY_JOINT_HEAD_BD = 15,
-    XR_BODY_JOINT_LEFT_SHOULDER_BD = 16,
-    XR_BODY_JOINT_RIGHT_SHOULDER_BD = 17,
-    XR_BODY_JOINT_LEFT_ELBOW_BD = 18,
-    XR_BODY_JOINT_RIGHT_ELBOW_BD = 19,
-    XR_BODY_JOINT_LEFT_WRIST_BD = 20,
-    XR_BODY_JOINT_RIGHT_WRIST_BD = 21,
-    XR_BODY_JOINT_LEFT_HAND_BD = 22,
-    XR_BODY_JOINT_RIGHT_HAND_BD = 23,
+    XR_BODY_JOINT_ഇടത്_SHOULDER_BD = 16,
+    XR_BODY_JOINT_വലത്_SHOULDER_BD = 17,
+    XR_BODY_JOINT_ഇടത്_ELBOW_BD = 18,
+    XR_BODY_JOINT_വലത്_ELBOW_BD = 19,
+    XR_BODY_JOINT_ഇടത്_WRIST_BD = 20,
+    XR_BODY_JOINT_വലത്_WRIST_BD = 21,
+    XR_BODY_JOINT_ഇടത്_HAND_BD = 22,
+    XR_BODY_JOINT_വലത്_HAND_BD = 23,
     XR_BODY_JOINT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointBD;
 
-typedef enum XrBodyJointSetBD {
+തരനിർവചനം എണ്ണൽ XrBodyJointSetBD {
     XR_BODY_JOINT_SET_BODY_WITHOUT_ARM_BD = 1,
     XR_BODY_JOINT_SET_FULL_BODY_JOINTS_BD = 2,
     XR_BODY_JOINT_SET_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointSetBD;
 // XrSystemBodyTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesBD {
+തരനിർവചനം ഘടന XrSystemBodyTrackingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesBD;
 
-typedef struct XrBodyTrackerCreateInfoBD {
+തരനിർവചനം ഘടന XrBodyTrackerCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBodyJointSetBD            jointSet;
 } XrBodyTrackerCreateInfoBD;
 
-typedef struct XrBodyJointsLocateInfoBD {
+തരനിർവചനം ഘടന XrBodyJointsLocateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoBD;
 
-typedef struct XrBodyJointLocationBD {
+തരനിർവചനം ഘടന XrBodyJointLocationBD {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationBD;
 
-typedef struct XrBodyJointLocationsBD {
+തരനിർവചനം ഘടന XrBodyJointLocationsBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ശൂന്യം* XR_MAY_ALIAS        next;
     XrBool32                  allJointPosesTracked;
-    uint32_t                  jointLocationCount;
+    uint32_t                  joint_Location_എണ്ണം;
     XrBodyJointLocationBD*    jointLocations;
 } XrBodyJointLocationsBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerBD)(XrSession session, const XrBodyTrackerCreateInfoBD* createInfo, XrBodyTrackerBD* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerBD)(XrBodyTrackerBD bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsBD)(XrBodyTrackerBD bodyTracker, const XrBodyJointsLocateInfoBD* locateInfo, XrBodyJointLocationsBD* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerBD)(XrSession session, സ്ഥിരം XrBodyTrackerCreateInfoBD* createInfo, XrBodyTrackerBD* bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerBD)(XrBodyTrackerBD bodyTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsBD)(XrBodyTrackerBD bodyTracker, സ്ഥിരം XrBodyJointsLocateInfoBD* locateInfo, XrBodyJointLocationsBD* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerBD(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoBD*            createInfo,
+    സ്ഥിരം XrBodyTrackerCreateInfoBD*            createInfo,
     XrBodyTrackerBD*                            bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerBD(
@@ -8836,7 +8836,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsBD(
     XrBodyTrackerBD                             bodyTracker,
-    const XrBodyJointsLocateInfoBD*             locateInfo,
+    സ്ഥിരം XrBodyJointsLocateInfoBD*             locateInfo,
     XrBodyJointLocationsBD*                     locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -8845,16 +8845,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsBD(
 // XR_BD_facial_simulation is a preprocessor guard. Do not pass it to API calls.
 #define XR_BD_facial_simulation 1
 
-#define XR_FACE_EXPRESSION_COUNT_BD 52
+#define XR_FACE_EXPRESSION_എണ്ണം_BD 52
 
 
-#define XR_LIP_EXPRESSION_COUNT_BD 20
+#define XR_LIP_EXPRESSION_എണ്ണം_BD 20
 
  XR_DEFINE_HANDLE(XrFaceTrackerBD)
 #define XR_BD_facial_simulation_SPEC_VERSION 1
 #define XR_BD_FACIAL_SIMULATION_EXTENSION_NAME "XR_BD_facial_simulation"
 
-typedef enum XrFacialSimulationModeBD {
+തരനിർവചനം എണ്ണൽ XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_DEFAULT_BD = 0,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_BD = 1,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_WITH_LIP_BD = 2,
@@ -8862,7 +8862,7 @@ typedef enum XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFacialSimulationModeBD;
 
-typedef enum XrFaceExpressionBD {
+തരനിർവചനം എണ്ണൽ XrFaceExpressionBD {
     XR_FACE_EXPRESSION_BROW_DROP_L_BD = 0,
     XR_FACE_EXPRESSION_BROW_DROP_R_BD = 1,
     XR_FACE_EXPRESSION_BROW_INNER_UPWARDS_BD = 2,
@@ -8918,7 +8918,7 @@ typedef enum XrFaceExpressionBD {
     XR_FACE_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFaceExpressionBD;
 
-typedef enum XrLipExpressionBD {
+തരനിർവചനം എണ്ണൽ XrLipExpressionBD {
     XR_LIP_EXPRESSION_PP_BD = 0,
     XR_LIP_EXPRESSION_CH_BD = 1,
     XR_LIP_EXPRESSION_LO_BD = 2,
@@ -8942,60 +8942,60 @@ typedef enum XrLipExpressionBD {
     XR_LIP_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrLipExpressionBD;
 // XrSystemFacialSimulationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemFacialSimulationPropertiesBD {
+തരനിർവചനം ഘടന XrSystemFacialSimulationPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFacialSimulationPropertiesBD;
 
-typedef struct XrFaceTrackerCreateInfoBD {
+തരനിർവചനം ഘടന XrFaceTrackerCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFacialSimulationModeBD    mode;
 } XrFaceTrackerCreateInfoBD;
 
-typedef struct XrFacialSimulationDataGetInfoBD {
+തരനിർവചനം ഘടന XrFacialSimulationDataGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFacialSimulationDataGetInfoBD;
 
-typedef struct XrFacialSimulationDataBD {
+തരനിർവചനം ഘടന XrFacialSimulationDataBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              faceExpressionWeightCount;
-    float*                faceExpressionWeights;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              face_Expression_Weight_എണ്ണം;
+    ദശാംശം*                faceExpressionWeights;
     XrBool32              isUpperFaceDataValid;
     XrBool32              isLowerFaceDataValid;
     XrTime                time;
 } XrFacialSimulationDataBD;
 
 // XrLipExpressionDataBD extends XrFacialSimulationDataBD
-typedef struct XrLipExpressionDataBD {
+തരനിർവചനം ഘടന XrLipExpressionDataBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              lipsyncExpressionWeightCount;
-    float*                lipsyncExpressionWeights;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              lipsync_Expression_Weight_എണ്ണം;
+    ദശാംശം*                lipsyncExpressionWeights;
 } XrLipExpressionDataBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateFacialSimulationModesBD)(XrSession session, uint32_t modeCapacityInput, uint32_t* modeCountOutput, XrFacialSimulationModeBD* modes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerBD)(XrSession session, const XrFaceTrackerCreateInfoBD* createInfo, XrFaceTrackerBD* tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerBD)(XrFaceTrackerBD tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationDataBD)(XrFaceTrackerBD tracker, const XrFacialSimulationDataGetInfoBD*info, XrFacialSimulationDataBD* facialData);
-typedef XrResult (XRAPI_PTR *PFN_xrSetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD mode);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD*mode);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateFacialSimulationModesBD)(XrSession session, uint32_t mode_Capacity_നിവേശം, uint32_t* mode_എണ്ണം_Output, XrFacialSimulationModeBD* modes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerBD)(XrSession session, സ്ഥിരം XrFaceTrackerCreateInfoBD* createInfo, XrFaceTrackerBD* tracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerBD)(XrFaceTrackerBD tracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationDataBD)(XrFaceTrackerBD tracker, സ്ഥിരം XrFacialSimulationDataGetInfoBD*info, XrFacialSimulationDataBD* facialData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD mode);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD*mode);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateFacialSimulationModesBD(
     XrSession                                   session,
-    uint32_t                                    modeCapacityInput,
-    uint32_t*                                   modeCountOutput,
+    uint32_t                                    mode_Capacity_നിവേശം,
+    uint32_t*                                   mode_എണ്ണം_Output,
     XrFacialSimulationModeBD*                   modes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerBD(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoBD*            createInfo,
+    സ്ഥിരം XrFaceTrackerCreateInfoBD*            createInfo,
     XrFaceTrackerBD*                            tracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerBD(
@@ -9003,7 +9003,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialSimulationDataBD(
     XrFaceTrackerBD                             tracker,
-    const XrFacialSimulationDataGetInfoBD*      info,
+    സ്ഥിരം XrFacialSimulationDataGetInfoBD*      info,
     XrFacialSimulationDataBD*                   facialData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetFacialSimulationModeBD(
@@ -9026,7 +9026,7 @@ XR_DEFINE_HANDLE(XrAnchorBD)
 #define XR_BD_spatial_sensing_SPEC_VERSION 3
 #define XR_BD_SPATIAL_SENSING_EXTENSION_NAME "XR_BD_spatial_sensing"
 
-typedef enum XrSpatialEntityComponentTypeBD {
+തരനിർവചനം എണ്ണൽ XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_LOCATION_BD = 0,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_SEMANTIC_BD = 1,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_BOUNDING_BOX_2D_BD = 2,
@@ -9040,7 +9040,7 @@ typedef enum XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSpatialEntityComponentTypeBD;
 
-typedef enum XrSemanticLabelBD {
+തരനിർവചനം എണ്ണൽ XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_UNKNOWN_BD = 0,
     XR_SEMANTIC_LABEL_FLOOR_BD = 1,
     XR_SEMANTIC_LABEL_CEILING_BD = 2,
@@ -9072,7 +9072,7 @@ typedef enum XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSemanticLabelBD;
 
-typedef enum XrSenseDataProviderTypeBD {
+തരനിർവചനം എണ്ണൽ XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_ANCHOR_BD = 1000390000,
     XR_SENSE_DATA_PROVIDER_TYPE_SCENE_BD = 1000392000,
     XR_SENSE_DATA_PROVIDER_TYPE_MESH_BD = 1000393000,
@@ -9082,214 +9082,214 @@ typedef enum XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderTypeBD;
 
-typedef enum XrSenseDataProviderStateBD {
+തരനിർവചനം എണ്ണൽ XrSenseDataProviderStateBD {
     XR_SENSE_DATA_PROVIDER_STATE_INITIALIZED_BD = 0,
     XR_SENSE_DATA_PROVIDER_STATE_RUNNING_BD = 1,
     XR_SENSE_DATA_PROVIDER_STATE_STOPPED_BD = 2,
     XR_SENSE_DATA_PROVIDER_STATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderStateBD;
 // XrSystemSpatialSensingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialSensingPropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialSensingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialSensing;
 } XrSystemSpatialSensingPropertiesBD;
 
-typedef struct XrSpatialEntityComponentGetInfoBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentGetInfoBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
     XrSpatialEntityIdBD               entityId;
     XrSpatialEntityComponentTypeBD    componentType;
 } XrSpatialEntityComponentGetInfoBD;
 
-typedef struct XrSpatialEntityComponentDataBaseHeaderBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialEntityComponentDataBaseHeaderBD;
 
 // XrSpatialEntityLocationGetInfoBD extends XrSpatialEntityComponentGetInfoBD
-typedef struct XrSpatialEntityLocationGetInfoBD {
+തരനിർവചനം ഘടന XrSpatialEntityLocationGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
 } XrSpatialEntityLocationGetInfoBD;
 
 // XrSpatialEntityComponentDataLocationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLocationBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataLocationBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpaceLocation       location;
 } XrSpatialEntityComponentDataLocationBD;
 
 // XrSpatialEntityComponentDataSemanticBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSemanticBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataSemanticBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              labelCapacityInput;
-    uint32_t              labelCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              label_Capacity_നിവേശം;
+    uint32_t              label_എണ്ണം_Output;
     XrSemanticLabelBD*    labels;
 } XrSpatialEntityComponentDataSemanticBD;
 
 // XrSpatialEntityComponentDataBoundingBox2DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox2DBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataBoundingBox2DBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrRect2Df             boundingBox2D;
 } XrSpatialEntityComponentDataBoundingBox2DBD;
 
 // XrSpatialEntityComponentDataPolygonBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPolygonBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataPolygonBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector2f*           vertices;
 } XrSpatialEntityComponentDataPolygonBD;
 
 // XrSpatialEntityComponentDataBoundingBox3DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox3DBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataBoundingBox3DBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBoxf                boundingBox3D;
 } XrSpatialEntityComponentDataBoundingBox3DBD;
 
 // XrSpatialEntityComponentDataTriangleMeshBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataTriangleMeshBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataTriangleMeshBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector3f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint16_t*             indices;
 } XrSpatialEntityComponentDataTriangleMeshBD;
 
 // XrSpatialEntityComponentDataSphereBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSphereBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataSphereBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpheref             sphere;
 } XrSpatialEntityComponentDataSphereBD;
 
-typedef struct XrSenseDataProviderCreateInfoBD {
+തരനിർവചനം ഘടന XrSenseDataProviderCreateInfoBD {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrSenseDataProviderTypeBD    providerType;
 } XrSenseDataProviderCreateInfoBD;
 
-typedef struct XrSenseDataProviderStartInfoBD {
+തരനിർവചനം ഘടന XrSenseDataProviderStartInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSenseDataProviderStartInfoBD;
 
-typedef struct XrEventDataSenseDataProviderStateChangedBD {
+തരനിർവചനം ഘടന XrEventDataSenseDataProviderStateChangedBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrSenseDataProviderBD         provider;
     XrSenseDataProviderStateBD    newState;
 } XrEventDataSenseDataProviderStateChangedBD;
 
-typedef struct XrEventDataSenseDataUpdatedBD {
+തരനിർവചനം ഘടന XrEventDataSenseDataUpdatedBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSenseDataProviderBD       provider;
 } XrEventDataSenseDataUpdatedBD;
 
-typedef struct XrSenseDataQueryInfoBD {
+തരനിർവചനം ഘടന XrSenseDataQueryInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSenseDataQueryInfoBD;
 
-typedef struct XrSenseDataQueryCompletionBD {
+തരനിർവചനം ഘടന XrSenseDataQueryCompletionBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ശൂന്യം* XR_MAY_ALIAS       next;
     XrResult                 futureResult;
     XrSenseDataSnapshotBD    snapshot;
 } XrSenseDataQueryCompletionBD;
 
-typedef struct XrQueriedSenseDataGetInfoBD {
+തരനിർവചനം ഘടന XrQueriedSenseDataGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrQueriedSenseDataGetInfoBD;
 
-typedef struct XrSpatialEntityStateBD {
+തരനിർവചനം ഘടന XrSpatialEntityStateBD {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ശൂന്യം* XR_MAY_ALIAS     next;
     XrSpatialEntityIdBD    entityId;
     XrTime                 lastUpdateTime;
     XrUuidEXT              uuid;
 } XrSpatialEntityStateBD;
 
-typedef struct XrQueriedSenseDataBD {
+തരനിർവചനം ഘടന XrQueriedSenseDataBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   stateCapacityInput;
-    uint32_t                   stateCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    uint32_t                   state_Capacity_നിവേശം;
+    uint32_t                   state_എണ്ണം_Output;
     XrSpatialEntityStateBD*    states;
 } XrQueriedSenseDataBD;
 
 // XrSenseDataFilterUuidBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterUuidBD {
+തരനിർവചനം ഘടന XrSenseDataFilterUuidBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_എണ്ണം;
+    സ്ഥിരം XrUuidEXT*            uuids;
 } XrSenseDataFilterUuidBD;
 
 // XrSenseDataFilterSemanticBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterSemanticBD {
+തരനിർവചനം ഘടന XrSenseDataFilterSemanticBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    labelCount;
-    const XrSemanticLabelBD*    labels;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    label_എണ്ണം;
+    സ്ഥിരം XrSemanticLabelBD*    labels;
 } XrSenseDataFilterSemanticBD;
 
-typedef struct XrSpatialEntityAnchorCreateInfoBD {
+തരനിർവചനം ഘടന XrSpatialEntityAnchorCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSenseDataSnapshotBD       snapshot;
     XrSpatialEntityIdBD         entityId;
 } XrSpatialEntityAnchorCreateInfoBD;
 
-typedef struct XrAnchorSpaceCreateInfoBD {
+തരനിർവചനം ഘടന XrAnchorSpaceCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
     XrPosef                     poseInAnchorSpace;
 } XrAnchorSpaceCreateInfoBD;
 
-typedef struct XrFutureCompletionEXT {
+തരനിർവചനം ഘടന XrFutureCompletionEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrFutureCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialEntityComponentTypesBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpatialEntityComponentTypeBD* componentTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityUuidBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityComponentDataBD)(XrSenseDataSnapshotBD snapshot, const XrSpatialEntityComponentGetInfoBD* getInfo, XrSpatialEntityComponentDataBaseHeaderBD* componentData);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSenseDataProviderBD)(XrSession session, const XrSenseDataProviderCreateInfoBD* createInfo, XrSenseDataProviderBD* provider);
-typedef XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderAsyncBD)(XrSenseDataProviderBD provider, const XrSenseDataProviderStartInfoBD* startInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderCompleteBD)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSenseDataProviderStateBD)(XrSenseDataProviderBD provider, XrSenseDataProviderStateBD* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySenseDataAsyncBD)(XrSenseDataProviderBD provider, const XrSenseDataQueryInfoBD* queryInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySenseDataCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSenseDataQueryCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySenseDataSnapshotBD)(XrSenseDataSnapshotBD snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetQueriedSenseDataBD)(XrSenseDataSnapshotBD snapshot, XrQueriedSenseDataGetInfoBD* getInfo, XrQueriedSenseDataBD* queriedSenseData);
-typedef XrResult (XRAPI_PTR *PFN_xrStopSenseDataProviderBD)(XrSenseDataProviderBD provider);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySenseDataProviderBD)(XrSenseDataProviderBD provider);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityAnchorBD)(XrSenseDataProviderBD provider, const XrSpatialEntityAnchorCreateInfoBD* createInfo, XrAnchorBD* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAnchorBD)(XrAnchorBD anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAnchorUuidBD)(XrAnchorBD anchor, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceBD)(XrSession session, const XrAnchorSpaceCreateInfoBD* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialEntityComponentTypesBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, uint32_t component_Type_Capacity_നിവേശം, uint32_t* component_Type_എണ്ണം_Output, XrSpatialEntityComponentTypeBD* componentTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityUuidBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, XrUuidEXT* uuid);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityComponentDataBD)(XrSenseDataSnapshotBD snapshot, സ്ഥിരം XrSpatialEntityComponentGetInfoBD* getInfo, XrSpatialEntityComponentDataBaseHeaderBD* componentData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSenseDataProviderBD)(XrSession session, സ്ഥിരം XrSenseDataProviderCreateInfoBD* createInfo, XrSenseDataProviderBD* provider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSenseDataProviderStartInfoBD* startInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderCompleteBD)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSenseDataProviderStateBD)(XrSenseDataProviderBD provider, XrSenseDataProviderStateBD* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySenseDataAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSenseDataQueryInfoBD* queryInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySenseDataCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSenseDataQueryCompletionBD* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySenseDataSnapshotBD)(XrSenseDataSnapshotBD snapshot);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetQueriedSenseDataBD)(XrSenseDataSnapshotBD snapshot, XrQueriedSenseDataGetInfoBD* getInfo, XrQueriedSenseDataBD* queriedSenseData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStopSenseDataProviderBD)(XrSenseDataProviderBD provider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySenseDataProviderBD)(XrSenseDataProviderBD provider);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityAnchorBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSpatialEntityAnchorCreateInfoBD* createInfo, XrAnchorBD* anchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyAnchorBD)(XrAnchorBD anchor);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetAnchorUuidBD)(XrAnchorBD anchor, XrUuidEXT* uuid);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceBD)(XrSession session, സ്ഥിരം XrAnchorSpaceCreateInfoBD* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialEntityComponentTypesBD(
     XrSenseDataSnapshotBD                       snapshot,
     XrSpatialEntityIdBD                         entityId,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_നിവേശം,
+    uint32_t*                                   component_Type_എണ്ണം_Output,
     XrSpatialEntityComponentTypeBD*             componentTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityUuidBD(
@@ -9299,17 +9299,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityUuidBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityComponentDataBD(
     XrSenseDataSnapshotBD                       snapshot,
-    const XrSpatialEntityComponentGetInfoBD*    getInfo,
+    സ്ഥിരം XrSpatialEntityComponentGetInfoBD*    getInfo,
     XrSpatialEntityComponentDataBaseHeaderBD*   componentData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSenseDataProviderBD(
     XrSession                                   session,
-    const XrSenseDataProviderCreateInfoBD*      createInfo,
+    സ്ഥിരം XrSenseDataProviderCreateInfoBD*      createInfo,
     XrSenseDataProviderBD*                      provider);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartSenseDataProviderAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSenseDataProviderStartInfoBD*       startInfo,
+    സ്ഥിരം XrSenseDataProviderStartInfoBD*       startInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartSenseDataProviderCompleteBD(
@@ -9323,7 +9323,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSenseDataProviderStateBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySenseDataAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSenseDataQueryInfoBD*               queryInfo,
+    സ്ഥിരം XrSenseDataQueryInfoBD*               queryInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySenseDataCompleteBD(
@@ -9347,7 +9347,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySenseDataProviderBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialEntityAnchorBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialEntityAnchorCreateInfoBD*    createInfo,
+    സ്ഥിരം XrSpatialEntityAnchorCreateInfoBD*    createInfo,
     XrAnchorBD*                                 anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAnchorBD(
@@ -9359,7 +9359,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetAnchorUuidBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceBD(
     XrSession                                   session,
-    const XrAnchorSpaceCreateInfoBD*            createInfo,
+    സ്ഥിരം XrAnchorSpaceCreateInfoBD*            createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -9370,59 +9370,59 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceBD(
 #define XR_BD_spatial_anchor_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_EXTENSION_NAME "XR_BD_spatial_anchor"
 
-typedef enum XrPersistenceLocationBD {
+തരനിർവചനം എണ്ണൽ XrPersistenceLocationBD {
     XR_PERSISTENCE_LOCATION_LOCAL_BD = 0,
     XR_PERSISTENCE_LOCATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPersistenceLocationBD;
 // XrSystemSpatialAnchorPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorPropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialAnchorPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchor;
 } XrSystemSpatialAnchorPropertiesBD;
 
-typedef struct XrSpatialAnchorCreateInfoBD {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     pose;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoBD;
 
-typedef struct XrSpatialAnchorCreateCompletionBD {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateCompletionBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
     XrUuidEXT             uuid;
     XrAnchorBD            anchor;
 } XrSpatialAnchorCreateCompletionBD;
 
-typedef struct XrSpatialAnchorPersistInfoBD {
+തരനിർവചനം ഘടന XrSpatialAnchorPersistInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorPersistInfoBD;
 
-typedef struct XrSpatialAnchorUnpersistInfoBD {
+തരനിർവചനം ഘടന XrSpatialAnchorUnpersistInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorUnpersistInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorCreateInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSpatialAnchorCreateCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorPersistInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorUnpersistInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSpatialAnchorCreateInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSpatialAnchorCreateCompletionBD* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSpatialAnchorPersistInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSpatialAnchorUnpersistInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorCreateInfoBD*          info,
+    സ്ഥിരം XrSpatialAnchorCreateInfoBD*          info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorCompleteBD(
@@ -9432,7 +9432,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorPersistInfoBD*         info,
+    സ്ഥിരം XrSpatialAnchorPersistInfoBD*         info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorCompleteBD(
@@ -9442,7 +9442,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorUnpersistInfoBD*       info,
+    സ്ഥിരം XrSpatialAnchorUnpersistInfoBD*       info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorCompleteBD(
@@ -9458,34 +9458,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorCompleteBD(
 #define XR_BD_spatial_anchor_sharing_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_SHARING_EXTENSION_NAME "XR_BD_spatial_anchor_sharing"
 // XrSystemSpatialAnchorSharingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorSharingPropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialAnchorSharingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchorSharing;
 } XrSystemSpatialAnchorSharingPropertiesBD;
 
-typedef struct XrSpatialAnchorShareInfoBD {
+തരനിർവചനം ഘടന XrSpatialAnchorShareInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorShareInfoBD;
 
-typedef struct XrSharedSpatialAnchorDownloadInfoBD {
+തരനിർവചനം ഘടന XrSharedSpatialAnchorDownloadInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT                   uuid;
 } XrSharedSpatialAnchorDownloadInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorShareInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSharedSpatialAnchorDownloadInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSpatialAnchorShareInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSharedSpatialAnchorDownloadInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorShareInfoBD*           info,
+    സ്ഥിരം XrSpatialAnchorShareInfoBD*           info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorCompleteBD(
@@ -9495,7 +9495,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSharedSpatialAnchorDownloadInfoBD*  info,
+    സ്ഥിരം XrSharedSpatialAnchorDownloadInfoBD*  info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorCompleteBD(
@@ -9511,25 +9511,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorCompleteBD(
 #define XR_BD_spatial_scene_SPEC_VERSION  1
 #define XR_BD_SPATIAL_SCENE_EXTENSION_NAME "XR_BD_spatial_scene"
 // XrSystemSpatialScenePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialScenePropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialScenePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialScene;
 } XrSystemSpatialScenePropertiesBD;
 
-typedef struct XrSceneCaptureInfoBD {
+തരനിർവചനം ഘടന XrSceneCaptureInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSceneCaptureInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCaptureSceneAsyncBD)(XrSenseDataProviderBD provider, const XrSceneCaptureInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCaptureSceneCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCaptureSceneAsyncBD)(XrSenseDataProviderBD provider, സ്ഥിരം XrSceneCaptureInfoBD* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCaptureSceneCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSceneCaptureInfoBD*                 info,
+    സ്ഥിരം XrSceneCaptureInfoBD*                 info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneCompleteBD(
@@ -9545,29 +9545,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneCompleteBD(
 #define XR_BD_spatial_mesh_SPEC_VERSION   1
 #define XR_BD_SPATIAL_MESH_EXTENSION_NAME "XR_BD_spatial_mesh"
 
-typedef enum XrSpatialMeshLodBD {
+തരനിർവചനം എണ്ണൽ XrSpatialMeshLodBD {
     XR_SPATIAL_MESH_LOD_COARSE_BD = 0,
     XR_SPATIAL_MESH_LOD_MEDIUM_BD = 1,
     XR_SPATIAL_MESH_LOD_FINE_BD = 2,
     XR_SPATIAL_MESH_LOD_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSpatialMeshLodBD;
-typedef XrFlags64 XrSpatialMeshConfigFlagsBD;
+തരനിർവചനം XrFlags64 XrSpatialMeshConfigFlagsBD;
 
 // Flag bits for XrSpatialMeshConfigFlagsBD
-static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_SEMANTIC_BIT_BD = 0x00000001;
-static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_ALIGN_SEMANTIC_WITH_VERTEX_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_SEMANTIC_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_ALIGN_SEMANTIC_WITH_VERTEX_BIT_BD = 0x00000002;
 
 // XrSystemSpatialMeshPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialMeshPropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialMeshPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialMesh;
 } XrSystemSpatialMeshPropertiesBD;
 
 // XrSenseDataProviderCreateInfoSpatialMeshBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
+തരനിർവചനം ഘടന XrSenseDataProviderCreateInfoSpatialMeshBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrSpatialMeshConfigFlagsBD    configFlags;
     XrSpatialMeshLodBD            lod;
 } XrSenseDataProviderCreateInfoSpatialMeshBD;
@@ -9579,9 +9579,9 @@ typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
 #define XR_BD_future_progress_SPEC_VERSION 1
 #define XR_BD_FUTURE_PROGRESS_EXTENSION_NAME "XR_BD_future_progress"
 // XrFuturePollResultProgressBD extends XrFuturePollResultEXT
-typedef struct XrFuturePollResultProgressBD {
+തരനിർവചനം ഘടന XrFuturePollResultProgressBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              isSupported;
     uint32_t              progressPercentage;
 } XrFuturePollResultProgressBD;
@@ -9593,23 +9593,23 @@ typedef struct XrFuturePollResultProgressBD {
 #define XR_BD_body_tracking_auxiliary_metrics_SPEC_VERSION 1
 #define XR_BD_BODY_TRACKING_AUXILIARY_METRICS_EXTENSION_NAME "XR_BD_body_tracking_auxiliary_metrics"
 
-typedef enum XrBodyTrackingPostureBD {
+തരനിർവചനം എണ്ണൽ XrBodyTrackingPostureBD {
     XR_BODY_TRACKING_POSTURE_STOMP_BD = 1,
     XR_BODY_TRACKING_POSTURE_STATIC_BD = 2,
     XR_BODY_TRACKING_POSTURE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingPostureBD;
 
-typedef enum XrBodyTrackingStatusBD {
+തരനിർവചനം എണ്ണൽ XrBodyTrackingStatusBD {
     XR_BODY_TRACKING_STATUS_INVALID_BD = 0,
     XR_BODY_TRACKING_STATUS_VALID_BD = 1,
     XR_BODY_TRACKING_STATUS_LIMITED_BD = 2,
     XR_BODY_TRACKING_STATUS_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingStatusBD;
 
-typedef enum XrBodyTrackingMessageBD {
+തരനിർവചനം എണ്ണൽ XrBodyTrackingMessageBD {
     XR_BODY_TRACKING_MESSAGE_NO_ERROR_BD = 0,
     XR_BODY_TRACKING_MESSAGE_TRACKER_NOT_CALIBRATED_BD = 1,
-    XR_BODY_TRACKING_MESSAGE_TRACKER_NUM_NOT_ENOUGH_BD = 2,
+    XR_BODY_TRACKING_MESSAGE_TRACKER_അക്കം_NOT_ENOUGH_BD = 2,
     XR_BODY_TRACKING_MESSAGE_TRACKER_STATE_NOT_SATISFIED_BD = 3,
     XR_BODY_TRACKING_MESSAGE_TRACKER_PERSISTENT_INVISIBILITY_BD = 4,
     XR_BODY_TRACKING_MESSAGE_TRACKER_DATA_ERROR_BD = 5,
@@ -9617,57 +9617,57 @@ typedef enum XrBodyTrackingMessageBD {
     XR_BODY_TRACKING_MESSAGE_TRACKING_POSE_ERROR_BD = 7,
     XR_BODY_TRACKING_MESSAGE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingMessageBD;
-typedef XrFlags64 XrSpaceAccelerationFlagsBD;
+തരനിർവചനം XrFlags64 XrSpaceAccelerationFlagsBD;
 
 // Flag bits for XrSpaceAccelerationFlagsBD
-static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_LINEAR_VALID_BIT_BD = 0x00000001;
-static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_ANGULAR_VALID_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_LINEAR_VALID_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_ANGULAR_VALID_BIT_BD = 0x00000002;
 
 // XrBodyTrackingPostureDataBD extends XrBodyJointLocationsBD
-typedef struct XrBodyTrackingPostureDataBD {
+തരനിർവചനം ഘടന XrBodyTrackingPostureDataBD {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    uint32_t                    postureCount;
+    ശൂന്യം* XR_MAY_ALIAS          next;
+    uint32_t                    posture_എണ്ണം;
     XrBodyTrackingPostureBD*    postureData;
 } XrBodyTrackingPostureDataBD;
 
-typedef struct XrBodyJointVelocityBD {
+തരനിർവചനം ഘടന XrBodyJointVelocityBD {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrBodyJointVelocityBD;
 
 // XrBodyJointVelocitiesBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointVelocitiesBD {
+തരനിർവചനം ഘടന XrBodyJointVelocitiesBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  velocityCount;
+    ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                  velocity_എണ്ണം;
     XrBodyJointVelocityBD*    velocities;
 } XrBodyJointVelocitiesBD;
 
-typedef struct XrBodyJointAccelerationBD {
+തരനിർവചനം ഘടന XrBodyJointAccelerationBD {
     XrSpaceAccelerationFlagsBD    accelerationFlags;
     XrVector3f                    linearAcceleration;
     XrVector3f                    angularAcceleration;
 } XrBodyJointAccelerationBD;
 
 // XrBodyJointAccelerationsBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointAccelerationsBD {
+തരനിർവചനം ഘടന XrBodyJointAccelerationsBD {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      accelerationCount;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      acceleration_എണ്ണം;
     XrBodyJointAccelerationBD*    accelerations;
 } XrBodyJointAccelerationsBD;
 
-typedef struct XrBodyTrackingStateBD {
+തരനിർവചനം ഘടന XrBodyTrackingStateBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ശൂന്യം* XR_MAY_ALIAS         next;
     XrBodyTrackingStatusBD     status;
     XrBodyTrackingMessageBD    message;
 } XrBodyTrackingStateBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrStartBodyTrackingCalibrationAppBD)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodyTrackingStateBD)(XrSession session, XrBodyTrackingStateBD* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartBodyTrackingCalibrationAppBD)(XrSession session);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetBodyTrackingStateBD)(XrSession session, XrBodyTrackingStateBD* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -9686,7 +9686,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodyTrackingStateBD(
 #define XR_BD_spatial_plane_SPEC_VERSION  1
 #define XR_BD_SPATIAL_PLANE_EXTENSION_NAME "XR_BD_spatial_plane"
 
-typedef enum XrPlaneOrientationBD {
+തരനിർവചനം എണ്ണൽ XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_HORIZONTAL_UPWARD_BD = 0,
     XR_PLANE_ORIENTATION_HORIZONTAL_DOWNWARD_BD = 1,
     XR_PLANE_ORIENTATION_VERTICAL_BD = 2,
@@ -9694,24 +9694,24 @@ typedef enum XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPlaneOrientationBD;
 // XrSystemSpatialPlanePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialPlanePropertiesBD {
+തരനിർവചനം ഘടന XrSystemSpatialPlanePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialPlane;
 } XrSystemSpatialPlanePropertiesBD;
 
 // XrSpatialEntityComponentDataPlaneOrientationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPlaneOrientationBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataPlaneOrientationBD {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrPlaneOrientationBD    orientation;
 } XrSpatialEntityComponentDataPlaneOrientationBD;
 
 // XrSenseDataFilterPlaneOrientationBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterPlaneOrientationBD {
+തരനിർവചനം ഘടന XrSenseDataFilterPlaneOrientationBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    orientationCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    orientation_എണ്ണം;
     XrPlaneOrientationBD*       orientations;
 } XrSenseDataFilterPlaneOrientationBD;
 
@@ -9722,13 +9722,13 @@ typedef struct XrSenseDataFilterPlaneOrientationBD {
 #define XR_BD_spatial_light_estimation_SPEC_VERSION 1
 #define XR_BD_SPATIAL_LIGHT_ESTIMATION_EXTENSION_NAME "XR_BD_spatial_light_estimation"
 
-typedef enum XrEnvironmentTexturePixelFormatBD {
+തരനിർവചനം എണ്ണൽ XrEnvironmentTexturePixelFormatBD {
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGB_16FLOAT_BD = 0,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGBA_16FLOAT_BD = 1,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTexturePixelFormatBD;
 
-typedef enum XrEnvironmentTextureResolutionBD {
+തരനിർവചനം എണ്ണൽ XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_8_8_BD = 0,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_16_16_BD = 1,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_32_32_BD = 2,
@@ -9737,99 +9737,99 @@ typedef enum XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureResolutionBD;
 
-typedef enum XrEnvironmentTextureTransferTypeBD {
+തരനിർവചനം എണ്ണൽ XrEnvironmentTextureTransferTypeBD {
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_RAW_BD = 0,
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureTransferTypeBD;
 
-typedef enum XrSphericalHarmonicsKindBD {
+തരനിർവചനം എണ്ണൽ XrSphericalHarmonicsKindBD {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_BD = 0,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSphericalHarmonicsKindBD;
-typedef XrFlags64 XrLightEstimationCreateFlagsBD;
+തരനിർവചനം XrFlags64 XrLightEstimationCreateFlagsBD;
 
 // Flag bits for XrLightEstimationCreateFlagsBD
-static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_SPHERICAL_HARMONICS_BIT_BD = 0x00000001;
-static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_ENVIRONMENT_TEXTURE_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_SPHERICAL_HARMONICS_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_ENVIRONMENT_TEXTURE_BIT_BD = 0x00000002;
 
 // XrSystemLightEstimationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesBD {
+തരനിർവചനം ഘടന XrSystemLightEstimationPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
     XrBool32              supportsEnvironmentTexture;
     XrBool32              supportsSphericalHarmonics;
 } XrSystemLightEstimationPropertiesBD;
 
 // XrSenseDataProviderCreateInfoLightEstimationBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoLightEstimationBD {
+തരനിർവചനം ഘടന XrSenseDataProviderCreateInfoLightEstimationBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
     XrLightEstimationCreateFlagsBD    createFlags;
 } XrSenseDataProviderCreateInfoLightEstimationBD;
 
 // XrEnvironmentTextureCreateConfigInfoBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrEnvironmentTextureCreateConfigInfoBD {
+തരനിർവചനം ഘടന XrEnvironmentTextureCreateConfigInfoBD {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrEnvironmentTexturePixelFormatBD     pixelFormat;
     XrEnvironmentTextureResolutionBD      resolution;
     XrEnvironmentTextureTransferTypeBD    transferType;
 } XrEnvironmentTextureCreateConfigInfoBD;
 
 // XrLightEstimationDataEnvironmentTextureRawBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataEnvironmentTextureRawBD {
+തരനിർവചനം ഘടന XrLightEstimationDataEnvironmentTextureRawBD {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrEnvironmentTexturePixelFormatBD    pixelFormat;
     uint32_t                             cubemapFaceBufferSize;
-    uint8_t*                             rightCubemapFaceBuffer;
-    uint8_t*                             leftCubemapFaceBuffer;
-    uint8_t*                             topCubemapFaceBuffer;
+    uint8_t*                             വലത്_Cubemap_Face_Buffer;
+    uint8_t*                             ഇടത്_Cubemap_Face_Buffer;
+    uint8_t*                             മുകൾ_Cubemap_Face_Buffer;
     uint8_t*                             bottomCubemapFaceBuffer;
     uint8_t*                             frontCubemapFaceBuffer;
     uint8_t*                             backCubemapFaceBuffer;
 } XrLightEstimationDataEnvironmentTextureRawBD;
 
 // XrLightEstimationDataSphericalHarmonicsBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataSphericalHarmonicsBD {
+തരനിർവചനം ഘടന XrLightEstimationDataSphericalHarmonicsBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrSphericalHarmonicsKindBD    kind;
-    uint32_t                      coefficientCapacityInput;
-    uint32_t                      coefficientCountOutput;
-     float*                       coefficients;
+    uint32_t                      coefficient_Capacity_നിവേശം;
+    uint32_t                      coefficient_എണ്ണം_Output;
+     ദശാംശം*                       coefficients;
 } XrLightEstimationDataSphericalHarmonicsBD;
 
 // XrSpatialEntityComponentDataLightEstimationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLightEstimationBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataLightEstimationBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              isValid;
 } XrSpatialEntityComponentDataLightEstimationBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureResolutionsBD)(XrSession session, uint32_t resolutionCapacityInput, uint32_t* resolutionCountOutput, XrEnvironmentTextureResolutionBD* resolutions);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTexturePixelFormatsBD)(XrSession session, uint32_t pixelFormatCapacityInput, uint32_t* pixelFormatCountOutput, XrEnvironmentTexturePixelFormatBD* pixelFormats);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureTransferTypesBD)(XrSession session, uint32_t transferTypeCapacityInput, uint32_t* transferTypeCountOutput, XrEnvironmentTextureTransferTypeBD* transferTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureResolutionsBD)(XrSession session, uint32_t resolution_Capacity_നിവേശം, uint32_t* resolution_എണ്ണം_Output, XrEnvironmentTextureResolutionBD* resolutions);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTexturePixelFormatsBD)(XrSession session, uint32_t pixel_Format_Capacity_നിവേശം, uint32_t* pixel_Format_എണ്ണം_Output, XrEnvironmentTexturePixelFormatBD* pixelFormats);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureTransferTypesBD)(XrSession session, uint32_t transfer_Type_Capacity_നിവേശം, uint32_t* transfer_Type_എണ്ണം_Output, XrEnvironmentTextureTransferTypeBD* transferTypes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTextureResolutionsBD(
     XrSession                                   session,
-    uint32_t                                    resolutionCapacityInput,
-    uint32_t*                                   resolutionCountOutput,
+    uint32_t                                    resolution_Capacity_നിവേശം,
+    uint32_t*                                   resolution_എണ്ണം_Output,
     XrEnvironmentTextureResolutionBD*           resolutions);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTexturePixelFormatsBD(
     XrSession                                   session,
-    uint32_t                                    pixelFormatCapacityInput,
-    uint32_t*                                   pixelFormatCountOutput,
+    uint32_t                                    pixel_Format_Capacity_നിവേശം,
+    uint32_t*                                   pixel_Format_എണ്ണം_Output,
     XrEnvironmentTexturePixelFormatBD*          pixelFormats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTextureTransferTypesBD(
     XrSession                                   session,
-    uint32_t                                    transferTypeCapacityInput,
-    uint32_t*                                   transferTypeCountOutput,
+    uint32_t                                    transfer_Type_Capacity_നിവേശം,
+    uint32_t*                                   transfer_Type_എണ്ണം_Output,
     XrEnvironmentTextureTransferTypeBD*         transferTypes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -9851,7 +9851,7 @@ XR_DEFINE_HANDLE(XrSoundObstacleMaterialBD)
 #define XR_BD_spatial_audio_rendering_SPEC_VERSION 1
 #define XR_BD_SPATIAL_AUDIO_RENDERING_EXTENSION_NAME "XR_BD_spatial_audio_rendering"
 
-typedef enum XrAudioSampleRateBD {
+തരനിർവചനം എണ്ണൽ XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_192000_HZ_BD = 1,
     XR_AUDIO_SAMPLE_RATE_96000_HZ_BD = 2,
     XR_AUDIO_SAMPLE_RATE_48000_HZ_BD = 3,
@@ -9866,13 +9866,13 @@ typedef enum XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioSampleRateBD;
 
-typedef enum XrAudioBufferChannelLayoutBD {
+തരനിർവചനം എണ്ണൽ XrAudioBufferChannelLayoutBD {
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_INTERLEAVED_BD = 0,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_PLANAR_BD = 1,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioBufferChannelLayoutBD;
 
-typedef enum XrSoundObjectDistanceAttenuationTypeBD {
+തരനിർവചനം എണ്ണൽ XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_NONE_BD = 0,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_INVERSE_SQUARE_BD = 1,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_ROLLOFF_BD = 2,
@@ -9880,22 +9880,22 @@ typedef enum XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundObjectDistanceAttenuationTypeBD;
 
-typedef enum XrSoundFieldChannelMaskSurroundBD {
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_LEFT_BD = 1,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_RIGHT_BD = 2,
+തരനിർവചനം എണ്ണൽ XrSoundFieldChannelMaskSurroundBD {
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_ഇടത്_BD = 1,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_വലത്_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_CENTER_BD = 4,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_LOW_FREQUENCY_BD = 8,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_LEFT_BD = 16,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_RIGHT_BD = 32,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_LEFT_BD = 64,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_RIGHT_BD = 128,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_FRONT_LEFT_BD = 256,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_FRONT_RIGHT_BD = 512,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_BACK_LEFT_BD = 1024,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_BACK_RIGHT_BD = 2048,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_താഴെയുള്ള_FREQUENCY_BD = 8,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_ഇടത്_BD = 16,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_വലത്_BD = 32,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_ഇടത്_BD = 64,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_വലത്_BD = 128,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_FRONT_ഇടത്_BD = 256,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_FRONT_വലത്_BD = 512,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_BACK_ഇടത്_BD = 1024,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_BACK_വലത്_BD = 2048,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_CENTER_BD = 4096,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_SIDE_LEFT_BD = 8192,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_SIDE_RIGHT_BD = 16384,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_SIDE_ഇടത്_BD = 8192,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_മുകൾ_SIDE_വലത്_BD = 16384,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_STEREO_BD = 3,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_2_1_BD = 11,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_3_0_BD = 7,
@@ -9917,7 +9917,7 @@ typedef enum XrSoundFieldChannelMaskSurroundBD {
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskSurroundBD;
 
-typedef enum XrSoundFieldChannelMaskAmbixBD {
+തരനിർവചനം എണ്ണൽ XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_2ND_ORDER_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_3RD_ORDER_BD = 3,
@@ -9928,12 +9928,12 @@ typedef enum XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskAmbixBD;
 
-typedef enum XrSoundFieldChannelMaskFumaBD {
+തരനിർവചനം എണ്ണൽ XrSoundFieldChannelMaskFumaBD {
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskFumaBD;
 
-typedef enum XrSoundObstacleMaterialTypeBD {
+തരനിർവചനം എണ്ണൽ XrSoundObstacleMaterialTypeBD {
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_ACOUSTIC_TILE_BD = 0,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_BD = 1,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_PAINTED_BD = 2,
@@ -9966,190 +9966,190 @@ typedef enum XrSoundObstacleMaterialTypeBD {
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_CUSTOM_BD = 29,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundObstacleMaterialTypeBD;
-typedef XrFlags64 XrSoundObstacleFlagsBD;
+തരനിർവചനം XrFlags64 XrSoundObstacleFlagsBD;
 
 // Flag bits for XrSoundObstacleFlagsBD
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_POSE_BIT_BD = 0x00000002;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MESH_BIT_BD = 0x00000004;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MATERIALS_BIT_BD = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_ENABLED_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_POSE_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MESH_BIT_BD = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MATERIALS_BIT_BD = 0x00000008;
 
-typedef XrFlags64 XrSoundObjectFlagsBD;
+തരനിർവചനം XrFlags64 XrSoundObjectFlagsBD;
 
 // Flag bits for XrSoundObjectFlagsBD
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_POSE_BIT_BD = 0x00000002;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECTIVITY_BIT_BD = 0x00000004;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_SHAPE_BIT_BD = 0x00000008;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_MAIN_VOLUME_BIT_BD = 0x00000010;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_REFLECTION_GAIN_BIT_BD = 0x00000020;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLE_DOPPLER_BIT_BD = 0x00000040;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000080;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_INDIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000100;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLED_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_POSE_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECTIVITY_BIT_BD = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_SHAPE_BIT_BD = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_MAIN_VOLUME_BIT_BD = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_REFLECTION_GAIN_BIT_BD = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLE_DOPPLER_BIT_BD = 0x00000040;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000080;
+സ്ഥിതം സ്ഥിരം XrSoundObjectFlagsBD XR_SOUND_OBJECT_INDIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000100;
 
-typedef XrFlags64 XrSoundFieldFlagsBD;
+തരനിർവചനം XrFlags64 XrSoundFieldFlagsBD;
 
 // Flag bits for XrSoundFieldFlagsBD
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_ORIENTATION_BIT_BD = 0x00000002;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_MAIN_VOLUME_BIT_BD = 0x00000004;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_LFE_GAIN_BIT_BD = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrSoundFieldFlagsBD XR_SOUND_FIELD_ENABLED_BIT_BD = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrSoundFieldFlagsBD XR_SOUND_FIELD_ORIENTATION_BIT_BD = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrSoundFieldFlagsBD XR_SOUND_FIELD_MAIN_VOLUME_BIT_BD = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrSoundFieldFlagsBD XR_SOUND_FIELD_LFE_GAIN_BIT_BD = 0x00000008;
 
-typedef struct XrSpatialAudioRendererCreateInfoBD {
+തരനിർവചനം ഘടന XrSpatialAudioRendererCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    framesPerBuffer;
     XrAudioSampleRateBD         sampleRate;
 } XrSpatialAudioRendererCreateInfoBD;
 
-typedef struct XrAudioBufferBD {
+തരനിർവചനം ഘടന XrAudioBufferBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
     XrAudioBufferChannelLayoutBD    channelLayout;
     uint32_t                        bufferChannels;
     uint32_t                        bufferLength;
-    float*                          buffer;
+    ദശാംശം*                          buffer;
 } XrAudioBufferBD;
 
 // XrSoundObjectDirectivityCardioidBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectDirectivityCardioidBD {
+തരനിർവചനം ഘടന XrSoundObjectDirectivityCardioidBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       alpha;
-    float                       order;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       alpha;
+    ദശാംശം                       order;
 } XrSoundObjectDirectivityCardioidBD;
 
 // XrSoundObjectShapeSphereBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectShapeSphereBD {
+തരനിർവചനം ഘടന XrSoundObjectShapeSphereBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       radius;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       radius;
 } XrSoundObjectShapeSphereBD;
 
-typedef struct XrAttenuationCurvePointBD {
-    float    distance;
-    float    gain;
+തരനിർവചനം ഘടന XrAttenuationCurvePointBD {
+    ദശാംശം    distance;
+    ദശാംശം    gain;
 } XrAttenuationCurvePointBD;
 
-typedef struct XrSoundObjectDistanceAttenuationCurveBD {
+തരനിർവചനം ഘടന XrSoundObjectDistanceAttenuationCurveBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    uint32_t                      curvePointCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
+    uint32_t                      curve_Point_എണ്ണം;
     XrAttenuationCurvePointBD*    curvePoints;
 } XrSoundObjectDistanceAttenuationCurveBD;
 
-typedef struct XrSoundObjectDistanceAttenuationBD {
+തരനിർവചനം ഘടന XrSoundObjectDistanceAttenuationBD {
     XrStructureType                             type;
-    const void* XR_MAY_ALIAS                    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                    next;
     XrSoundObjectDistanceAttenuationTypeBD      distanceAttenuationType;
-    float                                       minAttenuationRange;
-    float                                       maxAttenuationRange;
-    float                                       referenceDistance;
-    float                                       rolloffFactor;
+    ദശാംശം                                       minAttenuationRange;
+    ദശാംശം                                       maxAttenuationRange;
+    ദശാംശം                                       referenceDistance;
+    ദശാംശം                                       rolloffFactor;
     XrSoundObjectDistanceAttenuationCurveBD*    customDistanceAttenuationCurve;
 } XrSoundObjectDistanceAttenuationBD;
 
-typedef struct XrSoundObjectConfigBD {
+തരനിർവചനം ഘടന XrSoundObjectConfigBD {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                     next;
     XrBool32                                     enabled;
     XrPosef                                      pose;
     XrSpace                                      baseSpace;
-    float                                        mainVolume;
-    float                                        reflectionGain;
+    ദശാംശം                                        mainVolume;
+    ദശാംശം                                        reflectionGain;
     XrBool32                                     enableDoppler;
-    const XrSoundObjectDistanceAttenuationBD*    directSoundAttenuation;
-    const XrSoundObjectDistanceAttenuationBD*    indirectSoundAttenuation;
+    സ്ഥിരം XrSoundObjectDistanceAttenuationBD*    directSoundAttenuation;
+    സ്ഥിരം XrSoundObjectDistanceAttenuationBD*    indirectSoundAttenuation;
 } XrSoundObjectConfigBD;
 
-typedef struct XrSoundFieldConfigBD {
+തരനിർവചനം ഘടന XrSoundFieldConfigBD {
      XrStructureType            type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
     XrQuaternionf               orientation;
     XrSpace                     baseSpace;
-    float                       mainVolume;
-    float                       lfeGain;
+    ദശാംശം                       mainVolume;
+    ദശാംശം                       lfeGain;
 } XrSoundFieldConfigBD;
 
 // XrSoundFieldChannelDefinitionSurroundBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionSurroundBD {
+തരനിർവചനം ഘടന XrSoundFieldChannelDefinitionSurroundBD {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrSoundFieldChannelMaskSurroundBD    channelMask;
 } XrSoundFieldChannelDefinitionSurroundBD;
 
 // XrSoundFieldChannelDefinitionAmbixBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionAmbixBD {
+തരനിർവചനം ഘടന XrSoundFieldChannelDefinitionAmbixBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS          next;
     XrSoundFieldChannelMaskAmbixBD    channelMask;
 } XrSoundFieldChannelDefinitionAmbixBD;
 
 // XrSoundFieldChannelDefinitionFumaBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionFumaBD {
+തരനിർവചനം ഘടന XrSoundFieldChannelDefinitionFumaBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrSoundFieldChannelMaskFumaBD    channelMask;
 } XrSoundFieldChannelDefinitionFumaBD;
 
-typedef struct XrSoundTriangleMeshBD {
+തരനിർവചനം ഘടന XrSoundTriangleMeshBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_എണ്ണം;
     XrVector3f*                 vertices;
-    uint32_t                    indexCount;
+    uint32_t                    index_എണ്ണം;
     uint32_t*                   indices;
 } XrSoundTriangleMeshBD;
 
-typedef struct XrSoundObstacleConfigBD {
+തരനിർവചനം ഘടന XrSoundObstacleConfigBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrBool32                      enabled;
     XrPosef                       pose;
     XrSpace                       baseSpace;
-    uint32_t                      materialCount;
+    uint32_t                      material_എണ്ണം;
     XrSoundObstacleMaterialBD*    materials;
 } XrSoundObstacleConfigBD;
 
-typedef struct XrSoundObstacleMaterialConfigBD {
+തരനിർവചനം ഘടന XrSoundObstacleMaterialConfigBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrSoundObstacleMaterialTypeBD    materialType;
-    uint32_t                         bandCount;
-    float*                           bandFrequencies;
-    float*                           bandAbsorptions;
-    float*                           bandScatterings;
-    float*                           bandTransmissions;
+    uint32_t                         band_എണ്ണം;
+    ദശാംശം*                           bandFrequencies;
+    ദശാംശം*                           bandAbsorptions;
+    ദശാംശം*                           bandScatterings;
+    ദശാംശം*                           bandTransmissions;
 } XrSoundObstacleMaterialConfigBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAudioSampleRateBD)(XrSession session, uint32_t sampleRateCapacityInput, uint32_t* sampleRateCountOutput, XrAudioSampleRateBD* sampleRates);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryFramesPerBufferRangeBD)(XrSession session, XrAudioSampleRateBD sampleRate, uint32_t* min, uint32_t* max);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAudioRendererBD)(XrSession session, const XrSpatialAudioRendererCreateInfoBD* createInfo, XrSpatialAudioRendererBD* renderer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAudioRendererBD)(XrSpatialAudioRendererBD renderer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleMaterialBD)(XrSpatialAudioRendererBD renderer, const XrSoundObstacleMaterialConfigBD* config, XrSoundObstacleMaterialBD* material);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleMaterialConfigBD)(XrSoundObstacleMaterialBD material, const XrSoundObstacleMaterialConfigBD* config);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleMaterialBD)(XrSoundObstacleMaterialBD material);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleBD)(XrSpatialAudioRendererBD renderer, const XrSoundObstacleConfigBD* config, const XrSoundTriangleMeshBD* mesh, XrSoundObstacleBD* soundObstacle);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleConfigBD)(XrSoundObstacleBD soundObstacle, const XrSoundObstacleConfigBD* config, const XrSoundTriangleMeshBD* mesh, XrSoundObstacleFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleBD)(XrSoundObstacleBD soundObstacle);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObjectBD)(XrSpatialAudioRendererBD renderer, const XrSoundObjectConfigBD* config, XrSoundObjectBD* soundObject);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObjectConfigBD)(XrSoundObjectBD soundObject, const XrSoundObjectConfigBD* config, XrSoundObjectFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitSoundObjectBufferBD)(XrSoundObjectBD soundObject, const XrAudioBufferBD* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObjectBD)(XrSoundObjectBD soundObject);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundFieldBD)(XrSpatialAudioRendererBD renderer, const XrSoundFieldConfigBD* config, XrSoundFieldBD* soundField);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundFieldConfigBD)(XrSoundFieldBD soundField, const XrSoundFieldConfigBD* config, XrSoundFieldFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitSoundFieldBufferBD)(XrSoundFieldBD soundField, const XrAudioBufferBD* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundFieldBD)(XrSoundFieldBD soundField);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitAudioPeriodBD)(XrSpatialAudioRendererBD renderer, XrDuration timeout);
-typedef XrResult (XRAPI_PTR *PFN_xrEndAudioPeriodBD)(XrSpatialAudioRendererBD renderer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAudioSampleRateBD)(XrSession session, uint32_t sample_Rate_Capacity_നിവേശം, uint32_t* sample_Rate_എണ്ണം_Output, XrAudioSampleRateBD* sampleRates);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQueryFramesPerBufferRangeBD)(XrSession session, XrAudioSampleRateBD sampleRate, uint32_t* min, uint32_t* max);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAudioRendererBD)(XrSession session, സ്ഥിരം XrSpatialAudioRendererCreateInfoBD* createInfo, XrSpatialAudioRendererBD* renderer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialAudioRendererBD)(XrSpatialAudioRendererBD renderer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleMaterialBD)(XrSpatialAudioRendererBD renderer, സ്ഥിരം XrSoundObstacleMaterialConfigBD* config, XrSoundObstacleMaterialBD* material);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleMaterialConfigBD)(XrSoundObstacleMaterialBD material, സ്ഥിരം XrSoundObstacleMaterialConfigBD* config);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleMaterialBD)(XrSoundObstacleMaterialBD material);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleBD)(XrSpatialAudioRendererBD renderer, സ്ഥിരം XrSoundObstacleConfigBD* config, സ്ഥിരം XrSoundTriangleMeshBD* mesh, XrSoundObstacleBD* soundObstacle);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleConfigBD)(XrSoundObstacleBD soundObstacle, സ്ഥിരം XrSoundObstacleConfigBD* config, സ്ഥിരം XrSoundTriangleMeshBD* mesh, XrSoundObstacleFlagsBD flags);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleBD)(XrSoundObstacleBD soundObstacle);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSoundObjectBD)(XrSpatialAudioRendererBD renderer, സ്ഥിരം XrSoundObjectConfigBD* config, XrSoundObjectBD* soundObject);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSoundObjectConfigBD)(XrSoundObjectBD soundObject, സ്ഥിരം XrSoundObjectConfigBD* config, XrSoundObjectFlagsBD flags);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSubmitSoundObjectBufferBD)(XrSoundObjectBD soundObject, സ്ഥിരം XrAudioBufferBD* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySoundObjectBD)(XrSoundObjectBD soundObject);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSoundFieldBD)(XrSpatialAudioRendererBD renderer, സ്ഥിരം XrSoundFieldConfigBD* config, XrSoundFieldBD* soundField);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUpdateSoundFieldConfigBD)(XrSoundFieldBD soundField, സ്ഥിരം XrSoundFieldConfigBD* config, XrSoundFieldFlagsBD flags);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSubmitSoundFieldBufferBD)(XrSoundFieldBD soundField, സ്ഥിരം XrAudioBufferBD* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySoundFieldBD)(XrSoundFieldBD soundField);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrWaitAudioPeriodBD)(XrSpatialAudioRendererBD renderer, XrDuration timeout);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEndAudioPeriodBD)(XrSpatialAudioRendererBD renderer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedAudioSampleRateBD(
     XrSession                                   session,
-    uint32_t                                    sampleRateCapacityInput,
-    uint32_t*                                   sampleRateCountOutput,
+    uint32_t                                    sample_Rate_Capacity_നിവേശം,
+    uint32_t*                                   sample_Rate_എണ്ണം_Output,
     XrAudioSampleRateBD*                        sampleRates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQueryFramesPerBufferRangeBD(
@@ -10160,7 +10160,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryFramesPerBufferRangeBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAudioRendererBD(
     XrSession                                   session,
-    const XrSpatialAudioRendererCreateInfoBD*   createInfo,
+    സ്ഥിരം XrSpatialAudioRendererCreateInfoBD*   createInfo,
     XrSpatialAudioRendererBD*                   renderer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAudioRendererBD(
@@ -10168,26 +10168,26 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAudioRendererBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObstacleMaterialBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObstacleMaterialConfigBD*      config,
+    സ്ഥിരം XrSoundObstacleMaterialConfigBD*      config,
     XrSoundObstacleMaterialBD*                  material);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObstacleMaterialConfigBD(
     XrSoundObstacleMaterialBD                   material,
-    const XrSoundObstacleMaterialConfigBD*      config);
+    സ്ഥിരം XrSoundObstacleMaterialConfigBD*      config);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleMaterialBD(
     XrSoundObstacleMaterialBD                   material);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObstacleBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObstacleConfigBD*              config,
-    const XrSoundTriangleMeshBD*                mesh,
+    സ്ഥിരം XrSoundObstacleConfigBD*              config,
+    സ്ഥിരം XrSoundTriangleMeshBD*                mesh,
     XrSoundObstacleBD*                          soundObstacle);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObstacleConfigBD(
     XrSoundObstacleBD                           soundObstacle,
-    const XrSoundObstacleConfigBD*              config,
-    const XrSoundTriangleMeshBD*                mesh,
+    സ്ഥിരം XrSoundObstacleConfigBD*              config,
+    സ്ഥിരം XrSoundTriangleMeshBD*                mesh,
     XrSoundObstacleFlagsBD                      flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleBD(
@@ -10195,34 +10195,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObjectBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObjectConfigBD*                config,
+    സ്ഥിരം XrSoundObjectConfigBD*                config,
     XrSoundObjectBD*                            soundObject);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObjectConfigBD(
     XrSoundObjectBD                             soundObject,
-    const XrSoundObjectConfigBD*                config,
+    സ്ഥിരം XrSoundObjectConfigBD*                config,
     XrSoundObjectFlagsBD                        flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSubmitSoundObjectBufferBD(
     XrSoundObjectBD                             soundObject,
-    const XrAudioBufferBD*                      buffer);
+    സ്ഥിരം XrAudioBufferBD*                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObjectBD(
     XrSoundObjectBD                             soundObject);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundFieldBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundFieldConfigBD*                 config,
+    സ്ഥിരം XrSoundFieldConfigBD*                 config,
     XrSoundFieldBD*                             soundField);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundFieldConfigBD(
     XrSoundFieldBD                              soundField,
-    const XrSoundFieldConfigBD*                 config,
+    സ്ഥിരം XrSoundFieldConfigBD*                 config,
     XrSoundFieldFlagsBD                         flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSubmitSoundFieldBufferBD(
     XrSoundFieldBD                              soundField,
-    const XrAudioBufferBD*                      buffer);
+    സ്ഥിരം XrAudioBufferBD*                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundFieldBD(
     XrSoundFieldBD                              soundField);
@@ -10248,24 +10248,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEndAudioPeriodBD(
 #define XR_EXT_hand_tracking_data_source_SPEC_VERSION 1
 #define XR_EXT_HAND_TRACKING_DATA_SOURCE_EXTENSION_NAME "XR_EXT_hand_tracking_data_source"
 
-typedef enum XrHandTrackingDataSourceEXT {
+തരനിർവചനം എണ്ണൽ XrHandTrackingDataSourceEXT {
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_TRACKING_DATA_SOURCE_CONTROLLER_EXT = 2,
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_WIDE_MOTION_META = 1000695000,
     XR_HAND_TRACKING_DATA_SOURCE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandTrackingDataSourceEXT;
 // XrHandTrackingDataSourceInfoEXT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandTrackingDataSourceInfoEXT {
+തരനിർവചനം ഘടന XrHandTrackingDataSourceInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        requestedDataSourceCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                        requested_Data_Source_എണ്ണം;
     XrHandTrackingDataSourceEXT*    requestedDataSources;
 } XrHandTrackingDataSourceInfoEXT;
 
 // XrHandTrackingDataSourceStateEXT extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingDataSourceStateEXT {
+തരനിർവചനം ഘടന XrHandTrackingDataSourceStateEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrBool32                       isActive;
     XrHandTrackingDataSourceEXT    dataSource;
 } XrHandTrackingDataSourceStateEXT;
@@ -10278,7 +10278,7 @@ XR_DEFINE_HANDLE(XrPlaneDetectorEXT)
 #define XR_EXT_plane_detection_SPEC_VERSION 2
 #define XR_EXT_PLANE_DETECTION_EXTENSION_NAME "XR_EXT_plane_detection"
 
-typedef enum XrPlaneDetectorOrientationEXT {
+തരനിർവചനം എണ്ണൽ XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_UPWARD_EXT = 0,
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_PLANE_DETECTOR_ORIENTATION_VERTICAL_EXT = 2,
@@ -10286,7 +10286,7 @@ typedef enum XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorOrientationEXT;
 
-typedef enum XrPlaneDetectorSemanticTypeEXT {
+തരനിർവചനം എണ്ണൽ XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_UNDEFINED_EXT = 0,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_CEILING_EXT = 1,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_FLOOR_EXT = 2,
@@ -10295,7 +10295,7 @@ typedef enum XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorSemanticTypeEXT;
 
-typedef enum XrPlaneDetectionStateEXT {
+തരനിർവചനം എണ്ണൽ XrPlaneDetectionStateEXT {
     XR_PLANE_DETECTION_STATE_NONE_EXT = 0,
     XR_PLANE_DETECTION_STATE_PENDING_EXT = 1,
     XR_PLANE_DETECTION_STATE_DONE_EXT = 2,
@@ -10303,99 +10303,99 @@ typedef enum XrPlaneDetectionStateEXT {
     XR_PLANE_DETECTION_STATE_FATAL_EXT = 4,
     XR_PLANE_DETECTION_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectionStateEXT;
-typedef XrFlags64 XrPlaneDetectionCapabilityFlagsEXT;
+തരനിർവചനം XrFlags64 XrPlaneDetectionCapabilityFlagsEXT;
 
 // Flag bits for XrPlaneDetectionCapabilityFlagsEXT
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_DETECTION_BIT_EXT = 0x00000001;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_HOLES_BIT_EXT = 0x00000002;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_CEILING_BIT_EXT = 0x00000004;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_FLOOR_BIT_EXT = 0x00000008;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_WALL_BIT_EXT = 0x00000010;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_PLATFORM_BIT_EXT = 0x00000020;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_ORIENTATION_BIT_EXT = 0x00000040;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_DETECTION_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_HOLES_BIT_EXT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_CEILING_BIT_EXT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_FLOOR_BIT_EXT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_WALL_BIT_EXT = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_PLATFORM_BIT_EXT = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_ORIENTATION_BIT_EXT = 0x00000040;
 
-typedef XrFlags64 XrPlaneDetectorFlagsEXT;
+തരനിർവചനം XrFlags64 XrPlaneDetectorFlagsEXT;
 
 // Flag bits for XrPlaneDetectorFlagsEXT
-static const XrPlaneDetectorFlagsEXT XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPlaneDetectorFlagsEXT XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001;
 
 // XrSystemPlaneDetectionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemPlaneDetectionPropertiesEXT {
+തരനിർവചനം ഘടന XrSystemPlaneDetectionPropertiesEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
     XrPlaneDetectionCapabilityFlagsEXT    supportedFeatures;
 } XrSystemPlaneDetectionPropertiesEXT;
 
-typedef struct XrPlaneDetectorCreateInfoEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrPlaneDetectorFlagsEXT     flags;
 } XrPlaneDetectorCreateInfoEXT;
 
-typedef XrExtent3Df XrExtent3DfEXT;
+തരനിർവചനം XrExtent3Df XrExtent3DfEXT;
 
-typedef struct XrPlaneDetectorBeginInfoEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorBeginInfoEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                 next;
     XrSpace                                  baseSpace;
     XrTime                                   time;
-    uint32_t                                 orientationCount;
-    const XrPlaneDetectorOrientationEXT*     orientations;
-    uint32_t                                 semanticTypeCount;
-    const XrPlaneDetectorSemanticTypeEXT*    semanticTypes;
+    uint32_t                                 orientation_എണ്ണം;
+    സ്ഥിരം XrPlaneDetectorOrientationEXT*     orientations;
+    uint32_t                                 semantic_Type_എണ്ണം;
+    സ്ഥിരം XrPlaneDetectorSemanticTypeEXT*    semanticTypes;
     uint32_t                                 maxPlanes;
-    float                                    minArea;
+    ദശാംശം                                    minArea;
     XrPosef                                  boundingBoxPose;
     XrExtent3DfEXT                           boundingBoxExtent;
 } XrPlaneDetectorBeginInfoEXT;
 
-typedef struct XrPlaneDetectorGetInfoEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrPlaneDetectorGetInfoEXT;
 
-typedef struct XrPlaneDetectorLocationEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorLocationEXT {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
+    ശൂന്യം* XR_MAY_ALIAS                next;
     uint64_t                          planeId;
     XrSpaceLocationFlags              locationFlags;
     XrPosef                           pose;
     XrExtent2Df                       extents;
     XrPlaneDetectorOrientationEXT     orientation;
     XrPlaneDetectorSemanticTypeEXT    semanticType;
-    uint32_t                          polygonBufferCount;
+    uint32_t                          polygon_Buffer_എണ്ണം;
 } XrPlaneDetectorLocationEXT;
 
-typedef struct XrPlaneDetectorLocationsEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorLocationsEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       planeLocationCapacityInput;
-    uint32_t                       planeLocationCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       plane_Location_Capacity_നിവേശം;
+    uint32_t                       plane_Location_എണ്ണം_Output;
     XrPlaneDetectorLocationEXT*    planeLocations;
 } XrPlaneDetectorLocationsEXT;
 
-typedef struct XrPlaneDetectorPolygonBufferEXT {
+തരനിർവചനം ഘടന XrPlaneDetectorPolygonBufferEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_നിവേശം;
+    uint32_t              vertex_എണ്ണം_Output;
     XrVector2f*           vertices;
 } XrPlaneDetectorPolygonBufferEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePlaneDetectorEXT)(XrSession session, const XrPlaneDetectorCreateInfoEXT* createInfo, XrPlaneDetectorEXT* planeDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPlaneDetectorEXT)(XrPlaneDetectorEXT planeDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginPlaneDetectionEXT)(XrPlaneDetectorEXT planeDetector, const XrPlaneDetectorBeginInfoEXT* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionStateEXT)(XrPlaneDetectorEXT planeDetector, XrPlaneDetectionStateEXT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT planeDetector, const XrPlaneDetectorGetInfoEXT* info, XrPlaneDetectorLocationsEXT* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlanePolygonBufferEXT)(XrPlaneDetectorEXT planeDetector, uint64_t planeId, uint32_t polygonBufferIndex, XrPlaneDetectorPolygonBufferEXT* polygonBuffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePlaneDetectorEXT)(XrSession session, സ്ഥിരം XrPlaneDetectorCreateInfoEXT* createInfo, XrPlaneDetectorEXT* planeDetector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPlaneDetectorEXT)(XrPlaneDetectorEXT planeDetector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrBeginPlaneDetectionEXT)(XrPlaneDetectorEXT planeDetector, സ്ഥിരം XrPlaneDetectorBeginInfoEXT* beginInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionStateEXT)(XrPlaneDetectorEXT planeDetector, XrPlaneDetectionStateEXT* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT planeDetector, സ്ഥിരം XrPlaneDetectorGetInfoEXT* info, XrPlaneDetectorLocationsEXT* locations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPlanePolygonBufferEXT)(XrPlaneDetectorEXT planeDetector, uint64_t planeId, uint32_t polygonBufferIndex, XrPlaneDetectorPolygonBufferEXT* polygonBuffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePlaneDetectorEXT(
     XrSession                                   session,
-    const XrPlaneDetectorCreateInfoEXT*         createInfo,
+    സ്ഥിരം XrPlaneDetectorCreateInfoEXT*         createInfo,
     XrPlaneDetectorEXT*                         planeDetector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPlaneDetectorEXT(
@@ -10403,7 +10403,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPlaneDetectorEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginPlaneDetectionEXT(
     XrPlaneDetectorEXT                          planeDetector,
-    const XrPlaneDetectorBeginInfoEXT*          beginInfo);
+    സ്ഥിരം XrPlaneDetectorBeginInfoEXT*          beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionStateEXT(
     XrPlaneDetectorEXT                          planeDetector,
@@ -10411,7 +10411,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionStateEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionsEXT(
     XrPlaneDetectorEXT                          planeDetector,
-    const XrPlaneDetectorGetInfoEXT*            info,
+    സ്ഥിരം XrPlaneDetectorGetInfoEXT*            info,
     XrPlaneDetectorLocationsEXT*                locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlanePolygonBufferEXT(
@@ -10439,14 +10439,14 @@ XR_DEFINE_HANDLE(XrTrackableTrackerANDROID)
 #define XR_ANDROID_trackables_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_EXTENSION_NAME "XR_ANDROID_trackables"
 
-typedef enum XrTrackingStateANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackingStateANDROID {
     XR_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackingStateANDROID;
 
-typedef enum XrTrackableTypeANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_NOT_VALID_ANDROID = 0,
     XR_TRACKABLE_TYPE_PLANE_ANDROID = 1,
     XR_TRACKABLE_TYPE_DEPTH_ANDROID = 1000463000,
@@ -10457,7 +10457,7 @@ typedef enum XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableTypeANDROID;
 
-typedef enum XrPlaneTypeANDROID {
+തരനിർവചനം എണ്ണൽ XrPlaneTypeANDROID {
     XR_PLANE_TYPE_HORIZONTAL_DOWNWARD_FACING_ANDROID = 0,
     XR_PLANE_TYPE_HORIZONTAL_UPWARD_FACING_ANDROID = 1,
     XR_PLANE_TYPE_VERTICAL_ANDROID = 2,
@@ -10465,7 +10465,7 @@ typedef enum XrPlaneTypeANDROID {
     XR_PLANE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneTypeANDROID;
 
-typedef enum XrPlaneLabelANDROID {
+തരനിർവചനം എണ്ണൽ XrPlaneLabelANDROID {
     XR_PLANE_LABEL_UNKNOWN_ANDROID = 0,
     XR_PLANE_LABEL_WALL_ANDROID = 1,
     XR_PLANE_LABEL_FLOOR_ANDROID = 2,
@@ -10473,23 +10473,23 @@ typedef enum XrPlaneLabelANDROID {
     XR_PLANE_LABEL_TABLE_ANDROID = 4,
     XR_PLANE_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneLabelANDROID;
-typedef struct XrTrackableTrackerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrTrackableTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTrackableTypeANDROID      trackableType;
 } XrTrackableTrackerCreateInfoANDROID;
 
-typedef struct XrTrackableGetInfoANDROID {
+തരനിർവചനം ഘടന XrTrackableGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTrackableANDROID          trackable;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrTrackableGetInfoANDROID;
 
-typedef struct XrTrackablePlaneANDROID {
+തരനിർവചനം ഘടന XrTrackablePlaneANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ശൂന്യം* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrPosef                   centerPose;
     XrExtent2Df               extents;
@@ -10497,14 +10497,14 @@ typedef struct XrTrackablePlaneANDROID {
     XrPlaneLabelANDROID       planeLabel;
     XrTrackableANDROID        subsumedByPlane;
     XrTime                    lastUpdatedTime;
-    uint32_t                  vertexCapacityInput;
-    uint32_t*                 vertexCountOutput;
+    uint32_t                  vertex_Capacity_നിവേശം;
+    uint32_t*                 vertex_എണ്ണം_Output;
     XrVector2f*               vertices;
 } XrTrackablePlaneANDROID;
 
-typedef struct XrAnchorSpaceCreateInfoANDROID {
+തരനിർവചനം ഘടന XrAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrPosef                     pose;
@@ -10512,40 +10512,40 @@ typedef struct XrAnchorSpaceCreateInfoANDROID {
 } XrAnchorSpaceCreateInfoANDROID;
 
 // XrSystemTrackablesPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemTrackablesPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemTrackablesPropertiesANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    supportsAnchor;
     uint32_t                    maxAnchors;
 } XrSystemTrackablesPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAnchorTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableTrackerANDROID)(XrSession session, const XrTrackableTrackerCreateInfoANDROID* createInfo, XrTrackableTrackerANDROID* trackableTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTrackableTrackerANDROID)(XrTrackableTrackerANDROID trackableTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAllTrackablesANDROID)(XrTrackableTrackerANDROID trackableTracker, uint32_t trackableCapacityInput, uint32_t* trackableCountOutput, XrTrackableANDROID* trackables);
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackablePlaneANDROID)(XrTrackableTrackerANDROID trackableTracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackablePlaneANDROID* planeOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceANDROID)(XrSession session, const XrAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_നിവേശം, uint32_t* trackable_Type_എണ്ണം_Output, XrTrackableTypeANDROID* trackableTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAnchorTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_നിവേശം, uint32_t* trackable_Type_എണ്ണം_Output, XrTrackableTypeANDROID* trackableTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateTrackableTrackerANDROID)(XrSession session, സ്ഥിരം XrTrackableTrackerCreateInfoANDROID* createInfo, XrTrackableTrackerANDROID* trackableTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyTrackableTrackerANDROID)(XrTrackableTrackerANDROID trackableTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetAllTrackablesANDROID)(XrTrackableTrackerANDROID trackableTracker, uint32_t trackable_Capacity_നിവേശം, uint32_t* trackable_എണ്ണം_Output, XrTrackableANDROID* trackables);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetTrackablePlaneANDROID)(XrTrackableTrackerANDROID trackableTracker, സ്ഥിരം XrTrackableGetInfoANDROID* getInfo, XrTrackablePlaneANDROID* planeOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceANDROID)(XrSession session, സ്ഥിരം XrAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_നിവേശം,
+    uint32_t*                                   trackable_Type_എണ്ണം_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedAnchorTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_നിവേശം,
+    uint32_t*                                   trackable_Type_എണ്ണം_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableTrackerANDROID(
     XrSession                                   session,
-    const XrTrackableTrackerCreateInfoANDROID*  createInfo,
+    സ്ഥിരം XrTrackableTrackerCreateInfoANDROID*  createInfo,
     XrTrackableTrackerANDROID*                  trackableTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTrackableTrackerANDROID(
@@ -10553,18 +10553,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTrackableTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAllTrackablesANDROID(
     XrTrackableTrackerANDROID                   trackableTracker,
-    uint32_t                                    trackableCapacityInput,
-    uint32_t*                                   trackableCountOutput,
+    uint32_t                                    trackable_Capacity_നിവേശം,
+    uint32_t*                                   trackable_എണ്ണം_Output,
     XrTrackableANDROID*                         trackables);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackablePlaneANDROID(
     XrTrackableTrackerANDROID                   trackableTracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrTrackableGetInfoANDROID*            getInfo,
     XrTrackablePlaneANDROID*                    planeOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceANDROID(
     XrSession                                   session,
-    const XrAnchorSpaceCreateInfoANDROID*       createInfo,
+    സ്ഥിരം XrAnchorSpaceCreateInfoANDROID*       createInfo,
     XrSpace*                                    anchorOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10577,67 +10577,67 @@ XR_DEFINE_HANDLE(XrEyeTrackerANDROID)
 #define XR_ANDROID_eye_tracking_SPEC_VERSION 1
 #define XR_ANDROID_EYE_TRACKING_EXTENSION_NAME "XR_ANDROID_eye_tracking"
 
-typedef enum XrEyeIndexANDROID {
-    XR_EYE_INDEX_LEFT_ANDROID = 0,
-    XR_EYE_INDEX_RIGHT_ANDROID = 1,
+തരനിർവചനം എണ്ണൽ XrEyeIndexANDROID {
+    XR_EYE_INDEX_ഇടത്_ANDROID = 0,
+    XR_EYE_INDEX_വലത്_ANDROID = 1,
     XR_EYE_INDEX_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeIndexANDROID;
 
-typedef enum XrEyeStateANDROID {
+തരനിർവചനം എണ്ണൽ XrEyeStateANDROID {
     XR_EYE_STATE_INVALID_ANDROID = 0,
     XR_EYE_STATE_GAZING_ANDROID = 1,
     XR_EYE_STATE_SHUT_ANDROID = 2,
     XR_EYE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeStateANDROID;
 
-typedef enum XrEyeTrackingModeANDROID {
+തരനിർവചനം എണ്ണൽ XrEyeTrackingModeANDROID {
     XR_EYE_TRACKING_MODE_NOT_TRACKING_ANDROID = 0,
-    XR_EYE_TRACKING_MODE_RIGHT_ANDROID = 1,
-    XR_EYE_TRACKING_MODE_LEFT_ANDROID = 2,
+    XR_EYE_TRACKING_MODE_വലത്_ANDROID = 1,
+    XR_EYE_TRACKING_MODE_ഇടത്_ANDROID = 2,
     XR_EYE_TRACKING_MODE_BOTH_ANDROID = 3,
     XR_EYE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeTrackingModeANDROID;
 // XrSystemEyeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemEyeTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesANDROID;
 
-typedef struct XrEyeANDROID {
+തരനിർവചനം ഘടന XrEyeANDROID {
     XrEyeStateANDROID    eyeState;
     XrPosef              eyePose;
 } XrEyeANDROID;
 
-typedef struct XrEyesANDROID {
+തരനിർവചനം ഘടന XrEyesANDROID {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrEyeANDROID                eyes[XR_EYE_MAX_ANDROID];
     XrEyeTrackingModeANDROID    mode;
 } XrEyesANDROID;
 
-typedef struct XrEyesGetInfoANDROID {
+തരനിർവചനം ഘടന XrEyesGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrSpace                     baseSpace;
 } XrEyesGetInfoANDROID;
 
-typedef struct XrEyeTrackerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrEyeTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerANDROID)(XrSession session, const XrEyeTrackerCreateInfoANDROID* createInfo, XrEyeTrackerANDROID* eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerANDROID)(XrEyeTrackerANDROID eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFineTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, const XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCoarseTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, const XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerANDROID)(XrSession session, സ്ഥിരം XrEyeTrackerCreateInfoANDROID* createInfo, XrEyeTrackerANDROID* eyeTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerANDROID)(XrEyeTrackerANDROID eyeTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFineTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, സ്ഥിരം XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetCoarseTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, സ്ഥിരം XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEyeTrackerANDROID(
     XrSession                                   session,
-    const XrEyeTrackerCreateInfoANDROID*        createInfo,
+    സ്ഥിരം XrEyeTrackerCreateInfoANDROID*        createInfo,
     XrEyeTrackerANDROID*                        eyeTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerANDROID(
@@ -10645,12 +10645,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFineTrackingEyesInfoANDROID(
     XrEyeTrackerANDROID                         eyeTracker,
-    const XrEyesGetInfoANDROID*                 getInfo,
+    സ്ഥിരം XrEyesGetInfoANDROID*                 getInfo,
     XrEyesANDROID*                              eyesOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCoarseTrackingEyesInfoANDROID(
     XrEyeTrackerANDROID                         eyeTracker,
-    const XrEyesGetInfoANDROID*                 getInfo,
+    സ്ഥിരം XrEyesGetInfoANDROID*                 getInfo,
     XrEyesANDROID*                              eyesOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10662,57 +10662,57 @@ XR_DEFINE_HANDLE(XrDeviceAnchorPersistenceANDROID)
 #define XR_ANDROID_device_anchor_persistence_SPEC_VERSION 1
 #define XR_ANDROID_DEVICE_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_ANDROID_device_anchor_persistence"
 
-typedef enum XrAnchorPersistStateANDROID {
+തരനിർവചനം എണ്ണൽ XrAnchorPersistStateANDROID {
     XR_ANCHOR_PERSIST_STATE_PERSIST_NOT_REQUESTED_ANDROID = 0,
     XR_ANCHOR_PERSIST_STATE_PERSIST_PENDING_ANDROID = 1,
     XR_ANCHOR_PERSIST_STATE_PERSISTED_ANDROID = 2,
     XR_ANCHOR_PERSIST_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrAnchorPersistStateANDROID;
-typedef struct XrDeviceAnchorPersistenceCreateInfoANDROID {
+തരനിർവചനം ഘടന XrDeviceAnchorPersistenceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrDeviceAnchorPersistenceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceCreateInfoANDROID {
+തരനിർവചനം ഘടന XrPersistedAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuidEXT                   anchorId;
 } XrPersistedAnchorSpaceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceInfoANDROID {
+തരനിർവചനം ഘടന XrPersistedAnchorSpaceInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     anchor;
 } XrPersistedAnchorSpaceInfoANDROID;
 
 // XrSystemDeviceAnchorPersistencePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemDeviceAnchorPersistencePropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemDeviceAnchorPersistencePropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchorPersistence;
 } XrSystemDeviceAnchorPersistencePropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedPersistenceAnchorTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateDeviceAnchorPersistenceANDROID)(XrSession session, const XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo, XrDeviceAnchorPersistenceANDROID* outHandle);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyDeviceAnchorPersistenceANDROID)(XrDeviceAnchorPersistenceANDROID handle);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrPersistedAnchorSpaceInfoANDROID* persistedInfo, XrUuidEXT* anchorIdOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAnchorPersistStateANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrUuidEXT* anchorId, XrAnchorPersistStateANDROID* persistState);
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePersistedAnchorSpaceANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrPersistedAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedAnchorsANDROID)(XrDeviceAnchorPersistenceANDROID handle, uint32_t anchorIdCapacityInput, uint32_t* anchorIdCountOutput, XrUuidEXT* anchorIds);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrUuidEXT* anchorId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedPersistenceAnchorTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_നിവേശം, uint32_t* trackable_Type_എണ്ണം_Output, XrTrackableTypeANDROID* trackableTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateDeviceAnchorPersistenceANDROID)(XrSession session, സ്ഥിരം XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo, XrDeviceAnchorPersistenceANDROID* outHandle);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyDeviceAnchorPersistenceANDROID)(XrDeviceAnchorPersistenceANDROID handle);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, സ്ഥിരം XrPersistedAnchorSpaceInfoANDROID* persistedInfo, XrUuidEXT* anchorIdOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetAnchorPersistStateANDROID)(XrDeviceAnchorPersistenceANDROID handle, സ്ഥിരം XrUuidEXT* anchorId, XrAnchorPersistStateANDROID* persistState);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePersistedAnchorSpaceANDROID)(XrDeviceAnchorPersistenceANDROID handle, സ്ഥിരം XrPersistedAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedAnchorsANDROID)(XrDeviceAnchorPersistenceANDROID handle, uint32_t anchor_Id_Capacity_നിവേശം, uint32_t* anchor_Id_എണ്ണം_Output, XrUuidEXT* anchorIds);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, സ്ഥിരം XrUuidEXT* anchorId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedPersistenceAnchorTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_നിവേശം,
+    uint32_t*                                   trackable_Type_എണ്ണം_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateDeviceAnchorPersistenceANDROID(
     XrSession                                   session,
-    const XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo,
     XrDeviceAnchorPersistenceANDROID*           outHandle);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDeviceAnchorPersistenceANDROID(
@@ -10720,28 +10720,28 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDeviceAnchorPersistenceANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistAnchorANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrPersistedAnchorSpaceInfoANDROID*    persistedInfo,
+    സ്ഥിരം XrPersistedAnchorSpaceInfoANDROID*    persistedInfo,
     XrUuidEXT*                                  anchorIdOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAnchorPersistStateANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrUuidEXT*                            anchorId,
+    സ്ഥിരം XrUuidEXT*                            anchorId,
     XrAnchorPersistStateANDROID*                persistState);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePersistedAnchorSpaceANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrPersistedAnchorSpaceCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrPersistedAnchorSpaceCreateInfoANDROID* createInfo,
     XrSpace*                                    anchorOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePersistedAnchorsANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    uint32_t                                    anchorIdCapacityInput,
-    uint32_t*                                   anchorIdCountOutput,
+    uint32_t                                    anchor_Id_Capacity_നിവേശം,
+    uint32_t*                                   anchor_Id_എണ്ണം_Output,
     XrUuidEXT*                                  anchorIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistAnchorANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrUuidEXT*                            anchorId);
+    സ്ഥിരം XrUuidEXT*                            anchorId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -10751,10 +10751,10 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistAnchorANDROID(
 XR_DEFINE_HANDLE(XrFaceTrackerANDROID)
 #define XR_ANDROID_face_tracking_SPEC_VERSION 1
 #define XR_ANDROID_FACE_TRACKING_EXTENSION_NAME "XR_ANDROID_face_tracking"
-#define XR_FACE_PARAMETER_COUNT_ANDROID   68
-#define XR_FACE_REGION_CONFIDENCE_COUNT_ANDROID 3
+#define XR_FACE_PARAMETER_എണ്ണം_ANDROID   68
+#define XR_FACE_REGION_CONFIDENCE_എണ്ണം_ANDROID 3
 
-typedef enum XrFaceParameterIndicesANDROID {
+തരനിർവചനം എണ്ണൽ XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_L_ANDROID = 0,
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_R_ANDROID = 1,
     XR_FACE_PARAMETER_INDICES_CHEEK_PUFF_L_ANDROID = 2,
@@ -10771,17 +10771,17 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_EYES_CLOSED_R_ANDROID = 13,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_DOWN_L_ANDROID = 14,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_DOWN_R_ANDROID = 15,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_LEFT_L_ANDROID = 16,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_LEFT_R_ANDROID = 17,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_RIGHT_L_ANDROID = 18,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_RIGHT_R_ANDROID = 19,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ഇടത്_L_ANDROID = 16,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ഇടത്_R_ANDROID = 17,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_വലത്_L_ANDROID = 18,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_വലത്_R_ANDROID = 19,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_UP_L_ANDROID = 20,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_UP_R_ANDROID = 21,
     XR_FACE_PARAMETER_INDICES_INNER_BROW_RAISER_L_ANDROID = 22,
     XR_FACE_PARAMETER_INDICES_INNER_BROW_RAISER_R_ANDROID = 23,
     XR_FACE_PARAMETER_INDICES_JAW_DROP_ANDROID = 24,
-    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_LEFT_ANDROID = 25,
-    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_RIGHT_ANDROID = 26,
+    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_ഇടത്_ANDROID = 25,
+    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_വലത്_ANDROID = 26,
     XR_FACE_PARAMETER_INDICES_JAW_THRUST_ANDROID = 27,
     XR_FACE_PARAMETER_INDICES_LID_TIGHTENER_L_ANDROID = 28,
     XR_FACE_PARAMETER_INDICES_LID_TIGHTENER_R_ANDROID = 29,
@@ -10808,8 +10808,8 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_LIPS_TOWARD_ANDROID = 50,
     XR_FACE_PARAMETER_INDICES_LOWER_LIP_DEPRESSOR_L_ANDROID = 51,
     XR_FACE_PARAMETER_INDICES_LOWER_LIP_DEPRESSOR_R_ANDROID = 52,
-    XR_FACE_PARAMETER_INDICES_MOUTH_LEFT_ANDROID = 53,
-    XR_FACE_PARAMETER_INDICES_MOUTH_RIGHT_ANDROID = 54,
+    XR_FACE_PARAMETER_INDICES_MOUTH_ഇടത്_ANDROID = 53,
+    XR_FACE_PARAMETER_INDICES_MOUTH_വലത്_ANDROID = 54,
     XR_FACE_PARAMETER_INDICES_NOSE_WRINKLER_L_ANDROID = 55,
     XR_FACE_PARAMETER_INDICES_NOSE_WRINKLER_R_ANDROID = 56,
     XR_FACE_PARAMETER_INDICES_OUTER_BROW_RAISER_L_ANDROID = 57,
@@ -10819,68 +10819,68 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_UPPER_LIP_RAISER_L_ANDROID = 61,
     XR_FACE_PARAMETER_INDICES_UPPER_LIP_RAISER_R_ANDROID = 62,
     XR_FACE_PARAMETER_INDICES_TONGUE_OUT_ANDROID = 63,
-    XR_FACE_PARAMETER_INDICES_TONGUE_LEFT_ANDROID = 64,
-    XR_FACE_PARAMETER_INDICES_TONGUE_RIGHT_ANDROID = 65,
+    XR_FACE_PARAMETER_INDICES_TONGUE_ഇടത്_ANDROID = 64,
+    XR_FACE_PARAMETER_INDICES_TONGUE_വലത്_ANDROID = 65,
     XR_FACE_PARAMETER_INDICES_TONGUE_UP_ANDROID = 66,
     XR_FACE_PARAMETER_INDICES_TONGUE_DOWN_ANDROID = 67,
     XR_FACE_PARAMETER_INDICES_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceParameterIndicesANDROID;
 
-typedef enum XrFaceTrackingStateANDROID {
+തരനിർവചനം എണ്ണൽ XrFaceTrackingStateANDROID {
     XR_FACE_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_FACE_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_FACE_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_FACE_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceTrackingStateANDROID;
 
-typedef enum XrFaceConfidenceRegionsANDROID {
+തരനിർവചനം എണ്ണൽ XrFaceConfidenceRegionsANDROID {
     XR_FACE_CONFIDENCE_REGIONS_LOWER_ANDROID = 0,
-    XR_FACE_CONFIDENCE_REGIONS_LEFT_UPPER_ANDROID = 1,
-    XR_FACE_CONFIDENCE_REGIONS_RIGHT_UPPER_ANDROID = 2,
+    XR_FACE_CONFIDENCE_REGIONS_ഇടത്_UPPER_ANDROID = 1,
+    XR_FACE_CONFIDENCE_REGIONS_വലത്_UPPER_ANDROID = 2,
     XR_FACE_CONFIDENCE_REGIONS_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceConfidenceRegionsANDROID;
-typedef struct XrFaceTrackerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrFaceTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrFaceTrackerCreateInfoANDROID;
 
-typedef struct XrFaceStateGetInfoANDROID {
+തരനിർവചനം ഘടന XrFaceStateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceStateGetInfoANDROID;
 
-typedef struct XrFaceStateANDROID {
+തരനിർവചനം ഘടന XrFaceStateANDROID {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      parametersCapacityInput;
-    uint32_t                      parametersCountOutput;
-    float*                        parameters;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      parameters_Capacity_നിവേശം;
+    uint32_t                      parameters_എണ്ണം_Output;
+    ദശാംശം*                        parameters;
     XrFaceTrackingStateANDROID    faceTrackingState;
     XrTime                        sampleTime;
     XrBool32                      isValid;
-    uint32_t                      regionConfidencesCapacityInput;
-    uint32_t                      regionConfidencesCountOutput;
-    float*                        regionConfidences;
+    uint32_t                      region_Confidences_Capacity_നിവേശം;
+    uint32_t                      region_Confidences_എണ്ണം_Output;
+    ദശാംശം*                        regionConfidences;
 } XrFaceStateANDROID;
 
 // XrSystemFaceTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemFaceTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFaceTrackingPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerANDROID)(XrSession session, const XrFaceTrackerCreateInfoANDROID* createInfo, XrFaceTrackerANDROID* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerANDROID)(XrFaceTrackerANDROID faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceStateANDROID)(XrFaceTrackerANDROID faceTracker, const XrFaceStateGetInfoANDROID* getInfo, XrFaceStateANDROID* faceStateOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceCalibrationStateANDROID)(XrFaceTrackerANDROID faceTracker, XrBool32* faceIsCalibratedOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerANDROID)(XrSession session, സ്ഥിരം XrFaceTrackerCreateInfoANDROID* createInfo, XrFaceTrackerANDROID* faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerANDROID)(XrFaceTrackerANDROID faceTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFaceStateANDROID)(XrFaceTrackerANDROID faceTracker, സ്ഥിരം XrFaceStateGetInfoANDROID* getInfo, XrFaceStateANDROID* faceStateOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFaceCalibrationStateANDROID)(XrFaceTrackerANDROID faceTracker, XrBool32* faceIsCalibratedOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerANDROID(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoANDROID*       createInfo,
+    സ്ഥിരം XrFaceTrackerCreateInfoANDROID*       createInfo,
     XrFaceTrackerANDROID*                       faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerANDROID(
@@ -10888,7 +10888,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceStateANDROID(
     XrFaceTrackerANDROID                        faceTracker,
-    const XrFaceStateGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrFaceStateGetInfoANDROID*            getInfo,
     XrFaceStateANDROID*                         faceStateOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceCalibrationStateANDROID(
@@ -10903,7 +10903,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceCalibrationStateANDROID(
 #define XR_ANDROID_passthrough_camera_state_SPEC_VERSION 1
 #define XR_ANDROID_PASSTHROUGH_CAMERA_STATE_EXTENSION_NAME "XR_ANDROID_passthrough_camera_state"
 
-typedef enum XrPassthroughCameraStateANDROID {
+തരനിർവചനം എണ്ണൽ XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_DISABLED_ANDROID = 0,
     XR_PASSTHROUGH_CAMERA_STATE_INITIALIZING_ANDROID = 1,
     XR_PASSTHROUGH_CAMERA_STATE_READY_ANDROID = 2,
@@ -10911,24 +10911,24 @@ typedef enum XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPassthroughCameraStateANDROID;
 // XrSystemPassthroughCameraStatePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughCameraStatePropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemPassthroughCameraStatePropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughCameraState;
 } XrSystemPassthroughCameraStatePropertiesANDROID;
 
-typedef struct XrPassthroughCameraStateGetInfoANDROID {
+തരനിർവചനം ഘടന XrPassthroughCameraStateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrPassthroughCameraStateGetInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetPassthroughCameraStateANDROID)(XrSession session, const XrPassthroughCameraStateGetInfoANDROID* getInfo, XrPassthroughCameraStateANDROID* cameraStateOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPassthroughCameraStateANDROID)(XrSession session, സ്ഥിരം XrPassthroughCameraStateGetInfoANDROID* getInfo, XrPassthroughCameraStateANDROID* cameraStateOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPassthroughCameraStateANDROID(
     XrSession                                   session,
-    const XrPassthroughCameraStateGetInfoANDROID* getInfo,
+    സ്ഥിരം XrPassthroughCameraStateGetInfoANDROID* getInfo,
     XrPassthroughCameraStateANDROID*            cameraStateOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10938,9 +10938,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetPassthroughCameraStateANDROID(
 #define XR_ANDROID_recommended_resolution 1
 #define XR_ANDROID_recommended_resolution_SPEC_VERSION 1
 #define XR_ANDROID_RECOMMENDED_RESOLUTION_EXTENSION_NAME "XR_ANDROID_recommended_resolution"
-typedef struct XrEventDataRecommendedResolutionChangedANDROID {
+തരനിർവചനം ഘടന XrEventDataRecommendedResolutionChangedANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEventDataRecommendedResolutionChangedANDROID;
 
 
@@ -10951,59 +10951,59 @@ XR_DEFINE_HANDLE(XrPassthroughLayerANDROID)
 #define XR_ANDROID_composition_layer_passthrough_mesh_SPEC_VERSION 1
 #define XR_ANDROID_COMPOSITION_LAYER_PASSTHROUGH_MESH_EXTENSION_NAME "XR_ANDROID_composition_layer_passthrough_mesh"
 
-typedef enum XrWindingOrderANDROID {
+തരനിർവചനം എണ്ണൽ XrWindingOrderANDROID {
     XR_WINDING_ORDER_UNKNOWN_ANDROID = 0,
     XR_WINDING_ORDER_CW_ANDROID = 1,
     XR_WINDING_ORDER_CCW_ANDROID = 2,
     XR_WINDING_ORDER_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrWindingOrderANDROID;
-typedef struct XrPassthroughLayerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrPassthroughLayerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    vertexCapacity;
     uint32_t                    indexCapacity;
 } XrPassthroughLayerCreateInfoANDROID;
 
 // XrPassthroughLayerMeshANDROID extends XrPassthroughLayerCreateInfoANDROID
-typedef struct XrPassthroughLayerMeshANDROID {
+തരനിർവചനം ഘടന XrPassthroughLayerMeshANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrWindingOrderANDROID       windingOrder;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertices;
-    uint32_t                    indexCount;
-    const uint16_t*             indices;
+    uint32_t                    vertex_എണ്ണം;
+    സ്ഥിരം XrVector3f*           vertices;
+    uint32_t                    index_എണ്ണം;
+    സ്ഥിരം uint16_t*             indices;
 } XrPassthroughLayerMeshANDROID;
 
-typedef struct XrCompositionLayerPassthroughANDROID {
+തരനിർവചനം ഘടന XrCompositionLayerPassthroughANDROID {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS     next;
     XrCompositionLayerFlags      layerFlags;
     XrSpace                      space;
     XrPosef                      pose;
     XrVector3f                   scale;
-    float                        opacity;
+    ദശാംശം                        opacity;
     XrPassthroughLayerANDROID    layer;
 } XrCompositionLayerPassthroughANDROID;
 
 // XrSystemPassthroughLayerPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughLayerPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemPassthroughLayerPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughLayer;
-    uint32_t              maxMeshIndexCount;
-    uint32_t              maxMeshVertexCount;
+    uint32_t              max_Mesh_Index_എണ്ണം;
+    uint32_t              max_Mesh_Vertex_എണ്ണം;
 } XrSystemPassthroughLayerPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerANDROID)(XrSession session, const XrPassthroughLayerCreateInfoANDROID* createInfo, XrPassthroughLayerANDROID* layer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerANDROID)(XrPassthroughLayerANDROID layer);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPassthroughLayerMeshANDROID)(XrPassthroughLayerANDROID layer, const XrPassthroughLayerMeshANDROID* mesh);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerANDROID)(XrSession session, സ്ഥിരം XrPassthroughLayerCreateInfoANDROID* createInfo, XrPassthroughLayerANDROID* layer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerANDROID)(XrPassthroughLayerANDROID layer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetPassthroughLayerMeshANDROID)(XrPassthroughLayerANDROID layer, സ്ഥിരം XrPassthroughLayerMeshANDROID* mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughLayerANDROID(
     XrSession                                   session,
-    const XrPassthroughLayerCreateInfoANDROID*  createInfo,
+    സ്ഥിരം XrPassthroughLayerCreateInfoANDROID*  createInfo,
     XrPassthroughLayerANDROID*                  layer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerANDROID(
@@ -11011,7 +11011,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPassthroughLayerMeshANDROID(
     XrPassthroughLayerANDROID                   layer,
-    const XrPassthroughLayerMeshANDROID*        mesh);
+    സ്ഥിരം XrPassthroughLayerMeshANDROID*        mesh);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11020,47 +11020,47 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetPassthroughLayerMeshANDROID(
 #define XR_ANDROID_raycast 1
 #define XR_ANDROID_raycast_SPEC_VERSION   1
 #define XR_ANDROID_RAYCAST_EXTENSION_NAME "XR_ANDROID_raycast"
-typedef struct XrRaycastInfoANDROID {
+തരനിർവചനം ഘടന XrRaycastInfoANDROID {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     uint32_t                            maxResults;
-    uint32_t                            trackerCount;
-    const XrTrackableTrackerANDROID*    trackers;
+    uint32_t                            tracker_എണ്ണം;
+    സ്ഥിരം XrTrackableTrackerANDROID*    trackers;
     XrVector3f                          origin;
     XrVector3f                          trajectory;
     XrSpace                             space;
     XrTime                              time;
 } XrRaycastInfoANDROID;
 
-typedef struct XrRaycastHitResultANDROID {
+തരനിർവചനം ഘടന XrRaycastHitResultANDROID {
     XrTrackableTypeANDROID    type;
     XrTrackableANDROID        trackable;
     XrPosef                   pose;
 } XrRaycastHitResultANDROID;
 
-typedef struct XrRaycastHitResultsANDROID {
+തരനിർവചനം ഘടന XrRaycastHitResultsANDROID {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      resultsCapacityInput;
-    uint32_t                      resultsCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      results_Capacity_നിവേശം;
+    uint32_t                      results_എണ്ണം_Output;
     XrRaycastHitResultANDROID*    results;
 } XrRaycastHitResultsANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRaycastSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrRaycastANDROID)(XrSession session, const XrRaycastInfoANDROID* rayInfo, XrRaycastHitResultsANDROID* results);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateRaycastSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_നിവേശം, uint32_t* trackable_Type_എണ്ണം_Output, XrTrackableTypeANDROID* trackableTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRaycastANDROID)(XrSession session, സ്ഥിരം XrRaycastInfoANDROID* rayInfo, XrRaycastHitResultsANDROID* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRaycastSupportedTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_നിവേശം,
+    uint32_t*                                   trackable_Type_എണ്ണം_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRaycastANDROID(
     XrSession                                   session,
-    const XrRaycastInfoANDROID*                 rayInfo,
+    സ്ഥിരം XrRaycastInfoANDROID*                 rayInfo,
     XrRaycastHitResultsANDROID*                 results);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11071,7 +11071,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRaycastANDROID(
 #define XR_ANDROID_performance_metrics_SPEC_VERSION 1
 #define XR_ANDROID_PERFORMANCE_METRICS_EXTENSION_NAME "XR_ANDROID_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitANDROID {
+തരനിർവചനം എണ്ണൽ XrPerformanceMetricsCounterUnitANDROID {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_ANDROID = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_ANDROID = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_ANDROID = 2,
@@ -11079,44 +11079,44 @@ typedef enum XrPerformanceMetricsCounterUnitANDROID {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_HERTZ_ANDROID = 4,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPerformanceMetricsCounterUnitANDROID;
-typedef XrFlags64 XrPerformanceMetricsCounterFlagsANDROID;
+തരനിർവചനം XrFlags64 XrPerformanceMetricsCounterFlagsANDROID;
 
 // Flag bits for XrPerformanceMetricsCounterFlagsANDROID
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_ANY_VALUE_VALID_BIT_ANDROID = 0x00000001;
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_ANDROID = 0x00000002;
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_ANDROID = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_ANY_മൂല്യം_VALID_BIT_ANDROID = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_UINT_മൂല്യം_VALID_BIT_ANDROID = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_FLOAT_മൂല്യം_VALID_BIT_ANDROID = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateANDROID {
+തരനിർവചനം ഘടന XrPerformanceMetricsStateANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              enabled;
 } XrPerformanceMetricsStateANDROID;
 
-typedef struct XrPerformanceMetricsCounterANDROID {
+തരനിർവചനം ഘടന XrPerformanceMetricsCounterANDROID {
     XrStructureType                            type;
-    void* XR_MAY_ALIAS                         next;
+    ശൂന്യം* XR_MAY_ALIAS                         next;
     XrPerformanceMetricsCounterFlagsANDROID    counterFlags;
     XrPerformanceMetricsCounterUnitANDROID     counterUnit;
-    uint32_t                                   uintValue;
-    float                                      floatValue;
+    uint32_t                                   uint_മൂല്യം;
+    ദശാംശം                                      float_മൂല്യം;
 } XrPerformanceMetricsCounterANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsANDROID)(XrInstance instance, uint32_t counterPathCapacityInput, uint32_t* counterPathCountOutput, XrPath* counterPaths);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateANDROID)(XrSession session, const XrPerformanceMetricsStateANDROID* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateANDROID)(XrSession session, XrPerformanceMetricsStateANDROID* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterANDROID)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterANDROID* counter);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsANDROID)(XrInstance instance, uint32_t counter_Path_Capacity_നിവേശം, uint32_t* counter_Path_എണ്ണം_Output, XrPath* counterPaths);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateANDROID)(XrSession session, സ്ഥിരം XrPerformanceMetricsStateANDROID* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateANDROID)(XrSession session, XrPerformanceMetricsStateANDROID* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterANDROID)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterANDROID* counter);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePerformanceMetricsCounterPathsANDROID(
     XrInstance                                  instance,
-    uint32_t                                    counterPathCapacityInput,
-    uint32_t*                                   counterPathCountOutput,
+    uint32_t                                    counter_Path_Capacity_നിവേശം,
+    uint32_t*                                   counter_Path_എണ്ണം_Output,
     XrPath*                                     counterPaths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPerformanceMetricsStateANDROID(
     XrSession                                   session,
-    const XrPerformanceMetricsStateANDROID*     state);
+    സ്ഥിരം XrPerformanceMetricsStateANDROID*     state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPerformanceMetricsStateANDROID(
     XrSession                                   session,
@@ -11135,16 +11135,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterANDROID(
 #define XR_ANDROID_trackables_object_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_OBJECT_EXTENSION_NAME "XR_ANDROID_trackables_object"
 
-typedef enum XrObjectLabelANDROID {
+തരനിർവചനം എണ്ണൽ XrObjectLabelANDROID {
     XR_OBJECT_LABEL_UNKNOWN_ANDROID = 0,
     XR_OBJECT_LABEL_KEYBOARD_ANDROID = 1,
     XR_OBJECT_LABEL_MOUSE_ANDROID = 2,
     XR_OBJECT_LABEL_LAPTOP_ANDROID = 3,
     XR_OBJECT_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrObjectLabelANDROID;
-typedef struct XrTrackableObjectANDROID {
+തരനിർവചനം ഘടന XrTrackableObjectANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ശൂന്യം* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrPosef                   centerPose;
     XrExtent3DfEXT            extents;
@@ -11153,20 +11153,20 @@ typedef struct XrTrackableObjectANDROID {
 } XrTrackableObjectANDROID;
 
 // XrTrackableObjectConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableObjectConfigurationANDROID {
+തരനിർവചനം ഘടന XrTrackableObjectConfigurationANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       labelCount;
-    const XrObjectLabelANDROID*    activeLabels;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       label_എണ്ണം;
+    സ്ഥിരം XrObjectLabelANDROID*    activeLabels;
 } XrTrackableObjectConfigurationANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableObjectANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableObjectANDROID* objectOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetTrackableObjectANDROID)(XrTrackableTrackerANDROID tracker, സ്ഥിരം XrTrackableGetInfoANDROID* getInfo, XrTrackableObjectANDROID* objectOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableObjectANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableObjectANDROID*                   objectOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11184,48 +11184,48 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableObjectANDROID(
 #define XR_EXT_FUTURE_EXTENSION_NAME      "XR_EXT_future"
 #define XR_NULL_FUTURE_EXT                0
 
-typedef enum XrFutureStateEXT {
+തരനിർവചനം എണ്ണൽ XrFutureStateEXT {
     XR_FUTURE_STATE_PENDING_EXT = 1,
     XR_FUTURE_STATE_READY_EXT = 2,
     XR_FUTURE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrFutureStateEXT;
-typedef struct XrFutureCancelInfoEXT {
+തരനിർവചനം ഘടന XrFutureCancelInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFutureCancelInfoEXT;
 
-typedef struct XrFuturePollInfoEXT {
+തരനിർവചനം ഘടന XrFuturePollInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFuturePollInfoEXT;
 
-typedef struct XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrFutureCompletionBaseHeaderEXT;
 
-typedef struct XrFuturePollResultEXT {
+തരനിർവചനം ഘടന XrFuturePollResultEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrFutureStateEXT      state;
 } XrFuturePollResultEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPollFutureEXT)(XrInstance instance, const XrFuturePollInfoEXT* pollInfo, XrFuturePollResultEXT* pollResult);
-typedef XrResult (XRAPI_PTR *PFN_xrCancelFutureEXT)(XrInstance instance, const XrFutureCancelInfoEXT* cancelInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPollFutureEXT)(XrInstance instance, സ്ഥിരം XrFuturePollInfoEXT* pollInfo, XrFuturePollResultEXT* pollResult);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCancelFutureEXT)(XrInstance instance, സ്ഥിരം XrFutureCancelInfoEXT* cancelInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPollFutureEXT(
     XrInstance                                  instance,
-    const XrFuturePollInfoEXT*                  pollInfo,
+    സ്ഥിരം XrFuturePollInfoEXT*                  pollInfo,
     XrFuturePollResultEXT*                      pollResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCancelFutureEXT(
     XrInstance                                  instance,
-    const XrFutureCancelInfoEXT*                cancelInfo);
+    സ്ഥിരം XrFutureCancelInfoEXT*                cancelInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11234,17 +11234,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCancelFutureEXT(
 #define XR_EXT_user_presence 1
 #define XR_EXT_user_presence_SPEC_VERSION 1
 #define XR_EXT_USER_PRESENCE_EXTENSION_NAME "XR_EXT_user_presence"
-typedef struct XrEventDataUserPresenceChangedEXT {
+തരനിർവചനം ഘടന XrEventDataUserPresenceChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrBool32                    isUserPresent;
 } XrEventDataUserPresenceChangedEXT;
 
 // XrSystemUserPresencePropertiesEXT extends XrSystemProperties
-typedef struct XrSystemUserPresencePropertiesEXT {
+തരനിർവചനം ഘടന XrSystemUserPresencePropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsUserPresence;
 } XrSystemUserPresencePropertiesEXT;
 
@@ -11255,7 +11255,7 @@ typedef struct XrSystemUserPresencePropertiesEXT {
 #define XR_ML_user_calibration_SPEC_VERSION 1
 #define XR_ML_USER_CALIBRATION_EXTENSION_NAME "XR_ML_user_calibration"
 
-typedef enum XrHeadsetFitStatusML {
+തരനിർവചനം എണ്ണൽ XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_UNKNOWN_ML = 0,
     XR_HEADSET_FIT_STATUS_NOT_WORN_ML = 1,
     XR_HEADSET_FIT_STATUS_GOOD_FIT_ML = 2,
@@ -11263,39 +11263,39 @@ typedef enum XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrHeadsetFitStatusML;
 
-typedef enum XrEyeCalibrationStatusML {
+തരനിർവചനം എണ്ണൽ XrEyeCalibrationStatusML {
     XR_EYE_CALIBRATION_STATUS_UNKNOWN_ML = 0,
     XR_EYE_CALIBRATION_STATUS_NONE_ML = 1,
     XR_EYE_CALIBRATION_STATUS_COARSE_ML = 2,
     XR_EYE_CALIBRATION_STATUS_FINE_ML = 3,
     XR_EYE_CALIBRATION_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrEyeCalibrationStatusML;
-typedef struct XrEventDataHeadsetFitChangedML {
+തരനിർവചനം ഘടന XrEventDataHeadsetFitChangedML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrHeadsetFitStatusML        status;
     XrTime                      time;
 } XrEventDataHeadsetFitChangedML;
 
-typedef struct XrEventDataEyeCalibrationChangedML {
+തരനിർവചനം ഘടന XrEventDataEyeCalibrationChangedML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrEyeCalibrationStatusML    status;
 } XrEventDataEyeCalibrationChangedML;
 
-typedef struct XrUserCalibrationEnableEventsInfoML {
+തരനിർവചനം ഘടന XrUserCalibrationEnableEventsInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrUserCalibrationEnableEventsInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnableUserCalibrationEventsML)(XrInstance instance, const XrUserCalibrationEnableEventsInfoML* enableInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnableUserCalibrationEventsML)(XrInstance instance, സ്ഥിരം XrUserCalibrationEnableEventsInfoML* enableInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnableUserCalibrationEventsML(
     XrInstance                                  instance,
-    const XrUserCalibrationEnableEventsInfoML*  enableInfo);
+    സ്ഥിരം XrUserCalibrationEnableEventsInfoML*  enableInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11304,19 +11304,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnableUserCalibrationEventsML(
 #define XR_ML_system_notifications 1
 #define XR_ML_system_notifications_SPEC_VERSION 1
 #define XR_ML_SYSTEM_NOTIFICATIONS_EXTENSION_NAME "XR_ML_system_notifications"
-typedef struct XrSystemNotificationsSetInfoML {
+തരനിർവചനം ഘടന XrSystemNotificationsSetInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    suppressNotifications;
 } XrSystemNotificationsSetInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetSystemNotificationsML)(XrInstance instance, const XrSystemNotificationsSetInfoML* info);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetSystemNotificationsML)(XrInstance instance, സ്ഥിരം XrSystemNotificationsSetInfoML* info);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetSystemNotificationsML(
     XrInstance                                  instance,
-    const XrSystemNotificationsSetInfoML*       info);
+    സ്ഥിരം XrSystemNotificationsSetInfoML*       info);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11327,14 +11327,14 @@ XR_DEFINE_HANDLE(XrWorldMeshDetectorML)
 #define XR_ML_world_mesh_detection_SPEC_VERSION 1
 #define XR_ML_WORLD_MESH_DETECTION_EXTENSION_NAME "XR_ML_world_mesh_detection"
 
-typedef enum XrWorldMeshDetectorLodML {
+തരനിർവചനം എണ്ണൽ XrWorldMeshDetectorLodML {
     XR_WORLD_MESH_DETECTOR_LOD_MINIMUM_ML = 0,
     XR_WORLD_MESH_DETECTOR_LOD_MEDIUM_ML = 1,
     XR_WORLD_MESH_DETECTOR_LOD_MAXIMUM_ML = 2,
     XR_WORLD_MESH_DETECTOR_LOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshDetectorLodML;
 
-typedef enum XrWorldMeshBlockStatusML {
+തരനിർവചനം എണ്ണൽ XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_NEW_ML = 0,
     XR_WORLD_MESH_BLOCK_STATUS_UPDATED_ML = 1,
     XR_WORLD_MESH_BLOCK_STATUS_DELETED_ML = 2,
@@ -11342,31 +11342,31 @@ typedef enum XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshBlockStatusML;
 
-typedef enum XrWorldMeshBlockResultML {
+തരനിർവചനം എണ്ണൽ XrWorldMeshBlockResultML {
     XR_WORLD_MESH_BLOCK_RESULT_SUCCESS_ML = 0,
     XR_WORLD_MESH_BLOCK_RESULT_FAILED_ML = 1,
     XR_WORLD_MESH_BLOCK_RESULT_PENDING_ML = 2,
     XR_WORLD_MESH_BLOCK_RESULT_PARTIAL_UPDATE_ML = 3,
     XR_WORLD_MESH_BLOCK_RESULT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshBlockResultML;
-typedef XrFlags64 XrWorldMeshDetectorFlagsML;
+തരനിർവചനം XrFlags64 XrWorldMeshDetectorFlagsML;
 
 // Flag bits for XrWorldMeshDetectorFlagsML
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_POINT_CLOUD_BIT_ML = 0x00000001;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_NORMALS_BIT_ML = 0x00000002;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_CONFIDENCE_BIT_ML = 0x00000004;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_PLANARIZE_BIT_ML = 0x00000008;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_REMOVE_MESH_SKIRT_BIT_ML = 0x00000010;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_INDEX_ORDER_CW_BIT_ML = 0x00000020;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_POINT_CLOUD_BIT_ML = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_NORMALS_BIT_ML = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_CONFIDENCE_BIT_ML = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_PLANARIZE_BIT_ML = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_REMOVE_MESH_SKIRT_BIT_ML = 0x00000010;
+സ്ഥിതം സ്ഥിരം XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_INDEX_ORDER_CW_BIT_ML = 0x00000020;
 
-typedef struct XrWorldMeshDetectorCreateInfoML {
+തരനിർവചനം ഘടന XrWorldMeshDetectorCreateInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrWorldMeshDetectorCreateInfoML;
 
-typedef struct XrWorldMeshBlockStateML {
+തരനിർവചനം ഘടന XrWorldMeshBlockStateML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
     XrPosef                     meshBoundingBoxCenter;
     XrExtent3DfEXT              meshBoundingBoxExtents;
@@ -11374,108 +11374,108 @@ typedef struct XrWorldMeshBlockStateML {
     XrWorldMeshBlockStatusML    status;
 } XrWorldMeshBlockStateML;
 
-typedef struct XrWorldMeshStateRequestInfoML {
+തരനിർവചനം ഘടന XrWorldMeshStateRequestInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     boundingBoxCenter;
     XrExtent3DfEXT              boundingBoxExtents;
 } XrWorldMeshStateRequestInfoML;
 
-typedef struct XrWorldMeshStateRequestCompletionML {
+തരനിർവചനം ഘടന XrWorldMeshStateRequestCompletionML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrTime                      timestamp;
-    uint32_t                    meshBlockStateCapacityInput;
-    uint32_t                    meshBlockStateCountOutput;
+    uint32_t                    mesh_Block_State_Capacity_നിവേശം;
+    uint32_t                    mesh_Block_State_എണ്ണം_Output;
     XrWorldMeshBlockStateML*    meshBlockStates;
 } XrWorldMeshStateRequestCompletionML;
 
-typedef struct XrWorldMeshBufferRecommendedSizeInfoML {
+തരനിർവചനം ഘടന XrWorldMeshBufferRecommendedSizeInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    maxBlockCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    max_Block_എണ്ണം;
 } XrWorldMeshBufferRecommendedSizeInfoML;
 
-typedef struct XrWorldMeshBufferSizeML {
+തരനിർവചനം ഘടന XrWorldMeshBufferSizeML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              size;
 } XrWorldMeshBufferSizeML;
 
-typedef struct XrWorldMeshBufferML {
+തരനിർവചനം ഘടന XrWorldMeshBufferML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              bufferSize;
-    void* XR_MAY_ALIAS    buffer;
+    ശൂന്യം* XR_MAY_ALIAS    buffer;
 } XrWorldMeshBufferML;
 
-typedef struct XrWorldMeshBlockRequestML {
+തരനിർവചനം ഘടന XrWorldMeshBlockRequestML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
     XrWorldMeshDetectorLodML    lod;
 } XrWorldMeshBlockRequestML;
 
-typedef struct XrWorldMeshGetInfoML {
+തരനിർവചനം ഘടന XrWorldMeshGetInfoML {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrWorldMeshDetectorFlagsML    flags;
-    float                         fillHoleLength;
-    float                         disconnectedComponentArea;
-    uint32_t                      blockCount;
+    ദശാംശം                         fillHoleLength;
+    ദശാംശം                         disconnectedComponentArea;
+    uint32_t                      block_എണ്ണം;
     XrWorldMeshBlockRequestML*    blocks;
 } XrWorldMeshGetInfoML;
 
-typedef struct XrWorldMeshBlockML {
+തരനിർവചനം ഘടന XrWorldMeshBlockML {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ശൂന്യം* XR_MAY_ALIAS            next;
     XrUuidEXT                     uuid;
     XrWorldMeshBlockResultML      blockResult;
     XrWorldMeshDetectorLodML      lod;
     XrWorldMeshDetectorFlagsML    flags;
-    uint32_t                      indexCount;
+    uint32_t                      index_എണ്ണം;
     uint16_t*                     indexBuffer;
-    uint32_t                      vertexCount;
+    uint32_t                      vertex_എണ്ണം;
     XrVector3f*                   vertexBuffer;
-    uint32_t                      normalCount;
+    uint32_t                      normal_എണ്ണം;
     XrVector3f*                   normalBuffer;
-    uint32_t                      confidenceCount;
-    float*                        confidenceBuffer;
+    uint32_t                      confidence_എണ്ണം;
+    ദശാംശം*                        confidenceBuffer;
 } XrWorldMeshBlockML;
 
-typedef struct XrWorldMeshRequestCompletionInfoML {
+തരനിർവചനം ഘടന XrWorldMeshRequestCompletionInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     meshSpace;
     XrTime                      meshSpaceLocateTime;
 } XrWorldMeshRequestCompletionInfoML;
 
-typedef struct XrWorldMeshRequestCompletionML {
+തരനിർവചനം ഘടന XrWorldMeshRequestCompletionML {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ശൂന്യം* XR_MAY_ALIAS     next;
     XrResult               futureResult;
-    uint32_t               blockCount;
+    uint32_t               block_എണ്ണം;
     XrWorldMeshBlockML*    blocks;
 } XrWorldMeshRequestCompletionML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateWorldMeshDetectorML)(XrSession session, const XrWorldMeshDetectorCreateInfoML* createInfo, XrWorldMeshDetectorML* detector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyWorldMeshDetectorML)(XrWorldMeshDetectorML detector);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateAsyncML)(XrWorldMeshDetectorML detector, const XrWorldMeshStateRequestInfoML* stateRequest, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateCompleteML)(XrWorldMeshDetectorML detector, XrFutureEXT future, XrWorldMeshStateRequestCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetWorldMeshBufferRecommendSizeML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo, XrWorldMeshBufferSizeML* size);
-typedef XrResult (XRAPI_PTR *PFN_xrAllocateWorldMeshBufferML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferSizeML* size, XrWorldMeshBufferML* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrFreeWorldMeshBufferML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferML* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshAsyncML)(XrWorldMeshDetectorML detector, const XrWorldMeshGetInfoML* getInfo, XrWorldMeshBufferML* buffer, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshCompleteML)(XrWorldMeshDetectorML detector, const XrWorldMeshRequestCompletionInfoML* completionInfo, XrFutureEXT future, XrWorldMeshRequestCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateWorldMeshDetectorML)(XrSession session, സ്ഥിരം XrWorldMeshDetectorCreateInfoML* createInfo, XrWorldMeshDetectorML* detector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyWorldMeshDetectorML)(XrWorldMeshDetectorML detector);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateAsyncML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshStateRequestInfoML* stateRequest, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateCompleteML)(XrWorldMeshDetectorML detector, XrFutureEXT future, XrWorldMeshStateRequestCompletionML* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetWorldMeshBufferRecommendSizeML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo, XrWorldMeshBufferSizeML* size);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAllocateWorldMeshBufferML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshBufferSizeML* size, XrWorldMeshBufferML* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrFreeWorldMeshBufferML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshBufferML* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshAsyncML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshGetInfoML* getInfo, XrWorldMeshBufferML* buffer, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshCompleteML)(XrWorldMeshDetectorML detector, സ്ഥിരം XrWorldMeshRequestCompletionInfoML* completionInfo, XrFutureEXT future, XrWorldMeshRequestCompletionML* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateWorldMeshDetectorML(
     XrSession                                   session,
-    const XrWorldMeshDetectorCreateInfoML*      createInfo,
+    സ്ഥിരം XrWorldMeshDetectorCreateInfoML*      createInfo,
     XrWorldMeshDetectorML*                      detector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyWorldMeshDetectorML(
@@ -11483,7 +11483,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyWorldMeshDetectorML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateAsyncML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshStateRequestInfoML*        stateRequest,
+    സ്ഥിരം XrWorldMeshStateRequestInfoML*        stateRequest,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateCompleteML(
@@ -11493,27 +11493,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetWorldMeshBufferRecommendSizeML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo,
+    സ്ഥിരം XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo,
     XrWorldMeshBufferSizeML*                    size);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAllocateWorldMeshBufferML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferSizeML*              size,
+    സ്ഥിരം XrWorldMeshBufferSizeML*              size,
     XrWorldMeshBufferML*                        buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrFreeWorldMeshBufferML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferML*                  buffer);
+    സ്ഥിരം XrWorldMeshBufferML*                  buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshAsyncML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshGetInfoML*                 getInfo,
+    സ്ഥിരം XrWorldMeshGetInfoML*                 getInfo,
     XrWorldMeshBufferML*                        buffer,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshCompleteML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshRequestCompletionInfoML*   completionInfo,
+    സ്ഥിരം XrWorldMeshRequestCompletionInfoML*   completionInfo,
     XrFutureEXT                                 future,
     XrWorldMeshRequestCompletionML*             completion);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -11526,7 +11526,7 @@ XR_DEFINE_HANDLE(XrFacialExpressionClientML)
 #define XR_ML_facial_expression_SPEC_VERSION 1
 #define XR_ML_FACIAL_EXPRESSION_EXTENSION_NAME "XR_ML_facial_expression"
 
-typedef enum XrFacialBlendShapeML {
+തരനിർവചനം എണ്ണൽ XrFacialBlendShapeML {
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_L_ML = 0,
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_R_ML = 1,
     XR_FACIAL_BLEND_SHAPE_CHEEK_RAISER_L_ML = 2,
@@ -11575,49 +11575,49 @@ typedef enum XrFacialBlendShapeML {
     XR_FACIAL_BLEND_SHAPE_TONGUE_OUT_ML = 45,
     XR_FACIAL_BLEND_SHAPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrFacialBlendShapeML;
-typedef XrFlags64 XrFacialExpressionBlendShapePropertiesFlagsML;
+തരനിർവചനം XrFlags64 XrFacialExpressionBlendShapePropertiesFlagsML;
 
 // Flag bits for XrFacialExpressionBlendShapePropertiesFlagsML
-static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_VALID_BIT_ML = 0x00000001;
-static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_TRACKED_BIT_ML = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_VALID_BIT_ML = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_TRACKED_BIT_ML = 0x00000002;
 
 // XrSystemFacialExpressionPropertiesML extends XrSystemProperties
-typedef struct XrSystemFacialExpressionPropertiesML {
+തരനിർവചനം ഘടന XrSystemFacialExpressionPropertiesML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsFacialExpression;
 } XrSystemFacialExpressionPropertiesML;
 
-typedef struct XrFacialExpressionClientCreateInfoML {
+തരനിർവചനം ഘടന XrFacialExpressionClientCreateInfoML {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
-    uint32_t                       requestedCount;
-    const XrFacialBlendShapeML*    requestedFacialBlendShapes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                       requested_എണ്ണം;
+    സ്ഥിരം XrFacialBlendShapeML*    requestedFacialBlendShapes;
 } XrFacialExpressionClientCreateInfoML;
 
-typedef struct XrFacialExpressionBlendShapeGetInfoML {
+തരനിർവചനം ഘടന XrFacialExpressionBlendShapeGetInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrFacialExpressionBlendShapeGetInfoML;
 
-typedef struct XrFacialExpressionBlendShapePropertiesML {
+തരനിർവചനം ഘടന XrFacialExpressionBlendShapePropertiesML {
     XrStructureType                                  type;
-    void* XR_MAY_ALIAS                               next;
+    ശൂന്യം* XR_MAY_ALIAS                               next;
     XrFacialBlendShapeML                             requestedFacialBlendShape;
-    float                                            weight;
+    ദശാംശം                                            weight;
     XrFacialExpressionBlendShapePropertiesFlagsML    flags;
     XrTime                                           time;
 } XrFacialExpressionBlendShapePropertiesML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFacialExpressionClientML)(XrSession session, const XrFacialExpressionClientCreateInfoML* createInfo, XrFacialExpressionClientML* facialExpressionClient);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFacialExpressionClientML)(XrFacialExpressionClientML facialExpressionClient);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionBlendShapePropertiesML)(XrFacialExpressionClientML facialExpressionClient, const XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo, uint32_t blendShapeCount, XrFacialExpressionBlendShapePropertiesML* blendShapes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateFacialExpressionClientML)(XrSession session, സ്ഥിരം XrFacialExpressionClientCreateInfoML* createInfo, XrFacialExpressionClientML* facialExpressionClient);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyFacialExpressionClientML)(XrFacialExpressionClientML facialExpressionClient);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionBlendShapePropertiesML)(XrFacialExpressionClientML facialExpressionClient, സ്ഥിരം XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo, uint32_t blend_Shape_എണ്ണം, XrFacialExpressionBlendShapePropertiesML* blendShapes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFacialExpressionClientML(
     XrSession                                   session,
-    const XrFacialExpressionClientCreateInfoML* createInfo,
+    സ്ഥിരം XrFacialExpressionClientCreateInfoML* createInfo,
     XrFacialExpressionClientML*                 facialExpressionClient);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialExpressionClientML(
@@ -11625,8 +11625,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialExpressionClientML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionBlendShapePropertiesML(
     XrFacialExpressionClientML                  facialExpressionClient,
-    const XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo,
-    uint32_t                                    blendShapeCount,
+    സ്ഥിരം XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo,
+    uint32_t                                    blend_Shape_എണ്ണം,
     XrFacialExpressionBlendShapePropertiesML*   blendShapes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11649,25 +11649,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionBlendShapePropertiesML(
 #define XR_META_boundary_visibility_SPEC_VERSION 1
 #define XR_META_BOUNDARY_VISIBILITY_EXTENSION_NAME "XR_META_boundary_visibility"
 
-typedef enum XrBoundaryVisibilityMETA {
+തരനിർവചനം എണ്ണൽ XrBoundaryVisibilityMETA {
     XR_BOUNDARY_VISIBILITY_NOT_SUPPRESSED_META = 1,
     XR_BOUNDARY_VISIBILITY_SUPPRESSED_META = 2,
     XR_BOUNDARY_VISIBILITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBoundaryVisibilityMETA;
 // XrSystemBoundaryVisibilityPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemBoundaryVisibilityPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemBoundaryVisibilityPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsBoundaryVisibility;
 } XrSystemBoundaryVisibilityPropertiesMETA;
 
-typedef struct XrEventDataBoundaryVisibilityChangedMETA {
+തരനിർവചനം ഘടന XrEventDataBoundaryVisibilityChangedMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBoundaryVisibilityMETA    boundaryVisibility;
 } XrEventDataBoundaryVisibilityChangedMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestBoundaryVisibilityMETA)(XrSession session, XrBoundaryVisibilityMETA boundaryVisibility);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestBoundaryVisibilityMETA)(XrSession session, XrBoundaryVisibilityMETA boundaryVisibility);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -11683,45 +11683,45 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestBoundaryVisibilityMETA(
 #define XR_META_simultaneous_hands_and_controllers_SPEC_VERSION 1
 #define XR_META_SIMULTANEOUS_HANDS_AND_CONTROLLERS_EXTENSION_NAME "XR_META_simultaneous_hands_and_controllers"
 // XrSystemSimultaneousHandsAndControllersPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSimultaneousHandsAndControllersPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemSimultaneousHandsAndControllersPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSimultaneousHandsAndControllers;
 } XrSystemSimultaneousHandsAndControllersPropertiesMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
+തരനിർവചനം ഘടന XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingResumeInfoMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
+തരനിർവചനം ഘടന XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingPauseInfoMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrResumeSimultaneousHandsAndControllersTrackingMETA)(XrSession session, const XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrPauseSimultaneousHandsAndControllersTrackingMETA)(XrSession session, const XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrResumeSimultaneousHandsAndControllersTrackingMETA)(XrSession session, സ്ഥിരം XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPauseSimultaneousHandsAndControllersTrackingMETA)(XrSession session, സ്ഥിരം XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrResumeSimultaneousHandsAndControllersTrackingMETA(
     XrSession                                   session,
-    const XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
+    സ്ഥിരം XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPauseSimultaneousHandsAndControllersTrackingMETA(
     XrSession                                   session,
-    const XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
+    സ്ഥിരം XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
 
 // XR_META_face_tracking_visemes is a preprocessor guard. Do not pass it to API calls.
 #define XR_META_face_tracking_visemes 1
-#define XR_FACE_TRACKING_VISEME_COUNT_META 15
+#define XR_FACE_TRACKING_VISEME_എണ്ണം_META 15
 #define XR_META_face_tracking_visemes_SPEC_VERSION 1
 #define XR_META_FACE_TRACKING_VISEMES_EXTENSION_NAME "XR_META_face_tracking_visemes"
 
-typedef enum XrFaceTrackingVisemeMETA {
+തരനിർവചനം എണ്ണൽ XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_SIL_META = 0,
     XR_FACE_TRACKING_VISEME_PP_META = 1,
     XR_FACE_TRACKING_VISEME_FF_META = 2,
@@ -11740,17 +11740,17 @@ typedef enum XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_MAX_ENUM_META = 0x7FFFFFFF
 } XrFaceTrackingVisemeMETA;
 // XrFaceTrackingVisemesMETA extends XrFaceExpressionWeights2FB
-typedef struct XrFaceTrackingVisemesMETA {
+തരനിർവചനം ഘടന XrFaceTrackingVisemesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    isValid;
-    float                       visemes[XR_FACE_TRACKING_VISEME_COUNT_META];
+    ദശാംശം                       visemes[XR_FACE_TRACKING_VISEME_എണ്ണം_META];
 } XrFaceTrackingVisemesMETA;
 
 // XrSystemFaceTrackingVisemesPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemFaceTrackingVisemesPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsVisemes;
 } XrSystemFaceTrackingVisemesPropertiesMETA;
 
@@ -11761,7 +11761,7 @@ typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
 #define XR_META_spatial_entity_semantic_label_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_SEMANTIC_LABEL_EXTENSION_NAME "XR_META_spatial_entity_semantic_label"
 
-typedef enum XrSemanticLabelMETA {
+തരനിർവചനം എണ്ണൽ XrSemanticLabelMETA {
     XR_SEMANTIC_LABEL_UNKNOWN_META = 0,
     XR_SEMANTIC_LABEL_FLOOR_META = 1,
     XR_SEMANTIC_LABEL_CEILING_META = 2,
@@ -11778,51 +11778,51 @@ typedef enum XrSemanticLabelMETA {
 #define XR_META_spatial_entity_room_mesh 1
 #define XR_META_spatial_entity_room_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_ROOM_MESH_EXTENSION_NAME "XR_META_spatial_entity_room_mesh"
-typedef struct XrRoomMeshFaceMETA {
+തരനിർവചനം ഘടന XrRoomMeshFaceMETA {
     XrUuid                 uuid;
     XrUuid                 parentUuid;
     XrSemanticLabelMETA    semanticLabel;
 } XrRoomMeshFaceMETA;
 
-typedef struct XrRoomMeshFaceIndicesMETA {
+തരനിർവചനം ഘടന XrRoomMeshFaceIndicesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_നിവേശം;
+    uint32_t              index_എണ്ണം_Output;
     uint32_t*             indices;
 } XrRoomMeshFaceIndicesMETA;
 
-typedef struct XrSpaceRoomMeshGetInfoMETA {
+തരനിർവചനം ഘടന XrSpaceRoomMeshGetInfoMETA {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    uint32_t                      recognizedSemanticLabelCount;
-    const XrSemanticLabelMETA*    recognizedSemanticLabels;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
+    uint32_t                      recognized_Semantic_Label_എണ്ണം;
+    സ്ഥിരം XrSemanticLabelMETA*    recognizedSemanticLabels;
 } XrSpaceRoomMeshGetInfoMETA;
 
-typedef struct XrRoomMeshMETA {
+തരനിർവചനം ഘടന XrRoomMeshMETA {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               vertexCapacityInput;
-    uint32_t               vertexCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS     next;
+    uint32_t               vertex_Capacity_നിവേശം;
+    uint32_t               vertex_എണ്ണം_Output;
     XrVector3f*            vertices;
-    uint32_t               faceCapacityInput;
-    uint32_t               faceCountOutput;
+    uint32_t               face_Capacity_നിവേശം;
+    uint32_t               face_എണ്ണം_Output;
     XrRoomMeshFaceMETA*    faces;
 } XrRoomMeshMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshMETA)(XrSpace space, const XrSpaceRoomMeshGetInfoMETA* getInfo, XrRoomMeshMETA* roomMeshOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshFaceIndicesMETA)(XrSpace space, const XrUuid* faceUuid, XrRoomMeshFaceIndicesMETA* roomMeshFaceIndicesOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshMETA)(XrSpace space, സ്ഥിരം XrSpaceRoomMeshGetInfoMETA* getInfo, XrRoomMeshMETA* roomMeshOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshFaceIndicesMETA)(XrSpace space, സ്ഥിരം XrUuid* faceUuid, XrRoomMeshFaceIndicesMETA* roomMeshFaceIndicesOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshMETA(
     XrSpace                                     space,
-    const XrSpaceRoomMeshGetInfoMETA*           getInfo,
+    സ്ഥിരം XrSpaceRoomMeshGetInfoMETA*           getInfo,
     XrRoomMeshMETA*                             roomMeshOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshFaceIndicesMETA(
     XrSpace                                     space,
-    const XrUuid*                               faceUuid,
+    സ്ഥിരം XrUuid*                               faceUuid,
     XrRoomMeshFaceIndicesMETA*                  roomMeshFaceIndicesOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11839,112 +11839,112 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshFaceIndicesMETA(
 #define XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META 1024
 #define XR_META_colocation_discovery_SPEC_VERSION 1
 #define XR_META_COLOCATION_DISCOVERY_EXTENSION_NAME "XR_META_colocation_discovery"
-typedef struct XrColocationDiscoveryStartInfoMETA {
+തരനിർവചനം ഘടന XrColocationDiscoveryStartInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStartInfoMETA;
 
-typedef struct XrColocationDiscoveryStopInfoMETA {
+തരനിർവചനം ഘടന XrColocationDiscoveryStopInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStopInfoMETA;
 
-typedef struct XrColocationAdvertisementStartInfoMETA {
+തരനിർവചനം ഘടന XrColocationAdvertisementStartInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
     uint8_t*                    buffer;
 } XrColocationAdvertisementStartInfoMETA;
 
-typedef struct XrColocationAdvertisementStopInfoMETA {
+തരനിർവചനം ഘടന XrColocationAdvertisementStopInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrColocationAdvertisementStopInfoMETA;
 
-typedef struct XrEventDataStartColocationAdvertisementCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataStartColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
     XrResult                    result;
     XrUuid                      advertisementUuid;
 } XrEventDataStartColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStopColocationAdvertisementCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataStopColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataStopColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataColocationAdvertisementCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
     XrResult                    result;
 } XrEventDataColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStartColocationDiscoveryCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataStartColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataStartColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataColocationDiscoveryResultMETA {
+തരനിർവചനം ഘടന XrEventDataColocationDiscoveryResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrUuid                      advertisementUuid;
     uint32_t                    bufferSize;
     uint8_t                     buffer[XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META];
 } XrEventDataColocationDiscoveryResultMETA;
 
-typedef struct XrEventDataColocationDiscoveryCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataStopColocationDiscoveryCompleteMETA {
+തരനിർവചനം ഘടന XrEventDataStopColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataStopColocationDiscoveryCompleteMETA;
 
 // XrSystemColocationDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemColocationDiscoveryPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemColocationDiscoveryPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsColocationDiscovery;
 } XrSystemColocationDiscoveryPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrStartColocationDiscoveryMETA)(XrSession session, const XrColocationDiscoveryStartInfoMETA* info, XrAsyncRequestIdFB* discoveryRequestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStopColocationDiscoveryMETA)(XrSession session, const XrColocationDiscoveryStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStartColocationAdvertisementMETA)(XrSession session, const XrColocationAdvertisementStartInfoMETA* info, XrAsyncRequestIdFB* advertisementRequestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStopColocationAdvertisementMETA)(XrSession session, const XrColocationAdvertisementStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartColocationDiscoveryMETA)(XrSession session, സ്ഥിരം XrColocationDiscoveryStartInfoMETA* info, XrAsyncRequestIdFB* discoveryRequestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStopColocationDiscoveryMETA)(XrSession session, സ്ഥിരം XrColocationDiscoveryStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStartColocationAdvertisementMETA)(XrSession session, സ്ഥിരം XrColocationAdvertisementStartInfoMETA* info, XrAsyncRequestIdFB* advertisementRequestId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrStopColocationAdvertisementMETA)(XrSession session, സ്ഥിരം XrColocationAdvertisementStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrStartColocationDiscoveryMETA(
     XrSession                                   session,
-    const XrColocationDiscoveryStartInfoMETA*   info,
+    സ്ഥിരം XrColocationDiscoveryStartInfoMETA*   info,
     XrAsyncRequestIdFB*                         discoveryRequestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationDiscoveryMETA(
     XrSession                                   session,
-    const XrColocationDiscoveryStopInfoMETA*    info,
+    സ്ഥിരം XrColocationDiscoveryStopInfoMETA*    info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartColocationAdvertisementMETA(
     XrSession                                   session,
-    const XrColocationAdvertisementStartInfoMETA* info,
+    സ്ഥിരം XrColocationAdvertisementStartInfoMETA* info,
     XrAsyncRequestIdFB*                         advertisementRequestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationAdvertisementMETA(
     XrSession                                   session,
-    const XrColocationAdvertisementStopInfoMETA* info,
+    സ്ഥിരം XrColocationAdvertisementStopInfoMETA* info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11955,23 +11955,23 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationAdvertisementMETA(
 #define XR_META_spatial_entity_group_sharing_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_GROUP_SHARING_EXTENSION_NAME "XR_META_spatial_entity_group_sharing"
 // XrSystemSpatialEntityGroupSharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntityGroupSharingPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemSpatialEntityGroupSharingPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntityGroupSharing;
 } XrSystemSpatialEntityGroupSharingPropertiesMETA;
 
-typedef struct XrShareSpacesRecipientGroupsMETA {
+തരനിർവചനം ഘടന XrShareSpacesRecipientGroupsMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    groupCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    group_എണ്ണം;
     XrUuid*                     groups;
 } XrShareSpacesRecipientGroupsMETA;
 
 // XrSpaceGroupUuidFilterInfoMETA extends XrSpaceQueryInfoBaseHeaderFB
-typedef struct XrSpaceGroupUuidFilterInfoMETA {
+തരനിർവചനം ഘടന XrSpaceGroupUuidFilterInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuid                      groupUuid;
 } XrSpaceGroupUuidFilterInfoMETA;
 
@@ -11983,7 +11983,7 @@ XR_DEFINE_HANDLE(XrEnvironmentRaycasterMETA)
 #define XR_META_environment_raycast_SPEC_VERSION 1
 #define XR_META_ENVIRONMENT_RAYCAST_EXTENSION_NAME "XR_META_environment_raycast"
 
-typedef enum XrEnvironmentRaycastHitStatusMETA {
+തരനിർവചനം എണ്ണൽ XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_META = 1,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_NO_HIT_META = 2,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_POINT_OCCLUDED_META = 3,
@@ -11993,63 +11993,63 @@ typedef enum XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_MAX_ENUM_META = 0x7FFFFFFF
 } XrEnvironmentRaycastHitStatusMETA;
 // XrSystemEnvironmentRaycastPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentRaycastPropertiesMETA {
+തരനിർവചനം ഘടന XrSystemEnvironmentRaycastPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentRaycast;
 } XrSystemEnvironmentRaycastPropertiesMETA;
 
-typedef struct XrEnvironmentRaycasterCreateInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentRaycasterCreateInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycasterCreateInfoMETA;
 
-typedef struct XrEnvironmentRaycasterCreateCompletionMETA {
+തരനിർവചനം ഘടന XrEnvironmentRaycasterCreateCompletionMETA {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ശൂന്യം* XR_MAY_ALIAS            next;
     XrResult                      futureResult;
     XrEnvironmentRaycasterMETA    environmentRaycaster;
 } XrEnvironmentRaycasterCreateCompletionMETA;
 
-typedef struct XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycastFilterBaseHeaderMETA;
 
-typedef struct XrEnvironmentRaycastHitGetInfoMETA {
+തരനിർവചനം ഘടന XrEnvironmentRaycastHitGetInfoMETA {
     XrStructureType                                            type;
-    const void* XR_MAY_ALIAS                                   next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                                   next;
     XrSpace                                                    baseSpace;
     XrTime                                                     time;
     XrVector3f                                                 origin;
     XrVector3f                                                 direction;
-    uint32_t                                                   filterCount;
-    const XrEnvironmentRaycastFilterBaseHeaderMETA* const *    filters;
+    uint32_t                                                   filter_എണ്ണം;
+    സ്ഥിരം XrEnvironmentRaycastFilterBaseHeaderMETA* സ്ഥിരം *    filters;
 } XrEnvironmentRaycastHitGetInfoMETA;
 
-typedef struct XrEnvironmentRaycastHitMETA {
+തരനിർവചനം ഘടന XrEnvironmentRaycastHitMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
     XrEnvironmentRaycastHitStatusMETA    status;
     XrPosef                              pose;
 } XrEnvironmentRaycastHitMETA;
 
-typedef struct XrEnvironmentRaycastFilterDistanceMETA {
+തരനിർവചനം ഘടന XrEnvironmentRaycastFilterDistanceMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       maxDistance;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       maxDistance;
 } XrEnvironmentRaycastFilterDistanceMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterAsyncMETA)(XrSession session, const XrEnvironmentRaycasterCreateInfoMETA* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterCompleteMETA)(XrSession session, XrFutureEXT future, XrEnvironmentRaycasterCreateCompletionMETA* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentRaycasterMETA)(XrEnvironmentRaycasterMETA environmentRaycaster);
-typedef XrResult (XRAPI_PTR *PFN_xrPerformEnvironmentRaycastMETA)(XrEnvironmentRaycasterMETA environmentRaycaster, const XrEnvironmentRaycastHitGetInfoMETA* info, XrEnvironmentRaycastHitMETA* hitPoint);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterAsyncMETA)(XrSession session, സ്ഥിരം XrEnvironmentRaycasterCreateInfoMETA* info, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterCompleteMETA)(XrSession session, XrFutureEXT future, XrEnvironmentRaycasterCreateCompletionMETA* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentRaycasterMETA)(XrEnvironmentRaycasterMETA environmentRaycaster);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPerformEnvironmentRaycastMETA)(XrEnvironmentRaycasterMETA environmentRaycaster, സ്ഥിരം XrEnvironmentRaycastHitGetInfoMETA* info, XrEnvironmentRaycastHitMETA* hitPoint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentRaycasterAsyncMETA(
     XrSession                                   session,
-    const XrEnvironmentRaycasterCreateInfoMETA* info,
+    സ്ഥിരം XrEnvironmentRaycasterCreateInfoMETA* info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentRaycasterCompleteMETA(
@@ -12062,7 +12062,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentRaycasterMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPerformEnvironmentRaycastMETA(
     XrEnvironmentRaycasterMETA                  environmentRaycaster,
-    const XrEnvironmentRaycastHitGetInfoMETA*   info,
+    സ്ഥിരം XrEnvironmentRaycastHitGetInfoMETA*   info,
     XrEnvironmentRaycastHitMETA*                hitPoint);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12072,34 +12072,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPerformEnvironmentRaycastMETA(
 #define XR_META_tile_properties_hint 1
 #define XR_META_tile_properties_hint_SPEC_VERSION 1
 #define XR_META_TILE_PROPERTIES_HINT_EXTENSION_NAME "XR_META_tile_properties_hint"
-typedef struct XrExtent3DiMETA {
+തരനിർവചനം ഘടന XrExtent3DiMETA {
     int32_t    width;
     int32_t    height;
     int32_t    depth;
 } XrExtent3DiMETA;
 
-typedef struct XrTilePropertiesMETA {
+തരനിർവചനം ഘടന XrTilePropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrExtent3DiMETA       tileDimensions;
     XrExtent2Di           apronDimensions;
     XrOffset2Di           origin;
 } XrTilePropertiesMETA;
 
-typedef struct XrTilePropertiesHintMETA {
+തരനിർവചനം ഘടന XrTilePropertiesHintMETA {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       propertiesCount;
-    const XrTilePropertiesMETA*    properties;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       properties_എണ്ണം;
+    സ്ഥിരം XrTilePropertiesMETA*    properties;
 } XrTilePropertiesHintMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetTilePropertiesHintMETA)(XrSession session, const XrTilePropertiesHintMETA* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetTilePropertiesHintMETA)(XrSession session, സ്ഥിരം XrTilePropertiesHintMETA* properties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetTilePropertiesHintMETA(
     XrSession                                   session,
-    const XrTilePropertiesHintMETA*             properties);
+    സ്ഥിരം XrTilePropertiesHintMETA*             properties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -12109,15 +12109,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTilePropertiesHintMETA(
 #define XR_META_hand_tracking_unextrapolated_poses_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_UNEXTRAPOLATED_POSES_EXTENSION_NAME "XR_META_hand_tracking_unextrapolated_poses"
 // XrHandTrackingUnextrapolatedPosesRequestMETA extends XrHandJointsLocateInfoEXT
-typedef struct XrHandTrackingUnextrapolatedPosesRequestMETA {
+തരനിർവചനം ഘടന XrHandTrackingUnextrapolatedPosesRequestMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrHandTrackingUnextrapolatedPosesRequestMETA;
 
 // XrHandTrackingUnextrapolatedPosesMETA extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingUnextrapolatedPosesMETA {
+തരനിർവചനം ഘടന XrHandTrackingUnextrapolatedPosesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                captureTime;
 } XrHandTrackingUnextrapolatedPosesMETA;
 
@@ -12128,12 +12128,12 @@ typedef struct XrHandTrackingUnextrapolatedPosesMETA {
 #define XR_META_hand_tracking_frequency_hint_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_FREQUENCY_HINT_EXTENSION_NAME "XR_META_hand_tracking_frequency_hint"
 
-typedef enum XrHandTrackingFrequencyHintMETA {
+തരനിർവചനം എണ്ണൽ XrHandTrackingFrequencyHintMETA {
     XR_HAND_TRACKING_FREQUENCY_HINT_DEFAULT_META = 1,
-    XR_HAND_TRACKING_FREQUENCY_HINT_HIGH_META = 2,
+    XR_HAND_TRACKING_FREQUENCY_HINT_മുകളിലെ_META = 2,
     XR_HAND_TRACKING_FREQUENCY_HINT_MAX_ENUM_META = 0x7FFFFFFF
 } XrHandTrackingFrequencyHintMETA;
-typedef XrResult (XRAPI_PTR *PFN_xrSetHandTrackingFrequencyHintMETA)(XrSession session, XrHandTrackingFrequencyHintMETA frequencyHint);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetHandTrackingFrequencyHintMETA)(XrSession session, XrHandTrackingFrequencyHintMETA frequencyHint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -12156,73 +12156,73 @@ XR_DEFINE_HANDLE(XrLightEstimatorANDROID)
 #define XR_ANDROID_light_estimation_SPEC_VERSION 1
 #define XR_ANDROID_LIGHT_ESTIMATION_EXTENSION_NAME "XR_ANDROID_light_estimation"
 
-typedef enum XrLightEstimateStateANDROID {
+തരനിർവചനം എണ്ണൽ XrLightEstimateStateANDROID {
     XR_LIGHT_ESTIMATE_STATE_VALID_ANDROID = 0,
     XR_LIGHT_ESTIMATE_STATE_INVALID_ANDROID = 1,
     XR_LIGHT_ESTIMATE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrLightEstimateStateANDROID;
 
-typedef enum XrSphericalHarmonicsKindANDROID {
+തരനിർവചനം എണ്ണൽ XrSphericalHarmonicsKindANDROID {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_ANDROID = 0,
     XR_SPHERICAL_HARMONICS_KIND_AMBIENT_ANDROID = 1,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSphericalHarmonicsKindANDROID;
 // XrSystemLightEstimationPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemLightEstimationPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
 } XrSystemLightEstimationPropertiesANDROID;
 
-typedef struct XrLightEstimatorCreateInfoANDROID {
+തരനിർവചനം ഘടന XrLightEstimatorCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrLightEstimatorCreateInfoANDROID;
 
-typedef struct XrLightEstimateGetInfoANDROID {
+തരനിർവചനം ഘടന XrLightEstimateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
 } XrLightEstimateGetInfoANDROID;
 
-typedef struct XrLightEstimateANDROID {
+തരനിർവചനം ഘടന XrLightEstimateANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrTime                         lastUpdatedTime;
 } XrLightEstimateANDROID;
 
 // XrDirectionalLightANDROID extends XrLightEstimateANDROID
-typedef struct XrDirectionalLightANDROID {
+തരനിർവചനം ഘടന XrDirectionalLightANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrVector3f                     intensity;
     XrVector3f                     direction;
 } XrDirectionalLightANDROID;
 
 // XrAmbientLightANDROID extends XrLightEstimateANDROID
-typedef struct XrAmbientLightANDROID {
+തരനിർവചനം ഘടന XrAmbientLightANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrVector3f                     intensity;
     XrVector3f                     colorCorrection;
 } XrAmbientLightANDROID;
 
 // XrSphericalHarmonicsANDROID extends XrLightEstimateANDROID
-typedef struct XrSphericalHarmonicsANDROID {
+തരനിർവചനം ഘടന XrSphericalHarmonicsANDROID {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
     XrLightEstimateStateANDROID        state;
     XrSphericalHarmonicsKindANDROID    kind;
-    float                              coefficients[9][3];
+    ദശാംശം                              coefficients[9][3];
 } XrSphericalHarmonicsANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateLightEstimatorANDROID)(XrSession session, XrLightEstimatorCreateInfoANDROID* createInfo, XrLightEstimatorANDROID* outHandle);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyLightEstimatorANDROID)(XrLightEstimatorANDROID estimator);
-typedef XrResult (XRAPI_PTR *PFN_xrGetLightEstimateANDROID)(XrLightEstimatorANDROID estimator, const XrLightEstimateGetInfoANDROID* input, XrLightEstimateANDROID* output);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateLightEstimatorANDROID)(XrSession session, XrLightEstimatorCreateInfoANDROID* createInfo, XrLightEstimatorANDROID* outHandle);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyLightEstimatorANDROID)(XrLightEstimatorANDROID estimator);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetLightEstimateANDROID)(XrLightEstimatorANDROID estimator, സ്ഥിരം XrLightEstimateGetInfoANDROID* നിവേശം, XrLightEstimateANDROID* output);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -12236,7 +12236,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyLightEstimatorANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetLightEstimateANDROID(
     XrLightEstimatorANDROID                     estimator,
-    const XrLightEstimateGetInfoANDROID*        input,
+    സ്ഥിരം XrLightEstimateGetInfoANDROID*        നിവേശം,
     XrLightEstimateANDROID*                     output);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12253,13 +12253,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetLightEstimateANDROID(
 #define XR_ANDROID_trackables_marker_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_MARKER_EXTENSION_NAME "XR_ANDROID_trackables_marker"
 
-typedef enum XrTrackableMarkerTrackingModeANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackableMarkerTrackingModeANDROID {
     XR_TRACKABLE_MARKER_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_TRACKABLE_MARKER_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_TRACKABLE_MARKER_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerTrackingModeANDROID;
 
-typedef enum XrTrackableMarkerDictionaryANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_50_ANDROID = 0,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_100_ANDROID = 1,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_250_ANDROID = 2,
@@ -12283,37 +12283,37 @@ typedef enum XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerDictionaryANDROID;
 // XrSystemMarkerTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemMarkerTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
     XrBool32              supportsMarkerSizeEstimation;
-    uint16_t              maxMarkerCount;
+    uint16_t              max_Marker_എണ്ണം;
 } XrSystemMarkerTrackingPropertiesANDROID;
 
-typedef struct XrTrackableMarkerDatabaseEntryANDROID {
+തരനിർവചനം ഘടന XrTrackableMarkerDatabaseEntryANDROID {
     int32_t    id;
-    float      edgeSize;
+    ദശാംശം      edgeSize;
 } XrTrackableMarkerDatabaseEntryANDROID;
 
-typedef struct XrTrackableMarkerDatabaseANDROID {
+തരനിർവചനം ഘടന XrTrackableMarkerDatabaseANDROID {
     XrTrackableMarkerDictionaryANDROID              dictionary;
-    uint32_t                                        entryCount;
-    const XrTrackableMarkerDatabaseEntryANDROID*    entries;
+    uint32_t                                        entry_എണ്ണം;
+    സ്ഥിരം XrTrackableMarkerDatabaseEntryANDROID*    entries;
 } XrTrackableMarkerDatabaseANDROID;
 
 // XrTrackableMarkerConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableMarkerConfigurationANDROID {
+തരനിർവചനം ഘടന XrTrackableMarkerConfigurationANDROID {
     XrStructureType                            type;
-    void* XR_MAY_ALIAS                         next;
+    ശൂന്യം* XR_MAY_ALIAS                         next;
     XrTrackableMarkerTrackingModeANDROID       trackingMode;
-    uint32_t                                   databaseCount;
-    const XrTrackableMarkerDatabaseANDROID*    databases;
+    uint32_t                                   database_എണ്ണം;
+    സ്ഥിരം XrTrackableMarkerDatabaseANDROID*    databases;
 } XrTrackableMarkerConfigurationANDROID;
 
-typedef struct XrTrackableMarkerANDROID {
+തരനിർവചനം ഘടന XrTrackableMarkerANDROID {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
     XrTrackingStateANDROID                trackingState;
     XrTime                                lastUpdatedTime;
     XrTrackableMarkerDictionaryANDROID    dictionary;
@@ -12322,13 +12322,13 @@ typedef struct XrTrackableMarkerANDROID {
     XrExtent2Df                           extents;
 } XrTrackableMarkerANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableMarkerANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableMarkerANDROID* markerOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetTrackableMarkerANDROID)(XrTrackableTrackerANDROID tracker, സ്ഥിരം XrTrackableGetInfoANDROID* getInfo, XrTrackableMarkerANDROID* markerOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableMarkerANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableMarkerANDROID*                   markerOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12339,47 +12339,47 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableMarkerANDROID(
 #define XR_ANDROID_trackables_qr_code_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_QR_CODE_EXTENSION_NAME "XR_ANDROID_trackables_qr_code"
 
-typedef enum XrQrCodeTrackingModeANDROID {
+തരനിർവചനം എണ്ണൽ XrQrCodeTrackingModeANDROID {
     XR_QR_CODE_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_QR_CODE_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_QR_CODE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrQrCodeTrackingModeANDROID;
 // XrSystemQrCodeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemQrCodeTrackingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemQrCodeTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsQrCodeTracking;
     XrBool32              supportsQrCodeSizeEstimation;
-    uint16_t              maxQrCodeCount;
+    uint16_t              max_Qr_Code_എണ്ണം;
 } XrSystemQrCodeTrackingPropertiesANDROID;
 
 // XrTrackableQrCodeConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableQrCodeConfigurationANDROID {
+തരനിർവചനം ഘടന XrTrackableQrCodeConfigurationANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ശൂന്യം* XR_MAY_ALIAS             next;
     XrQrCodeTrackingModeANDROID    trackingMode;
-    float                          qrCodeEdgeSize;
+    ദശാംശം                          qrCodeEdgeSize;
 } XrTrackableQrCodeConfigurationANDROID;
 
-typedef struct XrTrackableQrCodeANDROID {
+തരനിർവചനം ഘടന XrTrackableQrCodeANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ശൂന്യം* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrTime                    lastUpdatedTime;
     XrPosef                   centerPose;
     XrExtent2Df               extents;
-    uint32_t                  bufferCapacityInput;
-    uint32_t                  bufferCountOutput;
-    char*                     buffer;
+    uint32_t                  buffer_Capacity_നിവേശം;
+    uint32_t                  buffer_എണ്ണം_Output;
+    അക്ഷരം*                     buffer;
 } XrTrackableQrCodeANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableQrCodeANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableQrCodeANDROID* qrCodeOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetTrackableQrCodeANDROID)(XrTrackableTrackerANDROID tracker, സ്ഥിരം XrTrackableGetInfoANDROID* getInfo, XrTrackableQrCodeANDROID* qrCodeOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableQrCodeANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableQrCodeANDROID*                   qrCodeOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12391,62 +12391,62 @@ XR_DEFINE_HANDLE(XrTrackableImageDatabaseANDROID)
 #define XR_ANDROID_trackables_image_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_IMAGE_EXTENSION_NAME "XR_ANDROID_trackables_image"
 
-typedef enum XrTrackableImageTrackingModeANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackableImageTrackingModeANDROID {
     XR_TRACKABLE_IMAGE_TRACKING_MODE_DYNAMIC_ANDROID = 1,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_STATIC_ANDROID = 2,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageTrackingModeANDROID;
 
-typedef enum XrTrackableImageFormatANDROID {
+തരനിർവചനം എണ്ണൽ XrTrackableImageFormatANDROID {
     XR_TRACKABLE_IMAGE_FORMAT_R8G8B8A8_ANDROID = 1,
     XR_TRACKABLE_IMAGE_FORMAT_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageFormatANDROID;
 // XrSystemImageTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemImageTrackingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemImageTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsImageTracking;
     XrBool32              supportsPhysicalSizeEstimation;
-    uint32_t              maxTrackedImageCount;
-    uint32_t              maxLoadedImageCount;
+    uint32_t              max_Tracked_Image_എണ്ണം;
+    uint32_t              max_Loaded_Image_എണ്ണം;
 } XrSystemImageTrackingPropertiesANDROID;
 
-typedef struct XrTrackableImageDatabaseEntryANDROID {
+തരനിർവചനം ഘടന XrTrackableImageDatabaseEntryANDROID {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS               next;
     XrTrackableImageTrackingModeANDROID    trackingMode;
-    float                                  physicalWidth;
+    ദശാംശം                                  physicalWidth;
     uint32_t                               imageWidth;
     uint32_t                               imageHeight;
     XrTrackableImageFormatANDROID          format;
     uint32_t                               bufferSize;
-    const uint8_t*                         buffer;
+    സ്ഥിരം uint8_t*                         buffer;
 } XrTrackableImageDatabaseEntryANDROID;
 
-typedef struct XrTrackableImageDatabaseCreateInfoANDROID {
+തരനിർവചനം ഘടന XrTrackableImageDatabaseCreateInfoANDROID {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
-    uint32_t                                       entryCount;
-    const XrTrackableImageDatabaseEntryANDROID*    entries;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                       next;
+    uint32_t                                       entry_എണ്ണം;
+    സ്ഥിരം XrTrackableImageDatabaseEntryANDROID*    entries;
 } XrTrackableImageDatabaseCreateInfoANDROID;
 
-typedef struct XrCreateTrackableImageDatabaseCompletionANDROID {
+തരനിർവചനം ഘടന XrCreateTrackableImageDatabaseCompletionANDROID {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
     XrResult                           futureResult;
     XrTrackableImageDatabaseANDROID    database;
 } XrCreateTrackableImageDatabaseCompletionANDROID;
 
-typedef struct XrTrackableImageConfigurationANDROID {
+തരനിർവചനം ഘടന XrTrackableImageConfigurationANDROID {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  databaseCount;
-    const XrTrackableImageDatabaseANDROID*    databases;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                                  database_എണ്ണം;
+    സ്ഥിരം XrTrackableImageDatabaseANDROID*    databases;
 } XrTrackableImageConfigurationANDROID;
 
-typedef struct XrTrackableImageANDROID {
+തരനിർവചനം ഘടന XrTrackableImageANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrTrackingStateANDROID             trackingState;
     XrTime                             lastUpdatedTime;
     XrTrackableImageDatabaseANDROID    database;
@@ -12455,24 +12455,24 @@ typedef struct XrTrackableImageANDROID {
     XrExtent2Df                        extents;
 } XrTrackableImageANDROID;
 
-typedef struct XrEventDataImageTrackingLostANDROID {
+തരനിർവചനം ഘടന XrEventDataImageTrackingLostANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrEventDataImageTrackingLostANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseAsyncANDROID)(XrSession session, const XrTrackableImageDatabaseCreateInfoANDROID* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseCompleteANDROID)(XrSession session, XrFutureEXT future, XrCreateTrackableImageDatabaseCompletionANDROID* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTrackableImageDatabaseANDROID)(XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrAddTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrRemoveTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableImageANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableImageANDROID* trackable);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseAsyncANDROID)(XrSession session, സ്ഥിരം XrTrackableImageDatabaseCreateInfoANDROID* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseCompleteANDROID)(XrSession session, XrFutureEXT future, XrCreateTrackableImageDatabaseCompletionANDROID* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyTrackableImageDatabaseANDROID)(XrTrackableImageDatabaseANDROID database);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAddTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRemoveTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetTrackableImageANDROID)(XrTrackableTrackerANDROID tracker, സ്ഥിരം XrTrackableGetInfoANDROID* getInfo, XrTrackableImageANDROID* trackable);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableImageDatabaseAsyncANDROID(
     XrSession                                   session,
-    const XrTrackableImageDatabaseCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrTrackableImageDatabaseCreateInfoANDROID* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableImageDatabaseCompleteANDROID(
@@ -12493,7 +12493,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRemoveTrackableImageDatabaseANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableImageANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    സ്ഥിരം XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableImageANDROID*                    trackable);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12506,13 +12506,13 @@ XR_DEFINE_HANDLE(XrSceneMeshSnapshotANDROID)
 #define XR_ANDROID_scene_meshing_SPEC_VERSION 3
 #define XR_ANDROID_SCENE_MESHING_EXTENSION_NAME "XR_ANDROID_scene_meshing"
 
-typedef enum XrSceneMeshSemanticLabelSetANDROID {
+തരനിർവചനം എണ്ണൽ XrSceneMeshSemanticLabelSetANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_NONE_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_DEFAULT_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelSetANDROID;
 
-typedef enum XrSceneMeshTrackingStateANDROID {
+തരനിർവചനം എണ്ണൽ XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_INITIALIZING_ANDROID = 0,
     XR_SCENE_MESH_TRACKING_STATE_TRACKING_ANDROID = 1,
     XR_SCENE_MESH_TRACKING_STATE_WAITING_ANDROID = 2,
@@ -12520,7 +12520,7 @@ typedef enum XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshTrackingStateANDROID;
 
-typedef enum XrSceneMeshSemanticLabelANDROID {
+തരനിർവചനം എണ്ണൽ XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_OTHER_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_FLOOR_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_CEILING_ANDROID = 2,
@@ -12529,77 +12529,77 @@ typedef enum XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelANDROID;
 // XrSystemSceneMeshingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemSceneMeshingPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemSceneMeshingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsSceneMeshing;
 } XrSystemSceneMeshingPropertiesANDROID;
 
-typedef struct XrSceneMeshingTrackerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrSceneMeshingTrackerCreateInfoANDROID {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
     XrSceneMeshSemanticLabelSetANDROID    semanticLabelSet;
     XrBool32                              enableNormals;
 } XrSceneMeshingTrackerCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreateInfoANDROID {
+തരനിർവചനം ഘടന XrSceneMeshSnapshotCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrBoxf                      boundingBox;
 } XrSceneMeshSnapshotCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreationResultANDROID {
+തരനിർവചനം ഘടന XrSceneMeshSnapshotCreationResultANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrSceneMeshSnapshotANDROID         snapshot;
     XrSceneMeshTrackingStateANDROID    trackingState;
 } XrSceneMeshSnapshotCreationResultANDROID;
 
-typedef struct XrSceneSubmeshStateANDROID {
+തരനിർവചനം ഘടന XrSceneSubmeshStateANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuid                submeshId;
     XrTime                lastUpdatedTime;
     XrPosef               submeshPoseInBaseSpace;
     XrExtent3Df           bounds;
 } XrSceneSubmeshStateANDROID;
 
-typedef struct XrSceneSubmeshDataANDROID {
+തരനിർവചനം ഘടന XrSceneSubmeshDataANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuid                      submeshId;
-    uint32_t                    vertexCapacityInput;
-    uint32_t                    vertexCountOutput;
+    uint32_t                    vertex_Capacity_നിവേശം;
+    uint32_t                    vertex_എണ്ണം_Output;
     XrVector3f*                 vertexPositions;
     XrVector3f*                 vertexNormals;
     uint8_t*                    vertexSemantics;
-    uint32_t                    indexCapacityInput;
-    uint32_t                    indexCountOutput;
+    uint32_t                    index_Capacity_നിവേശം;
+    uint32_t                    index_എണ്ണം_Output;
     uint32_t*                   indices;
 } XrSceneSubmeshDataANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSemanticLabelSetsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t supportedSemanticLabelSetsInputCapacity, uint32_t* supportedSemanticLabelSetsOutputCount, XrSceneMeshSemanticLabelSetANDROID* supportedSemanticLabelSets);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshingTrackerANDROID)(XrSession session, const XrSceneMeshingTrackerCreateInfoANDROID* createInfo, XrSceneMeshingTrackerANDROID* tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshingTrackerANDROID)(XrSceneMeshingTrackerANDROID tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshSnapshotANDROID)(XrSceneMeshingTrackerANDROID tracker, const XrSceneMeshSnapshotCreateInfoANDROID* createInfo, XrSceneMeshSnapshotCreationResultANDROID* outSnapshotCreationResult);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshSnapshotANDROID)(XrSceneMeshSnapshotANDROID snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAllSubmeshStatesANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submeshStateCapacityInput, uint32_t* submeshStateCountOutput, XrSceneSubmeshStateANDROID* submeshStates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSubmeshDataANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submeshDataCount, XrSceneSubmeshDataANDROID* inoutSubmeshData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSemanticLabelSetsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t supported_Semantic_Label_Sets_നിവേശം_Capacity, uint32_t* supported_Semantic_Label_Sets_Output_എണ്ണം, XrSceneMeshSemanticLabelSetANDROID* supportedSemanticLabelSets);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshingTrackerANDROID)(XrSession session, സ്ഥിരം XrSceneMeshingTrackerCreateInfoANDROID* createInfo, XrSceneMeshingTrackerANDROID* tracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshingTrackerANDROID)(XrSceneMeshingTrackerANDROID tracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshSnapshotANDROID)(XrSceneMeshingTrackerANDROID tracker, സ്ഥിരം XrSceneMeshSnapshotCreateInfoANDROID* createInfo, XrSceneMeshSnapshotCreationResultANDROID* outSnapshotCreationResult);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshSnapshotANDROID)(XrSceneMeshSnapshotANDROID snapshot);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetAllSubmeshStatesANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submesh_State_Capacity_നിവേശം, uint32_t* submesh_State_എണ്ണം_Output, XrSceneSubmeshStateANDROID* submeshStates);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSubmeshDataANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submesh_Data_എണ്ണം, XrSceneSubmeshDataANDROID* inoutSubmeshData);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSemanticLabelSetsANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    supportedSemanticLabelSetsInputCapacity,
-    uint32_t*                                   supportedSemanticLabelSetsOutputCount,
+    uint32_t                                    supported_Semantic_Label_Sets_നിവേശം_Capacity,
+    uint32_t*                                   supported_Semantic_Label_Sets_Output_എണ്ണം,
     XrSceneMeshSemanticLabelSetANDROID*         supportedSemanticLabelSets);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMeshingTrackerANDROID(
     XrSession                                   session,
-    const XrSceneMeshingTrackerCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrSceneMeshingTrackerCreateInfoANDROID* createInfo,
     XrSceneMeshingTrackerANDROID*               tracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshingTrackerANDROID(
@@ -12607,7 +12607,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshingTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMeshSnapshotANDROID(
     XrSceneMeshingTrackerANDROID                tracker,
-    const XrSceneMeshSnapshotCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrSceneMeshSnapshotCreateInfoANDROID* createInfo,
     XrSceneMeshSnapshotCreationResultANDROID*   outSnapshotCreationResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshSnapshotANDROID(
@@ -12615,13 +12615,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshSnapshotANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAllSubmeshStatesANDROID(
     XrSceneMeshSnapshotANDROID                  snapshot,
-    uint32_t                                    submeshStateCapacityInput,
-    uint32_t*                                   submeshStateCountOutput,
+    uint32_t                                    submesh_State_Capacity_നിവേശം,
+    uint32_t*                                   submesh_State_എണ്ണം_Output,
     XrSceneSubmeshStateANDROID*                 submeshStates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSubmeshDataANDROID(
     XrSceneMeshSnapshotANDROID                  snapshot,
-    uint32_t                                    submeshDataCount,
+    uint32_t                                    submesh_Data_എണ്ണം,
     XrSceneSubmeshDataANDROID*                  inoutSubmeshData);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12643,7 +12643,7 @@ XR_DEFINE_HANDLE(XrSpatialSnapshotEXT)
 #define XR_EXT_spatial_entity_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_EXTENSION_NAME "XR_EXT_spatial_entity"
 
-typedef enum XrSpatialCapabilityEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_PLANE_TRACKING_EXT = 1000741000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_QR_CODE_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_MICRO_QR_CODE_EXT = 1000743001,
@@ -12658,7 +12658,7 @@ typedef enum XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityEXT;
 
-typedef enum XrSpatialCapabilityFeatureEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_FIXED_SIZE_MARKERS_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_STATIC_MARKERS_EXT = 1000743001,
     XR_SPATIAL_CAPABILITY_FEATURE_OBJECT_SEMANTIC_LABEL_SUBSET_EXT = 1000744000,
@@ -12673,7 +12673,7 @@ typedef enum XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityFeatureEXT;
 
-typedef enum XrSpatialComponentTypeEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_2D_EXT = 1,
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_3D_EXT = 2,
     XR_SPATIAL_COMPONENT_TYPE_PARENT_EXT = 3,
@@ -12699,14 +12699,14 @@ typedef enum XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialComponentTypeEXT;
 
-typedef enum XrSpatialEntityTrackingStateEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialEntityTrackingStateEXT {
     XR_SPATIAL_ENTITY_TRACKING_STATE_STOPPED_EXT = 1,
     XR_SPATIAL_ENTITY_TRACKING_STATE_PAUSED_EXT = 2,
     XR_SPATIAL_ENTITY_TRACKING_STATE_TRACKING_EXT = 3,
     XR_SPATIAL_ENTITY_TRACKING_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialEntityTrackingStateEXT;
 
-typedef enum XrSpatialBufferTypeEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_UNKNOWN_EXT = 0,
     XR_SPATIAL_BUFFER_TYPE_STRING_EXT = 1,
     XR_SPATIAL_BUFFER_TYPE_UINT8_EXT = 2,
@@ -12717,188 +12717,188 @@ typedef enum XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_VECTOR3F_EXT = 7,
     XR_SPATIAL_BUFFER_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialBufferTypeEXT;
-typedef struct XrSpatialCapabilityComponentTypesEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityComponentTypesEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      componentTypeCapacityInput;
-    uint32_t                      componentTypeCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      component_Type_Capacity_നിവേശം;
+    uint32_t                      component_Type_എണ്ണം_Output;
     XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialCapabilityComponentTypesEXT;
 
-typedef struct XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationBaseHeaderEXT;
 
-typedef struct XrSpatialContextCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContextCreateInfoEXT {
     XrStructureType                                                type;
-    const void* XR_MAY_ALIAS                                       next;
-    uint32_t                                                       capabilityConfigCount;
-    const XrSpatialCapabilityConfigurationBaseHeaderEXT* const*    capabilityConfigs;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                                       next;
+    uint32_t                                                       capability_Config_എണ്ണം;
+    സ്ഥിരം XrSpatialCapabilityConfigurationBaseHeaderEXT* സ്ഥിരം*    capabilityConfigs;
 } XrSpatialContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialContextCompletionEXT {
+തരനിർവചനം ഘടന XrCreateSpatialContextCompletionEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ശൂന്യം* XR_MAY_ALIAS     next;
     XrResult               futureResult;
     XrSpatialContextEXT    spatialContext;
 } XrCreateSpatialContextCompletionEXT;
 
-typedef struct XrSpatialDiscoverySnapshotCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialDiscoverySnapshotCreateInfoEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                            component_Type_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialDiscoverySnapshotCreateInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
+തരനിർവചനം ഘടന XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrFutureEXT                 future;
 } XrCreateSpatialDiscoverySnapshotCompletionInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionEXT {
+തരനിർവചനം ഘടന XrCreateSpatialDiscoverySnapshotCompletionEXT {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrResult                futureResult;
     XrSpatialSnapshotEXT    snapshot;
 } XrCreateSpatialDiscoverySnapshotCompletionEXT;
 
-typedef struct XrSpatialComponentDataQueryConditionEXT {
+തരനിർവചനം ഘടന XrSpatialComponentDataQueryConditionEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                            component_Type_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialComponentDataQueryConditionEXT;
 
-typedef struct XrSpatialComponentDataQueryResultEXT {
+തരനിർവചനം ഘടന XrSpatialComponentDataQueryResultEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            entityIdCapacityInput;
-    uint32_t                            entityIdCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                            entity_Id_Capacity_നിവേശം;
+    uint32_t                            entity_Id_എണ്ണം_Output;
     XrSpatialEntityIdEXT*               entityIds;
-    uint32_t                            entityStateCapacityInput;
-    uint32_t                            entityStateCountOutput;
+    uint32_t                            entity_State_Capacity_നിവേശം;
+    uint32_t                            entity_State_എണ്ണം_Output;
     XrSpatialEntityTrackingStateEXT*    entityStates;
 } XrSpatialComponentDataQueryResultEXT;
 
-typedef struct XrSpatialBufferEXT {
+തരനിർവചനം ഘടന XrSpatialBufferEXT {
     XrSpatialBufferIdEXT      bufferId;
     XrSpatialBufferTypeEXT    bufferType;
 } XrSpatialBufferEXT;
 
-typedef struct XrSpatialBufferGetInfoEXT {
+തരനിർവചനം ഘടന XrSpatialBufferGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialBufferIdEXT        bufferId;
 } XrSpatialBufferGetInfoEXT;
 
-typedef struct XrSpatialBounded2DDataEXT {
+തരനിർവചനം ഘടന XrSpatialBounded2DDataEXT {
     XrPosef        center;
     XrExtent2Df    extents;
 } XrSpatialBounded2DDataEXT;
 
 // XrSpatialComponentBounded2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded2DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentBounded2DListEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      boundCount;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      bound_എണ്ണം;
     XrSpatialBounded2DDataEXT*    bounds;
 } XrSpatialComponentBounded2DListEXT;
 
 // XrSpatialComponentBounded3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded3DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentBounded3DListEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              boundCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              bound_എണ്ണം;
     XrBoxf*               bounds;
 } XrSpatialComponentBounded3DListEXT;
 
 // XrSpatialComponentParentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentParentListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentParentListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 parentCount;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 parent_എണ്ണം;
     XrSpatialEntityIdEXT*    parents;
 } XrSpatialComponentParentListEXT;
 
-typedef struct XrSpatialMeshDataEXT {
+തരനിർവചനം ഘടന XrSpatialMeshDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
     XrSpatialBufferEXT    indexBuffer;
 } XrSpatialMeshDataEXT;
 
 // XrSpatialComponentMesh3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMesh3DListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 meshCount;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 mesh_എണ്ണം;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh3DListEXT;
 
-typedef struct XrSpatialEntityFromIdCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialEntityFromIdCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        entityId;
 } XrSpatialEntityFromIdCreateInfoEXT;
 
-typedef struct XrSpatialUpdateSnapshotCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialUpdateSnapshotCreateInfoEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            entityCount;
-    const XrSpatialEntityEXT*           entities;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                            entity_എണ്ണം;
+    സ്ഥിരം XrSpatialEntityEXT*           entities;
+    uint32_t                            component_Type_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    componentTypes;
     XrSpace                             baseSpace;
     XrTime                              time;
 } XrSpatialUpdateSnapshotCreateInfoEXT;
 
-typedef struct XrEventDataSpatialDiscoveryRecommendedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialDiscoveryRecommendedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
 } XrEventDataSpatialDiscoveryRecommendedEXT;
 
 // XrSpatialFilterTrackingStateEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterTrackingStateEXT {
+തരനിർവചനം ഘടന XrSpatialFilterTrackingStateEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrSpatialEntityTrackingStateEXT    trackingState;
 } XrSpatialFilterTrackingStateEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilitiesEXT)(XrInstance instance, XrSystemId systemId, uint32_t capabilityCapacityInput, uint32_t* capabilityCountOutput, XrSpatialCapabilityEXT* capabilities);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityComponentTypesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, XrSpatialCapabilityComponentTypesEXT* capabilityComponents);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityFeaturesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t capabilityFeatureCapacityInput, uint32_t* capabilityFeatureCountOutput, XrSpatialCapabilityFeatureEXT* capabilityFeatures);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextAsyncEXT)(XrSession session, const XrSpatialContextCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialContextCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialContextEXT)(XrSpatialContextEXT spatialContext);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotAsyncEXT)(XrSpatialContextEXT spatialContext, const XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotCompleteEXT)(XrSpatialContextEXT spatialContext, const XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo, XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialComponentDataEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialComponentDataQueryConditionEXT* queryCondition, XrSpatialComponentDataQueryResultEXT* queryResult);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialSnapshotEXT)(XrSpatialSnapshotEXT snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityFromIdEXT)(XrSpatialContextEXT spatialContext, const XrSpatialEntityFromIdCreateInfoEXT* createInfo, XrSpatialEntityEXT* spatialEntity);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialEntityEXT)(XrSpatialEntityEXT spatialEntity);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialUpdateSnapshotEXT)(XrSpatialContextEXT spatialContext, const XrSpatialUpdateSnapshotCreateInfoEXT* createInfo, XrSpatialSnapshotEXT* snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint8EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint16EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint16_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint32EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint32_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferFloatEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, float* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector2fEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, XrVector2f* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector3fEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, XrVector3f* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilitiesEXT)(XrInstance instance, XrSystemId systemId, uint32_t capability_Capacity_നിവേശം, uint32_t* capability_എണ്ണം_Output, XrSpatialCapabilityEXT* capabilities);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityComponentTypesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, XrSpatialCapabilityComponentTypesEXT* capabilityComponents);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityFeaturesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t capability_Feature_Capacity_നിവേശം, uint32_t* capability_Feature_എണ്ണം_Output, XrSpatialCapabilityFeatureEXT* capabilityFeatures);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextAsyncEXT)(XrSession session, സ്ഥിരം XrSpatialContextCreateInfoEXT* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialContextCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialContextEXT)(XrSpatialContextEXT spatialContext);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotAsyncEXT)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotCompleteEXT)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo, XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrQuerySpatialComponentDataEXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialComponentDataQueryConditionEXT* queryCondition, XrSpatialComponentDataQueryResultEXT* queryResult);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialSnapshotEXT)(XrSpatialSnapshotEXT snapshot);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityFromIdEXT)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialEntityFromIdCreateInfoEXT* createInfo, XrSpatialEntityEXT* spatialEntity);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialEntityEXT)(XrSpatialEntityEXT spatialEntity);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialUpdateSnapshotEXT)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialUpdateSnapshotCreateInfoEXT* createInfo, XrSpatialSnapshotEXT* snapshot);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, അക്ഷരം* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint8EXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, uint8_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint16EXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, uint16_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint32EXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, uint32_t* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferFloatEXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, ദശാംശം* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector2fEXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, XrVector2f* buffer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector3fEXT)(XrSpatialSnapshotEXT snapshot, സ്ഥിരം XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_നിവേശം, uint32_t* buffer_എണ്ണം_Output, XrVector3f* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilitiesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    capabilityCapacityInput,
-    uint32_t*                                   capabilityCountOutput,
+    uint32_t                                    capability_Capacity_നിവേശം,
+    uint32_t*                                   capability_എണ്ണം_Output,
     XrSpatialCapabilityEXT*                     capabilities);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilityComponentTypesEXT(
@@ -12911,13 +12911,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilityFeaturesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrSpatialCapabilityEXT                      capability,
-    uint32_t                                    capabilityFeatureCapacityInput,
-    uint32_t*                                   capabilityFeatureCountOutput,
+    uint32_t                                    capability_Feature_Capacity_നിവേശം,
+    uint32_t*                                   capability_Feature_എണ്ണം_Output,
     XrSpatialCapabilityFeatureEXT*              capabilityFeatures);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContextAsyncEXT(
     XrSession                                   session,
-    const XrSpatialContextCreateInfoEXT*        createInfo,
+    സ്ഥിരം XrSpatialContextCreateInfoEXT*        createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContextCompleteEXT(
@@ -12930,17 +12930,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContextEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialDiscoverySnapshotAsyncEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo,
+    സ്ഥിരം XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialDiscoverySnapshotCompleteEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo,
+    സ്ഥിരം XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo,
     XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialComponentDataEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialComponentDataQueryConditionEXT* queryCondition,
+    സ്ഥിരം XrSpatialComponentDataQueryConditionEXT* queryCondition,
     XrSpatialComponentDataQueryResultEXT*       queryResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialSnapshotEXT(
@@ -12948,7 +12948,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialSnapshotEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialEntityFromIdEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialEntityFromIdCreateInfoEXT*   createInfo,
+    സ്ഥിരം XrSpatialEntityFromIdCreateInfoEXT*   createInfo,
     XrSpatialEntityEXT*                         spatialEntity);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialEntityEXT(
@@ -12956,56 +12956,56 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialEntityEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialUpdateSnapshotEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialUpdateSnapshotCreateInfoEXT* createInfo,
+    സ്ഥിരം XrSpatialUpdateSnapshotCreateInfoEXT* createInfo,
     XrSpatialSnapshotEXT*                       snapshot);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferStringEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    അക്ഷരം*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint8EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint16EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     uint16_t*                                   buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint32EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     uint32_t*                                   buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferFloatEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    float*                                      buffer);
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
+    ദശാംശം*                                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector2fEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     XrVector2f*                                 buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector3fEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    സ്ഥിരം XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_നിവേശം,
+    uint32_t*                                   buffer_എണ്ണം_Output,
     XrVector3f*                                 buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -13016,7 +13016,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector3fEXT(
 #define XR_EXT_spatial_plane_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_plane_tracking"
 
-typedef enum XrSpatialPlaneAlignmentEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_UPWARD_EXT = 0,
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_SPATIAL_PLANE_ALIGNMENT_VERTICAL_EXT = 2,
@@ -13024,7 +13024,7 @@ typedef enum XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneAlignmentEXT;
 
-typedef enum XrSpatialPlaneSemanticLabelEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -13032,48 +13032,48 @@ typedef enum XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_TABLE_EXT = 5,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationPlaneTrackingEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationPlaneTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationPlaneTrackingEXT;
 
 // XrSpatialComponentPlaneAlignmentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneAlignmentListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentPlaneAlignmentListEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       planeAlignmentCount;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       plane_Alignment_എണ്ണം;
     XrSpatialPlaneAlignmentEXT*    planeAlignments;
 } XrSpatialComponentPlaneAlignmentListEXT;
 
 // XrSpatialComponentMesh2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh2DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMesh2DListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 meshCount;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 mesh_എണ്ണം;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh2DListEXT;
 
-typedef struct XrSpatialPolygon2DDataEXT {
+തരനിർവചനം ഘടന XrSpatialPolygon2DDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
 } XrSpatialPolygon2DDataEXT;
 
 // XrSpatialComponentPolygon2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPolygon2DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentPolygon2DListEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      polygonCount;
+    ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                      polygon_എണ്ണം;
     XrSpatialPolygon2DDataEXT*    polygons;
 } XrSpatialComponentPolygon2DListEXT;
 
 // XrSpatialComponentPlaneSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentPlaneSemanticLabelListEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                           semantic_Label_എണ്ണം;
     XrSpatialPlaneSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentPlaneSemanticLabelListEXT;
 
@@ -13083,24 +13083,24 @@ typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
 #define XR_EXT_stationary_reference_space 1
 #define XR_EXT_stationary_reference_space_SPEC_VERSION 1
 #define XR_EXT_STATIONARY_REFERENCE_SPACE_EXTENSION_NAME "XR_EXT_stationary_reference_space"
-typedef struct XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
+തരനിർവചനം ഘടന XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrStationaryReferenceSpaceGenerationIdGetInfoEXT;
 
-typedef struct XrStationaryReferenceSpaceGenerationIdResultEXT {
+തരനിർവചനം ഘടന XrStationaryReferenceSpaceGenerationIdResultEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuid                generationId;
 } XrStationaryReferenceSpaceGenerationIdResultEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetStationaryReferenceSpaceGenerationIdEXT)(XrSession session, const XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo, XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetStationaryReferenceSpaceGenerationIdEXT)(XrSession session, സ്ഥിരം XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo, XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetStationaryReferenceSpaceGenerationIdEXT(
     XrSession                                   session,
-    const XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo,
+    സ്ഥിരം XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo,
     XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -13111,7 +13111,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetStationaryReferenceSpaceGenerationIdEXT(
 #define XR_EXT_spatial_marker_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MARKER_TRACKING_EXTENSION_NAME "XR_EXT_spatial_marker_tracking"
 
-typedef enum XrSpatialMarkerArucoDictEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_50_EXT = 1,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_100_EXT = 2,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_250_EXT = 3,
@@ -13131,72 +13131,72 @@ typedef enum XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerArucoDictEXT;
 
-typedef enum XrSpatialMarkerAprilTagDictEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialMarkerAprilTagDictEXT {
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_16H5_EXT = 1,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_25H9_EXT = 2,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H10_EXT = 3,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H11_EXT = 4,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerAprilTagDictEXT;
-typedef struct XrSpatialCapabilityConfigurationQrCodeEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationQrCodeEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationMicroQrCodeEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationMicroQrCodeEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationMicroQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationArucoMarkerEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationArucoMarkerEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
     XrSpatialMarkerArucoDictEXT         arUcoDict;
 } XrSpatialCapabilityConfigurationArucoMarkerEXT;
 
-typedef struct XrSpatialCapabilityConfigurationAprilTagEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationAprilTagEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
     XrSpatialMarkerAprilTagDictEXT      aprilDict;
 } XrSpatialCapabilityConfigurationAprilTagEXT;
 
 // XrSpatialMarkerSizeEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerSizeEXT {
+തരനിർവചനം ഘടന XrSpatialMarkerSizeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       markerSideLength;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       markerSideLength;
 } XrSpatialMarkerSizeEXT;
 
 // XrSpatialMarkerStaticOptimizationEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerStaticOptimizationEXT {
+തരനിർവചനം ഘടന XrSpatialMarkerStaticOptimizationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticMarker;
 } XrSpatialMarkerStaticOptimizationEXT;
 
-typedef struct XrSpatialMarkerDataEXT {
+തരനിർവചനം ഘടന XrSpatialMarkerDataEXT {
     XrSpatialCapabilityEXT    capability;
     uint32_t                  markerId;
     XrSpatialBufferEXT        data;
 } XrSpatialMarkerDataEXT;
 
 // XrSpatialComponentMarkerListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMarkerListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMarkerListEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   markerCount;
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    uint32_t                   marker_എണ്ണം;
     XrSpatialMarkerDataEXT*    markers;
 } XrSpatialComponentMarkerListEXT;
 
@@ -13207,7 +13207,7 @@ typedef struct XrSpatialComponentMarkerListEXT {
 #define XR_EXT_spatial_object_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_EXT_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_SOFA_EXT = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_BED_EXT = 3,
@@ -13221,54 +13221,54 @@ typedef enum XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelEXT;
 
-typedef enum XrSpatialKeyboardSemanticLabelEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialKeyboardSemanticLabelEXT {
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_KEYBOARD_EXT = 2,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialKeyboardSemanticLabelEXT;
 
-typedef enum XrSpatialMouseSemanticLabelEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialMouseSemanticLabelEXT {
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MOUSE_EXT = 2,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMouseSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationObjectTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationObjectTrackingEXT;
 
 // XrSpatialComponentObjectSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentObjectSemanticLabelListEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                            semantic_Label_എണ്ണം;
     XrSpatialObjectSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentObjectSemanticLabelListEXT;
 
 // XrSpatialFeatureObjectSemanticLabelSubsetEXT extends XrSpatialCapabilityConfigurationObjectTrackingEXT
-typedef struct XrSpatialFeatureObjectSemanticLabelSubsetEXT {
+തരനിർവചനം ഘടന XrSpatialFeatureObjectSemanticLabelSubsetEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  semanticLabelCount;
-    const XrSpatialObjectSemanticLabelEXT*    semanticLabels;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                                  semantic_Label_എണ്ണം;
+    സ്ഥിരം XrSpatialObjectSemanticLabelEXT*    semanticLabels;
 } XrSpatialFeatureObjectSemanticLabelSubsetEXT;
 
 // XrSpatialComponentKeyboardSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentKeyboardSemanticLabelListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentKeyboardSemanticLabelListEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
+    uint32_t                              semantic_Label_എണ്ണം;
     XrSpatialKeyboardSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentKeyboardSemanticLabelListEXT;
 
 // XrSpatialComponentMouseSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMouseSemanticLabelListEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                           semantic_Label_എണ്ണം;
     XrSpatialMouseSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentMouseSemanticLabelListEXT;
 
@@ -13285,46 +13285,46 @@ typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
 #define XR_BD_dynamic_object_tracking_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_TRACKING_EXTENSION_NAME "XR_BD_dynamic_object_tracking"
 
-typedef enum XrDynamicObjectTypeBD {
+തരനിർവചനം എണ്ണൽ XrDynamicObjectTypeBD {
     XR_DYNAMIC_OBJECT_TYPE_UNKNOWN_BD = 0,
     XR_DYNAMIC_OBJECT_TYPE_KEYBOARD_BD = 1000747000,
     XR_DYNAMIC_OBJECT_TYPE_MOUSE_BD = 1000748000,
     XR_DYNAMIC_OBJECT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrDynamicObjectTypeBD;
 // XrSystemDynamicObjectTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectTrackingPropertiesBD {
+തരനിർവചനം ഘടന XrSystemDynamicObjectTrackingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectTracking;
 } XrSystemDynamicObjectTrackingPropertiesBD;
 
 // XrSenseDataProviderCreateInfoDynamicObjectBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoDynamicObjectBD {
+തരനിർവചനം ഘടന XrSenseDataProviderCreateInfoDynamicObjectBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        trackingTypeCount;
-    const XrDynamicObjectTypeBD*    trackingTypes;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                        tracking_Type_എണ്ണം;
+    സ്ഥിരം XrDynamicObjectTypeBD*    trackingTypes;
 } XrSenseDataProviderCreateInfoDynamicObjectBD;
 
-typedef struct XrDynamicObjectDataBD {
+തരനിർവചനം ഘടന XrDynamicObjectDataBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ശൂന്യം* XR_MAY_ALIAS       next;
     XrDynamicObjectTypeBD    objectType;
 } XrDynamicObjectDataBD;
 
 // XrSpatialEntityComponentDataDynamicObjectBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataDynamicObjectBD {
+തരനിർവചനം ഘടന XrSpatialEntityComponentDataDynamicObjectBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ശൂന്യം* XR_MAY_ALIAS       next;
     XrDynamicObjectDataBD    data;
 } XrSpatialEntityComponentDataDynamicObjectBD;
 
 // XrSenseDataFilterDynamicObjectTypeBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterDynamicObjectTypeBD {
+തരനിർവചനം ഘടന XrSenseDataFilterDynamicObjectTypeBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        typeCount;
-    const XrDynamicObjectTypeBD*    types;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                        type_എണ്ണം;
+    സ്ഥിരം XrDynamicObjectTypeBD*    types;
 } XrSenseDataFilterDynamicObjectTypeBD;
 
 
@@ -13334,9 +13334,9 @@ typedef struct XrSenseDataFilterDynamicObjectTypeBD {
 #define XR_BD_dynamic_object_keyboard_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_KEYBOARD_EXTENSION_NAME "XR_BD_dynamic_object_keyboard"
 // XrSystemDynamicObjectKeyboardPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
+തരനിർവചനം ഘടന XrSystemDynamicObjectKeyboardPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectKeyboard;
 } XrSystemDynamicObjectKeyboardPropertiesBD;
 
@@ -13347,9 +13347,9 @@ typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
 #define XR_BD_dynamic_object_mouse_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_MOUSE_EXTENSION_NAME "XR_BD_dynamic_object_mouse"
 // XrSystemDynamicObjectMousePropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectMousePropertiesBD {
+തരനിർവചനം ഘടന XrSystemDynamicObjectMousePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectMouse;
 } XrSystemDynamicObjectMousePropertiesBD;
 
@@ -13370,31 +13370,31 @@ XR_DEFINE_HANDLE(XrCameraCaptureSessionBD)
 #define XR_BD_camera_image_SPEC_VERSION   1
 #define XR_BD_CAMERA_IMAGE_EXTENSION_NAME "XR_BD_camera_image"
 
-typedef enum XrCameraPropertyTypeBD {
+തരനിർവചനം എണ്ണൽ XrCameraPropertyTypeBD {
     XR_CAMERA_PROPERTY_TYPE_FACING_BD = 1,
     XR_CAMERA_PROPERTY_TYPE_POSITION_BD = 2,
     XR_CAMERA_PROPERTY_TYPE_CAMERA_TYPE_BD = 3,
     XR_CAMERA_PROPERTY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPropertyTypeBD;
 
-typedef enum XrCameraFacingBD {
+തരനിർവചനം എണ്ണൽ XrCameraFacingBD {
     XR_CAMERA_FACING_WORLD_BD = 1,
     XR_CAMERA_FACING_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraFacingBD;
 
-typedef enum XrCameraPositionBD {
+തരനിർവചനം എണ്ണൽ XrCameraPositionBD {
     XR_CAMERA_POSITION_UNSPECIFIED_BD = 1,
-    XR_CAMERA_POSITION_LEFT_BD = 2,
-    XR_CAMERA_POSITION_RIGHT_BD = 3,
+    XR_CAMERA_POSITION_ഇടത്_BD = 2,
+    XR_CAMERA_POSITION_വലത്_BD = 3,
     XR_CAMERA_POSITION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPositionBD;
 
-typedef enum XrCameraTypeBD {
+തരനിർവചനം എണ്ണൽ XrCameraTypeBD {
     XR_CAMERA_TYPE_PASSTHROUGH_COLOR_BD = 1,
     XR_CAMERA_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraTypeBD;
 
-typedef enum XrCameraCapabilityTypeBD {
+തരനിർവചനം എണ്ണൽ XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_RESOLUTION_AND_FRAME_RATE_BD = 1,
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_FORMAT_BD = 2,
     XR_CAMERA_CAPABILITY_TYPE_DATA_TRANSFER_TYPE_BD = 3,
@@ -13402,260 +13402,260 @@ typedef enum XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraCapabilityTypeBD;
 
-typedef enum XrCameraDataTransferTypeBD {
+തരനിർവചനം എണ്ണൽ XrCameraDataTransferTypeBD {
     XR_CAMERA_DATA_TRANSFER_TYPE_RAW_BUFFER_BD = 1,
     XR_CAMERA_DATA_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraDataTransferTypeBD;
 
-typedef enum XrCameraImageFormatBD {
+തരനിർവചനം എണ്ണൽ XrCameraImageFormatBD {
     XR_CAMERA_IMAGE_FORMAT_RGBA_8888_BD = 1,
     XR_CAMERA_IMAGE_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraImageFormatBD;
 
-typedef enum XrCameraModelBD {
+തരനിർവചനം എണ്ണൽ XrCameraModelBD {
     XR_CAMERA_MODEL_PINHOLE_BD = 1,
     XR_CAMERA_MODEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraModelBD;
-typedef struct XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrCameraPropertyBaseHeaderBD;
 
-typedef struct XrCameraPropertiesBD {
+തരനിർവചനം ഘടന XrCameraPropertiesBD {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
-    uint32_t                          propertyCount;
+    ശൂന്യം* XR_MAY_ALIAS                next;
+    uint32_t                          property_എണ്ണം;
     XrCameraPropertyBaseHeaderBD**    properties;
 } XrCameraPropertiesBD;
 
-typedef struct XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrCameraCapabilityBaseHeaderBD;
 
-typedef struct XrCameraCapabilitiesBD {
+തരനിർവചനം ഘടന XrCameraCapabilitiesBD {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            capabilityCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
+    uint32_t                            capability_എണ്ണം;
     XrCameraCapabilityBaseHeaderBD**    capabilities;
 } XrCameraCapabilitiesBD;
 
-typedef struct XrAvailableCamerasEnumerateInfoBD {
+തരനിർവചനം ഘടന XrAvailableCamerasEnumerateInfoBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
-    const XrCameraPropertiesBD*      properties;
-    const XrCameraCapabilitiesBD*    capabilities;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
+    സ്ഥിരം XrCameraPropertiesBD*      properties;
+    സ്ഥിരം XrCameraCapabilitiesBD*    capabilities;
 } XrAvailableCamerasEnumerateInfoBD;
 
-typedef struct XrAvailableCameraBD {
+തരനിർവചനം ഘടന XrAvailableCameraBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD          cameraId;
 } XrAvailableCameraBD;
 
-typedef struct XrCameraPropertyTypesEnumerateInfoBD {
+തരനിർവചനം ഘടന XrCameraPropertyTypesEnumerateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertyTypesEnumerateInfoBD;
 
-typedef struct XrCameraPropertyTypesBD {
+തരനിർവചനം ഘടന XrCameraPropertyTypesBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   propertyTypeCapacityInput;
-    uint32_t                   propertyTypeCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS         next;
+    uint32_t                   property_Type_Capacity_നിവേശം;
+    uint32_t                   property_Type_എണ്ണം_Output;
     XrCameraPropertyTypeBD*    propertyTypes;
 } XrCameraPropertyTypesBD;
 
-typedef struct XrCameraPropertiesGetInfoBD {
+തരനിർവചനം ഘടന XrCameraPropertiesGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertiesGetInfoBD;
 
-typedef struct XrCameraPropertyFacingBD {
+തരനിർവചനം ഘടന XrCameraPropertyFacingBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraFacingBD            facing;
 } XrCameraPropertyFacingBD;
 
-typedef struct XrCameraPropertyPositionBD {
+തരനിർവചനം ഘടന XrCameraPropertyPositionBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraPositionBD          position;
 } XrCameraPropertyPositionBD;
 
-typedef struct XrCameraPropertyCameraTypeBD {
+തരനിർവചനം ഘടന XrCameraPropertyCameraTypeBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraTypeBD              cameraType;
 } XrCameraPropertyCameraTypeBD;
 
-typedef struct XrCameraCapabilityTypesEnumerateInfoBD {
+തരനിർവചനം ഘടന XrCameraCapabilityTypesEnumerateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraCapabilityTypesEnumerateInfoBD;
 
-typedef struct XrCameraCapabilityTypesBD {
+തരനിർവചനം ഘടന XrCameraCapabilityTypesBD {
     XrStructureType              type;
-    void* XR_MAY_ALIAS           next;
-    uint32_t                     capabilityTypeCapacityInput;
-    uint32_t                     capabilityTypeCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS           next;
+    uint32_t                     capability_Type_Capacity_നിവേശം;
+    uint32_t                     capability_Type_എണ്ണം_Output;
     XrCameraCapabilityTypeBD*    capabilityTypes;
 } XrCameraCapabilityTypesBD;
 
-typedef struct XrCameraSupportedCapabilitiesGetInfoBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilitiesGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD                id;
 } XrCameraSupportedCapabilitiesGetInfoBD;
 
-typedef struct XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrCameraSupportedCapabilityBaseHeaderBD;
 
-typedef struct XrCameraSupportedCapabilitiesBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilitiesBD {
     XrStructureType                              type;
-    void* XR_MAY_ALIAS                           next;
-    uint32_t                                     capabilityCount;
+    ശൂന്യം* XR_MAY_ALIAS                           next;
+    uint32_t                                     capability_എണ്ണം;
     XrCameraSupportedCapabilityBaseHeaderBD**    capabilities;
 } XrCameraSupportedCapabilitiesBD;
 
-typedef struct XrCameraImageResolutionAndFrameRateBD {
+തരനിർവചനം ഘടന XrCameraImageResolutionAndFrameRateBD {
     XrExtent2Di    resolution;
     uint32_t       frameRate;
 } XrCameraImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
     XrStructureType                           type;
-    void* XR_MAY_ALIAS                        next;
-    uint32_t                                  resolutionAndFrameRateCapacityInput;
-    uint32_t                                  resolutionAndFrameRateCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS                        next;
+    uint32_t                                  resolution_And_Frame_Rate_Capacity_നിവേശം;
+    uint32_t                                  resolution_And_Frame_Rate_എണ്ണം_Output;
     XrCameraImageResolutionAndFrameRateBD*    resolutionAndFrameRates;
 } XrCameraSupportedCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraCapabilityImageResolutionAndFrameRateBD {
+തരനിർവചനം ഘടന XrCameraCapabilityImageResolutionAndFrameRateBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrExtent2Di                 resolution;
     uint32_t                    frameRate;
 } XrCameraCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityDataTransferTypeBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilityDataTransferTypeBD {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       transferTypeCapacityInput;
-    uint32_t                       transferTypeCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                       transfer_Type_Capacity_നിവേശം;
+    uint32_t                       transfer_Type_എണ്ണം_Output;
     XrCameraDataTransferTypeBD*    transferTypes;
 } XrCameraSupportedCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraCapabilityDataTransferTypeBD {
+തരനിർവചനം ഘടന XrCameraCapabilityDataTransferTypeBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrCameraDataTransferTypeBD    transferType;
 } XrCameraCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraSupportedCapabilityImageFormatBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilityImageFormatBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  formatCapacityInput;
-    uint32_t                  formatCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS        next;
+    uint32_t                  format_Capacity_നിവേശം;
+    uint32_t                  format_എണ്ണം_Output;
     XrCameraImageFormatBD*    formats;
 } XrCameraSupportedCapabilityImageFormatBD;
 
-typedef struct XrCameraCapabilityImageFormatBD {
+തരനിർവചനം ഘടന XrCameraCapabilityImageFormatBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraImageFormatBD       format;
 } XrCameraCapabilityImageFormatBD;
 
-typedef struct XrCameraSupportedCapabilityCameraModelBD {
+തരനിർവചനം ഘടന XrCameraSupportedCapabilityCameraModelBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              modelCapacityInput;
-    uint32_t              modelCountOutput;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              model_Capacity_നിവേശം;
+    uint32_t              model_എണ്ണം_Output;
     XrCameraModelBD*      models;
 } XrCameraSupportedCapabilityCameraModelBD;
 
-typedef struct XrCameraCapabilityCameraModelBD {
+തരനിർവചനം ഘടന XrCameraCapabilityCameraModelBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraModelBD             model;
 } XrCameraCapabilityCameraModelBD;
 
-typedef struct XrCameraDeviceCreateInfoBD {
+തരനിർവചനം ഘടന XrCameraDeviceCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraDeviceCreateInfoBD;
 
-typedef struct XrCreateCameraDeviceCompletionBD {
+തരനിർവചനം ഘടന XrCreateCameraDeviceCompletionBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrResult              futureResult;
     XrCameraDeviceBD      device;
 } XrCreateCameraDeviceCompletionBD;
 
-typedef struct XrCameraCaptureSessionCreateInfoBD {
+തരനിർവചനം ഘടന XrCameraCaptureSessionCreateInfoBD {
     XrStructureType                                 type;
-    const void* XR_MAY_ALIAS                        next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                        next;
     XrCameraDeviceBD                                camera;
-    uint32_t                                        configCount;
-    const XrCameraCapabilityBaseHeaderBD* const*    configs;
+    uint32_t                                        config_എണ്ണം;
+    സ്ഥിരം XrCameraCapabilityBaseHeaderBD* സ്ഥിരം*    configs;
 } XrCameraCaptureSessionCreateInfoBD;
 
-typedef struct XrCreateCameraCaptureSessionCompletionBD {
+തരനിർവചനം ഘടന XrCreateCameraCaptureSessionCompletionBD {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrCameraCaptureSessionBD    captureSession;
 } XrCreateCameraCaptureSessionCompletionBD;
 
 // XrCameraIntrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraIntrinsicsBD {
+തരനിർവചനം ഘടന XrCameraIntrinsicsBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrVector2f            focalLength;
     XrVector2f            principalPoint;
     XrVector2f            fov;
 } XrCameraIntrinsicsBD;
 
 // XrCameraExtrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraExtrinsicsBD {
+തരനിർവചനം ഘടന XrCameraExtrinsicsBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrPosef               pose;
 } XrCameraExtrinsicsBD;
 
-typedef struct XrCameraCaptureBeginInfoBD {
+തരനിർവചനം ഘടന XrCameraCaptureBeginInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrCameraCaptureBeginInfoBD;
 
-typedef struct XrCameraImageAcquireInfoBD {
+തരനിർവചനം ഘടന XrCameraImageAcquireInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrTime                      lastCaptureTime;
 } XrCameraImageAcquireInfoBD;
 
-typedef struct XrCameraImageBD {
+തരനിർവചനം ഘടന XrCameraImageBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    available;
     XrTime                      captureTime;
     XrCameraImageIdBD           imageId;
 } XrCameraImageBD;
 
-typedef struct XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
 } XrCameraImageDataBaseHeaderBD;
 
-typedef struct XrCameraImageDataRawBufferBD {
+തരനിർവചനം ഘടന XrCameraImageDataRawBufferBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     uint32_t              width;
     uint32_t              height;
     uint32_t              stride;
@@ -13665,55 +13665,55 @@ typedef struct XrCameraImageDataRawBufferBD {
     uint8_t*              buffer;
 } XrCameraImageDataRawBufferBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateAvailableCamerasBD)(XrInstance instance, const XrAvailableCamerasEnumerateInfoBD* enumerateInfo, uint32_t cameraCapacityInput, uint32_t* cameraCountOutput, XrAvailableCameraBD* cameras);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateCameraPropertyTypesBD)(XrInstance instance, const XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo, XrCameraPropertyTypesBD* propertyTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraPropertiesBD)(XrInstance instance, const XrCameraPropertiesGetInfoBD* getInfo, XrCameraPropertiesBD* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateCameraCapabilityTypesBD)(XrInstance instance, const XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo, XrCameraCapabilityTypesBD* capabilityTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraSupportedCapabilitiesBD)(XrInstance instance, const XrCameraSupportedCapabilitiesGetInfoBD* getInfo, XrCameraSupportedCapabilitiesBD* capabilities);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceAsyncBD)(XrInstance instance, const XrCameraDeviceCreateInfoBD* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceCompleteBD)(XrInstance instance, XrFutureEXT future, XrCreateCameraDeviceCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyCameraDeviceBD)(XrCameraDeviceBD device);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionAsyncBD)(XrSession session, const XrCameraCaptureSessionCreateInfoBD* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionCompleteBD)(XrSession session, XrFutureEXT future, XrCreateCameraCaptureSessionCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyCameraCaptureSessionBD)(XrCameraCaptureSessionBD captureSession);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginCameraCaptureBD)(XrCameraCaptureSessionBD captureSession, const XrCameraCaptureBeginInfoBD* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndCameraCaptureBD)(XrCameraCaptureSessionBD captureSession);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireCameraImageBD)(XrCameraCaptureSessionBD captureSession, const XrCameraImageAcquireInfoBD* acquireInfo, XrCameraImageBD* image);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraImageDataBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId, XrCameraImageDataBaseHeaderBD* imageData);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseCameraImageBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateAvailableCamerasBD)(XrInstance instance, സ്ഥിരം XrAvailableCamerasEnumerateInfoBD* enumerateInfo, uint32_t camera_Capacity_നിവേശം, uint32_t* camera_എണ്ണം_Output, XrAvailableCameraBD* cameras);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateCameraPropertyTypesBD)(XrInstance instance, സ്ഥിരം XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo, XrCameraPropertyTypesBD* propertyTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetCameraPropertiesBD)(XrInstance instance, സ്ഥിരം XrCameraPropertiesGetInfoBD* getInfo, XrCameraPropertiesBD* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateCameraCapabilityTypesBD)(XrInstance instance, സ്ഥിരം XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo, XrCameraCapabilityTypesBD* capabilityTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetCameraSupportedCapabilitiesBD)(XrInstance instance, സ്ഥിരം XrCameraSupportedCapabilitiesGetInfoBD* getInfo, XrCameraSupportedCapabilitiesBD* capabilities);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceAsyncBD)(XrInstance instance, സ്ഥിരം XrCameraDeviceCreateInfoBD* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceCompleteBD)(XrInstance instance, XrFutureEXT future, XrCreateCameraDeviceCompletionBD* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyCameraDeviceBD)(XrCameraDeviceBD device);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionAsyncBD)(XrSession session, സ്ഥിരം XrCameraCaptureSessionCreateInfoBD* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionCompleteBD)(XrSession session, XrFutureEXT future, XrCreateCameraCaptureSessionCompletionBD* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyCameraCaptureSessionBD)(XrCameraCaptureSessionBD captureSession);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrBeginCameraCaptureBD)(XrCameraCaptureSessionBD captureSession, സ്ഥിരം XrCameraCaptureBeginInfoBD* beginInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEndCameraCaptureBD)(XrCameraCaptureSessionBD captureSession);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAcquireCameraImageBD)(XrCameraCaptureSessionBD captureSession, സ്ഥിരം XrCameraImageAcquireInfoBD* acquireInfo, XrCameraImageBD* image);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetCameraImageDataBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId, XrCameraImageDataBaseHeaderBD* imageData);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrReleaseCameraImageBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateAvailableCamerasBD(
     XrInstance                                  instance,
-    const XrAvailableCamerasEnumerateInfoBD*    enumerateInfo,
-    uint32_t                                    cameraCapacityInput,
-    uint32_t*                                   cameraCountOutput,
+    സ്ഥിരം XrAvailableCamerasEnumerateInfoBD*    enumerateInfo,
+    uint32_t                                    camera_Capacity_നിവേശം,
+    uint32_t*                                   camera_എണ്ണം_Output,
     XrAvailableCameraBD*                        cameras);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateCameraPropertyTypesBD(
     XrInstance                                  instance,
-    const XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo,
+    സ്ഥിരം XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo,
     XrCameraPropertyTypesBD*                    propertyTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraPropertiesBD(
     XrInstance                                  instance,
-    const XrCameraPropertiesGetInfoBD*          getInfo,
+    സ്ഥിരം XrCameraPropertiesGetInfoBD*          getInfo,
     XrCameraPropertiesBD*                       properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateCameraCapabilityTypesBD(
     XrInstance                                  instance,
-    const XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo,
+    സ്ഥിരം XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo,
     XrCameraCapabilityTypesBD*                  capabilityTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraSupportedCapabilitiesBD(
     XrInstance                                  instance,
-    const XrCameraSupportedCapabilitiesGetInfoBD* getInfo,
+    സ്ഥിരം XrCameraSupportedCapabilitiesGetInfoBD* getInfo,
     XrCameraSupportedCapabilitiesBD*            capabilities);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraDeviceAsyncBD(
     XrInstance                                  instance,
-    const XrCameraDeviceCreateInfoBD*           createInfo,
+    സ്ഥിരം XrCameraDeviceCreateInfoBD*           createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraDeviceCompleteBD(
@@ -13726,7 +13726,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyCameraDeviceBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraCaptureSessionAsyncBD(
     XrSession                                   session,
-    const XrCameraCaptureSessionCreateInfoBD*   createInfo,
+    സ്ഥിരം XrCameraCaptureSessionCreateInfoBD*   createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraCaptureSessionCompleteBD(
@@ -13739,14 +13739,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyCameraCaptureSessionBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginCameraCaptureBD(
     XrCameraCaptureSessionBD                    captureSession,
-    const XrCameraCaptureBeginInfoBD*           beginInfo);
+    സ്ഥിരം XrCameraCaptureBeginInfoBD*           beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndCameraCaptureBD(
     XrCameraCaptureSessionBD                    captureSession);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireCameraImageBD(
     XrCameraCaptureSessionBD                    captureSession,
-    const XrCameraImageAcquireInfoBD*           acquireInfo,
+    സ്ഥിരം XrCameraImageAcquireInfoBD*           acquireInfo,
     XrCameraImageBD*                            image);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraImageDataBD(
@@ -13766,27 +13766,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrReleaseCameraImageBD(
 #define XR_ANDROID_spatial_discovery_bounds_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_BOUNDS_EXTENSION_NAME "XR_ANDROID_spatial_discovery_bounds"
 // XrSpatialBoundsSpherefANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsSpherefANDROID {
+തരനിർവചനം ഘടന XrSpatialBoundsSpherefANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrSpheref                   sphere;
 } XrSpatialBoundsSpherefANDROID;
 
 // XrSpatialBoundsBoxfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsBoxfANDROID {
+തരനിർവചനം ഘടന XrSpatialBoundsBoxfANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrBoxf                      box;
 } XrSpatialBoundsBoxfANDROID;
 
 // XrSpatialBoundsFrustumfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsFrustumfANDROID {
+തരനിർവചനം ഘടന XrSpatialBoundsFrustumfANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrFrustumf                  frustum;
@@ -13798,37 +13798,37 @@ typedef struct XrSpatialBoundsFrustumfANDROID {
 #define XR_EXT_spatial_anchor 1
 #define XR_EXT_spatial_anchor_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_EXT_spatial_anchor"
-typedef struct XrSpatialCapabilityConfigurationAnchorEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationAnchorEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationAnchorEXT;
 
 // XrSpatialComponentAnchorListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentAnchorListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentAnchorListEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              locationCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              location_എണ്ണം;
     XrPosef*              locations;
 } XrSpatialComponentAnchorListEXT;
 
-typedef struct XrSpatialAnchorCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialAnchorCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
 } XrSpatialAnchorCreateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorEXT)(XrSpatialContextEXT spatialContext, const XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpatialEntityEXT* anchorEntity);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorEXT)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpatialEntityEXT* anchorEntity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorCreateInfoEXT*         createInfo,
+    സ്ഥിരം XrSpatialAnchorCreateInfoEXT*         createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId,
     XrSpatialEntityEXT*                         anchorEntity);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -13841,84 +13841,84 @@ XR_DEFINE_HANDLE(XrSpatialPersistenceContextEXT)
 #define XR_EXT_spatial_persistence_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_EXTENSION_NAME "XR_EXT_spatial_persistence"
 
-typedef enum XrSpatialPersistenceScopeEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPersistenceScopeEXT {
     XR_SPATIAL_PERSISTENCE_SCOPE_SYSTEM_MANAGED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_SCOPE_LOCAL_ANCHORS_EXT = 1000781000,
     XR_SPATIAL_PERSISTENCE_SCOPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceScopeEXT;
 
-typedef enum XrSpatialPersistenceContextResultEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPersistenceContextResultEXT {
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_SUCCESS_EXT = 0,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_ENTITY_NOT_TRACKING_EXT = -1000781001,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_PERSIST_UUID_NOT_FOUND_EXT = -1000781002,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceContextResultEXT;
 
-typedef enum XrSpatialPersistenceStateEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPersistenceStateEXT {
     XR_SPATIAL_PERSISTENCE_STATE_LOADED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_STATE_NOT_FOUND_EXT = 2,
     XR_SPATIAL_PERSISTENCE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceStateEXT;
-typedef struct XrSpatialPersistenceContextCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialPersistenceContextCreateInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS        next;
     XrSpatialPersistenceScopeEXT    scope;
 } XrSpatialPersistenceContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialPersistenceContextCompletionEXT {
+തരനിർവചനം ഘടന XrCreateSpatialPersistenceContextCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    createResult;
     XrSpatialPersistenceContextEXT          persistenceContext;
 } XrCreateSpatialPersistenceContextCompletionEXT;
 
 // XrSpatialContextPersistenceConfigEXT extends XrSpatialContextCreateInfoEXT
-typedef struct XrSpatialContextPersistenceConfigEXT {
+തരനിർവചനം ഘടന XrSpatialContextPersistenceConfigEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 persistenceContextCount;
-    const XrSpatialPersistenceContextEXT*    persistenceContexts;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                                 persistence_Context_എണ്ണം;
+    സ്ഥിരം XrSpatialPersistenceContextEXT*    persistenceContexts;
 } XrSpatialContextPersistenceConfigEXT;
 
 // XrSpatialDiscoveryPersistenceUuidFilterEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialDiscoveryPersistenceUuidFilterEXT {
+തരനിർവചനം ഘടന XrSpatialDiscoveryPersistenceUuidFilterEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    persistedUuidCount;
-    const XrUuid*               persistedUuids;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    persisted_Uuid_എണ്ണം;
+    സ്ഥിരം XrUuid*               persistedUuids;
 } XrSpatialDiscoveryPersistenceUuidFilterEXT;
 
-typedef struct XrSpatialPersistenceDataEXT {
+തരനിർവചനം ഘടന XrSpatialPersistenceDataEXT {
     XrUuid                          persistUuid;
     XrSpatialPersistenceStateEXT    persistState;
 } XrSpatialPersistenceDataEXT;
 
 // XrSpatialComponentPersistenceListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPersistenceListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentPersistenceListEXT {
     XrStructureType                 type;
-    void* XR_MAY_ALIAS              next;
-    uint32_t                        persistDataCount;
+    ശൂന്യം* XR_MAY_ALIAS              next;
+    uint32_t                        persist_Data_എണ്ണം;
     XrSpatialPersistenceDataEXT*    persistData;
 } XrSpatialComponentPersistenceListEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialPersistenceScopesEXT)(XrInstance instance, XrSystemId systemId, uint32_t persistenceScopeCapacityInput, uint32_t* persistenceScopeCountOutput, XrSpatialPersistenceScopeEXT* persistenceScopes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextAsyncEXT)(XrSession session, const XrSpatialPersistenceContextCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialPersistenceContextCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialPersistenceContextEXT)(XrSpatialPersistenceContextEXT persistenceContext);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialPersistenceScopesEXT)(XrInstance instance, XrSystemId systemId, uint32_t persistence_Scope_Capacity_നിവേശം, uint32_t* persistence_Scope_എണ്ണം_Output, XrSpatialPersistenceScopeEXT* persistenceScopes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextAsyncEXT)(XrSession session, സ്ഥിരം XrSpatialPersistenceContextCreateInfoEXT* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialPersistenceContextCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialPersistenceContextEXT)(XrSpatialPersistenceContextEXT persistenceContext);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialPersistenceScopesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    persistenceScopeCapacityInput,
-    uint32_t*                                   persistenceScopeCountOutput,
+    uint32_t                                    persistence_Scope_Capacity_നിവേശം,
+    uint32_t*                                   persistence_Scope_എണ്ണം_Output,
     XrSpatialPersistenceScopeEXT*               persistenceScopes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialPersistenceContextAsyncEXT(
     XrSession                                   session,
-    const XrSpatialPersistenceContextCreateInfoEXT* createInfo,
+    സ്ഥിരം XrSpatialPersistenceContextCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialPersistenceContextCompleteEXT(
@@ -13949,61 +13949,61 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialPersistenceContextEXT(
 #define XR_EXT_haptic_parametric_SPEC_VERSION 1
 #define XR_EXT_HAPTIC_PARAMETRIC_EXTENSION_NAME "XR_EXT_haptic_parametric"
 
-typedef enum XrHapticParametricStreamFrameTypeEXT {
+തരനിർവചനം എണ്ണൽ XrHapticParametricStreamFrameTypeEXT {
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_NONE_EXT = 0,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_FIRST_FRAME_EXT = 1,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_INTERMEDIATE_FRAME_EXT = 2,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_LAST_FRAME_EXT = 3,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHapticParametricStreamFrameTypeEXT;
-typedef struct XrHapticParametricPropertiesEXT {
+തരനിർവചനം ഘടന XrHapticParametricPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrDuration            idealFrameSubmissionRate;
     XrDuration            minimumFirstFrameDuration;
-    float                 minFrequencyHz;
-    float                 maxFrequencyHz;
+    ദശാംശം                 minFrequencyHz;
+    ദശാംശം                 maxFrequencyHz;
 } XrHapticParametricPropertiesEXT;
 
-typedef struct XrHapticParametricPointEXT {
+തരനിർവചനം ഘടന XrHapticParametricPointEXT {
     XrDuration    time;
-    float         value;
+    ദശാംശം         മൂല്യം;
 } XrHapticParametricPointEXT;
 
-typedef struct XrHapticParametricTransientEXT {
+തരനിർവചനം ഘടന XrHapticParametricTransientEXT {
     XrDuration    time;
-    float         amplitude;
-    float         frequency;
+    ദശാംശം         amplitude;
+    ദശാംശം         frequency;
 } XrHapticParametricTransientEXT;
 
-typedef struct XrHapticParametricVibrationEXT {
+തരനിർവചനം ഘടന XrHapticParametricVibrationEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 amplitudePointCount;
-    const XrHapticParametricPointEXT*        amplitudePoints;
-    uint32_t                                 frequencyPointCount;
-    const XrHapticParametricPointEXT*        frequencyPoints;
-    uint32_t                                 transientCount;
-    const XrHapticParametricTransientEXT*    transients;
-    float                                    minFrequencyHz;
-    float                                    maxFrequencyHz;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                 next;
+    uint32_t                                 amplitude_Point_എണ്ണം;
+    സ്ഥിരം XrHapticParametricPointEXT*        amplitudePoints;
+    uint32_t                                 frequency_Point_എണ്ണം;
+    സ്ഥിരം XrHapticParametricPointEXT*        frequencyPoints;
+    uint32_t                                 transient_എണ്ണം;
+    സ്ഥിരം XrHapticParametricTransientEXT*    transients;
+    ദശാംശം                                    minFrequencyHz;
+    ദശാംശം                                    maxFrequencyHz;
     XrHapticParametricStreamFrameTypeEXT     streamFrameType;
 } XrHapticParametricVibrationEXT;
 
 // XrSystemHapticParametricPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHapticParametricPropertiesEXT {
+തരനിർവചനം ഘടന XrSystemHapticParametricPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsParametricHaptics;
 } XrSystemHapticParametricPropertiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrHapticParametricGetPropertiesEXT)(XrSession session, const XrHapticActionInfo* hapticActionInfo, XrHapticParametricPropertiesEXT* parametricProperties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrHapticParametricGetPropertiesEXT)(XrSession session, സ്ഥിരം XrHapticActionInfo* hapticActionInfo, XrHapticParametricPropertiesEXT* parametricProperties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrHapticParametricGetPropertiesEXT(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
+    സ്ഥിരം XrHapticActionInfo*                   hapticActionInfo,
     XrHapticParametricPropertiesEXT*            parametricProperties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14014,7 +14014,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrHapticParametricGetPropertiesEXT(
 #define XR_SONY_swapchain_color_space_SPEC_VERSION 1
 #define XR_SONY_SWAPCHAIN_COLOR_SPACE_EXTENSION_NAME "XR_SONY_swapchain_color_space"
 
-typedef enum XrColorSpaceSONY {
+തരനിർവചനം എണ്ണൽ XrColorSpaceSONY {
     XR_COLOR_SPACE_SRGB_NONLINEAR_SONY = 0,
     XR_COLOR_SPACE_DISPLAY_P3_LINEAR_SONY = 1,
     XR_COLOR_SPACE_DISPLAY_P3_NONLINEAR_SONY = 2,
@@ -14028,28 +14028,28 @@ typedef enum XrColorSpaceSONY {
     XR_COLOR_SPACE_BT2020_HLG_SONY = 10,
     XR_COLOR_SPACE_MAX_ENUM_SONY = 0x7FFFFFFF
 } XrColorSpaceSONY;
-typedef struct XrColorSpacesEnumerateInfoSONY {
+തരനിർവചനം ഘടന XrColorSpacesEnumerateInfoSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     int64_t                     format;
 } XrColorSpacesEnumerateInfoSONY;
 
 // XrSwapchainCreateInfoColorSpaceSONY extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoColorSpaceSONY {
+തരനിർവചനം ഘടന XrSwapchainCreateInfoColorSpaceSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrColorSpaceSONY            colorSpace;
 } XrSwapchainCreateInfoColorSpaceSONY;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesSONY)(XrSession session, const XrColorSpacesEnumerateInfoSONY* enumerateInfo, uint32_t colorSpaceCapacityInput, uint32_t* colorSpaceCountOutput, XrColorSpaceSONY* colorSpaces);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesSONY)(XrSession session, സ്ഥിരം XrColorSpacesEnumerateInfoSONY* enumerateInfo, uint32_t color_Space_Capacity_നിവേശം, uint32_t* color_Space_എണ്ണം_Output, XrColorSpaceSONY* colorSpaces);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesSONY(
     XrSession                                   session,
-    const XrColorSpacesEnumerateInfoSONY*       enumerateInfo,
-    uint32_t                                    colorSpaceCapacityInput,
-    uint32_t*                                   colorSpaceCountOutput,
+    സ്ഥിരം XrColorSpacesEnumerateInfoSONY*       enumerateInfo,
+    uint32_t                                    color_Space_Capacity_നിവേശം,
+    uint32_t*                                   color_Space_എണ്ണം_Output,
     XrColorSpaceSONY*                           colorSpaces);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14059,31 +14059,31 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesSONY(
 #define XR_SONY_hdr_metadata 1
 #define XR_SONY_hdr_metadata_SPEC_VERSION 1
 #define XR_SONY_HDR_METADATA_EXTENSION_NAME "XR_SONY_hdr_metadata"
-typedef struct XrXYColorSONY {
-    float    x;
-    float    y;
+തരനിർവചനം ഘടന XrXYColorSONY {
+    ദശാംശം    x;
+    ദശാംശം    y;
 } XrXYColorSONY;
 
-typedef struct XrHdrMetadataSONY {
+തരനിർവചനം ഘടന XrHdrMetadataSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrXYColorSONY               displayPrimaryRed;
     XrXYColorSONY               displayPrimaryGreen;
     XrXYColorSONY               displayPrimaryBlue;
     XrXYColorSONY               whitePoint;
-    float                       maxLuminance;
-    float                       minLuminance;
-    float                       maxContentLightLevel;
-    float                       maxFrameAverageLightLevel;
+    ദശാംശം                       maxLuminance;
+    ദശാംശം                       minLuminance;
+    ദശാംശം                       maxContentLightLevel;
+    ദശാംശം                       maxFrameAverageLightLevel;
 } XrHdrMetadataSONY;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetHdrMetadataSONY)(XrSwapchain swapchain, const XrHdrMetadataSONY* hdrMetadata);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetHdrMetadataSONY)(XrSwapchain swapchain, സ്ഥിരം XrHdrMetadataSONY* hdrMetadata);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetHdrMetadataSONY(
     XrSwapchain                                 swapchain,
-    const XrHdrMetadataSONY*                    hdrMetadata);
+    സ്ഥിരം XrHdrMetadataSONY*                    hdrMetadata);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -14092,44 +14092,44 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetHdrMetadataSONY(
 #define XR_EXT_spatial_persistence_operations 1
 #define XR_EXT_spatial_persistence_operations_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_OPERATIONS_EXTENSION_NAME "XR_EXT_spatial_persistence_operations"
-typedef struct XrSpatialEntityPersistInfoEXT {
+തരനിർവചനം ഘടന XrSpatialEntityPersistInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
     XrSpatialEntityIdEXT        spatialEntityId;
 } XrSpatialEntityPersistInfoEXT;
 
-typedef struct XrPersistSpatialEntityCompletionEXT {
+തരനിർവചനം ഘടന XrPersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    persistResult;
     XrUuid                                  persistUuid;
 } XrPersistSpatialEntityCompletionEXT;
 
-typedef struct XrSpatialEntityUnpersistInfoEXT {
+തരനിർവചനം ഘടന XrSpatialEntityUnpersistInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrUuid                      persistUuid;
 } XrSpatialEntityUnpersistInfoEXT;
 
-typedef struct XrUnpersistSpatialEntityCompletionEXT {
+തരനിർവചനം ഘടന XrUnpersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    unpersistResult;
 } XrUnpersistSpatialEntityCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, const XrSpatialEntityPersistInfoEXT* persistInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrPersistSpatialEntityCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, const XrSpatialEntityUnpersistInfoEXT* unpersistInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrUnpersistSpatialEntityCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, സ്ഥിരം XrSpatialEntityPersistInfoEXT* persistInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrPersistSpatialEntityCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, സ്ഥിരം XrSpatialEntityUnpersistInfoEXT* unpersistInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrUnpersistSpatialEntityCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityAsyncEXT(
     XrSpatialPersistenceContextEXT              persistenceContext,
-    const XrSpatialEntityPersistInfoEXT*        persistInfo,
+    സ്ഥിരം XrSpatialEntityPersistInfoEXT*        persistInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityCompleteEXT(
@@ -14139,7 +14139,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityCompleteEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialEntityAsyncEXT(
     XrSpatialPersistenceContextEXT              persistenceContext,
-    const XrSpatialEntityUnpersistInfoEXT*      unpersistInfo,
+    സ്ഥിരം XrSpatialEntityUnpersistInfoEXT*      unpersistInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialEntityCompleteEXT(
@@ -14156,84 +14156,84 @@ XR_DEFINE_HANDLE(XrSpatialImageTrackingDatabaseEXT)
 #define XR_EXT_spatial_image_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_IMAGE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_image_tracking"
 
-typedef enum XrSpatialReferenceImageFormatEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialReferenceImageFormatEXT {
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGBA_8888_EXT = 1,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGB_888_EXT = 2,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_YUV_420_888_EXT = 3,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialReferenceImageFormatEXT;
-typedef struct XrSpatialReferenceImagePlaneEXT {
+തരനിർവചനം ഘടന XrSpatialReferenceImagePlaneEXT {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    സ്ഥിരം uint8_t*    buffer;
     uint32_t          rowStride;
     uint32_t          pixelStride;
 } XrSpatialReferenceImagePlaneEXT;
 
-typedef struct XrSpatialReferenceImageEXT {
+തരനിർവചനം ഘടന XrSpatialReferenceImageEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
     uint32_t                                  width;
     uint32_t                                  height;
     XrSpatialReferenceImageFormatEXT          format;
-    uint32_t                                  planeCount;
-    const XrSpatialReferenceImagePlaneEXT*    planes;
+    uint32_t                                  plane_എണ്ണം;
+    സ്ഥിരം XrSpatialReferenceImagePlaneEXT*    planes;
 } XrSpatialReferenceImageEXT;
 
 // XrSpatialImageStaticOptimizationEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageStaticOptimizationEXT {
+തരനിർവചനം ഘടന XrSpatialImageStaticOptimizationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticImage;
 } XrSpatialImageStaticOptimizationEXT;
 
 // XrSpatialImageSizeEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageSizeEXT {
+തരനിർവചനം ഘടന XrSpatialImageSizeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       physicalWidth;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    ദശാംശം                       physicalWidth;
 } XrSpatialImageSizeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationImageTrackingEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationImageTrackingEXT {
     XrStructureType                             type;
-    const void* XR_MAY_ALIAS                    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                    next;
     XrSpatialCapabilityEXT                      capability;
-    uint32_t                                    enabledComponentCount;
-    const XrSpatialComponentTypeEXT*            enabledComponents;
-    uint32_t                                    imageTrackingDatabaseCount;
-    const XrSpatialImageTrackingDatabaseEXT*    imageTrackingDatabases;
+    uint32_t                                    enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*            enabledComponents;
+    uint32_t                                    image_Tracking_Database_എണ്ണം;
+    സ്ഥിരം XrSpatialImageTrackingDatabaseEXT*    imageTrackingDatabases;
 } XrSpatialCapabilityConfigurationImageTrackingEXT;
 
-typedef struct XrSpatialImageTrackingDatabaseCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialImageTrackingDatabaseCreateInfoEXT {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    uint32_t                             spatialReferenceImageCount;
-    const XrSpatialReferenceImageEXT*    spatialReferenceImages;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                             spatial_Reference_Image_എണ്ണം;
+    സ്ഥിരം XrSpatialReferenceImageEXT*    spatialReferenceImages;
 } XrSpatialImageTrackingDatabaseCreateInfoEXT;
 
-typedef struct XrSpatialImage2DDataEXT {
+തരനിർവചനം ഘടന XrSpatialImage2DDataEXT {
     XrSpatialImageTrackingDatabaseEXT    imageTrackingDatabase;
     uint32_t                             referenceImageIndex;
 } XrSpatialImage2DDataEXT;
 
 // XrSpatialComponentImage2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentImage2DListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentImage2DListEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    imageCount;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t                    image_എണ്ണം;
     XrSpatialImage2DDataEXT*    images;
 } XrSpatialComponentImage2DListEXT;
 
-typedef struct XrCreateSpatialImageTrackingDatabaseCompletionEXT {
+തരനിർവചനം ഘടന XrCreateSpatialImageTrackingDatabaseCompletionEXT {
     XrStructureType                      type;
-    void* XR_MAY_ALIAS                   next;
+    ശൂന്യം* XR_MAY_ALIAS                   next;
     XrResult                             futureResult;
     XrSpatialImageTrackingDatabaseEXT    database;
 } XrCreateSpatialImageTrackingDatabaseCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialReferenceImageFormatsEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t formatCapacityInput, uint32_t* formatCountOutput, XrSpatialReferenceImageFormatEXT* formats);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseAsyncEXT)(XrSession session, const XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialImageTrackingDatabaseCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialImageTrackingDatabaseEXT)(XrSpatialImageTrackingDatabaseEXT database);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialReferenceImageFormatsEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t format_Capacity_നിവേശം, uint32_t* format_എണ്ണം_Output, XrSpatialReferenceImageFormatEXT* formats);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseAsyncEXT)(XrSession session, സ്ഥിരം XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialImageTrackingDatabaseCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialImageTrackingDatabaseEXT)(XrSpatialImageTrackingDatabaseEXT database);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -14241,13 +14241,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialReferenceImageFormatsEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrSpatialCapabilityEXT                      capability,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_നിവേശം,
+    uint32_t*                                   format_എണ്ണം_Output,
     XrSpatialReferenceImageFormatEXT*           formats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialImageTrackingDatabaseAsyncEXT(
     XrSession                                   session,
-    const XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo,
+    സ്ഥിരം XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialImageTrackingDatabaseCompleteEXT(
@@ -14266,7 +14266,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialImageTrackingDatabaseEXT(
 #define XR_EXT_spatial_mesh_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MESH_TRACKING_EXTENSION_NAME "XR_EXT_spatial_mesh_tracking"
 
-typedef enum XrSpatialMeshSemanticLabelEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -14277,42 +14277,42 @@ typedef enum XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_BED_EXT = 8,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMeshSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationMeshTrackingEXT {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationMeshTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationMeshTrackingEXT;
 
 // XrSpatialFeatureTrackWatertightMeshEXT extends XrSpatialCapabilityConfigurationMeshTrackingEXT
-typedef struct XrSpatialFeatureTrackWatertightMeshEXT {
+തരനിർവചനം ഘടന XrSpatialFeatureTrackWatertightMeshEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    enableWatertightMeshTracking;
 } XrSpatialFeatureTrackWatertightMeshEXT;
 
 // XrSpatialComponentMesh3DNormalsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DNormalsListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMesh3DNormalsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshNormalsCount;
+    ശൂന്യം* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Normals_എണ്ണം;
     XrSpatialBufferEXT*    meshNormals;
 } XrSpatialComponentMesh3DNormalsListEXT;
 
 // XrSpatialComponentMesh3DVertexSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshSemanticLabelsCount;
+    ശൂന്യം* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Semantic_Labels_എണ്ണം;
     XrSpatialBufferEXT*    meshSemanticLabels;
 } XrSpatialComponentMesh3DVertexSemanticLabelsListEXT;
 
 // XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshSemanticLabelsCount;
+    ശൂന്യം* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Semantic_Labels_എണ്ണം;
     XrSpatialBufferEXT*    meshSemanticLabels;
 } XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT;
 
@@ -14323,28 +14323,28 @@ typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
 #define XR_ANDROID_spatial_object_tracking_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_ANDROID_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelANDROID {
+തരനിർവചനം എണ്ണൽ XrSpatialObjectSemanticLabelANDROID {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_ANDROID = 0,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_KEYBOARD_ANDROID = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MOUSE_ANDROID = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_LAPTOP_BASE_ANDROID = 3,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelANDROID;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingANDROID {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationObjectTrackingANDROID {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrSpatialCapabilityEXT                        capability;
-    uint32_t                                      enabledComponentCount;
-    const XrSpatialComponentTypeEXT*              enabledComponents;
-    uint32_t                                      activeSemanticLabelCount;
-    const XrSpatialObjectSemanticLabelANDROID*    activeSemanticLabels;
+    uint32_t                                      enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*              enabledComponents;
+    uint32_t                                      active_Semantic_Label_എണ്ണം;
+    സ്ഥിരം XrSpatialObjectSemanticLabelANDROID*    activeSemanticLabels;
 } XrSpatialCapabilityConfigurationObjectTrackingANDROID;
 
 // XrSpatialComponentObjectSemanticLabelListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
+തരനിർവചനം ഘടന XrSpatialComponentObjectSemanticLabelListANDROID {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                      next;
+    uint32_t                                semantic_Label_എണ്ണം;
     XrSpatialObjectSemanticLabelANDROID*    semanticLabels;
 } XrSpatialComponentObjectSemanticLabelListANDROID;
 
@@ -14354,53 +14354,53 @@ typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
 #define XR_ANDROID_spatial_discovery_raycast 1
 #define XR_ANDROID_spatial_discovery_raycast_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_RAYCAST_EXTENSION_NAME "XR_ANDROID_spatial_discovery_raycast"
-typedef struct XrSpatialRaycastResultDataANDROID {
+തരനിർവചനം ഘടന XrSpatialRaycastResultDataANDROID {
     XrPosef    hitPose;
-    float      distanceSquared;
+    ദശാംശം      distanceSquared;
 } XrSpatialRaycastResultDataANDROID;
 
-typedef struct XrSpatialCapabilityConfigurationDepthRaycastANDROID {
+തരനിർവചനം ഘടന XrSpatialCapabilityConfigurationDepthRaycastANDROID {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationDepthRaycastANDROID;
 
 // XrSpatialRaycastInfoANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialRaycastInfoANDROID {
+തരനിർവചനം ഘടന XrSpatialRaycastInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrVector3f                  origin;
     XrVector3f                  direction;
-    float                       maxDistance;
+    ദശാംശം                       maxDistance;
 } XrSpatialRaycastInfoANDROID;
 
 // XrSpatialComponentRaycastResultListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentRaycastResultListANDROID {
+തരനിർവചനം ഘടന XrSpatialComponentRaycastResultListANDROID {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              raycastResultCount;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
+    uint32_t                              raycast_Result_എണ്ണം;
     XrSpatialRaycastResultDataANDROID*    raycastResults;
 } XrSpatialComponentRaycastResultListANDROID;
 
-typedef struct XrSpatialRaycastSnapshotCreateInfoANDROID {
+തരനിർവചനം ഘടന XrSpatialRaycastSnapshotCreateInfoANDROID {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
-    uint32_t                              componentTypeCount;
-    const XrSpatialComponentTypeEXT*      componentTypes;
-    const XrSpatialRaycastInfoANDROID*    raycastInfo;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS              next;
+    uint32_t                              component_Type_എണ്ണം;
+    സ്ഥിരം XrSpatialComponentTypeEXT*      componentTypes;
+    സ്ഥിരം XrSpatialRaycastInfoANDROID*    raycastInfo;
 } XrSpatialRaycastSnapshotCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialRaycastSnapshotANDROID)(XrSpatialContextEXT spatialContext, const XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo, XrSpatialSnapshotEXT* snapshot);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialRaycastSnapshotANDROID)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo, XrSpatialSnapshotEXT* snapshot);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialRaycastSnapshotANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo,
     XrSpatialSnapshotEXT*                       snapshot);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14411,50 +14411,50 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialRaycastSnapshotANDROID(
 #define XR_ANDROID_google_cloud_auth_SPEC_VERSION 1
 #define XR_ANDROID_GOOGLE_CLOUD_AUTH_EXTENSION_NAME "XR_ANDROID_google_cloud_auth"
 
-typedef enum XrGoogleCloudAuthErrorANDROID {
+തരനിർവചനം എണ്ണൽ XrGoogleCloudAuthErrorANDROID {
     XR_GOOGLE_CLOUD_AUTH_ERROR_NONE_ANDROID = 0,
     XR_GOOGLE_CLOUD_AUTH_ERROR_QUOTA_EXCEEDED_ANDROID = -1,
     XR_GOOGLE_CLOUD_AUTH_ERROR_UNREACHABLE_ANDROID = -2,
     XR_GOOGLE_CLOUD_AUTH_ERROR_ANDROID = -3,
     XR_GOOGLE_CLOUD_AUTH_ERROR_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGoogleCloudAuthErrorANDROID;
-typedef struct XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
+തരനിർവചനം ഘടന XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoBaseHeaderANDROID;
 
-typedef struct XrGoogleCloudAuthInfoApiKeyANDROID {
+തരനിർവചനം ഘടന Xr_Google_Cloud_Auth_Info_Api_താക്കോൽ_ANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 apiKey;
-} XrGoogleCloudAuthInfoApiKeyANDROID;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    സ്ഥിരം അക്ഷരം*                 api_താക്കോൽ;
+} Xr_Google_Cloud_Auth_Info_Api_താക്കോൽ_ANDROID;
 
-typedef struct XrGoogleCloudAuthInfoTokenANDROID {
+തരനിർവചനം ഘടന XrGoogleCloudAuthInfoTokenANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 authToken;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
+    സ്ഥിരം അക്ഷരം*                 authToken;
 } XrGoogleCloudAuthInfoTokenANDROID;
 
-typedef struct XrGoogleCloudAuthInfoKeylessANDROID {
+തരനിർവചനം ഘടന XrGoogleCloudAuthInfoKeylessANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoKeylessANDROID;
 
 // XrGoogleCloudAuthErrorResultANDROID extends XrGoogleCloudAuthInfoBaseHeaderANDROID
-typedef struct XrGoogleCloudAuthErrorResultANDROID {
+തരനിർവചനം ഘടന XrGoogleCloudAuthErrorResultANDROID {
     XrStructureType                  type;
-    void* XR_MAY_ALIAS               next;
+    ശൂന്യം* XR_MAY_ALIAS               next;
     XrGoogleCloudAuthErrorANDROID    error;
 } XrGoogleCloudAuthErrorResultANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthAsyncANDROID)(XrSession session, const XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthCompleteANDROID)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthAsyncANDROID)(XrSession session, സ്ഥിരം XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthCompleteANDROID)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetGoogleCloudAuthAsyncANDROID(
     XrSession                                   session,
-    const XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo,
+    സ്ഥിരം XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetGoogleCloudAuthCompleteANDROID(
@@ -14471,97 +14471,97 @@ XR_DEFINE_HANDLE(XrGeospatialTrackerANDROID)
 #define XR_ANDROID_geospatial_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_EXTENSION_NAME "XR_ANDROID_geospatial"
 
-typedef enum XrGeospatialTrackerStateANDROID {
+തരനിർവചനം എണ്ണൽ XrGeospatialTrackerStateANDROID {
     XR_GEOSPATIAL_TRACKER_STATE_STOPPED_ANDROID = 0,
     XR_GEOSPATIAL_TRACKER_STATE_RUNNING_ANDROID = 1,
     XR_GEOSPATIAL_TRACKER_STATE_INITIALIZATION_FAILED_ANDROID = 2,
     XR_GEOSPATIAL_TRACKER_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGeospatialTrackerStateANDROID;
 
-typedef enum XrVPSAvailabilityANDROID {
+തരനിർവചനം എണ്ണൽ XrVPSAvailabilityANDROID {
     XR_VPS_AVAILABILITY_UNAVAILABLE_ANDROID = 1,
     XR_VPS_AVAILABILITY_AVAILABLE_ANDROID = 2,
     XR_VPSAVAILABILITY_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrVPSAvailabilityANDROID;
-typedef XrFlags64 XrGeospatialPoseFlagsANDROID;
+തരനിർവചനം XrFlags64 XrGeospatialPoseFlagsANDROID;
 
 // Flag bits for XrGeospatialPoseFlagsANDROID
-static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_ORIENTATION_VALID_BIT_ANDROID = 0x00000001;
-static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_POSITION_VALID_BIT_ANDROID = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_ORIENTATION_VALID_BIT_ANDROID = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_POSITION_VALID_BIT_ANDROID = 0x00000002;
 
-typedef struct XrGeospatialPoseANDROID {
+തരനിർവചനം ഘടന XrGeospatialPoseANDROID {
     XrQuaternionf    eastUpSouthOrientation;
-    double           latitude;
-    double           longitude;
-    double           altitude;
+    ഇരട്ട           latitude;
+    ഇരട്ട           longitude;
+    ഇരട്ട           altitude;
 } XrGeospatialPoseANDROID;
 
 // XrSystemGeospatialPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemGeospatialPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              supportsGeospatial;
 } XrSystemGeospatialPropertiesANDROID;
 
-typedef struct XrGeospatialTrackerCreateInfoANDROID {
+തരനിർവചനം ഘടന XrGeospatialTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrGeospatialTrackerCreateInfoANDROID;
 
-typedef struct XrEventDataGeospatialTrackerStateChangedANDROID {
+തരനിർവചനം ഘടന XrEventDataGeospatialTrackerStateChangedANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrGeospatialTrackerANDROID         geospatialTracker;
     XrGeospatialTrackerStateANDROID    state;
     XrResult                           initializationResult;
     XrTime                             time;
 } XrEventDataGeospatialTrackerStateChangedANDROID;
 
-typedef struct XrGeospatialPoseFromPoseLocateInfoANDROID {
+തരനിർവചനം ഘടന XrGeospatialPoseFromPoseLocateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrPosef                     pose;
 } XrGeospatialPoseFromPoseLocateInfoANDROID;
 
-typedef struct XrGeospatialPoseResultANDROID {
+തരനിർവചനം ഘടന XrGeospatialPoseResultANDROID {
     XrStructureType                 type;
-    void* XR_MAY_ALIAS              next;
+    ശൂന്യം* XR_MAY_ALIAS              next;
     XrGeospatialPoseFlagsANDROID    poseFlags;
     XrGeospatialPoseANDROID         geospatialPose;
-    double                          horizontalAccuracy;
-    double                          verticalAccuracy;
-    double                          orientationYawAccuracy;
+    ഇരട്ട                          horizontalAccuracy;
+    ഇരട്ട                          verticalAccuracy;
+    ഇരട്ട                          orientationYawAccuracy;
 } XrGeospatialPoseResultANDROID;
 
-typedef struct XrGeospatialPoseLocateInfoANDROID {
+തരനിർവചനം ഘടന XrGeospatialPoseLocateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrGeospatialPoseANDROID     geospatialPose;
 } XrGeospatialPoseLocateInfoANDROID;
 
-typedef struct XrVPSAvailabilityCheckCompletionANDROID {
+തരനിർവചനം ഘടന XrVPSAvailabilityCheckCompletionANDROID {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ശൂന്യം* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrVPSAvailabilityANDROID    availability;
 } XrVPSAvailabilityCheckCompletionANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeospatialTrackerANDROID)(XrSession session, const XrGeospatialTrackerCreateInfoANDROID* createInfo, XrGeospatialTrackerANDROID* geospatialTrackerOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyGeospatialTrackerANDROID)(XrGeospatialTrackerANDROID geospatialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseFromPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo, XrGeospatialPoseResultANDROID* geospatialPoseResult);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseLocateInfoANDROID* locateInfo, XrSpaceLocation* location);
-typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, double latitude, double longitude, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityCompleteANDROID)(XrSession session, XrFutureEXT future, XrVPSAvailabilityCheckCompletionANDROID* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateGeospatialTrackerANDROID)(XrSession session, സ്ഥിരം XrGeospatialTrackerCreateInfoANDROID* createInfo, XrGeospatialTrackerANDROID* geospatialTrackerOutput);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyGeospatialTrackerANDROID)(XrGeospatialTrackerANDROID geospatialTracker);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseFromPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, സ്ഥിരം XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo, XrGeospatialPoseResultANDROID* geospatialPoseResult);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, സ്ഥിരം XrGeospatialPoseLocateInfoANDROID* locateInfo, XrSpaceLocation* location);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, ഇരട്ട latitude, ഇരട്ട longitude, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityCompleteANDROID)(XrSession session, XrFutureEXT future, XrVPSAvailabilityCheckCompletionANDROID* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeospatialTrackerANDROID(
     XrSession                                   session,
-    const XrGeospatialTrackerCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrGeospatialTrackerCreateInfoANDROID* createInfo,
     XrGeospatialTrackerANDROID*                 geospatialTrackerOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeospatialTrackerANDROID(
@@ -14569,18 +14569,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeospatialTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateGeospatialPoseFromPoseANDROID(
     XrGeospatialTrackerANDROID                  geospatialTracker,
-    const XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo,
+    സ്ഥിരം XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo,
     XrGeospatialPoseResultANDROID*              geospatialPoseResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateGeospatialPoseANDROID(
     XrGeospatialTrackerANDROID                  geospatialTracker,
-    const XrGeospatialPoseLocateInfoANDROID*    locateInfo,
+    സ്ഥിരം XrGeospatialPoseLocateInfoANDROID*    locateInfo,
     XrSpaceLocation*                            location);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityAsyncANDROID(
     XrSession                                   session,
-    double                                      latitude,
-    double                                      longitude,
+    ഇരട്ട                                      latitude,
+    ഇരട്ട                                      longitude,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
@@ -14596,21 +14596,21 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
 #define XR_ANDROID_spatial_entity_bound_anchor_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_ENTITY_BOUND_ANCHOR_EXTENSION_NAME "XR_ANDROID_spatial_entity_bound_anchor"
 // XrSpatialAnchorParentANDROID extends XrSpatialAnchorCreateInfoEXT
-typedef struct XrSpatialAnchorParentANDROID {
+തരനിർവചനം ഘടന XrSpatialAnchorParentANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        parentId;
 } XrSpatialAnchorParentANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialAnchorAttachableComponentsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t attachableComponentCapacityInput, uint32_t* attachableComponentCountOutput, XrSpatialComponentTypeEXT* attachableComponents);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialAnchorAttachableComponentsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t attachable_Component_Capacity_നിവേശം, uint32_t* attachable_Component_എണ്ണം_Output, XrSpatialComponentTypeEXT* attachableComponents);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialAnchorAttachableComponentsANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    attachableComponentCapacityInput,
-    uint32_t*                                   attachableComponentCountOutput,
+    uint32_t                                    attachable_Component_Capacity_നിവേശം,
+    uint32_t*                                   attachable_Component_എണ്ണം_Output,
     XrSpatialComponentTypeEXT*                  attachableComponents);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14621,16 +14621,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialAnchorAttachableComponentsANDRO
 #define XR_ANDROID_spatial_component_subsumed_by_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_COMPONENT_SUBSUMED_BY_EXTENSION_NAME "XR_ANDROID_spatial_component_subsumed_by"
 // XrSpatialDiscoveryUniqueEntitiesFilterANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
+തരനിർവചനം ഘടന XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialDiscoveryUniqueEntitiesFilterANDROID;
 
 // XrSpatialComponentSubsumedByListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentSubsumedByListANDROID {
+തരനിർവചനം ഘടന XrSpatialComponentSubsumedByListANDROID {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 subsumedUniqueIdCount;
+    ശൂന്യം* XR_MAY_ALIAS       next;
+    uint32_t                 subsumed_Unique_Id_എണ്ണം;
     XrSpatialEntityIdEXT*    subsumedUniqueIds;
 } XrSpatialComponentSubsumedByListANDROID;
 
@@ -14640,28 +14640,28 @@ typedef struct XrSpatialComponentSubsumedByListANDROID {
 #define XR_ANDROID_spatial_anchor_space 1
 #define XR_ANDROID_spatial_anchor_space_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_ANCHOR_SPACE_EXTENSION_NAME "XR_ANDROID_spatial_anchor_space"
-typedef struct XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
+തരനിർവചനം ഘടന XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        anchorEntityId;
 } XrSpatialAnchorSpaceFromIdCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceANDROID)(XrSession session, XrSpatialContextEXT spatialContext, const XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpace* anchorSpace);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceFromIdANDROID)(XrSession session, XrSpatialContextEXT spatialContext, const XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo, XrSpace* anchorSpace);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceANDROID)(XrSession session, XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpace* anchorSpace);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceFromIdANDROID)(XrSession session, XrSpatialContextEXT spatialContext, സ്ഥിരം XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo, XrSpace* anchorSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceANDROID(
     XrSession                                   session,
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorCreateInfoEXT*         createInfo,
+    സ്ഥിരം XrSpatialAnchorCreateInfoEXT*         createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId,
     XrSpace*                                    anchorSpace);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceFromIdANDROID(
     XrSession                                   session,
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo,
+    സ്ഥിരം XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo,
     XrSpace*                                    anchorSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14672,64 +14672,64 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceFromIdANDROID(
 #define XR_ANDROID_geospatial_anchor_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_ANCHOR_EXTENSION_NAME "XR_ANDROID_geospatial_anchor"
 
-typedef enum XrSurfaceAnchorTypeANDROID {
+തരനിർവചനം എണ്ണൽ XrSurfaceAnchorTypeANDROID {
     XR_SURFACE_ANCHOR_TYPE_TERRAIN_ANDROID = 1,
     XR_SURFACE_ANCHOR_TYPE_ROOFTOP_ANDROID = 2,
     XR_SURFACE_ANCHOR_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSurfaceAnchorTypeANDROID;
 // XrSystemGeospatialAnchorPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialAnchorPropertiesANDROID {
+തരനിർവചനം ഘടന XrSystemGeospatialAnchorPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              maxSurfaceAnchorCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              max_Surface_Anchor_എണ്ണം;
 } XrSystemGeospatialAnchorPropertiesANDROID;
 
 // XrGeospatialTrackerAnchorTrackingInfoANDROID extends XrGeospatialTrackerCreateInfoANDROID
-typedef struct XrGeospatialTrackerAnchorTrackingInfoANDROID {
+തരനിർവചനം ഘടന XrGeospatialTrackerAnchorTrackingInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    shouldTrackPlanes;
 } XrGeospatialTrackerAnchorTrackingInfoANDROID;
 
-typedef struct XrGeospatialAnchorCreateInfoANDROID {
+തരനിർവചനം ഘടന XrGeospatialAnchorCreateInfoANDROID {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrGeospatialPoseANDROID       geospatialPose;
 } XrGeospatialAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateInfoANDROID {
+തരനിർവചനം ഘടന XrSurfaceAnchorCreateInfoANDROID {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrSurfaceAnchorTypeANDROID    surfaceAnchorType;
     XrQuaternionf                 eastUpSouthOrientation;
-    double                        latitude;
-    double                        longitude;
-    double                        altitudeRelativeToSurface;
+    ഇരട്ട                        latitude;
+    ഇരട്ട                        longitude;
+    ഇരട്ട                        altitudeRelativeToSurface;
 } XrSurfaceAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateCompletionANDROID {
+തരനിർവചനം ഘടന XrSurfaceAnchorCreateCompletionANDROID {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ശൂന്യം* XR_MAY_ALIAS      next;
     XrResult                futureResult;
     XrSpatialEntityIdEXT    anchorEntityId;
 } XrSurfaceAnchorCreateCompletionANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeospatialAnchorANDROID)(XrSpatialContextEXT spatialContext, const XrGeospatialAnchorCreateInfoANDROID* createInfo, XrSpatialEntityIdEXT* anchorEntityId);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorAsyncANDROID)(XrSpatialContextEXT spatialContext, const XrSurfaceAnchorCreateInfoANDROID* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorCompleteANDROID)(XrSpatialContextEXT spatialContext, XrFutureEXT future, XrSurfaceAnchorCreateCompletionANDROID* completion);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateGeospatialAnchorANDROID)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrGeospatialAnchorCreateInfoANDROID* createInfo, XrSpatialEntityIdEXT* anchorEntityId);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorAsyncANDROID)(XrSpatialContextEXT spatialContext, സ്ഥിരം XrSurfaceAnchorCreateInfoANDROID* createInfo, XrFutureEXT* future);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorCompleteANDROID)(XrSpatialContextEXT spatialContext, XrFutureEXT future, XrSurfaceAnchorCreateCompletionANDROID* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeospatialAnchorANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrGeospatialAnchorCreateInfoANDROID*  createInfo,
+    സ്ഥിരം XrGeospatialAnchorCreateInfoANDROID*  createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSurfaceAnchorAsyncANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrSurfaceAnchorCreateInfoANDROID*     createInfo,
+    സ്ഥിരം XrSurfaceAnchorCreateInfoANDROID*     createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSurfaceAnchorCompleteANDROID(
@@ -14746,142 +14746,142 @@ XR_DEFINE_HANDLE(XrSpatialContainerEXT)
 #define XR_EXT_spatial_container_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_EXTENSION_NAME "XR_EXT_spatial_container"
 
-typedef enum XrSpatialContainerGraphicsPresentationEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialContainerGraphicsPresentationEXT {
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_SELF_RENDERING_EXT = 1000813000,
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerGraphicsPresentationEXT;
 
-typedef enum XrSpatialContainerBoundsModeEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialContainerBoundsModeEXT {
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_BOUNDED_EXT = 1,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_IMMERSIVE_EXT = 2,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerBoundsModeEXT;
 
-typedef enum XrSpatialContainerVolumeClippingEXT {
+തരനിർവചനം എണ്ണൽ XrSpatialContainerVolumeClippingEXT {
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_NONE_EXT = 0,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_STRICT_EXT = 1,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerVolumeClippingEXT;
 // XrSessionCreateInfoSpatialContainersEXT extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoSpatialContainersEXT {
+തരനിർവചനം ഘടന XrSessionCreateInfoSpatialContainersEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSessionCreateInfoSpatialContainersEXT;
 
-typedef struct XrSpatialContainerCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerCreateInfoEXT {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                     next;
     XrSpatialContainerGraphicsPresentationEXT    graphicsPresentation;
     XrExtent3Df                                  suggestedBounds;
 } XrSpatialContainerCreateInfoEXT;
 
-typedef struct XrSpatialContainerSpaceCreateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerSpaceCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerSpaceCreateInfoEXT;
 
-typedef struct XrEventDataSpatialContainerClosedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerClosedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerClosedEXT;
 
 // XrSystemSpatialContainerPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemSpatialContainerPropertiesEXT {
+തരനിർവചനം ഘടന XrSystemSpatialContainerPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              maxSpatialContainerCount;
+    ശൂന്യം* XR_MAY_ALIAS    next;
+    uint32_t              max_Spatial_Container_എണ്ണം;
     XrBool32              supportsBounded;
     XrBool32              supportsImmersive;
 } XrSystemSpatialContainerPropertiesEXT;
 
-typedef struct XrSpatialContainerBoundsEXT {
+തരനിർവചനം ഘടന XrSpatialContainerBoundsEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrExtent3Df           bounds;
     XrBool32              infiniteBounds;
 } XrSpatialContainerBoundsEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsChangedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerBoundsChangedEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrSpatialContainerEXT              spatialContainer;
     XrExtent3Df                        bounds;
     XrBool32                           infiniteBounds;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrEventDataSpatialContainerBoundsChangedEXT;
 
-typedef struct XrSpatialContainerBoundsGetInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerBoundsGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialContainerBoundsGetInfoEXT;
 
-typedef struct XrSpatialContainerStateGetInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerStateGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSpatialContainerStateGetInfoEXT;
 
-typedef struct XrSpatialContainerVisibleRequestInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerVisibleRequestInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrSpatialContainerVisibleRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleChangedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerVisibleChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    visible;
 } XrEventDataSpatialContainerVisibleChangedEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleRequestDeniedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerVisibleRequestDeniedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerVisibleRequestDeniedEXT;
 
-typedef struct XrEventDataSpatialContainerInteractableChangedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerInteractableChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    interactable;
 } XrEventDataSpatialContainerInteractableChangedEXT;
 
-typedef struct XrSpatialContainerBoundsModeRequestInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerBoundsModeRequestInfoEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS           next;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrSpatialContainerBoundsModeRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
+തരനിർവചനം ഘടന XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerBoundsModeRequestDeniedEXT;
 
-typedef struct XrSpatialContainerStateEXT {
+തരനിർവചനം ഘടന XrSpatialContainerStateEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ശൂന്യം* XR_MAY_ALIAS                 next;
     XrBool32                           visible;
     XrBool32                           interactable;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrSpatialContainerStateEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerEXT)(XrSession session, const XrSpatialContainerCreateInfoEXT* createInfo, XrSpatialContainerEXT* spatialContainer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialContainerEXT)(XrSpatialContainerEXT spatialContainer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerSpaceEXT)(XrSession session, const XrSpatialContainerSpaceCreateInfoEXT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerVisibleEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerVisibleRequestInfoEXT* info);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerBoundsModeEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerBoundsModeRequestInfoEXT* info);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerBoundsEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerBoundsGetInfoEXT* getInfo, XrSpatialContainerBoundsEXT* bounds);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerStateEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerStateGetInfoEXT* getInfo, XrSpatialContainerStateEXT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT)(XrInstance instance, XrSystemId systemId, uint32_t graphicsPresentationCapacityInput, uint32_t* graphicsPresentationCountOutput, XrSpatialContainerGraphicsPresentationEXT* graphicsPresentations);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerEXT)(XrSession session, സ്ഥിരം XrSpatialContainerCreateInfoEXT* createInfo, XrSpatialContainerEXT* spatialContainer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroySpatialContainerEXT)(XrSpatialContainerEXT spatialContainer);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerSpaceEXT)(XrSession session, സ്ഥിരം XrSpatialContainerSpaceCreateInfoEXT* createInfo, XrSpace* space);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerVisibleEXT)(XrSpatialContainerEXT spatialContainer, സ്ഥിരം XrSpatialContainerVisibleRequestInfoEXT* info);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerBoundsModeEXT)(XrSpatialContainerEXT spatialContainer, സ്ഥിരം XrSpatialContainerBoundsModeRequestInfoEXT* info);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerBoundsEXT)(XrSpatialContainerEXT spatialContainer, സ്ഥിരം XrSpatialContainerBoundsGetInfoEXT* getInfo, XrSpatialContainerBoundsEXT* bounds);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerStateEXT)(XrSpatialContainerEXT spatialContainer, സ്ഥിരം XrSpatialContainerStateGetInfoEXT* getInfo, XrSpatialContainerStateEXT* state);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT)(XrInstance instance, XrSystemId systemId, uint32_t graphics_Presentation_Capacity_നിവേശം, uint32_t* graphics_Presentation_എണ്ണം_Output, XrSpatialContainerGraphicsPresentationEXT* graphicsPresentations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContainerEXT(
     XrSession                                   session,
-    const XrSpatialContainerCreateInfoEXT*      createInfo,
+    സ്ഥിരം XrSpatialContainerCreateInfoEXT*      createInfo,
     XrSpatialContainerEXT*                      spatialContainer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContainerEXT(
@@ -14889,32 +14889,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContainerEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContainerSpaceEXT(
     XrSession                                   session,
-    const XrSpatialContainerSpaceCreateInfoEXT* createInfo,
+    സ്ഥിരം XrSpatialContainerSpaceCreateInfoEXT* createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSpatialContainerVisibleEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerVisibleRequestInfoEXT* info);
+    സ്ഥിരം XrSpatialContainerVisibleRequestInfoEXT* info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSpatialContainerBoundsModeEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerBoundsModeRequestInfoEXT* info);
+    സ്ഥിരം XrSpatialContainerBoundsModeRequestInfoEXT* info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialContainerBoundsEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerBoundsGetInfoEXT*   getInfo,
+    സ്ഥിരം XrSpatialContainerBoundsGetInfoEXT*   getInfo,
     XrSpatialContainerBoundsEXT*                bounds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialContainerStateEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerStateGetInfoEXT*    getInfo,
+    സ്ഥിരം XrSpatialContainerStateGetInfoEXT*    getInfo,
     XrSpatialContainerStateEXT*                 state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    graphicsPresentationCapacityInput,
-    uint32_t*                                   graphicsPresentationCountOutput,
+    uint32_t                                    graphics_Presentation_Capacity_നിവേശം,
+    uint32_t*                                   graphics_Presentation_എണ്ണം_Output,
     XrSpatialContainerGraphicsPresentationEXT*  graphicsPresentations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14924,95 +14924,95 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSpatialContainerGraphicsPrese
 #define XR_EXT_spatial_container_self_rendering 1
 #define XR_EXT_spatial_container_self_rendering_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_SELF_RENDERING_EXTENSION_NAME "XR_EXT_spatial_container_self_rendering"
-typedef struct XrSpatialContainerViewLocateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerViewLocateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
     XrSpace                     space;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerViewLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewsLocateInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerViewsLocateInfoEXT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
-    uint32_t                                      viewLocateInfoCount;
-    const XrSpatialContainerViewLocateInfoEXT*    viewLocateInfos;
+    uint32_t                                      view_Locate_Info_എണ്ണം;
+    സ്ഥിരം XrSpatialContainerViewLocateInfoEXT*    viewLocateInfos;
 } XrSpatialContainerViewsLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewStateEXT {
+തരനിർവചനം ഘടന XrSpatialContainerViewStateEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ശൂന്യം* XR_MAY_ALIAS         next;
     XrViewStateFlags           viewStateFlags;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   shouldSubmitLayers;
     XrExtent2Di                recommendedImageExtent;
 } XrSpatialContainerViewStateEXT;
 
-typedef struct XrSpatialContainerLayerEXT {
+തരനിർവചനം ഘടന XrSpatialContainerLayerEXT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                      next;
     XrSpatialContainerEXT                         spatialContainer;
     XrBool32                                      retainPreviousSubmission;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_എണ്ണം;
+    സ്ഥിരം XrCompositionLayerBaseHeader* സ്ഥിരം*    layers;
 } XrSpatialContainerLayerEXT;
 
 // XrSpatialContainerLayerFrameEndInfoEXT extends XrFrameEndInfo
-typedef struct XrSpatialContainerLayerFrameEndInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerLayerFrameEndInfoEXT {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    uint32_t                             containerLayerCount;
-    const XrSpatialContainerLayerEXT*    containerLayers;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS             next;
+    uint32_t                             container_Layer_എണ്ണം;
+    സ്ഥിരം XrSpatialContainerLayerEXT*    containerLayers;
 } XrSpatialContainerLayerFrameEndInfoEXT;
 
-typedef struct XrSpatialContainerBeginInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerBeginInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSpatialContainerBeginInfoEXT;
 
-typedef struct XrSpatialContainerEndInfoEXT {
+തരനിർവചനം ഘടന XrSpatialContainerEndInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerEndInfoEXT;
 
 // XrSpatialContainerCompositionLayerViewConfigurationEXT extends XrCompositionLayerProjection
-typedef struct XrSpatialContainerCompositionLayerViewConfigurationEXT {
+തരനിർവചനം ഘടന XrSpatialContainerCompositionLayerViewConfigurationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
 } XrSpatialContainerCompositionLayerViewConfigurationEXT;
 
 // XrSpatialContainerLayerVolumeClippingEXT extends XrSpatialContainerLayerEXT
-typedef struct XrSpatialContainerLayerVolumeClippingEXT {
+തരനിർവചനം ഘടന XrSpatialContainerLayerVolumeClippingEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS               next;
     XrSpatialContainerVolumeClippingEXT    volumeClipping;
 } XrSpatialContainerLayerVolumeClippingEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrBeginSpatialContainerRenderingEXT)(XrSession session, const XrSpatialContainerBeginInfoEXT* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndSpatialContainerRenderingEXT)(XrSession session, const XrSpatialContainerEndInfoEXT* endInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpatialContainerViewsEXT)(XrSession session, const XrSpatialContainerViewsLocateInfoEXT* locateInfo, uint32_t viewStateCount, XrSpatialContainerViewStateEXT* viewStates, uint32_t viewCount, XrView* views);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrBeginSpatialContainerRenderingEXT)(XrSession session, സ്ഥിരം XrSpatialContainerBeginInfoEXT* beginInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEndSpatialContainerRenderingEXT)(XrSession session, സ്ഥിരം XrSpatialContainerEndInfoEXT* endInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrLocateSpatialContainerViewsEXT)(XrSession session, സ്ഥിരം XrSpatialContainerViewsLocateInfoEXT* locateInfo, uint32_t view_State_എണ്ണം, XrSpatialContainerViewStateEXT* viewStates, uint32_t view_എണ്ണം, XrView* views);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginSpatialContainerRenderingEXT(
     XrSession                                   session,
-    const XrSpatialContainerBeginInfoEXT*       beginInfo);
+    സ്ഥിരം XrSpatialContainerBeginInfoEXT*       beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndSpatialContainerRenderingEXT(
     XrSession                                   session,
-    const XrSpatialContainerEndInfoEXT*         endInfo);
+    സ്ഥിരം XrSpatialContainerEndInfoEXT*         endInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpatialContainerViewsEXT(
     XrSession                                   session,
-    const XrSpatialContainerViewsLocateInfoEXT* locateInfo,
-    uint32_t                                    viewStateCount,
+    സ്ഥിരം XrSpatialContainerViewsLocateInfoEXT* locateInfo,
+    uint32_t                                    view_State_എണ്ണം,
     XrSpatialContainerViewStateEXT*             viewStates,
-    uint32_t                                    viewCount,
+    uint32_t                                    view_എണ്ണം,
     XrView*                                     views);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15022,20 +15022,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpatialContainerViewsEXT(
 #define XR_EXT_interaction_profile_battery_state_display 1
 #define XR_EXT_interaction_profile_battery_state_display_SPEC_VERSION 1
 #define XR_EXT_INTERACTION_PROFILE_BATTERY_STATE_DISPLAY_EXTENSION_NAME "XR_EXT_interaction_profile_battery_state_display"
-typedef XrFlags64 XrBatteryStateDisplayStateFlagsEXT;
+തരനിർവചനം XrFlags64 XrBatteryStateDisplayStateFlagsEXT;
 
 // Flag bits for XrBatteryStateDisplayStateFlagsEXT
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_VALID_BIT_EXT = 0x00000001;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_CHARGING_BIT_EXT = 0x00000002;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_PLUGGED_IN_BIT_EXT = 0x00000004;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_NO_BATTERY_BIT_EXT = 0x00000008;
+സ്ഥിതം സ്ഥിരം XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_VALID_BIT_EXT = 0x00000001;
+സ്ഥിതം സ്ഥിരം XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_CHARGING_BIT_EXT = 0x00000002;
+സ്ഥിതം സ്ഥിരം XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_PLUGGED_IN_BIT_EXT = 0x00000004;
+സ്ഥിതം സ്ഥിരം XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_NO_BATTERY_BIT_EXT = 0x00000008;
 
 // XrBatteryStateDisplayEXT extends XrInteractionProfileState
-typedef struct XrBatteryStateDisplayEXT {
+തരനിർവചനം ഘടന XrBatteryStateDisplayEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ശൂന്യം* XR_MAY_ALIAS                    next;
     XrBatteryStateDisplayStateFlagsEXT    stateFlags;
-    float                                 batteryLevel;
+    ദശാംശം                                 batteryLevel;
 } XrBatteryStateDisplayEXT;
 
 
@@ -15044,17 +15044,17 @@ typedef struct XrBatteryStateDisplayEXT {
 #define XR_EXT_loader_init_properties 1
 #define XR_EXT_loader_init_properties_SPEC_VERSION 1
 #define XR_EXT_LOADER_INIT_PROPERTIES_EXTENSION_NAME "XR_EXT_loader_init_properties"
-typedef struct XrLoaderInitPropertyValueEXT {
-    const char*    name;
-    const char*    value;
-} XrLoaderInitPropertyValueEXT;
+തരനിർവചനം ഘടന Xr_Loader_Init_Property_മൂല്യം_EXT {
+    സ്ഥിരം അക്ഷരം*    name;
+    സ്ഥിരം അക്ഷരം*    മൂല്യം;
+} Xr_Loader_Init_Property_മൂല്യം_EXT;
 
 // XrLoaderInitInfoPropertiesEXT extends XrLoaderInitInfoBaseHeaderKHR
-typedef struct XrLoaderInitInfoPropertiesEXT {
+തരനിർവചനം ഘടന XrLoaderInitInfoPropertiesEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    uint32_t                               propertyValueCount;
-    const XrLoaderInitPropertyValueEXT*    propertyValues;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS               next;
+    uint32_t                               property_മൂല്യം_എണ്ണം;
+    സ്ഥിരം Xr_Loader_Init_Property_മൂല്യം_EXT*    property_മൂല്യങ്ങൾ;
 } XrLoaderInitInfoPropertiesEXT;
 
 
@@ -15063,9 +15063,9 @@ typedef struct XrLoaderInitInfoPropertiesEXT {
 #define XR_EXT_view_configuration_views_change 1
 #define XR_EXT_view_configuration_views_change_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_VIEWS_CHANGE_EXTENSION_NAME "XR_EXT_view_configuration_views_change"
-typedef struct XrEventDataViewConfigurationViewsChangedEXT {
+തരനിർവചനം ഘടന XrEventDataViewConfigurationViewsChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSystemId                  systemId;
     XrViewConfigurationType     viewConfigurationType;
 } XrEventDataViewConfigurationViewsChangedEXT;
@@ -15087,28 +15087,28 @@ XR_DEFINE_ATOM(XrSpatialArchetypeIdEXT)
 #define XR_EXT_spatial_entity_archetypes_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_ARCHETYPES_EXTENSION_NAME "XR_EXT_spatial_entity_archetypes"
 // XrSpatialFilterArchetypeEXT extends XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterArchetypeEXT {
+തരനിർവചനം ഘടന XrSpatialFilterArchetypeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
     XrSpatialArchetypeIdEXT     archetype;
 } XrSpatialFilterArchetypeEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypesEXT)(XrSpatialSnapshotEXT snapshot, uint32_t archetypeCapacityInput, uint32_t* archetypeCountOutput, XrSpatialArchetypeIdEXT* archetypes);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypeComponentTypesEXT)(XrSpatialSnapshotEXT snapshot, XrSpatialArchetypeIdEXT archetype, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpatialComponentTypeEXT* componentTypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypesEXT)(XrSpatialSnapshotEXT snapshot, uint32_t archetype_Capacity_നിവേശം, uint32_t* archetype_എണ്ണം_Output, XrSpatialArchetypeIdEXT* archetypes);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypeComponentTypesEXT)(XrSpatialSnapshotEXT snapshot, XrSpatialArchetypeIdEXT archetype, uint32_t component_Type_Capacity_നിവേശം, uint32_t* component_Type_എണ്ണം_Output, XrSpatialComponentTypeEXT* componentTypes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypesEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    uint32_t                                    archetypeCapacityInput,
-    uint32_t*                                   archetypeCountOutput,
+    uint32_t                                    archetype_Capacity_നിവേശം,
+    uint32_t*                                   archetype_എണ്ണം_Output,
     XrSpatialArchetypeIdEXT*                    archetypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypeComponentTypesEXT(
     XrSpatialSnapshotEXT                        snapshot,
     XrSpatialArchetypeIdEXT                     archetype,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_നിവേശം,
+    uint32_t*                                   component_Type_എണ്ണം_Output,
     XrSpatialComponentTypeEXT*                  componentTypes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15119,7 +15119,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypeComponentTypesEXT(
 #define XR_EXT_spatial_plane_semantic_label2_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_SEMANTIC_LABEL2_EXTENSION_NAME "XR_EXT_spatial_plane_semantic_label2"
 
-typedef enum XrSpatialPlaneSemanticLabel2EXT {
+തരനിർവചനം എണ്ണൽ XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_WALL_EXT = 3,
@@ -15130,19 +15130,19 @@ typedef enum XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_2EXT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabel2EXT;
 // XrSpatialComponentPlaneSemanticLabel2ListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabel2ListEXT {
+തരനിർവചനം ഘടന XrSpatialComponentPlaneSemanticLabel2ListEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            semanticLabelCount;
+    ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                            semantic_Label_എണ്ണം;
     XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
 } XrSpatialComponentPlaneSemanticLabel2ListEXT;
 
 // XrSpatialFeaturePlaneSemanticLabel2SubsetEXT extends XrSpatialCapabilityConfigurationPlaneTrackingEXT
-typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
+തരനിർവചനം ഘടന XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  semanticLabelCount;
-    const XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS                  next;
+    uint32_t                                  semantic_Label_എണ്ണം;
+    സ്ഥിരം XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
 } XrSpatialFeaturePlaneSemanticLabel2SubsetEXT;
 
 
@@ -15151,20 +15151,20 @@ typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
 #define XR_EXT_enumerate_swapchain_formats2 1
 #define XR_EXT_enumerate_swapchain_formats2_SPEC_VERSION 1
 #define XR_EXT_ENUMERATE_SWAPCHAIN_FORMATS2_EXTENSION_NAME "XR_EXT_enumerate_swapchain_formats2"
-typedef struct XrSwapchainFormatsEnumerateInfoEXT {
+തരനിർവചനം ഘടന XrSwapchainFormatsEnumerateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrSwapchainFormatsEnumerateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats2EXT)(XrSession session, XrSwapchainFormatsEnumerateInfoEXT* enumerateInfo, uint32_t formatCapacityInput, uint32_t* formatCountOutput, int64_t* formats);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats2EXT)(XrSession session, XrSwapchainFormatsEnumerateInfoEXT* enumerateInfo, uint32_t format_Capacity_നിവേശം, uint32_t* format_എണ്ണം_Output, int64_t* formats);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainFormats2EXT(
     XrSession                                   session,
     XrSwapchainFormatsEnumerateInfoEXT*         enumerateInfo,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_നിവേശം,
+    uint32_t*                                   format_എണ്ണം_Output,
     int64_t*                                    formats);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15176,60 +15176,60 @@ XR_DEFINE_HANDLE(XrAppConsumedSwapchainEXT)
 #define XR_EXT_app_consumed_swapchain_SPEC_VERSION 1
 #define XR_EXT_APP_CONSUMED_SWAPCHAIN_EXTENSION_NAME "XR_EXT_app_consumed_swapchain"
 
-typedef enum XrAppConsumedSwapchainKindEXT {
+തരനിർവചനം എണ്ണൽ XrAppConsumedSwapchainKindEXT {
     XR_APP_CONSUMED_SWAPCHAIN_KIND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrAppConsumedSwapchainKindEXT;
-typedef struct XrAppConsumedSwapchainCreateInfoEXT {
+തരനിർവചനം ഘടന XrAppConsumedSwapchainCreateInfoEXT {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS         next;
     XrAppConsumedSwapchainKindEXT    kind;
     XrSwapchainUsageFlags            usageFlags;
     int64_t                          format;
 } XrAppConsumedSwapchainCreateInfoEXT;
 
-typedef struct XrAppConsumedSwapchainPropertiesEXT {
+തരനിർവചനം ഘടന XrAppConsumedSwapchainPropertiesEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ശൂന്യം* XR_MAY_ALIAS       next;
     XrSwapchainUsageFlags    usageFlags;
     int64_t                  format;
-    uint32_t                 sampleCount;
+    uint32_t                 sample_എണ്ണം;
     uint32_t                 width;
     uint32_t                 height;
-    uint32_t                 faceCount;
+    uint32_t                 face_എണ്ണം;
     uint32_t                 arraySize;
-    uint32_t                 mipCount;
+    uint32_t                 mip_എണ്ണം;
 } XrAppConsumedSwapchainPropertiesEXT;
 
-typedef struct XrAppConsumedSwapchainImageAcquireInfoEXT {
+തരനിർവചനം ഘടന XrAppConsumedSwapchainImageAcquireInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageAcquireInfoEXT;
 
-typedef struct XrAppConsumedSwapchainImageStateEXT {
+തരനിർവചനം ഘടന XrAppConsumedSwapchainImageStateEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ശൂന്യം* XR_MAY_ALIAS    next;
     XrBool32              ready;
     XrBool32              unchanged;
     uint32_t              imageIndex;
 } XrAppConsumedSwapchainImageStateEXT;
 
-typedef struct XrAppConsumedSwapchainImageReleaseInfoEXT {
+തരനിർവചനം ഘടന XrAppConsumedSwapchainImageReleaseInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    സ്ഥിരം ശൂന്യം* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageReleaseInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAppConsumedSwapchainEXT)(XrSession session, const XrAppConsumedSwapchainCreateInfoEXT* createInfo, XrAppConsumedSwapchainEXT* appConsumedSwapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAppConsumedSwapchainEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAppConsumedSwapchainPropertiesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, XrAppConsumedSwapchainPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateAppConsumedSwapchainImagesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, const XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo, XrAppConsumedSwapchainImageStateEXT* image);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, const XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrCreateAppConsumedSwapchainEXT)(XrSession session, സ്ഥിരം XrAppConsumedSwapchainCreateInfoEXT* createInfo, XrAppConsumedSwapchainEXT* appConsumedSwapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrDestroyAppConsumedSwapchainEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrGetAppConsumedSwapchainPropertiesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, XrAppConsumedSwapchainPropertiesEXT* properties);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrEnumerateAppConsumedSwapchainImagesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, uint32_t image_Capacity_നിവേശം, uint32_t* image_എണ്ണം_Output, XrSwapchainImageBaseHeader* images);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrAcquireAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, സ്ഥിരം XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo, XrAppConsumedSwapchainImageStateEXT* image);
+തരനിർവചനം XrResult (XRAPI_PTR *PFN_xrReleaseAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, സ്ഥിരം XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAppConsumedSwapchainEXT(
     XrSession                                   session,
-    const XrAppConsumedSwapchainCreateInfoEXT*  createInfo,
+    സ്ഥിരം XrAppConsumedSwapchainCreateInfoEXT*  createInfo,
     XrAppConsumedSwapchainEXT*                  appConsumedSwapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAppConsumedSwapchainEXT(
@@ -15241,18 +15241,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetAppConsumedSwapchainPropertiesEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateAppConsumedSwapchainImagesEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_നിവേശം,
+    uint32_t*                                   image_എണ്ണം_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireAppConsumedSwapchainImageEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    const XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo,
+    സ്ഥിരം XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo,
     XrAppConsumedSwapchainImageStateEXT*        image);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrReleaseAppConsumedSwapchainImageEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    const XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
+    സ്ഥിരം XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 

@@ -24,27 +24,27 @@
  * Based on Jacob Lifshay's SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_kmsdrm_vulkan_h_
 #define SDL_kmsdrm_vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#അന്തര്ഭാവ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
+#എങ്കിൽ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
 
-extern bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ബാഹ്യ bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *path);
+ബാഹ്യ ശൂന്യം KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ബാഹ്യ അക്ഷരം സ്ഥിരം * സ്ഥിരം *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *എണ്ണം);
+ബാഹ്യ bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                 SDL_Window *window,
                                 VkInstance instance,
-                                const struct VkAllocationCallbacks *allocator,
+                                സ്ഥിരം ഘടന VkAllocationCallbacks *allocator,
                                 VkSurfaceKHR *surface);
-extern void KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ബാഹ്യ ശൂന്യം KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                   VkInstance instance,
                                   VkSurfaceKHR surface,
-                                  const struct VkAllocationCallbacks *allocator);
+                                  സ്ഥിരം ഘടന VkAllocationCallbacks *allocator);
 
 #endif
 

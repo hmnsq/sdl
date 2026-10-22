@@ -22,13 +22,13 @@
 #ifndef SDL_BEVENTS_H
 #define SDL_BEVENTS_H
 
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
-extern void HAIKU_PumpEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം HAIKU_PumpEvents(SDL_VideoDevice *_this);
 
 #ifdef __cplusplus
 }

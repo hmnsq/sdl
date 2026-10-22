@@ -18,169 +18,169 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#അന്തര്ഭാവ <psp2/kernel/processmgr.h>
+#അന്തര്ഭാവ <psp2/ctrl.h>
+#അന്തര്ഭാവ <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitakeyboard.h"
-#include "../../events/SDL_keyboard_c.h"
+#അന്തര്ഭാവ "SDL_vitavideo.h"
+#അന്തര്ഭാവ "SDL_vitakeyboard.h"
+#അന്തര്ഭാവ "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
-Uint8 prev_keys[6] = { 0 };
+പൂർണ്ണസംഖ്യ keyboard_hid_handle = 0;
+Uint8 prev_താക്കോലുകൾ[6] = { 0 };
 Uint8 prev_modifiers = 0;
 Uint8 locks = 0;
-Uint8 lock_key_down = 0;
+Uint8 lock_താക്കോൽ_down = 0;
 
-void VITA_InitKeyboard(void)
+ശൂന്യം VITA_InitKeyboard(ശൂന്യം)
 {
 #ifdef SDL_VIDEO_VITA_PVR
     sceSysmoduleLoadModule(SCE_SYSMODULE_IME); /** For PVR OSK Support **/
 #endif
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
-        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
+    എങ്കിൽ (keyboard_hid_handle > 0) {
+        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, ശൂന്യ);
     }
 }
 
-void VITA_PollKeyboard(void)
+ശൂന്യം VITA_PollKeyboard(ശൂന്യം)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    എങ്കിൽ (!Vita_Window) {
+        തിരികെ;
     }
 
-    if (keyboard_hid_handle > 0) {
+    എങ്കിൽ (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        പൂർണ്ണസംഖ്യ അക്കം_Reports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        എങ്കിൽ (അക്കം_Reports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } അല്ലെങ്കിൽ എങ്കിൽ (അക്കം_Reports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+            എങ്കിൽ (k_reports[അക്കം_Reports - 1].modifiers[1] & 0x1) {
+                എങ്കിൽ (!(locks & 0x1)) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+            } അല്ലെങ്കിൽ {
+                എങ്കിൽ (locks & 0x1) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     locks &= ~0x1;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+            എങ്കിൽ (k_reports[അക്കം_Reports - 1].modifiers[1] & 0x2) {
+                എങ്കിൽ (!(locks & 0x2)) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+            } അല്ലെങ്കിൽ {
+                എങ്കിൽ (locks & 0x2) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     locks &= ~0x2;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
+            എങ്കിൽ (k_reports[അക്കം_Reports - 1].modifiers[1] & 0x4) {
+                എങ്കിൽ (!(locks & 0x4)) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
+            } അല്ലെങ്കിൽ {
+                എങ്കിൽ (locks & 0x4) {
+                    SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
             }
 
             {
-                Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
+                Uint8 changed_modifiers = k_reports[അക്കം_Reports - 1].modifiers[0] ^ prev_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
+                എങ്കിൽ (changed_modifiers & 0x01) {
+                    എങ്കിൽ (prev_modifiers & 0x01) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
+                എങ്കിൽ (changed_modifiers & 0x02) {
+                    എങ്കിൽ (prev_modifiers & 0x02) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
+                എങ്കിൽ (changed_modifiers & 0x04) {
+                    എങ്കിൽ (prev_modifiers & 0x04) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
+                എങ്കിൽ (changed_modifiers & 0x08) {
+                    എങ്കിൽ (prev_modifiers & 0x08) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
+                എങ്കിൽ (changed_modifiers & 0x10) {
+                    എങ്കിൽ (prev_modifiers & 0x10) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
+                എങ്കിൽ (changed_modifiers & 0x20) {
+                    എങ്കിൽ (prev_modifiers & 0x20) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
+                എങ്കിൽ (changed_modifiers & 0x40) {
+                    എങ്കിൽ (prev_modifiers & 0x40) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
+                എങ്കിൽ (changed_modifiers & 0x80) {
+                    എങ്കിൽ (prev_modifiers & 0x80) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
+                    } അല്ലെങ്കിൽ {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
             }
 
-            prev_modifiers = k_reports[numReports - 1].modifiers[0];
+            prev_modifiers = k_reports[അക്കം_Reports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            വേണ്ടി (പൂർണ്ണസംഖ്യ i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                പൂർണ്ണസംഖ്യ താക്കോൽ_Code = k_reports[അക്കം_Reports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                എങ്കിൽ (താക്കോൽ_Code != prev_താക്കോലുകൾ[i]) {
 
-                    if (prev_keys[i]) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
+                    എങ്കിൽ (prev_താക്കോലുകൾ[i]) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, prev_താക്കോലുകൾ[i], false);
                     }
-                    if (keyCode) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
+                    എങ്കിൽ (താക്കോൽ_Code) {
+                        SDL_Send_Keyboard_താക്കോൽ(0, keyboardID, 0, താക്കോൽ_Code, true);
                     }
-                    prev_keys[i] = keyCode;
+                    prev_താക്കോലുകൾ[i] = താക്കോൽ_Code;
                 }
             }
         }

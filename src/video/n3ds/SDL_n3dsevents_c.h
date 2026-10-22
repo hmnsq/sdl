@@ -22,8 +22,8 @@
 #ifndef SDL_n3dsevents_c_h_
 #define SDL_n3dsevents_c_h_
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-extern void N3DS_PumpEvents(SDL_VideoDevice *_this);
+ബാഹ്യ ശൂന്യം N3DS_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_n3dsevents_c_h_

@@ -23,15 +23,15 @@
 #ifndef SDL_BMESSAGEBOX_H
 #define SDL_BMESSAGEBOX_H
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif
 
-extern bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+ബാഹ്യ bool HAIKU_ShowMessageBox(സ്ഥിരം SDL_MessageBoxData *messageboxdata, പൂർണ്ണസംഖ്യ *buttonID);
 
 #ifdef __cplusplus
 }

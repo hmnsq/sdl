@@ -19,26 +19,26 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#അന്തര്ഭാവ <errno.h>
+#അന്തര്ഭാവ <fcntl.h>
+#അന്തര്ഭാവ <limits.h>
+#അന്തര്ഭാവ <signal.h>
+#അന്തര്ഭാവ <sys/mman.h>
+#അന്തര്ഭാവ <unistd.h>
 
-#include "SDL_waylandshmbuffer.h"
-#include "SDL_waylandvideo.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
+#അന്തര്ഭാവ "SDL_waylandshmbuffer.h"
+#അന്തര്ഭാവ "SDL_waylandvideo.h"
+#അന്തര്ഭാവ "single-pixel-buffer-v1-client-protocol.h"
 
-static bool SetTempFileSize(int fd, off_t size)
+സ്ഥിതം bool SetTempFileSize(പൂർണ്ണസംഖ്യ fd, off_t size)
 {
 #ifdef HAVE_POSIX_FALLOCATE
     sigset_t set, old_set;
-    int ret;
+    പൂർണ്ണസംഖ്യ ret;
 
     /* SIGALRM can potentially block a large posix_fallocate() operation
      * from succeeding, so block it.
@@ -47,167 +47,167 @@ static bool SetTempFileSize(int fd, off_t size)
     sigaddset(&set, SIGALRM);
     sigprocmask(SIG_BLOCK, &set, &old_set);
 
-    do {
+    ചെയ്യുക {
         ret = posix_fallocate(fd, 0, size);
-    } while (ret == EINTR);
+    } ആകുമ്പോൾ (ret == EINTR);
 
-    sigprocmask(SIG_SETMASK, &old_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_set, ശൂന്യ);
 
-    if (ret == 0) {
-        return true;
-    } else if (ret != EINVAL && errno != EOPNOTSUPP) {
-        return false;
+    എങ്കിൽ (ret == 0) {
+        തിരികെ true;
+    } അല്ലെങ്കിൽ എങ്കിൽ (ret != EINVAL && errno != EOPNOTSUPP) {
+        തിരികെ false;
     }
 #endif
 
-    if (ftruncate(fd, size) < 0) {
-        return false;
+    എങ്കിൽ (ftruncate(fd, size) < 0) {
+        തിരികെ false;
     }
-    return true;
+    തിരികെ true;
 }
 
-static int CreateTempFD(off_t size)
+സ്ഥിതം പൂർണ്ണസംഖ്യ CreateTempFD(off_t size)
 {
-    int fd;
+    പൂർണ്ണസംഖ്യ fd;
 
 #ifdef HAVE_MEMFD_CREATE
     fd = memfd_create("SDL", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (fd >= 0) {
+    എങ്കിൽ (fd >= 0) {
         fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
-    } else
+    } അല്ലെങ്കിൽ
 #endif
     {
-        static const char template[] = "/sdl-shared-XXXXXX";
-        const char *xdg_path;
-        char tmp_path[PATH_MAX];
+        സ്ഥിതം സ്ഥിരം അക്ഷരം template[] = "/sdl-shared-XXXXXX";
+        സ്ഥിരം അക്ഷരം *xdg_path;
+        അക്ഷരം tmp_path[PATH_MAX];
 
         xdg_path = SDL_getenv("XDG_RUNTIME_DIR");
-        if (!xdg_path) {
-            return -1;
+        എങ്കിൽ (!xdg_path) {
+            തിരികെ -1;
         }
 
         SDL_strlcpy(tmp_path, xdg_path, PATH_MAX);
         SDL_strlcat(tmp_path, template, PATH_MAX);
 
         fd = mkostemp(tmp_path, O_CLOEXEC);
-        if (fd < 0) {
-            return -1;
+        എങ്കിൽ (fd < 0) {
+            തിരികെ -1;
         }
 
         // Need to manually unlink the temp files, or they can persist after close and fill up the temp storage.
         unlink(tmp_path);
     }
 
-    if (!SetTempFileSize(fd, size)) {
+    എങ്കിൽ (!SetTempFileSize(fd, size)) {
         close(fd);
-        return -1;
+        തിരികെ -1;
     }
 
-    return fd;
+    തിരികെ fd;
 }
 
-static void buffer_handle_release(void *data, struct wl_buffer *wl_buffer)
+സ്ഥിതം ശൂന്യം buffer_handle_release(ശൂന്യം *data, ഘടന wl_buffer *wl_buffer)
 {
     // NOP
 }
 
-static struct wl_buffer_listener buffer_listener = {
+സ്ഥിതം ഘടന wl_buffer_listener buffer_listener = {
     buffer_handle_release
 };
 
-struct Wayland_SHMPool
+ഘടന Wayland_SHMPool
 {
-    struct wl_shm_pool *shm_pool;
-    void *shm_pool_memory;
-    int shm_pool_size;
-    int offset;
+    ഘടന wl_shm_pool *shm_pool;
+    ശൂന്യം *shm_pool_memory;
+    പൂർണ്ണസംഖ്യ shm_pool_size;
+    പൂർണ്ണസംഖ്യ offset;
 };
 
-Wayland_SHMPool *Wayland_AllocSHMPool(int size)
+Wayland_SHMPool *Wayland_AllocSHMPool(പൂർണ്ണസംഖ്യ size)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
     SDL_VideoData *data = vd->internal;
 
-    if (size <= 0) {
-        return NULL;
+    എങ്കിൽ (size <= 0) {
+        തിരികെ ശൂന്യ;
     }
 
-    Wayland_SHMPool *shmPool = SDL_calloc(1, sizeof(Wayland_SHMPool));
-    if (!shmPool) {
-        return NULL;
+    Wayland_SHMPool *shmPool = SDL_calloc(1, വലുപ്പം(Wayland_SHMPool));
+    എങ്കിൽ (!shmPool) {
+        തിരികെ ശൂന്യ;
     }
 
     shmPool->shm_pool_size = (size + 15) & (~15);
 
-    const int shm_fd = CreateTempFD(shmPool->shm_pool_size);
-    if (shm_fd < 0) {
+    സ്ഥിരം പൂർണ്ണസംഖ്യ shm_fd = CreateTempFD(shmPool->shm_pool_size);
+    എങ്കിൽ (shm_fd < 0) {
         SDL_free(shmPool);
         SDL_SetError("Creating SHM buffer failed.");
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
-    shmPool->shm_pool_memory = mmap(NULL, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shmPool->shm_pool_memory == MAP_FAILED) {
-        shmPool->shm_pool_memory = NULL;
+    shmPool->shm_pool_memory = mmap(ശൂന്യ, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    എങ്കിൽ (shmPool->shm_pool_memory == MAP_FAILED) {
+        shmPool->shm_pool_memory = ശൂന്യ;
         close(shm_fd);
         SDL_free(shmPool);
         SDL_SetError("mmap() failed.");
-        return NULL;
+        തിരികെ ശൂന്യ;
     }
 
     shmPool->shm_pool = wl_shm_create_pool(data->shm, shm_fd, shmPool->shm_pool_size);
     close(shm_fd);
 
-    return shmPool;
+    തിരികെ shmPool;
 }
 
-struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data)
+ഘടന wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, പൂർണ്ണസംഖ്യ width, പൂർണ്ണസംഖ്യ height, ശൂന്യം **data)
 {
-    const Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
+    സ്ഥിരം Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
 
-    if (!shmPool || !width || !height || !data) {
-        return NULL;
+    എങ്കിൽ (!shmPool || !width || !height || !data) {
+        തിരികെ ശൂന്യ;
     }
 
     *data = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
-    struct wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
+    ഘടന wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
     wl_buffer_add_listener(buffer, &buffer_listener, shmPool);
 
     shmPool->offset += width * height * 4;
 
-    return buffer;
+    തിരികെ buffer;
 }
 
-void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
+ശൂന്യം Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
 {
-    if (shmPool) {
+    എങ്കിൽ (shmPool) {
         wl_shm_pool_destroy(shmPool->shm_pool);
         munmap(shmPool->shm_pool_memory, shmPool->shm_pool_size);
         SDL_free(shmPool);
     }
 }
 
-struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
+ഘടന wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
 {
     SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
 
     // The single-pixel buffer protocol is preferred, as the compositor can choose an optimal format.
-    if (viddata->single_pixel_buffer_manager) {
-        return wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
-    } else {
+    എങ്കിൽ (viddata->single_pixel_buffer_manager) {
+        തിരികെ wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
+    } അല്ലെങ്കിൽ {
         Wayland_SHMPool *pool = Wayland_AllocSHMPool(4);
-        if (!pool) {
-            return NULL;
+        എങ്കിൽ (!pool) {
+            തിരികെ ശൂന്യ;
         }
 
-        void *mem;
-        struct wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
+        ശൂന്യം *mem;
+        ഘടന wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
 
-        const Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
-        SDL_memcpy(mem, pixel, sizeof(pixel));
+        സ്ഥിരം Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
+        SDL_memcpy(mem, pixel, വലുപ്പം(pixel));
 
         Wayland_ReleaseSHMPool(pool);
-        return wl_buffer;
+        തിരികെ wl_buffer;
     }
 }
 

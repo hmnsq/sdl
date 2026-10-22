@@ -19,90 +19,90 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#എങ്കിൽ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
+#അന്തര്ഭാവ "SDL_x11video.h"
+#അന്തര്ഭാവ "SDL_x11settings.h"
 
-static void UpdateContentScale(SDL_VideoDevice *_this)
+സ്ഥിതം ശൂന്യം UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
-        float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+    എങ്കിൽ (_this) {
+        ദശാംശം scale_factor = X11_GetGlobalContentScaleForDevice(_this);
+        വേണ്ടി (പൂർണ്ണസംഖ്യ i = 0; i < _this->അക്കം_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+സ്ഥിതം ശൂന്യം X11_XsettingsNotify(സ്ഥിരം അക്ഷരം *name, XSettingsAction action, XSettingsSetting *setting, ശൂന്യം *data)
 {
     SDL_VideoDevice *_this = data;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    എങ്കിൽ (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
     }
 }
 
-void X11_InitXsettings(SDL_VideoDevice *_this)
+ശൂന്യം X11_InitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
     xsettings_data->xsettings = xsettings_client_new(data->display,
-        DefaultScreen(data->display), X11_XsettingsNotify, NULL, _this);
+        DefaultScreen(data->display), X11_XsettingsNotify, ശൂന്യ, _this);
 }
 
-void X11_QuitXsettings(SDL_VideoDevice *_this)
+ശൂന്യം X11_QuitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    എങ്കിൽ (xsettings_data->xsettings) {
         xsettings_client_destroy(xsettings_data->xsettings);
-        xsettings_data->xsettings = NULL;
+        xsettings_data->xsettings = ശൂന്യ;
     }
 }
 
-void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+ശൂന്യം X11_HandleXsettingsEvent(SDL_VideoDevice *_this, സ്ഥിരം XEvent *xevent)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    എങ്കിൽ (xsettings_data->xsettings) {
         xsettings_client_process_event(xsettings_data->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
-    XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+പൂർണ്ണസംഖ്യ X11_Get_Xsettings_Client_Int_താക്കോൽ(XSettingsClient *client, സ്ഥിരം അക്ഷരം *താക്കോൽ, പൂർണ്ണസംഖ്യ fallback_മൂല്യം) {
+    XSettingsSetting *setting = ശൂന്യ;
+    പൂർണ്ണസംഖ്യ res = fallback_മൂല്യം;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+    എങ്കിൽ (client) {
+        എങ്കിൽ (xsettings_client_get_setting(client, താക്കോൽ, &setting) != XSETTINGS_SUCCESS) {
+            പോകുക no_താക്കോൽ;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+        എങ്കിൽ (setting->type != XSETTINGS_TYPE_INT) {
+            പോകുക no_താക്കോൽ;
         }
 
         res = setting->data.v_int;
     }
 
-no_key:
-    if (setting) {
+no_താക്കോൽ:
+    എങ്കിൽ (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    തിരികെ res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+പൂർണ്ണസംഖ്യ X11_Get_Xsettings_Int_താക്കോൽ(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *താക്കോൽ, പൂർണ്ണസംഖ്യ fallback_മൂല്യം) {
+    തിരികെ X11_Get_Xsettings_Client_Int_താക്കോൽ(_this->internal->xsettings_data.xsettings, താക്കോൽ, fallback_മൂല്യം);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

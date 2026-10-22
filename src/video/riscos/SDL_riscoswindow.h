@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_riscoswindow_h_
 #define SDL_riscoswindow_h_
 
-#include "SDL_riscosdefs.h"
+#അന്തര്ഭാവ "SDL_riscosdefs.h"
 
-struct SDL_WindowData
+ഘടന SDL_WindowData
 {
     SDL_Window *window;
     sprite_area *fb_area;
     sprite_header *fb_sprite;
 };
 
-extern bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ബാഹ്യ ശൂന്യം RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_riscoswindow_h_

@@ -22,13 +22,13 @@
 #ifndef SDL_dosframebuffer_c_h_
 #define SDL_dosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-extern bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
-extern bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int vsync);
-extern bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int *vsync);
-extern void DOSVESA_InvalidateCachedFramebuffer(void);
+ബാഹ്യ bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, ശൂന്യം **pixels, പൂർണ്ണസംഖ്യ *pitch);
+ബാഹ്യ bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, സ്ഥിരം SDL_Rect *rects, പൂർണ്ണസംഖ്യ numrects);
+ബാഹ്യ ശൂന്യം DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
+ബാഹ്യ bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, പൂർണ്ണസംഖ്യ vsync);
+ബാഹ്യ bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, പൂർണ്ണസംഖ്യ *vsync);
+ബാഹ്യ ശൂന്യം DOSVESA_InvalidateCachedFramebuffer(ശൂന്യം);
 
 #endif // SDL_dosframebuffer_c_h_

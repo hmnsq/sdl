@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_UIKIT
 
-extern bool UIKit_ShowingMessageBox(void);
-extern bool UIKit_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+ബാഹ്യ bool UIKit_ShowingMessageBox(ശൂന്യം);
+ബാഹ്യ bool UIKit_ShowMessageBox(സ്ഥിരം SDL_MessageBoxData *messageboxdata, പൂർണ്ണസംഖ്യ *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_UIKIT

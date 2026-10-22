@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_N.h"
-#include <assert.h>
+#അന്തര്ഭാവ "SDL_sve2_blit_N.h"
+#അന്തര്ഭാവ <assert.h>
 
 #ifdef SDL_SVE2_INTRINSICS
 
 #undef sdl_sve_rgb32_blend_op_fill_alpha
 #define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
-        if (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
+    ചെയ്യുക {                                                    \
+        എങ്കിൽ (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
             /* fill alpha */                                \
             sve_target_u16 = svdup_u16(0xFF);               \
-        } else {                                            \
+        } അല്ലെങ്കിൽ {                                            \
             sve_target_u16 = sve_source_u16;                \
         }                                                   \
-    } while (0)
+    } ആകുമ്പോൾ (0)
 
 #undef sdl_sve_rgb32_blend_op_copy_alpha
 #define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
+    ചെയ്യുക {                                                    \
         sve_target_u16 = sve_source_u16;                    \
-    } while (0)
+    } ആകുമ്പോൾ (0)
 
 #undef sdl_sve_rgb32_blend_to_rgb565_op
 #define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx) \
-    do {                                                   \
+    ചെയ്യുക {                                                   \
         sve_target_u16 = sve_source_u16;                   \
-    } while (0)
+    } ആകുമ്പോൾ (0)
 
-#include "SDL_sve2_swizzle.h"
+#അന്തര്ഭാവ "SDL_sve2_swizzle.h"
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
+ശൂന്യം Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
     sdl_sve_8888_to_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
+ശൂന്യം Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
     sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb16_stride_താക്കോൽ(uint16_t *SDL_RESTRICT phwSource,
                                             uint16_t *SDL_RESTRICT phwTarget,
                                             size_t uStride,
-                                            uint16_t hwKey,
-                                            uint16_t hwKeyMask)
+                                            uint16_t hw_താക്കോൽ,
+                                            uint16_t hw_താക്കോൽ_Mask)
 {
     sdl_sve_stride_loop_u16(uStride, vTailPred)
     {
@@ -76,8 +76,8 @@ static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
 
         svuint16_t vSourceMasked = svand_n_u16_m(vTailPred,
                                                  vSource,
-                                                 hwKeyMask);
-        vTarget = svsel_u16(svcmpeq_n_u16(vTailPred, vSourceMasked, hwKey),
+                                                 hw_താക്കോൽ_Mask);
+        vTarget = svsel_u16(svcmpeq_n_u16(vTailPred, vSourceMasked, hw_താക്കോൽ),
                             vTarget,
                             vSource);
 
@@ -90,24 +90,24 @@ static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb16_താക്കോൽ(uint8_t *SDL_RESTRICT pchSource,
                                      size_t uSourceStride,
                                      uint8_t *SDL_RESTRICT pchTarget,
                                      size_t uTargetStride,
-                                     int nWidth,
-                                     int nHeight,
-                                     uint16_t hwKey,
-                                     uint16_t hwKeyMask)
+                                     പൂർണ്ണസംഖ്യ nWidth,
+                                     പൂർണ്ണസംഖ്യ nHeight,
+                                     uint16_t hw_താക്കോൽ,
+                                     uint16_t hw_താക്കോൽ_Mask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchSource & 0x01));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchTarget & 0x01));
 
-    while (nHeight--) {
-        sdl_sve_rgb16_stride_key((uint16_t *)pchSource,
+    ആകുമ്പോൾ (nHeight--) {
+        sdl_sve_rgb16_stride_താക്കോൽ((uint16_t *)pchSource,
                                  (uint16_t *)pchTarget,
                                  nWidth,
-                                 hwKey,
-                                 hwKeyMask);
+                                 hw_താക്കോൽ,
+                                 hw_താക്കോൽ_Mask);
 
         pchSource += uSourceStride;
         pchTarget += uTargetStride;
@@ -115,33 +115,33 @@ static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit2to2KeySVE2(SDL_BlitInfo *info)
+ശൂന്യം Blit2to2_താക്കോൽ_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    പൂർണ്ണസംഖ്യ width = info->dst_w;
+    പൂർണ്ണസംഖ്യ height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    പൂർണ്ണസംഖ്യ srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    പൂർണ്ണസംഖ്യ dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    സ്ഥിരം SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    സ്ഥിരം SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    പൂർണ്ണസംഖ്യ srcbpp = srcfmt->bytes_per_pixel;
+    പൂർണ്ണസംഖ്യ dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    പ്രതിജ്ഞാ(srcbpp == 2);
+    പ്രതിജ്ഞാ(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    പൂർണ്ണസംഖ്യ srcstride = srcskip + srcbpp * width;
+    പൂർണ്ണസംഖ്യ dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    sdl_sve_rgb16_key(src,
+    sdl_sve_rgb16_താക്കോൽ(src,
                       srcstride,
                       dst,
                       dststride,
@@ -153,12 +153,12 @@ void Blit2to2KeySVE2(SDL_BlitInfo *info)
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_copy_alpha(
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb32_stride_താക്കോൽ_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
+    uint32_t w_താക്കോൽ,
+    uint32_t w_താക്കോൽ_Mask,
     uint32_t wOpacifyMask)
 {
     sdl_sve_stride_loop_u32(uStride, vTailPred)
@@ -175,8 +175,8 @@ static inline void sdl_sve_rgb32_stride_key_copy_alpha(
         */
         svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
                                                  vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
+                                                 w_താക്കോൽ_Mask);
+        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, w_താക്കോൽ),
                             vTarget,
                             svorr_n_u32_m(vTailPred, vSource, wOpacifyMask));
 
@@ -189,12 +189,12 @@ static inline void sdl_sve_rgb32_stride_key_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_no_alpha(
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb32_stride_താക്കോൽ_no_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
+    uint32_t w_താക്കോൽ,
+    uint32_t w_താക്കോൽ_Mask,
     uint32_t wActualRGBMask)
 {
     sdl_sve_stride_loop_u32(uStride, vTailPred)
@@ -211,8 +211,8 @@ static inline void sdl_sve_rgb32_stride_key_no_alpha(
         */
         svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
                                                  vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
+                                                 w_താക്കോൽ_Mask);
+        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, w_താക്കോൽ),
                             vTarget,
                             svand_n_u32_m(vTailPred, vSource, wActualRGBMask));
 
@@ -225,25 +225,25 @@ static inline void sdl_sve_rgb32_stride_key_no_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb32_താക്കോൽ_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
                                                 size_t uSourceStride,
                                                 uint8_t *SDL_RESTRICT pchTarget,
                                                 size_t uTargetStride,
-                                                int nWidth,
-                                                int nHeight,
-                                                uint32_t wKey,
-                                                uint32_t wKeyMask,
+                                                പൂർണ്ണസംഖ്യ nWidth,
+                                                പൂർണ്ണസംഖ്യ nHeight,
+                                                uint32_t w_താക്കോൽ,
+                                                uint32_t w_താക്കോൽ_Mask,
                                                 uint32_t wOpacifyMask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchSource & 0x03));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_copy_alpha((uint32_t *)pchSource,
+    ആകുമ്പോൾ (nHeight--) {
+        sdl_sve_rgb32_stride_താക്കോൽ_copy_alpha((uint32_t *)pchSource,
                                             (uint32_t *)pchTarget,
                                             nWidth,
-                                            wKey,
-                                            wKeyMask,
+                                            w_താക്കോൽ,
+                                            w_താക്കോൽ_Mask,
                                             wOpacifyMask);
 
         pchSource += uSourceStride;
@@ -253,25 +253,25 @@ static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
+സ്ഥിതം വരിയിൽ ശൂന്യം sdl_sve_rgb32_താക്കോൽ_no_alpha(uint8_t *SDL_RESTRICT pchSource,
                                               size_t uSourceStride,
                                               uint8_t *SDL_RESTRICT pchTarget,
                                               size_t uTargetStride,
-                                              int nWidth,
-                                              int nHeight,
-                                              uint32_t wKey,
-                                              uint32_t wKeyMask,
+                                              പൂർണ്ണസംഖ്യ nWidth,
+                                              പൂർണ്ണസംഖ്യ nHeight,
+                                              uint32_t w_താക്കോൽ,
+                                              uint32_t w_താക്കോൽ_Mask,
                                               uint32_t wActualRGBMask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchSource & 0x03));
+    പ്രതിജ്ഞാ(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_no_alpha((uint32_t *)pchSource,
+    ആകുമ്പോൾ (nHeight--) {
+        sdl_sve_rgb32_stride_താക്കോൽ_no_alpha((uint32_t *)pchSource,
                                           (uint32_t *)pchTarget,
                                           nWidth,
-                                          wKey,
-                                          wKeyMask,
+                                          w_താക്കോൽ,
+                                          w_താക്കോൽ_Mask,
                                           wActualRGBMask);
 
         pchSource += uSourceStride;
@@ -280,36 +280,36 @@ static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit4to4KeySVE2(SDL_BlitInfo *info)
+ശൂന്യം Blit4to4_താക്കോൽ_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    പൂർണ്ണസംഖ്യ width = info->dst_w;
+    പൂർണ്ണസംഖ്യ height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    പൂർണ്ണസംഖ്യ srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    പൂർണ്ണസംഖ്യ dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    സ്ഥിരം SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    സ്ഥിരം SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    പൂർണ്ണസംഖ്യ srcbpp = srcfmt->bytes_per_pixel;
+    പൂർണ്ണസംഖ്യ dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 4);
-    assert(dstbpp == 4);
+    പ്രതിജ്ഞാ(srcbpp == 4);
+    പ്രതിജ്ഞാ(dstbpp == 4);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    പൂർണ്ണസംഖ്യ srcstride = srcskip + srcbpp * width;
+    പൂർണ്ണസംഖ്യ dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    if (dstfmt->Amask) {
+    എങ്കിൽ (dstfmt->Amask) {
         uint32_t opamask = ((uint32_t)info->a) << dstfmt->Ashift;
         /* RGBA: set alpha from info->a */
-        sdl_sve_rgb32_key_copy_alpha(src,
+        sdl_sve_rgb32_താക്കോൽ_copy_alpha(src,
                                      srcstride,
                                      dst,
                                      dststride,
@@ -318,10 +318,10 @@ void Blit4to4KeySVE2(SDL_BlitInfo *info)
                                      ckey,
                                      rgbmask,
                                      opamask);
-    } else {
+    } അല്ലെങ്കിൽ {
         /* RGBA->RGB: only copy rgb and set alpha to zero */
         uint32_t rgbmaskactual = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
-        sdl_sve_rgb32_key_no_alpha(src,
+        sdl_sve_rgb32_താക്കോൽ_no_alpha(src,
                                    srcstride,
                                    dst,
                                    dststride,

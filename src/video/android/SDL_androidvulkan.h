@@ -24,28 +24,28 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_androidvulkan_h_
 #define SDL_androidvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_vulkan_internal.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#എങ്കിൽ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
-extern bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ബാഹ്യ bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *path);
+ബാഹ്യ ശൂന്യം Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ബാഹ്യ അക്ഷരം സ്ഥിരം * സ്ഥിരം *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *എണ്ണം);
+ബാഹ്യ bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                          SDL_Window *window,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         സ്ഥിരം ഘടന VkAllocationCallbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ബാഹ്യ ശൂന്യം Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          സ്ഥിരം ഘടന VkAllocationCallbacks *allocator);
 
 #endif
 

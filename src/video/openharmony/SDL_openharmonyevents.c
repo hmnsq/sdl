@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohosevents_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohosevents_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#define OH_MAX_TOUCH_POINTS_സംഖ്യ sdl_ohosevents_OH_MAX_TOUCH_POINTS_സംഖ്യ
+#അന്തര്ഭാവ <ace/xcomponent/native_interface_xcomponent.h>
 
-#include "SDL_openharmonyevents.h"
+#അന്തര്ഭാവ "SDL_openharmonyevents.h"
 //#include "SDL_openharmonykeyboard.h"
-#include "SDL_openharmonywindow.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#അന്തര്ഭാവ "SDL_openharmonywindow.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../../events/SDL_events_c.h"
 
-static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode ohcode)
+സ്ഥിതം SDL_Scancode MapOHKeycodeToSDLScancode(സ്ഥിരം OH_Native_XComponent_താക്കോൽ_Code ohcode)
 {
     // !!! FIXME: this needs a serious looking-over.
-    switch (ohcode) {
-        #define KEYMAP(oh,sdl) case KEY_##oh: return SDL_SCANCODE_##sdl
+    തിരഞ്ഞെടുപ്പ് (ohcode) {
+        #define KEYMAP(oh,sdl) അവസ്ഥ താക്കോൽ_2##oh: തിരികെ SDL_SCANCODE_##sdl
         KEYMAP(UNKNOWN, UNKNOWN);
         //case KEY_FN = 0,
         KEYMAP(HOME, AC_HOME);
@@ -70,8 +70,8 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         //KEYMAP(POUND = 2011,
         KEYMAP(DPAD_UP, UP);
         KEYMAP(DPAD_DOWN, DOWN);
-        KEYMAP(DPAD_LEFT, LEFT);
-        KEYMAP(DPAD_RIGHT, RIGHT);
+        KEYMAP(DPAD_ഇടത്, ഇടത്_2);
+        KEYMAP(DPAD_വലത്, വലത്_2);
         //KEYMAP(DPAD_CENTER = 2016,
         KEYMAP(A, A);
         KEYMAP(B, B);
@@ -101,10 +101,10 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         KEYMAP(Z, Z);
         KEYMAP(COMMA, COMMA);
         KEYMAP(PERIOD, PERIOD);
-        KEYMAP(ALT_LEFT, LALT);
-        KEYMAP(ALT_RIGHT, RALT);
-        KEYMAP(SHIFT_LEFT, LSHIFT);
-        KEYMAP(SHIFT_RIGHT, RSHIFT);
+        KEYMAP(ALT_ഇടത്, LALT);
+        KEYMAP(ALT_വലത്, RALT);
+        KEYMAP(SHIFT_ഇടത്, LSHIFT);
+        KEYMAP(SHIFT_വലത്, RSHIFT);
         KEYMAP(TAB, TAB);
         KEYMAP(SPACE, SPACE);
         //KEYMAP(SYM = 2051,
@@ -115,8 +115,8 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         KEYMAP(GRAVE, GRAVE);
         KEYMAP(MINUS, MINUS);
         KEYMAP(EQUALS, EQUALS);
-        KEYMAP(LEFT_BRACKET, LEFTBRACKET);
-        KEYMAP(RIGHT_BRACKET, RIGHTBRACKET);
+        KEYMAP(ഇടത്_BRACKET, LEFTBRACKET);
+        KEYMAP(വലത്_BRACKET, RIGHTBRACKET);
         KEYMAP(BACKSLASH, BACKSLASH);
         KEYMAP(SEMICOLON, SEMICOLON);
         KEYMAP(APOSTROPHE, APOSTROPHE);
@@ -128,18 +128,18 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         KEYMAP(PAGE_DOWN, PAGEDOWN);
         KEYMAP(ESCAPE, ESCAPE);
         //KEYMAP(FORWARD_DEL = 2071,
-        KEYMAP(CTRL_LEFT, LCTRL);
-        KEYMAP(CTRL_RIGHT, RCTRL);
+        KEYMAP(CTRL_ഇടത്, LCTRL);
+        KEYMAP(CTRL_വലത്, RCTRL);
         KEYMAP(CAPS_LOCK, CAPSLOCK);
         KEYMAP(SCROLL_LOCK, SCROLLLOCK);
-        KEYMAP(META_LEFT, LGUI);
-        KEYMAP(META_RIGHT, RGUI);
+        KEYMAP(META_ഇടത്, LGUI);
+        KEYMAP(META_വലത്, RGUI);
         //KEYMAP(FUNCTION = 2078,
         KEYMAP(SYSRQ, SYSREQ);
         //KEYMAP(BREAK = 2080,
         KEYMAP(MOVE_HOME, HOME);
         KEYMAP(MOVE_END, END);
-        KEYMAP(INSERT, INSERT);
+        KEYMAP(തിരുകുക_2, തിരുകുക_2);
         KEYMAP(FORWARD, AC_FORWARD);
         KEYMAP(MEDIA_PLAY, MEDIA_PLAY);
         KEYMAP(MEDIA_PAUSE, MEDIA_PAUSE);
@@ -158,7 +158,7 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         KEYMAP(F10, F10);
         KEYMAP(F11, F11);
         KEYMAP(F12, F12);
-        KEYMAP(NUM_LOCK, NUMLOCKCLEAR);
+        KEYMAP(അക്കം_LOCK, NUMLOCKCLEAR);
         KEYMAP(NUMPAD_0, KP_0);
         KEYMAP(NUMPAD_1, KP_1);
         KEYMAP(NUMPAD_2, KP_2);
@@ -177,8 +177,8 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         //KEYMAP(NUMPAD_COMMA = 2118,
         KEYMAP(NUMPAD_ENTER, KP_ENTER);
         //KEYMAP(NUMPAD_EQUALS = 2120,
-        KEYMAP(NUMPAD_LEFT_PAREN, KP_LEFTPAREN);
-        KEYMAP(NUMPAD_RIGHT_PAREN, KP_RIGHTPAREN);
+        KEYMAP(NUMPAD_ഇടത്_PAREN, KP_LEFTPAREN);
+        KEYMAP(NUMPAD_വലത്_PAREN, KP_RIGHTPAREN);
         //KEYMAP(VIRTUAL_MULTITASK = 2210,
         KEYMAP(SLEEP, SLEEP);
         KEYMAP(ZENKAKU_HANKAKU, LANG5);
@@ -369,75 +369,75 @@ static SDL_Scancode MapOHKeycodeToSDLScancode(const OH_NativeXComponent_KeyCode 
         //KEYMAP(BTN_8 = 3108,
         //KEYMAP(BTN_9 = 3109,
         #undef KEYMAP
-        default: break;
+        സ്ഥിരസ്ഥിതി: നിർത്തുക;
     }
 
-    return SDL_SCANCODE_UNKNOWN;
+    തിരികെ SDL_SCANCODE_UNKNOWN;
 }
 
-void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window)
+ശൂന്യം SDL_OpenHarmonyDispatchTouchEvent(ശൂന്യം *component, ശൂന്യം *window)
 {
     OH_NativeXComponent *xcomponent = (OH_NativeXComponent *) component;
     OH_NativeXComponent_TouchEvent event;
-    if (OH_NativeXComponent_GetTouchEvent(xcomponent, window, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
-        return;  // oh well.
+    എങ്കിൽ (OH_NativeXComponent_GetTouchEvent(xcomponent, window, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
+        തിരികെ;  // oh well.
     }
 
-#if 0
-    SDL_Log("TOUCH EVENT! id=%d screenX=%f screenY=%f x=%f y=%f type=%d size=%f force=%f devid=%lld timestamp=%lld numpoints=%d", (int) event.id, event.screenX, event.screenY, event.x, event.y, (int) event.type, (float) event.size, event.force, (long long) event.deviceId, (long long) event.timeStamp, (int) event.numPoints);
-    for (int i = 0; i < event.numPoints; i++) {
-        SDL_Log("TOUCH POINT #%d: id=%d screenX=%f screenY=%f x=%f y=%f type=%d size=%f force=%f timestamp=%lld ispressed=%s", i, (int) event.touchPoints[i].id, event.touchPoints[i].screenX, event.touchPoints[i].screenY, event.touchPoints[i].x, event.touchPoints[i].y, (int) event.touchPoints[i].type, (float) event.touchPoints[i].size, event.touchPoints[i].force, (long long) event.touchPoints[i].timeStamp, event.touchPoints[i].isPressed ? "true" : "false");
+#എങ്കിൽ 0
+    SDL_Log("TOUCH EVENT! id=%d screenX=%f screenY=%f x=%f y=%f type=%d size=%f force=%f devid=%lld timestamp=%lld numpoints=%d", (പൂർണ്ണസംഖ്യ) event.id, event.screenX, event.screenY, event.x, event.y, (പൂർണ്ണസംഖ്യ) event.type, (ദശാംശം) event.size, event.force, (long long) event.deviceId, (long long) event.timeStamp, (പൂർണ്ണസംഖ്യ) event.അക്കം_Points);
+    വേണ്ടി (പൂർണ്ണസംഖ്യ i = 0; i < event.അക്കം_Points; i++) {
+        SDL_Log("TOUCH POINT #%d: id=%d screenX=%f screenY=%f x=%f y=%f type=%d size=%f force=%f timestamp=%lld ispressed=%s", i, (പൂർണ്ണസംഖ്യ) event.touchPoints[i].id, event.touchPoints[i].screenX, event.touchPoints[i].screenY, event.touchPoints[i].x, event.touchPoints[i].y, (പൂർണ്ണസംഖ്യ) event.touchPoints[i].type, (ദശാംശം) event.touchPoints[i].size, event.touchPoints[i].force, (long long) event.touchPoints[i].timeStamp, event.touchPoints[i].isPressed ? "true" : "false");
     }
 #endif
 
     SDL_EventType sdleventtype = SDL_EVENT_FIRST;
-    switch (event.type) {
-        #define EVTYPEMAP(ohevent, sdlevent) case OH_NATIVEXCOMPONENT_##ohevent: sdleventtype = SDL_EVENT_FINGER_##sdlevent; break
+    തിരഞ്ഞെടുപ്പ് (event.type) {
+        #define EVTYPEMAP(ohevent, sdlevent) അവസ്ഥ OH_NATIVEXCOMPONENT_##ohevent: sdleventtype = SDL_EVENT_FINGER_##sdlevent; നിർത്തുക
         EVTYPEMAP(DOWN, DOWN);
         EVTYPEMAP(UP, UP);
         EVTYPEMAP(MOVE, MOTION);
         EVTYPEMAP(CANCEL, CANCELED);
-        default: break;
+        സ്ഥിരസ്ഥിതി: നിർത്തുക;
         #undef EVTYPEMAP
     }
 
-    if (sdleventtype == SDL_EVENT_FIRST) {  // FIRST == unknown event type.
-        return;  // nothing to do.
+    എങ്കിൽ (sdleventtype == SDL_EVENT_FIRST) {  // FIRST == unknown event type.
+        തിരികെ;  // nothing to do.
     }
 
-    int touchidx = 0;
-    while (touchidx < event.numPoints) {
-        if (event.touchPoints[touchidx].id == event.id) {
-            break;
+    പൂർണ്ണസംഖ്യ touchidx = 0;
+    ആകുമ്പോൾ (touchidx < event.അക്കം_Points) {
+        എങ്കിൽ (event.touchPoints[touchidx].id == event.id) {
+            നിർത്തുക;
         }
         touchidx++;
     }
 
-    if (touchidx >= event.numPoints) {
-        return;  // uh...we don't have this touch...?
+    എങ്കിൽ (touchidx >= event.അക്കം_Points) {
+        തിരികെ;  // uh...we don't have this touch...?
     }
 
     OH_NativeXComponent_TouchPointToolType tooltype;
-    if (OH_NativeXComponent_GetTouchPointToolType(xcomponent, touchidx, &tooltype) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
-        return;   // bad bad bad
+    എങ്കിൽ (OH_NativeXComponent_GetTouchPointToolType(xcomponent, touchidx, &tooltype) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
+        തിരികെ;   // bad bad bad
     }
 
-    const float normalized_x = OPENHARMONY_Window->w ? (event.x / ((float) OPENHARMONY_Window->w)) : 0.0f;
-    const float normalized_y = OPENHARMONY_Window->h ? (event.y / ((float) OPENHARMONY_Window->h)) : 0.0f;
+    സ്ഥിരം ദശാംശം normalized_x = OPENHARMONY_Window->w ? (event.x / ((ദശാംശം) OPENHARMONY_Window->w)) : 0.0f;
+    സ്ഥിരം ദശാംശം normalized_y = OPENHARMONY_Window->h ? (event.y / ((ദശാംശം) OPENHARMONY_Window->h)) : 0.0f;
 
-    if (tooltype == OH_NATIVEXCOMPONENT_TOOL_TYPE_FINGER) {
-        const SDL_TouchID touchid = (SDL_TouchID)(((uintptr_t)event.deviceId) + 1);
-        SDL_AddTouch(touchid, SDL_TOUCH_DEVICE_DIRECT, NULL);
-        if (sdleventtype == SDL_EVENT_FINGER_MOTION) {
+    എങ്കിൽ (tooltype == OH_NATIVEXCOMPONENT_TOOL_TYPE_FINGER) {
+        സ്ഥിരം SDL_TouchID touchid = (SDL_TouchID)(((uintptr_t)event.deviceId) + 1);
+        SDL_AddTouch(touchid, SDL_TOUCH_DEVICE_DIRECT, ശൂന്യ);
+        എങ്കിൽ (sdleventtype == SDL_EVENT_FINGER_MOTION) {
             SDL_SendTouchMotion((Uint64) event.timeStamp, touchid, (SDL_FingerID)(((uintptr_t)event.id)+1), OPENHARMONY_Window, normalized_x, normalized_y, event.force);
-        } else {
+        } അല്ലെങ്കിൽ {
             SDL_SendTouch((Uint64) event.timeStamp, touchid, (SDL_FingerID)(((uintptr_t)event.id)+1), OPENHARMONY_Window, sdleventtype, normalized_x, normalized_y, event.force);
         }
-        return;
+        തിരികെ;
     }
 
-#if 0  // !!! FIXME: see if Pen events are useful here.
-    switch (tooltype) {
+#എങ്കിൽ 0  // !!! FIXME: see if Pen events are useful here.
+    തിരഞ്ഞെടുപ്പ് (tooltype) {
     /** Indicates invalid tool type. */
     OH_NATIVEXCOMPONENT_TOOL_TYPE_UNKNOWN = 0,
     /** Indicates a finger. */
@@ -460,58 +460,58 @@ void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window)
 #endif
 }
 
-void SDL_OpenHarmonyDispatchMouseEvent(void *component, void *window)
+ശൂന്യം SDL_OpenHarmonyDispatchMouseEvent(ശൂന്യം *component, ശൂന്യം *window)
 {
     OH_NativeXComponent *xcomponent = (OH_NativeXComponent *) component;
     OH_NativeXComponent_MouseEvent event;
-    if (OH_NativeXComponent_GetMouseEvent(xcomponent, window, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
-        return;  // oh well.
+    എങ്കിൽ (OH_NativeXComponent_GetMouseEvent(xcomponent, window, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
+        തിരികെ;  // oh well.
     }
 
-#if 1
-    SDL_Log("MOUSE EVENT! screenX=%f screenY=%f x=%f y=%f timestamp=%lld action=%d button=0x%X", event.screenX, event.screenY, event.x, event.y, (long long) event.timestamp, (int) event.action, (unsigned int) event.button);
+#എങ്കിൽ 1
+    SDL_Log("MOUSE EVENT! screenX=%f screenY=%f x=%f y=%f timestamp=%lld action=%d button=0x%X", event.screenX, event.screenY, event.x, event.y, (long long) event.timestamp, (പൂർണ്ണസംഖ്യ) event.action, (unsigned പൂർണ്ണസംഖ്യ) event.button);
 #endif
 
-    const SDL_MouseID mouseid = SDL_DEFAULT_MOUSE_ID;  // !!! FIXME: should this be SDL_GLOBAL_MOUSE_ID or SDL_DEFAULT_MOUSE_ID?
+    സ്ഥിരം SDL_MouseID mouseid = SDL_DEFAULT_MOUSE_ID;  // !!! FIXME: should this be SDL_GLOBAL_MOUSE_ID or SDL_DEFAULT_MOUSE_ID?
     bool down = false;
-    switch (event.action) {
-        case OH_NATIVEXCOMPONENT_MOUSE_PRESS:
+    തിരഞ്ഞെടുപ്പ് (event.action) {
+        അവസ്ഥ OH_NATIVEXCOMPONENT_MOUSE_PRESS:
             down = true;
             SDL_FALLTHROUGH;
-        case OH_NATIVEXCOMPONENT_MOUSE_RELEASE:
+        അവസ്ഥ OH_NATIVEXCOMPONENT_MOUSE_RELEASE:
             // these are bitmasks, so while I _assume_ you won't see more than one button per event, check them all separately, just in case.
-            #define CHECK_BUTTON(ohos, sdl) if (event.button & OH_NATIVEXCOMPONENT_##ohos##_BUTTON) { SDL_SendMouseButton((Uint64) event.timestamp, OPENHARMONY_Window, mouseid, SDL_BUTTON_##sdl, down); }
-            CHECK_BUTTON(LEFT, LEFT);
-            CHECK_BUTTON(RIGHT, RIGHT);
-            CHECK_BUTTON(MIDDLE, MIDDLE);
+            #define CHECK_BUTTON(ohos, sdl) എങ്കിൽ (event.button & OH_NATIVEXCOMPONENT_##ohos##_BUTTON) { SDL_SendMouseButton((Uint64) event.timestamp, OPENHARMONY_Window, mouseid, SDL_BUTTON_##sdl, down); }
+            CHECK_BUTTON(ഇടത്_2, ഇടത്_2);
+            CHECK_BUTTON(വലത്_2, വലത്_2);
+            CHECK_BUTTON(നടുവ്_2, നടുവ്_2);
             CHECK_BUTTON(BACK, X1);
             CHECK_BUTTON(FORWARD, X2);
             #undef CHECK_BUTTON
-            break;
+            നിർത്തുക;
 
-        case OH_NATIVEXCOMPONENT_MOUSE_MOVE:
+        അവസ്ഥ OH_NATIVEXCOMPONENT_MOUSE_MOVE:
             SDL_SendMouseMotion((Uint64) event.timestamp, OPENHARMONY_Window, mouseid, false, event.x, event.y);
-            break;
+            നിർത്തുക;
 
-        default: break;  // nothing to do?
+        സ്ഥിരസ്ഥിതി: നിർത്തുക;  // nothing to do?
     }
 }
 
-void SDL_OpenHarmonyDispatchUIInputEvent(void *vcomponent, void *vevent, int32_t vtype)
+ശൂന്യം SDL_OpenHarmonyDispatchUIInputEvent(ശൂന്യം *vcomponent, ശൂന്യം *vevent, int32_t vtype)
 {
 //    OH_NativeXComponent *component = (OH_NativeXComponent *) vcomponent;
     ArkUI_UIInputEvent *event = (ArkUI_UIInputEvent *) vevent;
-    const ArkUI_UIInputEvent_Type type = (const ArkUI_UIInputEvent_Type) vtype;
+    സ്ഥിരം ArkUI_UIInputEvent_Type type = (സ്ഥിരം ArkUI_UIInputEvent_Type) vtype;
 
-    if (type != ARKUI_UIINPUTEVENT_TYPE_AXIS) {
-        return;  // this is all we handle here for now. Maybe more in the future!
-    } else if (OH_ArkUI_UIInputEvent_GetSourceType(event) != UI_INPUT_EVENT_SOURCE_TYPE_MOUSE) {
-        return;  // skip two-finger scrolling (...for now...?)
+    എങ്കിൽ (type != ARKUI_UIINPUTEVENT_TYPE_AXIS) {
+        തിരികെ;  // this is all we handle here for now. Maybe more in the future!
+    } അല്ലെങ്കിൽ എങ്കിൽ (OH_ArkUI_UIInputEvent_GetSourceType(event) != UI_നിവേശം_EVENT_SOURCE_TYPE_MOUSE) {
+        തിരികെ;  // skip two-finger scrolling (...for now...?)
     }
 
-    const SDL_MouseID mouseid = SDL_DEFAULT_MOUSE_ID;  // !!! FIXME: should this be SDL_GLOBAL_MOUSE_ID or SDL_DEFAULT_MOUSE_ID?
-    const double vertical = OH_ArkUI_AxisEvent_GetVerticalAxisValue(event);
-    if (vertical != 0.0) {
+    സ്ഥിരം SDL_MouseID mouseid = SDL_DEFAULT_MOUSE_ID;  // !!! FIXME: should this be SDL_GLOBAL_MOUSE_ID or SDL_DEFAULT_MOUSE_ID?
+    സ്ഥിരം ഇരട്ട vertical = OH_Ark_UI_Axis_Event_Get_Vertical_Axis_മൂല്യം(event);
+    എങ്കിൽ (vertical != 0.0) {
         // !!! FIXME: OpenHarmony has a system setting for "natural" scrolling we can use for SDL_MouseWheelDirection, but I
         // !!! FIXME: don't know how to access it right now.
         // a single "click" of the wheel on my mouse is 45 degrees (360 / 8 click positions), so let's assume that's normal (and what Windows would do with WHEEL_DELTA, which is a different value with the same concept).
@@ -520,54 +520,54 @@ void SDL_OpenHarmonyDispatchUIInputEvent(void *vcomponent, void *vevent, int32_t
 
     // !!! FIXME: this is in pixels, not degrees, and I'm not sure how to convert that yet.
     // !!! FIXME: It's possible they don't support horizontal mouse wheels, and this is only for two-finger scrolling.
-    #if 0
-    const double horizontal = OH_ArkUI_AxisEvent_GetHorizontalAxisValue(event);
-    if (horizontal != 0.0) {
+    #എങ്കിൽ 0
+    സ്ഥിരം ഇരട്ട horizontal = OH_Ark_UI_Axis_Event_Get_Horizontal_Axis_മൂല്യം(event);
+    എങ്കിൽ (horizontal != 0.0) {
     }
     #endif
 }
 
-void SDL_OpenHarmonyDispatchKeyEvent(void *component, void *window)
+ശൂന്യം SDL_Open_Harmony_Dispatch_താക്കോൽ_Event(ശൂന്യം *component, ശൂന്യം *window)
 {
     OH_NativeXComponent *xcomponent = (OH_NativeXComponent *) component;
-    OH_NativeXComponent_KeyEvent *event = NULL;
-    if (OH_NativeXComponent_GetKeyEvent(xcomponent, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
-        return;  // oh well.
+    OH_Native_XComponent_താക്കോൽ_Event *event = ശൂന്യ;
+    എങ്കിൽ (OH_Native_XComponent_Get_താക്കോൽ_Event(xcomponent, &event) != OH_NATIVEXCOMPONENT_RESULT_SUCCESS) {
+        തിരികെ;  // oh well.
     }
 
-    OH_NativeXComponent_KeyCode keycode = KEY_UNKNOWN;
-    OH_NativeXComponent_GetKeyEventCode(event, &keycode);
-    const SDL_Scancode scancode = MapOHKeycodeToSDLScancode(keycode);
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        return;  // oh well.
+    OH_Native_XComponent_താക്കോൽ_Code keycode = താക്കോൽ_UNKNOWN;
+    OH_Native_XComponent_Get_താക്കോൽ_Event_Code(event, &keycode);
+    സ്ഥിരം SDL_Scancode scancode = MapOHKeycodeToSDLScancode(keycode);
+    എങ്കിൽ (scancode == SDL_SCANCODE_UNKNOWN) {
+        തിരികെ;  // oh well.
     }
 
-    OH_NativeXComponent_KeyAction action = OH_NATIVEXCOMPONENT_KEY_ACTION_UNKNOWN;
-    OH_NativeXComponent_GetKeyEventAction(event, &action);
+    OH_Native_XComponent_താക്കോൽ_Action action = OH_NATIVEXCOMPONENT_താക്കോൽ_ACTION_UNKNOWN;
+    OH_Native_XComponent_Get_താക്കോൽ_Event_Action(event, &action);
     bool down;
-    if (action == OH_NATIVEXCOMPONENT_KEY_ACTION_DOWN) {
+    എങ്കിൽ (action == OH_NATIVEXCOMPONENT_താക്കോൽ_ACTION_DOWN) {
         down = true;
-    } else if (action == OH_NATIVEXCOMPONENT_KEY_ACTION_UP) {
+    } അല്ലെങ്കിൽ എങ്കിൽ (action == OH_NATIVEXCOMPONENT_താക്കോൽ_ACTION_UP) {
         down = false;
-    } else {
-        return;  // oh well.
+    } അല്ലെങ്കിൽ {
+        തിരികെ;  // oh well.
     }
 
     int64_t timestamp = 0;
-    OH_NativeXComponent_GetKeyEventTimestamp(event, &timestamp);
+    OH_Native_XComponent_Get_താക്കോൽ_Event_Timestamp(event, &timestamp);
 
-    SDL_SendKeyboardKey((Uint64) timestamp, SDL_DEFAULT_KEYBOARD_ID, keycode, scancode, down);
+    SDL_Send_Keyboard_താക്കോൽ((Uint64) timestamp, SDL_DEFAULT_KEYBOARD_ID, keycode, scancode, down);
 }
 
-void OPENHARMONY_InitEvents(void)
+ശൂന്യം OPENHARMONY_InitEvents(ശൂന്യം)
 {
 }
 
-void OPENHARMONY_PumpEvents(SDL_VideoDevice *_this)
+ശൂന്യം OPENHARMONY_PumpEvents(SDL_VideoDevice *_this)
 {
 }
 
-void OPENHARMONY_QuitEvents(void)
+ശൂന്യം OPENHARMONY_QuitEvents(ശൂന്യം)
 {
 }
 

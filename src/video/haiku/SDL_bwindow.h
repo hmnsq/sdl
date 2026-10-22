@@ -22,25 +22,25 @@
 #ifndef SDL_BWINDOW_H
 #define SDL_BWINDOW_H
 
-#include "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ബാഹ്യ ശൂന്യം HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ബാഹ്യ ശൂന്യം HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+ബാഹ്യ ശൂന്യം HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+ബാഹ്യ SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ബാഹ്യ bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+ബാഹ്യ bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
+ബാഹ്യ bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+ബാഹ്യ ശൂന്യം HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif

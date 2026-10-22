@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_surface_c_h_
 #define SDL_surface_c_h_
 
 // Useful functions and variables from SDL_surface.c
 
-#include "SDL_blit.h"
+#അന്തര്ഭാവ "SDL_blit.h"
 
 // Surface internal flags
-typedef Uint32 SDL_SurfaceDataFlags;
+തരനിർവചനം Uint32 SDL_SurfaceDataFlags;
 
 #define SDL_INTERNAL_SURFACE_DONTFREE   0x00000001u /**< Surface is referenced internally */
-#define SDL_INTERNAL_SURFACE_STACK      0x00000002u /**< Surface is allocated on the stack */
+#define SDL_INTERNAL_SURFACE_അട്ടി      0x00000002u /**< Surface is allocated on the stack */
 #define SDL_INTERNAL_SURFACE_RLEACCEL   0x00000004u /**< Surface is RLE encoded */
 
 // Surface internal data definition
-struct SDL_Surface
+ഘടന SDL_Surface
 {
     // Public API definition
     SDL_SurfaceFlags flags;     /**< The flags of the surface, read-only */
     SDL_PixelFormat format;     /**< The format of the surface, read-only */
-    int w;                      /**< The width of the surface, read-only. */
-    int h;                      /**< The height of the surface, read-only. */
-    int pitch;                  /**< The distance in bytes between rows of pixels, read-only */
-    void *pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
+    പൂർണ്ണസംഖ്യ w;                      /**< The width of the surface, read-only. */
+    പൂർണ്ണസംഖ്യ h;                      /**< The height of the surface, read-only. */
+    പൂർണ്ണസംഖ്യ pitch;                  /**< The distance in bytes between rows of pixels, read-only */
+    ശൂന്യം *pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
 
-    int refcount;               /**< Application reference count, used when freeing surface */
+    പൂർണ്ണസംഖ്യ refcount;               /**< Application reference count, used when freeing surface */
 
-    void *reserved;             /**< Reserved for internal use */
+    ശൂന്യം *reserved;             /**< Reserved for internal use */
 
     // Private API definition
 
@@ -58,7 +58,7 @@ struct SDL_Surface
     SDL_PropertiesID props;
 
     /** detailed format for this surface */
-    const SDL_PixelFormatDetails *fmt;
+    സ്ഥിരം SDL_PixelFormatDetails *fmt;
 
     /** Pixel colorspace */
     SDL_Colorspace colorspace;
@@ -67,11 +67,11 @@ struct SDL_Surface
     SDL_Palette *palette;
 
     /** Alternate representation of images */
-    int num_images;
+    പൂർണ്ണസംഖ്യ അക്കം_images;
     SDL_Surface **images;
 
     /** information needed for surfaces requiring locks */
-    int locked;
+    പൂർണ്ണസംഖ്യ locked;
 
     /** clipping information */
     SDL_Rect clip_rect;
@@ -80,23 +80,23 @@ struct SDL_Surface
     SDL_BlitMap map;
 
     /** Original pixels when RLE is enabled */
-    void *saved_pixels;
+    ശൂന്യം *saved_pixels;
 };
 
 // Surface functions
-extern bool SDL_SurfaceValid(SDL_Surface *surface);
-extern void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface);
-extern bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, int width, int height, size_t *size, size_t *pitch, bool minimalPitch);
-extern float SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace);
-extern float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace);
-extern float SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace);
-extern float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace);
-extern SDL_Surface *SDL_CreateSurfaceZeroed(int width, int height, SDL_PixelFormat format);
-extern SDL_Surface *SDL_CreateSurfaceUninitialized(int width, int height, SDL_PixelFormat format);
-extern SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale);
-extern SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format);
-extern bool SDL_IsBMP(SDL_IOStream *src);
-extern bool SDL_IsJPG(SDL_IOStream *src);
-extern bool SDL_IsPNG(SDL_IOStream *src);
+ബാഹ്യ bool SDL_SurfaceValid(SDL_Surface *surface);
+ബാഹ്യ ശൂന്യം SDL_UpdateSurfaceLockFlag(SDL_Surface *surface);
+ബാഹ്യ bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, പൂർണ്ണസംഖ്യ width, പൂർണ്ണസംഖ്യ height, size_t *size, size_t *pitch, bool minimalPitch);
+ബാഹ്യ ദശാംശം SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace);
+ബാഹ്യ ദശാംശം SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace);
+ബാഹ്യ ദശാംശം SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace);
+ബാഹ്യ ദശാംശം SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace);
+ബാഹ്യ SDL_Surface *SDL_CreateSurfaceZeroed(പൂർണ്ണസംഖ്യ width, പൂർണ്ണസംഖ്യ height, SDL_PixelFormat format);
+ബാഹ്യ SDL_Surface *SDL_CreateSurfaceUninitialized(പൂർണ്ണസംഖ്യ width, പൂർണ്ണസംഖ്യ height, SDL_PixelFormat format);
+ബാഹ്യ SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, ദശാംശം display_scale);
+ബാഹ്യ SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, സ്ഥിരം SDL_Rect *rect, SDL_PixelFormat format);
+ബാഹ്യ bool SDL_IsBMP(SDL_IOStream *src);
+ബാഹ്യ bool SDL_IsJPG(SDL_IOStream *src);
+ബാഹ്യ bool SDL_IsPNG(SDL_IOStream *src);
 
 #endif // SDL_surface_c_h_

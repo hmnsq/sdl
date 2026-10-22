@@ -25,25 +25,25 @@
 #define XSETTINGS_CLIENT_H
 
 #ifdef __cplusplus
-extern "C" {
+ബാഹ്യ "C" {
 #endif /* __cplusplus */
 
-typedef struct _XSettingsBuffer  XSettingsBuffer;
-typedef struct _XSettingsColor   XSettingsColor;
-typedef struct _XSettingsList    XSettingsList;
-typedef struct _XSettingsSetting XSettingsSetting;
+തരനിർവചനം ഘടന _XSettingsBuffer  XSettingsBuffer;
+തരനിർവചനം ഘടന _XSettingsColor   XSettingsColor;
+തരനിർവചനം ഘടന _XSettingsList    XSettingsList;
+തരനിർവചനം ഘടന _XSettingsSetting XSettingsSetting;
 
 /* Types of settings possible. Enum values correspond to
  * protocol values.
  */
-typedef enum
+തരനിർവചനം എണ്ണൽ
 {
   XSETTINGS_TYPE_INT     = 0,
   XSETTINGS_TYPE_STRING  = 1,
   XSETTINGS_TYPE_COLOR   = 2
 } XSettingsType;
 
-typedef enum
+തരനിർവചനം എണ്ണൽ
 {
   XSETTINGS_SUCCESS,
   XSETTINGS_NO_MEM,
@@ -53,33 +53,33 @@ typedef enum
   XSETTINGS_DUPLICATE_ENTRY
 } XSettingsResult;
 
-struct _XSettingsBuffer
+ഘടന _XSettingsBuffer
 {
-  char byte_order;
+  അക്ഷരം byte_order;
   size_t len;
-  unsigned char *data;
-  unsigned char *pos;
+  unsigned അക്ഷരം *data;
+  unsigned അക്ഷരം *pos;
 };
 
-struct _XSettingsColor
+ഘടന _XSettingsColor
 {
   unsigned short red, green, blue, alpha;
 };
 
-struct _XSettingsList
+ഘടന _XSettingsList
 {
   XSettingsSetting *setting;
   XSettingsList *next;
 };
 
-struct _XSettingsSetting
+ഘടന _XSettingsSetting
 {
-  char *name;
+  അക്ഷരം *name;
   XSettingsType type;
 
-  union {
-    int v_int;
-    char *v_string;
+  സംഘം {
+    പൂർണ്ണസംഖ്യ v_int;
+    അക്ഷരം *v_string;
     XSettingsColor v_color;
   } data;
 
@@ -87,63 +87,63 @@ struct _XSettingsSetting
 };
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
-void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+ശൂന്യം              xsettings_setting_free  (XSettingsSetting *setting);
+പൂർണ്ണസംഖ്യ               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
-void              xsettings_list_free   (XSettingsList     *list);
+ശൂന്യം              xsettings_list_free   (XSettingsList     *list);
 XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
-XSettingsResult   xsettings_list_insert (XSettingsList    **list,
+XSettingsResult   xsettings_list_തിരുകുക (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
-                                         const char        *name);
+                                         സ്ഥിരം അക്ഷരം        *name);
 XSettingsResult   xsettings_list_delete (XSettingsList    **list,
-                                         const char        *name);
+                                         സ്ഥിരം അക്ഷരം        *name);
 
-char xsettings_byte_order (void);
+അക്ഷരം xsettings_byte_order (ശൂന്യം);
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-typedef struct _XSettingsClient XSettingsClient;
+തരനിർവചനം ഘടന _XSettingsClient XSettingsClient;
 
-typedef enum
+തരനിർവചനം എണ്ണൽ
 {
   XSETTINGS_ACTION_NEW,
   XSETTINGS_ACTION_CHANGED,
   XSETTINGS_ACTION_DELETED
 } XSettingsAction;
 
-typedef void (*XSettingsNotifyFunc) (const char       *name,
+തരനിർവചനം ശൂന്യം (*XSettingsNotifyFunc) (സ്ഥിരം അക്ഷരം       *name,
                                      XSettingsAction   action,
                                      XSettingsSetting *setting,
-                                     void             *cb_data);
-typedef Bool (*XSettingsWatchFunc)  (Window            window,
+                                     ശൂന്യം             *cb_data);
+തരനിർവചനം Bool (*XSettingsWatchFunc)  (Window            window,
                                      Bool              is_start,
                                      long              mask,
-                                     void             *cb_data);
-typedef void (*XSettingsGrabFunc)   (Display          *display);
+                                     ശൂന്യം             *cb_data);
+തരനിർവചനം ശൂന്യം (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   പൂർണ്ണസംഖ്യ                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
-                                                   void                *cb_data);
+                                                   ശൂന്യം                *cb_data);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       പൂർണ്ണസംഖ്യ                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
-                                                       void                *cb_data,
+                                                       ശൂന്യം                *cb_data,
                                                        XSettingsGrabFunc    grab,
                                                        XSettingsGrabFunc    ungrab);
-void             xsettings_client_set_grab_func   (XSettingsClient     *client,
+ശൂന്യം             xsettings_client_set_grab_func   (XSettingsClient     *client,
                                                    XSettingsGrabFunc    grab);
-void             xsettings_client_set_ungrab_func (XSettingsClient     *client,
+ശൂന്യം             xsettings_client_set_ungrab_func (XSettingsClient     *client,
                                                    XSettingsGrabFunc    ungrab);
-void             xsettings_client_destroy         (XSettingsClient     *client);
+ശൂന്യം             xsettings_client_destroy         (XSettingsClient     *client);
 Bool             xsettings_client_process_event   (XSettingsClient     *client,
-                                                   const XEvent        *xev);
+                                                   സ്ഥിരം XEvent        *xev);
 XSettingsResult  xsettings_client_get_setting     (XSettingsClient     *client,
-                                                   const char          *name,
+                                                   സ്ഥിരം അക്ഷരം          *name,
                                                    XSettingsSetting   **setting);
 
 #ifdef __cplusplus

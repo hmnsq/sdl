@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
-#include "SDL_androidvideo.h"
+#അന്തര്ഭാവ "SDL_androidvideo.h"
 
-extern void Android_InitTouch(void);
-extern void Android_QuitTouch(void);
-extern void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p);
-extern SDL_TouchID Android_ConvertJavaTouchID(int touchID);
+ബാഹ്യ ശൂന്യം Android_InitTouch(ശൂന്യം);
+ബാഹ്യ ശൂന്യം Android_QuitTouch(ശൂന്യം);
+ബാഹ്യ ശൂന്യം Android_OnTouch(SDL_Window *window, പൂർണ്ണസംഖ്യ touch_device_id_in, പൂർണ്ണസംഖ്യ pointer_finger_id_in, പൂർണ്ണസംഖ്യ action, ദശാംശം x, ദശാംശം y, ദശാംശം p);
+ബാഹ്യ SDL_TouchID Android_ConvertJavaTouchID(പൂർണ്ണസംഖ്യ touchID);

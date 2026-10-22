@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#എങ്കിൽ !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#എങ്കിൽ defined(SDL_PLATFORM_WINDOWS)
 
-extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
-extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
-extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+ബാഹ്യ SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(സ്ഥിരം അക്ഷരം *name, Uint32 style, ശൂന്യം *hInst);
+ബാഹ്യ SDL_DECLSPEC ശൂന്യം SDLCALL SDL_UnregisterApp(ശൂന്യം);
+ബാഹ്യ SDL_DECLSPEC ശൂന്യം SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, ശൂന്യം *userdata);
 
 #endif /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+ബാഹ്യ SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, പൂർണ്ണസംഖ്യ *adapterIndex, പൂർണ്ണസംഖ്യ *outputIndex);
+ബാഹ്യ SDL_DECLSPEC പൂർണ്ണസംഖ്യ SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#അല്ലെങ്കിലെങ്കിൽ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+ബാഹ്യ SDL_DECLSPEC പൂർണ്ണസംഖ്യ SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
 #endif /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#എങ്കിൽ !defined(SDL_PLATFORM_GDK)
 
-typedef struct XTaskQueueHandle XTaskQueueHandle;
+തരനിർവചനം ഘടന XTaskQueueHandle XTaskQueueHandle;
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
+ബാഹ്യ SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
 
 #endif /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#എങ്കിൽ !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
+ബാഹ്യ SDL_DECLSPEC ശൂന്യം SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(ശൂന്യം);
 
 #endif
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#എങ്കിൽ !defined(SDL_VIDEO_DRIVER_UIKIT)
 
-typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
+തരനിർവചനം ശൂന്യം (SDLCALL *SDL_iOSAnimationCallback)(ശൂന്യം *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
-extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
+ബാഹ്യ SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, പൂർണ്ണസംഖ്യ interval, SDL_iOSAnimationCallback callback, ശൂന്യം *callbackParam);
+ബാഹ്യ SDL_DECLSPEC ശൂന്യം SDLCALL SDL_SetiOSEventPump(bool enabled);
 #endif

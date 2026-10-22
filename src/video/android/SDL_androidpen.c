@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidpen.h"
-#include "../../events/SDL_pen_c.h"
-#include "../../core/android/SDL_android.h"
+#അന്തര്ഭാവ "SDL_androidpen.h"
+#അന്തര്ഭാവ "../../events/SDL_pen_c.h"
+#അന്തര്ഭാവ "../../core/android/SDL_android.h"
 
 #define ACTION_DOWN   0
 #define ACTION_UP     1
@@ -34,28 +34,28 @@
 #define ACTION_HOVER_ENTER  9
 #define ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+ശൂന്യം Android_OnPen(SDL_Window *window, പൂർണ്ണസംഖ്യ pen_id_in, SDL_PenDeviceType device_type, പൂർണ്ണസംഖ്യ button, പൂർണ്ണസംഖ്യ action, ദശാംശം x, ദശാംശം y, ദശാംശം p)
 {
-    if (!window) {
-        return;
+    എങ്കിൽ (!window) {
+        തിരികെ;
     }
 
     // pointer index starts from zero.
     pen_id_in++;
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    SDL_PenID pen = SDL_FindPenByHandle((ശൂന്യം *) (size_t) pen_id_in);
+    എങ്കിൽ (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
-        peninfo.num_buttons = 2;
+        peninfo.അക്കം_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
-        pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
+        pen = SDL_AddPenDevice(0, ശൂന്യ, window, &peninfo, (ശൂന്യം *) (size_t) pen_id_in, true);
+        എങ്കിൽ (!pen) {
             SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+            തിരികെ;
         }
     }
 
@@ -63,12 +63,12 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     SDL_SendPenAxis(0, pen, window, SDL_PEN_AXIS_PRESSURE, p);
     // TODO: add more axis
 
-    SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
+    SDL_Pen_നിവേശം_Flags current = SDL_GetPenStatus(pen, ശൂന്യ, 0);
+    പൂർണ്ണസംഖ്യ diff = current ^ button;
+    എങ്കിൽ (diff != 0) {
+        വേണ്ടി (Uint8 i = 1; i <= 5; ++i) {
             Uint8 mask = (1 << i);
-            if (diff & mask) {
+            എങ്കിൽ (diff & mask) {
                 SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
             }
         }
@@ -76,28 +76,28 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
 
     // button contains DOWN/ERASER_TIP on DOWN/UP regardless of pressed state, use action to distinguish
     // we don't compare tip flags above because MotionEvent.getButtonState doesn't return stylus tip/eraser state.
-    switch (action) {
-    case ACTION_HOVER_ENTER:
+    തിരഞ്ഞെടുപ്പ് (action) {
+    അവസ്ഥ ACTION_HOVER_ENTER:
         SDL_SendPenProximity(0, pen, window, true, true);
-        break;
+        നിർത്തുക;
 
-    case ACTION_CANCEL:
-    case ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
+    അവസ്ഥ ACTION_CANCEL:
+    അവസ്ഥ ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
         SDL_SendPenProximity(0, pen, window, false, false);
-        break;
+        നിർത്തുക;
 
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
-        break;
+    അവസ്ഥ ACTION_DOWN:
+    അവസ്ഥ ACTION_POINTER_DOWN:
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_നിവേശം_ERASER_TIP) != 0, true);
+        നിർത്തുക;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
-        break;
+    അവസ്ഥ ACTION_UP:
+    അവസ്ഥ ACTION_POINTER_UP:
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_നിവേശം_ERASER_TIP) != 0, false);
+        നിർത്തുക;
 
-    default:
-        break;
+    സ്ഥിരസ്ഥിതി:
+        നിർത്തുക;
     }
 }
 

@@ -18,41 +18,41 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_x11video_h_
 #define SDL_x11video_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keymap_c.h"
+#അന്തര്ഭാവ "../SDL_sysvideo.h"
+#അന്തര്ഭാവ "../../events/SDL_keymap_c.h"
 
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
+#അന്തര്ഭാവ "../../core/linux/SDL_dbus.h"
+#അന്തര്ഭാവ "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#അന്തര്ഭാവ "SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#അന്തര്ഭാവ "SDL_x11clipboard.h"
+#അന്തര്ഭാവ "SDL_x11events.h"
+#അന്തര്ഭാവ "SDL_x11keyboard.h"
+#അന്തര്ഭാവ "SDL_x11modes.h"
+#അന്തര്ഭാവ "SDL_x11mouse.h"
+#അന്തര്ഭാവ "SDL_x11opengl.h"
+#അന്തര്ഭാവ "SDL_x11settings.h"
+#അന്തര്ഭാവ "SDL_x11window.h"
+#അന്തര്ഭാവ "SDL_x11vulkan.h"
 
 // Private display data
 
-struct SDL_VideoData
+ഘടന SDL_VideoData
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
+    പൂർണ്ണസംഖ്യ numwindows;
     SDL_WindowData **windowlist;
-    int windowlistlength;
+    പൂർണ്ണസംഖ്യ windowlistlength;
     XID window_group;
     Window clipboard_window;
     SDLX11_ClipboardData clipboard;
@@ -67,7 +67,7 @@ struct SDL_VideoData
     bool net_wm;
 
     // Useful atoms
-    struct {
+    ഘടന {
         Atom WM_PROTOCOLS;
         Atom WM_DELETE_WINDOW;
         Atom WM_NAME;
@@ -138,35 +138,35 @@ struct SDL_VideoData
     Uint32 global_mouse_buttons;
 
     unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
+    unsigned long xinput_last_താക്കോൽ_serial;
+    പൂർണ്ണസംഖ്യ xinput_last_keyboard_device;
+    പൂർണ്ണസംഖ്യ xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
 
-    int xrandr_event_base;
-    struct
+    പൂർണ്ണസംഖ്യ xrandr_event_base;
+    ഘടന
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode താക്കോൽ_layout[256];
 
-        union
+        സംഘം
         {
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+            ഘടന
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
+                SDL_Keymap *keymaps[Xkb_അക്കം_Kbd_Groups];
                 unsigned long last_map_serial;
-                int event;
+                പൂർണ്ണസംഖ്യ event;
                 Uint32 current_group;
             } xkb; // Modern XKB keyboard handling
 #endif
-            struct
+            ഘടന
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                താക്കോൽ_Sym *keysym_map;
+                പൂർണ്ണസംഖ്യ keysyms_per_താക്കോൽ;
+                പൂർണ്ണസംഖ്യ min_keycode;
+                പൂർണ്ണസംഖ്യ max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
@@ -196,6 +196,6 @@ struct SDL_VideoData
     bool is_xwayland;
 };
 
-extern bool X11_UseDirectColorVisuals(void);
+ബാഹ്യ bool X11_UseDirectColorVisuals(ശൂന്യം);
 
 #endif // SDL_x11video_h_

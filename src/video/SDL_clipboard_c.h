@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_clipboard_c_h_
 #define SDL_clipboard_c_h_
 
-#include "SDL_sysvideo.h"
+#അന്തര്ഭാവ "SDL_sysvideo.h"
 
 
 // Return true if the mime type is valid clipboard text
-extern bool SDL_IsTextMimeType(const char *mime_type);
+ബാഹ്യ bool SDL_IsTextMimeType(സ്ഥിരം അക്ഷരം *mime_type);
 
 // Cancel the clipboard data callback, called internally for cleanup
-extern void SDL_CancelClipboardData(Uint32 sequence);
+ബാഹ്യ ശൂന്യം SDL_CancelClipboardData(Uint32 sequence);
 
 // Call the clipboard callback for application data
-extern void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type);
+ബാഹ്യ ശൂന്യം *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *mime_type, size_t *size);
+ബാഹ്യ bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, സ്ഥിരം അക്ഷരം *mime_type);
 
 // General purpose clipboard text callback
-const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size);
+സ്ഥിരം ശൂന്യം * SDLCALL SDL_ClipboardTextCallback(ശൂന്യം *userdata, സ്ഥിരം അക്ഷരം *mime_type, size_t *size);
 
-bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_types);
-void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
-char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary);
+bool SDL_SaveClipboardMimeTypes(സ്ഥിരം അക്ഷരം *സ്ഥിരം *mime_types, size_t അക്കം_mime_types);
+ശൂന്യം SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
+അക്ഷരം **SDL_CopyClipboardMimeTypes(സ്ഥിരം അക്ഷരം *സ്ഥിരം *clipboard_mime_types, size_t അക്കം_mime_types, bool temporary);
 
 #endif // SDL_clipboard_c_h_

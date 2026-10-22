@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#അന്തര്ഭാവ "SDL_internal.h"
 
 #ifndef SDL_waylandmouse_h_
 #define SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
+ബാഹ്യ ശൂന്യം Wayland_InitMouse(SDL_VideoData *data);
+ബാഹ്യ ശൂന്യം Wayland_FiniMouse(SDL_VideoData *data);
+ബാഹ്യ ശൂന്യം Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
+ബാഹ്യ ശൂന്യം Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
+ബാഹ്യ ശൂന്യം Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+ബാഹ്യ ശൂന്യം Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
+ബാഹ്യ ശൂന്യം Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+ബാഹ്യ ശൂന്യം Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, ദശാംശം x, ദശാംശം y);
+ബാഹ്യ ശൂന്യം Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, ശൂന്യം *userdata);
+ബാഹ്യ ശൂന്യം Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
+ബാഹ്യ ശൂന്യം Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#എങ്കിൽ 0  // TODO RECONNECT: See waylandvideo.c for more information!
+ബാഹ്യ ശൂന്യം Wayland_RecreateCursors(ശൂന്യം);
 #endif // 0
 
 #endif

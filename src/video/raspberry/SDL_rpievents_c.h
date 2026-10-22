@@ -22,8 +22,8 @@
 #ifndef SDL_rpievents_c_h_
 #define SDL_rpievents_c_h_
 
-#include "SDL_rpivideo.h"
+#അന്തര്ഭാവ "SDL_rpivideo.h"
 
-void RPI_PumpEvents(SDL_VideoDevice *_this);
+ശൂന്യം RPI_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_rpievents_c_h_
