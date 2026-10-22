@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidpen.h"
-#include "../../events/SDL_pen_c.h"
-#include "../../core/android/SDL_android.h"
+#अन्तर्भाव "SDL_androidpen.h"
+#अन्तर्भाव "../../events/SDL_pen_c.h"
+#अन्तर्भाव "../../core/android/SDL_android.h"
 
 #define ACTION_DOWN   0
 #define ACTION_UP     1
@@ -34,28 +34,28 @@
 #define ACTION_HOVER_ENTER  9
 #define ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+शून्य Android_OnPen(SDL_Window *window, पूर्णाङ्क pen_id_in, SDL_PenDeviceType device_type, पूर्णाङ्क button, पूर्णाङ्क action, भिन्न x, भिन्न y, भिन्न p)
 {
-    if (!window) {
-        return;
+    यदि (!window) {
+        प्रत्यागम;
     }
 
     // pointer index starts from zero.
     pen_id_in++;
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    SDL_PenID pen = SDL_FindPenByHandle((शून्य *) (size_t) pen_id_in);
+    यदि (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
-        peninfo.num_buttons = 2;
+        peninfo.अंक_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
-        pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
+        pen = SDL_AddPenDevice(0, रिक्त, window, &peninfo, (शून्य *) (size_t) pen_id_in, true);
+        यदि (!pen) {
             SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+            प्रत्यागम;
         }
     }
 
@@ -63,12 +63,12 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     SDL_SendPenAxis(0, pen, window, SDL_PEN_AXIS_PRESSURE, p);
     // TODO: add more axis
 
-    SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
+    SDL_Pen_निवेश_Flags current = SDL_GetPenStatus(pen, रिक्त, 0);
+    पूर्णाङ्क diff = current ^ button;
+    यदि (diff != 0) {
+        प्रति (Uint8 i = 1; i <= 5; ++i) {
             Uint8 mask = (1 << i);
-            if (diff & mask) {
+            यदि (diff & mask) {
                 SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
             }
         }
@@ -76,28 +76,28 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
 
     // button contains DOWN/ERASER_TIP on DOWN/UP regardless of pressed state, use action to distinguish
     // we don't compare tip flags above because MotionEvent.getButtonState doesn't return stylus tip/eraser state.
-    switch (action) {
-    case ACTION_HOVER_ENTER:
+    विकल्प (action) {
+    पक्ष ACTION_HOVER_ENTER:
         SDL_SendPenProximity(0, pen, window, true, true);
-        break;
+        भङ्ग;
 
-    case ACTION_CANCEL:
-    case ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
+    पक्ष ACTION_CANCEL:
+    पक्ष ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
         SDL_SendPenProximity(0, pen, window, false, false);
-        break;
+        भङ्ग;
 
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
-        break;
+    पक्ष ACTION_DOWN:
+    पक्ष ACTION_POINTER_DOWN:
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_निवेश_ERASER_TIP) != 0, true);
+        भङ्ग;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
-        break;
+    पक्ष ACTION_UP:
+    पक्ष ACTION_POINTER_UP:
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_निवेश_ERASER_TIP) != 0, false);
+        भङ्ग;
 
-    default:
-        break;
+    स्वभाव:
+        भङ्ग;
     }
 }
 

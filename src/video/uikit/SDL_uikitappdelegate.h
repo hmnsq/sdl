@@ -25,7 +25,7 @@
 
 - (instancetype)init;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
-- (void)loadView;
+- (शून्य)loadView;
 
 @end
 
@@ -34,7 +34,7 @@ API_AVAILABLE(ios(13.0))
 
 + (NSString *)getSceneDelegateClassName;
 
-- (void)hideLaunchScreen;
+- (शून्य)hideLaunchScreen;
 
 @end
 
@@ -43,7 +43,7 @@ API_AVAILABLE(ios(13.0))
 + (id)sharedAppDelegate;
 + (NSString *)getAppDelegateClassName;
 
-- (void)hideLaunchScreen;
+- (शून्य)hideLaunchScreen;
 
 /* This property is marked as optional, and is only intended to be used when
  * the app's UI is storyboard-based. SDL is not storyboard-based, however

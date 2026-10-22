@@ -23,18 +23,18 @@
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-extern void SDL_UpdateLifecycleObserver(void);
+बाह्य शून्य SDL_UpdateLifecycleObserver(शून्य);
 
-extern Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
-extern void UIKit_PumpEvents(SDL_VideoDevice *_this);
+बाह्य Uint64 UIKit_GetEventTimestamp(NSTimeInterval nsTimestamp);
+बाह्य शून्य UIKit_PumpEvents(SDL_VideoDevice *_this);
 
-extern void SDL_InitGCKeyboard(void);
-extern void SDL_QuitGCKeyboard(void);
+बाह्य शून्य SDL_InitGCKeyboard(शून्य);
+बाह्य शून्य SDL_QuitGCKeyboard(शून्य);
 
-extern void SDL_InitGCMouse(void);
-extern bool SDL_GCMouseRelativeMode(void);
-extern void SDL_QuitGCMouse(void);
+बाह्य शून्य SDL_InitGCMouse(शून्य);
+बाह्य bool SDL_GCMouseRelativeMode(शून्य);
+बाह्य शून्य SDL_QuitGCMouse(शून्य);
 
 #endif // SDL_uikitevents_h_
