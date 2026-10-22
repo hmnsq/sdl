@@ -70,7 +70,7 @@ struct SDL_VideoData
     float mickeys_per_vpixel; // vertical mickeys per pixel (default: 16)
 
     // Page-flipping (double-buffering) state
-    int current_page;         // 0 or 1: which page is currently displayed
+    整数 current_page;         // 0 or 1: which page is currently displayed
     Uint32 page_offset[2];    // byte offset of each page within video memory
     bool page_flip_available; // true if mode supports double-buffering
     bool banked_mode;         // true if current mode uses banked (not LFB) access
@@ -78,12 +78,12 @@ struct SDL_VideoData
 
 struct SDL_DisplayData
 {
-    int unused; // for now
+    整数 unused; // for now
 };
 
 struct SDL_WindowData
 {
-    int framebuffer_vsync;
+    整数 framebuffer_vsync;
 };
 
 #endif // SDL_dosvideo_h

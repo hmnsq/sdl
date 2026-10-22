@@ -71,7 +71,7 @@ class SDL_BView : public BView
 
     void Draw(BRect dirty)
     {
-        if (fBitmap != NULL)
+        もし (fBitmap != NULL)
             DrawBitmap(fBitmap, B_ORIGIN);
     }
 
@@ -115,16 +115,16 @@ class SDL_BWin : public BWindow
     {
         Lock();
 
-        if (_SDL_View != NULL && _SDL_View != _cur_view) {
+        もし (_SDL_View != NULL && _SDL_View != _cur_view) {
             delete _SDL_View;
             _SDL_View = NULL;
         }
 
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+        もし (_SDL_GLView) {
+            もし (SDL_Looper->GetCurrentContext() == _SDL_GLView)
                 SDL_Looper->SetCurrentContext(NULL);
-            if (_SDL_GLView == _cur_view)
+            もし (_SDL_GLView == _cur_view)
                 RemoveChild(_SDL_GLView);
             _SDL_GLView = NULL;
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
@@ -142,11 +142,11 @@ class SDL_BWin : public BWindow
 
     void SetCurrentView(BView *view)
     {
-        if (_cur_view != view) {
-            if (_cur_view != NULL)
+        もし (_cur_view != view) {
+            もし (_cur_view != NULL)
                 RemoveChild(_cur_view);
             _cur_view = view;
-            if (_cur_view != NULL)
+            もし (_cur_view != NULL)
                 AddChild(_cur_view);
         }
     }
@@ -154,13 +154,13 @@ class SDL_BWin : public BWindow
     void UpdateCurrentView()
     {
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView != NULL) {
+        もし (_SDL_GLView != NULL) {
             SetCurrentView(_SDL_GLView);
-        } else
+        } 否则
 #endif
-        if (_SDL_View != NULL) {
+        もし (_SDL_View != NULL) {
             SetCurrentView(_SDL_View);
-        } else {
+        } 否则 {
             SetCurrentView(NULL);
         }
     }
@@ -168,18 +168,18 @@ class SDL_BWin : public BWindow
     SDL_BView *CreateView()
     {
         Lock();
-        if (_SDL_View == NULL) {
+        もし (_SDL_View == NULL) {
             _SDL_View = new SDL_BView(Bounds(), "SDL View", B_FOLLOW_ALL_SIDES);
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_View;
+        戻る _SDL_View;
     }
 
     void RemoveView()
     {
         Lock();
-        if (_SDL_View != NULL) {
+        もし (_SDL_View != NULL) {
             SDL_BView *oldView = _SDL_View;
             _SDL_View = NULL;
             UpdateCurrentView();
@@ -193,7 +193,7 @@ class SDL_BWin : public BWindow
     BGLView *CreateGLView(Uint32 gl_flags)
     {
         Lock();
-        if (_SDL_GLView == NULL) {
+        もし (_SDL_GLView == NULL) {
             _SDL_GLView = new BGLView(Bounds(), "SDL GLView",
                                       B_FOLLOW_ALL_SIDES,
                                       (B_WILL_DRAW | B_FRAME_EVENTS),
@@ -202,14 +202,14 @@ class SDL_BWin : public BWindow
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_GLView;
+        戻る _SDL_GLView;
     }
 
     void RemoveGLView()
     {
         Lock();
-        if (_SDL_GLView != NULL) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+        もし (_SDL_GLView != NULL) {
+            もし (SDL_Looper->GetCurrentContext() == _SDL_GLView)
                 SDL_Looper->SetCurrentContext(NULL);
             _SDL_GLView = NULL;
             UpdateCurrentView();
@@ -230,8 +230,8 @@ class SDL_BWin : public BWindow
     {
         // Post a message to the BApp so that it can handle the window event
         BMessage msg(BAPP_WINDOW_MOVED);
-        msg.AddInt32("window-x", (int)origin.x);
-        msg.AddInt32("window-y", (int)origin.y);
+        msg.AddInt32("window-x", (整数)origin.x);
+        msg.AddInt32("window-y", (整数)origin.y);
         _PostWindowEvent(msg);
 
         // Perform normal hook operations
@@ -243,8 +243,8 @@ class SDL_BWin : public BWindow
         // Post a message to the BApp so that it can handle the window event
         BMessage msg(BAPP_WINDOW_RESIZED);
 
-        msg.AddInt32("window-w", (int)width + 1);
-        msg.AddInt32("window-h", (int)height + 1);
+        msg.AddInt32("window-w", (整数)width + 1);
+        msg.AddInt32("window-h", (整数)height + 1);
         _PostWindowEvent(msg);
 
         // Perform normal hook operations
@@ -257,7 +257,7 @@ class SDL_BWin : public BWindow
         _PostWindowEvent(msg);
 
         // We won't allow a quit unless asked by DestroyWindow()
-        return false;
+        戻る false;
     }
 
     void WindowActivated(bool active)
@@ -275,7 +275,7 @@ class SDL_BWin : public BWindow
         _PostWindowEvent(msg);
 
         // Before the window zooms, record its size
-        if (!_prev_frame)
+        もし (!_prev_frame)
             _prev_frame = new BRect(Frame());
 
         // Perform normal hook operations
@@ -285,7 +285,7 @@ class SDL_BWin : public BWindow
     // Member functions
     void Show()
     {
-        while (IsHidden()) {
+        ながら (IsHidden()) {
             BWindow::Show();
         }
         _shown = true;
@@ -314,7 +314,7 @@ class SDL_BWin : public BWindow
 
     void ScreenChanged(BRect screenFrame, color_space depth)
     {
-        if (_fullscreen) {
+        もし (_fullscreen) {
             MoveTo(screenFrame.left, screenFrame.top);
             ResizeTo(screenFrame.Width(), screenFrame.Height());
         }
@@ -330,27 +330,27 @@ class SDL_BWin : public BWindow
         switch (msg->what) {
         case B_MOUSE_MOVED:
             int32 transit;
-            if (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
+            もし (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
                 _MouseMotionEvent(where, transit);
             }
             break;
 
         case B_MOUSE_DOWN:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+            もし (msg->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, true);
             }
             break;
 
         case B_MOUSE_UP:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+            もし (msg->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, false);
             }
             break;
 
         case B_MOUSE_WHEEL_CHANGED:
             float x, y;
-            if (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
-                _MouseWheelEvent((int)x, (int)y);
+            もし (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
+                _MouseWheelEvent((整数)x, (整数)y);
             }
             break;
 
@@ -359,24 +359,24 @@ class SDL_BWin : public BWindow
             int32 i = 0;
             int8 byte;
             int8 bytes[4] = { 0, 0, 0, 0 };
-            while (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
+            ながら (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
                 bytes[i] = byte;
                 i++;
             }
-            if (msg->FindInt32("key", &key) == B_OK) {
+            もし (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent((SDL_Scancode)key, &bytes[0], i, true);
             }
         } break;
 
         case B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
+            もし (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent((SDL_Scancode)key, NULL, 0, true);
             }
             break;
 
         case B_KEY_UP:
         case B_UNMAPPED_KEY_UP: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
+            もし (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent(key, NULL, 0, false);
             }
             break;
@@ -411,14 +411,14 @@ class SDL_BWin : public BWindow
         case BWIN_SET_BORDERED:
         {
             bool bEnabled;
-            if (message->FindBool("window-border", &bEnabled) == B_OK)
+            もし (message->FindBool("window-border", &bEnabled) == B_OK)
                 _SetBordered(bEnabled);
             break;
         }
         case BWIN_SET_RESIZABLE:
         {
             bool bEnabled;
-            if (message->FindBool("window-resizable", &bEnabled) == B_OK)
+            もし (message->FindBool("window-resizable", &bEnabled) == B_OK)
                 _SetResizable(bEnabled);
             break;
         }
@@ -440,7 +440,7 @@ class SDL_BWin : public BWindow
         case BWIN_FULLSCREEN:
         {
             bool fullscreen;
-            if (message->FindBool("fullscreen", &fullscreen) == B_OK)
+            もし (message->FindBool("fullscreen", &fullscreen) == B_OK)
                 _SetFullScreen(fullscreen);
             break;
         }
@@ -450,17 +450,17 @@ class SDL_BWin : public BWindow
         case BWIN_UPDATE_FRAMEBUFFER:
         {
             BMessage *pendingMessage;
-            while ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
+            ながら ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
                 MessageQueue()->RemoveMessage(pendingMessage);
                 delete pendingMessage;
             }
-            if (_bitmap != NULL) {
+            もし (_bitmap != NULL) {
 #ifdef SDL_VIDEO_OPENGL
-                if (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
+                もし (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
                     _SDL_GLView->CopyPixelsIn(_bitmap, B_ORIGIN);
-                } else
+                } 否则
 #endif
-                if (_SDL_View != NULL && _cur_view == _SDL_View) {
+                もし (_SDL_View != NULL && _cur_view == _SDL_View) {
                     _SDL_View->Draw(Bounds());
                 }
             }
@@ -474,17 +474,17 @@ class SDL_BWin : public BWindow
     }
 
     // Accessor methods
-    bool IsShown() { return _shown; }
-    int32 GetID() { return _id; }
-    BBitmap *GetBitmap() { return _bitmap; }
-    BView *GetCurView() { return _cur_view; }
-    SDL_BView *GetView() { return _SDL_View; }
+    bool IsShown() { 戻る _shown; }
+    int32 GetID() { 戻る _id; }
+    BBitmap *GetBitmap() { 戻る _bitmap; }
+    BView *GetCurView() { 戻る _cur_view; }
+    SDL_BView *GetView() { 戻る _SDL_View; }
 #ifdef SDL_VIDEO_OPENGL
     BGLView *GetGLView()
     {
-        return _SDL_GLView;
+        戻る _SDL_GLView;
     }
-    Uint32 GetGLType() { return _gl_type; }
+    Uint32 GetGLType() { 戻る _gl_type; }
 #endif
 
     // Setter methods
@@ -494,7 +494,7 @@ class SDL_BWin : public BWindow
     void SetBitmap(BBitmap *bitmap)
     {
         _bitmap = bitmap;
-        if (_SDL_View != NULL)
+        もし (_SDL_View != NULL)
             _SDL_View->SetBitmap(bitmap);
     }
 
@@ -502,19 +502,19 @@ class SDL_BWin : public BWindow
     // Event redirection
     void _MouseMotionEvent(BPoint &where, int32 transit)
     {
-        if (transit == B_EXITED_VIEW) {
+        もし (transit == B_EXITED_VIEW) {
             // Change mouse focus
-            if (_mouse_focused) {
+            もし (_mouse_focused) {
                 _MouseFocusEvent(false);
             }
-        } else {
+        } 否则 {
             // Change mouse focus
-            if (!_mouse_focused) {
+            もし (!_mouse_focused) {
                 _MouseFocusEvent(true);
             }
             BMessage msg(BAPP_MOUSE_MOVED);
-            msg.AddInt32("x", (int)where.x);
-            msg.AddInt32("y", (int)where.y);
+            msg.AddInt32("x", (整数)where.x);
+            msg.AddInt32("y", (整数)where.y);
 
             _PostWindowEvent(msg);
         }
@@ -536,13 +536,13 @@ class SDL_BWin : public BWindow
     {
         int32 buttonStateChange = buttons ^ _last_buttons;
 
-        if (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
+        もし (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_LEFT, down);
         }
-        if (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
+        もし (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_RIGHT, down);
         }
-        if (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
+        もし (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_MIDDLE, down);
         }
 
@@ -571,7 +571,7 @@ class SDL_BWin : public BWindow
         // Create a message to pass along to the BeApp thread
         BMessage msg(BAPP_KEY);
         msg.AddInt32("key-scancode", keyCode);
-        if (keyUtf8 != NULL) {
+        もし (keyUtf8 != NULL) {
             msg.AddData("key-utf8", B_INT8_TYPE, (const void *)keyUtf8, len);
         }
         msg.AddBool("key-down", down);
@@ -594,9 +594,9 @@ class SDL_BWin : public BWindow
     void _SetTitle(BMessage *msg)
     {
         const char *title;
-        if (
+        もし (
             msg->FindString("window-title", &title) != B_OK) {
-            return;
+            戻る;
         }
         SetTitle(title);
     }
@@ -604,48 +604,48 @@ class SDL_BWin : public BWindow
     void _MoveTo(BMessage *msg)
     {
         int32 x, y;
-        if (
+        もし (
             msg->FindInt32("window-x", &x) != B_OK ||
             msg->FindInt32("window-y", &y) != B_OK) {
-            return;
+            戻る;
         }
-        if (_fullscreen)
+        もし (_fullscreen)
             _non_fullscreen_frame.OffsetTo(x, y);
-        else
+        否则
             MoveTo(x, y);
     }
 
     void _ResizeTo(BMessage *msg)
     {
         int32 w, h;
-        if (
+        もし (
             msg->FindInt32("window-w", &w) != B_OK ||
             msg->FindInt32("window-h", &h) != B_OK) {
-            return;
+            戻る;
         }
-        if (_fullscreen) {
+        もし (_fullscreen) {
             _non_fullscreen_frame.right = _non_fullscreen_frame.left + w;
             _non_fullscreen_frame.bottom = _non_fullscreen_frame.top + h;
-        } else
+        } 否则
             ResizeTo(w, h);
     }
 
     void _SetBordered(bool bEnabled)
     {
-        if (_fullscreen)
+        もし (_fullscreen)
             _bordered = bEnabled;
-        else
+        否则
             SetLook(bEnabled ? B_TITLED_WINDOW_LOOK : B_NO_BORDER_WINDOW_LOOK);
     }
 
     void _SetResizable(bool bEnabled)
     {
-        if (_fullscreen)
+        もし (_fullscreen)
             _resizable = bEnabled;
-        else {
-            if (bEnabled) {
+        否则 {
+            もし (bEnabled) {
                 SetFlags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
-            } else {
+            } 否则 {
                 SetFlags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
             }
         }
@@ -662,23 +662,23 @@ class SDL_BWin : public BWindow
         // This is a bit convoluted, we only want to set the minimum not the maximum
         // But there is no direct call to do that, so store the maximum size beforehand
         GetSizeLimits(&_, &maxWidth, &_, &maxHeight);
-        if (msg->FindInt32("window-w", &minWidth) != B_OK)
-            return;
-        if (msg->FindInt32("window-h", &minHeight) != B_OK)
-            return;
+        もし (msg->FindInt32("window-w", &minWidth) != B_OK)
+            戻る;
+        もし (msg->FindInt32("window-h", &minHeight) != B_OK)
+            戻る;
         SetSizeLimits((float)minWidth, maxWidth, (float)minHeight, maxHeight);
         UpdateSizeLimits();
     }
 
     void _Restore()
     {
-        if (IsMinimized()) {
+        もし (IsMinimized()) {
             Minimize(false);
-        } else if (IsHidden()) {
+        } 否则 もし (IsHidden()) {
             Show();
-        } else if (_fullscreen) {
+        } 否则 もし (_fullscreen) {
 
-        } else if (_prev_frame != NULL) { // Zoomed
+        } 否则 もし (_prev_frame != NULL) { // Zoomed
             MoveTo(_prev_frame->left, _prev_frame->top);
             ResizeTo(_prev_frame->Width(), _prev_frame->Height());
         }
@@ -686,8 +686,8 @@ class SDL_BWin : public BWindow
 
     void _SetFullScreen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen) {
-            if (fullscreen) {
+        もし (fullscreen != _fullscreen) {
+            もし (fullscreen) {
                 BScreen screen(this);
                 BRect screenFrame = screen.Frame();
                 _bordered = Look() != B_NO_BORDER_WINDOW_LOOK;
@@ -698,7 +698,7 @@ class SDL_BWin : public BWindow
                 MoveTo(screenFrame.left, screenFrame.top);
                 ResizeTo(screenFrame.Width(), screenFrame.Height());
                 _fullscreen = fullscreen;
-            } else {
+            } 否则 {
                 _fullscreen = fullscreen;
                 MoveTo(_non_fullscreen_frame.left, _non_fullscreen_frame.top);
                 ResizeTo(_non_fullscreen_frame.Width(), _non_fullscreen_frame.Height());

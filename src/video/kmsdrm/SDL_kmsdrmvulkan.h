@@ -31,7 +31,7 @@
 
 #include <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
+#もし defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
 
 extern bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);

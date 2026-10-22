@@ -23,7 +23,7 @@
 #ifndef SDL_D3D12_H
 #define SDL_D3D12_H
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#もし !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
 /* From the DirectX-Headers build system:
  * "MinGW has RPC headers which define old versions, and complain if D3D
@@ -52,7 +52,7 @@
 #define D3D_GUID(X) &(X)
 
 #define D3D_SAFE_RELEASE(X)      \
-    if (X) {                     \
+    もし (X) {                     \
         (X)->lpVtbl->Release(X); \
         X = NULL;                \
     }
@@ -62,18 +62,18 @@
  */
 #define D3D_CALL_RET(THIS, FUNC, ...) (THIS)->lpVtbl->FUNC((THIS), ##__VA_ARGS__)
 
-#else // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#否则 // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-#if defined(SDL_PLATFORM_XBOXONE)
+#もし defined(SDL_PLATFORM_XBOXONE)
 #include <d3d12_x.h>
-#else // SDL_PLATFORM_XBOXSERIES
+#否则 // SDL_PLATFORM_XBOXSERIES
 #include <d3d12_xs.h>
 #endif
 
 #define D3D_GUID(X) (X)
 
 #define D3D_SAFE_RELEASE(X) \
-    if (X) {                \
+    もし (X) {                \
         (X)->Release();     \
         X = NULL;           \
     }

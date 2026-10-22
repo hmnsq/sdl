@@ -26,28 +26,28 @@
 #include "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
+extern void Android_SetScreenResolution(整数 surfaceWidth, 整数 surfaceHeight, 整数 deviceWidth, 整数 deviceHeight, float density, float rate);
 extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
+extern void Android_SetFormat(整数 format_wanted, 整数 format_got);
 extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
 extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
+extern void Android_SetWindowSafeAreaInsets(整数 left, 整数 right, 整数 top, 整数 bottom);
 extern void Android_SetDarkMode(bool enabled);
 
 // Private display data
 
 struct SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    整数 isPaused;
+    整数 isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
+extern 整数 Android_SurfaceWidth;
+extern 整数 Android_SurfaceHeight;
 extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+extern 整数 Android_SafeInsetLeft;
+extern 整数 Android_SafeInsetRight;
+extern 整数 Android_SafeInsetTop;
+extern 整数 Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

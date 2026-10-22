@@ -50,7 +50,7 @@ typedef struct Wayland_ColorInfoState
     SDL_HDROutputProperties HDR;
 
     // The ICC fd is only valid if the size is non-zero.
-    int icc_fd;
+    整数 icc_fd;
     Uint32 icc_size;
 
     bool deferred_event_processing;
@@ -58,12 +58,12 @@ typedef struct Wayland_ColorInfoState
 
 static void Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
 {
-    if (state) {
-        if (state->wp_image_description_info) {
+    もし (state) {
+        もし (state->wp_image_description_info) {
             wp_image_description_info_v1_destroy(state->wp_image_description_info);
             state->wp_image_description_info = NULL;
         }
-        if (state->wp_image_description) {
+        もし (state->wp_image_description) {
             wp_image_description_v1_destroy(state->wp_image_description);
             state->wp_image_description = NULL;
         }
@@ -72,9 +72,9 @@ static void Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
 
 void Wayland_FreeColorInfoState(Wayland_ColorInfoState *state)
 {
-    if (state) {
+    もし (state) {
         Wayland_CancelColorInfoRequest(state);
-        if (state->queue) {
+        もし (state->queue) {
             WAYLAND_wl_event_queue_destroy(state->queue);
         }
 
@@ -101,7 +101,7 @@ static void image_description_info_handle_done(void *data,
         case WAYLAND_COLOR_OBJECT_TYPE_WINDOW:
         {
             SDL_SetWindowHDRProperties(state->window_data->sdlwindow, &state->HDR, true);
-            if (state->icc_size) {
+            もし (state->icc_size) {
                 state->window_data->icc_fd = state->icc_fd;
                 state->window_data->icc_size = state->icc_size;
                 SDL_SendWindowEvent(state->window_data->sdlwindow, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
@@ -111,12 +111,12 @@ static void image_description_info_handle_done(void *data,
         {
             SDL_copyp(&state->display_data->HDR, &state->HDR);
 
-            if (state->display_data->display) {
+            もし (state->display_data->display) {
                 SDL_VideoDisplay *disp = SDL_GetVideoDisplay(state->display_data->display);
-                if (disp) {
+                もし (disp) {
                     SDL_SetDisplayHDRProperties(disp, &state->HDR);
                 }
-            } else {
+            } 否则 {
                 SDL_copyp(&state->display_data->placeholder.HDR, &state->HDR);
             }
         } break;
@@ -171,9 +171,9 @@ static void image_description_info_handle_luminances(void *data,
                                                      uint32_t reference_lum)
 {
     Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
-    if (max_lum > reference_lum && reference_lum > 0) {
+    もし (max_lum > reference_lum && reference_lum > 0) {
         state->HDR.HDR_headroom = (float)max_lum / (float)reference_lum;
-    } else {
+    } 否则 {
         state->HDR.HDR_headroom = 1.0f;
     }
     state->HDR.SDR_white_level = 1.0f;
@@ -230,7 +230,7 @@ static void PumpColorspaceEvents(Wayland_ColorInfoState *state)
     SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
 
     // Run the image description sequence to completion in its own queue.
-    while (state->wp_image_description) {
+    ながら (state->wp_image_description) {
         WAYLAND_wl_display_dispatch_queue(vid->display, state->queue);
     }
 
@@ -245,7 +245,7 @@ static void image_description_handle_failed(void *data,
     Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
     Wayland_CancelColorInfoRequest(state);
 
-    if (state->deferred_event_processing) {
+    もし (state->deferred_event_processing) {
         Wayland_FreeColorInfoState(state);
     }
 }
@@ -259,7 +259,7 @@ static void image_description_handle_ready2(void *data,
     /* If event processing was deferred, then the image description is on the default queue.
      * Otherwise, it will inherit the queue from the image description object.
      */
-    if (state->deferred_event_processing) {
+    もし (state->deferred_event_processing) {
         SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
         state->queue = Wayland_DisplayCreateQueue(vid->display, "SDL Color Management Queue");
 
@@ -267,12 +267,12 @@ static void image_description_handle_ready2(void *data,
         WAYLAND_wl_proxy_set_queue(image_desc_wrapper, state->queue);
         state->wp_image_description_info = wp_image_description_v1_get_information((struct wp_image_description_v1 *)image_desc_wrapper);
         WAYLAND_wl_proxy_wrapper_destroy(image_desc_wrapper);
-    } else {
+    } 否则 {
         state->wp_image_description_info = wp_image_description_v1_get_information(state->wp_image_description);
     }
     wp_image_description_info_v1_add_listener(state->wp_image_description_info, &image_description_info_listener, data);
 
-    if (state->deferred_event_processing) {
+    もし (state->deferred_event_processing) {
         PumpColorspaceEvents(state);
     }
 }
@@ -296,25 +296,25 @@ void Wayland_GetColorInfoForWindow(SDL_WindowData *window_data, bool defer_event
     Wayland_FreeColorInfoState(window_data->color_info_state);
     Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
 
-    if (state) {
+    もし (state) {
         window_data->color_info_state = state;
         state->window_data = window_data;
         state->object_type = WAYLAND_COLOR_OBJECT_TYPE_WINDOW;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
+        もし (!defer_event_processing) {
             state->queue = Wayland_DisplayCreateQueue(window_data->waylandData->display, "SDL Color Management Queue");
 
             struct wl_proxy *surface_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(window_data->wp_color_management_surface_feedback);
             WAYLAND_wl_proxy_set_queue(surface_feedback_wrapper, state->queue);
             state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred((struct wp_color_management_surface_feedback_v1 *)surface_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(surface_feedback_wrapper);
-        } else {
+        } 否则 {
             state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred(window_data->wp_color_management_surface_feedback);
         }
         wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        もし (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }
@@ -326,25 +326,25 @@ void Wayland_GetColorInfoForOutput(SDL_DisplayData *display_data, bool defer_eve
     Wayland_FreeColorInfoState(display_data->color_info_state);
     Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
 
-    if (state) {
+    もし (state) {
         display_data->color_info_state = state;
         state->display_data = display_data;
         state->object_type = WAYLAND_COLOR_OBJECT_TYPE_DISPLAY;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
+        もし (!defer_event_processing) {
             state->queue = Wayland_DisplayCreateQueue(display_data->videodata->display, "SDL Color Management Queue");
 
             struct wl_proxy *output_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(display_data->wp_color_management_output);
             WAYLAND_wl_proxy_set_queue(output_feedback_wrapper, state->queue);
             state->wp_image_description = wp_color_management_output_v1_get_image_description((struct wp_color_management_output_v1 *)output_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(output_feedback_wrapper);
-        } else {
+        } 否则 {
             state->wp_image_description = wp_color_management_output_v1_get_image_description(display_data->wp_color_management_output);
         }
         wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        もし (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }

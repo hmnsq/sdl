@@ -28,12 +28,12 @@
 
 bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this)
 {
-    return true;
+    戻る true;
 }
 
 char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this)
 {
-    return NULL;
+    戻る NULL;
 }
 
 void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this)

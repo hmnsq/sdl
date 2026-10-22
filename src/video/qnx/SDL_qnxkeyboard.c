@@ -30,7 +30,7 @@
  * A map that translates Screen key names to SDL scan codes.
  * This map is incomplete, but should include most major keys.
  */
-static int key_to_sdl[] = {
+static 整数 key_to_sdl[] = {
     [KEYCODE_SPACE] = SDL_SCANCODE_SPACE,
     [KEYCODE_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE,
     [KEYCODE_COMMA] = SDL_SCANCODE_COMMA,
@@ -165,53 +165,53 @@ static int key_to_sdl[] = {
  */
 void handleKeyboardEvent(screen_event_t event)
 {
-    int             val;
-    int             cap;
+    整数             val;
+    整数             cap;
     char            ascii_text[2];
     SDL_Scancode    scancode;
 
     // Get the key value.
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
-        return;
+    もし (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
+        戻る;
     }
 
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
-        return;
+    もし (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
+        戻る;
     }
 
     // Skip unrecognized keys.
-    if ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
-        return;
+    もし ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
+        戻る;
     }
 
     // Translate to an SDL scan code.
     scancode = key_to_sdl[val];
-    if (scancode == 0) {
-        return;
+    もし (scancode == 0) {
+        戻る;
     }
 
     // Get event flags (key state).
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
-        return;
+    もし (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
+        戻る;
     }
 
     // Propagate the event to SDL.
     // FIXME:
     // Need to handle more key states (such as key combinations).
-    if (val & KEY_DOWN) {
+    もし (val & KEY_DOWN) {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, true);
 
         // TODO: To simplify, we're ignoring keycodes that aren't just ascii.
-        if ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
+        もし ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
             ascii_text[0] = cap;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
-        } else if ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
+        } 否则 もし ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
             ascii_text[0] = val & 0xFF;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
         }
-    } else {
+    } 否则 {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, false);
     }
 }

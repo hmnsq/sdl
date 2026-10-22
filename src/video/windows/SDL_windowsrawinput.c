@@ -20,11 +20,11 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+#もし defined(SDL_VIDEO_DRIVER_WINDOWS)
 
 #include "SDL_windowsvideo.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#もし !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsevents.h"
 
@@ -64,8 +64,8 @@ static RawInputIterateResult IterateRawInputThread(void)
 
     // Any pending flag update won't be processed until the queue drains, but this is
     // at most one poll cycle since GetQueueStatus clears the wake bits.
-    if (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
-        return thread_data.done ? RINP_QUIT : RINP_CONTINUE;
+    もし (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
+        戻る thread_data.done ? RINP_QUIT : RINP_CONTINUE;
     }
 
     static const DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
@@ -73,22 +73,22 @@ static RawInputIterateResult IterateRawInputThread(void)
 
     // There wasn't anything, so we'll wait until new data (or signal_event) wakes us up.
     DWORD wait_status = MsgWaitForMultipleObjects(1, &thread_data.signal_event, FALSE, INFINITE, QS_RAWINPUT);
-    if (wait_status == WAIT_SIGNAL) {
+    もし (wait_status == WAIT_SIGNAL) {
         // signal_event can only be set if we need to update or quit.
-        return thread_data.done ? RINP_QUIT : RINP_UPDATE;
-    } else if (wait_status == WAIT_INPUT) {
-        return RINP_CONTINUE;
-    } else {
+        戻る thread_data.done ? RINP_QUIT : RINP_UPDATE;
+    } 否则 もし (wait_status == WAIT_INPUT) {
+        戻る RINP_CONTINUE;
+    } 否则 {
         SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_status);
-        return RINP_QUIT;
+        戻る RINP_QUIT;
     }
 }
 
 static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new_flags)
 {
     // We had nothing enabled, and we're trying to stop everything. Nothing to do.
-    if (last_flags == new_flags) {
-        return true;
+    もし (last_flags == new_flags) {
+        戻る true;
     }
 
     RAWINPUTDEVICE devices[2] = { 0 };
@@ -97,17 +97,17 @@ static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new
     const Uint32 old_mouse_flags = last_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
     const Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
 
-    if (old_mouse_flags != new_mouse_flags) {
+    もし (old_mouse_flags != new_mouse_flags) {
         devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
         devices[count].usUsage = USB_USAGE_GENERIC_MOUSE;
 
-        if (new_flags & ENABLE_RAW_MOUSE_INPUT) {
+        もし (new_flags & ENABLE_RAW_MOUSE_INPUT) {
             devices[count].dwFlags = 0;
             devices[count].hwndTarget = window;
-            if (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
+            もし (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
                 devices[count].dwFlags |= RIDEV_NOLEGACY;
             }
-        } else {
+        } 否则 {
             devices[count].dwFlags = RIDEV_REMOVE;
             devices[count].hwndTarget = NULL;
         }
@@ -118,20 +118,20 @@ static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new
     const Uint32 old_kb_flags = last_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
     const Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
 
-    if (old_kb_flags != new_kb_flags) {
+    もし (old_kb_flags != new_kb_flags) {
         devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
         devices[count].usUsage = USB_USAGE_GENERIC_KEYBOARD;
 
-        if (new_kb_flags & ENABLE_RAW_KEYBOARD_INPUT) {
+        もし (new_kb_flags & ENABLE_RAW_KEYBOARD_INPUT) {
             devices[count].dwFlags = 0;
             devices[count].hwndTarget = window;
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
+            もし (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
                 devices[count].dwFlags |= RIDEV_NOHOTKEYS;
             }
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
+            もし (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
                 devices[count].dwFlags |= RIDEV_INPUTSINK;
             }
-        } else {
+        } 否则 {
             devices[count].dwFlags = RIDEV_REMOVE;
             devices[count].hwndTarget = NULL;
         }
@@ -139,10 +139,10 @@ static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new
         ++count;
     }
 
-    if (RegisterRawInputDevices(devices, count, sizeof(devices[0]))) {
-        return true;
+    もし (RegisterRawInputDevices(devices, count, sizeof(devices[0]))) {
+        戻る true;
     }
-    return false;
+    戻る false;
 }
 
 static DWORD WINAPI WIN_RawInputThread(LPVOID param)
@@ -154,15 +154,15 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
     SDL_SYS_SetupThread("SDLRawInput");
 
     window = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
-    if (!window) {
-        return 0;
+    もし (!window) {
+        戻る 0;
     }
 
     // This doesn't *really* need to be atomic, because the parent is waiting for us
     last_flags = SDL_GetAtomicU32(&thread_data.flags);
-    if (!UpdateRawInputDeviceFlags(window, 0, last_flags)) {
+    もし (!UpdateRawInputDeviceFlags(window, 0, last_flags)) {
         DestroyWindow(window);
-        return 0;
+        戻る 0;
     }
 
     // Make sure we get events as soon as possible
@@ -174,17 +174,17 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
     RawInputIterateResult iter_result;
 
     Uint64 idle_begin = SDL_GetTicksNS();
-    while ((iter_result = IterateRawInputThread()) != RINP_QUIT) {
+    ながら ((iter_result = IterateRawInputThread()) != RINP_QUIT) {
         switch (iter_result) {
         case RINP_QUIT: // Unreachable
             break;
         case RINP_UPDATE:
         {
             const Uint32 new_flags = SDL_GetAtomicU32(&thread_data.flags);
-            if (!UpdateRawInputDeviceFlags(window, last_flags, new_flags)) {
+            もし (!UpdateRawInputDeviceFlags(window, last_flags, new_flags)) {
                 // Revert the shared flags so the main thread can detect the failure
                 SDL_SetAtomicU32(&thread_data.flags, last_flags);
-            } else {
+            } 否则 {
                 last_flags = new_flags;
             }
         } break;
@@ -203,7 +203,7 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
         }
     }
 
-    if (_this->internal->raw_input_fake_pen_id) {
+    もし (_this->internal->raw_input_fake_pen_id) {
         SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->internal->raw_input_fake_pen_id);
         _this->internal->raw_input_fake_pen_id = 0;
     }
@@ -215,23 +215,23 @@ static DWORD WINAPI WIN_RawInputThread(LPVOID param)
 
     DestroyWindow(window);
 
-    return 0;
+    戻る 0;
 }
 
 static void CleanupRawInputThreadData(void)
 {
-    if (thread_data.thread) {
+    もし (thread_data.thread) {
         thread_data.done = true;
         SetEvent(thread_data.signal_event);
         WaitForSingleObject(thread_data.thread, 3000);
         CloseHandle(thread_data.thread);
     }
 
-    if (thread_data.ready_event) {
+    もし (thread_data.ready_event) {
         CloseHandle(thread_data.ready_event);
     }
 
-    if (thread_data.signal_event) {
+    もし (thread_data.signal_event) {
         CloseHandle(thread_data.signal_event);
     }
 
@@ -247,39 +247,39 @@ static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
     SDL_VideoData *data = _this->internal;
     Uint32 desired_flags = 0;
 
-    if (!data->gameinput_context) {
-        if (data->raw_mouse_enabled) {
+    もし (!data->gameinput_context) {
+        もし (data->raw_mouse_enabled) {
             desired_flags |= ENABLE_RAW_MOUSE_INPUT;
-            if (data->raw_mouse_flag_nolegacy) {
+            もし (data->raw_mouse_flag_nolegacy) {
                 desired_flags |= RAW_MOUSE_FLAG_NOLEGACY;
             }
         }
-        if (data->raw_keyboard_enabled) {
+        もし (data->raw_keyboard_enabled) {
             desired_flags |= ENABLE_RAW_KEYBOARD_INPUT;
-            if (data->raw_keyboard_flag_nohotkeys) {
+            もし (data->raw_keyboard_flag_nohotkeys) {
                 desired_flags |= RAW_KEYBOARD_FLAG_NOHOTKEYS;
             }
-            if (data->raw_keyboard_flag_inputsink) {
+            もし (data->raw_keyboard_flag_inputsink) {
                 desired_flags |= RAW_KEYBOARD_FLAG_INPUTSINK;
             }
         }
     }
 
-    if (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
+    もし (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
         result = true;
         goto done;
     }
 
     // If the thread exited unexpectedly (e.g. MsgWaitForMultipleObjects failed),
     // the handle is stale. Clean it up so the creation path below can recover.
-    if (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
+    もし (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
         CleanupRawInputThreadData();
     }
 
     // The thread will read from this to update its flags
     SDL_SetAtomicU32(&thread_data.flags, desired_flags);
 
-    if (thread_data.thread) {
+    もし (thread_data.thread) {
         // Thread is already running. Fire (the event) and forget, it'll read the atomic flags on wakeup.
 
         // If RegisterRawInputDevices fails, the thread reverts the atomic and the next call
@@ -287,25 +287,25 @@ static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
         SDL_assert(thread_data.signal_event);
         SetEvent(thread_data.signal_event);
         result = true;
-    } else if (desired_flags) {
+    } 否则 もし (desired_flags) {
         HANDLE wait_handles[2];
 
         // Thread isn't running, spin it up
         thread_data.ready_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.ready_event) {
+        もし (!thread_data.ready_event) {
             WIN_SetError("CreateEvent");
             goto done;
         }
 
         thread_data.done = false;
         thread_data.signal_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.signal_event) {
+        もし (!thread_data.signal_event) {
             WIN_SetError("CreateEvent");
             goto done;
         }
 
         thread_data.thread = CreateThread(NULL, 0, WIN_RawInputThread, NULL, 0, NULL);
-        if (!thread_data.thread) {
+        もし (!thread_data.thread) {
             WIN_SetError("CreateThread");
             goto done;
         }
@@ -313,38 +313,38 @@ static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
         // Wait for the thread to complete initial setup or exit
         wait_handles[0] = thread_data.ready_event;
         wait_handles[1] = thread_data.thread;
-        if (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
+        もし (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
             SDL_SetError("Couldn't set up raw input handling");
             goto done;
         }
         result = true;
-    } else {
+    } 否则 {
         // Thread isn't running and we tried to disable raw input, nothing to do
         result = true;
     }
 done:
-    if (!result) {
+    もし (!result) {
         CleanupRawInputThreadData();
     }
-    return result;
+    戻る result;
 }
 
 bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
 {
     SDL_VideoData *data = _this->internal;
     data->raw_mouse_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
+    もし (data->gameinput_context) {
+        もし (!WIN_UpdateGameInputEnabled(_this)) {
             data->raw_mouse_enabled = !enabled;
-            return false;
+            戻る false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
+    } 否则 {
+        もし (!WIN_UpdateRawInputEnabled(_this)) {
             data->raw_mouse_enabled = !enabled;
-            return false;
+            戻る false;
         }
     }
-    return true;
+    戻る true;
 }
 
 bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
@@ -353,25 +353,25 @@ bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_mouse_flag_nolegacy = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    戻る WIN_UpdateRawInputEnabled(_this);
 }
 
 bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
 {
     SDL_VideoData *data = _this->internal;
     data->raw_keyboard_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
+    もし (data->gameinput_context) {
+        もし (!WIN_UpdateGameInputEnabled(_this)) {
             data->raw_keyboard_enabled = !enabled;
-            return false;
+            戻る false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
+    } 否则 {
+        もし (!WIN_UpdateRawInputEnabled(_this)) {
             data->raw_keyboard_enabled = !enabled;
-            return false;
+            戻る false;
         }
     }
-    return true;
+    戻る true;
 }
 
 bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
@@ -380,7 +380,7 @@ bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_keyboard_flag_nohotkeys = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    戻る WIN_UpdateRawInputEnabled(_this);
 }
 
 bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
@@ -389,7 +389,7 @@ bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 
     data->raw_keyboard_flag_inputsink = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    戻る WIN_UpdateRawInputEnabled(_this);
 }
 
 void WIN_QuitRawInput(SDL_VideoDevice *_this)
@@ -397,31 +397,31 @@ void WIN_QuitRawInput(SDL_VideoDevice *_this)
     CleanupRawInputThreadData();
 }
 
-#else
+#否则
 
 bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 
 bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 
 bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 
 void WIN_QuitRawInput(SDL_VideoDevice *_this)

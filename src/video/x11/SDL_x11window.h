@@ -55,10 +55,10 @@ struct SDL_WindowData
     GC gc;
     XIC ic;
     bool created;
-    int border_left;
-    int border_right;
-    int border_top;
-    int border_bottom;
+    整数 border_left;
+    整数 border_right;
+    整数 border_top;
+    整数 border_bottom;
     bool xinput2_mouse_enabled;
     bool xinput2_keyboard_enabled;
     bool mouse_grabbed;
@@ -125,8 +125,8 @@ struct SDL_WindowData
     XPoint xim_spot;
     char *preedit_text;
     XIMFeedback *preedit_feedback;
-    int preedit_length;
-    int preedit_cursor;
+    整数 preedit_length;
+    整数 preedit_cursor;
     bool ime_needs_clear_composition;
 };
 
@@ -141,7 +141,7 @@ extern bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, 整数 *top, 整数 *left, 整数 *bottom, 整数 *right);
 extern bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
@@ -163,7 +163,7 @@ extern void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_SetWindowHitTest(SDL_Window *window, bool enabled);
 extern void X11_AcceptDragAndDrop(SDL_Window *window, bool accept);
 extern bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void X11_ShowWindowSystemMenu(SDL_Window *window, 整数 x, 整数 y);
 extern bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
 

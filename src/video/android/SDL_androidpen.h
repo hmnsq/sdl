@@ -22,4 +22,4 @@
 
 #include "SDL_androidvideo.h"
 
-extern void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p);
+extern void Android_OnPen(SDL_Window *window, 整数 pen_id_in, SDL_PenDeviceType device_type, 整数 button, 整数 action, float x, float y, float p);

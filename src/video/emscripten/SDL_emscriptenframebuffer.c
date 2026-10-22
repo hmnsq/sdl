@@ -27,11 +27,11 @@
 
 #include <emscripten/threading.h>
 
-bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, 整数 *pitch)
 {
     SDL_Surface *surface;
     const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_RGBA32;
-    int w, h;
+    整数 w, h;
 
     // Free the old framebuffer surface
     SDL_WindowData *data = window->internal;
@@ -42,8 +42,8 @@ bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *wind
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    もし (!surface) {
+        戻る false;
     }
 
     // Save the info and return!
@@ -51,23 +51,23 @@ bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *wind
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
-    return true;
+    戻る true;
 }
 
-bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, 整数 numrects)
 {
     SDL_Surface *surface;
 
     SDL_WindowData *data = window->internal;
     surface = data->surface;
-    if (!surface) {
-        return SDL_SetError("Couldn't find framebuffer surface for window");
+    もし (!surface) {
+        戻る SDL_SetError("Couldn't find framebuffer surface for window");
     }
 
     // Send the data to the display
 
     /* *INDENT-OFF* */ // clang-format off
-    int updated = MAIN_THREAD_EM_ASM_INT({
+    整数 updated = MAIN_THREAD_EM_ASM_INT({
         var w = $0;
         var h = $1;
         var pixels = $2;
@@ -76,14 +76,14 @@ bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *wind
 
         //TODO: this should store a context per canvas
         var SDL3 = Module['SDL3'];
-        if (SDL3.ctxCanvas !== canvas) {
+        もし (SDL3.ctxCanvas !== canvas) {
             SDL3.ctx = Browser.createContext(canvas, false, true);
-            if (!SDL3.ctx) {
-                return false;
+            もし (!SDL3.ctx) {
+                戻る false;
             }
             SDL3.ctxCanvas = canvas;
         }
-        if (SDL3.w !== w || SDL3.h !== h || SDL3.imageCtx !== SDL3.ctx) {
+        もし (SDL3.w !== w || SDL3.h !== h || SDL3.imageCtx !== SDL3.ctx) {
             SDL3.image = SDL3.ctx.createImageData(w, h);
             SDL3.w = w;
             SDL3.h = h;
@@ -92,7 +92,7 @@ bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *wind
         var data = SDL3.image.data;
         var src = pixels / 4;
 
-        if (SDL3.data32Data !== data) {
+        もし (SDL3.data32Data !== data) {
             SDL3.data32 = new Int32Array(data.buffer);
             SDL3.data32Data = data;
         }
@@ -100,20 +100,20 @@ bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *wind
         data32.set(HEAP32.subarray(src, src + data32.length));
 
         SDL3.ctx.putImageData(SDL3.image, 0, 0);
-        return true;
+        戻る true;
     }, surface->w, surface->h, surface->pixels, data->canvas_id);
     /* *INDENT-ON* */ // clang-format on
 
-    if (!updated) {
-        return SDL_SetError("Couldn't create context for canvas update");
+    もし (!updated) {
+        戻る SDL_SetError("Couldn't create context for canvas update");
     }
 
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    もし (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
 
-    return true;
+    戻る true;
 }
 
 void Emscripten_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)

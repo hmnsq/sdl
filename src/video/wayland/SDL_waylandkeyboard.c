@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if SDL_VIDEO_DRIVER_WAYLAND
+#もし SDL_VIDEO_DRIVER_WAYLAND
 
 #include "../SDL_sysvideo.h"
 #include "SDL_waylandvideo.h"
@@ -32,20 +32,20 @@ bool Wayland_InitKeyboard(SDL_VideoDevice *_this)
 {
 #ifdef SDL_USE_IME
     SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+    もし (!internal->text_input_manager) {
         SDL_IME_Init();
     }
 #endif
     SDL_SetScancodeName(SDL_SCANCODE_APPLICATION, "Menu");
 
-    return true;
+    戻る true;
 }
 
 void Wayland_QuitKeyboard(SDL_VideoDevice *_this)
 {
 #ifdef SDL_USE_IME
     SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+    もし (!internal->text_input_manager) {
         SDL_IME_Quit();
     }
 #endif
@@ -53,27 +53,27 @@ void Wayland_QuitKeyboard(SDL_VideoDevice *_this)
 
 void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
 {
-    if (seat->text_input.zwp_text_input) {
+    もし (seat->text_input.zwp_text_input) {
         SDL_WindowData *focus = seat->keyboard.focus;
 
-        if (focus && focus->text_input_props.active) {
+        もし (focus && focus->text_input_props.active) {
             SDL_Window *window = focus->sdlwindow;
 
             // Enabling will reset all state, so don't do it redundantly.
-            if (!seat->text_input.enabled) {
+            もし (!seat->text_input.enabled) {
                 seat->text_input.enabled = true;
                 zwp_text_input_v3_enable(seat->text_input.zwp_text_input);
 
                 // Now that it's enabled, set the input properties
                 zwp_text_input_v3_set_content_type(seat->text_input.zwp_text_input, focus->text_input_props.hint, focus->text_input_props.purpose);
-                if (!SDL_RectEmpty(&window->text_input_rect)) {
+                もし (!SDL_RectEmpty(&window->text_input_rect)) {
                     const SDL_Rect scaled_rect = {
-                        (int)SDL_floor(window->text_input_rect.x / focus->pointer_scale.x),
-                        (int)SDL_floor(window->text_input_rect.y / focus->pointer_scale.y),
-                        (int)SDL_ceil(window->text_input_rect.w / focus->pointer_scale.x),
-                        (int)SDL_ceil(window->text_input_rect.h / focus->pointer_scale.y)
+                        (整数)SDL_floor(window->text_input_rect.x / focus->pointer_scale.x),
+                        (整数)SDL_floor(window->text_input_rect.y / focus->pointer_scale.y),
+                        (整数)SDL_ceil(window->text_input_rect.w / focus->pointer_scale.x),
+                        (整数)SDL_ceil(window->text_input_rect.h / focus->pointer_scale.y)
                     };
-                    const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / focus->pointer_scale.x);
+                    const 整数 scaled_cursor = (整数)SDL_floor(window->text_input_cursor / focus->pointer_scale.x);
 
                     SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
                     seat->text_input.text_input_cursor = scaled_cursor;
@@ -87,13 +87,13 @@ void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
                 }
                 zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
 
-                if (seat->keyboard.xkb.compose_state) {
+                もし (seat->keyboard.xkb.compose_state) {
                     // Reset compose state so composite and dead keys don't carry over
                     WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
                 }
             }
-        } else {
-            if (seat->text_input.enabled) {
+        } 否则 {
+            もし (seat->text_input.enabled) {
                 seat->text_input.enabled = false;
                 SDL_zero(seat->text_input.text_input_rect);
                 seat->text_input.text_input_cursor = 0;
@@ -101,7 +101,7 @@ void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
                 zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
             }
 
-            if (seat->keyboard.xkb.compose_state) {
+            もし (seat->keyboard.xkb.compose_state) {
                 // Reset compose state so composite and dead keys don't carry over
                 WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
             }
@@ -113,7 +113,7 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 {
     SDL_VideoData *display = _this->internal;
 
-    if (display->text_input_manager) {
+    もし (display->text_input_manager) {
         SDL_WindowData *wind = window->internal;
         wind->text_input_props.hint = ZWP_TEXT_INPUT_V3_CONTENT_HINT_NONE;
 
@@ -168,10 +168,10 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
             break;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
+        もし (SDL_GetTextInputAutocorrect(props)) {
             wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_COMPLETION | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SPELLCHECK);
         }
-        if (SDL_GetTextInputMultiline(props)) {
+        もし (SDL_GetTextInputMultiline(props)) {
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_MULTILINE;
         }
 
@@ -179,7 +179,7 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
         SDL_WaylandSeat *seat;
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
+            もし (seat->keyboard.focus == wind) {
                 Wayland_SeatUpdateTextInput(seat);
             }
         }
@@ -188,51 +188,51 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
     /* Always return true, even if the text input protocol isn't supported, as basic
      * text can still be obtained from keysyms and the composition system.
      */
-    return true;
+    戻る true;
 }
 
 bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *display = _this->internal;
 
-    if (display->text_input_manager) {
+    もし (display->text_input_manager) {
         SDL_WaylandSeat *seat;
         SDL_WindowData *wind = window->internal;
         wind->text_input_props.active = false;
 
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
+            もし (seat->keyboard.focus == wind) {
                 Wayland_SeatUpdateTextInput(seat);
             }
         }
     }
 #ifdef SDL_USE_IME
-    else {
+    否则 {
         SDL_IME_Reset();
     }
 #endif
 
-    return true;
+    戻る true;
 }
 
 bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *internal = _this->internal;
-    if (internal->text_input_manager) {
+    もし (internal->text_input_manager) {
         SDL_WaylandSeat *seat;
         SDL_WindowData *wind = window->internal;
 
         wl_list_for_each (seat, &internal->seat_list, link) {
-            if (seat->text_input.zwp_text_input && seat->keyboard.focus == wind) {
+            もし (seat->text_input.zwp_text_input && seat->keyboard.focus == wind) {
                 const SDL_Rect scaled_rect = {
-                    (int)SDL_floor(window->text_input_rect.x / wind->pointer_scale.x),
-                    (int)SDL_floor(window->text_input_rect.y / wind->pointer_scale.y),
-                    (int)SDL_ceil(window->text_input_rect.w / wind->pointer_scale.x),
-                    (int)SDL_ceil(window->text_input_rect.h / wind->pointer_scale.y)
+                    (整数)SDL_floor(window->text_input_rect.x / wind->pointer_scale.x),
+                    (整数)SDL_floor(window->text_input_rect.y / wind->pointer_scale.y),
+                    (整数)SDL_ceil(window->text_input_rect.w / wind->pointer_scale.x),
+                    (整数)SDL_ceil(window->text_input_rect.h / wind->pointer_scale.y)
                 };
-                const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / wind->pointer_scale.x);
+                const 整数 scaled_cursor = (整数)SDL_floor(window->text_input_cursor / wind->pointer_scale.x);
 
-                if (!SDL_RectsEqual(&scaled_rect, &seat->text_input.text_input_rect) || scaled_cursor != seat->text_input.text_input_cursor) {
+                もし (!SDL_RectsEqual(&scaled_rect, &seat->text_input.text_input_rect) || scaled_cursor != seat->text_input.text_input_cursor) {
                     SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
                     seat->text_input.text_input_cursor = scaled_cursor;
 
@@ -248,11 +248,11 @@ bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 #ifdef SDL_USE_IME
-    else {
+    否则 {
         SDL_IME_UpdateTextInputArea(window);
     }
 #endif
-    return true;
+    戻る true;
 }
 
 bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
@@ -268,13 +268,13 @@ bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
     // Check for at least one keyboard object on one seat.
     wl_list_for_each (seat, &internal->seat_list, link) {
-        if (seat->keyboard.wl_keyboard) {
+        もし (seat->keyboard.wl_keyboard) {
             haskeyboard = true;
             break;
         }
     }
 
-    return !haskeyboard && hastextmanager;
+    戻る !haskeyboard && hastextmanager;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

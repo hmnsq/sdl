@@ -38,14 +38,14 @@
 #ifndef __d3d12sdklayers_h__
 #define __d3d12sdklayers_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#もし defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
+#もし defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
+#否则
 #define DECLSPEC_XFGVIRT(base, func)
 #endif
 #endif
@@ -209,7 +209,7 @@ extern "C"{
 #ifdef _MSC_VER
 #pragma region App Family
 #endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#もし WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
 extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
@@ -224,7 +224,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Debug;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("344488b7-6846-474b-b989-f027448245e0")
     ID3D12Debug : public IUnknown
@@ -235,7 +235,7 @@ EXTERN_C const IID IID_ID3D12Debug;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugVtbl
     {
@@ -321,7 +321,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Debug1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("affaa4ca-63fe-4d8e-b8ad-159000af4304")
     ID3D12Debug1 : public IUnknown
@@ -338,7 +338,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug1Vtbl
     {
@@ -424,7 +424,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
 
 EXTERN_C const IID IID_ID3D12Debug2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("93a665c4-a3b2-4e5d-b692-a26ae14e3374")
     ID3D12Debug2 : public IUnknown
@@ -436,7 +436,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug2Vtbl
     {
@@ -507,7 +507,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
 
 EXTERN_C const IID IID_ID3D12Debug3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5cf4e58f-f671-4ff1-a542-3686e3d153d1")
     ID3D12Debug3 : public ID3D12Debug
@@ -525,7 +525,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug3Vtbl
     {
@@ -620,7 +620,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
 
 EXTERN_C const IID IID_ID3D12Debug4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("014b816e-9ec5-4a2f-a845-ffbe441ce13a")
     ID3D12Debug4 : public ID3D12Debug3
@@ -631,7 +631,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug4Vtbl
     {
@@ -734,7 +734,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
 
 EXTERN_C const IID IID_ID3D12Debug5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("548d6b12-09fa-40e0-9069-5dcd589a52c9")
     ID3D12Debug5 : public ID3D12Debug4
@@ -746,7 +746,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug5Vtbl
     {
@@ -858,7 +858,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
 
 EXTERN_C const IID IID_ID3D12Debug6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82a816d6-5d01-4157-97d0-4975463fd1ed")
     ID3D12Debug6 : public ID3D12Debug5
@@ -870,7 +870,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12Debug6Vtbl
     {
@@ -1062,7 +1062,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugDevice1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("a9b71770-d099-4a65-a698-3dee10020f88")
     ID3D12DebugDevice1 : public IUnknown
@@ -1084,7 +1084,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugDevice1Vtbl
     {
@@ -1175,7 +1175,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 
 EXTERN_C const IID IID_ID3D12DebugDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3febd6dd-4973-4787-8194-e45f9e28923e")
     ID3D12DebugDevice : public IUnknown
@@ -1192,7 +1192,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugDeviceVtbl
     {
@@ -1278,7 +1278,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 
 EXTERN_C const IID IID_ID3D12DebugDevice2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("60eccbc1-378d-4df1-894c-f8ac5ce4d7dd")
     ID3D12DebugDevice2 : public ID3D12DebugDevice
@@ -1297,7 +1297,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugDevice2Vtbl
     {
@@ -1413,7 +1413,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053a")
     ID3D12DebugCommandQueue : public IUnknown
@@ -1427,7 +1427,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandQueueVtbl
     {
@@ -1500,7 +1500,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
 EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("16be35a2-bfd6-49f2-bcae-eaae4aff862d")
     ID3D12DebugCommandQueue1 : public ID3D12DebugCommandQueue
@@ -1519,7 +1519,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandQueue1Vtbl
     {
@@ -1632,7 +1632,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("102ca951-311b-4b01-b11f-ecb83e061b37")
     ID3D12DebugCommandList1 : public IUnknown
@@ -1656,7 +1656,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandList1Vtbl
     {
@@ -1749,7 +1749,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053f")
     ID3D12DebugCommandList : public IUnknown
@@ -1768,7 +1768,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandListVtbl
     {
@@ -1856,7 +1856,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("aeb575cf-4e06-48be-ba3b-c450fc96652e")
     ID3D12DebugCommandList2 : public ID3D12DebugCommandList
@@ -1875,7 +1875,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandList2Vtbl
     {
@@ -1984,7 +1984,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
 EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("197d5e15-4d37-4d34-af78-724cd70fdb1f")
     ID3D12DebugCommandList3 : public ID3D12DebugCommandList2
@@ -2003,7 +2003,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12DebugCommandList3Vtbl
     {
@@ -2133,7 +2133,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
 EXTERN_C const IID IID_ID3D12SharingContract;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0adf7d52-929c-4e61-addb-ffed30de66ef")
     ID3D12SharingContract : public IUnknown
@@ -2157,7 +2157,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12SharingContractVtbl
     {
@@ -2255,7 +2255,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 
 EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("86ca3b85-49ad-4b6e-aed5-eddb18540f41")
     ID3D12ManualWriteTrackingResource : public IUnknown
@@ -2268,7 +2268,7 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12ManualWriteTrackingResourceVtbl
     {
@@ -3391,7 +3391,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12InfoQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0742a90b-c387-483f-b946-30a7e4e61458")
     ID3D12InfoQueue : public IUnknown
@@ -3498,7 +3498,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12InfoQueueVtbl
     {
@@ -3857,7 +3857,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12InfoQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#もし defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("2852dd88-b484-4c0c-b6b1-67168500e600")
     ID3D12InfoQueue1 : public ID3D12InfoQueue
@@ -3875,7 +3875,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
     };
     
     
-#else 	/* C style interface */
+#否则 	/* C style interface */
 
     typedef struct ID3D12InfoQueue1Vtbl
     {

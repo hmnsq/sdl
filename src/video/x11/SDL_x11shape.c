@@ -29,7 +29,7 @@
 #ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
 static Uint8 *GenerateShapeMask(SDL_Surface *shape)
 {
-    int x, y;
+    整数 x, y;
     const size_t ppb = 8;
     const size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
     const Uint8 *a;
@@ -38,18 +38,18 @@ static Uint8 *GenerateShapeMask(SDL_Surface *shape)
     Uint8 mask_value;
 
     mask = (Uint8 *)SDL_calloc(1, shape->h * bytes_per_scanline);
-    if (mask) {
-        for (y = 0; y < shape->h; y++) {
+    もし (mask) {
+        ために (y = 0; y < shape->h; y++) {
             a = (const Uint8 *)shape->pixels + y * shape->pitch;
             mask_scanline = mask + y * bytes_per_scanline;
-            for (x = 0; x < shape->w; x++) {
+            ために (x = 0; x < shape->w; x++) {
                 mask_value = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
                 mask_scanline[x / ppb] |= mask_value << (x % ppb);
                 a += 4;
             }
         }
     }
-    return mask;
+    戻る mask;
 }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
@@ -61,25 +61,25 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     SDL_WindowData *windowdata = window->internal;
 
     // Generate a set of spans for the region
-    if (shape) {
+    もし (shape) {
         SDL_Surface *stretched = NULL;
         Uint8 *mask;
         Pixmap pixmap;
 
-        if (shape->w != window->w || shape->h != window->h) {
+        もし (shape->w != window->w || shape->h != window->h) {
             stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+            もし (!stretched) {
+                戻る false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            もし (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                戻る false;
             }
             shape = stretched;
         }
 
         mask = GenerateShapeMask(shape);
-        if (mask) {
+        もし (mask) {
             pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (const char *)mask, shape->w, shape->h);
             X11_XShapeCombineMask(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, pixmap, ShapeSet);
             SDL_free(mask);
@@ -87,10 +87,10 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
             result = true;
         }
 
-        if (stretched) {
+        もし (stretched) {
             SDL_DestroySurface(stretched);
         }
-    } else {
+    } 否则 {
         Region region = X11_XCreateRegion();
         XRectangle rect;
 
@@ -105,7 +105,7 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
-    return result;
+    戻る result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

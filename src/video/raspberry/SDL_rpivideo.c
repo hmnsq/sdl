@@ -51,23 +51,23 @@ static void RPI_Destroy(SDL_VideoDevice *device)
     SDL_free(device);
 }
 
-static void RPI_GetRefreshRate(int *numerator, int *denominator)
+static void RPI_GetRefreshRate(整数 *numerator, 整数 *denominator)
 {
     TV_DISPLAY_STATE_T tvstate;
-    if (vc_tv_get_display_state(&tvstate) == 0) {
+    もし (vc_tv_get_display_state(&tvstate) == 0) {
         // The width/height parameters are in the same position in the union
         // for HDMI and SDTV
         HDMI_PROPERTY_PARAM_T property;
         property.property = HDMI_PROPERTY_PIXEL_CLOCK_TYPE;
         vc_tv_hdmi_get_property(&property);
-        if (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
+        もし (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
             *numerator = tvstate.display.hdmi.frame_rate * 1000;
             *denominator = 1001;
-        } else {
+        } 否则 {
             *numerator = tvstate.display.hdmi.frame_rate;
             *denominator = 1;
         }
-        return;
+        戻る;
     }
 
     // Failed to get display state, default to 60
@@ -82,15 +82,15 @@ static SDL_VideoDevice *RPI_Create(void)
 
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    もし (!device) {
+        戻る NULL;
     }
 
     // Initialize internal data
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    もし (!phdata) {
         SDL_free(device);
-        return NULL;
+        戻る NULL;
     }
 
     device->internal = phdata;
@@ -128,7 +128,7 @@ static SDL_VideoDevice *RPI_Create(void)
 
     device->PumpEvents = RPI_PumpEvents;
 
-    return device;
+    戻る device;
 }
 
 VideoBootStrap RPI_bootstrap = {
@@ -143,7 +143,7 @@ VideoBootStrap RPI_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static void AddDispManXDisplay(const int display_id)
+static void AddDispManXDisplay(const 整数 display_id)
 {
     DISPMANX_MODEINFO_T modeinfo;
     DISPMANX_DISPLAY_HANDLE_T handle;
@@ -152,13 +152,13 @@ static void AddDispManXDisplay(const int display_id)
     SDL_DisplayData *data;
 
     handle = vc_dispmanx_display_open(display_id);
-    if (!handle) {
-        return; // this display isn't available
+    もし (!handle) {
+        戻る; // this display isn't available
     }
 
-    if (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
+    もし (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
         vc_dispmanx_display_close(handle);
-        return;
+        戻る;
     }
 
     // RPI_GetRefreshRate() doesn't distinguish between displays. I'm not sure the hardware distinguishes either
@@ -175,9 +175,9 @@ static void AddDispManXDisplay(const int display_id)
 
     // Allocate display internal data
     data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
+    もし (!data) {
         vc_dispmanx_display_close(handle);
-        return; // oh well
+        戻る; // oh well
     }
 
     data->dispman_display = handle;
@@ -196,14 +196,14 @@ bool RPI_VideoInit(SDL_VideoDevice *_this)
     AddDispManXDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
 
 #ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+    もし (!SDL_EVDEV_Init()) {
+        戻る false;
     }
 #endif
 
     RPI_InitMouse(_this);
 
-    return true;
+    戻る true;
 }
 
 void RPI_VideoQuit(SDL_VideoDevice *_this)
@@ -241,8 +241,8 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     // Allocate window internal data
     wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    もし (!wdata) {
+        戻る false;
     }
     display = SDL_GetVideoDisplayForWindow(window);
     displaydata = display->internal;
@@ -266,7 +266,7 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
     src_rect.height = window->h << 16;
 
     env = SDL_GetHint(SDL_HINT_RPI_VIDEO_LAYER);
-    if (env) {
+    もし (env) {
         layer = SDL_atoi(env);
     }
 
@@ -285,20 +285,20 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
     wdata->dispman_window.height = window->h;
     vc_dispmanx_update_submit_sync(dispman_update);
 
-    if (!_this->egl_data) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    もし (!_this->egl_data) {
+        もし (!SDL_GL_LoadLibrary(NULL)) {
+            戻る false;
         }
     }
     wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)&wdata->dispman_window);
 
-    if (wdata->egl_surface == EGL_NO_SURFACE) {
-        return SDL_SetError("Could not create GLES window surface");
+    もし (wdata->egl_surface == EGL_NO_SURFACE) {
+        戻る SDL_SetError("Could not create GLES window surface");
     }
 
     // Start generating vsync callbacks if necessary
     wdata->double_buffer = false;
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
+    もし (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
         wdata->vsync_cond = SDL_CreateCondition();
         wdata->vsync_cond_mutex = SDL_CreateMutex();
         wdata->double_buffer = true;
@@ -313,7 +313,7 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    戻る true;
 }
 
 void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -321,8 +321,8 @@ void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_WindowData *data = window->internal;
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
 
-    if (data) {
-        if (data->double_buffer) {
+    もし (data) {
+        もし (data->double_buffer) {
             // Wait for vsync, and then stop vsync callbacks and destroy related stuff, if needed
             SDL_LockMutex(data->vsync_cond_mutex);
             SDL_WaitCondition(data->vsync_cond, data->vsync_cond_mutex);
@@ -335,7 +335,7 @@ void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
+        もし (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
         }
 #endif
@@ -349,7 +349,7 @@ void RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_Unsupported();
+    戻る SDL_Unsupported();
 }
 void RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {

@@ -32,32 +32,32 @@
 #define TRUE 1
 #define FALSE 0
 
-static int
-get_bit (int in, int bit)
+static 整数
+get_bit (整数 in, 整数 bit)
 {
-    return (in & (1 << bit)) >> bit;
+    戻る (in & (1 << bit)) >> bit;
 }
 
-static int
-get_bits (int in, int begin, int end)
+static 整数
+get_bits (整数 in, 整数 begin, 整数 end)
 {
-    int mask = (1 << (end - begin + 1)) - 1;
+    整数 mask = (1 << (end - begin + 1)) - 1;
     
-    return (in >> begin) & mask;
+    戻る (in >> begin) & mask;
 }
 
-static int
+static 整数
 decode_header (const uchar *edid)
 {
-    if (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
-	return TRUE;
-    return FALSE;
+    もし (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
+	戻る TRUE;
+    戻る FALSE;
 }
 
-static int
+static 整数
 decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
 {
-    int is_model_year;
+    整数 is_model_year;
     
     /* Manufacturer Code */
     info->manufacturer_code[0]  = get_bits (edid[0x08], 2, 6);
@@ -95,40 +95,40 @@ decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
 	break;
     }
 
-    if (is_model_year)
+    もし (is_model_year)
     {
 	info->production_year = -1;
 	info->model_year = 1990 + edid[0x11];
     }
-    else
+    否则
     {
 	info->production_year = 1990 + edid[0x11];
 	info->model_year = -1;
     }
 
-    return TRUE;
+    戻る TRUE;
 }
 
-static int
+static 整数
 decode_edid_version (const uchar *edid, MonitorInfo *info)
 {
     info->major_version = edid[0x12];
     info->minor_version = edid[0x13];
 
-    return TRUE;
+    戻る TRUE;
 }
 
-static int
+static 整数
 decode_display_parameters (const uchar *edid, MonitorInfo *info)
 {
     /* Digital vs Analog */
     info->is_digital = get_bit (edid[0x14], 7);
 
-    if (info->is_digital)
+    もし (info->is_digital)
     {
-	int bits;
+	整数 bits;
 	
-	static const int bit_depth[8] =
+	static const 整数 bit_depth[8] =
 	{
 	    -1, 6, 8, 10, 12, 14, 16, -1
 	};
@@ -143,14 +143,14 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
 	bits = get_bits (edid[0x14], 0, 3);
 	
-	if (bits <= 5)
+	もし (bits <= 5)
 	    info->ad.digital.interface = interfaces[bits];
-	else
+	否则
 	    info->ad.digital.interface = UNDEFINED;
     }
-    else
+    否则
     {
-	int bits = get_bits (edid[0x14], 5, 6);
+	整数 bits = get_bits (edid[0x14], 5, 6);
 	
 	static const double levels[][3] =
 	{
@@ -174,35 +174,35 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     }
 
     /* Screen Size / Aspect Ratio */
-    if (edid[0x15] == 0 && edid[0x16] == 0)
+    もし (edid[0x15] == 0 && edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = -1.0;
     }
-    else if (edid[0x16] == 0)
+    否则 もし (edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1; 
 	info->aspect_ratio = 100.0 / (edid[0x15] + 99);
     }
-    else if (edid[0x15] == 0)
+    否则 もし (edid[0x15] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = 100.0 / (edid[0x16] + 99);
 	info->aspect_ratio = 1/info->aspect_ratio; /* portrait */
     }
-    else
+    否则
     {
 	info->width_mm = 10 * edid[0x15];
 	info->height_mm = 10 * edid[0x16];
     }
 
     /* Gamma */
-    if (edid[0x17] == 0xFF)
+    もし (edid[0x17] == 0xFF)
 	info->gamma = -1.0;
-    else
+    否则
 	info->gamma = (edid[0x17] + 100.0) / 100.0;
 
     /* Features */
@@ -210,17 +210,17 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     info->suspend = get_bit (edid[0x18], 6);
     info->active_off = get_bit (edid[0x18], 5);
 
-    if (info->is_digital)
+    もし (info->is_digital)
     {
 	info->ad.digital.rgb444 = TRUE;
-	if (get_bit (edid[0x18], 3))
+	もし (get_bit (edid[0x18], 3))
 	    info->ad.digital.ycrcb444 = 1;
-	if (get_bit (edid[0x18], 4))
+	もし (get_bit (edid[0x18], 4))
 	    info->ad.digital.ycrcb422 = 1;
     }
-    else
+    否则
     {
-	int bits = get_bits (edid[0x18], 3, 4);
+	整数 bits = get_bits (edid[0x18], 3, 4);
 	ColorType color_type[4] =
 	{
 	    MONOCHROME, RGB, OTHER_COLOR, UNDEFINED_COLOR
@@ -236,24 +236,24 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
     /* FIXME: In 1.3 this indicates whether the monitor accepts GTF */
     info->continuous_frequency = get_bit (edid[0x18], 0);
-    return TRUE;
+    戻る TRUE;
 }
 
 static double
-decode_fraction (int high, int low)
+decode_fraction (整数 high, 整数 low)
 {
     double result = 0.0;
-    int i;
+    整数 i;
 
     high = (high << 2) | low;
 
-    for (i = 0; i < 10; ++i)
+    ために (i = 0; i < 10; ++i)
 	result += get_bit (high, i) * SDL_pow (2, i - 10);
 
-    return result;
+    戻る result;
 }
 
-static int
+static 整数
 decode_color_characteristics (const uchar *edid, MonitorInfo *info)
 {
     info->red_x = decode_fraction (edid[0x1b], get_bits (edid[0x19], 6, 7));
@@ -265,10 +265,10 @@ decode_color_characteristics (const uchar *edid, MonitorInfo *info)
     info->white_x = decode_fraction (edid[0x21], get_bits (edid[0x1a], 2, 3));
     info->white_y = decode_fraction (edid[0x22], get_bits (edid[0x1a], 0, 1));
 
-    return TRUE;
+    戻る TRUE;
 }
 
-static int
+static 整数
 decode_established_timings (const uchar *edid, MonitorInfo *info)
 {
     static const Timing established[][8] = 
@@ -305,36 +305,36 @@ decode_established_timings (const uchar *edid, MonitorInfo *info)
 	},
     };
 
-    int i, j, idx;
+    整数 i, j, idx;
 
     idx = 0;
-    for (i = 0; i < 3; ++i)
+    ために (i = 0; i < 3; ++i)
     {
-	for (j = 0; j < 8; ++j)
+	ために (j = 0; j < 8; ++j)
 	{
-	    int byte = edid[0x23 + i];
+	    整数 byte = edid[0x23 + i];
 
-	    if (get_bit (byte, j) && established[i][j].frequency != 0)
+	    もし (get_bit (byte, j) && established[i][j].frequency != 0)
 		info->established[idx++] = established[i][j];
 	}
     }
-    return TRUE;
+    戻る TRUE;
 }
 
-static int
+static 整数
 decode_standard_timings (const uchar *edid, MonitorInfo *info)
 {
-    int i;
+    整数 i;
     
-    for (i = 0; i < 8; i++)
+    ために (i = 0; i < 8; i++)
     {
-	int first = edid[0x26 + 2 * i];
-	int second = edid[0x27 + 2 * i];
+	整数 first = edid[0x26 + 2 * i];
+	整数 second = edid[0x27 + 2 * i];
 
-	if (first != 0x01 && second != 0x01)
+	もし (first != 0x01 && second != 0x01)
 	{
-	    int w = 8 * (first + 31);
-	    int h = 0;
+	    整数 w = 8 * (first + 31);
+	    整数 h = 0;
 
 	    switch (get_bits (second, 6, 7))
 	    {
@@ -350,26 +350,26 @@ decode_standard_timings (const uchar *edid, MonitorInfo *info)
 	}
     }
     
-    return TRUE;
+    戻る TRUE;
 }
 
 static void
-decode_lf_string (const uchar *s, int n_chars, char *result)
+decode_lf_string (const uchar *s, 整数 n_chars, char *result)
 {
-    int i;
-    for (i = 0; i < n_chars; ++i)
+    整数 i;
+    ために (i = 0; i < n_chars; ++i)
     {
-	if (s[i] == 0x0a)
+	もし (s[i] == 0x0a)
 	{
 	    *result++ = '\0';
 	    break;
 	}
-	else if (s[i] == 0x00)
+	否则 もし (s[i] == 0x00)
 	{
 	    /* Convert embedded 0's to spaces */
 	    *result++ = ' ';
 	}
-	else
+	否则
 	{
 	    *result++ = s[i];
 	}
@@ -418,7 +418,7 @@ static void
 decode_detailed_timing (const uchar *timing,
 			DetailedTiming *detailed)
 {
-    int bits;
+    整数 bits;
     StereoType stereo[] =
     {
 	NO_STEREO, NO_STEREO, FIELD_RIGHT, FIELD_LEFT,
@@ -452,16 +452,16 @@ decode_detailed_timing (const uchar *timing,
     bits = timing[0x11];
 
     detailed->digital_sync = get_bit (bits, 4);
-    if (detailed->digital_sync)
+    もし (detailed->digital_sync)
     {
 	detailed->ad.digital.composite = !get_bit (bits, 3);
 
-	if (detailed->ad.digital.composite)
+	もし (detailed->ad.digital.composite)
 	{
 	    detailed->ad.digital.serrations = get_bit (bits, 2);
 	    detailed->ad.digital.negative_vsync = FALSE;
 	}
-	else
+	否则
 	{
 	    detailed->ad.digital.serrations = FALSE;
 	    detailed->ad.digital.negative_vsync = !get_bit (bits, 2);
@@ -469,7 +469,7 @@ decode_detailed_timing (const uchar *timing,
 
 	detailed->ad.digital.negative_hsync = !get_bit (bits, 0);
     }
-    else
+    否则
     {
 	detailed->ad.analog.bipolar = get_bit (bits, 3);
 	detailed->ad.analog.serrations = get_bit (bits, 2);
@@ -477,23 +477,23 @@ decode_detailed_timing (const uchar *timing,
     }
 }
 
-static int
+static 整数
 decode_descriptors (const uchar *edid, MonitorInfo *info)
 {
-    int i;
-    int timing_idx;
+    整数 i;
+    整数 timing_idx;
     
     timing_idx = 0;
     
-    for (i = 0; i < 4; ++i)
+    ために (i = 0; i < 4; ++i)
     {
-	int index = 0x36 + i * 18;
+	整数 index = 0x36 + i * 18;
 
-	if (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
+	もし (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
 	{
 	    decode_display_descriptor (edid + index, info);
 	}
-	else
+	否则
 	{
 	    decode_detailed_timing (
 		edid + index, &(info->detailed_timings[timing_idx++]));
@@ -502,32 +502,32 @@ decode_descriptors (const uchar *edid, MonitorInfo *info)
 
     info->n_detailed_timings = timing_idx;
 
-    return TRUE;
+    戻る TRUE;
 }
 
 static void
 decode_check_sum (const uchar *edid,
 		  MonitorInfo *info)
 {
-    int i;
+    整数 i;
     uchar check = 0;
 
-    for (i = 0; i < 128; ++i)
+    ために (i = 0; i < 128; ++i)
 	check += edid[i];
 
     info->checksum = check;
 }
 
 static void
-decode_HDR_metadata_block (const uchar *data, int length, MonitorInfo *info)
+decode_HDR_metadata_block (const uchar *data, 整数 length, MonitorInfo *info)
 {
-    if (length >= 3)
+    もし (length >= 3)
 	info->max_luminance = 50.0 * SDL_pow(2, data[2] / 32.0);
 
-    if (length >= 4)
+    もし (length >= 4)
 	info->max_frame_average_luminance = 50.0 * SDL_pow(2, data[3] / 32.0);
 
-    if (length >= 5)
+    もし (length >= 5)
 	info->min_luminance = 50.0 * SDL_pow(2, data[4] / 32.0);
 }
 
@@ -536,18 +536,18 @@ static void
 decode_cta_block (const uchar *edid,
 		  MonitorInfo *info)
 {
-    int offset = 4;
-    while (offset < 128) {
-	int length = edid[offset] & 0x1f;
-	int type = edid[offset] >> 5;
-	if (length == 0) {
+    整数 offset = 4;
+    ながら (offset < 128) {
+	整数 length = edid[offset] & 0x1f;
+	整数 type = edid[offset] >> 5;
+	もし (length == 0) {
 	    break;
 	}
-	if (type == 7) {
+	もし (type == 7) {
 	    type <<= 8;
 	    type |= edid[offset + 1];
 	}
-	if (type == 0x706) {
+	もし (type == 0x706) {
 	    decode_HDR_metadata_block (&edid[offset + 2], length - 1, info);
 	}
 	offset += (1 + length);
@@ -557,19 +557,19 @@ decode_cta_block (const uchar *edid,
 MonitorInfo *
 decode_edid (const uchar *edid, size_t size)
 {
-    const int EDID_PAGE_SIZE = 128;
-    int num_blocks = (size / EDID_PAGE_SIZE);
+    const 整数 EDID_PAGE_SIZE = 128;
+    整数 num_blocks = (size / EDID_PAGE_SIZE);
     MonitorInfo *info;
 
-    if ((size % EDID_PAGE_SIZE) != 0) {
-	return NULL;
+    もし ((size % EDID_PAGE_SIZE) != 0) {
+	戻る NULL;
     }
 
     info = SDL_calloc (1, sizeof (MonitorInfo));
 
     decode_check_sum (edid, info);
     
-    if (!decode_header (edid) ||
+    もし (!decode_header (edid) ||
         !decode_vendor_and_product_identification (edid, info) ||
         !decode_edid_version (edid, info) ||
         !decode_display_parameters (edid, info) ||
@@ -578,33 +578,33 @@ decode_edid (const uchar *edid, size_t size)
         !decode_standard_timings (edid, info) ||
         !decode_descriptors (edid, info)) {
 	SDL_free(info);
-	return NULL;
+	戻る NULL;
     }
     
-    if (num_blocks > 1) {
-	for (int i = 1; i < num_blocks; ++i) {
-	    int offset = i * EDID_PAGE_SIZE;
+    もし (num_blocks > 1) {
+	ために (整数 i = 1; i < num_blocks; ++i) {
+	    整数 offset = i * EDID_PAGE_SIZE;
 	    uchar extension = edid[offset];
-	    if (extension == 0x02) {
+	    もし (extension == 0x02) {
 		// CTA-861 Extension Block
 		decode_cta_block (&edid[offset], info);
 	    }
 	}
     }
 
-    return info;
+    戻る info;
 }
 
 static const char *
-yesno (int v)
+yesno (整数 v)
 {
-    return v? "yes" : "no";
+    戻る v? "yes" : "no";
 }
 
 void
 dump_monitor_info (MonitorInfo *info)
 {
-    int i;
+    整数 i;
     
     printf ("Checksum: %d (%s)\n",
 	    info->checksum, info->checksum? "incorrect" : "correct");
@@ -612,30 +612,30 @@ dump_monitor_info (MonitorInfo *info)
     printf ("Product Code: 0x%x\n", info->product_code);
     printf ("Serial Number: %u\n", info->serial_number);
     
-    if (info->production_week != -1)
+    もし (info->production_week != -1)
 	printf ("Production Week: %d\n", info->production_week);
-    else
+    否则
 	printf ("Production Week: unspecified\n");
     
-    if (info->production_year != -1)
+    もし (info->production_year != -1)
 	printf ("Production Year: %d\n", info->production_year);
-    else
+    否则
 	printf ("Production Year: unspecified\n");
     
-    if (info->model_year != -1)
+    もし (info->model_year != -1)
 	printf ("Model Year: %d\n", info->model_year);
-    else
+    否则
 	printf ("Model Year: unspecified\n");
     
     printf ("EDID revision: %d.%d\n", info->major_version, info->minor_version);
     
     printf ("Display is %s\n", info->is_digital? "digital" : "analog");
-    if (info->is_digital)
+    もし (info->is_digital)
     {
 	const char *interface;
-	if (info->ad.digital.bits_per_primary != -1)
+	もし (info->ad.digital.bits_per_primary != -1)
 	    printf ("Bits Per Primary: %d\n", info->ad.digital.bits_per_primary);
-	else
+	否则
 	    printf ("Bits Per Primary: undefined\n");
 	
 	switch (info->ad.digital.interface)
@@ -654,7 +654,7 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("YCrCb 4:4:4: %s\n", yesno (info->ad.digital.ycrcb444));
 	printf ("YCrCb 4:2:2: %s\n", yesno (info->ad.digital.ycrcb422));
     }
-    else
+    否则
     {
        const char *s;
 	printf ("Video Signal Level: %f\n", info->ad.analog.video_signal_level);
@@ -682,24 +682,24 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("Color: %s\n", s);
     }
     
-    if (info->width_mm == -1)
+    もし (info->width_mm == -1)
 	printf ("Width: undefined\n");
-    else
+    否则
 	printf ("Width: %d mm\n", info->width_mm);
     
-    if (info->height_mm == -1)
+    もし (info->height_mm == -1)
 	printf ("Height: undefined\n");
-    else
+    否则
 	printf ("Height: %d mm\n", info->height_mm);
     
-    if (info->aspect_ratio > 0)
+    もし (info->aspect_ratio > 0)
 	printf ("Aspect Ratio: %f\n", info->aspect_ratio);
-    else
+    否则
 	printf ("Aspect Ratio: undefined\n");
     
-    if (info->gamma >= 0)
+    もし (info->gamma >= 0)
 	printf ("Gamma: %f\n", info->gamma);
-    else
+    否则
 	printf ("Gamma: undefined\n");
     
     printf ("Standby: %s\n", yesno (info->standby));
@@ -725,11 +725,11 @@ dump_monitor_info (MonitorInfo *info)
     
     printf ("Established Timings:\n");
     
-    for (i = 0; i < 24; ++i)
+    ために (i = 0; i < 24; ++i)
     {
 	Timing *timing = &(info->established[i]);
 	
-	if (timing->frequency == 0)
+	もし (timing->frequency == 0)
 	    break;
 	
 	printf ("  %d x %d @ %d Hz\n",
@@ -738,18 +738,18 @@ dump_monitor_info (MonitorInfo *info)
     }
     
     printf ("Standard Timings:\n");
-    for (i = 0; i < 8; ++i)
+    ために (i = 0; i < 8; ++i)
     {
 	Timing *timing = &(info->standard[i]);
 	
-	if (timing->frequency == 0)
+	もし (timing->frequency == 0)
 	    break;
 	
 	printf ("  %d x %d @ %d Hz\n",
 		timing->width, timing->height, timing->frequency);
     }
     
-    for (i = 0; i < info->n_detailed_timings; ++i)
+    ために (i = 0; i < info->n_detailed_timings; ++i)
     {
 	DetailedTiming *timing = &(info->detailed_timings[i]);
 	const char *s;
@@ -783,7 +783,7 @@ dump_monitor_info (MonitorInfo *info)
 	}
 	printf ("  Stereo: %s\n", s);
 	
-	if (timing->digital_sync)
+	もし (timing->digital_sync)
 	{
 	    printf ("  Digital Sync:\n");
 	    printf ("    composite: %s\n", yesno (timing->ad.digital.composite));
@@ -793,7 +793,7 @@ dump_monitor_info (MonitorInfo *info)
 	    printf ("    negative hsync: %s\n",
 		    yesno (timing->ad.digital.negative_hsync));
 	}
-	else
+	否则
 	{
 	    printf ("  Analog Sync:\n");
 	    printf ("    bipolar: %s\n", yesno (timing->ad.analog.bipolar));

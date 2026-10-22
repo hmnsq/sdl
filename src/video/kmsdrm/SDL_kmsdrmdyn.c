@@ -51,51 +51,51 @@ static kmsdrmdynlib kmsdrmlibs[] = {
     { NULL, SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC }
 };
 
-static void *KMSDRM_GetSym(const char *fnname, int *pHasModule, bool required)
+static void *KMSDRM_GetSym(const char *fnname, 整数 *pHasModule, bool required)
 {
-    int i;
+    整数 i;
     void *fn = NULL;
-    for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-        if (kmsdrmlibs[i].lib) {
+    ために (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+        もし (kmsdrmlibs[i].lib) {
             fn = SDL_LoadFunction(kmsdrmlibs[i].lib, fnname);
-            if (fn) {
+            もし (fn) {
                 break;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_KMSDRM
-    if (fn)
+#もし DEBUG_DYNAMIC_KMSDRM
+    もし (fn)
         SDL_Log("KMSDRM: Found '%s' in %s (%p)", fnname, kmsdrmlibs[i].libname, fn);
-    else
+    否则
         SDL_Log("KMSDRM: Symbol '%s' NOT FOUND!", fnname);
 #endif
 
-    if (!fn && required) {
+    もし (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    戻る fn;
 }
 
 #endif // SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_KMSDRM_MODULE(modname)          int SDL_KMSDRM_HAVE_##modname = 0;
+#define SDL_KMSDRM_MODULE(modname)          整数 SDL_KMSDRM_HAVE_##modname = 0;
 #define SDL_KMSDRM_SYM(rc, fn, params)      SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = NULL;
 #define SDL_KMSDRM_SYM_CONST(type, name)    SDL_DYNKMSDRMCONST_##name KMSDRM_##name = NULL;
 #define SDL_KMSDRM_SYM_OPT(rc, fn, params)  SDL_DYNKMSDRMFN_##fn KMSDRM_##fn = NULL;
 #include "SDL_kmsdrmsym.h"
 
-static int kmsdrm_load_refcount = 0;
+static 整数 kmsdrm_load_refcount = 0;
 
 void SDL_KMSDRM_UnloadSymbols(void)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (kmsdrm_load_refcount > 0) {
-        if (--kmsdrm_load_refcount == 0) {
+    もし (kmsdrm_load_refcount > 0) {
+        もし (--kmsdrm_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-            int i;
+            整数 i;
 #endif
 
             // set all the function pointers to NULL.
@@ -106,8 +106,8 @@ void SDL_KMSDRM_UnloadSymbols(void)
 #include "SDL_kmsdrmsym.h"
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-            for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-                if (kmsdrmlibs[i].lib) {
+            ために (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+                もし (kmsdrmlibs[i].lib) {
                     SDL_UnloadObject(kmsdrmlibs[i].lib);
                     kmsdrmlibs[i].lib = NULL;
                 }
@@ -123,12 +123,12 @@ bool SDL_KMSDRM_LoadSymbols(void)
     bool result = true; // always succeed if not using Dynamic KMSDRM stuff.
 
     // deal with multiple modules needing these symbols...
-    if (kmsdrm_load_refcount++ == 0) {
+    もし (kmsdrm_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
-            if (kmsdrmlibs[i].libname) {
+        整数 i;
+        整数 *thismod = NULL;
+        ために (i = 0; i < SDL_arraysize(kmsdrmlibs); i++) {
+            もし (kmsdrmlibs[i].libname) {
                 kmsdrmlibs[i].lib = SDL_LoadObject(kmsdrmlibs[i].libname);
             }
         }
@@ -142,16 +142,16 @@ bool SDL_KMSDRM_LoadSymbols(void)
 #define SDL_KMSDRM_SYM_OPT(rc, fn, params)  KMSDRM_##fn = (SDL_DYNKMSDRMFN_##fn)KMSDRM_GetSym(#fn, thismod, false);
 #include "SDL_kmsdrmsym.h"
 
-        if ((SDL_KMSDRM_HAVE_LIBDRM) && (SDL_KMSDRM_HAVE_GBM)) {
+        もし ((SDL_KMSDRM_HAVE_LIBDRM) && (SDL_KMSDRM_HAVE_GBM)) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } 否则 {
             // in case something got loaded...
             SDL_KMSDRM_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic KMSDRM
+#否则 // no dynamic KMSDRM
 
 #define SDL_KMSDRM_MODULE(modname)          SDL_KMSDRM_HAVE_##modname = 1; // default yes
 #define SDL_KMSDRM_SYM(rc, fn, params)      KMSDRM_##fn = fn;
@@ -162,7 +162,7 @@ bool SDL_KMSDRM_LoadSymbols(void)
 #endif
     }
 
-    return result;
+    戻る result;
 }
 
 #endif // SDL_VIDEO_DRIVER_KMSDRM

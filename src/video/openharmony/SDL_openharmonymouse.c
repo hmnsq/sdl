@@ -31,26 +31,26 @@
 
 static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+戻る false;
+#もし 0
+    もし (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    もし (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        もし (data->custom_cursor) {
+            もし (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                戻る SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } 否则 {
+            もし (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                戻る SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        戻る true;
+    } 否则 {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        戻る false;
     }
 #endif
 }

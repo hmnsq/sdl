@@ -54,24 +54,24 @@ static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
 static bool OFFSCREEN_Available(const char *drivername)
 {
     const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    もし (hint && SDL_strstr(hint, drivername) != NULL) {
+        戻る true;
     }
-    return false;
+    戻る false;
 }
 
 static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    もし (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
+        戻る NULL;
     }
 
     // Initialize all variables that we clean on shutdown
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    もし (!device) {
+        戻る NULL;
     }
 
     // General video
@@ -113,7 +113,7 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    戻る device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
@@ -132,17 +132,17 @@ static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    もし (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        戻る false;
     }
 
     // We're done!
-    return true;
+    戻る true;
 }
 
 static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    戻る true;
 }
 
 void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)

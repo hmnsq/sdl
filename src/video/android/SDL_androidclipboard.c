@@ -28,17 +28,17 @@
 
 bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text)
 {
-    return Android_JNI_SetClipboardText(text);
+    戻る Android_JNI_SetClipboardText(text);
 }
 
 char *Android_GetClipboardText(SDL_VideoDevice *_this)
 {
-    return Android_JNI_GetClipboardText();
+    戻る Android_JNI_GetClipboardText();
 }
 
 bool Android_HasClipboardText(SDL_VideoDevice *_this)
 {
-    return Android_JNI_HasClipboardText();
+    戻る Android_JNI_HasClipboardText();
 }
 
 #endif // SDL_VIDEO_DRIVER_ANDROID

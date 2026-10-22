@@ -42,8 +42,8 @@ struct SDL_WindowData
     HWND parent;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
+#否则
+    整数 dummy;
 #endif
 };
 
@@ -54,13 +54,13 @@ struct SDL_VideoData {
     const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
     intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    整数 is_buffer_rendering;
 
-    unsigned int overlaytexture;
+    unsigned 整数 overlaytexture;
 
-    unsigned int fbo, rbo;
+    unsigned 整数 fbo, rbo;
 
-    int saved_texture_state;
+    整数 saved_texture_state;
 
     struct VR_IVRSystem_FnTable *oSystem;
     struct VR_IVROverlay_FnTable *oOverlay;
@@ -71,15 +71,15 @@ struct SDL_VideoData {
 
 	VRActionSetHandle_t input_action_set;
 	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
+	整数 input_action_handles_buttons_count;
 	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
+	整数 input_action_handles_axes_count;
 	VRActionHandle_t input_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    整数 targw, targh;
+    整数 last_targw, last_targh;
+    整数 swap_interval;
 
     bool bDidCreateOverlay;
 	bool renderdoc_debugmarker_frame_end;
@@ -91,7 +91,7 @@ struct SDL_VideoData {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#否则
     EGLDisplay eglDpy;
     EGLContext eglCtx;
 #endif
@@ -99,7 +99,7 @@ struct SDL_VideoData {
 
 struct SDL_DisplayData
 {
-    int dummy;
+    整数 dummy;
 };
 
 #endif

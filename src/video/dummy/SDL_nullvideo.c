@@ -63,7 +63,7 @@ static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
 static bool DUMMY_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->pending.x, window->pending.y);
-    return true;
+    戻る true;
 }
 
 static void DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
@@ -76,10 +76,10 @@ static void DUMMY_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 static bool DUMMY_Available(const char *drivername)
 {
     const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    もし (hint && SDL_strstr(hint, drivername) != NULL) {
+        戻る true;
     }
-    return false;
+    戻る false;
 }
 
 static void DUMMY_DeleteDevice(SDL_VideoDevice *device)
@@ -91,14 +91,14 @@ static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
 {
     SDL_VideoDevice *device;
 
-    if (!DUMMY_Available(enable_hint)) {
-        return NULL;
+    もし (!DUMMY_Available(enable_hint)) {
+        戻る NULL;
     }
 
     // Initialize all variables that we clean on shutdown
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    もし (!device) {
+        戻る NULL;
     }
 
     // Set the function pointers
@@ -112,12 +112,12 @@ static SDL_VideoDevice *DUMMY_InternalCreateDevice(const char *enable_hint)
     device->DestroyWindowFramebuffer = SDL_DUMMY_DestroyWindowFramebuffer;
     device->free = DUMMY_DeleteDevice;
 
-    return device;
+    戻る device;
 }
 
 static SDL_VideoDevice *DUMMY_CreateDevice(void)
 {
-    return DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
+    戻る DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_NAME);
 }
 
 VideoBootStrap DUMMY_bootstrap = {
@@ -131,12 +131,12 @@ VideoBootStrap DUMMY_bootstrap = {
 
 static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    もし (!DUMMY_VideoInitCommon(_this)) {
+        戻る false;
     }
 
     SDL_EVDEV_Init();
-    return true;
+    戻る true;
 }
 
 static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this)
@@ -153,12 +153,12 @@ static void DUMMY_EVDEV_Poll(SDL_VideoDevice *_this)
 static SDL_VideoDevice *DUMMY_EVDEV_CreateDevice(void)
 {
     SDL_VideoDevice *device = DUMMY_InternalCreateDevice(DUMMYVID_DRIVER_EVDEV_NAME);
-    if (device) {
+    もし (device) {
         device->VideoInit = DUMMY_EVDEV_VideoInit;
         device->VideoQuit = DUMMY_EVDEV_VideoQuit;
         device->PumpEvents = DUMMY_EVDEV_Poll;
     }
-    return device;
+    戻る device;
 }
 
 VideoBootStrap DUMMY_evdev_bootstrap = {
@@ -172,7 +172,7 @@ VideoBootStrap DUMMY_evdev_bootstrap = {
 
 static bool DUMMY_SetRelativeMouseMode(bool enabled)
 {
-    return true;
+    戻る true;
 }
 
 bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
@@ -184,21 +184,21 @@ bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this)
     mode.format = SDL_PIXELFORMAT_XRGB8888;
     mode.w = 1024;
     mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    もし (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        戻る false;
     }
 
-    return true;
+    戻る true;
 }
 
 bool DUMMY_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!DUMMY_VideoInitCommon(_this)) {
-        return false;
+    もし (!DUMMY_VideoInitCommon(_this)) {
+        戻る false;
     }
 
     SDL_GetMouse()->SetRelativeMouseMode = DUMMY_SetRelativeMouseMode;
-    return true;
+    戻る true;
 }
 
 void DUMMY_VideoQuit(SDL_VideoDevice *_this)
