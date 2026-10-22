@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_stb_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_yuv_c.h"
+#ضمن "SDL_stb_c.h"
+#ضمن "SDL_surface_c.h"
+#ضمن "SDL_yuv_c.h"
 
 /* STB image conversion */
 #ifndef SDL_DISABLE_STB
@@ -33,7 +33,7 @@
 ////////////////////////////////////////////////////////////////////////////
 #define malloc SDL_malloc
 #define realloc SDL_realloc
-#define free SDL_free
+#define حرر SDL_free
 #undef memcpy
 #define memcpy SDL_memcpy
 #undef memset
@@ -51,7 +51,7 @@
 #define STB_IMAGE_STATIC
 #define STBI_NO_THREAD_LOCALS
 #define STBI_FAILURE_USERMSG
-#if defined(SDL_NEON_INTRINSICS)
+#ܐܢ defined(SDL_NEON_INTRINSICS)
 #define STBI_NEON
 #endif
 #define STBI_ONLY_PNG
@@ -62,7 +62,7 @@
 #define STBI_NO_STDIO
 #define STBI_ASSERT SDL_assert
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#ضمن "stb_image.h"
 
 ////////////////////////////////////////////////////////////////////////////
 #define MZ_ASSERT(x) SDL_assert(x)
@@ -70,22 +70,22 @@
 //#define memcpy SDL_memcpy
 //#undef memset
 //#define memset SDL_memset
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ܐܢ SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define MINIZ_LITTLE_ENDIAN 1
-#else
+#ܐܚܪܢܐ
 #define MINIZ_LITTLE_ENDIAN 0
 #endif
 #define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 0
 #define MINIZ_SDL_NOUNUSED
-#include "miniz.h"
+#ضمن "miniz.h"
 
 #undef memset
 #endif // SDL_HAVE_STB
 
 #ifdef SDL_HAVE_STB
-static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+ساكن bool SDL_ConvertPixels_MJPG_to_NV12(صحيح width, صحيح height, ثابت فراغ *src, صحيح src_pitch, فراغ *dst, صحيح dst_pitch)
 {
-    int w = 0, h = 0, format = 0;
+    صحيح w = 0, h = 0, format = 0;
     stbi__context s;
     stbi__start_mem(&s, src, src_pitch);
 
@@ -102,23 +102,23 @@ static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *sr
     nv12.y = (stbi_uc *)dst;
     nv12.uv = nv12.y + (nv12.h * nv12.pitch);
 
-    void *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
-    if (!pixels) {
-        return false;
+    فراغ *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
+    ܐܢ (!pixels) {
+        ܦܢܐ false;
     }
-    return true;
+    ܦܢܐ true;
 }
 #endif // SDL_HAVE_STB
 
-bool SDL_ConvertPixels_STB(int width, int height,
-                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_STB(صحيح width, صحيح height,
+                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ثابت فراغ *src, صحيح src_pitch,
+                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, فراغ *dst, صحيح dst_pitch)
 {
 #ifdef SDL_HAVE_STB
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        if (dst_format == SDL_PIXELFORMAT_NV12) {
-            return SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
-        } else if (
+    ܐܢ (src_format == SDL_PIXELFORMAT_MJPG) {
+        ܐܢ (dst_format == SDL_PIXELFORMAT_NV12) {
+            ܦܢܐ SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
+        } ܐܚܪܢܐ ܐܢ (
             dst_format == SDL_PIXELFORMAT_YV12 ||
             dst_format == SDL_PIXELFORMAT_IYUV ||
             dst_format == SDL_PIXELFORMAT_YUY2 ||
@@ -129,81 +129,81 @@ bool SDL_ConvertPixels_STB(int width, int height,
         ) {
             size_t temp_size = 0;
             size_t temp_pitch = 0;
-            if (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
-                return false;
+            ܐܢ (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
+                ܦܢܐ false;
             }
-            void *temp_pixels = SDL_malloc(temp_size);
-            if (!temp_pixels) {
-                return false;
+            فراغ *temp_pixels = SDL_malloc(temp_size);
+            ܐܢ (!temp_pixels) {
+                ܦܢܐ false;
             }
 
-            if (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (int)temp_pitch)) {
+            ܐܢ (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (صحيح)temp_pitch)) {
                 SDL_free(temp_pixels);
-                return false;
+                ܦܢܐ false;
             }
 
-            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (int)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (صحيح)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
             SDL_free(temp_pixels);
-            return result;
+            ܦܢܐ result;
         }
     }
 
     bool result;
-    int w = 0, h = 0, format = 0;
-    int len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
-    void *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
-    if (!pixels) {
-        return false;
+    صحيح w = 0, h = 0, format = 0;
+    صحيح len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
+    فراغ *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
+    ܐܢ (!pixels) {
+        ܦܢܐ false;
     }
 
-    if (w == width && h == height) {
+    ܐܢ (w == width && h == height) {
         result = SDL_ConvertPixelsAndColorspace(w, h, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, pixels, width * 4, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else {
+    } ܐܚܪܢܐ {
         result = SDL_SetError("Expected image size %dx%d, actual size %dx%d", width, height, w, h);
     }
     stbi_image_free(pixels);
 
-    return result;
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    ܦܢܐ result;
+#ܐܚܪܢܐ
+    ܦܢܐ SDL_SetError("SDL not built with STB image support");
 #endif
 }
 
 #ifdef SDL_HAVE_STB
-static int IMG_LoadSTB_IO_read(void *user, char *data, int size)
+ساكن صحيح IMG_LoadSTB_IO_read(فراغ *user, حرف *data, صحيح size)
 {
     size_t amount = SDL_ReadIO((SDL_IOStream*)user, data, size);
-    return (int)amount;
+    ܦܢܐ (صحيح)amount;
 }
 
-static void IMG_LoadSTB_IO_skip(void *user, int n)
+ساكن فراغ IMG_LoadSTB_IO_skip(فراغ *user, صحيح n)
 {
     SDL_SeekIO((SDL_IOStream*)user, n, SDL_IO_SEEK_CUR);
 }
 
-static int IMG_LoadSTB_IO_eof(void *user)
+ساكن صحيح IMG_LoadSTB_IO_eof(فراغ *user)
 {
     SDL_IOStream *src = (SDL_IOStream*)user;
-    return SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
+    ܦܢܐ SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
 }
 
-static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
+ساكن SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
 {
     Sint64 start;
     Uint8 magic[26];
-    int w, h, format;
+    صحيح w, h, format;
     stbi_uc *pixels;
     stbi_io_callbacks rw_callbacks;
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
     bool use_palette = false;
-    unsigned int palette_colors[256];
+    unsigned صحيح palette_colors[256];
 
     // src has already been validated
     start = SDL_TellIO(src);
 
-    if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-        const Uint8 PNG_COLOR_INDEXED = 3;
-        if (magic[0] == 0x89 &&
+    ܐܢ (SDL_ReadIO(src, magic, حجم(magic)) == حجم(magic)) {
+        ثابت Uint8 PNG_COLOR_INDEXED = 3;
+        ܐܢ (magic[0] == 0x89 &&
             magic[1] == 'P' &&
             magic[2] == 'N' &&
             magic[3] == 'G' &&
@@ -218,13 +218,13 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
     SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
 
     /* Load the image data */
-    rw_callbacks.read = IMG_LoadSTB_IO_read;
+    rw_callbacks.اقرأ = IMG_LoadSTB_IO_read;
     rw_callbacks.skip = IMG_LoadSTB_IO_skip;
     rw_callbacks.eof = IMG_LoadSTB_IO_eof;
     w = h = format = 0; /* silence warning */
-    if (use_palette) {
+    ܐܢ (use_palette) {
         /* Unused palette entries will be opaque white */
-        SDL_memset(palette_colors, 0xff, sizeof(palette_colors));
+        SDL_memset(palette_colors, 0xff, حجم(palette_colors));
 
         pixels = stbi_load_from_callbacks_with_palette(
             &rw_callbacks,
@@ -234,7 +234,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             palette_colors,
             SDL_arraysize(palette_colors)
         );
-    } else {
+    } ܐܚܪܢܐ {
         pixels = stbi_load_from_callbacks(
             &rw_callbacks,
             src,
@@ -244,12 +244,12 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             STBI_default
         );
     }
-    if (!pixels) {
+    ܐܢ (!pixels) {
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-        return NULL;
+        ܦܢܐ عدم;
     }
 
-    if (use_palette) {
+    ܐܢ (use_palette) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -257,34 +257,34 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w
         );
-        if (surface) {
+        ܐܢ (surface) {
             bool has_colorkey = false;
-            int colorkey_index = -1;
+            صحيح colorkey_index = -1;
             bool has_alpha = false;
             SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-            if (palette) {
-                int i;
+            ܐܢ (palette) {
+                صحيح i;
                 Uint8 *palette_bytes = (Uint8 *)palette_colors;
 
-                for (i = 0; i < palette->ncolors; i++) {
+                لكل (i = 0; i < palette->ncolors; i++) {
                     palette->colors[i].r = *palette_bytes++;
                     palette->colors[i].g = *palette_bytes++;
                     palette->colors[i].b = *palette_bytes++;
                     palette->colors[i].a = *palette_bytes++;
-                    if (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
-                        if (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
+                    ܐܢ (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
+                        ܐܢ (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
                             has_colorkey = true;
                             colorkey_index = i;
-                        } else {
+                        } ܐܚܪܢܐ {
                             /* Partial opacity or multiple colorkeys */
                             has_alpha = true;
                         }
                     }
                 }
             }
-            if (has_alpha) {
+            ܐܢ (has_alpha) {
                 SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
-            } else if (has_colorkey) {
+            } ܐܚܪܢܐ ܐܢ (has_colorkey) {
                 SDL_SetSurfaceColorKey(surface, true, colorkey_index);
             }
 
@@ -296,7 +296,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
+    } ܐܚܪܢܐ ܐܢ (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -306,14 +306,14 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w * format
         );
-        if (surface) {
+        ܐܢ (surface) {
             /* Set a grayscale palette for gray images */
-            if (surface->format == SDL_PIXELFORMAT_INDEX8) {
+            ܐܢ (surface->format == SDL_PIXELFORMAT_INDEX8) {
                 SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-                if (palette) {
-                    int i;
+                ܐܢ (palette) {
+                    صحيح i;
 
-                    for (i = 0; i < palette->ncolors; i++) {
+                    لكل (i = 0; i < palette->ncolors; i++) {
                         palette->colors[i].r = (Uint8)i;
                         palette->colors[i].g = (Uint8)i;
                         palette->colors[i].b = (Uint8)i;
@@ -329,16 +329,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey_alpha) {
+    } ܐܚܪܢܐ ܐܢ (format == STBI_grey_alpha) {
         surface = SDL_CreateSurfaceUninitialized(w, h, SDL_PIXELFORMAT_RGBA32);
-        if (surface) {
+        ܐܢ (surface) {
             Uint8 *src_ptr = pixels;
             Uint8 *dst = (Uint8 *)surface->pixels;
-            int skip = surface->pitch - (surface->w * 4);
-            int row, col;
+            صحيح skip = surface->pitch - (surface->w * 4);
+            صحيح row, col;
 
-            for (row = 0; row < h; ++row) {
-                for (col = 0; col < w; ++col) {
+            لكل (row = 0; row < h; ++row) {
+                لكل (col = 0; col < w; ++col) {
                     Uint8 c = *src_ptr++;
                     Uint8 a = *src_ptr++;
                     *dst++ = c;
@@ -350,16 +350,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             }
             stbi_image_free(pixels);
         }
-    } else {
+    } ܐܚܪܢܐ {
         SDL_SetError("Unknown image format: %d", format);
     }
 
-    if (!surface) {
+    ܐܢ (!surface) {
         /* The error message should already be set */
         stbi_image_free(pixels); /* calls SDL_free() */
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
-    return surface;
+    ܦܢܐ surface;
 }
 #endif // SDL_HAVE_STB
 
@@ -379,35 +379,35 @@ bool SDL_IsJPG(SDL_IOStream *src)
     /* Blame me, not Sam, if this doesn't work right. */
     /* And don't forget to report the problem to the the sdl list too! */
 
-    if (!src) {
-        return false;
+    ܐܢ (!src) {
+        ܦܢܐ false;
     }
 
     start = SDL_TellIO(src);
     is_JPG = false;
     in_scan = false;
-    if (SDL_ReadIO(src, magic, 2) == 2) {
-        if ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
+    ܐܢ (SDL_ReadIO(src, magic, 2) == 2) {
+        ܐܢ ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
             is_JPG = true;
-            while (is_JPG) {
-                if (SDL_ReadIO(src, magic, 2) != 2) {
+            ܟܡܐ (is_JPG) {
+                ܐܢ (SDL_ReadIO(src, magic, 2) != 2) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) && !in_scan ) {
+                } ܐܚܪܢܐ ܐܢ ( (magic[0] != 0xFF) && !in_scan ) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
+                } ܐܚܪܢܐ ܐܢ ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
                     /* Extra padding in JPEG (legal) */
                     /* or this is data and we are scanning */
                     SDL_SeekIO(src, -1, SDL_IO_SEEK_CUR);
-                } else if (magic[1] == 0xD9) {
+                } ܐܚܪܢܐ ܐܢ (magic[1] == 0xD9) {
                     /* Got to end of good JPEG */
-                    break;
-                } else if ( in_scan && (magic[1] == 0x00) ) {
+                    اكسر;
+                } ܐܚܪܢܐ ܐܢ ( in_scan && (magic[1] == 0x00) ) {
                     /* This is an encoded 0xFF within the data */
-                } else if ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
+                } ܐܚܪܢܐ ܐܢ ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
                     /* These have nothing else */
-                } else if (SDL_ReadIO(src, magic+2, 2) != 2) {
+                } ܐܚܪܢܐ ܐܢ (SDL_ReadIO(src, magic+2, 2) != 2) {
                     is_JPG = false;
-                } else {
+                } ܐܚܪܢܐ {
                     /* Yes, it's big-endian */
                     Sint64 innerStart;
                     Uint32 size;
@@ -415,15 +415,15 @@ bool SDL_IsJPG(SDL_IOStream *src)
                     innerStart = SDL_TellIO(src);
                     size = (magic[2] << 8) + magic[3];
                     end = SDL_SeekIO(src, size-2, SDL_IO_SEEK_CUR);
-                    if ( end != innerStart + size - 2 ) {
+                    ܐܢ ( end != innerStart + size - 2 ) {
                         is_JPG = false;
                     }
-                    if ( magic[1] == 0xDA ) {
+                    ܐܢ ( magic[1] == 0xDA ) {
                         /* Now comes the actual JPEG meat */
 #ifdef  FAST_IS_JPEG
                         /* Ok, I'm convinced.  It is a JPEG. */
-                        break;
-#else
+                        اكسر;
+#ܐܚܪܢܐ
                         /* I'm not convinced.  Prove it! */
                         in_scan = true;
 #endif
@@ -433,44 +433,44 @@ bool SDL_IsJPG(SDL_IOStream *src)
         }
     }
     SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-    return is_JPG;
+    ܦܢܐ is_JPG;
 }
 
 SDL_Surface *SDL_LoadJPG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        اذهب done;
     }
 
-    if (!SDL_IsJPG(src)) {
+    ܐܢ (!SDL_IsJPG(src)) {
         SDL_SetError("File is not a JPEG file");
-        goto done;
+        اذهب done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#ܐܚܪܢܐ
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ܐܢ (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    ܦܢܐ surface;
 }
 
-SDL_Surface *SDL_LoadJPG(const char *file)
+SDL_Surface *SDL_LoadJPG(ثابت حرف *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ܐܢ (!stream) {
+        ܦܢܐ عدم;
     }
 
-    return SDL_LoadJPG_IO(stream, true);
+    ܦܢܐ SDL_LoadJPG_IO(stream, true);
 }
 
 bool SDL_IsPNG(SDL_IOStream *src)
@@ -481,9 +481,9 @@ bool SDL_IsPNG(SDL_IOStream *src)
 
     is_PNG = false;
     start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 0x89 &&
+    ܐܢ (start >= 0) {
+        ܐܢ (SDL_ReadIO(src, magic, حجم(magic)) == حجم(magic)) {
+            ܐܢ (magic[0] == 0x89 &&
                 magic[1] == 'P' &&
                 magic[2] == 'N' &&
                 magic[3] == 'G') {
@@ -493,77 +493,77 @@ bool SDL_IsPNG(SDL_IOStream *src)
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
 
-    return is_PNG;
+    ܦܢܐ is_PNG;
 }
 
 SDL_Surface *SDL_LoadPNG_IO(SDL_IOStream *src, bool closeio)
 {
-    SDL_Surface *surface = NULL;
+    SDL_Surface *surface = عدم;
 
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        اذهب done;
     }
 
-    if (!SDL_IsPNG(src)) {
+    ܐܢ (!SDL_IsPNG(src)) {
         SDL_SetError("File is not a PNG file");
-        goto done;
+        اذهب done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#ܐܚܪܢܐ
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ܐܢ (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    ܦܢܐ surface;
 }
 
-SDL_Surface *SDL_LoadPNG(const char *file)
+SDL_Surface *SDL_LoadPNG(ثابت حرف *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ܐܢ (!stream) {
+        ܦܢܐ عدم;
     }
 
-    return SDL_LoadPNG_IO(stream, true);
+    ܦܢܐ SDL_LoadPNG_IO(stream, true);
 }
 
 bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 {
     bool retval = false;
-    Uint8 *plte = NULL;
-    Uint8 *trns = NULL;
+    Uint8 *plte = عدم;
+    Uint8 *trns = عدم;
     bool free_surface = false;
 
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        goto done;
+        اذهب done;
     }
     CHECK_PARAM(!dst) {
         SDL_InvalidParamError("dst");
-        goto done;
+        اذهب done;
     }
 
 #ifdef SDL_HAVE_STB
-    int plte_size = 0;
-    int trns_size = 0;
+    صحيح plte_size = 0;
+    صحيح trns_size = 0;
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        if (!surface->palette) {
+    ܐܢ (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+        ܐܢ (!surface->palette) {
             SDL_SetError("Indexed surfaces must have a palette");
-            goto done;
+            اذهب done;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_INDEX8) {
+        ܐܢ (surface->format != SDL_PIXELFORMAT_INDEX8) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_INDEX8);
-            if (!surface) {
-                goto done;
+            ܐܢ (!surface) {
+                اذهب done;
             }
             free_surface = true;
         }
@@ -572,72 +572,72 @@ bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
         trns_size = surface->palette->ncolors;
         plte = (Uint8 *)SDL_malloc(plte_size);
         trns = (Uint8 *)SDL_malloc(trns_size);
-        if (!plte || !trns) {
-            goto done;
+        ܐܢ (!plte || !trns) {
+            اذهب done;
         }
         SDL_Color *colors = surface->palette->colors;
-        for (int i = 0; i < surface->palette->ncolors; ++i) {
+        لكل (صحيح i = 0; i < surface->palette->ncolors; ++i) {
             plte[i * 3 + 0] = colors[i].r;
             plte[i * 3 + 1] = colors[i].g;
             plte[i * 3 + 2] = colors[i].b;
             trns[i] = colors[i].a;
         }
-    } else {
-        if (surface->format != SDL_PIXELFORMAT_RGBA32) {
+    } ܐܚܪܢܐ {
+        ܐܢ (surface->format != SDL_PIXELFORMAT_RGBA32) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-            if (!surface) {
-                goto done;
+            ܐܢ (!surface) {
+                اذهب done;
             }
             free_surface = true;
         }
     }
 
     size_t size = 0;
-    void *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
-    if (png) {
-        if (SDL_WriteIO(dst, png, size)) {
+    فراغ *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
+    ܐܢ (png) {
+        ܐܢ (SDL_WriteIO(dst, png, size)) {
             retval = true;
         }
         mz_free(png); /* calls SDL_free() */
-    } else {
+    } ܐܚܪܢܐ {
         SDL_SetError("Failed to convert and save image");
     }
 
-#else
+#ܐܚܪܢܐ
     SDL_SetError("SDL not built with STB image support");
 #endif
 
 done:
-    if (free_surface) {
+    ܐܢ (free_surface) {
         SDL_DestroySurface(surface);
     }
     SDL_free(plte);
     SDL_free(trns);
 
-    if (dst && closeio) {
+    ܐܢ (dst && closeio) {
         retval &= SDL_CloseIO(dst);
     }
-    return retval;
+    ܦܢܐ retval;
 }
 
-bool SDL_SavePNG(SDL_Surface *surface, const char *file)
+bool SDL_SavePNG(SDL_Surface *surface, ثابت حرف *file)
 {
 #ifdef SDL_HAVE_STB
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ܦܢܐ SDL_InvalidParamError("surface");
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
-        return SDL_SetError("Indexed surfaces must have a palette");
+    ܐܢ (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
+        ܦܢܐ SDL_SetError("Indexed surfaces must have a palette");
     }
     SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    ܐܢ (!stream) {
+        ܦܢܐ false;
     }
 
-    return SDL_SavePNG_IO(surface, stream, true);
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    ܦܢܐ SDL_SavePNG_IO(surface, stream, true);
+#ܐܚܪܢܐ
+    ܦܢܐ SDL_SetError("SDL not built with STB image support");
 #endif
 }

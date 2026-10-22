@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include <SupportDefs.h>
-#include <support/UTF8.h>
+#ضمن <SupportDefs.h>
+#ضمن <support/UTF8.h>
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 
-#include "SDL_bkeyboard.h"
+#ضمن "SDL_bkeyboard.h"
 
 
 #define KEYMAP_SIZE 128
 
 
-static SDL_Scancode keymap[KEYMAP_SIZE];
+ساكن SDL_Scancode keymap[KEYMAP_SIZE];
 
-void HAIKU_InitOSKeymap(void)
+فراغ HAIKU_InitOSKeymap(فراغ)
 {
-        for ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
+        لكل ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
             keymap[i] = SDL_SCANCODE_UNKNOWN;
         }
 
@@ -154,10 +154,10 @@ void HAIKU_InitOSKeymap(void)
 }
 
 SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey) {
-    if (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
-        return keymap[bkey];
-    } else {
-        return SDL_SCANCODE_UNKNOWN;
+    ܐܢ (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
+        ܦܢܐ keymap[bkey];
+    } ܐܚܪܢܐ {
+        ܦܢܐ SDL_SCANCODE_UNKNOWN;
     }
 }
 

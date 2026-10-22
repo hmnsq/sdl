@@ -18,72 +18,72 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_windowevents_c.h"
+#ضمن "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#ضمن "SDL_offscreenwindow.h"
 
 bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, حجم(SDL_WindowData));
 
-    if (!offscreen_window) {
-        return false;
+    ܐܢ (!offscreen_window) {
+        ܦܢܐ false;
     }
 
     window->internal = offscreen_window;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
+    ܐܢ (window->x == SDL_WINDOWPOS_UNDEFINED) {
         window->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
+    ܐܢ (window->y == SDL_WINDOWPOS_UNDEFINED) {
         window->y = 0;
     }
 
     offscreen_window->sdl_window = window;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ܐܢ (window->flags & SDL_WINDOW_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        ܐܢ (!_this->egl_data) {
+            ܦܢܐ SDL_SetError("Cannot create an OPENGL window invalid egl_data");
         }
 
         offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
+        ܐܢ (offscreen_window->egl_surface == EGL_NO_SURFACE) {
+            ܦܢܐ SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
                                 _this->egl_data->egl_display);
         }
-    } else {
+    } ܐܚܪܢܐ {
         offscreen_window->egl_surface = EGL_NO_SURFACE;
     }
 #endif // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    ܦܢܐ true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *offscreen_window = window->internal;
 
-    if (offscreen_window) {
+    ܐܢ (offscreen_window) {
 #ifdef SDL_VIDEO_OPENGL_EGL
         SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
 #endif
         SDL_free(offscreen_window);
     }
 
-    window->internal = NULL;
+    window->internal = عدم;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
 }

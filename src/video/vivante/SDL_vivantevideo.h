@@ -18,46 +18,46 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_vivantevideo_h_
 #define SDL_vivantevideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // Set up definitions for Vivante EGL
-#include <SDL3/SDL_egl.h>
+#ضمن <SDL3/SDL_egl.h>
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-#include <gc_vdk.h>
-#else
-#include <EGL/egl.h>
+#ضمن <gc_vdk.h>
+#ܐܚܪܢܐ
+#ضمن <EGL/egl.h>
 #endif
 
-struct SDL_VideoData
+بنية SDL_VideoData
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     vdkPrivate vdk_private;
-#else
+#ܐܚܪܢܐ
     SDL_SharedObject *egl_handle; // EGL shared library handle
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
-    void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
-    void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(فراغ *context);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(صحيح DisplayIndex);
+    فراغ(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, صحيح *Width, صحيح *Height);
+    فراغ(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, صحيح *Width, صحيح *Height, unsigned long *Physical, صحيح *Stride, صحيح *bits_per_pixel);
+    فراغ(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
+    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, صحيح X, صحيح Y, صحيح Width, صحيح Height);
+    فراغ(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, صحيح *X, صحيح *Y, صحيح *Width, صحيح *Height);
+    فراغ(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, صحيح *X, صحيح *Y, صحيح *Width, صحيح *Height, صحيح *bits_per_pixel, unsigned صحيح *Offset);
+    فراغ(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
 #endif
 };
 
-struct SDL_DisplayData
+بنية SDL_DisplayData
 {
     EGLNativeDisplayType native_display;
 };
 
-struct SDL_WindowData
+بنية SDL_WindowData
 {
     EGLNativeWindowType native_window;
     EGLSurface egl_surface;
@@ -69,18 +69,18 @@ struct SDL_WindowData
 
 // Display and window functions
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this);
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this);
+فراغ VIVANTE_VideoQuit(SDL_VideoDevice *_this);
 bool VIVANTE_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
 bool VIVANTE_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
 bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
 bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 // Event functions
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this);
+فراغ VIVANTE_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_vivantevideo_h_

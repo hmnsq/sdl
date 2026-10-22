@@ -22,8 +22,8 @@
 #ifndef SDL_rect_c_h_
 #define SDL_rect_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern bool SDL_GetSpanEnclosingRect(int width, int height, int numrects, const SDL_Rect *rects, SDL_Rect *span);
+خارجي bool SDL_GetSpanEnclosingRect(صحيح width, صحيح height, صحيح numrects, ثابت SDL_Rect *rects, SDL_Rect *span);
 
 #endif // SDL_rect_c_h_

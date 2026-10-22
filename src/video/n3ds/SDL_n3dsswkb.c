@@ -19,51 +19,51 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#ضمن <3ds.h>
 
-#include "SDL_n3dsswkb.h"
+#ضمن "SDL_n3dsswkb.h"
 
-static SwkbdState sw_keyboard;
-static const size_t BUFFER_SIZE = 256;
+ساكن SwkbdState sw_keyboard;
+ساكن ثابت size_t BUFFER_SIZE = 256;
 
-void N3DS_SwkbInit(void)
+فراغ N3DS_SwkbInit(فراغ)
 {
     swkbdInit(&sw_keyboard, SWKBD_TYPE_NORMAL, 2, -1);
 }
 
-void N3DS_SwkbPoll(void)
+فراغ N3DS_SwkbPoll(فراغ)
 {
-    return;
+    ܦܢܐ;
 }
 
-void N3DS_SwkbQuit(void)
+فراغ N3DS_SwkbQuit(فراغ)
 {
-    return;
+    ܦܢܐ;
 }
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    ܦܢܐ true;
 }
 
 bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    char buffer[BUFFER_SIZE];
+    حرف buffer[BUFFER_SIZE];
     SwkbdButton button_pressed;
     button_pressed = swkbdInputText(&sw_keyboard, buffer, BUFFER_SIZE);
-    if (button_pressed == SWKBD_BUTTON_CONFIRM) {
+    ܐܢ (button_pressed == SWKBD_BUTTON_CONFIRM) {
         SDL_SendKeyboardText(buffer);
     }
-    return true;
+    ܦܢܐ true;
 }
 
 bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return true;
+    ܦܢܐ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_N3DS

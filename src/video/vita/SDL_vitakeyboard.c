@@ -18,60 +18,60 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#ضمن <psp2/kernel/processmgr.h>
+#ضمن <psp2/ctrl.h>
+#ضمن <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitakeyboard.h"
-#include "../../events/SDL_keyboard_c.h"
+#ضمن "SDL_vitavideo.h"
+#ضمن "SDL_vitakeyboard.h"
+#ضمن "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
+صحيح keyboard_hid_handle = 0;
 Uint8 prev_keys[6] = { 0 };
 Uint8 prev_modifiers = 0;
 Uint8 locks = 0;
 Uint8 lock_key_down = 0;
 
-void VITA_InitKeyboard(void)
+فراغ VITA_InitKeyboard(فراغ)
 {
 #ifdef SDL_VIDEO_VITA_PVR
     sceSysmoduleLoadModule(SCE_SYSMODULE_IME); /** For PVR OSK Support **/
 #endif
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
-        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
+    ܐܢ (keyboard_hid_handle > 0) {
+        SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, عدم);
     }
 }
 
-void VITA_PollKeyboard(void)
+فراغ VITA_PollKeyboard(فراغ)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    ܐܢ (!Vita_Window) {
+        ܦܢܐ;
     }
 
-    if (keyboard_hid_handle > 0) {
+    ܐܢ (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        صحيح numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        ܐܢ (numReports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } ܐܚܪܢܐ ܐܢ (numReports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
+            ܐܢ (k_reports[numReports - 1].modifiers[1] & 0x1) {
+                ܐܢ (!(locks & 0x1)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
+            } ܐܚܪܢܐ {
+                ܐܢ (locks & 0x1) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
@@ -79,13 +79,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
+            ܐܢ (k_reports[numReports - 1].modifiers[1] & 0x2) {
+                ܐܢ (!(locks & 0x2)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
+            } ܐܚܪܢܐ {
+                ܐܢ (locks & 0x2) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
@@ -93,13 +93,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
+            ܐܢ (k_reports[numReports - 1].modifiers[1] & 0x4) {
+                ܐܢ (!(locks & 0x4)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
+            } ܐܚܪܢܐ {
+                ܐܢ (locks & 0x4) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
@@ -108,59 +108,59 @@ void VITA_PollKeyboard(void)
             {
                 Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
+                ܐܢ (changed_modifiers & 0x01) {
+                    ܐܢ (prev_modifiers & 0x01) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
+                ܐܢ (changed_modifiers & 0x02) {
+                    ܐܢ (prev_modifiers & 0x02) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
+                ܐܢ (changed_modifiers & 0x04) {
+                    ܐܢ (prev_modifiers & 0x04) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
+                ܐܢ (changed_modifiers & 0x08) {
+                    ܐܢ (prev_modifiers & 0x08) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
+                ܐܢ (changed_modifiers & 0x10) {
+                    ܐܢ (prev_modifiers & 0x10) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
+                ܐܢ (changed_modifiers & 0x20) {
+                    ܐܢ (prev_modifiers & 0x20) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
+                ܐܢ (changed_modifiers & 0x40) {
+                    ܐܢ (prev_modifiers & 0x40) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
+                ܐܢ (changed_modifiers & 0x80) {
+                    ܐܢ (prev_modifiers & 0x80) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
+                    } ܐܚܪܢܐ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
@@ -168,16 +168,16 @@ void VITA_PollKeyboard(void)
 
             prev_modifiers = k_reports[numReports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            لكل (صحيح i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                صحيح keyCode = k_reports[numReports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                ܐܢ (keyCode != prev_keys[i]) {
 
-                    if (prev_keys[i]) {
+                    ܐܢ (prev_keys[i]) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
                     }
-                    if (keyCode) {
+                    ܐܢ (keyCode) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
                     }
                     prev_keys[i] = keyCode;

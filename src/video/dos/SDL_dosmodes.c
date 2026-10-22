@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DOSVESA
 
 // SDL internals
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_dosframebuffer_c.h"
+#ضمن "../../events/SDL_mouse_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "SDL_dosframebuffer_c.h"
 
 // DOS declarations
-#include "SDL_dosmodes.h"
-#include "SDL_dosvideo.h"
-#include <sys/movedata.h> // for dosmemput (banked framebuffer access)
+#ضمن "SDL_dosmodes.h"
+#ضمن "SDL_dosvideo.h"
+#ضمن <sys/movedata.h> // for dosmemput (banked framebuffer access)
 
 // Some VESA usage information:
 //   https://delorie.com/djgpp/doc/ug/graphics/vesa.html.en
@@ -67,7 +67,7 @@
 
 #pragma pack(push, 1)
 // this is the struct from the hardware; we save only a few parts from this, later, in SDL_VESAInfo.
-typedef struct SDL_VESAHardwareInfo
+تعريفنوع بنية SDL_VESAHardwareInfo
 {
     Uint8 VESASignature[4];
     Uint16 VESAVersion;
@@ -83,7 +83,7 @@ typedef struct SDL_VESAHardwareInfo
     Uint8 OemData[256];
 } SDL_VESAHardwareInfo;
 
-typedef struct SDL_VESAModeHardwareInfo
+تعريفنوع بنية SDL_VESAModeHardwareInfo
 {
     Uint16 ModeAttributes;
     Uint8 WinAAttributes;
@@ -121,45 +121,45 @@ typedef struct SDL_VESAModeHardwareInfo
 } SDL_VESAModeHardwareInfo;
 #pragma pack(pop)
 
-typedef struct SDL_VESAInfo
+تعريفنوع بنية SDL_VESAInfo
 {
     Uint16 version;              // 0x200 == 2.0, etc.
     Uint32 total_memory;         // in bytes (SDL_VESAHardwareInfo::TotalMemory does it in 64k pages).
     Uint32 video_addr_segoffset; // real mode segment:offset (only valid while VBE info block is allocated!)
     Uint16 *mode_list;           // copied out of conventional memory before freeing
-    int num_modes;
+    صحيح num_modes;
     Uint16 oem_software_revision;
-    char *oem_string;
-    char *oem_vendor;
-    char *oem_product;
-    char *oem_revision;
+    حرف *oem_string;
+    حرف *oem_vendor;
+    حرف *oem_product;
+    حرف *oem_revision;
 } SDL_VESAInfo;
 
-static SDL_VESAInfo *vesa_info = NULL;
+ساكن SDL_VESAInfo *vesa_info = عدم;
 
-void DOSVESA_FreeVESAInfo(void)
+فراغ DOSVESA_FreeVESAInfo(فراغ)
 {
-    if (vesa_info) {
+    ܐܢ (vesa_info) {
         SDL_free(vesa_info->mode_list);
         SDL_free(vesa_info->oem_string);
         SDL_free(vesa_info->oem_vendor);
         SDL_free(vesa_info->oem_product);
         SDL_free(vesa_info->oem_revision);
         SDL_free(vesa_info);
-        vesa_info = NULL;
+        vesa_info = عدم;
     }
 }
 
-static const SDL_VESAInfo *GetVESAInfo(void)
+ساكن ثابت SDL_VESAInfo *GetVESAInfo(فراغ)
 {
-    if (vesa_info) {
-        return vesa_info;
+    ܐܢ (vesa_info) {
+        ܦܢܐ vesa_info;
     }
 
     _go32_dpmi_seginfo hwinfo_seginfo;
-    SDL_VESAHardwareInfo *hwinfo = (SDL_VESAHardwareInfo *)DOS_AllocateConventionalMemory(sizeof(*hwinfo), &hwinfo_seginfo);
-    if (!hwinfo) {
-        return NULL;
+    SDL_VESAHardwareInfo *hwinfo = (SDL_VESAHardwareInfo *)DOS_AllocateConventionalMemory(حجم(*hwinfo), &hwinfo_seginfo);
+    ܐܢ (!hwinfo) {
+        ܦܢܐ عدم;
     }
 
     SDL_zerop(hwinfo);
@@ -173,11 +173,11 @@ static const SDL_VESAInfo *GetVESAInfo(void)
 
     // al is 0x4F if VESA is supported, ah is 0x00 if this specific call succeeded.
     // If the interrupt call didn't replace VESASignature with "VESA" then something went wrong, too.
-    if ((regs.x.ax != 0x004F) || (SDL_memcmp(hwinfo->VESASignature, "VESA", 4) != 0)) {
+    ܐܢ ((regs.x.ax != 0x004F) || (SDL_memcmp(hwinfo->VESASignature, "VESA", 4) != 0)) {
         SDL_SetError("VESA video not supported on this system");
-    } else {
-        vesa_info = (SDL_VESAInfo *)SDL_calloc(1, sizeof(*vesa_info));
-        if (vesa_info) {
+    } ܐܚܪܢܐ {
+        vesa_info = (SDL_VESAInfo *)SDL_calloc(1, حجم(*vesa_info));
+        ܐܢ (vesa_info) {
             vesa_info->version = hwinfo->VESAVersion;
             vesa_info->total_memory = ((Uint32)hwinfo->TotalMemory) * (64 * 1024); // TotalMemory is 64k chunks, convert to bytes.
             vesa_info->video_addr_segoffset = hwinfo->VideoModePtr;
@@ -195,19 +195,19 @@ static const SDL_VESAInfo *GetVESAInfo(void)
             // garbage, silently losing modes.
             {
                 Uint32 segoffset = vesa_info->video_addr_segoffset;
-                int count = 0;
-                while (DOS_PeekUint16(segoffset + count * sizeof(Uint16)) != VBE_MODELIST_END) {
+                صحيح count = 0;
+                ܟܡܐ (DOS_PeekUint16(segoffset + count * حجم(Uint16)) != VBE_MODELIST_END) {
                     count++;
-                    if (count > 64)
-                        break; // sanity limit
+                    ܐܢ (count > 64)
+                        اكسر; // sanity limit
                 }
                 vesa_info->num_modes = count;
-                vesa_info->mode_list = (Uint16 *)SDL_malloc(count * sizeof(Uint16));
-                if (vesa_info->mode_list) {
-                    for (int i = 0; i < count; i++) {
-                        vesa_info->mode_list[i] = DOS_PeekUint16(segoffset + i * sizeof(Uint16));
+                vesa_info->mode_list = (Uint16 *)SDL_malloc(count * حجم(Uint16));
+                ܐܢ (vesa_info->mode_list) {
+                    لكل (صحيح i = 0; i < count; i++) {
+                        vesa_info->mode_list[i] = DOS_PeekUint16(segoffset + i * حجم(Uint16));
                     }
-                } else {
+                } ܐܚܪܢܐ {
                     vesa_info->num_modes = 0;
                 }
             }
@@ -216,66 +216,66 @@ static const SDL_VESAInfo *GetVESAInfo(void)
 
     DOS_FreeConventionalMemory(&hwinfo_seginfo);
 
-    return vesa_info;
+    ܦܢܐ vesa_info;
 }
 
 // Check for VGA using BIOS function GET DISPLAY COMBINATION CODE.
 // Call INT 0x10 with AX=0x1A00; function is supported if AL=0x1A.
 // Returns true for VGA-compatible hardware. 
-static bool DetectVGA(void)
+ساكن bool DetectVGA(فراغ)
 {
     __dpmi_regs regs = {};
     regs.x.ax = 0x1A00;
     __dpmi_int(0x10, &regs);
-    return ((regs.x.ax & 0x00FF) == 0x001A);
+    ܦܢܐ ((regs.x.ax & 0x00FF) == 0x001A);
 }
 
-bool DOSVESA_SupportsVESA(void)
+bool DOSVESA_SupportsVESA(فراغ)
 {
     // We need at least VGA hardware (for mode 13h). EGA and CGA cards
     // do not support 256 colors or programmable palettes.
-    if (!DetectVGA()) {
-        return SDL_SetError("No VGA card detected");
+    ܐܢ (!DetectVGA()) {
+        ܦܢܐ SDL_SetError("No VGA card detected");
     }
 
     // Cache VESA info if available (NULL mean we only have VGA).
-    (void)GetVESAInfo();
+    (فراغ)GetVESAInfo();
 
-    return true;
+    ܦܢܐ true;
 }
 
-const char *DOSVESA_GetGPUName(void)
+ثابت حرف *DOSVESA_GetGPUName(فراغ)
 {
-    const SDL_VESAInfo *vinfo = GetVESAInfo();
-    if (!vinfo) {
-        return "VGA";
+    ثابت SDL_VESAInfo *vinfo = GetVESAInfo();
+    ܐܢ (!vinfo) {
+        ܦܢܐ "VGA";
     }
 
-    if (vinfo->oem_product && *vinfo->oem_product) {
-        return vinfo->oem_product;
+    ܐܢ (vinfo->oem_product && *vinfo->oem_product) {
+        ܦܢܐ vinfo->oem_product;
     }
-    if (vinfo->oem_vendor && *vinfo->oem_vendor) {
-        return vinfo->oem_vendor;
+    ܐܢ (vinfo->oem_vendor && *vinfo->oem_vendor) {
+        ܦܢܐ vinfo->oem_vendor;
     }
-    if (vinfo->oem_string && *vinfo->oem_string) {
-        return vinfo->oem_string;
+    ܐܢ (vinfo->oem_string && *vinfo->oem_string) {
+        ܦܢܐ vinfo->oem_string;
     }
 
-    return "VESA";
+    ܦܢܐ "VESA";
 }
 
-Uint32 DOSVESA_GetVESATotalMemory(void)
+Uint32 DOSVESA_GetVESATotalMemory(فراغ)
 {
-    const SDL_VESAInfo *info = GetVESAInfo();
-    return info ? info->total_memory : 0;
+    ثابت SDL_VESAInfo *info = GetVESAInfo();
+    ܦܢܐ info ? info->total_memory : 0;
 }
 
-static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
+ساكن bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
 {
     _go32_dpmi_seginfo hwinfo_seginfo;
-    SDL_VESAModeHardwareInfo *hwinfo = (SDL_VESAModeHardwareInfo *)DOS_AllocateConventionalMemory(sizeof(*hwinfo), &hwinfo_seginfo);
-    if (!hwinfo) {
-        return false;
+    SDL_VESAModeHardwareInfo *hwinfo = (SDL_VESAModeHardwareInfo *)DOS_AllocateConventionalMemory(حجم(*hwinfo), &hwinfo_seginfo);
+    ܐܢ (!hwinfo) {
+        ܦܢܐ false;
     }
 
     SDL_zerop(hwinfo);
@@ -287,8 +287,8 @@ static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
     regs.x.cx = mode_id;
     __dpmi_int(0x10, &regs);
 
-    const bool retval = (regs.x.ax == 0x004F);
-    if (retval) {
+    ثابت bool retval = (regs.x.ax == 0x004F);
+    ܐܢ (retval) {
         SDL_zerop(info);
         info->mode_id = mode_id;
         info->attributes = hwinfo->ModeAttributes;
@@ -318,89 +318,89 @@ static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
 
     DOS_FreeConventionalMemory(&hwinfo_seginfo);
 
-    return retval;
+    ܦܢܐ retval;
 }
 
 bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display)
 {
-    const SDL_VESAInfo *vinfo = GetVESAInfo();
+    ثابت SDL_VESAInfo *vinfo = GetVESAInfo();
 
     // Enumerate VESA modes if we have a VBE 1.2+ BIOS.  Older VBE versions
     // (1.0, 1.1) or no VESA at all just skip this loop and fall through to
     // the VGA mode 13h fallback below.
-    int num_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->num_modes : 0;
+    صحيح num_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->num_modes : 0;
 
-    for (int mi = 0; mi < num_vesa_modes; mi++) {
-        const Uint16 modeid = vinfo->mode_list[mi];
+    لكل (صحيح mi = 0; mi < num_vesa_modes; mi++) {
+        ثابت Uint16 modeid = vinfo->mode_list[mi];
 
         SDL_DisplayModeData info;
-        if (!GetVESAModeInfo(modeid, &info)) {
-            continue;
+        ܐܢ (!GetVESAModeInfo(modeid, &info)) {
+            استمر;
         }
 
         // Skip 320x200x8 from VESA. We always want VGA mode 13h for this
         // resolution (no page flip, no LFB overhead, universal compatibility).
-        if (info.bpp == 8 && info.w == 320 && info.h == 200) {
-            continue;
+        ܐܢ (info.bpp == 8 && info.w == 320 && info.h == 200) {
+            استمر;
         }
 
-        if ((info.attributes & VBE_MODEATTR_REQUIRED) != VBE_MODEATTR_REQUIRED) {
-            continue;
+        ܐܢ ((info.attributes & VBE_MODEATTR_REQUIRED) != VBE_MODEATTR_REQUIRED) {
+            استمر;
         }
 
-        if (!(info.attributes & VBE_MODEATTR_LFB) && (info.win_a_attributes & VBE_WINATTR_USABLE) != VBE_WINATTR_USABLE) {
-            continue;
+        ܐܢ (!(info.attributes & VBE_MODEATTR_LFB) && (info.win_a_attributes & VBE_WINATTR_USABLE) != VBE_WINATTR_USABLE) {
+            استمر;
         }
 
-        if (info.num_planes != 1) {
-            continue; // skip planar pixel layouts.
-        } else if (info.bpp < 8) {
-            continue; // skip anything below 8-bit.
-        } else if (!info.w || !info.h) {
-            continue; // zero-area display mode?!
-        } else if (!info.has_lfb && !info.win_granularity) {
-            continue; // banked mode with zero granularity would cause division by zero.
-        } else if ((info.memory_model != VBE_MEMMODEL_PACKED_PIXEL) && (info.memory_model != VBE_MEMMODEL_DIRECT_COLOR)) {
-            continue; // must be either packed pixel or Direct Color.
+        ܐܢ (info.num_planes != 1) {
+            استمر; // skip planar pixel layouts.
+        } ܐܚܪܢܐ ܐܢ (info.bpp < 8) {
+            استمر; // skip anything below 8-bit.
+        } ܐܚܪܢܐ ܐܢ (!info.w || !info.h) {
+            استمر; // zero-area display mode?!
+        } ܐܚܪܢܐ ܐܢ (!info.has_lfb && !info.win_granularity) {
+            استمر; // banked mode with zero granularity would cause division by zero.
+        } ܐܚܪܢܐ ܐܢ ((info.memory_model != VBE_MEMMODEL_PACKED_PIXEL) && (info.memory_model != VBE_MEMMODEL_DIRECT_COLOR)) {
+            استمر; // must be either packed pixel or Direct Color.
             // Note: 8-bit indexed modes are packed pixel.
         }
 
         SDL_PixelFormat format = SDL_PIXELFORMAT_UNKNOWN;
-        if (info.memory_model == VBE_MEMMODEL_PACKED_PIXEL) {
-            switch (info.bpp) {
-            case 8:
+        ܐܢ (info.memory_model == VBE_MEMMODEL_PACKED_PIXEL) {
+            بدل (info.bpp) {
+            حالة 8:
                 format = SDL_PIXELFORMAT_INDEX8;
-                break;
-            case 15:
+                اكسر;
+            حالة 15:
                 format = SDL_PIXELFORMAT_XRGB1555;
-                break;
-            case 16:
+                اكسر;
+            حالة 16:
                 format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 24:
+                اكسر;
+            حالة 24:
                 format = SDL_PIXELFORMAT_RGB24;
-                break;
-            case 32:
+                اكسر;
+            حالة 32:
                 format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            default:
-                break;
+                اكسر;
+            افتراضي:
+                اكسر;
             }
-        } else {
+        } ܐܚܪܢܐ {
             SDL_assert(info.memory_model == VBE_MEMMODEL_DIRECT_COLOR);
-            const Uint32 rmask = ((((Uint32)1) << info.red_mask_size) - 1) << info.red_mask_pos;
-            const Uint32 gmask = ((((Uint32)1) << info.green_mask_size) - 1) << info.green_mask_pos;
-            const Uint32 bmask = ((((Uint32)1) << info.blue_mask_size) - 1) << info.blue_mask_pos;
+            ثابت Uint32 rmask = ((((Uint32)1) << info.red_mask_size) - 1) << info.red_mask_pos;
+            ثابت Uint32 gmask = ((((Uint32)1) << info.green_mask_size) - 1) << info.green_mask_pos;
+            ثابت Uint32 bmask = ((((Uint32)1) << info.blue_mask_size) - 1) << info.blue_mask_pos;
             format = SDL_GetPixelFormatForMasks(info.bpp, rmask, gmask, bmask, 0x00000000);
         }
 
-        if (format == SDL_PIXELFORMAT_UNKNOWN) {
-            continue; // don't know what to do with this one.
+        ܐܢ (format == SDL_PIXELFORMAT_UNKNOWN) {
+            استمر; // don't know what to do with this one.
         }
 
-        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*internal));
-        if (!internal) {
-            continue; // oof.
+        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(حجم(*internal));
+        ܐܢ (!internal) {
+            استمر; // oof.
         }
 
         SDL_copyp(internal, &info);
@@ -408,8 +408,8 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
         SDL_DisplayMode mode;
         SDL_zero(mode);
         mode.format = format;
-        mode.w = (int)info.w;
-        mode.h = (int)info.h;
+        mode.w = (صحيح)info.w;
+        mode.h = (صحيح)info.h;
         mode.pixel_density = 1.0f; // no HighDPI scaling here.
 
         // !!! FIXME: we need to parse EDID data (VESA function 0x4F15, subfunction 0x01) to get refresh rates. Leaving as 0 for now.
@@ -419,7 +419,7 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
 
         mode.internal = internal;
 
-        if (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
+        ܐܢ (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
             SDL_free(internal); // oh well, carry on without it.
         }
     }
@@ -427,8 +427,8 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
     // Always add VGA mode 13h for 320x200x8. We skipped any VESA 320x200x8
     // modes above so this is the only entry at that resolution.
     {
-        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*internal));
-        if (internal) {
+        SDL_DisplayModeData *internal = (SDL_DisplayModeData *)SDL_malloc(حجم(*internal));
+        ܐܢ (internal) {
             SDL_zerop(internal);
             internal->mode_id = VGA_MODE_13H_SENTINEL;
             internal->attributes = VBE_MODEATTR_REQUIRED;
@@ -455,30 +455,30 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
             mode.pixel_density = 1.0f;
             mode.internal = internal;
 
-            if (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
+            ܐܢ (!SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
                 SDL_free(internal);
             }
         }
     }
 
     // Sort modes descending: largest to smallest (by width first, then height, then bpp).
-    for (int i = 0; i < sdl_display->num_fullscreen_modes - 1; i++) {
-        for (int j = i + 1; j < sdl_display->num_fullscreen_modes; j++) {
-            const SDL_DisplayMode *a = &sdl_display->fullscreen_modes[i];
-            const SDL_DisplayMode *b = &sdl_display->fullscreen_modes[j];
+    لكل (صحيح i = 0; i < sdl_display->num_fullscreen_modes - 1; i++) {
+        لكل (صحيح j = i + 1; j < sdl_display->num_fullscreen_modes; j++) {
+            ثابت SDL_DisplayMode *a = &sdl_display->fullscreen_modes[i];
+            ثابت SDL_DisplayMode *b = &sdl_display->fullscreen_modes[j];
             bool swap = false;
-            if (b->w > a->w) {
+            ܐܢ (b->w > a->w) {
                 swap = true;
-            } else if (b->w == a->w) {
-                if (b->h > a->h) {
+            } ܐܚܪܢܐ ܐܢ (b->w == a->w) {
+                ܐܢ (b->h > a->h) {
                     swap = true;
-                } else if (b->h == a->h) {
-                    if (SDL_BITSPERPIXEL(b->format) > SDL_BITSPERPIXEL(a->format)) {
+                } ܐܚܪܢܐ ܐܢ (b->h == a->h) {
+                    ܐܢ (SDL_BITSPERPIXEL(b->format) > SDL_BITSPERPIXEL(a->format)) {
                         swap = true;
                     }
                 }
             }
-            if (swap) {
+            ܐܢ (swap) {
                 SDL_DisplayMode tmp = sdl_display->fullscreen_modes[i];
                 sdl_display->fullscreen_modes[i] = sdl_display->fullscreen_modes[j];
                 sdl_display->fullscreen_modes[j] = tmp;
@@ -486,28 +486,28 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
         }
     }
 
-    return true;
+    ܦܢܐ true;
 }
 
 bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode)
 {
     SDL_VideoData *data = device->internal;
-    const SDL_DisplayModeData *modedata = mode->internal;
+    ثابت SDL_DisplayModeData *modedata = mode->internal;
 
-    if (data->current_mode.internal && (data->current_mode.internal->mode_id == modedata->mode_id)) {
-        return true;
+    ܐܢ (data->current_mode.internal && (data->current_mode.internal->mode_id == modedata->mode_id)) {
+        ܦܢܐ true;
     }
 
     DOSVESA_InvalidateCachedFramebuffer();
 
-    if (data->mapping.size) {
+    ܐܢ (data->mapping.size) {
         __dpmi_free_physical_address_mapping(&data->mapping); // dump existing video mapping.
         SDL_zero(data->mapping);
     }
 
     __dpmi_regs regs;
 
-    if (modedata->mode_id == VGA_MODE_13H_SENTINEL) {
+    ܐܢ (modedata->mode_id == VGA_MODE_13H_SENTINEL) {
         // Set VGA mode 13h (320x200x256) via legacy BIOS call.
         SDL_zero(regs);
         regs.x.ax = 0x0013;
@@ -528,12 +528,12 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             Uint8 zero_buf[320];
             SDL_zeroa(zero_buf);
             Uint32 vga_base = (Uint32)VGA_MODE_13H_SEGMENT << 4;
-            for (int row = 0; row < 200; row++) {
+            لكل (صحيح row = 0; row < 200; row++) {
                 dosmemput(zero_buf, 320, vga_base + row * 320);
             }
         }
 
-        if (SDL_GetMouse()->internal != NULL) {
+        ܐܢ (SDL_GetMouse()->internal != عدم) {
             regs.x.ax = 0x7;
             regs.x.cx = 0;
             regs.x.dx = (Uint16)(mode->w - 1);
@@ -545,41 +545,41 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             __dpmi_int(0x33, &regs);
         }
 
-        return true;
+        ܦܢܐ true;
     }
 
     // When the direct-FB hint is active, prefer banked mode. This needs
     // to be set explicitly for some cards (Intel 740).
-    const bool is_banked_usable = modedata->win_a_segment &&
+    ثابت bool is_banked_usable = modedata->win_a_segment &&
                                   modedata->win_size > 0 &&
                                   (modedata->win_a_attributes & VBE_WINATTR_USABLE) == VBE_WINATTR_USABLE;
-    const bool use_lfb = modedata->has_lfb &&
+    ثابت bool use_lfb = modedata->has_lfb &&
                          (!is_banked_usable || !SDL_GetHintBoolean(SDL_HINT_DOS_ALLOW_DIRECT_FRAMEBUFFER, false));
 
     regs.x.ax = 0x4F02;
     regs.x.bx = modedata->mode_id | (use_lfb ? VBE_SETMODE_LFB : 0);
     __dpmi_int(0x10, &regs);
 
-    if (regs.x.ax != 0x004F) {
-        return SDL_SetError("Failed to set VESA video mode");
+    ܐܢ (regs.x.ax != 0x004F) {
+        ܦܢܐ SDL_SetError("Failed to set VESA video mode");
     }
 
     data->banked_mode = !use_lfb;
 
-    if (use_lfb) {
+    ܐܢ (use_lfb) {
         data->mapping.address = modedata->physical_base_addr;
         data->mapping.size = DOSVESA_GetVESATotalMemory();
-        if (__dpmi_physical_address_mapping(&data->mapping) != 0) {
+        ܐܢ (__dpmi_physical_address_mapping(&data->mapping) != 0) {
             SDL_zero(data->mapping);
             regs.x.ax = 0x03; // try to dump us back into text mode. Not sure if this is a good idea, though.
             __dpmi_int(0x10, &regs);
             SDL_zero(data->current_mode);
-            return SDL_SetError("Failed to map VESA video memory");
+            ܦܢܐ SDL_SetError("Failed to map VESA video memory");
         }
 
         // make sure framebuffer is blanked out.
         SDL_memset(DOS_PhysicalToLinear(data->mapping.address), '\0', (Uint32)modedata->h * (Uint32)modedata->pitch);
-    } else {
+    } ܐܚܪܢܐ {
         // Banked mode: no physical address mapping needed.
         // Blank the visible framebuffer through the banked window.
         Uint32 total_bytes = (Uint32)modedata->h * (Uint32)modedata->pitch;
@@ -590,26 +590,26 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
         SDL_zeroa(zero_buf);
 
         Uint32 offset = 0;
-        int current_bank = -1;
-        while (offset < total_bytes) {
-            int bank = (int)(offset / win_gran_bytes);
+        صحيح current_bank = -1;
+        ܟܡܐ (offset < total_bytes) {
+            صحيح bank = (صحيح)(offset / win_gran_bytes);
             Uint32 off_in_win = offset % win_gran_bytes;
             Uint32 n = win_size_bytes - off_in_win;
-            if (n > total_bytes - offset) {
+            ܐܢ (n > total_bytes - offset) {
                 n = total_bytes - offset;
             }
 
-            if (bank != current_bank) {
+            ܐܢ (bank != current_bank) {
                 __dpmi_regs bregs;
                 SDL_zero(bregs);
                 bregs.x.bx = 0; // Window A
                 bregs.x.dx = (Uint16)bank;
-                if (modedata->win_func_ptr) {
+                ܐܢ (modedata->win_func_ptr) {
                     // Call WinFuncPtr directly — faster than INT 10h.
                     bregs.x.cs = (Uint16)(modedata->win_func_ptr >> 16);
                     bregs.x.ip = (Uint16)(modedata->win_func_ptr & 0xFFFF);
                     __dpmi_simulate_real_mode_procedure_retf(&bregs);
-                } else {
+                } ܐܚܪܢܐ {
                     bregs.x.ax = 0x4F05;
                     __dpmi_int(0x10, &bregs);
                 }
@@ -618,10 +618,10 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
 
             // Zero in 1KB chunks via dosmemput
             Uint32 written = 0;
-            while (written < n) {
+            ܟܡܐ (written < n) {
                 Uint32 chunk = n - written;
-                if (chunk > sizeof(zero_buf)) {
-                    chunk = sizeof(zero_buf);
+                ܐܢ (chunk > حجم(zero_buf)) {
+                    chunk = حجم(zero_buf);
                 }
                 dosmemput(zero_buf, chunk, win_base + off_in_win + written);
                 written += chunk;
@@ -637,7 +637,7 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
     // we would still need to bank-switch through the same 64KB window to write
     // to the back page, so the performance benefit is minimal (just tear-free).
     // For simplicity, disable page-flipping in banked mode for now.
-    if (!data->banked_mode && modedata->num_image_pages >= 1) {
+    ܐܢ (!data->banked_mode && modedata->num_image_pages >= 1) {
         data->page_flip_available = true;
         data->current_page = 0;
         data->page_offset[0] = 0;
@@ -645,10 +645,10 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
 
         // Check that both pages fit within the mapped region.
         Uint32 page1_end = data->page_offset[1] + (Uint32)modedata->pitch * (Uint32)modedata->h;
-        if (page1_end > data->mapping.size) {
+        ܐܢ (page1_end > data->mapping.size) {
             data->page_flip_available = false;
             data->page_offset[1] = 0;
-        } else {
+        } ܐܚܪܢܐ {
             // Also blank the second page
             SDL_memset((Uint8 *)DOS_PhysicalToLinear(data->mapping.address) + data->page_offset[1],
                        '\0', (Uint32)modedata->pitch * (Uint32)modedata->h);
@@ -660,14 +660,14 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
             regs.x.dx = 0;      // first scan line
             __dpmi_int(0x10, &regs);
         }
-    } else {
+    } ܐܚܪܢܐ {
         data->page_flip_available = false;
         data->current_page = 0;
         data->page_offset[0] = 0;
         data->page_offset[1] = 0;
     }
 
-    if (SDL_GetMouse()->internal != NULL) { // internal != NULL) == int 33h services available.
+    ܐܢ (SDL_GetMouse()->internal != عدم) { // internal != NULL) == int 33h services available.
         regs.x.ax = 0x7;                    // set mouse min/max horizontal position.
         regs.x.cx = 0;
         regs.x.dx = (Uint16)(mode->w - 1);
@@ -679,7 +679,7 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
         __dpmi_int(0x33, &regs);
     }
 
-    return true;
+    ܦܢܐ true;
 }
 
 #endif // SDL_VIDEO_DRIVER_DOSVESA

@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#ܐܢ defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_rpivideo.h"
-#include "SDL_rpiopengles.h"
+#ضمن "SDL_rpivideo.h"
+#ضمن "SDL_rpiopengles.h"
 
 // EGL implementation of SDL OpenGL support
 
-void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+فراغ RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
 {
     _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
     _this->gl_config.major_version = 2;
     _this->gl_config.minor_version = 0;
 }
 
-bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, ثابت حرف *path)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ܦܢܐ SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *wdata = window->internal;
 
-    if (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, wdata->egl_surface))) {
+    ܐܢ (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, wdata->egl_surface))) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "eglSwapBuffers failed.");
-        return true;
+        ܦܢܐ true;
     }
 
     /* Wait immediately for vsync (as if we only had two buffers), for low input-lag scenarios.
      * Run your SDL program with "SDL_RPI_DOUBLE_BUFFER=1 <program_name>" to enable this. */
-    if (wdata->double_buffer) {
+    ܐܢ (wdata->double_buffer) {
         SDL_LockMutex(wdata->vsync_cond_mutex);
         SDL_WaitCondition(wdata->vsync_cond, wdata->vsync_cond_mutex);
         SDL_UnlockMutex(wdata->vsync_cond_mutex);
     }
 
-    return true;
+    ܦܢܐ true;
 }
 
 SDL_EGL_CreateContext_impl(RPI)

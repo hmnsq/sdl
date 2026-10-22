@@ -19,26 +19,26 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#ضمن <errno.h>
+#ضمن <fcntl.h>
+#ضمن <limits.h>
+#ضمن <signal.h>
+#ضمن <sys/mman.h>
+#ضمن <unistd.h>
 
-#include "SDL_waylandshmbuffer.h"
-#include "SDL_waylandvideo.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
+#ضمن "SDL_waylandshmbuffer.h"
+#ضمن "SDL_waylandvideo.h"
+#ضمن "single-pixel-buffer-v1-client-protocol.h"
 
-static bool SetTempFileSize(int fd, off_t size)
+ساكن bool SetTempFileSize(صحيح fd, off_t size)
 {
 #ifdef HAVE_POSIX_FALLOCATE
     sigset_t set, old_set;
-    int ret;
+    صحيح ret;
 
     /* SIGALRM can potentially block a large posix_fallocate() operation
      * from succeeding, so block it.
@@ -47,167 +47,167 @@ static bool SetTempFileSize(int fd, off_t size)
     sigaddset(&set, SIGALRM);
     sigprocmask(SIG_BLOCK, &set, &old_set);
 
-    do {
+    ܥܒܕ {
         ret = posix_fallocate(fd, 0, size);
-    } while (ret == EINTR);
+    } ܟܡܐ (ret == EINTR);
 
-    sigprocmask(SIG_SETMASK, &old_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_set, عدم);
 
-    if (ret == 0) {
-        return true;
-    } else if (ret != EINVAL && errno != EOPNOTSUPP) {
-        return false;
+    ܐܢ (ret == 0) {
+        ܦܢܐ true;
+    } ܐܚܪܢܐ ܐܢ (ret != EINVAL && errno != EOPNOTSUPP) {
+        ܦܢܐ false;
     }
 #endif
 
-    if (ftruncate(fd, size) < 0) {
-        return false;
+    ܐܢ (ftruncate(fd, size) < 0) {
+        ܦܢܐ false;
     }
-    return true;
+    ܦܢܐ true;
 }
 
-static int CreateTempFD(off_t size)
+ساكن صحيح CreateTempFD(off_t size)
 {
-    int fd;
+    صحيح fd;
 
 #ifdef HAVE_MEMFD_CREATE
     fd = memfd_create("SDL", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (fd >= 0) {
+    ܐܢ (fd >= 0) {
         fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
-    } else
+    } ܐܚܪܢܐ
 #endif
     {
-        static const char template[] = "/sdl-shared-XXXXXX";
-        const char *xdg_path;
-        char tmp_path[PATH_MAX];
+        ساكن ثابت حرف template[] = "/sdl-shared-XXXXXX";
+        ثابت حرف *xdg_path;
+        حرف tmp_path[PATH_MAX];
 
         xdg_path = SDL_getenv("XDG_RUNTIME_DIR");
-        if (!xdg_path) {
-            return -1;
+        ܐܢ (!xdg_path) {
+            ܦܢܐ -1;
         }
 
         SDL_strlcpy(tmp_path, xdg_path, PATH_MAX);
         SDL_strlcat(tmp_path, template, PATH_MAX);
 
         fd = mkostemp(tmp_path, O_CLOEXEC);
-        if (fd < 0) {
-            return -1;
+        ܐܢ (fd < 0) {
+            ܦܢܐ -1;
         }
 
         // Need to manually unlink the temp files, or they can persist after close and fill up the temp storage.
         unlink(tmp_path);
     }
 
-    if (!SetTempFileSize(fd, size)) {
+    ܐܢ (!SetTempFileSize(fd, size)) {
         close(fd);
-        return -1;
+        ܦܢܐ -1;
     }
 
-    return fd;
+    ܦܢܐ fd;
 }
 
-static void buffer_handle_release(void *data, struct wl_buffer *wl_buffer)
+ساكن فراغ buffer_handle_release(فراغ *data, بنية wl_buffer *wl_buffer)
 {
     // NOP
 }
 
-static struct wl_buffer_listener buffer_listener = {
+ساكن بنية wl_buffer_listener buffer_listener = {
     buffer_handle_release
 };
 
-struct Wayland_SHMPool
+بنية Wayland_SHMPool
 {
-    struct wl_shm_pool *shm_pool;
-    void *shm_pool_memory;
-    int shm_pool_size;
-    int offset;
+    بنية wl_shm_pool *shm_pool;
+    فراغ *shm_pool_memory;
+    صحيح shm_pool_size;
+    صحيح offset;
 };
 
-Wayland_SHMPool *Wayland_AllocSHMPool(int size)
+Wayland_SHMPool *Wayland_AllocSHMPool(صحيح size)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
     SDL_VideoData *data = vd->internal;
 
-    if (size <= 0) {
-        return NULL;
+    ܐܢ (size <= 0) {
+        ܦܢܐ عدم;
     }
 
-    Wayland_SHMPool *shmPool = SDL_calloc(1, sizeof(Wayland_SHMPool));
-    if (!shmPool) {
-        return NULL;
+    Wayland_SHMPool *shmPool = SDL_calloc(1, حجم(Wayland_SHMPool));
+    ܐܢ (!shmPool) {
+        ܦܢܐ عدم;
     }
 
     shmPool->shm_pool_size = (size + 15) & (~15);
 
-    const int shm_fd = CreateTempFD(shmPool->shm_pool_size);
-    if (shm_fd < 0) {
+    ثابت صحيح shm_fd = CreateTempFD(shmPool->shm_pool_size);
+    ܐܢ (shm_fd < 0) {
         SDL_free(shmPool);
         SDL_SetError("Creating SHM buffer failed.");
-        return NULL;
+        ܦܢܐ عدم;
     }
 
-    shmPool->shm_pool_memory = mmap(NULL, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shmPool->shm_pool_memory == MAP_FAILED) {
-        shmPool->shm_pool_memory = NULL;
+    shmPool->shm_pool_memory = mmap(عدم, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    ܐܢ (shmPool->shm_pool_memory == MAP_FAILED) {
+        shmPool->shm_pool_memory = عدم;
         close(shm_fd);
         SDL_free(shmPool);
         SDL_SetError("mmap() failed.");
-        return NULL;
+        ܦܢܐ عدم;
     }
 
     shmPool->shm_pool = wl_shm_create_pool(data->shm, shm_fd, shmPool->shm_pool_size);
     close(shm_fd);
 
-    return shmPool;
+    ܦܢܐ shmPool;
 }
 
-struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data)
+بنية wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, صحيح width, صحيح height, فراغ **data)
 {
-    const Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
+    ثابت Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
 
-    if (!shmPool || !width || !height || !data) {
-        return NULL;
+    ܐܢ (!shmPool || !width || !height || !data) {
+        ܦܢܐ عدم;
     }
 
     *data = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
-    struct wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
+    بنية wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
     wl_buffer_add_listener(buffer, &buffer_listener, shmPool);
 
     shmPool->offset += width * height * 4;
 
-    return buffer;
+    ܦܢܐ buffer;
 }
 
-void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
+فراغ Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
 {
-    if (shmPool) {
+    ܐܢ (shmPool) {
         wl_shm_pool_destroy(shmPool->shm_pool);
         munmap(shmPool->shm_pool_memory, shmPool->shm_pool_size);
         SDL_free(shmPool);
     }
 }
 
-struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
+بنية wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
 {
     SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
 
     // The single-pixel buffer protocol is preferred, as the compositor can choose an optimal format.
-    if (viddata->single_pixel_buffer_manager) {
-        return wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
-    } else {
+    ܐܢ (viddata->single_pixel_buffer_manager) {
+        ܦܢܐ wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
+    } ܐܚܪܢܐ {
         Wayland_SHMPool *pool = Wayland_AllocSHMPool(4);
-        if (!pool) {
-            return NULL;
+        ܐܢ (!pool) {
+            ܦܢܐ عدم;
         }
 
-        void *mem;
-        struct wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
+        فراغ *mem;
+        بنية wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
 
-        const Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
-        SDL_memcpy(mem, pixel, sizeof(pixel));
+        ثابت Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
+        SDL_memcpy(mem, pixel, حجم(pixel));
 
         Wayland_ReleaseSHMPool(pool);
-        return wl_buffer;
+        ܦܢܐ wl_buffer;
     }
 }
 

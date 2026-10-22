@@ -22,26 +22,26 @@
  * Author:  Owen Taylor, Red Hat, Inc.
  */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#ضمن "SDL_x11video.h"
 
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ضمن <limits.h>
+#ضمن <stdio.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
 
-#include "xsettings-client.h"
+#ضمن "xsettings-client.h"
 
-struct _XSettingsClient
+بنية _XSettingsClient
 {
   Display *display;
-  int screen;
+  صحيح screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
-  void *cb_data;
+  فراغ *cb_data;
 
   XSettingsGrabFunc grab;
   XSettingsGrabFunc ungrab;
@@ -54,44 +54,44 @@ struct _XSettingsClient
   XSettingsList *settings;
 };
 
-static void
+ساكن فراغ
 notify_changes (XSettingsClient *client,
                 XSettingsList   *old_list)
 {
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  ܐܢ (!client->notify)
+    ܦܢܐ;
 
-  while (old_iter || new_iter)
+  ܟܡܐ (old_iter || new_iter)
     {
-      int cmp;
+      صحيح cmp;
 
-      if (old_iter && new_iter)
+      ܐܢ (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      ܐܚܪܢܐ ܐܢ (old_iter)
         cmp = -1;
-      else
+      ܐܚܪܢܐ
         cmp = 1;
 
-      if (cmp < 0)
+      ܐܢ (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
-                          NULL,
+                          عدم,
                           client->cb_data);
         }
-      else if (cmp == 0)
+      ܐܚܪܢܐ ܐܢ (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          ܐܢ (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
                             XSETTINGS_ACTION_CHANGED,
                             new_iter->setting,
                             client->cb_data);
         }
-      else
+      ܐܚܪܢܐ
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
@@ -99,44 +99,44 @@ notify_changes (XSettingsClient *client,
                           client->cb_data);
         }
 
-      if (old_iter)
+      ܐܢ (old_iter)
         old_iter = old_iter->next;
-      if (new_iter)
+      ܐܢ (new_iter)
         new_iter = new_iter->next;
     }
 }
 
-static int
+ساكن صحيح
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  ܦܢܐ True;
 }
 
-static char local_byte_order = '\0';
+ساكن حرف local_byte_order = '\0';
 
 #define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
 
-static XSettingsResult
+ساكن XSettingsResult
 fetch_card16 (XSettingsBuffer *buffer,
               CARD16          *result)
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  ܐܢ (BYTES_LEFT (buffer) < 2)
+    ܦܢܐ XSETTINGS_ACCESS;
 
   x = *(CARD16 *)buffer->pos;
   buffer->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
+  ܐܢ (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  ܐܚܪܢܐ
     *result = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  ܦܢܐ XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+ساكن XSettingsResult
 fetch_ushort (XSettingsBuffer *buffer,
               unsigned short  *result)
 {
@@ -144,59 +144,59 @@ fetch_ushort (XSettingsBuffer *buffer,
   XSettingsResult r;
 
   r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
+  ܐܢ (r == XSETTINGS_SUCCESS)
     *result = x;
 
-  return r;
+  ܦܢܐ r;
 }
 
-static XSettingsResult
+ساكن XSettingsResult
 fetch_card32 (XSettingsBuffer *buffer,
               CARD32          *result)
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  ܐܢ (BYTES_LEFT (buffer) < 4)
+    ܦܢܐ XSETTINGS_ACCESS;
 
   x = *(CARD32 *)buffer->pos;
   buffer->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
+  ܐܢ (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  ܐܚܪܢܐ
     *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  ܦܢܐ XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
+ساكن XSettingsResult
 fetch_card8 (XSettingsBuffer *buffer,
              CARD8           *result)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  ܐܢ (BYTES_LEFT (buffer) < 1)
+    ܦܢܐ XSETTINGS_ACCESS;
 
   *result = *(CARD8 *)buffer->pos;
   buffer->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  ܦܢܐ XSETTINGS_SUCCESS;
 }
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-static XSettingsList *
-parse_settings (unsigned char *data,
+ساكن XSettingsList *
+parse_settings (unsigned حرف *data,
                 size_t         len)
 {
   XSettingsBuffer buffer;
   XSettingsResult result = XSETTINGS_SUCCESS;
-  XSettingsList *settings = NULL;
+  XSettingsList *settings = عدم;
   CARD32 serial;
   CARD32 n_entries;
   CARD32 i;
-  XSettingsSetting *setting = NULL;
-  char buffer_byte_order = '\0';
+  XSettingsSetting *setting = عدم;
+  حرف buffer_byte_order = '\0';
 
   local_byte_order = xsettings_byte_order ();
 
@@ -204,27 +204,27 @@ parse_settings (unsigned char *data,
   buffer.len = len;
   buffer.byte_order = '\0';
 
-  result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
+  result = fetch_card8 (&buffer, (unsigned حرف *) &buffer_byte_order);
+  ܐܢ (buffer_byte_order != MSBFirst &&
       buffer_byte_order != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
       result = XSETTINGS_FAILED;
-      goto out;
+      اذهب out;
     }
 
   buffer.byte_order = buffer_byte_order;
   buffer.pos += 3;
 
   result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ܐܢ (result != XSETTINGS_SUCCESS)
+    اذهب out;
 
   result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ܐܢ (result != XSETTINGS_SUCCESS)
+    اذهب out;
 
-  for (i = 0; i < n_entries; i++)
+  لكل (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
@@ -232,35 +232,35 @@ parse_settings (unsigned char *data,
       size_t pad_len;
 
       result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ܐܢ (result != XSETTINGS_SUCCESS)
+        اذهب out;
 
       buffer.pos += 1;
 
       result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ܐܢ (result != XSETTINGS_SUCCESS)
+        اذهب out;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      ܐܢ (BYTES_LEFT (&buffer) < pad_len)
         {
           result = XSETTINGS_ACCESS;
-          goto out;
+          اذهب out;
         }
 
-      setting = malloc (sizeof *setting);
-      if (!setting)
+      setting = malloc (حجم *setting);
+      ܐܢ (!setting)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          اذهب out;
         }
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
       setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      ܐܢ (!setting->name)
         {
           result = XSETTINGS_NO_MEM;
-          goto out;
+          اذهب out;
         }
 
       memcpy (setting->name, buffer.pos, name_len);
@@ -268,124 +268,124 @@ parse_settings (unsigned char *data,
       buffer.pos += pad_len;
 
       result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ܐܢ (result != XSETTINGS_SUCCESS)
+        اذهب out;
       setting->last_change_serial = v_int;
 
-      switch (type)
+      بدل (type)
         {
-        case XSETTINGS_TYPE_INT:
+        حالة XSETTINGS_TYPE_INT:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
 
           setting->data.v_int = (INT32)v_int;
-          break;
-        case XSETTINGS_TYPE_STRING:
+          اكسر;
+        حالة XSETTINGS_TYPE_STRING:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
+          ܐܢ (v_int + 1 == 0 || /* Guard against wrap-around */
               BYTES_LEFT (&buffer) < pad_len)
             {
               result = XSETTINGS_ACCESS;
-              goto out;
+              اذهب out;
             }
 
           setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          ܐܢ (!setting->data.v_string)
             {
               result = XSETTINGS_NO_MEM;
-              goto out;
+              اذهب out;
             }
 
           memcpy (setting->data.v_string, buffer.pos, v_int);
           setting->data.v_string[v_int] = '\0';
           buffer.pos += pad_len;
 
-          break;
-        case XSETTINGS_TYPE_COLOR:
+          اكسر;
+        حالة XSETTINGS_TYPE_COLOR:
           result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
           result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
           result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
           result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ܐܢ (result != XSETTINGS_SUCCESS)
+            اذهب out;
 
-          break;
-        default:
+          اكسر;
+        افتراضي:
           /* Quietly ignore unknown types */
-          break;
+          اكسر;
         }
 
       setting->type = type;
 
       result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ܐܢ (result != XSETTINGS_SUCCESS)
+        اذهب out;
 
-      setting = NULL;
+      setting = عدم;
     }
 
  out:
 
-  if (result != XSETTINGS_SUCCESS)
+  ܐܢ (result != XSETTINGS_SUCCESS)
     {
-      switch (result)
+      بدل (result)
         {
-        case XSETTINGS_NO_MEM:
+        حالة XSETTINGS_NO_MEM:
           fprintf(stderr, "Out of memory reading XSETTINGS property\n");
-          break;
-        case XSETTINGS_ACCESS:
+          اكسر;
+        حالة XSETTINGS_ACCESS:
           fprintf(stderr, "Invalid XSETTINGS property (read off end)\n");
-          break;
-        case XSETTINGS_DUPLICATE_ENTRY:
+          اكسر;
+        حالة XSETTINGS_DUPLICATE_ENTRY:
           fprintf (stderr, "Duplicate XSETTINGS entry for '%s'\n", setting->name);
           SDL_FALLTHROUGH;
-        case XSETTINGS_FAILED:
+        حالة XSETTINGS_FAILED:
           SDL_FALLTHROUGH;
-        case XSETTINGS_SUCCESS:
+        حالة XSETTINGS_SUCCESS:
           SDL_FALLTHROUGH;
-        case XSETTINGS_NO_ENTRY:
-          break;
+        حالة XSETTINGS_NO_ENTRY:
+          اكسر;
         }
 
-      if (setting)
+      ܐܢ (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
-      settings = NULL;
+      settings = عدم;
 
     }
 
-  return settings;
+  ܦܢܐ settings;
 }
 
-static void
+ساكن فراغ
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
+  صحيح format;
   unsigned long n_items;
   unsigned long bytes_after;
-  unsigned char *data;
-  int result;
+  unsigned حرف *data;
+  صحيح result;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  صحيح (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
-  client->settings = NULL;
+  client->settings = عدم;
 
-  if (client->manager_window)
+  ܐܢ (client->manager_window)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
       result = X11_XGetWindowProperty (client->display, client->manager_window,
@@ -394,17 +394,17 @@ read_settings (XSettingsClient *client)
                                        &type, &format, &n_items, &bytes_after, &data);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      ܐܢ (result == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          ܐܢ (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          ܐܚܪܢܐ ܐܢ (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
+          ܐܚܪܢܐ
             client->settings = parse_settings (data, n_items);
 
           X11_XFree (data);
@@ -415,7 +415,7 @@ read_settings (XSettingsClient *client)
   xsettings_list_free (old_list);
 }
 
-static void
+ساكن فراغ
 add_events (Display *display,
             Window   window,
             long     mask)
@@ -426,33 +426,33 @@ add_events (Display *display,
   X11_XSelectInput (display, window, attr.your_event_mask | mask);
 }
 
-static void
+ساكن فراغ
 check_manager_window (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
+  ܐܢ (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
-  if (client->grab)
+  ܐܢ (client->grab)
     client->grab (client->display);
-  else
+  ܐܚܪܢܐ
     X11_XGrabServer (client->display);
 
   client->manager_window = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
+  ܐܢ (client->manager_window)
     X11_XSelectInput (client->display, client->manager_window,
                       PropertyChangeMask | StructureNotifyMask);
 
-  if (client->ungrab)
+  ܐܢ (client->ungrab)
     client->ungrab (client->display);
-  else
+  ܐܚܪܢܐ
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  ܐܢ (client->manager_window && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
+      ܐܢ (!client->watch (client->manager_window, True,
                           PropertyChangeMask | StructureNotifyMask,
                           client->cb_data))
         {
@@ -460,7 +460,7 @@ check_manager_window (XSettingsClient *client)
            * after we ungrabbed
            */
           client->manager_window = None;
-          return;
+          ܦܢܐ;
         }
     }
 
@@ -470,32 +470,32 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      صحيح                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
-                      void                *cb_data)
+                      فراغ                *cb_data)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
-                                               NULL, NULL);
+  ܦܢܐ xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
+                                               عدم, عدم);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      صحيح                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
-                                      void                *cb_data,
+                                      فراغ                *cb_data,
                                       XSettingsGrabFunc    grab,
                                       XSettingsGrabFunc    ungrab)
 {
   XSettingsClient *client;
-  char buffer[256];
-  char *atom_names[3];
+  حرف buffer[256];
+  حرف *atom_names[3];
   Atom atoms[3];
 
-  client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  client = malloc (حجم *client);
+  ܐܢ (!client)
+    ܦܢܐ عدم;
 
   client->display = display;
   client->screen = screen;
@@ -506,16 +506,16 @@ xsettings_client_new_with_grab_funcs (Display             *display,
   client->ungrab = ungrab;
 
   client->manager_window = None;
-  client->settings = NULL;
+  client->settings = عدم;
 
-  SDL_snprintf(buffer, sizeof(buffer), "_XSETTINGS_S%d", screen);
+  SDL_snprintf(buffer, حجم(buffer), "_XSETTINGS_S%d", screen);
   atom_names[0] = buffer;
   atom_names[1] = "_XSETTINGS_SETTINGS";
   atom_names[2] = "MANAGER";
 
 #ifdef HAVE_XINTERNATOMS
   XInternAtoms (display, atom_names, 3, False, atoms);
-#else
+#ܐܚܪܢܐ
   atoms[0] = X11_XInternAtom (display, atom_names[0], False);
   atoms[1] = X11_XInternAtom (display, atom_names[1], False);
   atoms[2] = X11_XInternAtom (display, atom_names[2], False);
@@ -529,92 +529,92 @@ xsettings_client_new_with_grab_funcs (Display             *display,
    */
   add_events (display, RootWindow (display, screen), StructureNotifyMask);
 
-  if (client->watch)
+  ܐܢ (client->watch)
     client->watch (RootWindow (display, screen), True, StructureNotifyMask,
                    client->cb_data);
 
   check_manager_window (client);
 
-  return client;
+  ܦܢܐ client;
 }
 
 
-void
+فراغ
 xsettings_client_set_grab_func   (XSettingsClient      *client,
                                   XSettingsGrabFunc     grab)
 {
   client->grab = grab;
 }
 
-void
+فراغ
 xsettings_client_set_ungrab_func (XSettingsClient      *client,
                                   XSettingsGrabFunc     ungrab)
 {
   client->ungrab = ungrab;
 }
 
-void
+فراغ
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
+  ܐܢ (client->watch)
     client->watch (RootWindow (client->display, client->screen),
                    False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
+  ܐܢ (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
   xsettings_list_free (client->settings);
-  free (client);
+  حرر (client);
 }
 
 XSettingsResult
 xsettings_client_get_setting (XSettingsClient   *client,
-                              const char        *name,
+                              ثابت حرف        *name,
                               XSettingsSetting **setting)
 {
   XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  ܐܢ (search)
     {
       *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      ܦܢܐ *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  ܐܚܪܢܐ
+    ܦܢܐ XSETTINGS_NO_ENTRY;
 }
 
 Bool
 xsettings_client_process_event (XSettingsClient *client,
-                                const XEvent    *xev)
+                                ثابت XEvent    *xev)
 {
   /* The checks here will not unlikely cause us to reread
    * the properties from the manager window a number of
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  ܐܢ (xev->xany.window == RootWindow (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
+      ܐܢ (xev->xany.type == ClientMessage &&
           xev->xclient.message_type == client->manager_atom &&
           xev->xclient.data.l[1] == client->selection_atom)
         {
           check_manager_window (client);
-          return True;
+          ܦܢܐ True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  ܐܚܪܢܐ ܐܢ (xev->xany.window == client->manager_window)
     {
-      if (xev->xany.type == DestroyNotify)
+      ܐܢ (xev->xany.type == DestroyNotify)
         {
           check_manager_window (client);
-          return False;
+          ܦܢܐ False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      ܐܚܪܢܐ ܐܢ (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          ܦܢܐ True;
         }
     }
 
-  return False;
+  ܦܢܐ False;
 }
 
 XSettingsSetting *
@@ -623,76 +623,76 @@ xsettings_setting_copy (XSettingsSetting *setting)
   XSettingsSetting *result;
   size_t str_len;
 
-  result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  result = malloc (حجم *result);
+  ܐܢ (!result)
+    ܦܢܐ عدم;
 
   str_len = strlen (setting->name);
   result->name = malloc (str_len + 1);
-  if (!result->name)
-    goto err;
+  ܐܢ (!result->name)
+    اذهب err;
 
   memcpy (result->name, setting->name, str_len + 1);
 
   result->type = setting->type;
 
-  switch (setting->type)
+  بدل (setting->type)
     {
-    case XSETTINGS_TYPE_INT:
+    حالة XSETTINGS_TYPE_INT:
       result->data.v_int = setting->data.v_int;
-      break;
-    case XSETTINGS_TYPE_COLOR:
+      اكسر;
+    حالة XSETTINGS_TYPE_COLOR:
       result->data.v_color = setting->data.v_color;
-      break;
-    case XSETTINGS_TYPE_STRING:
+      اكسر;
+    حالة XSETTINGS_TYPE_STRING:
       str_len = strlen (setting->data.v_string);
       result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
-        goto err;
+      ܐܢ (!result->data.v_string)
+        اذهب err;
 
       memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
-      break;
+      اكسر;
     }
 
   result->last_change_serial = setting->last_change_serial;
 
-  return result;
+  ܦܢܐ result;
 
  err:
-  free(result->name); // This should NOT be SDL_free()
-  free(result); // This should NOT be SDL_free()
+  حرر(result->name); // This should NOT be SDL_free()
+  حرر(result); // This should NOT be SDL_free()
 
-  return NULL;
+  ܦܢܐ عدم;
 }
 
 XSettingsList *
 xsettings_list_copy (XSettingsList *list)
 {
-  XSettingsList *new = NULL;
+  XSettingsList *new = عدم;
   XSettingsList *old_iter = list;
-  XSettingsList *new_iter = NULL;
+  XSettingsList *new_iter = عدم;
 
-  while (old_iter)
+  ܟܡܐ (old_iter)
     {
       XSettingsList *new_node;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
-        goto error;
+      new_node = malloc (حجم *new_node);
+      ܐܢ (!new_node)
+        اذهب error;
 
       new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      ܐܢ (!new_node->setting)
         {
-          free (new_node);
-          goto error;
+          حرر (new_node);
+          اذهب error;
         }
 
-      if (new_iter)
+      ܐܢ (new_iter)
         new_iter->next = new_node;
-      else
+      ܐܚܪܢܐ
         {
           new = new_node;
-          new->next = NULL;
+          new->next = عدم;
         }
 
 
@@ -701,58 +701,58 @@ xsettings_list_copy (XSettingsList *list)
       old_iter = old_iter->next;
     }
 
-  return new;
+  ܦܢܐ new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  ܦܢܐ عدم;
 }
 
-int
+صحيح
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  ܐܢ (setting_a->type != setting_b->type)
+    ܦܢܐ 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  ܐܢ (strcmp (setting_a->name, setting_b->name) != 0)
+    ܦܢܐ 0;
 
-  switch (setting_a->type)
+  بدل (setting_a->type)
     {
-    case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
-    case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
+    حالة XSETTINGS_TYPE_INT:
+      ܦܢܐ setting_a->data.v_int == setting_b->data.v_int;
+    حالة XSETTINGS_TYPE_COLOR:
+      ܦܢܐ (setting_a->data.v_color.red == setting_b->data.v_color.red &&
               setting_a->data.v_color.green == setting_b->data.v_color.green &&
               setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
               setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
-    case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+    حالة XSETTINGS_TYPE_STRING:
+      ܦܢܐ strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
     }
 
-  return 0;
+  ܦܢܐ 0;
 }
 
-void
+فراغ
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
-    free (setting->data.v_string);
+  ܐܢ (setting->type == XSETTINGS_TYPE_STRING)
+    حرر (setting->data.v_string);
 
-  free(setting->name); // This should NOT be SDL_free()
-  free(setting); // This should NOT be SDL_free()
+  حرر(setting->name); // This should NOT be SDL_free()
+  حرر(setting); // This should NOT be SDL_free()
 }
 
-void
+فراغ
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  ܟܡܐ (list)
     {
       XSettingsList *next = list->next;
 
       xsettings_setting_free (list->setting);
-      free (list);
+      حرر (list);
 
       list = next;
     }
@@ -764,93 +764,93 @@ xsettings_list_insert (XSettingsList    **list,
 {
   XSettingsList *node;
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = عدم;
 
-  node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
+  node = malloc (حجم *node);
+  ܐܢ (!node)
+    ܦܢܐ XSETTINGS_NO_MEM;
   node->setting = setting;
 
   iter = *list;
-  while (iter)
+  ܟܡܐ (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      صحيح cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
-        break;
-      else if (cmp == 0)
+      ܐܢ (cmp < 0)
+        اكسر;
+      ܐܚܪܢܐ ܐܢ (cmp == 0)
         {
-          free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          حرر (node);
+          ܦܢܐ XSETTINGS_DUPLICATE_ENTRY;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  if (last)
+  ܐܢ (last)
     last->next = node;
-  else
+  ܐܚܪܢܐ
     *list = node;
 
   node->next = iter;
 
-  return XSETTINGS_SUCCESS;
+  ܦܢܐ XSETTINGS_SUCCESS;
 }
 
 XSettingsResult
 xsettings_list_delete (XSettingsList **list,
-                       const char     *name)
+                       ثابت حرف     *name)
 {
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *last = عدم;
 
   iter = *list;
-  while (iter)
+  ܟܡܐ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      ܐܢ (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
+          ܐܢ (last)
             last->next = iter->next;
-          else
+          ܐܚܪܢܐ
             *list = iter->next;
 
           xsettings_setting_free (iter->setting);
-          free (iter);
+          حرر (iter);
 
-          return XSETTINGS_SUCCESS;
+          ܦܢܐ XSETTINGS_SUCCESS;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  return XSETTINGS_FAILED;
+  ܦܢܐ XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
 xsettings_list_lookup (XSettingsList *list,
-                       const char    *name)
+                       ثابت حرف    *name)
 {
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  ܟܡܐ (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      ܐܢ (strcmp (name, iter->setting->name) == 0)
+        ܦܢܐ iter->setting;
 
       iter = iter->next;
     }
 
-  return NULL;
+  ܦܢܐ عدم;
 }
 
-char
-xsettings_byte_order (void)
+حرف
+xsettings_byte_order (فراغ)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  ܦܢܐ (*(حرف *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
 #endif /* SDL_VIDEO_DRIVER_X11 */

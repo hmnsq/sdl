@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_cocoavideo_h_
 #define SDL_cocoavideo_h_
 
-#include <SDL3/SDL_opengl.h>
+#ضمن <SDL3/SDL_opengl.h>
 
-#include <ApplicationServices/ApplicationServices.h>
-#include <IOKit/pwr_mgt/IOPMLib.h>
-#include <Cocoa/Cocoa.h>
+#ضمن <ApplicationServices/ApplicationServices.h>
+#ضمن <IOKit/pwr_mgt/IOPMLib.h>
+#ضمن <Cocoa/Cocoa.h>
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#include "SDL_cocoaclipboard.h"
-#include "SDL_cocoaevents.h"
-#include "SDL_cocoakeyboard.h"
-#include "SDL_cocoamodes.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoawindow.h"
-#include "SDL_cocoapen.h"
+#ضمن "SDL_cocoaclipboard.h"
+#ضمن "SDL_cocoaevents.h"
+#ضمن "SDL_cocoakeyboard.h"
+#ضمن "SDL_cocoamodes.h"
+#ضمن "SDL_cocoamouse.h"
+#ضمن "SDL_cocoaopengl.h"
+#ضمن "SDL_cocoawindow.h"
+#ضمن "SDL_cocoapen.h"
 
 // Private display data
 
 @class SDL3TranslatorResponder;
 
-typedef enum
+تعريفنوع تعداد
 {
     OptionAsAltNone,
     OptionAsAltOnlyLeft,
@@ -53,10 +53,10 @@ typedef enum
 } OptionAsAlt;
 
 @interface SDL_CocoaVideoData : NSObject
-@property(nonatomic) int allow_spaces;
-@property(nonatomic) int trackpad_is_touch_only;
-@property(nonatomic) unsigned int modifierFlags;
-@property(nonatomic) void *key_layout;
+@property(nonatomic) صحيح allow_spaces;
+@property(nonatomic) صحيح trackpad_is_touch_only;
+@property(nonatomic) unsigned صحيح modifierFlags;
+@property(nonatomic) فراغ *key_layout;
 @property(nonatomic) SDL3TranslatorResponder *fieldEdit;
 @property(nonatomic) NSInteger clipboard_count;
 @property(nonatomic) IOPMAssertionID screensaver_assertion;
@@ -66,7 +66,7 @@ typedef enum
 @end
 
 // Utility functions
-extern SDL_SystemTheme Cocoa_GetSystemTheme(void);
-extern NSImage *Cocoa_CreateImage(SDL_Surface *surface);
+خارجي SDL_SystemTheme Cocoa_GetSystemTheme(فراغ);
+خارجي NSImage *Cocoa_CreateImage(SDL_Surface *surface);
 
 #endif // SDL_cocoavideo_h_

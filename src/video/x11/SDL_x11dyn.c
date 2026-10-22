@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
 #define DEBUG_DYNAMIC_X11 0
 
-#include "SDL_x11dyn.h"
+#ضمن "SDL_x11dyn.h"
 
-#if DEBUG_DYNAMIC_X11
-#include <stdio.h>
+#ܐܢ DEBUG_DYNAMIC_X11
+#ضمن <stdio.h>
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
 
-typedef struct
+تعريفنوع بنية
 {
     SDL_SharedObject *lib;
-    const char *libname;
+    ثابت حرف *libname;
 } x11dynlib;
 
 SDL_ELF_NOTE_DLOPEN(
@@ -52,8 +52,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
@@ -63,8 +63,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
@@ -74,8 +74,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
@@ -85,8 +85,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
@@ -96,8 +96,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
@@ -107,8 +107,8 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS عدم
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
@@ -118,87 +118,87 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST NULL
+#ܐܚܪܢܐ
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST عدم
 #endif
 
-static x11dynlib x11libs[] = {
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
+ساكن x11dynlib x11libs[] = {
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
+    { عدم, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
 };
 
-static void *X11_GetSym(const char *fnname, int *pHasModule)
+ساكن فراغ *X11_GetSym(ثابت حرف *fnname, صحيح *pHasModule)
 {
-    int i;
-    void *fn = NULL;
-    for (i = 0; i < SDL_arraysize(x11libs); i++) {
-        if (x11libs[i].lib) {
+    صحيح i;
+    فراغ *fn = عدم;
+    لكل (i = 0; i < SDL_arraysize(x11libs); i++) {
+        ܐܢ (x11libs[i].lib) {
             fn = SDL_LoadFunction(x11libs[i].lib, fnname);
-            if (fn) {
-                break;
+            ܐܢ (fn) {
+                اكسر;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_X11
-    if (fn) {
+#ܐܢ DEBUG_DYNAMIC_X11
+    ܐܢ (fn) {
         SDL_Log("X11: Found '%s' in %s (%p)", fnname, x11libs[i].libname, fn);
-    } else {
+    } ܐܚܪܢܐ {
         SDL_Log("X11: Symbol '%s' NOT FOUND!", fnname);
     }
 #endif
 
-    if (!fn) {
+    ܐܢ (!fn) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    ܦܢܐ fn;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#define SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = عدم;
+#ضمن "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) int SDL_X11_HAVE_##modname = 0;
-#include "SDL_x11sym.h"
+#define SDL_X11_MODULE(modname) صحيح SDL_X11_HAVE_##modname = 0;
+#ضمن "SDL_x11sym.h"
 
-static int x11_load_refcount = 0;
+ساكن صحيح x11_load_refcount = 0;
 
-void SDL_X11_UnloadSymbols(void)
+فراغ SDL_X11_UnloadSymbols(فراغ)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (x11_load_refcount > 0) {
-        if (--x11_load_refcount == 0) {
+    ܐܢ (x11_load_refcount > 0) {
+        ܐܢ (--x11_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            int i;
+            صحيح i;
 #endif
 
             // set all the function pointers to NULL.
 #define SDL_X11_MODULE(modname)                SDL_X11_HAVE_##modname = 0;
-#define SDL_X11_SYM(rc, fn, params) X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#define SDL_X11_SYM(rc, fn, params) X11_##fn = عدم;
+#ضمن "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
-            X11_XCreateIC = NULL;
-            X11_XGetICValues = NULL;
-            X11_XSetICValues = NULL;
-            X11_XVaCreateNestedList = NULL;
+            X11_XCreateIC = عدم;
+            X11_XGetICValues = عدم;
+            X11_XSetICValues = عدم;
+            X11_XVaCreateNestedList = عدم;
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            for (i = 0; i < SDL_arraysize(x11libs); i++) {
-                if (x11libs[i].lib) {
+            لكل (i = 0; i < SDL_arraysize(x11libs); i++) {
+                ܐܢ (x11libs[i].lib) {
                     SDL_UnloadObject(x11libs[i].lib);
-                    x11libs[i].lib = NULL;
+                    x11libs[i].lib = عدم;
                 }
             }
 #endif
@@ -207,27 +207,27 @@ void SDL_X11_UnloadSymbols(void)
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_X11_LoadSymbols(void)
+bool SDL_X11_LoadSymbols(فراغ)
 {
     bool result = true; // always succeed if not using Dynamic X11 stuff.
 
     // deal with multiple modules (dga, x11, etc) needing these symbols...
-    if (x11_load_refcount++ == 0) {
+    ܐܢ (x11_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(x11libs); i++) {
-            if (x11libs[i].libname) {
+        صحيح i;
+        صحيح *thismod = عدم;
+        لكل (i = 0; i < SDL_arraysize(x11libs); i++) {
+            ܐܢ (x11libs[i].libname) {
                 x11libs[i].lib = SDL_LoadObject(x11libs[i].libname);
             }
         }
 
 #define SDL_X11_MODULE(modname) SDL_X11_HAVE_##modname = 1; // default yes
-#include "SDL_x11sym.h"
+#ضمن "SDL_x11sym.h"
 
 #define SDL_X11_MODULE(modname)     thismod = &SDL_X11_HAVE_##modname;
 #define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)X11_GetSym(#fn, thismod);
-#include "SDL_x11sym.h"
+#ضمن "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
         X11_XCreateIC = (SDL_DYNX11FN_XCreateIC)
@@ -240,20 +240,20 @@ bool SDL_X11_LoadSymbols(void)
             X11_GetSym("XVaCreateNestedList", &SDL_X11_HAVE_UTF8);
 #endif
 
-        if (SDL_X11_HAVE_BASEXLIB) {
+        ܐܢ (SDL_X11_HAVE_BASEXLIB) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } ܐܚܪܢܐ {
             // in case something got loaded...
             SDL_X11_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic X11
+#ܐܚܪܢܐ // no dynamic X11
 
 #define SDL_X11_MODULE(modname)     SDL_X11_HAVE_##modname = 1; // default yes
 #define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)fn;
-#include "SDL_x11sym.h"
+#ضمن "SDL_x11sym.h"
 
 #ifdef X_HAVE_UTF8_STRING
         X11_XCreateIC = XCreateIC;
@@ -264,7 +264,7 @@ bool SDL_X11_LoadSymbols(void)
 #endif
     }
 
-    return result;
+    ܦܢܐ result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

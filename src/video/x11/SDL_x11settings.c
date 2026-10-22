@@ -19,90 +19,90 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ܐܢ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11settings.h"
 
-static void UpdateContentScale(SDL_VideoDevice *_this)
+ساكن فراغ UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
-        float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+    ܐܢ (_this) {
+        عائم scale_factor = X11_GetGlobalContentScaleForDevice(_this);
+        لكل (صحيح i = 0; i < _this->num_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+ساكن فراغ X11_XsettingsNotify(ثابت حرف *name, XSettingsAction action, XSettingsSetting *setting, فراغ *data)
 {
     SDL_VideoDevice *_this = data;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    ܐܢ (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
     }
 }
 
-void X11_InitXsettings(SDL_VideoDevice *_this)
+فراغ X11_InitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
     xsettings_data->xsettings = xsettings_client_new(data->display,
-        DefaultScreen(data->display), X11_XsettingsNotify, NULL, _this);
+        DefaultScreen(data->display), X11_XsettingsNotify, عدم, _this);
 }
 
-void X11_QuitXsettings(SDL_VideoDevice *_this)
+فراغ X11_QuitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    ܐܢ (xsettings_data->xsettings) {
         xsettings_client_destroy(xsettings_data->xsettings);
-        xsettings_data->xsettings = NULL;
+        xsettings_data->xsettings = عدم;
     }
 }
 
-void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+فراغ X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ثابت XEvent *xevent)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    ܐܢ (xsettings_data->xsettings) {
         xsettings_client_process_event(xsettings_data->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
-    XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+صحيح X11_GetXsettingsClientIntKey(XSettingsClient *client, ثابت حرف *key, صحيح fallback_value) {
+    XSettingsSetting *setting = عدم;
+    صحيح res = fallback_value;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+    ܐܢ (client) {
+        ܐܢ (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
+            اذهب no_key;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+        ܐܢ (setting->type != XSETTINGS_TYPE_INT) {
+            اذهب no_key;
         }
 
         res = setting->data.v_int;
     }
 
 no_key:
-    if (setting) {
+    ܐܢ (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    ܦܢܐ res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+صحيح X11_GetXsettingsIntKey(SDL_VideoDevice *_this, ثابت حرف *key, صحيح fallback_value) {
+    ܦܢܐ X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11
