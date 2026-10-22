@@ -37,7 +37,7 @@
 #include "SDL_vitaframebuffer.h"
 #include "SDL_vitamessagebox.h"
 
-#if defined(SDL_VIDEO_VITA_PVR)
+#如果 defined(SDL_VIDEO_VITA_PVR)
 #define VITA_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define VITA_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
 #define VITA_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
@@ -62,23 +62,23 @@ static SDL_VideoDevice *VITA_Create(void)
 #endif
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    如果 (!device) {
+        返回 NULL;
     }
 
     // Initialize internal VITA specific data
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    如果 (!phdata) {
         SDL_free(device);
-        return NULL;
+        返回 NULL;
     }
 #ifdef SDL_VIDEO_VITA_PIB
 
     gldata = (SDL_GLDriverData *)SDL_calloc(1, sizeof(SDL_GLDriverData));
-    if (!gldata) {
+    如果 (!gldata) {
         SDL_free(device);
         SDL_free(phdata);
-        return NULL;
+        返回 NULL;
     }
     device->gl_data = gldata;
     phdata->egl_initialized = true;
@@ -118,13 +118,13 @@ static SDL_VideoDevice *VITA_Create(void)
         device->DestroyWindowFramebuffer = VITA_DestroyWindowFramebuffer;
     */
 
-#if defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
+#如果 defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
 #ifdef SDL_VIDEO_VITA_PVR_OGL
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
+    如果 (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
         device->GL_LoadLibrary = VITA_GL_LoadLibrary;
         device->GL_CreateContext = VITA_GL_CreateContext;
         device->GL_GetProcAddress = VITA_GL_GetProcAddress;
-    } else {
+    } 否则 {
 #endif
         device->GL_LoadLibrary = VITA_GLES_LoadLibrary;
         device->GL_CreateContext = VITA_GLES_CreateContext;
@@ -149,7 +149,7 @@ static SDL_VideoDevice *VITA_Create(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    返回 device;
 }
 
 VideoBootStrap VITA_bootstrap = {
@@ -172,20 +172,20 @@ bool VITA_VideoInit(SDL_VideoDevice *_this)
     SDL_zero(mode);
 
 #ifdef SDL_VIDEO_VITA_PVR
-    if (res) {
+    如果 (res) {
         // 1088i for PSTV (Or Sharpscale)
-        if (SDL_strncmp(res, "1080", 4) == 0) {
+        如果 (SDL_strncmp(res, "1080", 4) == 0) {
             mode.w = 1920;
             mode.h = 1088;
         }
         // 725p for PSTV (Or Sharpscale)
-        else if (SDL_strncmp(res, "720", 3) == 0) {
+        否则 如果 (SDL_strncmp(res, "720", 3) == 0) {
             mode.w = 1280;
             mode.h = 725;
         }
     }
     // 544p
-    else {
+    否则 {
 #endif
         mode.w = 960;
         mode.h = 544;
@@ -198,15 +198,15 @@ bool VITA_VideoInit(SDL_VideoDevice *_this)
     // 32 bpp for default
     mode.format = SDL_PIXELFORMAT_ABGR8888;
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    如果 (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        返回 false;
     }
 
     VITA_InitTouch();
     VITA_InitKeyboard();
     VITA_InitMouse();
 
-    return true;
+    返回 true;
 }
 
 void VITA_VideoQuit(SDL_VideoDevice *_this)
@@ -219,23 +219,23 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     SDL_WindowData *wdata;
 #ifdef SDL_VIDEO_VITA_PVR
     Psp2NativeWindow win;
-    int temp_major = 2;
-    int temp_minor = 1;
-    int temp_profile = 0;
+    整数 temp_major = 2;
+    整数 temp_minor = 1;
+    整数 temp_profile = 0;
 #endif
 
     // Allocate window internal data
     wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    如果 (!wdata) {
+        返回 false;
     }
 
     // Setup driver data for this window
     window->internal = wdata;
 
     // Vita can only have one window
-    if (Vita_Window) {
-        return SDL_SetError("Only one window supported");
+    如果 (Vita_Window) {
+        返回 SDL_SetError("Only one window supported");
     }
 
     Vita_Window = window;
@@ -246,20 +246,20 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     win.flipChainThrdAffinity = 0x20000;
 
     // 1088i for PSTV (Or Sharpscale)
-    if (window->w == 1920) {
+    如果 (window->w == 1920) {
         win.windowSize = PSP2_WINDOW_1920X1088;
     }
     // 725p for PSTV (Or Sharpscale)
-    else if (window->w == 1280) {
+    否则 如果 (window->w == 1280) {
         win.windowSize = PSP2_WINDOW_1280X725;
     }
     // 544p
-    else {
+    否则 {
         win.windowSize = PSP2_WINDOW_960X544;
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    如果 (window->flags & SDL_WINDOW_OPENGL) {
         bool use_opengl = SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false);
-        if (use_opengl) {
+        如果 (use_opengl) {
             // Set version to 2.1 and PROFILE to ES
             temp_major = _this->gl_config.major_version;
             temp_minor = _this->gl_config.minor_version;
@@ -270,10 +270,10 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
             _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
         }
         wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, &win);
-        if (wdata->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Could not create GLES window surface");
+        如果 (wdata->egl_surface == EGL_NO_SURFACE) {
+            返回 SDL_SetError("Could not create GLES window surface");
         }
-        if (use_opengl) {
+        如果 (use_opengl) {
             // Revert
             _this->gl_config.major_version = temp_major;
             _this->gl_config.minor_version = temp_minor;
@@ -286,7 +286,7 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    返回 true;
 }
 
 void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
@@ -294,7 +294,7 @@ void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_Unsupported();
+    返回 SDL_Unsupported();
 }
 void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
@@ -319,7 +319,7 @@ void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
 {
-    return true;
+    返回 true;
 }
 
 void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -335,7 +335,7 @@ void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
 bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    返回 true;
 }
 
 #ifndef SCE_IME_LANGUAGE_ENGLISH_US
@@ -344,20 +344,20 @@ bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
 static void utf16_to_utf8(const uint16_t *src, uint8_t *dst)
 {
-    int i;
-    for (i = 0; src[i]; i++) {
-        if (!(src[i] & 0xFF80)) {
+    整数 i;
+    为 (i = 0; src[i]; i++) {
+        如果 (!(src[i] & 0xFF80)) {
             *(dst++) = src[i] & 0xFF;
-        } else if (!(src[i] & 0xF800)) {
+        } 否则 如果 (!(src[i] & 0xF800)) {
             *(dst++) = ((src[i] >> 6) & 0xFF) | 0xC0;
             *(dst++) = (src[i] & 0x3F) | 0x80;
-        } else if ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
+        } 否则 如果 ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
             *(dst++) = (((src[i] + 64) >> 8) & 0x3) | 0xF0;
             *(dst++) = (((src[i] >> 2) + 16) & 0x3F) | 0x80;
             *(dst++) = ((src[i] >> 4) & 0x30) | 0x80 | ((src[i + 1] << 2) & 0xF);
             *(dst++) = (src[i + 1] & 0x3F) | 0x80;
             i += 1;
-        } else {
+        } 否则 {
             *(dst++) = ((src[i] >> 12) & 0xF) | 0xE0;
             *(dst++) = ((src[i] >> 6) & 0x3F) | 0x80;
             *(dst++) = (src[i] & 0x3F) | 0x80;
@@ -378,14 +378,14 @@ void VITA_ImeEventHandler(void *arg, const SceImeEventData *e)
     uint8_t utf8_buffer[SCE_IME_MAX_TEXT_LENGTH];
     switch (e->id) {
     case SCE_IME_EVENT_UPDATE_TEXT:
-        if (e->param.text.caretIndex == 0) {
+        如果 (e->param.text.caretIndex == 0) {
             SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_BACKSPACE);
             sceImeSetText((SceWChar16 *)libime_initval, 4);
-        } else {
+        } 否则 {
             utf16_to_utf8((SceWChar16 *)&libime_out[1], utf8_buffer);
-            if (utf8_buffer[0] == ' ') {
+            如果 (utf8_buffer[0] == ' ') {
                 SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_SPACE);
-            } else {
+            } 否则 {
                 SDL_SendKeyboardText((const char *)utf8_buffer);
             }
             SDL_zero(caret_rev);
@@ -454,13 +454,13 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
         break;
     }
     param.option = 0;
-    if (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
+    如果 (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
         param.option |= SCE_IME_OPTION_NO_AUTO_CAPITALIZATION;
     }
-    if (!SDL_GetTextInputAutocorrect(props)) {
+    如果 (!SDL_GetTextInputAutocorrect(props)) {
         param.option |= SCE_IME_OPTION_NO_ASSISTANCE;
     }
-    if (SDL_GetTextInputMultiline(props)) {
+    如果 (SDL_GetTextInputMultiline(props)) {
         param.option |= SCE_IME_OPTION_MULTILINE;
     }
     param.inputTextBuffer = libime_out;
@@ -472,12 +472,12 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     param.work = libime_work;
 
     res = sceImeOpen(&param);
-    if (res < 0) {
+    如果 (res < 0) {
         SDL_SetError("Failed to init IME");
-        return;
+        返回;
     }
 
-#else
+#否则
     SceWChar16 *title = u"";
     SceWChar16 *text = u"";
 
@@ -496,9 +496,9 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     param.inputTextBuffer = videodata->ime_buffer;
 
     res = sceImeDialogInit(&param);
-    if (res < 0) {
+    如果 (res < 0) {
         SDL_SetError("Failed to init IME dialog");
-        return;
+        返回;
     }
 
 #endif
@@ -537,7 +537,7 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
     SDL_VideoData *videodata = _this->internal;
 #endif
 
-    if (_this->suspend_screensaver) {
+    如果 (_this->suspend_screensaver) {
         // cancel all idle timers to prevent vita going to sleep
         sceKernelPowerTick(SCE_KERNEL_POWER_TICK_DEFAULT);
     }
@@ -547,10 +547,10 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
     VITA_PollMouse();
 
 #ifndef SDL_VIDEO_VITA_PVR
-    if (videodata->ime_active == true) {
+    如果 (videodata->ime_active == true) {
         // update IME status. Terminate, if finished
         SceCommonDialogStatus dialogStatus = sceImeDialogGetStatus();
-        if (dialogStatus == SCE_COMMON_DIALOG_STATUS_FINISHED) {
+        如果 (dialogStatus == SCE_COMMON_DIALOG_STATUS_FINISHED) {
             uint8_t utf8_buffer[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
 
             SceImeDialogResult result;
@@ -564,7 +564,7 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
             SDL_SendKeyboardText((const char *)utf8_buffer);
 
             // Send enter key only on enter
-            if (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
+            如果 (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
                 SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
             }
 

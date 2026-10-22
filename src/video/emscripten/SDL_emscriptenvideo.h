@@ -35,8 +35,8 @@ struct SDL_WindowData
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    整数 non_fill_document_width;
+    整数 non_fill_document_height;
 
     char *canvas_id;
     char *keyboard_element;
@@ -56,7 +56,7 @@ struct SDL_WindowData
 
 extern SDL_Window *Emscripten_fill_document_window;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_ShouldSetSwapInterval(整数 interval);
+整数 Emscripten_GetPendingSwapInterval(void);
 
 #endif // SDL_emscriptenvideo_h_

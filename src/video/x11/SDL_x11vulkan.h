@@ -25,7 +25,7 @@
 
 #include <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#如果 defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
 typedef struct xcb_connection_t xcb_connection_t;
 typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);

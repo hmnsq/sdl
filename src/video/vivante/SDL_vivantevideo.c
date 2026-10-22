@@ -48,15 +48,15 @@ static SDL_VideoDevice *VIVANTE_Create(void)
 
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    如果 (!device) {
+        返回 NULL;
     }
 
     // Initialize internal data
     data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    如果 (!data) {
         SDL_free(device);
-        return NULL;
+        返回 NULL;
     }
 
     device->internal = data;
@@ -100,7 +100,7 @@ static SDL_VideoDevice *VIVANTE_Create(void)
 
     device->PumpEvents = VIVANTE_PumpEvents;
 
-    return device;
+    返回 device;
 }
 
 VideoBootStrap VIVANTE_bootstrap = {
@@ -121,12 +121,12 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     SDL_VideoDisplay display;
     SDL_DisplayMode mode;
     SDL_DisplayData *data;
-    int pitch = 0, bpp = 0;
+    整数 pitch = 0, bpp = 0;
     unsigned long pixels = 0;
 
     data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
-        return false;
+    如果 (!data) {
+        返回 false;
     }
 
     SDL_zero(mode);
@@ -135,7 +135,7 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 
     vdkGetDisplayInfo(data->native_display, &mode.w, &mode.h, &pixels, &pitch,
                       &bpp);
-#else
+#否则
     data->native_display = videodata->fbGetDisplayByIndex(0);
 
     videodata->fbGetDisplayInfo(data->native_display, &mode.w, &mode.h,
@@ -158,10 +158,10 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     display.name = VIVANTE_GetDisplayName(_this);
     display.desktop_mode = mode;
     display.internal = data;
-    if (SDL_AddVideoDisplay(&display, false) == 0) {
-        return false;
+    如果 (SDL_AddVideoDisplay(&display, false) == 0) {
+        返回 false;
     }
-    return true;
+    返回 true;
 }
 
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
@@ -170,50 +170,50 @@ bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     videodata->vdk_private = vdkInitialize();
-    if (!videodata->vdk_private) {
-        return SDL_SetError("vdkInitialize() failed");
+    如果 (!videodata->vdk_private) {
+        返回 SDL_SetError("vdkInitialize() failed");
     }
-#else
+#否则
     videodata->egl_handle = SDL_LoadObject("libEGL.so.1");
-    if (!videodata->egl_handle) {
+    如果 (!videodata->egl_handle) {
         videodata->egl_handle = SDL_LoadObject("libEGL.so");
-        if (!videodata->egl_handle) {
-            return false;
+        如果 (!videodata->egl_handle) {
+            返回 false;
         }
     }
 #define LOAD_FUNC(TYPE, NAME)                                               \
     videodata->NAME = (TYPE)SDL_LoadFunction(videodata->egl_handle, #NAME); \
-    if (!videodata->NAME)                                                   \
-        return false;
+    如果 (!videodata->NAME)                                                   \
+        返回 false;
 
     LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(void *), fbGetDisplay);
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(int), fbGetDisplayByIndex);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *), fbGetDisplayGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *, unsigned long *, int *, int *), fbGetDisplayInfo);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(整数), fbGetDisplayByIndex);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, 整数 *, 整数 *), fbGetDisplayGeometry);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, 整数 *, 整数 *, unsigned long *, 整数 *, 整数 *), fbGetDisplayInfo);
     LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
-    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, int, int, int, int), fbCreateWindow);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *), fbGetWindowGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *, int *, unsigned int *), fbGetWindowInfo);
+    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, 整数, 整数, 整数, 整数), fbCreateWindow);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, 整数 *, 整数 *, 整数 *, 整数 *), fbGetWindowGeometry);
+    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, 整数 *, 整数 *, 整数 *, 整数 *, 整数 *, unsigned 整数 *), fbGetWindowInfo);
     LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
 #endif
 
-    if (!VIVANTE_SetupPlatform(_this)) {
-        return false;
+    如果 (!VIVANTE_SetupPlatform(_this)) {
+        返回 false;
     }
 
-    if (!VIVANTE_AddVideoDisplays(_this)) {
-        return false;
+    如果 (!VIVANTE_AddVideoDisplays(_this)) {
+        返回 false;
     }
 
     VIVANTE_UpdateDisplayScale(_this);
 
 #ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+    如果 (!SDL_EVDEV_Init()) {
+        返回 false;
     }
 #endif
 
-    return true;
+    返回 true;
 }
 
 void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
@@ -227,12 +227,12 @@ void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
     VIVANTE_CleanupPlatform(_this);
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    if (videodata->vdk_private) {
+    如果 (videodata->vdk_private) {
         vdkExit(videodata->vdk_private);
         videodata->vdk_private = NULL;
     }
-#else
-    if (videodata->egl_handle) {
+#否则
+    如果 (videodata->egl_handle) {
         SDL_UnloadObject(videodata->egl_handle);
         videodata->egl_handle = NULL;
     }
@@ -249,8 +249,8 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
 
     // Allocate window internal data
     data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!data) {
-        return false;
+    如果 (!data) {
+        返回 false;
     }
 
     // Setup driver data for this window
@@ -261,28 +261,28 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     data->native_window = vdkCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#else
+#否则
     data->native_window = videodata->fbCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
 #endif
-    if (!data->native_window) {
-        return SDL_SetError("VIVANTE: Can't create native window");
+    如果 (!data->native_window) {
+        返回 SDL_SetError("VIVANTE: Can't create native window");
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER, data->native_window);
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    如果 (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("VIVANTE: Can't create EGL surface");
+        如果 (data->egl_surface == EGL_NO_SURFACE) {
+            返回 SDL_SetError("VIVANTE: Can't create EGL surface");
         }
-    } else {
+    } 否则 {
         data->egl_surface = EGL_NO_SURFACE;
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER, data->egl_surface);
 #endif
 
     // Window has been successfully created
-    return true;
+    返回 true;
 }
 
 void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -291,17 +291,17 @@ void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_WindowData *data;
 
     data = window->internal;
-    if (data) {
+    如果 (data) {
 #ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
+        如果 (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
         }
 #endif
 
-        if (data->native_window) {
+        如果 (data->native_window) {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
             vdkDestroyWindow(data->native_window);
-#else
+#否则
             videodata->fbDestroyWindow(data->native_window);
 #endif
         }
@@ -322,7 +322,7 @@ void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
-    return SDL_Unsupported();
+    返回 SDL_Unsupported();
 }
 
 void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)

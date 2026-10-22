@@ -32,48 +32,48 @@ bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 {
     SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
 
-    if (!offscreen_window) {
-        return false;
+    如果 (!offscreen_window) {
+        返回 false;
     }
 
     window->internal = offscreen_window;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
+    如果 (window->x == SDL_WINDOWPOS_UNDEFINED) {
         window->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
+    如果 (window->y == SDL_WINDOWPOS_UNDEFINED) {
         window->y = 0;
     }
 
     offscreen_window->sdl_window = window;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    如果 (window->flags & SDL_WINDOW_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        如果 (!_this->egl_data) {
+            返回 SDL_SetError("Cannot create an OPENGL window invalid egl_data");
         }
 
         offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
+        如果 (offscreen_window->egl_surface == EGL_NO_SURFACE) {
+            返回 SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
                                 _this->egl_data->egl_display);
         }
-    } else {
+    } 否则 {
         offscreen_window->egl_surface = EGL_NO_SURFACE;
     }
 #endif // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    返回 true;
 }
 
 void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *offscreen_window = window->internal;
 
-    if (offscreen_window) {
+    如果 (offscreen_window) {
 #ifdef SDL_VIDEO_OPENGL_EGL
         SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
 #endif

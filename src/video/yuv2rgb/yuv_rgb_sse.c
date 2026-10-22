@@ -286,7 +286,7 @@ V = _mm_add_epi16(V, _mm_set1_epi16(128<<PRECISION)); \
 V = _mm_srai_epi16(V, PRECISION);
 */
 
-#if 0  // SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
+#如果 0  // SDL doesn't use these atm and compiling them adds seconds onto the build.  --ryan.
 #define RGB2YUV_32 \
 	__m128i r1, r2, b1, b2, g1, g2; \
 	__m128i r_16, g_16, b_16; \

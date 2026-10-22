@@ -41,11 +41,11 @@ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     SDL_WindowData *data;
     bool result = true;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return false;
+    如果 (!Android_WaitActiveAndLockActivity()) {
+        返回 false;
     }
 
-    if (Android_Window) {
+    如果 (Android_Window) {
         result = SDL_SetError("Android only supports one window");
         goto endfunction;
     }
@@ -64,13 +64,13 @@ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     SDL_SetKeyboardFocus(window);
 
     data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    如果 (!data) {
         result = false;
         goto endfunction;
     }
 
     data->native_window = Android_JNI_GetNativeWindow();
-    if (!data->native_window) {
+    如果 (!data->native_window) {
         SDL_free(data);
         result = SDL_SetError("Could not fetch native window");
         goto endfunction;
@@ -80,10 +80,10 @@ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    如果 (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
+        如果 (data->egl_surface == EGL_NO_SURFACE) {
             ANativeWindow_release(data->native_window);
             SDL_free(data);
             result = false;
@@ -102,7 +102,7 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return result;
+    返回 result;
 }
 
 void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
@@ -114,12 +114,12 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
+    如果 (window == Android_Window) {
         SDL_WindowData *data;
-        int old_w, old_h, new_w, new_h;
+        整数 old_w, old_h, new_w, new_h;
 
         // If the window is being destroyed don't change visible state
-        if (!window->is_destroying) {
+        如果 (!window->is_destroying) {
             Android_JNI_SetWindowStyle(fullscreen);
         }
 
@@ -129,13 +129,13 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * Samsung DeX or Chromebooks or other windowed Android environments, our window may
          * still not be the full display size.
          */
-        if (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
+        如果 (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
             goto endfunction;
         }
 
         data = window->internal;
-        if (!data || !data->native_window) {
-            if (data && !data->native_window) {
+        如果 (!data || !data->native_window) {
+            如果 (data && !data->native_window) {
                 SDL_SetError("Missing native window");
             }
             goto endfunction;
@@ -147,11 +147,11 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
         new_w = ANativeWindow_getWidth(data->native_window);
         new_h = ANativeWindow_getHeight(data->native_window);
 
-        if (new_w < 0 || new_h < 0) {
+        如果 (new_w < 0 || new_h < 0) {
             SDL_SetError("ANativeWindow_getWidth/Height() fails");
         }
 
-        if (old_w != new_w || old_h != new_h) {
+        如果 (old_w != new_w || old_h != new_h) {
             SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, new_w, new_h);
         }
     }
@@ -160,7 +160,7 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    返回 SDL_FULLSCREEN_SUCCEEDED;
 }
 
 void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -178,19 +178,19 @@ void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
+    如果 (window == Android_Window) {
         Android_Window = NULL;
 
-        if (window->internal) {
+        如果 (window->internal) {
             SDL_WindowData *data = window->internal;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
+            如果 (data->egl_surface != EGL_NO_SURFACE) {
                 SDL_EGL_DestroySurface(_this, data->egl_surface);
             }
 #endif
 
-            if (data->native_window) {
+            如果 (data->native_window) {
                 ANativeWindow_release(data->native_window);
             }
             SDL_free(window->internal);

@@ -28,7 +28,7 @@
  * Detertmines the pixel format to use based on the current display and EGL
  * configuration.
  */
-int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
+整数 QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
 {
     EGLint buffer_bit_depth;
     EGLint alpha_bit_depth;
@@ -38,20 +38,20 @@ int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
 
     switch (buffer_bit_depth) {
         case 32:
-            return SCREEN_FORMAT_RGBX8888;
+            返回 SCREEN_FORMAT_RGBX8888;
         case 24:
-            return SCREEN_FORMAT_RGB888;
+            返回 SCREEN_FORMAT_RGB888;
         case 16:
             switch (alpha_bit_depth) {
                 case 4:
-                    return SCREEN_FORMAT_RGBX4444;
+                    返回 SCREEN_FORMAT_RGBX4444;
                 case 1:
-                    return SCREEN_FORMAT_RGBA5551;
+                    返回 SCREEN_FORMAT_RGBA5551;
                 default:
-                    return SCREEN_FORMAT_RGB565;
+                    返回 SCREEN_FORMAT_RGB565;
             }
         default:
-            return 0;
+            返回 0;
     }
 }
 
@@ -60,7 +60,7 @@ int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
  */
 bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path)
 {
-    return SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
+    返回 SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
 }
 
 /**
@@ -68,7 +68,7 @@ bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path)
  */
 SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
 {
-    return SDL_EGL_GetProcAddressInternal(_this, proc);
+    返回 SDL_EGL_GetProcAddressInternal(_this, proc);
 }
 
 /**
@@ -83,23 +83,23 @@ SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     context = SDL_EGL_CreateContext(_this, impl->egl_surface);
     impl->context = context;
 
-    return context;
+    返回 context;
 }
 
 /**
  * Sets a new value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, 整数 interval)
 {
-    return SDL_EGL_SetSwapInterval(_this, interval);
+    返回 SDL_EGL_SetSwapInterval(_this, interval);
 }
 
 /**
  * Gets the value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, 整数 *interval)
 {
-    return SDL_EGL_GetSwapInterval(_this, interval);
+    返回 SDL_EGL_GetSwapInterval(_this, interval);
 }
 
 /**
@@ -109,22 +109,22 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
     {
-        if (impl->resize) {
+        如果 (impl->resize) {
             EGLSurface surface;
 
-            if (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
-                return false;
+            如果 (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
+                返回 false;
             }
             SDL_EGL_DestroySurface(_this, impl->egl_surface);
 
             surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-            if (surface == EGL_NO_SURFACE) {
-                return false;
+            如果 (surface == EGL_NO_SURFACE) {
+                返回 false;
             }
             SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, surface);
 
-            if (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
-                return false;
+            如果 (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
+                返回 false;
             }
 
             impl->egl_surface = surface;
@@ -132,7 +132,7 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 
-    return SDL_EGL_SwapBuffers(_this, impl->egl_surface);
+    返回 SDL_EGL_SwapBuffers(_this, impl->egl_surface);
 }
 
 /**
@@ -140,7 +140,7 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
  */
 bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    返回 SDL_EGL_DestroyContext(_this, context);
 }
 
 /**

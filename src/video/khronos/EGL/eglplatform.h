@@ -48,7 +48,7 @@
  * implementations.
  */
 
-#if defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
+#如果 defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
 
 typedef void *EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
@@ -72,13 +72,13 @@ typedef struct _screen_window* EGLNativeWindowType;  /* screen_window_t */
 
 #elif defined(__EMSCRIPTEN__)
 
-typedef int EGLNativeDisplayType;
-typedef int EGLNativePixmapType;
-typedef int EGLNativeWindowType;
+typedef 整数 EGLNativeDisplayType;
+typedef 整数 EGLNativePixmapType;
+typedef 整数 EGLNativeWindowType;
 
 #elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
 
-typedef int   EGLNativeDisplayType;
+typedef 整数   EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
 typedef void *EGLNativeWindowType;
 
@@ -127,7 +127,7 @@ typedef khronos_uintptr_t EGLNativeWindowType;
 
 #elif defined(__APPLE__)
 
-typedef int   EGLNativeDisplayType;
+typedef 整数   EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
 typedef void *EGLNativeWindowType;
 
@@ -145,7 +145,7 @@ typedef void              *EGLNativeDisplayType;
 typedef khronos_uintptr_t  EGLNativePixmapType;
 typedef khronos_uintptr_t  EGLNativeWindowType;
 
-#else
+#否则
 #error "Platform not recognized"
 #endif
 
@@ -166,9 +166,9 @@ typedef khronos_int32_t EGLint;
 
 
 /* C++ / C typecast macros for special EGL handle values */
-#if defined(__cplusplus)
+#如果 defined(__cplusplus)
 #define EGL_CAST(type, value) (static_cast<type>(value))
-#else
+#否则
 #define EGL_CAST(type, value) ((type) (value))
 #endif
 

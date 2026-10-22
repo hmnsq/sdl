@@ -25,12 +25,12 @@
 
 #ifdef SDL_SSE_INTRINSICS
 // This assumes 16-byte aligned src and dst
-static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, int len)
+static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, 整数 len)
 {
-    int i;
+    整数 i;
 
     __m128 values[4];
-    for (i = len / 64; i--;) {
+    为 (i = len / 64; i--;) {
         _mm_prefetch((const char *)src, _MM_HINT_NTA);
         values[0] = *(__m128 *)(src + 0);
         values[1] = *(__m128 *)(src + 16);
@@ -44,7 +44,7 @@ static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint
         dst += 64;
     }
 
-    if (len & 63) {
+    如果 (len & 63) {
         SDL_memcpy(dst, src, len & 63);
     }
 }
@@ -54,8 +54,8 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
 {
     bool overlap;
     Uint8 *src, *dst;
-    int w, h;
-    int srcskip, dstskip;
+    整数 w, h;
+    整数 srcskip, dstskip;
 
     w = info->dst_w * info->dst_fmt->bytes_per_pixel;
     h = info->dst_h;
@@ -65,44 +65,44 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
     dstskip = info->dst_pitch;
 
     // Properly handle overlapping blits
-    if (src < dst) {
+    如果 (src < dst) {
         overlap = (dst < (src + h * srcskip));
-    } else {
+    } 否则 {
         overlap = (src < (dst + h * dstskip));
     }
-    if (overlap) {
-        if (dst < src) {
-            while (h--) {
+    如果 (overlap) {
+        如果 (dst < src) {
+            当 (h--) {
                 SDL_memmove(dst, src, w);
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
+        } 否则 {
             src += ((h - 1) * srcskip);
             dst += ((h - 1) * dstskip);
-            while (h--) {
+            当 (h--) {
                 SDL_memmove(dst, src, w);
                 src -= srcskip;
                 dst -= dstskip;
             }
         }
-        return;
+        返回;
     }
 
 #ifdef SDL_SSE_INTRINSICS
-    if (SDL_HasSSE() &&
+    如果 (SDL_HasSSE() &&
         !((uintptr_t)src & 15) && !(srcskip & 15) &&
         !((uintptr_t)dst & 15) && !(dstskip & 15)) {
-        while (h--) {
+        当 (h--) {
             SDL_memcpySSE(dst, src, w);
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        返回;
     }
 #endif
 
-    while (h--) {
+    当 (h--) {
         SDL_memcpy(dst, src, w);
         src += srcskip;
         dst += dstskip;

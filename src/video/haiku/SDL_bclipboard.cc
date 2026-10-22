@@ -37,18 +37,18 @@ extern "C" {
 bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const char *text)
 {
     BMessage *clip = NULL;
-    if (be_clipboard->Lock()) {
+    如果 (be_clipboard->Lock()) {
         be_clipboard->Clear();
-        if ((clip = be_clipboard->Data())) {
+        如果 ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
             ssize_t asciiLength = 0;
-            for (; text[asciiLength] != 0; ++asciiLength) {}
+            为 (; text[asciiLength] != 0; ++asciiLength) {}
             clip->AddData("text/plain", B_MIME_TYPE, text, asciiLength);
             be_clipboard->Commit();
         }
         be_clipboard->Unlock();
     }
-    return true;
+    返回 true;
 }
 
 char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
@@ -56,8 +56,8 @@ char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
     const char *text = NULL;
     ssize_t length;
     char *result;
-    if (be_clipboard->Lock()) {
-        if ((clip = be_clipboard->Data())) {
+    如果 (be_clipboard->Lock()) {
+        如果 ((clip = be_clipboard->Data())) {
             // Presumably the string of characters is ascii-format
             clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text,
                 &length);
@@ -65,25 +65,25 @@ char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
         be_clipboard->Unlock();
     }
 
-    if (!text) {
+    如果 (!text) {
         result = SDL_strdup("");
-    } else {
+    } 否则 {
         // Copy the data and pass on to SDL
         result = (char *)SDL_malloc((length + 1) * sizeof(char));
         SDL_strlcpy(result, text, length + 1);
     }
 
-    return result;
+    返回 result;
 }
 
 bool HAIKU_HasClipboardText(SDL_VideoDevice *_this) {
     bool result = false;
     char *text = HAIKU_GetClipboardText(_this);
-    if (text) {
+    如果 (text) {
         result = (text[0] != '\0');
         SDL_free(text);
     }
-    return result;
+    返回 result;
 }
 
 #ifdef __cplusplus

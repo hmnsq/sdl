@@ -57,15 +57,15 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
 
     // Initialize all variables that we clean on shutdown
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    如果 (!device) {
+        返回 NULL;
     }
 
     // Initialize internal data
     data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    如果 (!data) {
         SDL_free(device);
-        return NULL;
+        返回 NULL;
     }
 
     device->internal = data;
@@ -90,7 +90,7 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    返回 device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
@@ -102,24 +102,24 @@ VideoBootStrap RISCOS_bootstrap = {
 
 static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    如果 (!RISCOS_InitEvents(_this)) {
+        返回 false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    如果 (!RISCOS_InitMouse(_this)) {
+        返回 false;
     }
 
     // Assume we have a mouse and keyboard
     SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
     SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    如果 (!RISCOS_InitModes(_this)) {
+        返回 false;
     }
 
     // We're done!
-    return true;
+    返回 true;
 }
 
 static void RISCOS_VideoQuit(SDL_VideoDevice *_this)

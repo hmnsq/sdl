@@ -32,7 +32,7 @@
 #include "../SDL_sysvideo.h"
 
 // Create a cursor from a surface
-static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, 整数 hot_x, 整数 hot_y)
 {
     SDL_CursorData *curdata;
     SDL_Cursor *cursor;
@@ -41,20 +41,20 @@ static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, int hot_x, int hot
     SDL_assert(surface->pitch == surface->w * 4);
 
     cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    如果 (!cursor) {
+        返回 NULL;
     }
     curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-    if (!curdata) {
+    如果 (!curdata) {
         SDL_free(cursor);
-        return NULL;
+        返回 NULL;
     }
 
     curdata->surface = SDL_DuplicateSurface(surface);
-    if (!curdata->surface) {
+    如果 (!curdata->surface) {
         SDL_free(curdata);
         SDL_free(cursor);
-        return NULL;
+        返回 NULL;
     }
 
     SDL_SetSurfaceBlendMode(curdata->surface, SDL_BLENDMODE_BLEND);
@@ -66,18 +66,18 @@ static SDL_Cursor *DOSVESA_CreateCursor(SDL_Surface *surface, int hot_x, int hot
 
     cursor->internal = curdata;
 
-    return cursor;
+    返回 cursor;
 }
 
 static SDL_Cursor *DOSVESA_CreateDefaultCursor(void)
 {
-    return SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
+    返回 SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
 }
 
 // Show the specified cursor, or hide if cursor is NULL
 static bool DOSVESA_ShowCursor(SDL_Cursor *cursor)
 {
-    return true; // we handle this elsewhere.
+    返回 true; // we handle this elsewhere.
 }
 
 // Free a window manager cursor
@@ -85,10 +85,10 @@ static void DOSVESA_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *curdata;
 
-    if (cursor) {
+    如果 (cursor) {
         curdata = cursor->internal;
 
-        if (curdata) {
+        如果 (curdata) {
             SDL_DestroySurface(curdata->surface);
             SDL_DestroySurface(curdata->converted_surface);
             SDL_free(cursor->internal);
@@ -101,8 +101,8 @@ static bool DOSVESA_WarpMouseGlobal(float x, float y)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
-        return true;
+    如果 (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
+        返回 true;
     }
 
     // warp mouse in the driver, so we get correct screen coordinates from it.
@@ -115,18 +115,18 @@ static bool DOSVESA_WarpMouseGlobal(float x, float y)
     // Update internal mouse position.
     SDL_SendMouseMotion(0, mouse->focus, SDL_GLOBAL_MOUSE_ID, false, x, y);
 
-    return true;
+    返回 true;
 }
 
 static bool DOSVESA_WarpMouse(SDL_Window *window, float x, float y)
 {
-    return DOSVESA_WarpMouseGlobal(x, y);
+    返回 DOSVESA_WarpMouseGlobal(x, y);
 }
 
 // This is called when a mouse motion event occurs
 static bool DOSVESA_MoveCursor(SDL_Cursor *cursor)
 {
-    return true; // we handle this elsewhere.
+    返回 true; // we handle this elsewhere.
 }
 
 void DOSVESA_InitMouse(SDL_VideoDevice *_this)
@@ -137,8 +137,8 @@ void DOSVESA_InitMouse(SDL_VideoDevice *_this)
     __dpmi_regs regs;
     regs.x.ax = 0;
     __dpmi_int(0x33, &regs);
-    if (regs.x.ax == 0) {
-        return; // no mouse found, don't hook up cursor support, etc.
+    如果 (regs.x.ax == 0) {
+        返回; // no mouse found, don't hook up cursor support, etc.
     }
 
     mouse->internal = SDL_calloc(1, 1); // just something non-NULL (and safely freeable) to say "there's a mouse available."

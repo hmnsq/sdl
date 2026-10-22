@@ -31,8 +31,8 @@
 
 struct SDL_CursorData
 {
-    int hot_x, hot_y;
-    int w, h;
+    整数 hot_x, hot_y;
+    整数 w, h;
 
     /* The buffer where we store the mouse bitmap ready to be used.
        We get it ready and filled in CreateCursor(), and copy it

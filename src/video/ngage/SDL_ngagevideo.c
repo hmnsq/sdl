@@ -44,17 +44,17 @@ static SDL_VideoDevice *NGAGE_CreateDevice(void)
 
     // Initialize all variables that we clean on shutdown.
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
+    如果 (!device) {
         SDL_OutOfMemory();
-        return (SDL_VideoDevice *)0;
+        返回 (SDL_VideoDevice *)0;
     }
 
     // Initialize internal N-Gage specific data.
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    如果 (!phdata) {
         SDL_OutOfMemory();
         SDL_free(device);
-        return (SDL_VideoDevice *)0;
+        返回 (SDL_VideoDevice *)0;
     }
 
     device->internal = phdata;
@@ -75,7 +75,7 @@ static SDL_VideoDevice *NGAGE_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    返回 device;
 }
 
 VideoBootStrap NGAGE_bootstrap = {
@@ -95,8 +95,8 @@ static bool NGAGE_VideoInit(SDL_VideoDevice *device)
 {
     SDL_VideoData *phdata = (SDL_VideoData *)device->internal;
 
-    if (!phdata) {
-        return false;
+    如果 (!phdata) {
+        返回 false;
     }
 
     SDL_zero(phdata->mode);
@@ -110,18 +110,18 @@ static bool NGAGE_VideoInit(SDL_VideoDevice *device)
     phdata->display.name = "N-Gage";
     phdata->display.desktop_mode = phdata->mode;
 
-    if (SDL_AddVideoDisplay(&phdata->display, false) == 0) {
-        return false;
+    如果 (SDL_AddVideoDisplay(&phdata->display, false) == 0) {
+        返回 false;
     }
 
-    return true;
+    返回 true;
 }
 
 static void NGAGE_VideoQuit(SDL_VideoDevice *device)
 {
     SDL_VideoData *phdata = (SDL_VideoData *)device->internal;
 
-    if (phdata) {
+    如果 (phdata) {
         SDL_zero(phdata->mode);
         SDL_zero(phdata->display);
     }
@@ -129,8 +129,8 @@ static void NGAGE_VideoQuit(SDL_VideoDevice *device)
 
 static bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (!display) {
-        return false;
+    如果 (!display) {
+        返回 false;
     }
 
     rect->x = 0;
@@ -138,7 +138,7 @@ static bool NGAGE_GetDisplayBounds(SDL_VideoDevice *device, SDL_VideoDisplay *di
     rect->w = display->current_mode->w;
     rect->h = display->current_mode->h;
 
-    return true;
+    返回 true;
 }
 
 static bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *display)
@@ -152,11 +152,11 @@ static bool NGAGE_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *dis
     mode.refresh_rate = phdata->mode.refresh_rate;
     mode.format = phdata->mode.format;
 
-    if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-        return false;
+    如果 (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        返回 false;
     }
 
-    return true;
+    返回 true;
 }
 
 #include "../../render/ngage/SDL_render_ngage_c.h"
@@ -169,7 +169,7 @@ static void NGAGE_PumpEvents(SDL_VideoDevice *device)
 static bool NGAGE_SuspendScreenSaver(SDL_VideoDevice *device)
 {
     NGAGE_SuspendScreenSaverInternal(device->suspend_screensaver);
-    return true;
+    返回 true;
 }
 
 #endif // SDL_VIDEO_DRIVER_NGAGE

@@ -64,7 +64,7 @@ typedef struct SDL_ToolkitTextElementX11
     char *str;
     size_t sz;
     SDL_Rect rect;
-    int font_h;
+    整数 font_h;
     void (*str_free)(void *);
 #ifdef HAVE_LIBTHAI_H
     SDL_ListNode *thai_overlays;
@@ -81,10 +81,10 @@ typedef struct SDL_ToolkitIconControlX11
 
     /* Font */
     XFontStruct *icon_char_font;
-    int icon_char_x;
-    int icon_char_y;
-    int icon_char_a;
-    int icon_char_h;
+    整数 icon_char_x;
+    整数 icon_char_y;
+    整数 icon_char_a;
+    整数 icon_char_h;
 
     /* Colors */
     XColor xcolor_black;
@@ -194,7 +194,7 @@ static const SDL_MessageBoxColor g_default_colors_dark[SDL_MESSAGEBOX_COLOR_COUN
     { 36, 36, 36 },  // SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED,
 };
 
-#if 0
+#如果 0
 static const SDL_MessageBoxColor g_default_colors_dark_high_contrast[SDL_MESSAGEBOX_COLOR_COUNT] = {
     { 0, 0, 0 },    // SDL_MESSAGEBOX_COLOR_BACKGROUND,
     { 255, 255, 255 }, // SDL_MESSAGEBOX_COLOR_TEXT,
@@ -214,48 +214,48 @@ static const SDL_MessageBoxColor g_default_colors_light_high_contrast[SDL_MESSAG
 
 #endif
 
-static int g_shm_error;
-static int (*g_old_error_handler)(Display *, XErrorEvent *) = NULL;
+static 整数 g_shm_error;
+static 整数 (*g_old_error_handler)(Display *, XErrorEvent *) = NULL;
 
-static int X11Toolkit_SharedMemoryErrorHandler(Display *d, XErrorEvent *e)
+static 整数 X11Toolkit_SharedMemoryErrorHandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadAccess || e->error_code == BadRequest) {
+    如果 (e->error_code == BadAccess || e->error_code == BadRequest) {
         g_shm_error = True;
-        return 0;
+        返回 0;
     }
-    return g_old_error_handler(d, e);
+    返回 g_old_error_handler(d, e);
 }
 
 static void X11Toolkit_InitWindowPixmap(SDL_ToolkitWindowX11 *data) {
-    if (data->pixmap) {
+    如果 (data->pixmap) {
 #ifndef NO_SHARED_MEMORY
-        if (!data->shm_pixmap) {
+        如果 (!data->shm_pixmap) {
             data->drawable = X11_XCreatePixmap(data->display, data->window, data->pixmap_width, data->pixmap_height, data->depth);
         }
-#else
+#否则
         data->drawable = X11_XCreatePixmap(data->display, data->window, data->pixmap_width, data->pixmap_height, data->depth);
 #endif
 #ifndef NO_SHARED_MEMORY
-        if (data->shm) {
+        如果 (data->shm) {
             data->image = X11_XShmCreateImage(data->display, data->visual, data->depth, ZPixmap, NULL, &data->shm_info, data->pixmap_width, data->pixmap_height);
-            if (data->image) {
+            如果 (data->image) {
                 data->shm_bytes_per_line = data->image->bytes_per_line;
 
                 data->shm_info.shmid = shmget(IPC_PRIVATE, data->image->bytes_per_line * data->image->height, IPC_CREAT | 0777);
-                if (data->shm_info.shmid < 0) {
+                如果 (data->shm_info.shmid < 0) {
                     XDestroyImage(data->image);
                     data->image = NULL;
                     data->shm = false;
-                    return;
+                    返回;
                 }
 
                 data->shm_info.readOnly = False;
                 data->shm_info.shmaddr = data->image->data = (char *)shmat(data->shm_info.shmid, NULL, 0);
-                if (((signed char *)data->shm_info.shmaddr) == (signed char *)-1) {
+                如果 (((signed char *)data->shm_info.shmaddr) == (signed char *)-1) {
                     XDestroyImage(data->image);
                     data->shm = false;
                     data->image = NULL;
-                    return;
+                    返回;
                 }
 
                 g_shm_error = False;
@@ -263,27 +263,27 @@ static void X11Toolkit_InitWindowPixmap(SDL_ToolkitWindowX11 *data) {
                 X11_XShmAttach(data->display, &data->shm_info);
                 X11_XSync(data->display, False);
                 X11_XSetErrorHandler(g_old_error_handler);
-                if (g_shm_error) {
+                如果 (g_shm_error) {
                     XDestroyImage(data->image);
                     shmdt(data->shm_info.shmaddr);
                     shmctl(data->shm_info.shmid, IPC_RMID, NULL);
                     data->image = NULL;
                     data->shm = false;
-                    return;
+                    返回;
                 }
 
-                if (data->shm_pixmap) {
+                如果 (data->shm_pixmap) {
                     data->drawable = X11_XShmCreatePixmap(data->display, data->window, data->shm_info.shmaddr, &data->shm_info, data->pixmap_width, data->pixmap_height, data->depth);
-                    if (data->drawable == None) {
+                    如果 (data->drawable == None) {
                         data->shm_pixmap = False;
-                    } else {
+                    } 否则 {
                         XDestroyImage(data->image);
                         data->image = NULL;
                     }
                 }
 
                 shmctl(data->shm_info.shmid, IPC_RMID, NULL);
-            } else {
+            } 否则 {
                 data->shm = false;
             }
         }
@@ -298,85 +298,85 @@ static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
 #ifdef X_HAVE_UTF8_STRING
     window->utf8 = true;
     window->font_set = NULL;
-    if (SDL_X11_HAVE_UTF8) {
+    如果 (SDL_X11_HAVE_UTF8) {
         char **missing = NULL;
-        int num_missing = 0;
-        int i_font;
+        整数 num_missing = 0;
+        整数 i_font;
         window->font_struct = NULL;
-        for (i_font = 0; g_ToolkitFont[i_font]; ++i_font) {
+        为 (i_font = 0; g_ToolkitFont[i_font]; ++i_font) {
             char *font;
 
-            if (SDL_strstr(g_ToolkitFont[i_font], "%d")) {
+            如果 (SDL_strstr(g_ToolkitFont[i_font], "%d")) {
                 try_load_font:
                 SDL_asprintf(&font, g_ToolkitFont[i_font], G_TOOLKITFONT_SIZE * window->iscale);
                 window->font_set = X11_XCreateFontSet(window->display, font, &missing, &num_missing, NULL);
                 SDL_free(font);
 
-                if (!window->font_set) {
-                    if (window->scale != 0 && window->iscale > 0) {
-                        window->iscale = (int)SDL_ceilf(window->scale);
+                如果 (!window->font_set) {
+                    如果 (window->scale != 0 && window->iscale > 0) {
+                        window->iscale = (整数)SDL_ceilf(window->scale);
                         window->scale = 0;
-                    } else {
+                    } 否则 {
                         window->iscale--;
                     }
                     goto try_load_font;
                 }
-            } else {
+            } 否则 {
                 window->font_set = X11_XCreateFontSet(window->display, g_ToolkitFont[i_font], &missing, &num_missing, NULL);
             }
 
-            if (missing) {
+            如果 (missing) {
                 X11_XFreeStringList(missing);
             }
 
-            if (window->font_set) {
+            如果 (window->font_set) {
                 break;
             }
         }
 
-        if (!window->font_set) {
+        如果 (!window->font_set) {
             goto load_font_traditional;
-        } else {
+        } 否则 {
             XFontStruct **font_structs;
             char **font_names;
-            int font_sz;
-            int i;
+            整数 font_sz;
+            整数 i;
             
 #ifdef HAVE_FRIBIDI_H
             window->do_shaping = !X11_XContextDependentDrawing(window->font_set);
 #endif
             /* TODO: What to do the XFontSet happens to have more than one Thai font? */
             font_sz = X11_XFontsOfFontSet(window->font_set, &font_structs, &font_names);
-            for (i = 0; i < font_sz; i++) {
+            为 (i = 0; i < font_sz; i++) {
                 SDL_ToolkitThaiEncodingX11 thai_encoding;
                 
                 thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_NONE;
-                if (SDL_strstr(font_names[i], "tis620-0")) {
+                如果 (SDL_strstr(font_names[i], "tis620-0")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS;
-                } else if (SDL_strstr(font_names[i], "tis620-1")) {
+                } 否则 如果 (SDL_strstr(font_names[i], "tis620-1")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS_MAC;
-                } else if (SDL_strstr(font_names[i], "tis620-2")) {
+                } 否则 如果 (SDL_strstr(font_names[i], "tis620-2")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_TIS_WIN;
-                } else if (SDL_strstr(font_names[i], "iso8859-11")) {
+                } 否则 如果 (SDL_strstr(font_names[i], "iso8859-11")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_8859;
-                } else if (SDL_strstr(font_names[i], "iso10646-1")) {
+                } 否则 如果 (SDL_strstr(font_names[i], "iso10646-1")) {
                     thai_encoding = SDL_TOOLKIT_THAI_ENCODING_X11_UNICODE;
                 }
                                                 
                 /* TODO: Set encoding to none if the font does not actually have any Thai codepoints */
-                if (thai_encoding != SDL_TOOLKIT_THAI_ENCODING_X11_NONE) {
+                如果 (thai_encoding != SDL_TOOLKIT_THAI_ENCODING_X11_NONE) {
                     XFontStruct *font_struct;
 
                     /* We have to load the font again because the font_struct supplied by FontsOfFontSet does not have the per_char member set */
                     font_struct = X11_XLoadQueryFont(window->display, font_names[i]);
-                    if (font_struct) {
-                        if (font_struct->per_char) {
-                            int glyphs_sz;
-                            int j;
+                    如果 (font_struct) {
+                        如果 (font_struct->per_char) {
+                            整数 glyphs_sz;
+                            整数 j;
 
                             glyphs_sz = (font_struct->max_char_or_byte2 - font_struct->min_char_or_byte2 + 1) * (font_struct->max_byte1 - font_struct->min_byte1 + 1);
-                            for (j = 0; j < glyphs_sz; j++) {
-                                if (font_struct->per_char[j].lbearing < 0) {
+                            为 (j = 0; j < glyphs_sz; j++) {
+                                如果 (font_struct->per_char[j].lbearing < 0) {
                                     window->thai_font = SDL_TOOLKIT_THAI_FONT_X11_OFFSET;
                                 }
                             }
@@ -388,7 +388,7 @@ static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
                 window->thai_encoding = thai_encoding;
             } 
         }
-    } else
+    } 否则
 #endif
     {
         char *font;
@@ -398,16 +398,16 @@ static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
         SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * window->iscale);
         window->font_struct = X11_XLoadQueryFont(window->display, font);
         SDL_free(font);
-        if (!window->font_struct) {
-            if (window->iscale > 0) {
-                if (window->scale != 0) {
-                    window->iscale = (int)SDL_ceilf(window->scale);
+        如果 (!window->font_struct) {
+            如果 (window->iscale > 0) {
+                如果 (window->scale != 0) {
+                    window->iscale = (整数)SDL_ceilf(window->scale);
                     window->scale = 0;
-                } else {
+                } 否则 {
                     window->iscale--;
                 }
                 goto load_font_traditional;
-            } else {
+            } 否则 {
                 window->font_struct = X11_XLoadQueryFont(window->display, g_ToolkitFontLatin1Fallback);
             }
         }
@@ -417,80 +417,80 @@ static void X11Toolkit_InitWindowFonts(SDL_ToolkitWindowX11 *window)
 static void X11Toolkit_SettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
 {
     SDL_ToolkitWindowX11 *window;
-    int i;
+    整数 i;
 
     window = data;
 
-    if (window->xsettings_first_time) {
-        return;
+    如果 (window->xsettings_first_time) {
+        返回;
     }
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    如果 (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         bool dbe_already_setup = false;
         bool pixmap_already_setup = false;
 
-        if (window->pixmap) {
+        如果 (window->pixmap) {
             pixmap_already_setup = true;
-        } else {
+        } 否则 {
             dbe_already_setup = true;
         }
 
         /* set scale vars */
         window->scale = X11_GetGlobalContentScale(window->display, window->xsettings);
-        window->iscale = (int)SDL_ceilf(window->scale);
-        if (window->scale < 1) {
+        window->iscale = (整数)SDL_ceilf(window->scale);
+        如果 (window->scale < 1) {
             window->scale = 1;
         }
-        if (SDL_roundf(window->scale) == window->scale) {
+        如果 (SDL_roundf(window->scale) == window->scale) {
             window->scale = 0;
         }
 
         /* setup fonts */
 #ifdef X_HAVE_UTF8_STRING
-        if (window->font_set) {
+        如果 (window->font_set) {
             X11_XFreeFontSet(window->display, window->font_set);
         }
 #endif
-        if (window->font_struct) {
+        如果 (window->font_struct) {
             X11_XFreeFont(window->display, window->font_struct);
         }
 
         X11Toolkit_InitWindowFonts(window);
 
         /* set up window */
-        if (window->scale != 0) {
+        如果 (window->scale != 0) {
             window->window_width = SDL_lroundf((window->window_width/window->iscale) * window->scale);
             window->window_height = SDL_lroundf((window->window_height/window->iscale) * window->scale);
             window->pixmap_width = window->window_width;
             window->pixmap_height = window->window_height;
             window->pixmap = true;
-        } else {
+        } 否则 {
             window->pixmap = false;
         }
 
-        if (window->pixmap) {
-            if (!pixmap_already_setup) {
+        如果 (window->pixmap) {
+            如果 (!pixmap_already_setup) {
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-                if (SDL_X11_HAVE_XDBE && window->xdbe) {
+                如果 (SDL_X11_HAVE_XDBE && window->xdbe) {
                     X11_XdbeDeallocateBackBufferName(window->display, window->buf);
                 }
 #endif
             }
             X11_XFreePixmap(window->display, window->drawable);
             X11Toolkit_InitWindowPixmap(window);
-        } else {
-            if (!dbe_already_setup) {
+        } 否则 {
+            如果 (!dbe_already_setup) {
                 X11_XFreePixmap(window->display, window->drawable);
 #ifndef NO_SHARED_MEMORY
-                if (window->image) {
+                如果 (window->image) {
                     XDestroyImage(window->image);
                     window->image = NULL;
                 }
 #endif
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-                if (SDL_X11_HAVE_XDBE && window->xdbe) {
+                如果 (SDL_X11_HAVE_XDBE && window->xdbe) {
                     window->buf = X11_XdbeAllocateBackBufferName(window->display, window->window, XdbeUndefined);
                     window->drawable = window->buf;
                 }
@@ -499,14 +499,14 @@ static void X11Toolkit_SettingsNotify(const char *name, XSettingsAction action, 
         }
 
         /* notify controls */
-        for (i = 0; i < window->controls_sz; i++) {
+        为 (i = 0; i < window->controls_sz; i++) {
             window->controls[i]->do_size = true;
 
-            if (window->controls[i]->func_on_scale_change) {
+            如果 (window->controls[i]->func_on_scale_change) {
                 window->controls[i]->func_on_scale_change(window->controls[i]);
             }
 
-            if (window->controls[i]->func_calc_size) {
+            如果 (window->controls[i]->func_calc_size) {
                 window->controls[i]->func_calc_size(window->controls[i]);
             }
 
@@ -514,38 +514,38 @@ static void X11Toolkit_SettingsNotify(const char *name, XSettingsAction action, 
         }
 
         /* notify cb */
-        if (window->cb_on_scale_change) {
+        如果 (window->cb_on_scale_change) {
             window->cb_on_scale_change(window, window->cb_data);
         }
 
         /* update ev scales */
-        if (!window->pixmap) {
+        如果 (!window->pixmap) {
             window->ev_scale = window->ev_iscale = 1;
-        } else {
+        } 否则 {
             window->ev_scale = window->scale;
             window->ev_iscale = window->iscale;
         }
     }
 }
 
-static void X11Toolkit_GetTextWidthHeightForFont(XFontStruct *font, const char *str, int nbytes, int *pwidth, int *pheight, int *ascent, int *font_height)
+static void X11Toolkit_GetTextWidthHeightForFont(XFontStruct *font, const char *str, 整数 nbytes, 整数 *pwidth, 整数 *pheight, 整数 *ascent, 整数 *font_height)
 {
     XCharStruct text_structure;
-    int font_direction, font_ascent, font_descent;
+    整数 font_direction, font_ascent, font_descent;
     
     X11_XTextExtents(font, str, nbytes, &font_direction, &font_ascent, &font_descent, &text_structure);
     *pwidth = text_structure.width;
     *pheight = text_structure.ascent + text_structure.descent;
     *ascent = text_structure.ascent;
-    if (font_height) {
+    如果 (font_height) {
        *font_height = font_ascent + font_descent;
     }
 }
 
-static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char *str, int nbytes, int *pwidth, int *pheight, int *ascent, int *descent, int *font_height)
+static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char *str, 整数 nbytes, 整数 *pwidth, 整数 *pheight, 整数 *ascent, 整数 *descent, 整数 *font_height)
 {
 #ifdef X_HAVE_UTF8_STRING
-    if (data->utf8) {
+    如果 (data->utf8) {
         XRectangle overall_ink, overall_logical;
 
         X11_Xutf8TextExtents(data->font_set, str, nbytes, &overall_ink, &overall_logical);
@@ -554,17 +554,17 @@ static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char
         *ascent = -overall_logical.y;
         *descent = overall_logical.height - *ascent;
 
-        if (font_height) {
+        如果 (font_height) {
             XFontSetExtents *extents;
 
             extents = X11_XExtentsOfFontSet(data->font_set);
             *font_height = extents->max_logical_extent.height;
         }
-    } else
+    } 否则
 #endif
     {
         XCharStruct text_structure;
-        int font_direction, font_ascent, font_descent;
+        整数 font_direction, font_ascent, font_descent;
         X11_XTextExtents(data->font_struct, str, nbytes,
                          &font_direction, &font_ascent, &font_descent,
                          &text_structure);
@@ -573,7 +573,7 @@ static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char
         *ascent = text_structure.ascent;
         *descent = text_structure.descent;
 
-        if (font_height) {
+        如果 (font_height) {
             *font_height = font_ascent + font_descent;
         }
     }
@@ -581,7 +581,7 @@ static void X11Toolkit_GetTextWidthHeight(SDL_ToolkitWindowX11 *data, const char
 
 #ifdef HAVE_FRIBIDI_H
 SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt, size_t sz, FriBidiParType *par)
-#else
+#否则
 SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt, size_t sz)
 #endif
 {
@@ -600,14 +600,14 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
     buffer[0] = 0;
     
 #ifdef HAVE_FRIBIDI_H
-    if (par) {
+    如果 (par) {
         *par = FRIBIDI_PAR_LTR;
     }
-    if (data->fribidi) {
+    如果 (data->fribidi) {
         char *fstr;
                 
         fstr = SDL_FriBidi_Process(data->fribidi, str, sz, data->do_shaping, par);
-        if (fstr) {
+        如果 (fstr) {
             txt = fstr;
             str = fstr;
             sz = SDL_strlen(str);
@@ -616,7 +616,7 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
     }
 #endif        
 
-    while (1) {
+    当 (1) {
         char *new;
         char utf8[5];
         size_t csz;
@@ -625,13 +625,13 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
         SDL_zeroa(utf8);
         cp = SDL_StepUTF8((const char **)&str, &sz);
         cond = (0xe00 <= cp && cp <= 0xe7f) ? true : false;
-        if (cp == 0 || cond == (thai ? false : true)) {
+        如果 (cp == 0 || cond == (thai ? false : true)) {
             SDL_ToolkitTextElementX11 *element;
             
             element = SDL_malloc(sizeof(SDL_ToolkitTextElementX11));
-            if (thai) {
+            如果 (thai) {
                 element->type = SDL_TOOLKIT_TEXT_TYPE_X11_THAI;
-            } else {
+            } 否则 {
                 element->type = SDL_TOOLKIT_TEXT_TYPE_X11_GENERIC;
             }
             element->str = SDL_strdup(buffer);
@@ -646,7 +646,7 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
             thai = thai ? false : true;
         }
 
-        if (!cp) {
+        如果 (!cp) {
             break;
         }
         
@@ -660,33 +660,33 @@ SDL_ListNode *X11Toolkit_MakeTextElements(SDL_ToolkitWindowX11 *data, char *txt,
     }
 
     SDL_free(buffer);
-    if (free_txt) {
+    如果 (free_txt) {
         SDL_free(txt);
     }
-    return list;
+    返回 list;
 }
 
 void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list)
 {
     SDL_ListNode *cursor;
     SDL_ToolkitTextElementX11 *prev;
-    int temp;
+    整数 temp;
     
     /* Shape and calculate bounding box */
     cursor = list;
-    while (cursor) {
+    当 (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
 #ifdef HAVE_LIBTHAI_H
         element->thai_overlays = NULL;
 #endif
-        if (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
-            if (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
+        如果 (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
+            如果 (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
                 X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, NULL);
-            } else {
+            } 否则 {
 #ifdef HAVE_LIBTHAI_H
-                if (data->th) {
+                如果 (data->th) {
                     struct thcell_t *cells;
                     char *tis_str;
                     char *base_tis_str;
@@ -702,13 +702,13 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
 
                     base_tis_str_sz = cells_sz;
                     base_tis_str = SDL_malloc(base_tis_str_sz + 1);
-                    for (temp = 0; temp < cells_sz; temp++) {
+                    为 (temp = 0; temp < cells_sz; temp++) {
                         base_tis_str[temp] = cells[temp].base;
                         
-                        if (cells[temp].hilo) {
+                        如果 (cells[temp].hilo) {
                             SDL_ToolkitThaiOverlayX11 *overlay;
                             char *pre;
-                            int temp2;
+                            整数 temp2;
                             
                             overlay = SDL_malloc(sizeof(SDL_ToolkitThaiOverlayX11));
                             pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, temp);
@@ -721,10 +721,10 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
                             SDL_free(pre);
                         }
                         
-                        if (cells[temp].top) {
+                        如果 (cells[temp].top) {
                             SDL_ToolkitThaiOverlayX11 *overlay;
                             char *pre;
-                            int temp2;
+                            整数 temp2;
                             
                             overlay = SDL_malloc(sizeof(SDL_ToolkitThaiOverlayX11));
                             pre = SDL_iconv_string("UTF-8", "TIS-620", base_tis_str, temp);
@@ -748,11 +748,11 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
                     SDL_free(cells);                
                     SDL_free(base_tis_str);
                 }
-#else
+#否则
                 X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, &element->font_h);
 #endif            
             }
-        } else {
+        } 否则 {
             X11Toolkit_GetTextWidthHeight(data, element->str, element->sz, &element->rect.w, &element->rect.h, &element->rect.y, &temp, &element->font_h);
         }
         
@@ -762,13 +762,13 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
     /* Add offsets */
     prev = NULL;
     cursor = list;
-    while (cursor) {
+    当 (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;        
-        if (prev) {
+        如果 (prev) {
             element->rect.x = prev->rect.x + prev->rect.w;
-        } else {
+        } 否则 {
             element->rect.x = 0;
         }
         
@@ -778,35 +778,35 @@ void X11Toolkit_ShapeTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list
 }
 
 
-void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list, int x, int y)
+void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list, 整数 x, 整数 y)
 {
     SDL_ListNode *cursor;
     
     cursor = list;
     
-    while (cursor) {
+    当 (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
-        if (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
-            if (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
+        如果 (element->type == SDL_TOOLKIT_TEXT_TYPE_X11_THAI) {
+            如果 (data->thai_font == SDL_TOOLKIT_THAI_FONT_X11_OFFSET) {
 #ifdef X_HAVE_UTF8_STRING
-                if (data->utf8) {
+                如果 (data->utf8) {
                     X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-                } else
+                } 否则
 #endif
                 {
                     X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
                 }
-            } else {    
+            } 否则 {    
 #ifdef HAVE_LIBTHAI_H
                 SDL_ListNode *overlay_cursor;
                     
                 /* Draw the base string */
 #ifdef X_HAVE_UTF8_STRING
-                if (data->utf8) {
+                如果 (data->utf8) {
                     X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-                } else
+                } 否则
 #endif
                 {
                     X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
@@ -814,14 +814,14 @@ void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list,
                 
                 /* Draw overlays */
                 overlay_cursor = element->thai_overlays;
-                while (overlay_cursor) {
+                当 (overlay_cursor) {
                     SDL_ToolkitThaiOverlayX11 *overlay;
                     
                     overlay = overlay_cursor->entry;
 #ifdef X_HAVE_UTF8_STRING
-                    if (data->utf8) {
+                    如果 (data->utf8) {
                         X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x + overlay->rect.x, y + overlay->rect.y, overlay->str, overlay->sz);
-                    } else
+                    } 否则
 #endif
                     {
                         X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x + overlay->rect.x, y + element->rect.y + overlay->rect.y, overlay->str, overlay->sz);
@@ -831,11 +831,11 @@ void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list,
                 }
 #endif                
             }
-        } else {
+        } 否则 {
 #ifdef X_HAVE_UTF8_STRING
-            if (data->utf8) {
+            如果 (data->utf8) {
                 X11_Xutf8DrawString(data->display, data->drawable, data->font_set, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
-            } else
+            } 否则
 #endif
             {
                 X11_XDrawString(data->display, data->drawable, data->ctx, x + element->rect.x, y + element->rect.y, element->str, element->sz);
@@ -846,16 +846,16 @@ void X11Toolkit_DrawTextElements(SDL_ToolkitWindowX11 *data, SDL_ListNode *list,
     }
 }
 
-int X11Toolkit_GetTextElementsRect(SDL_ListNode *list, SDL_Rect *out)
+整数 X11Toolkit_GetTextElementsRect(SDL_ListNode *list, SDL_Rect *out)
 {
     SDL_ListNode *cursor;
-    int ret;
+    整数 ret;
     
     ret = 0;
     out->x = out->y = 0;
     out->w = out->h = 0;
     cursor = list;
-    while (cursor) {
+    当 (cursor) {
         SDL_ToolkitTextElementX11 *element;
         
         element = cursor->entry;
@@ -867,7 +867,7 @@ int X11Toolkit_GetTextElementsRect(SDL_ListNode *list, SDL_Rect *out)
         cursor = cursor->next;
     }
     
-    return ret;
+    返回 ret;
 }
 
 void X11Toolkit_FreeTextElementsListContents(SDL_ListNode *list)
@@ -875,7 +875,7 @@ void X11Toolkit_FreeTextElementsListContents(SDL_ListNode *list)
     SDL_ListNode *cursor;
     
     cursor = list;
-    while (cursor) {
+    当 (cursor) {
         SDL_ToolkitTextElementX11 *element;
 #ifdef HAVE_LIBTHAI_H
         SDL_ListNode *overlay_cursor;
@@ -883,13 +883,13 @@ void X11Toolkit_FreeTextElementsListContents(SDL_ListNode *list)
 
         element = cursor->entry;
         
-        if (element->str_free) {
+        如果 (element->str_free) {
             element->str_free(element->str);
         }
         
 #ifdef HAVE_LIBTHAI_H        
         overlay_cursor = element->thai_overlays;
-        while (overlay_cursor) {
+        当 (overlay_cursor) {
             SDL_ToolkitThaiOverlayX11 *overlay;
                     
             overlay = overlay_cursor->entry;
@@ -924,60 +924,60 @@ static bool X11Toolkit_ShouldFlipUI(void)
         { "pk", "PK", },
         { "ps", NULL, }
     }; 
-    int current_locales_sz;
-    int i;
+    整数 current_locales_sz;
+    整数 i;
 
     current_locales = SDL_GetPreferredLocales(&current_locales_sz);
-    if (current_locales_sz <= 0) {
-        return false;        
+    如果 (current_locales_sz <= 0) {
+        返回 false;        
     }
-    for (i = 0; i < SDL_arraysize(rtl_locales); ++i) {
-        if (SDL_startswith(current_locales[0]->language, rtl_locales[i].language)) {
-            if (!rtl_locales[i].country) {
-                return true;
-            } else {
-                return SDL_startswith(current_locales[0]->country, rtl_locales[i].country);
+    为 (i = 0; i < SDL_arraysize(rtl_locales); ++i) {
+        如果 (SDL_startswith(current_locales[0]->language, rtl_locales[i].language)) {
+            如果 (!rtl_locales[i].country) {
+                返回 true;
+            } 否则 {
+                返回 SDL_startswith(current_locales[0]->country, rtl_locales[i].country);
             }
         }
     }
     
-    return false;
+    返回 false;
 }
 
 SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, const SDL_MessageBoxColor *colorhints, bool create_new_display)
 {
     SDL_ToolkitWindowX11 *window;
-    int i;
+    整数 i;
 #ifdef SDL_USE_LIBDBUS
     SDL_SystemTheme theme;
 #endif
-    #define ErrorFreeRetNull(x, y) SDL_SetError(x); SDL_free(y); return NULL
-    #define ErrorCloseFreeRetNull(x, y, z) X11_XCloseDisplay(z->display); SDL_SetError(x, y); SDL_free(z); return NULL
+    #define ErrorFreeRetNull(x, y) SDL_SetError(x); SDL_free(y); 返回 NULL
+    #define ErrorCloseFreeRetNull(x, y, z) X11_XCloseDisplay(z->display); SDL_SetError(x, y); SDL_free(z); 返回 NULL
 
-    if (!SDL_X11_LoadSymbols()) {
-        return NULL;
+    如果 (!SDL_X11_LoadSymbols()) {
+        返回 NULL;
     }
 
     // This code could get called from multiple threads maybe?
     X11_XInitThreads();
 
     window = (SDL_ToolkitWindowX11 *)SDL_malloc(sizeof(SDL_ToolkitWindowX11));
-    if (!window) {
+    如果 (!window) {
         SDL_SetError("Unable to allocate toolkit window structure");
-        return NULL;
+        返回 NULL;
     }
 
     window->mode = mode;
     window->tk_parent = tkparent;
 
-#if SDL_SET_LOCALE
-    if (mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+#如果 SDL_SET_LOCALE
+    如果 (mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
         window->origlocale = setlocale(LC_ALL, NULL);
-        if (window->origlocale) {
+        如果 (window->origlocale) {
             window->origlocale = SDL_strdup(window->origlocale);
-            if (!window->origlocale) {
+            如果 (!window->origlocale) {
                 SDL_free(window);
-                return NULL;
+                返回 NULL;
             }
             (void)setlocale(LC_ALL, "");
         }
@@ -985,44 +985,44 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
 #endif
 
     window->parent_device = NULL;
-    if (create_new_display) {
+    如果 (create_new_display) {
         window->display = X11_XOpenDisplay(NULL);
         window->display_close = true;
-        if (!window->display) {
+        如果 (!window->display) {
             ErrorFreeRetNull("Couldn't open X11 display", window);
         }
-    } else {
-        if (parent) {
+    } 否则 {
+        如果 (parent) {
             window->parent_device = SDL_GetVideoDevice();
             window->display = window->parent_device->internal->display;
             window->display_close = false;
-        } else if (tkparent) {
+        } 否则 如果 (tkparent) {
             window->display = tkparent->display;
             window->display_close = false;
-        } else {
+        } 否则 {
             window->display = X11_XOpenDisplay(NULL);
             window->display_close = true;
-            if (!window->display) {
+            如果 (!window->display) {
                 ErrorFreeRetNull("Couldn't open X11 display", window);
             }
         }
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    int xrandr_event_base, xrandr_error_base;
+    整数 xrandr_event_base, xrandr_error_base;
     window->xrandr = X11_XRRQueryExtension(window->display, &xrandr_event_base, &xrandr_error_base);
 #endif
 
 #ifndef NO_SHARED_MEMORY
     window->shm_pixmap = False;
     window->shm = X11_XShmQueryExtension(window->display) ? SDL_X11_HAVE_SHM : false;
-    if (window->shm) {
-        int major;
-        int minor;
+    如果 (window->shm) {
+        整数 major;
+        整数 minor;
 
         X11_XShmQueryVersion(window->display, &major, &minor, &window->shm_pixmap);
-        if (window->shm_pixmap) {
-            if (X11_XShmPixmapFormat(window->display) != ZPixmap) {
+        如果 (window->shm_pixmap) {
+            如果 (X11_XShmPixmapFormat(window->display) != ZPixmap) {
                 window->shm_pixmap = False;
             }
         }
@@ -1035,11 +1035,11 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     window->xsettings = xsettings_client_new(window->display, DefaultScreen(window->display), X11Toolkit_SettingsNotify, NULL, window);
     window->xsettings_first_time = false;
     window->scale = X11_GetGlobalContentScale(window->display, window->xsettings);
-    if (window->scale < 1) {
+    如果 (window->scale < 1) {
         window->scale = 1;
     }
-    window->iscale = (int)SDL_ceilf(window->scale);
-    if (SDL_roundf(window->scale) == window->scale) {
+    window->iscale = (整数)SDL_ceilf(window->scale);
+    如果 (SDL_roundf(window->scale) == window->scale) {
         window->scale = 0;
     }
 
@@ -1049,18 +1049,18 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     /* Color hints */
 #ifdef SDL_USE_LIBDBUS
     theme = SDL_SYSTEM_THEME_LIGHT;
-    if (SDL_SystemTheme_Init()) {
+    如果 (SDL_SystemTheme_Init()) {
         theme = SDL_SystemTheme_Get();
     }
 #endif
 
-    if (!colorhints) {
+    如果 (!colorhints) {
 #ifdef SDL_USE_LIBDBUS
         switch (theme) {
             case SDL_SYSTEM_THEME_DARK:
                 colorhints = g_default_colors_dark;
                 break;
-#if 0
+#如果 0
             case SDL_SYSTEM_THEME_LIGHT_HIGH_CONTRAST:
                 colorhints = g_default_colors_light_high_contrast;
                 break;
@@ -1071,14 +1071,14 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
             default:
                 colorhints = g_default_colors;
         }
-#else
+#否则
         colorhints = g_default_colors;
 #endif
     }
     window->color_hints = colorhints;
 
     /* Convert colors to 16 bpc XColor format */
-    for (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
+    为 (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
         window->xcolor[i].flags = DoRed|DoGreen|DoBlue;
         window->xcolor[i].red = colorhints[i].r * 257;
         window->xcolor[i].green = colorhints[i].g * 257;
@@ -1113,20 +1113,20 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
 
     /* Screen */
     window->parent = parent;
-    if (parent) {
+    如果 (parent) {
         SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(parent);
         window->screen = displaydata->screen;
-    } else {
+    } 否则 {
         window->screen = DefaultScreen(window->display);
     }
 
     /* Visuals */
-    if (mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+    如果 (mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
         window->visual = parent->internal->visual;
         window->cmap = parent->internal->colormap;
         X11_GetVisualInfoFromVisual(window->display, window->visual, &window->vi);
         window->depth = window->vi.depth;
-    } else {
+    } 否则 {
         window->visual = DefaultVisual(window->display, window->screen);
         window->cmap = DefaultColormap(window->display, window->screen);
         window->depth = DefaultDepth(window->display, window->screen);
@@ -1134,7 +1134,7 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     }
 
     /* Allocate colors */
-    for (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
+    为 (i = 0; i < SDL_MESSAGEBOX_COLOR_COUNT; i++) {
         X11_XAllocColor(window->display, window->cmap, &window->xcolor[i]);
     }
     X11_XAllocColor(window->display, window->cmap, &window->xcolor_bevel_l1);
@@ -1166,39 +1166,39 @@ SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_Tool
     /* Interface direction */
     window->flip_interface = X11Toolkit_ShouldFlipUI();
     
-    return window;
+    返回 window;
 }
 
 static void X11Toolkit_AddControlToWindow(SDL_ToolkitWindowX11 *window, SDL_ToolkitControlX11 *control) {
     /* Add to controls list */
     window->controls_sz++;
-    if (window->controls_sz == 1) {
+    如果 (window->controls_sz == 1) {
         window->controls = (struct SDL_ToolkitControlX11 **)SDL_malloc(sizeof(struct SDL_ToolkitControlX11 *));
-    } else {
+    } 否则 {
         window->controls = (struct SDL_ToolkitControlX11 **)SDL_realloc(window->controls, sizeof(struct SDL_ToolkitControlX11 *) * window->controls_sz);
     }
     window->controls[window->controls_sz - 1] = control;
 
     /* If dynamic, add it to the dynamic controls list too */
-    if (control->dynamic) {
+    如果 (control->dynamic) {
         window->dyn_controls_sz++;
-        if (window->dyn_controls_sz == 1) {
+        如果 (window->dyn_controls_sz == 1) {
             window->dyn_controls = (struct SDL_ToolkitControlX11 **)SDL_malloc(sizeof(struct SDL_ToolkitControlX11 *));
-        } else {
+        } 否则 {
             window->dyn_controls = (struct SDL_ToolkitControlX11 **)SDL_realloc(window->dyn_controls, sizeof(struct SDL_ToolkitControlX11 *) * window->dyn_controls_sz);
         }
         window->dyn_controls[window->dyn_controls_sz - 1] = control;
     }
 
     /* If selected, set currently focused control to it */
-    if (control->selected) {
+    如果 (control->selected) {
         window->focused_control = control;
     }
 }
 
-bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx, int cy, char *title)
+bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, 整数 w, 整数 h, 整数 cx, 整数 cy, char *title)
 {
-    int x, y;
+    整数 x, y;
     XSizeHints *sizehints;
     XSetWindowAttributes wnd_attr;
     Atom _NET_WM_WINDOW_TYPE, _NET_WM_WINDOW_TYPE_DIALOG, _NET_WM_WINDOW_TYPE_DROPDOWN_MENU, _NET_WM_WINDOW_TYPE_TOOLTIP;
@@ -1212,15 +1212,15 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
 #ifdef XRANDR_DISABLED_BY_DEFAULT
     const bool use_xrandr_by_default = false;
-#else
+#否则
     const bool use_xrandr_by_default = true;
 #endif
 #endif
 
-    if (data->scale == 0) {
+    如果 (data->scale == 0) {
         data->window_width = w;
         data->window_height = h;
-    } else {
+    } 否则 {
         data->window_width = SDL_lroundf((w/data->iscale) * data->scale);
         data->window_height = SDL_lroundf((h/data->iscale) * data->scale);
         data->pixmap_width = w;
@@ -1228,7 +1228,7 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
         data->pixmap = true;
     }
 
-    if (data->parent) {
+    如果 (data->parent) {
         windowdata = data->parent->internal;
     }
 
@@ -1238,15 +1238,15 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
                        StructureNotifyMask | FocusChangeMask | PointerMotionMask;
     wnd_attr.event_mask = data->event_mask;
     wnd_attr.colormap = data->cmap;
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         valuemask |= CWOverrideRedirect | CWSaveUnder;
         wnd_attr.save_under = True;
         wnd_attr.override_redirect = True;
     }
     root_win = RootWindow(display, data->screen);
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
         parent_win = windowdata->xwindow;
-    } else {
+    } 否则 {
         parent_win = root_win;
     }
 
@@ -1256,11 +1256,11 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
         data->window_width, data->window_height,
         0, data->depth, InputOutput, data->visual,
         valuemask, &wnd_attr);
-    if (data->window == None) {
-        return SDL_SetError("Couldn't create X window");
+    如果 (data->window == None) {
+        返回 SDL_SetError("Couldn't create X window");
     }
 
-    if (windowdata && data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+    如果 (windowdata && data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
         Atom _NET_WM_STATE = X11_XInternAtom(display, "_NET_WM_STATE", False);
         Atom stateatoms[16];
         size_t statecount = 0;
@@ -1275,30 +1275,30 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
                             PropModeReplace, (unsigned char *)stateatoms, statecount);
     }
 
-    if (windowdata && data->mode != SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
+    如果 (windowdata && data->mode != SDL_TOOLKIT_WINDOW_MODE_X11_CHILD) {
         X11_XSetTransientForHint(display, data->window, windowdata->xwindow);
     }
 
-    if (data->tk_parent) {
+    如果 (data->tk_parent) {
         X11_XSetTransientForHint(display, data->window, data->tk_parent->window);
     }
 
     SDL_X11_SetWindowTitle(display, data->window, title);
 
     // Let the window manager the type of the window
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_DIALOG = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_DIALOG", False);
         X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                             PropModeReplace,
                             (unsigned char *)&_NET_WM_WINDOW_TYPE_DIALOG, 1);
-    } else if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU) {
+    } 否则 如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_DROPDOWN_MENU = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_DROPDOWN_MENU", False);
         X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                             PropModeReplace,
                             (unsigned char *)&_NET_WM_WINDOW_TYPE_DROPDOWN_MENU, 1);
-    } else if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+    } 否则 如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
         _NET_WM_WINDOW_TYPE_TOOLTIP = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE_TOOLTIP", False);
         X11_XChangeProperty(display, data->window, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
@@ -1311,12 +1311,12 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
     X11_XSetWMProtocols(display, data->window, &data->wm_delete_message, 1);
     data->wm_protocols = X11_XInternAtom(display, "WM_PROTOCOLS", False);
 
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         x = cx;
         y = cy;
         goto MOVEWINDOW;
     }
-    if (windowdata) {
+    如果 (windowdata) {
         XWindowAttributes attrib;
         Window dummy;
 
@@ -1324,72 +1324,72 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
         x = attrib.x + (attrib.width - data->window_width) / 2;
         y = attrib.y + (attrib.height - data->window_height) / 3;
         X11_XTranslateCoordinates(display, windowdata->xwindow, RootWindow(display, data->screen), x, y, &x, &y, &dummy);
-    } else {
+    } 否则 {
         const SDL_VideoDevice *dev = SDL_GetVideoDevice();
-        if (dev && dev->displays && dev->num_displays > 0) {
+        如果 (dev && dev->displays && dev->num_displays > 0) {
             const SDL_VideoDisplay *dpy = dev->displays[0];
             const SDL_DisplayData *dpydata = dpy->internal;
             x = dpydata->x + ((dpy->current_mode->w - data->window_width) / 2);
             y = dpydata->y + ((dpy->current_mode->h - data->window_height) / 3);
         }
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-        else if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, use_xrandr_by_default) && data->xrandr) {
+        否则 如果 (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, use_xrandr_by_default) && data->xrandr) {
             XRRScreenResources *screen_res;
             XRRCrtcInfo *crtc_info;
             RROutput default_out;
 
             screen_res = X11_XRRGetScreenResourcesCurrent(display, root_win);
-            if (!screen_res) {
+            如果 (!screen_res) {
                 goto NOXRANDR;
             }
 
             default_out = X11_XRRGetOutputPrimary(display, root_win);
-            if (default_out != None) {
+            如果 (default_out != None) {
                 XRROutputInfo *out_info;
 
                 out_info = X11_XRRGetOutputInfo(display, screen_res, default_out);
-                if (out_info->connection != RR_Connected) {
+                如果 (out_info->connection != RR_Connected) {
                     X11_XRRFreeOutputInfo(out_info);
                     goto FIRSTOUTPUTXRANDR;
                 }
 
-                if (out_info->crtc != None) {
+                如果 (out_info->crtc != None) {
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtc);
-                } else if (out_info->ncrtc > 0) {
+                } 否则 如果 (out_info->ncrtc > 0) {
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtcs[0]);
-                } else {
+                } 否则 {
                     crtc_info = NULL;
                 }
                 
-                if (crtc_info) {
+                如果 (crtc_info) {
                     x = (crtc_info->width - data->window_width) / 2;
                     y = (crtc_info->height - data->window_height) / 3;
                     X11_XRRFreeOutputInfo(out_info);
                     X11_XRRFreeCrtcInfo(crtc_info);
                     X11_XRRFreeScreenResources(screen_res);
-                } else {
+                } 否则 {
                     X11_XRRFreeOutputInfo(out_info);
                     goto NOXRANDR;
                 }
-            } else {
+            } 否则 {
                     FIRSTOUTPUTXRANDR:
-                    if (screen_res->noutput > 0) {
+                    如果 (screen_res->noutput > 0) {
                         XRROutputInfo *out_info;
 
                         out_info = X11_XRRGetOutputInfo(display, screen_res, screen_res->outputs[0]);
-                        if (!out_info) {
+                        如果 (!out_info) {
                             goto FIRSTCRTCXRANDR;
                         }
 
-                        if (out_info->crtc != None) {
+                        如果 (out_info->crtc != None) {
                             crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtc);
-                        } else if (out_info->ncrtc > 0) {
+                        } 否则 如果 (out_info->ncrtc > 0) {
                             crtc_info = X11_XRRGetCrtcInfo(display, screen_res, out_info->crtcs[0]);
-                        } else {
+                        } 否则 {
                             crtc_info = NULL;
                         }
 
-                        if (!crtc_info) {
+                        如果 (!crtc_info) {
                             X11_XRRFreeOutputInfo(out_info);
                             goto FIRSTCRTCXRANDR;
                         }
@@ -1403,25 +1403,25 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
                     }
 
                     FIRSTCRTCXRANDR:
-                    if (!screen_res->ncrtc) {
+                    如果 (!screen_res->ncrtc) {
                         X11_XRRFreeScreenResources(screen_res);
                         goto NOXRANDR;
                     }
 
                     crtc_info = X11_XRRGetCrtcInfo(display, screen_res, screen_res->crtcs[0]);
-                    if (crtc_info) {
+                    如果 (crtc_info) {
                         x = (crtc_info->width - data->window_width) / 2;
                         y = (crtc_info->height - data->window_height) / 3;
                         X11_XRRFreeCrtcInfo(crtc_info);
                         X11_XRRFreeScreenResources(screen_res);
-                    } else {
+                    } 否则 {
                         X11_XRRFreeScreenResources(screen_res);
                         goto NOXRANDR;
                     }
             }
         }
 #endif
-        else {
+        否则 {
             // oh well. This will misposition on a multi-head setup. Init first next time.
             NOXRANDR:
             x = (DisplayWidth(display, data->screen) - data->window_width) / 2;
@@ -1434,7 +1434,7 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
     data->window_y = y;
 
     sizehints = X11_XAllocSizeHints();
-    if (sizehints) {
+    如果 (sizehints) {
         sizehints->flags = USPosition | USSize | PMaxSize | PMinSize;
         sizehints->x = x;
         sizehints->y = y;
@@ -1454,13 +1454,13 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
     data->drawable = data->window;
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
     // Initialise a back buffer for double buffering
-    if (SDL_X11_HAVE_XDBE && !data->pixmap) {
-        int xdbe_major, xdbe_minor;
-        if (X11_XdbeQueryExtension(display, &xdbe_major, &xdbe_minor) != 0) {
+    如果 (SDL_X11_HAVE_XDBE && !data->pixmap) {
+        整数 xdbe_major, xdbe_minor;
+        如果 (X11_XdbeQueryExtension(display, &xdbe_major, &xdbe_minor) != 0) {
             data->xdbe = true;
             data->buf = X11_XdbeAllocateBackBufferName(display, data->window, XdbeUndefined);
             data->drawable = data->buf;
-        } else {
+        } 否则 {
             data->xdbe = false;
         }
     }
@@ -1471,64 +1471,64 @@ bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx
     SDL_zero(ctx_vals);
     ctx_vals.foreground = data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
     ctx_vals.background = data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel;
-    if (!data->utf8) {
+    如果 (!data->utf8) {
         gcflags |= GCFont;
         ctx_vals.font = data->font_struct->fid;
     }
     data->ctx = X11_XCreateGC(data->display, data->drawable, gcflags, &ctx_vals);
-    if (data->ctx == None) {
-        return SDL_SetError("Couldn't create graphics context");
+    如果 (data->ctx == None) {
+        返回 SDL_SetError("Couldn't create graphics context");
     }
 
     data->close = false;
     data->key_control_esc = data->key_control_enter = NULL;
-    if (!data->pixmap) {
+    如果 (!data->pixmap) {
         data->ev_scale = data->ev_iscale = 1;
-    } else {
+    } 否则 {
         data->ev_scale = data->scale;
         data->ev_iscale = data->iscale;
     }
 
-#if SDL_GRAB
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+#如果 SDL_GRAB
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         X11_XGrabPointer(display, data->window, False, ButtonPressMask | ButtonReleaseMask | PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
         X11_XGrabKeyboard(display, data->window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
     }
 #endif
 
-    return true;
+    返回 true;
 }
 
 static void X11Toolkit_DrawWindow(SDL_ToolkitWindowX11 *data) {
     SDL_Rect rect;
-    int i;
+    整数 i;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
+    如果 (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
         X11_XdbeBeginIdiom(data->display);
     }
 #endif
 
     X11_XSetForeground(data->display, data->ctx, data->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].pixel);
-    if (data->pixmap) {
+    如果 (data->pixmap) {
         X11_XFillRectangle(data->display, data->drawable, data->ctx, 0, 0, data->pixmap_width, data->pixmap_height);
-    } else {
+    } 否则 {
         X11_XFillRectangle(data->display, data->drawable, data->ctx, 0, 0, data->window_width, data->window_height);
     }
 
-    for (i = 0; i < data->controls_sz; i++) {
+    为 (i = 0; i < data->controls_sz; i++) {
         SDL_ToolkitControlX11 *control;
 
         control = data->controls[i];
-        if (control) {
-            if (control->func_draw) {
+        如果 (control) {
+            如果 (control->func_draw) {
                 control->func_draw(control);
             }
         }
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
+    如果 (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
         XdbeSwapInfo swap_info;
         swap_info.swap_window = data->window;
         swap_info.swap_action = XdbeUndefined;
@@ -1537,28 +1537,28 @@ static void X11Toolkit_DrawWindow(SDL_ToolkitWindowX11 *data) {
     }
 #endif
 
-    if (data->pixmap) {
+    如果 (data->pixmap) {
         SDL_Surface *scale_surface;
 
         rect.x = rect.y = 0;
         rect.w = data->window_width;
         rect.h = data->window_height;
 #ifndef NO_SHARED_MEMORY
-        if (data->shm) {
-            if (data->shm_pixmap) {
+        如果 (data->shm) {
+            如果 (data->shm_pixmap) {
                 X11_XFlush(data->display);
                 X11_XSync(data->display, false);
                 scale_surface = SDL_CreateSurfaceFrom(data->pixmap_width, data->pixmap_height, X11_GetPixelFormatFromVisualInfo(data->display, &data->vi), data->shm_info.shmaddr, data->shm_bytes_per_line);
                 SDL_BlitSurfaceScaled(scale_surface, NULL, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
                 SDL_DestroySurface(scale_surface);
                 X11_XCopyArea(data->display, data->drawable, data->window, data->ctx, 0, 0, data->window_width, data->window_height, 0, 0);
-            } else {
+            } 否则 {
                 X11_XShmGetImage(data->display, data->drawable, data->image, 0, 0, AllPlanes);
                 scale_surface = SDL_CreateSurfaceFrom(data->pixmap_width, data->pixmap_height, X11_GetPixelFormatFromVisualInfo(data->display, &data->vi), data->image->data, data->image->bytes_per_line);
                 SDL_BlitSurfaceScaled(scale_surface, NULL, scale_surface, &rect, SDL_SCALEMODE_LINEAR);
                 X11_XShmPutImage(data->display, data->window, data->ctx, data->image, 0, 0, 0, 0, data->window_width, data->window_height, False);
             }
-        } else
+        } 否则
 #endif
         {
             XImage *image;
@@ -1576,21 +1576,21 @@ static void X11Toolkit_DrawWindow(SDL_ToolkitWindowX11 *data) {
     X11_XFlush(data->display);
 }
 
-static SDL_ToolkitControlX11 *X11Toolkit_GetControlMouseIsOn(SDL_ToolkitWindowX11 *data, int x, int y)
+static SDL_ToolkitControlX11 *X11Toolkit_GetControlMouseIsOn(SDL_ToolkitWindowX11 *data, 整数 x, 整数 y)
 {
-    int i;
+    整数 i;
 
-    for (i = 0; i < data->controls_sz; i++) {
+    为 (i = 0; i < data->controls_sz; i++) {
         SDL_Rect *rect = &data->controls[i]->rect;
-        if ((x >= rect->x) &&
+        如果 ((x >= rect->x) &&
             (x <= (rect->x + rect->w)) &&
             (y >= rect->y) &&
             (y <= (rect->y + rect->h))) {
-            return data->controls[i];
+            返回 data->controls[i];
         }
     }
 
-    return NULL;
+    返回 NULL;
 }
 
 // NOLINTNEXTLINE(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
@@ -1598,22 +1598,22 @@ static Bool X11Toolkit_EventTest(Display *display, XEvent *event, XPointer arg)
 {
     SDL_ToolkitWindowX11 *data = (SDL_ToolkitWindowX11 *)arg;
 
-    if (event->xany.display != data->display) {
-        return False;
+    如果 (event->xany.display != data->display) {
+        返回 False;
     }
 
-    if (event->xany.window == data->window) {
-        return True;
+    如果 (event->xany.window == data->window) {
+        返回 True;
     }
 
-    return False;
+    返回 False;
 }
 
 void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
     /* If X11_XFilterEvent returns True, then some input method has filtered the
         event, and the client should discard the event. */
-    if ((e->type != Expose) && X11_XFilterEvent(e, None)) {
-        return;
+    如果 ((e->type != Expose) && X11_XFilterEvent(e, None)) {
+        返回;
     }
 
     data->draw = false;
@@ -1624,7 +1624,7 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
             data->draw = true;
             break;
         case ClientMessage:
-            if (e->xclient.message_type == data->wm_protocols &&
+            如果 (e->xclient.message_type == data->wm_protocols &&
                 e->xclient.format == 32 &&
                 e->xclient.data.l[0] == data->wm_delete_message) {
                 data->close = true;
@@ -1635,33 +1635,33 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
             break;
         case FocusOut:
             data->has_focus = false;
-            if (data->fiddled_control) {
+            如果 (data->fiddled_control) {
                 data->fiddled_control->selected = false;
             }
             data->fiddled_control = NULL;
-            for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
+            为 (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
                 data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
             }
             break;
         case MotionNotify:
-            if (data->has_focus) {
+            如果 (data->has_focus) {
                 data->previous_control = data->fiddled_control;
                 data->fiddled_control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->previous_control) {
+                如果 (data->previous_control) {
                     data->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-                    if (data->previous_control->func_on_state_change) {
+                    如果 (data->previous_control->func_on_state_change) {
                         data->previous_control->func_on_state_change(data->previous_control);
                     }
                     data->draw = true;
                 }
-                if (data->fiddled_control) {
-                    if (data->fiddled_control->dynamic) {
+                如果 (data->fiddled_control) {
+                    如果 (data->fiddled_control->dynamic) {
                         data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_HOVER;
-                        if (data->fiddled_control->func_on_state_change) {
+                        如果 (data->fiddled_control->func_on_state_change) {
                             data->fiddled_control->func_on_state_change(data->fiddled_control);
                         }
                         data->draw = true;
-                    } else {
+                    } 否则 {
                         data->fiddled_control = NULL;
                     }
                 }
@@ -1669,18 +1669,18 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
             break;
         case ButtonPress:
             data->previous_control = data->fiddled_control;
-            if (data->previous_control) {
+            如果 (data->previous_control) {
                 data->previous_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
-                if (data->previous_control->func_on_state_change) {
+                如果 (data->previous_control->func_on_state_change) {
                     data->previous_control->func_on_state_change(data->previous_control);
                 }
                 data->draw = true;
             }
-            if (e->xbutton.button == Button1) {
+            如果 (e->xbutton.button == Button1) {
                 data->fiddled_control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->fiddled_control) {
+                如果 (data->fiddled_control) {
                     data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD;
-                    if (data->fiddled_control->func_on_state_change) {
+                    如果 (data->fiddled_control->func_on_state_change) {
                         data->fiddled_control->func_on_state_change(data->fiddled_control);
                     }
                     data->draw = true;
@@ -1688,29 +1688,29 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
             }
             break;
         case ButtonRelease:
-            if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
-                int cx;
-                int cy;
+            如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+                整数 cx;
+                整数 cy;
 
                 cx = e->xbutton.x;
                 cy = e->xbutton.y;
 
-                if (cy < 0 || cx < 0) {
+                如果 (cy < 0 || cx < 0) {
                     data->close = true;
                 }
 
-                if (cy > data->window_height || cx > data->window_width) {
+                如果 (cy > data->window_height || cx > data->window_width) {
                     data->close = true;
                 }
             }
 
-            if ((e->xbutton.button == Button1) && (data->fiddled_control)) {
+            如果 ((e->xbutton.button == Button1) && (data->fiddled_control)) {
                 SDL_ToolkitControlX11 *control;
 
                 control = X11Toolkit_GetControlMouseIsOn(data, SDL_lroundf((e->xbutton.x/ data->ev_scale)* data->ev_iscale), SDL_lroundf((e->xbutton.y/ data->ev_scale)* data->ev_iscale));
-                if (data->fiddled_control == control) {
+                如果 (data->fiddled_control == control) {
                     data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
-                    if (data->fiddled_control->func_on_state_change) {
+                    如果 (data->fiddled_control->func_on_state_change) {
                         data->fiddled_control->func_on_state_change(data->fiddled_control);
                     }
                     data->fiddled_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
@@ -1721,17 +1721,17 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
         case KeyPress:
             data->last_key_pressed = X11_XLookupKeysym(&e->xkey, 0);
 
-            if (data->last_key_pressed == XK_Escape) {
-                for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
-                    if(data->controls[data->ev_i]->is_default_esc) {
+            如果 (data->last_key_pressed == XK_Escape) {
+                为 (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
+                    如果(data->controls[data->ev_i]->is_default_esc) {
                         data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
                         data->draw = true;
                         data->key_control_esc = data->controls[data->ev_i];
                     }
                 }
-            } else if ((data->last_key_pressed == XK_Return) || (data->last_key_pressed == XK_KP_Enter)) {
-                for (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
-                    if(data->controls[data->ev_i]->selected) {
+            } 否则 如果 ((data->last_key_pressed == XK_Return) || (data->last_key_pressed == XK_KP_Enter)) {
+                为 (data->ev_i = 0; data->ev_i < data->controls_sz; data->ev_i++) {
+                    如果(data->controls[data->ev_i]->selected) {
                         data->controls[data->ev_i]->state = SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED;
                         data->draw = true;
                         data->key_control_enter = data->controls[data->ev_i];
@@ -1744,40 +1744,40 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
             KeySym key = X11_XLookupKeysym(&e->xkey, 0);
 
             // If this is a key release for something we didn't get the key down for, then bail.
-            if (key != data->last_key_pressed) {
+            如果 (key != data->last_key_pressed) {
                 break;
             }
 
-            if (key == XK_Escape) {
-                if (data->key_control_esc) {
-                    if (data->key_control_esc->func_on_state_change) {
+            如果 (key == XK_Escape) {
+                如果 (data->key_control_esc) {
+                    如果 (data->key_control_esc->func_on_state_change) {
                         data->key_control_esc->func_on_state_change(data->key_control_esc);
                     }
                 }
-            } else if ((key == XK_Return) || (key == XK_KP_Enter)) {
-                if (data->key_control_enter) {
-                    if (data->key_control_enter->func_on_state_change) {
+            } 否则 如果 ((key == XK_Return) || (key == XK_KP_Enter)) {
+                如果 (data->key_control_enter) {
+                    如果 (data->key_control_enter->func_on_state_change) {
                         data->key_control_enter->func_on_state_change(data->key_control_enter);
                     }
                 }
-            } else if (key == XK_Tab || key == XK_Left || key == XK_Right) {
-                if (data->focused_control) {
+            } 否则 如果 (key == XK_Tab || key == XK_Left || key == XK_Right) {
+                如果 (data->focused_control) {
                     data->focused_control->selected = false;
                 }
                 data->draw = true;
-                for (data->ev_i = 0; data->ev_i < data->dyn_controls_sz; data->ev_i++) {
-                    if (data->dyn_controls[data->ev_i] == data->focused_control) {
-                        int next_index;
+                为 (data->ev_i = 0; data->ev_i < data->dyn_controls_sz; data->ev_i++) {
+                    如果 (data->dyn_controls[data->ev_i] == data->focused_control) {
+                        整数 next_index;
 
-                        if (key == XK_Left) {
+                        如果 (key == XK_Left) {
                             next_index = data->ev_i - 1;
-                        } else {
+                        } 否则 {
                             next_index = data->ev_i + 1;
                         }
-                        if ((next_index >= data->dyn_controls_sz) || (next_index < 0)) {
-                            if (key == XK_Right || key == XK_Left) {
+                        如果 ((next_index >= data->dyn_controls_sz) || (next_index < 0)) {
+                            如果 (key == XK_Right || key == XK_Left) {
                                 next_index = data->ev_i;
-                            } else {
+                            } 否则 {
                                 next_index = 0;
                             }
                         }
@@ -1791,18 +1791,18 @@ void X11Toolkit_ProcessWindowEvents(SDL_ToolkitWindowX11 *data, XEvent *e) {
         }
     }
 
-    if (data->draw) {
+    如果 (data->draw) {
         X11Toolkit_DrawWindow(data);
     }
 }
 
 void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data) {
-   while (!data->close) {
+   当 (!data->close) {
         XEvent e;
 
         /* Process settings events */
         X11_XPeekEvent(data->display, &e);
-        if (data->xsettings) {
+        如果 (data->xsettings) {
             xsettings_client_process_event(data->xsettings, &e);
         }
 
@@ -1813,11 +1813,11 @@ void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data) {
 }
 
 
-void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, int w, int h) {
-    if (!data->pixmap) {
+void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, 整数 w, 整数 h) {
+    如果 (!data->pixmap) {
         data->window_width = w;
         data->window_height = h;
-    } else {
+    } 否则 {
         data->window_width = SDL_lroundf((w/data->iscale) * data->scale);
         data->window_height = SDL_lroundf((h/data->iscale) * data->scale);
         data->pixmap_width = w;
@@ -1871,7 +1871,7 @@ static void X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
     }
     X11_XSetFont(control->window->display, control->window->ctx, icon_control->icon_char_font->fid);
     X11_XDrawString(control->window->display, control->window->drawable, control->window->ctx, control->rect.x + icon_control->icon_char_x, control->rect.y + icon_control->icon_char_y, &icon_control->icon_char, 1);
-    if (!control->window->utf8) {
+    如果 (!control->window->utf8) {
         X11_XSetFont(control->window->display, control->window->ctx, control->window->font_struct->fid);
     }
 
@@ -1881,8 +1881,8 @@ static void X11Toolkit_DrawIconControl(SDL_ToolkitControlX11 *control) {
 
 static void X11Toolkit_CalculateIconControl(SDL_ToolkitControlX11 *base_control) {
     SDL_ToolkitIconControlX11 *control;
-    int icon_char_w;
-    int icon_wh;
+    整数 icon_char_w;
+    整数 icon_wh;
 
     control = (SDL_ToolkitIconControlX11 *)base_control;
     X11Toolkit_GetTextWidthHeightForFont(control->icon_char_font, &control->icon_char, 1, &icon_char_w, &control->icon_char_h, &control->icon_char_a, NULL);
@@ -1908,7 +1908,7 @@ static void X11Toolkit_OnIconControlScaleChange(SDL_ToolkitControlX11 *base_cont
     SDL_asprintf(&font, g_IconFont, G_ICONFONT_SIZE * base_control->window->iscale);
     control->icon_char_font = X11_XLoadQueryFont(base_control->window->display, font);
     SDL_free(font);
-    if (!control->icon_char_font) {
+    如果 (!control->icon_char_font) {
         SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * base_control->window->iscale);
         control->icon_char_font = X11_XLoadQueryFont(base_control->window->display, font);
         SDL_free(font);
@@ -1923,9 +1923,9 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     /* Create control struct */
     control = (SDL_ToolkitIconControlX11 *)SDL_malloc(sizeof(SDL_ToolkitIconControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    如果 (!control) {
         SDL_SetError("Unable to allocate icon control structure");
-        return NULL;
+        返回 NULL;
     }
 
     /* Fill out struct */
@@ -1946,13 +1946,13 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     SDL_asprintf(&font, g_IconFont, G_ICONFONT_SIZE * window->iscale);
     control->icon_char_font = X11_XLoadQueryFont(window->display, font);
     SDL_free(font);
-    if (!control->icon_char_font) {
+    如果 (!control->icon_char_font) {
         SDL_asprintf(&font, g_ToolkitFontLatin1, G_TOOLKITFONT_SIZE * window->iscale);
         control->icon_char_font = X11_XLoadQueryFont(window->display, font);
         SDL_free(font);
-        if (!control->icon_char_font) {
+        如果 (!control->icon_char_font) {
             SDL_free(control);
-            return NULL;
+            返回 NULL;
         }
     }
 
@@ -2005,30 +2005,30 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     default:
         X11_XFreeFont(window->display, control->icon_char_font);
         SDL_free(control);
-        return NULL;
+        返回 NULL;
     }
     control->xcolor_bg_shadow.flags = DoRed|DoGreen|DoBlue;
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red > 32896) {
+    如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red > 32896) {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red == 0) {
+    } 否则 如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red == 0) {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red + 9000, 0, 65535);
-    } else {
+    } 否则 {
         control->xcolor_bg_shadow.red = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].red - 3000, 0, 65535);
     }
 
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green > 32896) {
+    如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green > 32896) {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green == 0) {
+    } 否则 如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green == 0) {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green + 9000, 0, 65535);
-    } else {
+    } 否则 {
         control->xcolor_bg_shadow.green = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].green - 3000, 0, 65535);
     }
 
-    if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue > 32896) {
+    如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue > 32896) {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue - 12500, 0, 65535);
-    } else if (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue == 0) {
+    } 否则 如果 (window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue == 0) {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue + 9000, 0, 65535);
-    } else {
+    } 否则 {
         control->xcolor_bg_shadow.blue = SDL_clamp(window->xcolor[SDL_MESSAGEBOX_COLOR_BACKGROUND].blue - 3000, 0, 65535);
     }
     X11_XAllocColor(window->display, window->cmap, &control->xcolor_bg_shadow);
@@ -2037,15 +2037,15 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 *window
     X11Toolkit_CalculateIconControl(base_control);
 
     X11Toolkit_AddControlToWindow(window, base_control);
-    return base_control;
+    返回 base_control;
 }
 
 bool X11Toolkit_NotifyControlOfSizeChange(SDL_ToolkitControlX11 *control) {
-    if (control->func_calc_size) {
+    如果 (control->func_calc_size) {
         control->func_calc_size(control);
-        return true;
-    } else {
-        return false;
+        返回 true;
+    } 否则 {
+        返回 false;
     }
 }
 
@@ -2054,7 +2054,7 @@ static void X11Toolkit_CalculateButtonControl(SDL_ToolkitControlX11 *control) {
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
     X11Toolkit_GetTextElementsRect(button_control->text, &button_control->text_rect);
-    if (control->do_size) {
+    如果 (control->do_size) {
         control->rect.w = SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * 2 * control->window->iscale + button_control->text_rect.w;
         control->rect.h = SDL_TOOLKIT_X11_ELEMENT_PADDING_3 * 2 * control->window->iscale + button_control->text_rect.h;
     }
@@ -2070,7 +2070,7 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
 
     X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor[SDL_MESSAGEBOX_COLOR_TEXT].pixel);
     /* Draw bevel */
-    if (control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED || control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD) {
+    如果 (control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED || control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED_HELD) {
             X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
             X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2095,8 +2095,8 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
             X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                control->rect.x + 2 * control->window->iscale, control->rect.y + 2 * control->window->iscale,
                                control->rect.w - 4 * control->window->iscale, control->rect.h - 4 * control->window->iscale);
-        } else {
-            if (control->selected) {
+        } 否则 {
+            如果 (control->selected) {
                 X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2121,7 +2121,7 @@ static void X11Toolkit_DrawButtonControl(SDL_ToolkitControlX11 *control) {
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x + 3 * control->window->iscale, control->rect.y + 3 * control->window->iscale,
                                    control->rect.w - 6 * control->window->iscale, control->rect.h - 6 * control->window->iscale);
-            } else {
+            } 否则 {
                 X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor_bevel_d.pixel);
                 X11_XFillRectangle(control->window->display, control->window->drawable, control->window->ctx,
                                    control->rect.x, control->rect.y,
@@ -2157,7 +2157,7 @@ static void X11Toolkit_OnButtonControlStateChange(SDL_ToolkitControlX11 *control
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
-    if (button_control->cb && control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED) {
+    如果 (button_control->cb && control->state == SDL_TOOLKIT_CONTROL_STATE_X11_PRESSED) {
         button_control->cb(control, button_control->cb_data);
     }
 }
@@ -2178,9 +2178,9 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *wind
 
     control = (SDL_ToolkitButtonControlX11 *)SDL_malloc(sizeof(SDL_ToolkitButtonControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    如果 (!control) {
         SDL_SetError("Unable to allocate button control structure");
-        return NULL;
+        返回 NULL;
     }
     base_control->window = window;
     base_control->state = SDL_TOOLKIT_CONTROL_STATE_X11_NORMAL;
@@ -2194,10 +2194,10 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *wind
     base_control->dynamic = true;
     base_control->is_default_enter = false;
     base_control->is_default_esc = false;
-    if (data->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+    如果 (data->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
         base_control->is_default_esc = true;
     }
-    if (data->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+    如果 (data->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
         base_control->is_default_enter = true;
         base_control->selected = true;
     }
@@ -2205,7 +2205,7 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *wind
     control->data = data;
 #ifdef HAVE_FRIBIDI_H
     control->text = X11Toolkit_MakeTextElements(base_control->window, (char *)control->data->text, SDL_strlen(control->data->text), NULL);
-#else 
+#否则 
     control->text = X11Toolkit_MakeTextElements(base_control->window, (char *)control->data->text, SDL_strlen(control->data->text));
 #endif
     X11Toolkit_ShapeTextElements(base_control->window, control->text);
@@ -2215,7 +2215,7 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *wind
     base_control->do_size = false;
 
     X11Toolkit_AddControlToWindow(window, base_control);
-    return base_control;
+    返回 base_control;
 }
 
 void X11Toolkit_RegisterCallbackForButtonControl(SDL_ToolkitControlX11 *control, void *data, void (*cb)(struct SDL_ToolkitControlX11 *, void *)) {
@@ -2230,43 +2230,43 @@ const SDL_MessageBoxButtonData *X11Toolkit_GetButtonControlData(SDL_ToolkitContr
     SDL_ToolkitButtonControlX11 *button_control;
 
     button_control = (SDL_ToolkitButtonControlX11 *)control;
-    return button_control->data;
+    返回 button_control->data;
 }
 
 void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data) {
-    int i;
+    整数 i;
 
-    if (!data) {
-        return;
+    如果 (!data) {
+        返回;
     }
 
-#if SDL_GRAB
-    if (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
+#如果 SDL_GRAB
+    如果 (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_MENU || data->mode== SDL_TOOLKIT_WINDOW_MODE_X11_TOOLTIP) {
         X11_XUngrabPointer(data->display, CurrentTime);
         X11_XUngrabKeyboard(data->display, CurrentTime);
     }
 #endif
 
-    for (i = 0; i < data->controls_sz; i++) {
-        if (data->controls[i]->func_free) {
+    为 (i = 0; i < data->controls_sz; i++) {
+        如果 (data->controls[i]->func_free) {
             data->controls[i]->func_free(data->controls[i]);
         }
     }
     SDL_free(data->controls);
     SDL_free(data->dyn_controls);
 
-    if (data->popup_windows) {
+    如果 (data->popup_windows) {
         SDL_ListClear(&data->popup_windows);
     }
 
-    if (data->pixmap) {
+    如果 (data->pixmap) {
         X11_XFreePixmap(data->display, data->drawable);
     }
 
 #ifndef NO_SHARED_MEMORY
-    if (data->pixmap && data->shm) {
+    如果 (data->pixmap && data->shm) {
         X11_XShmDetach(data->display, &data->shm_info);
-        if (!data->shm_pixmap) {
+        如果 (!data->shm_pixmap) {
             XDestroyImage(data->image);
         }
         shmdt(data->shm_info.shmaddr);
@@ -2274,44 +2274,44 @@ void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data) {
 #endif
 
 #ifdef X_HAVE_UTF8_STRING
-    if (data->font_set) {
+    如果 (data->font_set) {
         X11_XFreeFontSet(data->display, data->font_set);
         data->font_set = NULL;
     }
 #endif
 
-    if (data->font_struct) {
+    如果 (data->font_struct) {
         X11_XFreeFont(data->display, data->font_struct);
         data->font_struct = NULL;
     }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
-    if (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
+    如果 (SDL_X11_HAVE_XDBE && data->xdbe && !data->pixmap) {
         X11_XdbeDeallocateBackBufferName(data->display, data->buf);
     }
 #endif
 
-    if (data->xsettings) {
+    如果 (data->xsettings) {
         xsettings_client_destroy(data->xsettings);
     }
 
     X11_XFreeGC(data->display, data->ctx);
 
-    if (data->display) {
-        if (data->window != None) {
+    如果 (data->display) {
+        如果 (data->window != None) {
             X11_XWithdrawWindow(data->display, data->window, data->screen);
             X11_XDestroyWindow(data->display, data->window);
             data->window = None;
         }
 
-        if (data->display_close) {
+        如果 (data->display_close) {
             X11_XCloseDisplay(data->display);
         }
         data->display = NULL;
     }
 
-#if SDL_SET_LOCALE
-    if (data->origlocale && (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG)) {
+#如果 SDL_SET_LOCALE
+    如果 (data->origlocale && (data->mode == SDL_TOOLKIT_WINDOW_MODE_X11_DIALOG)) {
         (void)setlocale(LC_ALL, data->origlocale);
         SDL_free(data->origlocale);
     }
@@ -2328,34 +2328,34 @@ void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data) {
     SDL_free(data);
 }
 
-static int X11Toolkit_CountLinesOfText(const char *text)
+static 整数 X11Toolkit_CountLinesOfText(const char *text)
 {
-    int result = 0;
-    while (text && *text) {
+    整数 result = 0;
+    当 (text && *text) {
         const char *lf = SDL_strchr(text, '\n');
         result++; // even without an endline, this counts as a line.
         text = lf ? lf + 1 : NULL;
     }
-    return result;
+    返回 result;
 }
 
 static void X11Toolkit_DrawLabelControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
-    int i;
+    整数 i;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
     X11_XSetForeground(control->window->display, control->window->ctx, control->window->xcolor[SDL_MESSAGEBOX_COLOR_TEXT].pixel);
-    for (i = 0; i < label_control->sz; i++) {
+    为 (i = 0; i < label_control->sz; i++) {
         X11Toolkit_DrawTextElements(control->window, label_control->lines[i].text, control->rect.x + label_control->lines[i].rect.x, control->rect.y + label_control->lines[i].rect.y);
     }
 }
 
 static void X11Toolkit_DestroyLabelControl(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
-    int i;
+    整数 i;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
-    for (i = 0; i < label_control->sz; i++) {
+    为 (i = 0; i < label_control->sz; i++) {
         X11Toolkit_FreeTextElements(label_control->lines[i].text);
     }
     SDL_free(label_control->lines);
@@ -2364,45 +2364,45 @@ static void X11Toolkit_DestroyLabelControl(SDL_ToolkitControlX11 *control) {
 
 static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control) {
     SDL_ToolkitLabelControlX11 *control;
-    int i;
+    整数 i;
 
     control = (SDL_ToolkitLabelControlX11 *)base_control;
     
-    if (base_control->do_size) {
+    如果 (base_control->do_size) {
         base_control->rect.w = 0;
         base_control->rect.h = 0;
     }
     
-    for (i = 0; i < control->sz; i++) {
-        int font_h;
+    为 (i = 0; i < control->sz; i++) {
+        整数 font_h;
         
         font_h = X11Toolkit_GetTextElementsRect(control->lines[i].text, &control->lines[i].rect);
         
-        if (base_control->do_size) {
+        如果 (base_control->do_size) {
             base_control->rect.w = SDL_max(base_control->rect.w, control->lines[i].rect.w);
         }
         
-        if (i > 0) {
+        如果 (i > 0) {
             control->lines[i].rect.y = font_h + control->lines[i - 1].rect.y;
-        } else {
+        } 否则 {
             control->lines[i].rect.y = 0;
         }
     }
 
 #ifdef HAVE_FRIBIDI_H
-    if (base_control->window->fribidi) {
+    如果 (base_control->window->fribidi) {
         FriBidiParType first_ndn_dir;
-        int last_ndn;
+        整数 last_ndn;
     
         first_ndn_dir = FRIBIDI_PAR_LTR;
-        for (i = 0; i < control->sz; i++) {
-            if (control->lines[i].par != FRIBIDI_PAR_ON) {
+        为 (i = 0; i < control->sz; i++) {
+            如果 (control->lines[i].par != FRIBIDI_PAR_ON) {
                 first_ndn_dir = control->lines[i].par;
             }
         }
 
         last_ndn = -1;
-        for (i = 0; i < control->sz; i++) {
+        为 (i = 0; i < control->sz; i++) {
             switch (control->lines[i].par) {
                 case FRIBIDI_PAR_LTR:
                     control->lines[i].rect.x = 0;
@@ -2413,16 +2413,16 @@ static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control
                     last_ndn = i;
                     break;
                 default:
-                    if (last_ndn != -1) {
-                        if (control->lines[last_ndn].par == FRIBIDI_PAR_RTL) {
+                    如果 (last_ndn != -1) {
+                        如果 (control->lines[last_ndn].par == FRIBIDI_PAR_RTL) {
                             control->lines[i].rect.x = base_control->rect.w - control->lines[i].rect.w;
-                        } else {
+                        } 否则 {
                             control->lines[i].rect.x = 0;
                         }
-                    } else {
-                        if (first_ndn_dir == FRIBIDI_PAR_RTL) {
+                    } 否则 {
+                        如果 (first_ndn_dir == FRIBIDI_PAR_RTL) {
                             control->lines[i].rect.x = base_control->rect.w - control->lines[i].rect.w;
-                        } else {
+                        } 否则 {
                             control->lines[i].rect.x = 0;
                         }
                     }
@@ -2431,7 +2431,7 @@ static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control
     }
 #endif
     
-    if (base_control->do_size && control->sz) {
+    如果 (base_control->do_size && control->sz) {
         base_control->rect.h = control->lines[control->sz - 1].rect.y + control->lines[control->sz - 1].rect.h;
     }
 }
@@ -2439,20 +2439,20 @@ static void X11Toolkit_CalculateLabelControl(SDL_ToolkitControlX11 *base_control
 SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8) {
     SDL_ToolkitLabelControlX11 *control;
     SDL_ToolkitControlX11 *base_control;
-    int i;
+    整数 i;
     
-    if (!utf8) {
-        return NULL;
+    如果 (!utf8) {
+        返回 NULL;
     }
  
-    if (!SDL_strcmp(utf8, "")) {
-        return NULL;
+    如果 (!SDL_strcmp(utf8, "")) {
+        返回 NULL;
     }   
     control = (SDL_ToolkitLabelControlX11 *)SDL_malloc(sizeof(SDL_ToolkitLabelControlX11));
     base_control = (SDL_ToolkitControlX11 *)control;
-    if (!control) {
+    如果 (!control) {
         SDL_SetError("Unable to allocate label control structure");
-        return NULL;
+        返回 NULL;
     }
     base_control->window = window;
     base_control->func_draw = X11Toolkit_DrawLabelControl;
@@ -2470,25 +2470,25 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *windo
     
     control->sz = X11Toolkit_CountLinesOfText(utf8);
     control->lines = SDL_calloc(control->sz, sizeof(SDL_ToolkitLabelControlLineX11));
-    for (i = 0; i < control->sz; i++) {
+    为 (i = 0; i < control->sz; i++) {
         const char *lf = SDL_strchr(utf8, '\n');
-        const int length = lf ? (lf - utf8) : SDL_strlen(utf8);
-        int sz;
+        const 整数 length = lf ? (lf - utf8) : SDL_strlen(utf8);
+        整数 sz;
         
         sz = length;
-        if (lf && (lf > utf8) && (lf[-1] == '\r')) {
+        如果 (lf && (lf > utf8) && (lf[-1] == '\r')) {
             sz--;
         }
 
 #ifdef HAVE_FRIBIDI_H
         control->lines[i].text = X11Toolkit_MakeTextElements(base_control->window, (char *)utf8, sz, &control->lines[i].par);
-#else 
+#否则 
         control->lines[i].text = X11Toolkit_MakeTextElements(base_control->window, (char *)utf8, sz);
 #endif
         X11Toolkit_ShapeTextElements(base_control->window, control->lines[i].text);
 
         utf8 += length + 1;
-        if (!lf) {
+        如果 (!lf) {
             break;
         }
     }
@@ -2498,15 +2498,15 @@ SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *windo
     base_control->do_size = false;
     X11Toolkit_AddControlToWindow(window, base_control);
 
-    return base_control;
+    返回 base_control;
 }
 
-int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control) {
+整数 X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control) {
     SDL_ToolkitLabelControlX11 *label_control;
 
     label_control = (SDL_ToolkitLabelControlX11 *)control;
 
-    return label_control->lines[0].rect.h;
+    返回 label_control->lines[0].rect.h;
 }
 
 void X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data) {

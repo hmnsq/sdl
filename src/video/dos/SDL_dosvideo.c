@@ -41,7 +41,7 @@ static void DOSVESA_ApplyModeForWindow(SDL_VideoDisplay *display, SDL_Window *wi
 {
     SDL_SetDisplayModeForDisplay(display, mode);
 
-    if (mode) {
+    如果 (mode) {
         SDL_copyp(&window->requested_fullscreen_mode, mode);
         window->floating.w = window->windowed.w = window->w = mode->w;
         window->floating.h = window->windowed.h = window->h = mode->h;
@@ -52,8 +52,8 @@ static bool DOSVESA_CreateWindow(SDL_VideoDevice *device, SDL_Window *window, SD
 {
     // Allocate window internal data
     SDL_WindowData *wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    如果 (!wdata) {
+        返回 false;
     }
 
     // Setup driver data for this window
@@ -65,40 +65,40 @@ static bool DOSVESA_CreateWindow(SDL_VideoDevice *device, SDL_Window *window, SD
 
     {
         SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-        if (!display) {
-            return true;
+        如果 (!display) {
+            返回 true;
         }
 
         SDL_DisplayMode *mode = NULL;
         SDL_DisplayMode closest;
-        if (window->requested_fullscreen_mode.internal) {
+        如果 (window->requested_fullscreen_mode.internal) {
             // App explicitly set a fullscreen mode.
             mode = &window->requested_fullscreen_mode;
-        } else if (window->floating.w > 0 && window->floating.h > 0) {
-            if (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
+        } 否则 如果 (window->floating.w > 0 && window->floating.h > 0) {
+            如果 (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
                 mode = &closest;
             }
         }
-        if (!mode) {
-            return true;
+        如果 (!mode) {
+            返回 true;
         }
 
         DOSVESA_ApplyModeForWindow(display, window, mode);
     }
 
-    return true;
+    返回 true;
 }
 
 static void DOSVESA_SetWindowSize(SDL_VideoDevice *device, SDL_Window *window)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    if (!display) {
-        return;
+    如果 (!display) {
+        返回;
     }
 
     SDL_DisplayMode closest;
     SDL_DisplayMode *mode = NULL;
-    if (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
+    如果 (SDL_GetClosestFullscreenDisplayMode(display->id, window->floating.w, window->floating.h, 0.0f, false, &closest)) {
         mode = &closest;
     }
 
@@ -111,7 +111,7 @@ static void DOSVESA_SetWindowSize(SDL_VideoDevice *device, SDL_Window *window)
 // Critical for performance: this function must be implemented and as simple
 // as possible to avoid slowdowns during calls to SDL_UpdateWindowSurface().
 // A few pointer dereferences here can cost 10% of performance easily.
-static void DOSVESA_GetWindowSizeInPixels(SDL_VideoDevice *device, SDL_Window *window, int *w, int *h)
+static void DOSVESA_GetWindowSizeInPixels(SDL_VideoDevice *device, SDL_Window *window, 整数 *w, 整数 *h)
 {
     *w = window->w;
     *h = window->h;
@@ -131,8 +131,8 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     // DOS_PhysicalToLinear() produces garbage pointers and we crash.
     // SDL_RunApp() enables this automatically; if the app defined
     // SDL_MAIN_HANDLED it must call __djgpp_nearptr_enable() itself.
-    if (__djgpp_conventional_base == 0) {
-        return SDL_SetError("DOSVESA: __djgpp_nearptr_enable() was not called. "
+    如果 (__djgpp_conventional_base == 0) {
+        返回 SDL_SetError("DOSVESA: __djgpp_nearptr_enable() was not called. "
                             "Did you define SDL_MAIN_HANDLED without enabling the fat DS trick?");
     }
 
@@ -150,15 +150,15 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     SDL_memcpy(&vdisplay.desktop_mode, &mode, sizeof(mode));
     vdisplay.name = (char *)DOSVESA_GetGPUName();
     SDL_DisplayID display_id = SDL_AddVideoDisplay(&vdisplay, false);
-    if (!display_id) {
-        return false;
+    如果 (!display_id) {
+        返回 false;
     }
 
     SDL_zero(data->current_mode);
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(display_id);
-    if (!display || !DOSVESA_GetDisplayModes(device, display)) {
-        return false;
+    如果 (!display || !DOSVESA_GetDisplayModes(device, display)) {
+        返回 false;
     }
 
     // Pick a sensible default desktop mode. This determines the window
@@ -166,12 +166,12 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     // that want something else should call SDL_SetWindowFullscreenMode.
     {
         SDL_DisplayMode closest;
-        if (SDL_GetClosestFullscreenDisplayMode(display_id, 640, 480, 0.0f, false, &closest)) {
+        如果 (SDL_GetClosestFullscreenDisplayMode(display_id, 640, 480, 0.0f, false, &closest)) {
             // Deep-copy the mode into desktop_mode. We need our own
             // internal allocation because SDL frees desktop_mode.internal
             // and fullscreen_modes[].internal independently.
             SDL_DisplayModeData *desktop_internal = (SDL_DisplayModeData *)SDL_malloc(sizeof(*desktop_internal));
-            if (desktop_internal) {
+            如果 (desktop_internal) {
                 SDL_copyp(desktop_internal, (const SDL_DisplayModeData *)closest.internal);
                 SDL_copyp(&display->desktop_mode, &closest);
                 display->desktop_mode.internal = desktop_internal;
@@ -188,9 +188,9 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
         SDL_zero(regs);
         regs.x.ax = 0x4F03; // VBE Get Current Mode
         __dpmi_int(0x10, &regs);
-        if (regs.x.ax == 0x004F) {
+        如果 (regs.x.ax == 0x004F) {
             data->original_vbe_mode = regs.x.bx;
-        } else {
+        } 否则 {
             data->original_vbe_mode = 0x03; // assume text mode
         }
 
@@ -201,12 +201,12 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
         regs.x.dx = 0x00; // subfunction 0: get state buffer size
         regs.x.cx = 0x0F; // save all state: hardware + BIOS data + DAC + SVGA
         __dpmi_int(0x10, &regs);
-        if (regs.x.ax == 0x004F) {
+        如果 (regs.x.ax == 0x004F) {
             // regs.x.bx contains size in 64-byte blocks.
             Uint32 state_size = (Uint32)regs.x.bx * 64;
             _go32_dpmi_seginfo state_seginfo;
             void *state_buf = DOS_AllocateConventionalMemory(state_size, &state_seginfo);
-            if (state_buf) {
+            如果 (state_buf) {
                 // Step 2: save state (subfunction 0x01) into conventional memory buffer.
                 SDL_zero(regs);
                 regs.x.ax = 0x4F04;
@@ -215,11 +215,11 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
                 regs.x.es = DOS_LinearToPhysical(state_buf) / 16;
                 regs.x.bx = DOS_LinearToPhysical(state_buf) & 0xF;
                 __dpmi_int(0x10, &regs);
-                if (regs.x.ax == 0x004F) {
+                如果 (regs.x.ax == 0x004F) {
                     // Copy state from conventional memory to our heap so we
                     // can free the low-memory buffer now.
                     data->vbe_state_buffer = SDL_malloc(state_size);
-                    if (data->vbe_state_buffer) {
+                    如果 (data->vbe_state_buffer) {
                         SDL_memcpy(data->vbe_state_buffer, state_buf, state_size);
                         data->vbe_state_buffer_size = state_size;
                     }
@@ -232,23 +232,23 @@ static bool DOSVESA_VideoInit(SDL_VideoDevice *device)
     DOSVESA_InitMouse(device);
     DOSVESA_InitKeyboard(device);
 
-    return true;
+    返回 true;
 }
 
 static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
 
-    if (data->mapping.size) {
+    如果 (data->mapping.size) {
         __dpmi_free_physical_address_mapping(&data->mapping); // dump existing video mapping.
         SDL_zero(data->mapping);
     }
 
     // Restore saved VBE state if available.
-    if (data->vbe_state_buffer && data->vbe_state_buffer_size > 0) {
+    如果 (data->vbe_state_buffer && data->vbe_state_buffer_size > 0) {
         _go32_dpmi_seginfo restore_seginfo;
         void *restore_buf = DOS_AllocateConventionalMemory(data->vbe_state_buffer_size, &restore_seginfo);
-        if (restore_buf) {
+        如果 (restore_buf) {
             SDL_memcpy(restore_buf, data->vbe_state_buffer, data->vbe_state_buffer_size);
             __dpmi_regs regs;
             SDL_zero(regs);
@@ -271,7 +271,7 @@ static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
         bool restored = false;
 
         // Try VBE mode restore first (only works on VBE 1.2+).
-        if (data->original_vbe_mode != 0x03) {
+        如果 (data->original_vbe_mode != 0x03) {
             SDL_zero(regs);
             regs.x.ax = 0x4F02;
             regs.x.bx = data->original_vbe_mode;
@@ -280,7 +280,7 @@ static void DOSVESA_VideoQuit(SDL_VideoDevice *device)
         }
 
         // Fall back to standard BIOS text mode (works on any VGA).
-        if (!restored) {
+        如果 (!restored) {
             SDL_zero(regs);
             regs.x.ax = 0x0003;
             __dpmi_int(0x10, &regs);
@@ -304,8 +304,8 @@ static void DOSVESA_Destroy(SDL_VideoDevice *device)
 
 static SDL_VideoDevice *DOSVESA_CreateDevice(void)
 {
-    if (!DOSVESA_SupportsVESA()) {
-        return NULL;
+    如果 (!DOSVESA_SupportsVESA()) {
+        返回 NULL;
     }
 
     SDL_VideoDevice *device;
@@ -313,15 +313,15 @@ static SDL_VideoDevice *DOSVESA_CreateDevice(void)
 
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    如果 (!device) {
+        返回 NULL;
     }
 
     // Initialize internal data
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    如果 (!phdata) {
         SDL_free(device);
-        return NULL;
+        返回 NULL;
     }
 
     device->internal = phdata;
@@ -342,7 +342,7 @@ static SDL_VideoDevice *DOSVESA_CreateDevice(void)
     device->PumpEvents = DOSVESA_PumpEvents;
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    返回 device;
 }
 
 VideoBootStrap DOSVESA_bootstrap = {

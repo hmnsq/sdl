@@ -34,17 +34,17 @@
 #define ACTION_HOVER_ENTER  9
 #define ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+void Android_OnPen(SDL_Window *window, 整数 pen_id_in, SDL_PenDeviceType device_type, 整数 button, 整数 action, float x, float y, float p)
 {
-    if (!window) {
-        return;
+    如果 (!window) {
+        返回;
     }
 
     // pointer index starts from zero.
     pen_id_in++;
 
     SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    如果 (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
@@ -53,9 +53,9 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
         pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
+        如果 (!pen) {
             SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+            返回;
         }
     }
 
@@ -64,11 +64,11 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     // TODO: add more axis
 
     SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
+    整数 diff = current ^ button;
+    如果 (diff != 0) {
+        为 (Uint8 i = 1; i <= 5; ++i) {
             Uint8 mask = (1 << i);
-            if (diff & mask) {
+            如果 (diff & mask) {
                 SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
             }
         }

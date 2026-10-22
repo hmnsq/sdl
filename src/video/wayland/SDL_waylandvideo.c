@@ -80,13 +80,13 @@
 #define WAYLANDVID_DRIVER_NAME "wayland"
 
 // Clamp core protocol versions on older versions of libwayland.
-#if SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
+#如果 SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
 #define SDL_WL_COMPOSITOR_VERSION 6
-#else
+#否则
 #define SDL_WL_COMPOSITOR_VERSION 4
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
+#如果 SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
 #define SDL_WL_SEAT_VERSION 11
 #elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_SEAT_VERSION 10
@@ -94,19 +94,19 @@
 #define SDL_WL_SEAT_VERSION 9
 #elif SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
 #define SDL_WL_SEAT_VERSION 8
-#else
+#否则
 #define SDL_WL_SEAT_VERSION 5
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
+#如果 SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
 #define SDL_WL_OUTPUT_VERSION 4
-#else
+#否则
 #define SDL_WL_OUTPUT_VERSION 3
 #endif
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
+#如果 SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_SHM_VERSION 2
-#else
+#否则
 #define SDL_WL_SHM_VERSION 1
 #endif
 
@@ -114,7 +114,7 @@
 #define SDL_WL_DATA_DEVICE_VERSION 3
 
 // wl_fixes was introduced in 1.24.0
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
+#如果 SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
 #define SDL_WL_FIXES_VERSION 2
 #elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
 #define SDL_WL_FIXES_VERSION 1
@@ -131,12 +131,12 @@
 /* GNOME doesn't expose displays in any particular order, but we can find the
  * primary display and its logical coordinates via a DBus method.
  */
-static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
+static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(整数 *x, 整数 *y)
 {
 #ifdef SDL_USE_LIBDBUS
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    if (dbus == NULL) {
-        return false;
+    如果 (dbus == NULL) {
+        返回 false;
     }
     DBusMessage *reply = NULL;
     DBusMessageIter iter[3];
@@ -145,94 +145,94 @@ static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
                                                      DISPLAY_INFO_NODE,
                                                      DISPLAY_INFO_METHOD);
 
-    if (msg) {
+    如果 (msg) {
         reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
         dbus->message_unref(msg);
     }
 
-    if (reply) {
+    如果 (reply) {
         // Serial (don't care)
         dbus->message_iter_init(reply, &iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
+        如果 (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
             goto error;
         }
 
         // Physical monitor array (don't care)
         dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+        如果 (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
             goto error;
         }
 
         // Logical monitor array of structs
         dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+        如果 (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
             goto error;
         }
 
         // First logical monitor struct
         dbus->message_iter_recurse(&iter[0], &iter[1]);
-        if (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
+        如果 (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
             goto error;
         }
 
         do {
-            int logical_x, logical_y;
+            整数 logical_x, logical_y;
             dbus_bool_t primary;
 
             // Logical X
             dbus->message_iter_recurse(&iter[1], &iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+            如果 (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
                 goto error;
             }
             dbus->message_iter_get_basic(&iter[2], &logical_x);
 
             // Logical Y
             dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+            如果 (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
                 goto error;
             }
             dbus->message_iter_get_basic(&iter[2], &logical_y);
 
             // Scale (don't care)
             dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
+            如果 (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
                 goto error;
             }
 
             // Transform (don't care)
             dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
+            如果 (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
                 goto error;
             }
 
             // Primary display boolean
             dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
+            如果 (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
                 goto error;
             }
             dbus->message_iter_get_basic(&iter[2], &primary);
 
-            if (primary) {
+            如果 (primary) {
                 *x = logical_x;
                 *y = logical_y;
 
                 // We found the primary display: success.
                 dbus->message_unref(reply);
-                return true;
+                返回 true;
             }
-        } while (dbus->message_iter_next(&iter[1]));
+        } 当 (dbus->message_iter_next(&iter[1]));
     }
 
 error:
-    if (reply) {
+    如果 (reply) {
         dbus->message_unref(reply);
     }
 #endif
-    return false;
+    返回 false;
 }
 
 // Sort the list of displays into a deterministic order
-static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
+static 整数 SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
 {
     const SDL_DisplayData *da = *(SDL_DisplayData **)a;
     const SDL_DisplayData *db = *(SDL_DisplayData **)b;
@@ -240,32 +240,32 @@ static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
     const bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
 
     // Sort the display at 0,0 to be beginning of the list, as that will be the fallback primary.
-    if (a_at_origin && !b_at_origin) {
-        return -1;
+    如果 (a_at_origin && !b_at_origin) {
+        返回 -1;
     }
-    if (b_at_origin && !a_at_origin) {
-        return 1;
+    如果 (b_at_origin && !a_at_origin) {
+        返回 1;
     }
 
-    if (da->logical.x < db->logical.x) {
-        return -1;
+    如果 (da->logical.x < db->logical.x) {
+        返回 -1;
     }
-    if (da->logical.x > db->logical.x) {
-        return 1;
+    如果 (da->logical.x > db->logical.x) {
+        返回 1;
     }
-    if (da->logical.y < db->logical.y) {
-        return -1;
+    如果 (da->logical.y < db->logical.y) {
+        返回 -1;
     }
-    if (da->logical.y > db->logical.y) {
-        return 1;
+    如果 (da->logical.y > db->logical.y) {
+        返回 1;
     }
 
     // If no position information is available, use the connector name.
-    if (da->wl_output_name && db->wl_output_name) {
-        return SDL_strcmp(da->wl_output_name, db->wl_output_name);
+    如果 (da->wl_output_name && db->wl_output_name) {
+        返回 SDL_strcmp(da->wl_output_name, db->wl_output_name);
     }
 
-    return 0;
+    返回 0;
 }
 
 /* Wayland doesn't have the native concept of a primary display, but there are clients that
@@ -282,46 +282,46 @@ static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
  * - Higher refresh is preferred (ignoring small differences)
  * - Lower scale values are preferred (larger display)
  */
-static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
+static 整数 Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
 {
-    static const int REFRESH_DELTA = 4000;
+    static const 整数 REFRESH_DELTA = 4000;
 
     // Query the DBus interface to see if the coordinates of the primary display are exposed.
-    int x, y;
-    if (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
-        for (int i = 0; i < vid->output_count; ++i) {
-            if (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
-                return i;
+    整数 x, y;
+    如果 (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
+        为 (整数 i = 0; i < vid->output_count; ++i) {
+            如果 (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
+                返回 i;
             }
         }
     }
 
     // Otherwise, choose the 'best' display.
-    int best_width = 0;
-    int best_height = 0;
+    整数 best_width = 0;
+    整数 best_height = 0;
     double best_scale = 0.0;
     float best_headroom = 0.0f;
-    int best_refresh = 0;
+    整数 best_refresh = 0;
     bool best_is_landscape = false;
-    int best_index = 0;
+    整数 best_index = 0;
 
-    for (int i = 0; i < vid->output_count; ++i) {
+    为 (整数 i = 0; i < vid->output_count; ++i) {
         const SDL_DisplayData *d = vid->output_list[i];
         const bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
         bool have_new_best = false;
 
-        if (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
+        如果 (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
             have_new_best = true;
-        } else if (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
-            if (d->pixel.width > best_width || d->pixel.height > best_height) {
+        } 否则 如果 (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
+            如果 (d->pixel.width > best_width || d->pixel.height > best_height) {
                 have_new_best = true;
-            } else if (d->pixel.width == best_width && d->pixel.height == best_height) {
-                if (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
+            } 否则 如果 (d->pixel.width == best_width && d->pixel.height == best_height) {
+                如果 (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
                     have_new_best = true;
-                } else if (d->HDR.HDR_headroom == best_headroom) {
-                    if (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
+                } 否则 如果 (d->HDR.HDR_headroom == best_headroom) {
+                    如果 (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
                         have_new_best = true;
-                    } else if (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
+                    } 否则 如果 (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
                         // Prefer a lower scale display if the difference in refresh rate is small.
                         have_new_best = true;
                     }
@@ -329,7 +329,7 @@ static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
             }
         }
 
-        if (have_new_best) {
+        如果 (have_new_best) {
             best_width = d->pixel.width;
             best_height = d->pixel.height;
             best_scale = d->scale_factor;
@@ -340,27 +340,27 @@ static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
         }
     }
 
-    return best_index;
+    返回 best_index;
 }
 
 static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
 {
     const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
 
-    if (name_hint) {
+    如果 (name_hint) {
         char *saveptr;
         char *str = SDL_strdup(name_hint);
         SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_count);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        如果 (str && sorted_list) {
+            整数 sorted_index = 0;
 
             // Sort the requested displays to the front of the list.
             const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < vid->output_count; ++i) {
+            当 (token) {
+                为 (整数 i = 0; i < vid->output_count; ++i) {
                     SDL_DisplayData *d = vid->output_list[i];
-                    if (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
+                    如果 (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
                         sorted_list[sorted_index++] = d;
                         vid->output_list[i] = NULL;
                         break;
@@ -371,8 +371,8 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
             }
 
             // Append the remaining outputs to the end of the list.
-            for (int i = 0; i < vid->output_count; ++i) {
-                if (vid->output_list[i]) {
+            为 (整数 i = 0; i < vid->output_count; ++i) {
+                如果 (vid->output_list[i]) {
                     sorted_list[sorted_index++] = vid->output_list[i];
                 }
             }
@@ -397,26 +397,26 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
      *
      * Patches for a more sophisticated algorithm are welcome.
      */
-    for ( int i = 0; i < vid->output_count; ++i) {
+    为 ( 整数 i = 0; i < vid->output_count; ++i) {
         SDL_DisplayData *d = vid->output_list[i];
         d->pixel.x = d->logical.x;
         d->pixel.y = d->logical.y;
     }
 
-    for (int i = 0; i < vid->output_count; ++i) {
+    为 (整数 i = 0; i < vid->output_count; ++i) {
         SDL_DisplayData *d1 = vid->output_list[i];
-        if (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
-            const int x_adj = d1->pixel.width - d1->logical.width;
-            const int y_adj = d1->pixel.height - d1->logical.height;
+        如果 (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
+            const 整数 x_adj = d1->pixel.width - d1->logical.width;
+            const 整数 y_adj = d1->pixel.height - d1->logical.height;
 
             // Don't adjust for scale values less than 1.0.
-            if (x_adj > 0 && y_adj > 0) {
-                for (int j = 0; j < vid->output_count; ++j) {
+            如果 (x_adj > 0 && y_adj > 0) {
+                为 (整数 j = 0; j < vid->output_count; ++j) {
                     SDL_DisplayData *d2 = vid->output_list[j];
-                    if (d2->logical.x > d1->logical.x) {
+                    如果 (d2->logical.x > d1->logical.x) {
                         d2->pixel.x += x_adj;
                     }
-                    if (d2->logical.y > d1->logical.y) {
+                    如果 (d2->logical.y > d1->logical.y) {
                         d2->pixel.y += y_adj;
                     }
                 }
@@ -431,13 +431,13 @@ static void Wayland_SortOutputs(SDL_VideoData *vid)
     SDL_qsort(vid->output_list, vid->output_count, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
 
     // Derive the output pixel coordinates if scale to display is enabled.
-    if (vid->scale_to_display_enabled) {
+    如果 (vid->scale_to_display_enabled) {
         Wayland_DeriveOutputPixelCoordinates(vid);
     }
 
     // Find a suitable primary display and move it to the front of the list.
-    const int primary_index = Wayland_GetPrimaryDisplay(vid);
-    if (primary_index) {
+    const 整数 primary_index = Wayland_GetPrimaryDisplay(vid);
+    如果 (primary_index) {
         SDL_DisplayData *primary = vid->output_list[primary_index];
         SDL_memmove(&vid->output_list[1], &vid->output_list[0], sizeof(SDL_DisplayData *) * primary_index);
         vid->output_list[0] = primary;
@@ -451,7 +451,7 @@ static void Wayland_RefreshWindowPositions()
 {
     SDL_VideoDevice *vid = SDL_GetVideoDevice();
 
-    for (SDL_Window *w = vid->windows; w; w = w->next) {
+    为 (SDL_Window *w = vid->windows; w; w = w->next) {
         Wayland_UpdateWindowPosition(w);
     }
 }
@@ -478,12 +478,12 @@ void SDL_WAYLAND_register_output(struct wl_output *output)
 
 bool SDL_WAYLAND_own_surface(struct wl_surface *surface)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
+    返回 wl_proxy_get_tag((struct wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
 }
 
 bool SDL_WAYLAND_own_output(struct wl_output *output)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)output) == &SDL_WAYLAND_output_tag;
+    返回 wl_proxy_get_tag((struct wl_proxy *)output) == &SDL_WAYLAND_output_tag;
 }
 
 /* External surfaces may have their own user data attached, the modification of which
@@ -504,36 +504,36 @@ void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data)
 
 SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface)
 {
-    if (SDL_WAYLAND_own_surface(surface)) {
-        return (SDL_WindowData *)wl_surface_get_user_data(surface);
-    } else if (!WAYLAND_wl_list_empty(&external_window_list)) {
+    如果 (SDL_WAYLAND_own_surface(surface)) {
+        返回 (SDL_WindowData *)wl_surface_get_user_data(surface);
+    } 否则 如果 (!WAYLAND_wl_list_empty(&external_window_list)) {
         SDL_WindowData *p;
         wl_list_for_each (p, &external_window_list, external_window_list_link) {
-            if (p->surface == surface) {
-                return p;
+            如果 (p->surface == surface) {
+                返回 p;
             }
         }
     }
 
-    return NULL;
+    返回 NULL;
 }
 
 struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name)
 {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-    if (WAYLAND_wl_display_create_queue_with_name) {
-        return WAYLAND_wl_display_create_queue_with_name(display, name);
+    如果 (WAYLAND_wl_display_create_queue_with_name) {
+        返回 WAYLAND_wl_display_create_queue_with_name(display, name);
     }
 #elif SDL_WAYLAND_CHECK_VERSION(1, 23, 0)
-    return WAYLAND_wl_display_create_queue_with_name(display, name);
+    返回 WAYLAND_wl_display_create_queue_with_name(display, name);
 #endif
-    return WAYLAND_wl_display_create_queue(display);
+    返回 WAYLAND_wl_display_create_queue(display);
 }
 
 static void Wayland_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
-    if (data->display && !data->display_externally_owned) {
+    如果 (data->display && !data->display_externally_owned) {
         WAYLAND_wl_display_disconnect(data->display);
         SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER);
     }
@@ -553,11 +553,11 @@ static void wayland_preferred_check_handle_global(void *data, struct wl_registry
 {
     SDL_WaylandPreferredData *d = data;
 
-    if (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
+    如果 (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
         d->has_fifo_v1 = true;
     }
 #ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+    否则 如果 (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
         d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
     }
 #endif
@@ -567,7 +567,7 @@ static void wayland_preferred_check_remove_global(void *data, struct wl_registry
 {
     SDL_WaylandPreferredData *d = (SDL_WaylandPreferredData *)data;
 
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    如果 (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
@@ -582,25 +582,25 @@ static bool Wayland_IsPreferred(struct wl_display *display)
     struct wl_registry *registry = wl_display_get_registry(display);
     SDL_WaylandPreferredData preferred_data = { 0 };
 
-    if (!registry) {
+    如果 (!registry) {
         SDL_SetError("Failed to get the Wayland registry");
-        return false;
+        返回 false;
     }
 
     wl_registry_add_listener(registry, &preferred_registry_listener, &preferred_data);
 
     WAYLAND_wl_display_roundtrip(display);
 
-    if (preferred_data.wl_fixes) {
+    如果 (preferred_data.wl_fixes) {
         wl_fixes_destroy_registry(preferred_data.wl_fixes, registry);
         wl_fixes_destroy(preferred_data.wl_fixes);
     }
     wl_registry_destroy(registry);
 
-    if (!preferred_data.has_fifo_v1) {
+    如果 (!preferred_data.has_fifo_v1) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "This compositor lacks support for the fifo-v1 protocol; falling back to XWayland for GPU performance reasons (set SDL_VIDEO_DRIVER=wayland to override)");
     }
-    return preferred_data.has_fifo_v1;
+    返回 preferred_data.has_fifo_v1;
 }
 
 static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
@@ -612,24 +612,24 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     bool display_is_external = !!display;
 
     // Are we trying to connect to, or are currently in, a Wayland session?
-    if (!SDL_getenv("WAYLAND_DISPLAY")) {
+    如果 (!SDL_getenv("WAYLAND_DISPLAY")) {
         const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") != 0) {
+        如果 (session && SDL_strcasecmp(session, "wayland") != 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Wayland initialization failed: no Wayland session available");
-            return NULL;
+            返回 NULL;
         }
     }
 
-    if (!SDL_WAYLAND_LoadSymbols()) {
-        return NULL;
+    如果 (!SDL_WAYLAND_LoadSymbols()) {
+        返回 NULL;
     }
 
-    if (!display) {
+    如果 (!display) {
         display = WAYLAND_wl_display_connect(NULL);
-        if (!display) {
+        如果 (!display) {
             SDL_WAYLAND_UnloadSymbols();
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the Wayland display server: %s", strerror(errno));
-            return NULL;
+            返回 NULL;
         }
     }
 
@@ -638,21 +638,21 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
      * fifo-v1's existence, so we don't regress GPU-bound performance
      * and frame-pacing by default due to swapchain starvation.
      */
-    if (require_preferred_protocols && !Wayland_IsPreferred(display)) {
-        if (!display_is_external) {
+    如果 (require_preferred_protocols && !Wayland_IsPreferred(display)) {
+        如果 (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        返回 NULL;
     }
 
     data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        if (!display_is_external) {
+    如果 (!data) {
+        如果 (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        返回 NULL;
     }
 
     data->initializing = true;
@@ -664,16 +664,16 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
 
     // Initialize all variables that we clean on shutdown
     device = SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
+    如果 (!device) {
         SDL_free(data);
-        if (!display_is_external) {
+        如果 (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        返回 NULL;
     }
 
-    if (!display_is_external) {
+    如果 (!display_is_external) {
         SDL_SetPointerProperty(SDL_GetGlobalProperties(),
                                SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, display);
     }
@@ -745,7 +745,7 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->AcceptDragAndDrop = Wayland_AcceptDragAndDrop;
 
 #ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+    如果 (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
 #endif
 
@@ -774,17 +774,17 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
                           VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES |
                           VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES;
 
-    return device;
+    返回 device;
 }
 
 static SDL_VideoDevice *Wayland_Preferred_CreateDevice(void)
 {
-    return Wayland_CreateDevice(true);
+    返回 Wayland_CreateDevice(true);
 }
 
 static SDL_VideoDevice *Wayland_Fallback_CreateDevice(void)
 {
-    return Wayland_CreateDevice(false);
+    返回 Wayland_CreateDevice(false);
 }
 
 VideoBootStrap Wayland_preferred_bootstrap = {
@@ -829,7 +829,7 @@ static void handle_xdg_output_done(void *data, struct zxdg_output_v1 *xdg_output
      * xdg-output.done events are deprecated and only apply below version 3 of the protocol.
      * A wl-output.done event will be emitted in version 3 or higher.
      */
-    if (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
+    如果 (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
         handle_wl_output_done(data, internal->output);
     }
 }
@@ -839,7 +839,7 @@ static void handle_xdg_output_name(void *data, struct zxdg_output_v1 *xdg_output
     SDL_DisplayData *internal = (SDL_DisplayData *)data;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
+    如果 (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
         internal->display == 0) {
         SDL_free(internal->wl_output_name);
         internal->wl_output_name = SDL_strdup(name);
@@ -851,7 +851,7 @@ static void handle_xdg_output_description(void *data, struct zxdg_output_v1 *xdg
     SDL_DisplayData *internal = (SDL_DisplayData *)data;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
+    如果 (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
         internal->display == 0) {
         // xdg-output descriptions, if available, supersede wl-output model names.
         SDL_free(internal->placeholder.name);
@@ -867,12 +867,12 @@ static const struct zxdg_output_v1_listener xdg_output_listener = {
     handle_xdg_output_description,
 };
 
-static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int native_height)
+static void AddEmulatedModes(SDL_DisplayData *dispdata, 整数 native_width, 整数 native_height)
 {
     struct EmulatedMode
     {
-        int w;
-        int h;
+        整数 w;
+        整数 h;
     };
 
     // Resolution lists courtesy of XWayland
@@ -917,27 +917,27 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
         { 640, 480 }
     };
 
-    int i;
+    整数 i;
     SDL_DisplayMode mode;
     SDL_VideoDisplay *dpy = dispdata->display ? SDL_GetVideoDisplay(dispdata->display) : &dispdata->placeholder;
     const bool rot_90 = native_width < native_height; // Reverse width/height for portrait displays.
 
-    for (i = 0; i < SDL_arraysize(mode_list); ++i) {
+    为 (i = 0; i < SDL_arraysize(mode_list); ++i) {
         SDL_zero(mode);
         mode.format = dpy->desktop_mode.format;
         mode.refresh_rate_numerator = dpy->desktop_mode.refresh_rate_numerator;
         mode.refresh_rate_denominator = dpy->desktop_mode.refresh_rate_denominator;
 
-        if (rot_90) {
+        如果 (rot_90) {
             mode.w = mode_list[i].h;
             mode.h = mode_list[i].w;
-        } else {
+        } 否则 {
             mode.w = mode_list[i].w;
             mode.h = mode_list[i].h;
         }
 
         // Only add modes that are smaller than the native mode.
-        if ((mode.w < native_width && mode.h < native_height) ||
+        如果 ((mode.w < native_width && mode.h < native_height) ||
             (mode.w < native_width && mode.h == native_height) ||
             (mode.w == native_width && mode.h < native_height)) {
             SDL_AddFullscreenDisplayMode(dpy, &mode);
@@ -945,14 +945,14 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
     }
 }
 
-static void handle_wl_output_geometry(void *data, struct wl_output *output, int x, int y,
-                                      int physical_width, int physical_height, int subpixel,
-                                      const char *make, const char *model, int transform)
+static void handle_wl_output_geometry(void *data, struct wl_output *output, 整数 x, 整数 y,
+                                      整数 physical_width, 整数 physical_height, 整数 subpixel,
+                                      const char *make, const char *model, 整数 transform)
 {
     SDL_DisplayData *internal = (SDL_DisplayData *)data;
 
     // Apply the change from wl-output only if xdg-output is not supported
-    if (!internal->has_logical_position) {
+    如果 (!internal->has_logical_position) {
         internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
         internal->logical.x = x;
         internal->logical.y = y;
@@ -961,7 +961,7 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
     internal->physical.height_mm = physical_height;
 
     // The model is only used for the output name if wl_output or xdg-output haven't provided a description.
-    if (internal->display == 0 && !internal->placeholder.name) {
+    如果 (internal->display == 0 && !internal->placeholder.name) {
         internal->placeholder.name = SDL_strdup(model);
     }
 
@@ -970,7 +970,7 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
     case WL_OUTPUT_TRANSFORM_##in:                       \
         internal->orientation = SDL_ORIENTATION_##out; \
         break;
-    if (internal->physical.width_mm >= internal->physical.height_mm) {
+    如果 (internal->physical.width_mm >= internal->physical.height_mm) {
         switch (transform) {
             TF_CASE(NORMAL, LANDSCAPE)
             TF_CASE(90, PORTRAIT)
@@ -981,7 +981,7 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_180, LANDSCAPE)
             TF_CASE(FLIPPED_270, PORTRAIT)
         }
-    } else {
+    } 否则 {
         switch (transform) {
             TF_CASE(NORMAL, PORTRAIT)
             TF_CASE(90, LANDSCAPE)
@@ -997,11 +997,11 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
 }
 
 static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t flags,
-                                  int width, int height, int refresh)
+                                  整数 width, 整数 height, 整数 refresh)
 {
     SDL_DisplayData *internal = (SDL_DisplayData *)data;
 
-    if (flags & WL_OUTPUT_MODE_CURRENT) {
+    如果 (flags & WL_OUTPUT_MODE_CURRENT) {
         internal->geometry_changed |= internal->pixel.width != width || internal->pixel.height != height;
         internal->pixel.width = width;
         internal->pixel.height = height;
@@ -1010,7 +1010,7 @@ static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t
          * Don't rotate this yet, wl-output coordinates are transformed in
          * handle_done and xdg-output coordinates are pre-transformed.
          */
-        if (!internal->has_logical_size) {
+        如果 (!internal->has_logical_size) {
             internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
             internal->logical.width = width;
             internal->logical.height = height;
@@ -1033,17 +1033,17 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
      *
      * All required events must be received before proceeding.
      */
-    const int event_await_count = 1 + (internal->xdg_output != NULL);
+    const 整数 event_await_count = 1 + (internal->xdg_output != NULL);
 
     internal->wl_output_done_count = SDL_min(internal->wl_output_done_count + 1, event_await_count + 1);
 
-    if (internal->wl_output_done_count < event_await_count) {
-        return;
+    如果 (internal->wl_output_done_count < event_await_count) {
+        返回;
     }
 
     // If the display was already created, reset and rebuild the mode list.
     SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(internal->display);
-    if (dpy) {
+    如果 (dpy) {
         SDL_ResetFullscreenDisplayModes(dpy);
     }
 
@@ -1052,29 +1052,29 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     native_mode.format = SDL_PIXELFORMAT_XRGB8888;
 
     // Transform the pixel values, if necessary.
-    if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
+    如果 (internal->transform & WL_OUTPUT_TRANSFORM_90) {
         native_mode.w = internal->pixel.height;
         native_mode.h = internal->pixel.width;
-    } else {
+    } 否则 {
         native_mode.w = internal->pixel.width;
         native_mode.h = internal->pixel.height;
     }
     native_mode.refresh_rate_numerator = internal->refresh;
     native_mode.refresh_rate_denominator = 1000;
 
-    if (internal->has_logical_size) { // If xdg-output is present...
-        if (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
+    如果 (internal->has_logical_size) { // If xdg-output is present...
+        如果 (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
             // ...and the compositor scales the logical viewport...
-            if (video->viewporter) {
+            如果 (video->viewporter) {
                 // ...and viewports are supported, calculate the true scale of the output.
                 internal->scale_factor = (double)native_mode.w / (double)internal->logical.width;
-            } else {
+            } 否则 {
                 // ...otherwise, the 'native' pixel values are a multiple of the logical screen size.
                 internal->scale_factor = internal->integer_scale_factor;
                 internal->pixel.width = internal->logical.width * internal->integer_scale_factor;
                 internal->pixel.height = internal->logical.height * internal->integer_scale_factor;
             }
-        } else {
+        } 否则 {
             /* ...and the output viewport is not scaled in the global compositing
              * space, the output dimensions need to be divided by the scale factor.
              *
@@ -1084,7 +1084,7 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
             internal->logical.width /= internal->integer_scale_factor;
             internal->logical.height /= internal->integer_scale_factor;
         }
-    } else {
+    } 否则 {
         /* Calculate the points from the pixel values, if xdg-output isn't present.
          * Use the native mode pixel values since they are pre-transformed.
          */
@@ -1097,11 +1097,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     SDL_zero(desktop_mode);
     desktop_mode.format = SDL_PIXELFORMAT_XRGB8888;
 
-    if (!video->scale_to_display_enabled) {
+    如果 (!video->scale_to_display_enabled) {
         desktop_mode.w = internal->logical.width;
         desktop_mode.h = internal->logical.height;
         desktop_mode.pixel_density = (float)internal->scale_factor;
-    } else {
+    } 否则 {
         desktop_mode.w = native_mode.w;
         desktop_mode.h = native_mode.h;
         desktop_mode.pixel_density = 1.0f;
@@ -1110,13 +1110,13 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     desktop_mode.refresh_rate_numerator = internal->refresh;
     desktop_mode.refresh_rate_denominator = 1000;
 
-    if (internal->display > 0) {
+    如果 (internal->display > 0) {
         dpy = SDL_GetVideoDisplay(internal->display);
-    } else {
+    } 否则 {
         dpy = &internal->placeholder;
     }
 
-    if (video->scale_to_display_enabled) {
+    如果 (video->scale_to_display_enabled) {
         SDL_SetDisplayContentScale(dpy, (float)internal->scale_factor);
     }
 
@@ -1124,17 +1124,17 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     SDL_SetDesktopDisplayMode(dpy, &desktop_mode);
 
     // Expose the unscaled, native resolution if the scale is 1.0 or viewports are available...
-    if (internal->scale_factor == 1.0 || video->viewporter) {
+    如果 (internal->scale_factor == 1.0 || video->viewporter) {
         SDL_AddFullscreenDisplayMode(dpy, &native_mode);
-        if (native_mode.w != desktop_mode.w ||
+        如果 (native_mode.w != desktop_mode.w ||
             native_mode.h != desktop_mode.h) {
             SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
         }
-    } else {
+    } 否则 {
         // ...otherwise expose the integer scaled variants of the desktop resolution down to 1.
         desktop_mode.pixel_density = 1.0f;
 
-        for (int i = (int)internal->scale_factor; i > 0; --i) {
+        为 (整数 i = (整数)internal->scale_factor; i > 0; --i) {
             desktop_mode.w = internal->logical.width * i;
             desktop_mode.h = internal->logical.height * i;
             SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
@@ -1142,16 +1142,16 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
     }
 
     // Add emulated modes if wp_viewporter is supported and mode emulation is enabled.
-    if (video->viewporter && mode_emulation_enabled) {
+    如果 (video->viewporter && mode_emulation_enabled) {
         // The transformed display pixel width/height must be used here.
         AddEmulatedModes(internal, native_mode.w, native_mode.h);
     }
 
-    if (internal->display == 0) {
+    如果 (internal->display == 0) {
         // First time getting display info, initialize the VideoDisplay
-        if (internal->physical.width_mm >= internal->physical.height_mm) {
+        如果 (internal->physical.width_mm >= internal->physical.height_mm) {
             internal->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
-        } else {
+        } 否则 {
             internal->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
         }
         internal->placeholder.current_orientation = internal->orientation;
@@ -1161,11 +1161,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
         SDL_SetPointerProperty(internal->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER, internal->output);
 
         // During initialization, the displays will be added after enumeration is complete.
-        if (!video->initializing) {
-            if (video->wp_color_manager_v1) {
+        如果 (!video->initializing) {
+            如果 (video->wp_color_manager_v1) {
                 Wayland_GetColorInfoForOutput(internal, false);
             }
-            if (video->scale_to_display_enabled) {
+            如果 (video->scale_to_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
@@ -1175,11 +1175,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
             SDL_free(internal->placeholder.name);
             SDL_zero(internal->placeholder);
         }
-    } else {
+    } 否则 {
         SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, internal->orientation, 0);
 
-        if (internal->geometry_changed) {
-            if (video->scale_to_display_enabled) {
+        如果 (internal->geometry_changed) {
+            如果 (video->scale_to_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
@@ -1209,7 +1209,7 @@ static void handle_wl_output_description(void *data, struct wl_output *wl_output
 {
     SDL_DisplayData *internal = (SDL_DisplayData *)data;
 
-    if (internal->display == 0) {
+    如果 (internal->display == 0) {
         // The description, if available, supersedes the model name.
         SDL_free(internal->placeholder.name);
         internal->placeholder.name = SDL_strdup(description);
@@ -1242,8 +1242,8 @@ static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
     SDL_DisplayData *data;
 
     output = wl_registry_bind(d->registry, id, &wl_output_interface, version);
-    if (!output) {
-        return SDL_SetError("Failed to retrieve output.");
+    如果 (!output) {
+        返回 SDL_SetError("Failed to retrieve output.");
     }
     data = (SDL_DisplayData *)SDL_calloc(1, sizeof(*data));
     data->videodata = d;
@@ -1256,54 +1256,54 @@ static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
     SDL_WAYLAND_register_output(output);
 
     // Keep a list of outputs for sorting and deferred protocol initialization.
-    if (d->output_count == d->output_max) {
+    如果 (d->output_count == d->output_max) {
         d->output_max += 4;
         d->output_list = SDL_realloc(d->output_list, sizeof(SDL_DisplayData *) * d->output_max);
     }
     d->output_list[d->output_count++] = data;
 
-    if (data->videodata->xdg_output_manager) {
+    如果 (data->videodata->xdg_output_manager) {
         data->xdg_output = zxdg_output_manager_v1_get_xdg_output(data->videodata->xdg_output_manager, output);
         zxdg_output_v1_add_listener(data->xdg_output, &xdg_output_listener, data);
     }
-    if (data->videodata->wp_color_manager_v1) {
+    如果 (data->videodata->wp_color_manager_v1) {
         data->wp_color_management_output = wp_color_manager_v1_get_output(data->videodata->wp_color_manager_v1, output);
         wp_color_management_output_v1_add_listener(data->wp_color_management_output, &wp_color_management_output_listener, data);
 
         // If not initializing, this will be queried synchronously in wl_output.done.
-        if (d->initializing) {
+        如果 (d->initializing) {
             Wayland_GetColorInfoForOutput(data, true);
         }
     }
-    return true;
+    返回 true;
 }
 
 static void Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
 {
-    if (display) {
+    如果 (display) {
         SDL_DisplayData *display_data = display->internal;
 
         /* A preceding surface leave event is not guaranteed when an output is removed,
          * so ensure that no window continues to hold a reference to a removed output.
          */
-        for (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->next) {
+        为 (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->next) {
             Wayland_RemoveOutputFromWindow(window->internal, display_data);
         }
 
         SDL_free(display_data->wl_output_name);
 
-        if (display_data->wp_color_management_output) {
+        如果 (display_data->wp_color_management_output) {
             Wayland_FreeColorInfoState(display_data->color_info_state);
             wp_color_management_output_v1_destroy(display_data->wp_color_management_output);
         }
 
-        if (display_data->xdg_output) {
+        如果 (display_data->xdg_output) {
             zxdg_output_v1_destroy(display_data->xdg_output);
         }
 
-        if (wl_output_get_version(display_data->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
+        如果 (wl_output_get_version(display_data->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
             wl_output_release(display_data->output);
-        } else {
+        } 否则 {
             wl_output_destroy(display_data->output);
         }
 
@@ -1315,7 +1315,7 @@ static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
 {
     Wayland_SortOutputs(vid);
 
-    for(int i = 0; i < vid->output_count; ++i) {
+    为(整数 i = 0; i < vid->output_count; ++i) {
         SDL_DisplayData *d = vid->output_list[i];
         d->display = SDL_AddVideoDisplay(&d->placeholder, false);
         SDL_free(d->placeholder.name);
@@ -1325,7 +1325,7 @@ static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
 
 static void Wayland_init_xdg_output(SDL_VideoData *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
+    为 (整数 i = 0; i < d->output_count; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
         disp->xdg_output = zxdg_output_manager_v1_get_xdg_output(disp->videodata->xdg_output_manager, disp->output);
         zxdg_output_v1_add_listener(disp->xdg_output, &xdg_output_listener, disp);
@@ -1334,7 +1334,7 @@ static void Wayland_init_xdg_output(SDL_VideoData *d)
 
 static void Wayland_InitColorManager(SDL_VideoData *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
+    为 (整数 i = 0; i < d->output_count; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
         disp->wp_color_management_output = wp_color_manager_v1_get_output(disp->videodata->wp_color_manager_v1, disp->output);
         wp_color_management_output_v1_add_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
@@ -1360,10 +1360,10 @@ static void handle_xdg_session_replaced(void *data, struct xdg_session_v1 *xdg_s
     // Clean up all session objects, as they have become inert, and should be destroyed.
     SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
 
-    for (SDL_Window *w = viddev->windows; w; w = w->next) {
+    为 (SDL_Window *w = viddev->windows; w; w = w->next) {
         SDL_WindowData *d = w->internal;
 
-        if (d->xdg_toplevel_session) {
+        如果 (d->xdg_toplevel_session) {
             xdg_toplevel_session_v1_destroy(d->xdg_toplevel_session);
             d->xdg_toplevel_session = NULL;
 
@@ -1372,7 +1372,7 @@ static void handle_xdg_session_replaced(void *data, struct xdg_session_v1 *xdg_s
         }
     }
 
-    if (viddata->xdg_session) {
+    如果 (viddata->xdg_session) {
         xdg_session_v1_destroy(viddata->xdg_session);
         viddata->xdg_session = NULL;
     }
@@ -1386,17 +1386,17 @@ static const struct xdg_session_v1_listener xdg_session_listener = {
 
 void Wayland_CreateSession(SDL_VideoData *viddata)
 {
-    if (!viddata->xdg_session_manager) {
+    如果 (!viddata->xdg_session_manager) {
         // Set the ID string to null if session management is not available.
         SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        return;
+        返回;
     }
 
     // Register a new session, if one does not yet exist.
-    if (!viddata->xdg_session) {
+    如果 (!viddata->xdg_session) {
         const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (session_id) {
-            if (*session_id == '\0') {
+        如果 (session_id) {
+            如果 (*session_id == '\0') {
                 // Create a new session if the ID string is empty.
                 session_id = NULL;
             }
@@ -1411,13 +1411,13 @@ void Wayland_CreateSession(SDL_VideoData *viddata)
 static void Wayland_SessionDestroy(SDL_VideoData *viddata)
 {
     // If the session string was cleared, remove the session.
-    if (viddata->xdg_session) {
+    如果 (viddata->xdg_session) {
         const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (!session_id || *session_id == '\0') {
+        如果 (!session_id || *session_id == '\0') {
             xdg_session_v1_remove(viddata->xdg_session);
 
             WAYLAND_wl_display_roundtrip(viddata->display);
-        } else {
+        } 否则 {
             xdg_session_v1_destroy(viddata->xdg_session);
         }
 
@@ -1452,85 +1452,85 @@ static void handle_registry_global(void *data, struct wl_registry *registry, uin
 {
     SDL_VideoData *d = data;
 
-    if (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
+    如果 (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
         d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_VERSION, version));
-    } else if (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
         d->subcompositor = wl_registry_bind(d->registry, id, &wl_subcompositor_interface, 1);
-    } else if (SDL_strcmp(interface, wl_output_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wl_output_interface.name) == 0) {
         Wayland_add_display(d, id, SDL_min(version, SDL_WL_OUTPUT_VERSION));
-    } else if (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
         struct wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_VERSION, version));
         Wayland_DisplayCreateSeat(d, seat, id);
-    } else if (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
         d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_base_interface, SDL_min(version, 7));
         xdg_wm_base_add_listener(d->shell.xdg, &_xdg_wm_base_listener, NULL);
-    } else if (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
         d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_VERSION, version));
-    } else if (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
         d->relative_pointer_manager = wl_registry_bind(d->registry, id, &zwp_relative_pointer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
         d->pointer_constraints = wl_registry_bind(d->registry, id, &zwp_pointer_constraints_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
         d->key_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
         d->idle_inhibit_manager = wl_registry_bind(d->registry, id, &zwp_idle_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
         d->activation_manager = wl_registry_bind(d->registry, id, &xdg_activation_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
         d->text_input_manager = wl_registry_bind(d->registry, id, &zwp_text_input_manager_v3_interface, 1);
         Wayland_DisplayInitTextInputManager(d, id);
-    } else if (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
         d->data_device_manager = wl_registry_bind(d->registry, id, &wl_data_device_manager_interface, SDL_min(3, version));
         Wayland_DisplayInitDataDeviceManager(d);
-    } else if (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
         d->primary_selection_device_manager = wl_registry_bind(d->registry, id, &zwp_primary_selection_device_manager_v1_interface, 1);
         Wayland_DisplayInitPrimarySelectionDeviceManager(d);
-    } else if (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
         d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, version));
-    } else if (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
         d->tablet_manager = wl_registry_bind(d->registry, id, &zwp_tablet_manager_v2_interface, 1);
         Wayland_DisplayInitTabletManager(d);
-    } else if (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
         version = SDL_min(version, 3); // Versions 1 through 3 are supported.
         d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, version);
         Wayland_init_xdg_output(d);
-    } else if (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
         d->viewporter = wl_registry_bind(d->registry, id, &wp_viewporter_interface, 1);
-    } else if (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         d->fractional_scale_manager = wl_registry_bind(d->registry, id, &wp_fractional_scale_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
         d->input_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_input_timestamps_manager_v1_interface, 1);
         Wayland_DisplayInitInputTimestampManager(d);
-    } else if (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
         d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(version, 2));
         Wayland_DisplayInitCursorShapeManager(d);
-    } else if (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
         d->zxdg_exporter_v2 = wl_registry_bind(d->registry, id, &zxdg_exporter_v2_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
         d->xdg_wm_dialog_v1 = wl_registry_bind(d->registry, id, &xdg_wm_dialog_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
         d->wp_alpha_modifier_v1 = wl_registry_bind(d->registry, id, &wp_alpha_modifier_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_icon_manager_v1 = wl_registry_bind(d->registry, id, &xdg_toplevel_icon_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
         d->frog_color_management_factory_v1 = wl_registry_bind(d->registry, id, &frog_color_management_factory_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
         d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(version, 2));
         Wayland_InitColorManager(d);
-    } else if (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
         d->wp_pointer_warp_v1 = wl_registry_bind(d->registry, id, &wp_pointer_warp_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
         d->zwp_pointer_gestures = wl_registry_bind(d->registry, id, &zwp_pointer_gestures_v1_interface, SDL_min(version, 3));
         Wayland_DisplayInitPointerGestureManager(d);
-    } else if (SDL_strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
         d->single_pixel_buffer_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_buffer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
         d->xdg_session_manager = wl_registry_bind(d->registry, id, &xdg_session_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
+    } 否则 如果 (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_tag_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_tag_manager_v1_interface, 1);
     }
 #ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+    否则 如果 (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
         d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
     }
 #endif
@@ -1541,12 +1541,12 @@ static void handle_registry_remove_global(void *data, struct wl_registry *regist
     SDL_VideoData *d = data;
 
     // We don't get an interface, just an ID, so check outputs and seats.
-    for (int i = 0; i < d->output_count; ++i) {
+    为 (整数 i = 0; i < d->output_count; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
-        if (disp->registry_id == id) {
+        如果 (disp->registry_id == id) {
             Wayland_free_display(SDL_GetVideoDisplay(disp->display), true);
 
-            if (i < d->output_count) {
+            如果 (i < d->output_count) {
                 SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_count - i - 1));
             }
 
@@ -1557,14 +1557,14 @@ static void handle_registry_remove_global(void *data, struct wl_registry *regist
 
     SDL_WaylandSeat *seat, *temp;
     wl_list_for_each_safe (seat, temp, &d->seat_list, link) {
-        if (seat->registry_id == id) {
+        如果 (seat->registry_id == id) {
             Wayland_SeatDestroy(seat, false);
             goto ack_remove;
         }
     }
 
 ack_remove:
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    如果 (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
@@ -1577,23 +1577,23 @@ static const struct wl_registry_listener registry_listener = {
 #ifdef HAVE_LIBDECOR_H
 static bool should_use_libdecor(SDL_VideoData *data, bool ignore_xdg)
 {
-    if (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
-        return false;
+    如果 (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
+        返回 false;
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
-        return true;
+    如果 (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
+        返回 true;
     }
 
-    if (ignore_xdg) {
-        return true;
+    如果 (ignore_xdg) {
+        返回 true;
     }
 
-    if (data->decoration_manager) {
-        return false;
+    如果 (data->decoration_manager) {
+        返回 false;
     }
 
-    return true;
+    返回 true;
 }
 
 static void LibdecorNew(SDL_VideoData *data)
@@ -1603,32 +1603,32 @@ static void LibdecorNew(SDL_VideoData *data)
 
 // Called in another thread, but the UI thread is blocked in SDL_WaitThread
 // during that time, so it should be OK to dereference data without locks
-static int SDLCALL LibdecorNewInThread(void *data)
+static 整数 SDLCALL LibdecorNewInThread(void *data)
 {
     LibdecorNew((SDL_VideoData *)data);
-    return 0;
+    返回 0;
 }
 #endif
 
 #ifdef HAVE_GETRESUID
 #define SDL_getresuid getresuid
-#else
+#否则
 // Non-POSIX, but Linux and some BSDs have it.
 // To reduce the number of code paths, if getresuid() isn't available at
 // compile-time, we behave as though it existed but failed at runtime.
-static inline int SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
+static inline 整数 SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
     errno = ENOSYS;
-    return -1;
+    返回 -1;
 }
 #endif
 
 #ifdef HAVE_GETRESGID
 #define SDL_getresgid getresgid
-#else
+#否则
 // Same as getresuid() but for the primary group
-static inline int SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
+static inline 整数 SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
     errno = ENOSYS;
-    return -1;
+    返回 -1;
 }
 #endif
 
@@ -1638,9 +1638,9 @@ bool CanUseGtk(void)
     uid_t ruid = -1, euid = -1, suid = -1;
     gid_t rgid = -1, egid = -1, sgid = -1;
 
-    if (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
+    如果 (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to hint");
-        return false;
+        返回 false;
     }
 
     // This is intended to match the check in gtkmain.c, rather than being
@@ -1648,45 +1648,45 @@ bool CanUseGtk(void)
     // we don't use Linux getauxval() or prctl PR_GET_DUMPABLE,
     // BSD issetugid(), or similar OS-specific detection
 
-    if (SDL_getresuid(&ruid, &euid, &suid) != 0) {
+    如果 (SDL_getresuid(&ruid, &euid, &suid) != 0) {
         ruid = suid = getuid();
         euid = geteuid();
     }
 
-    if (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
+    如果 (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
         rgid = sgid = getgid();
         egid = getegid();
     }
 
     // Real ID != effective ID means we are setuid or setgid:
     // GTK will refuse to initialize, and instead will call exit().
-    if (ruid != euid || rgid != egid) {
+    如果 (ruid != euid || rgid != egid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to setuid/setgid");
-        return false;
+        返回 false;
     }
 
     // Real ID != saved ID means we are setuid or setgid, we previously
     // dropped privileges, but we can regain them; this protects against
     // accidents but does not protect against arbitrary code execution.
     // Again, GTK will refuse to initialize if this is the case.
-    if (ruid != suid || rgid != sgid) {
+    如果 (ruid != suid || rgid != sgid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to saved uid/gid");
-        return false;
+        返回 false;
     }
 
-    return true;
+    返回 true;
 }
 
 bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg)
 {
 #ifdef HAVE_LIBDECOR_H
-    if (data->shell.libdecor != NULL) {
-        return true; // Already loaded!
+    如果 (data->shell.libdecor != NULL) {
+        返回 true; // Already loaded!
     }
-    if (should_use_libdecor(data, ignore_xdg)) {
-        if (CanUseGtk()) {
+    如果 (should_use_libdecor(data, ignore_xdg)) {
+        如果 (CanUseGtk()) {
             LibdecorNew(data);
-        } else {
+        } 否则 {
             // Intentionally initialize libdecor in a non-main thread
             // so that it will not use its GTK plugin, but instead will
             // fall back to the Cairo or dummy plugin
@@ -1696,10 +1696,10 @@ bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg)
             SDL_WaitThread(thread, NULL);
         }
 
-        return data->shell.libdecor != NULL;
+        返回 data->shell.libdecor != NULL;
     }
 #endif
-    return false;
+    返回 false;
 }
 
 bool Wayland_VideoInit(SDL_VideoDevice *_this)
@@ -1707,23 +1707,23 @@ bool Wayland_VideoInit(SDL_VideoDevice *_this)
     SDL_VideoData *data = _this->internal;
 
     data->event_thread_context = Wayland_CreateEventThread(data, "SDL Event Thread Queue");
-    if (!data->event_thread_context) {
+    如果 (!data->event_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create event thread context");
     }
 
     data->job_thread_context = Wayland_CreateJobThread();
-    if (!data->job_thread_context) {
+    如果 (!data->job_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create job thread context");
     }
 
     data->xkb_context = WAYLAND_xkb_context_new(0);
-    if (!data->xkb_context) {
-        return SDL_SetError("Failed to create XKB context");
+    如果 (!data->xkb_context) {
+        返回 SDL_SetError("Failed to create XKB context");
     }
 
     data->registry = wl_display_get_registry(data->display);
-    if (!data->registry) {
-        return SDL_SetError("Failed to get the Wayland registry");
+    如果 (!data->registry) {
+        返回 SDL_SetError("Failed to get the Wayland registry");
     }
 
     wl_registry_add_listener(data->registry, &registry_listener, data);
@@ -1732,12 +1732,12 @@ bool Wayland_VideoInit(SDL_VideoDevice *_this)
     WAYLAND_wl_display_roundtrip(data->display);
 
     // Require viewports and xdg-output for display scaling.
-    if (data->scale_to_display_enabled) {
-        if (!data->viewporter) {
+    如果 (data->scale_to_display_enabled) {
+        如果 (!data->viewporter) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'wp_viewporter' protocol: disabling");
             data->scale_to_display_enabled = false;
         }
-        if (!data->xdg_output_manager) {
+        如果 (!data->xdg_output_manager) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'zxdg_output_manager_v1' protocol: disabling");
             data->scale_to_display_enabled = false;
         }
@@ -1754,7 +1754,7 @@ bool Wayland_VideoInit(SDL_VideoDevice *_this)
     Wayland_InitMouse(data);
     Wayland_InitKeyboard(_this);
 
-    if (data->primary_selection_device_manager) {
+    如果 (data->primary_selection_device_manager) {
         _this->SetPrimarySelectionText = Wayland_SetPrimarySelectionText;
         _this->GetPrimarySelectionText = Wayland_GetPrimarySelectionText;
         _this->HasPrimarySelectionText = Wayland_HasPrimarySelectionText;
@@ -1762,7 +1762,7 @@ bool Wayland_VideoInit(SDL_VideoDevice *_this)
 
     data->initializing = false;
 
-    return true;
+    返回 true;
 }
 
 static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
@@ -1770,35 +1770,35 @@ static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *d
     SDL_VideoData *viddata = _this->internal;
     SDL_DisplayData *internal = display->internal;
 
-    if (!viddata->scale_to_display_enabled) {
+    如果 (!viddata->scale_to_display_enabled) {
         rect->x = internal->logical.x;
         rect->y = internal->logical.y;
-    } else {
+    } 否则 {
         rect->x = internal->pixel.x;
         rect->y = internal->pixel.y;
     }
 
     // When an emulated, exclusive fullscreen window has focus, treat the mode dimensions as the display bounds.
-    if (display->fullscreen_window &&
+    如果 (display->fullscreen_window &&
         display->fullscreen_window->fullscreen_exclusive &&
         display->fullscreen_window->internal->active &&
         display->fullscreen_window->current_fullscreen_mode.w != 0 &&
         display->fullscreen_window->current_fullscreen_mode.h != 0) {
         rect->w = display->fullscreen_window->current_fullscreen_mode.w;
         rect->h = display->fullscreen_window->current_fullscreen_mode.h;
-    } else {
-        if (!viddata->scale_to_display_enabled) {
+    } 否则 {
+        如果 (!viddata->scale_to_display_enabled) {
             rect->w = display->current_mode->w;
             rect->h = display->current_mode->h;
-        } else if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
+        } 否则 如果 (internal->transform & WL_OUTPUT_TRANSFORM_90) {
             rect->w = internal->pixel.height;
             rect->h = internal->pixel.width;
-        } else {
+        } 否则 {
             rect->w = internal->pixel.width;
             rect->h = internal->pixel.height;
         }
     }
-    return true;
+    返回 true;
 }
 
 static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
@@ -1808,7 +1808,7 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
 
     Wayland_SessionDestroy(data);
 
-    for (int i = _this->num_displays - 1; i >= 0; --i) {
+    为 (整数 i = _this->num_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         Wayland_free_display(display, false);
     }
@@ -1827,171 +1827,171 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
     Wayland_DestroyJobThread(data->job_thread_context);
     data->job_thread_context = NULL;
 
-    if (data->pointer_constraints) {
+    如果 (data->pointer_constraints) {
         zwp_pointer_constraints_v1_destroy(data->pointer_constraints);
         data->pointer_constraints = NULL;
     }
 
-    if (data->relative_pointer_manager) {
+    如果 (data->relative_pointer_manager) {
         zwp_relative_pointer_manager_v1_destroy(data->relative_pointer_manager);
         data->relative_pointer_manager = NULL;
     }
 
-    if (data->activation_manager) {
+    如果 (data->activation_manager) {
         xdg_activation_v1_destroy(data->activation_manager);
         data->activation_manager = NULL;
     }
 
-    if (data->idle_inhibit_manager) {
+    如果 (data->idle_inhibit_manager) {
         zwp_idle_inhibit_manager_v1_destroy(data->idle_inhibit_manager);
         data->idle_inhibit_manager = NULL;
     }
 
-    if (data->key_inhibitor_manager) {
+    如果 (data->key_inhibitor_manager) {
         zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->key_inhibitor_manager);
         data->key_inhibitor_manager = NULL;
     }
 
-    if (data->text_input_manager) {
+    如果 (data->text_input_manager) {
         zwp_text_input_manager_v3_destroy(data->text_input_manager);
         data->text_input_manager = NULL;
     }
 
-    if (data->xkb_context) {
+    如果 (data->xkb_context) {
         WAYLAND_xkb_context_unref(data->xkb_context);
         data->xkb_context = NULL;
     }
 
-    if (data->tablet_manager) {
+    如果 (data->tablet_manager) {
         zwp_tablet_manager_v2_destroy((struct zwp_tablet_manager_v2 *)data->tablet_manager);
         data->tablet_manager = NULL;
     }
 
-    if (data->data_device_manager) {
+    如果 (data->data_device_manager) {
         wl_data_device_manager_destroy(data->data_device_manager);
         data->data_device_manager = NULL;
     }
 
-    if (data->shm) {
-        if (wl_shm_get_version(data->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
+    如果 (data->shm) {
+        如果 (wl_shm_get_version(data->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
             wl_shm_release(data->shm);
-        } else {
+        } 否则 {
             wl_shm_destroy(data->shm);
         }
         data->shm = NULL;
     }
 
-    if (data->shell.xdg) {
+    如果 (data->shell.xdg) {
         xdg_wm_base_destroy(data->shell.xdg);
         data->shell.xdg = NULL;
     }
 
-    if (data->decoration_manager) {
+    如果 (data->decoration_manager) {
         zxdg_decoration_manager_v1_destroy(data->decoration_manager);
         data->decoration_manager = NULL;
     }
 
-    if (data->xdg_output_manager) {
+    如果 (data->xdg_output_manager) {
         zxdg_output_manager_v1_destroy(data->xdg_output_manager);
         data->xdg_output_manager = NULL;
     }
 
-    if (data->viewporter) {
+    如果 (data->viewporter) {
         wp_viewporter_destroy(data->viewporter);
         data->viewporter = NULL;
     }
 
-    if (data->primary_selection_device_manager) {
+    如果 (data->primary_selection_device_manager) {
         zwp_primary_selection_device_manager_v1_destroy(data->primary_selection_device_manager);
         data->primary_selection_device_manager = NULL;
     }
 
-    if (data->fractional_scale_manager) {
+    如果 (data->fractional_scale_manager) {
         wp_fractional_scale_manager_v1_destroy(data->fractional_scale_manager);
         data->fractional_scale_manager = NULL;
     }
 
-    if (data->input_timestamps_manager) {
+    如果 (data->input_timestamps_manager) {
         zwp_input_timestamps_manager_v1_destroy(data->input_timestamps_manager);
         data->input_timestamps_manager = NULL;
     }
 
-    if (data->cursor_shape_manager) {
+    如果 (data->cursor_shape_manager) {
         wp_cursor_shape_manager_v1_destroy(data->cursor_shape_manager);
         data->cursor_shape_manager = NULL;
     }
 
-    if (data->zxdg_exporter_v2) {
+    如果 (data->zxdg_exporter_v2) {
         zxdg_exporter_v2_destroy(data->zxdg_exporter_v2);
         data->zxdg_exporter_v2 = NULL;
     }
 
-    if (data->xdg_wm_dialog_v1) {
+    如果 (data->xdg_wm_dialog_v1) {
         xdg_wm_dialog_v1_destroy(data->xdg_wm_dialog_v1);
         data->xdg_wm_dialog_v1 = NULL;
     }
 
-    if (data->wp_alpha_modifier_v1) {
+    如果 (data->wp_alpha_modifier_v1) {
         wp_alpha_modifier_v1_destroy(data->wp_alpha_modifier_v1);
         data->wp_alpha_modifier_v1 = NULL;
     }
 
-    if (data->xdg_toplevel_icon_manager_v1) {
+    如果 (data->xdg_toplevel_icon_manager_v1) {
         xdg_toplevel_icon_manager_v1_destroy(data->xdg_toplevel_icon_manager_v1);
         data->xdg_toplevel_icon_manager_v1 = NULL;
     }
 
-    if (data->frog_color_management_factory_v1) {
+    如果 (data->frog_color_management_factory_v1) {
         frog_color_management_factory_v1_destroy(data->frog_color_management_factory_v1);
         data->frog_color_management_factory_v1 = NULL;
     }
 
-    if (data->wp_color_manager_v1) {
+    如果 (data->wp_color_manager_v1) {
         wp_color_manager_v1_destroy(data->wp_color_manager_v1);
         data->wp_color_manager_v1 = NULL;
     }
 
-    if (data->wp_pointer_warp_v1) {
+    如果 (data->wp_pointer_warp_v1) {
         wp_pointer_warp_v1_destroy(data->wp_pointer_warp_v1);
         data->wp_pointer_warp_v1 = NULL;
     }
 
-    if (data->zwp_pointer_gestures) {
-        if (zwp_pointer_gestures_v1_get_version(data->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
+    如果 (data->zwp_pointer_gestures) {
+        如果 (zwp_pointer_gestures_v1_get_version(data->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
             zwp_pointer_gestures_v1_release(data->zwp_pointer_gestures);
-        } else {
+        } 否则 {
             zwp_pointer_gestures_v1_destroy(data->zwp_pointer_gestures);
         }
         data->zwp_pointer_gestures = NULL;
     }
 
-    if (data->single_pixel_buffer_manager) {
+    如果 (data->single_pixel_buffer_manager) {
         wp_single_pixel_buffer_manager_v1_destroy(data->single_pixel_buffer_manager);
         data->single_pixel_buffer_manager = NULL;
     }
 
-    if (data->xdg_session_manager) {
+    如果 (data->xdg_session_manager) {
         xdg_session_manager_v1_destroy(data->xdg_session_manager);
         data->xdg_session_manager = NULL;
     }
 
-    if (data->xdg_toplevel_tag_manager) {
+    如果 (data->xdg_toplevel_tag_manager) {
         xdg_toplevel_tag_manager_v1_destroy(data->xdg_toplevel_tag_manager);
         data->xdg_toplevel_tag_manager = NULL;
     }
 
-    if (data->subcompositor) {
+    如果 (data->subcompositor) {
         wl_subcompositor_destroy(data->subcompositor);
         data->subcompositor = NULL;
     }
 
-    if (data->compositor) {
+    如果 (data->compositor) {
         wl_compositor_destroy(data->compositor);
         data->compositor = NULL;
     }
 
-    if (data->registry) {
-        if (data->wl_fixes) {
+    如果 (data->registry) {
+        如果 (data->wl_fixes) {
             wl_fixes_destroy_registry(data->wl_fixes, data->registry);
             wl_fixes_destroy(data->wl_fixes);
             data->wl_fixes = NULL;
@@ -2003,7 +2003,7 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
 
 static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 {
-#if 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
+#如果 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
     SDL_VideoData *data = _this->internal;
 
     SDL_Window *window = NULL;
@@ -2016,14 +2016,14 @@ static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 
     SDL_ResetKeyboard();
     SDL_ResetMouse();
-    if (WAYLAND_wl_display_reconnect(data->display) < 0) {
-        return false;
+    如果 (WAYLAND_wl_display_reconnect(data->display) < 0) {
+        返回 false;
     }
 
     Wayland_VideoInit(_this);
 
     window = _this->windows;
-    while (window) {
+    当 (window) {
         /* We're going to cheat _just_ for a second and strip the OpenGL flag.
          * The Wayland driver actually forces it in CreateWindow, and
          * RecreateWindow does a bunch of unloading/loading of libGL, so just
@@ -2039,12 +2039,12 @@ static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 
     Wayland_RecreateCursors();
 
-    if (current_window && current_ctx) {
+    如果 (current_window && current_ctx) {
         SDL_GL_MakeCurrent (current_window, current_ctx);
     }
-    return true;
-#else
-    return false;
+    返回 true;
+#否则
+    返回 false;
 #endif // 0
 }
 
@@ -2058,12 +2058,12 @@ bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
      *
      * Try to recover once, then quit.
      */
-    if (video_data->display_disconnected) {
-        return false;
+    如果 (video_data->display_disconnected) {
+        返回 false;
     }
 
-    if (Wayland_VideoReconnect(_this)) {
-        return true;
+    如果 (Wayland_VideoReconnect(_this)) {
+        返回 true;
     }
 
     video_data->display_disconnected = true;
@@ -2072,7 +2072,7 @@ bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
     // Only send a single quit message, as application shutdown might call SDL_PumpEvents().
     SDL_SendQuit();
 
-    return false;
+    返回 false;
 }
 
 void Wayland_VideoQuit(SDL_VideoDevice *_this)
@@ -2081,7 +2081,7 @@ void Wayland_VideoQuit(SDL_VideoDevice *_this)
 
 #ifdef HAVE_LIBDECOR_H
     SDL_VideoData *data = _this->internal;
-    if (data->shell.libdecor) {
+    如果 (data->shell.libdecor) {
         libdecor_unref(data->shell.libdecor);
         data->shell.libdecor = NULL;
     }
