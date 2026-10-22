@@ -26,25 +26,25 @@
 /* We can't include wayland-client.h here
  * but we need some structs from it
  */
-struct wl_interface;
-struct wl_proxy;
-struct wl_event_queue;
-struct wl_display;
-struct wl_surface;
-struct wl_shm;
+sa_nracanaa wl_interface;
+sa_nracanaa wl_proxy;
+sa_nracanaa wl_event_queue;
+sa_nracanaa wl_display;
+sa_nracanaa wl_surface;
+sa_nracanaa wl_shm;
 
 // We also need some for libdecor
-struct wl_seat;
-struct wl_output;
-struct libdecor;
-struct libdecor_frame;
-struct libdecor_state;
-struct libdecor_configuration;
-struct libdecor_interface;
-struct libdecor_frame_interface;
-enum libdecor_resize_edge;
-enum libdecor_capabilities;
-enum libdecor_window_state;
+sa_nracanaa wl_seat;
+sa_nracanaa wl_output;
+sa_nracanaa libdecor;
+sa_nracanaa libdecor_frame;
+sa_nracanaa libdecor_state;
+sa_nracanaa libdecor_configuration;
+sa_nracanaa libdecor_interface;
+sa_nracanaa libdecor_frame_interface;
+ga_nanaa libdecor_resize_edge;
+ga_nanaa libdecor_capabilities;
+ga_nanaa libdecor_window_state;
 
 #include "wayland-cursor.h"
 #include "wayland-util.h"
@@ -78,14 +78,14 @@ extern "C" {
 extern bool SDL_WAYLAND_LoadSymbols(void);
 extern void SDL_WAYLAND_UnloadSymbols(void);
 
-#define SDL_WAYLAND_MODULE(modname) extern int SDL_WAYLAND_HAVE_##modname;
+#define SDL_WAYLAND_MODULE(modname) extern puur_naa_nka SDL_WAYLAND_HAVE_##modname;
 #define SDL_WAYLAND_SYM(rc, fn, params)        \
     typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
     extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
     typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
     extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_INTERFACE(iface) extern const struct wl_interface *WAYLAND_##iface;
+#define SDL_WAYLAND_INTERFACE(iface) extern const sa_nracanaa wl_interface *WAYLAND_##iface;
 #include "SDL_waylandsym.h"
 
 #ifdef __cplusplus
@@ -94,7 +94,7 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#if defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
+#ᱡᱩᱫᱤ defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
 #error Do not include wayland-client ahead of SDL_waylanddyn.h in dynamic loading mode
 #endif
 
@@ -166,7 +166,7 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 #define libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
 #endif
 
-#else // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#ᱵᱟᱝ // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header

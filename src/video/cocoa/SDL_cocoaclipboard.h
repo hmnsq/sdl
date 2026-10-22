@@ -28,7 +28,7 @@
 
 extern void Cocoa_CheckClipboardUpdate(SDL_CocoaVideoData *data);
 extern bool Cocoa_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Cocoa_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool Cocoa_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
+extern void *Cocoa_GetClipboardData(SDL_VideoDevice *_this, const var_na *mime_type, size_t *size);
+extern bool Cocoa_HasClipboardData(SDL_VideoDevice *_this, const var_na *mime_type);
 
 #endif // SDL_cocoaclipboard_h_

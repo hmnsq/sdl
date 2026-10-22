@@ -24,13 +24,13 @@ extern "C" {
 
 #ifdef __OBJC__
 @class CAMetalLayer;
-#else
+#ᱵᱟᱝ
 typedef void CAMetalLayer;
 #endif
 
 #define SDL_UNSAFE_UNRETAINED
-#if defined(__OBJC__) && defined(__has_feature)
-#if __has_feature(objc_arc)
+#ᱡᱩᱫᱤ defined(__OBJC__) && defined(__has_feature)
+#ᱡᱩᱫᱤ __has_feature(objc_arc)
 #undef SDL_UNSAFE_UNRETAINED
 #define SDL_UNSAFE_UNRETAINED __unsafe_unretained
 #endif
@@ -41,7 +41,7 @@ typedef void CAMetalLayer;
 
 typedef VkFlags VkMetalSurfaceCreateFlagsEXT;
 
-typedef struct VkMetalSurfaceCreateInfoEXT {
+typedef sa_nracanaa VkMetalSurfaceCreateInfoEXT {
     VkStructureType                 sType;
     const void*                     pNext;
     VkMetalSurfaceCreateFlagsEXT    flags;
@@ -69,42 +69,42 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
 #ifdef __OBJC__
 @protocol MTLDevice;
 typedef __unsafe_unretained id<MTLDevice> MTLDevice_id;
-#else
+#ᱵᱟᱝ
 typedef void* MTLDevice_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLCommandQueue;
 typedef __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
-#else
+#ᱵᱟᱝ
 typedef void* MTLCommandQueue_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLBuffer;
 typedef __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
-#else
+#ᱵᱟᱝ
 typedef void* MTLBuffer_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLTexture;
 typedef __unsafe_unretained id<MTLTexture> MTLTexture_id;
-#else
+#ᱵᱟᱝ
 typedef void* MTLTexture_id;
 #endif
-typedef struct __IOSurface* IOSurfaceRef;
+typedef sa_nracanaa __IOSurface* IOSurfaceRef;
 #ifdef __OBJC__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 @protocol MTLSharedEvent;
 typedef __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
 #pragma clang diagnostic pop
-#else
+#ᱵᱟᱝ
 typedef void* MTLSharedEvent_id;
 #endif
 
 #define VK_EXT_METAL_OBJECTS_SPEC_VERSION 2
 #define VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
 
-typedef enum VkExportMetalObjectTypeFlagBitsEXT {
+typedef ga_nanaa VkExportMetalObjectTypeFlagBitsEXT {
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_BIT_EXT = 0x00000001,
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_QUEUE_BIT_EXT = 0x00000002,
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_BUFFER_BIT_EXT = 0x00000004,
@@ -115,44 +115,44 @@ typedef enum VkExportMetalObjectTypeFlagBitsEXT {
 } VkExportMetalObjectTypeFlagBitsEXT;
 typedef VkFlags VkExportMetalObjectTypeFlagsEXT;
 
-typedef struct VkExportMetalObjectCreateInfoEXT {
+typedef sa_nracanaa VkExportMetalObjectCreateInfoEXT {
     VkStructureType                       sType;
     const void*                           pNext;
     VkExportMetalObjectTypeFlagBitsEXT    exportObjectType;
 } VkExportMetalObjectCreateInfoEXT;
 
-typedef struct VkExportMetalObjectsInfoEXT {
+typedef sa_nracanaa VkExportMetalObjectsInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
 } VkExportMetalObjectsInfoEXT;
 
-typedef struct VkExportMetalDeviceInfoEXT {
+typedef sa_nracanaa VkExportMetalDeviceInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
     MTLDevice_id       mtlDevice;
 } VkExportMetalDeviceInfoEXT;
 
-typedef struct VkExportMetalCommandQueueInfoEXT {
+typedef sa_nracanaa VkExportMetalCommandQueueInfoEXT {
     VkStructureType       sType;
     const void*           pNext;
     VkQueue               queue;
     MTLCommandQueue_id    mtlCommandQueue;
 } VkExportMetalCommandQueueInfoEXT;
 
-typedef struct VkExportMetalBufferInfoEXT {
+typedef sa_nracanaa VkExportMetalBufferInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
     VkDeviceMemory     memory;
     MTLBuffer_id       mtlBuffer;
 } VkExportMetalBufferInfoEXT;
 
-typedef struct VkImportMetalBufferInfoEXT {
+typedef sa_nracanaa VkImportMetalBufferInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
     MTLBuffer_id       mtlBuffer;
 } VkImportMetalBufferInfoEXT;
 
-typedef struct VkExportMetalTextureInfoEXT {
+typedef sa_nracanaa VkExportMetalTextureInfoEXT {
     VkStructureType          sType;
     const void*              pNext;
     VkImage                  image;
@@ -162,27 +162,27 @@ typedef struct VkExportMetalTextureInfoEXT {
     MTLTexture_id            mtlTexture;
 } VkExportMetalTextureInfoEXT;
 
-typedef struct VkImportMetalTextureInfoEXT {
+typedef sa_nracanaa VkImportMetalTextureInfoEXT {
     VkStructureType          sType;
     const void*              pNext;
     VkImageAspectFlagBits    plane;
     MTLTexture_id            mtlTexture;
 } VkImportMetalTextureInfoEXT;
 
-typedef struct VkExportMetalIOSurfaceInfoEXT {
+typedef sa_nracanaa VkExportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
     VkImage            image;
     IOSurfaceRef       ioSurface;
 } VkExportMetalIOSurfaceInfoEXT;
 
-typedef struct VkImportMetalIOSurfaceInfoEXT {
+typedef sa_nracanaa VkImportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
     const void*        pNext;
     IOSurfaceRef       ioSurface;
 } VkImportMetalIOSurfaceInfoEXT;
 
-typedef struct VkExportMetalSharedEventInfoEXT {
+typedef sa_nracanaa VkExportMetalSharedEventInfoEXT {
     VkStructureType      sType;
     const void*          pNext;
     VkSemaphore          semaphore;
@@ -190,7 +190,7 @@ typedef struct VkExportMetalSharedEventInfoEXT {
     MTLSharedEvent_id    mtlSharedEvent;
 } VkExportMetalSharedEventInfoEXT;
 
-typedef struct VkImportMetalSharedEventInfoEXT {
+typedef sa_nracanaa VkImportMetalSharedEventInfoEXT {
     VkStructureType      sType;
     const void*          pNext;
     MTLSharedEvent_id    mtlSharedEvent;
@@ -215,20 +215,20 @@ VKAPI_ATTR void VKAPI_CALL vkExportMetalObjectsEXT(
 #define VK_EXT_EXTERNAL_MEMORY_METAL_SPEC_VERSION 1
 #define VK_EXT_EXTERNAL_MEMORY_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
 
-typedef struct VkImportMemoryMetalHandleInfoEXT {
+typedef sa_nracanaa VkImportMemoryMetalHandleInfoEXT {
     VkStructureType                       sType;
     const void*                           pNext;
     VkExternalMemoryHandleTypeFlagBits    handleType;
     void*                                 handle;
 } VkImportMemoryMetalHandleInfoEXT;
 
-typedef struct VkMemoryMetalHandlePropertiesEXT {
+typedef sa_nracanaa VkMemoryMetalHandlePropertiesEXT {
     VkStructureType    sType;
     void*              pNext;
     uint32_t           memoryTypeBits;
 } VkMemoryMetalHandlePropertiesEXT;
 
-typedef struct VkMemoryGetMetalHandleInfoEXT {
+typedef sa_nracanaa VkMemoryGetMetalHandleInfoEXT {
     VkStructureType                       sType;
     const void*                           pNext;
     VkDeviceMemory                        memory;

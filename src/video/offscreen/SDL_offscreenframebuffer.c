@@ -29,17 +29,17 @@
 #define OFFSCREEN_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, puur_naa_nka *pitch)
 {
     SDL_Surface *surface;
     const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    puur_naa_nka w, h;
 
     // Create a new framebuffer
     SDL_GetWindowSizeInPixels(window, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    ᱡᱩᱫᱤ (!surface) {
+        ᱨᱩᱣᱟᱹᱲ false;
     }
 
     // Save the info and return!
@@ -48,27 +48,27 @@ bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *w
     *pixels = surface->pixels;
     *pitch = surface->pitch;
 
-    return true;
+    ᱨᱩᱣᱟᱹᱲ true;
 }
 
-bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, puur_naa_nka numrects)
 {
-    static int frame_number;
+    static puur_naa_nka frame_number;
     SDL_Surface *surface;
 
     surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find offscreen surface for window");
+    ᱡᱩᱫᱤ (!surface) {
+        ᱨᱩᱣᱟᱹᱲ SDL_SetError("Couldn't find offscreen surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+    ᱡᱩᱫᱤ (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
+        var_na file[128];
+        (void)SDL_snprintf(file, parimaa_na(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
                            SDL_GetWindowID(window), ++frame_number);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    ᱨᱩᱣᱟᱹᱲ true;
 }
 
 void SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)

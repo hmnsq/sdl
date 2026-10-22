@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
+#ᱡᱩᱫᱤ defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
 #include <stdlib.h>
 #include <string.h>
 #include <psp2/kernel/modulemgr.h>
@@ -33,25 +33,25 @@
 #define MAX_PATH 256 // vita limits are somehow wrong
 
 // Defaults
-static int FB_WIDTH = 960;
-static int FB_HEIGHT = 544;
+static puur_naa_nka FB_WIDTH = 960;
+static puur_naa_nka FB_HEIGHT = 544;
 
-static void getFBSize(int *width, int *height)
+static void getFBSize(puur_naa_nka *width, puur_naa_nka *height)
 {
     *width = FB_WIDTH;
     *height = FB_HEIGHT;
 }
 
-bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
     PVRSRV_PSP2_APPHINT hint;
-    char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    var_na *default_path = "app0:module";
+    var_na target_path[MAX_PATH];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    ᱡᱩᱫᱤ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        const var_na *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
 
-        if (override && *override) {
+        ᱡᱩᱫᱤ (override && *override) {
             default_path = override;
         }
 
@@ -76,16 +76,16 @@ bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ᱨᱩᱣᱟᱹᱲ SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    char gl_version[3];
+    var_na gl_version[3];
     SDL_GLContext context = NULL;
-    int temp_major = _this->gl_config.major_version;
-    int temp_minor = _this->gl_config.minor_version;
-    int temp_profile = _this->gl_config.profile_mask;
+    puur_naa_nka temp_major = _this->gl_config.major_version;
+    puur_naa_nka temp_minor = _this->gl_config.minor_version;
+    puur_naa_nka temp_profile = _this->gl_config.profile_mask;
 
     // Set version to 2.0 and PROFILE to ES
     _this->gl_config.major_version = 2;
@@ -94,10 +94,10 @@ SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 
     context = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
 
-    if (context != NULL) {
+    ᱡᱩᱫᱤ (context != NULL) {
         FB_WIDTH = window->w;
         FB_HEIGHT = window->h;
-        set_getprocaddress((void *(*)(const char *))eglGetProcAddress);
+        set_getprocaddress((void *(*)(const var_na *))eglGetProcAddress);
         set_getmainfbsize(getFBSize);
         SDL_snprintf(gl_version, 3, "%d%d", temp_major, temp_minor);
         gl4es_setenv("LIBGL_NOTEXRECT", "1", 1); // Currently broken in driver
@@ -110,12 +110,12 @@ SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     _this->gl_config.minor_version = temp_minor;
     _this->gl_config.profile_mask = temp_profile;
 
-    return context;
+    ᱨᱩᱣᱟᱹᱲ context;
 }
 
-SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc)
 {
-    return gl4es_GetProcAddress(proc);
+    ᱨᱩᱣᱟᱹᱲ gl4es_GetProcAddress(proc);
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

@@ -19,7 +19,7 @@
 */
 #define LOAD_SI128 _mm_loadu_si128
 #define SAVE_SI128 _mm_storeu_si128
-#else
+#ᱵᱟᱝ
 #define LOAD_SI128 _mm_loadu_si128
 #define SAVE_SI128 _mm_storeu_si128
 #endif
@@ -121,7 +121,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 	RGB8 = _mm_unpackhi_epi16( hi_ab, hi_gr ); \
 }
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#ᱡᱩᱫᱤ RGB_FORMAT == RGB_FORMAT_RGB565
 
 #define PACK_PIXEL \
 	__m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8; \
@@ -145,7 +145,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 #define PACK_PIXEL \
 	__m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8; \
 	__m128i rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16; \
-	__m128i a = _mm_set1_epi8((unsigned char)0xFF); \
+	__m128i a = _mm_set1_epi8((unsigned var_na)0xFF); \
 	\
 	PACK_RGBA_32(r_8_11, r_8_12, g_8_11, g_8_12, b_8_11, b_8_12, a, a, rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8) \
 	\
@@ -156,7 +156,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 #define PACK_PIXEL \
 	__m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8; \
 	__m128i rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16; \
-	__m128i a = _mm_set1_epi8((unsigned char)0xFF); \
+	__m128i a = _mm_set1_epi8((unsigned var_na)0xFF); \
 	\
 	PACK_RGBA_32(b_8_11, b_8_12, g_8_11, g_8_12, r_8_11, r_8_12, a, a, rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8) \
 	\
@@ -167,7 +167,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 #define PACK_PIXEL \
 	__m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8; \
 	__m128i rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16; \
-	__m128i a = _mm_set1_epi8((unsigned char)0xFF); \
+	__m128i a = _mm_set1_epi8((unsigned var_na)0xFF); \
 	\
 	PACK_RGBA_32(a, a, r_8_11, r_8_12, g_8_11, g_8_12, b_8_11, b_8_12, rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8) \
 	\
@@ -178,17 +178,17 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 #define PACK_PIXEL \
 	__m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8; \
 	__m128i rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16; \
-	__m128i a = _mm_set1_epi8((unsigned char)0xFF); \
+	__m128i a = _mm_set1_epi8((unsigned var_na)0xFF); \
 	\
 	PACK_RGBA_32(a, a, b_8_11, b_8_12, g_8_11, g_8_12, r_8_11, r_8_12, rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8) \
 	\
 	PACK_RGBA_32(a, a, b_8_21, b_8_22, g_8_21, g_8_22, r_8_21, r_8_22, rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#else
+#ᱵᱟᱝ
 #error PACK_PIXEL unimplemented
 #endif
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#ᱡᱩᱫᱤ RGB_FORMAT == RGB_FORMAT_RGB565
 
 #define SAVE_LINE1 \
 	SAVE_SI128((__m128i*)(rgb_ptr1), rgb_1); \
@@ -243,11 +243,11 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 	SAVE_SI128((__m128i*)(rgb_ptr2+96), rgb_15); \
 	SAVE_SI128((__m128i*)(rgb_ptr2+112), rgb_16); \
 
-#else
+#ᱵᱟᱝ
 #error SAVE_LINE unimplemented
 #endif
 
-#if YUV_FORMAT == YUV_FORMAT_420
+#ᱡᱩᱫᱤ YUV_FORMAT == YUV_FORMAT_420
 
 #define READ_Y(y_ptr) \
 	y = LOAD_SI128((const __m128i*)(y_ptr)); \
@@ -297,7 +297,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 	v = _mm_packus_epi16(v1, v2); \
 }
 
-#else
+#ᱵᱟᱝ
 #error READ_UV unimplemented
 #endif
 
@@ -388,53 +388,53 @@ void SDL_TARGETING("sse2") SSE_FUNCTION_NAME(uint32_t width, uint32_t height,
 	YCbCrType yuv_type)
 {
 	const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-	const int y_pixel_stride = 1;
-	const int uv_pixel_stride = 1;
-	const int uv_x_sample_interval = 2;
-	const int uv_y_sample_interval = 2;
+#ᱡᱩᱫᱤ YUV_FORMAT == YUV_FORMAT_420
+	const puur_naa_nka y_pixel_stride = 1;
+	const puur_naa_nka uv_pixel_stride = 1;
+	const puur_naa_nka uv_x_sample_interval = 2;
+	const puur_naa_nka uv_y_sample_interval = 2;
 #elif YUV_FORMAT == YUV_FORMAT_422
-	const int y_pixel_stride = 2;
-	const int uv_pixel_stride = 4;
-	const int uv_x_sample_interval = 2;
-	const int uv_y_sample_interval = 1;
+	const puur_naa_nka y_pixel_stride = 2;
+	const puur_naa_nka uv_pixel_stride = 4;
+	const puur_naa_nka uv_x_sample_interval = 2;
+	const puur_naa_nka uv_y_sample_interval = 1;
 #elif YUV_FORMAT == YUV_FORMAT_NV12
-	const int y_pixel_stride = 1;
-	const int uv_pixel_stride = 2;
-	const int uv_x_sample_interval = 2;
-	const int uv_y_sample_interval = 2;
+	const puur_naa_nka y_pixel_stride = 1;
+	const puur_naa_nka uv_pixel_stride = 2;
+	const puur_naa_nka uv_x_sample_interval = 2;
+	const puur_naa_nka uv_y_sample_interval = 2;
 #endif
-#if RGB_FORMAT == RGB_FORMAT_RGB565
-	const int rgb_pixel_stride = 2;
+#ᱡᱩᱫᱤ RGB_FORMAT == RGB_FORMAT_RGB565
+	const puur_naa_nka rgb_pixel_stride = 2;
 #elif RGB_FORMAT == RGB_FORMAT_RGB24
-	const int rgb_pixel_stride = 3;
+	const puur_naa_nka rgb_pixel_stride = 3;
 #elif RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT == RGB_FORMAT_BGRA || \
       RGB_FORMAT == RGB_FORMAT_ARGB || RGB_FORMAT == RGB_FORMAT_ABGR
-	const int rgb_pixel_stride = 4;
-#else
+	const puur_naa_nka rgb_pixel_stride = 4;
+#ᱵᱟᱝ
 #error Unknown RGB pixel size
 #endif
 
-#if YUV_FORMAT == YUV_FORMAT_NV12
+#ᱡᱩᱫᱤ YUV_FORMAT == YUV_FORMAT_NV12
 	/* For NV12 formats (where U/V are interleaved)
 	 * SSE READ_UV does an invalid read access at the very last pixel.
 	 * As a workaround. Make sure not to decode the last column using assembly but with STD fallback path.
 	 * see https://github.com/libsdl-org/SDL/issues/4841
 	 */
-	const int fix_read_nv12 = ((width & 31) == 0);
-#else
-	const int fix_read_nv12 = 0;
+	const puur_naa_nka fix_read_nv12 = ((width & 31) == 0);
+#ᱵᱟᱝ
+	const puur_naa_nka fix_read_nv12 = 0;
 #endif
 
-#if YUV_FORMAT == YUV_FORMAT_422
+#ᱡᱩᱫᱤ YUV_FORMAT == YUV_FORMAT_422
 	/* Avoid invalid read on last line */
-	const int fix_read_422 = 1;
-#else
-	const int fix_read_422 = 0;
+	const puur_naa_nka fix_read_422 = 1;
+#ᱵᱟᱝ
+	const puur_naa_nka fix_read_422 = 0;
 #endif
 
 
-	if (width >= 32) {
+	ᱡᱩᱫᱤ (width >= 32) {
 		uint32_t xpos, ypos;
 		for(ypos=0; ypos<(height-(uv_y_sample_interval-1)) - fix_read_422; ypos+=uv_y_sample_interval)
 		{
@@ -452,7 +452,7 @@ void SDL_TARGETING("sse2") SSE_FUNCTION_NAME(uint32_t width, uint32_t height,
 				{
 					PACK_PIXEL
 					SAVE_LINE1
-					if (uv_y_sample_interval > 1)
+					ᱡᱩᱫᱤ (uv_y_sample_interval > 1)
 					{
 						SAVE_LINE2
 					}
@@ -467,7 +467,7 @@ void SDL_TARGETING("sse2") SSE_FUNCTION_NAME(uint32_t width, uint32_t height,
 			}
 		}
 
-		if (fix_read_422) {
+		ᱡᱩᱫᱤ (fix_read_422) {
 			const uint8_t *y_ptr=Y+ypos*Y_stride,
 				*u_ptr=U+(ypos/uv_y_sample_interval)*UV_stride,
 				*v_ptr=V+(ypos/uv_y_sample_interval)*UV_stride;
@@ -477,7 +477,7 @@ void SDL_TARGETING("sse2") SSE_FUNCTION_NAME(uint32_t width, uint32_t height,
 		}
 
 		/* Catch the last line, if needed */
-		if (uv_y_sample_interval == 2 && ypos == (height-1))
+		ᱡᱩᱫᱤ (uv_y_sample_interval == 2 && ypos == (height-1))
 		{
 			const uint8_t *y_ptr=Y+ypos*Y_stride,
 				*u_ptr=U+(ypos/uv_y_sample_interval)*UV_stride,
@@ -492,10 +492,10 @@ void SDL_TARGETING("sse2") SSE_FUNCTION_NAME(uint32_t width, uint32_t height,
 	/* Catch the right column, if needed */
 	{
 		uint32_t converted = (width & ~31);
-		if (fix_read_nv12) {
+		ᱡᱩᱫᱤ (fix_read_nv12) {
 			converted -= 32;
 		}
-		if (converted != width)
+		ᱡᱩᱫᱤ (converted != width)
 		{
 			const uint8_t *y_ptr=Y+converted*y_pixel_stride,
 				*u_ptr=U+converted*uv_pixel_stride/uv_x_sample_interval,

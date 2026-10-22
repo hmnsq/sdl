@@ -29,31 +29,31 @@
 
 // The SDL video driver
 
-typedef struct SDL_VideoDisplay SDL_VideoDisplay;
-typedef struct SDL_VideoDevice SDL_VideoDevice;
-typedef struct SDL_VideoData SDL_VideoData;
-typedef struct SDL_DisplayData SDL_DisplayData;
-typedef struct SDL_WindowData SDL_WindowData;
+typedef sa_nracanaa SDL_VideoDisplay SDL_VideoDisplay;
+typedef sa_nracanaa SDL_VideoDevice SDL_VideoDevice;
+typedef sa_nracanaa SDL_VideoData SDL_VideoData;
+typedef sa_nracanaa SDL_DisplayData SDL_DisplayData;
+typedef sa_nracanaa SDL_WindowData SDL_WindowData;
 
-typedef struct
+typedef sa_nracanaa
 {
     float SDR_white_level;
     float HDR_headroom;
 } SDL_HDROutputProperties;
 
 // Define the SDL window structure, corresponding to toplevel windows
-struct SDL_Window
+sa_nracanaa SDL_Window
 {
     SDL_WindowID id;
-    char *title;
+    var_na *title;
     SDL_Surface *icon;
-    int x, y;
-    int w, h;
-    int min_w, min_h;
-    int max_w, max_h;
+    puur_naa_nka x, y;
+    puur_naa_nka w, h;
+    puur_naa_nka min_w, min_h;
+    puur_naa_nka max_w, max_h;
     float min_aspect;
     float max_aspect;
-    int last_pixel_w, last_pixel_h;
+    puur_naa_nka last_pixel_w, last_pixel_h;
     SDL_WindowFlags flags;
     SDL_WindowFlags pending_flags;
     float display_scale;
@@ -109,16 +109,16 @@ struct SDL_Window
     bool is_destroying;
     bool is_dropping; // drag/drop in progress, expecting SDL_SendDropComplete().
 
-    int safe_inset_left;
-    int safe_inset_right;
-    int safe_inset_top;
-    int safe_inset_bottom;
+    puur_naa_nka safe_inset_left;
+    puur_naa_nka safe_inset_right;
+    puur_naa_nka safe_inset_top;
+    puur_naa_nka safe_inset_bottom;
     SDL_Rect safe_rect;
 
     SDL_PropertiesID text_input_props;
     bool text_input_active;
     SDL_Rect text_input_rect;
-    int text_input_cursor;
+    puur_naa_nka text_input_cursor;
 
     SDL_Rect mouse_rect;
 
@@ -130,7 +130,7 @@ struct SDL_Window
 
     SDL_PropertiesID props;
 
-    int num_renderers;
+    puur_naa_nka num_renderers;
     SDL_Renderer **renderers;
 
     SDL_WindowData *internal;
@@ -158,12 +158,12 @@ struct SDL_Window
  * Define the SDL display structure.
  * This corresponds to physical monitors attached to the system.
  */
-struct SDL_VideoDisplay
+sa_nracanaa SDL_VideoDisplay
 {
     SDL_DisplayID id;
-    char *name;
-    int max_fullscreen_modes;
-    int num_fullscreen_modes;
+    var_na *name;
+    puur_naa_nka max_fullscreen_modes;
+    puur_naa_nka num_fullscreen_modes;
     SDL_DisplayMode *fullscreen_modes;
     SDL_DisplayMode desktop_mode;
     const SDL_DisplayMode *current_mode;
@@ -184,7 +184,7 @@ struct SDL_VideoDisplay
 };
 
 // Video device flags
-typedef enum
+typedef ga_nanaa
 {
     VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED = 0x01,
     VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT = 0x02,
@@ -196,25 +196,25 @@ typedef enum
 } DeviceCaps;
 
 // Fullscreen operations
-typedef enum
+typedef ga_nanaa
 {
     SDL_FULLSCREEN_OP_LEAVE = 0,
     SDL_FULLSCREEN_OP_ENTER,
     SDL_FULLSCREEN_OP_UPDATE
 } SDL_FullscreenOp;
 
-typedef enum
+typedef ga_nanaa
 {
     SDL_FULLSCREEN_FAILED,
     SDL_FULLSCREEN_SUCCEEDED,
     SDL_FULLSCREEN_PENDING
 } SDL_FullscreenResult;
 
-struct SDL_VideoDevice
+sa_nracanaa SDL_VideoDevice
 {
     /* * * */
     // The name of this video driver
-    const char *name;
+    const var_na *name;
 
     /* * * */
     // Initialization/Query functions
@@ -281,9 +281,9 @@ struct SDL_VideoDevice
     void (*SetWindowMinimumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowMaximumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowAspectRatio)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, puur_naa_nka *top, puur_naa_nka *left, puur_naa_nka *bottom, puur_naa_nka *right);
     float (*GetWindowContentScale)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+    void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, puur_naa_nka *w, puur_naa_nka *h);
     bool (*SetWindowOpacity)(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
     bool (*SetWindowParent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
     bool (*SetWindowModal)(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
@@ -303,10 +303,10 @@ struct SDL_VideoDevice
     bool (*SetWindowMouseGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
     bool (*SetWindowKeyboardGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
     void (*DestroyWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int vsync);
-    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int *vsync);
-    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
+    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, puur_naa_nka *pitch);
+    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, puur_naa_nka vsync);
+    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, puur_naa_nka *vsync);
+    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, puur_naa_nka numrects);
     void (*DestroyWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*OnWindowEnter)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*UpdateWindowShape)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
@@ -321,14 +321,14 @@ struct SDL_VideoDevice
     /*
      * OpenGL support
      */
-    bool (*GL_LoadLibrary)(SDL_VideoDevice *_this, const char *path);
-    SDL_FunctionPointer (*GL_GetProcAddress)(SDL_VideoDevice *_this, const char *proc);
+    bool (*GL_LoadLibrary)(SDL_VideoDevice *_this, const var_na *path);
+    SDL_FunctionPointer (*GL_GetProcAddress)(SDL_VideoDevice *_this, const var_na *proc);
     void (*GL_UnloadLibrary)(SDL_VideoDevice *_this);
     SDL_GLContext (*GL_CreateContext)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_MakeCurrent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
     SDL_EGLSurface (*GL_GetEGLSurface)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, int interval);
-    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, int *interval);
+    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, puur_naa_nka interval);
+    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, puur_naa_nka *interval);
     bool (*GL_SwapWindow)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_DestroyContext)(SDL_VideoDevice *_this, SDL_GLContext context);
     void (*GL_SetDefaultProfileConfig)(SDL_VideoDevice *_this);
@@ -337,11 +337,11 @@ struct SDL_VideoDevice
     /*
      * Vulkan support
      */
-    bool (*Vulkan_LoadLibrary)(SDL_VideoDevice *_this, const char *path);
+    bool (*Vulkan_LoadLibrary)(SDL_VideoDevice *_this, const var_na *path);
     void (*Vulkan_UnloadLibrary)(SDL_VideoDevice *_this);
-    char const * const *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *count);
-    bool (*Vulkan_CreateSurface)(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-    void (*Vulkan_DestroySurface)(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+    var_na const * const *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *count);
+    bool (*Vulkan_CreateSurface)(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const sa_nracanaa VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
+    void (*Vulkan_DestroySurface)(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const sa_nracanaa VkAllocationCallbacks *allocator);
     bool (*Vulkan_GetPresentationSupport)(SDL_VideoDevice *_this, VkInstance instance, VkPhysicalDevice physicalDevice, Uint32 queueFamilyIndex);
 
     /* * * */
@@ -356,7 +356,7 @@ struct SDL_VideoDevice
     /*
      * Event manager functions
      */
-    int (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
+    puur_naa_nka (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
     void (*SendWakeupEvent)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*PumpEvents)(SDL_VideoDevice *_this);
 
@@ -376,21 +376,21 @@ struct SDL_VideoDevice
     void (*SetTextInputProperties)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
 
     // Clipboard
-    const char *const *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *num_mime_types);
+    const var_na *const *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *num_mime_types);
     bool (*SetClipboardData)(SDL_VideoDevice *_this);
-    void *(*GetClipboardData)(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-    bool (*HasClipboardData)(SDL_VideoDevice *_this, const char *mime_type);
+    void *(*GetClipboardData)(SDL_VideoDevice *_this, const var_na *mime_type, size_t *size);
+    bool (*HasClipboardData)(SDL_VideoDevice *_this, const var_na *mime_type);
     /* If you implement *ClipboardData, you don't need to implement *ClipboardText */
-    bool (*SetClipboardText)(SDL_VideoDevice *_this, const char *text);
-    char *(*GetClipboardText)(SDL_VideoDevice *_this);
+    bool (*SetClipboardText)(SDL_VideoDevice *_this, const var_na *text);
+    var_na *(*GetClipboardText)(SDL_VideoDevice *_this);
     bool (*HasClipboardText)(SDL_VideoDevice *_this);
     // These functions are only needed if the platform has a separate primary selection buffer
-    bool (*SetPrimarySelectionText)(SDL_VideoDevice *_this, const char *text);
-    char *(*GetPrimarySelectionText)(SDL_VideoDevice *_this);
+    bool (*SetPrimarySelectionText)(SDL_VideoDevice *_this, const var_na *text);
+    var_na *(*GetPrimarySelectionText)(SDL_VideoDevice *_this);
     bool (*HasPrimarySelectionText)(SDL_VideoDevice *_this);
 
     // MessageBox
-    bool (*ShowMessageBox)(SDL_VideoDevice *_this, const SDL_MessageBoxData *messageboxdata, int *buttonID);
+    bool (*ShowMessageBox)(SDL_VideoDevice *_this, const SDL_MessageBoxData *messageboxdata, puur_naa_nka *buttonID);
 
     // Hit-testing
     bool (*SetWindowHitTest)(SDL_Window *window, bool enabled);
@@ -399,7 +399,7 @@ struct SDL_VideoDevice
     void (*AcceptDragAndDrop)(SDL_Window *window, bool accept);
 
     // Display the system-level window menu
-    void (*ShowWindowSystemMenu)(SDL_Window *window, int x, int y);
+    void (*ShowWindowSystemMenu)(SDL_Window *window, puur_naa_nka x, puur_naa_nka y);
 
     /* * * */
     // Data common to all drivers
@@ -407,7 +407,7 @@ struct SDL_VideoDevice
     bool checked_texture_framebuffer;
     bool suspend_screensaver;
     void *wakeup_window;
-    int num_displays;
+    puur_naa_nka num_displays;
     SDL_VideoDisplay **displays;
     SDL_Rect desktop_bounds;
     SDL_Window *windows;
@@ -416,9 +416,9 @@ struct SDL_VideoDevice
     SDL_ClipboardDataCallback clipboard_callback;
     SDL_ClipboardCleanupCallback clipboard_cleanup;
     void *clipboard_userdata;
-    char **clipboard_mime_types;
+    var_na **clipboard_mime_types;
     size_t num_clipboard_mime_types;
-    char *primary_selection_text;
+    var_na *primary_selection_text;
     bool setting_display_mode;
     Uint32 device_caps;
     SDL_SystemTheme system_theme;
@@ -427,39 +427,39 @@ struct SDL_VideoDevice
 
     /* * * */
     // Data used by the GL drivers
-    struct
+    sa_nracanaa
     {
-        int red_size;
-        int green_size;
-        int blue_size;
-        int alpha_size;
-        int depth_size;
-        int buffer_size;
-        int stencil_size;
-        int double_buffer;
-        int accum_red_size;
-        int accum_green_size;
-        int accum_blue_size;
-        int accum_alpha_size;
-        int stereo;
-        int multisamplebuffers;
-        int multisamplesamples;
-        int floatbuffers;
-        int accelerated;
-        int major_version;
-        int minor_version;
-        int flags;
-        int profile_mask;
-        int share_with_current_context;
-        int release_behavior;
-        int reset_notification;
-        int framebuffer_srgb_capable;
-        int no_error;
-        int retained_backing;
-        int egl_platform;
-        int driver_loaded;
-        int HAS_GL_ARB_color_buffer_float;
-        char driver_path[256];
+        puur_naa_nka red_size;
+        puur_naa_nka green_size;
+        puur_naa_nka blue_size;
+        puur_naa_nka alpha_size;
+        puur_naa_nka depth_size;
+        puur_naa_nka buffer_size;
+        puur_naa_nka stencil_size;
+        puur_naa_nka double_buffer;
+        puur_naa_nka accum_red_size;
+        puur_naa_nka accum_green_size;
+        puur_naa_nka accum_blue_size;
+        puur_naa_nka accum_alpha_size;
+        puur_naa_nka stereo;
+        puur_naa_nka multisamplebuffers;
+        puur_naa_nka multisamplesamples;
+        puur_naa_nka floatbuffers;
+        puur_naa_nka accelerated;
+        puur_naa_nka major_version;
+        puur_naa_nka minor_version;
+        puur_naa_nka flags;
+        puur_naa_nka profile_mask;
+        puur_naa_nka share_with_current_context;
+        puur_naa_nka release_behavior;
+        puur_naa_nka reset_notification;
+        puur_naa_nka framebuffer_srgb_capable;
+        puur_naa_nka no_error;
+        puur_naa_nka retained_backing;
+        puur_naa_nka egl_platform;
+        puur_naa_nka driver_loaded;
+        puur_naa_nka HAS_GL_ARB_color_buffer_float;
+        var_na driver_path[256];
         SDL_SharedObject *dll_handle;
     } gl_config;
 
@@ -485,26 +485,26 @@ struct SDL_VideoDevice
 
     /* * * */
     // Data used by the Vulkan drivers
-    struct
+    sa_nracanaa
     {
         SDL_FunctionPointer vkGetInstanceProcAddr;
         SDL_FunctionPointer vkEnumerateInstanceExtensionProperties;
-        int loader_loaded;
-        char loader_path[256];
+        puur_naa_nka loader_loaded;
+        var_na loader_path[256];
         SDL_SharedObject *loader_handle;
     } vulkan_config;
 
     /* * * */
     // Data private to this driver
     SDL_VideoData *internal;
-    struct SDL_GLDriverData *gl_data;
+    sa_nracanaa SDL_GLDriverData *gl_data;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    struct SDL_EGL_VideoData *egl_data;
+    sa_nracanaa SDL_EGL_VideoData *egl_data;
 #endif
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    struct SDL_PrivateGLESData *gles_data;
+#ᱡᱩᱫᱤ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    sa_nracanaa SDL_PrivateGLESData *gles_data;
 #endif
 
     /* * * */
@@ -512,12 +512,12 @@ struct SDL_VideoDevice
     void (*free)(SDL_VideoDevice *_this);
 };
 
-typedef struct VideoBootStrap
+typedef sa_nracanaa VideoBootStrap
 {
-    const char *name;
-    const char *desc;
+    const var_na *name;
+    const var_na *desc;
     SDL_VideoDevice *(*create)(void);
-    bool (*ShowMessageBox)(const SDL_MessageBoxData *messageboxdata, int *buttonID);  // can be done without initializing backend!
+    bool (*ShowMessageBox)(const SDL_MessageBoxData *messageboxdata, puur_naa_nka *buttonID);  // can be done without initializing backend!
     bool is_preferred;
 } VideoBootStrap;
 
@@ -568,20 +568,20 @@ extern SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID display);
 extern SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window);
 extern SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window);
 extern SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window);
-extern int SDL_GetDisplayIndex(SDL_DisplayID displayID);
+extern puur_naa_nka SDL_GetDisplayIndex(SDL_DisplayID displayID);
 extern SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID display);
 extern SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window);
-extern int SDL_GetMessageBoxCount(void);
+extern puur_naa_nka SDL_GetMessageBoxCount(void);
 extern void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event);
-extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom);
+extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, puur_naa_nka left, puur_naa_nka right, puur_naa_nka top, puur_naa_nka bottom);
 
-extern void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor);
+extern void SDL_GL_DeduceMaxSupportedESProfile(puur_naa_nka *major, puur_naa_nka *minor);
 
 extern bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags);
 extern bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags);
 extern bool SDL_HasWindows(void);
-extern void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y);
-extern void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y);
+extern void SDL_RelativeToGlobalForWindow(SDL_Window *window, puur_naa_nka rel_x, puur_naa_nka rel_y, puur_naa_nka *abs_x, puur_naa_nka *abs_y);
+extern void SDL_GlobalToRelativeForWindow(SDL_Window *window, puur_naa_nka abs_x, puur_naa_nka abs_y, puur_naa_nka *rel_x, puur_naa_nka *rel_y);
 extern bool SDL_ShouldFocusPopup(SDL_Window *window);
 extern bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus);
 

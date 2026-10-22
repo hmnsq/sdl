@@ -34,11 +34,11 @@
 #include "SDL_waylandvideo.h"
 #include "single-pixel-buffer-v1-client-protocol.h"
 
-static bool SetTempFileSize(int fd, off_t size)
+static bool SetTempFileSize(puur_naa_nka fd, off_t size)
 {
 #ifdef HAVE_POSIX_FALLOCATE
     sigset_t set, old_set;
-    int ret;
+    puur_naa_nka ret;
 
     /* SIGALRM can potentially block a large posix_fallocate() operation
      * from succeeding, so block it.
@@ -49,165 +49,165 @@ static bool SetTempFileSize(int fd, off_t size)
 
     do {
         ret = posix_fallocate(fd, 0, size);
-    } while (ret == EINTR);
+    } ᱡᱚᱠᱷᱚᱱ (ret == EINTR);
 
     sigprocmask(SIG_SETMASK, &old_set, NULL);
 
-    if (ret == 0) {
-        return true;
-    } else if (ret != EINVAL && errno != EOPNOTSUPP) {
-        return false;
+    ᱡᱩᱫᱤ (ret == 0) {
+        ᱨᱩᱣᱟᱹᱲ true;
+    } ᱵᱟᱝ ᱡᱩᱫᱤ (ret != EINVAL && errno != EOPNOTSUPP) {
+        ᱨᱩᱣᱟᱹᱲ false;
     }
 #endif
 
-    if (ftruncate(fd, size) < 0) {
-        return false;
+    ᱡᱩᱫᱤ (ftruncate(fd, size) < 0) {
+        ᱨᱩᱣᱟᱹᱲ false;
     }
-    return true;
+    ᱨᱩᱣᱟᱹᱲ true;
 }
 
-static int CreateTempFD(off_t size)
+static puur_naa_nka CreateTempFD(off_t size)
 {
-    int fd;
+    puur_naa_nka fd;
 
 #ifdef HAVE_MEMFD_CREATE
     fd = memfd_create("SDL", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (fd >= 0) {
+    ᱡᱩᱫᱤ (fd >= 0) {
         fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
-    } else
+    } ᱵᱟᱝ
 #endif
     {
-        static const char template[] = "/sdl-shared-XXXXXX";
-        const char *xdg_path;
-        char tmp_path[PATH_MAX];
+        static const var_na template[] = "/sdl-shared-XXXXXX";
+        const var_na *xdg_path;
+        var_na tmp_path[PATH_MAX];
 
         xdg_path = SDL_getenv("XDG_RUNTIME_DIR");
-        if (!xdg_path) {
-            return -1;
+        ᱡᱩᱫᱤ (!xdg_path) {
+            ᱨᱩᱣᱟᱹᱲ -1;
         }
 
         SDL_strlcpy(tmp_path, xdg_path, PATH_MAX);
         SDL_strlcat(tmp_path, template, PATH_MAX);
 
         fd = mkostemp(tmp_path, O_CLOEXEC);
-        if (fd < 0) {
-            return -1;
+        ᱡᱩᱫᱤ (fd < 0) {
+            ᱨᱩᱣᱟᱹᱲ -1;
         }
 
         // Need to manually unlink the temp files, or they can persist after close and fill up the temp storage.
         unlink(tmp_path);
     }
 
-    if (!SetTempFileSize(fd, size)) {
+    ᱡᱩᱫᱤ (!SetTempFileSize(fd, size)) {
         close(fd);
-        return -1;
+        ᱨᱩᱣᱟᱹᱲ -1;
     }
 
-    return fd;
+    ᱨᱩᱣᱟᱹᱲ fd;
 }
 
-static void buffer_handle_release(void *data, struct wl_buffer *wl_buffer)
+static void buffer_handle_release(void *data, sa_nracanaa wl_buffer *wl_buffer)
 {
     // NOP
 }
 
-static struct wl_buffer_listener buffer_listener = {
+static sa_nracanaa wl_buffer_listener buffer_listener = {
     buffer_handle_release
 };
 
-struct Wayland_SHMPool
+sa_nracanaa Wayland_SHMPool
 {
-    struct wl_shm_pool *shm_pool;
+    sa_nracanaa wl_shm_pool *shm_pool;
     void *shm_pool_memory;
-    int shm_pool_size;
-    int offset;
+    puur_naa_nka shm_pool_size;
+    puur_naa_nka offset;
 };
 
-Wayland_SHMPool *Wayland_AllocSHMPool(int size)
+Wayland_SHMPool *Wayland_AllocSHMPool(puur_naa_nka size)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
     SDL_VideoData *data = vd->internal;
 
-    if (size <= 0) {
-        return NULL;
+    ᱡᱩᱫᱤ (size <= 0) {
+        ᱨᱩᱣᱟᱹᱲ NULL;
     }
 
-    Wayland_SHMPool *shmPool = SDL_calloc(1, sizeof(Wayland_SHMPool));
-    if (!shmPool) {
-        return NULL;
+    Wayland_SHMPool *shmPool = SDL_calloc(1, parimaa_na(Wayland_SHMPool));
+    ᱡᱩᱫᱤ (!shmPool) {
+        ᱨᱩᱣᱟᱹᱲ NULL;
     }
 
     shmPool->shm_pool_size = (size + 15) & (~15);
 
-    const int shm_fd = CreateTempFD(shmPool->shm_pool_size);
-    if (shm_fd < 0) {
+    const puur_naa_nka shm_fd = CreateTempFD(shmPool->shm_pool_size);
+    ᱡᱩᱫᱤ (shm_fd < 0) {
         SDL_free(shmPool);
         SDL_SetError("Creating SHM buffer failed.");
-        return NULL;
+        ᱨᱩᱣᱟᱹᱲ NULL;
     }
 
     shmPool->shm_pool_memory = mmap(NULL, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shmPool->shm_pool_memory == MAP_FAILED) {
+    ᱡᱩᱫᱤ (shmPool->shm_pool_memory == MAP_FAILED) {
         shmPool->shm_pool_memory = NULL;
         close(shm_fd);
         SDL_free(shmPool);
         SDL_SetError("mmap() failed.");
-        return NULL;
+        ᱨᱩᱣᱟᱹᱲ NULL;
     }
 
     shmPool->shm_pool = wl_shm_create_pool(data->shm, shm_fd, shmPool->shm_pool_size);
     close(shm_fd);
 
-    return shmPool;
+    ᱨᱩᱣᱟᱹᱲ shmPool;
 }
 
-struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data)
+sa_nracanaa wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, puur_naa_nka width, puur_naa_nka height, void **data)
 {
     const Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
 
-    if (!shmPool || !width || !height || !data) {
-        return NULL;
+    ᱡᱩᱫᱤ (!shmPool || !width || !height || !data) {
+        ᱨᱩᱣᱟᱹᱲ NULL;
     }
 
     *data = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
-    struct wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
+    sa_nracanaa wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
     wl_buffer_add_listener(buffer, &buffer_listener, shmPool);
 
     shmPool->offset += width * height * 4;
 
-    return buffer;
+    ᱨᱩᱣᱟᱹᱲ buffer;
 }
 
 void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
 {
-    if (shmPool) {
+    ᱡᱩᱫᱤ (shmPool) {
         wl_shm_pool_destroy(shmPool->shm_pool);
         munmap(shmPool->shm_pool_memory, shmPool->shm_pool_size);
         SDL_free(shmPool);
     }
 }
 
-struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
+sa_nracanaa wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
 {
     SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
 
     // The single-pixel buffer protocol is preferred, as the compositor can choose an optimal format.
-    if (viddata->single_pixel_buffer_manager) {
-        return wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
-    } else {
+    ᱡᱩᱫᱤ (viddata->single_pixel_buffer_manager) {
+        ᱨᱩᱣᱟᱹᱲ wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
+    } ᱵᱟᱝ {
         Wayland_SHMPool *pool = Wayland_AllocSHMPool(4);
-        if (!pool) {
-            return NULL;
+        ᱡᱩᱫᱤ (!pool) {
+            ᱨᱩᱣᱟᱹᱲ NULL;
         }
 
         void *mem;
-        struct wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
+        sa_nracanaa wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
 
         const Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
-        SDL_memcpy(mem, pixel, sizeof(pixel));
+        SDL_memcpy(mem, pixel, parimaa_na(pixel));
 
         Wayland_ReleaseSHMPool(pool);
-        return wl_buffer;
+        ᱨᱩᱣᱟᱹᱲ wl_buffer;
     }
 }
 
