@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#अन्तर्भाव "../../SDL_internal.h"
 
 #ifndef SDL_x11pen_h_
 #define SDL_x11pen_h_
 
 // Pressure-sensitive pen support for X11.
 
-#include "SDL_x11video.h"
-#include "../../events/SDL_pen_c.h"
+#अन्तर्भाव "SDL_x11video.h"
+#अन्तर्भाव "../../events/SDL_pen_c.h"
 
 // Prep pen support (never fails; pens simply won't be added if there's a problem).
-extern void X11_InitPen(SDL_VideoDevice *_this);
+बाह्य शून्य X11_InitPen(SDL_VideoDevice *_this);
 
 // Clean up pen support.
-extern void X11_QuitPen(SDL_VideoDevice *_this);
+बाह्य शून्य X11_QuitPen(SDL_VideoDevice *_this);
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Forward definition for SDL_x11video.h
-struct SDL_VideoData;
+संरचना SDL_VideoData;
 
 #define SDL_X11_PEN_AXIS_VALUATOR_MISSING -1
 
-typedef struct X11_PenHandle
+प्रकारनिर्देश संरचना X11_PenHandle
 {
     SDL_PenID pen;
     bool is_eraser;
-    int x11_deviceid;
-    int valuator_for_axis[SDL_PEN_AXIS_COUNT];
-    float slider_bias;      // shift value to add to PEN_AXIS_SLIDER (before normalisation)
-    float rotation_bias;    // rotation to add to PEN_AXIS_ROTATION  (after normalisation)
-    float axis_min[SDL_PEN_AXIS_COUNT];
-    float axis_max[SDL_PEN_AXIS_COUNT];
+    पूर्णाङ्क x11_deviceid;
+    पूर्णाङ्क valuator_for_axis[SDL_PEN_AXIS_मोजणी];
+    भिन्न slider_bias;      // shift value to add to PEN_AXIS_SLIDER (before normalisation)
+    भिन्न rotation_bias;    // rotation to add to PEN_AXIS_ROTATION  (after normalisation)
+    भिन्न axis_min[SDL_PEN_AXIS_मोजणी];
+    भिन्न axis_max[SDL_PEN_AXIS_मोजणी];
 } X11_PenHandle;
 
 // Converts XINPUT2 valuators into pen axis information, including normalisation.
-extern void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                                     const double *input_values, const unsigned char *mask, int mask_len,
-                                     float axis_values[SDL_PEN_AXIS_COUNT]);
+बाह्य शून्य X11_PenAxesFromValuators(ध्रुव X11_PenHandle *pen,
+                                     ध्रुव द्विगुण *आदान_मूल्ये, ध्रुव unsigned वर्ण *mask, पूर्णाङ्क mask_len,
+                                     भिन्न axis_मूल्ये[SDL_PEN_AXIS_मोजणी]);
 
 // Add a pen (if this function's further checks validate it).
-extern X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid);
+बाह्य X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, पूर्णाङ्क deviceid);
 
 // Remove a pen. It's okay if deviceid is bogus or not a pen, we'll check it.
-extern void X11_RemovePenByDeviceID(int deviceid);
+बाह्य शून्य X11_RemovePenByDeviceID(पूर्णाङ्क deviceid);
 
 // Map X11 device ID to pen ID.
-extern X11_PenHandle *X11_FindPenByDeviceID(int deviceid);
+बाह्य X11_PenHandle *X11_FindPenByDeviceID(पूर्णाङ्क deviceid);
 
 // Notify that the pen has entered/left proximity
-extern void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid);
+बाह्य शून्य X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, पूर्णाङ्क deviceid);
 
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2
 

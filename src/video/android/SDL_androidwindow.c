@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/android/SDL_android.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "../../core/android/SDL_android.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidwindow.h"
+#अन्तर्भाव "SDL_androidvideo.h"
+#अन्तर्भाव "SDL_androidevents.h"
+#अन्तर्भाव "SDL_androidwindow.h"
 
 
 // Currently only one window
-SDL_Window *Android_Window = NULL;
+SDL_Window *Android_Window = रिक्त;
 
 bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
     SDL_WindowData *data;
     bool result = true;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return false;
+    यदि (!Android_WaitActiveAndLockActivity()) {
+        प्रत्यागम false;
     }
 
-    if (Android_Window) {
+    यदि (Android_Window) {
         result = SDL_SetError("Android only supports one window");
-        goto endfunction;
+        गच्छ endfunction;
     }
 
     // Set orientation
@@ -63,37 +63,37 @@ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     SDL_SetMouseFocus(window);
     SDL_SetKeyboardFocus(window);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    data = (SDL_WindowData *)SDL_calloc(1, परिमाण(*data));
+    यदि (!data) {
         result = false;
-        goto endfunction;
+        गच्छ endfunction;
     }
 
     data->native_window = Android_JNI_GetNativeWindow();
-    if (!data->native_window) {
+    यदि (!data->native_window) {
         SDL_free(data);
         result = SDL_SetError("Could not fetch native window");
-        goto endfunction;
+        गच्छ endfunction;
     }
     SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, data->native_window);
 
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    यदि (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
+        यदि (data->egl_surface == EGL_NO_SURFACE) {
             ANativeWindow_release(data->native_window);
             SDL_free(data);
             result = false;
-            goto endfunction;
+            गच्छ endfunction;
         }
     }
     SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER, data->egl_surface);
 #endif
 
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
+    SDL_SetWindowSafeAreaInsets(window, Android_Safe_Inset_डावा, Android_Safe_Inset_उजवा, Android_Safe_Inset_शीर्ष, Android_SafeInsetBottom);
 
     window->internal = data;
     Android_Window = window;
@@ -102,10 +102,10 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return result;
+    प्रत्यागम result;
 }
 
-void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_JNI_SetActivityTitle(window->title);
 }
@@ -114,12 +114,12 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
+    यदि (window == Android_Window) {
         SDL_WindowData *data;
-        int old_w, old_h, new_w, new_h;
+        पूर्णाङ्क old_w, old_h, new_w, new_h;
 
         // If the window is being destroyed don't change visible state
-        if (!window->is_destroying) {
+        यदि (!window->is_destroying) {
             Android_JNI_SetWindowStyle(fullscreen);
         }
 
@@ -129,16 +129,16 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * Samsung DeX or Chromebooks or other windowed Android environments, our window may
          * still not be the full display size.
          */
-        if (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
-            goto endfunction;
+        यदि (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
+            गच्छ endfunction;
         }
 
         data = window->internal;
-        if (!data || !data->native_window) {
-            if (data && !data->native_window) {
+        यदि (!data || !data->native_window) {
+            यदि (data && !data->native_window) {
                 SDL_SetError("Missing native window");
             }
-            goto endfunction;
+            गच्छ endfunction;
         }
 
         old_w = window->w;
@@ -147,11 +147,11 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
         new_w = ANativeWindow_getWidth(data->native_window);
         new_h = ANativeWindow_getHeight(data->native_window);
 
-        if (new_w < 0 || new_h < 0) {
+        यदि (new_w < 0 || new_h < 0) {
             SDL_SetError("ANativeWindow_getWidth/Height() fails");
         }
 
-        if (old_w != new_w || old_h != new_h) {
+        यदि (old_w != new_w || old_h != new_h) {
             SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, new_w, new_h);
         }
     }
@@ -160,41 +160,41 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    प्रत्यागम SDL_FULLSCREEN_SUCCEEDED;
 }
 
-void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_JNI_MinimizeWindow();
 }
 
-void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+शून्य Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
 {
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 }
 
-void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_LockActivityMutex();
 
-    if (window == Android_Window) {
-        Android_Window = NULL;
+    यदि (window == Android_Window) {
+        Android_Window = रिक्त;
 
-        if (window->internal) {
+        यदि (window->internal) {
             SDL_WindowData *data = window->internal;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
+            यदि (data->egl_surface != EGL_NO_SURFACE) {
                 SDL_EGL_DestroySurface(_this, data->egl_surface);
             }
 #endif
 
-            if (data->native_window) {
+            यदि (data->native_window) {
                 ANativeWindow_release(data->native_window);
             }
             SDL_free(window->internal);
-            window->internal = NULL;
+            window->internal = रिक्त;
         }
     }
 
