@@ -48,31 +48,31 @@ void Android_QuitTouch(void)
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(ចំនួនគត់ touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    ប្រសិនបើ (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } បើមិនដូច្នេះ {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    ត្រឡប់ retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+void Android_OnTouch(SDL_Window *window, ចំនួនគត់ touch_device_id_in, ចំនួនគត់ pointer_finger_id_in, ចំនួនគត់ action, float x, float y, float p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    ប្រសិនបើ (!window) {
+        ត្រឡប់;
     }
 
     touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
@@ -80,31 +80,31 @@ void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_fin
     // Finger ID should be greater than 0
     fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    ប្រសិនបើ (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        ត្រឡប់;
     }
 
     switch (action) {
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
+    pak_sa ACTION_DOWN:
+    pak_sa ACTION_POINTER_DOWN:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_DOWN, x, y, p);
-        break;
+        bha_nga;
 
-    case ACTION_MOVE:
+    pak_sa ACTION_MOVE:
         SDL_SendTouchMotion(0, touchDeviceId, fingerId, window, x, y, p);
-        break;
+        bha_nga;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
+    pak_sa ACTION_UP:
+    pak_sa ACTION_POINTER_UP:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_UP, x, y, p);
-        break;
+        bha_nga;
 
-    case ACTION_CANCEL:
+    pak_sa ACTION_CANCEL:
         SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_CANCELED, x, y, p);
-        break;
+        bha_nga;
 
     default:
-        break;
+        bha_nga;
     }
 }
 

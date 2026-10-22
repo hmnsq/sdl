@@ -37,20 +37,20 @@ extern bool Cocoa_GCMouseRelativeMode(void);
 extern bool Cocoa_HasGCMouse(void);
 extern void Cocoa_QuitGCMouse(void);
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
     NSTimer *frameTimer;
-    int current_frame;
+    ចំនួនគត់ current_frame;
 
-    int num_cursors;
-    struct
+    ចំនួនគត់ num_cursors;
+    sa_nracanaa
     {
         void *cursor;
         Uint32 duration;
     } frames[];
 };
 
-typedef struct
+typedef sa_nracanaa
 {
     // Whether we've seen a cursor warp since the last move event.
     bool seenWarp;

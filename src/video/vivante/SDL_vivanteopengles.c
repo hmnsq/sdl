@@ -20,18 +20,18 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
+#ប្រសិនបើ defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
 
 #include "SDL_vivanteopengles.h"
 #include "SDL_vivantevideo.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool VIVANTE_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VIVANTE_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
 
-    return SDL_EGL_LoadLibrary(_this, path, displaydata->native_display);
+    ត្រឡប់ SDL_EGL_LoadLibrary(_this, path, displaydata->native_display);
 }
 
 SDL_EGL_CreateContext_impl(VIVANTE)

@@ -47,7 +47,7 @@
 
 static bool PS2_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    ត្រឡប់ true;
 }
 
 static void PS2_DeleteDevice(SDL_VideoDevice *device)
@@ -60,7 +60,7 @@ static bool PS2_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    ត្រឡប់ true;
 }
 
 static bool PS2_VideoInit(SDL_VideoDevice *_this)
@@ -77,7 +77,7 @@ static bool PS2_VideoInit(SDL_VideoDevice *_this)
 
     SDL_AddBasicVideoDisplay(&mode);
 
-    return true;
+    ត្រឡប់ true;
 }
 
 static void PS2_VideoQuit(SDL_VideoDevice *_this)
@@ -94,9 +94,9 @@ static SDL_VideoDevice *PS2_CreateDevice(void)
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, parimaa_na(SDL_VideoDevice));
+    ប្រសិនបើ (!device) {
+        ត្រឡប់ NULL;
     }
 
     // Set the function pointers
@@ -107,7 +107,7 @@ static SDL_VideoDevice *PS2_CreateDevice(void)
     device->PumpEvents = PS2_PumpEvents;
     device->free = PS2_DeleteDevice;
 
-    return device;
+    ត្រឡប់ device;
 }
 
 VideoBootStrap PS2_bootstrap = {

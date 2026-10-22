@@ -22,6 +22,6 @@
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-extern bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+extern bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, ចំនួនគត់ *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

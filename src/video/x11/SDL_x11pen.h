@@ -37,16 +37,16 @@ extern void X11_QuitPen(SDL_VideoDevice *_this);
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Forward definition for SDL_x11video.h
-struct SDL_VideoData;
+sa_nracanaa SDL_VideoData;
 
 #define SDL_X11_PEN_AXIS_VALUATOR_MISSING -1
 
-typedef struct X11_PenHandle
+typedef sa_nracanaa X11_PenHandle
 {
     SDL_PenID pen;
     bool is_eraser;
-    int x11_deviceid;
-    int valuator_for_axis[SDL_PEN_AXIS_COUNT];
+    ចំនួនគត់ x11_deviceid;
+    ចំនួនគត់ valuator_for_axis[SDL_PEN_AXIS_COUNT];
     float slider_bias;      // shift value to add to PEN_AXIS_SLIDER (before normalisation)
     float rotation_bias;    // rotation to add to PEN_AXIS_ROTATION  (after normalisation)
     float axis_min[SDL_PEN_AXIS_COUNT];
@@ -55,20 +55,20 @@ typedef struct X11_PenHandle
 
 // Converts XINPUT2 valuators into pen axis information, including normalisation.
 extern void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                                     const double *input_values, const unsigned char *mask, int mask_len,
+                                     const dviguu_na *input_values, const unsigned var_na *mask, ចំនួនគត់ mask_len,
                                      float axis_values[SDL_PEN_AXIS_COUNT]);
 
 // Add a pen (if this function's further checks validate it).
-extern X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid);
+extern X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, ចំនួនគត់ deviceid);
 
 // Remove a pen. It's okay if deviceid is bogus or not a pen, we'll check it.
-extern void X11_RemovePenByDeviceID(int deviceid);
+extern void X11_RemovePenByDeviceID(ចំនួនគត់ deviceid);
 
 // Map X11 device ID to pen ID.
-extern X11_PenHandle *X11_FindPenByDeviceID(int deviceid);
+extern X11_PenHandle *X11_FindPenByDeviceID(ចំនួនគត់ deviceid);
 
 // Notify that the pen has entered/left proximity
-extern void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid);
+extern void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, ចំនួនគត់ deviceid);
 
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2
 

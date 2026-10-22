@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ប្រសិនបើ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
@@ -33,21 +33,21 @@
 - (instancetype)initWithFrame:(CGRect)frame
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        rBits:(ចំនួនគត់)rBits
+                        gBits:(ចំនួនគត់)gBits
+                        bBits:(ចំនួនគត់)bBits
+                        aBits:(ចំនួនគត់)aBits
+                    depthBits:(ចំនួនគត់)depthBits
+                  stencilBits:(ចំនួនគត់)stencilBits
+                         sRGB:(ចំនួនគត់)sRGB
+                 multisamples:(ចំនួនគត់)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) ចំនួនគត់ backingWidth;
+@property(nonatomic, readonly) ចំនួនគត់ backingHeight;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;

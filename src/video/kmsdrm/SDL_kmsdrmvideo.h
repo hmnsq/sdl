@@ -75,42 +75,42 @@
 #define GBM_BO_USE_LINEAR   (1 << 4)
 #endif
 
-typedef struct KMSDRM_plane
+typedef sa_nracanaa KMSDRM_plane
 {
     drmModePlane *plane;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_plane;
  
-typedef struct KMSDRM_crtc
+typedef sa_nracanaa KMSDRM_crtc
 {
     drmModeCrtc *crtc;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_crtc;
 
-typedef struct KMSDRM_connector
+typedef sa_nracanaa KMSDRM_connector
 {
     drmModeConnector *connector;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_connector;
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
-    int devindex;     // device index that was passed on creation
-    int drm_fd;       // DRM file desc
-    char devpath[32]; // DRM dev path.
+    ចំនួនគត់ devindex;     // device index that was passed on creation
+    ចំនួនគត់ drm_fd;       // DRM file desc
+    var_na devpath[32]; // DRM dev path.
 
-    struct gbm_device *gbm_dev;
+    sa_nracanaa gbm_device *gbm_dev;
 
     bool video_init;             // Has VideoInit succeeded?
     bool vulkan_mode;            // Are we in Vulkan mode? One VK window is enough to be.
     bool async_pageflip_support; // Does the hardware support async. pageflips?
 
     SDL_Window **windows;
-    int max_windows;
-    int num_windows;
+    ចំនួនគត់ max_windows;
+    ចំនួនគត់ num_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -119,12 +119,12 @@ struct SDL_VideoData
     bool is_atomic;  // true if atomic interfaces are supported.
 };
 
-struct SDL_DisplayModeData
+sa_nracanaa SDL_DisplayModeData
 {
-    int mode_index;
+    ចំនួនគត់ mode_index;
 };
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     KMSDRM_plane *display_plane;
     KMSDRM_plane *cursor_plane;
@@ -142,32 +142,32 @@ struct SDL_DisplayData
        because setting/unsetting up these is done on window creation/destruction,
        where we may not have an SDL_Cursor at all (so no SDL_Cursor internal).
        There's only one cursor GBM BO because we only support one cursor. */
-    struct gbm_bo *cursor_bo;
-    int cursor_bo_drm_fd;
+    sa_nracanaa gbm_bo *cursor_bo;
+    ចំនួនគត់ cursor_bo_drm_fd;
     uint64_t cursor_w, cursor_h;
 
     /* Central atomic request list, used for the prop
        changeset related to pageflip in SwapWindow. */
     drmModeAtomicReq *atomic_req;
 
-    int kms_in_fence_fd;
-    int kms_out_fence_fd;
+    ចំនួនគត់ kms_in_fence_fd;
+    ចំនួនគត់ kms_out_fence_fd;
     EGLSyncKHR kms_fence;
     EGLSyncKHR gpu_fence;
 
     bool default_cursor_init;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_VideoData *viddata;
     /* SDL internals expect EGL surface to be here, and in KMSDRM the GBM surface is
        what supports the EGL surface on the driver side, so all these surfaces and buffers
        are expected to be here, in the struct pointed by SDL_Window internal pointer:
        this one. So don't try to move these to dispdata!  */
-    struct gbm_surface *gs;
-    struct gbm_bo *bo;
-    struct gbm_bo *next_bo;
+    sa_nracanaa gbm_surface *gs;
+    sa_nracanaa gbm_bo *bo;
+    sa_nracanaa gbm_bo *next_bo;
 
     bool waiting_for_flip;
     bool double_buffer;
@@ -179,15 +179,15 @@ struct SDL_WindowData
     bool (*swap_window)(SDL_VideoDevice *_this, SDL_Window *window);
 };
 
-typedef struct KMSDRM_FBInfo
+typedef sa_nracanaa KMSDRM_FBInfo
 {
-    int drm_fd;     // DRM file desc
+    ចំនួនគត់ drm_fd;     // DRM file desc
     uint32_t fb_id; // DRM framebuffer ID
 } KMSDRM_FBInfo;
 
-typedef struct KMSDRM_PlaneInfo
+typedef sa_nracanaa KMSDRM_PlaneInfo
 {
-    struct KMSDRM_plane *plane;
+    sa_nracanaa KMSDRM_plane *plane;
     uint32_t fb_id;
     uint32_t crtc_id;
     int32_t src_x;
@@ -202,19 +202,19 @@ typedef struct KMSDRM_PlaneInfo
 
 // Helper functions
 extern bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, int w, int h);
+extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, sa_nracanaa gbm_bo *bo);
+extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, sa_nracanaa gbm_bo *bo, ចំនួនគត់ w, ចំនួនគត់ h);
 extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
 
 // Atomic functions that are used from SDL_kmsdrmopengles.c and SDL_kmsdrmmouse.c
-void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
+void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, sa_nracanaa KMSDRM_PlaneInfo *info);
 void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
-bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
-void free_plane(struct KMSDRM_plane **plane);
+ចំនួនគត់ drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
+ចំនួនគត់ add_plane_property(drmModeAtomicReq *req, sa_nracanaa KMSDRM_plane *plane, const var_na *name, uint64_t value);
+ចំនួនគត់ add_crtc_property(drmModeAtomicReq *req, sa_nracanaa KMSDRM_crtc *crtc, const var_na *name, uint64_t value);
+ចំនួនគត់ add_connector_property(drmModeAtomicReq *req, sa_nracanaa KMSDRM_connector *connector, const var_na *name, uint64_t value);
+bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, sa_nracanaa KMSDRM_plane **plane, uint32_t plane_type);
+void free_plane(sa_nracanaa KMSDRM_plane **plane);
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration

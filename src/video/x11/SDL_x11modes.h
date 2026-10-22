@@ -25,14 +25,14 @@
 
 #include "SDL_x11settings.h"
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
-    int screen;
+    ចំនួនគត់ screen;
     Visual *visual;
-    int depth;
-    int scanline_pad;
-    int x;
-    int y;
+    ចំនួនគត់ depth;
+    ចំនួនគត់ scanline_pad;
+    ចំនួនគត់ x;
+    ចំនួនគត់ y;
 
     Uint64 mode_switch_deadline_ns;
 
@@ -40,16 +40,16 @@ struct SDL_DisplayData
 
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
     RROutput xrandr_output;
-    char connector_name[16];
+    var_na connector_name[16];
 #endif
 };
 
-struct SDL_DisplayModeData
+sa_nracanaa SDL_DisplayModeData
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
     RRMode xrandr_mode;
-#else
-    int unused; // just so struct isn't empty.
+#បើមិនដូច្នេះ
+    ចំនួនគត់ unused; // just so struct isn't empty.
 #endif
 };
 

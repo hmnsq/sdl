@@ -34,7 +34,7 @@
 #endif
 
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     SDL_Window *window;
@@ -42,44 +42,44 @@ struct SDL_WindowData
     HWND parent;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
+#បើមិនដូច្នេះ
+    ចំនួនគត់ dummy;
 #endif
 };
 
-struct SDL_VideoData {
+sa_nracanaa SDL_VideoData {
     void * openVRLIB;
     intptr_t vrtoken;
     intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    const var_na *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( const var_na *pchInterfaceVersion, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    ចំនួនគត់ is_buffer_rendering;
 
-    unsigned int overlaytexture;
+    unsigned ចំនួនគត់ overlaytexture;
 
-    unsigned int fbo, rbo;
+    unsigned ចំនួនគត់ fbo, rbo;
 
-    int saved_texture_state;
+    ចំនួនគត់ saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    sa_nracanaa VR_IVRSystem_FnTable *oSystem;
+    sa_nracanaa VR_IVROverlay_FnTable *oOverlay;
+	sa_nracanaa VR_IVRInput_FnTable * oInput;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	var_na * sOverlayName;
 
 	VRActionSetHandle_t input_action_set;
 	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
+	ចំនួនគត់ input_action_handles_buttons_count;
 	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
+	ចំនួនគត់ input_action_handles_axes_count;
 	VRActionHandle_t input_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    ចំនួនគត់ targw, targh;
+    ចំនួនគត់ last_targw, last_targh;
+    ចំនួនគត់ swap_interval;
 
     bool bDidCreateOverlay;
 	bool renderdoc_debugmarker_frame_end;
@@ -91,15 +91,15 @@ struct SDL_VideoData {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#បើមិនដូច្នេះ
     EGLDisplay eglDpy;
     EGLContext eglCtx;
 #endif
 };
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
-    int dummy;
+    ចំនួនគត់ dummy;
 };
 
 #endif

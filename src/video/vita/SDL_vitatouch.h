@@ -28,6 +28,6 @@
 extern void VITA_InitTouch(void);
 extern void VITA_QuitTouch(void);
 extern void VITA_PollTouch(void);
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port);
+void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, ចំនួនគត់ vita_x, ចំនួនគត់ vita_y, ចំនួនគត់ port);
 
 #endif // SDL_vitatouch_h

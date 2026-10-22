@@ -23,7 +23,7 @@
 #ifndef SDL_offscreenopengles_h
 #define SDL_offscreenopengles_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#ប្រសិនបើ defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
 #include "../SDL_sysvideo.h"
 #include "../SDL_egl_c.h"
@@ -34,7 +34,7 @@
 #define OFFSCREEN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 #define OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 extern bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);

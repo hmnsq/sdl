@@ -27,14 +27,14 @@
 #include "SDL_internal.h"
 #include "../SDL_sysvideo.h"
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     bool egl_initialized; // OpenGL ES device initialization status
     uint32_t egl_refcount;    // OpenGL ES reference count
 
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     bool uses_gles; // if true window must support OpenGL ES
 
@@ -62,13 +62,13 @@ extern void PSP_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void PSP_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 // OpenGL/OpenGL ES functions
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
+extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
+extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc);
 extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, ចំនួនគត់ interval);
+extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, ចំនួនគត់ *interval);
 extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
