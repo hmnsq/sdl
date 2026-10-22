@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_gdktextinput_h_
 #define SDL_gdktextinput_h_
 
 #ifdef SDL_GDK_TEXTINPUT
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-void GDK_EnsureHints(void);
+فراغ GDK_EnsureHints(فراغ);
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+bool GDK_Start_Text_تێخستن(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool GDK_Stop_Text_تێخستن(SDL_VideoDevice *_this, SDL_Window *window);
+bool GDK_Update_Text_تێخستن_Area(SDL_VideoDevice *_this, SDL_Window *window);
 bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
 bool GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-void GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+فراغ GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+فراغ GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
 
 #ifdef __cplusplus
 }

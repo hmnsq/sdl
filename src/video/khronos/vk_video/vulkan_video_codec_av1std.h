@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 
@@ -22,9 +22,9 @@ extern "C" {
 // vulkan_video_codec_av1std is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_av1std 1
 
-#include "vulkan_video_codecs_common.h"
+#ضمن "vulkan_video_codecs_common.h"
 
-#define STD_VIDEO_AV1_NUM_REF_FRAMES      8U
+#define STD_VIDEO_AV1_ژمارە_REF_FRAMES      8U
 #define STD_VIDEO_AV1_REFS_PER_FRAME      7U
 #define STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME 8U
 #define STD_VIDEO_AV1_MAX_TILE_COLS       64U
@@ -38,23 +38,23 @@ extern "C" {
 #define STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS 4U
 #define STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS 2U
 #define STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS 8U
-#define STD_VIDEO_AV1_MAX_NUM_PLANES      3U
+#define STD_VIDEO_AV1_MAX_ژمارە_PLANES      3U
 #define STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS 6U
-#define STD_VIDEO_AV1_MAX_NUM_Y_POINTS    14U
-#define STD_VIDEO_AV1_MAX_NUM_CB_POINTS   10U
-#define STD_VIDEO_AV1_MAX_NUM_CR_POINTS   10U
-#define STD_VIDEO_AV1_MAX_NUM_POS_LUMA    24U
-#define STD_VIDEO_AV1_MAX_NUM_POS_CHROMA  25U
+#define STD_VIDEO_AV1_MAX_ژمارە_Y_POINTS    14U
+#define STD_VIDEO_AV1_MAX_ژمارە_CB_POINTS   10U
+#define STD_VIDEO_AV1_MAX_ژمارە_CR_POINTS   10U
+#define STD_VIDEO_AV1_MAX_ژمارە_POS_LUMA    24U
+#define STD_VIDEO_AV1_MAX_ژمارە_POS_CHROMA  25U
 
-typedef enum StdVideoAV1Profile {
+تعريفنوع تعداد StdVideoAV1Profile {
     STD_VIDEO_AV1_PROFILE_MAIN = 0,
-    STD_VIDEO_AV1_PROFILE_HIGH = 1,
+    STD_VIDEO_AV1_PROFILE_بەرز = 1,
     STD_VIDEO_AV1_PROFILE_PROFESSIONAL = 2,
     STD_VIDEO_AV1_PROFILE_INVALID = 0x7FFFFFFF,
     STD_VIDEO_AV1_PROFILE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1Profile;
 
-typedef enum StdVideoAV1Level {
+تعريفنوع تعداد StdVideoAV1Level {
     STD_VIDEO_AV1_LEVEL_2_0 = 0,
     STD_VIDEO_AV1_LEVEL_2_1 = 1,
     STD_VIDEO_AV1_LEVEL_2_2 = 2,
@@ -83,8 +83,8 @@ typedef enum StdVideoAV1Level {
     STD_VIDEO_AV1_LEVEL_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1Level;
 
-typedef enum StdVideoAV1FrameType {
-    STD_VIDEO_AV1_FRAME_TYPE_KEY = 0,
+تعريفنوع تعداد StdVideoAV1FrameType {
+    STD_VIDEO_AV1_FRAME_TYPE_کلیل = 0,
     STD_VIDEO_AV1_FRAME_TYPE_INTER = 1,
     STD_VIDEO_AV1_FRAME_TYPE_INTRA_ONLY = 2,
     STD_VIDEO_AV1_FRAME_TYPE_SWITCH = 3,
@@ -92,7 +92,7 @@ typedef enum StdVideoAV1FrameType {
     STD_VIDEO_AV1_FRAME_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1FrameType;
 
-typedef enum StdVideoAV1ReferenceName {
+تعريفنوع تعداد StdVideoAV1ReferenceName {
     STD_VIDEO_AV1_REFERENCE_NAME_INTRA_FRAME = 0,
     STD_VIDEO_AV1_REFERENCE_NAME_LAST_FRAME = 1,
     STD_VIDEO_AV1_REFERENCE_NAME_LAST2_FRAME = 2,
@@ -105,7 +105,7 @@ typedef enum StdVideoAV1ReferenceName {
     STD_VIDEO_AV1_REFERENCE_NAME_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1ReferenceName;
 
-typedef enum StdVideoAV1InterpolationFilter {
+تعريفنوع تعداد StdVideoAV1InterpolationFilter {
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP = 0,
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH = 1,
     STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP = 2,
@@ -115,7 +115,7 @@ typedef enum StdVideoAV1InterpolationFilter {
     STD_VIDEO_AV1_INTERPOLATION_FILTER_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1InterpolationFilter;
 
-typedef enum StdVideoAV1TxMode {
+تعريفنوع تعداد StdVideoAV1TxMode {
     STD_VIDEO_AV1_TX_MODE_ONLY_4X4 = 0,
     STD_VIDEO_AV1_TX_MODE_LARGEST = 1,
     STD_VIDEO_AV1_TX_MODE_SELECT = 2,
@@ -123,7 +123,7 @@ typedef enum StdVideoAV1TxMode {
     STD_VIDEO_AV1_TX_MODE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1TxMode;
 
-typedef enum StdVideoAV1FrameRestorationType {
+تعريفنوع تعداد StdVideoAV1FrameRestorationType {
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_NONE = 0,
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_WIENER = 1,
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SGRPROJ = 2,
@@ -132,7 +132,7 @@ typedef enum StdVideoAV1FrameRestorationType {
     STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1FrameRestorationType;
 
-typedef enum StdVideoAV1ColorPrimaries {
+تعريفنوع تعداد StdVideoAV1ColorPrimaries {
     STD_VIDEO_AV1_COLOR_PRIMARIES_BT_709 = 1,
     STD_VIDEO_AV1_COLOR_PRIMARIES_UNSPECIFIED = 2,
     STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_M = 4,
@@ -151,7 +151,7 @@ typedef enum StdVideoAV1ColorPrimaries {
     STD_VIDEO_AV1_COLOR_PRIMARIES_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1ColorPrimaries;
 
-typedef enum StdVideoAV1TransferCharacteristics {
+تعريفنوع تعداد StdVideoAV1TransferCharacteristics {
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_0 = 0,
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_709 = 1,
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_UNSPECIFIED = 2,
@@ -175,7 +175,7 @@ typedef enum StdVideoAV1TransferCharacteristics {
     STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1TransferCharacteristics;
 
-typedef enum StdVideoAV1MatrixCoefficients {
+تعريفنوع تعداد StdVideoAV1MatrixCoefficients {
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_IDENTITY = 0,
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_709 = 1,
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_UNSPECIFIED = 2,
@@ -195,7 +195,7 @@ typedef enum StdVideoAV1MatrixCoefficients {
     STD_VIDEO_AV1_MATRIX_COEFFICIENTS_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1MatrixCoefficients;
 
-typedef enum StdVideoAV1ChromaSamplePosition {
+تعريفنوع تعداد StdVideoAV1ChromaSamplePosition {
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_UNKNOWN = 0,
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_VERTICAL = 1,
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_COLOCATED = 2,
@@ -204,7 +204,7 @@ typedef enum StdVideoAV1ChromaSamplePosition {
     STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_MAX_ENUM = 0x7FFFFFFF
 } StdVideoAV1ChromaSamplePosition;
 
-typedef struct StdVideoAV1ColorConfigFlags {
+تعريفنوع بنية StdVideoAV1ColorConfigFlags {
     uint32_t    mono_chrome : 1;
     uint32_t    color_range : 1;
     uint32_t    separate_uv_delta_q : 1;
@@ -212,7 +212,7 @@ typedef struct StdVideoAV1ColorConfigFlags {
     uint32_t    reserved : 28;
 } StdVideoAV1ColorConfigFlags;
 
-typedef struct StdVideoAV1ColorConfig {
+تعريفنوع بنية StdVideoAV1ColorConfig {
     StdVideoAV1ColorConfigFlags           flags;
     uint8_t                               BitDepth;
     uint8_t                               subsampling_x;
@@ -224,25 +224,25 @@ typedef struct StdVideoAV1ColorConfig {
     StdVideoAV1ChromaSamplePosition       chroma_sample_position;
 } StdVideoAV1ColorConfig;
 
-typedef struct StdVideoAV1TimingInfoFlags {
+تعريفنوع بنية StdVideoAV1TimingInfoFlags {
     uint32_t    equal_picture_interval : 1;
     uint32_t    reserved : 31;
 } StdVideoAV1TimingInfoFlags;
 
-typedef struct StdVideoAV1TimingInfo {
+تعريفنوع بنية StdVideoAV1TimingInfo {
     StdVideoAV1TimingInfoFlags    flags;
-    uint32_t                      num_units_in_display_tick;
+    uint32_t                      ژمارە_units_in_display_tick;
     uint32_t                      time_scale;
-    uint32_t                      num_ticks_per_picture_minus_1;
+    uint32_t                      ژمارە_ticks_per_picture_minus_1;
 } StdVideoAV1TimingInfo;
 
-typedef struct StdVideoAV1LoopFilterFlags {
+تعريفنوع بنية StdVideoAV1LoopFilterFlags {
     uint32_t    loop_filter_delta_enabled : 1;
     uint32_t    loop_filter_delta_update : 1;
     uint32_t    reserved : 30;
 } StdVideoAV1LoopFilterFlags;
 
-typedef struct StdVideoAV1LoopFilter {
+تعريفنوع بنية StdVideoAV1LoopFilter {
     StdVideoAV1LoopFilterFlags    flags;
     uint8_t                       loop_filter_level[STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS];
     uint8_t                       loop_filter_sharpness;
@@ -252,13 +252,13 @@ typedef struct StdVideoAV1LoopFilter {
     int8_t                        loop_filter_mode_deltas[STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS];
 } StdVideoAV1LoopFilter;
 
-typedef struct StdVideoAV1QuantizationFlags {
+تعريفنوع بنية StdVideoAV1QuantizationFlags {
     uint32_t    using_qmatrix : 1;
     uint32_t    diff_uv_delta : 1;
     uint32_t    reserved : 30;
 } StdVideoAV1QuantizationFlags;
 
-typedef struct StdVideoAV1Quantization {
+تعريفنوع بنية StdVideoAV1Quantization {
     StdVideoAV1QuantizationFlags    flags;
     uint8_t                         base_q_idx;
     int8_t                          DeltaQYDc;
@@ -271,30 +271,30 @@ typedef struct StdVideoAV1Quantization {
     uint8_t                         qm_v;
 } StdVideoAV1Quantization;
 
-typedef struct StdVideoAV1Segmentation {
+تعريفنوع بنية StdVideoAV1Segmentation {
     uint8_t    FeatureEnabled[STD_VIDEO_AV1_MAX_SEGMENTS];
     int16_t    FeatureData[STD_VIDEO_AV1_MAX_SEGMENTS][STD_VIDEO_AV1_SEG_LVL_MAX];
 } StdVideoAV1Segmentation;
 
-typedef struct StdVideoAV1TileInfoFlags {
+تعريفنوع بنية StdVideoAV1TileInfoFlags {
     uint32_t    uniform_tile_spacing_flag : 1;
     uint32_t    reserved : 31;
 } StdVideoAV1TileInfoFlags;
 
-typedef struct StdVideoAV1TileInfo {
+تعريفنوع بنية StdVideoAV1TileInfo {
     StdVideoAV1TileInfoFlags    flags;
     uint8_t                     TileCols;
     uint8_t                     TileRows;
     uint16_t                    context_update_tile_id;
     uint8_t                     tile_size_bytes_minus_1;
     uint8_t                     reserved1[7];
-    const uint16_t*             pMiColStarts;
-    const uint16_t*             pMiRowStarts;
-    const uint16_t*             pWidthInSbsMinus1;
-    const uint16_t*             pHeightInSbsMinus1;
+    ثابت uint16_t*             pMiColStarts;
+    ثابت uint16_t*             pMiRowStarts;
+    ثابت uint16_t*             pWidthInSbsMinus1;
+    ثابت uint16_t*             pHeightInSbsMinus1;
 } StdVideoAV1TileInfo;
 
-typedef struct StdVideoAV1CDEF {
+تعريفنوع بنية StdVideoAV1CDEF {
     uint8_t    cdef_damping_minus_3;
     uint8_t    cdef_bits;
     uint8_t    cdef_y_pri_strength[STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS];
@@ -303,17 +303,17 @@ typedef struct StdVideoAV1CDEF {
     uint8_t    cdef_uv_sec_strength[STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS];
 } StdVideoAV1CDEF;
 
-typedef struct StdVideoAV1LoopRestoration {
-    StdVideoAV1FrameRestorationType    FrameRestorationType[STD_VIDEO_AV1_MAX_NUM_PLANES];
-    uint16_t                           LoopRestorationSize[STD_VIDEO_AV1_MAX_NUM_PLANES];
+تعريفنوع بنية StdVideoAV1LoopRestoration {
+    StdVideoAV1FrameRestorationType    FrameRestorationType[STD_VIDEO_AV1_MAX_ژمارە_PLANES];
+    uint16_t                           LoopRestorationSize[STD_VIDEO_AV1_MAX_ژمارە_PLANES];
 } StdVideoAV1LoopRestoration;
 
-typedef struct StdVideoAV1GlobalMotion {
-    uint8_t    GmType[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    int32_t    gm_params[STD_VIDEO_AV1_NUM_REF_FRAMES][STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS];
+تعريفنوع بنية StdVideoAV1GlobalMotion {
+    uint8_t    GmType[STD_VIDEO_AV1_ژمارە_REF_FRAMES];
+    int32_t    gm_params[STD_VIDEO_AV1_ژمارە_REF_FRAMES][STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS];
 } StdVideoAV1GlobalMotion;
 
-typedef struct StdVideoAV1FilmGrainFlags {
+تعريفنوع بنية StdVideoAV1FilmGrainFlags {
     uint32_t    chroma_scaling_from_luma : 1;
     uint32_t    overlap_flag : 1;
     uint32_t    clip_to_restricted_range : 1;
@@ -321,7 +321,7 @@ typedef struct StdVideoAV1FilmGrainFlags {
     uint32_t    reserved : 28;
 } StdVideoAV1FilmGrainFlags;
 
-typedef struct StdVideoAV1FilmGrain {
+تعريفنوع بنية StdVideoAV1FilmGrain {
     StdVideoAV1FilmGrainFlags    flags;
     uint8_t                      grain_scaling_minus_8;
     uint8_t                      ar_coeff_lag;
@@ -329,18 +329,18 @@ typedef struct StdVideoAV1FilmGrain {
     uint8_t                      grain_scale_shift;
     uint16_t                     grain_seed;
     uint8_t                      film_grain_params_ref_idx;
-    uint8_t                      num_y_points;
-    uint8_t                      point_y_value[STD_VIDEO_AV1_MAX_NUM_Y_POINTS];
-    uint8_t                      point_y_scaling[STD_VIDEO_AV1_MAX_NUM_Y_POINTS];
-    uint8_t                      num_cb_points;
-    uint8_t                      point_cb_value[STD_VIDEO_AV1_MAX_NUM_CB_POINTS];
-    uint8_t                      point_cb_scaling[STD_VIDEO_AV1_MAX_NUM_CB_POINTS];
-    uint8_t                      num_cr_points;
-    uint8_t                      point_cr_value[STD_VIDEO_AV1_MAX_NUM_CR_POINTS];
-    uint8_t                      point_cr_scaling[STD_VIDEO_AV1_MAX_NUM_CR_POINTS];
-    int8_t                       ar_coeffs_y_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_LUMA];
-    int8_t                       ar_coeffs_cb_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_CHROMA];
-    int8_t                       ar_coeffs_cr_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_CHROMA];
+    uint8_t                      ژمارە_y_points;
+    uint8_t                      point_y_بەها[STD_VIDEO_AV1_MAX_ژمارە_Y_POINTS];
+    uint8_t                      point_y_scaling[STD_VIDEO_AV1_MAX_ژمارە_Y_POINTS];
+    uint8_t                      ژمارە_cb_points;
+    uint8_t                      point_cb_بەها[STD_VIDEO_AV1_MAX_ژمارە_CB_POINTS];
+    uint8_t                      point_cb_scaling[STD_VIDEO_AV1_MAX_ژمارە_CB_POINTS];
+    uint8_t                      ژمارە_cr_points;
+    uint8_t                      point_cr_بەها[STD_VIDEO_AV1_MAX_ژمارە_CR_POINTS];
+    uint8_t                      point_cr_scaling[STD_VIDEO_AV1_MAX_ژمارە_CR_POINTS];
+    int8_t                       ar_coeffs_y_plus_128[STD_VIDEO_AV1_MAX_ژمارە_POS_LUMA];
+    int8_t                       ar_coeffs_cb_plus_128[STD_VIDEO_AV1_MAX_ژمارە_POS_CHROMA];
+    int8_t                       ar_coeffs_cr_plus_128[STD_VIDEO_AV1_MAX_ژمارە_POS_CHROMA];
     uint8_t                      cb_mult;
     uint8_t                      cb_luma_mult;
     uint16_t                     cb_offset;
@@ -349,7 +349,7 @@ typedef struct StdVideoAV1FilmGrain {
     uint16_t                     cr_offset;
 } StdVideoAV1FilmGrain;
 
-typedef struct StdVideoAV1SequenceHeaderFlags {
+تعريفنوع بنية StdVideoAV1SequenceHeaderFlags {
     uint32_t    still_picture : 1;
     uint32_t    reduced_still_picture_header : 1;
     uint32_t    use_128x128_superblock : 1;
@@ -372,7 +372,7 @@ typedef struct StdVideoAV1SequenceHeaderFlags {
     uint32_t    reserved : 13;
 } StdVideoAV1SequenceHeaderFlags;
 
-typedef struct StdVideoAV1SequenceHeader {
+تعريفنوع بنية StdVideoAV1SequenceHeader {
     StdVideoAV1SequenceHeaderFlags    flags;
     StdVideoAV1Profile                seq_profile;
     uint8_t                           frame_width_bits_minus_1;
@@ -385,8 +385,8 @@ typedef struct StdVideoAV1SequenceHeader {
     uint8_t                           seq_force_integer_mv;
     uint8_t                           seq_force_screen_content_tools;
     uint8_t                           reserved1[5];
-    const StdVideoAV1ColorConfig*     pColorConfig;
-    const StdVideoAV1TimingInfo*      pTimingInfo;
+    ثابت StdVideoAV1ColorConfig*     pColorConfig;
+    ثابت StdVideoAV1TimingInfo*      pTimingInfo;
 } StdVideoAV1SequenceHeader;
 
 

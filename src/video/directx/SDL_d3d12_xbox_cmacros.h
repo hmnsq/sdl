@@ -29,40 +29,40 @@
     ( (This)->SetName(Name) ) 
 #define ID3D12DeviceChild_GetDevice(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12RootSignature_QueryInterface(This,riid,ppvObject)	\
+#define ID3_D12_ڕەگ_Signature_Query_Interface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
-#define ID3D12RootSignature_AddRef(This)	\
+#define ID3_D12_ڕەگ_Signature_Add_Ref(This)	\
     ( (This)->AddRef() ) 
-#define ID3D12RootSignature_Release(This)	\
+#define ID3_D12_ڕەگ_Signature_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12RootSignature_GetPrivateData(This,guid,pDataSize,pData)	\
+#define ID3_D12_ڕەگ_Signature_Get_Private_Data(This,guid,pDataSize,pData)	\
     ( (This)->GetPrivateData(guid,pDataSize,pData) ) 
-#define ID3D12RootSignature_SetPrivateData(This,guid,DataSize,pData)	\
+#define ID3_D12_ڕەگ_Signature_Set_Private_Data(This,guid,DataSize,pData)	\
     ( (This)->SetPrivateData(guid,DataSize,pData) ) 
-#define ID3D12RootSignature_SetPrivateDataInterface(This,guid,pData)	\
+#define ID3_D12_ڕەگ_Signature_Set_Private_Data_Interface(This,guid,pData)	\
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
-#define ID3D12RootSignature_SetName(This,Name)	\
+#define ID3_D12_ڕەگ_Signature_Set_Name(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12RootSignature_GetDevice(This,riid,ppvDevice)	\
+#define ID3_D12_ڕەگ_Signature_Get_Device(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12RootSignatureDeserializer_QueryInterface(This,riid,ppvObject)	\
+#define ID3_D12_ڕەگ_Signature_Deserializer_Query_Interface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
-#define ID3D12RootSignatureDeserializer_AddRef(This)	\
+#define ID3_D12_ڕەگ_Signature_Deserializer_Add_Ref(This)	\
     ( (This)->AddRef() ) 
-#define ID3D12RootSignatureDeserializer_Release(This)	\
+#define ID3_D12_ڕەگ_Signature_Deserializer_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12RootSignatureDeserializer_GetRootSignatureDesc(This)	\
-    ( (This)->GetRootSignatureDesc() ) 
-#define ID3D12VersionedRootSignatureDeserializer_QueryInterface(This,riid,ppvObject)	\
+#define ID3_D12_ڕەگ_Signature_Deserializer_Get_ڕەگ_Signature_Desc(This)	\
+    ( (This)->Get_ڕەگ_Signature_Desc() ) 
+#define ID3_D12_Versioned_ڕەگ_Signature_Deserializer_Query_Interface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
-#define ID3D12VersionedRootSignatureDeserializer_AddRef(This)	\
+#define ID3_D12_Versioned_ڕەگ_Signature_Deserializer_Add_Ref(This)	\
     ( (This)->AddRef() ) 
-#define ID3D12VersionedRootSignatureDeserializer_Release(This)	\
+#define ID3_D12_Versioned_ڕەگ_Signature_Deserializer_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12VersionedRootSignatureDeserializer_GetRootSignatureDescAtVersion(This,convertToVersion,ppDesc)	\
-    ( (This)->GetRootSignatureDescAtVersion(convertToVersion,ppDesc) ) 
-#define ID3D12VersionedRootSignatureDeserializer_GetUnconvertedRootSignatureDesc(This)	\
-    ( (This)->GetUnconvertedRootSignatureDesc() ) 
+#define ID3_D12_Versioned_ڕەگ_Signature_Deserializer_Get_ڕەگ_Signature_Desc_At_Version(This,convertToVersion,ppDesc)	\
+    ( (This)->Get_ڕەگ_Signature_Desc_At_Version(convertToVersion,ppDesc) ) 
+#define ID3_D12_Versioned_ڕەگ_Signature_Deserializer_Get_Unconverted_ڕەگ_Signature_Desc(This)	\
+    ( (This)->Get_Unconverted_ڕەگ_Signature_Desc() ) 
 #define ID3D12Pageable_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Pageable_AddRef(This)	\
@@ -157,12 +157,12 @@
     ( (This)->SetName(Name) ) 
 #define ID3D12Fence_GetDevice(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12Fence_GetCompletedValue(This)	\
-    ( (This)->GetCompletedValue() ) 
-#define ID3D12Fence_SetEventOnCompletion(This,Value,hEvent)	\
-    ( (This)->SetEventOnCompletion(Value,hEvent) ) 
-#define ID3D12Fence_Signal(This,Value)	\
-    ( (This)->Signal(Value) ) 
+#define ID3_D12_Fence_Get_Completed_بەها(This)	\
+    ( (This)->Get_Completed_بەها() ) 
+#define ID3D12Fence_SetEventOnCompletion(This,بەها_2,hEvent)	\
+    ( (This)->SetEventOnCompletion(بەها_2,hEvent) ) 
+#define ID3D12Fence_Signal(This,بەها_2)	\
+    ( (This)->Signal(بەها_2) ) 
 #define ID3D12Fence1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Fence1_AddRef(This)	\
@@ -179,12 +179,12 @@
     ( (This)->SetName(Name) ) 
 #define ID3D12Fence1_GetDevice(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12Fence1_GetCompletedValue(This)	\
-    ( (This)->GetCompletedValue() ) 
-#define ID3D12Fence1_SetEventOnCompletion(This,Value,hEvent)	\
-    ( (This)->SetEventOnCompletion(Value,hEvent) ) 
-#define ID3D12Fence1_Signal(This,Value)	\
-    ( (This)->Signal(Value) ) 
+#define ID3_D12_Fence1_Get_Completed_بەها(This)	\
+    ( (This)->Get_Completed_بەها() ) 
+#define ID3D12Fence1_SetEventOnCompletion(This,بەها_2,hEvent)	\
+    ( (This)->SetEventOnCompletion(بەها_2,hEvent) ) 
+#define ID3D12Fence1_Signal(This,بەها_2)	\
+    ( (This)->Signal(بەها_2) ) 
 #define ID3D12Fence1_GetCreationFlags(This)	\
     ( (This)->GetCreationFlags() ) 
 #define ID3D12PipelineState_QueryInterface(This,riid,ppvObject)	\
@@ -295,14 +295,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList_CopyResource(This,pDstResource,pSrcResource)	\
@@ -313,74 +313,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList_SetMarker(This,Metadata,pData,Size)	\
@@ -389,8 +389,8 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12GraphicsCommandList1_AddRef(This)	\
@@ -415,14 +415,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList1_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList1_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList1_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList1_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList1_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList1_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList1_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList1_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList1_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList1_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList1_CopyResource(This,pDstResource,pSrcResource)	\
@@ -433,74 +433,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList1_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList1_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList1_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList1_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList1_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList1_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList1_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList1_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList1_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList1_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList1_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList1_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList1_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList1_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList1_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList1_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList1_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList1_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList1_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List1_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList1_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList1_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList1_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList1_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList1_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList1_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList1_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList1_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList1_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList1_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList1_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList1_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList1_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList1_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList1_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList1_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList1_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList1_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList1_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList1_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList1_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList1_SetMarker(This,Metadata,pData,Size)	\
@@ -509,16 +509,16 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList1_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList1_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList1_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList1_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList1_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList1_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList1_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList1_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList1_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList1_SetViewInstanceMask(This,Mask)	\
@@ -547,14 +547,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList2_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList2_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList2_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList2_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList2_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList2_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList2_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList2_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList2_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList2_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList2_CopyResource(This,pDstResource,pSrcResource)	\
@@ -565,74 +565,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList2_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList2_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList2_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList2_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList2_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList2_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList2_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList2_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList2_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList2_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList2_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList2_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList2_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList2_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList2_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList2_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList2_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList2_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList2_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List2_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList2_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList2_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList2_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList2_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList2_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList2_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList2_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList2_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList2_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList2_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList2_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList2_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList2_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList2_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList2_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList2_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList2_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList2_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList2_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList2_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList2_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList2_SetMarker(This,Metadata,pData,Size)	\
@@ -641,22 +641,22 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList2_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList2_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList2_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList2_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList2_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList2_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList2_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList2_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList2_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList2_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList2_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList2_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12CommandQueue_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12CommandQueue_AddRef(This)	\
@@ -673,22 +673,22 @@
     ( (This)->SetName(Name) ) 
 #define ID3D12CommandQueue_GetDevice(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12CommandQueue_UpdateTileMappings(This,pResource,NumResourceRegions,pResourceRegionStartCoordinates,pResourceRegionSizes,pHeap,NumRanges,pRangeFlags,pHeapRangeStartOffsets,pRangeTileCounts,Flags)	\
-    ( (This)->UpdateTileMappings(pResource,NumResourceRegions,pResourceRegionStartCoordinates,pResourceRegionSizes,pHeap,NumRanges,pRangeFlags,pHeapRangeStartOffsets,pRangeTileCounts,Flags) ) 
+#define ID3D12CommandQueue_UpdateTileMappings(This,pResource,ژمارە_Resource_Regions,pResourceRegionStartCoordinates,pResourceRegionSizes,pHeap,ژمارە_Ranges,pRangeFlags,pHeapRangeStartOffsets,pRangeTileCounts,Flags)	\
+    ( (This)->UpdateTileMappings(pResource,ژمارە_Resource_Regions,pResourceRegionStartCoordinates,pResourceRegionSizes,pHeap,ژمارە_Ranges,pRangeFlags,pHeapRangeStartOffsets,pRangeTileCounts,Flags) ) 
 #define ID3D12CommandQueue_CopyTileMappings(This,pDstResource,pDstRegionStartCoordinate,pSrcResource,pSrcRegionStartCoordinate,pRegionSize,Flags)	\
     ( (This)->CopyTileMappings(pDstResource,pDstRegionStartCoordinate,pSrcResource,pSrcRegionStartCoordinate,pRegionSize,Flags) ) 
-#define ID3D12CommandQueue_ExecuteCommandLists(This,NumCommandLists,ppCommandLists)	\
-    ( (This)->ExecuteCommandLists(NumCommandLists,ppCommandLists) ) 
+#define ID3D12CommandQueue_ExecuteCommandLists(This,ژمارە_Command_Lists,ppCommandLists)	\
+    ( (This)->ExecuteCommandLists(ژمارە_Command_Lists,ppCommandLists) ) 
 #define ID3D12CommandQueue_SetMarker(This,Metadata,pData,Size)	\
     ( (This)->SetMarker(Metadata,pData,Size) ) 
 #define ID3D12CommandQueue_BeginEvent(This,Metadata,pData,Size)	\
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12CommandQueue_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12CommandQueue_Signal(This,pFence,Value)	\
-    ( (This)->Signal(pFence,Value) ) 
-#define ID3D12CommandQueue_Wait(This,pFence,Value)	\
-    ( (This)->Wait(pFence,Value) ) 
+#define ID3D12CommandQueue_Signal(This,pFence,بەها_2)	\
+    ( (This)->Signal(pFence,بەها_2) ) 
+#define ID3D12CommandQueue_Wait(This,pFence,بەها_2)	\
+    ( (This)->Wait(pFence,بەها_2) ) 
 #define ID3D12CommandQueue_GetTimestampFrequency(This,pFrequency)	\
     ( (This)->GetTimestampFrequency(pFrequency) ) 
 #define ID3D12CommandQueue_GetClockCalibration(This,pGpuTimestamp,pCpuTimestamp)	\
@@ -707,8 +707,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -717,16 +717,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -739,42 +739,42 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12PipelineLibrary_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12PipelineLibrary_AddRef(This)	\
@@ -843,8 +843,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device1_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device1_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device1_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device1_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device1_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -853,16 +853,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device1_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device1_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device1_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device1_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device1_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device1_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device1_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device1_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device1_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device1_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -875,48 +875,48 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device1_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device1_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device1_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device1_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device1_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device1_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device1_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device1_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device1_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device1_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device1_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device1_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device1_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device1_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device1_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device1_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device1_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device1_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device1_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device1_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device1_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device1_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device1_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device1_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device1_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device1_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device1_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device1_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device1_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device1_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device1_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device1_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device1_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device1_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device1_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device2_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Device2_AddRef(This)	\
@@ -931,8 +931,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device2_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device2_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device2_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device2_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device2_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -941,16 +941,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device2_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device2_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device2_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device2_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device2_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device2_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device2_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device2_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device2_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device2_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -963,48 +963,48 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device2_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device2_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device2_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device2_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device2_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device2_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device2_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device2_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device2_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device2_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device2_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device2_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device2_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device2_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device2_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device2_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device2_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device2_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device2_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device2_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device2_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device2_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device2_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device2_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device2_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device2_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device2_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device2_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device2_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device2_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device2_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device2_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device2_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device2_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device2_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device2_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device3_QueryInterface(This,riid,ppvObject)	\
@@ -1021,8 +1021,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device3_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device3_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device3_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device3_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device3_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1031,16 +1031,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device3_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device3_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device3_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device3_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device3_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device3_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device3_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device3_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device3_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device3_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1053,56 +1053,56 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device3_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device3_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device3_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device3_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device3_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device3_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device3_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device3_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device3_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device3_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device3_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device3_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device3_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device3_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device3_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device3_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device3_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device3_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device3_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device3_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device3_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device3_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device3_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device3_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device3_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device3_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device3_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device3_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device3_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device3_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device3_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device3_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device3_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device3_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device3_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device3_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device3_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device3_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device3_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
+#define ID3D12Device3_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
 #define ID3D12ProtectedSession_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12ProtectedSession_AddRef(This)	\
@@ -1157,8 +1157,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device4_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device4_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device4_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device4_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device4_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1167,16 +1167,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device4_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device4_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device4_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device4_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device4_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device4_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device4_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device4_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device4_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device4_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1189,66 +1189,66 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device4_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device4_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device4_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device4_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device4_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device4_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device4_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device4_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device4_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device4_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device4_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device4_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device4_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device4_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device4_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device4_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device4_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device4_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device4_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device4_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device4_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device4_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device4_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device4_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device4_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device4_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device4_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device4_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device4_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device4_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device4_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device4_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device4_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device4_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device4_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device4_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device4_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device4_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device4_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device4_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device4_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device4_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device4_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device4_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device4_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device4_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device4_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device4_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12LifetimeOwner_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12LifetimeOwner_AddRef(This)	\
@@ -1267,8 +1267,8 @@
     ( (This)->GetSwapChainObject(riid,ppv) ) 
 #define ID3D12SwapChainAssistant_GetCurrentResourceAndCommandQueue(This,riidResource,ppvResource,riidQueue,ppvQueue)	\
     ( (This)->GetCurrentResourceAndCommandQueue(riidResource,ppvResource,riidQueue,ppvQueue) ) 
-#define ID3D12SwapChainAssistant_InsertImplicitSync(This)	\
-    ( (This)->InsertImplicitSync() ) 
+#define ID3_D12_Swap_Chain_Assistant_زیادکردن_Implicit_Sync(This)	\
+    ( (This)->زیادکردن_Implicit_Sync() ) 
 #define ID3D12LifetimeTracker_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12LifetimeTracker_AddRef(This)	\
@@ -1311,12 +1311,12 @@
     ( (This)->Release() ) 
 #define ID3D12StateObjectProperties_GetShaderIdentifier(This,pExportName)	\
     ( (This)->GetShaderIdentifier(pExportName) ) 
-#define ID3D12StateObjectProperties_GetShaderStackSize(This,pExportName)	\
-    ( (This)->GetShaderStackSize(pExportName) ) 
-#define ID3D12StateObjectProperties_GetPipelineStackSize(This)	\
-    ( (This)->GetPipelineStackSize() ) 
-#define ID3D12StateObjectProperties_SetPipelineStackSize(This,PipelineStackSizeInBytes)	\
-    ( (This)->SetPipelineStackSize(PipelineStackSizeInBytes) ) 
+#define ID3_D12_State_Object_Properties_Get_Shader_کەڵەکە_Size(This,pExportName)	\
+    ( (This)->Get_Shader_کەڵەکە_Size(pExportName) ) 
+#define ID3_D12_State_Object_Properties_Get_Pipeline_کەڵەکە_Size(This)	\
+    ( (This)->Get_Pipeline_کەڵەکە_Size() ) 
+#define ID3_D12_State_Object_Properties_Set_Pipeline_کەڵەکە_Size(This,Pipeline_کەڵەکە_Size_In_Bytes)	\
+    ( (This)->Set_Pipeline_کەڵەکە_Size(Pipeline_کەڵەکە_Size_In_Bytes) ) 
 #define ID3D12StateObjectProperties1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12StateObjectProperties1_AddRef(This)	\
@@ -1325,34 +1325,34 @@
     ( (This)->Release() ) 
 #define ID3D12StateObjectProperties1_GetShaderIdentifier(This,pExportName)	\
     ( (This)->GetShaderIdentifier(pExportName) ) 
-#define ID3D12StateObjectProperties1_GetShaderStackSize(This,pExportName)	\
-    ( (This)->GetShaderStackSize(pExportName) ) 
-#define ID3D12StateObjectProperties1_GetPipelineStackSize(This)	\
-    ( (This)->GetPipelineStackSize() ) 
-#define ID3D12StateObjectProperties1_SetPipelineStackSize(This,PipelineStackSizeInBytes)	\
-    ( (This)->SetPipelineStackSize(PipelineStackSizeInBytes) ) 
+#define ID3_D12_State_Object_Properties1_Get_Shader_کەڵەکە_Size(This,pExportName)	\
+    ( (This)->Get_Shader_کەڵەکە_Size(pExportName) ) 
+#define ID3_D12_State_Object_Properties1_Get_Pipeline_کەڵەکە_Size(This)	\
+    ( (This)->Get_Pipeline_کەڵەکە_Size() ) 
+#define ID3_D12_State_Object_Properties1_Set_Pipeline_کەڵەکە_Size(This,Pipeline_کەڵەکە_Size_In_Bytes)	\
+    ( (This)->Set_Pipeline_کەڵەکە_Size(Pipeline_کەڵەکە_Size_In_Bytes) ) 
 #define ID3D12WorkGraphProperties_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12WorkGraphProperties_AddRef(This)	\
     ( (This)->AddRef() ) 
 #define ID3D12WorkGraphProperties_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12WorkGraphProperties_GetNumWorkGraphs(This)	\
-    ( (This)->GetNumWorkGraphs() ) 
+#define ID3_D12_Work_Graph_Properties_Get_ژمارە_Work_Graphs(This)	\
+    ( (This)->Get_ژمارە_Work_Graphs() ) 
 #define ID3D12WorkGraphProperties_GetProgramName(This,WorkGraphIndex)	\
     ( (This)->GetProgramName(WorkGraphIndex) ) 
 #define ID3D12WorkGraphProperties_GetWorkGraphIndex(This,pProgramName)	\
     ( (This)->GetWorkGraphIndex(pProgramName) ) 
-#define ID3D12WorkGraphProperties_GetNumNodes(This,WorkGraphIndex)	\
-    ( (This)->GetNumNodes(WorkGraphIndex) ) 
-#define ID3D12WorkGraphProperties_GetNodeIndex(This,WorkGraphIndex,NodeID)	\
-    ( (This)->GetNodeIndex(WorkGraphIndex,NodeID) ) 
-#define ID3D12WorkGraphProperties_GetNodeLocalRootArgumentsTableIndex(This,WorkGraphIndex,NodeIndex)	\
-    ( (This)->GetNodeLocalRootArgumentsTableIndex(WorkGraphIndex,NodeIndex) ) 
-#define ID3D12WorkGraphProperties_GetNumEntrypoints(This,WorkGraphIndex)	\
-    ( (This)->GetNumEntrypoints(WorkGraphIndex) ) 
-#define ID3D12WorkGraphProperties_GetEntrypointIndex(This,WorkGraphIndex,NodeID)	\
-    ( (This)->GetEntrypointIndex(WorkGraphIndex,NodeID) ) 
+#define ID3_D12_Work_Graph_Properties_Get_ژمارە_Nodes(This,WorkGraphIndex)	\
+    ( (This)->Get_ژمارە_Nodes(WorkGraphIndex) ) 
+#define ID3_D12_Work_Graph_Properties_Get_گرێ_Index(This,WorkGraphIndex,گرێ_ID)	\
+    ( (This)->Get_گرێ_Index(WorkGraphIndex,گرێ_ID) ) 
+#define ID3_D12_Work_Graph_Properties_Get_گرێ_Local_ڕەگ_Arguments_Table_Index(This,WorkGraphIndex,گرێ_Index)	\
+    ( (This)->Get_گرێ_Local_ڕەگ_Arguments_Table_Index(WorkGraphIndex,گرێ_Index) ) 
+#define ID3_D12_Work_Graph_Properties_Get_ژمارە_Entrypoints(This,WorkGraphIndex)	\
+    ( (This)->Get_ژمارە_Entrypoints(WorkGraphIndex) ) 
+#define ID3D12WorkGraphProperties_GetEntrypointIndex(This,WorkGraphIndex,گرێ_ID)	\
+    ( (This)->GetEntrypointIndex(WorkGraphIndex,گرێ_ID) ) 
 #define ID3D12WorkGraphProperties_GetEntrypointRecordSizeInBytes(This,WorkGraphIndex,EntrypointIndex)	\
     ( (This)->GetEntrypointRecordSizeInBytes(WorkGraphIndex,EntrypointIndex) ) 
 #define ID3D12WorkGraphProperties_GetWorkGraphMemoryRequirements(This,WorkGraphIndex,pWorkGraphMemoryRequirements)	\
@@ -1373,8 +1373,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device5_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device5_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device5_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device5_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device5_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1383,16 +1383,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device5_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device5_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device5_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device5_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device5_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device5_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device5_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device5_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device5_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device5_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1405,76 +1405,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device5_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device5_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device5_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device5_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device5_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device5_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device5_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device5_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device5_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device5_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device5_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device5_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device5_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device5_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device5_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device5_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device5_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device5_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device5_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device5_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device5_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device5_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device5_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device5_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device5_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device5_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device5_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device5_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device5_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device5_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device5_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device5_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device5_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device5_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device5_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device5_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device5_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device5_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device5_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device5_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device5_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device5_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device5_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device5_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device5_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device5_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device5_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device5_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device5_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device5_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device5_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device5_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device5_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device5_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device5_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device5_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device5_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device5_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -1579,8 +1579,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device6_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device6_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device6_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device6_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device6_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1589,16 +1589,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device6_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device6_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device6_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device6_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device6_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device6_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device6_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device6_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device6_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device6_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1611,76 +1611,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device6_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device6_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device6_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device6_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device6_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device6_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device6_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device6_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device6_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device6_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device6_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device6_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device6_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device6_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device6_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device6_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device6_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device6_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device6_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device6_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device6_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device6_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device6_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device6_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device6_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device6_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device6_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device6_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device6_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device6_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device6_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device6_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device6_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device6_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device6_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device6_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device6_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device6_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device6_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device6_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device6_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device6_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device6_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device6_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device6_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device6_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device6_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device6_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device6_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device6_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device6_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device6_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device6_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device6_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device6_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device6_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device6_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device6_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -1723,8 +1723,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device7_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device7_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device7_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device7_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device7_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1733,16 +1733,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device7_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device7_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device7_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device7_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device7_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device7_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device7_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device7_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device7_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device7_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1755,76 +1755,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device7_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device7_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device7_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device7_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device7_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device7_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device7_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device7_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device7_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device7_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device7_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device7_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device7_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device7_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device7_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device7_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device7_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device7_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device7_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device7_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device7_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device7_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device7_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device7_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device7_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device7_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device7_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device7_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device7_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device7_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device7_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device7_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device7_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device7_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device7_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device7_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device7_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device7_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device7_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device7_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device7_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device7_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device7_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device7_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device7_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device7_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device7_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device7_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device7_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device7_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device7_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device7_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device7_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device7_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device7_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device7_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device7_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device7_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -1851,8 +1851,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device8_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device8_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device8_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device8_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device8_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -1861,16 +1861,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device8_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device8_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device8_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device8_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device8_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device8_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device8_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device8_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device8_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device8_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -1883,76 +1883,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device8_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device8_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device8_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device8_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device8_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device8_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device8_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device8_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device8_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device8_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device8_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device8_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device8_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device8_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device8_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device8_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device8_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device8_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device8_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device8_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device8_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device8_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device8_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device8_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device8_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device8_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device8_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device8_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device8_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device8_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device8_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device8_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device8_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device8_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device8_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device8_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device8_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device8_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device8_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device8_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device8_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device8_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device8_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device8_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device8_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device8_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device8_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device8_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device8_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device8_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device8_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device8_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device8_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device8_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device8_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device8_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device8_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device8_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -1965,14 +1965,14 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device8_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device8_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device8_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device8_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device8_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device8_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device8_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device8_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Resource1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Resource1_AddRef(This)	\
@@ -2075,14 +2075,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList3_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList3_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList3_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList3_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList3_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList3_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList3_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList3_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList3_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList3_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList3_CopyResource(This,pDstResource,pSrcResource)	\
@@ -2093,74 +2093,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList3_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList3_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList3_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList3_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList3_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList3_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList3_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList3_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList3_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList3_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList3_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList3_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList3_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList3_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList3_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList3_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList3_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList3_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList3_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List3_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList3_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList3_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList3_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList3_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList3_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList3_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList3_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList3_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList3_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList3_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList3_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList3_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList3_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList3_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList3_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList3_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList3_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList3_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList3_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList3_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList3_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList3_SetMarker(This,Metadata,pData,Size)	\
@@ -2169,22 +2169,22 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList3_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList3_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList3_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList3_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList3_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList3_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList3_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList3_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList3_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList3_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList3_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList3_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList3_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
 #define ID3D12MetaCommand_QueryInterface(This,riid,ppvObject)	\
@@ -2229,14 +2229,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList4_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList4_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList4_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList4_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList4_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList4_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList4_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList4_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList4_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList4_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList4_CopyResource(This,pDstResource,pSrcResource)	\
@@ -2247,74 +2247,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList4_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList4_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList4_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList4_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList4_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList4_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList4_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList4_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList4_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList4_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList4_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList4_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList4_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList4_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList4_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList4_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList4_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList4_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList4_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List4_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList4_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList4_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList4_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList4_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList4_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList4_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList4_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList4_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList4_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList4_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList4_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList4_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList4_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList4_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList4_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList4_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList4_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList4_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList4_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList4_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList4_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList4_SetMarker(This,Metadata,pData,Size)	\
@@ -2323,36 +2323,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList4_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList4_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList4_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList4_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList4_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList4_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList4_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList4_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList4_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList4_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList4_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList4_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList4_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList4_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList4_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList4_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList4_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList4_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList4_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList4_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList4_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList4_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList4_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList4_SetPipelineState1(This,pStateObject)	\
@@ -2375,10 +2375,10 @@
     ( (This)->SetName(Name) ) 
 #define ID3D12ShaderCacheSession_GetDevice(This,riid,ppvDevice)	\
     ( (This)->GetDevice(riid,ppvDevice) ) 
-#define ID3D12ShaderCacheSession_FindValue(This,pKey,KeySize,pValue,pValueSize)	\
-    ( (This)->FindValue(pKey,KeySize,pValue,pValueSize) ) 
-#define ID3D12ShaderCacheSession_StoreValue(This,pKey,KeySize,pValue,ValueSize)	\
-    ( (This)->StoreValue(pKey,KeySize,pValue,ValueSize) ) 
+#define ID3_D12_Shader_Cache_Session_Find_بەها(This,p_کلیل,کلیل_Size,p_بەها,p_بەها_Size)	\
+    ( (This)->Find_بەها(p_کلیل,کلیل_Size,p_بەها,p_بەها_Size) ) 
+#define ID3_D12_Shader_Cache_Session_Store_بەها(This,p_کلیل,کلیل_Size,p_بەها,بەها_Size)	\
+    ( (This)->Store_بەها(p_کلیل,کلیل_Size,p_بەها,بەها_Size) ) 
 #define ID3D12ShaderCacheSession_SetDeleteOnDestroy(This)	\
     ( (This)->SetDeleteOnDestroy() ) 
 #define ID3D12Device9_QueryInterface(This,riid,ppvObject)	\
@@ -2395,8 +2395,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device9_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device9_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device9_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device9_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device9_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -2405,16 +2405,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device9_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device9_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device9_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device9_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device9_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device9_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device9_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device9_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device9_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device9_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -2427,76 +2427,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device9_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device9_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device9_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device9_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device9_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device9_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device9_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device9_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device9_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device9_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device9_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device9_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device9_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device9_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device9_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device9_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device9_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device9_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device9_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device9_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device9_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device9_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device9_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device9_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device9_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device9_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device9_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device9_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device9_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device9_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device9_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device9_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device9_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device9_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device9_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device9_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device9_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device9_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device9_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device9_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device9_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device9_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device9_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device9_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device9_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device9_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device9_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device9_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device9_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device9_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device9_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device9_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device9_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device9_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device9_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device9_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device9_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device9_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -2509,14 +2509,14 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device9_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device9_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device9_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device9_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device9_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device9_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device9_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device9_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device9_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device9_ShaderCacheControl(This,Kinds,Control)	\
@@ -2537,8 +2537,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device10_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device10_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device10_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device10_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device10_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -2547,16 +2547,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device10_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device10_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device10_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device10_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device10_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device10_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device10_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device10_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device10_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device10_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -2569,76 +2569,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device10_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device10_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device10_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device10_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device10_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device10_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device10_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device10_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device10_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device10_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device10_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device10_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device10_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device10_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device10_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device10_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device10_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device10_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device10_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device10_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device10_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device10_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device10_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device10_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device10_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device10_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device10_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device10_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device10_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device10_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device10_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device10_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device10_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device10_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device10_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device10_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device10_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device10_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device10_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device10_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device10_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device10_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device10_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device10_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device10_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device10_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device10_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device10_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device10_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device10_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device10_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device10_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device10_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device10_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device10_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device10_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device10_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device10_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -2651,26 +2651,26 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device10_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device10_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device10_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device10_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device10_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device10_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device10_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device10_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device10_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device10_ShaderCacheControl(This,Kinds,Control)	\
     ( (This)->ShaderCacheControl(Kinds,Control) ) 
 #define ID3D12Device10_CreateCommandQueue1(This,pDesc,CreatorID,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue1(pDesc,CreatorID,riid,ppCommandQueue) ) 
-#define ID3D12Device10_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource) ) 
-#define ID3D12Device10_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
-#define ID3D12Device10_CreateReservedResource2(This,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreateReservedResource2(pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device10_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource) ) 
+#define ID3D12Device10_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device10_CreateReservedResource2(This,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreateReservedResource2(pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
 #define ID3D12Device11_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Device11_AddRef(This)	\
@@ -2685,8 +2685,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device11_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device11_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device11_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device11_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device11_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -2695,16 +2695,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device11_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device11_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device11_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device11_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device11_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device11_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device11_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device11_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device11_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device11_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -2717,76 +2717,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device11_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device11_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device11_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device11_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device11_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device11_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device11_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device11_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device11_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device11_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device11_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device11_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device11_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device11_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device11_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device11_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device11_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device11_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device11_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device11_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device11_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device11_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device11_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device11_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device11_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device11_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device11_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device11_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device11_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device11_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device11_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device11_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device11_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device11_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device11_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device11_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device11_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device11_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device11_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device11_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device11_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device11_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device11_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device11_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device11_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device11_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device11_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device11_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device11_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device11_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device11_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device11_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device11_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device11_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device11_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device11_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device11_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device11_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -2799,26 +2799,26 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device11_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device11_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device11_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device11_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device11_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device11_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device11_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device11_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device11_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device11_ShaderCacheControl(This,Kinds,Control)	\
     ( (This)->ShaderCacheControl(Kinds,Control) ) 
 #define ID3D12Device11_CreateCommandQueue1(This,pDesc,CreatorID,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue1(pDesc,CreatorID,riid,ppCommandQueue) ) 
-#define ID3D12Device11_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource) ) 
-#define ID3D12Device11_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
-#define ID3D12Device11_CreateReservedResource2(This,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreateReservedResource2(pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device11_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource) ) 
+#define ID3D12Device11_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device11_CreateReservedResource2(This,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreateReservedResource2(pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
 #define ID3D12Device11_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler2(pDesc,DestDescriptor) ) 
 #define ID3D12Device12_QueryInterface(This,riid,ppvObject)	\
@@ -2835,8 +2835,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device12_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device12_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device12_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device12_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device12_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -2845,16 +2845,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device12_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device12_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device12_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device12_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device12_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device12_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device12_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device12_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device12_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device12_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -2867,76 +2867,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device12_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device12_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device12_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device12_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device12_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device12_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device12_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device12_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device12_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device12_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device12_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device12_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device12_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device12_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device12_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device12_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device12_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device12_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device12_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device12_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device12_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device12_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device12_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device12_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device12_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device12_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device12_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device12_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device12_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device12_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device12_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device12_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device12_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device12_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device12_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device12_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device12_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device12_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device12_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device12_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device12_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device12_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device12_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device12_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device12_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device12_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device12_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device12_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device12_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device12_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device12_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device12_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device12_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device12_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device12_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device12_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device12_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device12_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -2949,26 +2949,26 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device12_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device12_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device12_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device12_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device12_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device12_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device12_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device12_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device12_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device12_ShaderCacheControl(This,Kinds,Control)	\
     ( (This)->ShaderCacheControl(Kinds,Control) ) 
 #define ID3D12Device12_CreateCommandQueue1(This,pDesc,CreatorID,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue1(pDesc,CreatorID,riid,ppCommandQueue) ) 
-#define ID3D12Device12_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource) ) 
-#define ID3D12Device12_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
-#define ID3D12Device12_CreateReservedResource2(This,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreateReservedResource2(pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device12_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource) ) 
+#define ID3D12Device12_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device12_CreateReservedResource2(This,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreateReservedResource2(pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
 #define ID3D12Device12_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler2(pDesc,DestDescriptor) ) 
 #define ID3D12Device13_QueryInterface(This,riid,ppvObject)	\
@@ -2985,8 +2985,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device13_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device13_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device13_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device13_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device13_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -2995,16 +2995,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device13_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device13_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device13_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device13_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device13_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device13_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device13_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device13_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device13_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device13_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -3017,76 +3017,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device13_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device13_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device13_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device13_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device13_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device13_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device13_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device13_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device13_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device13_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device13_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device13_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device13_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device13_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device13_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device13_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device13_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device13_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device13_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device13_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device13_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device13_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device13_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device13_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device13_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device13_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device13_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device13_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device13_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device13_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device13_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device13_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device13_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device13_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device13_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device13_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device13_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device13_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device13_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device13_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device13_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device13_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device13_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device13_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device13_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device13_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device13_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device13_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device13_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device13_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device13_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device13_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device13_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device13_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device13_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device13_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device13_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device13_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -3099,26 +3099,26 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device13_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device13_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device13_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device13_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device13_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device13_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device13_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device13_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device13_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device13_ShaderCacheControl(This,Kinds,Control)	\
     ( (This)->ShaderCacheControl(Kinds,Control) ) 
 #define ID3D12Device13_CreateCommandQueue1(This,pDesc,CreatorID,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue1(pDesc,CreatorID,riid,ppCommandQueue) ) 
-#define ID3D12Device13_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource) ) 
-#define ID3D12Device13_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
-#define ID3D12Device13_CreateReservedResource2(This,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreateReservedResource2(pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device13_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource) ) 
+#define ID3D12Device13_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device13_CreateReservedResource2(This,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreateReservedResource2(pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
 #define ID3D12Device13_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler2(pDesc,DestDescriptor) ) 
 #define ID3D12Device13_OpenExistingHeapFromAddress1(This,pAddress,size,riid,ppvHeap)	\
@@ -3137,8 +3137,8 @@
     ( (This)->SetPrivateDataInterface(guid,pData) ) 
 #define ID3D12Device14_SetName(This,Name)	\
     ( (This)->SetName(Name) ) 
-#define ID3D12Device14_GetNodeCount(This)	\
-    ( (This)->GetNodeCount() ) 
+#define ID3_D12_Device14_Get_گرێ_ژماردن(This)	\
+    ( (This)->Get_گرێ_ژماردن() ) 
 #define ID3D12Device14_CreateCommandQueue(This,pDesc,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue(pDesc,riid,ppCommandQueue) ) 
 #define ID3D12Device14_CreateCommandAllocator(This,type,riid,ppCommandAllocator)	\
@@ -3147,16 +3147,16 @@
     ( (This)->CreateGraphicsPipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device14_CreateComputePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreateComputePipelineState(pDesc,riid,ppPipelineState) ) 
-#define ID3D12Device14_CreateCommandList(This,nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
-    ( (This)->CreateCommandList(nodeMask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
+#define ID3D12Device14_CreateCommandList(This,گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList)	\
+    ( (This)->CreateCommandList(گرێ_Mask,type,pCommandAllocator,pInitialState,riid,ppCommandList) ) 
 #define ID3D12Device14_CheckFeatureSupport(This,Feature,pFeatureSupportData,FeatureSupportDataSize)	\
     ( (This)->CheckFeatureSupport(Feature,pFeatureSupportData,FeatureSupportDataSize) ) 
 #define ID3D12Device14_CreateDescriptorHeap(This,pDescriptorHeapDesc,riid,ppvHeap)	\
     ( (This)->CreateDescriptorHeap(pDescriptorHeapDesc,riid,ppvHeap) ) 
 #define ID3D12Device14_GetDescriptorHandleIncrementSize(This,DescriptorHeapType)	\
     ( (This)->GetDescriptorHandleIncrementSize(DescriptorHeapType) ) 
-#define ID3D12Device14_CreateRootSignature(This,nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignature(nodeMask,pBlobWithRootSignature,blobLengthInBytes,riid,ppvRootSignature) ) 
+#define ID3_D12_Device14_Create_ڕەگ_Signature(This,گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature(گرێ_Mask,p_Blob_With_ڕەگ_Signature,blobLengthInBytes,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12Device14_CreateConstantBufferView(This,pDesc,DestDescriptor)	\
     ( (This)->CreateConstantBufferView(pDesc,DestDescriptor) ) 
 #define ID3D12Device14_CreateShaderResourceView(This,pResource,pDesc,DestDescriptor)	\
@@ -3169,76 +3169,76 @@
     ( (This)->CreateDepthStencilView(pResource,pDesc,DestDescriptor) ) 
 #define ID3D12Device14_CreateSampler(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler(pDesc,DestDescriptor) ) 
-#define ID3D12Device14_CopyDescriptors(This,NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptors(NumDestDescriptorRanges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,NumSrcDescriptorRanges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
-#define ID3D12Device14_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
-    ( (This)->CopyDescriptorsSimple(NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#define ID3D12Device14_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,riidResource,ppvResource) ) 
+#define ID3D12Device14_CopyDescriptors(This,ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptors(ژمارە_Dest_Descriptor_Ranges,pDestDescriptorRangeStarts,pDestDescriptorRangeSizes,ژمارە_Src_Descriptor_Ranges,pSrcDescriptorRangeStarts,pSrcDescriptorRangeSizes,DescriptorHeapsType) ) 
+#define ID3D12Device14_CopyDescriptorsSimple(This,ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
+    ( (This)->CopyDescriptorsSimple(ژمارە_Descriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
+#define ID3D12Device14_CreateCommittedResource(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,riidResource,ppvResource) ) 
 #define ID3D12Device14_CreateHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateHeap(pDesc,riid,ppvHeap) ) 
-#define ID3D12Device14_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
-#define ID3D12Device14_CreateReservedResource(This,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreateReservedResource(pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device14_CreatePlacedResource(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
+#define ID3D12Device14_CreateReservedResource(This,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreateReservedResource(pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device14_CreateSharedHandle(This,pObject,pAttributes,Access,Name,pHandle)	\
     ( (This)->CreateSharedHandle(pObject,pAttributes,Access,Name,pHandle) ) 
 #define ID3D12Device14_OpenSharedHandle(This,NTHandle,riid,ppvObj)	\
     ( (This)->OpenSharedHandle(NTHandle,riid,ppvObj) ) 
 #define ID3D12Device14_OpenSharedHandleByName(This,Name,Access,pNTHandle)	\
     ( (This)->OpenSharedHandleByName(Name,Access,pNTHandle) ) 
-#define ID3D12Device14_MakeResident(This,NumObjects,ppObjects)	\
-    ( (This)->MakeResident(NumObjects,ppObjects) ) 
-#define ID3D12Device14_Evict(This,NumObjects,ppObjects)	\
-    ( (This)->Evict(NumObjects,ppObjects) ) 
-#define ID3D12Device14_CreateFence(This,InitialValue,Flags,riid,ppFence)	\
-    ( (This)->CreateFence(InitialValue,Flags,riid,ppFence) ) 
+#define ID3D12Device14_MakeResident(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->MakeResident(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device14_Evict(This,ژمارە_Objects,ppObjects)	\
+    ( (This)->Evict(ژمارە_Objects,ppObjects) ) 
+#define ID3D12Device14_CreateFence(This,Initial_بەها,Flags,riid,ppFence)	\
+    ( (This)->CreateFence(Initial_بەها,Flags,riid,ppFence) ) 
 #define ID3D12Device14_GetDeviceRemovedReason(This)	\
     ( (This)->GetDeviceRemovedReason() ) 
-#define ID3D12Device14_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device14_GetCopyableFootprints(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device14_CreateQueryHeap(This,pDesc,riid,ppvHeap)	\
     ( (This)->CreateQueryHeap(pDesc,riid,ppvHeap) ) 
 #define ID3D12Device14_SetStablePowerState(This,Enable)	\
     ( (This)->SetStablePowerState(Enable) ) 
-#define ID3D12Device14_CreateCommandSignature(This,pDesc,pRootSignature,riid,ppvCommandSignature)	\
-    ( (This)->CreateCommandSignature(pDesc,pRootSignature,riid,ppvCommandSignature) ) 
-#define ID3D12Device14_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
-    ( (This)->GetResourceTiling(pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
+#define ID3D12Device14_CreateCommandSignature(This,pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature)	\
+    ( (This)->CreateCommandSignature(pDesc,p_ڕەگ_Signature,riid,ppvCommandSignature) ) 
+#define ID3D12Device14_GetResourceTiling(This,pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
+    ( (This)->GetResourceTiling(pTiledResource,p_ژمارە_Tiles_For_Entire_Resource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,p_ژمارە_Subresource_Tilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
 #define ID3D12Device14_CreatePipelineLibrary(This,pLibraryBlob,BlobLength,riid,ppPipelineLibrary)	\
     ( (This)->CreatePipelineLibrary(pLibraryBlob,BlobLength,riid,ppPipelineLibrary) ) 
-#define ID3D12Device14_SetEventOnMultipleFenceCompletion(This,ppFences,pFenceValues,NumFences,Flags,hEvent)	\
-    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,pFenceValues,NumFences,Flags,hEvent) ) 
-#define ID3D12Device14_SetResidencyPriority(This,NumObjects,ppObjects,pPriorities)	\
-    ( (This)->SetResidencyPriority(NumObjects,ppObjects,pPriorities) ) 
+#define ID3D12Device14_SetEventOnMultipleFenceCompletion(This,ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent)	\
+    ( (This)->SetEventOnMultipleFenceCompletion(ppFences,p_Fence_بەهاکان,ژمارە_Fences,Flags,hEvent) ) 
+#define ID3D12Device14_SetResidencyPriority(This,ژمارە_Objects,ppObjects,pPriorities)	\
+    ( (This)->SetResidencyPriority(ژمارە_Objects,ppObjects,pPriorities) ) 
 #define ID3D12Device14_CreatePipelineState(This,pDesc,riid,ppPipelineState)	\
     ( (This)->CreatePipelineState(pDesc,riid,ppPipelineState) ) 
 #define ID3D12Device14_OpenExistingHeapFromAddress(This,pAddress,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress(pAddress,riid,ppvHeap) ) 
 #define ID3D12Device14_OpenExistingHeapFromFileMapping(This,hFileMapping,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromFileMapping(hFileMapping,riid,ppvHeap) ) 
-#define ID3D12Device14_EnqueueMakeResident(This,Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal)	\
-    ( (This)->EnqueueMakeResident(Flags,NumObjects,ppObjects,pFenceToSignal,FenceValueToSignal) ) 
-#define ID3D12Device14_CreateCommandList1(This,nodeMask,type,flags,riid,ppCommandList)	\
-    ( (This)->CreateCommandList1(nodeMask,type,flags,riid,ppCommandList) ) 
+#define ID3D12Device14_EnqueueMakeResident(This,Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal)	\
+    ( (This)->EnqueueMakeResident(Flags,ژمارە_Objects,ppObjects,pFenceToSignal,Fence_بەها_To_Signal) ) 
+#define ID3D12Device14_CreateCommandList1(This,گرێ_Mask,type,flags,riid,ppCommandList)	\
+    ( (This)->CreateCommandList1(گرێ_Mask,type,flags,riid,ppCommandList) ) 
 #define ID3D12Device14_CreateProtectedResourceSession(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession(pDesc,riid,ppSession) ) 
-#define ID3D12Device14_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device14_CreateCommittedResource1(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource1(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
 #define ID3D12Device14_CreateHeap1(This,pDesc,pProtectedSession,riid,ppvHeap)	\
     ( (This)->CreateHeap1(pDesc,pProtectedSession,riid,ppvHeap) ) 
-#define ID3D12Device14_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
-    ( (This)->CreateReservedResource1(pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
+#define ID3D12Device14_CreateReservedResource1(This,pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource)	\
+    ( (This)->CreateReservedResource1(pDesc,InitialState,p_Optimized_Clear_بەها,pProtectedSession,riid,ppvResource) ) 
 #define ID3D12Device14_CreateLifetimeTracker(This,pOwner,riid,ppvTracker)	\
     ( (This)->CreateLifetimeTracker(pOwner,riid,ppvTracker) ) 
 #define ID3D12Device14_RemoveDevice(This)	\
     ( (This)->RemoveDevice() ) 
-#define ID3D12Device14_EnumerateMetaCommands(This,pNumMetaCommands,pDescs)	\
-    ( (This)->EnumerateMetaCommands(pNumMetaCommands,pDescs) ) 
-#define ID3D12Device14_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs)	\
-    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,pParameterCount,pParameterDescs) ) 
-#define ID3D12Device14_CreateMetaCommand(This,CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
-    ( (This)->CreateMetaCommand(CommandId,NodeMask,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
+#define ID3D12Device14_EnumerateMetaCommands(This,p_ژمارە_Meta_Commands,pDescs)	\
+    ( (This)->EnumerateMetaCommands(p_ژمارە_Meta_Commands,pDescs) ) 
+#define ID3D12Device14_EnumerateMetaCommandParameters(This,CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs)	\
+    ( (This)->EnumerateMetaCommandParameters(CommandId,Stage,pTotalStructureSizeInBytes,p_Parameter_ژماردن,pParameterDescs) ) 
+#define ID3D12Device14_CreateMetaCommand(This,CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand)	\
+    ( (This)->CreateMetaCommand(CommandId,گرێ_Mask_2,pCreationParametersData,CreationParametersDataSizeInBytes,riid,ppMetaCommand) ) 
 #define ID3D12Device14_CreateStateObject(This,pDesc,riid,ppStateObject)	\
     ( (This)->CreateStateObject(pDesc,riid,ppStateObject) ) 
 #define ID3D12Device14_GetRaytracingAccelerationStructurePrebuildInfo(This,pDesc,pInfo)	\
@@ -3251,32 +3251,32 @@
     ( (This)->AddToStateObject(pAddition,pStateObjectToGrowFrom,riid,ppNewStateObject) ) 
 #define ID3D12Device14_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->CreateProtectedResourceSession1(pDesc,riid,ppSession) ) 
-#define ID3D12Device14_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,pOptimizedClearValue,pProtectedSession,riidResource,ppvResource) ) 
-#define ID3D12Device14_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,pOptimizedClearValue,riid,ppvResource) ) 
+#define ID3D12Device14_CreateCommittedResource2(This,pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource2(pHeapProperties,HeapFlags,pDesc,InitialResourceState,p_Optimized_Clear_بەها,pProtectedSession,riidResource,ppvResource) ) 
+#define ID3D12Device14_CreatePlacedResource1(This,pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource1(pHeap,HeapOffset,pDesc,InitialState,p_Optimized_Clear_بەها,riid,ppvResource) ) 
 #define ID3D12Device14_CreateSamplerFeedbackUnorderedAccessView(This,pTargetedResource,pFeedbackResource,DestDescriptor)	\
     ( (This)->CreateSamplerFeedbackUnorderedAccessView(pTargetedResource,pFeedbackResource,DestDescriptor) ) 
-#define ID3D12Device14_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes)	\
-    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,NumSubresources,BaseOffset,pLayouts,pNumRows,pRowSizeInBytes,pTotalBytes) ) 
+#define ID3D12Device14_GetCopyableFootprints1(This,pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes)	\
+    ( (This)->GetCopyableFootprints1(pResourceDesc,FirstSubresource,ژمارە_Subresources,BaseOffset,pLayouts,p_ژمارە_Rows,pRowSizeInBytes,pTotalBytes) ) 
 #define ID3D12Device14_CreateShaderCacheSession(This,pDesc,riid,ppvSession)	\
     ( (This)->CreateShaderCacheSession(pDesc,riid,ppvSession) ) 
 #define ID3D12Device14_ShaderCacheControl(This,Kinds,Control)	\
     ( (This)->ShaderCacheControl(Kinds,Control) ) 
 #define ID3D12Device14_CreateCommandQueue1(This,pDesc,CreatorID,riid,ppCommandQueue)	\
     ( (This)->CreateCommandQueue1(pDesc,CreatorID,riid,ppCommandQueue) ) 
-#define ID3D12Device14_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource)	\
-    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riidResource,ppvResource) ) 
-#define ID3D12Device14_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,pOptimizedClearValue,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
-#define ID3D12Device14_CreateReservedResource2(This,pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource)	\
-    ( (This)->CreateReservedResource2(pDesc,InitialLayout,pOptimizedClearValue,pProtectedSession,NumCastableFormats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device14_CreateCommittedResource3(This,pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource)	\
+    ( (This)->CreateCommittedResource3(pHeapProperties,HeapFlags,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riidResource,ppvResource) ) 
+#define ID3D12Device14_CreatePlacedResource2(This,pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreatePlacedResource2(pHeap,HeapOffset,pDesc,InitialLayout,p_Optimized_Clear_بەها,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
+#define ID3D12Device14_CreateReservedResource2(This,pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource)	\
+    ( (This)->CreateReservedResource2(pDesc,InitialLayout,p_Optimized_Clear_بەها,pProtectedSession,ژمارە_Castable_Formats,pCastableFormats,riid,ppvResource) ) 
 #define ID3D12Device14_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->CreateSampler2(pDesc,DestDescriptor) ) 
 #define ID3D12Device14_OpenExistingHeapFromAddress1(This,pAddress,size,riid,ppvHeap)	\
     ( (This)->OpenExistingHeapFromAddress1(pAddress,size,riid,ppvHeap) ) 
-#define ID3D12Device14_CreateRootSignatureFromSubobjectInLibrary(This,nodeMask,pLibraryBlob,blobLengthInBytes,subobjectName,riid,ppvRootSignature)	\
-    ( (This)->CreateRootSignatureFromSubobjectInLibrary(nodeMask,pLibraryBlob,blobLengthInBytes,subobjectName,riid,ppvRootSignature) ) 
+#define ID3_D12_Device14_Create_ڕەگ_Signature_From_Subobject_In_Library(This,گرێ_Mask,pLibraryBlob,blobLengthInBytes,subobjectName,riid,ppv_ڕەگ_Signature)	\
+    ( (This)->Create_ڕەگ_Signature_From_Subobject_In_Library(گرێ_Mask,pLibraryBlob,blobLengthInBytes,subobjectName,riid,ppv_ڕەگ_Signature) ) 
 #define ID3D12VirtualizationGuestDevice_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12VirtualizationGuestDevice_AddRef(This)	\
@@ -3285,8 +3285,8 @@
     ( (This)->Release() ) 
 #define ID3D12VirtualizationGuestDevice_ShareWithHost(This,pObject,pHandle)	\
     ( (This)->ShareWithHost(pObject,pHandle) ) 
-#define ID3D12VirtualizationGuestDevice_CreateFenceFd(This,pFence,FenceValue,pFenceFd)	\
-    ( (This)->CreateFenceFd(pFence,FenceValue,pFenceFd) ) 
+#define ID3D12VirtualizationGuestDevice_CreateFenceFd(This,pFence,Fence_بەها,pFenceFd)	\
+    ( (This)->CreateFenceFd(pFence,Fence_بەها,pFenceFd) ) 
 #define ID3D12Tools_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12Tools_AddRef(This)	\
@@ -3333,8 +3333,8 @@
     ( (This)->GetFlags() ) 
 #define ID3D12DeviceFactory_GetConfigurationInterface(This,clsid,iid,ppv)	\
     ( (This)->GetConfigurationInterface(clsid,iid,ppv) ) 
-#define ID3D12DeviceFactory_EnableExperimentalFeatures(This,NumFeatures,pIIDs,pConfigurationStructs,pConfigurationStructSizes)	\
-    ( (This)->EnableExperimentalFeatures(NumFeatures,pIIDs,pConfigurationStructs,pConfigurationStructSizes) ) 
+#define ID3D12DeviceFactory_EnableExperimentalFeatures(This,ژمارە_Features,pIIDs,pConfigurationStructs,pConfigurationStructSizes)	\
+    ( (This)->EnableExperimentalFeatures(ژمارە_Features,pIIDs,pConfigurationStructs,pConfigurationStructSizes) ) 
 #define ID3D12DeviceFactory_CreateDevice(This,adapter,FeatureLevel,riid,ppvDevice)	\
     ( (This)->CreateDevice(adapter,FeatureLevel,riid,ppvDevice) ) 
 #define ID3D12DeviceConfiguration_QueryInterface(This,riid,ppvObject)	\
@@ -3343,26 +3343,26 @@
     ( (This)->AddRef() ) 
 #define ID3D12DeviceConfiguration_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12DeviceConfiguration_GetEnabledExperimentalFeatures(This,pGuids,NumGuids)	\
-    ( (This)->GetEnabledExperimentalFeatures(pGuids,NumGuids) ) 
-#define ID3D12DeviceConfiguration_SerializeVersionedRootSignature(This,pDesc,ppResult,ppError)	\
-    ( (This)->SerializeVersionedRootSignature(pDesc,ppResult,ppError) ) 
-#define ID3D12DeviceConfiguration_CreateVersionedRootSignatureDeserializer(This,pBlob,Size,riid,ppvDeserializer)	\
-    ( (This)->CreateVersionedRootSignatureDeserializer(pBlob,Size,riid,ppvDeserializer) ) 
+#define ID3D12DeviceConfiguration_GetEnabledExperimentalFeatures(This,pGuids,ژمارە_Guids)	\
+    ( (This)->GetEnabledExperimentalFeatures(pGuids,ژمارە_Guids) ) 
+#define ID3_D12_Device_Configuration_Serialize_Versioned_ڕەگ_Signature(This,pDesc,ppResult,ppError)	\
+    ( (This)->Serialize_Versioned_ڕەگ_Signature(pDesc,ppResult,ppError) ) 
+#define ID3_D12_Device_Configuration_Create_Versioned_ڕەگ_Signature_Deserializer(This,pBlob,Size,riid,ppvDeserializer)	\
+    ( (This)->Create_Versioned_ڕەگ_Signature_Deserializer(pBlob,Size,riid,ppvDeserializer) ) 
 #define ID3D12DeviceConfiguration1_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12DeviceConfiguration1_AddRef(This)	\
     ( (This)->AddRef() ) 
 #define ID3D12DeviceConfiguration1_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12DeviceConfiguration1_GetEnabledExperimentalFeatures(This,pGuids,NumGuids)	\
-    ( (This)->GetEnabledExperimentalFeatures(pGuids,NumGuids) ) 
-#define ID3D12DeviceConfiguration1_SerializeVersionedRootSignature(This,pDesc,ppResult,ppError)	\
-    ( (This)->SerializeVersionedRootSignature(pDesc,ppResult,ppError) ) 
-#define ID3D12DeviceConfiguration1_CreateVersionedRootSignatureDeserializer(This,pBlob,Size,riid,ppvDeserializer)	\
-    ( (This)->CreateVersionedRootSignatureDeserializer(pBlob,Size,riid,ppvDeserializer) ) 
-#define ID3D12DeviceConfiguration1_CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(This,pLibraryBlob,Size,RootSignatureSubobjectName,riid,ppvDeserializer)	\
-    ( (This)->CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(pLibraryBlob,Size,RootSignatureSubobjectName,riid,ppvDeserializer) ) 
+#define ID3D12DeviceConfiguration1_GetEnabledExperimentalFeatures(This,pGuids,ژمارە_Guids)	\
+    ( (This)->GetEnabledExperimentalFeatures(pGuids,ژمارە_Guids) ) 
+#define ID3_D12_Device_Configuration1_Serialize_Versioned_ڕەگ_Signature(This,pDesc,ppResult,ppError)	\
+    ( (This)->Serialize_Versioned_ڕەگ_Signature(pDesc,ppResult,ppError) ) 
+#define ID3_D12_Device_Configuration1_Create_Versioned_ڕەگ_Signature_Deserializer(This,pBlob,Size,riid,ppvDeserializer)	\
+    ( (This)->Create_Versioned_ڕەگ_Signature_Deserializer(pBlob,Size,riid,ppvDeserializer) ) 
+#define ID3_D12_Device_Configuration1_Create_Versioned_ڕەگ_Signature_Deserializer_From_Subobject_In_Library(This,pLibraryBlob,Size,ڕەگ_Signature_Subobject_Name,riid,ppvDeserializer)	\
+    ( (This)->Create_Versioned_ڕەگ_Signature_Deserializer_From_Subobject_In_Library(pLibraryBlob,Size,ڕەگ_Signature_Subobject_Name,riid,ppvDeserializer) ) 
 #define ID3D12GraphicsCommandList5_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12GraphicsCommandList5_AddRef(This)	\
@@ -3387,14 +3387,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList5_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList5_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList5_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList5_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList5_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList5_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList5_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList5_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList5_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList5_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList5_CopyResource(This,pDstResource,pSrcResource)	\
@@ -3405,74 +3405,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList5_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList5_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList5_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList5_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList5_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList5_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList5_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList5_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList5_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList5_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList5_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList5_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList5_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList5_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList5_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList5_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList5_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList5_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList5_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List5_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList5_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList5_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList5_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList5_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList5_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList5_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList5_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList5_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList5_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList5_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList5_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList5_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList5_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList5_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList5_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList5_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList5_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList5_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList5_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList5_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList5_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList5_SetMarker(This,Metadata,pData,Size)	\
@@ -3481,36 +3481,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList5_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList5_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList5_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList5_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList5_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList5_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList5_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList5_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList5_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList5_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList5_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList5_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList5_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList5_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList5_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList5_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList5_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList5_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList5_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList5_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList5_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList5_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList5_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList5_SetPipelineState1(This,pStateObject)	\
@@ -3545,14 +3545,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList6_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList6_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList6_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList6_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList6_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList6_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList6_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList6_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList6_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList6_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList6_CopyResource(This,pDstResource,pSrcResource)	\
@@ -3563,74 +3563,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList6_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList6_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList6_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList6_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList6_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList6_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList6_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList6_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList6_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList6_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList6_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList6_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList6_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList6_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList6_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList6_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList6_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList6_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList6_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List6_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList6_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList6_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList6_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList6_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList6_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList6_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList6_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList6_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList6_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList6_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList6_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList6_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList6_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList6_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList6_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList6_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList6_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList6_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList6_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList6_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList6_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList6_SetMarker(This,Metadata,pData,Size)	\
@@ -3639,36 +3639,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList6_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList6_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList6_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList6_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList6_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList6_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList6_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList6_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList6_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList6_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList6_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList6_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList6_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList6_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList6_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList6_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList6_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList6_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList6_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList6_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList6_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList6_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList6_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList6_SetPipelineState1(This,pStateObject)	\
@@ -3679,8 +3679,8 @@
     ( (This)->RSSetShadingRate(baseShadingRate,combiners) ) 
 #define ID3D12GraphicsCommandList6_RSSetShadingRateImage(This,shadingRateImage)	\
     ( (This)->RSSetShadingRateImage(shadingRateImage) ) 
-#define ID3D12GraphicsCommandList6_DispatchMesh(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->DispatchMesh(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
+#define ID3D12GraphicsCommandList6_DispatchMesh(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->DispatchMesh(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
 #define ID3D12GraphicsCommandList7_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12GraphicsCommandList7_AddRef(This)	\
@@ -3705,14 +3705,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList7_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList7_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList7_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList7_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList7_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList7_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList7_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList7_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList7_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList7_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList7_CopyResource(This,pDstResource,pSrcResource)	\
@@ -3723,74 +3723,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList7_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList7_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList7_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList7_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList7_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList7_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList7_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList7_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList7_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList7_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList7_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList7_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList7_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList7_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList7_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList7_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList7_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList7_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList7_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List7_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList7_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList7_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList7_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList7_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList7_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList7_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList7_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList7_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList7_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList7_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList7_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList7_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList7_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList7_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList7_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList7_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList7_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList7_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList7_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList7_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList7_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList7_SetMarker(This,Metadata,pData,Size)	\
@@ -3799,36 +3799,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList7_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList7_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList7_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList7_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList7_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList7_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList7_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList7_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList7_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList7_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList7_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList7_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList7_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList7_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList7_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList7_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList7_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList7_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList7_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList7_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList7_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList7_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList7_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList7_SetPipelineState1(This,pStateObject)	\
@@ -3839,10 +3839,10 @@
     ( (This)->RSSetShadingRate(baseShadingRate,combiners) ) 
 #define ID3D12GraphicsCommandList7_RSSetShadingRateImage(This,shadingRateImage)	\
     ( (This)->RSSetShadingRateImage(shadingRateImage) ) 
-#define ID3D12GraphicsCommandList7_DispatchMesh(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->DispatchMesh(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList7_Barrier(This,NumBarrierGroups,pBarrierGroups)	\
-    ( (This)->Barrier(NumBarrierGroups,pBarrierGroups) ) 
+#define ID3D12GraphicsCommandList7_DispatchMesh(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->DispatchMesh(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList7_Barrier(This,ژمارە_Barrier_Groups,pBarrierGroups)	\
+    ( (This)->Barrier(ژمارە_Barrier_Groups,pBarrierGroups) ) 
 #define ID3D12GraphicsCommandList8_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12GraphicsCommandList8_AddRef(This)	\
@@ -3867,14 +3867,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList8_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList8_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList8_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList8_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList8_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList8_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList8_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList8_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList8_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList8_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList8_CopyResource(This,pDstResource,pSrcResource)	\
@@ -3885,74 +3885,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList8_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList8_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList8_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList8_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList8_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList8_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList8_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList8_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList8_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList8_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList8_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList8_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList8_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList8_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList8_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList8_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList8_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList8_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList8_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List8_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList8_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList8_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList8_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList8_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList8_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList8_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList8_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList8_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList8_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList8_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList8_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList8_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList8_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList8_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList8_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList8_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList8_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList8_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList8_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList8_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList8_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList8_SetMarker(This,Metadata,pData,Size)	\
@@ -3961,36 +3961,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList8_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList8_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList8_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList8_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList8_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList8_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList8_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList8_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList8_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList8_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList8_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList8_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList8_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList8_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList8_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList8_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList8_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList8_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList8_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList8_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList8_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList8_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList8_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList8_SetPipelineState1(This,pStateObject)	\
@@ -4001,10 +4001,10 @@
     ( (This)->RSSetShadingRate(baseShadingRate,combiners) ) 
 #define ID3D12GraphicsCommandList8_RSSetShadingRateImage(This,shadingRateImage)	\
     ( (This)->RSSetShadingRateImage(shadingRateImage) ) 
-#define ID3D12GraphicsCommandList8_DispatchMesh(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->DispatchMesh(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList8_Barrier(This,NumBarrierGroups,pBarrierGroups)	\
-    ( (This)->Barrier(NumBarrierGroups,pBarrierGroups) ) 
+#define ID3D12GraphicsCommandList8_DispatchMesh(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->DispatchMesh(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList8_Barrier(This,ژمارە_Barrier_Groups,pBarrierGroups)	\
+    ( (This)->Barrier(ژمارە_Barrier_Groups,pBarrierGroups) ) 
 #define ID3D12GraphicsCommandList8_OMSetFrontAndBackStencilRef(This,FrontStencilRef,BackStencilRef)	\
     ( (This)->OMSetFrontAndBackStencilRef(FrontStencilRef,BackStencilRef) ) 
 #define ID3D12GraphicsCommandList9_QueryInterface(This,riid,ppvObject)	\
@@ -4031,14 +4031,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList9_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList9_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList9_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList9_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList9_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList9_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList9_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList9_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList9_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList9_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList9_CopyResource(This,pDstResource,pSrcResource)	\
@@ -4049,74 +4049,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList9_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList9_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList9_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList9_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList9_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList9_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList9_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList9_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList9_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList9_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList9_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList9_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList9_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList9_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList9_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList9_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList9_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList9_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList9_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List9_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList9_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList9_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList9_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList9_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList9_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList9_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList9_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList9_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList9_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList9_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList9_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList9_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList9_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList9_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList9_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList9_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList9_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList9_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList9_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList9_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList9_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList9_SetMarker(This,Metadata,pData,Size)	\
@@ -4125,36 +4125,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList9_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList9_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList9_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList9_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList9_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList9_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList9_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList9_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList9_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList9_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList9_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList9_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList9_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList9_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList9_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList9_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList9_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList9_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList9_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList9_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList9_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList9_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList9_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList9_SetPipelineState1(This,pStateObject)	\
@@ -4165,16 +4165,16 @@
     ( (This)->RSSetShadingRate(baseShadingRate,combiners) ) 
 #define ID3D12GraphicsCommandList9_RSSetShadingRateImage(This,shadingRateImage)	\
     ( (This)->RSSetShadingRateImage(shadingRateImage) ) 
-#define ID3D12GraphicsCommandList9_DispatchMesh(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->DispatchMesh(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList9_Barrier(This,NumBarrierGroups,pBarrierGroups)	\
-    ( (This)->Barrier(NumBarrierGroups,pBarrierGroups) ) 
+#define ID3D12GraphicsCommandList9_DispatchMesh(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->DispatchMesh(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList9_Barrier(This,ژمارە_Barrier_Groups,pBarrierGroups)	\
+    ( (This)->Barrier(ژمارە_Barrier_Groups,pBarrierGroups) ) 
 #define ID3D12GraphicsCommandList9_OMSetFrontAndBackStencilRef(This,FrontStencilRef,BackStencilRef)	\
     ( (This)->OMSetFrontAndBackStencilRef(FrontStencilRef,BackStencilRef) ) 
 #define ID3D12GraphicsCommandList9_RSSetDepthBias(This,DepthBias,DepthBiasClamp,SlopeScaledDepthBias)	\
     ( (This)->RSSetDepthBias(DepthBias,DepthBiasClamp,SlopeScaledDepthBias) ) 
-#define ID3D12GraphicsCommandList9_IASetIndexBufferStripCutValue(This,IBStripCutValue)	\
-    ( (This)->IASetIndexBufferStripCutValue(IBStripCutValue) ) 
+#define ID3_D12_Graphics_Command_List9_IASet_Index_Buffer_Strip_Cut_بەها(This,IBStrip_Cut_بەها)	\
+    ( (This)->IASet_Index_Buffer_Strip_Cut_بەها(IBStrip_Cut_بەها) ) 
 #define ID3D12GraphicsCommandList10_QueryInterface(This,riid,ppvObject)	\
     ( (This)->QueryInterface(riid,ppvObject) ) 
 #define ID3D12GraphicsCommandList10_AddRef(This)	\
@@ -4199,14 +4199,14 @@
     ( (This)->Reset(pAllocator,pInitialState) ) 
 #define ID3D12GraphicsCommandList10_ClearState(This,pPipelineState)	\
     ( (This)->ClearState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList10_DrawInstanced(This,VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawInstanced(VertexCountPerInstance,InstanceCount,StartVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList10_DrawIndexedInstanced(This,IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
-    ( (This)->DrawIndexedInstanced(IndexCountPerInstance,InstanceCount,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
-#define ID3D12GraphicsCommandList10_Dispatch(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->Dispatch(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList10_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes)	\
-    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,NumBytes) ) 
+#define ID3D12GraphicsCommandList10_DrawInstanced(This,Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawInstanced(Vertex_ژماردن_Per_Instance,Instance_ژماردن,StartVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList10_DrawIndexedInstanced(This,Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation)	\
+    ( (This)->DrawIndexedInstanced(Index_ژماردن_Per_Instance,Instance_ژماردن,StartIndexLocation,BaseVertexLocation,StartInstanceLocation) ) 
+#define ID3D12GraphicsCommandList10_Dispatch(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->Dispatch(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList10_CopyBufferRegion(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes)	\
+    ( (This)->CopyBufferRegion(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,ژمارە_Bytes) ) 
 #define ID3D12GraphicsCommandList10_CopyTextureRegion(This,pDst,DstX,DstY,DstZ,pSrc,pSrcBox)	\
     ( (This)->CopyTextureRegion(pDst,DstX,DstY,DstZ,pSrc,pSrcBox) ) 
 #define ID3D12GraphicsCommandList10_CopyResource(This,pDstResource,pSrcResource)	\
@@ -4217,74 +4217,74 @@
     ( (This)->ResolveSubresource(pDstResource,DstSubresource,pSrcResource,SrcSubresource,Format) ) 
 #define ID3D12GraphicsCommandList10_IASetPrimitiveTopology(This,PrimitiveTopology)	\
     ( (This)->IASetPrimitiveTopology(PrimitiveTopology) ) 
-#define ID3D12GraphicsCommandList10_RSSetViewports(This,NumViewports,pViewports)	\
-    ( (This)->RSSetViewports(NumViewports,pViewports) ) 
-#define ID3D12GraphicsCommandList10_RSSetScissorRects(This,NumRects,pRects)	\
-    ( (This)->RSSetScissorRects(NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList10_RSSetViewports(This,ژمارە_Viewports,pViewports)	\
+    ( (This)->RSSetViewports(ژمارە_Viewports,pViewports) ) 
+#define ID3D12GraphicsCommandList10_RSSetScissorRects(This,ژمارە_Rects,pRects)	\
+    ( (This)->RSSetScissorRects(ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList10_OMSetBlendFactor(This,BlendFactor)	\
     ( (This)->OMSetBlendFactor(BlendFactor) ) 
 #define ID3D12GraphicsCommandList10_OMSetStencilRef(This,StencilRef)	\
     ( (This)->OMSetStencilRef(StencilRef) ) 
 #define ID3D12GraphicsCommandList10_SetPipelineState(This,pPipelineState)	\
     ( (This)->SetPipelineState(pPipelineState) ) 
-#define ID3D12GraphicsCommandList10_ResourceBarrier(This,NumBarriers,pBarriers)	\
-    ( (This)->ResourceBarrier(NumBarriers,pBarriers) ) 
+#define ID3D12GraphicsCommandList10_ResourceBarrier(This,ژمارە_Barriers,pBarriers)	\
+    ( (This)->ResourceBarrier(ژمارە_Barriers,pBarriers) ) 
 #define ID3D12GraphicsCommandList10_ExecuteBundle(This,pCommandList)	\
     ( (This)->ExecuteBundle(pCommandList) ) 
-#define ID3D12GraphicsCommandList10_SetDescriptorHeaps(This,NumDescriptorHeaps,ppDescriptorHeaps)	\
-    ( (This)->SetDescriptorHeaps(NumDescriptorHeaps,ppDescriptorHeaps) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRootSignature(This,pRootSignature)	\
-    ( (This)->SetComputeRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRootSignature(This,pRootSignature)	\
-    ( (This)->SetGraphicsRootSignature(pRootSignature) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetComputeRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRootDescriptorTable(This,RootParameterIndex,BaseDescriptor)	\
-    ( (This)->SetGraphicsRootDescriptorTable(RootParameterIndex,BaseDescriptor) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRoot32BitConstant(This,RootParameterIndex,SrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstant(RootParameterIndex,SrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetComputeRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRoot32BitConstants(This,RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues)	\
-    ( (This)->SetGraphicsRoot32BitConstants(RootParameterIndex,Num32BitValuesToSet,pSrcData,DestOffsetIn32BitValues) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRootConstantBufferView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootConstantBufferView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRootShaderResourceView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootShaderResourceView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList10_SetComputeRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetComputeRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
-#define ID3D12GraphicsCommandList10_SetGraphicsRootUnorderedAccessView(This,RootParameterIndex,BufferLocation)	\
-    ( (This)->SetGraphicsRootUnorderedAccessView(RootParameterIndex,BufferLocation) ) 
+#define ID3D12GraphicsCommandList10_SetDescriptorHeaps(This,ژمارە_Descriptor_Heaps,ppDescriptorHeaps)	\
+    ( (This)->SetDescriptorHeaps(ژمارە_Descriptor_Heaps,ppDescriptorHeaps) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Compute_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Compute_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Graphics_ڕەگ_Signature(This,p_ڕەگ_Signature)	\
+    ( (This)->Set_Graphics_ڕەگ_Signature(p_ڕەگ_Signature) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Compute_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Compute_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Graphics_ڕەگ_Descriptor_Table(This,ڕەگ_Parameter_Index,BaseDescriptor)	\
+    ( (This)->Set_Graphics_ڕەگ_Descriptor_Table(ڕەگ_Parameter_Index,BaseDescriptor) ) 
+#define ID3D12GraphicsCommandList10_SetComputeRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList10_SetGraphicsRoot32BitConstant(This,ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstant(ڕەگ_Parameter_Index,SrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList10_SetComputeRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetComputeRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3D12GraphicsCommandList10_SetGraphicsRoot32BitConstants(This,ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان)	\
+    ( (This)->SetGraphicsRoot32BitConstants(ڕەگ_Parameter_Index,Num32_Bit_بەهاکان_To_Set,pSrcData,Dest_Offset_In32_Bit_بەهاکان) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Compute_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Graphics_ڕەگ_Constant_Buffer_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Constant_Buffer_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Compute_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Graphics_ڕەگ_Shader_Resource_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Shader_Resource_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Compute_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Compute_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
+#define ID3_D12_Graphics_Command_List10_Set_Graphics_ڕەگ_Unordered_Access_View(This,ڕەگ_Parameter_Index,BufferLocation)	\
+    ( (This)->Set_Graphics_ڕەگ_Unordered_Access_View(ڕەگ_Parameter_Index,BufferLocation) ) 
 #define ID3D12GraphicsCommandList10_IASetIndexBuffer(This,pView)	\
     ( (This)->IASetIndexBuffer(pView) ) 
-#define ID3D12GraphicsCommandList10_IASetVertexBuffers(This,StartSlot,NumViews,pViews)	\
-    ( (This)->IASetVertexBuffers(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList10_SOSetTargets(This,StartSlot,NumViews,pViews)	\
-    ( (This)->SOSetTargets(StartSlot,NumViews,pViews) ) 
-#define ID3D12GraphicsCommandList10_OMSetRenderTargets(This,NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
-    ( (This)->OMSetRenderTargets(NumRenderTargetDescriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
-#define ID3D12GraphicsCommandList10_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects)	\
-    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList10_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,NumRects,pRects)	\
-    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList10_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
-#define ID3D12GraphicsCommandList10_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects)	\
-    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,Values,NumRects,pRects) ) 
+#define ID3D12GraphicsCommandList10_IASetVertexBuffers(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->IASetVertexBuffers(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList10_SOSetTargets(This,StartSlot,ژمارە_Views,pViews)	\
+    ( (This)->SOSetTargets(StartSlot,ژمارە_Views,pViews) ) 
+#define ID3D12GraphicsCommandList10_OMSetRenderTargets(This,ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor)	\
+    ( (This)->OMSetRenderTargets(ژمارە_Render_Target_Descriptors,pRenderTargetDescriptors,RTsSingleHandleToDescriptorRange,pDepthStencilDescriptor) ) 
+#define ID3D12GraphicsCommandList10_ClearDepthStencilView(This,DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects)	\
+    ( (This)->ClearDepthStencilView(DepthStencilView,ClearFlags,Depth,Stencil,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList10_ClearRenderTargetView(This,RenderTargetView,ColorRGBA,ژمارە_Rects,pRects)	\
+    ( (This)->ClearRenderTargetView(RenderTargetView,ColorRGBA,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList10_ClearUnorderedAccessViewUint(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewUint(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
+#define ID3D12GraphicsCommandList10_ClearUnorderedAccessViewFloat(This,ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects)	\
+    ( (This)->ClearUnorderedAccessViewFloat(ViewGPUHandleInCurrentHeap,ViewCPUHandle,pResource,بەهاکان_2,ژمارە_Rects,pRects) ) 
 #define ID3D12GraphicsCommandList10_DiscardResource(This,pResource,pRegion)	\
     ( (This)->DiscardResource(pResource,pRegion) ) 
 #define ID3D12GraphicsCommandList10_BeginQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->BeginQuery(pQueryHeap,Type,Index) ) 
 #define ID3D12GraphicsCommandList10_EndQuery(This,pQueryHeap,Type,Index)	\
     ( (This)->EndQuery(pQueryHeap,Type,Index) ) 
-#define ID3D12GraphicsCommandList10_ResolveQueryData(This,pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
-    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,NumQueries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
+#define ID3D12GraphicsCommandList10_ResolveQueryData(This,pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset)	\
+    ( (This)->ResolveQueryData(pQueryHeap,Type,StartIndex,ژمارە_Queries,pDestinationBuffer,AlignedDestinationBufferOffset) ) 
 #define ID3D12GraphicsCommandList10_SetPredication(This,pBuffer,AlignedBufferOffset,Operation)	\
     ( (This)->SetPredication(pBuffer,AlignedBufferOffset,Operation) ) 
 #define ID3D12GraphicsCommandList10_SetMarker(This,Metadata,pData,Size)	\
@@ -4293,36 +4293,36 @@
     ( (This)->BeginEvent(Metadata,pData,Size) ) 
 #define ID3D12GraphicsCommandList10_EndEvent(This)	\
     ( (This)->EndEvent() ) 
-#define ID3D12GraphicsCommandList10_ExecuteIndirect(This,pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset)	\
-    ( (This)->ExecuteIndirect(pCommandSignature,MaxCommandCount,pArgumentBuffer,ArgumentBufferOffset,pCountBuffer,CountBufferOffset) ) 
+#define ID3D12GraphicsCommandList10_ExecuteIndirect(This,pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset)	\
+    ( (This)->ExecuteIndirect(pCommandSignature,Max_Command_ژماردن,pArgumentBuffer,ArgumentBufferOffset,p_ژماردن_Buffer,ژماردن_Buffer_Offset) ) 
 #define ID3D12GraphicsCommandList10_AtomicCopyBufferUINT(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList10_AtomicCopyBufferUINT64(This,pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges)	\
     ( (This)->AtomicCopyBufferUINT64(pDstBuffer,DstOffset,pSrcBuffer,SrcOffset,Dependencies,ppDependentResources,pDependentSubresourceRanges) ) 
 #define ID3D12GraphicsCommandList10_OMSetDepthBounds(This,Min,Max)	\
     ( (This)->OMSetDepthBounds(Min,Max) ) 
-#define ID3D12GraphicsCommandList10_SetSamplePositions(This,NumSamplesPerPixel,NumPixels,pSamplePositions)	\
-    ( (This)->SetSamplePositions(NumSamplesPerPixel,NumPixels,pSamplePositions) ) 
+#define ID3D12GraphicsCommandList10_SetSamplePositions(This,ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions)	\
+    ( (This)->SetSamplePositions(ژمارە_Samples_Per_Pixel,ژمارە_Pixels,pSamplePositions) ) 
 #define ID3D12GraphicsCommandList10_ResolveSubresourceRegion(This,pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode)	\
     ( (This)->ResolveSubresourceRegion(pDstResource,DstSubresource,DstX,DstY,pSrcResource,SrcSubresource,pSrcRect,Format,ResolveMode) ) 
 #define ID3D12GraphicsCommandList10_SetViewInstanceMask(This,Mask)	\
     ( (This)->SetViewInstanceMask(Mask) ) 
-#define ID3D12GraphicsCommandList10_WriteBufferImmediate(This,Count,pParams,pModes)	\
-    ( (This)->WriteBufferImmediate(Count,pParams,pModes) ) 
+#define ID3D12GraphicsCommandList10_WriteBufferImmediate(This,ژماردن_2,pParams,pModes)	\
+    ( (This)->WriteBufferImmediate(ژماردن_2,pParams,pModes) ) 
 #define ID3D12GraphicsCommandList10_SetProtectedResourceSession(This,pProtectedResourceSession)	\
     ( (This)->SetProtectedResourceSession(pProtectedResourceSession) ) 
-#define ID3D12GraphicsCommandList10_BeginRenderPass(This,NumRenderTargets,pRenderTargets,pDepthStencil,Flags)	\
-    ( (This)->BeginRenderPass(NumRenderTargets,pRenderTargets,pDepthStencil,Flags) ) 
+#define ID3D12GraphicsCommandList10_BeginRenderPass(This,ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags)	\
+    ( (This)->BeginRenderPass(ژمارە_Render_Targets,pRenderTargets,pDepthStencil,Flags) ) 
 #define ID3D12GraphicsCommandList10_EndRenderPass(This)	\
     ( (This)->EndRenderPass() ) 
 #define ID3D12GraphicsCommandList10_InitializeMetaCommand(This,pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes)	\
     ( (This)->InitializeMetaCommand(pMetaCommand,pInitializationParametersData,InitializationParametersDataSizeInBytes) ) 
 #define ID3D12GraphicsCommandList10_ExecuteMetaCommand(This,pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes)	\
     ( (This)->ExecuteMetaCommand(pMetaCommand,pExecutionParametersData,ExecutionParametersDataSizeInBytes) ) 
-#define ID3D12GraphicsCommandList10_BuildRaytracingAccelerationStructure(This,pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs)	\
-    ( (This)->BuildRaytracingAccelerationStructure(pDesc,NumPostbuildInfoDescs,pPostbuildInfoDescs) ) 
-#define ID3D12GraphicsCommandList10_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData)	\
-    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,NumSourceAccelerationStructures,pSourceAccelerationStructureData) ) 
+#define ID3D12GraphicsCommandList10_BuildRaytracingAccelerationStructure(This,pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs)	\
+    ( (This)->BuildRaytracingAccelerationStructure(pDesc,ژمارە_Postbuild_Info_Descs,pPostbuildInfoDescs) ) 
+#define ID3D12GraphicsCommandList10_EmitRaytracingAccelerationStructurePostbuildInfo(This,pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData)	\
+    ( (This)->EmitRaytracingAccelerationStructurePostbuildInfo(pDesc,ژمارە_Source_Acceleration_Structures,pSourceAccelerationStructureData) ) 
 #define ID3D12GraphicsCommandList10_CopyRaytracingAccelerationStructure(This,DestAccelerationStructureData,SourceAccelerationStructureData,Mode)	\
     ( (This)->CopyRaytracingAccelerationStructure(DestAccelerationStructureData,SourceAccelerationStructureData,Mode) ) 
 #define ID3D12GraphicsCommandList10_SetPipelineState1(This,pStateObject)	\
@@ -4333,16 +4333,16 @@
     ( (This)->RSSetShadingRate(baseShadingRate,combiners) ) 
 #define ID3D12GraphicsCommandList10_RSSetShadingRateImage(This,shadingRateImage)	\
     ( (This)->RSSetShadingRateImage(shadingRateImage) ) 
-#define ID3D12GraphicsCommandList10_DispatchMesh(This,ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ)	\
-    ( (This)->DispatchMesh(ThreadGroupCountX,ThreadGroupCountY,ThreadGroupCountZ) ) 
-#define ID3D12GraphicsCommandList10_Barrier(This,NumBarrierGroups,pBarrierGroups)	\
-    ( (This)->Barrier(NumBarrierGroups,pBarrierGroups) ) 
+#define ID3D12GraphicsCommandList10_DispatchMesh(This,Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z)	\
+    ( (This)->DispatchMesh(Thread_Group_ژماردن_X,Thread_Group_ژماردن_Y,Thread_Group_ژماردن_Z) ) 
+#define ID3D12GraphicsCommandList10_Barrier(This,ژمارە_Barrier_Groups,pBarrierGroups)	\
+    ( (This)->Barrier(ژمارە_Barrier_Groups,pBarrierGroups) ) 
 #define ID3D12GraphicsCommandList10_OMSetFrontAndBackStencilRef(This,FrontStencilRef,BackStencilRef)	\
     ( (This)->OMSetFrontAndBackStencilRef(FrontStencilRef,BackStencilRef) ) 
 #define ID3D12GraphicsCommandList10_RSSetDepthBias(This,DepthBias,DepthBiasClamp,SlopeScaledDepthBias)	\
     ( (This)->RSSetDepthBias(DepthBias,DepthBiasClamp,SlopeScaledDepthBias) ) 
-#define ID3D12GraphicsCommandList10_IASetIndexBufferStripCutValue(This,IBStripCutValue)	\
-    ( (This)->IASetIndexBufferStripCutValue(IBStripCutValue) ) 
+#define ID3_D12_Graphics_Command_List10_IASet_Index_Buffer_Strip_Cut_بەها(This,IBStrip_Cut_بەها)	\
+    ( (This)->IASet_Index_Buffer_Strip_Cut_بەها(IBStrip_Cut_بەها) ) 
 #define ID3D12GraphicsCommandList10_SetProgram(This,pDesc)	\
     ( (This)->SetProgram(pDesc) ) 
 #define ID3D12GraphicsCommandList10_DispatchGraph(This,pDesc)	\
@@ -4589,8 +4589,8 @@
     ( (This)->Release() ) 
 #define ID3D12SharingContract_Present(This,pResource,Subresource,window)	\
     ( (This)->Present(pResource,Subresource,window) ) 
-#define ID3D12SharingContract_SharedFenceSignal(This,pFence,FenceValue)	\
-    ( (This)->SharedFenceSignal(pFence,FenceValue) ) 
+#define ID3D12SharingContract_SharedFenceSignal(This,pFence,Fence_بەها)	\
+    ( (This)->SharedFenceSignal(pFence,Fence_بەها) ) 
 #define ID3D12SharingContract_BeginCapturableWork(This,guid)	\
     ( (This)->BeginCapturableWork(guid) ) 
 #define ID3D12SharingContract_EndCapturableWork(This,guid)	\
@@ -4609,56 +4609,56 @@
     ( (This)->AddRef() ) 
 #define ID3D12InfoQueue_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12InfoQueue_SetMessageCountLimit(This,MessageCountLimit)	\
-    ( (This)->SetMessageCountLimit(MessageCountLimit) ) 
+#define ID3_D12_Info_Queue_Set_Message_ژماردن_Limit(This,Message_ژماردن_Limit)	\
+    ( (This)->Set_Message_ژماردن_Limit(Message_ژماردن_Limit) ) 
 #define ID3D12InfoQueue_ClearStoredMessages(This)	\
     ( (This)->ClearStoredMessages() ) 
 #define ID3D12InfoQueue_GetMessage(This,MessageIndex,pMessage,pMessageByteLength)	\
     ( (This)->GetMessage(MessageIndex,pMessage,pMessageByteLength) ) 
-#define ID3D12InfoQueue_GetNumMessagesAllowedByStorageFilter(This)	\
-    ( (This)->GetNumMessagesAllowedByStorageFilter() ) 
-#define ID3D12InfoQueue_GetNumMessagesDeniedByStorageFilter(This)	\
-    ( (This)->GetNumMessagesDeniedByStorageFilter() ) 
-#define ID3D12InfoQueue_GetNumStoredMessages(This)	\
-    ( (This)->GetNumStoredMessages() ) 
-#define ID3D12InfoQueue_GetNumStoredMessagesAllowedByRetrievalFilter(This)	\
-    ( (This)->GetNumStoredMessagesAllowedByRetrievalFilter() ) 
-#define ID3D12InfoQueue_GetNumMessagesDiscardedByMessageCountLimit(This)	\
-    ( (This)->GetNumMessagesDiscardedByMessageCountLimit() ) 
-#define ID3D12InfoQueue_GetMessageCountLimit(This)	\
-    ( (This)->GetMessageCountLimit() ) 
+#define ID3_D12_Info_Queue_Get_ژمارە_Messages_Allowed_By_Storage_Filter(This)	\
+    ( (This)->Get_ژمارە_Messages_Allowed_By_Storage_Filter() ) 
+#define ID3_D12_Info_Queue_Get_ژمارە_Messages_Denied_By_Storage_Filter(This)	\
+    ( (This)->Get_ژمارە_Messages_Denied_By_Storage_Filter() ) 
+#define ID3_D12_Info_Queue_Get_ژمارە_Stored_Messages(This)	\
+    ( (This)->Get_ژمارە_Stored_Messages() ) 
+#define ID3_D12_Info_Queue_Get_ژمارە_Stored_Messages_Allowed_By_Retrieval_Filter(This)	\
+    ( (This)->Get_ژمارە_Stored_Messages_Allowed_By_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue_Get_ژمارە_Messages_Discarded_By_Message_ژماردن_Limit(This)	\
+    ( (This)->Get_ژمارە_Messages_Discarded_By_Message_ژماردن_Limit() ) 
+#define ID3_D12_Info_Queue_Get_Message_ژماردن_Limit(This)	\
+    ( (This)->Get_Message_ژماردن_Limit() ) 
 #define ID3D12InfoQueue_AddStorageFilterEntries(This,pFilter)	\
     ( (This)->AddStorageFilterEntries(pFilter) ) 
 #define ID3D12InfoQueue_GetStorageFilter(This,pFilter,pFilterByteLength)	\
     ( (This)->GetStorageFilter(pFilter,pFilterByteLength) ) 
 #define ID3D12InfoQueue_ClearStorageFilter(This)	\
     ( (This)->ClearStorageFilter() ) 
-#define ID3D12InfoQueue_PushEmptyStorageFilter(This)	\
-    ( (This)->PushEmptyStorageFilter() ) 
-#define ID3D12InfoQueue_PushCopyOfStorageFilter(This)	\
-    ( (This)->PushCopyOfStorageFilter() ) 
-#define ID3D12InfoQueue_PushStorageFilter(This,pFilter)	\
-    ( (This)->PushStorageFilter(pFilter) ) 
-#define ID3D12InfoQueue_PopStorageFilter(This)	\
-    ( (This)->PopStorageFilter() ) 
-#define ID3D12InfoQueue_GetStorageFilterStackSize(This)	\
-    ( (This)->GetStorageFilterStackSize() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Empty_Storage_Filter(This)	\
+    ( (This)->پاڵنان_Empty_Storage_Filter() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Copy_Of_Storage_Filter(This)	\
+    ( (This)->پاڵنان_Copy_Of_Storage_Filter() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Storage_Filter(This,pFilter)	\
+    ( (This)->پاڵنان_Storage_Filter(pFilter) ) 
+#define ID3_D12_Info_Queue_دەرهێنان_Storage_Filter(This)	\
+    ( (This)->دەرهێنان_Storage_Filter() ) 
+#define ID3_D12_Info_Queue_Get_Storage_Filter_کەڵەکە_Size(This)	\
+    ( (This)->Get_Storage_Filter_کەڵەکە_Size() ) 
 #define ID3D12InfoQueue_AddRetrievalFilterEntries(This,pFilter)	\
     ( (This)->AddRetrievalFilterEntries(pFilter) ) 
 #define ID3D12InfoQueue_GetRetrievalFilter(This,pFilter,pFilterByteLength)	\
     ( (This)->GetRetrievalFilter(pFilter,pFilterByteLength) ) 
 #define ID3D12InfoQueue_ClearRetrievalFilter(This)	\
     ( (This)->ClearRetrievalFilter() ) 
-#define ID3D12InfoQueue_PushEmptyRetrievalFilter(This)	\
-    ( (This)->PushEmptyRetrievalFilter() ) 
-#define ID3D12InfoQueue_PushCopyOfRetrievalFilter(This)	\
-    ( (This)->PushCopyOfRetrievalFilter() ) 
-#define ID3D12InfoQueue_PushRetrievalFilter(This,pFilter)	\
-    ( (This)->PushRetrievalFilter(pFilter) ) 
-#define ID3D12InfoQueue_PopRetrievalFilter(This)	\
-    ( (This)->PopRetrievalFilter() ) 
-#define ID3D12InfoQueue_GetRetrievalFilterStackSize(This)	\
-    ( (This)->GetRetrievalFilterStackSize() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Empty_Retrieval_Filter(This)	\
+    ( (This)->پاڵنان_Empty_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Copy_Of_Retrieval_Filter(This)	\
+    ( (This)->پاڵنان_Copy_Of_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue_پاڵنان_Retrieval_Filter(This,pFilter)	\
+    ( (This)->پاڵنان_Retrieval_Filter(pFilter) ) 
+#define ID3_D12_Info_Queue_دەرهێنان_Retrieval_Filter(This)	\
+    ( (This)->دەرهێنان_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue_Get_Retrieval_Filter_کەڵەکە_Size(This)	\
+    ( (This)->Get_Retrieval_Filter_کەڵەکە_Size() ) 
 #define ID3D12InfoQueue_AddMessage(This,Category,Severity,ID,pDescription)	\
     ( (This)->AddMessage(Category,Severity,ID,pDescription) ) 
 #define ID3D12InfoQueue_AddApplicationMessage(This,Severity,pDescription)	\
@@ -4685,56 +4685,56 @@
     ( (This)->AddRef() ) 
 #define ID3D12InfoQueue1_Release(This)	\
     ( (This)->Release() ) 
-#define ID3D12InfoQueue1_SetMessageCountLimit(This,MessageCountLimit)	\
-    ( (This)->SetMessageCountLimit(MessageCountLimit) ) 
+#define ID3_D12_Info_Queue1_Set_Message_ژماردن_Limit(This,Message_ژماردن_Limit)	\
+    ( (This)->Set_Message_ژماردن_Limit(Message_ژماردن_Limit) ) 
 #define ID3D12InfoQueue1_ClearStoredMessages(This)	\
     ( (This)->ClearStoredMessages() ) 
 #define ID3D12InfoQueue1_GetMessage(This,MessageIndex,pMessage,pMessageByteLength)	\
     ( (This)->GetMessage(MessageIndex,pMessage,pMessageByteLength) ) 
-#define ID3D12InfoQueue1_GetNumMessagesAllowedByStorageFilter(This)	\
-    ( (This)->GetNumMessagesAllowedByStorageFilter() ) 
-#define ID3D12InfoQueue1_GetNumMessagesDeniedByStorageFilter(This)	\
-    ( (This)->GetNumMessagesDeniedByStorageFilter() ) 
-#define ID3D12InfoQueue1_GetNumStoredMessages(This)	\
-    ( (This)->GetNumStoredMessages() ) 
-#define ID3D12InfoQueue1_GetNumStoredMessagesAllowedByRetrievalFilter(This)	\
-    ( (This)->GetNumStoredMessagesAllowedByRetrievalFilter() ) 
-#define ID3D12InfoQueue1_GetNumMessagesDiscardedByMessageCountLimit(This)	\
-    ( (This)->GetNumMessagesDiscardedByMessageCountLimit() ) 
-#define ID3D12InfoQueue1_GetMessageCountLimit(This)	\
-    ( (This)->GetMessageCountLimit() ) 
+#define ID3_D12_Info_Queue1_Get_ژمارە_Messages_Allowed_By_Storage_Filter(This)	\
+    ( (This)->Get_ژمارە_Messages_Allowed_By_Storage_Filter() ) 
+#define ID3_D12_Info_Queue1_Get_ژمارە_Messages_Denied_By_Storage_Filter(This)	\
+    ( (This)->Get_ژمارە_Messages_Denied_By_Storage_Filter() ) 
+#define ID3_D12_Info_Queue1_Get_ژمارە_Stored_Messages(This)	\
+    ( (This)->Get_ژمارە_Stored_Messages() ) 
+#define ID3_D12_Info_Queue1_Get_ژمارە_Stored_Messages_Allowed_By_Retrieval_Filter(This)	\
+    ( (This)->Get_ژمارە_Stored_Messages_Allowed_By_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue1_Get_ژمارە_Messages_Discarded_By_Message_ژماردن_Limit(This)	\
+    ( (This)->Get_ژمارە_Messages_Discarded_By_Message_ژماردن_Limit() ) 
+#define ID3_D12_Info_Queue1_Get_Message_ژماردن_Limit(This)	\
+    ( (This)->Get_Message_ژماردن_Limit() ) 
 #define ID3D12InfoQueue1_AddStorageFilterEntries(This,pFilter)	\
     ( (This)->AddStorageFilterEntries(pFilter) ) 
 #define ID3D12InfoQueue1_GetStorageFilter(This,pFilter,pFilterByteLength)	\
     ( (This)->GetStorageFilter(pFilter,pFilterByteLength) ) 
 #define ID3D12InfoQueue1_ClearStorageFilter(This)	\
     ( (This)->ClearStorageFilter() ) 
-#define ID3D12InfoQueue1_PushEmptyStorageFilter(This)	\
-    ( (This)->PushEmptyStorageFilter() ) 
-#define ID3D12InfoQueue1_PushCopyOfStorageFilter(This)	\
-    ( (This)->PushCopyOfStorageFilter() ) 
-#define ID3D12InfoQueue1_PushStorageFilter(This,pFilter)	\
-    ( (This)->PushStorageFilter(pFilter) ) 
-#define ID3D12InfoQueue1_PopStorageFilter(This)	\
-    ( (This)->PopStorageFilter() ) 
-#define ID3D12InfoQueue1_GetStorageFilterStackSize(This)	\
-    ( (This)->GetStorageFilterStackSize() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Empty_Storage_Filter(This)	\
+    ( (This)->پاڵنان_Empty_Storage_Filter() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Copy_Of_Storage_Filter(This)	\
+    ( (This)->پاڵنان_Copy_Of_Storage_Filter() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Storage_Filter(This,pFilter)	\
+    ( (This)->پاڵنان_Storage_Filter(pFilter) ) 
+#define ID3_D12_Info_Queue1_دەرهێنان_Storage_Filter(This)	\
+    ( (This)->دەرهێنان_Storage_Filter() ) 
+#define ID3_D12_Info_Queue1_Get_Storage_Filter_کەڵەکە_Size(This)	\
+    ( (This)->Get_Storage_Filter_کەڵەکە_Size() ) 
 #define ID3D12InfoQueue1_AddRetrievalFilterEntries(This,pFilter)	\
     ( (This)->AddRetrievalFilterEntries(pFilter) ) 
 #define ID3D12InfoQueue1_GetRetrievalFilter(This,pFilter,pFilterByteLength)	\
     ( (This)->GetRetrievalFilter(pFilter,pFilterByteLength) ) 
 #define ID3D12InfoQueue1_ClearRetrievalFilter(This)	\
     ( (This)->ClearRetrievalFilter() ) 
-#define ID3D12InfoQueue1_PushEmptyRetrievalFilter(This)	\
-    ( (This)->PushEmptyRetrievalFilter() ) 
-#define ID3D12InfoQueue1_PushCopyOfRetrievalFilter(This)	\
-    ( (This)->PushCopyOfRetrievalFilter() ) 
-#define ID3D12InfoQueue1_PushRetrievalFilter(This,pFilter)	\
-    ( (This)->PushRetrievalFilter(pFilter) ) 
-#define ID3D12InfoQueue1_PopRetrievalFilter(This)	\
-    ( (This)->PopRetrievalFilter() ) 
-#define ID3D12InfoQueue1_GetRetrievalFilterStackSize(This)	\
-    ( (This)->GetRetrievalFilterStackSize() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Empty_Retrieval_Filter(This)	\
+    ( (This)->پاڵنان_Empty_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Copy_Of_Retrieval_Filter(This)	\
+    ( (This)->پاڵنان_Copy_Of_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue1_پاڵنان_Retrieval_Filter(This,pFilter)	\
+    ( (This)->پاڵنان_Retrieval_Filter(pFilter) ) 
+#define ID3_D12_Info_Queue1_دەرهێنان_Retrieval_Filter(This)	\
+    ( (This)->دەرهێنان_Retrieval_Filter() ) 
+#define ID3_D12_Info_Queue1_Get_Retrieval_Filter_کەڵەکە_Size(This)	\
+    ( (This)->Get_Retrieval_Filter_کەڵەکە_Size() ) 
 #define ID3D12InfoQueue1_AddMessage(This,Category,Severity,ID,pDescription)	\
     ( (This)->AddMessage(Category,Severity,ID,pDescription) ) 
 #define ID3D12InfoQueue1_AddApplicationMessage(This,Severity,pDescription)	\
