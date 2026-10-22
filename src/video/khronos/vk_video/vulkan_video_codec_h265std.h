@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 
@@ -22,24 +22,24 @@ extern "C" {
 // vulkan_video_codec_h265std is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_h265std 1
 
-#include "vulkan_video_codecs_common.h"
+#ضمن "vulkan_video_codecs_common.h"
 
 #define STD_VIDEO_H265_CPB_CNT_LIST_SIZE  32U
 #define STD_VIDEO_H265_SUBLAYERS_LIST_SIZE 7U
-#define STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS 16U
-#define STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS 64U
-#define STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS 64U
-#define STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS 2U
-#define STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_4_X4_عدد_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_4_X4_عدد_ELEMENTS 16U
+#define STD_VIDEO_H265_SCALING_LIST_8_X8_عدد_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_8_X8_عدد_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_16_X16_عدد_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_16_X16_عدد_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_32_X32_عدد_LISTS 2U
+#define STD_VIDEO_H265_SCALING_LIST_32_X32_عدد_ELEMENTS 64U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE 6U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE 19U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE 21U
 #define STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE 3U
 #define STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE 128U
-#define STD_VIDEO_H265_MAX_NUM_LIST_REF   15U
+#define STD_VIDEO_H265_MAX_عدد_LIST_REF   15U
 #define STD_VIDEO_H265_MAX_CHROMA_PLANES  2U
 #define STD_VIDEO_H265_MAX_SHORT_TERM_REF_PIC_SETS 64U
 #define STD_VIDEO_H265_MAX_DPB_SIZE       16U
@@ -48,7 +48,7 @@ extern "C" {
 #define STD_VIDEO_H265_MAX_DELTA_POC      48U
 #define STD_VIDEO_H265_NO_REFERENCE_PICTURE 0xFFU
 
-typedef enum StdVideoH265ChromaFormatIdc {
+تعريفنوع تعداد StdVideoH265ChromaFormatIdc {
     STD_VIDEO_H265_CHROMA_FORMAT_IDC_MONOCHROME = 0,
     STD_VIDEO_H265_CHROMA_FORMAT_IDC_420 = 1,
     STD_VIDEO_H265_CHROMA_FORMAT_IDC_422 = 2,
@@ -57,7 +57,7 @@ typedef enum StdVideoH265ChromaFormatIdc {
     STD_VIDEO_H265_CHROMA_FORMAT_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265ChromaFormatIdc;
 
-typedef enum StdVideoH265ProfileIdc {
+تعريفنوع تعداد StdVideoH265ProfileIdc {
     STD_VIDEO_H265_PROFILE_IDC_MAIN = 1,
     STD_VIDEO_H265_PROFILE_IDC_MAIN_10 = 2,
     STD_VIDEO_H265_PROFILE_IDC_MAIN_STILL_PICTURE = 3,
@@ -67,7 +67,7 @@ typedef enum StdVideoH265ProfileIdc {
     STD_VIDEO_H265_PROFILE_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265ProfileIdc;
 
-typedef enum StdVideoH265LevelIdc {
+تعريفنوع تعداد StdVideoH265LevelIdc {
     STD_VIDEO_H265_LEVEL_IDC_1_0 = 0,
     STD_VIDEO_H265_LEVEL_IDC_2_0 = 1,
     STD_VIDEO_H265_LEVEL_IDC_2_1 = 2,
@@ -85,7 +85,7 @@ typedef enum StdVideoH265LevelIdc {
     STD_VIDEO_H265_LEVEL_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265LevelIdc;
 
-typedef enum StdVideoH265SliceType {
+تعريفنوع تعداد StdVideoH265SliceType {
     STD_VIDEO_H265_SLICE_TYPE_B = 0,
     STD_VIDEO_H265_SLICE_TYPE_P = 1,
     STD_VIDEO_H265_SLICE_TYPE_I = 2,
@@ -93,7 +93,7 @@ typedef enum StdVideoH265SliceType {
     STD_VIDEO_H265_SLICE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265SliceType;
 
-typedef enum StdVideoH265PictureType {
+تعريفنوع تعداد StdVideoH265PictureType {
     STD_VIDEO_H265_PICTURE_TYPE_P = 0,
     STD_VIDEO_H265_PICTURE_TYPE_B = 1,
     STD_VIDEO_H265_PICTURE_TYPE_I = 2,
@@ -102,7 +102,7 @@ typedef enum StdVideoH265PictureType {
     STD_VIDEO_H265_PICTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265PictureType;
 
-typedef enum StdVideoH265AspectRatioIdc {
+تعريفنوع تعداد StdVideoH265AspectRatioIdc {
     STD_VIDEO_H265_ASPECT_RATIO_IDC_UNSPECIFIED = 0,
     STD_VIDEO_H265_ASPECT_RATIO_IDC_SQUARE = 1,
     STD_VIDEO_H265_ASPECT_RATIO_IDC_12_11 = 2,
@@ -125,33 +125,33 @@ typedef enum StdVideoH265AspectRatioIdc {
     STD_VIDEO_H265_ASPECT_RATIO_IDC_MAX_ENUM = 0x7FFFFFFF
 } StdVideoH265AspectRatioIdc;
 
-typedef struct StdVideoH265DecPicBufMgr {
+تعريفنوع بنية StdVideoH265DecPicBufMgr {
     uint32_t    max_latency_increase_plus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
     uint8_t     max_dec_pic_buffering_minus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
-    uint8_t     max_num_reorder_pics[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
+    uint8_t     max_عدد_reorder_pics[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
 } StdVideoH265DecPicBufMgr;
 
-typedef struct StdVideoH265SubLayerHrdParameters {
-    uint32_t    bit_rate_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    cpb_size_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    cpb_size_du_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    bit_rate_du_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+تعريفنوع بنية StdVideoH265SubLayerHrdParameters {
+    uint32_t    bit_rate_قدر_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    cpb_size_قدر_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    cpb_size_du_قدر_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    bit_rate_du_قدر_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
     uint32_t    cbr_flag;
 } StdVideoH265SubLayerHrdParameters;
 
-typedef struct StdVideoH265HrdFlags {
+تعريفنوع بنية StdVideoH265HrdFlags {
     uint32_t    nal_hrd_parameters_present_flag : 1;
     uint32_t    vcl_hrd_parameters_present_flag : 1;
     uint32_t    sub_pic_hrd_params_present_flag : 1;
     uint32_t    sub_pic_cpb_params_in_pic_timing_sei_flag : 1;
     uint32_t    fixed_pic_rate_general_flag : 8;
     uint32_t    fixed_pic_rate_within_cvs_flag : 8;
-    uint32_t    low_delay_hrd_flag : 8;
+    uint32_t    کم_delay_hrd_flag : 8;
 } StdVideoH265HrdFlags;
 
-typedef struct StdVideoH265HrdParameters {
+تعريفنوع بنية StdVideoH265HrdParameters {
     StdVideoH265HrdFlags                        flags;
-    uint8_t                                     tick_divisor_minus2;
+    uint8_t                                     tick_مقسوم_علیہ_minus2;
     uint8_t                                     du_cpb_removal_delay_increment_length_minus1;
     uint8_t                                     dpb_output_delay_du_length_minus1;
     uint8_t                                     bit_rate_scale;
@@ -163,18 +163,18 @@ typedef struct StdVideoH265HrdParameters {
     uint8_t                                     cpb_cnt_minus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
     uint16_t                                    elemental_duration_in_tc_minus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
     uint16_t                                    reserved[3];
-    const StdVideoH265SubLayerHrdParameters*    pSubLayerHrdParametersNal;
-    const StdVideoH265SubLayerHrdParameters*    pSubLayerHrdParametersVcl;
+    ثابت StdVideoH265SubLayerHrdParameters*    pSubLayerHrdParametersNal;
+    ثابت StdVideoH265SubLayerHrdParameters*    pSubLayerHrdParametersVcl;
 } StdVideoH265HrdParameters;
 
-typedef struct StdVideoH265VpsFlags {
+تعريفنوع بنية StdVideoH265VpsFlags {
     uint32_t    vps_temporal_id_nesting_flag : 1;
     uint32_t    vps_sub_layer_ordering_info_present_flag : 1;
     uint32_t    vps_timing_info_present_flag : 1;
     uint32_t    vps_poc_proportional_to_timing_flag : 1;
 } StdVideoH265VpsFlags;
 
-typedef struct StdVideoH265ProfileTierLevelFlags {
+تعريفنوع بنية StdVideoH265ProfileTierLevelFlags {
     uint32_t    general_tier_flag : 1;
     uint32_t    general_progressive_source_flag : 1;
     uint32_t    general_interlaced_source_flag : 1;
@@ -182,37 +182,37 @@ typedef struct StdVideoH265ProfileTierLevelFlags {
     uint32_t    general_frame_only_constraint_flag : 1;
 } StdVideoH265ProfileTierLevelFlags;
 
-typedef struct StdVideoH265ProfileTierLevel {
+تعريفنوع بنية StdVideoH265ProfileTierLevel {
     StdVideoH265ProfileTierLevelFlags    flags;
     StdVideoH265ProfileIdc               general_profile_idc;
     StdVideoH265LevelIdc                 general_level_idc;
 } StdVideoH265ProfileTierLevel;
 
-typedef struct StdVideoH265VideoParameterSet {
+تعريفنوع بنية StdVideoH265VideoParameterSet {
     StdVideoH265VpsFlags                   flags;
     uint8_t                                vps_video_parameter_set_id;
     uint8_t                                vps_max_sub_layers_minus1;
     uint8_t                                reserved1;
     uint8_t                                reserved2;
-    uint32_t                               vps_num_units_in_tick;
+    uint32_t                               vps_عدد_units_in_tick;
     uint32_t                               vps_time_scale;
-    uint32_t                               vps_num_ticks_poc_diff_one_minus1;
+    uint32_t                               vps_عدد_ticks_poc_diff_one_minus1;
     uint32_t                               reserved3;
-    const StdVideoH265DecPicBufMgr*        pDecPicBufMgr;
-    const StdVideoH265HrdParameters*       pHrdParameters;
-    const StdVideoH265ProfileTierLevel*    pProfileTierLevel;
+    ثابت StdVideoH265DecPicBufMgr*        pDecPicBufMgr;
+    ثابت StdVideoH265HrdParameters*       pHrdParameters;
+    ثابت StdVideoH265ProfileTierLevel*    pProfileTierLevel;
 } StdVideoH265VideoParameterSet;
 
-typedef struct StdVideoH265ScalingLists {
-    uint8_t    ScalingList4x4[STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS];
-    uint8_t    ScalingList8x8[STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS];
-    uint8_t    ScalingList16x16[STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS];
-    uint8_t    ScalingList32x32[STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS];
-    uint8_t    ScalingListDCCoef16x16[STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS];
-    uint8_t    ScalingListDCCoef32x32[STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS];
+تعريفنوع بنية StdVideoH265ScalingLists {
+    uint8_t    ScalingList4x4[STD_VIDEO_H265_SCALING_LIST_4_X4_عدد_LISTS][STD_VIDEO_H265_SCALING_LIST_4_X4_عدد_ELEMENTS];
+    uint8_t    ScalingList8x8[STD_VIDEO_H265_SCALING_LIST_8_X8_عدد_LISTS][STD_VIDEO_H265_SCALING_LIST_8_X8_عدد_ELEMENTS];
+    uint8_t    ScalingList16x16[STD_VIDEO_H265_SCALING_LIST_16_X16_عدد_LISTS][STD_VIDEO_H265_SCALING_LIST_16_X16_عدد_ELEMENTS];
+    uint8_t    ScalingList32x32[STD_VIDEO_H265_SCALING_LIST_32_X32_عدد_LISTS][STD_VIDEO_H265_SCALING_LIST_32_X32_عدد_ELEMENTS];
+    uint8_t    ScalingListDCCoef16x16[STD_VIDEO_H265_SCALING_LIST_16_X16_عدد_LISTS];
+    uint8_t    ScalingListDCCoef32x32[STD_VIDEO_H265_SCALING_LIST_32_X32_عدد_LISTS];
 } StdVideoH265ScalingLists;
 
-typedef struct StdVideoH265SpsVuiFlags {
+تعريفنوع بنية StdVideoH265SpsVuiFlags {
     uint32_t    aspect_ratio_info_present_flag : 1;
     uint32_t    overscan_info_present_flag : 1;
     uint32_t    overscan_appropriate_flag : 1;
@@ -233,7 +233,7 @@ typedef struct StdVideoH265SpsVuiFlags {
     uint32_t    restricted_ref_pic_lists_flag : 1;
 } StdVideoH265SpsVuiFlags;
 
-typedef struct StdVideoH265SequenceParameterSetVui {
+تعريفنوع بنية StdVideoH265SequenceParameterSetVui {
     StdVideoH265SpsVuiFlags             flags;
     StdVideoH265AspectRatioIdc          aspect_ratio_idc;
     uint16_t                            sar_width;
@@ -242,31 +242,31 @@ typedef struct StdVideoH265SequenceParameterSetVui {
     uint8_t                             colour_primaries;
     uint8_t                             transfer_characteristics;
     uint8_t                             matrix_coeffs;
-    uint8_t                             chroma_sample_loc_type_top_field;
+    uint8_t                             chroma_sample_loc_type_چوٹی_field;
     uint8_t                             chroma_sample_loc_type_bottom_field;
     uint8_t                             reserved1;
     uint8_t                             reserved2;
-    uint16_t                            def_disp_win_left_offset;
-    uint16_t                            def_disp_win_right_offset;
-    uint16_t                            def_disp_win_top_offset;
+    uint16_t                            def_disp_win_بایاں_offset;
+    uint16_t                            def_disp_win_دایاں_offset;
+    uint16_t                            def_disp_win_چوٹی_offset;
     uint16_t                            def_disp_win_bottom_offset;
-    uint32_t                            vui_num_units_in_tick;
+    uint32_t                            vui_عدد_units_in_tick;
     uint32_t                            vui_time_scale;
-    uint32_t                            vui_num_ticks_poc_diff_one_minus1;
+    uint32_t                            vui_عدد_ticks_poc_diff_one_minus1;
     uint16_t                            min_spatial_segmentation_idc;
     uint16_t                            reserved3;
     uint8_t                             max_bytes_per_pic_denom;
     uint8_t                             max_bits_per_min_cu_denom;
     uint8_t                             log2_max_mv_length_horizontal;
     uint8_t                             log2_max_mv_length_vertical;
-    const StdVideoH265HrdParameters*    pHrdParameters;
+    ثابت StdVideoH265HrdParameters*    pHrdParameters;
 } StdVideoH265SequenceParameterSetVui;
 
-typedef struct StdVideoH265PredictorPaletteEntries {
+تعريفنوع بنية StdVideoH265PredictorPaletteEntries {
     uint16_t    PredictorPaletteEntries[STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE][STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE];
 } StdVideoH265PredictorPaletteEntries;
 
-typedef struct StdVideoH265SpsFlags {
+تعريفنوع بنية StdVideoH265SpsFlags {
     uint32_t    sps_temporal_id_nesting_flag : 1;
     uint32_t    separate_colour_plane_flag : 1;
     uint32_t    conformance_window_flag : 1;
@@ -289,7 +289,7 @@ typedef struct StdVideoH265SpsFlags {
     uint32_t    explicit_rdpcm_enabled_flag : 1;
     uint32_t    extended_precision_processing_flag : 1;
     uint32_t    intra_smoothing_disabled_flag : 1;
-    uint32_t    high_precision_offsets_enabled_flag : 1;
+    uint32_t    بلند_precision_offsets_enabled_flag : 1;
     uint32_t    persistent_rice_adaptation_enabled_flag : 1;
     uint32_t    cabac_bypass_alignment_enabled_flag : 1;
     uint32_t    sps_scc_extension_flag : 1;
@@ -299,12 +299,12 @@ typedef struct StdVideoH265SpsFlags {
     uint32_t    intra_boundary_filtering_disabled_flag : 1;
 } StdVideoH265SpsFlags;
 
-typedef struct StdVideoH265ShortTermRefPicSetFlags {
+تعريفنوع بنية StdVideoH265ShortTermRefPicSetFlags {
     uint32_t    inter_ref_pic_set_prediction_flag : 1;
     uint32_t    delta_rps_sign : 1;
 } StdVideoH265ShortTermRefPicSetFlags;
 
-typedef struct StdVideoH265ShortTermRefPicSet {
+تعريفنوع بنية StdVideoH265ShortTermRefPicSet {
     StdVideoH265ShortTermRefPicSetFlags    flags;
     uint32_t                               delta_idx_minus1;
     uint16_t                               use_delta_flag;
@@ -315,18 +315,18 @@ typedef struct StdVideoH265ShortTermRefPicSet {
     uint16_t                               reserved1;
     uint8_t                                reserved2;
     uint8_t                                reserved3;
-    uint8_t                                num_negative_pics;
-    uint8_t                                num_positive_pics;
+    uint8_t                                عدد_negative_pics;
+    uint8_t                                عدد_positive_pics;
     uint16_t                               delta_poc_s0_minus1[STD_VIDEO_H265_MAX_DPB_SIZE];
     uint16_t                               delta_poc_s1_minus1[STD_VIDEO_H265_MAX_DPB_SIZE];
 } StdVideoH265ShortTermRefPicSet;
 
-typedef struct StdVideoH265LongTermRefPicsSps {
+تعريفنوع بنية StdVideoH265LongTermRefPicsSps {
     uint32_t    used_by_curr_pic_lt_sps_flag;
     uint32_t    lt_ref_pic_poc_lsb_sps[STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS];
 } StdVideoH265LongTermRefPicsSps;
 
-typedef struct StdVideoH265SequenceParameterSet {
+تعريفنوع بنية StdVideoH265SequenceParameterSet {
     StdVideoH265SpsFlags                          flags;
     StdVideoH265ChromaFormatIdc                   chroma_format_idc;
     uint32_t                                      pic_width_in_luma_samples;
@@ -343,8 +343,8 @@ typedef struct StdVideoH265SequenceParameterSet {
     uint8_t                                       log2_diff_max_min_luma_transform_block_size;
     uint8_t                                       max_transform_hierarchy_depth_inter;
     uint8_t                                       max_transform_hierarchy_depth_intra;
-    uint8_t                                       num_short_term_ref_pic_sets;
-    uint8_t                                       num_long_term_ref_pics_sps;
+    uint8_t                                       عدد_short_term_ref_pic_sets;
+    uint8_t                                       عدد_long_term_ref_pics_sps;
     uint8_t                                       pcm_sample_bit_depth_luma_minus1;
     uint8_t                                       pcm_sample_bit_depth_chroma_minus1;
     uint8_t                                       log2_min_pcm_luma_coding_block_size_minus3;
@@ -354,21 +354,21 @@ typedef struct StdVideoH265SequenceParameterSet {
     uint8_t                                       palette_max_size;
     uint8_t                                       delta_palette_max_predictor_size;
     uint8_t                                       motion_vector_resolution_control_idc;
-    uint8_t                                       sps_num_palette_predictor_initializers_minus1;
-    uint32_t                                      conf_win_left_offset;
-    uint32_t                                      conf_win_right_offset;
-    uint32_t                                      conf_win_top_offset;
+    uint8_t                                       sps_عدد_palette_predictor_initializers_minus1;
+    uint32_t                                      conf_win_بایاں_offset;
+    uint32_t                                      conf_win_دایاں_offset;
+    uint32_t                                      conf_win_چوٹی_offset;
     uint32_t                                      conf_win_bottom_offset;
-    const StdVideoH265ProfileTierLevel*           pProfileTierLevel;
-    const StdVideoH265DecPicBufMgr*               pDecPicBufMgr;
-    const StdVideoH265ScalingLists*               pScalingLists;
-    const StdVideoH265ShortTermRefPicSet*         pShortTermRefPicSet;
-    const StdVideoH265LongTermRefPicsSps*         pLongTermRefPicsSps;
-    const StdVideoH265SequenceParameterSetVui*    pSequenceParameterSetVui;
-    const StdVideoH265PredictorPaletteEntries*    pPredictorPaletteEntries;
+    ثابت StdVideoH265ProfileTierLevel*           pProfileTierLevel;
+    ثابت StdVideoH265DecPicBufMgr*               pDecPicBufMgr;
+    ثابت StdVideoH265ScalingLists*               pScalingLists;
+    ثابت StdVideoH265ShortTermRefPicSet*         pShortTermRefPicSet;
+    ثابت StdVideoH265LongTermRefPicsSps*         pLongTermRefPicsSps;
+    ثابت StdVideoH265SequenceParameterSetVui*    pSequenceParameterSetVui;
+    ثابت StdVideoH265PredictorPaletteEntries*    pPredictorPaletteEntries;
 } StdVideoH265SequenceParameterSet;
 
-typedef struct StdVideoH265PpsFlags {
+تعريفنوع بنية StdVideoH265PpsFlags {
     uint32_t    dependent_slice_segments_enabled_flag : 1;
     uint32_t    output_flag_present_flag : 1;
     uint32_t    sign_data_hiding_enabled_flag : 1;
@@ -402,14 +402,14 @@ typedef struct StdVideoH265PpsFlags {
     uint32_t    pps_range_extension_flag : 1;
 } StdVideoH265PpsFlags;
 
-typedef struct StdVideoH265PictureParameterSet {
+تعريفنوع بنية StdVideoH265PictureParameterSet {
     StdVideoH265PpsFlags                          flags;
     uint8_t                                       pps_pic_parameter_set_id;
     uint8_t                                       pps_seq_parameter_set_id;
     uint8_t                                       sps_video_parameter_set_id;
-    uint8_t                                       num_extra_slice_header_bits;
-    uint8_t                                       num_ref_idx_l0_default_active_minus1;
-    uint8_t                                       num_ref_idx_l1_default_active_minus1;
+    uint8_t                                       عدد_extra_slice_header_bits;
+    uint8_t                                       عدد_ref_idx_l0_default_active_minus1;
+    uint8_t                                       عدد_ref_idx_l1_default_active_minus1;
     int8_t                                        init_qp_minus26;
     uint8_t                                       diff_cu_qp_delta_depth;
     int8_t                                        pps_cb_qp_offset;
@@ -427,18 +427,18 @@ typedef struct StdVideoH265PictureParameterSet {
     int8_t                                        pps_act_y_qp_offset_plus5;
     int8_t                                        pps_act_cb_qp_offset_plus5;
     int8_t                                        pps_act_cr_qp_offset_plus3;
-    uint8_t                                       pps_num_palette_predictor_initializers;
+    uint8_t                                       pps_عدد_palette_predictor_initializers;
     uint8_t                                       luma_bit_depth_entry_minus8;
     uint8_t                                       chroma_bit_depth_entry_minus8;
-    uint8_t                                       num_tile_columns_minus1;
-    uint8_t                                       num_tile_rows_minus1;
+    uint8_t                                       عدد_tile_columns_minus1;
+    uint8_t                                       عدد_tile_rows_minus1;
     uint8_t                                       reserved1;
     uint8_t                                       reserved2;
     uint16_t                                      column_width_minus1[STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE];
     uint16_t                                      row_height_minus1[STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE];
     uint32_t                                      reserved3;
-    const StdVideoH265ScalingLists*               pScalingLists;
-    const StdVideoH265PredictorPaletteEntries*    pPredictorPaletteEntries;
+    ثابت StdVideoH265ScalingLists*               pScalingLists;
+    ثابت StdVideoH265PredictorPaletteEntries*    pPredictorPaletteEntries;
 } StdVideoH265PictureParameterSet;
 
 
