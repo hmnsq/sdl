@@ -21,26 +21,26 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#නම් defined(SDL_VIDEO_DRIVER_X11)
 
 #include "SDL_x11video.h"
 #include "SDL_x11settings.h"
 
 static void UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
+    නම් (_this) {
         float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+        සඳහා (පූර්ණ_සංඛ්‍යා i = 0; i < _this->num_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+static void X11_XsettingsNotify(const var_na *name, XSettingsAction action, XSettingsSetting *setting, void *data)
 {
     SDL_VideoDevice *_this = data;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    නම් (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
@@ -61,7 +61,7 @@ void X11_QuitXsettings(SDL_VideoDevice *_this)
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    නම් (xsettings_data->xsettings) {
         xsettings_client_destroy(xsettings_data->xsettings);
         xsettings_data->xsettings = NULL;
     }
@@ -72,21 +72,21 @@ void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    නම් (xsettings_data->xsettings) {
         xsettings_client_process_event(xsettings_data->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
+පූර්ණ_සංඛ්‍යා X11_GetXsettingsClientIntKey(XSettingsClient *client, const var_na *key, පූර්ණ_සංඛ්‍යා fallback_value) {
     XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+    පූර්ණ_සංඛ්‍යා res = fallback_value;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
+    නම් (client) {
+        නම් (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
             goto no_key;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
+        නම් (setting->type != XSETTINGS_TYPE_INT) {
             goto no_key;
         }
 
@@ -94,15 +94,15 @@ int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int f
     }
 
 no_key:
-    if (setting) {
+    නම් (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    ආපසු res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+පූර්ණ_සංඛ්‍යා X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const var_na *key, පූර්ණ_සංඛ්‍යා fallback_value) {
+    ආපසු X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

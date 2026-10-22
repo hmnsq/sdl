@@ -26,9 +26,9 @@
 extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
 extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
+extern const var_na *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
+extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const var_na *text);
+extern var_na *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
 extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
 
 #endif // SDL_openharmonyclipboard_h_

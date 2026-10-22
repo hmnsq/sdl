@@ -44,7 +44,7 @@ extern "C" {
 #include "../../events/SDL_mouse_c.h"
 
 static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
-    return (SDL_BWin *)(window->internal);
+    ආපසු (SDL_BWin *)(window->internal);
 }
 
 static SDL_VideoDevice * HAIKU_CreateDevice(void)
@@ -52,7 +52,7 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *) SDL_calloc(1, sizeof(SDL_VideoDevice));
+    device = (SDL_VideoDevice *) SDL_calloc(1, parimaa_na(SDL_VideoDevice));
 
     device->internal = NULL; /* FIXME: Is this the cause of some of the
                                   SDL_Quit() errors? */
@@ -110,7 +110,7 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    ආපසු device;
 }
 
 VideoBootStrap HAIKU_bootstrap = {
@@ -126,24 +126,24 @@ void HAIKU_DeleteDevice(SDL_VideoDevice * device)
     SDL_free(device);
 }
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
     BCursor *cursor;
 };
 
 static SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, parimaa_na(*cursor));
+    නම් (cursor) {
+        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, parimaa_na(*data));
+        නම් (!data) {
             SDL_free(cursor);
-            return NULL;
+            ආපසු NULL;
         }
         data->cursor = bcursor;
         cursor->internal = data;
     }
-    return cursor;
+    ආපසු cursor;
 }
 
 static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
@@ -152,7 +152,7 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
 
     switch(id)
     {
-        #define CURSORCASE(sdlname, bname) case SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; break
+        #define CURSORCASE(sdlname, bname) pak_sa SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; bha_nga
         CURSORCASE(DEFAULT, SYSTEM_DEFAULT);
         CURSORCASE(TEXT, I_BEAM);
         CURSORCASE(WAIT, PROGRESS);
@@ -190,95 +190,95 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
         #undef CURSORCASE
         default:
             SDL_assert(0);
-            return NULL;
+            ආපසු NULL;
     }
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorId));
+    ආපසු HAIKU_CreateCursorAndData(new BCursor(cursorId));
 }
 
 static SDL_Cursor * HAIKU_CreateDefaultCursor()
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return HAIKU_CreateSystemCursor(id);
+    ආපසු HAIKU_CreateSystemCursor(id);
 }
 
 static void HAIKU_FreeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    if (data) {
+    නම් (data) {
         delete data->cursor;
     }
     SDL_free(data);
     SDL_free(cursor);
 }
 
-static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, පූර්ණ_සංඛ්‍යා hot_x, පූර්ණ_සංඛ්‍යා hot_y)
 {
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    නම් (!converted) {
+        ආපසු NULL;
     }
 
 	BBitmap *cursorBitmap = new BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
 	cursorBitmap->SetBits(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
     SDL_DestroySurface(converted);
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
+    ආපසු HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
 }
 
 static bool HAIKU_ShowCursor(SDL_Cursor *cursor)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
 
-	if (!mouse) {
-		return true;
+	නම් (!mouse) {
+		ආපසු true;
 	}
 
-	if (cursor) {
+	නම් (cursor) {
 		BCursor *hCursor = cursor->internal->cursor;
 		be_app->SetCursor(hCursor);
-	} else {
+	} නැතහොත් {
 		BCursor *hCursor = new BCursor(B_CURSOR_ID_NO_CURSOR);
 		be_app->SetCursor(hCursor);
 		delete hCursor;
 	}
 
-	return true;
+	ආපසු true;
 }
 
 static bool HAIKU_SetRelativeMouseMode(bool enabled)
 {
     SDL_Window *window = SDL_GetMouseFocus();
-    if (!window) {
-      return true;
+    නම් (!window) {
+      ආපසු true;
     }
 
 	SDL_BWin *bewin = _ToBeWin(window);
 	BView *_SDL_View = bewin->GetGLView();
-	if (!_SDL_View) {
+	නම් (!_SDL_View) {
 		_SDL_View = bewin->GetView();
-		if (!_SDL_View)
-			return false;
+		නම් (!_SDL_View)
+			ආපසු false;
 	}
 
 	bewin->Lock();
-	if (enabled)
+	නම් (enabled)
 		_SDL_View->SetEventMask(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
-	else
+	නැතහොත්
 		_SDL_View->SetEventMask(0, 0);
 	bewin->Unlock();
 
-    return true;
+    ආපසු true;
 }
 
 static void HAIKU_MouseInit(SDL_VideoDevice *_this)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
-	if (!mouse) {
-		return;
+	නම් (!mouse) {
+		ආපසු;
 	}
 	mouse->CreateCursor = HAIKU_CreateCursor;
 	mouse->CreateSystemCursor = HAIKU_CreateSystemCursor;
@@ -292,8 +292,8 @@ static void HAIKU_MouseInit(SDL_VideoDevice *_this)
 bool HAIKU_VideoInit(SDL_VideoDevice *_this)
 {
     // Initialize the Be Application for appserver interaction
-    if (!SDL_InitBeApp()) {
-        return false;
+    නම් (!SDL_InitBeApp()) {
+        ආපසු false;
     }
 
     // Initialize video modes
@@ -315,7 +315,7 @@ bool HAIKU_VideoInit(SDL_VideoDevice *_this)
 #endif
 
     // We're done!
-    return true;
+    ආපසු true;
 }
 
 void HAIKU_VideoQuit(SDL_VideoDevice *_this)
@@ -328,18 +328,18 @@ void HAIKU_VideoQuit(SDL_VideoDevice *_this)
 
 // just sticking this function in here so it's in a C++ source file.
 extern "C"
-bool HAIKU_OpenURL(const char *url)
+bool HAIKU_OpenURL(const var_na *url)
 {
-#if B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
+#නම් B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
     BUrl burl(url);
-#else
+#නැතහොත්
     BUrl burl(url, true);
 #endif
     const status_t rc = burl.OpenWithPreferredApplication(false);
-    if (rc != B_NO_ERROR) {
-        return SDL_SetError("URL open failed (err=%d)", (int)rc);
+    නම් (rc != B_NO_ERROR) {
+        ආපසු SDL_SetError("URL open failed (err=%d)", (පූර්ණ_සංඛ්‍යා)rc);
     }
-    return true;
+    ආපසු true;
 }
 
 #ifdef __cplusplus

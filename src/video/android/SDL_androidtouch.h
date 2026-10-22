@@ -24,5 +24,5 @@
 
 extern void Android_InitTouch(void);
 extern void Android_QuitTouch(void);
-extern void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p);
-extern SDL_TouchID Android_ConvertJavaTouchID(int touchID);
+extern void Android_OnTouch(SDL_Window *window, පූර්ණ_සංඛ්‍යා touch_device_id_in, පූර්ණ_සංඛ්‍යා pointer_finger_id_in, පූර්ණ_සංඛ්‍යා action, float x, float y, float p);
+extern SDL_TouchID Android_ConvertJavaTouchID(පූර්ණ_සංඛ්‍යා touchID);

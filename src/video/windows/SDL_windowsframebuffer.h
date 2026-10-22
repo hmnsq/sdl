@@ -20,6 +20,6 @@
 */
 #include "SDL_internal.h"
 
-extern bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
+extern bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, පූර්ණ_සංඛ්‍යා *pitch);
+extern bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, පූර්ණ_සංඛ්‍යා numrects);
 extern void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);

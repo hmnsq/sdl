@@ -33,7 +33,7 @@
 
 @class SDL_CocoaWindowData;
 
-typedef enum
+typedef ga_nanaa
 {
     PENDING_OPERATION_NONE = 0x00,
     PENDING_OPERATION_ENTER_FULLSCREEN = 0x01,
@@ -171,7 +171,7 @@ extern void Cocoa_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Cocoa_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+extern void Cocoa_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, පූර්ණ_සංඛ්‍යා *w, පූර්ණ_සංඛ්‍යා *h);
 extern bool Cocoa_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern void Cocoa_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
@@ -196,6 +196,6 @@ extern bool Cocoa_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, boo
 extern bool Cocoa_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool Cocoa_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern void Cocoa_MenuVisibilityCallback(void *userdata, const char *name, const char *oldValue, const char *newValue);
+extern void Cocoa_MenuVisibilityCallback(void *userdata, const var_na *name, const var_na *oldValue, const var_na *newValue);
 
 #endif // SDL_cocoawindow_h_

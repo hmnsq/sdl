@@ -53,46 +53,46 @@ extern const Uint16 SDL_expand_byte_10[];
 #define SDL_CPU_ALTIVEC_PREFETCH   0x00000008
 #define SDL_CPU_ALTIVEC_NOPREFETCH 0x00000010
 
-typedef struct
+typedef sa_nracanaa
 {
     SDL_Surface *src_surface;
     Uint8 *src;
-    int src_w, src_h;
-    int src_pitch;
-    int src_skip;
-    int leading_skip;
+    පූර්ණ_සංඛ්‍යා src_w, src_h;
+    පූර්ණ_සංඛ්‍යා src_pitch;
+    පූර්ණ_සංඛ්‍යා src_skip;
+    පූර්ණ_සංඛ්‍යා leading_skip;
     SDL_Surface *dst_surface;
     Uint8 *dst;
-    int dst_w, dst_h;
-    int dst_pitch;
-    int dst_skip;
+    පූර්ණ_සංඛ්‍යා dst_w, dst_h;
+    පූර්ණ_සංඛ්‍යා dst_pitch;
+    පූර්ණ_සංඛ්‍යා dst_skip;
     const SDL_PixelFormatDetails *src_fmt;
     const SDL_Palette *src_pal;
     const SDL_PixelFormatDetails *dst_fmt;
     const SDL_Palette *dst_pal;
     Uint8 *table;
     SDL_HashTable *palette_map;
-    int flags;
+    පූර්ණ_සංඛ්‍යා flags;
     Uint32 colorkey;
     Uint8 r, g, b, a;
 } SDL_BlitInfo;
 
 typedef void (*SDL_BlitFunc)(SDL_BlitInfo *info);
 
-typedef struct
+typedef sa_nracanaa
 {
     SDL_PixelFormat src_format;
     SDL_PixelFormat dst_format;
-    int flags;
+    පූර්ණ_සංඛ්‍යා flags;
     SDL_BlitFunc func;
 } SDL_BlitFuncEntry;
 
-typedef bool (SDLCALL *SDL_Blit) (struct SDL_Surface *src, const SDL_Rect *srcrect, struct SDL_Surface *dst, const SDL_Rect *dstrect);
+typedef bool (SDLCALL *SDL_Blit) (sa_nracanaa SDL_Surface *src, const SDL_Rect *srcrect, sa_nracanaa SDL_Surface *dst, const SDL_Rect *dstrect);
 
 // Blit mapping definition
-typedef struct SDL_BlitMap
+typedef sa_nracanaa SDL_BlitMap
 {
-    int identity;
+    පූර්ණ_සංඛ්‍යා identity;
     SDL_Blit blit;
     void *data;
     SDL_BlitInfo info;
@@ -120,7 +120,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 #define DECLARE_ALIGNED(t, v, a) t __attribute__((aligned(a))) v
 #elif defined(_MSC_VER)
 #define DECLARE_ALIGNED(t, v, a) __declspec(align(a)) t v
-#else
+#නැතහොත්
 #define DECLARE_ALIGNED(t, v, a) t v
 #endif
 
@@ -149,76 +149,76 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         g = ((Pixel & 0xFF00) >> 8);    \
         b = (Pixel & 0xFF);             \
     }
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#නම් SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24(B) (B[2] << 16) | (B[1] << 8) | B[0]
-#else
+#නැතහොත්
 #define GET_RGB24(B) (B[0] << 16) | (B[1] << 8) | B[2]
 #endif
 #define RETRIEVE_RGB_PIXEL(buf, bpp, Pixel)                \
     do {                                                   \
         switch (bpp) {                                     \
-        case 1:                                            \
+        pak_sa 1:                                            \
             Pixel = *((Uint8 *)(buf));                     \
-            break;                                         \
+            bha_nga;                                         \
                                                            \
-        case 2:                                            \
+        pak_sa 2:                                            \
             Pixel = *((Uint16 *)(buf));                    \
-            break;                                         \
+            bha_nga;                                         \
                                                            \
-        case 3:                                            \
+        pak_sa 3:                                            \
         {                                                  \
             Uint8 *B = (Uint8 *)(buf);                     \
             Pixel = GET_RGB24(B);                          \
-        } break;                                           \
+        } bha_nga;                                           \
                                                            \
-        case 4:                                            \
+        pak_sa 4:                                            \
             Pixel = *((Uint32 *)(buf));                    \
-            break;                                         \
+            bha_nga;                                         \
                                                            \
         default:                                           \
             Pixel = 0; /* stop gcc complaints */           \
-            break;                                         \
+            bha_nga;                                         \
         }                                                  \
-    } while (0)
+    } අතරතුර (0)
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#නම් SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + fmt->shift / 8)
-#else
+#නැතහොත්
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + 2 - fmt->shift / 8)
 #endif
 #define DISEMBLE_RGB(buf, bpp, fmt, Pixel, r, g, b)    \
     do {                                               \
         switch (bpp) {                                 \
-        case 1:                                        \
+        pak_sa 1:                                        \
             Pixel = *((Uint8 *)(buf));                 \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            bha_nga;                                     \
                                                        \
-        case 2:                                        \
+        pak_sa 2:                                        \
             Pixel = *((Uint16 *)(buf));                \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            bha_nga;                                     \
                                                        \
-        case 3:                                        \
+        pak_sa 3:                                        \
         {                                              \
             Pixel = 0;                                 \
             r = GET_RGB24_COMPONENT(buf, fmt, Rshift); \
             g = GET_RGB24_COMPONENT(buf, fmt, Gshift); \
             b = GET_RGB24_COMPONENT(buf, fmt, Bshift); \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 4:                                        \
+        pak_sa 4:                                        \
             Pixel = *((Uint32 *)(buf));                \
             RGB_FROM_PIXEL(Pixel, fmt, r, g, b);       \
-            break;                                     \
+            bha_nga;                                     \
                                                        \
         default:                                       \
             /* stop gcc complaints */                  \
             Pixel = 0;                                 \
             r = g = b = 0;                             \
-            break;                                     \
+            bha_nga;                                     \
         }                                              \
-    } while (0)
+    } අතරතුර (0)
 
 // Assemble R-G-B values into a specified pixel format and store them
 #define PIXEL_FROM_RGB(Pixel, fmt, r, g, b)                 \
@@ -301,36 +301,36 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 #define ASSEMBLE_RGB(buf, bpp, fmt, r, g, b)           \
     {                                                  \
         switch (bpp) {                                 \
-        case 1:                                        \
+        pak_sa 1:                                        \
         {                                              \
             Uint8 _pixel;                              \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint8 *)(buf)) = _pixel;                \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 2:                                        \
+        pak_sa 2:                                        \
         {                                              \
             Uint16 _pixel;                             \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint16 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 3:                                        \
+        pak_sa 3:                                        \
         {                                              \
             GET_RGB24_COMPONENT(buf, fmt, Rshift) = r; \
             GET_RGB24_COMPONENT(buf, fmt, Gshift) = g; \
             GET_RGB24_COMPONENT(buf, fmt, Bshift) = b; \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 4:                                        \
+        pak_sa 4:                                        \
         {                                              \
             Uint32 _pixel;                             \
                                                        \
             PIXEL_FROM_RGB(_pixel, fmt, r, g, b);      \
             *((Uint32 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } bha_nga;                                       \
         }                                              \
     }
 
@@ -408,37 +408,37 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 #define DISEMBLE_RGBA(buf, bpp, fmt, Pixel, r, g, b, a) \
     do {                                                \
         switch (bpp) {                                  \
-        case 1:                                         \
+        pak_sa 1:                                         \
             Pixel = *((Uint8 *)(buf));                  \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            bha_nga;                                      \
                                                         \
-        case 2:                                         \
+        pak_sa 2:                                         \
             Pixel = *((Uint16 *)(buf));                 \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            bha_nga;                                      \
                                                         \
-        case 3:                                         \
+        pak_sa 3:                                         \
         {                                               \
             Pixel = 0;                                  \
             r = GET_RGB24_COMPONENT(buf, fmt, Rshift);  \
             g = GET_RGB24_COMPONENT(buf, fmt, Gshift);  \
             b = GET_RGB24_COMPONENT(buf, fmt, Bshift);  \
             a = 0xFF;                                   \
-        } break;                                        \
+        } bha_nga;                                        \
                                                         \
-        case 4:                                         \
+        pak_sa 4:                                         \
             Pixel = *((Uint32 *)(buf));                 \
             RGBA_FROM_PIXEL(Pixel, fmt, r, g, b, a);    \
-            break;                                      \
+            bha_nga;                                      \
                                                         \
         default:                                        \
             /* stop gcc complaints */                   \
             Pixel = 0;                                  \
             r = g = b = a = 0;                          \
-            break;                                      \
+            bha_nga;                                      \
         }                                               \
-    } while (0)
+    } අතරතුර (0)
 
 // FIXME: this isn't correct, especially for Alpha (maximum != 255)
 #define PIXEL_FROM_RGBA(Pixel, fmt, r, g, b, a)             \
@@ -451,36 +451,36 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 #define ASSEMBLE_RGBA(buf, bpp, fmt, r, g, b, a)       \
     {                                                  \
         switch (bpp) {                                 \
-        case 1:                                        \
+        pak_sa 1:                                        \
         {                                              \
             Uint8 _pixel;                              \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint8 *)(buf)) = _pixel;                \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 2:                                        \
+        pak_sa 2:                                        \
         {                                              \
             Uint16 _pixel;                             \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint16 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 3:                                        \
+        pak_sa 3:                                        \
         {                                              \
             GET_RGB24_COMPONENT(buf, fmt, Rshift) = r; \
             GET_RGB24_COMPONENT(buf, fmt, Gshift) = g; \
             GET_RGB24_COMPONENT(buf, fmt, Bshift) = b; \
-        } break;                                       \
+        } bha_nga;                                       \
                                                        \
-        case 4:                                        \
+        pak_sa 4:                                        \
         {                                              \
             Uint32 _pixel;                             \
                                                        \
             PIXEL_FROM_RGBA(_pixel, fmt, r, g, b, a);  \
             *((Uint32 *)(buf)) = _pixel;               \
-        } break;                                       \
+        } bha_nga;                                       \
         }                                              \
     }
 
@@ -490,7 +490,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         Uint8 a, r, g, b;                         \
         RGBA_FROM_PIXEL(src, srcfmt, r, g, b, a); \
         dst = a << 24 | r << 16 | g << 8 | b;     \
-    } while (0)
+    } අතරතුර (0)
 // Blend a single color channel or alpha value
 /* dC = ((sC * sA) + (dC * (255 - sA))) / 255 */
 #define ALPHA_BLEND_CHANNEL(sC, dC, sA)                  \
@@ -500,7 +500,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         x += 0x1U;                                       \
         x += x >> 8;                                     \
         dC = x >> 8;                                     \
-    } while (0)
+    } අතරතුර (0)
 // Perform a division by 255 after a multiplication of two 8-bit color channels
 /* out = (sC * dC) / 255 */
 #define MULT_DIV_255(sC, dC, out) \
@@ -509,19 +509,19 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         x += 0x1U;                \
         x += x >> 8;              \
         out = x >> 8;             \
-    } while (0)
+    } අතරතුර (0)
 // Blend the RGB values of two pixels with an alpha value
 #define ALPHA_BLEND_RGB(sR, sG, sB, A, dR, dG, dB)            \
     do {                                                      \
         ALPHA_BLEND_CHANNEL(sR, dR, A);                       \
         ALPHA_BLEND_CHANNEL(sG, dG, A);                       \
         ALPHA_BLEND_CHANNEL(sB, dB, A);                       \
-    } while (0)
+    } අතරතුර (0)
 
 // Blend two 8888 pixels with the same format
 /* Calculates dst = ((src * factor) + (dst * (255 - factor))) / 255 */
 // FIXME: SDL_SIZE_MAX might not be an integer literal
-#if defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
+#නම් defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
 #define FACTOR_BLEND_8888(src, dst, factor)                        \
     do {                                                           \
         Uint64 src64 = src;                                        \
@@ -536,8 +536,8 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         dst64 &= 0xFF00FF00FF00FF00;                               \
                                                                    \
         dst = (Uint32)((dst64 >> 8) | (dst64 >> 32));              \
-    } while (0)
-#else
+    } අතරතුර (0)
+#නැතහොත්
 #define FACTOR_BLEND_8888(src, dst, factor)                               \
     do {                                                                  \
         Uint32 src02 = src & 0x00FF00FF;                                  \
@@ -556,7 +556,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         res13 += (res13 >> 8) & 0x00FF00FF;                               \
         res13 &= 0xFF00FF00;                                              \
         dst = res02 | res13;                                              \
-    } while (0)
+    } අතරතුර (0)
 #endif
 
 // Alpha blend two 8888 pixels with the same formats.
@@ -565,7 +565,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         Uint32 srcA = (src >> fmt->Ashift) & 0xFF; \
         Uint32 tmp = src | fmt->Amask;             \
         FACTOR_BLEND_8888(tmp, dst, srcA);         \
-    } while (0)
+    } අතරතුර (0)
 
 // Alpha blend two 8888 pixels with differing formats.
 #define ALPHA_BLEND_SWIZZLE_8888(src, dst, srcfmt, dstfmt)                  \
@@ -576,7 +576,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                      (((src >> srcfmt->Bshift) & 0xFF) << dstfmt->Bshift) | \
                      dstfmt->Amask;                                         \
         FACTOR_BLEND_8888(tmp, dst, srcA);                                  \
-    } while (0)
+    } අතරතුර (0)
 // Blend the RGBA values of two pixels
 #define ALPHA_BLEND_RGBA(sR, sG, sB, sA, dR, dG, dB, dA) \
     do {                                                 \
@@ -584,19 +584,19 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         ALPHA_BLEND_CHANNEL(sG, dG, sA);                 \
         ALPHA_BLEND_CHANNEL(sB, dB, sA);                 \
         ALPHA_BLEND_CHANNEL(255, dA, sA);                \
-    } while (0)
+    } අතරතුර (0)
 
 // This is a very useful loop for optimizing blitters
-#if defined(_MSC_VER) && (_MSC_VER == 1300)
+#නම් defined(_MSC_VER) && (_MSC_VER == 1300)
 // There's a bug in the Visual C++ 7 optimizer when compiling this code
-#else
+#නැතහොත්
 #define USE_DUFFS_LOOP
 #endif
 
 #define DUFFS_LOOP1(pixel_copy_increment, width) \
     {                                            \
-        int n;                                   \
-        for (n = width; n > 0; --n) {            \
+        පූර්ණ_සංඛ්‍යා n;                                   \
+        සඳහා (n = width; n > 0; --n) {            \
             pixel_copy_increment;                \
         }                                        \
     }
@@ -606,69 +606,69 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 // 8-times unrolled loop
 #define DUFFS_LOOP8(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 7) / 8;                 \
+        පූර්ණ_සංඛ්‍යා n = (width + 7) / 8;                 \
         switch (width & 7) {                     \
-        case 0:                                  \
+        pak_sa 0:                                  \
             do {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 7:                              \
+            pak_sa 7:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 6:                              \
+            pak_sa 6:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 5:                              \
+            pak_sa 5:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 4:                              \
+            pak_sa 4:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 3:                              \
+            pak_sa 3:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 2:                              \
+            pak_sa 2:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            pak_sa 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } අතරතුර (--n > 0);                   \
         }                                        \
     }
 
 // 4-times unrolled loop
 #define DUFFS_LOOP4(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 3) / 4;                 \
+        පූර්ණ_සංඛ්‍යා n = (width + 3) / 4;                 \
         switch (width & 3) {                     \
-        case 0:                                  \
+        pak_sa 0:                                  \
             do {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 3:                              \
+            pak_sa 3:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 2:                              \
+            pak_sa 2:                              \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            pak_sa 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } අතරතුර (--n > 0);                   \
         }                                        \
     }
 
 // 2-times unrolled loop
 #define DUFFS_LOOP2(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 1) / 2;                 \
+        පූර්ණ_සංඛ්‍යා n = (width + 1) / 2;                 \
         switch (width & 1) {                     \
-        case 0:                                  \
+        pak_sa 0:                                  \
             do {                                 \
                 pixel_copy_increment;            \
                 SDL_FALLTHROUGH;                 \
-            case 1:                              \
+            pak_sa 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } අතරතුර (--n > 0);                   \
         }                                        \
     }
 
@@ -684,29 +684,29 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                        pixel_copy_increment2,        \
                        pixel_copy_increment4, width) \
     {                                                \
-        int n = width;                               \
-        if (n & 1) {                                 \
+        පූර්ණ_සංඛ්‍යා n = width;                               \
+        නම් (n & 1) {                                 \
             pixel_copy_increment1;                   \
             n -= 1;                                  \
         }                                            \
-        if (n & 2) {                                 \
+        නම් (n & 2) {                                 \
             pixel_copy_increment2;                   \
             n -= 2;                                  \
         }                                            \
-        if (n & 4) {                                 \
+        නම් (n & 4) {                                 \
             pixel_copy_increment4;                   \
             n -= 4;                                  \
         }                                            \
-        if (n) {                                     \
+        නම් (n) {                                     \
             n /= 8;                                  \
             do {                                     \
                 pixel_copy_increment4;               \
                 pixel_copy_increment4;               \
-            } while (--n > 0);                       \
+            } අතරතුර (--n > 0);                       \
         }                                            \
     }
 
-#else
+#නැතහොත්
 
 // Don't use Duff's device to unroll loops
 #define DUFFS_LOOP(pixel_copy_increment, width) \
@@ -726,7 +726,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 
 #endif // USE_DUFFS_LOOP
 
-#if defined(_MSC_VER) && (_MSC_VER >= 600)
+#නම් defined(_MSC_VER) && (_MSC_VER >= 600)
 #pragma warning(disable : 4244) // '=': conversion from 'X' to 'Y', possible loss of data
 #endif
 

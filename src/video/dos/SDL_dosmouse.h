@@ -24,13 +24,13 @@
 
 #include "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
     SDL_Surface *surface;
     SDL_Surface *converted_surface;
     Uint32 converted_palette_version;
-    int hot_x, hot_y;
-    int w, h;
+    පූර්ණ_සංඛ්‍යා hot_x, hot_y;
+    පූර්ණ_සංඛ්‍යා w, h;
 };
 
 extern void DOSVESA_InitMouse(SDL_VideoDevice *_this);

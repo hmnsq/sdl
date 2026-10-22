@@ -26,28 +26,28 @@
 #include "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
+extern void Android_SetScreenResolution(පූර්ණ_සංඛ්‍යා surfaceWidth, පූර්ණ_සංඛ්‍යා surfaceHeight, පූර්ණ_සංඛ්‍යා deviceWidth, පූර්ණ_සංඛ්‍යා deviceHeight, float density, float rate);
 extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
+extern void Android_SetFormat(පූර්ණ_සංඛ්‍යා format_wanted, පූර්ණ_සංඛ්‍යා format_got);
 extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
 extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
+extern void Android_SetWindowSafeAreaInsets(පූර්ණ_සංඛ්‍යා left, පූර්ණ_සංඛ්‍යා right, පූර්ණ_සංඛ්‍යා top, පූර්ණ_සංඛ්‍යා bottom);
 extern void Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    පූර්ණ_සංඛ්‍යා isPaused;
+    පූර්ණ_සංඛ්‍යා isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
+extern පූර්ණ_සංඛ්‍යා Android_SurfaceWidth;
+extern පූර්ණ_සංඛ්‍යා Android_SurfaceHeight;
 extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+extern පූර්ණ_සංඛ්‍යා Android_SafeInsetLeft;
+extern පූර්ණ_සංඛ්‍යා Android_SafeInsetRight;
+extern පූර්ණ_සංඛ්‍යා Android_SafeInsetTop;
+extern පූර්ණ_සංඛ්‍යා Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

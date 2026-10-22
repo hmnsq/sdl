@@ -32,32 +32,32 @@
 #define TRUE 1
 #define FALSE 0
 
-static int
-get_bit (int in, int bit)
+static පූර්ණ_සංඛ්‍යා
+get_bit (පූර්ණ_සංඛ්‍යා in, පූර්ණ_සංඛ්‍යා bit)
 {
-    return (in & (1 << bit)) >> bit;
+    ආපසු (in & (1 << bit)) >> bit;
 }
 
-static int
-get_bits (int in, int begin, int end)
+static පූර්ණ_සංඛ්‍යා
+get_bits (පූර්ණ_සංඛ්‍යා in, පූර්ණ_සංඛ්‍යා begin, පූර්ණ_සංඛ්‍යා end)
 {
-    int mask = (1 << (end - begin + 1)) - 1;
+    පූර්ණ_සංඛ්‍යා mask = (1 << (end - begin + 1)) - 1;
     
-    return (in >> begin) & mask;
+    ආපසු (in >> begin) & mask;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_header (const uchar *edid)
 {
-    if (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
-	return TRUE;
-    return FALSE;
+    නම් (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
+	ආපසු TRUE;
+    ආපසු FALSE;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
 {
-    int is_model_year;
+    පූර්ණ_සංඛ්‍යා is_model_year;
     
     /* Manufacturer Code */
     info->manufacturer_code[0]  = get_bits (edid[0x08], 2, 6);
@@ -81,54 +81,54 @@ decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
     is_model_year = FALSE;
     switch (edid[0x10])
     {
-    case 0x00:
+    pak_sa 0x00:
 	info->production_week = -1;
-	break;
+	bha_nga;
 
-    case 0xff:
+    pak_sa 0xff:
 	info->production_week = -1;
 	is_model_year = TRUE;
-	break;
+	bha_nga;
 
     default:
 	info->production_week = edid[0x10];
-	break;
+	bha_nga;
     }
 
-    if (is_model_year)
+    නම් (is_model_year)
     {
 	info->production_year = -1;
 	info->model_year = 1990 + edid[0x11];
     }
-    else
+    නැතහොත්
     {
 	info->production_year = 1990 + edid[0x11];
 	info->model_year = -1;
     }
 
-    return TRUE;
+    ආපසු TRUE;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_edid_version (const uchar *edid, MonitorInfo *info)
 {
     info->major_version = edid[0x12];
     info->minor_version = edid[0x13];
 
-    return TRUE;
+    ආපසු TRUE;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_display_parameters (const uchar *edid, MonitorInfo *info)
 {
     /* Digital vs Analog */
     info->is_digital = get_bit (edid[0x14], 7);
 
-    if (info->is_digital)
+    නම් (info->is_digital)
     {
-	int bits;
+	පූර්ණ_සංඛ්‍යා bits;
 	
-	static const int bit_depth[8] =
+	static const පූර්ණ_සංඛ්‍යා bit_depth[8] =
 	{
 	    -1, 6, 8, 10, 12, 14, 16, -1
 	};
@@ -143,16 +143,16 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
 	bits = get_bits (edid[0x14], 0, 3);
 	
-	if (bits <= 5)
+	නම් (bits <= 5)
 	    info->ad.digital.interface = interfaces[bits];
-	else
+	නැතහොත්
 	    info->ad.digital.interface = UNDEFINED;
     }
-    else
+    නැතහොත්
     {
-	int bits = get_bits (edid[0x14], 5, 6);
+	පූර්ණ_සංඛ්‍යා bits = get_bits (edid[0x14], 5, 6);
 	
-	static const double levels[][3] =
+	static const dviguu_na levels[][3] =
 	{
 	    { 0.7,   0.3,    1.0 },
 	    { 0.714, 0.286,  1.0 },
@@ -174,35 +174,35 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     }
 
     /* Screen Size / Aspect Ratio */
-    if (edid[0x15] == 0 && edid[0x16] == 0)
+    නම් (edid[0x15] == 0 && edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = -1.0;
     }
-    else if (edid[0x16] == 0)
+    නැතහොත් නම් (edid[0x16] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1; 
 	info->aspect_ratio = 100.0 / (edid[0x15] + 99);
     }
-    else if (edid[0x15] == 0)
+    නැතහොත් නම් (edid[0x15] == 0)
     {
 	info->width_mm = -1;
 	info->height_mm = -1;
 	info->aspect_ratio = 100.0 / (edid[0x16] + 99);
 	info->aspect_ratio = 1/info->aspect_ratio; /* portrait */
     }
-    else
+    නැතහොත්
     {
 	info->width_mm = 10 * edid[0x15];
 	info->height_mm = 10 * edid[0x16];
     }
 
     /* Gamma */
-    if (edid[0x17] == 0xFF)
+    නම් (edid[0x17] == 0xFF)
 	info->gamma = -1.0;
-    else
+    නැතහොත්
 	info->gamma = (edid[0x17] + 100.0) / 100.0;
 
     /* Features */
@@ -210,17 +210,17 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
     info->suspend = get_bit (edid[0x18], 6);
     info->active_off = get_bit (edid[0x18], 5);
 
-    if (info->is_digital)
+    නම් (info->is_digital)
     {
 	info->ad.digital.rgb444 = TRUE;
-	if (get_bit (edid[0x18], 3))
+	නම් (get_bit (edid[0x18], 3))
 	    info->ad.digital.ycrcb444 = 1;
-	if (get_bit (edid[0x18], 4))
+	නම් (get_bit (edid[0x18], 4))
 	    info->ad.digital.ycrcb422 = 1;
     }
-    else
+    නැතහොත්
     {
-	int bits = get_bits (edid[0x18], 3, 4);
+	පූර්ණ_සංඛ්‍යා bits = get_bits (edid[0x18], 3, 4);
 	ColorType color_type[4] =
 	{
 	    MONOCHROME, RGB, OTHER_COLOR, UNDEFINED_COLOR
@@ -236,24 +236,24 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 
     /* FIXME: In 1.3 this indicates whether the monitor accepts GTF */
     info->continuous_frequency = get_bit (edid[0x18], 0);
-    return TRUE;
+    ආපසු TRUE;
 }
 
-static double
-decode_fraction (int high, int low)
+static dviguu_na
+decode_fraction (පූර්ණ_සංඛ්‍යා high, පූර්ණ_සංඛ්‍යා low)
 {
-    double result = 0.0;
-    int i;
+    dviguu_na result = 0.0;
+    පූර්ණ_සංඛ්‍යා i;
 
     high = (high << 2) | low;
 
-    for (i = 0; i < 10; ++i)
+    සඳහා (i = 0; i < 10; ++i)
 	result += get_bit (high, i) * SDL_pow (2, i - 10);
 
-    return result;
+    ආපසු result;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_color_characteristics (const uchar *edid, MonitorInfo *info)
 {
     info->red_x = decode_fraction (edid[0x1b], get_bits (edid[0x19], 6, 7));
@@ -265,10 +265,10 @@ decode_color_characteristics (const uchar *edid, MonitorInfo *info)
     info->white_x = decode_fraction (edid[0x21], get_bits (edid[0x1a], 2, 3));
     info->white_y = decode_fraction (edid[0x22], get_bits (edid[0x1a], 0, 1));
 
-    return TRUE;
+    ආපසු TRUE;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_established_timings (const uchar *edid, MonitorInfo *info)
 {
     static const Timing established[][8] = 
@@ -305,43 +305,43 @@ decode_established_timings (const uchar *edid, MonitorInfo *info)
 	},
     };
 
-    int i, j, idx;
+    පූර්ණ_සංඛ්‍යා i, j, idx;
 
     idx = 0;
-    for (i = 0; i < 3; ++i)
+    සඳහා (i = 0; i < 3; ++i)
     {
-	for (j = 0; j < 8; ++j)
+	සඳහා (j = 0; j < 8; ++j)
 	{
-	    int byte = edid[0x23 + i];
+	    පූර්ණ_සංඛ්‍යා byte = edid[0x23 + i];
 
-	    if (get_bit (byte, j) && established[i][j].frequency != 0)
+	    නම් (get_bit (byte, j) && established[i][j].frequency != 0)
 		info->established[idx++] = established[i][j];
 	}
     }
-    return TRUE;
+    ආපසු TRUE;
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_standard_timings (const uchar *edid, MonitorInfo *info)
 {
-    int i;
+    පූර්ණ_සංඛ්‍යා i;
     
-    for (i = 0; i < 8; i++)
+    සඳහා (i = 0; i < 8; i++)
     {
-	int first = edid[0x26 + 2 * i];
-	int second = edid[0x27 + 2 * i];
+	පූර්ණ_සංඛ්‍යා first = edid[0x26 + 2 * i];
+	පූර්ණ_සංඛ්‍යා second = edid[0x27 + 2 * i];
 
-	if (first != 0x01 && second != 0x01)
+	නම් (first != 0x01 && second != 0x01)
 	{
-	    int w = 8 * (first + 31);
-	    int h = 0;
+	    පූර්ණ_සංඛ්‍යා w = 8 * (first + 31);
+	    පූර්ණ_සංඛ්‍යා h = 0;
 
 	    switch (get_bits (second, 6, 7))
 	    {
-	    case 0x00: h = (w / 16) * 10; break;
-	    case 0x01: h = (w / 4) * 3; break;
-	    case 0x02: h = (w / 5) * 4; break;
-	    case 0x03: h = (w / 16) * 9; break;
+	    pak_sa 0x00: h = (w / 16) * 10; bha_nga;
+	    pak_sa 0x01: h = (w / 4) * 3; bha_nga;
+	    pak_sa 0x02: h = (w / 5) * 4; bha_nga;
+	    pak_sa 0x03: h = (w / 16) * 9; bha_nga;
 	    }
 
 	    info->standard[i].width = w;
@@ -350,26 +350,26 @@ decode_standard_timings (const uchar *edid, MonitorInfo *info)
 	}
     }
     
-    return TRUE;
+    ආපසු TRUE;
 }
 
 static void
-decode_lf_string (const uchar *s, int n_chars, char *result)
+decode_lf_string (const uchar *s, පූර්ණ_සංඛ්‍යා n_chars, var_na *result)
 {
-    int i;
-    for (i = 0; i < n_chars; ++i)
+    පූර්ණ_සංඛ්‍යා i;
+    සඳහා (i = 0; i < n_chars; ++i)
     {
-	if (s[i] == 0x0a)
+	නම් (s[i] == 0x0a)
 	{
 	    *result++ = '\0';
-	    break;
+	    bha_nga;
 	}
-	else if (s[i] == 0x00)
+	නැතහොත් නම් (s[i] == 0x00)
 	{
 	    /* Convert embedded 0's to spaces */
 	    *result++ = ' ';
 	}
-	else
+	නැතහොත්
 	{
 	    *result++ = s[i];
 	}
@@ -382,35 +382,35 @@ decode_display_descriptor (const uchar *desc,
 {
     switch (desc[0x03])
     {
-    case 0xFC:
+    pak_sa 0xFC:
 	decode_lf_string (desc + 5, 13, info->dsc_product_name);
-	break;
-    case 0xFF:
+	bha_nga;
+    pak_sa 0xFF:
 	decode_lf_string (desc + 5, 13, info->dsc_serial_number);
-	break;
-    case 0xFE:
+	bha_nga;
+    pak_sa 0xFE:
 	decode_lf_string (desc + 5, 13, info->dsc_string);
-	break;
-    case 0xFD:
+	bha_nga;
+    pak_sa 0xFD:
 	/* Range Limits */
-	break;
-    case 0xFB:
+	bha_nga;
+    pak_sa 0xFB:
 	/* Color Point */
-	break;
-    case 0xFA:
+	bha_nga;
+    pak_sa 0xFA:
 	/* Timing Identifications */
-	break;
-    case 0xF9:
+	bha_nga;
+    pak_sa 0xF9:
 	/* Color Management */
-	break;
-    case 0xF8:
+	bha_nga;
+    pak_sa 0xF8:
 	/* Timing Codes */
-	break;
-    case 0xF7:
+	bha_nga;
+    pak_sa 0xF7:
 	/* Established Timings */
-	break;
-    case 0x10:
-	break;
+	bha_nga;
+    pak_sa 0x10:
+	bha_nga;
     }
 }
 
@@ -418,7 +418,7 @@ static void
 decode_detailed_timing (const uchar *timing,
 			DetailedTiming *detailed)
 {
-    int bits;
+    පූර්ණ_සංඛ්‍යා bits;
     StereoType stereo[] =
     {
 	NO_STEREO, NO_STEREO, FIELD_RIGHT, FIELD_LEFT,
@@ -452,16 +452,16 @@ decode_detailed_timing (const uchar *timing,
     bits = timing[0x11];
 
     detailed->digital_sync = get_bit (bits, 4);
-    if (detailed->digital_sync)
+    නම් (detailed->digital_sync)
     {
 	detailed->ad.digital.composite = !get_bit (bits, 3);
 
-	if (detailed->ad.digital.composite)
+	නම් (detailed->ad.digital.composite)
 	{
 	    detailed->ad.digital.serrations = get_bit (bits, 2);
 	    detailed->ad.digital.negative_vsync = FALSE;
 	}
-	else
+	නැතහොත්
 	{
 	    detailed->ad.digital.serrations = FALSE;
 	    detailed->ad.digital.negative_vsync = !get_bit (bits, 2);
@@ -469,7 +469,7 @@ decode_detailed_timing (const uchar *timing,
 
 	detailed->ad.digital.negative_hsync = !get_bit (bits, 0);
     }
-    else
+    නැතහොත්
     {
 	detailed->ad.analog.bipolar = get_bit (bits, 3);
 	detailed->ad.analog.serrations = get_bit (bits, 2);
@@ -477,23 +477,23 @@ decode_detailed_timing (const uchar *timing,
     }
 }
 
-static int
+static පූර්ණ_සංඛ්‍යා
 decode_descriptors (const uchar *edid, MonitorInfo *info)
 {
-    int i;
-    int timing_idx;
+    පූර්ණ_සංඛ්‍යා i;
+    පූර්ණ_සංඛ්‍යා timing_idx;
     
     timing_idx = 0;
     
-    for (i = 0; i < 4; ++i)
+    සඳහා (i = 0; i < 4; ++i)
     {
-	int index = 0x36 + i * 18;
+	පූර්ණ_සංඛ්‍යා index = 0x36 + i * 18;
 
-	if (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
+	නම් (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
 	{
 	    decode_display_descriptor (edid + index, info);
 	}
-	else
+	නැතහොත්
 	{
 	    decode_detailed_timing (
 		edid + index, &(info->detailed_timings[timing_idx++]));
@@ -502,32 +502,32 @@ decode_descriptors (const uchar *edid, MonitorInfo *info)
 
     info->n_detailed_timings = timing_idx;
 
-    return TRUE;
+    ආපසු TRUE;
 }
 
 static void
 decode_check_sum (const uchar *edid,
 		  MonitorInfo *info)
 {
-    int i;
+    පූර්ණ_සංඛ්‍යා i;
     uchar check = 0;
 
-    for (i = 0; i < 128; ++i)
+    සඳහා (i = 0; i < 128; ++i)
 	check += edid[i];
 
     info->checksum = check;
 }
 
 static void
-decode_HDR_metadata_block (const uchar *data, int length, MonitorInfo *info)
+decode_HDR_metadata_block (const uchar *data, පූර්ණ_සංඛ්‍යා length, MonitorInfo *info)
 {
-    if (length >= 3)
+    නම් (length >= 3)
 	info->max_luminance = 50.0 * SDL_pow(2, data[2] / 32.0);
 
-    if (length >= 4)
+    නම් (length >= 4)
 	info->max_frame_average_luminance = 50.0 * SDL_pow(2, data[3] / 32.0);
 
-    if (length >= 5)
+    නම් (length >= 5)
 	info->min_luminance = 50.0 * SDL_pow(2, data[4] / 32.0);
 }
 
@@ -536,18 +536,18 @@ static void
 decode_cta_block (const uchar *edid,
 		  MonitorInfo *info)
 {
-    int offset = 4;
-    while (offset < 128) {
-	int length = edid[offset] & 0x1f;
-	int type = edid[offset] >> 5;
-	if (length == 0) {
-	    break;
+    පූර්ණ_සංඛ්‍යා offset = 4;
+    අතරතුර (offset < 128) {
+	පූර්ණ_සංඛ්‍යා length = edid[offset] & 0x1f;
+	පූර්ණ_සංඛ්‍යා type = edid[offset] >> 5;
+	නම් (length == 0) {
+	    bha_nga;
 	}
-	if (type == 7) {
+	නම් (type == 7) {
 	    type <<= 8;
 	    type |= edid[offset + 1];
 	}
-	if (type == 0x706) {
+	නම් (type == 0x706) {
 	    decode_HDR_metadata_block (&edid[offset + 2], length - 1, info);
 	}
 	offset += (1 + length);
@@ -557,19 +557,19 @@ decode_cta_block (const uchar *edid,
 MonitorInfo *
 decode_edid (const uchar *edid, size_t size)
 {
-    const int EDID_PAGE_SIZE = 128;
-    int num_blocks = (size / EDID_PAGE_SIZE);
+    const පූර්ණ_සංඛ්‍යා EDID_PAGE_SIZE = 128;
+    පූර්ණ_සංඛ්‍යා num_blocks = (size / EDID_PAGE_SIZE);
     MonitorInfo *info;
 
-    if ((size % EDID_PAGE_SIZE) != 0) {
-	return NULL;
+    නම් ((size % EDID_PAGE_SIZE) != 0) {
+	ආපසු NULL;
     }
 
-    info = SDL_calloc (1, sizeof (MonitorInfo));
+    info = SDL_calloc (1, parimaa_na (MonitorInfo));
 
     decode_check_sum (edid, info);
     
-    if (!decode_header (edid) ||
+    නම් (!decode_header (edid) ||
         !decode_vendor_and_product_identification (edid, info) ||
         !decode_edid_version (edid, info) ||
         !decode_display_parameters (edid, info) ||
@@ -578,33 +578,33 @@ decode_edid (const uchar *edid, size_t size)
         !decode_standard_timings (edid, info) ||
         !decode_descriptors (edid, info)) {
 	SDL_free(info);
-	return NULL;
+	ආපසු NULL;
     }
     
-    if (num_blocks > 1) {
-	for (int i = 1; i < num_blocks; ++i) {
-	    int offset = i * EDID_PAGE_SIZE;
+    නම් (num_blocks > 1) {
+	සඳහා (පූර්ණ_සංඛ්‍යා i = 1; i < num_blocks; ++i) {
+	    පූර්ණ_සංඛ්‍යා offset = i * EDID_PAGE_SIZE;
 	    uchar extension = edid[offset];
-	    if (extension == 0x02) {
+	    නම් (extension == 0x02) {
 		// CTA-861 Extension Block
 		decode_cta_block (&edid[offset], info);
 	    }
 	}
     }
 
-    return info;
+    ආපසු info;
 }
 
-static const char *
-yesno (int v)
+static const var_na *
+yesno (පූර්ණ_සංඛ්‍යා v)
 {
-    return v? "yes" : "no";
+    ආපසු v? "yes" : "no";
 }
 
 void
 dump_monitor_info (MonitorInfo *info)
 {
-    int i;
+    පූර්ණ_සංඛ්‍යා i;
     
     printf ("Checksum: %d (%s)\n",
 	    info->checksum, info->checksum? "incorrect" : "correct");
@@ -612,41 +612,41 @@ dump_monitor_info (MonitorInfo *info)
     printf ("Product Code: 0x%x\n", info->product_code);
     printf ("Serial Number: %u\n", info->serial_number);
     
-    if (info->production_week != -1)
+    නම් (info->production_week != -1)
 	printf ("Production Week: %d\n", info->production_week);
-    else
+    නැතහොත්
 	printf ("Production Week: unspecified\n");
     
-    if (info->production_year != -1)
+    නම් (info->production_year != -1)
 	printf ("Production Year: %d\n", info->production_year);
-    else
+    නැතහොත්
 	printf ("Production Year: unspecified\n");
     
-    if (info->model_year != -1)
+    නම් (info->model_year != -1)
 	printf ("Model Year: %d\n", info->model_year);
-    else
+    නැතහොත්
 	printf ("Model Year: unspecified\n");
     
     printf ("EDID revision: %d.%d\n", info->major_version, info->minor_version);
     
     printf ("Display is %s\n", info->is_digital? "digital" : "analog");
-    if (info->is_digital)
+    නම් (info->is_digital)
     {
-	const char *interface;
-	if (info->ad.digital.bits_per_primary != -1)
+	const var_na *interface;
+	නම් (info->ad.digital.bits_per_primary != -1)
 	    printf ("Bits Per Primary: %d\n", info->ad.digital.bits_per_primary);
-	else
+	නැතහොත්
 	    printf ("Bits Per Primary: undefined\n");
 	
 	switch (info->ad.digital.interface)
 	{
-	case DVI: interface = "DVI"; break;
-	case HDMI_A: interface = "HDMI-a"; break;
-	case HDMI_B: interface = "HDMI-b"; break;
-	case MDDI: interface = "MDDI"; break;
-	case DISPLAY_PORT: interface = "DisplayPort"; break;
-	case UNDEFINED: interface = "undefined"; break;
-	default: interface = "unknown"; break;
+	pak_sa DVI: interface = "DVI"; bha_nga;
+	pak_sa HDMI_A: interface = "HDMI-a"; bha_nga;
+	pak_sa HDMI_B: interface = "HDMI-b"; bha_nga;
+	pak_sa MDDI: interface = "MDDI"; bha_nga;
+	pak_sa DISPLAY_PORT: interface = "DisplayPort"; bha_nga;
+	pak_sa UNDEFINED: interface = "undefined"; bha_nga;
+	default: interface = "unknown"; bha_nga;
 	}
 	printf ("Interface: %s\n", interface);
 	
@@ -654,9 +654,9 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("YCrCb 4:4:4: %s\n", yesno (info->ad.digital.ycrcb444));
 	printf ("YCrCb 4:2:2: %s\n", yesno (info->ad.digital.ycrcb422));
     }
-    else
+    නැතහොත්
     {
-       const char *s;
+       const var_na *s;
 	printf ("Video Signal Level: %f\n", info->ad.analog.video_signal_level);
 	printf ("Sync Signal Level: %f\n", info->ad.analog.sync_signal_level);
 	printf ("Total Signal Level: %f\n", info->ad.analog.total_signal_level);
@@ -672,34 +672,34 @@ dump_monitor_info (MonitorInfo *info)
 	
 	switch (info->ad.analog.color_type)
 	{
-	case UNDEFINED_COLOR: s = "undefined"; break;
-	case MONOCHROME: s = "monochrome"; break;
-	case RGB: s = "rgb"; break;
-	case OTHER_COLOR: s = "other color"; break;
-	default: s = "unknown"; break;
+	pak_sa UNDEFINED_COLOR: s = "undefined"; bha_nga;
+	pak_sa MONOCHROME: s = "monochrome"; bha_nga;
+	pak_sa RGB: s = "rgb"; bha_nga;
+	pak_sa OTHER_COLOR: s = "other color"; bha_nga;
+	default: s = "unknown"; bha_nga;
 	}
 	
 	printf ("Color: %s\n", s);
     }
     
-    if (info->width_mm == -1)
+    නම් (info->width_mm == -1)
 	printf ("Width: undefined\n");
-    else
+    නැතහොත්
 	printf ("Width: %d mm\n", info->width_mm);
     
-    if (info->height_mm == -1)
+    නම් (info->height_mm == -1)
 	printf ("Height: undefined\n");
-    else
+    නැතහොත්
 	printf ("Height: %d mm\n", info->height_mm);
     
-    if (info->aspect_ratio > 0)
+    නම් (info->aspect_ratio > 0)
 	printf ("Aspect Ratio: %f\n", info->aspect_ratio);
-    else
+    නැතහොත්
 	printf ("Aspect Ratio: undefined\n");
     
-    if (info->gamma >= 0)
+    නම් (info->gamma >= 0)
 	printf ("Gamma: %f\n", info->gamma);
-    else
+    නැතහොත්
 	printf ("Gamma: undefined\n");
     
     printf ("Standby: %s\n", yesno (info->standby));
@@ -725,12 +725,12 @@ dump_monitor_info (MonitorInfo *info)
     
     printf ("Established Timings:\n");
     
-    for (i = 0; i < 24; ++i)
+    සඳහා (i = 0; i < 24; ++i)
     {
 	Timing *timing = &(info->established[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	නම් (timing->frequency == 0)
+	    bha_nga;
 	
 	printf ("  %d x %d @ %d Hz\n",
 		timing->width, timing->height, timing->frequency);
@@ -738,21 +738,21 @@ dump_monitor_info (MonitorInfo *info)
     }
     
     printf ("Standard Timings:\n");
-    for (i = 0; i < 8; ++i)
+    සඳහා (i = 0; i < 8; ++i)
     {
 	Timing *timing = &(info->standard[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	නම් (timing->frequency == 0)
+	    bha_nga;
 	
 	printf ("  %d x %d @ %d Hz\n",
 		timing->width, timing->height, timing->frequency);
     }
     
-    for (i = 0; i < info->n_detailed_timings; ++i)
+    සඳහා (i = 0; i < info->n_detailed_timings; ++i)
     {
 	DetailedTiming *timing = &(info->detailed_timings[i]);
-	const char *s;
+	const var_na *s;
 	
 	printf ("Timing%s: \n",
 		(i == 0 && info->preferred_timing_includes_native)?
@@ -773,17 +773,17 @@ dump_monitor_info (MonitorInfo *info)
 	switch (timing->stereo)
 	{
 	default:
-	case NO_STEREO:   s = "No Stereo"; break;
-	case FIELD_RIGHT: s = "Field Sequential, Right on Sync"; break;
-	case FIELD_LEFT:  s = "Field Sequential, Left on Sync"; break;
-	case TWO_WAY_RIGHT_ON_EVEN: s = "Two-way, Right on Even"; break;
-	case TWO_WAY_LEFT_ON_EVEN:  s = "Two-way, Left on Even"; break;
-	case FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; break;
-	case SIDE_BY_SIDE:          s = "Side-by-Side"; break;
+	pak_sa NO_STEREO:   s = "No Stereo"; bha_nga;
+	pak_sa FIELD_RIGHT: s = "Field Sequential, Right on Sync"; bha_nga;
+	pak_sa FIELD_LEFT:  s = "Field Sequential, Left on Sync"; bha_nga;
+	pak_sa TWO_WAY_RIGHT_ON_EVEN: s = "Two-way, Right on Even"; bha_nga;
+	pak_sa TWO_WAY_LEFT_ON_EVEN:  s = "Two-way, Left on Even"; bha_nga;
+	pak_sa FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; bha_nga;
+	pak_sa SIDE_BY_SIDE:          s = "Side-by-Side"; bha_nga;
 	}
 	printf ("  Stereo: %s\n", s);
 	
-	if (timing->digital_sync)
+	නම් (timing->digital_sync)
 	{
 	    printf ("  Digital Sync:\n");
 	    printf ("    composite: %s\n", yesno (timing->ad.digital.composite));
@@ -793,7 +793,7 @@ dump_monitor_info (MonitorInfo *info)
 	    printf ("    negative hsync: %s\n",
 		    yesno (timing->ad.digital.negative_hsync));
 	}
-	else
+	නැතහොත්
 	{
 	    printf ("  Analog Sync:\n");
 	    printf ("    bipolar: %s\n", yesno (timing->ad.analog.bipolar));

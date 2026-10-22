@@ -50,6 +50,6 @@ void SDL_UIKit_HideCurvedWindow(SDL_Window *window);
 /**
  * Get the curved content display texture.
  */
-id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, int width, int height, MTLPixelFormat pixelFormat);
+id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, පූර්ණ_සංඛ්‍යා width, පූර්ණ_සංඛ්‍යා height, MTLPixelFormat pixelFormat);
 
 #endif /* SDL_uikitvisionosscene_h_ */

@@ -28,22 +28,22 @@
 extern "C" {
 #endif /* __cplusplus */
 
-typedef struct _XSettingsBuffer  XSettingsBuffer;
-typedef struct _XSettingsColor   XSettingsColor;
-typedef struct _XSettingsList    XSettingsList;
-typedef struct _XSettingsSetting XSettingsSetting;
+typedef sa_nracanaa _XSettingsBuffer  XSettingsBuffer;
+typedef sa_nracanaa _XSettingsColor   XSettingsColor;
+typedef sa_nracanaa _XSettingsList    XSettingsList;
+typedef sa_nracanaa _XSettingsSetting XSettingsSetting;
 
 /* Types of settings possible. Enum values correspond to
  * protocol values.
  */
-typedef enum
+typedef ga_nanaa
 {
   XSETTINGS_TYPE_INT     = 0,
   XSETTINGS_TYPE_STRING  = 1,
   XSETTINGS_TYPE_COLOR   = 2
 } XSettingsType;
 
-typedef enum
+typedef ga_nanaa
 {
   XSETTINGS_SUCCESS,
   XSETTINGS_NO_MEM,
@@ -53,33 +53,33 @@ typedef enum
   XSETTINGS_DUPLICATE_ENTRY
 } XSettingsResult;
 
-struct _XSettingsBuffer
+sa_nracanaa _XSettingsBuffer
 {
-  char byte_order;
+  var_na byte_order;
   size_t len;
-  unsigned char *data;
-  unsigned char *pos;
+  unsigned var_na *data;
+  unsigned var_na *pos;
 };
 
-struct _XSettingsColor
+sa_nracanaa _XSettingsColor
 {
   unsigned short red, green, blue, alpha;
 };
 
-struct _XSettingsList
+sa_nracanaa _XSettingsList
 {
   XSettingsSetting *setting;
   XSettingsList *next;
 };
 
-struct _XSettingsSetting
+sa_nracanaa _XSettingsSetting
 {
-  char *name;
+  var_na *name;
   XSettingsType type;
 
-  union {
-    int v_int;
-    char *v_string;
+  sa_ngha {
+    පූර්ණ_සංඛ්‍යා v_int;
+    var_na *v_string;
     XSettingsColor v_color;
   } data;
 
@@ -88,7 +88,7 @@ struct _XSettingsSetting
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
 void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+පූර්ණ_සංඛ්‍යා               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
 void              xsettings_list_free   (XSettingsList     *list);
@@ -96,24 +96,24 @@ XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
 XSettingsResult   xsettings_list_insert (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
-                                         const char        *name);
+                                         const var_na        *name);
 XSettingsResult   xsettings_list_delete (XSettingsList    **list,
-                                         const char        *name);
+                                         const var_na        *name);
 
-char xsettings_byte_order (void);
+var_na xsettings_byte_order (void);
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-typedef struct _XSettingsClient XSettingsClient;
+typedef sa_nracanaa _XSettingsClient XSettingsClient;
 
-typedef enum
+typedef ga_nanaa
 {
   XSETTINGS_ACTION_NEW,
   XSETTINGS_ACTION_CHANGED,
   XSETTINGS_ACTION_DELETED
 } XSettingsAction;
 
-typedef void (*XSettingsNotifyFunc) (const char       *name,
+typedef void (*XSettingsNotifyFunc) (const var_na       *name,
                                      XSettingsAction   action,
                                      XSettingsSetting *setting,
                                      void             *cb_data);
@@ -124,12 +124,12 @@ typedef Bool (*XSettingsWatchFunc)  (Window            window,
 typedef void (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   පූර්ණ_සංඛ්‍යා                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
                                                    void                *cb_data);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       පූර්ණ_සංඛ්‍යා                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
                                                        void                *cb_data,
@@ -143,7 +143,7 @@ void             xsettings_client_destroy         (XSettingsClient     *client);
 Bool             xsettings_client_process_event   (XSettingsClient     *client,
                                                    const XEvent        *xev);
 XSettingsResult  xsettings_client_get_setting     (XSettingsClient     *client,
-                                                   const char          *name,
+                                                   const var_na          *name,
                                                    XSettingsSetting   **setting);
 
 #ifdef __cplusplus

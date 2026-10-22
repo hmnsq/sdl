@@ -27,13 +27,13 @@
 
 #include "../SDL_sysvideo.h"
 
-struct SDL_VideoData
+sa_nracanaa SDL_VideoData
 {
     SDL_DisplayID top_display;
     SDL_DisplayID touch_display;
 };
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     gfxScreen_t screen; /**< Keeps track of which N3DS screen is targeted */
 };

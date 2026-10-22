@@ -26,9 +26,9 @@
 
 #include "../SDL_sysvideo.h"
 
-struct Wayland_ColorInfoState;
+sa_nracanaa Wayland_ColorInfoState;
 
-extern void Wayland_FreeColorInfoState(struct Wayland_ColorInfoState *state);
+extern void Wayland_FreeColorInfoState(sa_nracanaa Wayland_ColorInfoState *state);
 extern void Wayland_GetColorInfoForWindow(SDL_WindowData *window_data, bool defer_event_processing);
 extern void Wayland_GetColorInfoForOutput(SDL_DisplayData *display_data, bool defer_event_processing);
 

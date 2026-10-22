@@ -30,44 +30,44 @@
 #include "SDL_waylandvideo.h"
 #include "SDL_waylandshmbuffer.h"
 
-struct SDL_WindowData
+sa_nracanaa SDL_WindowData
 {
     SDL_Window *sdlwindow;
     SDL_VideoData *waylandData;
-    struct wl_surface *surface;
-    struct wl_callback *gles_swap_frame_callback;
-    struct wl_event_queue *gles_swap_frame_event_queue;
-    struct wl_surface *gles_swap_frame_surface_wrapper;
-    struct wl_callback *surface_frame_callback;
+    sa_nracanaa wl_surface *surface;
+    sa_nracanaa wl_callback *gles_swap_frame_callback;
+    sa_nracanaa wl_event_queue *gles_swap_frame_event_queue;
+    sa_nracanaa wl_surface *gles_swap_frame_surface_wrapper;
+    sa_nracanaa wl_callback *surface_frame_callback;
 
-    union
+    sa_ngha
     {
 #ifdef HAVE_LIBDECOR_H
-        struct
+        sa_nracanaa
         {
-            struct libdecor_frame *frame;
+            sa_nracanaa libdecor_frame *frame;
         } libdecor;
 #endif
-        struct
+        sa_nracanaa
         {
-            struct xdg_surface *surface;
-            union
+            sa_nracanaa xdg_surface *surface;
+            sa_ngha
             {
-                struct
+                sa_nracanaa
                 {
-                    struct xdg_toplevel *xdg_toplevel;
+                    sa_nracanaa xdg_toplevel *xdg_toplevel;
                 } toplevel;
-                struct
+                sa_nracanaa
                 {
-                    struct xdg_popup *xdg_popup;
-                    struct xdg_positioner *xdg_positioner;
+                    sa_nracanaa xdg_popup *xdg_popup;
+                    sa_nracanaa xdg_positioner *xdg_positioner;
                 } popup;
             };
 
             Uint32 serial;
         } xdg;
     } shell_surface;
-    enum
+    ga_nanaa
     {
         WAYLAND_SHELL_SURFACE_TYPE_UNKNOWN = 0,
         WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL,
@@ -75,7 +75,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR,
         WAYLAND_SHELL_SURFACE_TYPE_CUSTOM
     } shell_surface_type;
-    enum
+    ga_nanaa
     {
         WAYLAND_SHELL_SURFACE_STATUS_HIDDEN = 0,
         WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE,
@@ -83,7 +83,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING,
         WAYLAND_SHELL_SURFACE_STATUS_SHOWN
     } shell_surface_status;
-    enum
+    ga_nanaa
     {
         WAYLAND_WM_CAPS_WINDOW_MENU = 0x01,
         WAYLAND_WM_CAPS_MAXIMIZE = 0x02,
@@ -95,7 +95,7 @@ struct SDL_WindowData
                               WAYLAND_WM_CAPS_FULLSCREEN |
                               WAYLAND_WM_CAPS_MINIMIZE
     } wm_caps;
-    enum
+    ga_nanaa
     {
         WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
         WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
@@ -103,132 +103,132 @@ struct SDL_WindowData
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
-    enum
+    ga_nanaa
     {
         WAYLAND_RESIZE_EDGE_LR = 0x01,
         WAYLAND_RESIZE_EDGE_TB = 0x02,
         WAYLAND_RESIZE_EDGE_CORNER = WAYLAND_RESIZE_EDGE_LR | WAYLAND_RESIZE_EDGE_TB,
     } resize_edge;
 
-    struct wl_egl_window *egl_window;
+    sa_nracanaa wl_egl_window *egl_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
 #endif
-    struct zxdg_toplevel_decoration_v1 *server_decoration;
-    struct zwp_idle_inhibitor_v1 *idle_inhibitor;
-    struct xdg_activation_token_v1 *activation_token;
-    struct wp_viewport *viewport;
-    struct wp_fractional_scale_v1 *fractional_scale;
-    struct zxdg_exported_v2 *exported;
-    struct xdg_dialog_v1 *xdg_dialog_v1;
-    struct wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
-    struct xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
-    struct frog_color_managed_surface *frog_color_managed_surface;
-    struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
-    struct xdg_toplevel_session_v1 *xdg_toplevel_session;
+    sa_nracanaa zxdg_toplevel_decoration_v1 *server_decoration;
+    sa_nracanaa zwp_idle_inhibitor_v1 *idle_inhibitor;
+    sa_nracanaa xdg_activation_token_v1 *activation_token;
+    sa_nracanaa wp_viewport *viewport;
+    sa_nracanaa wp_fractional_scale_v1 *fractional_scale;
+    sa_nracanaa zxdg_exported_v2 *exported;
+    sa_nracanaa xdg_dialog_v1 *xdg_dialog_v1;
+    sa_nracanaa wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
+    sa_nracanaa xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
+    sa_nracanaa frog_color_managed_surface *frog_color_managed_surface;
+    sa_nracanaa wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
+    sa_nracanaa xdg_toplevel_session_v1 *xdg_toplevel_session;
 
-    struct Wayland_ColorInfoState *color_info_state;
+    sa_nracanaa Wayland_ColorInfoState *color_info_state;
 
     SDL_AtomicInt swap_interval_ready;
 
     SDL_DisplayData **outputs;
-    int num_outputs;
+    පූර්ණ_සංඛ්‍යා num_outputs;
 
-    char *app_id;
-    char *session_id;
-    double scale_factor;
+    var_na *app_id;
+    var_na *session_id;
+    dviguu_na scale_factor;
 
-    struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    sa_nracanaa wl_buffer **icon_buffers;
+    පූර්ණ_සංඛ්‍යා icon_buffer_count;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    පූර්ණ_සංඛ්‍යා keyboard_focus_count;
+    පූර්ණ_සංඛ්‍යා pointer_focus_count;
+    පූර්ණ_සංඛ්‍යා active_touch_count;
 
-    struct
+    sa_nracanaa
     {
-        double x;
-        double y;
+        dviguu_na x;
+        dviguu_na y;
     } pointer_scale;
 
     // The in-flight window size request.
-    struct
+    sa_nracanaa
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        පූර්ණ_සංඛ්‍යා logical_width;
+        පූර්ණ_සංඛ්‍යා logical_height;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        පූර්ණ_සංඛ්‍යා pixel_width;
+        පූර්ණ_සංඛ්‍යා pixel_height;
     } requested;
 
     // The current size of the window and drawable backing store.
-    struct
+    sa_nracanaa
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        පූර්ණ_සංඛ්‍යා logical_width;
+        පූර්ණ_සංඛ්‍යා logical_height;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        පූර්ණ_සංඛ්‍යා pixel_width;
+        පූර්ණ_සංඛ්‍යා pixel_height;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        පූර්ණ_සංඛ්‍යා viewport_width;
+        පූර්ණ_සංඛ්‍යා viewport_height;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
-    struct
+    sa_nracanaa
     {
-        int width;
-        int height;
+        පූර්ණ_සංඛ්‍යා width;
+        පූර්ණ_සංඛ්‍යා height;
         bool insets_apply;
     } last_configure;
 
     // System enforced window size limits.
-    struct
+    sa_nracanaa
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        පූර්ණ_සංඛ්‍යා min_width;
+        පූර්ණ_සංඛ්‍යා min_height;
     } system_limits;
 
-    struct
+    sa_nracanaa
     {
-        int width;
-        int height;
+        පූර්ණ_සංඛ්‍යා width;
+        පූර්ණ_සංඛ්‍යා height;
     } toplevel_bounds;
 
-    struct
+    sa_nracanaa
     {
-        struct wl_surface *surface;
-        struct wl_subsurface *subsurface;
-        struct wl_buffer *buffer;
-        struct wp_viewport *viewport;
+        sa_nracanaa wl_surface *surface;
+        sa_nracanaa wl_subsurface *subsurface;
+        sa_nracanaa wl_buffer *buffer;
+        sa_nracanaa wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        පූර්ණ_සංඛ්‍යා offset_x;
+        පූර්ණ_සංඛ්‍යා offset_y;
 
         bool mapped;
         bool opaque;
     } mask;
 
-    struct
+    sa_nracanaa
     {
-        int hint;
-        int purpose;
+        පූර්ණ_සංඛ්‍යා hint;
+        පූර්ණ_සංඛ්‍යා purpose;
         bool active;
     } text_input_props;
 
     SDL_Rect explicit_geometry;
     SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
+    පූර්ණ_සංඛ්‍යා pending_state_deadline_count;
     Uint64 last_focus_event_time_ns;
     Uint64 last_resize_event_time_ns;
-    int icc_fd;
+    පූර්ණ_සංඛ්‍යා icc_fd;
     Uint32 icc_size;
     bool floating;
     bool suspended;
@@ -251,7 +251,7 @@ struct SDL_WindowData
 
     SDL_HitTestResult hit_test_result;
 
-    struct wl_list external_window_list_link;
+    sa_nracanaa wl_list external_window_list_link;
 };
 
 extern void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
@@ -272,13 +272,13 @@ extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, පූර්ණ_සංඛ්‍යා *w, පූර්ණ_සංඛ්‍යා *h);
 extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
 extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
 extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, පූර්ණ_සංඛ්‍යා x, පූර්ණ_සංඛ්‍යා y);
 extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
 extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);

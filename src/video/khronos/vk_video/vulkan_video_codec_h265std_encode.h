@@ -29,14 +29,14 @@ extern "C" {
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h265_encode"
 
-typedef struct StdVideoEncodeH265WeightTableFlags {
+typedef sa_nracanaa StdVideoEncodeH265WeightTableFlags {
     uint16_t    luma_weight_l0_flag;
     uint16_t    chroma_weight_l0_flag;
     uint16_t    luma_weight_l1_flag;
     uint16_t    chroma_weight_l1_flag;
 } StdVideoEncodeH265WeightTableFlags;
 
-typedef struct StdVideoEncodeH265WeightTable {
+typedef sa_nracanaa StdVideoEncodeH265WeightTable {
     StdVideoEncodeH265WeightTableFlags    flags;
     uint8_t                               luma_log2_weight_denom;
     int8_t                                delta_chroma_log2_weight_denom;
@@ -50,7 +50,7 @@ typedef struct StdVideoEncodeH265WeightTable {
     int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
 } StdVideoEncodeH265WeightTable;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
+typedef sa_nracanaa StdVideoEncodeH265SliceSegmentHeaderFlags {
     uint32_t    first_slice_segment_in_pic_flag : 1;
     uint32_t    dependent_slice_segment_flag : 1;
     uint32_t    slice_sao_luma_flag : 1;
@@ -66,7 +66,7 @@ typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
     uint32_t    reserved : 20;
 } StdVideoEncodeH265SliceSegmentHeaderFlags;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeader {
+typedef sa_nracanaa StdVideoEncodeH265SliceSegmentHeader {
     StdVideoEncodeH265SliceSegmentHeaderFlags    flags;
     StdVideoH265SliceType                        slice_type;
     uint32_t                                     slice_segment_address;
@@ -84,13 +84,13 @@ typedef struct StdVideoEncodeH265SliceSegmentHeader {
     const StdVideoEncodeH265WeightTable*         pWeightTable;
 } StdVideoEncodeH265SliceSegmentHeader;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfoFlags {
+typedef sa_nracanaa StdVideoEncodeH265ReferenceListsInfoFlags {
     uint32_t    ref_pic_list_modification_flag_l0 : 1;
     uint32_t    ref_pic_list_modification_flag_l1 : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceListsInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfo {
+typedef sa_nracanaa StdVideoEncodeH265ReferenceListsInfo {
     StdVideoEncodeH265ReferenceListsInfoFlags    flags;
     uint8_t                                      num_ref_idx_l0_active_minus1;
     uint8_t                                      num_ref_idx_l1_active_minus1;
@@ -100,7 +100,7 @@ typedef struct StdVideoEncodeH265ReferenceListsInfo {
     uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
 } StdVideoEncodeH265ReferenceListsInfo;
 
-typedef struct StdVideoEncodeH265PictureInfoFlags {
+typedef sa_nracanaa StdVideoEncodeH265PictureInfoFlags {
     uint32_t    is_reference : 1;
     uint32_t    IrapPicFlag : 1;
     uint32_t    used_for_long_term_reference : 1;
@@ -113,7 +113,7 @@ typedef struct StdVideoEncodeH265PictureInfoFlags {
     uint32_t    reserved : 23;
 } StdVideoEncodeH265PictureInfoFlags;
 
-typedef struct StdVideoEncodeH265LongTermRefPics {
+typedef sa_nracanaa StdVideoEncodeH265LongTermRefPics {
     uint8_t     num_long_term_sps;
     uint8_t     num_long_term_pics;
     uint8_t     lt_idx_sps[STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS];
@@ -123,7 +123,7 @@ typedef struct StdVideoEncodeH265LongTermRefPics {
     uint8_t     delta_poc_msb_cycle_lt[STD_VIDEO_H265_MAX_DELTA_POC];
 } StdVideoEncodeH265LongTermRefPics;
 
-typedef struct StdVideoEncodeH265PictureInfo {
+typedef sa_nracanaa StdVideoEncodeH265PictureInfo {
     StdVideoEncodeH265PictureInfoFlags             flags;
     StdVideoH265PictureType                        pic_type;
     uint8_t                                        sps_video_parameter_set_id;
@@ -138,13 +138,13 @@ typedef struct StdVideoEncodeH265PictureInfo {
     const StdVideoEncodeH265LongTermRefPics*       pLongTermRefPics;
 } StdVideoEncodeH265PictureInfo;
 
-typedef struct StdVideoEncodeH265ReferenceInfoFlags {
+typedef sa_nracanaa StdVideoEncodeH265ReferenceInfoFlags {
     uint32_t    used_for_long_term_reference : 1;
     uint32_t    unused_for_reference : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceInfo {
+typedef sa_nracanaa StdVideoEncodeH265ReferenceInfo {
     StdVideoEncodeH265ReferenceInfoFlags    flags;
     StdVideoH265PictureType                 pic_type;
     int32_t                                 PicOrderCntVal;

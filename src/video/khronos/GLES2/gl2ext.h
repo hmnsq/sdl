@@ -3346,7 +3346,7 @@ GL_APICALL void GL_APIENTRY glUniformMatrix4x3fvNV (GLint location, GLsizei coun
 
 #ifndef GL_NV_path_rendering
 #define GL_NV_path_rendering 1
-typedef double GLdouble;
+typedef dviguu_na GLdouble;
 #define GL_PATH_FORMAT_SVG_NV             0x9070
 #define GL_PATH_FORMAT_PS_NV              0x9071
 #define GL_STANDARD_FONT_NAME_NV          0x9072

@@ -51,7 +51,7 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     //    return false;
     //}
 
-    if (OPENHARMONY_Window) {
+    නම් (OPENHARMONY_Window) {
         result = SDL_SetError("SDL on OpenHarmony (currently) only supports one window");
         goto endfunction;
     }
@@ -59,12 +59,12 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     void *voidxcomp, *native_window;
     SDL_OpenHarmonyGetNativeWindowPointers(&voidxcomp, &native_window);
     OH_NativeXComponent *native_xcomponent = (OH_NativeXComponent *) voidxcomp;
-    if (!native_xcomponent || !native_window) {
+    නම් (!native_xcomponent || !native_window) {
         result = SDL_SetError("Don't have Native XComponent or Native Window");
         goto endfunction;
     }
 
-#if 0  // !!! FIXME
+#නම් 0  // !!! FIXME
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 #endif
@@ -75,15 +75,15 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     // Adjust the window data to match the screen
     window->x = 0;
     window->y = 0;
-    window->w = (int) w;
-    window->h = (int) h;
+    window->w = (පූර්ණ_සංඛ්‍යා) w;
+    window->h = (පූර්ණ_සංඛ්‍යා) h;
 
     // One window, it always has focus
     SDL_SetMouseFocus(window);
     SDL_SetKeyboardFocus(window);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    data = (SDL_WindowData *)SDL_calloc(1, parimaa_na(*data));
+    නම් (!data) {
         result = false;
         goto endfunction;
     }
@@ -96,9 +96,9 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    නම් (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
+        නම් (data->egl_surface == EGL_NO_SURFACE) {
             SDL_free(data);
             result = false;
             goto endfunction;
@@ -107,7 +107,7 @@ bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pr
     SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER, data->egl_surface);
 #endif
 
-#if 0  // !!! FIXME
+#නම් 0  // !!! FIXME
     SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
 #endif
 
@@ -119,39 +119,39 @@ endfunction:
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_UnlockActivityMutex();
 
-    return result;
+    ආපසු result;
 }
 
 void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if 0  // !!! FIXME
+#නම් 0  // !!! FIXME
     Android_JNI_SetActivityTitle(window->title);
 #endif
 }
 
 SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    if (window == OPENHARMONY_Window) {
+    නම් (window == OPENHARMONY_Window) {
         const bool show_bars = (fullscreen == SDL_FULLSCREEN_OP_LEAVE);
-        if (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
-            return SDL_FULLSCREEN_FAILED;
+        නම් (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
+            ආපසු SDL_FULLSCREEN_FAILED;
         }
         // !!! FIXME: make sure this causes an XComponent resize event, that we can pick up later.
-        return SDL_FULLSCREEN_PENDING;
+        ආපසු SDL_FULLSCREEN_PENDING;
     }
-    return SDL_FULLSCREEN_FAILED;
+    ආපසු SDL_FULLSCREEN_FAILED;
 }
 
 void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-#if 0  // !!! FIXME
+#නම් 0  // !!! FIXME
     Android_JNI_MinimizeWindow();
 #endif
 }
 
 void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
 {
-#if 0  // !!! FIXME
+#නම් 0  // !!! FIXME
     // Set orientation
     Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 #endif
@@ -162,14 +162,14 @@ void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_LockActivityMutex();
 
-    if (window == OPENHARMONY_Window) {
+    නම් (window == OPENHARMONY_Window) {
         OPENHARMONY_Window = NULL;
 
-        if (window->internal) {
+        නම් (window->internal) {
             SDL_WindowData *data = window->internal;
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
+            නම් (data->egl_surface != EGL_NO_SURFACE) {
                 SDL_EGL_DestroySurface(_this, data->egl_surface);
             }
 #endif

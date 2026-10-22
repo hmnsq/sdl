@@ -24,12 +24,12 @@
 
 #include "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
     DISPMANX_RESOURCE_HANDLE_T resource;
     DISPMANX_ELEMENT_HANDLE_T element;
-    int hot_x, hot_y;
-    int w, h;
+    පූර්ණ_සංඛ්‍යා hot_x, hot_y;
+    පූර්ණ_සංඛ්‍යා w, h;
 };
 
 #define SDL_RPI_CURSORDATA(curs) RPI_CursorData *curdata = (RPI_CursorData *)((curs) ? (curs)->internal : NULL)
